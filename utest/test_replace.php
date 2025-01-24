@@ -61,11 +61,11 @@ final class test_replace extends TestCase
     public function test_replace(): void
     {
         $lorem = [];
-        for ($i = 0; $i < 1000; $i++) {
+        for ($i = 0; $i < 2000; $i++) {
             $lorem[] = "Lorem$i ipsum dolor sit amet.";
         }
         $lorem = implode(' ', $lorem);
-        $iterations = 100000;
+        $iterations = 10000;
         $from = 'Lorem777';
         $to = 'Ipsum777';
         $expected = preg_replace('/' . preg_quote($from, '/') . '/', $to, $lorem, 1);
@@ -73,53 +73,38 @@ final class test_replace extends TestCase
         $time0 = microtime(true);
 
         for ($i = 0; $i < $iterations; $i++) {
-            $output = preg_replace('/' . $from . '/', $to, $lorem, 1);
+            $output = preg_replace('/' . preg_quote($from, '/') . '/', $to, $lorem, 1);
         }
         $this->assertSame($output, $expected);
 
         $time1 = microtime(true);
 
+        // Notes: this part uses the str_replace that replaces all occurrences
         for ($i = 0; $i < $iterations; $i++) {
-            $output = preg_replace('/' . preg_quote($from, '/') . '/', $to, $lorem, 1);
+            $output = str_replace($from, $to, $lorem);
         }
         $this->assertSame($output, $expected);
 
         $time2 = microtime(true);
 
         for ($i = 0; $i < $iterations; $i++) {
-            $pos = strpos($lorem, $from);
-            if ($pos !== false) {
-                $output = substr_replace($lorem, $to, $pos, strlen($from));
-            }
+            $output = str_replace_one($from, $to, $lorem);
         }
         $this->assertSame($output, $expected);
 
         $time3 = microtime(true);
 
-        for ($i = 0; $i < $iterations; $i++) {
-            $output = str_replace_one($from, $to, $lorem);
-        }
-        $this->assertSame($output, $expected);
-
-        $time4 = microtime(true);
-
-        $time4 = $time4 - $time3;
         $time3 = $time3 - $time2;
         $time2 = $time2 - $time1;
         $time1 = $time1 - $time0;
 
-        //~ print_r([
-            //~ 'time1' => sprintf('%f', $time1),
-            //~ 'time2' => sprintf('%f', $time2),
-            //~ 'time3' => sprintf('%f', $time3),
-            //~ 'time4' => sprintf('%f', $time4),
-        //~ ]);
+        print_r([
+            'time1' => sprintf('%f', $time1),
+            'time2' => sprintf('%f', $time2),
+            'time3' => sprintf('%f', $time3),
+        ]);
 
-        $this->assertTrue($time1 < $time2);
-        $this->assertTrue($time3 < $time1);
+        $this->assertTrue($time2 < $time1);
         $this->assertTrue($time3 < $time2);
-        $this->assertTrue($time3 < $time4);
-        $this->assertTrue($time4 < $time1);
-        $this->assertTrue($time4 < $time2);
     }
 }

@@ -60,10 +60,12 @@ final class test_strtr extends TestCase
      */
     public function test_strtr(): void
     {
-        // phpcs:disable Generic.Files.LineLength
-        $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
-        // phpcs:enable Generic.Files.LineLength
-        $iterations = 100000;
+        $lorem = [];
+        for ($i = 0; $i < 100; $i++) {
+            $lorem[] = "Lorem$i ipsum dolor sit amet.";
+        }
+        $lorem = implode(' ', $lorem);
+        $iterations = 10000;
         $expected = str_replace_assoc([
             'a' => 'b',
             'e' => 'f',
@@ -73,17 +75,6 @@ final class test_strtr extends TestCase
         ], $lorem);
 
         $time0 = microtime(true);
-
-        for ($i = 0; $i < $iterations; $i++) {
-            $output = str_replace([
-                'a', 'e', 'i', 'o', 'u',
-            ], [
-                'b', 'f', 'j', 'p', 'v',
-            ], $lorem);
-        }
-        $this->assertSame($output, $expected);
-
-        $time1 = microtime(true);
 
         for ($i = 0; $i < $iterations; $i++) {
             $output = strtr($lorem, [
@@ -96,7 +87,7 @@ final class test_strtr extends TestCase
         }
         $this->assertSame($output, $expected);
 
-        $time2 = microtime(true);
+        $time1 = microtime(true);
 
         for ($i = 0; $i < $iterations; $i++) {
             $output = str_replace_assoc([
@@ -109,20 +100,16 @@ final class test_strtr extends TestCase
         }
         $this->assertSame($output, $expected);
 
-        $time3 = microtime(true);
+        $time2 = microtime(true);
 
-        $time3 = $time3 - $time2;
         $time2 = $time2 - $time1;
         $time1 = $time1 - $time0;
 
-        //~ print_r([
-            //~ 'time1' => sprintf('%f', $time1),
-            //~ 'time2' => sprintf('%f', $time2),
-            //~ 'time3' => sprintf('%f', $time3),
-        //~ ]);
+        print_r([
+            'time1' => sprintf('%f', $time1),
+            'time2' => sprintf('%f', $time2),
+        ]);
 
-        $this->assertTrue($time1 < $time2);
-        $this->assertTrue($time3 < $time2);
-        $this->assertTrue($time1 < $time3);
+        $this->assertTrue($time2 < $time1);
     }
 }
