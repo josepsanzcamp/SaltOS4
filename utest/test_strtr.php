@@ -76,6 +76,7 @@ final class test_strtr extends TestCase
 
         $time0 = microtime(true);
 
+        // This part executes the strtr, that is the most expensive
         for ($i = 0; $i < $iterations; $i++) {
             $output = strtr($lorem, [
                 'a' => 'b',
@@ -89,6 +90,8 @@ final class test_strtr extends TestCase
 
         $time1 = microtime(true);
 
+        // This part executes the str_replace_assoc, the function implemented by me
+        // using the str_replace that get the keys and values to call the str_replace
         for ($i = 0; $i < $iterations; $i++) {
             $output = str_replace_assoc([
                 'a' => 'b',
@@ -105,10 +108,10 @@ final class test_strtr extends TestCase
         $time2 = $time2 - $time1;
         $time1 = $time1 - $time0;
 
-        print_r([
-            'time1' => sprintf('%f', $time1),
-            'time2' => sprintf('%f', $time2),
-        ]);
+        //~ print_r([
+            //~ 'time1' => sprintf('%f', $time1),
+            //~ 'time2' => sprintf('%f', $time2),
+        //~ ]);
 
         $this->assertTrue($time2 < $time1);
     }

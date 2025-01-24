@@ -72,6 +72,8 @@ final class test_replace extends TestCase
 
         $time0 = microtime(true);
 
+        // This part executes the preg_replace part, that is the most expensive because
+        // uses regular patterns, note that I have used too the preg_quote to prevent errors
         for ($i = 0; $i < $iterations; $i++) {
             $output = preg_replace('/' . preg_quote($from, '/') . '/', $to, $lorem, 1);
         }
@@ -79,7 +81,8 @@ final class test_replace extends TestCase
 
         $time1 = microtime(true);
 
-        // Notes: this part uses the str_replace that replaces all occurrences
+        // This part executes the str_replace part, the original feature that I have used
+        // Notes: this part uses the str_replace that replaces all occurrences, not only one
         for ($i = 0; $i < $iterations; $i++) {
             $output = str_replace($from, $to, $lorem);
         }
@@ -87,6 +90,8 @@ final class test_replace extends TestCase
 
         $time2 = microtime(true);
 
+        // This part executes the str_replace_one, the function implemented by me using
+        // strpos and substr_replace, this is the most efficient way to do it
         for ($i = 0; $i < $iterations; $i++) {
             $output = str_replace_one($from, $to, $lorem);
         }
@@ -98,11 +103,11 @@ final class test_replace extends TestCase
         $time2 = $time2 - $time1;
         $time1 = $time1 - $time0;
 
-        print_r([
-            'time1' => sprintf('%f', $time1),
-            'time2' => sprintf('%f', $time2),
-            'time3' => sprintf('%f', $time3),
-        ]);
+        //~ print_r([
+            //~ 'time1' => sprintf('%f', $time1),
+            //~ 'time2' => sprintf('%f', $time2),
+            //~ 'time3' => sprintf('%f', $time3),
+        //~ ]);
 
         $this->assertTrue($time2 < $time1);
         $this->assertTrue($time3 < $time2);
