@@ -113,7 +113,7 @@ const proxy = async request => {
     const size = human_size(JSON.stringify([url, method, headers, body]).length);
 
     // Prepare the order list used to solve the request
-    let order = request.headers.get('proxy');
+    let order = request.headers.get('x-proxy-order');
     if (order === null) {
         order = 'network,cache';
     }
@@ -412,7 +412,7 @@ self.addEventListener('activate', event => {
  */
 self.addEventListener('fetch', event => {
     //console.log('fetch ' + event.request.url);
-    const order = event.request.headers.get('proxy');
+    const order = event.request.headers.get('x-proxy-order');
     if (['no', 'omit', 'cancel', 'bypass'].includes(order)) {
         return;
     }
@@ -432,7 +432,7 @@ self.addEventListener('fetch', event => {
                 ...result.response,
                 headers: {
                     ...Object.fromEntries(result.response.headers.entries()),
-                    'Proxy': result.type,
+                    'X-Proxy-Type': result.type,
                 },
             });
             return response;

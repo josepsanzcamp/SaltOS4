@@ -763,7 +763,7 @@ saltos.app.ajax = args => {
             if (args.loading) {
                 saltos.form.screen('unloading');
             }
-            const proxy = response.headers.get('proxy');
+            const proxy = response.headers.get('x-proxy-type');
             if (proxy == 'cache') {
                 if (navigator.onLine) {
                     saltos.app.toast(T('Warning'),

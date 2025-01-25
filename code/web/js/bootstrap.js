@@ -1703,7 +1703,7 @@ saltos.bootstrap.__field.file = field => {
                     ajax.setRequestHeader('Content-Type', 'application/json');
                     ajax.setRequestHeader('Authorization', 'Bearer ' + saltos.token.get());
                     ajax.setRequestHeader('Accept-Language', saltos.gettext.get());
-                    ajax.setRequestHeader('Proxy', 'no');
+                    ajax.setRequestHeader('X-Proxy-Order', 'no');
                     ajax.onload = event => {
                         if (ajax.status < 200 || ajax.status >= 300) {
                             throw new Error(ajax);

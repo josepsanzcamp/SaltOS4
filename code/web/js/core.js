@@ -343,7 +343,7 @@ saltos.core.ajax = args => {
         args.headers['Content-Type'] = args.content_type;
     }
     if (args.proxy != '') {
-        args.headers[`Proxy`] = args.proxy;
+        args.headers['X-Proxy-Order'] = args.proxy;
     }
     if (args.token != '') {
         args.headers[`Authorization`] = 'Bearer ' + args.token;
@@ -394,7 +394,7 @@ saltos.core.ajax = args => {
             data = await response.text();
         }
         // Add the trace if no proxy is set
-        if (!response.headers.get('proxy')) {
+        if (!response.headers.get('x-proxy-type')) {
             const url = new URL(args.url, window.location.href).href;
             const duration = end - start;
             const size = saltos.core.human_size(JSON.stringify([url, options]).length);
