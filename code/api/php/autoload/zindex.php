@@ -122,16 +122,26 @@ if (php_sapi_name() == 'cli') {
         set_data('server/user_agent', 'PHP/' . phpversion());
     }
 } else {
+    if (!get_server('HTTP_AUTHORIZATION')) {
+        $headers = apache_request_headers();
+        if (isset($headers['Authorization'])) {
+            set_server('HTTP_AUTHORIZATION', $headers['Authorization']);
+        }
+    }
+    $auth = get_server('HTTP_AUTHORIZATION');
+    if ($auth && substr($auth, 0, 7) == 'Bearer ') {
+        set_server('HTTP_AUTHORIZATION_TOKEN', substr($auth, 7));
+    }
     $_DATA = [
         'rest' => array_values(array_diff(explode('/', get_server('QUERY_STRING')), [''])),
         'json' => array_protected(json_decode(strval(file_get_contents('php://input')), true)),
         'server' => [
             'request_method' => strtoupper(strval(get_server('REQUEST_METHOD'))),
             'content_type' => strtolower(strval(get_server('CONTENT_TYPE'))),
-            'token' => check_token_format(get_server('HTTP_TOKEN')),
+            'token' => check_token_format(get_server('HTTP_AUTHORIZATION_TOKEN')),
             'remote_addr' => get_server('REMOTE_ADDR'),
             'user_agent' => get_server('HTTP_USER_AGENT'),
-            'lang' => check_lang_format(get_server('HTTP_LANG')),
+            'lang' => check_lang_format(get_server('HTTP_ACCEPT_LANGUAGE')),
         ],
     ];
 }

@@ -1701,8 +1701,8 @@ saltos.bootstrap.__field.file = field => {
                     const ajax = new XMLHttpRequest();
                     ajax.open('POST', 'api/?/upload/addfile');
                     ajax.setRequestHeader('Content-Type', 'application/json');
-                    ajax.setRequestHeader('Token', saltos.token.get());
-                    ajax.setRequestHeader('Lang', saltos.gettext.get());
+                    ajax.setRequestHeader('Authorization', 'Bearer ' + saltos.token.get());
+                    ajax.setRequestHeader('Accept-Language', saltos.gettext.get());
                     ajax.setRequestHeader('Proxy', 'no');
                     ajax.onload = event => {
                         if (ajax.status < 200 || ajax.status >= 300) {

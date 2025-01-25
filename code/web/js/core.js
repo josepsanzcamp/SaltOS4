@@ -346,10 +346,10 @@ saltos.core.ajax = args => {
         args.headers[`Proxy`] = args.proxy;
     }
     if (args.token != '') {
-        args.headers[`Token`] = args.token;
+        args.headers[`Authorization`] = 'Bearer ' + args.token;
     }
     if (args.lang != '') {
-        args.headers[`Lang`] = args.lang;
+        args.headers['Accept-Language'] = args.lang;
     }
     const options = {
         method: args.method,
