@@ -5,6 +5,7 @@ DirectoryIndex index.htm
     Require all granted
 </Files>
 
+# These lines fix some issues in servers that do not send the content-type
 AddType text/html .htm .html
 AddType application/javascript .js .mjs
 AddType text/css .css
@@ -13,3 +14,7 @@ AddType image/svg+xml .svg
 AddType image/png .png
 AddType image/jpeg .jpg .jpeg
 AddType application/pdf .pdf
+
+# These lines allow to enable the Authorization header in some hosts that blocks it
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+CGIPassAuth On
