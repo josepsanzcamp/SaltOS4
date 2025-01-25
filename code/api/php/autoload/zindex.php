@@ -122,12 +122,14 @@ if (php_sapi_name() == 'cli') {
         set_data('server/user_agent', 'PHP/' . phpversion());
     }
 } else {
+    // Try to set the HTTP_AUTHORIZATION if not found
     if (!get_server('HTTP_AUTHORIZATION')) {
         $headers = apache_request_headers();
         if (isset($headers['Authorization'])) {
             set_server('HTTP_AUTHORIZATION', $headers['Authorization']);
         }
     }
+    // Try to set the HTTP_AUTHORIZATION_TOKEN if Bearer is detect
     $auth = get_server('HTTP_AUTHORIZATION');
     if ($auth && substr($auth, 0, 7) == 'Bearer ') {
         set_server('HTTP_AUTHORIZATION_TOKEN', substr($auth, 7));
