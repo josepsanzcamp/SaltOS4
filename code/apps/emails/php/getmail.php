@@ -1225,6 +1225,7 @@ function __getmail_body_helper($decoded, $images = false)
         if (__getmail_processplainhtml($disp, $type)) {
             $temp = $node['body'];
             if ($type == 'plain') {
+                $temp = wordwrap($temp, 120, "\n", true);
                 $temp = htmlentities($temp, ENT_COMPAT, 'UTF-8');
                 $temp = str_replace([' ', "\t", "\n"], ['&nbsp;', str_repeat('&nbsp;', 4), '<br>'], $temp);
             }
@@ -1293,6 +1294,7 @@ function getmail_source($id)
     }
     $source = __getmail_getsource($id);
     $source = getutf8($source);
+    $source = wordwrap($source, 120, "\n", true);
     $source = htmlentities($source, ENT_COMPAT, 'UTF-8');
     $source = str_replace([' ', "\t", "\n"], ['&nbsp;', str_repeat('&nbsp;', 4), '<br>'], $source);
     $buffer = '';
