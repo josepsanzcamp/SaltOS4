@@ -202,25 +202,26 @@ function __getmail_getsource($id)
     $message = file_get_contents('compress.zlib://' . $file);
     $pos = stripos($message, 'content-transfer-encoding: base64');
     while ($pos !== false) {
-        $pos2 = strpos($message, "\r\n\r\n", $pos);
-        $size2 = 4;
+        $break = "\r\n";
+        $pos2 = strpos($message, $break . $break, $pos);
         if ($pos2 === false) {
-            $pos2 = strpos($message, "\n\n", $pos);
-            $size2 = 2;
+            $break = "\n";
+            $pos2 = strpos($message, $break . $break, $pos);
         }
         if ($pos2 === false) {
             break;
         }
-        $pos3 = strpos($message, "\r\n--", $pos2);
-        $size3 = 2;
-        if ($pos3 === false) {
-            $pos3 = strpos($message, "\n--", $pos2);
-            $size3 = 1;
-        }
+        $pos3 = strpos($message, $break . '--', $pos2);
         if ($pos3 === false) {
             break;
         }
-        $message = substr_replace($message, '', $pos2 + $size2, $pos3 + $size3 - $pos2 - $size2);
+        $pos2 += strlen($break . $break);
+        $replacement = substr($message, $pos2, 1024);
+        $replacement = explode($break, $replacement);
+        $replacement = array_slice($replacement, 0, 3);
+        $replacement = implode($break, $replacement);
+        $replacement .= $break . '...' . $break . '...' . $break . '...';
+        $message = substr_replace($message, $replacement, $pos2, $pos3 - $pos2);
         $pos = stripos($message, 'content-transfer-encoding: base64', $pos + 1);
     }
     return $message;
