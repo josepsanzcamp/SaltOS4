@@ -1,2 +1,4 @@
 
-define("RCUBE_CHARSET", "UTF-8");
+wget https://raw.githubusercontent.com/roundcube/roundcubemail/refs/heads/master/program/lib/Roundcube/rcube_html2text.php
+
+# define("RCUBE_CHARSET", "UTF-8");
