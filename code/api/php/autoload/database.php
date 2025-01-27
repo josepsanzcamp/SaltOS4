@@ -59,6 +59,9 @@ declare(strict_types=1);
 function db_connect($args = null)
 {
     if ($args === null) {
+        if (get_config('db/obj')) {
+            return;
+        }
         $config = get_config('db');
     }
     if ($args !== null) {

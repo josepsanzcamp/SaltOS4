@@ -39,8 +39,6 @@ declare(strict_types=1);
  *
  * This function returns the xml of an app using the follow specs passed in @data:
  *
- * @source    => this data is defined by the caller, used internally to add a comment
- *               with the source file used in the xml generation
  * @require   => this field defines the required php that contains the make_app_file
  *               function like this file
  * @_template => the xml app file used as template, this file contains the default
@@ -195,30 +193,6 @@ function make_app_file($data)
     }
     $xml = '<root>' . implode('', $xml) . '</root>';
     $array['form'] = xml2array($xml)['root'];
-    // generate the output xml
-    $header = file_get_contents($data['template']);
-    $header = explode("\n\n", $header);
-    if (substr($header[0], 0, 5) != '<?xml') {
-        show_php_error(['phperror' => 'Internal error']);
-    }
-    if (substr($header[1], 0, 4) != '<!--') {
-        show_php_error(['phperror' => 'Internal error']);
-    }
-    if (substr($header[2], 0, 6) != '<root>') {
-        show_php_error(['phperror' => 'Internal error']);
-    }
-    // generate the output xml
-    require_once 'php/lib/array2xml.php';
-    $xml = $header[0];
-    if ($data['indent'] ?? false) {
-        $xml .= "\n\n";
-        $xml .= $header[1];
-        $xml .= "\n\n";
-    }
-    $xml .= "<!-- source: {$data['source']} -->";
-    if ($data['indent'] ?? false) {
-        $xml .= "\n\n";
-    }
-    $xml .= array2xml(['root' => $array], $data['indent'] ?? false);
-    return $xml;
+    // end of function
+    return $array;
 }

@@ -509,36 +509,22 @@ function current_app()
  * Notes:
  *
  * If the app uses the yaml specification instead of the xml, this
- * function call the make_app_file function defined in the required
- * field of the yaml file to generate the equivalent xml file used
- * as app file and returns the path to the cache file
+ * function call the make_app_file_helper function with the yaml file
+ * to get the xml file that must to be used in the app layer
  */
 function detect_app_file($app)
 {
     $dir = detect_app_folder($app);
-    $file = "apps/$dir/xml/$app.xml";
-    if (!file_exists($file)) {
-        $file2 = "apps/$dir/xml/$app.yaml";
-        if (file_exists($file2)) {
-            $file = get_cache_file($file, 'xml');
-            $data = yaml_parse_file($file2);
-            $data['source'] = $file2;
-            $items = ['require', 'template'];
-            foreach ($items as $item) {
-                if (!isset($data[$item])) {
-                    show_php_error(['phperror' => "$item not found in $file2"]);
-                }
-            }
-            $files = [$file2, $data['require'], $data['template']];
-            if (!cache_exists($file, $files)) {
-                require_once $data['require'];
-                $xml = make_app_file($data);
-                file_put_contents($file, $xml);
-                chmod_protected($file, 0666);
-            }
-        }
+    $xmlfile = "apps/$dir/xml/$app.xml";
+    if (file_exists($xmlfile)) {
+        return $xmlfile;
     }
-    return $file;
+    $yamlfile = "apps/$dir/xml/$app.yaml";
+    if (!file_exists($yamlfile)) {
+        return $xmlfile;
+    }
+    $xmlfile = make_app_file_helper($yamlfile);
+    return $xmlfile;
 }
 
 /**
@@ -570,4 +556,59 @@ function detect_app_folder($app)
     }
     $dir = explode('/', $file)[1];
     return $dir;
+}
+
+/**
+ * Make Apps File helper
+ *
+ * function call the make_app_file function defined in the required
+ * field of the yaml file to generate the equivalent xml file used
+ * as app file and returns the path to the cached file
+ *
+ * @yamlfile => the yaml file desired to be converted to xml
+ */
+function make_app_file_helper($yamlfile)
+{
+    $data = yaml_parse_file($yamlfile);
+    $items = ['require', 'template'];
+    foreach ($items as $item) {
+        if (!isset($data[$item])) {
+            show_php_error(['phperror' => "$item not found in $yamlfile"]);
+        }
+    }
+    $files = [$yamlfile, $data['require'], $data['template']];
+    $xmlfile = get_cache_file($files, 'xml');
+    if (!cache_exists($xmlfile, $files)) {
+        require_once $data['require'];
+        $array = make_app_file($data);
+        // generate the output xml
+        $header = file_get_contents($data['template']);
+        $header = explode("\n\n", $header);
+        if (substr($header[0], 0, 5) != '<?xml') {
+            show_php_error(['phperror' => 'Internal error']);
+        }
+        if (substr($header[1], 0, 4) != '<!--') {
+            show_php_error(['phperror' => 'Internal error']);
+        }
+        if (substr($header[2], 0, 6) != '<root>') {
+            show_php_error(['phperror' => 'Internal error']);
+        }
+        // generate the output xml
+        $data['indent'] = $data['indent'] ?? false;
+        $xml = $header[0];
+        if ($data['indent']) {
+            $xml .= "\n\n";
+            $xml .= $header[1];
+            $xml .= "\n\n";
+        }
+        $xml .= "<!-- source: $yamlfile -->";
+        if ($data['indent']) {
+            $xml .= "\n\n";
+        }
+        require_once 'php/lib/array2xml.php';
+        $xml .= array2xml(['root' => $array], $data['indent']);
+        file_put_contents($xmlfile, $xml);
+        chmod_protected($xmlfile, 0666);
+    }
+    return $xmlfile;
 }

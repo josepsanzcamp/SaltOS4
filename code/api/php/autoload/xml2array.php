@@ -376,13 +376,13 @@ function struct2array(&$data, $file = '')
  * attributes can be maintained in order to be used by other processes
  * (internally or externally)
  */
-function eval_attr($array)
+function eval_attr($array, $recursive = true)
 {
     if (!is_array($array)) {
-        return eval_attr(['inline' => $array])['inline'] ?? null;
+        return eval_attr(['inline' => $array], $recursive)['inline'] ?? null;
     }
     if (isset($array['value']) && isset($array['#attr'])) {
-        return eval_attr(['inline' => $array])['inline'] ?? null;
+        return eval_attr(['inline' => $array], $recursive)['inline'] ?? null;
     }
     $result = [];
     foreach ($array as $key => $val) {
@@ -427,7 +427,9 @@ function eval_attr($array)
                     }
                 }
                 if (!$remove) {
-                    $value  = eval_attr($value);
+                    if ($recursive) {
+                        $value  = eval_attr($value);
+                    }
                     if (count($attr)) {
                         $result[$key] = ['value' => $value, '#attr' => $attr];
                     } else {
@@ -435,7 +437,9 @@ function eval_attr($array)
                     }
                 }
             } else {
-                $result[$key] = eval_attr($val);
+                if ($recursive) {
+                    $result[$key] = eval_attr($val);
+                }
             }
         } else {
             $result[$key] = $val;
