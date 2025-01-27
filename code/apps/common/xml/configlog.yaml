@@ -37,7 +37,7 @@ form:
 select:
     # [id, table, optional field]
     - [user_id, tbl_users]
-extra:
+attr:
     # field:
     #     attr: value
     key:

@@ -35,7 +35,7 @@ form:
     - [active, switch, Active]
     - [name, text, Name]
     - [description, textarea, Description]
-extra:
+attr:
     # field:
     #     attr: value
     name:

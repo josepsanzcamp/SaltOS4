@@ -63,7 +63,7 @@ declare(strict_types=1);
  *               forms, requires an array of 3 elements: id, table and field, if the
  *               last field is not specified, saltos tries to resolve it using the
  *               manifest information (internally use the table2field feature)
- * @extra     => this part contain an array with extra features added to the forms
+ * @attr      => this part contain an array with extra features added to the forms
  *               widgets, the spec requires to use a named array that defines the
  *               id of the field and each array entry must to be another pair of
  *               key and val with the name of the property and the value of it
@@ -160,11 +160,11 @@ function make_app_file($data)
         $id = $field['id'];
         $type = $field['type'];
         $label = $field['label'];
-        $extra = $data['extra'][$id] ?? [];
-        foreach ($extra as $key => $val) {
-            $extra[$key] = "$key=\"$val\"";
+        $attr = $data['attr'][$id] ?? [];
+        foreach ($attr as $key => $val) {
+            $attr[$key] = "$key=\"$val\"";
         }
-        $extra = implode(' ', $extra);
+        $attr = implode(' ', $attr);
         switch ($type) {
             case 'text':
             case 'date':
@@ -172,17 +172,17 @@ function make_app_file($data)
             case 'datetime':
             case 'checkbox':
             case 'switch':
-                $xml[] = "<$type id=\"$id\" label=\"$label\" $extra/>";
+                $xml[] = "<$type id=\"$id\" label=\"$label\" $attr/>";
                 break;
             case 'textarea':
             case 'ckeditor':
             case 'codemirror':
-                $xml[] = "<$type id=\"$id\" label=\"$label\" height=\"10em\" $extra/>";
+                $xml[] = "<$type id=\"$id\" label=\"$label\" height=\"10em\" $attr/>";
                 break;
             case 'select':
                 $field2 = $data['select'][$id]['field'];
                 $table2 = $data['select'][$id]['table'];
-                $xml[] = "<select id=\"$id\" label=\"$label\" $extra>";
+                $xml[] = "<select id=\"$id\" label=\"$label\" $attr>";
                 $xml[] = "<rows eval=\"true\">execute_query_array(\"SELECT '' label, '0' value
                     UNION SELECT $field2 label, id value FROM $table2\")</rows>";
                 $xml[] = '</select>';

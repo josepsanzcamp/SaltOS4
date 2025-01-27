@@ -39,7 +39,7 @@ form:
     - [err, codemirror, STDERR]
     - [start, datetime, Start]
     - [stop, datetime, Stop]
-extra:
+attr:
     # field:
     #     attr: value
     out:
