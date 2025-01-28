@@ -42,7 +42,7 @@ declare(strict_types=1);
  */
 function pcov_start()
 {
-    if (extension_loaded('pcov') && file_exists('pcov.out')) {
+    if (extension_loaded('pcov') && file_exists('data/temp/pcov.out')) {
         \pcov\start();
     }
 }
@@ -56,9 +56,9 @@ function pcov_start()
  */
 function pcov_stop()
 {
-    if (extension_loaded('pcov') && file_exists('pcov.out')) {
+    if (extension_loaded('pcov') && file_exists('data/temp/pcov.out')) {
         \pcov\stop();
-        file_put_contents('pcov.out', serialize(\pcov\collect(\pcov\all)));
-        chmod_protected('pcov.out', 0666);
+        file_put_contents('data/temp/pcov.out', serialize(\pcov\collect(\pcov\all)));
+        chmod_protected('data/temp/pcov.out', 0666);
     }
 }

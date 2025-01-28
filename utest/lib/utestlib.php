@@ -52,11 +52,11 @@ use PHPUnit\Framework\Assert;
  */
 function test_pcov_start(): void
 {
-    if (file_exists('pcov.out')) {
+    if (file_exists('data/temp/pcov.out')) {
         throw new Error('Coverage pipe found');
     }
-    touch('pcov.out');
-    chmod('pcov.out', 0666);
+    touch('data/temp/pcov.out');
+    chmod('data/temp/pcov.out', 0666);
 }
 
 /**
@@ -73,13 +73,13 @@ function test_pcov_start(): void
 function test_pcov_stop($index): void
 {
     for ($i = 0; $i < 1000; $i++) {
-        $buffer = file_get_contents('pcov.out');
+        $buffer = file_get_contents('data/temp/pcov.out');
         if (substr($buffer, -1, 1) == '}') {
             break;
         }
         usleep(1000);
     }
-    unlink('pcov.out');
+    unlink('data/temp/pcov.out');
     if ($buffer == '') {
         throw new Error('Coverage pipe is void');
     }
