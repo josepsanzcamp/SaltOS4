@@ -159,6 +159,16 @@ final class test_html extends TestCase
             inline_img_tag("<img src='$src'>")
         ));
 
+        $this->assertTrue(words_exists(
+            'data image base64 nada',
+            inline_img_style("<div style=\"background:url('$src')\">")
+        ));
+
+        $this->assertTrue(words_exists(
+            'data image base64 nada',
+            inline_img_background("<table background=\"$src\">")
+        ));
+
         $this->assertSame(extract_img_tag(''), ['', []]);
 
         $src = __GIF_IMAGE__;
@@ -284,5 +294,15 @@ final class test_html extends TestCase
             __inline_img_helper($src)
         );
         $this->assertFileExists($cache);
+
+        $this->assertSame(remove_meta_tag(''), '');
+
+        $html = '<META name="from" content="Carrefour <noreply@login.carrefour.com>" />';
+        $this->assertSame(remove_meta_tag($html), '');
+
+        $this->assertSame(remove_link_tag(''), '');
+
+        $html = '<LINK name="from" content="Carrefour <noreply@login.carrefour.com>" />';
+        $this->assertSame(remove_link_tag($html), '');
     }
 }

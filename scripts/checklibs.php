@@ -81,7 +81,7 @@ foreach ($libs as $key => $lib) {
         } elseif ($isvoid) {
             echo "{$lib[0]}: {$red}void curl({$lib[1]}){$reset}\n";
         } elseif ($isko) {
-            echo "{$lib[0]}: {$red}KO{$reset}($temp)\n";
+            echo "{$lib[0]}: {$red}KO{$reset} ($temp)\n";
             $lib[3] = base64_encode($temp);
         } else {
             echo "{$lib[0]}: {$green}OK{$reset}\n";
