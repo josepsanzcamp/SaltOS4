@@ -410,3 +410,24 @@ function str_replace_one($from, $to, $cad)
     }
     return $cad;
 }
+
+/**
+ * Get String From Quotes
+ *
+ * This string tries to return the string contained in a single or double
+ * quotes, indended to be used for example in the construction of the where
+ * used by the search engine
+ *
+ * @val => the string that you want to process
+ */
+function get_string_from_quotes($val)
+{
+    $open = substr($val, 0, 1);
+    if (in_array($open, ['"', "'"])) {
+        $close = substr($val, -1, 1);
+        if ($open == $close) {
+            $val = substr($val, 1, -1);
+        }
+    }
+    return $val;
+}

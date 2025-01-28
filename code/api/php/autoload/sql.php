@@ -575,16 +575,18 @@ function make_like_query($keys, $values, $args = [])
     if (!count($keys)) {
         return $default;
     }
-    $values = explode(' ', encode_bad_chars($values, ' ', '+-.,:;_*\\|!@#$%&/=¿?<>'));
+    $values = explode_with_quotes(' ', $values);
     $types = [];
     foreach ($values as $key => $val) {
+        $val = get_string_from_quotes($val);
         $types[$key] = '+';
         while (isset($val[0]) && in_array($val[0], ['+', '-'])) {
             $types[$key] = $val[0];
             $val = substr($val, 1);
         }
+        $val = get_string_from_quotes($val);
         if (strlen($val) >= $minsize) {
-            $values[$key] = $val;
+            $values[$key] = db_escape(db_escape($val));
         } else {
             unset($values[$key]);
         }
@@ -636,14 +638,17 @@ function __make_fulltext_query_helper($values, $args = [])
     $minsize = $args['minsize'] ?? 1;
     $default = $args['default'] ?? '1=1';
     // Continue
-    $values = explode(' ', encode_bad_chars($values, ' ', '+-.,:;_*\\|!@#$%&/=¿?<>'));
+    $values = explode_with_quotes(' ', $values);
     foreach ($values as $key => $val) {
+        $val = get_string_from_quotes($val);
         $type = '+';
         while (isset($val[0]) && in_array($val[0], ['+', '-'])) {
             $type = $val[0];
             $val = substr($val, 1);
         }
+        $val = get_string_from_quotes($val);
         if (strlen($val) >= $minsize) {
+            $val = db_escape(db_escape($val));
             $values[$key] = $type . '"' . $val . '"';
         } else {
             unset($values[$key]);

@@ -590,3 +590,48 @@ function array_key_search($needed, $array)
     }
     return $needed;
 }
+
+/**
+ * Explode With Quotes
+ *
+ * This function tries to do the same things that the original explode but add
+ * the quotes feature, don't break an string contained in a single or double
+ * quotes, this allow to implement features like a search that forces specific
+ * strings with spaces
+ *
+ * @separator => the delimiter character used in the explode feature
+ * @str       => the string that you want to explode
+ * @limit     => the number of elements that can contains the result
+ */
+function explode_with_quotes($separator, $str, $limit = 0)
+{
+    $result = [];
+    $len = strlen($str);
+    $ini = 0;
+    $count = 0;
+    $single = 0;
+    $double = 0;
+    for ($i = 0; $i < $len; $i++) {
+        $letter = $str[$i];
+        if ($letter == "'") {
+            $single = ($single + 1) % 2;
+        } elseif ($letter == '"') {
+            $double = ($double + 1) % 2;
+        }
+        if ($letter == $separator && $single == 0 && $double == 0) {
+            if ($limit > 0 && $count == $limit - 1) {
+                $result[] = substr($str, $ini);
+                $ini = $i;
+                break;
+            } else {
+                $result[] = substr($str, $ini, $i - $ini);
+                $ini = $i + 1;
+                $count++;
+            }
+        }
+    }
+    if ($i != $ini) {
+        $result[] = substr($str, $ini, $i - $ini);
+    }
+    return $result;
+}

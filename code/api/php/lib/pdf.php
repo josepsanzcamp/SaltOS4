@@ -179,18 +179,21 @@ function __pdf_eval_explode($separator, $str, $limit = 0)
     $len = strlen($str);
     $ini = 0;
     $count = 0;
-    $open = ["'" => 0, '"' => 0];
-    $pars = 0;
+    $single = 0;
+    $double = 0;
+    $parentheses = 0;
     for ($i = 0; $i < $len; $i++) {
         $letter = $str[$i];
-        if (array_key_exists($letter, $open)) {
-            $open[$letter] = ($open[$letter] == 1) ? 0 : 1;
+        if ($letter == "'") {
+            $single = ($single + 1) % 2;
+        } elseif ($letter == '"') {
+            $double = ($double + 1) % 2;
         } elseif ($letter == '(') {
-            $pars++;
+            $parentheses++;
         } elseif ($letter == ')') {
-            $pars--;
+            $parentheses--;
         }
-        if ($letter == $separator && array_sum($open) + $pars == 0) {
+        if ($letter == $separator && $single == 0 && $double == 0 && $parentheses == 0) {
             if ($limit > 0 && $count == $limit - 1) {
                 $result[] = substr($str, $ini);
                 $ini = $i;

@@ -121,6 +121,13 @@ final class test_pdf extends TestCase
             '"y","z"',
         ]);
 
+        $str = "'x','y','z'";
+        $array = __pdf_eval_explode($separator, $str, $limit);
+        $this->assertSame($array, [
+            "'x'",
+            "'y','z'",
+        ]);
+
         $this->assertTrue(
             defined('K_TCPDF_THROW_EXCEPTION_ERROR'),
             'K_TCPDF_THROW_EXCEPTION_ERROR not found'
