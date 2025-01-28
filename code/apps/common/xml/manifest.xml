@@ -47,5 +47,9 @@
             code="trashlog" name="Trash log" description="Trash log application"
             table="tbl_trash" field="id"
             perms="menu,help,list*,view*"/>
+        <app id="26" active="1"
+            code="tokenslog" name="Tokens log" description="Tokens log application"
+            table="tbl_users_tokens" field="id"
+            perms="menu,help,list*,view*"/>
     </apps>
 </root>

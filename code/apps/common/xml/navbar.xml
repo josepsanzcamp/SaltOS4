@@ -48,6 +48,7 @@
                         <item ifeval="check_user('pushlog', 'menu')" label="Push" onclick="saltos.window.open('app/pushlog')"/>
                         <item ifeval="check_user('trashlog', 'menu')" label="Trash" onclick="saltos.window.open('app/trashlog')"/>
                         <item ifeval="check_user('uploadlog', 'menu')" label="Upload" onclick="saltos.window.open('app/uploadlog')"/>
+                        <item ifeval="check_user('tokenslog', 'menu')" label="Tokens" onclick="saltos.window.open('app/tokenslog')"/>
                     </menu>
                 </item>
             </menu>
