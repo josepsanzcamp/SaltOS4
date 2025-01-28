@@ -91,5 +91,9 @@ final class test_strings extends TestCase
         $this->assertSame(get_part_from_string('0,1,2,3,4', ',', 2), '2');
         $this->assertSame(get_part_from_string('0,1,2,3,4', ',', 4), '4');
         $this->assertSame(get_part_from_string('0,1,2,3,4', ',', 5), '');
+        $this->assertSame(str_replace_one('', '', 'nada'), 'nada');
+        $this->assertSame(str_replace_one('', 'nada', 'nada'), 'nada');
+        $this->assertSame(str_replace_one('nada', '', 'nada'), '');
+        $this->assertSame(str_replace_one('nada', 'nada', 'nada'), 'nada');
     }
 }

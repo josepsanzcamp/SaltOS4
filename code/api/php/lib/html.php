@@ -48,10 +48,10 @@ define('__CHARS_MAP__', ['&' => '&amp;', '+' => '&#43;']);
  *
  * @temp => the string that you want to process
  */
-function remove_script_tag($temp)
+function remove_script_tag($html)
 {
-    $temp = preg_replace('@<script[^>]*?.*?</script>@siu', '', $temp);
-    return $temp;
+    $html = preg_replace('@<script[^>]*?.*?</script>@siu', '', $html);
+    return $html;
 }
 
 /**
@@ -61,10 +61,10 @@ function remove_script_tag($temp)
  *
  * @temp => the string that you want to process
  */
-function remove_style_tag($temp)
+function remove_style_tag($html)
 {
-    $temp = preg_replace('@<style[^>]*?.*?</style>@siu', '', $temp);
-    return $temp;
+    $html = preg_replace('@<style\b[^>]*?.*?</style>@siu', '', $html);
+    return $html;
 }
 
 /**
@@ -74,10 +74,10 @@ function remove_style_tag($temp)
  *
  * @temp => the string that you want to process
  */
-function remove_comment_tag($temp)
+function remove_comment_tag($html)
 {
-    $temp = preg_replace('@<!--[^>]*?.*?-->@siu', '', $temp);
-    return $temp;
+    $html = preg_replace('@<!--[^>]*?.*?-->@siu', '', $html);
+    return $html;
 }
 
 /**
@@ -87,10 +87,27 @@ function remove_comment_tag($temp)
  *
  * @temp => the string that you want to process
  */
-function remove_meta_tag($temp)
+function remove_meta_tag($html)
 {
-    $temp = preg_replace('@<meta[^>]*?.*?>@siu', '', $temp);
-    return $temp;
+    if (trim($html) == '') {
+        return $html;
+    }
+    $dom = new DOMDocument();
+    libxml_use_internal_errors(true); // Trick
+    $dom->loadHTML($html);
+    libxml_clear_errors(); // Trick
+    $items = $dom->getElementsByTagName('meta');
+    foreach ($items as $item) {
+        foreach ($item->attributes as $attribute) {
+            if (strpos($attribute->value, '>') !== false) {
+                $from = $attribute->value;
+                $to = str_replace('>', '', $attribute->value);
+                $html = str_replace($from, $to, $html);
+            }
+        }
+    }
+    $html = preg_replace('@<meta\b[^>]*?.*?>@siu', '', $html);
+    return $html;
 }
 
 /**
@@ -100,10 +117,27 @@ function remove_meta_tag($temp)
  *
  * @temp => the string that you want to process
  */
-function remove_link_tag($temp)
+function remove_link_tag($html)
 {
-    $temp = preg_replace('@<link\b[^>]*?.*?>@siu', '', $temp);
-    return $temp;
+    if (trim($html) == '') {
+        return $html;
+    }
+    $dom = new DOMDocument();
+    libxml_use_internal_errors(true); // Trick
+    $dom->loadHTML($html);
+    libxml_clear_errors(); // Trick
+    $items = $dom->getElementsByTagName('link');
+    foreach ($items as $item) {
+        foreach ($item->attributes as $attribute) {
+            if (strpos($attribute->value, '>') !== false) {
+                $from = $attribute->value;
+                $to = str_replace('>', '', $attribute->value);
+                $html = str_replace($from, $to, $html);
+            }
+        }
+    }
+    $html = preg_replace('@<link\b[^>]*?.*?>@siu', '', $html);
+    return $html;
 }
 
 /**

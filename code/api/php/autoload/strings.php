@@ -403,9 +403,10 @@ function check_ids_array(...$args)
  */
 function str_replace_one($from, $to, $cad)
 {
+    $len = strlen($from);
     $pos = strpos($cad, $from);
-    if ($pos !== false) {
-        $cad = substr_replace($cad, $to, $pos, strlen($from));
+    if ($len && $pos !== false) {
+        $cad = substr_replace($cad, $to, $pos, $len);
     }
     return $cad;
 }
