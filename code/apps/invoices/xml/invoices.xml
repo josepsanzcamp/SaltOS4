@@ -97,7 +97,7 @@
                     IF(cobrado, 'check-lg text-success', 'x-lg text-danger') cobrado
                 FROM app_invoices a
                 WHERE 1 = 1
-                AND ".make_fulltext_query(get_data("json/search"), "invoices", ["minsize" => 1, "default" => "1=1"])."
+                AND ".make_fulltext_query(get_data("json/search"), "invoices")."
                 AND ".check_sql("invoices", "list")."
                 ORDER BY ".get_data("json/order")."
                 LIMIT ".get_data("json/offset").",".get_data("json/limit"))),
@@ -112,7 +112,7 @@
             SELECT COUNT(*) total
             FROM app_invoices
             WHERE 1 = 1
-            AND ".make_fulltext_query(get_data("json/search"), "invoices", ["minsize" => 1, "default" => "1=1"])."
+            AND ".make_fulltext_query(get_data("json/search"), "invoices")."
             AND ".check_sql("invoices", "list")."
         ")</footer>
     </list>

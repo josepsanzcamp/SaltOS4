@@ -561,7 +561,7 @@ function make_like_query($keys, $values, $args = [])
 {
     // Process args
     $minsize = $args['minsize'] ?? 1;
-    $default = $args['default'] ?? '1=0';
+    $default = $args['default'] ?? '1=1';
     // Continue
     $keys = explode(',', $keys);
     foreach ($keys as $key => $val) {
@@ -575,7 +575,7 @@ function make_like_query($keys, $values, $args = [])
     if (!count($keys)) {
         return $default;
     }
-    $values = explode(' ', encode_bad_chars($values, ' ', '+-'));
+    $values = explode(' ', encode_bad_chars($values, ' ', '+-.,:;_*\\|!@#$%&/=¿?<>'));
     $types = [];
     foreach ($values as $key => $val) {
         $types[$key] = '+';
@@ -634,9 +634,9 @@ function __make_fulltext_query_helper($values, $args = [])
 {
     // Process args
     $minsize = $args['minsize'] ?? 1;
-    $default = $args['default'] ?? '1=0';
+    $default = $args['default'] ?? '1=1';
     // Continue
-    $values = explode(' ', encode_bad_chars($values, ' ', '+-'));
+    $values = explode(' ', encode_bad_chars($values, ' ', '+-.,:;_*\\|!@#$%&/=¿?<>'));
     foreach ($values as $key => $val) {
         $type = '+';
         while (isset($val[0]) && in_array($val[0], ['+', '-'])) {
@@ -694,7 +694,7 @@ function make_fulltext_query($values, $app, $args = [])
 {
     // Process args
     $prefix = $args['prefix'] ?? '';
-    $default = $args['default'] ?? '1=0';
+    $default = $args['default'] ?? '1=1';
     // Continue
     $table = app2table($app);
     if (!$table) {

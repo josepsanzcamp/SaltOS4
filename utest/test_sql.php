@@ -179,26 +179,26 @@ final class test_sql extends TestCase
 
         // Test for searching features
         $query = make_like_query('', 'hola mundo');
-        $this->assertSame($query, '1=0');
+        $this->assertSame($query, '1=1');
 
         $query = make_like_query('key,val', '');
-        $this->assertSame($query, '1=0');
+        $this->assertSame($query, '1=1');
 
         $query = make_like_query('key,,val', '+hola -mundo');
         $this->assertSame($query, "((key LIKE '%hola%' OR val LIKE '%hola%') AND " .
             "(key NOT LIKE '%mundo%' AND val NOT LIKE '%mundo%'))");
 
         $query = make_fulltext_query('', 'customers');
-        $this->assertSame($query, '1=0');
+        $this->assertSame($query, '1=1');
 
         $query = make_fulltext_query('', 'dashboard');
-        $this->assertSame($query, '1=0');
+        $this->assertSame($query, '1=1');
 
         $query = make_fulltext_query('', 'configlog');
-        $this->assertSame($query, '1=0');
+        $this->assertSame($query, '1=1');
 
         $query = make_fulltext_query('nada', 'configlog');
-        $this->assertNotSame($query, '1=0');
+        $this->assertNotSame($query, '1=1');
 
         $query = make_fulltext_query('+hola -mundo', 'customers');
         $this->assertSame($query, 'id IN (SELECT id FROM app_customers_index ' .

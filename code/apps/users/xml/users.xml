@@ -85,7 +85,7 @@
                 CASE active WHEN 1 THEN 'check-lg text-success' ELSE 'x-lg text-danger' END active
                 FROM tbl_users
                 WHERE 1 = 1
-                AND ".make_fulltext_query(get_data("json/search"), "users", ["minsize" => 1, "default" => "1=1"])."
+                AND ".make_fulltext_query(get_data("json/search"), "users")."
                 AND ".check_sql("users", "list")."
                 ORDER BY ".get_data("json/order")."
                 LIMIT ".get_data("json/offset").",".get_data("json/limit"))),
@@ -100,7 +100,7 @@
             SELECT COUNT(*) total
             FROM tbl_users
             WHERE 1 = 1
-            AND ".make_fulltext_query(get_data("json/search"), "users", ["minsize" => 1, "default" => "1=1"])."
+            AND ".make_fulltext_query(get_data("json/search"), "users")."
             AND ".check_sql("users", "list"))</footer>
     </list>
 

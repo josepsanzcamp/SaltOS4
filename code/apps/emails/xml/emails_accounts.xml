@@ -84,7 +84,7 @@
                 (SELECT CONCAT(name,' (',login,')') FROM tbl_users a WHERE a.id=user_id) user
                 FROM app_emails_accounts
                 WHERE 1 = 1
-                AND ".make_fulltext_query(get_data("json/search"), "emails_accounts", ["minsize" => 1, "default" => "1=1"])."
+                AND ".make_fulltext_query(get_data("json/search"), "emails_accounts")."
                 AND ".check_sql("emails_accounts", "list")."
                 ORDER BY ".get_data("json/order")."
                 LIMIT ".get_data("json/offset").",".get_data("json/limit"))),
@@ -99,7 +99,7 @@
             SELECT COUNT(*) total
             FROM app_emails_accounts
             WHERE 1 = 1
-            AND ".make_fulltext_query(get_data("json/search"), "emails_accounts", ["minsize" => 1, "default" => "1=1"])."
+            AND ".make_fulltext_query(get_data("json/search"), "emails_accounts")."
             AND ".check_sql("emails_accounts", "list"))</footer>
     </list>
 

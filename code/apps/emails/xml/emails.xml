@@ -169,7 +169,7 @@
                     CASE WHEN state_new=1 THEN 'fw-bold' ELSE '' END class
                 FROM app_emails
                 WHERE 1 = 1
-                AND ".make_fulltext_query(get_data("json/search"), "emails", ["minsize" => 1, "default" => "1=1"])."
+                AND ".make_fulltext_query(get_data("json/search"), "emails")."
                 AND ".check_sql("emails", "list")."
                 AND ".make_where_query_emails(get_data("json"))."
                 ORDER BY ".get_data("json/order")."

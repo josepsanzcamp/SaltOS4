@@ -82,7 +82,7 @@
                 SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
                 FROM app_customers
                 WHERE 1 = 1
-                AND ".make_fulltext_query(get_data("json/search"), "customers", ["minsize" => 1, "default" => "1=1"])."
+                AND ".make_fulltext_query(get_data("json/search"), "customers")."
                 AND ".check_sql("customers", "list")."
                 ORDER BY ".get_data("json/order")."
                 LIMIT ".get_data("json/offset").",".get_data("json/limit"))),
@@ -97,7 +97,7 @@
             SELECT COUNT(*) total
             FROM app_customers
             WHERE 1 = 1
-            AND ".make_fulltext_query(get_data("json/search"), "customers", ["minsize" => 1, "default" => "1=1"])."
+            AND ".make_fulltext_query(get_data("json/search"), "customers")."
             AND ".check_sql("customers", "list")."
         ")</footer>
     </list>
