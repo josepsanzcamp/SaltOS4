@@ -63,17 +63,43 @@ final class test_yaml extends TestCase
     {
         $files = glob('apps/*/xml/*.yaml');
         require_once 'lib/yaml/vendor/autoload.php';
+
         foreach ($files as $file) {
             $array1 = yaml_parse_file($file);
             $array2 = Symfony\Component\Yaml\Yaml::parseFile($file);
             $this->assertSame($array1, $array2);
 
-            $yaml1 = yaml_emit($array1);
-            $yaml2 = Symfony\Component\Yaml\Yaml::dump($array2);
-
-            $array1 = yaml_parse($yaml1);
-            $array2 = Symfony\Component\Yaml\Yaml::parse($yaml2);
+            $array1 = yaml_parse(yaml_emit($array1));
+            $array2 = Symfony\Component\Yaml\Yaml::parse(Symfony\Component\Yaml\Yaml::dump($array2));
             $this->assertSame($array1, $array2);
         }
+
+        $time0 = microtime(true);
+
+        for ($i = 0; $i < 100; $i++) {
+            foreach ($files as $file) {
+                $array1 = yaml_parse_file($file);
+            }
+        }
+
+        $time1 = microtime(true);
+
+        for ($i = 0; $i < 100; $i++) {
+            foreach ($files as $file) {
+                $array2 = Symfony\Component\Yaml\Yaml::parseFile($file);
+            }
+        }
+
+        $time2 = microtime(true);
+
+        $time2 = $time2 - $time1;
+        $time1 = $time1 - $time0;
+
+        //~ print_r([
+            //~ 'time1' => sprintf('%f', $time1),
+            //~ 'time2' => sprintf('%f', $time2),
+        //~ ]);
+
+        $this->assertTrue($time1 < $time2);
     }
 }
