@@ -4,7 +4,7 @@ edifact|https://github.com/php-edifact/edifact/tags.atom|<title>|PHRpdGxlPjEuMi4
 phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<title>|PHRpdGxlPjMuOS4wPC90aXRsZT4=
 roundcube|https://github.com/roundcube/roundcubemail/commits/master/program/lib/Roundcube/rcube_html2text.php.atom|<updated>|PHVwZGF0ZWQ+MjAyNS0wMS0yNlQxMjozNDo1N1o8L3VwZGF0ZWQ+
 tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<title>|PHRpdGxlPjYuOC4yPC90aXRsZT4=
-yaml|https://github.com/symfony/yaml/tags.atom|<title>|PHRpdGxlPnY3LjIuMDwvdGl0bGU+
+yaml|https://github.com/symfony/yaml/tags.atom|<title>|PHRpdGxlPnY3LjIuMzwvdGl0bGU+
 
 autoheight|https://github.com/kamilkp/autoheight/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAxNi0wOC0wN1QyMzo0MToxMVo8L3VwZGF0ZWQ+
 bootstrap|https://api.cdnjs.com/libraries/bootstrap?fields=name,version|version|eyJuYW1lIjoiYm9vdHN0cmFwIiwidmVyc2lvbiI6IjUuMy4zIn0=
