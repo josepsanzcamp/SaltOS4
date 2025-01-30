@@ -67,9 +67,6 @@ saltos.dashboard.init = arg => {
 
             saltos.favicon.run();
         });
-        Sortable.create(document.querySelector('.items'), {
-            animation: 150,
-        });
     }
     if (arg == 'config') {
         document.getElementById('bs_theme').value = saltos.bootstrap.get_bs_theme();

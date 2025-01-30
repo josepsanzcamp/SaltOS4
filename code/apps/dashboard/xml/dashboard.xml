@@ -34,29 +34,32 @@
         <screen>type1</screen>
         <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="one">
-            <row auto="true" row_class="row items" col_class="col-xl-4 col-md-6 mb-3">
+            <row auto="true" col_class="col-xl-4 col-md-6 mb-3">
                 <button ifeval="check_user('customers', 'menu')" onclick="saltos.window.open('app/customers')" class="fs-1 w-100 h-100" label="Customers"/>
                 <button ifeval="check_user('invoices', 'menu')" onclick="saltos.window.open('app/invoices')" class="fs-1 w-100 h-100" label="Invoices"/>
                 <button ifeval="check_user('emails', 'menu')" onclick="saltos.window.open('app/emails')" color="success" class="fs-1 w-100 h-100" label="Emails"/>
                 <button ifeval="check_user('users', 'menu')" onclick="saltos.window.open('app/users')" color="warning" class="fs-1 w-100 h-100" label="Users"/>
                 <button ifeval="check_user('groups', 'menu')" onclick="saltos.window.open('app/groups')" color="warning" class="fs-1 w-100 h-100" label="Groups"/>
                 <button ifeval="check_user('types', 'menu')" onclick="saltos.window.open('app/types')" color="info" class="fs-1 w-100 h-100" label="Types"/>
-                <button ifeval="check_user('tester', 'menu')" onclick="saltos.window.open('app/tester')" color="danger" class="fs-1 w-100 h-100" label="Tester"/>
+                <div col_class="col-12"/><!-- this act as break line -->
+                <table id="table1" ifeval="check_user('customers', 'widget')" source="app/customers/widget/table1" col_class="col-xl-6 col-md-12 mb-3" nodata="Data not found"/>
+                <table id="table2" ifeval="check_user('customers', 'widget')" source="app/customers/widget/table2" col_class="col-xl-6 col-md-12 mb-3" nodata="Data not found"/>
+                <div col_class="col-12"/><!-- this act as break line -->
                 <button ifeval="check_user('configlog', 'menu')" onclick="saltos.window.open('app/configlog')" color="dark" class="fs-1 w-100 h-100" label="Config"/>
                 <button ifeval="check_user('cronlog', 'menu')" onclick="saltos.window.open('app/cronlog')" color="dark" class="fs-1 w-100 h-100" label="Cron"/>
                 <button ifeval="check_user('pushlog', 'menu')" onclick="saltos.window.open('app/pushlog')" color="dark" class="fs-1 w-100 h-100" label="Push"/>
                 <button ifeval="check_user('trashlog', 'menu')" onclick="saltos.window.open('app/trashlog')" color="dark" class="fs-1 w-100 h-100" label="Trash"/>
                 <button ifeval="check_user('uploadlog', 'menu')" onclick="saltos.window.open('app/uploadlog')" color="dark" class="fs-1 w-100 h-100" label="Upload"/>
+                <button ifeval="check_user('tokenslog', 'menu')" onclick="saltos.window.open('app/tokenslog')" color="dark" class="fs-1 w-100 h-100" label="Tokens"/>
                 <div col_class="col-12"/><!-- this act as break line -->
-                <table id="table1" ifeval="check_user('customers', 'widget')" source="app/customers/widget/table1" col_class="col-xl-6 col-md-12 mb-3" nodata="Data not found"/>
-                <table id="table2" ifeval="check_user('customers', 'widget')" source="app/customers/widget/table2" col_class="col-xl-6 col-md-12 mb-3" nodata="Data not found"/>
                 <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot2" mode="pie"/>
                 <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot1" mode="bar"/>
                 <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot1" mode="line"/>
+                <div col_class="col-12"/><!-- this act as break line -->
+                <button ifeval="check_user('tester', 'menu')" onclick="saltos.window.open('app/tester')" color="danger" class="fs-1 w-100 h-100" label="Tester"/>
             </row>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash("apps/dashboard/lib/sortablejs/sortable.min.js")</file>
             <file eval="true">file_with_hash(file_with_min("apps/dashboard/js/dashboard.js"))</file>
             <inline>saltos.driver.init("menu")</inline>
             <inline>saltos.dashboard.init("menu")</inline>

@@ -1,9 +1,0 @@
-
-# Other libraries:
-# - https://github.com/SortableJS/Sortable
-# - https://github.com/lukasoppermann/html5sortable
-# - https://github.com/bevacqua/dragula
-# - https://github.com/haltu/muuri
-# - https://github.com/metafizzy/packery
-
-wget -O sortable.min.js https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.6/Sortable.min.js
