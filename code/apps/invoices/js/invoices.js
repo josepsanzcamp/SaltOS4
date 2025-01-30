@@ -46,18 +46,18 @@ saltos.invoices = {};
  */
 saltos.invoices.init = arg => {
     if (arg == 'view') {
-        document.querySelectorAll('.detail button, .footer button').forEach(_this => {
-            _this.closest('.col-auto').remove();
+        document.querySelectorAll('.detail button, .footer button').forEach(item => {
+            item.closest('.col-auto').remove();
         });
     }
 
     if (['create', 'edit'].includes(arg)) {
-        document.querySelectorAll('[id*=unidades], [id*=precio], [id*=descuento]').forEach(_this => {
-            _this.removeEventListener('change', saltos.invoices.compute_total);
-            _this.addEventListener('change', saltos.invoices.compute_total);
+        document.querySelectorAll('[id*=unidades], [id*=precio], [id*=descuento]').forEach(item => {
+            item.removeEventListener('change', saltos.invoices.compute_total);
+            item.addEventListener('change', saltos.invoices.compute_total);
         });
-        document.querySelectorAll('[id*=total], #total').forEach(_this => {
-            _this.setAttribute('disabled', '');
+        document.querySelectorAll('[id*=total], #total').forEach(item => {
+            item.setAttribute('disabled', '');
         });
     }
 };
@@ -69,16 +69,16 @@ saltos.invoices.init = arg => {
  */
 saltos.invoices.compute_total = () => {
     let total = 0;
-    document.querySelectorAll('.detail').forEach(_this => {
-        if (_this.querySelector('[id*=unidades]') === null) {
+    document.querySelectorAll('.detail').forEach(item => {
+        if (item.querySelector('[id*=unidades]') === null) {
             return;
         }
-        const unidades = _this.querySelector('[id*=unidades]').value;
-        const precio = _this.querySelector('[id*=precio]').value;
-        const descuento = _this.querySelector('[id*=descuento]').value;
+        const unidades = item.querySelector('[id*=unidades]').value;
+        const precio = item.querySelector('[id*=precio]').value;
+        const descuento = item.querySelector('[id*=descuento]').value;
         let subtotal = unidades * precio * (1 - (descuento / 100));
         subtotal = Math.round(100 * subtotal) / 100;
-        _this.querySelector('[id*=total]').value = subtotal;
+        item.querySelector('[id*=total]').value = subtotal;
         total += subtotal;
     });
     document.getElementById('total').value = total;
@@ -105,11 +105,11 @@ saltos.invoices.add_item = () => {
 saltos.invoices.remove_item = (obj) => {
     // This long line is to do a copy of the array to iterate and remove at the same time
     const items = Array.prototype.slice.call(obj.closest('.row').childNodes);
-    items.forEach(_this => {
-        if (_this.classList.contains('d-none') && _this.querySelector('input').value != '') {
-            _this.querySelector('input').value *= -1;
+    items.forEach(item => {
+        if (item.classList.contains('d-none') && item.querySelector('input').value != '') {
+            item.querySelector('input').value *= -1;
         } else {
-            _this.remove();
+            item.remove();
         }
     });
     saltos.invoices.compute_total();

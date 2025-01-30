@@ -185,11 +185,11 @@ saltos.bootstrap.__field.container = field => {
     const obj = saltos.bootstrap.__field.div(field);
     // Checks to guarantee that some container class is found
     let found = false;
-    obj.classList.forEach(_this => {
-        if (['container', 'd-none'].includes(_this)) {
+    obj.classList.forEach(item => {
+        if (['container', 'd-none'].includes(item)) {
             found = true;
         }
-        if (_this.substr(0, 10) == 'container-') {
+        if (item.substr(0, 10) == 'container-') {
             found = true;
         }
     });
@@ -217,11 +217,11 @@ saltos.bootstrap.__field.row = field => {
     const obj = saltos.bootstrap.__field.div(field);
     // Checks to guarantee that some row class is found
     let found = false;
-    obj.classList.forEach(_this => {
-        if (['row', 'd-none'].includes(_this)) {
+    obj.classList.forEach(item => {
+        if (['row', 'd-none'].includes(item)) {
             found = true;
         }
-        if (_this.substr(0, 4) == 'row-') {
+        if (item.substr(0, 4) == 'row-') {
             found = true;
         }
     });
@@ -249,11 +249,11 @@ saltos.bootstrap.__field.col = field => {
     const obj = saltos.bootstrap.__field.div(field);
     // Checks to guarantee that some col class is found
     let found = false;
-    obj.classList.forEach(_this => {
-        if (['col', 'd-none'].includes(_this)) {
+    obj.classList.forEach(item => {
+        if (['col', 'd-none'].includes(item)) {
             found = true;
         }
-        if (_this.substr(0, 4) == 'col-') {
+        if (item.substr(0, 4) == 'col-') {
             found = true;
         }
     });
@@ -916,21 +916,21 @@ saltos.bootstrap.__field.iframe = field => {
         obj.style.minHeight = field.height;
     }
     obj.addEventListener('load', event => {
-        const _this = event.target;
+        const item = event.target;
         window.addEventListener('resize', event => {
-            if (_this.contentWindow) {
+            if (item.contentWindow) {
                 // The next line sets the height to a small size to fix a resize bug when
                 // updates contents and new contents are more small of the old contents
-                _this.style.height = '1px';
-                const size = _this.contentWindow.document.documentElement.offsetHeight + 2;
-                _this.style.height = size + 'px';
+                item.style.height = '1px';
+                const size = item.contentWindow.document.documentElement.offsetHeight + 2;
+                item.style.height = size + 'px';
             }
         });
         saltos.core.when_visible(obj, () => {
             window.dispatchEvent(new Event('resize'));
         });
         // To propagate the keydown event suck as escape key
-        _this.contentWindow.addEventListener('keydown', event => {
+        item.contentWindow.addEventListener('keydown', event => {
             window.dispatchEvent(new KeyboardEvent('keydown', {
                 altKey: event.altKey,
                 ctrlKey: event.ctrlKey,
@@ -939,7 +939,7 @@ saltos.bootstrap.__field.iframe = field => {
             }));
         });
         // To open the links in a new window and prevent the same origin error
-        _this.contentWindow.document.querySelectorAll('a, area').forEach(link => {
+        item.contentWindow.document.querySelectorAll('a, area').forEach(link => {
             link.setAttribute('target', '_blank');
         });
     });
@@ -1154,8 +1154,8 @@ saltos.bootstrap.__field.multiselect = field => {
         size: field.size,
     }));
     saltos.core.when_visible(obj, () => {
-        document.querySelectorAll('label[for=' + field.id + ']').forEach(_this => {
-            _this.setAttribute('for', field.id + '_abc');
+        document.querySelectorAll('label[for=' + field.id + ']').forEach(item => {
+            item.setAttribute('for', field.id + '_abc');
         });
     });
     // Program the set feature
@@ -1184,8 +1184,8 @@ saltos.bootstrap.__field.multiselect = field => {
     // Program the disabled feature
     obj.querySelector('input[type=hidden]').set_disabled = bool => {
         const temp = obj.querySelector('#' + field.id).parentElement.parentElement;
-        temp.querySelectorAll('select, button').forEach(_this => {
-            _this.set_disabled(bool);
+        temp.querySelectorAll('select, button').forEach(item => {
+            item.set_disabled(bool);
         });
     };
     obj = saltos.bootstrap.__label_combine(field, obj);
@@ -1255,13 +1255,13 @@ saltos.bootstrap.__field.checkbox = field => {
         </div>
     `);
     if (field.tooltip != '') {
-        obj.querySelectorAll('input, label').forEach(_this => {
-            saltos.bootstrap.__tooltip_helper(_this);
+        obj.querySelectorAll('input, label').forEach(item => {
+            saltos.bootstrap.__tooltip_helper(item);
         });
     }
     if (field.onchange != '') {
-        obj.querySelectorAll('input').forEach(_this => {
-            saltos.bootstrap.__onchange_helper(_this, field.onchange);
+        obj.querySelectorAll('input').forEach(item => {
+            saltos.bootstrap.__onchange_helper(item, field.onchange);
         });
     }
     obj.querySelector('input').addEventListener('change', event => {
@@ -1478,18 +1478,18 @@ saltos.bootstrap.__field.password = field => {
     }
     // Continue
     if (field.tooltip != '') {
-        obj.querySelectorAll('input[type=password]').forEach(_this => {
-            saltos.bootstrap.__tooltip_helper(_this);
+        obj.querySelectorAll('input[type=password]').forEach(item => {
+            saltos.bootstrap.__tooltip_helper(item);
         });
     }
     if (field.onenter != '') {
-        obj.querySelectorAll('input[type=password]').forEach(_this => {
-            saltos.bootstrap.__onenter_helper(_this, field.onenter);
+        obj.querySelectorAll('input[type=password]').forEach(item => {
+            saltos.bootstrap.__onenter_helper(item, field.onenter);
         });
     }
     if (field.onchange != '') {
-        obj.querySelectorAll('input[type=password]').forEach(_this => {
-            saltos.bootstrap.__onchange_helper(_this, field.onchange);
+        obj.querySelectorAll('input[type=password]').forEach(item => {
+            saltos.bootstrap.__onchange_helper(item, field.onchange);
         });
     }
     obj.querySelector('button').addEventListener('click', event => {
@@ -1593,16 +1593,16 @@ saltos.bootstrap.__field.file = field => {
         </style>
     `));
     if (field.tooltip != '') {
-        obj.querySelectorAll('input').forEach(_this => {
-            saltos.bootstrap.__tooltip_helper(_this);
+        obj.querySelectorAll('input').forEach(item => {
+            saltos.bootstrap.__tooltip_helper(item);
         });
     }
     // This helper programs the input file data update
     const __update_data_input_file = input => {
         const data = [];
         const tabla = input.nextElementSibling.querySelector('table');
-        tabla.querySelectorAll('tr').forEach(_this => {
-            data.push(_this.data);
+        tabla.querySelectorAll('tr').forEach(item => {
+            data.push(item.data);
         });
         input.data = data;
     };
@@ -1747,8 +1747,8 @@ saltos.bootstrap.__field.file = field => {
     obj.querySelector('input').set = data => {
         const input = obj.querySelector('input');
         const tabla = input.nextElementSibling.querySelector('table');
-        tabla.querySelectorAll('tr').forEach(_this => {
-            _this.remove();
+        tabla.querySelectorAll('tr').forEach(item => {
+            item.remove();
         });
         __update_data_input_file(input);
         for (const i in data) {
@@ -1764,8 +1764,8 @@ saltos.bootstrap.__field.file = field => {
     obj.querySelector('input').set(field.data);
     // Added the onchange event
     if (field.onchange != '') {
-        obj.querySelectorAll('input[type=file]').forEach(_this => {
-            saltos.bootstrap.__onchange_helper(_this, field.onchange);
+        obj.querySelectorAll('input[type=file]').forEach(item => {
+            saltos.bootstrap.__onchange_helper(item, field.onchange);
         });
     }
     // Continue
@@ -2222,10 +2222,10 @@ saltos.bootstrap.__field.table = field => {
                 `<th class="text-bg-${field.color}" style="width: 1%"><input type="checkbox" /></th>`
             ));
             obj.querySelector('thead input[type=checkbox]').addEventListener('change', event => {
-                const _this = event.target;
-                obj.querySelectorAll('tbody input[type=checkbox]').forEach(_this2 => {
-                    if (_this2.checked != _this.checked) {
-                        _this2.click();
+                const item = event.target;
+                obj.querySelectorAll('tbody input[type=checkbox]').forEach(item2 => {
+                    if (item2.checked != item.checked) {
+                        item2.click();
                     }
                 });
             });
@@ -2263,8 +2263,8 @@ saltos.bootstrap.__field.table = field => {
         `));
         // This function close all dropdowns
         const dropdown_close = () => {
-            obj.querySelectorAll('.show').forEach(_this => {
-                _this.classList.remove('show');
+            obj.querySelectorAll('.show').forEach(item => {
+                item.classList.remove('show');
             });
         };
         for (const key in field.data) {
@@ -2273,11 +2273,11 @@ saltos.bootstrap.__field.table = field => {
             if (field.checkbox) {
                 row.append(saltos.core.html('tr', `<td><input type="checkbox" value="${val.id}" /></td>`));
                 row.querySelector('input[type=checkbox]').addEventListener('change', event => {
-                    event.target.parentElement.parentElement.querySelectorAll('td').forEach(_this => {
+                    event.target.parentElement.parentElement.querySelectorAll('td').forEach(item => {
                         if (event.target.checked) {
-                            _this.classList.add('table-active');
+                            item.classList.add('table-active');
                         } else {
-                            _this.classList.remove('table-active');
+                            item.classList.remove('table-active');
                         }
                     });
                     dropdown_close();
@@ -2298,21 +2298,21 @@ saltos.bootstrap.__field.table = field => {
                         const ids = [saltos.bootstrap.__checkbox_id1, saltos.bootstrap.__checkbox_id2];
                         // Check that the two ids are presents
                         let count = 0;
-                        nodes.forEach(_this => {
-                            if (ids.includes(_this.value)) {
+                        nodes.forEach(item => {
+                            if (ids.includes(item.value)) {
                                 count++;
                             }
                         });
                         // If the two ids are present, then apply
                         if (count == 2) {
                             let found = false;
-                            nodes.forEach(_this => {
-                                if (ids.includes(_this.value)) {
+                            nodes.forEach(item => {
+                                if (ids.includes(item.value)) {
                                     found = !found;
                                 }
                                 if (found) {
-                                    if (!_this.checked) {
-                                        _this.click();
+                                    if (!item.checked) {
+                                        item.click();
                                     }
                                 }
                             });
@@ -3267,9 +3267,9 @@ saltos.bootstrap.__field.list = field => {
             // To prevent that the button remain focused
             /*item.addEventListener('click', event => {
                 const button = event.target.closest('button');
-                button.parentElement.parentElement.querySelectorAll('button').forEach(_this => {
-                    _this.classList.remove('active');
-                    _this.removeAttribute('aria-current');
+                button.parentElement.parentElement.querySelectorAll('button').forEach(item2 => {
+                    item2.classList.remove('active');
+                    item2.removeAttribute('aria-current');
                 });
                 button.classList.add('active');
                 button.setAttribute('aria-current', 'true');
@@ -3445,21 +3445,21 @@ saltos.bootstrap.__field.list = field => {
                         const ids = [saltos.bootstrap.__checkbox_id1, saltos.bootstrap.__checkbox_id2];
                         // Check that the two ids are presents
                         let count = 0;
-                        nodes.forEach(_this => {
-                            if (ids.includes(_this.value)) {
+                        nodes.forEach(item => {
+                            if (ids.includes(item.value)) {
                                 count++;
                             }
                         });
                         // If the two ids are present, then apply
                         if (count == 2) {
                             let found = false;
-                            nodes.forEach(_this => {
-                                if (ids.includes(_this.value)) {
+                            nodes.forEach(item => {
+                                if (ids.includes(item.value)) {
                                     found = !found;
                                 }
                                 if (found) {
-                                    if (!_this.checked) {
-                                        _this.click();
+                                    if (!item.checked) {
+                                        item.click();
                                     }
                                 }
                             });
@@ -4121,9 +4121,9 @@ saltos.bootstrap.__tooltip_helper = obj => {
  * interface.
  */
 saltos.bootstrap.__tooltip_hide = () => {
-    document.querySelectorAll('[id^="tooltip"]').forEach(_this => {
-        if (!isNaN(parseFloat(_this.id.slice(7)))) {
-            _this.remove();
+    document.querySelectorAll('[id^="tooltip"]').forEach(item => {
+        if (!isNaN(parseFloat(item.id.slice(7)))) {
+            item.remove();
         }
     });
 };
@@ -4532,13 +4532,13 @@ saltos.bootstrap.modal = args => {
     saltos.bootstrap.__modal.obj = obj;
     saltos.bootstrap.__modal.instance = instance;
     obj.addEventListener('shown.bs.modal', event => {
-        obj.querySelectorAll('[autofocus]').forEach(_this => {
-            _this.focus();
+        obj.querySelectorAll('[autofocus]').forEach(item => {
+            item.focus();
         });
     });
     obj.addEventListener('hide.bs.modal', event => {
-        obj.querySelectorAll('[autoclose]').forEach(_this => {
-            _this.click();
+        obj.querySelectorAll('[autoclose]').forEach(item => {
+            item.click();
         });
     });
     obj.addEventListener('hidden.bs.modal', event => {
@@ -4679,13 +4679,13 @@ saltos.bootstrap.offcanvas = args => {
             }
             item.style.width = `calc(100% - ${width}px)`;
         }
-        obj.querySelectorAll('[autofocus]').forEach(_this => {
-            _this.focus();
+        obj.querySelectorAll('[autofocus]').forEach(item => {
+            item.focus();
         });
     });
     obj.addEventListener('hide.bs.offcanvas', event => {
-        obj.querySelectorAll('[autoclose]').forEach(_this => {
-            _this.click();
+        obj.querySelectorAll('[autoclose]').forEach(item => {
+            item.click();
         });
     });
     obj.addEventListener('hidden.bs.offcanvas', event => {
@@ -4934,12 +4934,12 @@ saltos.bootstrap.set_css_theme = theme => {
     } else {
         file = `lib/bootswatch/${theme}.min.css`;
     }
-    document.querySelectorAll('link[rel=stylesheet]').forEach(_this => {
-        const found1 = _this.href.includes('bootstrap/bootstrap.min.css');
-        const found2 = _this.href.includes('bootswatch/') && _this.href.includes('.min.css');
+    document.querySelectorAll('link[rel=stylesheet]').forEach(item => {
+        const found1 = item.href.includes('bootstrap/bootstrap.min.css');
+        const found2 = item.href.includes('bootswatch/') && item.href.includes('.min.css');
         if (found1 || found2) {
-            _this.removeAttribute('integrity');
-            _this.href = _this.href.replace(_this.href, file);
+            item.removeAttribute('integrity');
+            item.href = item.href.replace(item.href, file);
         }
     });
     saltos.storage.setItem('saltos.bootstrap.css_theme', theme);

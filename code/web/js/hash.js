@@ -152,8 +152,8 @@ window.addEventListener('hashchange', event => {
         saltos.core.__ajax[i].abort();
     }
     // Autoclose part
-    document.querySelectorAll('[autoclose]').forEach(_this => {
-        _this.removeAttribute('autoclose');
+    document.querySelectorAll('[autoclose]').forEach(item => {
+        item.removeAttribute('autoclose');
     });
     // Modal and offcanvas part
     saltos.bootstrap.modal('close');

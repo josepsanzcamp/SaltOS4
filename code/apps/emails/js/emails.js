@@ -48,9 +48,9 @@ saltos.emails.init = arg => {
     if (['create', 'view', 'close'].includes(arg)) {
         saltos.core.when_visible('list', () => {
             const obj = document.getElementById('list').parentElement;
-            obj.querySelectorAll('button').forEach(_this => {
-                _this.classList.remove('active');
-                _this.removeAttribute('aria-current');
+            obj.querySelectorAll('button').forEach(item => {
+                item.classList.remove('active');
+                item.removeAttribute('aria-current');
             });
         });
     }

@@ -433,8 +433,8 @@ saltos.app.__get_data_parser_helper = data => {
  */
 saltos.app.checkbox_ids = obj => {
     const values = [];
-    obj.querySelectorAll('input[type=checkbox]:checked[value]').forEach(_this => {
-        values.push(_this.value);
+    obj.querySelectorAll('input[type=checkbox]:checked[value]').forEach(item => {
+        values.push(item.value);
     });
     return values;
 };
@@ -460,31 +460,31 @@ saltos.app.check_required = () => {
         if (!saltos.core.eval_bool(field.required)) {
             continue;
         }
-        const _this = document.getElementById(field.id);
-        if (!_this) {
+        const item = document.getElementById(field.id);
+        if (!item) {
             continue;
         }
-        let value = _this.value;
-        let obj_color = _this;
-        let obj_focus = _this;
+        let value = item.value;
+        let obj_color = item;
+        let obj_focus = item;
         // to detect the color and focus of the tags fields
         if (['tags', 'onetag'].includes(field.type)) {
-            obj_color = _this.nextElementSibling;
-            obj_focus = _this.nextElementSibling.querySelector('input');
+            obj_color = item.nextElementSibling;
+            obj_focus = item.nextElementSibling.querySelector('input');
         }
         // to detect the color and focus of the ckeditor fields
         if (field.type == 'ckeditor') {
-            obj_color = _this.nextElementSibling;
-            obj_focus = _this.ckeditor;
+            obj_color = item.nextElementSibling;
+            obj_focus = item.ckeditor;
         }
         // to detect the color and focus of the codemirror fields
         if (field.type == 'codemirror') {
-            obj_color = _this.nextElementSibling;
-            obj_focus = _this.codemirror;
+            obj_color = item.nextElementSibling;
+            obj_focus = item.codemirror;
         }
         // to detect the value of the file fields
         if (field.type == 'file') {
-            value = _this.data.length;
+            value = item.data.length;
         }
         // to detect the color and focus of the multiselects fields
         if (field.type == 'multiselect') {
@@ -498,16 +498,16 @@ saltos.app.check_required = () => {
         }
         // to detect the color, focus and value of the excel fields
         if (field.type == 'excel') {
-            value = _this.data.join().replaceAll(',', '');
-            obj_color = _this.parentElement;
+            value = item.data.join().replaceAll(',', '');
+            obj_color = item.parentElement;
         }
         // continue;
         obj_color.classList.remove('is-valid');
         obj_color.classList.remove('is-invalid');
         obj_color.classList.remove('border');
-        obj_color.classList.forEach(_this2 => {
-            if (_this2.substr(0, 7) == 'border-') {
-                obj_color.classList.remove(_this2);
+        obj_color.classList.forEach(item2 => {
+            if (item2.substr(0, 7) == 'border-') {
+                obj_color.classList.remove(item2);
             }
         });
         if (value == '') {
@@ -530,10 +530,10 @@ saltos.app.check_required = () => {
         }
         // to detect the color of the button in the password fields
         if (field.type == 'password') {
-            const button = _this.nextElementSibling;
-            button.classList.forEach(_this2 => {
-                if (_this2.substr(0, 4) == 'btn-') {
-                    button.classList.remove(_this2);
+            const button = item.nextElementSibling;
+            button.classList.forEach(item2 => {
+                if (item2.substr(0, 4) == 'btn-') {
+                    button.classList.remove(item2);
                 }
             });
             if (value == '') {
@@ -549,9 +549,9 @@ saltos.app.check_required = () => {
             obj_color.classList.remove('is-valid');
             obj_color.classList.remove('is-invalid');
             obj_color.classList.remove('border');
-            obj_color.classList.forEach(_this2 => {
-                if (_this2.substr(0, 7) == 'border-') {
-                    obj_color.classList.remove(_this2);
+            obj_color.classList.forEach(item2 => {
+                if (item2.substr(0, 7) == 'border-') {
+                    obj_color.classList.remove(item2);
                 }
             });
             if (value == '') {
@@ -560,16 +560,16 @@ saltos.app.check_required = () => {
                 obj_color.classList.add('is-valid');
             }
             const temp = document.getElementById(field.id).parentElement.parentElement;
-            temp.querySelectorAll('button').forEach(_this2 => {
-                _this2.classList.forEach(_this3 => {
-                    if (_this3.substr(0, 4) == 'btn-') {
-                        _this2.classList.remove(_this3);
+            temp.querySelectorAll('button').forEach(item2 => {
+                item2.classList.forEach(item3 => {
+                    if (item3.substr(0, 4) == 'btn-') {
+                        item2.classList.remove(item3);
                     }
                 });
                 if (value == '') {
-                    _this2.classList.add('btn-danger');
+                    item2.classList.add('btn-danger');
                 } else {
-                    _this2.classList.add('btn-success');
+                    item2.classList.add('btn-success');
                 }
             });
         }

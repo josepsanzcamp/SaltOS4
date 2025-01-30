@@ -117,9 +117,9 @@ saltos.form.data = (data, sync = true) => {
         }
         // This updates the field spec searching in all backups
         for (const i in saltos.backup.__forms) {
-            saltos.backup.__forms[i].fields.forEach(_this => {
-                if (_this.id == key) {
-                    _this.value = val;
+            saltos.backup.__forms[i].fields.forEach(item => {
+                if (item.id == key) {
+                    item.value = val;
                 }
             });
         }
@@ -307,8 +307,8 @@ saltos.form.layout = (layout, extra) => {
         obj = document.body;
         document.body.append(div);
     }
-    obj.querySelectorAll('[autofocus]').forEach(_this => {
-        _this.focus();
+    obj.querySelectorAll('[autofocus]').forEach(item => {
+        item.focus();
     });
 };
 

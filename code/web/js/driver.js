@@ -69,12 +69,12 @@ saltos.driver.init = async arg => {
         new_class = '';
     }
     // Remove and apply the old and new paddings
-    document.querySelectorAll('#one, #two, #three').forEach(_this => {
-        ['py-3', 'pt-3', 'pb-3'].forEach(_this2 => {
-            _this.classList.remove(_this2);
+    document.querySelectorAll('#one, #two, #three').forEach(item => {
+        ['py-3', 'pt-3', 'pb-3'].forEach(item2 => {
+            item.classList.remove(item2);
         });
         if (new_class != '') {
-            _this.classList.add(new_class);
+            item.classList.add(new_class);
         }
     });
     // To check the list preferences
@@ -123,8 +123,8 @@ saltos.driver.close = arg => {
         return;
     }
     // Disable all autoclose
-    document.querySelectorAll('[autoclose]').forEach(_this => {
-        _this.removeAttribute('autoclose');
+    document.querySelectorAll('[autoclose]').forEach(item => {
+        item.removeAttribute('autoclose');
     });
     // Continue
     const url1 = window.location.href.toString();
@@ -230,8 +230,8 @@ saltos.driver.search = arg => {
                 document.getElementById('table').replaceWith(temp);
             }
             if (type == 'list') {
-                document.querySelectorAll('.list-group:not([id=list])').forEach(_this => {
-                    _this.remove();
+                document.querySelectorAll('.list-group:not([id=list])').forEach(item => {
+                    item.remove();
                 });
                 document.getElementById('list').replaceWith(temp);
             }
@@ -313,8 +313,8 @@ saltos.driver.more = arg => {
             const temp = saltos.gettext.bootstrap.field(response);
             if (type == 'table') {
                 const obj = document.getElementById('table').querySelector('tbody');
-                temp.querySelectorAll('table tbody tr').forEach(_this => {
-                    obj.append(_this);
+                temp.querySelectorAll('table tbody tr').forEach(item => {
+                    obj.append(item);
                 });
             }
             if (type == 'list') {
@@ -424,8 +424,8 @@ saltos.driver.update = arg => {
 saltos.driver.delete = async arg => {
     if (saltos.bootstrap.modal('isopen')) {
         // Disable all autoclose
-        document.querySelectorAll('[autoclose]').forEach(_this => {
-            _this.removeAttribute('autoclose');
+        document.querySelectorAll('[autoclose]').forEach(item => {
+            item.removeAttribute('autoclose');
         });
         // Continue
         saltos.bootstrap.modal('close');
