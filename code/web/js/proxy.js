@@ -128,6 +128,9 @@ const proxy = async request => {
                     const start = Date.now();
                     const response = await fetch(request.clone());
                     const end = Date.now();
+                    if (!response.ok) {
+                        continue;
+                    }
                     (await caches.open('saltos')).put(new_request, response.clone());
                     duration += end - start;
                     const headers2 = JSON.stringify(Object.fromEntries([...response.headers]));
@@ -150,18 +153,19 @@ const proxy = async request => {
                 const start = Date.now();
                 const response = await caches.match(new_request);
                 const end = Date.now();
-                if (response) {
-                    duration += end - start;
-                    const headers2 = JSON.stringify(Object.fromEntries([...response.headers]));
-                    const body2 = await response.clone().text();
-                    const size2 = human_size(JSON.stringify([headers2, body2]).length);
-                    return {
-                        type: 'cache',
-                        response: response,
-                        duration: duration,
-                        size: `${size}/${size2}`,
-                    };
+                if (!response) {
+                    continue;
                 }
+                duration += end - start;
+                const headers2 = JSON.stringify(Object.fromEntries([...response.headers]));
+                const body2 = await response.clone().text();
+                const size2 = human_size(JSON.stringify([headers2, body2]).length);
+                return {
+                    type: 'cache',
+                    response: response,
+                    duration: duration,
+                    size: `${size}/${size2}`,
+                };
                 break;
             }
 
@@ -192,7 +196,7 @@ const proxy = async request => {
         const response = new Response(JSON.stringify({
             'error': {
                 'text': 'There is an network issue and the requested content is not cached',
-                'code': 'proxy.js:195',
+                'code': 'proxy.js:199',
             }
         }), {
             status: 200,
@@ -211,7 +215,7 @@ const proxy = async request => {
         const response = new Response(JSON.stringify({
             'error': {
                 'text': 'You are offline and the requested content is not cached',
-                'code': 'proxy.js:214',
+                'code': 'proxy.js:218',
             }
         }), {
             status: 200,
@@ -412,10 +416,17 @@ self.addEventListener('activate', event => {
  */
 self.addEventListener('fetch', event => {
     //console.log('fetch ' + event.request.url);
+    // Check for disabled proxy requests using the appropriate header
     const order = event.request.headers.get('x-proxy-order');
     if (['no', 'omit', 'cancel', 'bypass'].includes(order)) {
         return;
     }
+    // Check for uncached requests that fail if intercepted
+    const url = new URL(event.request.url);
+    if (url.origin !== self.origin) {
+        return;
+    }
+    // Default behaviour
     event.respondWith(
         proxy(event.request).then(result => {
             const array = debug('fetch', event.request.url, result.type, result.duration, result.size);
@@ -504,7 +515,7 @@ self.addEventListener('message', async event => {
             for (const i in result) {
                 const request = request_unserialize(result[i].value);
                 let response = null;
-                let type = 'error';
+                let type = 'network';
                 let headers = null;
                 let body = null;
                 let start = 0;
@@ -513,13 +524,14 @@ self.addEventListener('message', async event => {
                     start = Date.now();
                     response = await fetch(request);
                     end = Date.now();
-                    if (response.ok) {
-                        type = 'network';
+                    if (!response.ok) {
+                        type = 'error';
                     }
                     headers = JSON.stringify(Object.fromEntries([...response.headers]));
                     body = await response.text();
                 } catch (error) {
                     end = Date.now();
+                    type = 'error';
                     //console.log(error);
                 }
                 const size = human_size(JSON.stringify(result[i].value).length);
