@@ -200,7 +200,7 @@ function __nssdb_update($nick, $input)
 
     $info0 = [
         'signedBy' => get_name_version_revision(),
-        'certificate' => $nick,
+        'nickName' => $nick,
     ];
     $info0 = array_map(fn($k, $v) => "$k = $v", array_keys($info0), $info0);
     $info0 = implode(' | ', $info0);
