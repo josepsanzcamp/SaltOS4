@@ -620,6 +620,7 @@ saltos.app.form_disabled = bool => {
  */
 saltos.app.profile = () => {
     if (saltos.bootstrap.offcanvas('isopen')) {
+        saltos.bootstrap.offcanvas('close');
         return;
     }
     saltos.gettext.bootstrap.offcanvas({
@@ -641,6 +642,7 @@ saltos.app.profile = () => {
  */
 saltos.app.help = () => {
     if (saltos.bootstrap.modal('isopen')) {
+        saltos.bootstrap.modal('close');
         return;
     }
     saltos.gettext.bootstrap.modal({

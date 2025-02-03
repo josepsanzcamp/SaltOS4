@@ -68,6 +68,7 @@ saltos.dashboard.init = arg => {
             saltos.favicon.run();
         });
     }
+
     if (arg == 'config') {
         document.getElementById('bs_theme').value = saltos.bootstrap.get_bs_theme();
         document.getElementById('css_theme').value = saltos.bootstrap.get_css_theme();
