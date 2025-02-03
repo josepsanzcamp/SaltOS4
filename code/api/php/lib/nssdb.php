@@ -119,9 +119,12 @@ function __nssdb_list()
 function __nssdb_info($nick)
 {
     $dir = __nssdb_dir();
-    $output = __nssdb_passthru("certutil -L -d sql:$dir -n \"$nick\" -r |
-        openssl x509 -noout -fingerprint -alias -serial -dates -subject -issuer 2>&1");
-    return $output;
+    $output = __nssdb_passthru("certutil -L -d sql:$dir -n \"$nick\" -a 2>&1");
+    $output = implode("\n", $output);
+    $output1 = openssl_x509_parse($output, false);
+    $output2 = strtoupper(implode(':', str_split(openssl_x509_fingerprint($output, 'sha1'), 2)));
+    $output3 = strtoupper(implode(':', str_split(openssl_x509_fingerprint($output, 'sha256'), 2)));
+    return array_merge($output1['subject'], ['sha1' => $output2, 'sha256' => $output3]);
 }
 
 /**
@@ -178,4 +181,65 @@ function __nssdb_reset()
         unlink($file);
     }
     rmdir($dir);
+}
+
+/**
+ * Update pdf
+ *
+ * This function creates a new pdf document using input as source and adding to
+ * each page a new box with the important information about the certificate used
+ * in the signature process
+ *
+ * @nick  => the desired nick used to sign de pdf
+ * @input => the desired input pdf file where you want to add the cert info
+ */
+function __nssdb_update($nick, $input)
+{
+    require_once 'lib/tcpdf/vendor/autoload.php';
+    require_once 'lib/fpdi/vendor/autoload.php';
+
+    $info0 = [
+        'signedBy' => get_name_version_revision(),
+        'certificate' => $nick,
+    ];
+    $info0 = array_map(fn($k, $v) => "$k = $v", array_keys($info0), $info0);
+    $info0 = implode(' | ', $info0);
+    $info = __nssdb_info($nick);
+    $info1 = array_diff_key($info, ['sha1' => '', 'sha256' => '']);
+    $info1 = array_map(fn($k, $v) => "$k = $v", array_keys($info1), $info1);
+    $info1 = implode(' | ', $info1);
+    $info2 = array_intersect_key($info, ['sha1' => '', 'sha256' => '']);
+    $info2 = array_map(fn($k, $v) => "$k = $v", array_keys($info2), $info2);
+    $info2 = implode(' | ', $info2);
+
+    $pdf = new setasign\Fpdi\Tcpdf\Fpdi();
+    $pdf->setPrintHeader(false);
+    $pdf->setPrintFooter(false);
+    $pdf->SetAutoPageBreak(false, 0);
+    $pdf->setMargins(0, 0, 0);
+    $pdf->SetFont('atkinsonhyperlegible', '', 6);
+    $pdf->SetTextColor(255, 255, 255);
+    $pdf->SetDrawColor(204, 204, 204);
+    $pdf->SetFillColor(204, 204, 204);
+
+    $total = $pdf->setSourceFile($input);
+
+    for ($i = 1; $i <= $total; $i++) {
+        $pageId = $pdf->importPage($i);
+        $pdf->AddPage();
+        $pdf->useTemplate($pageId);
+
+        $pdf->Rect(0, 0, 8, 297, 'DF');
+
+        $pdf->StartTransform();
+        $pdf->Rotate(90, 0, 297);
+        $pdf->SetXY(0, 297);
+        $pdf->MultiCell(297, 0, $info0 . "\n" . $info1 . "\n" . $info2 . "\n");
+        $pdf->StopTransform();
+    }
+
+    $output = get_cache_file($input, '.pdf');
+    $pdf->Output($output, 'F');
+    chmod_protected($output, 0666);
+    return $output;
 }

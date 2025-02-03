@@ -335,8 +335,6 @@ function __pdf_eval_pdftag($array, $row = [])
                 $temp = __pdf_eval_array(__pdf_eval_explode(',', $val, 6), $row, $pdf);
                 if (isset($temp[5])) {
                     $pdf->StartTransform();
-                }
-                if (isset($temp[5])) {
                     $pdf->Rotate(floatval($temp[5]), $temp[0], $temp[1]);
                 }
                 if (!file_exists($temp[4])) {
@@ -355,8 +353,6 @@ function __pdf_eval_pdftag($array, $row = [])
                 $temp = __pdf_eval_array(__pdf_eval_explode(',', $val, 4), $row, $pdf);
                 if (isset($temp[3])) {
                     $pdf->StartTransform();
-                }
-                if (isset($temp[3])) {
                     $pdf->Rotate(floatval($temp[3]), $temp[0], $temp[1]);
                 }
                 $pdf->SetXY($temp[0], $temp[1]);
@@ -373,8 +369,6 @@ function __pdf_eval_pdftag($array, $row = [])
                 $temp = __pdf_eval_array(__pdf_eval_explode(',', $val, 7), $row, $pdf);
                 if (isset($temp[6])) {
                     $pdf->StartTransform();
-                }
-                if (isset($temp[6])) {
                     $pdf->Rotate(floatval($temp[6]), $temp[0], $temp[1]);
                 }
                 $pdf->SetXY($temp[0], $temp[1]);
