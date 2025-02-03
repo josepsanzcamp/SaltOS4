@@ -158,11 +158,12 @@ function __nssdb_pdfsig($nick, $input, $output)
         return [];
     }
     $dir = __nssdb_dir();
-    $output1 = __nssdb_passthru("pdfsig -nssdir $dir -add-signature -nick \"$nick\" $input $output 2>&1 |
-        grep -v 'NSS_Shutdown failed: NSS could not shutdown. Objects are still in use.'");
+    $output1 = __nssdb_passthru("pdfsig -nssdir $dir -add-signature -nick \"$nick\" $input $output 2>&1");
     if (file_exists($output)) {
         chmod_protected($output, 0666);
     }
+    $errors = ['NSS_Shutdown failed: NSS could not shutdown. Objects are still in use.'];
+    $output1 = array_diff($output1, $errors);
     $output2 = __nssdb_passthru("pdfsig $output 2>&1");
     return array_merge($output1, $output2);
 }
@@ -217,7 +218,7 @@ function __nssdb_reset()
  */
 function __nssdb_update($nick, $input)
 {
-    //~ require_once 'lib/tcpdf/vendor/autoload.php';
+    require_once 'lib/tcpdf/vendor/autoload.php';
     require_once 'lib/fpdi/vendor/autoload.php';
 
     $info0 = [
