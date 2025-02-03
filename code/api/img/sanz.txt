@@ -1,3 +1,7 @@
 
 inkscape logo_saltos.svg --export-type=png --export-background-opacity=0 --export-filename=logo_saltos.png
 pngnq -e .png -f logo_saltos.png
+
+inkscape logo_grey.svg --export-type=png --export-background-opacity=0 --export-filename=logo_grey.png
+convert logo_grey.png -rotate 270 logo_grey.png
+pngnq -e .png -f logo_grey.png

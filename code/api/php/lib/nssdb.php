@@ -32,7 +32,7 @@ declare(strict_types=1);
  *
  * This function returns the nssdb directory used by all functions
  */
-function __nssdb_dir()
+function __nssdb_dir_helper()
 {
     $dir = get_directory('dirs/filesdir') ?? getcwd_protected() . '/data/files/';
     return $dir . 'nssdb';
@@ -45,13 +45,37 @@ function __nssdb_dir()
  *
  * @cmd => command line to be executed
  */
-function __nssdb_passthru($cmd)
+function __nssdb_passthru_helper($cmd)
 {
     $output = ob_passthru($cmd);
     $output = str_replace("\r", '', $output);
     $output = explode("\n", $output);
     $output = array_values(array_diff($output, ['']));
     return $output;
+}
+
+/**
+ * Grep helper
+ *
+ * This function emulates the grep command, is able to invert the pattern
+ * selection and returns the same array with the grep applied
+ *
+ * @input   => the input array
+ * @pattern => the search pattern
+ * @invert  => default to false to search, true to invert the selection
+ */
+function __nssdb_grep_helper($input, $pattern, $invert = false)
+{
+    foreach ($input as $key => $val) {
+        $pos = stripos($val, $pattern);
+        if (!$invert && $pos === false) {
+            unset($input[$key]);
+        } elseif ($invert && $pos !== false) {
+            unset($input[$key]);
+        }
+    }
+    $input = array_values($input);
+    return $input;
 }
 
 /**
@@ -64,7 +88,7 @@ function __nssdb_init()
     if (!check_commands('certutil')) {
         return [];
     }
-    $dir = __nssdb_dir();
+    $dir = __nssdb_dir_helper();
     if (!file_exists($dir)) {
         mkdir($dir);
         chmod_protected($dir, 0777);
@@ -73,7 +97,7 @@ function __nssdb_init()
     if (count($files)) {
         return;
     }
-    $output = __nssdb_passthru("certutil -N -d sql:$dir --empty-password 2>&1");
+    $output = __nssdb_passthru_helper("certutil -N -d sql:$dir --empty-password 2>&1");
     $files = glob($dir . '/*');
     foreach ($files as $file) {
         chmod_protected($file, 0666);
@@ -95,9 +119,9 @@ function __nssdb_add($file, $pass)
     if (!check_commands('pk12util')) {
         return [];
     }
-    $dir = __nssdb_dir();
+    $dir = __nssdb_dir_helper();
     file_put_contents($dir . '/pass.txt', $pass);
-    $output = __nssdb_passthru("pk12util -i $file -d sql:$dir -w $dir/pass.txt 2>&1");
+    $output = __nssdb_passthru_helper("pk12util -i $file -d sql:$dir -w $dir/pass.txt 2>&1");
     unlink($dir . '/pass.txt');
     return $output;
 }
@@ -112,9 +136,10 @@ function __nssdb_list()
     if (!check_commands('pdfsig')) {
         return [];
     }
-    $dir = __nssdb_dir();
-    //~ $output = __nssdb_passthru("certutil -L -d sql:$dir 2>&1");
-    $output = __nssdb_passthru("pdfsig -nssdir $dir -list-nicks 2>&1");
+    $dir = __nssdb_dir_helper();
+    //~ $output = __nssdb_passthru_helper("certutil -L -d sql:$dir 2>&1");
+    $output = __nssdb_passthru_helper("pdfsig -nssdir $dir -list-nicks 2>&1");
+    $output = __nssdb_grep_helper($output, 'NSS_Shutdown failed', true);
     return $output;
 }
 
@@ -130,8 +155,8 @@ function __nssdb_info($nick)
     if (!check_commands('certutil')) {
         return [];
     }
-    $dir = __nssdb_dir();
-    $output = __nssdb_passthru("certutil -L -d sql:$dir -n \"$nick\" -a 2>&1");
+    $dir = __nssdb_dir_helper();
+    $output = __nssdb_passthru_helper("certutil -L -d sql:$dir -n \"$nick\" -a 2>&1");
     $output = implode("\n", $output);
     $output1 = openssl_x509_parse($output, false);
     if (!is_array($output1)) {
@@ -157,14 +182,15 @@ function __nssdb_pdfsig($nick, $input, $output)
     if (!check_commands('pdfsig')) {
         return [];
     }
-    $dir = __nssdb_dir();
-    $output1 = __nssdb_passthru("pdfsig -nssdir $dir -add-signature -nick \"$nick\" $input $output 2>&1");
+    $dir = __nssdb_dir_helper();
+    $output1 = __nssdb_passthru_helper(
+        "pdfsig -nssdir $dir -add-signature -nick \"$nick\" $input $output 2>&1"
+    );
     if (file_exists($output)) {
         chmod_protected($output, 0666);
     }
-    $errors = ['NSS_Shutdown failed: NSS could not shutdown. Objects are still in use.'];
-    $output1 = array_diff($output1, $errors);
-    $output2 = __nssdb_passthru("pdfsig $output 2>&1");
+    $output1 = __nssdb_grep_helper($output1, 'NSS_Shutdown failed', true);
+    $output2 = __nssdb_passthru_helper("pdfsig $output 2>&1");
     return array_merge($output1, $output2);
 }
 
@@ -177,14 +203,12 @@ function __nssdb_pdfsig($nick, $input, $output)
  */
 function __nssdb_remove($nick)
 {
-    if (!check_commands('certutil') || !check_commands('pdfsig')) {
+    if (!check_commands('certutil')) {
         return [];
     }
-    $dir = __nssdb_dir();
-    $output1 = __nssdb_passthru("certutil -D -d sql:$dir -n \"$nick\" 2>&1");
-    //~ $output2 = __nssdb_passthru("certutil -L -d sql:$dir 2>&1");
-    $output2 = __nssdb_passthru("pdfsig -nssdir $dir -list-nicks 2>&1");
-    return array_merge($output1, $output2);
+    $dir = __nssdb_dir_helper();
+    $output = __nssdb_passthru_helper("certutil -D -d sql:$dir -n \"$nick\" 2>&1");
+    return $output;
 }
 
 /**
@@ -194,7 +218,7 @@ function __nssdb_remove($nick)
  */
 function __nssdb_reset()
 {
-    $dir = __nssdb_dir();
+    $dir = __nssdb_dir_helper();
     if (!file_exists($dir)) {
         return [];
     }
@@ -235,29 +259,47 @@ function __nssdb_update($nick, $input)
     $info2 = array_map(fn($k, $v) => "$k = $v", array_keys($info2), $info2);
     $info2 = implode(' | ', $info2);
 
+    $image_file = 'img/logo_grey.png';
+    $image_size = getimagesize($image_file);
+    $image_width = 8;
+    $image_height = 8 * $image_size[1] / $image_size[0];
+    $image_sep = $image_height / 8;
+
     $pdf = new setasign\Fpdi\Tcpdf\Fpdi();
     $pdf->setPrintHeader(false);
     $pdf->setPrintFooter(false);
     $pdf->SetAutoPageBreak(false, 0);
     $pdf->setMargins(0, 0, 0);
     $pdf->SetFont('atkinsonhyperlegible', '', 6);
-    $pdf->SetTextColor(255, 255, 255);
-    $pdf->SetDrawColor(204, 204, 204);
-    $pdf->SetFillColor(204, 204, 204);
+    $pdf->SetTextColor(102, 102, 102);
+    $pdf->SetDrawColor(238, 238, 238);
+    $pdf->SetFillColor(238, 238, 238);
 
-    $total = $pdf->setSourceFile($input);
+    $total_pages = $pdf->setSourceFile($input);
+    for ($page_num = 1; $page_num <= $total_pages; $page_num++) {
+        $page_id = $pdf->importPage($page_num);
+        $page_size = $pdf->getTemplateSize($page_id);
+        $pdf->AddPage($page_size['orientation'], [$page_size['width'], $page_size['height']]);
+        $pdf->useTemplate($page_id);
 
-    for ($i = 1; $i <= $total; $i++) {
-        $pageId = $pdf->importPage($i);
-        $pdf->AddPage();
-        $pdf->useTemplate($pageId);
+        $page_height = $page_size['height'];
+        $pdf->Rect(0, 0, $image_width, $page_height, 'DF');
 
-        $pdf->Rect(0, 0, 8, 297, 'DF');
+        $total_images = intval(($page_height - $image_sep) / ($image_height + $image_sep));
+        $image_incr = $page_height - $image_sep - $total_images * ($image_height + $image_sep);
+        $image_incr /= $total_images;
+        $pos_y = $image_sep;
+        for ($i = 0; $i < $total_images; $i++) {
+            $pdf->Image($image_file, 0, $pos_y, $image_width, $image_height);
+            $pos_y += $image_height + $image_sep + $image_incr;
+        }
 
         $pdf->StartTransform();
-        $pdf->Rotate(90, 0, 297);
-        $pdf->SetXY(0, 297);
-        $pdf->MultiCell(297, 0, $info0 . "\n" . $info1 . "\n" . $info2 . "\n");
+        $pdf->Rotate(90, 0, $page_height);
+        $pdf->SetXY(0, $page_height);
+        $pdf->Cell(0, 0, $info0, 0, 1);
+        $pdf->Cell(0, 0, $info1, 0, 1);
+        $pdf->Cell(0, 0, $info2, 0, 1);
         $pdf->StopTransform();
     }
 
