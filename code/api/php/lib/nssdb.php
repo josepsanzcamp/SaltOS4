@@ -61,6 +61,9 @@ function __nssdb_passthru($cmd)
  */
 function __nssdb_init()
 {
+    if (!check_commands('certutil')) {
+        return [];
+    }
     $dir = __nssdb_dir();
     if (!file_exists($dir)) {
         mkdir($dir);
@@ -89,6 +92,9 @@ function __nssdb_init()
  */
 function __nssdb_add($file, $pass)
 {
+    if (!check_commands('pk12util')) {
+        return [];
+    }
     $dir = __nssdb_dir();
     file_put_contents($dir . '/pass.txt', $pass);
     $output = __nssdb_passthru("pk12util -i $file -d sql:$dir -w $dir/pass.txt 2>&1");
@@ -103,6 +109,9 @@ function __nssdb_add($file, $pass)
  */
 function __nssdb_list()
 {
+    if (!check_commands('pdfsig')) {
+        return [];
+    }
     $dir = __nssdb_dir();
     //~ $output = __nssdb_passthru("certutil -L -d sql:$dir 2>&1");
     $output = __nssdb_passthru("pdfsig -nssdir $dir -list-nicks 2>&1");
@@ -118,10 +127,16 @@ function __nssdb_list()
  */
 function __nssdb_info($nick)
 {
+    if (!check_commands('certutil')) {
+        return [];
+    }
     $dir = __nssdb_dir();
     $output = __nssdb_passthru("certutil -L -d sql:$dir -n \"$nick\" -a 2>&1");
     $output = implode("\n", $output);
     $output1 = openssl_x509_parse($output, false);
+    if (!is_array($output1)) {
+        return [];
+    }
     $output2 = strtoupper(implode(':', str_split(openssl_x509_fingerprint($output, 'sha1'), 2)));
     $output3 = strtoupper(implode(':', str_split(openssl_x509_fingerprint($output, 'sha256'), 2)));
     return array_merge($output1['subject'], ['sha1' => $output2, 'sha256' => $output3]);
@@ -139,6 +154,9 @@ function __nssdb_info($nick)
  */
 function __nssdb_pdfsig($nick, $input, $output)
 {
+    if (!check_commands('pdfsig')) {
+        return [];
+    }
     $dir = __nssdb_dir();
     $output1 = __nssdb_passthru("pdfsig -nssdir $dir -add-signature -nick \"$nick\" $input $output 2>&1 |
         grep -v 'NSS_Shutdown failed: NSS could not shutdown. Objects are still in use.'");
@@ -158,6 +176,9 @@ function __nssdb_pdfsig($nick, $input, $output)
  */
 function __nssdb_remove($nick)
 {
+    if (!check_commands('certutil') || !check_commands('pdfsig')) {
+        return [];
+    }
     $dir = __nssdb_dir();
     $output1 = __nssdb_passthru("certutil -D -d sql:$dir -n \"$nick\" 2>&1");
     //~ $output2 = __nssdb_passthru("certutil -L -d sql:$dir 2>&1");
@@ -174,13 +195,14 @@ function __nssdb_reset()
 {
     $dir = __nssdb_dir();
     if (!file_exists($dir)) {
-        return;
+        return [];
     }
     $files = glob($dir . '/*');
     foreach ($files as $file) {
         unlink($file);
     }
     rmdir($dir);
+    return [];
 }
 
 /**
@@ -195,7 +217,7 @@ function __nssdb_reset()
  */
 function __nssdb_update($nick, $input)
 {
-    require_once 'lib/tcpdf/vendor/autoload.php';
+    //~ require_once 'lib/tcpdf/vendor/autoload.php';
     require_once 'lib/fpdi/vendor/autoload.php';
 
     $info0 = [
