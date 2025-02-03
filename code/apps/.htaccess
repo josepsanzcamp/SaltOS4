@@ -8,6 +8,10 @@ Options -Indexes
     Require all granted
 </Files>
 
+<Files "*.css">
+    Require all granted
+</Files>
+
 <Files "*.pdf">
     Require all granted
 </Files>

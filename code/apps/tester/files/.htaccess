@@ -3,4 +3,3 @@ Options -Indexes
 <Files "*">
     Require all granted
 </Files>
-
