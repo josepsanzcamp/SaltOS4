@@ -74,7 +74,13 @@ final class test_nssdb extends TestCase
 
         $certfile = 'data/files/certificate.p12';
         $this->assertFileDoesNotExist($certfile);
-        $this->assertMatchesRegularExpression('/^[+.*]+$/', implode('', __nssdb_create($certfile, '1234')));
+        $info = __nssdb_create(
+            $certfile,
+            '1234',
+            '/C=ES/serialNumber=ABCDE-12341234A/O=23452345B/CN=THE SALTOS PROJECT',
+            'THE SALTOS PROJECT - 34563456C',
+        );
+        $this->assertMatchesRegularExpression('/^[+.*]+$/', implode('', $info));
         $this->assertFileExists($certfile);
 
         $this->assertSame(__nssdb_add($certfile, '1234'), ['pk12util: PKCS12 IMPORT SUCCESSFUL']);
@@ -82,18 +88,18 @@ final class test_nssdb extends TestCase
         $this->assertIsArray($info);
         $this->assertCount(2, $info);
         $this->assertSame($info[0], 'Certificate nicknames available:');
-        $this->assertSame($info[1], 'THE SALTOS PROJECT - 12345678X');
+        $this->assertSame($info[1], 'THE SALTOS PROJECT - 34563456C');
 
         unlink($certfile);
         $nick = $info[1];
 
-        $this->assertSame($nick, 'THE SALTOS PROJECT - 12345678X');
+        $this->assertSame($nick, 'THE SALTOS PROJECT - 34563456C');
         $info = __nssdb_info($nick);
         $this->assertIsArray($info);
         $this->assertCount(6, $info);
         $this->assertSame($info['countryName'], 'ES');
-        $this->assertSame($info['serialNumber'], 'ABCDE-12345678X');
-        $this->assertSame($info['organizationName'], '12345678X');
+        $this->assertSame($info['serialNumber'], 'ABCDE-12341234A');
+        $this->assertSame($info['organizationName'], '23452345B');
         $this->assertSame($info['commonName'], 'THE SALTOS PROJECT');
         $this->assertArrayHasKey('sha1', $info);
         $this->assertArrayHasKey('sha256', $info);
@@ -113,8 +119,8 @@ final class test_nssdb extends TestCase
         $this->assertIsArray($info);
         $this->assertSame($info[0], "Digital Signature Info of: $output");
         $this->assertSame($info[1], 'Signature #1:');
-        $this->assertStringContainsString('ABCDE-12345678X', implode('', $info));
-        $this->assertStringContainsString('12345678X', implode('', $info));
+        $this->assertStringContainsString('ABCDE-12341234A', implode('', $info));
+        $this->assertStringContainsString('23452345B', implode('', $info));
         $this->assertStringContainsString('THE SALTOS PROJECT', implode('', $info));
 
         $this->assertGreaterThan(filesize($input), filesize($middle));
@@ -137,8 +143,8 @@ final class test_nssdb extends TestCase
         $this->assertIsArray($info);
         $this->assertSame($info[0], "Digital Signature Info of: $output");
         $this->assertSame($info[1], 'Signature #1:');
-        $this->assertStringContainsString('ABCDE-12345678X', implode('', $info));
-        $this->assertStringContainsString('12345678X', implode('', $info));
+        $this->assertStringContainsString('ABCDE-12341234A', implode('', $info));
+        $this->assertStringContainsString('23452345B', implode('', $info));
         $this->assertStringContainsString('THE SALTOS PROJECT', implode('', $info));
 
         $this->assertGreaterThan(filesize($input), filesize($middle));
@@ -146,7 +152,43 @@ final class test_nssdb extends TestCase
         unlink($middle);
         unlink($output);
 
+        // create a default subject and name certificate
+        $certfile = 'data/files/certificate.p12';
+        $this->assertFileDoesNotExist($certfile);
+        $info = __nssdb_create($certfile, '1234');
+        $this->assertMatchesRegularExpression('/^[+.*]+$/', implode('', $info));
+        $this->assertFileExists($certfile);
+
+        $this->assertSame(__nssdb_add($certfile, '1234'), ['pk12util: PKCS12 IMPORT SUCCESSFUL']);
+        $info = __nssdb_list();
+        $this->assertIsArray($info);
+        $this->assertCount(3, $info);
+        $this->assertSame($info[0], 'Certificate nicknames available:');
+        $this->assertSame($info[1], 'THE SALTOS PROJECT - 34563456C');
+        $this->assertSame($info[2], 'THE SALTOS PROJECT - 12345678X');
+
+        unlink($certfile);
+        $nick2 = $info[2];
+
+        $this->assertSame($nick2, 'THE SALTOS PROJECT - 12345678X');
+        $info = __nssdb_info($nick2);
+        $this->assertIsArray($info);
+        $this->assertCount(6, $info);
+        $this->assertSame($info['countryName'], 'ES');
+        $this->assertSame($info['serialNumber'], 'ABCDE-12345678X');
+        $this->assertSame($info['organizationName'], '12345678X');
+        $this->assertSame($info['commonName'], 'THE SALTOS PROJECT');
+        $this->assertArrayHasKey('sha1', $info);
+        $this->assertArrayHasKey('sha256', $info);
+
         $this->assertSame(__nssdb_remove($nick), []);
+        $info = __nssdb_list();
+        $this->assertIsArray($info);
+        $this->assertCount(2, $info);
+        $this->assertSame($info[0], 'Certificate nicknames available:');
+        $this->assertSame($info[1], 'THE SALTOS PROJECT - 12345678X');
+
+        $this->assertSame(__nssdb_remove($nick2), []);
         $this->assertSame(__nssdb_list(), ['There are no certificates available.']);
 
         $this->assertSame(__nssdb_reset(), []);

@@ -95,7 +95,7 @@ function __nssdb_init()
     }
     $files = glob($dir . '/*');
     if (count($files)) {
-        return;
+        return [];
     }
     $output = __nssdb_passthru_helper("certutil -N -d sql:$dir --empty-password 2>&1");
     $files = glob($dir . '/*');
@@ -114,16 +114,20 @@ function __nssdb_init()
  * $outfile => the p12 file
  * $outpass => the password used by the p12 file
  */
-function __nssdb_create($outfile, $outpass)
+function __nssdb_create($outfile, $outpass, $subject = '', $name = '')
 {
     if (!check_commands('openssl')) {
         return [];
     }
+    if (!$subject) {
+        $subject = '/C=ES/serialNumber=ABCDE-12345678X/O=12345678X/CN=THE SALTOS PROJECT';
+    }
+    if (!$name) {
+        $name = 'THE SALTOS PROJECT - 12345678X';
+    }
     $privfile = dirname($outfile) . '/private.key';
-    $privpass = '1234';
+    $privpass = $outpass;
     $certfile = dirname($outfile) . '/certificate.crt';
-    $subject = '/C=ES/serialNumber=ABCDE-12345678X/O=12345678X/CN=THE SALTOS PROJECT';
-    $name = 'THE SALTOS PROJECT - 12345678X';
     // phpcs:disable Generic.Files.LineLength
     $output1 = __nssdb_passthru_helper("openssl genpkey -algorithm RSA -out $privfile -aes256 -pass pass:$privpass 2>&1");
     $output2 = __nssdb_passthru_helper("openssl req -new -x509 -key $privfile -out $certfile -days 365 -subj \"$subject\" -passin pass:$privpass 2>&1");
