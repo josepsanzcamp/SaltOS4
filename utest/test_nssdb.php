@@ -108,10 +108,16 @@ final class test_nssdb extends TestCase
         $middle = get_cache_file($input, '.pdf');
         $output = 'data/files/output1.pdf';
 
+        if (file_exists($middle)) {
+            unlink($middle);
+        }
         $this->assertFileDoesNotExist($middle);
         $this->assertSame(__nssdb_update($nick, $input), $middle);
         $this->assertFileExists($middle);
 
+        if (file_exists($output)) {
+            unlink($output);
+        }
         $this->assertFileDoesNotExist($output);
         $info = __nssdb_pdfsig($nick, $middle, $output);
         $this->assertFileExists($output);
@@ -125,17 +131,21 @@ final class test_nssdb extends TestCase
 
         $this->assertGreaterThan(filesize($input), filesize($middle));
         $this->assertGreaterThan(filesize($middle), filesize($output));
-        unlink($middle);
-        unlink($output);
 
         $input = '../../utest/files/input2.pdf';
         $middle = get_cache_file($input, '.pdf');
         $output = 'data/files/output2.pdf';
 
+        if (file_exists($middle)) {
+            unlink($middle);
+        }
         $this->assertFileDoesNotExist($middle);
         $this->assertSame(__nssdb_update($nick, $input), $middle);
         $this->assertFileExists($middle);
 
+        if (file_exists($output)) {
+            unlink($output);
+        }
         $this->assertFileDoesNotExist($output);
         $info = __nssdb_pdfsig($nick, $middle, $output);
         $this->assertFileExists($output);
@@ -149,8 +159,6 @@ final class test_nssdb extends TestCase
 
         $this->assertGreaterThan(filesize($input), filesize($middle));
         $this->assertGreaterThan(filesize($middle), filesize($output));
-        unlink($middle);
-        unlink($output);
 
         // create a default subject and name certificate
         $certfile = 'data/files/certificate.p12';
