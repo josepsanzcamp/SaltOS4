@@ -106,6 +106,35 @@ function __nssdb_init()
 }
 
 /**
+ * Create certificate
+ *
+ * This function create a dummy self signed certificate intended to be used in
+ * test cases
+ *
+ * $outfile => the p12 file
+ * $outpass => the password used by the p12 file
+ */
+function __nssdb_create($outfile, $outpass)
+{
+    if (!check_commands('openssl')) {
+        return [];
+    }
+    $privfile = dirname($outfile) . '/private.key';
+    $privpass = '1234';
+    $certfile = dirname($outfile) . '/certificate.crt';
+    $subject = '/C=ES/serialNumber=ABCDE-12345678X/O=12345678X/CN=THE SALTOS PROJECT';
+    $name = 'THE SALTOS PROJECT - 12345678X';
+    // phpcs:disable Generic.Files.LineLength
+    $output1 = __nssdb_passthru_helper("openssl genpkey -algorithm RSA -out $privfile -aes256 -pass pass:$privpass 2>&1");
+    $output2 = __nssdb_passthru_helper("openssl req -new -x509 -key $privfile -out $certfile -days 365 -subj \"$subject\" -passin pass:$privpass 2>&1");
+    $output3 = __nssdb_passthru_helper("openssl pkcs12 -export -out $outfile -inkey $privfile -in $certfile -name \"$name\" -passin pass:$privpass -passout pass:$outpass 2>&1");
+    // phpcs:enable Generic.Files.LineLength
+    unlink($privfile);
+    unlink($certfile);
+    return array_merge($output1, $output2, $output3);
+}
+
+/**
  * Add certificate
  *
  * This function adds the p12 file that must contains a valid certificate to the
@@ -137,7 +166,6 @@ function __nssdb_list()
         return [];
     }
     $dir = __nssdb_dir_helper();
-    //~ $output = __nssdb_passthru_helper("certutil -L -d sql:$dir 2>&1");
     $output = __nssdb_passthru_helper("pdfsig -nssdir $dir -list-nicks 2>&1");
     $output = __nssdb_grep_helper($output, 'NSS_Shutdown failed', true);
     return $output;
@@ -183,9 +211,9 @@ function __nssdb_pdfsig($nick, $input, $output)
         return [];
     }
     $dir = __nssdb_dir_helper();
-    $output1 = __nssdb_passthru_helper(
-        "pdfsig -nssdir $dir -add-signature -nick \"$nick\" $input $output 2>&1"
-    );
+    // phpcs:disable Generic.Files.LineLength
+    $output1 = __nssdb_passthru_helper("pdfsig -nssdir $dir -add-signature -nick \"$nick\" $input $output 2>&1");
+    // phpcs:enable Generic.Files.LineLength
     if (file_exists($output)) {
         chmod_protected($output, 0666);
     }
