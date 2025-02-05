@@ -276,6 +276,7 @@ function __nssdb_update($nick, $input)
 {
     require_once 'lib/tcpdf/vendor/autoload.php';
     require_once 'lib/fpdi/vendor/autoload.php';
+    require_once 'php/lib/color.php';
 
     $info0 = [
         'signedBy' => get_name_version_revision(),
@@ -293,19 +294,25 @@ function __nssdb_update($nick, $input)
 
     $image_file = 'img/logo_grey.png';
     $image_size = getimagesize($image_file);
-    $image_width = 8;
-    $image_height = 8 * $image_size[1] / $image_size[0];
-    $image_sep = $image_height / 8;
+    $image_width = 9;
+    $image_height = 9 * $image_size[1] / $image_size[0];
+    $image_sep = $image_height / 9;
 
     $pdf = new setasign\Fpdi\Tcpdf\Fpdi();
     $pdf->setPrintHeader(false);
     $pdf->setPrintFooter(false);
     $pdf->SetAutoPageBreak(false, 0);
     $pdf->setMargins(0, 0, 0);
-    $pdf->SetFont('atkinsonhyperlegible', '', 6);
-    $pdf->SetTextColor(102, 102, 102);
-    $pdf->SetDrawColor(238, 238, 238);
-    $pdf->SetFillColor(238, 238, 238);
+    $pdf->SetFont('atkinsonhyperlegible', '', 5);
+    $pdf->SetTextColor(0, 0, 0);
+    $color = '#e5dbda';
+    $color = [
+        'R' => color2dec($color, 'R'),
+        'G' => color2dec($color, 'G'),
+        'B' => color2dec($color, 'B'),
+    ];
+    $pdf->SetDrawColor($color['R'], $color['G'], $color['B']);
+    $pdf->SetFillColor($color['R'], $color['G'], $color['B']);
 
     $total_pages = $pdf->setSourceFile($input);
     for ($page_num = 1; $page_num <= $total_pages; $page_num++) {
