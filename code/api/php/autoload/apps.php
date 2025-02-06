@@ -489,14 +489,17 @@ function detect_apps_files($file)
 /**
  * Current app
  *
- * This function returns the id of the current app
+ * This function returns the current app as string
  */
 function current_app()
 {
     if (get_data('rest/0') != 'app') {
         show_php_error(['phperror' => 'unknown app in rest args']);
     }
-    return app2id(get_data('rest/1'));
+    if (!app_exists(get_data('rest/1'))) {
+        show_php_error(['phperror' => 'unknown app in rest args']);
+    }
+    return get_data('rest/1');
 }
 
 /**

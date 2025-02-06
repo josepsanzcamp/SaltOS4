@@ -67,7 +67,7 @@
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <header>TODO</header>
         <temp eval="true">[
-            set_config("app/".get_data("rest/1")."/list/filter/last", json_encode(get_data("json"), JSON_FORCE_OBJECT), current_user()),
+            set_config("app/".get_data("rest/1")."/filter/last", json_encode(get_data("json"), JSON_FORCE_OBJECT), current_user()),
             set_data("json/search", strval(get_data("json/search"))),
             set_data("json/page", intval(get_data("json/page"))),
             set_data("json/order", "id DESC"),

@@ -45,47 +45,62 @@ saltos.dashboard = {};
  * TODO
  */
 saltos.dashboard.init = arg => {
-    if (arg == 'menu') {
-        saltos.window.set_listener('saltos.customers.update', event => {
-            saltos.app.ajax({
-                url: 'app/customers/widget/table1',
-                success: response => {
-                    response.id = 'table1';
-                    const temp = saltos.bootstrap.field(response);
-                    document.getElementById('table1').replaceWith(temp);
-                },
-            });
-
-            saltos.app.ajax({
-                url: 'app/customers/widget/table2',
-                success: response => {
-                    response.id = 'table2';
-                    const temp = saltos.bootstrap.field(response);
-                    document.getElementById('table2').replaceWith(temp);
-                },
-            });
-
-            saltos.favicon.run();
+    /*
+    saltos.window.set_listener('saltos.customers.update', event => {
+        saltos.app.ajax({
+            url: 'app/customers/widget/table1',
+            success: response => {
+                response.id = 'table1';
+                const temp = saltos.bootstrap.field(response);
+                document.getElementById('table1').replaceWith(temp);
+            },
         });
+
+        saltos.app.ajax({
+            url: 'app/customers/widget/table2',
+            success: response => {
+                response.id = 'table2';
+                const temp = saltos.bootstrap.field(response);
+                document.getElementById('table2').replaceWith(temp);
+            },
+        });
+
+        saltos.favicon.run();
+    });
+    */
+
+    const catalog = arg.catalog;
+    catalog.row['#attr'].row_class = 'row mt-3';
+
+    const config = arg.config;
+    const key = 'app/dashboard/widgets/default';
+    let ids = [];
+    if (key in config) {
+        ids = JSON.parse(config[key]);
     }
 
-    if (arg == 'config') {
-        document.getElementById('bs_theme').value = saltos.bootstrap.get_bs_theme();
-        document.getElementById('css_theme').value = saltos.bootstrap.get_css_theme();
-        document.getElementById('lang').value = saltos.gettext.get();
+    const original = catalog.row.value;
+    if (ids.length) {
+        catalog.row.value = {};
     }
-};
 
-/**
- * TODO
- *
- * TODO
- */
-saltos.dashboard.authupdate = () => {
-    saltos.backup.restore('right');
-    if (!saltos.app.check_required()) {
-        return;
+    for (const i in ids) {
+        for (const j in original) {
+            if (original[j]['#attr'].id == ids[i]) {
+                if (j in catalog.row.value) {
+                    catalog.row.value[j + '#' + saltos.core.uniqid()] = original[j];
+                } else {
+                    catalog.row.value[j] = original[j];
+                }
+                break;
+            }
+        }
     }
-    const data = saltos.app.get_data(true);
-    saltos.authenticate.authupdate(data.oldpass, data.newpass, data.renewpass);
+
+    saltos.form.layout({
+        '#attr': {
+            append: 'one',
+        },
+        value: catalog,
+    });
 };

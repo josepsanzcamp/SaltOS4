@@ -36,10 +36,10 @@ declare(strict_types=1);
 /**
  * Get config
  *
- * This function is intended to be used to retrieve values from the
- * config system, as first level, the function try to get the value from
- * the tbl_config, and if it is not found, then the function try to get
- * the values from the config file.
+ * This function is intended to be used to retrieve values from the config
+ * system, as first level, the function try to get the value from the
+ * tbl_config, and if it is not found, then the function try to get the
+ * values from the config file.
  *
  * @key     => the key that you want to retrieve the value
  * @user_id => the user_id used in the first search step
@@ -47,10 +47,13 @@ declare(strict_types=1);
  * Notes:
  *
  * This function is a new release of the olds getConfig and getDefault,
- * depending of the user_id argument, it tries to search in the config
- * file or in the database, for negative values the function uses the
- * config file and for zero or positive values, tries to search it in
- * the database
+ * depending of the user_id argument, it tries to search in the config file or
+ * in the database, for negative values the function uses the config file and
+ * for zero or positive values, tries to search it in the database
+ *
+ * To prevent errors in case of duplicates, we are using the ORDER BY id ASC
+ * LIMIT 1, this allow to get and set only the first register found by the
+ * select query
  */
 function get_config($key, $user_id = -1)
 {
@@ -70,7 +73,8 @@ function get_config($key, $user_id = -1)
     // Search the key for the specified user in the database
     $query = 'SELECT val FROM tbl_config LIMIT 1';
     if (db_check($query)) {
-        $query = 'SELECT val FROM tbl_config WHERE user_id = ? AND `key` = ?';
+        $query = 'SELECT val FROM tbl_config
+            WHERE user_id = ? AND `key` = ? ORDER BY id ASC LIMIT 1';
         $val = execute_query($query, [$user_id, $key]);
         return $val;
     }
@@ -91,8 +95,12 @@ function get_config($key, $user_id = -1)
  * Notes:
  *
  * If null val is passed as argument, then the entry of the config or database
- * is removed, the main idea is to use the same method used by the setcookie that
- * allow to remove entries by setting the value to null
+ * is removed, the main idea is to use the same method used by the setcookie
+ * that allow to remove entries by setting the value to null
+ *
+ * To prevent errors in case of duplicates, we are using the ORDER BY id ASC
+ * LIMIT 1, this allow to get and set only the first register found by the
+ * select query
  */
 function set_config($key, $val, $user_id = -1)
 {
@@ -122,7 +130,8 @@ function set_config($key, $val, $user_id = -1)
     }
     // Try to insert or update the key for the specified user
     // In this case, zero user is allowed and used as global user
-    $query = 'SELECT id FROM tbl_config WHERE user_id = ? AND `key` = ?';
+    $query = 'SELECT id FROM tbl_config
+        WHERE user_id = ? AND `key` = ? ORDER BY id ASC LIMIT 1';
     $id = execute_query($query, [$user_id, $key]);
     if ($id === null) {
         if ($val !== null) {

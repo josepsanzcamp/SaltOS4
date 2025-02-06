@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ -  ____        _ _    ___  ____    _  _    ___
+ - / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ - \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ -  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ - |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ -
+ - SaltOS: Framework to develop Rich Internet Applications
+ - Copyright (C) 2007-2025 by Josep Sanz Campderrós
+ - More information in https://www.saltos.org or info@saltos.org
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU General Public License as published by
+ - the Free Software Foundation, either version 3 of the License, or
+ - (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ - GNU General Public License for more details.
+ -
+ - You should have received a copy of the GNU General Public License
+ - along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<root>
+    <profile>
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <gettext eval="true">T()</gettext>
+        <title append="offcanvas">Profile</title>
+        <layout append="right">
+            <row auto="true" col_class="col-md-12 mb-3">
+                <select id="bs_theme" label="Color mode" onchange="saltos.bootstrap.set_bs_theme(this.value)">
+                    <rows eval="true">xmlfile2array("xml/bs_theme.xml")["rows"]</rows>
+                </select>
+                <select id="css_theme" label="Theme style" onchange="saltos.bootstrap.set_css_theme(this.value)">
+                    <rows eval="true">xmlfile2array("xml/css_theme.xml")["rows"]</rows>
+                </select>
+                <select id="lang" label="Language" onchange="saltos.gettext.set(this.value)">
+                    <rows eval="true">xmlfile2array("xml/locale.xml")["rows"]</rows>
+                </select>
+            </row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button onclick="saltos.app.profile()" label="Close" tooltip="Close this screen" icon="x-lg"/>
+            </row>
+            <hr/>
+            <row auto="true" col_class="col-md-12 mb-3">
+                <password id="oldpass" label="Old password" required="true" onenter="document.getElementById('newpass').focus()" autocomplete="false"/>
+                <password id="newpass" label="New password" required="true" onenter="document.getElementById('renewpass').focus()" autocomplete="false"/>
+                <password id="renewpass" label="Retype password" required="true" onenter="saltos.dashboard.authupdate()" autocomplete="false"/>
+            </row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button onclick="saltos.profile.authupdate()" label="Update" tooltip="Update the password" icon="check-lg"/>
+                <button onclick="saltos.app.profile()" label="Close" tooltip="Close this screen" icon="x-lg"/>
+            </row>
+        </layout>
+        <javascript>
+            <file eval="true">file_with_hash(file_with_min("apps/common/js/profile.js"))</file>
+            <inline>saltos.profile.init()</inline>
+        </javascript>
+    </profile>
+</root>

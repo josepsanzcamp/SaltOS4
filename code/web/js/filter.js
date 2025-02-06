@@ -62,7 +62,7 @@ saltos.filter.init = async () => {
             url: `app/${app}/list/filter`,
             success: response => {
                 saltos.filter.__cache = {};
-                const temp = `app/${app}/list/filter/`;
+                const temp = `app/${app}/filter/`;
                 const len = temp.length;
                 for (let key in response) {
                     const val = JSON.parse(response[key]);

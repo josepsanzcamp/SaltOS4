@@ -67,7 +67,7 @@ function T($text = '')
             }
         }
     }
-    $app = id2app(current_app());
+    $app = current_app();
     if (!isset($cache[$app][$lang])) {
         $dir = detect_app_folder($app);
         $file = "apps/$dir/locale/$lang/messages.yaml";

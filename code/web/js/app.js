@@ -626,13 +626,9 @@ saltos.app.profile = () => {
     saltos.gettext.bootstrap.offcanvas({
         pos: 'right',
         close: 'Close',
-        //~ backdrop: true,
-        //~ static: true,
-        //~ keyboard: true,
-        resize: true,
     });
     document.querySelector('.offcanvas-body').setAttribute('id', 'right');
-    saltos.app.send_request('app/dashboard/config');
+    saltos.app.send_request('app/widgets/profile');
 };
 
 /**
@@ -651,7 +647,7 @@ saltos.app.help = () => {
     });
     document.querySelector('.modal-body').setAttribute('id', 'four');
     const app = saltos.hash.get().split('/').at(1);
-    saltos.app.send_request(`app/dashboard/help/${app}`);
+    saltos.app.send_request(`app/widgets/help/${app}`);
 };
 
 /**
@@ -677,10 +673,6 @@ saltos.app.filter = () => {
     saltos.gettext.bootstrap.offcanvas({
         pos: 'left',
         close: 'Close',
-        //~ backdrop: true,
-        //~ static: true,
-        //~ keyboard: true,
-        resize: true,
     });
     const filter = document.getElementById('filter');
     if ('data-bs-title' in filter) {
