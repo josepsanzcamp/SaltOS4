@@ -92,7 +92,7 @@ final class test_apps extends TestCase
         $this->assertSame(count(detect_apps_files('xml/dbschema.xml')) > 1, true);
         set_data('rest/0', 'app');
         set_data('rest/1', 'invoices');
-        $this->assertSame(current_app(), 12);
+        $this->assertSame(current_app(), 'invoices');
         set_data('rest', null);
         $this->assertSame(detect_app_file('groups'), 'apps/users/xml/groups.xml');
         $this->assertSame(detect_app_folder('groups'), 'users');
