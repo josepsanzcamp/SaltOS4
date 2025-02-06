@@ -71,6 +71,7 @@ saltos.dashboard.init = arg => {
 
     const catalog = arg.catalog;
     catalog.row['#attr'].row_class = 'row mt-3';
+    catalog.row['#attr'].row_style = '';
 
     const config = arg.config;
     const key = 'app/dashboard/widgets/default';

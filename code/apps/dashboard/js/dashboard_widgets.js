@@ -45,13 +45,15 @@ saltos.dashboard_widgets = {};
  * TODO
  */
 saltos.dashboard_widgets.init = arg => {
-    document.querySelectorAll('.fs-1').forEach(item => {
-        item.classList.replace('fs-1', 'fs-2');
-    });
-    document.querySelectorAll('table').forEach(item => {
-        item.classList.add('table-sm');
-        item.classList.add('small');
-    });
+    setTimeout(() => {
+        document.querySelectorAll('.fs-1').forEach(item => {
+            item.classList.replace('fs-1', 'fs-2');
+        });
+        document.querySelectorAll('table').forEach(item => {
+            item.classList.add('table-sm');
+            item.classList.add('small');
+        });
+    }, 1);
 
     new Sortable(document.getElementById('catalog'), {
         group: {
@@ -61,9 +63,8 @@ saltos.dashboard_widgets.init = arg => {
             },
             put: true,
         },
-        animation: 150,
-        onAdd: evt => {
-            let item = evt.item;
+        onAdd: event => {
+            let item = event.item;
             if (item.classList.contains('clonable')) {
                 item.remove();
             }
@@ -72,7 +73,6 @@ saltos.dashboard_widgets.init = arg => {
 
     new Sortable(document.getElementById('dashboard'), {
         group: 'widgets',
-        animation: 150,
         onSort: () => {
             const ids = [];
             document.querySelectorAll('#dashboard [id]').forEach(item => {
@@ -114,7 +114,7 @@ saltos.dashboard_widgets.init = arg => {
                         document.getElementById('dashboard').appendChild(obj);
                     }
                 }, sleep);
-                sleep += 100;
+                sleep += 50;
             }
         },
     });
