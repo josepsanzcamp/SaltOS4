@@ -99,7 +99,11 @@ saltos.dashboard_widgets.init = arg => {
         url: `app/dashboard_widgets/config`,
         success: response => {
             const key = 'app/dashboard/widgets/default';
-            const ids = JSON.parse(response[key]);
+            let ids = [];
+            if (key in response) {
+                ids = JSON.parse(response[key]);
+            }
+
             for (const i in ids) {
                 let obj = document.getElementById(ids[i]);
                 let parent = obj.parentElement;
@@ -107,6 +111,7 @@ saltos.dashboard_widgets.init = arg => {
                     obj = parent;
                     parent = parent.parentElement;
                 }
+
                 setTimeout(() => {
                     if (obj.classList.contains('clonable')) {
                         document.getElementById('dashboard').appendChild(obj.cloneNode(true));
