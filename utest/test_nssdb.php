@@ -96,11 +96,14 @@ final class test_nssdb extends TestCase
         $this->assertSame($nick, 'THE SALTOS PROJECT - 34563456C');
         $info = __nssdb_info($nick);
         $this->assertIsArray($info);
-        $this->assertCount(6, $info);
+        $this->assertCount(9, $info);
         $this->assertSame($info['countryName'], 'ES');
         $this->assertSame($info['serialNumber'], 'ABCDE-12341234A');
         $this->assertSame($info['organizationName'], '23452345B');
         $this->assertSame($info['commonName'], 'THE SALTOS PROJECT');
+        $this->assertArrayHasKey('validFrom', $info);
+        $this->assertArrayHasKey('validTo', $info);
+        $this->assertArrayHasKey('signatureType', $info);
         $this->assertArrayHasKey('sha1', $info);
         $this->assertArrayHasKey('sha256', $info);
 
@@ -181,11 +184,14 @@ final class test_nssdb extends TestCase
         $this->assertSame($nick2, 'THE SALTOS PROJECT - 12345678X');
         $info = __nssdb_info($nick2);
         $this->assertIsArray($info);
-        $this->assertCount(6, $info);
+        $this->assertCount(9, $info);
         $this->assertSame($info['countryName'], 'ES');
         $this->assertSame($info['serialNumber'], 'ABCDE-12345678X');
         $this->assertSame($info['organizationName'], '12345678X');
         $this->assertSame($info['commonName'], 'THE SALTOS PROJECT');
+        $this->assertArrayHasKey('validFrom', $info);
+        $this->assertArrayHasKey('validTo', $info);
+        $this->assertArrayHasKey('signatureType', $info);
         $this->assertArrayHasKey('sha1', $info);
         $this->assertArrayHasKey('sha256', $info);
 

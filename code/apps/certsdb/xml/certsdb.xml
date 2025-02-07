@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ -  ____        _ _    ___  ____    _  _    ___
+ - / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ - \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ -  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ - |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ -
+ - SaltOS: Framework to develop Rich Internet Applications
+ - Copyright (C) 2007-2025 by Josep Sanz Campderrós
+ - More information in https://www.saltos.org or info@saltos.org
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU General Public License as published by
+ - the Free Software Foundation, either version 3 of the License, or
+ - (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ - GNU General Public License for more details.
+ -
+ - You should have received a copy of the GNU General Public License
+ - along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<root>
+    <screen>type2</screen>
+
+    <list default="true">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <gettext eval="true">T()</gettext>
+        <title eval="true">T("List") . ' - ' . T(app2name(get_data("rest/1")))</title>
+        <screen eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["screen"]</screen>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
+        <layout append="one">
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <button onclick="saltos.app.filter()" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
+                <button ifeval="check_user(get_data('rest/1'), 'create')" label="New" tooltip="To create a new register" icon="plus-lg" color="success">
+                    <onclick eval="true">"saltos.driver.open('app/".get_data("rest/1")."/create')"</onclick>
+                </button>
+                <div col_class="col"/>
+                <hidden id="page" value="0"/>
+                <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+shift+f" onenter="document.getElementById('search_extra').value=this.value;saltos.driver.search()" autofocus="true" onchange="document.getElementById('search_extra').value=this.value"/>
+                <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
+                <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
+            </row>
+            <div eval="true">xmlfile2array("apps/common/xml/filter.xml")["div"]</div>
+            <row auto="true" col_class="col-md-12 my-3">
+                <table id="table" nodata="Loading..."/>
+            </row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button id="more" onclick="saltos.driver.more()" label="Load more" tooltip="To load more registers to the list" icon="plus-lg"/>
+            </row>
+        </layout>
+        <javascript>
+            <inline>saltos.driver.init("list")</inline>
+        </javascript>
+    </list>
+
+    <list id="table" dropdown="false" type="table" nodata="There are no certificates available.">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <header>
+            <name label="Certificate nicknames available:"/>
+       </header>
+        <temp eval="true">[
+            set_config("app/".get_data("rest/1")."/filter/last", json_encode(get_data("json"), JSON_FORCE_OBJECT), current_user()),
+            set_data("json/search", strval(get_data("json/search"))),
+            set_data("json/page", intval(get_data("json/page"))),
+            set_data("json/limit", 25),
+            set_data("json/offset", intval(get_data("json/page") * get_data("json/limit"))),
+        ]</temp>
+        <data require="apps/certsdb/php/perms.php,apps/certsdb/php/certsdb.php" eval="true">__merge_data_actions(
+            __certsdb_list(get_data("json/search"), get_data("json/offset"), get_data("json/limit")),
+            xpath_search_first_value("list[id=table]/actions", xmlfile2array(detect_app_file(get_data("rest/1"))))
+        )</data>
+        <actions ifeval="false">
+            <action action="view" icon="search" tooltip="View" onclick="saltos.driver.open">
+                <app eval="true">get_data("rest/1")</app>
+            </action>
+            <action action="delete" icon="trash" color="danger" tooltip="Delete" onclick="saltos.driver.delete">
+                <app eval="true">get_data("rest/1")</app>
+            </action>
+        </actions>
+        <footer ifeval="!get_data('json/page')" eval="true">"Total: " . count(
+            __certsdb_list(get_data("json/search"), get_data("json/offset"), get_data("json/limit"))
+        )</footer>
+    </list>
+
+    <list id="filter" eval="true">xmlfile2array("apps/common/xml/filter.xml")["list"]</list>
+
+    <create>
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <gettext eval="true">T()</gettext>
+        <title eval="true">T("New") . ' - ' . T(app2name(get_data("rest/1")))</title>
+        <screen eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["screen"]</screen>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
+        <layout append="two,one">
+            <row auto="true" col_class="col-md-12 mb-3">
+                <file id="certfile" label="Certificate file (.p12, .pfx)" multiple="true" required="true"/>
+                <password id="passfile" label="Password file" required="true" autofocus="true" autocomplete="false"/>
+            </row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button onclick="saltos.driver.insert()" label="Create" tooltip="To create the new register" icon="check-lg" color="success"/>
+                <button onclick="saltos.driver.cancel()" label="Cancel" tooltip="To cancel the new register creation" icon="x-lg" autoclose="true" color="danger"/>
+            </row>
+        </layout>
+        <javascript>
+            <inline>saltos.driver.init("create")</inline>
+        </javascript>
+    </create>
+
+    <create id="insert">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <output require="apps/certsdb/php/certsdb.php" eval="true">__certsdb_insert(get_data("json"))</output>
+    </create>
+
+    <view>
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check require="apps/certsdb/php/certsdb.php" eval="true">__certsdb_check(get_data("rest/3"))</check>
+        <gettext eval="true">T()</gettext>
+        <title eval="true">T("Detail") . ' - ' . T(app2name(get_data("rest/1")))</title>
+        <screen eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["screen"]</screen>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
+        <layout append="two,one">
+            <row auto="true" col_class="col-md-12 mb-3">
+                <text id="name" label="Name"/>
+                <textarea id="info" label="Info" height="10em"/>
+            </row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button onclick="saltos.driver.delete()" color="danger" label="Delete" tooltip="To delete this register" icon="trash" ifeval="check_user(get_data('rest/1'), 'delete')"/>
+                <button onclick="saltos.driver.close()" label="Close" tooltip="To close the detail of this register" icon="x-lg" autoclose="true"/>
+                <button onclick="saltos.driver.close(true)" col_class="d-none" accesskey="escape"/>
+            </row>
+        </layout>
+        <data require="apps/certsdb/php/certsdb.php" eval="true">__certsdb_view(get_data("rest/3"))</data>
+        <javascript>
+            <inline>saltos.driver.init("view")</inline>
+        </javascript>
+    </view>
+
+    <delete>
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check require="apps/certsdb/php/certsdb.php" eval="true">__certsdb_check(get_data("rest/3"))</check>
+        <output require="php/lib/actions.php" eval="true">__certsdb_delete(get_data("rest/3"))</output>
+    </delete>
+
+    <action id="setup">
+        <check eval="true">true</check>
+        <output eval="true">require_once "apps/".get_data("rest/1")."/sample/setup.php"</output>
+    </action>
+</root>

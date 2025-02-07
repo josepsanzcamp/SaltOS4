@@ -196,7 +196,13 @@ function __nssdb_info($nick)
     }
     $output2 = strtoupper(implode(':', str_split(openssl_x509_fingerprint($output, 'sha1'), 2)));
     $output3 = strtoupper(implode(':', str_split(openssl_x509_fingerprint($output, 'sha256'), 2)));
-    return array_merge($output1['subject'], ['sha1' => $output2, 'sha256' => $output3]);
+    return array_merge($output1['subject'], [
+        'validFrom' => date('Y-m-d H:i:s', $output1['validFrom_time_t']),
+        'validTo' => date('Y-m-d H:i:s', $output1['validTo_time_t']),
+        'signatureType' => $output1['signatureTypeSN'],
+        'sha1' => $output2,
+        'sha256' => $output3,
+    ]);
 }
 
 /**
@@ -278,16 +284,20 @@ function __nssdb_update($nick, $input)
     require_once 'lib/fpdi/vendor/autoload.php';
     require_once 'php/lib/color.php';
 
-    $info0 = [
+    $info = __nssdb_info($nick);
+
+    $info0 = array_intersect_key($info, ['validFrom' => '', 'validTo' => '']);
+    $info0 = array_merge([
         'signedBy' => get_name_version_revision(),
         'nickName' => $nick,
-    ];
+    ], $info0);
     $info0 = array_map(fn($k, $v) => "$k = $v", array_keys($info0), $info0);
     $info0 = implode(' | ', $info0);
-    $info = __nssdb_info($nick);
-    $info1 = array_diff_key($info, ['sha1' => '', 'sha256' => '']);
+
+    $info1 = array_diff_key($info, ['validFrom' => '', 'validTo' => '', 'sha1' => '', 'sha256' => '']);
     $info1 = array_map(fn($k, $v) => "$k = $v", array_keys($info1), $info1);
     $info1 = implode(' | ', $info1);
+
     $info2 = array_intersect_key($info, ['sha1' => '', 'sha256' => '']);
     $info2 = array_map(fn($k, $v) => "$k = $v", array_keys($info2), $info2);
     $info2 = implode(' | ', $info2);
@@ -305,6 +315,7 @@ function __nssdb_update($nick, $input)
     $pdf->setMargins(0, 0, 0);
     $pdf->SetFont('atkinsonhyperlegible', '', 5);
     $pdf->SetTextColor(0, 0, 0);
+
     $color = '#e5dbda';
     $color = [
         'R' => color2dec($color, 'R'),
