@@ -90,6 +90,9 @@ saltos.dashboard_widgets.init = arg => {
                     'name': 'default',
                     'val': JSON.stringify(ids),
                 },
+                success: response => {
+                    saltos.window.send('saltos.dashboard.update');
+                },
             });
         },
     });

@@ -45,6 +45,10 @@ saltos.dashboard = {};
  * TODO
  */
 saltos.dashboard.init = arg => {
+    saltos.window.set_listener('saltos.dashboard.update', event => {
+        saltos.hash.trigger();
+    });
+
     /*
     saltos.window.set_listener('saltos.customers.update', event => {
         saltos.app.ajax({
