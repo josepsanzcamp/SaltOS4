@@ -44,6 +44,24 @@ function __certsdb_list($search, $offset, $limit)
     $list = __nssdb_list();
     $list = __nssdb_grep_helper($list, 'There are no certificates available.', true);
     $list = __nssdb_grep_helper($list, 'Certificate nicknames available:', true);
+    // Implement the search feature
+    $search = explode_with_quotes(' ', $search);
+    foreach ($search as $key => $val) {
+        $val = get_string_from_quotes($val);
+        $type = '+';
+        while (isset($val[0]) && in_array($val[0], ['+', '-'])) {
+            $type = $val[0];
+            $val = substr($val, 1);
+        }
+        $val = get_string_from_quotes($val);
+        if (!strlen($val)) {
+            continue;
+        }
+        $list = __nssdb_grep_helper($list, $val, $type == '-');
+    }
+    // Implement the offset and limit feature
+    $list = array_slice($list, $offset, $limit);
+    // Returns the list with two items: id and name
     foreach ($list as $key => $val) {
         $list[$key] = ['id' => md5($val), 'name' => $val];
     }
