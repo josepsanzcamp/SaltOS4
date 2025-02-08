@@ -52,7 +52,7 @@ function memory_get_free($bytes = false)
     $diff = $memory_limit - $memory_usage;
     if (!$bytes) {
         $diff = ($diff * 100) / $memory_limit;
-        if ($memory_limit == INF) {
+        if ($memory_limit === INF) {
             $diff = 0;
         }
     }

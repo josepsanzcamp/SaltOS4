@@ -87,7 +87,7 @@
             </action>
         </actions>
         <footer ifeval="!get_data('json/page')" eval="true">"Total: " . count(
-            __certsdb_list(get_data("json/search"), get_data("json/offset"), get_data("json/limit"))
+            __certsdb_list(get_data("json/search"), 0, INF)
         )</footer>
     </list>
 

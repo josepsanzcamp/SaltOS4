@@ -60,7 +60,9 @@ function __certsdb_list($search, $offset, $limit)
         $list = __nssdb_grep_helper($list, $val, $type == '-');
     }
     // Implement the offset and limit feature
-    $list = array_slice($list, $offset, $limit);
+    if ($limit !== INF) {
+        $list = array_slice($list, $offset, $limit);
+    }
     // Returns the list with two items: id and name
     foreach ($list as $key => $val) {
         $list[$key] = ['id' => md5($val), 'name' => $val];
