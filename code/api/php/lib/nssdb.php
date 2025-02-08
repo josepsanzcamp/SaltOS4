@@ -67,6 +67,7 @@ function __nssdb_passthru_helper($cmd)
 function __nssdb_grep_helper($input, $pattern, $invert = false)
 {
     foreach ($input as $key => $val) {
+        $val = iconv('UTF-8', 'ASCII//TRANSLIT', $val);
         $pos = stripos($val, $pattern);
         if (!$invert && $pos === false) {
             unset($input[$key]);
