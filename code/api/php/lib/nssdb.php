@@ -324,7 +324,7 @@ function __nssdb_update($nick, $input)
         'sha1' => '', // unused
         'sha256' => '',
     ]);
-    $info1 = array_map(function($k, $v) {
+    $info1 = array_map(function ($k, $v) {
         if (substr($k, 0, 1) == '_') {
             $k = substr($k, 1);
         }
