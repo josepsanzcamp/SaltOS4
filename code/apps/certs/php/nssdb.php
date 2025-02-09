@@ -66,6 +66,7 @@ function __nssdb_passthru_helper($cmd)
  */
 function __nssdb_grep_helper($input, $pattern, $invert = false)
 {
+    $pattern = iconv('UTF-8', 'ASCII//TRANSLIT', $pattern);
     foreach ($input as $key => $val) {
         $val = iconv('UTF-8', 'ASCII//TRANSLIT', $val);
         $pos = stripos($val, $pattern);
