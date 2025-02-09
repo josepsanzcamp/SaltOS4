@@ -67,10 +67,12 @@ final class test_nssdb extends TestCase
      */
     public function test_nssdb(): void
     {
+        $this->assertSame(__nssdb_list(), []);
+
         $this->assertDirectoryDoesNotExist('data/files/nssdb');
         $this->assertSame(__nssdb_init(), []);
         $this->assertDirectoryExists('data/files/nssdb');
-        $this->assertSame(__nssdb_list(), ['There are no certificates available.']);
+        $this->assertSame(__nssdb_list(), []);
 
         $certfile = 'data/files/certificate.p12';
         $this->assertFileDoesNotExist($certfile);
@@ -86,12 +88,11 @@ final class test_nssdb extends TestCase
         $this->assertSame(__nssdb_add($certfile, '1234'), ['pk12util: PKCS12 IMPORT SUCCESSFUL']);
         $info = __nssdb_list();
         $this->assertIsArray($info);
-        $this->assertCount(2, $info);
-        $this->assertSame($info[0], 'Certificate nicknames available:');
-        $this->assertSame($info[1], 'THE SALTOS PROJECT - 34563456C');
+        $this->assertCount(1, $info);
+        $this->assertSame($info[0], 'THE SALTOS PROJECT - 34563456C');
 
         unlink($certfile);
-        $nick = $info[1];
+        $nick = $info[0];
 
         $this->assertSame($nick, 'THE SALTOS PROJECT - 34563456C');
         $info = __nssdb_info($nick);
@@ -173,13 +174,12 @@ final class test_nssdb extends TestCase
         $this->assertSame(__nssdb_add($certfile, '1234'), ['pk12util: PKCS12 IMPORT SUCCESSFUL']);
         $info = __nssdb_list();
         $this->assertIsArray($info);
-        $this->assertCount(3, $info);
-        $this->assertSame($info[0], 'Certificate nicknames available:');
-        $this->assertSame($info[1], 'THE SALTOS PROJECT - 34563456C');
-        $this->assertSame($info[2], 'THE SALTOS PROJECT - 12345678X');
+        $this->assertCount(2, $info);
+        $this->assertSame($info[0], 'THE SALTOS PROJECT - 34563456C');
+        $this->assertSame($info[1], 'THE SALTOS PROJECT - 12345678X');
 
         unlink($certfile);
-        $nick2 = $info[2];
+        $nick2 = $info[1];
 
         $this->assertSame($nick2, 'THE SALTOS PROJECT - 12345678X');
         $info = __nssdb_info($nick2);
@@ -198,14 +198,13 @@ final class test_nssdb extends TestCase
         $this->assertSame(__nssdb_remove($nick), []);
         $info = __nssdb_list();
         $this->assertIsArray($info);
-        $this->assertCount(2, $info);
-        $this->assertSame($info[0], 'Certificate nicknames available:');
-        $this->assertSame($info[1], 'THE SALTOS PROJECT - 12345678X');
+        $this->assertCount(1, $info);
+        $this->assertSame($info[0], 'THE SALTOS PROJECT - 12345678X');
 
         $this->assertSame(__nssdb_remove($nick2), []);
-        $this->assertSame(__nssdb_list(), ['There are no certificates available.']);
+        $this->assertSame(__nssdb_list(), []);
 
         $this->assertSame(__nssdb_reset(), []);
-        $this->assertSame(__nssdb_list(), ['There are no certificates available.']);
+        $this->assertSame(__nssdb_list(), []);
     }
 }
