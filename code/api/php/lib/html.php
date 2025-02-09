@@ -38,7 +38,7 @@ declare(strict_types=1);
  *
  * This defines allow to define some useful needed resources by this file.
  */
-define('__GIF_IMAGE__', 'data:image/gif;base64,R0lGODdhAQABAIABAOns7wAAACwAAAAAAQABAAACAkQBADs=');
+define('__GIF_IMAGE__', 'data:image/gif;base64,R0lGODlhCgABAIABAOns7////ywAAAAACgABAAACA4SPBQA7');
 define('__CHARS_MAP__', ['&' => '&amp;', '+' => '&#43;']);
 
 /**
