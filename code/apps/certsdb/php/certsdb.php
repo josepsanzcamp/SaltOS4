@@ -42,8 +42,7 @@ function __certsdb_list($search, $offset, $limit)
 {
     require_once 'php/lib/nssdb.php';
     $list = __nssdb_list();
-    $list = __nssdb_grep_helper($list, 'There are no certificates available.', true);
-    $list = __nssdb_grep_helper($list, 'Certificate nicknames available:', true);
+
     // Implement the search feature
     $search = explode_with_quotes(' ', $search);
     foreach ($search as $key => $val) {
@@ -59,14 +58,17 @@ function __certsdb_list($search, $offset, $limit)
         }
         $list = __nssdb_grep_helper($list, $val, $type == '-');
     }
+
     // Implement the offset and limit feature
     if ($limit !== INF) {
         $list = array_slice($list, $offset, $limit);
     }
+
     // Returns the list with two items: id and name
     foreach ($list as $key => $val) {
         $list[$key] = ['id' => md5($val), 'name' => $val];
     }
+
     return $list;
 }
 
@@ -79,6 +81,9 @@ function __certsdb_insert($json)
 {
     require_once 'php/lib/upload.php';
     require_once 'php/lib/nssdb.php';
+    __nssdb_init();
+
+    $upload = get_directory('dirs/uploaddir') ?? getcwd_protected() . '/data/upload/';
     $certs = 0;
     foreach ($json['certfile'] as $file) {
         if (
@@ -93,8 +98,6 @@ function __certsdb_insert($json)
                 'hash' => $file['hash'],
             ])
         ) {
-            __nssdb_init();
-            $upload = get_directory('dirs/uploaddir') ?? getcwd_protected() . '/data/upload/';
             $output = __nssdb_add($upload . $file['file'], $json['passfile']);
             if (implode('', $output) == 'pk12util: PKCS12 IMPORT SUCCESSFUL') {
                 $certs++;
@@ -126,8 +129,6 @@ function __certsdb_hash2nick($hash)
 {
     require_once 'php/lib/nssdb.php';
     $list = __nssdb_list();
-    $list = __nssdb_grep_helper($list, 'There are no certificates available.', true);
-    $list = __nssdb_grep_helper($list, 'Certificate nicknames available:', true);
     foreach ($list as $key => $val) {
         if ($hash == md5($val)) {
             return $val;

@@ -173,6 +173,8 @@ function __nssdb_list()
     $dir = __nssdb_dir_helper();
     $output = __nssdb_passthru_helper("pdfsig -nssdir $dir -list-nicks 2>&1");
     $output = __nssdb_grep_helper($output, 'NSS_Shutdown failed', true);
+    $output = __nssdb_grep_helper($output, 'There are no certificates available.', true);
+    $output = __nssdb_grep_helper($output, 'Certificate nicknames available:', true);
     return $output;
 }
 
