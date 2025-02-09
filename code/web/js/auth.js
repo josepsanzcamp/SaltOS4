@@ -55,8 +55,8 @@ saltos.authenticate.authtoken = async (user, pass) => {
     await saltos.app.ajax({
         url: 'auth/login',
         data: {
-            'user': user,
-            'pass': pass,
+            user: user,
+            pass: pass,
         },
         success: response => {
             if (response.status == 'ok') {
@@ -131,9 +131,9 @@ saltos.authenticate.authupdate = (oldpass, newpass, renewpass) => {
     saltos.app.ajax({
         url: 'auth/update',
         data: {
-            'oldpass': oldpass,
-            'newpass': newpass,
-            'renewpass': renewpass,
+            oldpass: oldpass,
+            newpass: newpass,
+            renewpass: renewpass,
         },
         success: response => {
             if (response.status == 'ok') {

@@ -135,8 +135,8 @@ saltos.storage.getItemWithTimestamp = key => {
  */
 saltos.storage.setItemWithTimestamp = (key, value) => {
     return saltos.storage.setItem(key, JSON.stringify({
-        'timestamp': saltos.core.timestamp(),
-        'value': value,
+        timestamp: saltos.core.timestamp(),
+        value: value,
     }));
 };
 

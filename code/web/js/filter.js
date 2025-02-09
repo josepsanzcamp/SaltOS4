@@ -144,8 +144,8 @@ saltos.filter.save = (name, data) => {
     saltos.app.ajax({
         url: `app/${app}/list/filter`,
         data: {
-            'name': name,
-            'val': data,
+            name: name,
+            val: data,
         },
     });
 };

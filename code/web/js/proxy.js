@@ -71,10 +71,10 @@ const console_log = (message) => {
 const debug = (action, url, type, duration, size) => {
     const black = 'color:white;background:dimgrey';
     const types = {
-        'network': 'green',
-        'cache': 'blue',
-        'queue': 'orange',
-        'error': 'red',
+        network: 'green',
+        cache: 'blue',
+        queue: 'orange',
+        error: 'red',
     };
     let temp = 'dimgrey';
     if (type in types) {
@@ -120,6 +120,8 @@ const proxy = async request => {
     order = order.split(',');
 
     let duration = 0;
+    let status = 200;
+    let statusText = '';
     for (const i in order) {
         switch (order[i]) {
             case 'network': {
@@ -129,6 +131,8 @@ const proxy = async request => {
                     const response = await fetch(request.clone());
                     const end = Date.now();
                     if (!response.ok) {
+                        status = response.status;
+                        statusText = response.statusText;
                         continue;
                     }
                     (await caches.open('saltos')).put(new_request, response.clone());
@@ -173,7 +177,7 @@ const proxy = async request => {
                 // Queue feature
                 queue_push(await request_serialize(request));
                 const response = new Response(JSON.stringify({
-                    'status': 'ok',
+                    status: 'ok',
                 }), {
                     status: 200,
                     headers: {'Content-Type': 'application/json'},
@@ -194,13 +198,14 @@ const proxy = async request => {
     // Error feature
     if (navigator.onLine) {
         const response = new Response(JSON.stringify({
-            'error': {
-                'text': 'There is an network issue and the requested content is not cached',
-                'code': 'proxy.js:199',
+            error: {
+                text: 'There is an network issue and the requested content is not cached',
+                code: 'proxy.js:203',
             }
         }), {
-            status: 200,
             headers: {'Content-Type': 'application/json'},
+            status: status,
+            statusText: statusText,
         });
         const headers2 = JSON.stringify(Object.fromEntries([...response.headers]));
         const body2 = await response.clone().text();
@@ -213,13 +218,14 @@ const proxy = async request => {
         };
     } else {
         const response = new Response(JSON.stringify({
-            'error': {
-                'text': 'You are offline and the requested content is not cached',
-                'code': 'proxy.js:218',
+            error: {
+                text: 'You are offline and the requested content is not cached',
+                code: 'proxy.js:223',
             }
         }), {
-            status: 200,
             headers: {'Content-Type': 'application/json'},
+            status: status,
+            statusText: statusText,
         });
         const headers2 = JSON.stringify(Object.fromEntries([...response.headers]));
         const body2 = await response.clone().text();
@@ -445,6 +451,8 @@ self.addEventListener('fetch', event => {
                     ...Object.fromEntries(result.response.headers.entries()),
                     'X-Proxy-Type': result.type,
                 },
+                status: result.response.status,
+                statusText: result.response.statusText,
             });
             return response;
         })

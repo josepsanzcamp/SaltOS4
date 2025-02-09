@@ -4097,8 +4097,8 @@ saltos.bootstrap.__tooltip_helper = obj => {
         trigger: 'hover',
         animation: false,
         delay: {
-            'show': 500,
-            'hide': 0,
+            show: 500,
+            hide: 0,
         },
     });
     obj.addEventListener('focus', () => {

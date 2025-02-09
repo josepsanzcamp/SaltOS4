@@ -133,7 +133,7 @@ window.addEventListener('unhandledrejection', event => {
  */
 saltos.core.addlog = msg => {
     const data = {
-        'msg': msg,
+        msg: msg,
     };
     saltos.core.ajax({
         url: 'api/?/add/log',

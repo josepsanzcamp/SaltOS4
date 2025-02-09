@@ -344,7 +344,7 @@ saltos.form.__layout_auto_helper.container = layout => {
     // This is the new layout object created with one container and the row inside
     layout = {
         container: {
-            'value': {},
+            value: {},
             '#attr': {
                 id: id,
                 class: attr.container_class,
@@ -380,7 +380,7 @@ saltos.form.__layout_auto_helper.row = layout => {
     // This is the new layout object created with one row and the cols inside
     layout = {
         row: {
-            'value': {},
+            value: {},
             '#attr': {
                 id: id,
                 class: attr.row_class,
@@ -439,7 +439,7 @@ saltos.form.__layout_auto_helper.col = layout => {
             col_style = '';
         }
         layout['col#' + numcol] = {
-            'value': {},
+            value: {},
             '#attr': {
                 class: col_class,
                 style: col_style,
