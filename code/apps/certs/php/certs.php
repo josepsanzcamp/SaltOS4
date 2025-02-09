@@ -166,7 +166,9 @@ function __certs_view($hash)
         ];
     }
     $info = __nssdb_info($nick);
-    $info = array_map(fn($k, $v) => "$k: $v", array_keys($info), $info);
+    $info['subject'] = array_map(fn($k, $v) => "$k: $v", array_keys($info['subject']), $info['subject']);
+    $info['info'] = array_map(fn($k, $v) => "$k: $v", array_keys($info['info']), $info['info']);
+    $info = array_merge(['[subject]'], $info['subject'], ['', '[info]'], $info['info']);
     $info = implode("\n", $info);
     return [
         'name' => $nick,

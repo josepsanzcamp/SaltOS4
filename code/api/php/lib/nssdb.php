@@ -207,23 +207,18 @@ function __nssdb_info($nick, $shortnames = false)
     }
     $remove = ['-----BEGIN PUBLIC KEY-----', '-----END PUBLIC KEY-----'];
     $binkey = base64_decode(str_replace($remove, '', $details['key']));
-    $info = [
-        'serialNumber' => strtoupper(implode(':', str_split($array['serialNumberHex'], 2))),
-        'validFrom' => date('Y-m-d H:i:s', $array['validFrom_time_t']),
-        'validTo' => date('Y-m-d H:i:s', $array['validTo_time_t']),
-        'signatureType' => $array['signatureTypeSN'],
-        'md5' => strtoupper(implode(':', str_split(hash('md5', $binkey), 2))),
-        'sha1' => strtoupper(implode(':', str_split(hash('sha1', $binkey), 2))),
-        'sha256' => strtoupper(implode(':', str_split(hash('sha256', $binkey), 2))),
+    return [
+        'subject' => $array['subject'],
+        'info' => [
+            'serialNumber' => strtoupper(implode(':', str_split($array['serialNumberHex'], 2))),
+            'validFrom' => date('Y-m-d H:i:s', $array['validFrom_time_t']),
+            'validTo' => date('Y-m-d H:i:s', $array['validTo_time_t']),
+            'signatureType' => $array['signatureTypeSN'],
+            'md5' => strtoupper(implode(':', str_split(hash('md5', $binkey), 2))),
+            'sha1' => strtoupper(implode(':', str_split(hash('sha1', $binkey), 2))),
+            'sha256' => strtoupper(implode(':', str_split(hash('sha256', $binkey), 2))),
+        ],
     ];
-    $output = [];
-    foreach ($array['subject'] as $key => $val) {
-        if (isset($info[$key])) {
-            $key = '_' . $key;
-        }
-        $output[$key] = $val;
-    }
-    return array_merge($output, $info);
 }
 
 /**
@@ -309,31 +304,18 @@ function __nssdb_update($nick, $input)
 
     $info0 = [
         'nickName' => $nick,
-        'validFrom' => $info['validFrom'],
-        'validTo' => $info['validTo'],
+        'validFrom' => $info['info']['validFrom'],
+        'validTo' => $info['info']['validTo'],
     ];
     $info0 = array_map(fn($k, $v) => "$k = $v", array_keys($info0), $info0);
     $info0 = implode(' | ', $info0);
 
-    $info1 = array_diff_key($info, [
-        'serialNumber' => '', // unused
-        'validFrom' => '',
-        'validTo' => '',
-        'signatureType' => '', // unused
-        'md5' => '', // unused
-        'sha1' => '', // unused
-        'sha256' => '',
-    ]);
-    $info1 = array_map(function ($k, $v) {
-        if (substr($k, 0, 1) == '_') {
-            $k = substr($k, 1);
-        }
-        return "$k = $v";
-    }, array_keys($info1), $info1);
+    $info1 = $info['subject'];
+    $info1 = array_map(fn($k, $v) => "$k = $v", array_keys($info1), $info1);
     $info1 = implode(' | ', $info1);
 
     $info2 = [
-        'sha256' => $info['sha256'],
+        'sha256' => $info['info']['sha256'],
         'signedBy' => get_name_version_revision(),
     ];
     $info2 = array_map(fn($k, $v) => "$k = $v", array_keys($info2), $info2);
