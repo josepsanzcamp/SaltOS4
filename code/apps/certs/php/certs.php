@@ -40,7 +40,7 @@ declare(strict_types=1);
  */
 function __certs_list($search, $offset, $limit)
 {
-    require_once 'php/lib/nssdb.php';
+    require_once 'apps/certs/php/nssdb.php';
     $list = __nssdb_list();
 
     // Implement the search feature
@@ -80,7 +80,7 @@ function __certs_list($search, $offset, $limit)
 function __certs_insert($json)
 {
     require_once 'php/lib/upload.php';
-    require_once 'php/lib/nssdb.php';
+    require_once 'apps/certs/php/nssdb.php';
     __nssdb_init();
 
     $upload = get_directory('dirs/uploaddir') ?? getcwd_protected() . '/data/upload/';
@@ -127,7 +127,7 @@ function __certs_insert($json)
  */
 function __certs_hash2nick($hash)
 {
-    require_once 'php/lib/nssdb.php';
+    require_once 'apps/certs/php/nssdb.php';
     $list = __nssdb_list();
     foreach ($list as $key => $val) {
         if ($hash == md5($val)) {
@@ -195,4 +195,43 @@ function __certs_delete($hash)
     return [
         'status' => 'ok',
     ];
+}
+
+/**
+ * Merge data actions
+ *
+ * This function merge the rows of a table or list with the specified actions
+ *
+ * @data    => the data of the table or list widget
+ * @actions => the desired actions to use in the table or list widget
+ */
+function __merge_data_actions($data, $actions)
+{
+    // Prepare the actions
+    if (is_string($actions) && trim($actions) == '') {
+        $actions = [];
+    }
+    foreach ($actions as $key => $action) {
+        $action = join_attr_value($action);
+        $action = eval_attr($action);
+        if (__app_has_perm($action['app'], strtok($action['action'], '/'))) {
+            $actions[$key] = $action;
+        } else {
+            unset($actions[$key]);
+        }
+    }
+    // Add the actions to each row checking each permissions's row
+    foreach ($data as $key => $row) {
+        $merge = [];
+        foreach ($actions as $action) {
+            $action['arg'] = "app/{$action["app"]}/{$action["action"]}/{$row["id"]}";
+            unset($action['app']);
+            unset($action['action']);
+            $merge[] = $action;
+        }
+        if (count($merge)) {
+            $data[$key]['actions'] = $merge;
+        }
+    }
+    return $data;
 }

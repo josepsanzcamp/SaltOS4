@@ -74,7 +74,7 @@
             set_data("json/limit", 25),
             set_data("json/offset", intval(get_data("json/page") * get_data("json/limit"))),
         ]</temp>
-        <data require="apps/certs/php/perms.php,apps/certs/php/certs.php" eval="true">__merge_data_actions(
+        <data require="apps/certs/php/certs.php" eval="true">__merge_data_actions(
             __certs_list(get_data("json/search"), get_data("json/offset"), get_data("json/limit")),
             xpath_search_first_value("list[id=table]/actions", xmlfile2array(detect_app_file(get_data("rest/1"))))
         )</data>

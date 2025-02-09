@@ -41,7 +41,7 @@ if (!semaphore_acquire('app/customers/setup')) {
     show_php_error(['phperror' => 'Could not acquire the semaphore']);
 }
 
-require_once 'php/lib/nssdb.php';
+require_once 'apps/certs/php/nssdb.php';
 $time1 = microtime(true);
 
 // Import certificates
