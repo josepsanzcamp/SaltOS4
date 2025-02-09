@@ -131,7 +131,7 @@ function __nssdb_create($outfile, $outpass, $subject = '', $name = '')
     $certfile = dirname($outfile) . '/certificate.crt';
     // phpcs:disable Generic.Files.LineLength
     $output1 = __nssdb_passthru_helper("openssl genpkey -algorithm RSA -out $privfile -aes256 -pass pass:$privpass 2>&1");
-    $output2 = __nssdb_passthru_helper("openssl req -new -x509 -key $privfile -out $certfile -days 365 -subj \"$subject\" -passin pass:$privpass 2>&1");
+    $output2 = __nssdb_passthru_helper("openssl req -new -x509 -key $privfile -out $certfile -days 365 -utf8 -subj \"$subject\" -passin pass:$privpass 2>&1");
     $output3 = __nssdb_passthru_helper("openssl pkcs12 -export -out $outfile -inkey $privfile -in $certfile -name \"$name\" -passin pass:$privpass -passout pass:$outpass 2>&1");
     // phpcs:enable Generic.Files.LineLength
     unlink($privfile);
@@ -185,27 +185,45 @@ function __nssdb_list()
  *
  * @nick => the desired nick used to retrieve info
  */
-function __nssdb_info($nick)
+function __nssdb_info($nick, $shortnames = false)
 {
     if (!check_commands('certutil')) {
         return ['certutil not found'];
     }
     $dir = __nssdb_dir_helper();
-    $output = __nssdb_passthru_helper("certutil -L -d sql:$dir -n \"$nick\" -a 2>&1");
-    $output = implode("\n", $output);
-    $output1 = openssl_x509_parse($output, false);
-    if (!is_array($output1)) {
+    $cert = __nssdb_passthru_helper("certutil -L -d sql:$dir -n \"$nick\" -a 2>&1");
+    $cert = implode("\n", $cert);
+    $array = openssl_x509_parse($cert, $shortnames);
+    if (!is_array($array)) {
         return ['openssl_x509_parse output error'];
     }
-    $output2 = strtoupper(implode(':', str_split(openssl_x509_fingerprint($output, 'sha1'), 2)));
-    $output3 = strtoupper(implode(':', str_split(openssl_x509_fingerprint($output, 'sha256'), 2)));
-    return array_merge($output1['subject'], [
-        'validFrom' => date('Y-m-d H:i:s', $output1['validFrom_time_t']),
-        'validTo' => date('Y-m-d H:i:s', $output1['validTo_time_t']),
-        'signatureType' => $output1['signatureTypeSN'],
-        'sha1' => $output2,
-        'sha256' => $output3,
-    ]);
+    $pubkey = openssl_pkey_get_public($cert);
+    if (!$pubkey) {
+        return ['openssl_pkey_get_public output error'];
+    }
+    $details = openssl_pkey_get_details($pubkey);
+    if (!is_array($details) || !isset($details['key'])) {
+        return ['openssl_pkey_get_details output error'];
+    }
+    $remove = ['-----BEGIN PUBLIC KEY-----', '-----END PUBLIC KEY-----'];
+    $binkey = base64_decode(str_replace($remove, '', $details['key']));
+    $info = [
+        'serialNumber' => strtoupper(implode(':', str_split($array['serialNumberHex'], 2))),
+        'validFrom' => date('Y-m-d H:i:s', $array['validFrom_time_t']),
+        'validTo' => date('Y-m-d H:i:s', $array['validTo_time_t']),
+        'signatureType' => $array['signatureTypeSN'],
+        'md5' => strtoupper(implode(':', str_split(hash('md5', $binkey), 2))),
+        'sha1' => strtoupper(implode(':', str_split(hash('sha1', $binkey), 2))),
+        'sha256' => strtoupper(implode(':', str_split(hash('sha256', $binkey), 2))),
+    ];
+    $output = [];
+    foreach ($array['subject'] as $key => $val) {
+        if (isset($info[$key])) {
+            $key = '_' . $key;
+        }
+        $output[$key] = $val;
+    }
+    return array_merge($output, $info);
 }
 
 /**
@@ -287,21 +305,37 @@ function __nssdb_update($nick, $input)
     require_once 'lib/fpdi/vendor/autoload.php';
     require_once 'php/lib/color.php';
 
-    $info = __nssdb_info($nick);
+    $info = __nssdb_info($nick, true);
 
-    $info0 = array_intersect_key($info, ['validFrom' => '', 'validTo' => '']);
-    $info0 = array_merge([
-        'signedBy' => get_name_version_revision(),
+    $info0 = [
         'nickName' => $nick,
-    ], $info0);
+        'validFrom' => $info['validFrom'],
+        'validTo' => $info['validTo'],
+    ];
     $info0 = array_map(fn($k, $v) => "$k = $v", array_keys($info0), $info0);
     $info0 = implode(' | ', $info0);
 
-    $info1 = array_diff_key($info, ['validFrom' => '', 'validTo' => '', 'sha1' => '', 'sha256' => '']);
-    $info1 = array_map(fn($k, $v) => "$k = $v", array_keys($info1), $info1);
+    $info1 = array_diff_key($info, [
+        'serialNumber' => '', // unused
+        'validFrom' => '',
+        'validTo' => '',
+        'signatureType' => '', // unused
+        'md5' => '', // unused
+        'sha1' => '', // unused
+        'sha256' => '',
+    ]);
+    $info1 = array_map(function($k, $v) {
+        if (substr($k, 0, 1) == '_') {
+            $k = substr($k, 1);
+        }
+        return "$k = $v";
+    }, array_keys($info1), $info1);
     $info1 = implode(' | ', $info1);
 
-    $info2 = array_intersect_key($info, ['sha1' => '', 'sha256' => '']);
+    $info2 = [
+        'sha256' => $info['sha256'],
+        'signedBy' => get_name_version_revision(),
+    ];
     $info2 = array_map(fn($k, $v) => "$k = $v", array_keys($info2), $info2);
     $info2 = implode(' | ', $info2);
 
@@ -316,7 +350,7 @@ function __nssdb_update($nick, $input)
     $pdf->setPrintFooter(false);
     $pdf->SetAutoPageBreak(false, 0);
     $pdf->setMargins(0, 0, 0);
-    $pdf->SetFont('atkinsonhyperlegible', '', 5);
+    $pdf->SetFont('atkinsonhyperlegible', '', 6);
     $pdf->SetTextColor(0, 0, 0);
 
     $color = '#e5dbda';

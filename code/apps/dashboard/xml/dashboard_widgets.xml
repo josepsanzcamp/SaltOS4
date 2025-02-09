@@ -47,7 +47,7 @@
                 <button id="app/trashlog" ifeval="check_user('trashlog', 'menu')" onclick="saltos.window.open('app/trashlog')" color="dark" class="fs-1 w-100 h-100" label="Trash"/>
                 <button id="app/uploadlog" ifeval="check_user('uploadlog', 'menu')" onclick="saltos.window.open('app/uploadlog')" color="dark" class="fs-1 w-100 h-100" label="Upload"/>
                 <button id="app/tokenslog" ifeval="check_user('tokenslog', 'menu')" onclick="saltos.window.open('app/tokenslog')" color="dark" class="fs-1 w-100 h-100" label="Tokens"/>
-                <button id="app/certsdb" ifeval="check_user('certsdb', 'menu')" onclick="saltos.window.open('app/certsdb')" color="dark" class="fs-1 w-100 h-100" label="Certificates"/>
+                <button id="app/certs" ifeval="check_user('certs', 'menu')" onclick="saltos.window.open('app/certs')" color="dark" class="fs-1 w-100 h-100" label="Certificates"/>
                 <button id="app/tester" ifeval="check_user('tester', 'menu')" onclick="saltos.window.open('app/tester')" color="danger" class="fs-1 w-100 h-100" label="Tester"/>
                 <!-- <div col_class="col-12"/>< ! - - this act as break line -->
                 <hr id="separator" col_class="col-12 clonable" class="mt-0 border-3"/><!-- this act as break line -->

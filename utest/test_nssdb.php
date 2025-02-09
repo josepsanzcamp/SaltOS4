@@ -93,18 +93,50 @@ final class test_nssdb extends TestCase
 
         unlink($certfile);
         $nick = $info[0];
-
         $this->assertSame($nick, 'THE SALTOS PROJECT - 34563456C');
+
         $info = __nssdb_info($nick);
         $this->assertIsArray($info);
-        $this->assertCount(9, $info);
+        $this->assertCount(11, $info);
         $this->assertSame($info['countryName'], 'ES');
-        $this->assertSame($info['serialNumber'], 'ABCDE-12341234A');
+        $this->assertSame($info['_serialNumber'], 'ABCDE-12341234A');
         $this->assertSame($info['organizationName'], '23452345B');
         $this->assertSame($info['commonName'], 'THE SALTOS PROJECT');
+        $this->assertArrayHasKey('serialNumber', $info);
         $this->assertArrayHasKey('validFrom', $info);
         $this->assertArrayHasKey('validTo', $info);
         $this->assertArrayHasKey('signatureType', $info);
+        $this->assertArrayHasKey('md5', $info);
+        $this->assertArrayHasKey('sha1', $info);
+        $this->assertArrayHasKey('sha256', $info);
+
+        $info = __nssdb_info($nick, true);
+        $this->assertIsArray($info);
+        $this->assertCount(11, $info);
+        $this->assertSame($info['C'], 'ES');
+        $this->assertSame($info['_serialNumber'], 'ABCDE-12341234A');
+        $this->assertSame($info['O'], '23452345B');
+        $this->assertSame($info['CN'], 'THE SALTOS PROJECT');
+        $this->assertArrayHasKey('serialNumber', $info);
+        $this->assertArrayHasKey('validFrom', $info);
+        $this->assertArrayHasKey('validTo', $info);
+        $this->assertArrayHasKey('signatureType', $info);
+        $this->assertArrayHasKey('md5', $info);
+        $this->assertArrayHasKey('sha1', $info);
+        $this->assertArrayHasKey('sha256', $info);
+
+        $info = __nssdb_info($nick, false);
+        $this->assertIsArray($info);
+        $this->assertCount(11, $info);
+        $this->assertSame($info['countryName'], 'ES');
+        $this->assertSame($info['_serialNumber'], 'ABCDE-12341234A');
+        $this->assertSame($info['organizationName'], '23452345B');
+        $this->assertSame($info['commonName'], 'THE SALTOS PROJECT');
+        $this->assertArrayHasKey('serialNumber', $info);
+        $this->assertArrayHasKey('validFrom', $info);
+        $this->assertArrayHasKey('validTo', $info);
+        $this->assertArrayHasKey('signatureType', $info);
+        $this->assertArrayHasKey('md5', $info);
         $this->assertArrayHasKey('sha1', $info);
         $this->assertArrayHasKey('sha256', $info);
 
@@ -135,6 +167,8 @@ final class test_nssdb extends TestCase
 
         $this->assertGreaterThan(filesize($input), filesize($middle));
         $this->assertGreaterThan(filesize($middle), filesize($output));
+        unlink($middle);
+        unlink($output);
 
         $input = '../../utest/files/input2.pdf';
         $middle = get_cache_file($input, '.pdf');
@@ -163,6 +197,8 @@ final class test_nssdb extends TestCase
 
         $this->assertGreaterThan(filesize($input), filesize($middle));
         $this->assertGreaterThan(filesize($middle), filesize($output));
+        unlink($middle);
+        unlink($output);
 
         // create a default subject and name certificate
         $certfile = 'data/files/certificate.p12';
@@ -180,18 +216,20 @@ final class test_nssdb extends TestCase
 
         unlink($certfile);
         $nick2 = $info[1];
-
         $this->assertSame($nick2, 'THE SALTOS PROJECT - 12345678X');
+
         $info = __nssdb_info($nick2);
         $this->assertIsArray($info);
-        $this->assertCount(9, $info);
+        $this->assertCount(11, $info);
         $this->assertSame($info['countryName'], 'ES');
-        $this->assertSame($info['serialNumber'], 'ABCDE-12345678X');
+        $this->assertSame($info['_serialNumber'], 'ABCDE-12345678X');
         $this->assertSame($info['organizationName'], '12345678X');
         $this->assertSame($info['commonName'], 'THE SALTOS PROJECT');
+        $this->assertArrayHasKey('serialNumber', $info);
         $this->assertArrayHasKey('validFrom', $info);
         $this->assertArrayHasKey('validTo', $info);
         $this->assertArrayHasKey('signatureType', $info);
+        $this->assertArrayHasKey('md5', $info);
         $this->assertArrayHasKey('sha1', $info);
         $this->assertArrayHasKey('sha256', $info);
 
