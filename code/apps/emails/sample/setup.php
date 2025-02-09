@@ -85,7 +85,7 @@ $numfiles = 0;
 if (!file_exists('data/inbox/1')) {
     mkdir('data/inbox/1');
     chmod_protected('data/inbox/1', 0777);
-    $files = glob('apps/emails/sample/inbox/1/*.eml.gz');
+    $files = glob('apps/emails/sample/eml/*.eml.gz');
     foreach ($files as $file) {
         copy($file, 'data/inbox/1/' . basename($file));
         $numfiles++;

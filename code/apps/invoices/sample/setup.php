@@ -51,7 +51,7 @@ $time1 = microtime(true);
 $total = 0;
 $exists = execute_query('SELECT COUNT(*) FROM app_invoices');
 if (!$exists) {
-    $files = glob('apps/invoices/sample/*.sql.gz');
+    $files = glob('apps/invoices/sample/sql/*.sql.gz');
     foreach ($files as $file) {
         $query = file_get_contents('compress.zlib://' . $file);
         db_query($query);
