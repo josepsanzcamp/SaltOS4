@@ -174,7 +174,7 @@ final class test_html extends TestCase
         $src = __GIF_IMAGE__;
         $html = "<img src=\"$src\">";
         [$html, $files] = extract_img_tag($html);
-        $hash = md5(base64_decode('R0lGODdhAQABAIABAOns7wAAACwAAAAAAQABAAACAkQBADs='));
+        $hash = md5(mime_extract(__GIF_IMAGE__)['data']);
         $this->assertStringContainsString("cid:$hash", $html);
         $this->assertSame($files[$hash]['type'], 'image/gif');
 
@@ -189,21 +189,21 @@ final class test_html extends TestCase
         $src = __GIF_IMAGE__;
         $html = "<div style='background:url($src)'>";
         [$html, $files] = extract_img_style($html);
-        $hash = md5(base64_decode('R0lGODdhAQABAIABAOns7wAAACwAAAAAAQABAAACAkQBADs='));
+        $hash = md5(mime_extract(__GIF_IMAGE__)['data']);
         $this->assertStringContainsString("cid:$hash", $html);
         $this->assertSame($files[$hash]['type'], 'image/gif');
 
         $src = __GIF_IMAGE__;
         $html = "<div style='background:url(\"$src\")'>";
         [$html, $files] = extract_img_style($html);
-        $hash = md5(base64_decode('R0lGODdhAQABAIABAOns7wAAACwAAAAAAQABAAACAkQBADs='));
+        $hash = md5(mime_extract(__GIF_IMAGE__)['data']);
         $this->assertStringContainsString("cid:$hash", $html);
         $this->assertSame($files[$hash]['type'], 'image/gif');
 
         $src = __GIF_IMAGE__;
         $html = "<div style=\"background:url('$src')\">";
         [$html, $files] = extract_img_style($html);
-        $hash = md5(base64_decode('R0lGODdhAQABAIABAOns7wAAACwAAAAAAQABAAACAkQBADs='));
+        $hash = md5(mime_extract(__GIF_IMAGE__)['data']);
         $this->assertStringContainsString("cid:$hash", $html);
         $this->assertSame($files[$hash]['type'], 'image/gif');
 
@@ -218,7 +218,7 @@ final class test_html extends TestCase
         $src = __GIF_IMAGE__;
         $html = "<table background=\"$src\">";
         [$html, $files] = extract_img_background($html);
-        $hash = md5(base64_decode('R0lGODdhAQABAIABAOns7wAAACwAAAAAAQABAAACAkQBADs='));
+        $hash = md5(mime_extract(__GIF_IMAGE__)['data']);
         $this->assertStringContainsString("cid:$hash", $html);
         $this->assertSame($files[$hash]['type'], 'image/gif');
 

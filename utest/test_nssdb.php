@@ -51,7 +51,9 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
+require_once 'lib/utestlib.php';
 require_once 'apps/certs/php/nssdb.php';
+require_once 'apps/certs/php/certs.php';
 
 /**
  * Main class of this unit test
@@ -67,6 +69,13 @@ final class test_nssdb extends TestCase
      */
     public function test_nssdb(): void
     {
+        if (file_exists('data/files/nssdb')) {
+            $files = glob('data/files/nssdb/*');
+            foreach ($files as $file) {
+                unlink($file);
+            }
+            rmdir('data/files/nssdb');
+        }
         $this->assertSame(__nssdb_list(), []);
 
         $this->assertDirectoryDoesNotExist('data/files/nssdb');
@@ -260,5 +269,150 @@ final class test_nssdb extends TestCase
 
         $this->assertSame(__nssdb_reset(), []);
         $this->assertSame(__nssdb_list(), []);
+    }
+
+    #[testdox('certs functions')]
+    /**
+     * certs test
+     *
+     * This test performs some tests to validate the correctness
+     * of the certs functions
+     */
+    public function test_certs(): void
+    {
+        $json = test_cli_helper('app/certs/list/table', '', '', '', 'admin');
+        $this->assertArrayHasKey('data', $json);
+        $this->assertCount(0, $json['data']);
+
+        $files = glob('apps/certs/sample/certs/*.p12');
+        $files = array_slice($files, 0, 3);
+        foreach ($files as $index => $file) {
+            $id = get_unique_id_md5();
+            $app = 'app/certs/create';
+            $name = basename($file);
+            $size = filesize($file);
+            $type = saltos_content_type($file);
+            $data = mime_inline($type, file_get_contents($file));
+            $file2 = [
+                'id' => $id,
+                'app' => $app,
+                'name' => $name,
+                'size' => $size,
+                'type' => $type,
+                'data' => $data,
+                'error' => '',
+                'file' => '',
+                'hash' => '',
+            ];
+            $json = test_cli_helper('upload/addfile', $file2, '', '', 'admin');
+            $file2['data'] = '';
+            $file2['file'] = execute_query("SELECT file FROM tbl_uploads WHERE uniqid='$id'");
+            $file2['hash'] = md5_file($file);
+            $this->assertSame($json, $file2);
+            $files[$index] = $json;
+        }
+
+        $json = test_cli_helper('app/certs/insert', [
+            'passfile' => '1234',
+            'certfile' => $files,
+        ], '', '', 'admin');
+        $this->assertCount(1, $json);
+        $this->assertArrayHasKey('status', $json);
+        $this->assertSame($json['status'], 'ok');
+
+        $json = test_cli_helper('app/certs/insert', [
+            'passfile' => '1234',
+            'certfile' => $files,
+        ], '', '', 'admin');
+        $this->assertCount(3, $json);
+        $this->assertArrayHasKey('status', $json);
+        $this->assertSame($json['status'], 'ko');
+        $this->assertArrayHasKey('text', $json);
+        $this->assertSame($json['text'], 'Error importing certificates');
+        $this->assertArrayHasKey('code', $json);
+
+        $json = test_cli_helper('app/certs/list/table', [], '', '', 'admin');
+        $this->assertArrayHasKey('data', $json);
+        $this->assertCount(3, $json['data']);
+        $this->assertArrayHasKey('footer', $json);
+        $this->assertSame($json['footer'], 'Total: 3');
+        $ids = array_column($json['data'], 'id');
+
+        $json = test_cli_helper('app/certs/list/table', [
+            'page' => 1,
+        ], '', '', 'admin');
+        $this->assertArrayHasKey('data', $json);
+        $this->assertCount(0, $json['data']);
+        $this->assertArrayNotHasKey('footer', $json);
+
+        $json = test_cli_helper('app/certs/list/table', [
+            'search' => '+ nada',
+        ], '', '', 'admin');
+        $this->assertArrayHasKey('data', $json);
+        $this->assertCount(0, $json['data']);
+
+        $json = test_cli_helper("app/certs/view/{$ids[0]}", [], '', '', 'admin');
+        $this->assertArrayHasKey('data', $json);
+        $this->assertCount(2, $json['data']);
+        $this->assertArrayHasKey('name', $json['data']);
+        $this->assertArrayHasKey('info', $json['data']);
+
+        $json = test_cli_helper("app/certs/delete/nada", [], '', '', 'admin');
+        $this->assertCount(1, $json);
+        $this->assertArrayHasKey('error', $json);
+        $this->assertCount(2, $json['error']);
+        $this->assertArrayHasKey('text', $json['error']);
+        $this->assertSame($json['error']['text'], 'Permission denied');
+        $this->assertArrayHasKey('code', $json['error']);
+
+        foreach ($ids as $id) {
+            $json = test_cli_helper("app/certs/delete/$id", [], '', '', 'admin');
+            $this->assertCount(1, $json);
+            $this->assertArrayHasKey('status', $json);
+            $this->assertSame($json['status'], 'ok');
+        }
+
+        $json = test_cli_helper('app/certs/list/table', '', '', '', 'admin');
+        $this->assertArrayHasKey('data', $json);
+        $this->assertCount(0, $json['data']);
+
+        $json = __certs_view('nada');
+        $this->assertCount(3, $json);
+        $this->assertArrayHasKey('status', $json);
+        $this->assertSame($json['status'], 'ko');
+        $this->assertArrayHasKey('text', $json);
+        $this->assertSame($json['text'], 'Nick not found');
+        $this->assertArrayHasKey('code', $json);
+
+        $json = __certs_delete('nada');
+        $this->assertCount(3, $json);
+        $this->assertArrayHasKey('status', $json);
+        $this->assertSame($json['status'], 'ko');
+        $this->assertArrayHasKey('text', $json);
+        $this->assertSame($json['text'], 'Nick not found');
+        $this->assertArrayHasKey('code', $json);
+
+        $data = __merge_data_actions([
+            ['id' => '1', 'name' => 'name 1'],
+        ], [
+            ['app' => 'certs', 'action' => 'view'],
+        ]);
+        $this->assertNotSame($data, []);
+
+        $data = __merge_data_actions([
+            ['id' => '1', 'name' => 'name 1'],
+        ], '');
+        $this->assertSame($data, [
+            ['id' => '1', 'name' => 'name 1'],
+        ]);
+
+        $data = __merge_data_actions([
+            ['id' => '1', 'name' => 'name 1'],
+        ], [
+            ['app' => 'certs', 'action' => 'edit'],
+        ]);
+        $this->assertSame($data, [
+            ['id' => '1', 'name' => 'name 1'],
+        ]);
     }
 }
