@@ -54,7 +54,7 @@ use PHPUnit\Framework\Attributes\Depends;
 require_once 'lib/utestlib.php';
 require_once 'apps/emails/php/getmail.php';
 require_once 'apps/emails/php/sendmail.php';
-require_once 'php/lib/html.php';
+require_once 'apps/emails/php/html.php';
 
 /**
  * Main class of this unit test

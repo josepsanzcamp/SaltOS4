@@ -623,7 +623,7 @@ function sendmail_action($json, $action, $email_id)
         }
     }
     // TRY TO CONVERT THE INLINE IMAGES INTO ATTACHMENTS WITH CID
-    require_once 'php/lib/html.php';
+    require_once 'apps/emails/php/html.php';
     [$body, $files1] = extract_img_tag($body);
     [$body, $files2] = extract_img_style($body);
     [$body, $files3] = extract_img_background($body);

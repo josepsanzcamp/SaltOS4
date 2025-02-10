@@ -1231,7 +1231,7 @@ function __getmail_body_helper($decoded, $images = false)
                 $temp = str_replace([' ', "\t", "\n"], ['&nbsp;', str_repeat('&nbsp;', 4), '<br>'], $temp);
             }
             if ($type == 'html') {
-                require_once 'php/lib/html.php';
+                require_once 'apps/emails/php/html.php';
                 $temp = remove_script_tag($temp);
                 $temp = remove_style_tag($temp);
                 $temp = remove_comment_tag($temp);
