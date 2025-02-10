@@ -357,7 +357,7 @@ final class test_nssdb extends TestCase
         $this->assertArrayHasKey('name', $json['data']);
         $this->assertArrayHasKey('info', $json['data']);
 
-        $json = test_cli_helper("app/certs/delete/nada", [], '', '', 'admin');
+        $json = test_cli_helper('app/certs/delete/nada', [], '', '', 'admin');
         $this->assertCount(1, $json);
         $this->assertArrayHasKey('error', $json);
         $this->assertCount(2, $json['error']);
