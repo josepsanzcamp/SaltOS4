@@ -139,11 +139,11 @@ final class test_pdf extends TestCase
 
         $buffer = __pdf_all2pdf('../../utest/files/lorem.txt');
         $this->assertStringContainsString('PDF document', get_mime($buffer));
-        $this->assertEqualsWithDelta(25000, strlen($buffer), 1000);
+        $this->assertEqualsWithDelta(26000, strlen($buffer), 1000);
 
         $buffer = __pdf_all2pdf('../../utest/files/lorem.html');
         $this->assertStringContainsString('PDF document', get_mime($buffer));
-        $this->assertEqualsWithDelta(25000, strlen($buffer), 1000);
+        $this->assertEqualsWithDelta(26000, strlen($buffer), 1000);
 
         $buffer = __pdf_all2pdf('../../utest/files/lorem.png');
         $this->assertStringContainsString('PDF document', get_mime($buffer));

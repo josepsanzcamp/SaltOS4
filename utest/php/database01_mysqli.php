@@ -43,7 +43,7 @@ init_random();
 
 db_connect([
     'type' => 'mysqli',
-    'host' => 'localhost',
+    'host' => '127.0.0.1',
     'port' => 'nada',
     'name' => 'saltos',
     'user' => 'saltos',
