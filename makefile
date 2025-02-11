@@ -15,7 +15,7 @@ all:
 
 web: clean
 	cat code/web/lib/bootstrap/bootstrap-icons.min.css code/web/lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css | \
-	php scripts/fixpath.php fonts/Atkinson-Hyperlegible atkinson-hyperlegible/fonts/Atkinson-Hyperlegible | \
+	php scripts/fixpath.php fonts/AtkinsonHyperlegible atkinson-hyperlegible/fonts/AtkinsonHyperlegible | \
 	php scripts/fixpath.php fonts/bootstrap-icons bootstrap/fonts/bootstrap-icons > code/web/lib/index.css
 
 	cat code/web/lib/bootstrap/bootstrap.bundle.min.js code/web/lib/md5/md5.min.js code/web/lib/sourcemap/sourcemapped-stacktrace.min.js > code/web/lib/index.js

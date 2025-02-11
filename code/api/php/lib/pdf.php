@@ -226,7 +226,7 @@ function __pdf_eval_pdftag($array, $row = [])
         $dir = $row['dir'];
     }
     $rtl = ['ltr' => ['L' => 'L', 'C' => 'C', 'R' => 'R'], 'rtl' => ['L' => 'R', 'C' => 'C', 'R' => 'L']];
-    $fonts = ['normal' => 'atkinsonhyperlegible', 'mono' => 'dejavusansmono'];
+    $fonts = ['normal' => 'atkinsonhyperlegiblenext', 'mono' => 'atkinsonhyperlegiblemono'];
     if (!is_array($array)) {
         show_php_error(['phperror' => 'Array not found']);
     }
@@ -530,7 +530,7 @@ function __pdf_all2pdf($input)
         $pdf->SetMargins(10, 10, 10);
         $pdf->SetAutoPageBreak(true, 10);
         $pdf->AddPage();
-        $pdf->SetFont('atkinsonhyperlegible', '', 10);
+        $pdf->SetFont('atkinsonhyperlegiblenext', '', 10);
         if ($type1 == 'html') {
             $pdf->WriteHTML(file_get_contents($input));
         } else {

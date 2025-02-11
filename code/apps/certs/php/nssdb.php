@@ -333,7 +333,7 @@ function __nssdb_update($nick, $input)
     $pdf->setPrintFooter(false);
     $pdf->SetAutoPageBreak(false, 0);
     $pdf->setMargins(0, 0, 0);
-    $pdf->SetFont('atkinsonhyperlegible', '', 6);
+    $pdf->SetFont('atkinsonhyperlegiblenext', '', 6);
     $pdf->SetTextColor(0, 0, 0);
 
     $color = '#e5dbda';

@@ -2948,9 +2948,10 @@ saltos.bootstrap.__field.onetag = field => {
  * TODO
  */
 saltos.bootstrap.__iframe_srcdoc_helper = html => {
+    const font = 'lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css';
     return `<!doctype html><html><head><meta charset="utf-8">
     <style>body { margin: 0; padding: 9px 12px; }</style>
-    <link href="lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css" rel="stylesheet" integrity="">
+    <link href="${font}" rel="stylesheet" integrity="">
     <style>:root { font-family: var(--bs-font-sans-serif); }</style>
     <meta http-equiv="Content-Security-Policy" content="default-src 'self';
         style-src 'self' 'unsafe-inline' ${window.location.origin};

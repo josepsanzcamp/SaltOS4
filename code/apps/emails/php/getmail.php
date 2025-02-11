@@ -54,7 +54,7 @@ define('__HTML_BOX_OPEN__', '<div style="background:#ffffff;">');
 define('__HTML_BOX_CLOSE__', '</div>');
 define('__HTML_TEXT_OPEN__', '<div style="color:#333;font-size:0.9rem;line-height:1rem;">');
 define('__HTML_TEXT_CLOSE__', '</div>');
-define('__PLAIN_TEXT_OPEN__', '<div style="color:#333;font-family:monospace;font-size:0.9rem;line-height:1rem;">');
+define('__PLAIN_TEXT_OPEN__', '<div style="color:#333;font-family:var(--bs-font-monospace);font-size:0.9rem;line-height:1rem;">');
 define('__PLAIN_TEXT_CLOSE__', '</div>');
 define('__HTML_SEPARATOR__', '<hr style="background:#ccc;border:0;height:1px;"/>');
 define('__HTML_NEWLINE__', '<p>&nbsp;</p>');
@@ -1226,7 +1226,7 @@ function __getmail_body_helper($decoded, $images = false)
         if (__getmail_processplainhtml($disp, $type)) {
             $temp = $node['body'];
             if ($type == 'plain') {
-                $temp = wordwrap($temp, 120, "\n", true);
+                $temp = wordwrap($temp, 80, "\n", true);
                 $temp = htmlentities($temp, ENT_COMPAT, 'UTF-8');
                 $temp = str_replace([' ', "\t", "\n"], ['&nbsp;', str_repeat('&nbsp;', 4), '<br>'], $temp);
             }
@@ -1295,7 +1295,7 @@ function getmail_source($id)
     }
     $source = __getmail_getsource($id);
     $source = getutf8($source);
-    $source = wordwrap($source, 120, "\n", true);
+    $source = wordwrap($source, 80, "\n", true);
     $source = htmlentities($source, ENT_COMPAT, 'UTF-8');
     $source = str_replace([' ', "\t", "\n"], ['&nbsp;', str_repeat('&nbsp;', 4), '<br>'], $source);
     $buffer = '';
