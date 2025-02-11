@@ -3296,18 +3296,22 @@ saltos.bootstrap.__field.list = field => {
             }
             if (val.header_text != '' && val.header_icon != '') {
                 temp.append(saltos.core.html(`
-                    <div class="text-nowrap">
-                        <small class="text-${val.header_color}">${val.header_text}</small>
-                        <i class="bi bi-${val.header_icon} text-${val.header_color}"></i>
-                    </div>
+                    <small class="text-nowrap text-${val.header_color} ms-1">
+                        ${val.header_text}
+                        <i class="bi bi-${val.header_icon}"></i>
+                    </small>
                 `));
             } else if (val.header_text != '') {
                 temp.append(saltos.core.html(`
-                    <small class="text-nowrap text-${val.header_color}">${val.header_text}</small>
+                    <small class="text-nowrap text-${val.header_color} ms-1">
+                        ${val.header_text}
+                    </small>
                 `));
             } else if (val.header_icon != '') {
                 temp.append(saltos.core.html(`
-                    <i class="bi bi-${val.header_icon} text-${val.header_color}"></i>
+                    <small class="text-nowrap text-${val.header_color} ms-1">
+                        <i class="bi bi-${val.header_icon}"></i>
+                    </small>
                 `));
             }
             item.append(temp);
@@ -3324,18 +3328,22 @@ saltos.bootstrap.__field.list = field => {
             }
             if (val.body_text != '' && val.body_icon != '') {
                 temp.append(saltos.core.html(`
-                    <div class="text-nowrap">
-                        <small class="text-${val.body_color}">${val.body_text}</small>
-                        <i class="bi bi-${val.body_icon} text-${val.body_color}"></i>
-                    </div>
+                    <small class="text-nowrap text-${val.body_color} ms-1">
+                        ${val.body_text}
+                        <i class="bi bi-${val.body_icon}"></i>
+                    </small>
                 `));
             } else if (val.body_text != '') {
                 temp.append(saltos.core.html(`
-                    <small class="text-nowrap text-${val.body_color}">${val.body_text}</small>
+                    <small class="text-nowrap text-${val.body_color} ms-1">
+                        ${val.body_text}
+                    </small>
                 `));
             } else if (val.body_icon != '') {
                 temp.append(saltos.core.html(`
-                    <i class="bi bi-${val.body_icon} text-${val.body_color}"></i>
+                    <small class="text-nowrap text-${val.body_color} ms-1">
+                        <i class="bi bi-${val.body_icon}"></i>
+                    </small>
                 `));
             }
             item.append(temp);
@@ -3352,18 +3360,22 @@ saltos.bootstrap.__field.list = field => {
             }
             if (val.footer_text != '' && val.footer_icon != '') {
                 temp.append(saltos.core.html(`
-                    <div class="text-nowrap">
-                        <small class="text-${val.footer_color}">${val.footer_text}</small>
-                        <i class="bi bi-${val.footer_icon} text-${val.footer_color}"></i>
-                    </div>
+                    <small class="text-nowrap text-${val.footer_color} ms-1">
+                        ${val.footer_text}
+                        <i class="bi bi-${val.footer_icon}"></i>
+                    </small>
                 `));
             } else if (val.footer_text != '') {
                 temp.append(saltos.core.html(`
-                    <small class="text-nowrap text-${val.footer_color}">${val.footer_text}</small>
+                    <small class="text-nowrap text-${val.footer_color} ms-1">
+                        ${val.footer_text}
+                    </small>
                 `));
             } else if (val.footer_icon != '') {
                 temp.append(saltos.core.html(`
-                    <i class="bi bi-${val.footer_icon} text-${val.footer_color}"></i>
+                    <small class="text-nowrap text-${val.footer_color} ms-1">
+                        <i class="bi bi-${val.footer_icon}"></i>
+                    </small>
                 `));
             }
             item.append(temp);

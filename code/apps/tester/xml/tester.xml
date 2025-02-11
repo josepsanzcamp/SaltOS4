@@ -368,6 +368,98 @@
                         ["id" => "5", "text" => "Five"],
                     ]</data>
                 </jstree>
+
+                <list id="campo38a" label="Campo 38 (list)" tooltip="Tooltip 38 (list)" onclick="true" truncate="true" checkbox="true">
+                    <data eval="true"><![CDATA[[[
+                        "header" => "Josep Sanz Josep Sanz Josep Sanz Josep Sanz",
+                        "header_text" => "1 day",
+                        "header_icon" => "paperclip",
+                        "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        "footer" => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium",
+                    ],[
+                        "header" => "Jordi Company Jordi Company Jordi Company Jordi Company",
+                        "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        "body_text" => "2 days",
+                        "body_icon" => "paperclip",
+                        "footer" => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium",
+                    ],[
+                        "header" => "Andres Diaz Andres Diaz Andres Diaz Andres Diaz",
+                        "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        "footer" => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium",
+                        "footer_text" => "3 days",
+                        "footer_icon" => "paperclip",
+                    ],[
+                        "header" => "Asd Qwerty Asd Qwerty Asd Qwerty Asd Qwerty",
+                        "header_text" => "4 days",
+                        "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        "footer" => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium",
+                    ],[
+                        "header" => "Josep Sanz Josep Sanz Josep Sanz Josep Sanz",
+                        "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        "body_text" => "5 days",
+                        "footer" => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium",
+                    ],[
+                        "header" => "Jordi Company Jordi Company Jordi Company Jordi Company",
+                        "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        "footer" => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium",
+                        "footer_text" => "6 days",
+                    ],[
+                        "header" => "Andres Diaz Andres Diaz Andres Diaz Andres Diaz",
+                        "header_icon" => "paperclip",
+                        "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        "footer" => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium",
+                    ],[
+                        "header" => "Andres Diaz Andres Diaz Andres Diaz Andres Diaz",
+                        "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        "body_icon" => "paperclip",
+                        "footer" => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium",
+                    ],[
+                        "header" => "Andres Diaz Andres Diaz Andres Diaz Andres Diaz",
+                        "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        "footer" => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium",
+                        "footer_icon" => "paperclip",
+                    ]]]]></data>
+                </list>
+                <list id="campo38b" label="Campo 38 (list)" tooltip="Tooltip 38 (list)" onclick="true" truncate="true" checkbox="true">
+                    <data eval="true"><![CDATA[[[
+                        "header" => "Josep Sanz Josep Sanz Josep Sanz Josep Sanz",
+                        "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        "footer" => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium",
+                    ],[
+                        "header" => "Jordi Company Jordi Company Jordi Company Jordi Company",
+                        "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        "footer" => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium",
+                    ],[
+                        "header" => "Andres Diaz Andres Diaz Andres Diaz Andres Diaz",
+                        "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        "footer" => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium",
+                    ],[
+                        "header" => "Asd Qwerty Asd Qwerty Asd Qwerty Asd Qwerty",
+                        "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        "footer" => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium",
+                    ],[
+                        "header" => "Josep Sanz Josep Sanz Josep Sanz Josep Sanz",
+                        "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        "footer" => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium",
+                    ],[
+                        "header" => "Jordi Company Jordi Company Jordi Company Jordi Company",
+                        "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        "footer" => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium",
+                    ],[
+                        "header" => "Andres Diaz Andres Diaz Andres Diaz Andres Diaz",
+                        "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        "footer" => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium",
+                    ],[
+                        "header" => "Andres Diaz Andres Diaz Andres Diaz Andres Diaz",
+                        "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        "footer" => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium",
+                    ],[
+                        "header" => "Andres Diaz Andres Diaz Andres Diaz Andres Diaz",
+                        "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        "footer" => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium",
+                    ]]]]></data>
+                </list>
+
             </container>
         </layout>
 

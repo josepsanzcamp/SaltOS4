@@ -219,40 +219,52 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
                     <h5 class="mb-1 ${o.class}"></h5>
                 </div>
             `);s.querySelector("h5").append(o.header),saltos.core.eval_bool(l.truncate)&&s.querySelector("h5").classList.add("text-truncate"),""!=o.header_text&&""!=o.header_icon?s.append(saltos.core.html(`
-                    <div class="text-nowrap">
-                        <small class="text-${o.header_color}">${o.header_text}</small>
-                        <i class="bi bi-${o.header_icon} text-${o.header_color}"></i>
-                    </div>
+                    <small class="text-nowrap text-${o.header_color} ms-1">
+                        ${o.header_text}
+                        <i class="bi bi-${o.header_icon}"></i>
+                    </small>
                 `)):""!=o.header_text?s.append(saltos.core.html(`
-                    <small class="text-nowrap text-${o.header_color}">${o.header_text}</small>
+                    <small class="text-nowrap text-${o.header_color} ms-1">
+                        ${o.header_text}
+                    </small>
                 `)):""!=o.header_icon&&s.append(saltos.core.html(`
-                    <i class="bi bi-${o.header_icon} text-${o.header_color}"></i>
+                    <small class="text-nowrap text-${o.header_color} ms-1">
+                        <i class="bi bi-${o.header_icon}"></i>
+                    </small>
                 `)),e.append(s)}if(""!=o.body){const a=saltos.core.html(`
                 <div class="d-flex w-100 justify-content-between">
                     <p class="mb-1"></p>
                 </div>
             `);a.querySelector("p").append(o.body),saltos.core.eval_bool(l.truncate)&&a.querySelector("p").classList.add("text-truncate"),""!=o.body_text&&""!=o.body_icon?a.append(saltos.core.html(`
-                    <div class="text-nowrap">
-                        <small class="text-${o.body_color}">${o.body_text}</small>
-                        <i class="bi bi-${o.body_icon} text-${o.body_color}"></i>
-                    </div>
+                    <small class="text-nowrap text-${o.body_color} ms-1">
+                        ${o.body_text}
+                        <i class="bi bi-${o.body_icon}"></i>
+                    </small>
                 `)):""!=o.body_text?a.append(saltos.core.html(`
-                    <small class="text-nowrap text-${o.body_color}">${o.body_text}</small>
+                    <small class="text-nowrap text-${o.body_color} ms-1">
+                        ${o.body_text}
+                    </small>
                 `)):""!=o.body_icon&&a.append(saltos.core.html(`
-                    <i class="bi bi-${o.body_icon} text-${o.body_color}"></i>
+                    <small class="text-nowrap text-${o.body_color} ms-1">
+                        <i class="bi bi-${o.body_icon}"></i>
+                    </small>
                 `)),e.append(a)}if(""!=o.footer){const c=saltos.core.html(`
                 <div class="d-flex w-100 justify-content-between">
                     <small></small>
                 </div>
             `);c.querySelector("small").append(o.footer),saltos.core.eval_bool(l.truncate)&&c.querySelector("small").classList.add("text-truncate"),""!=o.footer_text&&""!=o.footer_icon?c.append(saltos.core.html(`
-                    <div class="text-nowrap">
-                        <small class="text-${o.footer_color}">${o.footer_text}</small>
-                        <i class="bi bi-${o.footer_icon} text-${o.footer_color}"></i>
-                    </div>
+                    <small class="text-nowrap text-${o.footer_color} ms-1">
+                        ${o.footer_text}
+                        <i class="bi bi-${o.footer_icon}"></i>
+                    </small>
                 `)):""!=o.footer_text?c.append(saltos.core.html(`
-                    <small class="text-nowrap text-${o.footer_color}">${o.footer_text}</small>
+                    <small class="text-nowrap text-${o.footer_color} ms-1">
+                        ${o.footer_text}
+                    </small>
                 `)):""!=o.footer_icon&&c.append(saltos.core.html(`
-                    <i class="bi bi-${o.footer_icon} text-${o.footer_color}"></i>
+                    <small class="text-nowrap text-${o.footer_color} ms-1">
+                        <i class="bi bi-${o.footer_icon}"></i>
+                    </small>
                 `)),e.append(c)}saltos.core.eval_bool(o.active)&&(e.classList.add("active"),e.setAttribute("aria-current","true")),saltos.core.eval_bool(o.disabled)&&(e.classList.add("disabled"),e.setAttribute("aria-disabled","true")),r.append(e)}return r.append(saltos.core.html(`
         <style>
             .list-group {
