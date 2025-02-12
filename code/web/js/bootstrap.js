@@ -1528,6 +1528,9 @@ saltos.bootstrap.__field.password = field => {
                 <input type="password" name="${name}" value="${value}" class="d-none"/>
             `));
         }
+        obj.querySelectorAll('input[type=password]').forEach(item => {
+            item.setAttribute('autocomplete', 'new-password');
+        });
     }
     // Continue
     if (field.tooltip != '') {
