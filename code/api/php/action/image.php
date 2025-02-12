@@ -98,6 +98,11 @@ if (!$user_id) {
     show_json_error('Permission denied');
 }
 
+//~ set_data('json/format', 'png');
+//~ set_data('json/type', 'number');
+//~ set_data('json/pass', '@asd+123-*/ASD.@asd+123-*/ASD.');
+//~ set_data('json/msg', '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+
 // Check parameters
 $format = get_data('json/format');
 if (!in_array($format, ['png', 'json'])) {
@@ -118,7 +123,7 @@ switch ($action) {
         $w = get_data('json/w') ? get_data('json/w') : 1;
         $h = get_data('json/h') ? get_data('json/h') : 30;
         $m = get_data('json/m') ? get_data('json/m') : 10;
-        $s = get_data('json/s') ? get_data('json/s') : 8;
+        $s = get_data('json/s') ? get_data('json/s') : 10;
         $t = get_data('json/t') ? get_data('json/t') : 'C39';
         // Do image
         require_once 'php/lib/barcode.php';
@@ -198,7 +203,7 @@ switch ($action) {
         // Prepare parameters
         $width = get_data('json/width') ? get_data('json/width') : 60;
         $height = get_data('json/height') ? get_data('json/height') : 16;
-        $size = get_data('json/size') ? get_data('json/size') : 8;
+        $size = get_data('json/size') ? get_data('json/size') : 10;
         // Do image
         require_once 'php/lib/password.php';
         require_once 'php/lib/score.php';

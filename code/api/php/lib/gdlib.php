@@ -52,7 +52,7 @@ declare(strict_types=1);
  */
 function compute_width($text, $size)
 {
-    $font = getcwd() . '/lib/atkinson-hyperlegible/fonts/AtkinsonHyperlegibleNext-Regular.otf';
+    $font = getcwd() . '/lib/atkinson/fonts/AtkinsonHyperlegibleNext-Regular.otf';
     $bbox = imagettfbbox($size, 0, $font, $text);
     $width = abs($bbox[4] - $bbox[0]);
     return $width;

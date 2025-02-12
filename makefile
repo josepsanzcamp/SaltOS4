@@ -14,8 +14,8 @@ all:
 	@echo Nothing to do by default
 
 web: clean
-	cat code/web/lib/bootstrap/bootstrap-icons.min.css code/web/lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css | \
-	php scripts/fixpath.php fonts/AtkinsonHyperlegible atkinson-hyperlegible/fonts/AtkinsonHyperlegible | \
+	cat code/web/lib/bootstrap/bootstrap-icons.min.css code/web/lib/atkinson/atkinson.min.css | \
+	php scripts/fixpath.php fonts/AtkinsonHyperlegible atkinson/fonts/AtkinsonHyperlegible | \
 	php scripts/fixpath.php fonts/bootstrap-icons bootstrap/fonts/bootstrap-icons > code/web/lib/index.css
 
 	cat code/web/lib/bootstrap/bootstrap.bundle.min.js code/web/lib/md5/md5.min.js code/web/lib/sourcemap/sourcemapped-stacktrace.min.js > code/web/lib/index.js
@@ -40,7 +40,7 @@ web: clean
 
 devel: clean
 	cat code/web/htm/index.htm | \
-	php scripts/debug.php lib/index.css lib/bootstrap/bootstrap-icons.min.css lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css | \
+	php scripts/debug.php lib/index.css lib/bootstrap/bootstrap-icons.min.css lib/atkinson/atkinson.min.css | \
 	php scripts/debug.php lib/index.js lib/bootstrap/bootstrap.bundle.min.js lib/md5/md5.min.js lib/sourcemap/sourcemapped-stacktrace.min.js | \
 	php scripts/debug.php index.js js/{$(FILES)}.js > code/web/index.htm
 

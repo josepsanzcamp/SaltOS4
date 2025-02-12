@@ -189,7 +189,7 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
                 color: #fff;
             }
         </style>
-    `)),e},saltos.bootstrap.__iframe_srcdoc_helper=e=>{const t="lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css?780956011f75ed030834ee0aa8158019";return`<!doctype html><html><head><meta charset="utf-8">
+    `)),e},saltos.bootstrap.__iframe_srcdoc_helper=e=>{const t="lib/atkinson/atkinson.min.css?780956011f75ed030834ee0aa8158019";return`<!doctype html><html><head><meta charset="utf-8">
     <style>body { margin: 0; padding: 9px 12px; }</style>
     <link href="${t}" rel="stylesheet" integrity="">
     <style>:root { font-family: var(--bs-font-sans-serif); }</style>

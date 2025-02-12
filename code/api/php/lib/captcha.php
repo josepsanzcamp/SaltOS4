@@ -97,7 +97,7 @@ function __captcha_image($code, $args = [])
     );
     imagefill($im, 0, 0, $bgcolor2);
     $letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    $font = getcwd() . '/lib/fonts/GorriSans.ttf';
+    $font = getcwd() . '/lib/gorrisans/GorriSans.ttf';
     $bbox = imagettfbbox($letter, 0, $font, $letters[0]);
     $heightline = abs($bbox[7] - $bbox[1]);
     $numlines = intval($height / $heightline) + 1;

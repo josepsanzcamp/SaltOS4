@@ -1827,7 +1827,7 @@ function getmail_pdf($ids)
  */
 function __iframe_srcdoc_helper($html)
 {
-    $font = realpath('../web/lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css');
+    $font = realpath('../web/lib/atkinson/atkinson.min.css');
     $html = '<!doctype html><html><head><meta charset="utf-8">
     <style>body { margin: 0; padding: 0; }</style>
     <link href="' . $font . '" rel="stylesheet" integrity="">

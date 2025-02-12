@@ -67,7 +67,7 @@ function __score_image($score, $width, $height, $size)
         imageline($im, $posx, 0, $posx, $height, $color);
         $posx++;
     }
-    $font = getcwd() . '/lib/fonts/DejaVuSans.ttf';
+    $font = getcwd() . '/lib/atkinson/fonts/AtkinsonHyperlegibleNext-Regular.ttf';
     $bbox = imagettfbbox($size, 0, $font, $score . '%');
     $sx = $bbox[4] - $bbox[0];
     $sy = $bbox[5] - $bbox[1];

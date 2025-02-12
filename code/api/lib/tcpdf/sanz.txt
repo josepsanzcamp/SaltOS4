@@ -1,6 +1,6 @@
 
 composer require tecnickcom/tcpdf
 php update.php
-cd ../atkinson-hyperlegible/
+cd ../atkinson/
 source sanz.txt
 cd -
