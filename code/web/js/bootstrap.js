@@ -798,8 +798,8 @@ saltos.bootstrap.__field.codemirror = field => {
         field.color = 'primary';
     }
     let mode = field.mode;
-    if (['json', 'js', 'javascript'].includes(mode)) {
-        mode = 'application/json';
+    if (['json', 'js'].includes(mode)) {
+        mode = 'javascript';
     }
     const obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
@@ -876,10 +876,10 @@ saltos.bootstrap.__field.codemirror = field => {
             return;
         }
         if (bool) {
-            element.codemirror.setOption('readOnly', 'nocursor');
+            element.codemirror.setOption('readOnly', true);
             element.nextElementSibling.classList.add('bg-body-secondary');
         } else {
-            element.codemirror.setOption('readOnly', '');
+            element.codemirror.setOption('readOnly', false);
             element.nextElementSibling.classList.remove('bg-body-secondary');
         }
     };
