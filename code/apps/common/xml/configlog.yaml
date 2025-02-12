@@ -45,4 +45,5 @@ attr:
         autofocus: true
     val:
         required: true
-        mode: application/json
+        mode: json
+        indent: true

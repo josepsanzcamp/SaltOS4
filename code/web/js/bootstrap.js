@@ -778,6 +778,7 @@ saltos.bootstrap.__field.ckeditor = field => {
  * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
  * @height      => the height used as style.minHeight parameter
  * @onchange    => the function executed when onchange event is detected
+ * @indent      => enables the indent feature, only available for xml, json, css and sql
  *
  * Notes:
  *
@@ -792,13 +793,18 @@ saltos.bootstrap.__field.ckeditor = field => {
  * value of the codemirror, intended to load new data.
  */
 saltos.bootstrap.__field.codemirror = field => {
-    saltos.core.check_params(field, ['mode', 'height', 'color', 'disabled']);
+    saltos.core.check_params(field, ['mode', 'height', 'color', 'disabled', 'indent']);
     if (!field.color) {
         field.color = 'primary';
     }
+    let mode = field.mode;
+    if (['json', 'js', 'javascript'].includes(mode)) {
+        mode = 'application/json';
+    }
     const obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
-    obj.append(saltos.bootstrap.__textarea_helper(saltos.core.copy_object(field)));
+    const copied = saltos.core.copy_object(field);
+    obj.append(saltos.bootstrap.__textarea_helper(copied));
     const element = obj.querySelector('textarea');
     element.style.display = 'none';
     // Add the placeholder
@@ -808,13 +814,20 @@ saltos.bootstrap.__field.codemirror = field => {
     });
     obj.append(placeholder);
     // Continue
-    saltos.core.require([
+    const array = [
         'lib/codemirror/codemirror.min.css',
         'lib/codemirror/codemirror.min.js',
-    ], () => {
+    ];
+    if (saltos.core.eval_bool(field.indent)) {
+        array.push('lib/vkbeautify/vkbeautify.min.js');
+    }
+    saltos.core.require(array, () => {
         placeholder.remove();
+        if (saltos.core.eval_bool(field.indent)) {
+            element.value = saltos.bootstrap.__indent_helper(field.value, field.mode);
+        }
         const cm = CodeMirror.fromTextArea(element, {
-            mode: field.mode,
+            mode: mode,
             styleActiveLine: true,
             lineNumbers: true,
             lineWrapping: true,
@@ -851,6 +864,9 @@ saltos.bootstrap.__field.codemirror = field => {
             }
             return;
         }
+        if (saltos.core.eval_bool(field.indent)) {
+            value = saltos.bootstrap.__indent_helper(value, field.mode);
+        }
         element.codemirror.setValue(value);
     };
     // Program the disabled feature
@@ -871,6 +887,43 @@ saltos.bootstrap.__field.codemirror = field => {
         element.set_disabled(true);
     }
     return obj;
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.bootstrap.__indent_helper = (str, mode) => {
+    if (!str.trim()) {
+        return str;
+    }
+    switch (mode) {
+        case 'xml':
+            str = vkbeautify.xml(str);
+            break;
+        case 'json':
+        case 'js':
+        case 'javascript':
+            // the follow if tries to fix some malformed json like }{, ][, }[ or ]{
+            if (/}{|]\[|}\[|]\{/.test(str)) {
+                // if true, fix the string adding comas and closing all into a new brackets
+                str = '[' + str.replace(/}{|]\[|}\[|]\{/g, match => match[0] + ',' + match[1]) + ']';
+            }
+            try {
+                str = vkbeautify.json(str);
+            } catch (error) {
+                //~ console.log(error);
+            }
+            break;
+        case 'css':
+            str = vkbeautify.css(str);
+            break;
+        case 'sql':
+            str = vkbeautify.sql(str);
+            break;
+    }
+    return str;
 };
 
 /**

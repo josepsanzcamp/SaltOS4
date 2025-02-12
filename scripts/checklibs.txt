@@ -24,6 +24,7 @@ pdfjs|https://api.cdnjs.com/libraries/pdf.js?fields=name,version|version|eyJuYW1
 sourcemap|https://github.com/novocaine/sourcemapped-stacktrace/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAxOS0wOS0wMVQwODowNTo1Mlo8L3VwZGF0ZWQ+
 tomselect|https://api.cdnjs.com/libraries/tom-select?fields=name,version|version|eyJuYW1lIjoidG9tLXNlbGVjdCIsInZlcnNpb24iOiIyLjQuMSJ9
 venobox|https://api.cdnjs.com/libraries/venobox?fields=name,version|version|eyJuYW1lIjoidmVub2JveCIsInZlcnNpb24iOiIyLjEuOCJ9
+vkbeautify|https://github.com/vkiryukhin/vkBeautify/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAxOC0wNi0yOFQwNTowMjoyNlo8L3VwZGF0ZWQ+
 
 mimeparser|https://phpclasses.org/browse/file/14670.html|<span title=|PHNwYW4gdGl0bGU9IjIwMjQtMTEtMDMgMDk6MDg6MDYiPg==
 phpmailer|https://github.com/PHPMailer/PHPMailer/tags.atom|<title>|PHRpdGxlPlBIUE1haWxlciA2LjkuMzwvdGl0bGU+

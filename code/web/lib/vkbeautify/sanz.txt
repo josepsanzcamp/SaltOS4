@@ -1,0 +1,6 @@
+
+# https://github.com/vkiryukhin/vkBeautify
+# http://www.eslinstructor.net/vkbeautify/
+# https://github.com/vkiryukhin/vkBeautify/commits/master/vkbeautify.js
+wget https://raw.githubusercontent.com/vkiryukhin/vkBeautify/refs/heads/master/vkbeautify.js
+minify vkbeautify.js > vkbeautify.min.js
