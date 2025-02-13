@@ -54,7 +54,7 @@ define('__HTML_BOX_OPEN__', '<div style="background:#fff;">');
 define('__HTML_BOX_CLOSE__', '</div>');
 define('__HTML_TEXT_OPEN__', '<div style="color:#333;">');
 define('__HTML_TEXT_CLOSE__', '</div>');
-define('__PLAIN_TEXT_OPEN__', '<div style="color:#333;font-family:var(--bs-font-monospace);">');
+define('__PLAIN_TEXT_OPEN__', '<div style="color:#333;font-family:var(--bs-font-monospace);font-size:0.875rem">');
 define('__PLAIN_TEXT_CLOSE__', '</div>');
 define('__HTML_SEPARATOR__', '<hr style="background:#ccc;border:0;height:1px;"/>');
 define('__HTML_NEWLINE__', '<p>&nbsp;</p>');
