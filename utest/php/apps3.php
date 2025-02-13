@@ -41,6 +41,9 @@ program_handlers();
 init_timer();
 init_random();
 
-current_app();
+global $_CONFIG;
+$_CONFIG = eval_attr(xmlfiles2array(detect_config_files('xml/config.xml')));
+db_connect();
 
-pcov_stop();
+set_data('rest/0', 'app');
+current_app();
