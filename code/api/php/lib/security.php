@@ -28,9 +28,9 @@
 declare(strict_types=1);
 
 /**
- * Browser helper module
+ * Security helper module
  *
- * This file contain useful browser helper functions
+ * This file contain useful securiry helper functions
  */
 
 /**
@@ -38,35 +38,13 @@ declare(strict_types=1);
  *
  * This function gets the browser, platform and device_type form the user_agent header
  */
-function get_browser_array($user_agent = null)
+function get_connection_detected($remote_addr, $user_agent = null)
 {
-    require_once 'lib/browscap/vendor/autoload.php';
-    $file = 'lib/browscap/vendor/browscap/browscap-php/resources/cache.sqlite';
-    $db = new PDO("sqlite:$file");
-    // This oveload is found until this libraries fixes these deprecations
-    overload_error_handler('deprecated');
-    $adapter = new MatthiasMullie\Scrapbook\Adapters\SQLite($db);
-    $cache = new MatthiasMullie\Scrapbook\Psr16\SimpleCache($adapter);
-    restore_error_handler();
-    $logger = new \Monolog\Logger('name');
-    $bc = new \BrowscapPHP\Browscap($cache, $logger);
-    $result = $bc->getBrowser($user_agent);
-    return [
-        'browser' => $result->browser,
-        'platform' => $result->platform,
-        'device_type' => $result->device_type,
-    ];
-}
-
-/**
- * Get Browser Platform Device Type
- *
- * This function gets the browser, platform and device_type form the user_agent header
- */
-function get_browser_string($user_agent = null)
-{
-    $str = T('$browser browser, $platform platform, and a $device_type device type');
-    extract(get_browser_array($user_agent));
+    require_once 'php/lib/geoip.php';
+    require_once 'php/lib/browser.php';
+    $str = T('A connection has been detected from $geoip on a $browser.');
+    $geoip = get_geoip_string($remote_addr);
+    $browser = get_browser_string($user_agent);
     $str = eval("return \"$str\";");
     return $str;
 }

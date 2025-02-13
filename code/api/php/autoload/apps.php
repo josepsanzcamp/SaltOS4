@@ -494,7 +494,8 @@ function detect_apps_files($file)
 function current_app()
 {
     if (get_data('rest/0') != 'app') {
-        show_php_error(['phperror' => 'unknown app in rest args']);
+        //~ show_php_error(['phperror' => 'unknown app in rest args']);
+        return '';
     }
     if (!app_exists(get_data('rest/1'))) {
         show_php_error(['phperror' => 'unknown app in rest args']);

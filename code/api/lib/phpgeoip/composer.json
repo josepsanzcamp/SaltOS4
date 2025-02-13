@@ -1,0 +1,5 @@
+{
+    "require": {
+        "webklex/php-geoip": "^1.0"
+    }
+}
