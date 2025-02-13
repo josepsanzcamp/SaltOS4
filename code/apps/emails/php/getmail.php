@@ -50,17 +50,17 @@ require_once 'apps/emails/lib/pop3class/pop3.php';
  * This defines allow to define some useful standards to do html pages and more.
  */
 // phpcs:disable Generic.Files.LineLength
-define('__HTML_BOX_OPEN__', '<div style="background:#ffffff;">');
+define('__HTML_BOX_OPEN__', '<div style="background:#fff;">');
 define('__HTML_BOX_CLOSE__', '</div>');
-define('__HTML_TEXT_OPEN__', '<div style="color:#333;font-size:0.9rem;line-height:1rem;">');
+define('__HTML_TEXT_OPEN__', '<div style="color:#333;">');
 define('__HTML_TEXT_CLOSE__', '</div>');
-define('__PLAIN_TEXT_OPEN__', '<div style="color:#333;font-family:var(--bs-font-monospace);font-size:0.9rem;line-height:1rem;">');
+define('__PLAIN_TEXT_OPEN__', '<div style="color:#333;font-family:var(--bs-font-monospace);">');
 define('__PLAIN_TEXT_CLOSE__', '</div>');
 define('__HTML_SEPARATOR__', '<hr style="background:#ccc;border:0;height:1px;"/>');
 define('__HTML_NEWLINE__', '<p>&nbsp;</p>');
 define('__BLOCKQUOTE_OPEN__', '<blockquote style="border-left:#ccc 1px solid;margin:0 0 0 0.8ex;padding-left:1ex;">');
 define('__BLOCKQUOTE_CLOSE__', '</blockquote>');
-define('__SIGNATURE_OPEN__', '<div style="color:#ccc;font-size:0.8rem;line-height:1rem;"><p>--</p>');
+define('__SIGNATURE_OPEN__', '<div style="color:#ccc;font-size:0.9rem;"><p>--</p>');
 define('__SIGNATURE_CLOSE__', '</div>');
 define('__SECTION_OPEN__', '<section>');
 define('__SECTION_CLOSE__', '</section>');
