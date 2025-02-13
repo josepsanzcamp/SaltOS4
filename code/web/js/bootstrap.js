@@ -831,6 +831,7 @@ saltos.bootstrap.__field.codemirror = field => {
             styleActiveLine: true,
             lineNumbers: true,
             lineWrapping: true,
+            indentUnit: 4,
         });
         element.codemirror = cm;
         if (field.color != 'none') {
