@@ -60,7 +60,7 @@ define('__HTML_SEPARATOR__', '<hr style="background:#ccc;border:0;height:1px;"/>
 define('__HTML_NEWLINE__', '<p>&nbsp;</p>');
 define('__BLOCKQUOTE_OPEN__', '<blockquote style="border-left:#ccc 1px solid;margin:0 0 0 0.8ex;padding-left:1ex;">');
 define('__BLOCKQUOTE_CLOSE__', '</blockquote>');
-define('__SIGNATURE_OPEN__', '<div style="color:#ccc;font-size:0.9rem;"><p>--</p>');
+define('__SIGNATURE_OPEN__', '<div style="color:#ccc;font-size:0.875rem;"><p>--</p>');
 define('__SIGNATURE_CLOSE__', '</div>');
 define('__SECTION_OPEN__', '<section>');
 define('__SECTION_CLOSE__', '</section>');
