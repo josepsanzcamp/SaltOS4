@@ -1474,8 +1474,8 @@ saltos.bootstrap.__field.button = field => {
  * see the entered password to verify it, in reality, this button swaps the input between
  * password and text type, allowing to do visible or not the contents of the input
  *
- * This widget add the hiddens passwords trick that disable the browser autocomplete
- * feature using the browser password manager
+ * Setting the field.autocomplete=false enable the feature that tries to disable the
+ * autocomplete provided by the browsers password adding the autocomplete="new-password"
  */
 saltos.bootstrap.__field.password = field => {
     saltos.core.check_params(field, ['label', 'class', 'id', 'placeholder', 'value', 'disabled',
@@ -1506,12 +1506,16 @@ saltos.bootstrap.__field.password = field => {
     if (field.color == 'none') {
         border = 'border-0';
     }
+    let autocomplete = '';
+    if (!saltos.core.eval_bool(field.autocomplete)) {
+        autocomplete = 'autocomplete="new-password"';
+    }
     const obj = saltos.core.html(`
         <div>
             <div class="input-group">
                 <input type="password" class="form-control ${border} ${field.class}"
                     id="${field.id}" placeholder="${field.placeholder}" value="${field.value}"
-                    ${disabled} ${readonly} ${required} ${autofocus}
+                    ${disabled} ${readonly} ${required} ${autofocus} ${autocomplete}
                     aria-label="${field.placeholder}" aria-describedby="${field.id}_button"
                     data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
                 <button class="btn btn-${color} bi-eye-slash" type="button"
@@ -1519,34 +1523,16 @@ saltos.bootstrap.__field.password = field => {
             </div>
         </div>
     `);
-    if (!saltos.core.eval_bool(field.autocomplete)) {
-        // Trick to prevent the browser password manager
-        for (let i = 0; i < 10; i++) {
-            const name = saltos.core.uniqid();
-            const value = saltos.core.uniqid();
-            obj.append(saltos.core.html(`
-                <input type="password" name="${name}" value="${value}" class="d-none"/>
-            `));
-        }
-        obj.querySelectorAll('input[type=password]').forEach(item => {
-            item.setAttribute('autocomplete', 'new-password');
-        });
-    }
     // Continue
+    const item = obj.querySelector('input[type=password]');
     if (field.tooltip != '') {
-        obj.querySelectorAll('input[type=password]').forEach(item => {
-            saltos.bootstrap.__tooltip_helper(item);
-        });
+        saltos.bootstrap.__tooltip_helper(item);
     }
     if (field.onenter != '') {
-        obj.querySelectorAll('input[type=password]').forEach(item => {
-            saltos.bootstrap.__onenter_helper(item, field.onenter);
-        });
+        saltos.bootstrap.__onenter_helper(item, field.onenter);
     }
     if (field.onchange != '') {
-        obj.querySelectorAll('input[type=password]').forEach(item => {
-            saltos.bootstrap.__onchange_helper(item, field.onchange);
-        });
+        saltos.bootstrap.__onchange_helper(item, field.onchange);
     }
     obj.querySelector('button').addEventListener('click', event => {
         const input = event.target.parentElement.querySelector('input[type=password], input[type=text]');
