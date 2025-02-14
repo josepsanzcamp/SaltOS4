@@ -59,8 +59,8 @@ function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
     require_once 'apps/emails/lib/phpmailer/vendor/autoload.php';
     require_once 'apps/emails/php/getmail.php';
     // FIND ACCOUNT DATA
-    $query = 'SELECT * FROM app_emails_accounts WHERE id = ?';
-    $result = execute_query($query, [$account_id]);
+    $query = 'SELECT * FROM app_emails_accounts WHERE id = ? AND user_id = ?';
+    $result = execute_query($query, [$account_id, current_user()]);
     if (!isset($result['id'])) {
         return T('Id not found');
     }
