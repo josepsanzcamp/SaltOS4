@@ -113,7 +113,13 @@ function addlog($msg, $file = '')
     file_put_contents($dir . $file, $msg, FILE_APPEND);
     chmod_protected($dir . $file, 0666);
     if (isset($file2) && isset($file3)) {
-        file_put_contents($dir . $file3, gzencode(file_get_contents($dir . $file2), 1));
+        $input  = fopen($dir . $file2, 'rb');
+        $output = gzopen($dir . $file3, 'wb1');
+        while (!feof($input)) {
+            gzwrite($output, fread($input, 8192));
+        }
+        fclose($input);
+        gzclose($output);
         chmod_protected($dir . $file3, 0666);
         unlink($dir . $file2);
     }
