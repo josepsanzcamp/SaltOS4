@@ -86,16 +86,22 @@ function addlog($msg, $file = '')
         $file = get_config('debug/logfile') ?? 'saltos.log';
     }
     $dir = get_directory('dirs/logsdir') ?? getcwd_protected() . '/data/logs/';
-    $maxfilesize = normalize_value(get_config('debug/maxfilesize') ?? '1M');
+    $maxfilesize = normalize_value(get_config('debug/maxfilesize') ?? '100M');
     if (
         $maxfilesize > 0 && file_exists($dir . $file) && is_file($dir . $file) &&
         filesize($dir . $file) >= $maxfilesize
     ) {
+        $prefile = pathinfo($file, PATHINFO_FILENAME);
+        $postfile = extension($file);
         $next = 1;
-        while (file_exists($dir . $file . '.' . $next)) {
+        $file2 = "$prefile.$next.$postfile";
+        $file3 = $file2 . '.gz';
+        while (file_exists($dir . $file3)) {
             $next++;
+            $file2 = "$prefile.$next.$postfile";
+            $file3 = $file2 . '.gz';
         }
-        rename($dir . $file, $dir . $file . '.' . $next);
+        rename($dir . $file, $dir . $file2);
     }
     $msg = trim(strval($msg));
     $msg = explode("\n", $msg);
@@ -106,6 +112,11 @@ function addlog($msg, $file = '')
     $msg = implode("\n", $msg) . "\n";
     file_put_contents($dir . $file, $msg, FILE_APPEND);
     chmod_protected($dir . $file, 0666);
+    if (isset($file2) && isset($file3)) {
+        file_put_contents($dir . $file3, gzencode(file_get_contents($dir . $file2), 1));
+        chmod_protected($dir . $file3, 0666);
+        unlink($dir . $file2);
+    }
 }
 
 /**
