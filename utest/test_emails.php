@@ -575,12 +575,6 @@ final class test_emails extends TestCase
         $expected = gzfilesize('data/inbox/1/email_0100.eml.gz');
         $actual = strlen(__getmail_getsource(100));
         $this->assertLessThan($expected, $actual);
-        $this->assertSame(__getmail_gethumansize(1073741824), '1 Gbytes');
-        $this->assertSame(__getmail_gethumansize(1073741823), '1024 Mbytes');
-        $this->assertSame(__getmail_gethumansize(1048576), '1 Mbytes');
-        $this->assertSame(__getmail_gethumansize(1048575), '1024 Kbytes');
-        $this->assertSame(__getmail_gethumansize(1024), '1 Kbytes');
-        $this->assertSame(__getmail_gethumansize(1023), '1023 bytes');
         $this->assertSame(__getmail_fixstring([1, 2, 3]), 1);
         $this->assertSame(gzfilesize('../../utest/files/lorem.txt'), 751);
 

@@ -635,3 +635,31 @@ function explode_with_quotes($separator, $str, $limit = 0)
     }
     return $result;
 }
+
+/**
+ * Grep helper
+ *
+ * This function emulates the grep command, is able to invert the pattern
+ * selection and returns the same array with the grep applied, tries to do
+ * the grep ignoring case and ignoring extended chars and is able to search
+ * words ignoring accents
+ *
+ * @input   => the input array
+ * @pattern => the search pattern
+ * @invert  => default to false to search, true to invert the selection
+ */
+function array_grep($input, $pattern, $invert = false)
+{
+    $pattern = iconv('UTF-8', 'ASCII//TRANSLIT', $pattern);
+    foreach ($input as $key => $val) {
+        $val = iconv('UTF-8', 'ASCII//TRANSLIT', $val);
+        $pos = stripos($val, $pattern);
+        if (!$invert && $pos === false) {
+            unset($input[$key]);
+        } elseif ($invert && $pos !== false) {
+            unset($input[$key]);
+        }
+    }
+    $input = array_values($input);
+    return $input;
+}

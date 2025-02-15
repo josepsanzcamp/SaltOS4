@@ -393,7 +393,7 @@ function __getmail_getfiles($array, $level = 0)
             }
             if ($cname != '') {
                 $csize = __getmail_fixstring(__getmail_getnode('BodyLength', $array));
-                $hsize = __getmail_gethumansize($csize);
+                $hsize = get_human_size($csize);
                                      // md5 inside as memory trick
                 $chash = md5(serialize([md5($temp), $cid, $cname, $ctype, $csize]));
                 $result[] = [
@@ -453,27 +453,6 @@ function __getmail_getfiles($array, $level = 0)
         }
     }
     return $result;
-}
-
-/**
- * Get human size
- *
- * This function returns an string containing the size in human format
- *
- * @size => the number of bytes to convert to human format
- */
-function __getmail_gethumansize($size)
-{
-    if ($size >= 1073741824) {
-        $size = round($size / 1073741824, 2) . ' Gbytes';
-    } elseif ($size >= 1048576) {
-        $size = round($size / 1048576, 2) . ' Mbytes';
-    } elseif ($size >= 1024) {
-        $size = round($size / 1024, 2) . ' Kbytes';
-    } else {
-        $size = $size . ' bytes';
-    }
-    return $size;
 }
 
 /**
@@ -730,7 +709,7 @@ function __getmail_getfullbody($array)
             }
             if ($cid != '' || $cname != '') {
                 $csize = __getmail_fixstring(__getmail_getnode('BodyLength', $array));
-                $hsize = __getmail_gethumansize($csize);
+                $hsize = get_human_size($csize);
                                      // md5 inside as memory trick
                 $chash = md5(serialize([md5($temp), $cid, $cname, $ctype, $csize]));
                 $result[] = [
@@ -837,7 +816,7 @@ function __getmail_getcid($array, $hash)
             $csize = __getmail_fixstring(__getmail_getnode('BodyLength', $array));
             $chash = md5(serialize([md5($temp), $cid, $cname, $ctype, $csize])); // md5 inside as memory trick
             if ($chash == $hash) {
-                $hsize = __getmail_gethumansize($csize);
+                $hsize = get_human_size($csize);
                 return [
                     'disp' => $disp,
                     'type' => $type,
@@ -860,7 +839,7 @@ function __getmail_getcid($array, $hash)
                     md5(json_encode([md5($temp), $cid, $cname, $ctype, $csize])),
                 ])
             ) {
-                $hsize = __getmail_gethumansize($csize);
+                $hsize = get_human_size($csize);
                 return [
                     'disp' => $disp,
                     'type' => $type,

@@ -55,32 +55,6 @@ function __nssdb_passthru_helper($cmd)
 }
 
 /**
- * Grep helper
- *
- * This function emulates the grep command, is able to invert the pattern
- * selection and returns the same array with the grep applied
- *
- * @input   => the input array
- * @pattern => the search pattern
- * @invert  => default to false to search, true to invert the selection
- */
-function __nssdb_grep_helper($input, $pattern, $invert = false)
-{
-    $pattern = iconv('UTF-8', 'ASCII//TRANSLIT', $pattern);
-    foreach ($input as $key => $val) {
-        $val = iconv('UTF-8', 'ASCII//TRANSLIT', $val);
-        $pos = stripos($val, $pattern);
-        if (!$invert && $pos === false) {
-            unset($input[$key]);
-        } elseif ($invert && $pos !== false) {
-            unset($input[$key]);
-        }
-    }
-    $input = array_values($input);
-    return $input;
-}
-
-/**
  * Init nssdb repo
  *
  * This function tries to initialize the nssdb component with an empty repo
@@ -173,9 +147,9 @@ function __nssdb_list()
     }
     $dir = __nssdb_dir_helper();
     $output = __nssdb_passthru_helper("pdfsig -nssdir $dir -list-nicks 2>&1");
-    $output = __nssdb_grep_helper($output, 'NSS_Shutdown failed', true);
-    $output = __nssdb_grep_helper($output, 'There are no certificates available.', true);
-    $output = __nssdb_grep_helper($output, 'Certificate nicknames available:', true);
+    $output = array_grep($output, 'NSS_Shutdown failed', true);
+    $output = array_grep($output, 'There are no certificates available.', true);
+    $output = array_grep($output, 'Certificate nicknames available:', true);
     return $output;
 }
 
@@ -244,7 +218,7 @@ function __nssdb_pdfsig($nick, $input, $output)
     if (file_exists($output)) {
         chmod_protected($output, 0666);
     }
-    $output1 = __nssdb_grep_helper($output1, 'NSS_Shutdown failed', true);
+    $output1 = array_grep($output1, 'NSS_Shutdown failed', true);
     $output2 = __nssdb_passthru_helper("pdfsig $output 2>&1");
     return array_merge($output1, $output2);
 }

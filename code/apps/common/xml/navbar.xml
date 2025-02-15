@@ -49,6 +49,7 @@
                         <item ifeval="check_user('uploadlog', 'menu')" label="Upload" onclick="saltos.window.open('app/uploadlog')"/>
                         <item ifeval="check_user('tokenslog', 'menu')" label="Tokens" onclick="saltos.window.open('app/tokenslog')"/>
                         <item ifeval="check_user('certs', 'menu')" label="Certificates" onclick="saltos.window.open('app/certs')"/>
+                        <item ifeval="check_user('fileslog', 'menu')" label="Log files" onclick="saltos.window.open('app/fileslog')"/>
                         <item divider="true"/>
                         <item ifeval="check_user('tester', 'menu')" label="Tester" onclick="saltos.window.open('app/tester')"/>
                     </menu>

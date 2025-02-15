@@ -508,3 +508,24 @@ function file_get_contents_protected(...$args)
     restore_error_handler();
     return $buffer;
 }
+
+/**
+ * Get human size
+ *
+ * This function returns an string containing the size in human format
+ *
+ * @size => the number of bytes to convert to human format
+ */
+function get_human_size($size)
+{
+    if ($size >= 1073741824) {
+        $size = round($size / 1073741824, 2) . ' Gbytes';
+    } elseif ($size >= 1048576) {
+        $size = round($size / 1048576, 2) . ' Mbytes';
+    } elseif ($size >= 1024) {
+        $size = round($size / 1024, 2) . ' Kbytes';
+    } else {
+        $size = $size . ' bytes';
+    }
+    return $size;
+}

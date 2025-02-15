@@ -54,5 +54,8 @@
         <app id="7" active="1"
             code="widgets" name="Widgets" description="Widgets application"
             perms="widget" allow="1"/>
+        <app id="28" active="1"
+            code="fileslog" name="Files log" description="Files log application"
+            perms="menu,help,list*,view*"/>
     </apps>
 </root>

@@ -54,6 +54,7 @@ use PHPUnit\Framework\Attributes\Depends;
 require_once 'lib/utestlib.php';
 require_once 'apps/certs/php/nssdb.php';
 require_once 'apps/certs/php/certs.php';
+require_once 'apps/common/php/actions.php';
 
 /**
  * Main class of this unit test
@@ -391,7 +392,17 @@ final class test_nssdb extends TestCase
         $this->assertArrayHasKey('text', $json);
         $this->assertSame($json['text'], 'Nick not found');
         $this->assertArrayHasKey('code', $json);
+    }
 
+    #[testdox('actions functions')]
+    /**
+     * actions test
+     *
+     * This test performs some tests to validate the correctness
+     * of the certs functions
+     */
+    public function test_actions(): void
+    {
         $data = __merge_data_actions([
             ['id' => '1', 'name' => 'name 1'],
         ], [

@@ -516,5 +516,12 @@ final class test_file extends TestCase
         $this->assertFileExists($file);
         $this->assertTrue(words_exists('unknown action nada', file_get_contents($file)));
         unlink($file);
+
+        $this->assertSame(get_human_size(1073741824), '1 Gbytes');
+        $this->assertSame(get_human_size(1073741823), '1024 Mbytes');
+        $this->assertSame(get_human_size(1048576), '1 Mbytes');
+        $this->assertSame(get_human_size(1048575), '1024 Kbytes');
+        $this->assertSame(get_human_size(1024), '1 Kbytes');
+        $this->assertSame(get_human_size(1023), '1023 bytes');
     }
 }
