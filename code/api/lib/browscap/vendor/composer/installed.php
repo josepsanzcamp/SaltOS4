@@ -83,9 +83,9 @@
             'dev_requirement' => false,
         ),
         'matthiasmullie/scrapbook' => array(
-            'pretty_version' => '1.5.3',
-            'version' => '1.5.3.0',
-            'reference' => 'c339d56e136713aab532718eff453663b4b38efe',
+            'pretty_version' => '1.5.4',
+            'version' => '1.5.4.0',
+            'reference' => '6ca64d54d7106deffbb98cb9c6a6f5fdb13ce1f1',
             'type' => 'library',
             'install_path' => __DIR__ . '/../matthiasmullie/scrapbook',
             'aliases' => array(),
@@ -181,8 +181,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0|3.0',
-                1 => '3.0.0',
+                0 => '3.0.0',
+                1 => '1.0|2.0|3.0',
             ),
         ),
         'psr/simple-cache' => array(

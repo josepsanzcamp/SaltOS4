@@ -43,11 +43,8 @@ function get_browser_array($user_agent = null)
     require_once 'lib/browscap/vendor/autoload.php';
     $file = 'lib/browscap/vendor/browscap/browscap-php/resources/cache.sqlite';
     $db = new PDO("sqlite:$file");
-    // This oveload is found until this libraries fixes these deprecations
-    overload_error_handler('deprecated');
     $adapter = new MatthiasMullie\Scrapbook\Adapters\SQLite($db);
     $cache = new MatthiasMullie\Scrapbook\Psr16\SimpleCache($adapter);
-    restore_error_handler();
     $logger = new \Monolog\Logger('name');
     $bc = new \BrowscapPHP\Browscap($cache, $logger);
     $result = $bc->getBrowser($user_agent);
