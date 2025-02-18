@@ -58,13 +58,13 @@ final class test_roundcube extends TestCase
     public function test_html2text(): void
     {
         $html = 'The SaltOS project<br/><a href="https://www.saltos.org">www.saltos.org</a>';
-        $text = 'The SaltOS project
-www.saltos.org [1]
-
-Links:
-------
-[1] https://www.saltos.org
-';
+        $text = "The SaltOS project\nwww.saltos.org [1]\n\nLinks:\n------\n[1] https://www.saltos.org\n";
         $this->assertSame(html2text($html), $text);
+
+        $this->assertSame(html2text(' '), ' ');
+        $this->assertSame(html2text(true), '1');
+        $this->assertSame(html2text(''), '');
+        $this->assertSame(html2text(false), '');
+        $this->assertSame(html2text(null), '');
     }
 }

@@ -246,15 +246,16 @@ function normalize_value($value)
  */
 function html2text($html)
 {
+    $html = strval($html);
+    if ($html == '') {
+        return $html;
+    }
     if (!defined('RCUBE_CHARSET')) {
         define('RCUBE_CHARSET', 'UTF-8');
     }
     require_once 'lib/roundcube/rcube_html2text.php';
     $obj = new rcube_html2text($html);
-    // This oveload is found until this libraries fixes these deprecations
-    overload_error_handler('deprecated');
     $text = $obj->get_text();
-    restore_error_handler();
     return $text;
 }
 
