@@ -969,32 +969,30 @@ saltos.bootstrap.__field.iframe = field => {
     if (field.height) {
         obj.style.minHeight = field.height;
     }
-    obj.addEventListener('load', event => {
-        const item = event.target;
-        window.addEventListener('resize', event => {
-            if (item.contentWindow) {
-                // The next line sets the height to a small size to fix a resize bug when
-                // updates contents and new contents are more small of the old contents
-                item.style.height = '1px';
-                const size = item.contentWindow.document.documentElement.offsetHeight + 2;
-                item.style.height = size + 'px';
-            }
+    const element = obj;
+    // Program the resize that computes the height
+    window.addEventListener('resize', event => {
+        const size = element.contentWindow.document.documentElement.offsetHeight + 2;
+        element.style.height = size + 'px';
+    });
+    // When new load is detected
+    element.addEventListener('load', event => {
+        // Trigger to resize the iframe
+        window.dispatchEvent(new Event('resize'));
+        // To open the links in a new window and prevent the same origin error
+        element.contentWindow.document.querySelectorAll('a, area').forEach(link => {
+            link.setAttribute('target', '_blank');
         });
-        saltos.core.when_visible(obj, () => {
-            window.dispatchEvent(new Event('resize'));
-        });
-        // To propagate the keydown event suck as escape key
-        item.contentWindow.addEventListener('keydown', event => {
+    });
+    // To propagate the keydown event suck as escape key
+    saltos.core.when_visible(obj, () => {
+        element.contentWindow.addEventListener('keydown', event => {
             window.dispatchEvent(new KeyboardEvent('keydown', {
                 altKey: event.altKey,
                 ctrlKey: event.ctrlKey,
                 shiftKey: event.shiftKey,
                 keyCode: event.keyCode,
             }));
-        });
-        // To open the links in a new window and prevent the same origin error
-        item.contentWindow.document.querySelectorAll('a, area').forEach(link => {
-            link.setAttribute('target', '_blank');
         });
     });
     obj = saltos.bootstrap.__label_combine(field, obj);
