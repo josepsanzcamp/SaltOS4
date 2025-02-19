@@ -973,12 +973,19 @@ saltos.bootstrap.__field.iframe = field => {
     // When new load is detected
     element.addEventListener('load', event => {
         // Program the resize that computes the height
-        window.addEventListener('resize', event => {
-            const size = element.contentWindow.document.documentElement.offsetHeight + 2;
-            element.style.height = size + 'px';
+        const resizeObserver = new ResizeObserver(entries => {
+            requestAnimationFrame(() => {
+                if (!element.contentWindow) {
+                    return;
+                }
+                if (!element.contentWindow.document.documentElement) {
+                    return;
+                }
+                const size = element.contentWindow.document.documentElement.offsetHeight + 2;
+                element.style.height = size + 'px';
+            });
         });
-        // Trigger to resize the iframe
-        window.dispatchEvent(new Event('resize'));
+        resizeObserver.observe(element);
         // To open the links in a new window and prevent the same origin error
         element.contentWindow.document.querySelectorAll('a, area').forEach(link => {
             link.setAttribute('target', '_blank');
