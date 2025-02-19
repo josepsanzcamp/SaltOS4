@@ -970,22 +970,22 @@ saltos.bootstrap.__field.iframe = field => {
         obj.style.minHeight = field.height;
     }
     const element = obj;
-    // Program the resize that computes the height
-    window.addEventListener('resize', event => {
-        const size = element.contentWindow.document.documentElement.offsetHeight + 2;
-        element.style.height = size + 'px';
-    });
-    // When new load is detected
-    element.addEventListener('load', event => {
-        // Trigger to resize the iframe
-        window.dispatchEvent(new Event('resize'));
-        // To open the links in a new window and prevent the same origin error
-        element.contentWindow.document.querySelectorAll('a, area').forEach(link => {
-            link.setAttribute('target', '_blank');
-        });
-    });
-    // To propagate the keydown event suck as escape key
     saltos.core.when_visible(obj, () => {
+        // Program the resize that computes the height
+        window.addEventListener('resize', event => {
+            const size = element.contentWindow.document.documentElement.offsetHeight + 2;
+            element.style.height = size + 'px';
+        });
+        // When new load is detected
+        element.addEventListener('load', event => {
+            // Trigger to resize the iframe
+            window.dispatchEvent(new Event('resize'));
+            // To open the links in a new window and prevent the same origin error
+            element.contentWindow.document.querySelectorAll('a, area').forEach(link => {
+                link.setAttribute('target', '_blank');
+            });
+        });
+        // To propagate the keydown event suck as escape key
         element.contentWindow.addEventListener('keydown', event => {
             window.dispatchEvent(new KeyboardEvent('keydown', {
                 altKey: event.altKey,
