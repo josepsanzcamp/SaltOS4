@@ -975,14 +975,12 @@ saltos.bootstrap.__field.iframe = field => {
         // Program the resize that computes the height
         const resizeObserver = new ResizeObserver(entries => {
             requestAnimationFrame(() => {
-                if (!element.contentWindow) {
-                    return;
+                const doc = element.contentWindow &&
+                            element.contentWindow.document &&
+                            element.contentWindow.document.documentElement;
+                if (doc) {
+                    element.style.height = doc.offsetHeight + 2 + 'px';
                 }
-                if (!element.contentWindow.document.documentElement) {
-                    return;
-                }
-                const size = element.contentWindow.document.documentElement.offsetHeight + 2;
-                element.style.height = size + 'px';
             });
         });
         resizeObserver.observe(element);
