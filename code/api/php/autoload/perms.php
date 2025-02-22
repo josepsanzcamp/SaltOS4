@@ -327,13 +327,14 @@ function __user_is_admin($app)
 function merge_data_actions($data, $actions)
 {
     // Prepare the actions
-    if (is_string($actions) && trim($actions) == '') {
-        $actions = [];
+    if (!is_array($actions)) {
+        show_php_error(['phperror' => 'actions must be an array']);
     }
     foreach ($actions as $key => $action) {
         $action = join_attr_value($action);
         $action = eval_attr($action);
-        if (__app_has_perm($action['app'], strtok($action['action'], '/'))) {
+        $action0 = get_part_from_string($action['action'], '/', 0);
+        if (__app_has_perm($action['app'], $action0)) {
             $actions[$key] = $action;
         } else {
             unset($actions[$key]);
@@ -343,20 +344,17 @@ function merge_data_actions($data, $actions)
     foreach ($data as $key => $row) {
         $merge = [];
         foreach ($actions as $action) {
-            if (
-                check_app_perm_id(
-                    $action['app'],
-                    strtok($action['action'], '/'),
-                    strtok(strval($row['id']), '/')
-                )
-            ) {
+            $action0 = get_part_from_string($action['action'], '/', 0);
+            $id0 = get_part_from_string(strval($row['id']), '/', 0);
+            $action1 = get_part_from_string($action['action'], '/', -1);
+            if (check_app_perm_id($action['app'], $action0, $id0)) {
                 $action['arg'] = "app/{$action["app"]}/{$action["action"]}/{$row["id"]}";
             } else {
                 $action['arg'] = '';
             }
             unset($action['app']);
             unset($action['action']);
-            $merge[] = $action;
+            $merge[$action1] = $action;
         }
         if (count($merge)) {
             $data[$key]['actions'] = $merge;

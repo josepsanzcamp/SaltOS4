@@ -321,8 +321,9 @@ function str_replace_assoc($array, $cad)
 /**
  * Get Part From String
  *
- * This function explodes de input using delim and returns the element
- * of the index position
+ * This function explodes de input using delim and returns the element of the
+ * index position, if the index is negative, then returns the element beginning
+ * from the end
  *
  * @input => the string that you want to cut in parts
  * @delim => the delimiter char used to cut in parts
@@ -331,6 +332,9 @@ function str_replace_assoc($array, $cad)
 function get_part_from_string($input, $delim, $index)
 {
     $temp = explode($delim, $input);
+    if ($index < 0) {
+        $index = count($temp) + $index;
+    }
     return $temp[$index] ?? '';
 }
 

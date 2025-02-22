@@ -3300,10 +3300,12 @@ saltos.bootstrap.__field.list = field => {
         if (saltos.core.eval_bool(field.onclick)) {
             item = saltos.core.html(`<button
                 class="list-group-item list-group-item-action ${val.class}"></button>`);
-            if ('actions' in val && typeof val.actions == 'object' && 0 in val.actions &&
-                'onclick' in val.actions[0] && 'arg' in val.actions[0]) {
-                val.onclick = val.actions[0].onclick;
-                val.arg = val.actions[0].arg;
+            if ('actions' in val && typeof val.actions == 'object') {
+                const actions = Object.values(val.actions);
+                if (actions.length && 'onclick' in actions[0] && 'arg' in actions[0]) {
+                    val.onclick = Object.values(val.actions)[0].onclick;
+                    val.arg = Object.values(val.actions)[0].arg;
+                }
             }
             if (val.arg != '') {
                 val.onclick = `${val.onclick}("${val.arg}")`;
@@ -4597,7 +4599,9 @@ saltos.bootstrap.modal = args => {
             obj.addEventListener('keydown', event => {
                 const focusedIndex = Array.from(buttons).indexOf(document.activeElement);
                 const key = saltos.core.get_keyname(event);
-                if (['rightArrow', 'downArrow'].includes(key)) {
+                if (event.altKey || event.ctrlKey || event.shiftKey) {
+                    // Nothing to do
+                } else if (['rightArrow', 'downArrow'].includes(key)) {
                     event.preventDefault();
                     const nextIndex = (focusedIndex + 1) % buttons.length;
                     buttons[nextIndex].focus();
