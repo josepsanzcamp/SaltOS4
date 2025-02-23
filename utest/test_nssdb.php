@@ -410,9 +410,11 @@ final class test_nssdb extends TestCase
         ]);
         $this->assertNotSame($data, []);
 
+        test_external_exec('php/nssdb1.php', 'phperror.log', 'actions must be an array');
+
         $data = __merge_data_actions([
             ['id' => '1', 'name' => 'name 1'],
-        ], '');
+        ], []);
         $this->assertSame($data, [
             ['id' => '1', 'name' => 'name 1'],
         ]);

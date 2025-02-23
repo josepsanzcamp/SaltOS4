@@ -10,5 +10,6 @@ parameters:
         - ../code/apps/emails/php
         - ../code/apps/emails/lib
         - ../code/apps/users/php
+        - ../code/apps/certs/php
     ignoreErrors:
         - identifier: requireOnce.fileNotFound
