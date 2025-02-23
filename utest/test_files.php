@@ -53,6 +53,7 @@ use PHPUnit\Framework\Attributes\Depends;
  */
 require_once 'lib/utestlib.php';
 require_once 'php/lib/files.php';
+require_once 'apps/common/php/files.php';
 
 /**
  * Main class of this unit test
@@ -168,5 +169,62 @@ final class test_files extends TestCase
         $this->assertSame($json2['status'], 'ok');
         $this->assertSame(count($json2), 2);
         $this->assertArrayHasKey('deleted_id', $json2);
+    }
+
+    #[testdox('fileslog functions')]
+    /**
+     * fileslog test
+     *
+     * This test performs some tests to validate the correctness
+     * of the fileslog feature
+     */
+    public function test_fileslog(): void
+    {
+        ob_passthru('echo hola > data/logs/nada.log');
+        ob_passthru('echo adios | gzip > data/logs/nada.1.log.gz');
+        $json = test_cli_helper("app/fileslog/list/table", [
+            'search' => '+nada +',
+        ], '', '', 'admin');
+        $this->assertArrayHasKey('data', $json);
+        $this->assertArrayHasKey(0, $json['data']);
+        $this->assertArrayHasKey('id', $json['data'][0]);
+        $id0 = $json['data'][0]['id'];
+        $id1 = $json['data'][1]['id'];
+
+        $json = test_cli_helper("app/fileslog/view/nada", '', '', '', 'admin');
+        $this->assertArrayHasKey('error', $json);
+        $this->assertSame($json['error']['text'], 'Permission denied');
+
+        $json = test_cli_helper("app/fileslog/view/$id0", '', '', '', 'admin');
+        $this->assertArrayHasKey('data', $json);
+        $this->assertArrayHasKey('name', $json['data']);
+        $this->assertArrayHasKey('size', $json['data']);
+        $this->assertArrayHasKey('type', $json['data']);
+        $this->assertArrayHasKey('data', $json['data']);
+        $this->assertSame($json['data']['name'], 'nada.1.log.gz');
+        $this->assertSame($json['data']['size'], '26 bytes');
+        $this->assertSame($json['data']['type'], 'application/gzip');
+        $this->assertSame($json['data']['data'], "adios\n");
+
+        $json = test_cli_helper("app/fileslog/view/$id1", '', '', '', 'admin');
+        $this->assertArrayHasKey('data', $json);
+        $this->assertArrayHasKey('name', $json['data']);
+        $this->assertArrayHasKey('size', $json['data']);
+        $this->assertArrayHasKey('type', $json['data']);
+        $this->assertArrayHasKey('data', $json['data']);
+        $this->assertSame($json['data']['name'], 'nada.log');
+        $this->assertSame($json['data']['size'], '5 bytes');
+        $this->assertSame($json['data']['type'], 'text/plain');
+        $this->assertSame($json['data']['data'], "hola\n");
+
+        unlink('data/logs/nada.log');
+        unlink('data/logs/nada.1.log.gz');
+
+        $json = __files_view('nada.log');
+        $this->assertArrayHasKey('status', $json);
+        $this->assertArrayHasKey('text', $json);
+        $this->assertArrayHasKey('code', $json);
+        $this->assertSame($json['status'], 'ko');
+        $this->assertSame($json['text'], 'File not found');
     }
 }
