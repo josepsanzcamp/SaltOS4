@@ -44,13 +44,14 @@ declare(strict_types=1);
 function __merge_data_actions($data, $actions)
 {
     // Prepare the actions
-    if (is_string($actions) && trim($actions) == '') {
-        $actions = [];
+    if (!is_array($actions)) {
+        show_php_error(['phperror' => 'actions must be an array']);
     }
     foreach ($actions as $key => $action) {
         $action = join_attr_value($action);
         $action = eval_attr($action);
-        if (__app_has_perm($action['app'], strtok($action['action'], '/'))) {
+        $action0 = get_part_from_string($action['action'], '/', 0);
+        if (__app_has_perm($action['app'], $action0)) {
             $actions[$key] = $action;
         } else {
             unset($actions[$key]);
@@ -60,10 +61,11 @@ function __merge_data_actions($data, $actions)
     foreach ($data as $key => $row) {
         $merge = [];
         foreach ($actions as $action) {
+            $action1 = get_part_from_string($action['action'], '/', -1);
             $action['arg'] = "app/{$action["app"]}/{$action["action"]}/{$row["id"]}";
             unset($action['app']);
             unset($action['action']);
-            $merge[] = $action;
+            $merge[$action1] = $action;
         }
         if (count($merge)) {
             $data[$key]['actions'] = $merge;
