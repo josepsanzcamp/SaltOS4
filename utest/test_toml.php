@@ -86,6 +86,9 @@ final class test_toml extends TestCase
         // @phpstan-ignore method.impossibleType
         $this->assertFalse($deprecated);
 
+        //~ $this->assertEquals(toml_parse('nada==nada'), null);
+        //~ $this->assertEquals(toml_parse_file('xml/config.xml'), null);
+
         foreach ($files as $file) {
             $array1 = toml_parse_file($file);
             $array2 = toml_decode(file_get_contents($file), true);
@@ -94,6 +97,15 @@ final class test_toml extends TestCase
             $array1 = toml_parse(toml_emit($array1));
             $array2 = toml_decode(toml_encode($array2), true);
             $this->assertEquals($array1, $array2);
+
+            $cache1 = get_cache_file(['array1' => $file]);
+            toml_emit_file($cache1, $array1);
+
+            $cache2 = get_cache_file(['array2' => $file]);
+            file_put_contents($cache2, toml_emit($array1));
+            chmod_protected($cache2, 0666);
+
+            $this->assertFileEquals($cache1, $cache2);
         }
 
         restore_error_handler();

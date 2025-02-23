@@ -64,6 +64,9 @@ final class test_yaml extends TestCase
         $files = glob('apps/*/xml/*.yaml');
         require_once 'lib/yaml/vendor/autoload.php';
 
+        //~ $this->assertEquals(yaml_parse('nada: nada: nada'), null);
+        //~ $this->assertEquals(yaml_parse_file('xml/config.php'), null);
+
         foreach ($files as $file) {
             $array1 = yaml_parse_file($file);
             $array2 = Symfony\Component\Yaml\Yaml::parseFile($file);
@@ -72,6 +75,15 @@ final class test_yaml extends TestCase
             $array1 = yaml_parse(yaml_emit($array1));
             $array2 = Symfony\Component\Yaml\Yaml::parse(Symfony\Component\Yaml\Yaml::dump($array2));
             $this->assertSame($array1, $array2);
+
+            $cache1 = get_cache_file(['array1' => $file]);
+            yaml_emit_file($cache1, $array1);
+
+            $cache2 = get_cache_file(['array2' => $file]);
+            file_put_contents($cache2, yaml_emit($array1));
+            chmod_protected($cache2, 0666);
+
+            $this->assertFileEquals($cache1, $cache2);
         }
     }
 }

@@ -326,7 +326,9 @@ function __url_get_contents($url, $args = [])
  */
 function extension($file)
 {
-    return pathinfo($file, PATHINFO_EXTENSION);
+    $ext = pathinfo($file, PATHINFO_EXTENSION);
+    preg_match('/^[a-zA-Z0-9]+/', $ext, $matches);
+    return $matches[0] ?? '';
 }
 
 /**

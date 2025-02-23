@@ -63,7 +63,7 @@ function remove_bad_chars($temp, $pad = '')
 /**
  * Encode Bar Chars
  *
- * This function tries to replace accender chars and other extended chars into
+ * This function tries to replace accenteds chars and other extended chars into
  * an ascii chars, to do it, they define an array with the pairs of chars to
  * do a quick replace, too is converted all to lower and are removed all chars
  * that are out of range (valid range are from 0-9 and from a-z), the function

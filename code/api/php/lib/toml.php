@@ -45,12 +45,8 @@ declare(strict_types=1);
  */
 function toml_parse(string $toml, bool $asArray = true, bool $asFloat = false)
 {
-    try {
-        require_once 'lib/toml/vendor/autoload.php';
-        return toml_decode($toml, $asArray, $asFloat);
-    } catch (Exception $e) {
-        return null;
-    }
+    require_once 'lib/toml/vendor/autoload.php';
+    return toml_decode($toml, $asArray, $asFloat);
 }
 
 /**
@@ -62,12 +58,8 @@ function toml_parse(string $toml, bool $asArray = true, bool $asFloat = false)
  */
 function toml_parse_file(string $filename, bool $asArray = true, bool $asFloat = false)
 {
-    try {
-        require_once 'lib/toml/vendor/autoload.php';
-        return toml_decode(file_get_contents($filename), $asArray, $asFloat);
-    } catch (Exception $e) {
-        return null;
-    }
+    require_once 'lib/toml/vendor/autoload.php';
+    return toml_decode(file_get_contents($filename), $asArray, $asFloat);
 }
 
 /**
@@ -79,12 +71,8 @@ function toml_parse_file(string $filename, bool $asArray = true, bool $asFloat =
  */
 function toml_emit(array $data)
 {
-    try {
-        require_once 'lib/toml/vendor/autoload.php';
-        return toml_encode($data);
-    } catch (Exception $e) {
-        return null;
-    }
+    require_once 'lib/toml/vendor/autoload.php';
+    return toml_encode($data);
 }
 
 /**
@@ -97,12 +85,7 @@ function toml_emit(array $data)
  */
 function toml_emit_file(string $filename, array $data)
 {
-    try {
-        require_once 'lib/toml/vendor/autoload.php';
-        file_put_contents($filename, toml_encode($data));
-        chmod_protected($filename, 0666);
-        return true;
-    } catch (Exception $e) {
-        return false;
-    }
+    require_once 'lib/toml/vendor/autoload.php';
+    file_put_contents($filename, toml_encode($data));
+    chmod_protected($filename, 0666);
 }
