@@ -34,10 +34,10 @@ declare(strict_types=1);
 // phpcs:disable Generic.Files.LineLength
 
 /**
- * Test YAML
+ * Test TOML
  *
  * This test performs some tests to validate the correctness
- * of the yaml related functions
+ * of the toml related functions
  */
 
 /**
@@ -48,30 +48,57 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
 
 /**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once 'php/lib/toml.php';
+
+/**
  * Main class of this unit test
  */
-final class test_yaml extends TestCase
+final class test_toml extends TestCase
 {
-    #[testdox('YAML functions')]
+    #[testdox('TOML functions')]
     /**
-     * YAML test
+     * TOML test
      *
      * This function performs some tests to validate the correctness
-     * of the yaml related functions
+     * of the toml related functions
      */
-    public function test_yaml(): void
+    public function test_toml(): void
     {
-        $files = glob('apps/*/xml/*.yaml');
-        require_once 'lib/yaml/vendor/autoload.php';
+        $files = ['../../utest/files/example.toml'];
+        require_once 'lib/toml/vendor/autoload.php';
+
+        global $deprecated;
+        $deprecated = false;
+        set_error_handler(function ($type, $message, $file, $line) {
+            if (words_exists('deprecated', $message)) {
+                global $deprecated;
+                $deprecated = true;
+                error_clear_last();
+                return true;
+            }
+            __error_handler($type, $message, $file, $line);
+        });
+
+        // @phpstan-ignore method.impossibleType
+        $this->assertFalse($deprecated);
 
         foreach ($files as $file) {
-            $array1 = yaml_parse_file($file);
-            $array2 = Symfony\Component\Yaml\Yaml::parseFile($file);
-            $this->assertSame($array1, $array2);
+            $array1 = toml_parse_file($file);
+            $array2 = toml_decode(file_get_contents($file), true);
+            $this->assertEquals($array1, $array2);
 
-            $array1 = yaml_parse(yaml_emit($array1));
-            $array2 = Symfony\Component\Yaml\Yaml::parse(Symfony\Component\Yaml\Yaml::dump($array2));
-            $this->assertSame($array1, $array2);
+            $array1 = toml_parse(toml_emit($array1));
+            $array2 = toml_decode(toml_encode($array2), true);
+            $this->assertEquals($array1, $array2);
         }
+
+        restore_error_handler();
+
+        // @phpstan-ignore method.impossibleType
+        $this->assertTrue($deprecated);
     }
 }
