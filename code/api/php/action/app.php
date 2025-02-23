@@ -65,16 +65,21 @@ if (!is_array($array) || !count($array)) {
     show_json_error('Internal error');
 }
 
+$found = false;
+
 // Check for rest/2, that is the name of the subapp to load
 set_data('rest/2', encode_bad_chars(strval(get_data('rest/2'))));
 if (get_data('rest/2') == '' && count($array) == 1) {
     set_data('rest/2', key($array));
+    $found = true;
 }
 
-if (get_data('rest/2') == '') {
+if (!$found && get_data('rest/2') == '') {
     foreach ($array as $key => $val) {
-        if (is_attr_value($val) && isset($val['#attr']['default']) && eval_bool($val['#attr']['default'])) {
+        $candidate = is_attr_value($val) && isset($val['#attr']['default']);
+        if ($candidate && eval_bool($val['#attr']['default'])) {
             set_data('rest/2', $key);
+            $found = true;
             break;
         }
     }
@@ -84,26 +89,42 @@ if (get_data('rest/2') == '') {
     show_json_error('Subapp not found');
 }
 
-if (!isset($array[get_data('rest/2')])) {
-    // Trick to allow request like <create id="insert"> using only insert
+// Trick to allow requests like widget/table2 that is <widget id="table2">
+if (!$found && get_data('rest/3') != '') {
     foreach ($array as $key => $val) {
-        if (is_attr_value($val) && isset($val['#attr']['id']) && $val['#attr']['id'] == get_data('rest/2')) {
-            $rest = get_data('rest');
-            array_splice($rest, 2, 1, [$key, $val['#attr']['id']]);
-            set_data('rest', $rest);
+        if (fix_key($key) == get_data('rest/2')) {
+            $candidate = is_attr_value($val) && isset($val['#attr']['id']);
+            if ($candidate && $val['#attr']['id'] == get_data('rest/3')) {
+                set_data('rest/2', $key);
+                $found = true;
+                break;
+            }
+        }
+    }
+}
+
+// Trick to detect list when not is the first list element
+if (!$found) {
+    foreach ($array as $key => $val) {
+        $candidate = is_attr_value($val) && isset($val['#attr']['id']);
+        if (!$candidate && fix_key($key) == get_data('rest/2')) {
+            set_data('rest/2', $key);
+            $found = true;
             break;
         }
     }
-} elseif (get_data('rest/3')) {
-    // Trick to allow requests like widget/table2 that is <widget id="table2">
+}
+
+// Trick to allow request like <create id="insert"> using only insert
+if (!$found) {
     foreach ($array as $key => $val) {
-        if (fix_key($key) == get_data('rest/2')) {
-            if (
-                is_attr_value($val) && isset($val['#attr']['id']) && $val['#attr']['id'] == get_data('rest/3')
-            ) {
-                set_data('rest/2', $key);
-                break;
-            }
+        $candidate = is_attr_value($val) && isset($val['#attr']['id']);
+        if ($candidate && $val['#attr']['id'] == get_data('rest/2')) {
+            $rest = get_data('rest');
+            array_splice($rest, 2, 1, [$key, $val['#attr']['id']]);
+            set_data('rest', $rest);
+            $found = true;
+            break;
         }
     }
 }
@@ -117,7 +138,8 @@ $array = $array[get_data('rest/2')];
 set_data('rest/2', fix_key(get_data('rest/2')));
 
 // Check if array contains an eval attr
-if (is_attr_value($array) && isset($array['#attr']['eval']) && eval_bool($array['#attr']['eval'])) {
+$candidate = is_attr_value($array) && isset($array['#attr']['eval']);
+if ($candidate && eval_bool($array['#attr']['eval'])) {
     $array = eval("return {$array['value']};");
 }
 
