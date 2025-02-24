@@ -2442,7 +2442,7 @@ saltos.bootstrap.__field.table = field => {
             }
             if ('actions' in val) {
                 const td = saltos.core.html('tr', `<td class="p-0 text-nowrap"></td>`);
-                let dropdown = val.actions.length > 1;
+                let dropdown = Object.keys(val.actions).length > 1;
                 if (field.dropdown != '') {
                     dropdown = saltos.core.eval_bool(field.dropdown);
                 }
@@ -3303,8 +3303,8 @@ saltos.bootstrap.__field.list = field => {
             if ('actions' in val && typeof val.actions == 'object') {
                 const actions = Object.values(val.actions);
                 if (actions.length && 'onclick' in actions[0] && 'arg' in actions[0]) {
-                    val.onclick = Object.values(val.actions)[0].onclick;
-                    val.arg = Object.values(val.actions)[0].arg;
+                    val.onclick = actions[0].onclick;
+                    val.arg = actions[0].arg;
                 }
             }
             if (val.arg != '') {
