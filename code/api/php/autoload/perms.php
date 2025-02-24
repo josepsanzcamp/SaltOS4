@@ -278,18 +278,18 @@ function check_app_perm_id($app, $perm, $id = null)
     if (!check_user($app, $perm)) {
         return false;
     }
-    if ($id === null) {
+    // This check fix a security issue when this function is called with all
+    // parameters and id is null, in this scope two parameters must be true
+    if (func_num_args() == 2) {
         return true;
     }
+    // Here all parameters are used, id can be checked
     $table = app2table($app);
     $sql = check_sql($app, $perm);
     $id = intval($id);
     $query = "SELECT id FROM $table WHERE id = ? AND $sql";
     $exists = execute_query($query, [$id]);
-    if (!$exists) {
-        return false;
-    }
-    return true;
+    return boolval($exists);
 }
 
 /**
