@@ -139,6 +139,8 @@ final class test_perms extends TestCase
         set_data('server/remote_addr', $row['remote_addr']);
         set_data('server/user_agent', $row['user_agent']);
 
+        $this->assertSame(check_app_perm_id('users', 'view', null), false);
+        $this->assertSame(check_app_perm_id('users', 'view', 0), false);
         $this->assertSame(check_app_perm_id('users', 'view', 1), true);
         $this->assertSame(__user_is_admin('users'), true);
 
