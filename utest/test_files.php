@@ -182,7 +182,7 @@ final class test_files extends TestCase
     {
         ob_passthru('echo hola > data/logs/nada.log');
         ob_passthru('echo adios | gzip > data/logs/nada.1.log.gz');
-        $json = test_cli_helper("app/fileslog/list/table", [
+        $json = test_cli_helper('app/fileslog/list/table', [
             'search' => '+nada +',
         ], '', '', 'admin');
         $this->assertArrayHasKey('data', $json);
@@ -191,7 +191,7 @@ final class test_files extends TestCase
         $id0 = $json['data'][0]['id'];
         $id1 = $json['data'][1]['id'];
 
-        $json = test_cli_helper("app/fileslog/view/nada", '', '', '', 'admin');
+        $json = test_cli_helper('app/fileslog/view/nada', '', '', '', 'admin');
         $this->assertArrayHasKey('error', $json);
         $this->assertSame($json['error']['text'], 'Permission denied');
 
