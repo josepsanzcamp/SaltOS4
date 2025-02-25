@@ -39,7 +39,7 @@ declare(strict_types=1);
  * This function returns a string with the SaltOS name, version, revision and
  * copyright if needed
  *
- * @copyright => boolean to specify if you want to add the copyright to the output
+ * @full => boolean to specify if you want to add the copyright to the output
  */
 function get_name_version_revision($full = false)
 {

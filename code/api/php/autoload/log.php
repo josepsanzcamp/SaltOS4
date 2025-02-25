@@ -153,6 +153,11 @@ function addtrace($array, $file)
  * information and convert all array into a string
  *
  * @array => the array that can contains the same info that show_php_error
+ * @full  => add the full debug backtrace instead of the generic partial
+ *
+ * This differentiation is because the full debug backtrace can break the
+ * checklog feature because the time and pid can be different in each
+ * execution
  */
 function gettrace(...$args)
 {
