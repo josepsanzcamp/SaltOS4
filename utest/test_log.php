@@ -98,5 +98,50 @@ final class test_log extends TestCase
 
         unlink($file2);
         $this->assertFileDoesNotExist($file2);
+
+        set_data('rest', ['app', 'emails']);
+        set_data('server/token', '12345678-1234-1234-1234-1234567890AB');
+        set_data('server/user', 'admin');
+
+        $trace = gettrace();
+        $this->assertStringNotContainsString('pid => ', $trace);
+        $this->assertStringNotContainsString('time => ', $trace);
+        $this->assertStringContainsString('rest => app/emails', $trace);
+        $this->assertStringContainsString('token => 12345678-1234-1234-1234-1234567890AB', $trace);
+        $this->assertStringContainsString('user => admin', $trace);
+
+        $trace = gettrace(true);
+        $this->assertStringContainsString('pid => ', $trace);
+        $this->assertStringContainsString('time => ', $trace);
+        $this->assertStringContainsString('rest => app/emails', $trace);
+        $this->assertStringContainsString('token => 12345678-1234-1234-1234-1234567890AB', $trace);
+        $this->assertStringContainsString('user => admin', $trace);
+
+        set_data('rest', null);
+        set_data('server/token', null);
+        set_data('server/user', null);
+
+        $trace = gettrace([]);
+        $this->assertStringNotContainsString('pid => ', $trace);
+        $this->assertStringNotContainsString('time => ', $trace);
+        $this->assertStringNotContainsString('rest => ', $trace);
+        $this->assertStringNotContainsString('token => ', $trace);
+        $this->assertStringNotContainsString('user => ', $trace);
+
+        $trace = gettrace(true);
+        $this->assertStringContainsString('pid => ', $trace);
+        $this->assertStringContainsString('time => ', $trace);
+        $this->assertStringNotContainsString('rest => ', $trace);
+        $this->assertStringNotContainsString('token => ', $trace);
+        $this->assertStringNotContainsString('user => ', $trace);
+
+        $file = 'data/logs/saltos.log';
+        $this->assertFileDoesNotExist($file);
+
+        addtrace([], basename($file));
+        $this->assertFileExists($file);
+
+        unlink($file);
+        $this->assertFileDoesNotExist($file);
     }
 }
