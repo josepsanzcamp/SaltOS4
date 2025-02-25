@@ -41,14 +41,14 @@ declare(strict_types=1);
  *
  * @copyright => boolean to specify if you want to add the copyright to the output
  */
-function get_name_version_revision($copyright = false)
+function get_name_version_revision($full = false)
 {
     $NAME = 'SaltOS';
     $VERSION = '4.0';
     $REVISION = svnversion();
-    $COPYRIGHT = 'Copyright (C) 2007-2025 by Josep Sanz Campderrós';
     $result = "$NAME v$VERSION r$REVISION";
-    if ($copyright) {
+    if ($full) {
+        $COPYRIGHT = 'Copyright (C) 2007-2025 by Josep Sanz Campderrós';
         $result .= ", $COPYRIGHT";
     }
     return $result;

@@ -154,13 +154,27 @@ function addtrace($array, $file)
  *
  * @array => the array that can contains the same info that show_php_error
  */
-function gettrace($array)
+function gettrace(...$args)
 {
+    $array = [];
+    $full = false;
+    foreach ($args as $arg) {
+        if (is_array($arg)) {
+            $array = $arg;
+        }
+        if (is_bool($arg)) {
+            $full = $arg;
+        }
+    }
     if (!isset($array['backtrace'])) {
         $array['backtrace'] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
     }
     if (!isset($array['debug'])) {
-        $array['debug'] = array_intersect_key(session_backtrace(), array_flip(['rest', 'token']));
+        $array['debug'] = session_backtrace();
+        if (!$full) {
+            $filter = ['rest', 'token', 'user'];
+            $array['debug'] = array_intersect_key($array['debug'], array_flip($filter));
+        }
     }
     $msg = do_message_error($array);
     return $msg['text'];
