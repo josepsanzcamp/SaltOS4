@@ -4597,18 +4597,25 @@ saltos.bootstrap.modal = args => {
         const buttons = obj.querySelectorAll('button');
         if (buttons.length > 1) {
             obj.addEventListener('keydown', event => {
-                const focusedIndex = Array.from(buttons).indexOf(document.activeElement);
+                let focusedIndex = Array.from(buttons).indexOf(document.activeElement);
                 const key = saltos.core.get_keyname(event);
                 if (event.altKey || event.ctrlKey || event.shiftKey) {
                     // Nothing to do
-                } else if (['rightArrow', 'downArrow'].includes(key)) {
-                    event.preventDefault();
-                    const nextIndex = (focusedIndex + 1) % buttons.length;
-                    buttons[nextIndex].focus();
-                } else if (['leftArrow', 'upArrow'].includes(key)) {
-                    event.preventDefault();
-                    const prevIndex = (focusedIndex - 1 + buttons.length) % buttons.length;
-                    buttons[prevIndex].focus();
+                } else if (key == 'rightArrow') {
+                    const nextIndex = focusedIndex + 1;
+                    if (nextIndex < buttons.length) {
+                        event.preventDefault();
+                        buttons[nextIndex].focus();
+                    }
+                } else if (key == 'leftArrow') {
+                    if (focusedIndex < 0) {
+                        focusedIndex = buttons.length;
+                    }
+                    const prevIndex = focusedIndex - 1;
+                    if (prevIndex >= 0) {
+                        event.preventDefault();
+                        buttons[prevIndex].focus();
+                    }
                 }
             });
         }
