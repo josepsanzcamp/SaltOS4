@@ -12,27 +12,27 @@ yaml|https://github.com/symfony/yaml/tags.atom|<title>|PHRpdGxlPnY3LjIuMzwvdGl0b
 autoheight|https://github.com/kamilkp/autoheight/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAxNi0wOC0wN1QyMzo0MToxMVo8L3VwZGF0ZWQ+
 bootstrap|https://github.com/twbs/bootstrap/tags.atom|<title>|PHRpdGxlPnY1LjMuMzwvdGl0bGU+
 bootswatch|https://github.com/thomaspark/bootswatch/tags.atom|<title>|PHRpdGxlPnY1LjMuMzwvdGl0bGU+
-chartjs|https://api.cdnjs.com/libraries/Chart.js?fields=name,version|version|eyJuYW1lIjoiQ2hhcnQuanMiLCJ2ZXJzaW9uIjoiNC40LjEifQ==
+chartjs|https://github.com/chartjs/Chart.js/tags.atom|<title>|PHRpdGxlPnY0LjQuODwvdGl0bGU+
 ckeditor|https://github.com/ckeditor/ckeditor5/tags.atom|<title>|PHRpdGxlPnY0NC4yLjE8L3RpdGxlPg==
 codemirror|https://api.cdnjs.com/libraries/codemirror?fields=name,version|version|eyJuYW1lIjoiY29kZW1pcnJvciIsInZlcnNpb24iOiI2LjY1LjcifQ==
 icons|https://github.com/twbs/icons/tags.atom|<title>|PHRpdGxlPnYxLjExLjM8L3RpdGxlPg==
-imagesloaded|https://api.cdnjs.com/libraries/jquery.imagesloaded?fields=name,version|version|eyJuYW1lIjoianF1ZXJ5LmltYWdlc2xvYWRlZCIsInZlcnNpb24iOiI1LjAuMCJ9
-imaskjs|https://api.cdnjs.com/libraries/imask?fields=name,version|version|eyJuYW1lIjoiaW1hc2siLCJ2ZXJzaW9uIjoiNy42LjEifQ==
+imagesloaded|https://github.com/desandro/imagesloaded/tags.atom|<title>|PHRpdGxlPnY1LjAuMDwvdGl0bGU+
+imaskjs|https://github.com/uNmAnNeR/imaskjs/tags.atom|<title>|PHRpdGxlPnY3LjYuMTwvdGl0bGU+
 jstree|https://github.com/vakata/jstree/commits/v.4.0.atom|<updated>|PHVwZGF0ZWQ+MjAyMy0wMS0xNlQxMTo1MzoyMFo8L3VwZGF0ZWQ+
 locutus|https://github.com/locutusjs/locutus/tags.atom|<title>|PHRpdGxlPnYyLjAuMzI8L3RpdGxlPg==
-masonry|https://api.cdnjs.com/libraries/masonry?fields=name,version|version|eyJuYW1lIjoibWFzb25yeSIsInZlcnNpb24iOiI0LjIuMiJ9
-md5|https://api.cdnjs.com/libraries/blueimp-md5?fields=name,version|version|eyJuYW1lIjoiYmx1ZWltcC1tZDUiLCJ2ZXJzaW9uIjoiMi4xOS4wIn0=
+masonry|https://github.com/desandro/masonry/tags.atom|<title>|PHRpdGxlPnY0LjIuMiAtIGZsb2F0IHBvc2l0aW9uIHZhbHVlczwvdGl0bGU+
+md5|https://github.com/blueimp/JavaScript-MD5/tags.atom|<title>|PHRpdGxlPnYyLjE5LjA8L3RpdGxlPg==
 pdfjs|https://github.com/mozilla/pdf.js/tags.atom|<title>|PHRpdGxlPnY0LjEwLjM4PC90aXRsZT4=
 sourcemap|https://github.com/novocaine/sourcemapped-stacktrace/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAxOS0wOS0wMVQwODowNTo1Mlo8L3VwZGF0ZWQ+
-tomselect|https://api.cdnjs.com/libraries/tom-select?fields=name,version|version|eyJuYW1lIjoidG9tLXNlbGVjdCIsInZlcnNpb24iOiIyLjQuMSJ9
-venobox|https://api.cdnjs.com/libraries/venobox?fields=name,version|version|eyJuYW1lIjoidmVub2JveCIsInZlcnNpb24iOiIyLjEuOCJ9
+tomselect|https://github.com/orchidjs/tom-select/tags.atom|<title>|PHRpdGxlPnYyLjQuMzwvdGl0bGU+
+venobox|https://github.com/nicolafranchini/VenoBox/tags.atom|<title>|PHRpdGxlPjIuMS44PC90aXRsZT4=
 vkbeautify|https://github.com/vkiryukhin/vkBeautify/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAxOC0wNi0yOFQwNTowMjoyNlo8L3VwZGF0ZWQ+
 
 mimeparser|https://phpclasses.org/browse/file/14670.html|<span title=|PHNwYW4gdGl0bGU9IjIwMjQtMTEtMDMgMDk6MDg6MDYiPg==
 phpmailer|https://github.com/PHPMailer/PHPMailer/tags.atom|<title>|PHRpdGxlPlBIUE1haWxlciA2LjkuMzwvdGl0bGU+
 pop3|https://phpclasses.org/browse/file/3.html|<span title=|PHNwYW4gdGl0bGU9IjIwMjItMTAtMDQgMDA6NTg6NTMiPg==
 rfc822|https://phpclasses.org/browse/file/21704.html|<span title=|PHNwYW4gdGl0bGU9IjIwMTYtMDctMjIgMjA6NTk6MDUiPg==
-sortablejs|https://api.cdnjs.com/libraries/Sortable?fields=name,version|version|eyJuYW1lIjoiU29ydGFibGUiLCJ2ZXJzaW9uIjoiMS4xNS42In0=
+sortablejs|https://github.com/SortableJS/Sortable/tags.atom|<title>|PHRpdGxlPnYxLjE1LjY8L3RpdGxlPg==
 
 brotli|https://github.com/kjdev/php-ext-brotli/tags.atom|<title>|PHRpdGxlPjAuMTUuMjwvdGl0bGU+
 browserify|https://github.com/browserify/browserify/tags.atom|<title>|PHRpdGxlPnYxNy4wLjE8L3RpdGxlPg==
