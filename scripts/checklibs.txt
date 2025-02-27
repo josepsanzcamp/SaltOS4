@@ -36,12 +36,12 @@ sortablejs|https://api.cdnjs.com/libraries/Sortable?fields=name,version|version|
 
 brotli|https://github.com/kjdev/php-ext-brotli/tags.atom|<title>|PHRpdGxlPjAuMTUuMjwvdGl0bGU+
 browserify|https://github.com/browserify/browserify/tags.atom|<title>|PHRpdGxlPnYxNy4wLjE8L3RpdGxlPg==
-libreoffice|https://es.libreoffice.org/descarga/libreoffice/|type=deb|PG9wdGlvbiB2YWx1ZT0iL2Rlc2NhcmdhL2xpYnJlb2ZmaWNlLz90eXBlPWRlYi14ODZfNjQmdmVyc2lvbj0yNS4yLjAmbGFuZz1lcyI+
+libreoffice|https://es.libreoffice.org/descarga/libreoffice/|type=deb|PG9wdGlvbiB2YWx1ZT0iL2Rlc2NhcmdhL2xpYnJlb2ZmaWNlLz90eXBlPWRlYi14ODZfNjQmdmVyc2lvbj0yNS4yLjEmbGFuZz1lcyI+
 mariadb|https://github.com/MariaDB/server/tags.atom|<title>|PHRpdGxlPk1hcmlhREIgQ29tbXVuaXR5IFNlcnZlciAxMS44LjE8L3RpdGxlPg==
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|PHRpdGxlPm1pbmlmeSB2MTMuMC4wPC90aXRsZT4=
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|PHRpdGxlPk1yb29uZ2EgMTUuMDAgLSAyMDI1LTAyLTA5PC90aXRsZT4=
-node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjUtMDItMjAsIFZlcnNpb24gMTguMjAuNyAmIzM5O0h5ZHJvZ2VuJiMzOTsgKExUUyksIEBhZHVoOTU8L3RpdGxlPg==
-php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPlBIUCA4LjQuNDwvdGl0bGU+
+node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjUtMDItMjYsIFZlcnNpb24gMjMuOS4wIChDdXJyZW50KSwgQHRhcmdvczwvdGl0bGU+
+php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjQuNVJDMTwvdGl0bGU+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|PHRpdGxlPjMuMTEuMyAtIDIwMjUtMDEtMjM8L3RpdGxlPg==
 phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjIuMS42PC90aXRsZT4=
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|PHRpdGxlPlBIUFVuaXQgMTIuMC41PC90aXRsZT4=

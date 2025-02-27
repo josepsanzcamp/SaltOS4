@@ -2804,6 +2804,7 @@ saltos.bootstrap.__field.tags = field => {
             sortField: [{field: '$order'}, {field: '$score'}],
             closeAfterSelect: true,
             selectOnTab: true,
+            openOnFocus: false,
             load: fn,
             plugins: [
                 'remove_button',
@@ -2926,6 +2927,7 @@ saltos.bootstrap.__field.onetag = field => {
             sortField: [{field: '$order'}, {field: '$score'}],
             closeAfterSelect: true,
             selectOnTab: true,
+            openOnFocus: false,
             load: fn,
             plugins: [
                 'clear_button',
