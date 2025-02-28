@@ -22,6 +22,8 @@
     "@ckeditor/ckeditor5-typing": "^44.2.1",
     "@ckeditor/ckeditor5-upload": "^44.2.1",
     "@ckeditor/ckeditor5-word-count": "^44.2.1",
+    "@ckeditor/ckeditor5-emoji": "^44.2.1",
+    "@ckeditor/ckeditor5-mention": "^44.2.1",
     "build": "^0.1.4",
     "css-loader": "^7.1.2",
     "postcss-loader": "^8.1.1",

@@ -27,6 +27,8 @@ import { Table, TableToolbar } from '@ckeditor/ckeditor5-table';
 import { TextTransformation } from '@ckeditor/ckeditor5-typing';
 import { TodoList } from '@ckeditor/ckeditor5-list';
 import { WordCount } from '@ckeditor/ckeditor5-word-count';
+import { Emoji } from '@ckeditor/ckeditor5-emoji';
+import { Mention } from '@ckeditor/ckeditor5-mention';
 
 export default class ClassicEditor extends ClassicEditorBase {
 	public static override builtinPlugins = [
@@ -62,7 +64,9 @@ export default class ClassicEditor extends ClassicEditorBase {
 		TextTransformation,
 		TodoList,
 		Underline,
-		WordCount
+		WordCount,
+		Emoji,
+		Mention
 	];
 
 	public static override defaultConfig = {
@@ -92,6 +96,7 @@ export default class ClassicEditor extends ClassicEditorBase {
 				'blockQuote',
 				'insertTable',
 				'horizontalLine',
+				'emoji',
 				'|',
 				'sourceEditing',
 				'code',
