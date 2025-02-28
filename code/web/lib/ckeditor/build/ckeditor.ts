@@ -29,6 +29,7 @@ import { TodoList } from '@ckeditor/ckeditor5-list';
 import { WordCount } from '@ckeditor/ckeditor5-word-count';
 import { Emoji } from '@ckeditor/ckeditor5-emoji';
 import { Mention } from '@ckeditor/ckeditor5-mention';
+import { Bookmark } from '@ckeditor/ckeditor5-bookmark';
 
 export default class ClassicEditor extends ClassicEditorBase {
 	public static override builtinPlugins = [
@@ -66,7 +67,8 @@ export default class ClassicEditor extends ClassicEditorBase {
 		Underline,
 		WordCount,
 		Emoji,
-		Mention
+		Mention,
+		Bookmark
 	];
 
 	public static override defaultConfig = {
@@ -96,6 +98,7 @@ export default class ClassicEditor extends ClassicEditorBase {
 				'blockQuote',
 				'insertTable',
 				'horizontalLine',
+				'bookmark',
 				'emoji',
 				'|',
 				'sourceEditing',

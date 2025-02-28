@@ -1,16 +1,17 @@
 
 # https://ckeditor.com/docs/ckeditor5/latest/installation/getting-started/quick-start-other.html#building-the-editor-from-source
 
-rm -f translations/*
-rmdir translations
-rm -f ckeditor.min.js
-
 cd build
 
 npx npm-check-updates -u
 
 npm install
+sed -i 's@\(\s*\)withText: true@\1//withText: true@' node_modules/@ckeditor/ckeditor5-source-editing/src/sourceediting.js
 npm run build
+
+rm -f ../translations/*
+rmdir ../translations
+rm -f ../ckeditor.min.js
 
 mv ckeditor.min.js ..
 mv translations ..
