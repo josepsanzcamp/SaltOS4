@@ -67,7 +67,7 @@ function __files_list($search, $offset, $limit)
         $list[$key] = [
             'id' => basename($val),
             'name' => basename($val),
-            'size' => get_human_size(filesize($val)),
+            'size' => get_human_size(filesize($val), ' ', 'bytes'),
             'type' => saltos_content_type($val),
         ];
     }
@@ -131,7 +131,7 @@ function __files_view($file)
     }
     return [
         'name' => basename($file),
-        'size' => get_human_size(filesize($file)),
+        'size' => get_human_size(filesize($file), ' ', 'bytes'),
         'type' => saltos_content_type($file),
         'data' => $data,
     ];

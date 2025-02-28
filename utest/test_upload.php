@@ -349,12 +349,35 @@ final class test_upload extends TestCase
         $this->assertFileExists($file);
         $this->assertTrue(words_exists('unknown action nada', file_get_contents($file)));
         unlink($file);
+    }
 
-        $this->assertSame(get_human_size(1073741824), '1 Gbytes');
-        $this->assertSame(get_human_size(1073741823), '1024 Mbytes');
-        $this->assertSame(get_human_size(1048576), '1 Mbytes');
-        $this->assertSame(get_human_size(1048575), '1024 Kbytes');
-        $this->assertSame(get_human_size(1024), '1 Kbytes');
-        $this->assertSame(get_human_size(1023), '1023 bytes');
+    #[testdox('human_size function')]
+    /**
+     * Human size
+     *
+     * This function only try to execute the get_human_size function
+     */
+    public function test_human_size(): void
+    {
+        $this->assertSame(get_human_size(1073741824, ' ', 'bytes'), '1 Gbytes');
+        $this->assertSame(get_human_size(1073741823, ' ', 'bytes'), '1024 Mbytes');
+        $this->assertSame(get_human_size(1048576, ' ', 'bytes'), '1 Mbytes');
+        $this->assertSame(get_human_size(1048575, ' ', 'bytes'), '1024 Kbytes');
+        $this->assertSame(get_human_size(1024, ' ', 'bytes'), '1 Kbytes');
+        $this->assertSame(get_human_size(1023, ' ', 'bytes'), '1023 bytes');
+
+        $this->assertSame(get_human_size(1073741824, ' '), '1 G');
+        $this->assertSame(get_human_size(1073741823, ' '), '1024 M');
+        $this->assertSame(get_human_size(1048576, ' '), '1 M');
+        $this->assertSame(get_human_size(1048575, ' '), '1024 K');
+        $this->assertSame(get_human_size(1024, ' '), '1 K');
+        $this->assertSame(get_human_size(1023, ' '), '1023 ');
+
+        $this->assertSame(get_human_size(1073741824), '1G');
+        $this->assertSame(get_human_size(1073741823), '1024M');
+        $this->assertSame(get_human_size(1048576), '1M');
+        $this->assertSame(get_human_size(1048575), '1024K');
+        $this->assertSame(get_human_size(1024), '1K');
+        $this->assertSame(get_human_size(1023), '1023');
     }
 }

@@ -393,7 +393,7 @@ function __getmail_getfiles($array, $level = 0)
             }
             if ($cname != '') {
                 $csize = __getmail_fixstring(__getmail_getnode('BodyLength', $array));
-                $hsize = get_human_size($csize);
+                $hsize = get_human_size($csize, ' ', 'bytes');
                                      // md5 inside as memory trick
                 $chash = md5(serialize([md5($temp), $cid, $cname, $ctype, $csize]));
                 $result[] = [
@@ -709,7 +709,7 @@ function __getmail_getfullbody($array)
             }
             if ($cid != '' || $cname != '') {
                 $csize = __getmail_fixstring(__getmail_getnode('BodyLength', $array));
-                $hsize = get_human_size($csize);
+                $hsize = get_human_size($csize, ' ', 'bytes');
                                      // md5 inside as memory trick
                 $chash = md5(serialize([md5($temp), $cid, $cname, $ctype, $csize]));
                 $result[] = [
@@ -816,7 +816,7 @@ function __getmail_getcid($array, $hash)
             $csize = __getmail_fixstring(__getmail_getnode('BodyLength', $array));
             $chash = md5(serialize([md5($temp), $cid, $cname, $ctype, $csize])); // md5 inside as memory trick
             if ($chash == $hash) {
-                $hsize = get_human_size($csize);
+                $hsize = get_human_size($csize, ' ', 'bytes');
                 return [
                     'disp' => $disp,
                     'type' => $type,
@@ -839,7 +839,7 @@ function __getmail_getcid($array, $hash)
                     md5(json_encode([md5($temp), $cid, $cname, $ctype, $csize])),
                 ])
             ) {
-                $hsize = get_human_size($csize);
+                $hsize = get_human_size($csize, ' ', 'bytes');
                 return [
                     'disp' => $disp,
                     'type' => $type,

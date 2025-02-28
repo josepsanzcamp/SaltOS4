@@ -876,14 +876,18 @@ saltos.core.timestamp = (offset = 0) => {
  * Return the human size (G, M, K or original value)
  *
  * @size  => the size that you want convert to human size
+ * @pre  => string added between the number and the unit letter
+ * post  => string added after the unit letter at the end
  */
-saltos.core.human_size = size => {
+saltos.core.human_size = (size, pre = '', post = '') => {
     if (size >= 1073741824) {
-        size = (Math.round(size / 1073741824 * 100) / 100) + 'G';
+        size = (Math.round(size / 1073741824 * 100) / 100) + pre + 'G' + post;
     } else if (size >= 1048576) {
-        size = (Math.round(size / 1048576 * 100) / 100) + 'M';
+        size = (Math.round(size / 1048576 * 100) / 100) + pre + 'M' + post;
     } else if (size >= 1024) {
-        size = (Math.round(size / 1024 * 100) / 100) + 'K';
+        size = (Math.round(size / 1024 * 100) / 100) + pre + 'K' + post;
+    } else {
+        size = (Math.round(size * 100) / 100) + pre + 'K' + post;
     }
     return size;
 };
