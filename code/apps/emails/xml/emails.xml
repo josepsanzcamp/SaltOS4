@@ -26,23 +26,33 @@
 -->
 
 <root>
-    <screen>emails</screen>
+    <main>
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <javascript>
+            <file eval="true">file_with_hash(file_with_min("apps/emails/js/driver.js"))</file>
+        </javascript>
+        <screen>emails</screen>
+        <gettext eval="true">T()</gettext>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
+    </main>
 
     <!-- List part -->
     <list default="true">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <gettext eval="true">T()</gettext>
+        <cache>app/emails/list/cache</cache>
+    </list>
+
+    <list id="cache">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <cache>app/emails/main</cache>
         <title>Email's list</title>
-        <javascript>
-            <file eval="true">file_with_hash(file_with_min("apps/emails/js/driver.js"))</file>
-        </javascript>
-        <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="top">
             <row auto="true" row_class="row g-1 py-3" col_class="col-auto">
-                <button onclick="saltos.app.filter()" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
-                <button ifeval="check_user('emails', 'create')" onclick="saltos.driver.open('app/emails/create')" label="New email" tooltip="To send a new email" icon="plus-lg" color="success"/>
+                <button onclick="saltos.common.filter()" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
+                <button ifeval="check_user('emails', 'create')" onclick="saltos.common.create()" label="New email" tooltip="To send a new email" icon="plus-lg" color="success"/>
                 <div col_class="col"/>
                 <hidden id="page" value="0"/>
                 <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+shift+f" onenter="document.getElementById('search_extra').value=this.value;saltos.driver.search()" autofocus="true" onchange="document.getElementById('search_extra').value=this.value"/>
@@ -50,8 +60,8 @@
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
                 <dropdown label="PDF" icon="filetype-pdf" tooltip="PDF options">
                     <menu>
-                        <button label="View" tooltip="To see the email" icon="search" onclick="saltos.emails.viewpdf()"/>
-                        <button label="Download" tooltip="To download the email" icon="save" onclick="saltos.emails.download()"/>
+                        <button label="View" tooltip="To see the email" icon="search" onclick="saltos.emails.viewpdf1()"/>
+                        <button label="Download" tooltip="To download the email" icon="save" onclick="saltos.emails.download1()"/>
                     </menu>
                 </dropdown>
                 <button onclick="saltos.emails.server()" label="Send/Receive" tooltip="To send and receive emails" icon="envelope"/>
@@ -106,7 +116,7 @@
                         <div col_class="col"/>
                         <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
                         <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
-                        <button onclick="saltos.app.filter()" label="Close" tooltip="To close this search form" icon="x-lg"/>
+                        <button onclick="saltos.common.filter()" label="Close" tooltip="To close this search form" icon="x-lg"/>
                     </row>
                 </div>
                 <!-- End of the search form -->
@@ -114,7 +124,7 @@
                 <div id="filter_form" eval="true">xpath_search_first_value("div/div[id=filter_form]", xmlfile2array("apps/common/xml/filter.xml"))</div>
             </div>
             <row auto="true" col_class="col-12 mb-3">
-                <list id="list" nodata="Loading..."/>
+                <list id="list" nodata="Loading..." onclick="true" truncate="true" checkbox="true"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
@@ -128,7 +138,7 @@
         </javascript>
     </list>
 
-    <list id="list" type="list" onclick="true" truncate="true" checkbox="true" nodata="Data not found">
+    <list id="list">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <temp eval="true">[
@@ -179,6 +189,7 @@
         <actions ifeval="false">
             <action app="emails" action="view" onclick="saltos.driver.open"/>
         </actions>
+        <nodata ifeval="!get_data('json/page')">Data not found</nodata>
     </list>
 
     <list id="filter" eval="true">xmlfile2array("apps/common/xml/filter.xml")["list"]</list>
@@ -187,13 +198,19 @@
     <create>
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <gettext eval="true">T()</gettext>
-        <title>New email</title>
+        <cache>app/emails/create/cache</cache>
+        <data require="apps/emails/php/sendmail.php" eval="true">sendmail_prepare(get_data("rest/3"),intval(get_data("rest/4")))</data>
         <javascript>
-            <file eval="true">file_with_hash(file_with_min("apps/emails/js/driver.js"))</file>
+            <inline>saltos.emails.init("create")</inline>
+            <inline>saltos.driver.init("create")</inline>
         </javascript>
-        <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
+    </create>
+
+    <create id="cache">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <cache>app/emails/main</cache>
+        <title>New email</title>
         <layout append="two,one">
             <row auto="true" col_class="col-12 mb-3">
                 <select id="from" label="From" required="true" onchange="saltos.emails.signature('update')" autofocus="true" col_class="col mb-3">
@@ -236,11 +253,8 @@
                 <button onclick="saltos.driver.cancel()" label="Cancel" tooltip="To cancel the email" icon="x-lg" autoclose="true" color="danger"/>
             </row>
         </layout>
-        <data require="apps/emails/php/sendmail.php" eval="true">sendmail_prepare(get_data("rest/3"),intval(get_data("rest/4")))</data>
         <javascript>
             <file eval="true">file_with_hash(file_with_min("apps/emails/js/emails.js"))</file>
-            <inline>saltos.emails.init("create")</inline>
-            <inline>saltos.driver.init("create")</inline>
         </javascript>
     </create>
 
@@ -292,21 +306,42 @@
     <view>
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
-        <gettext eval="true">T()</gettext>
-        <title>Detail of the email</title>
+        <cache>app/emails/view/cache</cache>
+        <data eval="true">execute_query("SELECT `from`, `to`, cc, bcc, datetime, CONCAT(account_id, '/', uidl) uidl, priority,
+            sensitivity, state_sent, state_new, state_reply, state_forward, state_wait, state_spam, state_crt, subject, state_error, is_outbox, files num_files
+            FROM app_emails WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))])</data>
+        <data><body require="apps/emails/php/getmail.php" eval="true">getmail_body(intval(get_data("rest/3")))</body></data>
+        <data><files>
+            <data require="apps/emails/php/getmail.php" eval="true">merge_data_actions(
+                getmail_files(intval(get_data("rest/3"))),
+                xpath_search_first_value("view/actions", xmlfile2array("apps/emails/xml/emails.xml"))
+            )</data>
+        </files></data>
+        <actions ifeval="false">
+            <action app="emails" action="view/viewpdf" icon="search" tooltip="View attachment" onclick="saltos.driver.open"/>
+            <action app="emails" action="view/download" icon="save" tooltip="Download attachment" onclick="saltos.common.download"/>
+        </actions>
         <javascript>
-            <file eval="true">file_with_hash(file_with_min("apps/emails/js/driver.js"))</file>
+            <inline>saltos.emails.init("view")</inline>
+            <inline>saltos.driver.init("view")</inline>
         </javascript>
-        <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
+    </view>
+
+    <view id="cache">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <cache>app/emails/main</cache>
+        <title>Detail of the email</title>
         <layout append="two,one">
             <row auto="true" col_class="col-12 mb-3">
+                <hidden id="is_outbox"/>
+                <hidden id="num_files"/>
                 <text id="from" label="From" col_class="col mb-3"/>
                 <button onclick="saltos.window.open(saltos.hash.get()+'/only');saltos.driver.close()" tooltip="To open this content in a new window"
                     icon="arrows-fullscreen" col_class="col-auto mb-3" addbr="true" id="only"/>
-                <text id="to" label="To" require="apps/emails/php/getmail.php"/>
-                <text id="cc" label="CC" ifeval="getmail_field('cc',intval(get_data('rest/3')))"/>
-                <text id="bcc" label="BCC" ifeval="getmail_field('bcc',intval(get_data('rest/3')))"/>
+                <text id="to" label="To"/>
+                <text id="cc" label="CC"/>
+                <text id="bcc" label="BCC"/>
                 <datetime id="datetime" label="Datetime" col_class="col-sm-6 col-md-4 col-lg-3 mb-3"/>
                 <text id="uidl" label="UIDL" col_class="col-sm-6 col-md-4 col-lg-3 mb-3"/>
                 <select id="priority" label="Prioriry" col_class="col-sm-6 col-md-2 col-lg-3 mb-3">
@@ -324,103 +359,63 @@
                         ["label"=>"Confidential","value"=>3],
                     ]</rows>
                 </select>
-                <switch id="state_sent" label="Sent" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="getmail_field('is_outbox',intval(get_data('rest/3')))"/>
-                <switch id="state_new" label="New" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))"/>
-                <switch id="state_reply" label="Reply" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))"/>
+                <switch id="state_sent" label="Sent" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
+                <switch id="state_new" label="New" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" color="success"/>
+                <switch id="state_reply" label="Reply" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
                 <switch id="state_forward" label="Forward" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
                 <switch id="state_wait" label="Pending" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
-                <switch id="state_spam" label="SPAM" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))"/>
+                <switch id="state_spam" label="SPAM" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" color="danger"/>
                 <switch id="state_crt" label="Request confirmation of receipt" col_class="col-sm-9 col-md-6 col-lg-6 mb-3"/>
-                <text id="state_error" label="Error" color="danger" ifeval="getmail_field('state_error',intval(get_data('rest/3')))"/>
+                <text id="state_error" label="Error" color="danger"/>
                 <text id="subject" label="Subject"/>
-                <iframe id="body" label="Body" height="10em">
-                    <source eval="true">"app/emails/view/body/".intval(get_data("rest/3"))</source>
-                </iframe>
-                <table id="files" label="Adjunts" col_class="col-12 mb-3" ifeval="count(getmail_files(intval(get_data('rest/3'))))">
-                    <source eval="true">"app/emails/view/files/".intval(get_data("rest/3"))</source>
+                <iframe id="body" label="Body" height="10em" srcdoc="Loading..."/>
+                <table id="files" label="Adjunts" col_class="col-12 mb-3" dropdown="false">
+                    <header>
+                        <name>Filename</name>
+                        <size>Size</size>
+                    </header>
                 </table>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
-                <button label="Source" tooltip="To see the source of this email" icon="file-text">
-                    <onclick eval="true">"saltos.driver.open('app/emails/view/source/".intval(get_data("rest/3"))."')"</onclick>
-                </button>
+                <button onclick="saltos.emails.source()" label="Source" tooltip="To see the source of this email" icon="file-text"/>
                 <dropdown label="PDF" icon="filetype-pdf" tooltip="PDF options">
                     <menu>
-                        <button label="View" tooltip="To see the email" icon="search">
-                            <onclick eval="true">"saltos.driver.open('app/emails/view/viewpdf/".intval(get_data("rest/3"))."')"</onclick>
-                        </button>
-                        <button label="Download" tooltip="To download the email" icon="save">
-                            <onclick eval="true">"saltos.app.download('app/emails/view/download/".intval(get_data("rest/3"))."')"</onclick>
-                        </button>
+                        <button onclick="saltos.emails.viewpdf2()" label="View" tooltip="To see the email" icon="search"/>
+                        <button onclick="saltos.emails.download2()" label="Download" tooltip="To download the email" icon="save"/>
                     </menu>
                 </dropdown>
                 <dropdown label="Mark" icon="bookmark" tooltip="Mark options">
                     <menu>
-                        <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND !getmail_field('state_new',intval(get_data('rest/3')))"
-                            onclick="saltos.emails.setter('new=1')" color="success" label="New" tooltip="To mark this email as new" icon="patch-check"/>
-                        <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND getmail_field('state_new',intval(get_data('rest/3')))"
-                            onclick="saltos.emails.setter('new=0')" color="success" label="No new" tooltip="To unmark this email as new" icon="patch-check"/>
-                        <button ifeval="!getmail_field('state_wait',intval(get_data('rest/3')))"
-                            onclick="saltos.emails.setter('wait=1')" label="Wait" tooltip="To mark this email as wait" icon="patch-question"/>
-                        <button ifeval="getmail_field('state_wait',intval(get_data('rest/3')))"
-                            onclick="saltos.emails.setter('wait=0')" label="No wait" tooltip="To unmark this email as wait" icon="patch-question"/>
-                        <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND !getmail_field('state_spam',intval(get_data('rest/3')))"
-                            onclick="saltos.emails.setter('spam=1')" color="danger" label="Spam" tooltip="To mark this email as spam" icon="patch-exclamation"/>
-                        <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND getmail_field('state_spam',intval(get_data('rest/3')))"
-                            onclick="saltos.emails.setter('spam=0')" color="danger" label="No spam" tooltip="To unmark this email as spam" icon="patch-exclamation"/>
+                        <button id="new1" onclick="saltos.emails.setter('new=1')" color="success" label="New" tooltip="To mark this email as new" icon="patch-check"/>
+                        <button id="new0" onclick="saltos.emails.setter('new=0')" color="success" label="No new" tooltip="To unmark this email as new" icon="patch-check"/>
+                        <button id="wait1" onclick="saltos.emails.setter('wait=1')" label="Wait" tooltip="To mark this email as wait" icon="patch-question"/>
+                        <button id="wait0" onclick="saltos.emails.setter('wait=0')" label="No wait" tooltip="To unmark this email as wait" icon="patch-question"/>
+                        <button id="spam1" onclick="saltos.emails.setter('spam=1')" color="danger" label="Spam" tooltip="To mark this email as spam" icon="patch-exclamation"/>
+                        <button id="spam0" onclick="saltos.emails.setter('spam=0')" color="danger" label="No spam" tooltip="To unmark this email as spam" icon="patch-exclamation"/>
                     </menu>
                 </dropdown>
                 <div col_class="col"/>
-                <dropdown ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))" label="Reply" tooltip="To reply this email" icon="reply" split="true">
-                    <onclick eval="true">"saltos.driver.open('app/emails/create/reply/".intval(get_data("rest/3"))."')"</onclick>
+                <dropdown id="reply" onclick="saltos.emails.reply()" label="Reply" tooltip="To reply this email" icon="reply" split="true">
                     <menu>
-                        <button label="Reply all" tooltip="To reply all this email" icon="reply-all">
-                            <onclick eval="true">"saltos.driver.open('app/emails/create/replyall/".intval(get_data("rest/3"))."')"</onclick>
-                        </button>
-                        <button label="Forward" tooltip="To forward this email" icon="forward">
-                            <onclick eval="true">"saltos.driver.open('app/emails/create/forward/".intval(get_data("rest/3"))."')"</onclick>
-                        </button>
+                        <button onclick="saltos.emails.replyall()" label="Reply all" tooltip="To reply all this email" icon="reply-all"/>
+                        <button onclick="saltos.emails.forward()" label="Forward" tooltip="To forward this email" icon="forward"/>
                     </menu>
                 </dropdown>
-                <button ifeval="getmail_field('is_outbox',intval(get_data('rest/3')))" label="Forward" tooltip="To forward this email" icon="forward">
-                    <onclick eval="true">"saltos.driver.open('app/emails/create/forward/".intval(get_data("rest/3"))."')"</onclick>
-                </button>
+                <button id="forward" onclick="saltos.emails.forward()" label="Forward" tooltip="To forward this email" icon="forward"/>
                 <button onclick="saltos.emails.delete2()" color="danger" label="Delete" tooltip="To delete this email" icon="trash"/>
                 <button onclick="saltos.driver.close()" label="Close" tooltip="To close this email" icon="x-lg" autoclose="true"/>
                 <button onclick="saltos.emails.init('close');saltos.driver.close(true)" col_class="d-none" accesskey="escape"/>
             </row>
         </layout>
-        <data eval="true">execute_query("SELECT `from`, `to`, cc, bcc, datetime, CONCAT(account_id, '/', uidl) uidl, priority,
-            sensitivity, state_sent, state_new, state_reply, state_forward, state_wait, state_spam, state_crt, subject, state_error
-            FROM app_emails WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))])</data>
         <javascript>
             <file eval="true">file_with_hash(file_with_min("apps/emails/js/emails.js"))</file>
-            <inline>saltos.emails.init("view")</inline>
-            <inline>saltos.driver.init("view")</inline>
         </javascript>
     </view>
 
     <view id="body">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_body(intval(get_data("rest/4")), eval_bool(get_data("rest/5")))</srcdoc>
-    </view>
-
-    <view id="files" dropdown="false" type="table">
-        <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <header>
-            <name>Filename</name>
-            <size>Size</size>
-        </header>
-        <data require="apps/emails/php/getmail.php" eval="true">merge_data_actions(
-            getmail_files(intval(get_data("rest/4"))),
-            xpath_search_first_value("view[id=files]/actions", xmlfile2array("apps/emails/xml/emails.xml"))
-        )</data>
-        <actions ifeval="false">
-            <action app="emails" action="view/viewpdf" icon="search" tooltip="View attachment" onclick="saltos.driver.open"/>
-            <action app="emails" action="view/download" icon="save" tooltip="Download attachment" onclick="saltos.app.download"/>
-        </actions>
+        <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_body(intval(get_data("rest/4")), true)</srcdoc>
     </view>
 
     <view id="setter">
@@ -432,13 +427,8 @@
     <view id="source">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <gettext eval="true">T()</gettext>
+        <cache>app/emails/main</cache>
         <title append="modal">Source of the email</title>
-        <javascript>
-            <file eval="true">file_with_hash(file_with_min("apps/emails/js/driver.js"))</file>
-        </javascript>
-        <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="three,two,one">
             <row auto="true" col_class="col-12 mb-3">
                 <iframe>
@@ -458,14 +448,9 @@
     <view id="viewpdf">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <gettext eval="true">T()</gettext>
+        <cache>app/emails/main</cache>
         <title append="modal" ifeval="get_data('rest/5')" require="apps/emails/php/getmail.php" eval="true">getmail_cid(intval(get_data("rest/4")),get_data("rest/5"))["name"]</title>
         <title append="modal" ifeval="!get_data('rest/5')" require="apps/emails/php/getmail.php" eval="true">getmail_pdf(check_ids(get_data("rest/4")))["name"]</title>
-        <javascript>
-            <file eval="true">file_with_hash(file_with_min("apps/emails/js/driver.js"))</file>
-        </javascript>
-        <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="three,two,one">
             <row auto="true" col_class="col-12 mb-3">
                 <pdfjs>
@@ -476,8 +461,8 @@
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button label="Download" tooltip="To download the email" icon="save">
-                    <onclick ifeval="get_data('rest/5')" eval="true">"saltos.app.download('app/emails/view/download/".intval(get_data("rest/4"))."/".get_data("rest/5")."')"</onclick>
-                    <onclick ifeval="!get_data('rest/5')" eval="true">"saltos.app.download('app/emails/view/download/".check_ids(get_data("rest/4"))."')"</onclick>
+                    <onclick ifeval="get_data('rest/5')" eval="true">"saltos.common.download('app/emails/view/download/".intval(get_data("rest/4"))."/".get_data("rest/5")."')"</onclick>
+                    <onclick ifeval="!get_data('rest/5')" eval="true">"saltos.common.download('app/emails/view/download/".check_ids(get_data("rest/4"))."')"</onclick>
                 </button>
                 <button onclick="saltos.driver.close()" label="Close" tooltip="To close this list" icon="x-lg" autoclose="true"/>
             </row>

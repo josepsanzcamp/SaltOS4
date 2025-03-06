@@ -154,5 +154,5 @@ saltos.invoices.download = () => {
         return;
     }
     ids = ids.join(',');
-    saltos.app.download('app/invoices/view/download/' + ids);
+    saltos.common.download('app/invoices/view/download/' + ids);
 };

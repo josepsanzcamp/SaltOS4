@@ -34,9 +34,9 @@ declare(strict_types=1);
  * and the order of the elements are:
  *
  * @1 => the app that you want to execute
- * @2 => the subapp that tou want to use, if the app only contains
- *       one subapp, this parameter is not necesary
- * @3 => the id used in some subapps, for example, to get the data
+ * @2 => the action that tou want to use, if the app only contains
+ *       one action, this parameter is not necesary
+ * @3 => the id used in some actions, for example, to get the data
  *       of specific customer using the id
  *
  * List action (triggered when type attr is table or list)
@@ -56,18 +56,19 @@ if (get_data('rest/1') == '') {
 
 $file = detect_app_file(get_data('rest/1'));
 if (!file_exists($file)) {
-    show_json_error('App ' . get_data('rest/1') . ' not found');
+    $app = get_data('rest/1');
+    show_php_error(['phperror' => "App $app not found"]);
 }
 
 // Load the app xml file
 $array = xmlfile2array($file);
 if (!is_array($array) || !count($array)) {
-    show_json_error('Internal error');
+    show_php_error(['phperror' => 'Internal error']);
 }
 
 $found = false;
 
-// Check for rest/2, that is the name of the subapp to load
+// Check for rest/2, that is the name of the action to load
 set_data('rest/2', encode_bad_chars(strval(get_data('rest/2'))));
 if (get_data('rest/2') == '' && count($array) == 1) {
     set_data('rest/2', key($array));
@@ -75,65 +76,96 @@ if (get_data('rest/2') == '' && count($array) == 1) {
 }
 
 if (!$found && get_data('rest/2') == '') {
+    $items = [];
     foreach ($array as $key => $val) {
         $candidate = is_attr_value($val) && isset($val['#attr']['default']);
         if ($candidate && eval_bool($val['#attr']['default'])) {
-            set_data('rest/2', $key);
-            $found = true;
-            break;
+            $items[] = $key;
         }
+    }
+    if (count($items) > 1) {
+        show_php_error(['phperror' => 'Multiple default nodes found']);
+    }
+    if (count($items) == 1) {
+        $key = $items[0];
+        set_data('rest/2', $key);
+        $found = true;
     }
 }
 
 if (get_data('rest/2') == '') {
-    show_json_error('Subapp not found');
+    show_json_error('Action not found');
 }
 
 // Trick to allow requests like widget/table2 that is <widget id="table2">
 if (!$found && get_data('rest/3') != '') {
+    $items = [];
     foreach ($array as $key => $val) {
         if (fix_key($key) == get_data('rest/2')) {
             $candidate = is_attr_value($val) && isset($val['#attr']['id']);
             if ($candidate && $val['#attr']['id'] == get_data('rest/3')) {
-                set_data('rest/2', $key);
-                $found = true;
-                break;
+                $items[] = $key;
             }
         }
+    }
+    if (count($items) > 1) {
+        $action = get_data('rest/2');
+        $id = get_data('rest/3');
+        show_php_error(['phperror' => "Multiple repeated nodes <$action id='$id'> found"]);
+    }
+    if (count($items) == 1) {
+        $key = $items[0];
+        set_data('rest/2', $key);
+        $found = true;
     }
 }
 
 // Trick to detect list when not is the first list element
 if (!$found) {
+    $items = [];
     foreach ($array as $key => $val) {
         $candidate = is_attr_value($val) && isset($val['#attr']['id']);
         if (!$candidate && fix_key($key) == get_data('rest/2')) {
-            set_data('rest/2', $key);
-            $found = true;
-            break;
+            $items[] = $key;
         }
+    }
+    if (count($items) > 1) {
+        $action = get_data('rest/2');
+        show_php_error(['phperror' => "Multiple repeated nodes <$action> found"]);
+    }
+    if (count($items) == 1) {
+        $key = $items[0];
+        set_data('rest/2', $key);
+        $found = true;
     }
 }
 
 // Trick to allow request like <create id="insert"> using only insert
+// Only valid here if id="insert" only appear one time, repetitions are ignored
 if (!$found) {
+    $items = [];
     foreach ($array as $key => $val) {
         $candidate = is_attr_value($val) && isset($val['#attr']['id']);
         if ($candidate && $val['#attr']['id'] == get_data('rest/2')) {
-            $rest = get_data('rest');
-            array_splice($rest, 2, 1, [$key, $val['#attr']['id']]);
-            set_data('rest', $rest);
-            $found = true;
-            break;
+            $items[] = $key;
         }
+    }
+    if (count($items) == 1) {
+        $key = $items[0];
+        $val = $array[$key];
+        $rest = get_data('rest');
+        array_splice($rest, 2, 1, [$key, $val['#attr']['id']]);
+        set_data('rest', $rest);
+        $found = true;
     }
 }
 
 if (!isset($array[get_data('rest/2')])) {
-    show_json_error('Subapp ' . get_data('rest/2') . ' not found');
+    $action = get_data('rest/2');
+    show_json_error("Action $action not found");
 }
 
-// Get only the subapp part
+// Get only the action part
 $array = $array[get_data('rest/2')];
 set_data('rest/2', fix_key(get_data('rest/2')));
 
@@ -152,8 +184,11 @@ if (is_attr_value($array)) {
     }
 }
 
-// This line is a trick to allow attr in the subapp
+// This line is a trick to allow attr in the action
 $array = join_attr_value($array);
+if (!is_array($array) || !count($array)) {
+    show_php_error(['phperror' => 'Internal error']);
+}
 
 // Connect to the database
 db_connect();

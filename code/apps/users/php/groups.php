@@ -63,9 +63,6 @@ function insert_group($data)
         return $array;
     }
     $group_id = $array['created_id'];
-    // note: the next del_version is because this function add
-    // more data and it is executed at the end of the function
-    del_version('groups', $group_id);
 
     // Create the perms entries
     if (is_array($perms)) {
@@ -81,6 +78,9 @@ function insert_group($data)
         }
     }
 
+    // note: the next del_version is because this function add
+    // more data and it is executed at the end of the function
+    del_version('groups', $group_id);
     make_version('groups', $group_id);
 
     return [
@@ -100,6 +100,7 @@ function insert_group($data)
 function update_group($group_id, $data)
 {
     require_once 'php/lib/actions.php';
+    require_once 'php/lib/log.php';
     require_once 'php/lib/version.php';
 
     if (!is_array($data) || !count($data)) {
@@ -119,9 +120,6 @@ function update_group($group_id, $data)
         if ($array['status'] == 'ko') {
             return $array;
         }
-        // note: the next del_version is because this function add
-        // more data and it is executed at the end of the function
-        del_version('groups', $group_id);
     }
 
     if (is_array($perms)) {
@@ -160,7 +158,15 @@ function update_group($group_id, $data)
         }
     }
 
-    make_version('groups', $group_id);
+    if (count($data)) {
+        // note: the next del_version is because this function add
+        // more data and it is executed at the end of the function
+        del_version('groups', $group_id);
+        make_version('groups', $group_id);
+    } else {
+        make_log('groups', 'update', $group_id);
+        make_version('groups', $group_id);
+    }
 
     return [
         'status' => 'ok',
@@ -179,6 +185,7 @@ function update_group($group_id, $data)
 function delete_group($group_id)
 {
     require_once 'php/lib/actions.php';
+    require_once 'php/lib/version.php';
 
     // Real delete using general delete action
     $array = delete('groups', $group_id);
@@ -189,6 +196,9 @@ function delete_group($group_id)
     // Continue removing the perms entries
     $query = 'DELETE FROM tbl_groups_apps_perms WHERE group_id = ?';
     db_query($query, [$group_id]);
+
+    del_version('groups', $group_id);
+    make_version('groups', $group_id);
 
     return [
         'status' => 'ok',

@@ -26,7 +26,7 @@
 -->
 
 <root>
-    <menu>
+    <main>
         <check eval="true">!current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T()</gettext>
@@ -46,5 +46,5 @@
         <javascript>
             <file eval="true">file_with_hash("apps/users/js/login.js")</file>
         </javascript>
-    </menu>
+    </main>
 </root>

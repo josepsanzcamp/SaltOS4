@@ -38,7 +38,7 @@ declare(strict_types=1);
  *
  * TODO
  */
-function check_files_old($app, $action, $id)
+function check_files_old($app, $action, $id = null)
 {
     // Check for action
     if (!in_array($action, ['view', 'edit'])) {
@@ -54,14 +54,15 @@ function check_files_old($app, $action, $id)
     if (!db_check($query)) {
         return false;
     }
+    // This check fix a security issue when this function is called with all
+    // parameters and id is null, in this scope two parameters must be true
+    if (func_num_args() == 2) {
+        return true;
+    }
     // Check for registers
     $query = "SELECT COUNT(*) FROM {$table}_files WHERE reg_id = ?";
     $count = execute_query($query, [$id]);
-    if (!$count) {
-        return false;
-    }
-    // All is successfully
-    return true;
+    return boolval($count);
 }
 
 /**

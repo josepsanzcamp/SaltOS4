@@ -26,7 +26,7 @@
 -->
 
 <root>
-    <menu default="true">
+    <main>
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T()</gettext>
@@ -42,9 +42,9 @@
             <file eval="true">file_with_hash(file_with_min("apps/dashboard/js/dashboard.js"))</file>
             <inline>saltos.driver.init("menu")</inline>
             <inline eval="true">"saltos.dashboard.init(" . json_encode([
-                'catalog' => xpath_search_first_value("menu/layout[append=one]", xmlfile2array("apps/dashboard/xml/dashboard_widgets.xml")),
+                'catalog' => xpath_search_first_value("main/layout[append=one]", xmlfile2array("apps/dashboard/xml/dashboard_widgets.xml")),
                 'config' => get_config_array("app/dashboard/widgets/", current_user()),
             ]) . ")"</inline>
         </javascript>
-    </menu>
+    </main>
 </root>

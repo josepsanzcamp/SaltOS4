@@ -29,6 +29,6 @@
     <apps>
         <app id="27" active="1"
             code="certs" name="Certificates" description="Certificates manager"
-            perms="menu,create,help,list*,view*,delete*"/>
+            perms="main,create,help,list*,view*,delete*"/>
     </apps>
 </root>

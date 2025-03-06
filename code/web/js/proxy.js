@@ -388,13 +388,13 @@ const request_unserialize = request => {
  */
 const human_size = (size, pre = '', post = '') => {
     if (size >= 1073741824) {
-        size = (Math.round(size / 1073741824 * 100) / 100) + pre + 'G' + post;
+        size = (Math.round(size * 100 / 1073741824) / 100) + pre + 'G' + post;
     } else if (size >= 1048576) {
-        size = (Math.round(size / 1048576 * 100) / 100) + pre + 'M' + post;
+        size = (Math.round(size * 100 / 1048576) / 100) + pre + 'M' + post;
     } else if (size >= 1024) {
-        size = (Math.round(size / 1024 * 100) / 100) + pre + 'K' + post;
+        size = (Math.round(size * 100 / 1024) / 100) + pre + 'K' + post;
     } else {
-        size = (Math.round(size * 100) / 100) + pre + 'K' + post;
+        size = (Math.round(size * 100) / 100) + pre + post;
     }
     return size;
 };

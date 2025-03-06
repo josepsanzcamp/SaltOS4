@@ -27,51 +27,47 @@
 
 <root>
     <form>
-        <hidden id="delfiles" require="php/lib/files.php" ifeval="check_files_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))" autosave="false"/>
-        <table id="allfiles" label="Files" col_class="col-12 mb-3" require="php/lib/files.php" ifeval="check_files_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))">
-            <source eval="true">"app/".get_data("rest/1")."/view/files/".intval(get_data("rest/3"))."/".get_data("rest/2")</source>
+        <hidden id="delfiles" require="php/lib/files.php" ifeval="check_files_old(get_data('rest/1'), get_data('rest/2'))" autosave="false"/>
+        <table id="allfiles" label="Files" col_class="col-12 mb-3" require="php/lib/files.php" ifeval="check_files_old(get_data('rest/1'), get_data('rest/2'))" dropdown="false" >
+            <header>
+                <name>Filename</name>
+                <size>Size</size>
+            </header>
+            <first_action eval="true">get_data("rest/5") == "view"</first_action>
         </table>
         <file id="addfiles" label="New files" col_class="col-12 mb-3" multiple="true" require="php/lib/files.php" ifeval="check_files_new(get_data('rest/1'), get_data('rest/2'))"/>
     </form>
 
-    <view id="files" dropdown="false" type="table">
-        <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <first_action eval="true">get_data("rest/5") == "view"</first_action>
-        <header>
-            <name>Filename</name>
-            <size>Size</size>
-        </header>
-        <data eval="true">merge_data_actions(
-            execute_query_array("SELECT CONCAT(reg_id, '/', id) id, user_id, datetime, name, size FROM " . app2table(get_data("rest/1")) . "_files WHERE reg_id = ?", [intval(get_data("rest/4"))]),
-            xpath_search_first_value("view[id=files]/actions[id=".get_data("rest/5")."]", xmlfile2array("apps/common/xml/files.xml"))
+    <data>
+        <data require="php/lib/files.php" ifeval="check_files_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))" eval="true">merge_data_actions(
+            execute_query_array("SELECT CONCAT(reg_id, '/', id) id, user_id, datetime, name, size
+                FROM " . app2table(get_data("rest/1")) . "_files WHERE reg_id = ? ORDER BY id DESC", [intval(get_data("rest/3"))]),
+            xpath_search_first_value("data/actions[id=".get_data("rest/2")."]", xmlfile2array("apps/common/xml/files.xml"))
         )</data>
         <actions id="view" ifeval="false">
             <action action="view/viewpdf" icon="search" tooltip="View file" onclick="saltos.driver.open">
                 <app eval="true">get_data("rest/1")</app>
             </action>
-            <action action="view/download" icon="save" tooltip="Download file" onclick="saltos.app.download">
+            <action action="view/download" icon="save" tooltip="Download file" onclick="saltos.common.download">
                 <app eval="true">get_data("rest/1")</app>
             </action>
         </actions>
         <actions id="edit" ifeval="false">
-            <action action="delete/files" icon="trash" tooltip="Delete file" onclick="saltos.app.delete">
+            <action action="delete/files" icon="trash" tooltip="Delete file" onclick="saltos.common.delete">
                 <app eval="true">get_data("rest/1")</app>
             </action>
         </actions>
-    </view>
+    </data>
 
     <view id="viewpdf">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <temp require="php/lib/log.php" eval="true">make_log(get_data('rest/1'), get_data('rest/3'), get_data('rest/4'), get_data('rest/5'))</temp>
-        <gettext eval="true">T()</gettext>
+        <cache eval="true">"app/".get_data("rest/1")."/main"</cache>
         <title append="modal" ifeval="get_data('rest/5')" require="php/lib/files.php" eval="true">files_cid(get_data("rest/1"), intval(get_data("rest/4")), intval(get_data("rest/5")))["name"]</title>
         <title append="modal" ifeval="!get_data('rest/5')" require="php/lib/pdf.php" eval="true">pdf("apps/".get_data("rest/1")."/xml/pdf.xml", [
             "id" => check_ids(get_data("rest/4")),
         ])["name"]</title>
-        <screen eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="three,two,one">
             <row auto="true" col_class="col-12 mb-3">
                 <pdfjs>
@@ -84,8 +80,8 @@
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button label="Download" tooltip="To download the email" icon="save">
-                    <onclick ifeval="get_data('rest/5')" eval="true">"saltos.app.download('app/".get_data("rest/1")."/view/download/".intval(get_data("rest/4"))."/".intval(get_data("rest/5"))."')"</onclick>
-                    <onclick ifeval="!get_data('rest/5')" eval="true">"saltos.app.download('app/".get_data("rest/1")."/view/download/".check_ids(get_data("rest/4"))."')"</onclick>
+                    <onclick ifeval="get_data('rest/5')" eval="true">"saltos.common.download('app/".get_data("rest/1")."/view/download/".intval(get_data("rest/4"))."/".intval(get_data("rest/5"))."')"</onclick>
+                    <onclick ifeval="!get_data('rest/5')" eval="true">"saltos.common.download('app/".get_data("rest/1")."/view/download/".check_ids(get_data("rest/4"))."')"</onclick>
                 </button>
                 <button onclick="saltos.driver.close()" label="Close" tooltip="To close this list" icon="x-lg" autoclose="true"/>
             </row>

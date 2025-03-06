@@ -29,7 +29,6 @@
     <profile>
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <gettext eval="true">T()</gettext>
         <title append="offcanvas">Profile</title>
         <layout append="right">
             <row auto="true" col_class="col-md-12 mb-3">
@@ -45,7 +44,7 @@
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button onclick="saltos.app.profile()" label="Close" tooltip="Close this screen" icon="x-lg"/>
+                <button onclick="saltos.common.profile()" label="Close" tooltip="Close this screen" icon="x-lg"/>
             </row>
             <hr/>
             <row auto="true" col_class="col-md-12 mb-3">
@@ -56,7 +55,7 @@
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.profile.authupdate()" label="Update" tooltip="Update the password" icon="check-lg"/>
-                <button onclick="saltos.app.profile()" label="Close" tooltip="Close this screen" icon="x-lg"/>
+                <button onclick="saltos.common.profile()" label="Close" tooltip="Close this screen" icon="x-lg"/>
             </row>
         </layout>
         <javascript>

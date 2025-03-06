@@ -29,7 +29,6 @@
     <help>
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/4"), get_data("rest/3"))</check>
-        <gettext eval="true">T()</gettext>
         <title append="modal">Help</title>
         <layout append="four">
             <row auto="true" col_class="col-12 mb-3">
@@ -39,8 +38,8 @@
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button onclick="saltos.window.open(document.getElementById('pdfjs').src);saltos.app.help()" label="Open" tooltip="To open this help in an external window" icon="box-arrow-up-right"/>
-                <button onclick="saltos.app.help()" label="Close" tooltip="To close this help" icon="x-lg"/>
+                <button onclick="saltos.window.open(document.getElementById('pdfjs').src);saltos.common.help()" label="Open" tooltip="To open this help in an external window" icon="box-arrow-up-right"/>
+                <button onclick="saltos.common.help()" label="Close" tooltip="To close this help" icon="x-lg"/>
             </row>
         </layout>
     </help>

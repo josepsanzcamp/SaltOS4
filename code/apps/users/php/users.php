@@ -93,9 +93,6 @@ function insert_user($data)
         return $array;
     }
     $user_id = $array['created_id'];
-    // note: the next del_version is because this function add
-    // more data and it is executed at the end of the function
-    del_version('users', $user_id);
 
     // Continue creating the password entry
     newpass_insert($user_id, $newpass);
@@ -114,6 +111,9 @@ function insert_user($data)
         }
     }
 
+    // note: the next del_version is because this function add
+    // more data and it is executed at the end of the function
+    del_version('users', $user_id);
     make_version('users', $user_id);
 
     return [
@@ -134,6 +134,7 @@ function update_user($user_id, $data)
 {
     require_once 'php/lib/actions.php';
     require_once 'php/lib/auth.php';
+    require_once 'php/lib/log.php';
     require_once 'php/lib/version.php';
 
     if (!is_array($data) || !count($data)) {
@@ -184,9 +185,6 @@ function update_user($user_id, $data)
         if ($array['status'] == 'ko') {
             return $array;
         }
-        // note: the next del_version is because this function add
-        // more data and it is executed at the end of the function
-        del_version('users', $user_id);
     }
 
     // Continue creating the password entry
@@ -231,7 +229,15 @@ function update_user($user_id, $data)
         }
     }
 
-    make_version('users', $user_id);
+    if (count($data)) {
+        // note: the next del_version is because this function add
+        // more data and it is executed at the end of the function
+        del_version('users', $user_id);
+        make_version('users', $user_id);
+    } else {
+        make_log('users', 'update', $user_id);
+        make_version('users', $user_id);
+    }
 
     return [
         'status' => 'ok',
@@ -250,6 +256,7 @@ function update_user($user_id, $data)
 function delete_user($user_id)
 {
     require_once 'php/lib/actions.php';
+    require_once 'php/lib/version.php';
 
     // Real delete using general delete action
     $array = delete('users', $user_id);
@@ -264,6 +271,9 @@ function delete_user($user_id)
     // Continue removing the perms entries
     $query = 'DELETE FROM tbl_users_apps_perms WHERE user_id = ?';
     db_query($query, [$user_id]);
+
+    del_version('users', $user_id);
+    make_version('users', $user_id);
 
     return [
         'status' => 'ok',

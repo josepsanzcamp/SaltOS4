@@ -881,13 +881,13 @@ saltos.core.timestamp = (offset = 0) => {
  */
 saltos.core.human_size = (size, pre = '', post = '') => {
     if (size >= 1073741824) {
-        size = (Math.round(size / 1073741824 * 100) / 100) + pre + 'G' + post;
+        size = (Math.round(size * 100 / 1073741824) / 100) + pre + 'G' + post;
     } else if (size >= 1048576) {
-        size = (Math.round(size / 1048576 * 100) / 100) + pre + 'M' + post;
+        size = (Math.round(size * 100 / 1048576) / 100) + pre + 'M' + post;
     } else if (size >= 1024) {
-        size = (Math.round(size / 1024 * 100) / 100) + pre + 'K' + post;
+        size = (Math.round(size * 100 / 1024) / 100) + pre + 'K' + post;
     } else {
-        size = (Math.round(size * 100) / 100) + pre + 'K' + post;
+        size = (Math.round(size * 100) / 100) + pre + post;
     }
     return size;
 };
@@ -942,4 +942,25 @@ saltos.core.check_network = async () => {
         await new Promise(resolve => setTimeout(resolve, 1));
     }
     return check;
+};
+
+/**
+ * Is Number
+ *
+ * This function checks that the str contains a valid number and is finite
+ *
+ * str => the string to validate
+ *
+ * Notes:
+ *
+ * 123       => true
+ * 123.456   => true
+ * asd123    => false
+ * 123asd    => false
+ * Infinity  => false
+ * -Infinity => false
+ * NaN       => false
+ */
+saltos.core.is_number = str => {
+    return isFinite(Number(str));
 };

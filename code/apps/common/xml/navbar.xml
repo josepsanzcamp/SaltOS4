@@ -32,26 +32,26 @@
                 <item label="Dashboard" onclick="saltos.window.open('app/dashboard')"/>
                 <item label="Applications">
                     <menu>
-                        <item ifeval="check_user('emails', 'menu')" label="Emails" onclick="saltos.window.open('app/emails')"/>
+                        <item ifeval="check_user('emails', 'main')" label="Emails" onclick="saltos.window.open('app/emails')"/>
                         <item divider="true"/>
-                        <item ifeval="check_user('customers', 'menu')" label="Customers" onclick="saltos.window.open('app/customers')"/>
-                        <item ifeval="check_user('invoices', 'menu')" label="Invoices" onclick="saltos.window.open('app/invoices')"/>
+                        <item ifeval="check_user('customers', 'main')" label="Customers" onclick="saltos.window.open('app/customers')"/>
+                        <item ifeval="check_user('invoices', 'main')" label="Invoices" onclick="saltos.window.open('app/invoices')"/>
                         <item divider="true"/>
-                        <item ifeval="check_user('users', 'menu')" label="Users" onclick="saltos.window.open('app/users')"/>
-                        <item ifeval="check_user('groups', 'menu')" label="Groups" onclick="saltos.window.open('app/groups')"/>
+                        <item ifeval="check_user('users', 'main')" label="Users" onclick="saltos.window.open('app/users')"/>
+                        <item ifeval="check_user('groups', 'main')" label="Groups" onclick="saltos.window.open('app/groups')"/>
                         <item divider="true"/>
-                        <item ifeval="check_user('types', 'menu')" label="Types" onclick="saltos.window.open('app/types')"/>
+                        <item ifeval="check_user('types', 'main')" label="Types" onclick="saltos.window.open('app/types')"/>
                         <item divider="true"/>
-                        <item ifeval="check_user('configlog', 'menu')" label="Config" onclick="saltos.window.open('app/configlog')"/>
-                        <item ifeval="check_user('cronlog', 'menu')" label="Cron" onclick="saltos.window.open('app/cronlog')"/>
-                        <item ifeval="check_user('pushlog', 'menu')" label="Push" onclick="saltos.window.open('app/pushlog')"/>
-                        <item ifeval="check_user('trashlog', 'menu')" label="Trash" onclick="saltos.window.open('app/trashlog')"/>
-                        <item ifeval="check_user('uploadlog', 'menu')" label="Upload" onclick="saltos.window.open('app/uploadlog')"/>
-                        <item ifeval="check_user('tokenslog', 'menu')" label="Tokens" onclick="saltos.window.open('app/tokenslog')"/>
-                        <item ifeval="check_user('certs', 'menu')" label="Certificates" onclick="saltos.window.open('app/certs')"/>
-                        <item ifeval="check_user('fileslog', 'menu')" label="Log files" onclick="saltos.window.open('app/fileslog')"/>
+                        <item ifeval="check_user('configlog', 'main')" label="Config" onclick="saltos.window.open('app/configlog')"/>
+                        <item ifeval="check_user('cronlog', 'main')" label="Cron" onclick="saltos.window.open('app/cronlog')"/>
+                        <item ifeval="check_user('pushlog', 'main')" label="Push" onclick="saltos.window.open('app/pushlog')"/>
+                        <item ifeval="check_user('trashlog', 'main')" label="Trash" onclick="saltos.window.open('app/trashlog')"/>
+                        <item ifeval="check_user('uploadlog', 'main')" label="Upload" onclick="saltos.window.open('app/uploadlog')"/>
+                        <item ifeval="check_user('tokenslog', 'main')" label="Tokens" onclick="saltos.window.open('app/tokenslog')"/>
+                        <item ifeval="check_user('certs', 'main')" label="Certificates" onclick="saltos.window.open('app/certs')"/>
+                        <item ifeval="check_user('fileslog', 'main')" label="Log files" onclick="saltos.window.open('app/fileslog')"/>
                         <item divider="true"/>
-                        <item ifeval="check_user('tester', 'menu')" label="Tester" onclick="saltos.window.open('app/tester')"/>
+                        <item ifeval="check_user('tester', 'main')" label="Tester" onclick="saltos.window.open('app/tester')"/>
                     </menu>
                 </item>
             </menu>
@@ -59,9 +59,9 @@
                 <item id="username" dropdown_menu_end="true" icon="person">
                     <label eval="true">execute_query("SELECT name FROM tbl_users WHERE id = ?", [current_user()])</label>
                     <menu>
-                        <item label="Profile" onclick="saltos.app.profile()"/>
-                        <item label="Help" onclick="saltos.app.help()"/>
-                        <item label="Logout" onclick="saltos.app.logout()"/>
+                        <item label="Profile" onclick="saltos.common.profile()"/>
+                        <item label="Help" onclick="saltos.common.help()"/>
+                        <item label="Logout" onclick="saltos.common.logout()"/>
                     </menu>
                 </item>
             </menu>

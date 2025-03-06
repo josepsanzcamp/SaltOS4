@@ -72,8 +72,40 @@ function make_app_file($data)
 {
     // load the template and apply specific features
     $array = xmlfile2array($data['template']);
+
+    // initial checks
+    $screen = &$array['main']['screen'];
+    if (!isset($screen)) {
+        show_php_error(['phperror' => 'main/screen node not found']);
+    }
+    if ($screen != 'TODO') {
+        show_php_error(['phperror' => 'main/screen TODO not found']);
+    }
+    $list1 = &$array['list#1']['value']['layout']['value']['row#1']['value']['table']['value']['header'];
+    if (!isset($list1)) {
+        show_php_error(['phperror' => 'list/header node not found']);
+    }
+    if ($list1 != 'TODO') {
+        show_php_error(['phperror' => 'list/header TODO not found']);
+    }
+    $list2 = &$array['list#2']['value']['data']['value'];
+    if (!isset($list2)) {
+        show_php_error(['phperror' => 'list/data node not found']);
+    }
+    if (!strpos($list2, 'TODO')) {
+        show_php_error(['phperror' => 'list/data TODO not found']);
+    }
+    $form = &$array['form'];
+    if (!isset($form)) {
+        show_php_error(['phperror' => 'form node not found']);
+    }
+    if ($form != 'TODO') {
+        show_php_error(['phperror' => 'form TODO not found']);
+    }
+
     // set the screen
-    $array['screen'] = $data['screen'];
+    $screen = $data['screen'];
+
     // convert the fields array into a key => val array using the id as key
     $keys = ['id', 'type', 'label'];
     $views = ['list', 'form'];
@@ -82,6 +114,7 @@ function make_app_file($data)
             $data[$view][$key] = array_combine($keys, $val);
         }
     }
+
     // convert the select array into a key => val array using id as key
     if (isset($data['select'])) {
         $keys = ['id', 'table', 'field'];
@@ -101,6 +134,7 @@ function make_app_file($data)
         }
         $data['select'] = array_combine(array_column($data['select'], 'id'), $data['select']);
     }
+
     // set the list header
     $xml = [];
     foreach ($data['list'] as $field) {
@@ -121,9 +155,10 @@ function make_app_file($data)
         }
     }
     $xml = '<root>' . implode('', $xml) . '</root>';
-    $array['list#1']['value']['header'] = xml2array($xml)['root'];
+    $list1 = xml2array($xml)['root'];
+
     // set the select fields list
-    $query = $array['list#1']['value']['data']['value'];
+    $query = $list2;
     $fields = [];
     foreach ($data['list'] as $field) {
         $id = $field['id'];
@@ -153,7 +188,8 @@ function make_app_file($data)
     }
     $fields = implode(', ', $fields);
     $query = str_replace('TODO', $fields, $query);
-    $array['list#1']['value']['data']['value'] = $query;
+    $list2 = $query;
+
     // set the form fields
     $xml = [];
     foreach ($data['form'] as $field) {
@@ -192,7 +228,8 @@ function make_app_file($data)
         }
     }
     $xml = '<root>' . implode('', $xml) . '</root>';
-    $array['form'] = xml2array($xml)['root'];
+    $form = xml2array($xml)['root'];
+
     // end of function
     return $array;
 }

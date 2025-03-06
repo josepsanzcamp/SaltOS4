@@ -165,9 +165,45 @@ saltos.app.send_request = hash => {
     saltos.app.ajax({
         url: hash,
         success: response => {
-            saltos.app.process_response(response);
+            saltos.app.prefetch_cache([response]);
         },
     });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.__cache = {};
+
+/**
+ * Process response helper
+ *
+ * This function process the responses received by the send request
+ */
+saltos.app.prefetch_cache = (responses) => {
+    for (const i in responses) {
+        const response = responses[i];
+        for (const key in response) {
+            const key2 = saltos.core.fix_key(key);
+            if (key2 == 'cache') {
+                const val = response[key];
+                if (!(val in saltos.app.__cache)) {
+                    saltos.app.ajax({
+                        url: val,
+                        success: response2 => {
+                            saltos.app.__cache[val] = response2;
+                            responses.push(response2);
+                            saltos.app.prefetch_cache(responses);
+                        },
+                    });
+                    return;
+                }
+            }
+        }
+    }
+    saltos.app.process_response(responses[0]);
 };
 
 /**
@@ -611,123 +647,6 @@ saltos.app.form_disabled = bool => {
             obj.set_disabled(bool);
         }
     }
-};
-
-/**
- * Profile screen
- *
- * This function allow to open the profile screen in a offcanvas widget
- */
-saltos.app.profile = () => {
-    if (saltos.bootstrap.offcanvas('isopen')) {
-        saltos.bootstrap.offcanvas('close');
-        return;
-    }
-    saltos.gettext.bootstrap.offcanvas({
-        pos: 'right',
-        close: 'Close',
-    });
-    document.querySelector('.offcanvas-body').setAttribute('id', 'right');
-    saltos.app.send_request('app/widgets/profile');
-};
-
-/**
- * Help screen
- *
- * This function allow to open the help screen in a modal widget
- */
-saltos.app.help = () => {
-    if (saltos.bootstrap.modal('isopen')) {
-        saltos.bootstrap.modal('close');
-        return;
-    }
-    saltos.gettext.bootstrap.modal({
-        close: 'Close',
-        class: 'modal-xl',
-    });
-    document.querySelector('.modal-body').setAttribute('id', 'four');
-    const app = saltos.hash.get().split('/').at(1);
-    saltos.app.send_request(`app/widgets/help/${app}`);
-};
-
-/**
- * Logout feature
- *
- * This function execute the deauthtoken action and jump to the login screen
- */
-saltos.app.logout = async () => {
-    await saltos.authenticate.deauthtoken();
-    saltos.window.send('saltos.app.logout');
-};
-
-/**
- * Filter screen
- *
- * This function allow to open the filter screen in a offcanvas widget
- */
-saltos.app.filter = () => {
-    if (saltos.bootstrap.offcanvas('isopen')) {
-        saltos.bootstrap.offcanvas('close');
-        return;
-    }
-    saltos.gettext.bootstrap.offcanvas({
-        pos: 'left',
-        close: 'Close',
-    });
-    const filter = document.getElementById('filter');
-    if ('data-bs-title' in filter) {
-        document.querySelector('.offcanvas-title').innerHTML = T(filter['data-bs-title']);
-    }
-    const items = Array.prototype.slice.call(filter.childNodes);
-    const parents = [];
-    for (const i in items) {
-        parents[i] = items[i].parentElement;
-        document.querySelector('.offcanvas-body').append(items[i]);
-    }
-    const obj = saltos.bootstrap.__offcanvas.obj;
-    obj.addEventListener('hide.bs.offcanvas', event => {
-        for (const i in items) {
-            parents[i].append(items[i]);
-        }
-    });
-};
-
-/**
- * Download helper
- *
- * This function allow to download files, to do it, make the ajax request and
- * using the base64 data response, sets the href of an anchor created dinamically
- * to emulate the download action
- *
- * @file => the file data used to identify the desired file in the backend part
- */
-saltos.app.download = file => {
-    saltos.app.ajax({
-        url: file,
-        success: response => {
-            const a = document.createElement('a');
-            a.download = response.name;
-            response.type = 'application/force-download'; // to force download dialog
-            a.href = `data:${response.type};base64,${response.data}`;
-            a.click();
-        },
-    });
-};
-
-/**
- * Delete helper
- *
- * This function allow to remove the files and notes in the files and notes widgets
- *
- * @file => the file or note string path
- */
-saltos.app.delete = file => {
-    const row = document.getElementById('all' + file.split('/').slice(3, 6).join('/'));
-    row.remove();
-    const obj = document.getElementById('del' + file.split('/').at(3));
-    let value = obj.value.split(',');
-    value.push(file.split('/').at(-1));
-    obj.value = value.filter(arg => arg != '').join(',');
 };
 
 /**

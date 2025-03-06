@@ -690,14 +690,14 @@ saltos.bootstrap.__field.ckeditor = field => {
     });
     // Program the set feature
     element.set = value => {
-        if (typeof element.ckeditor != 'object') {
+        if (!('ckeditor' in element)) {
             if (!('queue' in element)) {
                 element.queue = [];
             }
             element.queue.push(value);
             if (!('timer' in element)) {
                 element.timer = setInterval(() => {
-                    if (typeof element.ckeditor != 'object') {
+                    if (!('ckeditor' in element)) {
                         return;
                     }
                     clearInterval(element.timer);
@@ -713,7 +713,7 @@ saltos.bootstrap.__field.ckeditor = field => {
     };
     // Program the disabled feature
     element.set_disabled = bool => {
-        if (typeof element.ckeditor != 'object') {
+        if (!('ckeditor' in element)) {
             setTimeout(() => element.set_disabled(bool), 1);
             return;
         }
@@ -846,14 +846,14 @@ saltos.bootstrap.__field.codemirror = field => {
     });
     // Program the set feature
     element.set = value => {
-        if (typeof element.codemirror != 'object') {
+        if (!('codemirror' in element)) {
             if (!('queue' in element)) {
                 element.queue = [];
             }
             element.queue.push(value);
             if (!('timer' in element)) {
                 element.timer = setInterval(() => {
-                    if (typeof element.codemirror != 'object') {
+                    if (!('codemirror' in element)) {
                         return;
                     }
                     clearInterval(element.timer);
@@ -872,7 +872,7 @@ saltos.bootstrap.__field.codemirror = field => {
     };
     // Program the disabled feature
     element.set_disabled = bool => {
-        if (typeof element.codemirror != 'object') {
+        if (!('codemirror' in element)) {
             setTimeout(() => element.set_disabled(bool), 1);
             return;
         }
@@ -998,6 +998,22 @@ saltos.bootstrap.__field.iframe = field => {
             }));
         });
     });
+    // Program the set in the input first
+    element.set = value => {
+        if (typeof value == 'object') {
+            if ('src' in value) {
+                element.src = value.src;
+            } else if ('srcdoc' in value) {
+                element.srcdoc = saltos.bootstrap.__iframe_srcdoc_helper(value.srcdoc);
+            }
+        } else {
+            if (field.src != '') {
+                element.src = value;
+            } else if (field.srcdoc != '') {
+                element.srcdoc = saltos.bootstrap.__iframe_srcdoc_helper(value);
+            }
+        }
+    };
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
@@ -1302,7 +1318,7 @@ saltos.bootstrap.__field.checkbox = field => {
     }
     const obj = saltos.core.html(`
         <div class="form-check ${field.class}">
-            <input class="form-check-input ${border}" type="checkbox" id="${field.id}"
+            <input class="form-check-input ${border} ${color}" type="checkbox" id="${field.id}"
                 value="${value}" ${disabled} ${readonly} ${required} ${checked}
                 data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
             <label class="form-check-label" for="${field.id}"
@@ -1332,6 +1348,29 @@ saltos.bootstrap.__field.checkbox = field => {
             input.value = 0;
         }
     };
+    // This add the colorized feature to the checkbox and switch
+    obj.append(saltos.core.html(`
+        <style>
+            .form-check-input:checked.primary {
+                background-color: var(--bs-primary);
+            }
+            .form-check-input:checked.secondary {
+                background-color: var(--bs-secondary);
+            }
+            .form-check-input:checked.success {
+                background-color: var(--bs-success);
+            }
+            .form-check-input:checked.danger {
+                background-color: var(--bs-danger);
+            }
+            .form-check-input:checked.warning {
+                background-color: var(--bs-warning);
+            }
+            .form-check-input:checked.info {
+                background-color: var(--bs-info);
+            }
+        </style>
+    `));
     return obj;
 };
 
@@ -1526,7 +1565,8 @@ saltos.bootstrap.__field.password = field => {
         </div>
     `);
     // Continue
-    const item = obj.querySelector('input[type=password]');
+    const item = obj.querySelector('input');
+    const button = obj.querySelector('button');
     if (field.tooltip != '') {
         saltos.bootstrap.__tooltip_helper(item);
     }
@@ -1536,16 +1576,28 @@ saltos.bootstrap.__field.password = field => {
     if (field.onchange != '') {
         saltos.bootstrap.__onchange_helper(item, field.onchange);
     }
-    obj.querySelector('button').addEventListener('click', event => {
-        const input = event.target.parentElement.querySelector('input[type=password], input[type=text]');
-        switch (input.type) {
+    // Program the disabled feature
+    item.set_disabled = bool => {
+        if (bool) {
+            item.setAttribute('disabled', '');
+            button.setAttribute('disabled', '');
+            button.classList.add('opacity-25');
+        } else {
+            item.removeAttribute('disabled');
+            button.removeAttribute('disabled');
+            button.classList.remove('opacity-25');
+        }
+    };
+    // Program the button feature
+    button.addEventListener('click', event => {
+        switch (item.type) {
             case 'password':
-                input.type = 'text';
-                event.target.classList.replace('bi-eye-slash', 'bi-eye');
+                item.type = 'text';
+                button.classList.replace('bi-eye-slash', 'bi-eye');
                 break;
             case 'text':
-                input.type = 'password';
-                event.target.classList.replace('bi-eye', 'bi-eye-slash');
+                item.type = 'password';
+                button.classList.replace('bi-eye', 'bi-eye-slash');
                 break;
         }
     });
@@ -2007,30 +2059,31 @@ saltos.bootstrap.__field.excel = field => {
     });
     obj.append(placeholder);
     // Continue
+    let options = {
+        data: input.data, // This links the data
+        rowHeaders: field.rowHeaders,
+        colHeaders: field.colHeaders,
+        minSpareRows: field.minSpareRows,
+        contextMenu: field.contextMenu,
+        rowHeaderWidth: field.rowHeaderWidth,
+        colWidths: field.colWidths,
+        autoWrapCol: false,
+        autoWrapRow: false,
+        cell: field.cell,
+        cells: field.cells,
+    };
     saltos.core.require([
         'lib/handsontable/handsontable.full.min.css',
         'lib/handsontable/handsontable.full.min.js',
     ], () => {
         placeholder.remove();
-        const excel = new Handsontable(element, {
-            data: input.data, // This links the data
-            rowHeaders: field.rowHeaders,
-            colHeaders: field.colHeaders,
-            minSpareRows: field.minSpareRows,
-            contextMenu: field.contextMenu,
-            rowHeaderWidth: field.rowHeaderWidth,
-            colWidths: field.colWidths,
-            autoWrapCol: false,
-            autoWrapRow: false,
-            cell: field.cell,
-            cells: field.cells,
-        });
+        const excel = new Handsontable(element, options);
         input.excel = excel;
         element.parentElement.classList.add(...border);
     });
     // Program the disabled feature
     input.set_disabled = bool => {
-        if (typeof input.excel != 'object') {
+        if (!('excel' in input)) {
             setTimeout(() => input.set_disabled(bool), 1);
             return;
         }
@@ -2072,6 +2125,37 @@ saltos.bootstrap.__field.excel = field => {
             }
         </style>
     `));
+    // Program the set in the input first
+    input.set = value => {
+        if (!('excel' in input)) {
+            if (!('queue' in input)) {
+                input.queue = [];
+            }
+            input.queue.push(value);
+            if (!('timer' in input)) {
+                input.timer = setInterval(() => {
+                    if (!('excel' in input)) {
+                        return;
+                    }
+                    clearInterval(input.timer);
+                    while (input.queue.length) {
+                        const item = input.queue.shift();
+                        input.set(item);
+                    }
+                }, 1);
+            }
+            return;
+        }
+        if (Array.isArray(value)) {
+            input.data = saltos.core.copy_object(value);
+            options = {...options, data: input.data};
+            input.excel.updateSettings(options);
+        } else {
+            input.data = saltos.core.copy_object(value.data);
+            options = {...options, ...value, data: input.data};
+            input.excel.updateSettings(options);
+        }
+    };
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
@@ -2229,16 +2313,6 @@ saltos.bootstrap.__field.table = field => {
     saltos.core.check_params(field, ['class', 'id', 'checkbox', 'dropdown', 'color', 'nodata']);
     saltos.core.check_params(field, ['header', 'data', 'footer'], []);
     saltos.core.check_params(field, ['first_action'], true);
-    // Check for data not found
-    if (!field.data.length) {
-        return saltos.bootstrap.__field.alert({
-            id: field.id,
-            color: field.color,
-            title: field.nodata,
-            label: field.label,
-        });
-    }
-    // Continue
     if (field.checkbox != '') {
         field.checkbox = saltos.core.eval_bool(field.checkbox);
     }
@@ -2253,13 +2327,13 @@ saltos.bootstrap.__field.table = field => {
             </table>
         </div>
     `);
+    obj.querySelector('table').append(saltos.core.html('table', `
+        <thead>
+            <tr>
+            </tr>
+        </thead>
+    `));
     if (Object.keys(field.header).length) {
-        obj.querySelector('table').append(saltos.core.html('table', `
-            <thead>
-                <tr>
-                </tr>
-            </thead>
-        `));
         if (field.checkbox) {
             obj.querySelector('thead tr').append(saltos.core.html(
                 'tr',
@@ -2299,12 +2373,17 @@ saltos.bootstrap.__field.table = field => {
             const th = saltos.core.html('tr', `<th class="text-bg-${field.color}" style="width: 1%"></th>`);
             obj.querySelector('thead tr').append(th);
         }
+    } else {
+        obj.querySelector('thead tr').append(saltos.core.html(
+            'tr',
+            `<th class="text-bg-${field.color} text-center" colspan="100">&nbsp;</th>`
+        ));
     }
+    obj.querySelector('table').append(saltos.core.html('table', `
+        <tbody>
+        </tbody>
+    `));
     if (field.data.length) {
-        obj.querySelector('table').append(saltos.core.html('table', `
-            <tbody>
-            </tbody>
-        `));
         // This function close all dropdowns
         const dropdown_close = () => {
             obj.querySelectorAll('.show').forEach(item => {
@@ -2507,6 +2586,15 @@ saltos.bootstrap.__field.table = field => {
             }
             obj.querySelector('tbody').append(row);
         }
+    } else {
+        if (field.nodata == '') {
+            field.nodata = '&nbsp;';
+        }
+        obj.querySelector('tbody').append(saltos.core.html('tbody', `
+            <tr class="align-middle text-center">
+                <td colspan="100">${field.nodata}</td>
+            </tr>
+        `));
     }
     if (Object.keys(field.footer).length) {
         obj.querySelector('table').append(saltos.core.html('table', `
@@ -2569,6 +2657,16 @@ saltos.bootstrap.__field.table = field => {
             }
         </style>
     `));
+    // Program the set and the add in the table
+    obj.set = value => {
+        const temp = saltos.bootstrap.__field.table({...field, ...value});
+        obj.replaceWith(temp);
+    };
+    obj.add = value => {
+        const suma = {...field, ...value, data: [...field.data, ...value.data]};
+        const temp = saltos.bootstrap.__field.table(suma);
+        obj.replaceWith(temp);
+    };
     // Continue
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
@@ -2817,14 +2915,14 @@ saltos.bootstrap.__field.tags = field => {
     });
     // Program the set in the input first
     element.set = value => {
-        if (typeof element.tomselect != 'object') {
+        if (!('tomselect' in element)) {
             if (!('queue' in element)) {
                 element.queue = [];
             }
             element.queue.push(value);
             if (!('timer' in element)) {
                 element.timer = setInterval(() => {
-                    if (typeof element.tomselect != 'object') {
+                    if (!('tomselect' in element)) {
                         return;
                     }
                     clearInterval(element.timer);
@@ -2842,7 +2940,7 @@ saltos.bootstrap.__field.tags = field => {
     };
     // Program the disabled feature
     element.set_disabled = bool => {
-        if (typeof element.tomselect != 'object') {
+        if (!('tomselect' in element)) {
             setTimeout(() => element.set_disabled(bool), 1);
             return;
         }
@@ -2938,14 +3036,14 @@ saltos.bootstrap.__field.onetag = field => {
     });
     // Program the set in the input first
     element.set = value => {
-        if (typeof element.tomselect != 'object') {
+        if (!('tomselect' in element)) {
             if (!('queue' in element)) {
                 element.queue = [];
             }
             element.queue.push(value);
             if (!('timer' in element)) {
                 element.timer = setInterval(() => {
-                    if (typeof element.tomselect != 'object') {
+                    if (!('tomselect' in element)) {
                         return;
                     }
                     clearInterval(element.timer);
@@ -2965,7 +3063,7 @@ saltos.bootstrap.__field.onetag = field => {
     };
     // Program the disabled feature
     element.set_disabled = bool => {
-        if (typeof element.tomselect != 'object') {
+        if (!('tomselect' in element)) {
             setTimeout(() => element.set_disabled(bool), 1);
             return;
         }
@@ -3278,11 +3376,21 @@ saltos.bootstrap.__field.list = field => {
     saltos.core.check_params(field, ['data'], []);
     // Check for data not found
     if (!field.data.length) {
-        return saltos.bootstrap.__field.alert({
+        const obj = saltos.bootstrap.__field.alert({
             id: field.id,
             title: field.nodata,
             label: field.label,
         });
+        obj.set = value => {
+            const temp = saltos.bootstrap.__field.list({...field, ...value});
+            obj.replaceWith(temp);
+        };
+        obj.add = value => {
+            const suma = {...field, ...value, data: [...field.data, ...value.data]};
+            const temp = saltos.bootstrap.__field.list(suma);
+            obj.replaceWith(temp);
+        };
+        return obj;
     }
     // Continue
     let obj;
@@ -3548,6 +3656,16 @@ saltos.bootstrap.__field.list = field => {
             }
         });
     }
+    // Program the set and the add in the table
+    obj.set = value => {
+        const temp = saltos.bootstrap.__field.list({...field, ...value});
+        obj.replaceWith(temp);
+    };
+    obj.add = value => {
+        const suma = {...field, ...value, data: [...field.data, ...value.data]};
+        const temp = saltos.bootstrap.__field.list(suma);
+        obj.replaceWith(temp);
+    };
     // Continue
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
@@ -3834,14 +3952,14 @@ saltos.bootstrap.__field.jstree = field => {
         `));
     });
     element.set = data => {
-        if (typeof element.instance != 'object') {
+        if (!('instance' in element)) {
             if (!('queue' in element)) {
                 element.queue = [];
             }
             element.queue.push(data);
             if (!('timer' in element)) {
                 element.timer = setInterval(() => {
-                    if (typeof element.instance != 'object') {
+                    if (!('instance' in element)) {
                         return;
                     }
                     clearInterval(element.timer);
@@ -3962,7 +4080,7 @@ saltos.bootstrap.__field.dropdown = field => {
     // Add the dropdown items
     for (const key in field.menu) {
         const val = field.menu[key];
-        saltos.core.check_params(val, ['label', 'icon', 'disabled', 'active',
+        saltos.core.check_params(val, ['id', 'label', 'icon', 'disabled', 'active',
                                        'onclick', 'divider', 'tooltip', 'accesskey']);
         let disabled = '';
         if (saltos.core.eval_bool(val.disabled)) {
@@ -3977,7 +4095,7 @@ saltos.bootstrap.__field.dropdown = field => {
             temp = saltos.core.html(`<li><hr class="dropdown-divider"></li>`);
         } else {
             temp = saltos.core.html(`
-                <li><button class="dropdown-item ${disabled} ${active}"
+                <li><button id="${val.id}" class="dropdown-item ${disabled} ${active}"
                     data-bs-accesskey="${val.accesskey}" data-bs-title="${val.tooltip}">
                         ${val.label}
                 </button></li>`);

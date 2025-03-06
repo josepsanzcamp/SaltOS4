@@ -29,7 +29,7 @@
     <apps>
         <app id="1" active="1"
             code="login" name="Login" description="Login screen"
-            perms="menu" allow="1" deny="0"/>
+            perms="main" allow="1" deny="0"/>
         <app id="4" active="1"
             code="users" name="Users" description="Users management"
             table="tbl_users" field="CONCAT(name,' (',login,')')"

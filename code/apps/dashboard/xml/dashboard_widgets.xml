@@ -26,7 +26,7 @@
 -->
 
 <root>
-    <menu default="true">
+    <main default="true">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T()</gettext>
@@ -35,21 +35,21 @@
         <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="one">
             <row auto="true" id="catalog" col_class="col-xl-4 col-md-6 mb-3" row_class="row border border-3 border-dashed mx-0 pt-3">
-                <button id="app/customers" ifeval="check_user('customers', 'menu')" onclick="saltos.window.open('app/customers')" class="fs-1 w-100 h-100" label="Customers"/>
-                <button id="app/invoices" ifeval="check_user('invoices', 'menu')" onclick="saltos.window.open('app/invoices')" class="fs-1 w-100 h-100" label="Invoices"/>
-                <button id="app/emails" ifeval="check_user('emails', 'menu')" onclick="saltos.window.open('app/emails')" color="success" class="fs-1 w-100 h-100" label="Emails"/>
-                <button id="app/users" ifeval="check_user('users', 'menu')" onclick="saltos.window.open('app/users')" color="warning" class="fs-1 w-100 h-100" label="Users"/>
-                <button id="app/groups" ifeval="check_user('groups', 'menu')" onclick="saltos.window.open('app/groups')" color="warning" class="fs-1 w-100 h-100" label="Groups"/>
-                <button id="app/types" ifeval="check_user('types', 'menu')" onclick="saltos.window.open('app/types')" color="info" class="fs-1 w-100 h-100" label="Types"/>
-                <button id="app/configlog" ifeval="check_user('configlog', 'menu')" onclick="saltos.window.open('app/configlog')" color="dark" class="fs-1 w-100 h-100" label="Config"/>
-                <button id="app/cronlog" ifeval="check_user('cronlog', 'menu')" onclick="saltos.window.open('app/cronlog')" color="dark" class="fs-1 w-100 h-100" label="Cron"/>
-                <button id="app/pushlog" ifeval="check_user('pushlog', 'menu')" onclick="saltos.window.open('app/pushlog')" color="dark" class="fs-1 w-100 h-100" label="Push"/>
-                <button id="app/trashlog" ifeval="check_user('trashlog', 'menu')" onclick="saltos.window.open('app/trashlog')" color="dark" class="fs-1 w-100 h-100" label="Trash"/>
-                <button id="app/uploadlog" ifeval="check_user('uploadlog', 'menu')" onclick="saltos.window.open('app/uploadlog')" color="dark" class="fs-1 w-100 h-100" label="Upload"/>
-                <button id="app/tokenslog" ifeval="check_user('tokenslog', 'menu')" onclick="saltos.window.open('app/tokenslog')" color="dark" class="fs-1 w-100 h-100" label="Tokens"/>
-                <button id="app/certs" ifeval="check_user('certs', 'menu')" onclick="saltos.window.open('app/certs')" color="dark" class="fs-1 w-100 h-100" label="Certificates"/>
-                <button id="app/fileslog" ifeval="check_user('fileslog', 'menu')" onclick="saltos.window.open('app/fileslog')" color="dark" class="fs-1 w-100 h-100" label="Log files"/>
-                <button id="app/tester" ifeval="check_user('tester', 'menu')" onclick="saltos.window.open('app/tester')" color="danger" class="fs-1 w-100 h-100" label="Tester"/>
+                <button id="app/customers" ifeval="check_user('customers', 'main')" onclick="saltos.window.open('app/customers')" class="fs-1 w-100 h-100" label="Customers"/>
+                <button id="app/invoices" ifeval="check_user('invoices', 'main')" onclick="saltos.window.open('app/invoices')" class="fs-1 w-100 h-100" label="Invoices"/>
+                <button id="app/emails" ifeval="check_user('emails', 'main')" onclick="saltos.window.open('app/emails')" color="success" class="fs-1 w-100 h-100" label="Emails"/>
+                <button id="app/users" ifeval="check_user('users', 'main')" onclick="saltos.window.open('app/users')" color="warning" class="fs-1 w-100 h-100" label="Users"/>
+                <button id="app/groups" ifeval="check_user('groups', 'main')" onclick="saltos.window.open('app/groups')" color="warning" class="fs-1 w-100 h-100" label="Groups"/>
+                <button id="app/types" ifeval="check_user('types', 'main')" onclick="saltos.window.open('app/types')" color="info" class="fs-1 w-100 h-100" label="Types"/>
+                <button id="app/configlog" ifeval="check_user('configlog', 'main')" onclick="saltos.window.open('app/configlog')" color="dark" class="fs-1 w-100 h-100" label="Config"/>
+                <button id="app/cronlog" ifeval="check_user('cronlog', 'main')" onclick="saltos.window.open('app/cronlog')" color="dark" class="fs-1 w-100 h-100" label="Cron"/>
+                <button id="app/pushlog" ifeval="check_user('pushlog', 'main')" onclick="saltos.window.open('app/pushlog')" color="dark" class="fs-1 w-100 h-100" label="Push"/>
+                <button id="app/trashlog" ifeval="check_user('trashlog', 'main')" onclick="saltos.window.open('app/trashlog')" color="dark" class="fs-1 w-100 h-100" label="Trash"/>
+                <button id="app/uploadlog" ifeval="check_user('uploadlog', 'main')" onclick="saltos.window.open('app/uploadlog')" color="dark" class="fs-1 w-100 h-100" label="Upload"/>
+                <button id="app/tokenslog" ifeval="check_user('tokenslog', 'main')" onclick="saltos.window.open('app/tokenslog')" color="dark" class="fs-1 w-100 h-100" label="Tokens"/>
+                <button id="app/certs" ifeval="check_user('certs', 'main')" onclick="saltos.window.open('app/certs')" color="dark" class="fs-1 w-100 h-100" label="Certificates"/>
+                <button id="app/fileslog" ifeval="check_user('fileslog', 'main')" onclick="saltos.window.open('app/fileslog')" color="dark" class="fs-1 w-100 h-100" label="Log files"/>
+                <button id="app/tester" ifeval="check_user('tester', 'main')" onclick="saltos.window.open('app/tester')" color="danger" class="fs-1 w-100 h-100" label="Tester"/>
                 <!-- <div col_class="col-12"/>< ! - - this act as break line -->
                 <hr id="separator" col_class="col-12 clonable" class="mt-0 border-3"/><!-- this act as break line -->
                 <table id="app/customers/widget/table1" ifeval="check_user('customers', 'widget')" source="app/customers/widget/table1" col_class="col-xl-6 col-md-12 mb-3" nodata="Data not found"/>
@@ -74,7 +74,7 @@
             <inline>#catalog, #dashboard { min-height: 100px; }</inline>
             <inline>.border-dashed { border-style:dashed!important; }</inline>
         </style>
-    </menu>
+    </main>
 
     <config>
         <check eval="true" logout="true">current_user()</check>

@@ -26,20 +26,30 @@
 -->
 
 <root>
-    <screen>type5</screen>
+    <main>
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <screen>type5</screen>
+        <gettext eval="true">T()</gettext>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
+    </main>
 
     <!-- List part -->
     <list default="true">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <gettext eval="true">T()</gettext>
+        <cache>app/emails_accounts/list/cache</cache>
+    </list>
+
+    <list id="cache">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <cache>app/emails_accounts/main</cache>
         <title>Emails accounts list</title>
-        <screen eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="one">
             <row auto="true" row_class="row g-1" col_class="col-auto">
-                <button onclick="saltos.app.filter()" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
-                <button ifeval="check_user('emails_accounts', 'create')" onclick="saltos.driver.open('app/emails_accounts/create')" label="New email account" tooltip="To create a new email account" icon="plus-lg" color="success"/>
+                <button onclick="saltos.common.filter()" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
+                <button ifeval="check_user('emails_accounts', 'create')" onclick="saltos.common.create()" label="New email account" tooltip="To create a new email account" icon="plus-lg" color="success"/>
                 <div col_class="col"/>
                 <hidden id="page" value="0"/>
                 <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+shift+f" onenter="document.getElementById('search_extra').value=this.value;saltos.driver.search()" autofocus="true" onchange="document.getElementById('search_extra').value=this.value"/>
@@ -48,7 +58,14 @@
             </row>
             <div eval="true">xmlfile2array("apps/common/xml/filter.xml")["div"]</div>
             <row auto="true" col_class="col-12 my-3">
-                <table id="table" nodata="Loading..."/>
+                <table id="table" nodata="Loading..." checkbox="true" dropdown="false" >
+                    <header>
+                        <user label="User" ifeval="__user_is_admin(get_data('rest/1'))"/>
+                        <email_name label="Name"/>
+                        <email_from label="Email"/>
+                        <email_disabled label="Enabled" type="icon"/>
+                    </header>
+                </table>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
@@ -60,15 +77,9 @@
         </javascript>
     </list>
 
-    <list id="table" checkbox="true" dropdown="false" type="table" nodata="Data not found">
+    <list id="table">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <header>
-            <user label="User" ifeval="__user_is_admin(get_data('rest/1'))"/>
-            <email_name label="Name"/>
-            <email_from label="Email"/>
-            <email_disabled label="Enabled" type="icon"/>
-        </header>
         <temp eval="true">[
             set_config("app/".get_data("rest/1")."/filter/last", json_encode(get_data("json"), JSON_FORCE_OBJECT), current_user()),
             set_data("json/search", strval(get_data("json/search"))),
@@ -95,12 +106,14 @@
             <action app="emails_accounts" action="edit" icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
             <action app="emails_accounts" action="delete" icon="trash" color="danger" tooltip="Delete" onclick="saltos.driver.delete"/>
         </actions>
-        <footer ifeval="!get_data('json/page')" eval="true">"Total: " . execute_query("
+        <temp ifeval="!get_data('json/page')" eval="true">set_data("json/total", execute_query("
             SELECT COUNT(*) total
             FROM app_emails_accounts
             WHERE 1 = 1
             AND ".make_fulltext_query(get_data("json/search"), "emails_accounts")."
-            AND ".check_sql("emails_accounts", "list"))</footer>
+            AND ".check_sql("emails_accounts", "list")))</temp>
+        <nodata ifeval="!get_data('json/page') &amp;&amp; !get_data('json/total')">Data not found</nodata>
+        <footer ifeval="!get_data('json/page')" eval="true">get_data('json/total') ? "Total: " . get_data('json/total') : ''</footer>
     </list>
 
     <list id="filter" eval="true">xmlfile2array("apps/common/xml/filter.xml")["list"]</list>
@@ -168,6 +181,7 @@
         <switch id="email_addmetocc" label="Add me to CC"/>
         <switch id="email_crt" label="Confirm reading to"/>
     </form>
+
     <data require="php/lib/log.php" eval="true">make_log_bypass(get_data("rest/1"), get_data("rest/2"), execute_query("
         SELECT * FROM ".app2table(get_data("rest/1"))." WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")),
         [intval(get_data("rest/3"))]))</data>
@@ -175,10 +189,14 @@
     <create>
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <gettext eval="true">T()</gettext>
+        <cache>app/emails_accounts/create/cache</cache>
+    </create>
+
+    <create id="cache">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <cache>app/emails_accounts/main</cache>
         <title>New email account</title>
-        <screen eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["form"]</row>
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
@@ -204,10 +222,22 @@
     <view>
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
-        <gettext eval="true">T()</gettext>
+        <cache>app/emails_accounts/view/cache</cache>
+        <data eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["data"]</data>
+        <data><allfiles eval="true">xmlfile2array("apps/common/xml/files.xml")["data"]</allfiles></data>
+        <data><allnotes eval="true">xmlfile2array("apps/common/xml/notes.xml")["data"]</allnotes></data>
+        <javascript>
+            <inline>saltos.driver.init("view")</inline>
+            <inline>saltos.common.allfiles()</inline>
+            <inline>saltos.common.allnotes()</inline>
+        </javascript>
+    </view>
+
+    <view id="cache">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <cache>app/emails_accounts/main</cache>
         <title>Detail of the email account</title>
-        <screen eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["form"]</row>
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
@@ -215,31 +245,19 @@
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <dropdown label="Info" icon="file-text" tooltip="Information of this register" ifeval="check_user(get_data('rest/1'), 'info')">
                     <menu>
-                        <button label="History" tooltip="To see the history of the changes" icon="file-text" ifeval="app2version(get_data('rest/1'))">
-                            <onclick eval="true">"saltos.driver.open('app/".get_data("rest/1")."/view/version/".intval(get_data("rest/3"))."')"</onclick>
-                        </button>
-                        <button label="Log" tooltip="To see the history of the changes" icon="file-text" ifeval="app2log(get_data('rest/1'))">
-                            <onclick eval="true">"saltos.driver.open('app/".get_data("rest/1")."/view/log/".intval(get_data("rest/3"))."')"</onclick>
-                        </button>
+                        <button onclick="saltos.common.version()" label="History" tooltip="To see the history of the changes" icon="file-text" ifeval="app2version(get_data('rest/1'))"/>
+                        <button onclick="saltos.common.log()" label="Log" tooltip="To see the history of the changes" icon="file-text" ifeval="app2log(get_data('rest/1'))"/>
                     </menu>
                 </dropdown>
                 <div col_class="col"/>
-                <button label="Edit" tooltip="To modify this email account" icon="pencil">
-                    <onclick eval="true">"saltos.driver.open('app/emails_accounts/edit/".intval(get_data("rest/3"))."')"</onclick>
-                </button>
+                <button onclick="saltos.common.edit()" label="Edit" tooltip="To modify this email account" icon="pencil"/>
                 <button onclick="saltos.driver.delete()" color="danger" label="Delete" tooltip="To delete this email account" icon="trash"/>
                 <button onclick="saltos.driver.close()" label="Close" tooltip="To close this window" icon="x-lg" autoclose="true"/>
                 <button onclick="saltos.driver.close(true)" col_class="d-none" accesskey="escape"/>
             </row>
         </layout>
-        <data eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["data"]</data>
-        <javascript>
-            <inline>saltos.driver.init("view")</inline>
-        </javascript>
     </view>
 
-    <view id="files" eval="true">xpath_search_first("view[id=files]", xmlfile2array("apps/common/xml/files.xml"))</view>
-    <view id="notes" eval="true">xpath_search_first("view[id=notes]", xmlfile2array("apps/common/xml/notes.xml"))</view>
     <view id="viewpdf" eval="true">xpath_search_first("view[id=viewpdf]", xmlfile2array("apps/common/xml/files.xml"))</view>
     <view id="download" eval="true">xpath_search_first("view[id=download]", xmlfile2array("apps/common/xml/files.xml"))</view>
     <view id="version" eval="true">xpath_search_first("view[id=version]", xmlfile2array("apps/common/xml/version.xml"))</view>
@@ -248,10 +266,22 @@
     <edit>
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
-        <gettext eval="true">T()</gettext>
+        <cache>app/emails_accounts/edit/cache</cache>
+        <data eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["data"]</data>
+        <data><allfiles eval="true">xmlfile2array("apps/common/xml/files.xml")["data"]</allfiles></data>
+        <data><allnotes eval="true">xmlfile2array("apps/common/xml/notes.xml")["data"]</allnotes></data>
+        <javascript>
+            <inline>saltos.driver.init("edit")</inline>
+            <inline>saltos.common.allfiles()</inline>
+            <inline>saltos.common.allnotes()</inline>
+        </javascript>
+    </edit>
+
+    <edit id="cache">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <cache>app/emails_accounts/main</cache>
         <title>Modify this email account</title>
-        <screen eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["form"]</row>
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
@@ -262,10 +292,6 @@
                 <button onclick="saltos.driver.cancel()" label="Cancel" tooltip="To cancel the email account modification" icon="x-lg" autoclose="true" color="danger"/>
             </row>
         </layout>
-        <data eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["data"]</data>
-        <javascript>
-            <inline>saltos.driver.init("edit")</inline>
-        </javascript>
     </edit>
 
     <edit id="update">

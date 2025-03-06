@@ -8,7 +8,7 @@ NONE=\033[0m
 
 .PHONY: utest docs
 
-FILES=object,core,bootstrap,storage,hash,token,auth,window,gettext,driver,filter,backup,form,push,app
+FILES=object,core,bootstrap,storage,hash,token,auth,window,gettext,driver,filter,backup,form,push,common,app
 
 all:
 	@echo Nothing to do by default

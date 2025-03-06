@@ -163,3 +163,47 @@ function get_logs($app, $reg_id)
     $rows = execute_query_array($query, [$reg_id, $reg_id]);
     return $rows;
 }
+
+/**
+ * Delete Log function
+ *
+ * This function allow to delete the last log to a reg_id of an app, to do it,
+ * the function requires to specify the app and reg_id
+ *
+ * @app    => code of the application that you want to delete the last log
+ * @reg_id => register of the app that you want to delete the last log
+ *
+ * Notes:
+ *
+ * This function returns an integer as response about the control action:
+ *
+ * +1 => delete executed, this is because the app register exists and they can delete the last register
+ * -1 => app not found, this is because the app requested not have a table in the apps config
+ * -2 => log table not found, this is because the has_version feature is disabled by dbstatic
+ * -3 => data not found, this is because the app register not exists and the version register not exists
+ *
+ * As you can see, negative values denotes an error and positive values denotes a successfully situation
+ */
+function del_log($app, $reg_id)
+{
+    // Check the passed parameters
+    $table = app2table($app);
+    if ($table == '') {
+        return -1;
+    }
+    // Check if version exists
+    $query = "SELECT id FROM {$table}_log LIMIT 1";
+    if (!db_check($query)) {
+        return -2;
+    }
+    $query = "SELECT MAX(id) FROM {$table}_log WHERE reg_id = ?";
+    $log_id = execute_query($query, [$reg_id]);
+    // Check if exists data in the main table
+    if (!$log_id) {
+        return -3;
+    }
+    // Do the delete of the last version
+    $query = "DELETE FROM {$table}_log WHERE id = ?";
+    db_query($query, [$log_id]);
+    return 1;
+}

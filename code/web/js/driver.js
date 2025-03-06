@@ -212,7 +212,7 @@ saltos.driver.search = arg => {
         type = 'list';
     }
     if (!type) {
-        throw new Error('Unknown list type');
+        throw new Error('Unknown type');
     }
     // Restore the more button
     const obj = document.getElementById('more');
@@ -224,17 +224,7 @@ saltos.driver.search = arg => {
         url: `app/${app}/list/${type}`,
         data: data,
         success: response => {
-            response.id = type;
-            const temp = saltos.gettext.bootstrap.field(response);
-            if (type == 'table') {
-                document.getElementById('table').replaceWith(temp);
-            }
-            if (type == 'list') {
-                document.querySelectorAll('.list-group:not([id=list])').forEach(item => {
-                    item.remove();
-                });
-                document.getElementById('list').replaceWith(temp);
-            }
+            document.getElementById(type).set(response);
             document.getElementById('one').scrollTop = 0;
         },
     });
@@ -294,7 +284,7 @@ saltos.driver.more = arg => {
         type = 'list';
     }
     if (!type) {
-        throw new Error('Unknown list type');
+        throw new Error('Unknown type');
     }
     saltos.app.ajax({
         url: `app/${app}/list/${type}`,
@@ -310,17 +300,7 @@ saltos.driver.more = arg => {
                 // Continue
                 return;
             }
-            const temp = saltos.gettext.bootstrap.field(response);
-            if (type == 'table') {
-                const obj = document.getElementById('table').querySelector('tbody');
-                temp.querySelectorAll('table tbody tr').forEach(item => {
-                    obj.append(item);
-                });
-            }
-            if (type == 'list') {
-                const obj = document.getElementById('list').parentElement;
-                obj.append(temp);
-            }
+            document.getElementById(type).add(response);
         },
     });
 };

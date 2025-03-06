@@ -36,7 +36,7 @@ and the main permissions for the user
     <tables>
         <!-- Valid values for owner are 'user', 'group' and 'all' -->
         <table name="tbl_perms">
-            <row id="1" active="1" code="menu" name="Show entry in menu"/>
+            <row id="1" active="1" code="main" name="Main access"/>
             <row id="2" active="1" code="create" name="Create records"/>
             <row id="3" active="1" code="widget" name="Show widget"/>
             <row id="4" active="1" code="action" name="Execute action"/>

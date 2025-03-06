@@ -29,6 +29,6 @@
     <apps>
         <app id="3" active="1"
             code="tester" name="Tester" description="Tester app"
-            perms="menu" allow="1" deny="0"/>
+            perms="main" allow="1" deny="0"/>
     </apps>
 </root>

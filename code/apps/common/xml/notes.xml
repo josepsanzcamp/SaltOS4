@@ -27,31 +27,28 @@
 
 <root>
     <form>
-        <hidden id="delnotes" require="php/lib/notes.php" ifeval="check_notes_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))" autosave="false"/>
-        <table id="allnotes" label="Notes" col_class="col-12 mb-3" require="php/lib/notes.php" ifeval="check_notes_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))">
-            <source eval="true">"app/".get_data("rest/1")."/view/notes/".intval(get_data("rest/3"))."/".get_data("rest/2")</source>
+        <hidden id="delnotes" require="php/lib/notes.php" ifeval="check_notes_old(get_data('rest/1'), get_data('rest/2'))" autosave="false"/>
+        <table id="allnotes" label="Notes" col_class="col-12 mb-3" require="php/lib/notes.php" ifeval="check_notes_old(get_data('rest/1'), get_data('rest/2'))" dropdown="false" first_action="false">
+            <header>
+                <user>User</user>
+                <datetime>Datetime</datetime>
+                <note>Note</note>
+            </header>
         </table>
         <textarea id="addnotes" label="New note" col_class="col-12 mb-3" require="php/lib/notes.php" ifeval="check_notes_new(get_data('rest/1'), get_data('rest/2'))"/>
     </form>
 
-    <view id="notes" dropdown="false" type="table" first_action="false">
-        <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <header>
-            <user>User</user>
-            <datetime>Datetime</datetime>
-            <note>Note</note>
-        </header>
-        <data eval="true">merge_data_actions(
+    <data>
+        <data require="php/lib/notes.php" ifeval="check_notes_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))" eval="true">merge_data_actions(
             execute_query_array("SELECT CONCAT(reg_id, '/', id) id, (SELECT name FROM tbl_users b WHERE b.id=user_id) user, datetime, note
-                FROM " . app2table(get_data("rest/1")) . "_notes WHERE reg_id = ? ORDER BY id DESC", [intval(get_data("rest/4"))]),
-            xpath_search_first_value("view[id=notes]/actions[id=".get_data("rest/5")."]", xmlfile2array("apps/common/xml/notes.xml"))
+                FROM " . app2table(get_data("rest/1")) . "_notes WHERE reg_id = ? ORDER BY id DESC", [intval(get_data("rest/3"))]),
+            array_protected(xpath_search_first_value("data/actions[id=".get_data("rest/2")."]", xmlfile2array("apps/common/xml/notes.xml")))
         )</data>
         <actions id="view" ifeval="false"/>
         <actions id="edit" ifeval="false">
-            <action action="delete/notes" icon="trash" tooltip="Delete note" onclick="saltos.app.delete">
+            <action action="delete/notes" icon="trash" tooltip="Delete note" onclick="saltos.common.delete">
                 <app eval="true">get_data("rest/1")</app>
             </action>
         </actions>
-    </view>
+    </data>
 </root>

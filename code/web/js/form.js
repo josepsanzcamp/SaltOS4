@@ -119,7 +119,16 @@ saltos.form.data = (data, sync = true) => {
         for (const i in saltos.backup.__forms) {
             saltos.backup.__forms[i].fields.forEach(item => {
                 if (item.id == key) {
-                    item.value = val;
+                    if ('value' in item && typeof val != 'object') {
+                        item.value = val;
+                    }
+                    if ('data' in item && typeof val == 'object') {
+                        if (Array.isArray(val)) {
+                            item.data = val;
+                        } else if ('data' in val) {
+                            item.data = val.data;
+                        }
+                    }
                 }
             });
         }
@@ -452,6 +461,13 @@ saltos.form.__layout_auto_helper.col = layout => {
 };
 
 /**
+ * Style helper array
+ *
+ * This array allow to the require feature to control the loaded libraries
+ */
+saltos.form.__style = {};
+
+/**
  * Form style helper
  *
  * This function allow to specify styles, you can use the inline of file key to specify
@@ -469,6 +485,10 @@ saltos.form.style = async data => {
             document.head.append(style);
         }
         if (key == 'file') {
+            if (val in saltos.form.__style) {
+                continue;
+            }
+            saltos.form.__style[val] = 'loading';
             try {
                 const response = await fetch(val, {
                     credentials: 'omit',
@@ -485,9 +505,17 @@ saltos.form.style = async data => {
             } catch (error) {
                 throw new Error(`${error.name} ${error.message} loading ${val}`);
             }
+            saltos.form.__style[val] = 'load';
         }
     }
 };
+
+/**
+ * Javascript helper array
+ *
+ * This array allow to the require feature to control the loaded libraries
+ */
+saltos.form.__javascript = {};
 
 /**
  * Form javascript helper
@@ -507,6 +535,10 @@ saltos.form.javascript = async data => {
             document.head.append(script);
         }
         if (key == 'file') {
+            if (val in saltos.form.__javascript) {
+                continue;
+            }
+            saltos.form.__javascript[val] = 'loading';
             try {
                 const response = await fetch(val, {
                     credentials: 'omit',
@@ -523,6 +555,7 @@ saltos.form.javascript = async data => {
             } catch (error) {
                 throw new Error(`${error.name} ${error.message} loading ${val}`);
             }
+            saltos.form.__javascript[val] = 'load';
         }
     }
 };
@@ -773,4 +806,27 @@ saltos.form.navbar = navbar => {
  */
 saltos.form.gettext = array => {
     saltos.gettext.cache = array;
+};
+
+/**
+ * Form cache helper
+ *
+ * This function allow to use the cache feature
+ *
+ * @val => the requested cache
+ *
+ * Notes:
+ *
+ * This feature works in conjunction with the prefetch_cache function that
+ * solves all caches before the real process_response, in order to explain
+ * how it works, the main idea is to call to send_request, the response is
+ * processed by prefetch_cache and when all caches are solved, then the
+ * process_response is called.
+ */
+saltos.form.cache = async val => {
+    if (!(val in saltos.app.__cache)) {
+        throw new Error(`Cache ${val} not found`);
+    }
+    const response = saltos.core.copy_object(saltos.app.__cache[val]);
+    await saltos.app.process_response(response);
 };

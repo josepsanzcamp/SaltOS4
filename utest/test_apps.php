@@ -143,7 +143,7 @@ final class test_apps extends TestCase
 
         $json = test_web_helper('app/customers/nada', '', '', '');
         $this->assertArrayHasKey('error', $json);
-        $this->assertSame($json['error']['text'], 'Subapp nada not found');
+        $this->assertSame($json['error']['text'], 'Action nada not found');
 
         $json = test_web_helper('app/customers', '', '', '');
         $this->assertArrayHasKey('error', $json);
@@ -161,7 +161,7 @@ final class test_apps extends TestCase
         $this->assertArrayHasKey('token', $json2);
 
         $json = test_web_helper('app/customers', '', $json2['token'], '');
-        $this->assertArrayHasKey('layout', $json);
+        $this->assertArrayHasKey('cache', $json);
 
         $json = test_web_helper('app/customers/widget/plot1', '', $json2['token'], '');
         $this->assertArrayHasKey('data', $json);
@@ -212,7 +212,7 @@ final class test_apps extends TestCase
 
         $json = test_web_helper('app/types', '', $json2['token'], '');
         $this->assertArrayHasKey('error', $json);
-        $this->assertSame($json['error']['text'], 'Subapp not found');
+        $this->assertSame($json['error']['text'], 'Action not found');
 
         unlink($file);
         $this->assertFileDoesNotExist($file);

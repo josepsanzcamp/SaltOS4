@@ -43,7 +43,7 @@
                 <div col_class="col"/>
                 <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
-                <button onclick="saltos.app.filter()" label="Close" tooltip="To close this search form" icon="x-lg"/>
+                <button onclick="saltos.common.filter()" label="Close" tooltip="To close this search form" icon="x-lg"/>
             </row>
         </div>
         <!-- End of the search form -->

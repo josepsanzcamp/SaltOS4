@@ -84,12 +84,65 @@ saltos.emails.init = arg => {
     }
 
     if (['view'].includes(arg)) {
+        // Remove the non needed fields
+        if (document.getElementById('cc').value == '') {
+            document.getElementById('cc').closest('.mb-3').remove();
+        }
+        if (document.getElementById('bcc').value == '') {
+            document.getElementById('bcc').closest('.mb-3').remove();
+        }
+        if (document.getElementById('state_error').value == '') {
+            document.getElementById('state_error').closest('.mb-3').remove();
+        }
+
+        // Remove the non needed switchs and buttons
+        if (document.getElementById('is_outbox').value == '1') {
+            document.getElementById('state_new').closest('.mb-3').remove();
+            document.getElementById('state_reply').closest('.mb-3').remove();
+            document.getElementById('state_spam').closest('.mb-3').remove();
+            document.getElementById('reply').closest('.col-auto').remove();
+            document.getElementById('new0').closest('li').remove();
+            document.getElementById('new1').closest('li').remove();
+            document.getElementById('spam0').closest('li').remove();
+            document.getElementById('spam1').closest('li').remove();
+        } else {
+            document.getElementById('state_sent').closest('.mb-3').remove();
+            document.getElementById('forward').closest('.col-auto').remove();
+            if (document.getElementById('state_new').value == '1') {
+                document.getElementById('new1').closest('li').remove();
+            } else {
+                document.getElementById('new0').closest('li').remove();
+            }
+            if (document.getElementById('state_spam').value == '1') {
+                document.getElementById('spam1').closest('li').remove();
+            } else {
+                document.getElementById('spam0').closest('li').remove();
+            }
+        }
+        if (document.getElementById('state_wait').value == '1') {
+            document.getElementById('wait1').closest('li').remove();
+        } else {
+            document.getElementById('wait0').closest('li').remove();
+        }
+
+        // Remove the non needed table
+        if (document.getElementById('num_files').value == '0') {
+            document.getElementById('files').closest('.mb-3').remove();
+        }
+
+        // Load the body with images
         saltos.core.when_visible('body', () => {
-            const id1 = saltos.hash.get().split('/').at(3);
+            let id1 = saltos.hash.get().split('/').at(3);
+            if (!saltos.core.is_number(id1)) {
+                id1 = saltos.hash.get().split('/').at(4);
+            }
             saltos.app.ajax({
-                url: `app/emails/view/body/${id1}/true`,
+                url: `app/emails/view/body/${id1}`,
                 success: response => {
-                    const id2 = saltos.hash.get().split('/').at(3);
+                    let id2 = saltos.hash.get().split('/').at(3);
+                    if (!saltos.core.is_number(id2)) {
+                        id2 = saltos.hash.get().split('/').at(4);
+                    }
                     if (id1 == id2) {
                         const obj = document.getElementById('body');
                         if (obj) {
@@ -100,6 +153,8 @@ saltos.emails.init = arg => {
                 loading: false,
             });
         });
+
+        // Remove the only button
         const type = document.getElementById('screen').getAttribute('type');
         if (type == 'type1') {
             document.getElementById('only').parentElement.parentElement.remove();
@@ -301,7 +356,7 @@ saltos.emails.signature = () => {
  *
  * TODO
  */
-saltos.emails.viewpdf = () => {
+saltos.emails.viewpdf1 = () => {
     let ids = saltos.app.checkbox_ids(document.getElementById('list').parentElement);
     if (!ids.length) {
         saltos.app.modal(
@@ -322,7 +377,7 @@ saltos.emails.viewpdf = () => {
  *
  * TODO
  */
-saltos.emails.download = () => {
+saltos.emails.download1 = () => {
     let ids = saltos.app.checkbox_ids(document.getElementById('list').parentElement);
     if (!ids.length) {
         saltos.app.modal(
@@ -335,5 +390,65 @@ saltos.emails.download = () => {
         return;
     }
     ids = ids.join(',');
-    saltos.app.download('app/emails/view/download/' + ids);
+    saltos.common.download('app/emails/view/download/' + ids);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.emails.source = () => {
+    const id = saltos.hash.get().split('/').at(3);
+    saltos.driver.open(`app/emails/view/source/${id}`);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.emails.viewpdf2 = () => {
+    const id = saltos.hash.get().split('/').at(3);
+    saltos.driver.open(`app/emails/view/viewpdf/${id}`);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.emails.download2 = () => {
+    const id = saltos.hash.get().split('/').at(3);
+    saltos.common.download(`app/emails/view/download/${id}`);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.emails.reply = () => {
+    const id = saltos.hash.get().split('/').at(3);
+    saltos.driver.open(`app/emails/create/reply/${id}`);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.emails.replyall = () => {
+    const id = saltos.hash.get().split('/').at(3);
+    saltos.driver.open(`app/emails/create/replyall/${id}`);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.emails.forward = () => {
+    const id = saltos.hash.get().split('/').at(3);
+    saltos.driver.open(`app/emails/create/forward/${id}`);
 };

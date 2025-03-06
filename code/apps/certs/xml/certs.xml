@@ -26,21 +26,30 @@
 -->
 
 <root>
-    <screen>type2</screen>
+    <main>
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <screen>type2</screen>
+        <gettext eval="true">T()</gettext>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
+    </main>
 
+    <!-- List part -->
     <list default="true">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <gettext eval="true">T()</gettext>
+        <cache>app/certs/list/cache</cache>
+    </list>
+
+    <list id="cache">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <cache>app/certs/main</cache>
         <title eval="true">T("List") . ' - ' . T(app2name(get_data("rest/1")))</title>
-        <screen eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="one">
             <row auto="true" row_class="row g-1" col_class="col-auto">
-                <button onclick="saltos.app.filter()" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
-                <button ifeval="check_user(get_data('rest/1'), 'create')" label="New" tooltip="To create a new register" icon="plus-lg" color="success">
-                    <onclick eval="true">"saltos.driver.open('app/".get_data("rest/1")."/create')"</onclick>
-                </button>
+                <button onclick="saltos.common.filter()" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
+                <button ifeval="check_user('certs', 'create')" onclick="saltos.common.create()" label="New" tooltip="To create a new register" icon="plus-lg" color="success"/>
                 <div col_class="col"/>
                 <hidden id="page" value="0"/>
                 <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+shift+f" onenter="document.getElementById('search_extra').value=this.value;saltos.driver.search()" autofocus="true" onchange="document.getElementById('search_extra').value=this.value"/>
@@ -49,7 +58,11 @@
             </row>
             <div eval="true">xmlfile2array("apps/common/xml/filter.xml")["div"]</div>
             <row auto="true" col_class="col-md-12 my-3">
-                <table id="table" nodata="Loading..."/>
+                <table id="table" nodata="Loading..." dropdown="false">
+                    <header>
+                        <name label="Certificate nicknames available:"/>
+                   </header>
+                </table>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
@@ -61,12 +74,9 @@
         </javascript>
     </list>
 
-    <list id="table" dropdown="false" type="table" nodata="There are no certificates available.">
+    <list id="table">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <header>
-            <name label="Certificate nicknames available:"/>
-       </header>
         <temp eval="true">[
             set_config("app/".get_data("rest/1")."/filter/last", json_encode(get_data("json"), JSON_FORCE_OBJECT), current_user()),
             set_data("json/search", strval(get_data("json/search"))),
@@ -86,20 +96,27 @@
                 <app eval="true">get_data("rest/1")</app>
             </action>
         </actions>
-        <footer ifeval="!get_data('json/page')" eval="true">"Total: " . count(
+        <temp ifeval="!get_data('json/page')" eval="true">set_data("json/total", count(
             __certs_list(get_data("json/search"), 0, INF)
-        )</footer>
+        ))</temp>
+        <nodata ifeval="!get_data('json/page') &amp;&amp; !get_data('json/total')">There are no certificates available</nodata>
+        <footer ifeval="!get_data('json/page')" eval="true">get_data('json/total') ? "Total: " . get_data('json/total') : ''</footer>
     </list>
 
     <list id="filter" eval="true">xmlfile2array("apps/common/xml/filter.xml")["list"]</list>
 
+    <!-- Form part -->
     <create>
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <gettext eval="true">T()</gettext>
+        <cache>app/certs/create/cache</cache>
+    </create>
+
+    <create id="cache">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <cache>app/certs/main</cache>
         <title eval="true">T("New") . ' - ' . T(app2name(get_data("rest/1")))</title>
-        <screen eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-12 mb-3">
                 <file id="certfile" label="Certificate file (.p12, .pfx)" multiple="true" required="true"/>
@@ -126,10 +143,18 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <check require="apps/certs/php/certs.php" eval="true">__certs_check(get_data("rest/3"))</check>
-        <gettext eval="true">T()</gettext>
+        <cache>app/certs/view/cache</cache>
+        <data require="apps/certs/php/certs.php" eval="true">__certs_view(get_data("rest/3"))</data>
+        <javascript>
+            <inline>saltos.driver.init("view")</inline>
+        </javascript>
+    </view>
+
+    <view id="cache">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <cache>app/certs/main</cache>
         <title eval="true">T("Detail") . ' - ' . T(app2name(get_data("rest/1")))</title>
-        <screen eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-12 mb-3">
                 <text id="name" label="Name"/>
@@ -142,10 +167,6 @@
                 <button onclick="saltos.driver.close(true)" col_class="d-none" accesskey="escape"/>
             </row>
         </layout>
-        <data require="apps/certs/php/certs.php" eval="true">__certs_view(get_data("rest/3"))</data>
-        <javascript>
-            <inline>saltos.driver.init("view")</inline>
-        </javascript>
     </view>
 
     <delete>
