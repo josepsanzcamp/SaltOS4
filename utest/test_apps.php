@@ -204,9 +204,16 @@ final class test_apps extends TestCase
         $file = detect_app_file('types');
         file_put_contents($file, '<root></root>');
 
+        $file2 = 'data/logs/phperror.log';
+        $this->assertFileDoesNotExist($file2);
+
         $json = test_web_helper('app/types', '', $json2['token'], '');
         $this->assertArrayHasKey('error', $json);
         $this->assertSame($json['error']['text'], 'Internal error');
+
+        $this->assertFileExists($file2);
+        $this->assertTrue(words_exists('Internal error', file_get_contents($file2)));
+        unlink($file2);
 
         file_put_contents($file, '<root><nada3></nada3><nada4></nada4></root>');
 

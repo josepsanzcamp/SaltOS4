@@ -89,7 +89,7 @@ final class test_cli_customers extends TestCase
     public function test_create(array $json): array
     {
         $json2 = test_cli_helper('app/customers/create', '', $json['token'], '', '');
-        $this->assertArrayHasKey('layout', $json2);
+        $this->assertArrayHasKey('cache', $json2);
         $this->assertArrayNotHasKey('data', $json2);
         return $json;
     }
@@ -201,7 +201,7 @@ final class test_cli_customers extends TestCase
         $id = $json['created_id'];
 
         $json2 = test_cli_helper("app/customers/view/$id", '', $json['token'], '', '');
-        $this->assertArrayHasKey('layout', $json2);
+        $this->assertArrayHasKey('cache', $json2);
         $this->assertArrayHasKey('data', $json2);
 
         return [
@@ -223,7 +223,7 @@ final class test_cli_customers extends TestCase
         $id = $json['created_id'];
 
         $json2 = test_cli_helper("app/customers/edit/$id", '', $json['token'], '', '');
-        $this->assertArrayHasKey('layout', $json2);
+        $this->assertArrayHasKey('cache', $json2);
         $this->assertArrayHasKey('data', $json2);
 
         return [

@@ -89,7 +89,7 @@ final class test_web_invoices extends TestCase
     public function test_create(array $json): array
     {
         $json2 = test_web_helper('app/invoices/create', '', $json['token'], '');
-        $this->assertArrayHasKey('layout', $json2);
+        $this->assertArrayHasKey('cache', $json2);
         $this->assertArrayNotHasKey('data', $json2);
         return $json;
     }
@@ -234,7 +234,7 @@ final class test_web_invoices extends TestCase
         $id = $json['created_id'];
 
         $json2 = test_web_helper("app/invoices/view/$id", '', $json['token'], '');
-        $this->assertArrayHasKey('layout', $json2);
+        $this->assertArrayHasKey('cache', $json2);
         $this->assertArrayHasKey('data', $json2);
         $this->assertArrayHasKey('data#1', $json2);
         $this->assertArrayHasKey('data#2', $json2);
@@ -258,7 +258,7 @@ final class test_web_invoices extends TestCase
         $id = $json['created_id'];
 
         $json2 = test_web_helper("app/invoices/edit/$id", '', $json['token'], '');
-        $this->assertArrayHasKey('layout', $json2);
+        $this->assertArrayHasKey('cache', $json2);
         $this->assertArrayHasKey('data', $json2);
         $this->assertArrayHasKey('data#1', $json2);
         $this->assertArrayHasKey('data#2', $json2);

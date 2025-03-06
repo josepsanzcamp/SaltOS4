@@ -69,9 +69,9 @@ final class test_files extends TestCase
      */
     public function test_files(): void
     {
-        $this->assertFalse(check_files_old('dashboard', 'menu', 0));
+        $this->assertFalse(check_files_old('dashboard', 'main', 0));
         $this->assertFalse(check_files_old('dashboard', 'view', 0));
-        $this->assertFalse(check_files_new('dashboard', 'menu'));
+        $this->assertFalse(check_files_new('dashboard', 'main'));
         $this->assertFalse(check_files_new('dashboard', 'view'));
 
         // Add a file to the tbl_uploads

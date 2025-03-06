@@ -87,10 +87,10 @@ final class test_perms extends TestCase
      */
     public function test_perms(array $json): void
     {
-        $this->assertSame(check_user('dashboard', 'menu'), true);
+        $this->assertSame(check_user('dashboard', 'main'), true);
         $this->assertSame(check_user('customers', 'view'), false);
         $this->assertSame(check_sql('customers', 'view'), '1=0');
-        $this->assertSame(check_app_perm_id('dashboard', 'menu'), true);
+        $this->assertSame(check_app_perm_id('dashboard', 'main'), true);
         $this->assertSame(check_app_perm_id('customers', 'view'), false);
 
         test_external_exec('php/perms1.php', 'phperror.log', 'app nada not found');

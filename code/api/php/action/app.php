@@ -57,7 +57,7 @@ if (get_data('rest/1') == '') {
 $file = detect_app_file(get_data('rest/1'));
 if (!file_exists($file)) {
     $app = get_data('rest/1');
-    show_php_error(['phperror' => "App $app not found"]);
+    show_json_error("App $app not found");
 }
 
 // Load the app xml file

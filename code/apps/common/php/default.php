@@ -81,6 +81,7 @@ function make_app_file($data)
     if ($screen != 'TODO') {
         show_php_error(['phperror' => 'main/screen TODO not found']);
     }
+
     $list1 = &$array['list#1']['value']['layout']['value']['row#1']['value']['table']['value']['header'];
     if (!isset($list1)) {
         show_php_error(['phperror' => 'list/header node not found']);
@@ -88,6 +89,7 @@ function make_app_file($data)
     if ($list1 != 'TODO') {
         show_php_error(['phperror' => 'list/header TODO not found']);
     }
+
     $list2 = &$array['list#2']['value']['data']['value'];
     if (!isset($list2)) {
         show_php_error(['phperror' => 'list/data node not found']);
@@ -95,6 +97,7 @@ function make_app_file($data)
     if (!strpos($list2, 'TODO')) {
         show_php_error(['phperror' => 'list/data TODO not found']);
     }
+
     $form = &$array['form'];
     if (!isset($form)) {
         show_php_error(['phperror' => 'form node not found']);
