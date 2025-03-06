@@ -28,17 +28,17 @@ screen: type2
 list:
     # [id, type, label]
     - [cmd, text, Command]
+    - [start, text, Start]
     - [out, hastext, Out]
     - [err, hastext, Err]
-    - [start, text, Start]
 form:
     # [id, type, label]
     - [cmd, codemirror, Command]
     - [pid, text, PID]
-    - [out, codemirror, STDOUT]
-    - [err, codemirror, STDERR]
     - [start, datetime, Start]
     - [stop, datetime, Stop]
+    - [out, codemirror, STDOUT]
+    - [err, codemirror, STDERR]
 attr:
     # field:
     #     attr: value
