@@ -93,6 +93,13 @@ saltos.invoices.add_item = () => {
     saltos.backup.restore('two,one');
     const layout = saltos.form.__layout_template_helper('detail', saltos.core.uniqid());
     const obj = saltos.form.layout(layout, 'div');
+    // Important notice: this function modify the layout and is important to do the
+    // same that saltos.form.layout at the end when append is used, without this the
+    // next calls to get_data will restore the old two,one layout to the used array
+    // in saltos.form.__form.fields, without this two lines, only works in r1427 or
+    // earlier, this feature breaks in r1428 and was complex to be fixed
+    const key = saltos.backup.__selector_helper('two,one');
+    saltos.backup.save(key[0]);
     document.querySelector('.footer').before(obj);
     saltos.invoices.init('edit');
 };
