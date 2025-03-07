@@ -3609,7 +3609,7 @@ saltos.bootstrap.__field.list = field => {
                         saltos.bootstrap.__checkbox_id2 = event.target.value;
                     }
                     if (saltos.bootstrap.__checkbox_id1 && saltos.bootstrap.__checkbox_id2) {
-                        const obj = event.target.parentElement.parentElement.parentElement;
+                        const obj = event.target.parentElement.parentElement;
                         const nodes = obj.querySelectorAll('input[type=checkbox][value]');
                         const ids = [saltos.bootstrap.__checkbox_id1, saltos.bootstrap.__checkbox_id2];
                         // Check that the two ids are presents
