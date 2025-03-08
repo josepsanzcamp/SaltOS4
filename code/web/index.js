@@ -67,6 +67,12 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
             .form-check-input:checked.info {
                 background-color: var(--bs-info);
             }
+            .form-check-input:disabled,
+            .form-check-input[disabled],
+            .form-check-input:disabled ~ .form-check-label,
+            .form-check-input[disabled] ~ .form-check-label {
+                opacity: 1;
+            }
         </style>
     `)),i},saltos.bootstrap.__field.switch=e=>{const t=saltos.bootstrap.__field.checkbox(e);return t.classList.add("form-switch"),t.querySelector("input").setAttribute("role","switch"),t.querySelector("input").classList.add("rounded-pill"),t},saltos.bootstrap.__field.button=e=>{saltos.core.check_params(e,["class","id","disabled","autofocus","autoclose","onclick","tooltip","icon","label","accesskey","color","collapse","target","addbr"]);let t="",o="",s=(saltos.core.eval_bool(e.disabled)&&(t="disabled",o=" opacity-25"),""),a=(saltos.core.eval_bool(e.autofocus)&&(s="autofocus"),""),l=(saltos.core.eval_bool(e.autoclose)&&(a="autoclose"),e.color),r=(e.color||(l="primary"),"");saltos.core.eval_bool(e.collapse)&&(r=`data-bs-toggle="collapse" data-bs-target="#${e.target}"
             aria-controls="${e.target}" aria-expanded="false"`);const c=saltos.core.html(`

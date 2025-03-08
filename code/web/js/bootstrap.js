@@ -1369,6 +1369,12 @@ saltos.bootstrap.__field.checkbox = field => {
             .form-check-input:checked.info {
                 background-color: var(--bs-info);
             }
+            .form-check-input:disabled,
+            .form-check-input[disabled],
+            .form-check-input:disabled ~ .form-check-label,
+            .form-check-input[disabled] ~ .form-check-label {
+                opacity: 1;
+            }
         </style>
     `));
     return obj;
