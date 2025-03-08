@@ -77,7 +77,7 @@ final class test_emails extends TestCase
 
         $json = test_cli_helper('app/emails', [], '', '', 'admin');
         $json = test_cli_helper('app/emails/list/filter', [], '', '', 'admin');
-        $json = test_cli_helper('app/emails/list/list', [
+        $json = test_cli_helper('app/emails/list/data', [
             'account_id' => 1,
             'fields' => 'body',
             'onlynew' => 1,
@@ -92,7 +92,7 @@ final class test_emails extends TestCase
             'date2' => current_date(),
             'date3' => 'today',
         ], '', '', 'admin');
-        $json = test_cli_helper('app/emails/list/list', [], '', '', 'admin');
+        $json = test_cli_helper('app/emails/list/data', [], '', '', 'admin');
         $json = test_cli_helper('app/emails/view/99', [], '', '', 'admin');
         $json = test_cli_helper('app/emails/view/files/99', [], '', '', 'admin');
         $json = test_cli_helper('app/emails/view/body/99', [], '', '', 'admin');

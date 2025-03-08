@@ -58,7 +58,7 @@
             </row>
             <div eval="true">xmlfile2array("apps/common/xml/filter.xml")["div"]</div>
             <row auto="true" col_class="col-12 my-3">
-                <table id="table" nodata="Loading..." checkbox="true" dropdown="false" >
+                <table id="list" nodata="Loading..." checkbox="true" dropdown="false" >
                     <header>
                         <user label="User" ifeval="__user_is_admin(get_data('rest/1'))"/>
                         <email_name label="Name"/>
@@ -77,7 +77,7 @@
         </javascript>
     </list>
 
-    <list id="table">
+    <list id="data">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <temp eval="true">[
@@ -99,7 +99,7 @@
                 AND ".check_sql("emails_accounts", "list")."
                 ORDER BY ".get_data("json/order")."
                 LIMIT ".get_data("json/offset").",".get_data("json/limit"))),
-            xpath_search_first_value("list[id=table]/actions", xmlfile2array("apps/emails/xml/emails_accounts.xml"))
+            xpath_search_first_value("list[id=data]/actions", xmlfile2array("apps/emails/xml/emails_accounts.xml"))
         )</data>
         <actions ifeval="false">
             <action app="emails_accounts" action="view" icon="search" tooltip="View" onclick="saltos.driver.open"/>

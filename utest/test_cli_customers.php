@@ -160,13 +160,13 @@ final class test_cli_customers extends TestCase
         $json2 = test_cli_helper('app/customers', [], '', '', '');
         $this->assertArrayHasKey('error', $json2);
 
-        $json2 = test_cli_helper('app/customers/list/table', [
+        $json2 = test_cli_helper('app/customers/list/data', [
             'page' => 1,
         ], $json['token'], '', '');
         $this->assertArrayHasKey('data', $json2);
 
         $search = 'The SaltOS project 12345678X';
-        $json2 = test_cli_helper('app/customers/list/table', [
+        $json2 = test_cli_helper('app/customers/list/data', [
             'search' => $search,
         ], $json['token'], '', '');
         $this->assertTrue(count($json2['data']) == 1);
@@ -177,7 +177,7 @@ final class test_cli_customers extends TestCase
         $json2 = test_cli_helper('app/customers/widget/table2', '', $json['token'], '', '');
         $this->assertArrayHasKey('data', $json2);
 
-        $json2 = test_cli_helper('app/customers/list/table', [
+        $json2 = test_cli_helper('app/customers/list/data', [
             'search' => '',
         ], $json['token'], '', '');
         $this->assertArrayHasKey('data', $json2);

@@ -138,7 +138,7 @@
         </javascript>
     </list>
 
-    <list id="list">
+    <list id="data">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <temp eval="true">[
@@ -184,7 +184,7 @@
                 AND ".make_where_query_emails(get_data("json"))."
                 ORDER BY ".get_data("json/order")."
                 LIMIT ".get_data("json/offset").",".get_data("json/limit")),
-            xpath_search_first_value("list[id=list]/actions", xmlfile2array("apps/emails/xml/emails.xml"))
+            xpath_search_first_value("list[id=data]/actions", xmlfile2array("apps/emails/xml/emails.xml"))
         )</data>
         <actions ifeval="false">
             <action app="emails" action="view" onclick="saltos.driver.open"/>

@@ -281,7 +281,7 @@ final class test_nssdb extends TestCase
      */
     public function test_certs(): void
     {
-        $json = test_cli_helper('app/certs/list/table', '', '', '', 'admin');
+        $json = test_cli_helper('app/certs/list/data', '', '', '', 'admin');
         $this->assertArrayHasKey('data', $json);
         $this->assertCount(0, $json['data']);
 
@@ -332,21 +332,21 @@ final class test_nssdb extends TestCase
         $this->assertSame($json['text'], 'Error importing certificates');
         $this->assertArrayHasKey('code', $json);
 
-        $json = test_cli_helper('app/certs/list/table', [], '', '', 'admin');
+        $json = test_cli_helper('app/certs/list/data', [], '', '', 'admin');
         $this->assertArrayHasKey('data', $json);
         $this->assertCount(3, $json['data']);
         $this->assertArrayHasKey('footer', $json);
         $this->assertSame($json['footer'], 'Total: 3');
         $ids = array_column($json['data'], 'id');
 
-        $json = test_cli_helper('app/certs/list/table', [
+        $json = test_cli_helper('app/certs/list/data', [
             'page' => 1,
         ], '', '', 'admin');
         $this->assertArrayHasKey('data', $json);
         $this->assertCount(0, $json['data']);
         $this->assertArrayNotHasKey('footer', $json);
 
-        $json = test_cli_helper('app/certs/list/table', [
+        $json = test_cli_helper('app/certs/list/data', [
             'search' => '+ nada',
         ], '', '', 'admin');
         $this->assertArrayHasKey('data', $json);
@@ -373,7 +373,7 @@ final class test_nssdb extends TestCase
             $this->assertSame($json['status'], 'ok');
         }
 
-        $json = test_cli_helper('app/certs/list/table', '', '', '', 'admin');
+        $json = test_cli_helper('app/certs/list/data', '', '', '', 'admin');
         $this->assertArrayHasKey('data', $json);
         $this->assertCount(0, $json['data']);
 

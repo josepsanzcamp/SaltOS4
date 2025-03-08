@@ -182,7 +182,7 @@ final class test_files extends TestCase
     {
         ob_passthru('echo hola > data/logs/nada.log');
         ob_passthru('echo adios | gzip > data/logs/nada.1.log.gz');
-        $json = test_cli_helper('app/fileslog/list/table', [
+        $json = test_cli_helper('app/fileslog/list/data', [
             'search' => '+nada +',
         ], '', '', 'admin');
         $this->assertArrayHasKey('data', $json);

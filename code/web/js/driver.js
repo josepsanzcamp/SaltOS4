@@ -204,16 +204,6 @@ saltos.driver.search = arg => {
     const data = saltos.app.get_data(true);
     saltos.filter.update('last', data);
     const app = saltos.hash.get().split('/').at(1);
-    let type = '';
-    if (document.getElementById('table')) {
-        type = 'table';
-    }
-    if (document.getElementById('list')) {
-        type = 'list';
-    }
-    if (!type) {
-        throw new Error('Unknown type');
-    }
     // Restore the more button
     const obj = document.getElementById('more');
     if (obj && 'set_disabled' in obj && typeof obj.set_disabled == 'function') {
@@ -221,10 +211,10 @@ saltos.driver.search = arg => {
     }
     // Continue
     saltos.app.ajax({
-        url: `app/${app}/list/${type}`,
+        url: `app/${app}/list/data`,
         data: data,
         success: response => {
-            document.getElementById(type).set(response);
+            document.getElementById('list').set(response);
             document.getElementById('one').scrollTop = 0;
         },
     });
@@ -276,18 +266,8 @@ saltos.driver.more = arg => {
     saltos.backup.restore('top+one');
     const data = saltos.app.get_data(true);
     const app = saltos.hash.get().split('/').at(1);
-    let type = '';
-    if (document.getElementById('table')) {
-        type = 'table';
-    }
-    if (document.getElementById('list')) {
-        type = 'list';
-    }
-    if (!type) {
-        throw new Error('Unknown type');
-    }
     saltos.app.ajax({
-        url: `app/${app}/list/${type}`,
+        url: `app/${app}/list/data`,
         data: data,
         success: response => {
             if (!response.data.length) {
@@ -300,7 +280,7 @@ saltos.driver.more = arg => {
                 // Continue
                 return;
             }
-            document.getElementById(type).add(response);
+            document.getElementById('list').add(response);
         },
     });
 };

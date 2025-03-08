@@ -58,7 +58,7 @@
             </row>
             <div eval="true">xmlfile2array("apps/common/xml/filter.xml")["div"]</div>
             <row auto="true" col_class="col-md-12 my-3">
-                <table id="table" nodata="Loading..." dropdown="false">
+                <table id="list" nodata="Loading..." dropdown="false">
                     <header>
                         <name label="Certificate nicknames available:"/>
                    </header>
@@ -74,7 +74,7 @@
         </javascript>
     </list>
 
-    <list id="table">
+    <list id="data">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <temp eval="true">[
@@ -86,7 +86,7 @@
         ]</temp>
         <data require="apps/common/php/actions.php,apps/certs/php/certs.php" eval="true">__merge_data_actions(
             __certs_list(get_data("json/search"), get_data("json/offset"), get_data("json/limit")),
-            xpath_search_first_value("list[id=table]/actions", xmlfile2array(detect_app_file(get_data("rest/1"))))
+            xpath_search_first_value("list[id=data]/actions", xmlfile2array(detect_app_file(get_data("rest/1"))))
         )</data>
         <actions ifeval="false">
             <action action="view" icon="search" tooltip="View" onclick="saltos.driver.open">

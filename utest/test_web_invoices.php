@@ -193,13 +193,13 @@ final class test_web_invoices extends TestCase
         $json2 = test_web_helper('app/invoices', [], '', '');
         $this->assertArrayHasKey('error', $json2);
 
-        $json2 = test_web_helper('app/invoices/list/table', [
+        $json2 = test_web_helper('app/invoices/list/data', [
             'page' => 1,
         ], $json['token'], '');
         $this->assertArrayHasKey('data', $json2);
 
         $search = 'The SaltOS project 12345678X';
-        $json2 = test_web_helper('app/invoices/list/table', [
+        $json2 = test_web_helper('app/invoices/list/data', [
             'search' => $search,
         ], $json['token'], '');
         $this->assertTrue(count($json2['data']) == 1);
@@ -210,7 +210,7 @@ final class test_web_invoices extends TestCase
         $json2 = test_web_helper('app/customers/widget/table2', '', $json['token'], '');
         $this->assertArrayHasKey('data', $json2);
 
-        $json2 = test_web_helper('app/invoices/list/table', [
+        $json2 = test_web_helper('app/invoices/list/data', [
             'search' => '',
         ], $json['token'], '');
         $this->assertArrayHasKey('data', $json2);

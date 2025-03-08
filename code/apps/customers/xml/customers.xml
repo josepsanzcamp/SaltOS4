@@ -58,7 +58,7 @@
             </row>
             <div eval="true">xmlfile2array("apps/common/xml/filter.xml")["div"]</div>
             <row auto="true" col_class="col-md-12 my-3">
-                <table id="table" nodata="Loading...">
+                <table id="list" nodata="Loading...">
                     <header>
                         <nombre label="Nombre"/>
                         <cif label="CIF"/>
@@ -77,7 +77,7 @@
         </javascript>
     </list>
 
-    <list id="table">
+    <list id="data">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <temp eval="true">[
@@ -97,7 +97,7 @@
                 AND ".check_sql("customers", "list")."
                 ORDER BY ".get_data("json/order")."
                 LIMIT ".get_data("json/offset").",".get_data("json/limit"))),
-            xpath_search_first_value("list[id=table]/actions", xmlfile2array("apps/customers/xml/customers.xml"))
+            xpath_search_first_value("list[id=data]/actions", xmlfile2array("apps/customers/xml/customers.xml"))
         )</data>
         <actions ifeval="false">
             <action app="customers" action="view" label="View" icon="search" tooltip="Ver detalle cliente" onclick="saltos.driver.open"/>
