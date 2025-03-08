@@ -47,7 +47,7 @@ saltos.emails = {};
 saltos.emails.init = arg => {
     if (['create', 'view', 'close'].includes(arg)) {
         saltos.core.when_visible('list', () => {
-            const obj = document.getElementById('list').parentElement;
+            const obj = document.getElementById('list');
             obj.querySelectorAll('button').forEach(item => {
                 item.classList.remove('active');
                 item.removeAttribute('aria-current');
@@ -132,6 +132,17 @@ saltos.emails.init = arg => {
 
         // Load the body with images
         saltos.core.when_visible('body', () => {
+            const iframe = document.getElementById('body');
+            if (!iframe) {
+                return;
+            }
+            const hasimg = srcdoc => {
+                return /<img\s+[^>]*src=["']data:image\/gif;base64,[^"']+["']/i.test(srcdoc);
+            };
+            if (!hasimg(iframe.srcdoc)) {
+                return;
+            }
+
             let id1 = saltos.hash.get().split('/').at(3);
             if (!saltos.core.is_number(id1)) {
                 id1 = saltos.hash.get().split('/').at(4);
@@ -143,12 +154,14 @@ saltos.emails.init = arg => {
                     if (!saltos.core.is_number(id2)) {
                         id2 = saltos.hash.get().split('/').at(4);
                     }
-                    if (id1 == id2) {
-                        const obj = document.getElementById('body');
-                        if (obj) {
-                            obj.srcdoc = saltos.bootstrap.__iframe_srcdoc_helper(response.srcdoc);
-                        }
+                    if (id1 != id2) {
+                        return;
                     }
+                    const iframe = document.getElementById('body');
+                    if (!iframe) {
+                        return;
+                    }
+                    iframe.srcdoc = saltos.bootstrap.__iframe_srcdoc_helper(response.srcdoc);
                 },
                 loading: false,
             });
@@ -186,7 +199,7 @@ saltos.emails.server = () => {
  * TODO
  */
 saltos.emails.delete1 = () => {
-    let ids = saltos.app.checkbox_ids(document.getElementById('list').parentElement);
+    let ids = saltos.app.checkbox_ids(document.getElementById('list'));
     if (!ids.length) {
         saltos.app.modal(
             'Select emails',
@@ -357,7 +370,7 @@ saltos.emails.signature = () => {
  * TODO
  */
 saltos.emails.viewpdf1 = () => {
-    let ids = saltos.app.checkbox_ids(document.getElementById('list').parentElement);
+    let ids = saltos.app.checkbox_ids(document.getElementById('list'));
     if (!ids.length) {
         saltos.app.modal(
             'Select emails',
@@ -378,7 +391,7 @@ saltos.emails.viewpdf1 = () => {
  * TODO
  */
 saltos.emails.download1 = () => {
-    let ids = saltos.app.checkbox_ids(document.getElementById('list').parentElement);
+    let ids = saltos.app.checkbox_ids(document.getElementById('list'));
     if (!ids.length) {
         saltos.app.modal(
             'Select emails',
