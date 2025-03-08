@@ -3116,10 +3116,10 @@ saltos.bootstrap.__datalist_helper = datalist => {
     let fn = null;
     if (typeof datalist == 'string' && datalist != '') {
         fn = (query, callback) => {
-            /*if (!query) {
+            if (!query) {
                 callback([]);
                 return;
-            }*/
+            }
             saltos.core.ajax({
                 url: 'api/?/' + datalist,
                 data: JSON.stringify({term: query}),
@@ -3169,10 +3169,6 @@ saltos.bootstrap.__datalist_helper = datalist => {
     }
     if (typeof datalist == 'object') {
         fn = (query, callback) => {
-            /*if (!query) {
-                callback([]);
-                return;
-            }*/
             const array = [];
             for (const key in datalist) {
                 const val = datalist[key];
