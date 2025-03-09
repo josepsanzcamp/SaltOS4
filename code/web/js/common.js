@@ -223,9 +223,9 @@ saltos.common.viewpdf = () => {
 saltos.common.__remove_helper = id => {
     const obj = document.getElementById(id);
     if (obj) {
-        const len = obj.querySelector('tbody').innerText.trim();
+        const len = obj.querySelector('tbody').innerText.trim().length;
         if (!len) {
-            const row = obj.closest('.row');
+            const row = obj.closest('.mb-3');
             if (row) {
                 row.remove();
             }

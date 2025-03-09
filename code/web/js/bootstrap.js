@@ -896,7 +896,7 @@ saltos.bootstrap.__field.codemirror = field => {
  * TODO
  */
 saltos.bootstrap.__indent_helper = (str, mode) => {
-    if (!str.trim()) {
+    if (!str.trim().length) {
         return str;
     }
     switch (mode) {
