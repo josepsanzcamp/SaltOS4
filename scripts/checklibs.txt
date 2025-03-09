@@ -6,7 +6,6 @@ phpgeoip|https://github.com/Webklex/php-geoip/tags.atom|<title>|PHRpdGxlPjEuMC4w
 phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<title>|PHRpdGxlPjQuMS4wPC90aXRsZT4=
 roundcube|https://github.com/roundcube/roundcubemail/commits/master/program/lib/Roundcube/rcube_html2text.php.atom|<updated>|PHVwZGF0ZWQ+MjAyNS0wMS0yNlQxMjozNDo1N1o8L3VwZGF0ZWQ+
 tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<title>|PHRpdGxlPjYuOC4yPC90aXRsZT4=
-toml|https://github.com/vanodevium/toml/tags.atom|<title>|PHRpdGxlPnYxLjAuNTwvdGl0bGU+
 yaml|https://github.com/symfony/yaml/tags.atom|<title>|PHRpdGxlPnY3LjIuMzwvdGl0bGU+
 
 autoheight|https://github.com/kamilkp/autoheight/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAxNi0wOC0wN1QyMzo0MToxMVo8L3VwZGF0ZWQ+

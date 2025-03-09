@@ -82,8 +82,8 @@ final class test_file extends TestCase
 
         $this->assertStringContainsString(getcwd() . '/data/cache/', get_cache_file(''));
         $this->assertSame(strlen(getcwd() . '/data/cache/') + 32 + 4, strlen(get_cache_file([], 'tmp')));
-        $this->assertStringEndsWith('.toml', get_cache_file(['nada' => 'nada.toml']));
-        $this->assertStringEndsWith('.toml', get_cache_file(['nada' => 'nada.toml', 'nada2' => 112]));
+        $this->assertStringEndsWith('.yaml', get_cache_file(['nada' => 'nada.yaml']));
+        $this->assertStringEndsWith('.yaml', get_cache_file(['nada' => 'nada.yaml', 'nada2' => 112]));
 
         $file1 = get_temp_file();
         file_put_contents($file1, '');

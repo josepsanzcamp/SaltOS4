@@ -540,26 +540,20 @@ function detect_app_file($app)
  */
 function detect_app_folder($app)
 {
-    $file = "apps/$app/xml/$app.xml";
-    if (!file_exists($file)) {
-        $file = "apps/$app/xml/$app.yaml";
-    }
-    if (!file_exists($file)) {
-        $files = glob("apps/*/xml/$app.xml");
-        if (count($files) == 1) {
-            $dir = explode('/', $files[0])[1];
-            $file = "apps/$dir/xml/$app.xml";
+    $exts = ['xml', 'yaml'];
+    foreach ($exts as $ext) {
+        if (file_exists("apps/$app/xml/$app.$ext")) {
+            return $app;
         }
     }
-    if (!file_exists($file)) {
-        $files = glob("apps/*/xml/$app.yaml");
+    foreach ($exts as $ext) {
+        $files = glob("apps/*/xml/$app.$ext");
         if (count($files) == 1) {
             $dir = explode('/', $files[0])[1];
-            $file = "apps/$dir/xml/$app.yaml";
+            return $dir;
         }
     }
-    $dir = explode('/', $file)[1];
-    return $dir;
+    return $app;
 }
 
 /**
