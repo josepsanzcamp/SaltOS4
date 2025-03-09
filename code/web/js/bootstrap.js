@@ -2317,7 +2317,7 @@ saltos.bootstrap.__field.pdfjs = field => {
  */
 saltos.bootstrap.__field.table = field => {
     saltos.core.check_params(field, ['class', 'id', 'checkbox', 'dropdown', 'color', 'nodata']);
-    saltos.core.check_params(field, ['header', 'data', 'footer'], []);
+    saltos.core.check_params(field, ['header', 'data', 'footer', 'actions'], []);
     saltos.core.check_params(field, ['first_action'], true);
     if (field.checkbox != '') {
         field.checkbox = saltos.core.eval_bool(field.checkbox);
@@ -2375,7 +2375,7 @@ saltos.bootstrap.__field.table = field => {
             }
             obj.querySelector('thead tr').append(th);
         }
-        if (field.data.length && 'actions' in field.data[0]) {
+        if (Object.keys(field.actions).length) {
             const th = saltos.core.html('tr', `<th class="text-bg-${field.color}" style="width: 1%"></th>`);
             obj.querySelector('thead tr').append(th);
         }
@@ -2525,9 +2525,9 @@ saltos.bootstrap.__field.table = field => {
                 }
                 row.append(td);
             }
-            if ('actions' in val) {
+            if (Object.keys(field.actions).length) {
                 const td = saltos.core.html('tr', `<td class="p-0 text-nowrap"></td>`);
-                let dropdown = Object.keys(val.actions).length > 1;
+                let dropdown = Object.keys(field.actions).length > 1;
                 if (field.dropdown != '') {
                     dropdown = saltos.core.eval_bool(field.dropdown);
                 }
@@ -2545,8 +2545,11 @@ saltos.bootstrap.__field.table = field => {
                     td.querySelector('ul').parentElement.addEventListener('show.bs.dropdown', dropdown_close);
                 }
                 let first_action = saltos.core.eval_bool(field.first_action);
-                for (const key2 in val.actions) {
-                    const val2 = val.actions[key2];
+                for (const key2 in field.actions) {
+                    const val2 = {
+                        ...saltos.core.join_attr_value(field.actions[key2]),
+                        ...val.actions[key2],
+                    };
                     if (!('arg' in val2) || val2.arg == '') {
                         val2.disabled = true;
                     } else {
@@ -2638,7 +2641,7 @@ saltos.bootstrap.__field.table = field => {
                 }
                 obj.querySelector('tfoot tr').append(td);
             }
-            if (field.data.length && 'actions' in field.data[0]) {
+            if (Object.keys(field.actions).length) {
                 obj.querySelector('tfoot tr').append(saltos.core.html(
                     'tr',
                     `<td class="bg-${field.color}-subtle"></td>`
@@ -3375,7 +3378,7 @@ saltos.bootstrap.__field.placeholder = field => {
  */
 saltos.bootstrap.__field.list = field => {
     saltos.core.check_params(field, ['class', 'id', 'onclick', 'truncate', 'checkbox', 'nodata']);
-    saltos.core.check_params(field, ['data'], []);
+    saltos.core.check_params(field, ['data', 'actions'], []);
     // Check for data not found
     if (!field.data.length) {
         const obj = saltos.bootstrap.__field.alert({
@@ -3412,27 +3415,20 @@ saltos.bootstrap.__field.list = field => {
         if (saltos.core.eval_bool(field.onclick)) {
             item = saltos.core.html(`<button
                 class="list-group-item list-group-item-action ${val.class}"></button>`);
-            if ('actions' in val && typeof val.actions == 'object') {
-                const actions = Object.values(val.actions);
-                if (actions.length && 'onclick' in actions[0] && 'arg' in actions[0]) {
-                    val.onclick = actions[0].onclick;
-                    val.arg = actions[0].arg;
+            if (Object.keys(field.actions).length) {
+                const action = {
+                    ...saltos.core.join_attr_value(Object.values(field.actions)[0]),
+                    ...Object.values(val.actions)[0],
+                };
+                if ('onclick' in action && 'arg' in action) {
+                    val.onclick = action.onclick;
+                    val.arg = action.arg;
                 }
             }
             if (val.arg != '') {
                 val.onclick = `${val.onclick}("${val.arg}")`;
             }
             saltos.bootstrap.__onclick_helper(item, val.onclick);
-            // To prevent that the button remain focused
-            /*item.addEventListener('click', event => {
-                const button = event.target.closest('button');
-                button.parentElement.parentElement.querySelectorAll('button').forEach(item2 => {
-                    item2.classList.remove('active');
-                    item2.removeAttribute('aria-current');
-                });
-                button.classList.add('active');
-                button.setAttribute('aria-current', 'true');
-            });*/
             if (saltos.core.eval_bool(field.checkbox)) {
                 if (val.id == '') {
                     val.id = saltos.core.uniqid();

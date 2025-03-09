@@ -34,6 +34,9 @@
                 <datetime>Datetime</datetime>
                 <note>Note</note>
             </header>
+            <actions ifeval="get_data('rest/2') == 'edit'">
+                <delete icon="trash" tooltip="Delete note" onclick="saltos.common.delete"/>
+            </actions>
         </table>
         <textarea id="addnotes" label="New note" col_class="col-12 mb-3" require="php/lib/notes.php" ifeval="check_notes_new(get_data('rest/1'), get_data('rest/2'))"/>
     </form>
@@ -44,11 +47,10 @@
                 FROM " . app2table(get_data("rest/1")) . "_notes WHERE reg_id = ? ORDER BY id DESC", [intval(get_data("rest/3"))]),
             array_protected(xpath_search_first_value("data/actions[id=".get_data("rest/2")."]", xmlfile2array("apps/common/xml/notes.xml")))
         )</data>
-        <actions id="view" ifeval="false"/>
         <actions id="edit" ifeval="false">
-            <action action="delete/notes" icon="trash" tooltip="Delete note" onclick="saltos.common.delete">
+            <delete action="delete/notes">
                 <app eval="true">get_data("rest/1")</app>
-            </action>
+            </delete>
         </actions>
     </data>
 </root>

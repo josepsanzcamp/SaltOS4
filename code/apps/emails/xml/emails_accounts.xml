@@ -65,6 +65,11 @@
                         <email_from label="Email"/>
                         <email_disabled label="Enabled" type="icon"/>
                     </header>
+                    <actions>
+                        <view icon="search" tooltip="View" onclick="saltos.driver.open"/>
+                        <edit icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
+                        <delete icon="trash" color="danger" tooltip="Delete" onclick="saltos.driver.delete"/>
+                    </actions>
                 </table>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -102,9 +107,9 @@
             xpath_search_first_value("list[id=data]/actions", xmlfile2array("apps/emails/xml/emails_accounts.xml"))
         )</data>
         <actions ifeval="false">
-            <action app="emails_accounts" action="view" icon="search" tooltip="View" onclick="saltos.driver.open"/>
-            <action app="emails_accounts" action="edit" icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
-            <action app="emails_accounts" action="delete" icon="trash" color="danger" tooltip="Delete" onclick="saltos.driver.delete"/>
+            <view app="emails_accounts" action="view"/>
+            <edit app="emails_accounts" action="edit"/>
+            <delete app="emails_accounts" action="delete"/>
         </actions>
         <temp ifeval="!get_data('json/page')" eval="true">set_data("json/total", execute_query("
             SELECT COUNT(*) total

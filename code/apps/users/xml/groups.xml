@@ -65,6 +65,11 @@
                         <description label="Description"/>
                         <active label="Active" type="icon"/>
                     </header>
+                    <actions>
+                        <view icon="search" tooltip="View" onclick="saltos.driver.open"/>
+                        <edit icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
+                        <delete icon="trash" color="danger" tooltip="Delete" onclick="saltos.driver.delete"/>
+                    </actions>
                 </table>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -101,9 +106,9 @@
             xpath_search_first_value("list[id=data]/actions", xmlfile2array("apps/users/xml/groups.xml"))
         )</data>
         <actions ifeval="false">
-            <action app="groups" action="view" icon="search" tooltip="View" onclick="saltos.driver.open"/>
-            <action app="groups" action="edit" icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
-            <action app="groups" action="delete" icon="trash" color="danger" tooltip="Delete" onclick="saltos.driver.delete"/>
+            <view app="groups" action="view"/>
+            <edit app="groups" action="edit"/>
+            <delete app="groups" action="delete"/>
         </actions>
         <temp ifeval="!get_data('json/page')" eval="true">set_data("json/total", execute_query("
             SELECT COUNT(*) total

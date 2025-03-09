@@ -343,10 +343,9 @@ function merge_data_actions($data, $actions)
     // Add the actions to each row checking each permissions's row
     foreach ($data as $key => $row) {
         $merge = [];
-        foreach ($actions as $action) {
+        foreach ($actions as $key2 => $action) {
             $action0 = get_part_from_string($action['action'], '/', 0);
             $id0 = get_part_from_string(strval($row['id']), '/', 0);
-            $action1 = get_part_from_string($action['action'], '/', -1);
             if (check_app_perm_id($action['app'], $action0, $id0)) {
                 $action['arg'] = "app/{$action["app"]}/{$action["action"]}/{$row["id"]}";
             } else {
@@ -354,7 +353,7 @@ function merge_data_actions($data, $actions)
             }
             unset($action['app']);
             unset($action['action']);
-            $merge[$action1] = $action;
+            $merge[$key2] = $action;
         }
         if (count($merge)) {
             $data[$key]['actions'] = $merge;

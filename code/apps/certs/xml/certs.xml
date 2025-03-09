@@ -62,6 +62,10 @@
                     <header>
                         <name label="Certificate nicknames available:"/>
                    </header>
+                    <actions>
+                        <view app="certs" action="view" icon="search" tooltip="View" onclick="saltos.driver.open"/>
+                        <delete app="certs" action="delete" icon="trash" color="danger" tooltip="Delete" onclick="saltos.driver.delete"/>
+                    </actions>
                 </table>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -89,12 +93,8 @@
             xpath_search_first_value("list[id=data]/actions", xmlfile2array(detect_app_file(get_data("rest/1"))))
         )</data>
         <actions ifeval="false">
-            <action action="view" icon="search" tooltip="View" onclick="saltos.driver.open">
-                <app eval="true">get_data("rest/1")</app>
-            </action>
-            <action action="delete" icon="trash" color="danger" tooltip="Delete" onclick="saltos.driver.delete">
-                <app eval="true">get_data("rest/1")</app>
-            </action>
+            <view app="certs" action="view"/>
+            <delete app="certs" action="delete"/>
         </actions>
         <temp ifeval="!get_data('json/page')" eval="true">set_data("json/total", count(
             __certs_list(get_data("json/search"), 0, INF)

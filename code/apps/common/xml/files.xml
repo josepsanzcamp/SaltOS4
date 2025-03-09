@@ -33,6 +33,13 @@
                 <name>Filename</name>
                 <size>Size</size>
             </header>
+            <actions ifeval="get_data('rest/2') == 'view'">
+                <viewpdf icon="search" tooltip="View file" onclick="saltos.driver.open"/>
+                <download icon="save" tooltip="Download file" onclick="saltos.common.download"/>
+            </actions>
+            <actions ifeval="get_data('rest/2') == 'edit'">
+                <delete icon="trash" tooltip="Delete file" onclick="saltos.common.delete"/>
+            </actions>
             <first_action eval="true">get_data("rest/5") == "view"</first_action>
         </table>
         <file id="addfiles" label="New files" col_class="col-12 mb-3" multiple="true" require="php/lib/files.php" ifeval="check_files_new(get_data('rest/1'), get_data('rest/2'))"/>
@@ -45,17 +52,17 @@
             xpath_search_first_value("data/actions[id=".get_data("rest/2")."]", xmlfile2array("apps/common/xml/files.xml"))
         )</data>
         <actions id="view" ifeval="false">
-            <action action="view/viewpdf" icon="search" tooltip="View file" onclick="saltos.driver.open">
+            <viewpdf action="view/viewpdf">
                 <app eval="true">get_data("rest/1")</app>
-            </action>
-            <action action="view/download" icon="save" tooltip="Download file" onclick="saltos.common.download">
+            </viewpdf>
+            <download action="view/download">
                 <app eval="true">get_data("rest/1")</app>
-            </action>
+            </download>
         </actions>
         <actions id="edit" ifeval="false">
-            <action action="delete/files" icon="trash" tooltip="Delete file" onclick="saltos.common.delete">
+            <delete action="delete/files">
                 <app eval="true">get_data("rest/1")</app>
-            </action>
+            </delete>
         </actions>
     </data>
 

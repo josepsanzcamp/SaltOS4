@@ -76,6 +76,11 @@
                         <cerrado label="Cerrado" type="icon" align="center"/>
                         <cobrado label="Cobrado" type="icon" align="center"/>
                     </header>
+                    <actions>
+                        <view label="View" icon="search" tooltip="Ver detalle factura" onclick="saltos.driver.open"/>
+                        <edit label="Edit" icon="pencil" tooltip="Editar factura" onclick="saltos.driver.open"/>
+                        <delete label="Delete" icon="trash" color="danger" tooltip="Borrar factura" onclick="saltos.driver.delete"/>
+                    </actions>
                 </table>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -115,9 +120,9 @@
             xpath_search_first_value("list[id=data]/actions", xmlfile2array("apps/invoices/xml/invoices.xml"))
         )</data>
         <actions ifeval="false">
-            <action app="invoices" action="view" label="View" icon="search" tooltip="Ver detalle factura" onclick="saltos.driver.open"/>
-            <action app="invoices" action="edit" label="Edit" icon="pencil" tooltip="Editar factura" onclick="saltos.driver.open"/>
-            <action app="invoices" action="delete" label="Delete" icon="trash" color="danger" tooltip="Borrar factura" onclick="saltos.driver.delete"/>
+            <view app="invoices" action="view"/>
+            <edit app="invoices" action="edit"/>
+            <delete app="invoices" action="delete"/>
         </actions>
         <temp ifeval="!get_data('json/page')" eval="true">set_data("json/total", execute_query("
             SELECT COUNT(*) total

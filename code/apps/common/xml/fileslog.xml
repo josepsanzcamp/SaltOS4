@@ -62,7 +62,10 @@
                         <name label="Name"/>
                         <type label="Type"/>
                         <size label="Size"/>
-                   </header>
+                    </header>
+                    <actions>
+                        <view icon="search" tooltip="View" onclick="saltos.driver.open"/>
+                    </actions>
                 </table>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -90,9 +93,7 @@
             xpath_search_first_value("list[id=data]/actions", xmlfile2array(detect_app_file(get_data("rest/1"))))
         )</data>
         <actions ifeval="false">
-            <action action="view" icon="search" tooltip="View" onclick="saltos.driver.open">
-                <app eval="true">get_data("rest/1")</app>
-            </action>
+            <view app="fileslog" action="view"/>
         </actions>
         <temp ifeval="!get_data('json/page')" eval="true">set_data("json/total", count(
             __files_list(get_data("json/search"), 0, INF)

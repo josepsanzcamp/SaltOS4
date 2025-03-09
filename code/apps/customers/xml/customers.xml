@@ -65,6 +65,11 @@
                         <nombre_poblacion label="Población"/>
                         <nombre_codpostal label="C.P."/>
                     </header>
+                    <actions>
+                        <view label="View" icon="search" tooltip="Ver detalle cliente" onclick="saltos.driver.open"/>
+                        <edit label="Edit" icon="pencil" tooltip="Editar cliente" onclick="saltos.driver.open"/>
+                        <delete label="Delete" icon="trash" color="danger" tooltip="Borrar cliente" onclick="saltos.driver.delete"/>
+                    </actions>
                 </table>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -100,9 +105,9 @@
             xpath_search_first_value("list[id=data]/actions", xmlfile2array("apps/customers/xml/customers.xml"))
         )</data>
         <actions ifeval="false">
-            <action app="customers" action="view" label="View" icon="search" tooltip="Ver detalle cliente" onclick="saltos.driver.open"/>
-            <action app="customers" action="edit" label="Edit" icon="pencil" tooltip="Editar cliente" onclick="saltos.driver.open"/>
-            <action app="customers" action="delete" label="Delete" icon="trash" color="danger" tooltip="Borrar cliente" onclick="saltos.driver.delete"/>
+            <view app="customers" action="view"/>
+            <edit app="customers" action="edit"/>
+            <delete app="customers" action="delete"/>
         </actions>
         <temp ifeval="!get_data('json/page')" eval="true">set_data("json/total", execute_query("
             SELECT COUNT(*) total
@@ -289,7 +294,7 @@
                 LIMIT ".get_data("json/offset").",".get_data("json/limit"))),
             xpath_search_first_value("widget[id=table1]/actions", xmlfile2array("apps/customers/xml/customers.xml"))
         )</data>
-        <actions ifeval="false">
+        <actions>
             <action app="customers" action="view" icon="search" tooltip="Ver detalle cliente" onclick="saltos.driver.open"/>
         </actions>
         <footer ifeval="!get_data('json/page')" eval="true">"Total: " . execute_query("
@@ -325,7 +330,7 @@
                 LIMIT ".get_data("json/offset").",".get_data("json/limit"))),
             xpath_search_first_value("widget[id=table2]/actions", xmlfile2array("apps/customers/xml/customers.xml"))
         )</data>
-        <actions ifeval="false">
+        <actions>
             <action app="customers" action="view" icon="search" tooltip="Ver detalle cliente" onclick="saltos.driver.open"/>
         </actions>
         <footer>
