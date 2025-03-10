@@ -203,9 +203,9 @@
         <cache>app/emails_accounts/main</cache>
         <title>New email account</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
+            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["_form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.insert()" label="Create" tooltip="To create the new email account" icon="check-lg" color="success"/>
@@ -228,9 +228,9 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <cache>app/emails_accounts/view/cache</cache>
-        <data eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["data"]</data>
-        <data><allfiles eval="true">xmlfile2array("apps/common/xml/files.xml")["data"]</allfiles></data>
-        <data><allnotes eval="true">xmlfile2array("apps/common/xml/notes.xml")["data"]</allnotes></data>
+        <data eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["_data"]</data>
+        <data><allfiles eval="true">xmlfile2array("apps/common/xml/files.xml")["_data"]</allfiles></data>
+        <data><allnotes eval="true">xmlfile2array("apps/common/xml/notes.xml")["_data"]</allnotes></data>
         <javascript>
             <inline>saltos.driver.init("view")</inline>
             <inline>saltos.common.allfiles()</inline>
@@ -244,9 +244,9 @@
         <cache>app/emails_accounts/main</cache>
         <title>Detail of the email account</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
+            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["_form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <dropdown label="Info" icon="file-text" tooltip="Information of this register" ifeval="check_user(get_data('rest/1'), 'info')">
                     <menu>
@@ -272,9 +272,9 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <cache>app/emails_accounts/edit/cache</cache>
-        <data eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["data"]</data>
-        <data><allfiles eval="true">xmlfile2array("apps/common/xml/files.xml")["data"]</allfiles></data>
-        <data><allnotes eval="true">xmlfile2array("apps/common/xml/notes.xml")["data"]</allnotes></data>
+        <data eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["_data"]</data>
+        <data><allfiles eval="true">xmlfile2array("apps/common/xml/files.xml")["_data"]</allfiles></data>
+        <data><allnotes eval="true">xmlfile2array("apps/common/xml/notes.xml")["_data"]</allnotes></data>
         <javascript>
             <inline>saltos.driver.init("edit")</inline>
             <inline>saltos.common.allfiles()</inline>
@@ -288,9 +288,9 @@
         <cache>app/emails_accounts/main</cache>
         <title>Modify this email account</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
+            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["_form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.update()" label="Save" tooltip="To save the email account changes" icon="check-lg" color="success"/>

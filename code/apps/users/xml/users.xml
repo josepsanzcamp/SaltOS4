@@ -191,9 +191,9 @@
         <cache>app/users/main</cache>
         <title>New user</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/users/xml/users.xml")["form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
+            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/users/xml/users.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["_form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.insert()" label="Create" tooltip="To create the new user" icon="check-lg" color="success"/>
@@ -223,11 +223,11 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <cache>app/users/view/cache</cache>
-        <data eval="true">xmlfile2array("apps/users/xml/users.xml")["data"]</data>
+        <data eval="true">xmlfile2array("apps/users/xml/users.xml")["_data"]</data>
         <data><perms eval="true">xmlfile2array("apps/users/xml/users.xml")["perms"]</perms></data>
         <data><passwords><data eval="true">xmlfile2array("apps/users/xml/users.xml")["passwords"]</data></passwords></data>
-        <data><allfiles eval="true">xmlfile2array("apps/common/xml/files.xml")["data"]</allfiles></data>
-        <data><allnotes eval="true">xmlfile2array("apps/common/xml/notes.xml")["data"]</allnotes></data>
+        <data><allfiles eval="true">xmlfile2array("apps/common/xml/files.xml")["_data"]</allfiles></data>
+        <data><allnotes eval="true">xmlfile2array("apps/common/xml/notes.xml")["_data"]</allnotes></data>
         <javascript>
             <inline>saltos.driver.init("view")</inline>
             <inline>saltos.common.allfiles()</inline>
@@ -241,9 +241,9 @@
         <cache>app/users/main</cache>
         <title>Detail of the user</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/users/xml/users.xml")["form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
+            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/users/xml/users.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["_form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <dropdown label="Info" icon="file-text" tooltip="Information of this register" ifeval="check_user(get_data('rest/1'), 'info')">
                     <menu>
@@ -269,10 +269,10 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <cache>app/users/edit/cache</cache>
-        <data eval="true">xmlfile2array("apps/users/xml/users.xml")["data"]</data>
+        <data eval="true">xmlfile2array("apps/users/xml/users.xml")["_data"]</data>
         <data><perms eval="true">xmlfile2array("apps/users/xml/users.xml")["perms"]</perms></data>
-        <data><allfiles eval="true">xmlfile2array("apps/common/xml/files.xml")["data"]</allfiles></data>
-        <data><allnotes eval="true">xmlfile2array("apps/common/xml/notes.xml")["data"]</allnotes></data>
+        <data><allfiles eval="true">xmlfile2array("apps/common/xml/files.xml")["_data"]</allfiles></data>
+        <data><allnotes eval="true">xmlfile2array("apps/common/xml/notes.xml")["_data"]</allnotes></data>
         <javascript>
             <inline>saltos.driver.init("edit")</inline>
             <inline>saltos.common.allfiles()</inline>
@@ -286,9 +286,9 @@
         <cache>app/users/main</cache>
         <title>Modify this user</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/users/xml/users.xml")["form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
+            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/users/xml/users.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["_form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.update()" label="Save" tooltip="To save the user changes" icon="check-lg" color="success"/>

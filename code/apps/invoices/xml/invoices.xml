@@ -137,7 +137,7 @@
     <list id="filter" eval="true">xmlfile2array("apps/common/xml/filter.xml")["list"]</list>
 
     <!-- Form part -->
-    <form_header>
+    <_form_header>
         <text id="nombre" label="nombre" required="true"/>
         <text id="direccion" label="direccion" required="true"/>
         <text id="nombre_pais" label="nombre_pais" required="true"/>
@@ -153,8 +153,8 @@
         <switch id="cerrado" label="cerrado"/>
         <switch id="cobrado" label="cobrado"/>
         <textarea id="notas" label="notas" col_class="col-md-12 mb-3"/>
-    </form_header>
-    <form_detail>
+    </_form_header>
+    <_form_detail>
         <hidden id="id"/>
         <textarea id="concepto" label="concepto" col_class="col mb-3" required="true"/>
         <float id="unidades" label="unidades" col_class="col-md-1 mb-3" required="true"/>
@@ -162,22 +162,22 @@
         <float id="descuento" label="descuento" col_class="col-md-1 mb-3"/>
         <text id="total" label="total" col_class="col-md-1 mb-3" ignore="true"/>
         <button onclick="saltos.invoices.remove_item(this)" icon="trash" col_class="col-auto mb-3" tooltip="Quitar este concepto" addbr="true"/>
-    </form_detail>
-    <form_footer>
+    </_form_detail>
+    <_form_footer>
         <div col_class="col mb-3"/>
         <text id="total" label="total" col_class="col-md-1 mb-3" ignore="true"/>
         <button onclick="saltos.invoices.add_item()" icon="plus-lg" col_class="col-auto mb-3" tooltip="Añadir mas conceptos" addbr="true"/>
-    </form_footer>
+    </_form_footer>
 
-    <data_header require="php/lib/log.php" eval="true">make_log_bypass(get_data("rest/1"), get_data("rest/2"), execute_query("
+    <_data_header require="php/lib/log.php" eval="true">make_log_bypass(get_data("rest/1"), get_data("rest/2"), execute_query("
         SELECT * FROM app_invoices WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")),
-        [intval(get_data("rest/3"))]))</data_header>
-    <data_detail eval="true">execute_query_array("SELECT *, ROUND(unidades * precio * (1 - (descuento / 100)),2) total
+        [intval(get_data("rest/3"))]))</_data_header>
+    <_data_detail eval="true">execute_query_array("SELECT *, ROUND(unidades * precio * (1 - (descuento / 100)),2) total
         FROM app_invoices_concepts WHERE id_factura = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2"))." ORDER BY id ASC",
-        [intval(get_data("rest/3"))])</data_detail>
-    <data_footer eval="true">execute_query("SELECT id, ROUND(SUM(unidades * precio * (1 - (descuento / 100))),2) total
+        [intval(get_data("rest/3"))])</_data_detail>
+    <_data_footer eval="true">execute_query("SELECT id, ROUND(SUM(unidades * precio * (1 - (descuento / 100))),2) total
         FROM app_invoices_concepts WHERE id_factura = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")),
-        [intval(get_data("rest/3"))])</data_footer>
+        [intval(get_data("rest/3"))])</_data_footer>
 
     <create>
         <check eval="true" logout="true">current_user()</check>
@@ -191,11 +191,11 @@
         <cache>app/invoices/main</cache>
         <title>New invoice</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-6 mb-3" row_class="row header" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_header"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_detail"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" row_class="row footer" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_footer"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" row_class="row header" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["_form_header"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["_form_detail"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" row_class="row footer" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["_form_footer"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["_form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.insert()" label="Crear" tooltip="Para crear la nueva factura" icon="check-lg" color="success"/>
@@ -219,11 +219,11 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <cache>app/invoices/view/cache</cache>
-        <data eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["data_header"]</data>
-        <data template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["data_detail"]</data>
-        <data eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["data_footer"]</data>
-        <data><allfiles eval="true">xmlfile2array("apps/common/xml/files.xml")["data"]</allfiles></data>
-        <data><allnotes eval="true">xmlfile2array("apps/common/xml/notes.xml")["data"]</allnotes></data>
+        <data eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["_data_header"]</data>
+        <data template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["_data_detail"]</data>
+        <data eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["_data_footer"]</data>
+        <data><allfiles eval="true">xmlfile2array("apps/common/xml/files.xml")["_data"]</allfiles></data>
+        <data><allnotes eval="true">xmlfile2array("apps/common/xml/notes.xml")["_data"]</allnotes></data>
         <javascript>
             <inline>saltos.invoices.init('view')</inline>
             <inline>saltos.driver.init("view")</inline>
@@ -238,11 +238,11 @@
         <cache>app/invoices/main</cache>
         <title>Detail of the invoice</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-6 mb-3" row_class="row header" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_header"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_detail"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" row_class="row footer" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_footer"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" row_class="row header" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["_form_header"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["_form_detail"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" row_class="row footer" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["_form_footer"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["_form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <dropdown label="Info" icon="file-text" tooltip="Information of this register" ifeval="check_user(get_data('rest/1'), 'info')">
                     <menu>
@@ -277,11 +277,11 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <cache>app/invoices/edit/cache</cache>
-        <data eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["data_header"]</data>
-        <data template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["data_detail"]</data>
-        <data eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["data_footer"]</data>
-        <data><allfiles eval="true">xmlfile2array("apps/common/xml/files.xml")["data"]</allfiles></data>
-        <data><allnotes eval="true">xmlfile2array("apps/common/xml/notes.xml")["data"]</allnotes></data>
+        <data eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["_data_header"]</data>
+        <data template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["_data_detail"]</data>
+        <data eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["_data_footer"]</data>
+        <data><allfiles eval="true">xmlfile2array("apps/common/xml/files.xml")["_data"]</allfiles></data>
+        <data><allnotes eval="true">xmlfile2array("apps/common/xml/notes.xml")["_data"]</allnotes></data>
         <javascript>
             <inline>saltos.invoices.init('edit')</inline>
             <inline>saltos.driver.init("edit")</inline>
@@ -296,11 +296,11 @@
         <cache>app/invoices/main</cache>
         <title>Modify this invoice</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-6 mb-3" row_class="row header" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_header"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_detail"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" row_class="row footer" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_footer"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" row_class="row header" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["_form_header"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["_form_detail"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" row_class="row footer" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["_form_footer"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["_form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.update()" label="Guardar" tooltip="Para guardar los cambios de la factura" icon="check-lg" color="success"/>

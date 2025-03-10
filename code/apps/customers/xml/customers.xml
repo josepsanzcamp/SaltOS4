@@ -122,7 +122,7 @@
     <list id="filter" eval="true">xmlfile2array("apps/common/xml/filter.xml")["list"]</list>
 
     <!-- Form part -->
-    <form>
+    <_form>
         <text id="codigo" label="Codigo"/>
         <switch id="activo" label="Activo"/>
         <text id="nombre" label="Nombre" required="true" autofocus="true"/>
@@ -143,11 +143,11 @@
         <text id="tel_fijo" label="Tel fijo"/>
         <text id="tel_movil" label="Tel movil"/>
         <text id="fax" label="Fax"/>
-    </form>
+    </_form>
 
-    <data require="php/lib/log.php" eval="true">make_log_bypass(get_data("rest/1"), get_data("rest/2"), execute_query("
+    <_data require="php/lib/log.php" eval="true">make_log_bypass(get_data("rest/1"), get_data("rest/2"), execute_query("
         SELECT * FROM ".app2table(get_data("rest/1"))." WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")),
-        [intval(get_data("rest/3"))]))</data>
+        [intval(get_data("rest/3"))]))</_data>
 
     <create>
         <check eval="true" logout="true">current_user()</check>
@@ -161,9 +161,9 @@
         <cache>app/customers/main</cache>
         <title>New customer</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/customers.xml")["form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/customers.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["_form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.insert()" label="Crear" tooltip="Para crear el nuevo cliente" icon="check-lg" color="success"/>
@@ -185,9 +185,9 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <cache>app/customers/view/cache</cache>
-        <data eval="true">xmlfile2array("apps/customers/xml/customers.xml")["data"]</data>
-        <data><allfiles eval="true">xmlfile2array("apps/common/xml/files.xml")["data"]</allfiles></data>
-        <data><allnotes eval="true">xmlfile2array("apps/common/xml/notes.xml")["data"]</allnotes></data>
+        <data eval="true">xmlfile2array("apps/customers/xml/customers.xml")["_data"]</data>
+        <data><allfiles eval="true">xmlfile2array("apps/common/xml/files.xml")["_data"]</allfiles></data>
+        <data><allnotes eval="true">xmlfile2array("apps/common/xml/notes.xml")["_data"]</allnotes></data>
         <javascript>
             <inline>saltos.driver.init("view")</inline>
             <inline>saltos.common.allfiles()</inline>
@@ -201,9 +201,9 @@
         <cache>app/customers/main</cache>
         <title>Detail of the customer</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/customers.xml")["form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/customers.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["_form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <dropdown label="Info" icon="file-text" tooltip="Information of this register" ifeval="check_user(get_data('rest/1'), 'info')">
                     <menu>
@@ -229,9 +229,9 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <cache>app/customers/edit/cache</cache>
-        <data eval="true">xmlfile2array("apps/customers/xml/customers.xml")["data"]</data>
-        <data><allfiles eval="true">xmlfile2array("apps/common/xml/files.xml")["data"]</allfiles></data>
-        <data><allnotes eval="true">xmlfile2array("apps/common/xml/notes.xml")["data"]</allnotes></data>
+        <data eval="true">xmlfile2array("apps/customers/xml/customers.xml")["_data"]</data>
+        <data><allfiles eval="true">xmlfile2array("apps/common/xml/files.xml")["_data"]</allfiles></data>
+        <data><allnotes eval="true">xmlfile2array("apps/common/xml/notes.xml")["_data"]</allnotes></data>
         <javascript>
             <inline>saltos.driver.init("edit")</inline>
             <inline>saltos.common.allfiles()</inline>
@@ -245,9 +245,9 @@
         <cache>app/customers/main</cache>
         <title>Modify this customer</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/customers.xml")["form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/customers.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["_form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.update()" label="Guardar" tooltip="Para guardar los cambios del cliente" icon="check-lg" color="success"/>

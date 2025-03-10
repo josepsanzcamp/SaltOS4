@@ -315,12 +315,10 @@
             sensitivity, state_sent, state_new, state_reply, state_forward, state_wait, state_spam, state_crt, subject, state_error, is_outbox, files num_files
             FROM app_emails WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))])</data>
         <data><body require="apps/emails/php/getmail.php" eval="true">getmail_body(intval(get_data("rest/3")))</body></data>
-        <data><files>
-            <data require="apps/emails/php/getmail.php" eval="true">merge_data_actions(
-                getmail_files(intval(get_data("rest/3"))),
-                xpath_search_first_value("view/actions", xmlfile2array("apps/emails/xml/emails.xml"))
-            )</data>
-        </files></data>
+        <data><files><data require="apps/emails/php/getmail.php" eval="true">merge_data_actions(
+            getmail_files(intval(get_data("rest/3"))),
+            xpath_search_first_value("view/actions", xmlfile2array("apps/emails/xml/emails.xml"))
+        )</data></files></data>
         <actions ifeval="false">
             <viewpdf app="emails" action="view/viewpdf"/>
             <download app="emails" action="view/download"/>

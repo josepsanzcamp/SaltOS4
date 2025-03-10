@@ -98,7 +98,7 @@ function make_app_file($data)
         show_php_error(['phperror' => 'list/data TODO not found']);
     }
 
-    $form = &$array['form'];
+    $form = &$array['_form'];
     if (!isset($form)) {
         show_php_error(['phperror' => 'form node not found']);
     }
