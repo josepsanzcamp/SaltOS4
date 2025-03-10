@@ -32,6 +32,9 @@
         <screen>type5</screen>
         <gettext eval="true">T()</gettext>
         <navbar eval="true">xmlfile2array('apps/common/xml/navbar.xml')['navbar']</navbar>
+        <javascript>
+            <file eval="true">file_with_hash(file_with_min('apps/invoices/js/invoices.js'))</file>
+        </javascript>
     </main>
 
     <!-- List part -->
@@ -89,7 +92,6 @@
             </row>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash(file_with_min('apps/invoices/js/invoices.js'))</file>
             <inline>saltos.driver.init('list')</inline>
         </javascript>
     </list>
@@ -203,7 +205,6 @@
             </row>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash(file_with_min('apps/invoices/js/invoices.js'))</file>
             <inline>saltos.invoices.init('create')</inline>
             <inline>saltos.driver.init('create')</inline>
         </javascript>
@@ -263,9 +264,6 @@
                 <button onclick="saltos.driver.close(true)" col_class="d-none" accesskey="escape"/>
             </row>
         </layout>
-        <javascript>
-            <file eval="true">file_with_hash(file_with_min('apps/invoices/js/invoices.js'))</file>
-        </javascript>
     </view>
 
     <view id="viewpdf" eval="true">xpath_search_first('view[id=viewpdf]', xmlfile2array('apps/common/xml/files.xml'))</view>
@@ -307,9 +305,6 @@
                 <button onclick="saltos.driver.cancel()" label="Cancelar" tooltip="Para cancelar la edición de la factura" icon="x-lg" autoclose="true" color="danger"/>
             </row>
         </layout>
-        <javascript>
-            <file eval="true">file_with_hash(file_with_min('apps/invoices/js/invoices.js'))</file>
-        </javascript>
     </edit>
 
     <edit id="update">

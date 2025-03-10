@@ -31,6 +31,7 @@
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <javascript>
             <file eval="true">file_with_hash(file_with_min('apps/emails/js/driver.js'))</file>
+            <file eval="true">file_with_hash(file_with_min('apps/emails/js/emails.js'))</file>
         </javascript>
         <screen>emails</screen>
         <gettext eval="true">T()</gettext>
@@ -136,7 +137,6 @@
             </row>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash(file_with_min('apps/emails/js/emails.js'))</file>
             <inline>saltos.emails.init('list')</inline>
             <inline>saltos.driver.init('list')</inline>
         </javascript>
@@ -257,9 +257,6 @@
                 <button onclick="saltos.driver.cancel()" label="Cancel" tooltip="To cancel the email" icon="x-lg" autoclose="true" color="danger"/>
             </row>
         </layout>
-        <javascript>
-            <file eval="true">file_with_hash(file_with_min('apps/emails/js/emails.js'))</file>
-        </javascript>
     </create>
 
     <create id="emails">
@@ -413,9 +410,6 @@
                 <button onclick="saltos.emails.init('close');saltos.driver.close(true)" col_class="d-none" accesskey="escape"/>
             </row>
         </layout>
-        <javascript>
-            <file eval="true">file_with_hash(file_with_min('apps/emails/js/emails.js'))</file>
-        </javascript>
     </view>
 
     <view id="body">
