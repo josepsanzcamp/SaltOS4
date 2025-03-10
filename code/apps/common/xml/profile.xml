@@ -28,18 +28,18 @@
 <root>
     <profile>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <title append="offcanvas">Profile</title>
         <layout append="right">
             <row auto="true" col_class="col-md-12 mb-3">
                 <select id="bs_theme" label="Color mode" onchange="saltos.bootstrap.set_bs_theme(this.value)">
-                    <rows eval="true">xmlfile2array("xml/bs_theme.xml")["rows"]</rows>
+                    <rows eval="true">xmlfile2array('xml/bs_theme.xml')['rows']</rows>
                 </select>
                 <select id="css_theme" label="Theme style" onchange="saltos.bootstrap.set_css_theme(this.value)">
-                    <rows eval="true">xmlfile2array("xml/css_theme.xml")["rows"]</rows>
+                    <rows eval="true">xmlfile2array('xml/css_theme.xml')['rows']</rows>
                 </select>
                 <select id="lang" label="Language" onchange="saltos.gettext.set(this.value)">
-                    <rows eval="true">xmlfile2array("xml/locale.xml")["rows"]</rows>
+                    <rows eval="true">xmlfile2array('xml/locale.xml')['rows']</rows>
                 </select>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -59,7 +59,7 @@
             </row>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash(file_with_min("apps/common/js/profile.js"))</file>
+            <file eval="true">file_with_hash(file_with_min('apps/common/js/profile.js'))</file>
             <inline>saltos.profile.init()</inline>
         </javascript>
     </profile>

@@ -26,6 +26,6 @@
 -->
 
 <root>
-    <widget id="help" eval="true">xmlfile2array("apps/common/xml/help.xml")["help"]</widget>
-    <widget id="profile" eval="true">xmlfile2array("apps/common/xml/profile.xml")["profile"]</widget>
+    <widget id="help" eval="true">xmlfile2array('apps/common/xml/help.xml')['help']</widget>
+    <widget id="profile" eval="true">xmlfile2array('apps/common/xml/profile.xml')['profile']</widget>
 </root>

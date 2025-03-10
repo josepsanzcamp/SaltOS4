@@ -28,22 +28,22 @@
 <root>
     <main>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <screen>type5</screen>
         <gettext eval="true">T()</gettext>
-        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array('apps/common/xml/navbar.xml')['navbar']</navbar>
     </main>
 
     <!-- List part -->
     <list default="true">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <cache>app/users/list/cache</cache>
     </list>
 
     <list id="cache">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <cache>app/users/main</cache>
         <title>Users list</title>
         <layout append="one">
@@ -56,7 +56,7 @@
                 <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
             </row>
-            <div eval="true">xmlfile2array("apps/common/xml/filter.xml")["div"]</div>
+            <div eval="true">xmlfile2array('apps/common/xml/filter.xml')['div']</div>
             <row auto="true" col_class="col-12 my-3">
                 <table id="list" nodata="Loading..." dropdown="false">
                     <header>
@@ -79,53 +79,53 @@
             </row>
         </layout>
         <javascript>
-            <inline>saltos.driver.init("list")</inline>
+            <inline>saltos.driver.init('list')</inline>
         </javascript>
     </list>
 
     <list id="data">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <temp eval="true">[
-            set_config("app/".get_data("rest/1")."/filter/last", json_encode(get_data("json"), JSON_FORCE_OBJECT), current_user()),
-            set_data("json/search", strval(get_data("json/search"))),
-            set_data("json/page", intval(get_data("json/page"))),
-            set_data("json/order", "id DESC"),
-            set_data("json/limit", 25),
-            set_data("json/offset", intval(get_data("json/page") * get_data("json/limit"))),
+            set_config('app/'.get_data('rest/1').'/filter/last', json_encode(get_data('json'), JSON_FORCE_OBJECT), current_user()),
+            set_data('json/search', strval(get_data('json/search'))),
+            set_data('json/page', intval(get_data('json/page'))),
+            set_data('json/order', 'id DESC'),
+            set_data('json/limit', 25),
+            set_data('json/offset', intval(get_data('json/page') * get_data('json/limit'))),
         ]</temp>
         <data require="php/lib/log.php" eval="true">merge_data_actions(
-            make_log_bypass(get_data("rest/1"), get_data("rest/2"), execute_query_array("
+            make_log_bypass(get_data('rest/1'), get_data('rest/2'), execute_query_array("
                 SELECT id, login, name, description,
                 (SELECT CONCAT(name,' (',code,')') FROM tbl_groups a WHERE a.id=group_id) `group`,
                 CASE active WHEN 1 THEN 'check-lg text-success' ELSE 'x-lg text-danger' END active
                 FROM tbl_users
                 WHERE 1 = 1
-                AND ".make_fulltext_query(get_data("json/search"), "users")."
-                AND ".check_sql("users", "list")."
-                ORDER BY ".get_data("json/order")."
-                LIMIT ".get_data("json/offset").",".get_data("json/limit"))),
-            xpath_search_first_value("list[id=data]/actions", xmlfile2array("apps/users/xml/users.xml"))
+                AND ".make_fulltext_query(get_data('json/search'), 'users').'
+                AND '.check_sql('users', 'list').'
+                ORDER BY '.get_data('json/order').'
+                LIMIT '.get_data('json/offset').','.get_data('json/limit'))),
+            xpath_search_first_value('list[id=data]/actions', xmlfile2array('apps/users/xml/users.xml'))
         )</data>
         <actions ifeval="false">
             <view app="users" action="view"/>
             <edit app="users" action="edit"/>
             <delete app="users" action="delete"/>
         </actions>
-        <temp ifeval="!get_data('json/page')" eval="true">set_data("json/total", execute_query("
+        <temp ifeval="!get_data('json/page')" eval="true">set_data('json/total', execute_query('
             SELECT COUNT(*) total
             FROM tbl_users
             WHERE 1 = 1
-            AND ".make_fulltext_query(get_data("json/search"), "users")."
-            AND ".check_sql("users", "list")))</temp>
+            AND '.make_fulltext_query(get_data('json/search'), 'users').'
+            AND '.check_sql('users', 'list')))</temp>
         <nodata ifeval="!get_data('json/page') &amp;&amp; !get_data('json/total')">Data not found</nodata>
-        <footer ifeval="!get_data('json/page')" eval="true">get_data('json/total') ? "Total: " . get_data('json/total') : ''</footer>
+        <footer ifeval="!get_data('json/page')" eval="true">get_data('json/total') ? 'Total: ' . get_data('json/total') : ''</footer>
     </list>
 
-    <list id="filter" eval="true">xmlfile2array("apps/common/xml/filter.xml")["list"]</list>
+    <list id="filter" eval="true">xmlfile2array('apps/common/xml/filter.xml')['list']</list>
 
     <!-- Form part -->
-    <form>
+    <_form>
         <text id="login" label="Username" required="true" autofocus="true"/>
         <select id="group_id" label="Group" required="true">
             <rows eval="true">execute_query_array("SELECT CONCAT(name,' (',code,')') label, id value
@@ -166,70 +166,71 @@
                 <active label="Active" type="icon"/>
             </header>
         </table>
-    </form>
+    </_form>
 
-    <data require="apps/users/php/days.php,php/lib/log.php" eval="true">make_log_bypass(get_data("rest/1"), get_data("rest/2"), fix4days(execute_query("
-        SELECT * FROM ".app2table(get_data("rest/1"))." WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")),
-        [intval(get_data("rest/3"))])))</data>
-    <perms require="apps/users/php/matrix.php" eval="true">make_matrix_perms('tbl_users_apps_perms', 'user_id', intval(get_data('rest/3')))</perms>
-    <passwords eval="true">execute_query_array("
+    <_data require="apps/users/php/days.php,php/lib/log.php" eval="true">make_log_bypass(get_data('rest/1'), get_data('rest/2'), fix4days(execute_query('
+        SELECT * FROM '.app2table(get_data('rest/1')).' WHERE id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')),
+        [intval(get_data('rest/3'))])))</_data>
+    <_perms require="apps/users/php/matrix.php" eval="true">make_matrix_perms('tbl_users_apps_perms', 'user_id', intval(get_data('rest/3')))</_perms>
+    <_passwords eval="true">execute_query_array("
         SELECT created_at, expires_at,
         CASE active WHEN 1 THEN 'check-lg text-success' ELSE 'x-lg text-danger' END active
         FROM tbl_users_passwords
         WHERE user_id = ?
-        ORDER BY id DESC", [intval(get_data("rest/3"))])</passwords>
+        ORDER BY id DESC", [intval(get_data('rest/3'))])</_passwords>
 
     <create>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <cache>app/users/create/cache</cache>
+        <data><perms eval="true">xmlfile2array('apps/users/xml/users.xml')['_perms']</perms></data>
+        <javascript>
+            <inline>saltos.driver.init('create')</inline>
+        </javascript>
     </create>
 
     <create id="cache">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <cache>app/users/main</cache>
         <title>New user</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/users/xml/users.xml")["_form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["_form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array('apps/users/xml/users.xml')['_form']</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.insert()" label="Create" tooltip="To create the new user" icon="check-lg" color="success"/>
                 <button onclick="saltos.driver.cancel()" label="Cancel" tooltip="To cancel the new user" icon="x-lg" autoclose="true" color="danger"/>
             </row>
         </layout>
-        <javascript>
-            <inline>saltos.driver.init("create")</inline>
-        </javascript>
     </create>
 
     <create id="insert">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <check eval="true" message="Code used by other user">!execute_query("SELECT id FROM tbl_users WHERE login = ?", [get_data("json/login")])</check>
-        <check eval="true" message="Name used by other user">!execute_query("SELECT id FROM tbl_users WHERE name = ?", [get_data("json/name")])</check>
-        <days require="apps/users/php/days.php" eval="true">set_data("json/days",days2bin(get_data("json/days")))</days>
-        <perms require="apps/users/php/matrix.php" eval="true">set_data("json/perms",unmake_matrix_data(
-            execute_query_array("SELECT id FROM tbl_perms WHERE active = 1 ORDER BY id ASC"),
-            execute_query_array("SELECT id FROM tbl_apps WHERE active = 1 ORDER BY id ASC"),
-            execute_query_array("SELECT * FROM tbl_apps_perms"),
-            get_data("json/perms")))</perms>
-        <output require="apps/users/php/users.php" eval="true">insert_user(get_data("json"))</output>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true" message="Code used by other user">!execute_query('SELECT id FROM tbl_users WHERE login = ?', [get_data('json/login')])</check>
+        <check eval="true" message="Name used by other user">!execute_query('SELECT id FROM tbl_users WHERE name = ?', [get_data('json/name')])</check>
+        <days require="apps/users/php/days.php" eval="true">set_data('json/days',days2bin(get_data('json/days')))</days>
+        <perms require="apps/users/php/matrix.php" eval="true">set_data('json/perms',unmake_matrix_data(
+            execute_query_array('SELECT id FROM tbl_perms WHERE active = 1 ORDER BY id ASC'),
+            execute_query_array('SELECT id FROM tbl_apps WHERE active = 1 ORDER BY id ASC'),
+            execute_query_array('SELECT * FROM tbl_apps_perms'),
+            get_data('json/perms')))</perms>
+        <output require="apps/users/php/users.php" eval="true">insert_user(get_data('json'))</output>
     </create>
 
     <view>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))</check>
         <cache>app/users/view/cache</cache>
-        <data eval="true">xmlfile2array("apps/users/xml/users.xml")["_data"]</data>
-        <data><perms eval="true">xmlfile2array("apps/users/xml/users.xml")["perms"]</perms></data>
-        <data><passwords><data eval="true">xmlfile2array("apps/users/xml/users.xml")["passwords"]</data></passwords></data>
-        <data><allfiles eval="true">xmlfile2array("apps/common/xml/files.xml")["_data"]</allfiles></data>
-        <data><allnotes eval="true">xmlfile2array("apps/common/xml/notes.xml")["_data"]</allnotes></data>
+        <data eval="true">xmlfile2array('apps/users/xml/users.xml')['_data']</data>
+        <data><perms eval="true">xmlfile2array('apps/users/xml/users.xml')['_perms']</perms></data>
+        <data><passwords><data eval="true">xmlfile2array('apps/users/xml/users.xml')['_passwords']</data></passwords></data>
+        <data><allfiles eval="true">xmlfile2array('apps/common/xml/files.xml')['_data']</allfiles></data>
+        <data><allnotes eval="true">xmlfile2array('apps/common/xml/notes.xml')['_data']</allnotes></data>
         <javascript>
-            <inline>saltos.driver.init("view")</inline>
+            <inline>saltos.driver.init('view')</inline>
             <inline>saltos.common.allfiles()</inline>
             <inline>saltos.common.allnotes()</inline>
         </javascript>
@@ -237,13 +238,13 @@
 
     <view id="cache">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <cache>app/users/main</cache>
         <title>Detail of the user</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/users/xml/users.xml")["_form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["_form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array('apps/users/xml/users.xml')['_form']</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <dropdown label="Info" icon="file-text" tooltip="Information of this register" ifeval="check_user(get_data('rest/1'), 'info')">
                     <menu>
@@ -260,21 +261,21 @@
         </layout>
     </view>
 
-    <view id="viewpdf" eval="true">xpath_search_first("view[id=viewpdf]", xmlfile2array("apps/common/xml/files.xml"))</view>
-    <view id="download" eval="true">xpath_search_first("view[id=download]", xmlfile2array("apps/common/xml/files.xml"))</view>
-    <view id="version" eval="true">xpath_search_first("view[id=version]", xmlfile2array("apps/common/xml/version.xml"))</view>
-    <view id="log" eval="true">xpath_search_first("view[id=log]", xmlfile2array("apps/common/xml/log.xml"))</view>
+    <view id="viewpdf" eval="true">xpath_search_first('view[id=viewpdf]', xmlfile2array('apps/common/xml/files.xml'))</view>
+    <view id="download" eval="true">xpath_search_first('view[id=download]', xmlfile2array('apps/common/xml/files.xml'))</view>
+    <view id="version" eval="true">xpath_search_first('view[id=version]', xmlfile2array('apps/common/xml/version.xml'))</view>
+    <view id="log" eval="true">xpath_search_first('view[id=log]', xmlfile2array('apps/common/xml/log.xml'))</view>
 
     <edit>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))</check>
         <cache>app/users/edit/cache</cache>
-        <data eval="true">xmlfile2array("apps/users/xml/users.xml")["_data"]</data>
-        <data><perms eval="true">xmlfile2array("apps/users/xml/users.xml")["perms"]</perms></data>
-        <data><allfiles eval="true">xmlfile2array("apps/common/xml/files.xml")["_data"]</allfiles></data>
-        <data><allnotes eval="true">xmlfile2array("apps/common/xml/notes.xml")["_data"]</allnotes></data>
+        <data eval="true">xmlfile2array('apps/users/xml/users.xml')['_data']</data>
+        <data><perms eval="true">xmlfile2array('apps/users/xml/users.xml')['_perms']</perms></data>
+        <data><allfiles eval="true">xmlfile2array('apps/common/xml/files.xml')['_data']</allfiles></data>
+        <data><allnotes eval="true">xmlfile2array('apps/common/xml/notes.xml')['_data']</allnotes></data>
         <javascript>
-            <inline>saltos.driver.init("edit")</inline>
+            <inline>saltos.driver.init('edit')</inline>
             <inline>saltos.common.allfiles()</inline>
             <inline>saltos.common.allnotes()</inline>
         </javascript>
@@ -282,13 +283,13 @@
 
     <edit id="cache">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <cache>app/users/main</cache>
         <title>Modify this user</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/users/xml/users.xml")["_form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["_form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array('apps/users/xml/users.xml')['_form']</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.update()" label="Save" tooltip="To save the user changes" icon="check-lg" color="success"/>
@@ -299,21 +300,21 @@
 
     <edit id="update">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <check eval="true" message="Login used by other user">!execute_query("SELECT id FROM tbl_users WHERE login = ?", [get_data("json/login")])</check>
-        <check eval="true" message="Name used by other user">!execute_query("SELECT id FROM tbl_users WHERE name = ?", [get_data("json/name")])</check>
-        <days require="apps/users/php/days.php" eval="true">set_data("json/days",days2bin(get_data("json/days")))</days>
-        <perms require="apps/users/php/matrix.php" eval="true">set_data("json/perms",unmake_matrix_data(
-            execute_query_array("SELECT id FROM tbl_perms WHERE active = 1 ORDER BY id ASC"),
-            execute_query_array("SELECT id FROM tbl_apps WHERE active = 1 ORDER BY id ASC"),
-            execute_query_array("SELECT * FROM tbl_apps_perms"),
-            get_data("json/perms")))</perms>
-        <output require="apps/users/php/users.php" eval="true">update_user(intval(get_data("rest/4")), get_data("json"))</output>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/4'))</check>
+        <check eval="true" message="Login used by other user">!execute_query('SELECT id FROM tbl_users WHERE login = ?', [get_data('json/login')])</check>
+        <check eval="true" message="Name used by other user">!execute_query('SELECT id FROM tbl_users WHERE name = ?', [get_data('json/name')])</check>
+        <days require="apps/users/php/days.php" eval="true">set_data('json/days',days2bin(get_data('json/days')))</days>
+        <perms require="apps/users/php/matrix.php" eval="true">set_data('json/perms',unmake_matrix_data(
+            execute_query_array('SELECT id FROM tbl_perms WHERE active = 1 ORDER BY id ASC'),
+            execute_query_array('SELECT id FROM tbl_apps WHERE active = 1 ORDER BY id ASC'),
+            execute_query_array('SELECT * FROM tbl_apps_perms'),
+            get_data('json/perms')))</perms>
+        <output require="apps/users/php/users.php" eval="true">update_user(intval(get_data('rest/4')), get_data('json'))</output>
     </edit>
 
     <delete>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
-        <output require="apps/users/php/users.php" eval="true">delete_user(intval(get_data("rest/3")))</output>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))</check>
+        <output require="apps/users/php/users.php" eval="true">delete_user(intval(get_data('rest/3')))</output>
     </delete>
 </root>

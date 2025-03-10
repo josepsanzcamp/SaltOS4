@@ -28,23 +28,23 @@
 <root>
     <main>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <gettext eval="true">T()</gettext>
         <title>Dashboard</title>
         <screen>type1</screen>
-        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array('apps/common/xml/navbar.xml')['navbar']</navbar>
         <layout append="top">
             <row auto="true" row_class="row position-absolute end-0 me-0 mt-3">
                 <button onclick="saltos.window.open('app/dashboard_widgets')" tooltip="To configure the dashboard widgets" icon="gear"/>
             </row>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash(file_with_min("apps/dashboard/js/dashboard.js"))</file>
-            <inline>saltos.driver.init("menu")</inline>
-            <inline eval="true">"saltos.dashboard.init(" . json_encode([
-                'catalog' => xpath_search_first_value("main/layout[append=one]", xmlfile2array("apps/dashboard/xml/dashboard_widgets.xml")),
-                'config' => get_config_array("app/dashboard/widgets/", current_user()),
-            ]) . ")"</inline>
+            <file eval="true">file_with_hash(file_with_min('apps/dashboard/js/dashboard.js'))</file>
+            <inline>saltos.driver.init('main')</inline>
+            <inline eval="true">'saltos.dashboard.init(' . json_encode([
+                'catalog' => xpath_search_first_value('main/layout[append=one]', xmlfile2array('apps/dashboard/xml/dashboard_widgets.xml')),
+                'config' => get_config_array('app/dashboard/widgets/', current_user()),
+            ]) . ')'</inline>
         </javascript>
     </main>
 </root>

@@ -44,12 +44,12 @@
     <_data>
         <data require="php/lib/notes.php" ifeval="check_notes_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))" eval="true">merge_data_actions(
             execute_query_array("SELECT CONCAT(reg_id, '/', id) id, (SELECT name FROM tbl_users b WHERE b.id=user_id) user, datetime, note
-                FROM " . app2table(get_data("rest/1")) . "_notes WHERE reg_id = ? ORDER BY id DESC", [intval(get_data("rest/3"))]),
-            array_protected(xpath_search_first_value("_data/actions[id=".get_data("rest/2")."]", xmlfile2array("apps/common/xml/notes.xml")))
+                FROM " . app2table(get_data('rest/1')) . '_notes WHERE reg_id = ? ORDER BY id DESC', [intval(get_data('rest/3'))]),
+            array_protected(xpath_search_first_value('_data/actions[id='.get_data('rest/2').']', xmlfile2array('apps/common/xml/notes.xml')))
         )</data>
         <actions id="edit" ifeval="false">
             <delete action="delete/notes">
-                <app eval="true">get_data("rest/1")</app>
+                <app eval="true">get_data('rest/1')</app>
             </delete>
         </actions>
     </_data>

@@ -28,11 +28,11 @@
 <root>
     <main default="true">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <gettext eval="true">T()</gettext>
         <title>Dashboard widgets configuration app</title>
         <screen>type2</screen>
-        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array('apps/common/xml/navbar.xml')['navbar']</navbar>
         <layout append="one">
             <row auto="true" id="catalog" col_class="col-xl-4 col-md-6 mb-3" row_class="row border border-3 border-dashed mx-0 pt-3">
                 <button id="app/customers" ifeval="check_user('customers', 'main')" onclick="saltos.window.open('app/customers')" class="fs-1 w-100 h-100" label="Customers"/>
@@ -65,9 +65,9 @@
             <row auto="true" id="dashboard" col_class="col-xl-4 col-md-6 mb-3" row_class="row border border-3 border-dashed mx-0 pt-3"></row>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash("apps/dashboard/lib/sortablejs/sortable.min.js")</file>
-            <file eval="true">file_with_hash(file_with_min("apps/dashboard/js/dashboard_widgets.js"))</file>
-            <inline>saltos.driver.init("menu")</inline>
+            <file eval="true">file_with_hash('apps/dashboard/lib/sortablejs/sortable.min.js')</file>
+            <file eval="true">file_with_hash(file_with_min('apps/dashboard/js/dashboard_widgets.js'))</file>
+            <inline>saltos.driver.init('main')</inline>
             <inline>saltos.dashboard_widgets.init()</inline>
         </javascript>
         <style>
@@ -78,8 +78,8 @@
 
     <config>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <output ifeval="get_data('server/request_method')=='GET'" eval="true">get_config_array("app/dashboard/widgets/", current_user())</output>
-        <output ifeval="get_data('server/request_method')=='POST'" eval="true">set_config("app/dashboard/widgets/".get_data("json/name"), get_data("json/val"), current_user())</output>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <output ifeval="get_data('server/request_method')=='GET'" eval="true">get_config_array('app/dashboard/widgets/', current_user())</output>
+        <output ifeval="get_data('server/request_method')=='POST'" eval="true">set_config('app/dashboard/widgets/'.get_data('json/name'), get_data('json/val'), current_user())</output>
     </config>
 </root>

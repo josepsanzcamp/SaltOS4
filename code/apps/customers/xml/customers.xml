@@ -28,22 +28,22 @@
 <root>
     <main>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <screen>type5</screen>
         <gettext eval="true">T()</gettext>
-        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array('apps/common/xml/navbar.xml')['navbar']</navbar>
     </main>
 
     <!-- List part -->
     <list default="true">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <cache>app/customers/list/cache</cache>
     </list>
 
     <list id="cache">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <cache>app/customers/main</cache>
         <title>Customer's list</title>
         <layout append="one">
@@ -56,7 +56,7 @@
                 <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
             </row>
-            <div eval="true">xmlfile2array("apps/common/xml/filter.xml")["div"]</div>
+            <div eval="true">xmlfile2array('apps/common/xml/filter.xml')['div']</div>
             <row auto="true" col_class="col-md-12 my-3">
                 <table id="list" nodata="Loading...">
                     <header>
@@ -78,48 +78,48 @@
             </row>
         </layout>
         <javascript>
-            <inline>saltos.driver.init("list")</inline>
+            <inline>saltos.driver.init('list')</inline>
         </javascript>
     </list>
 
     <list id="data">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <temp eval="true">[
-            set_config("app/".get_data("rest/1")."/filter/last", json_encode(get_data("json"), JSON_FORCE_OBJECT), current_user()),
-            set_data("json/search", strval(get_data("json/search"))),
-            set_data("json/page", intval(get_data("json/page"))),
-            set_data("json/order", "id DESC"),
-            set_data("json/limit", 25),
-            set_data("json/offset", intval(get_data("json/page") * get_data("json/limit"))),
+            set_config('app/'.get_data('rest/1').'/filter/last', json_encode(get_data('json'), JSON_FORCE_OBJECT), current_user()),
+            set_data('json/search', strval(get_data('json/search'))),
+            set_data('json/page', intval(get_data('json/page'))),
+            set_data('json/order', 'id DESC'),
+            set_data('json/limit', 25),
+            set_data('json/offset', intval(get_data('json/page') * get_data('json/limit'))),
         ]</temp>
         <data require="php/lib/log.php" eval="true">merge_data_actions(
-            make_log_bypass(get_data("rest/1"), get_data("rest/2"), execute_query_array("
+            make_log_bypass(get_data('rest/1'), get_data('rest/2'), execute_query_array('
                 SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
                 FROM app_customers
                 WHERE 1 = 1
-                AND ".make_fulltext_query(get_data("json/search"), "customers")."
-                AND ".check_sql("customers", "list")."
-                ORDER BY ".get_data("json/order")."
-                LIMIT ".get_data("json/offset").",".get_data("json/limit"))),
-            xpath_search_first_value("list[id=data]/actions", xmlfile2array("apps/customers/xml/customers.xml"))
+                AND '.make_fulltext_query(get_data('json/search'), 'customers').'
+                AND '.check_sql('customers', 'list').'
+                ORDER BY '.get_data('json/order').'
+                LIMIT '.get_data('json/offset').','.get_data('json/limit'))),
+            xpath_search_first_value('list[id=data]/actions', xmlfile2array('apps/customers/xml/customers.xml'))
         )</data>
         <actions ifeval="false">
             <view app="customers" action="view"/>
             <edit app="customers" action="edit"/>
             <delete app="customers" action="delete"/>
         </actions>
-        <temp ifeval="!get_data('json/page')" eval="true">set_data("json/total", execute_query("
+        <temp ifeval="!get_data('json/page')" eval="true">set_data('json/total', execute_query('
             SELECT COUNT(*) total
             FROM app_customers
             WHERE 1 = 1
-            AND ".make_fulltext_query(get_data("json/search"), "customers")."
-            AND ".check_sql("customers", "list")))</temp>
+            AND '.make_fulltext_query(get_data('json/search'), 'customers').'
+            AND '.check_sql('customers', 'list')))</temp>
         <nodata ifeval="!get_data('json/page') &amp;&amp; !get_data('json/total')">Data not found</nodata>
-        <footer ifeval="!get_data('json/page')" eval="true">get_data('json/total') ? "Total: " . get_data('json/total') : ''</footer>
+        <footer ifeval="!get_data('json/page')" eval="true">get_data('json/total') ? 'Total: ' . get_data('json/total') : ''</footer>
     </list>
 
-    <list id="filter" eval="true">xmlfile2array("apps/common/xml/filter.xml")["list"]</list>
+    <list id="filter" eval="true">xmlfile2array('apps/common/xml/filter.xml')['list']</list>
 
     <!-- Form part -->
     <_form>
@@ -145,25 +145,25 @@
         <text id="fax" label="Fax"/>
     </_form>
 
-    <_data require="php/lib/log.php" eval="true">make_log_bypass(get_data("rest/1"), get_data("rest/2"), execute_query("
-        SELECT * FROM ".app2table(get_data("rest/1"))." WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")),
-        [intval(get_data("rest/3"))]))</_data>
+    <_data require="php/lib/log.php" eval="true">make_log_bypass(get_data('rest/1'), get_data('rest/2'), execute_query('
+        SELECT * FROM '.app2table(get_data('rest/1')).' WHERE id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')),
+        [intval(get_data('rest/3'))]))</_data>
 
     <create>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <cache>app/customers/create/cache</cache>
     </create>
 
     <create id="cache">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <cache>app/customers/main</cache>
         <title>New customer</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/customers.xml")["_form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["_form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/customers/xml/customers.xml')['_form']</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.insert()" label="Crear" tooltip="Para crear el nuevo cliente" icon="check-lg" color="success"/>
@@ -171,25 +171,25 @@
             </row>
         </layout>
         <javascript>
-            <inline>saltos.driver.init("create")</inline>
+            <inline>saltos.driver.init('create')</inline>
         </javascript>
     </create>
 
     <create id="insert">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <output require="php/lib/actions.php" eval="true">insert(get_data("rest/1"), get_data("json"))</output>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <output require="php/lib/actions.php" eval="true">insert(get_data('rest/1'), get_data('json'))</output>
     </create>
 
     <view>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))</check>
         <cache>app/customers/view/cache</cache>
-        <data eval="true">xmlfile2array("apps/customers/xml/customers.xml")["_data"]</data>
-        <data><allfiles eval="true">xmlfile2array("apps/common/xml/files.xml")["_data"]</allfiles></data>
-        <data><allnotes eval="true">xmlfile2array("apps/common/xml/notes.xml")["_data"]</allnotes></data>
+        <data eval="true">xmlfile2array('apps/customers/xml/customers.xml')['_data']</data>
+        <data><allfiles eval="true">xmlfile2array('apps/common/xml/files.xml')['_data']</allfiles></data>
+        <data><allnotes eval="true">xmlfile2array('apps/common/xml/notes.xml')['_data']</allnotes></data>
         <javascript>
-            <inline>saltos.driver.init("view")</inline>
+            <inline>saltos.driver.init('view')</inline>
             <inline>saltos.common.allfiles()</inline>
             <inline>saltos.common.allnotes()</inline>
         </javascript>
@@ -197,13 +197,13 @@
 
     <view id="cache">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <cache>app/customers/main</cache>
         <title>Detail of the customer</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/customers.xml")["_form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["_form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/customers/xml/customers.xml')['_form']</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <dropdown label="Info" icon="file-text" tooltip="Information of this register" ifeval="check_user(get_data('rest/1'), 'info')">
                     <menu>
@@ -220,20 +220,20 @@
         </layout>
     </view>
 
-    <view id="viewpdf" eval="true">xpath_search_first("view[id=viewpdf]", xmlfile2array("apps/common/xml/files.xml"))</view>
-    <view id="download" eval="true">xpath_search_first("view[id=download]", xmlfile2array("apps/common/xml/files.xml"))</view>
-    <view id="version" eval="true">xpath_search_first("view[id=version]", xmlfile2array("apps/common/xml/version.xml"))</view>
-    <view id="log" eval="true">xpath_search_first("view[id=log]", xmlfile2array("apps/common/xml/log.xml"))</view>
+    <view id="viewpdf" eval="true">xpath_search_first('view[id=viewpdf]', xmlfile2array('apps/common/xml/files.xml'))</view>
+    <view id="download" eval="true">xpath_search_first('view[id=download]', xmlfile2array('apps/common/xml/files.xml'))</view>
+    <view id="version" eval="true">xpath_search_first('view[id=version]', xmlfile2array('apps/common/xml/version.xml'))</view>
+    <view id="log" eval="true">xpath_search_first('view[id=log]', xmlfile2array('apps/common/xml/log.xml'))</view>
 
     <edit>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))</check>
         <cache>app/customers/edit/cache</cache>
-        <data eval="true">xmlfile2array("apps/customers/xml/customers.xml")["_data"]</data>
-        <data><allfiles eval="true">xmlfile2array("apps/common/xml/files.xml")["_data"]</allfiles></data>
-        <data><allnotes eval="true">xmlfile2array("apps/common/xml/notes.xml")["_data"]</allnotes></data>
+        <data eval="true">xmlfile2array('apps/customers/xml/customers.xml')['_data']</data>
+        <data><allfiles eval="true">xmlfile2array('apps/common/xml/files.xml')['_data']</allfiles></data>
+        <data><allnotes eval="true">xmlfile2array('apps/common/xml/notes.xml')['_data']</allnotes></data>
         <javascript>
-            <inline>saltos.driver.init("edit")</inline>
+            <inline>saltos.driver.init('edit')</inline>
             <inline>saltos.common.allfiles()</inline>
             <inline>saltos.common.allnotes()</inline>
         </javascript>
@@ -241,13 +241,13 @@
 
     <edit id="cache">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <cache>app/customers/main</cache>
         <title>Modify this customer</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/customers.xml")["_form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["_form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["_form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/customers/xml/customers.xml')['_form']</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.update()" label="Guardar" tooltip="Para guardar los cambios del cliente" icon="check-lg" color="success"/>
@@ -258,20 +258,20 @@
 
     <edit id="update">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <output require="php/lib/actions.php" eval="true">update(get_data("rest/1"), intval(get_data("rest/4")), get_data("json"))</output>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/4'))</check>
+        <output require="php/lib/actions.php" eval="true">update(get_data('rest/1'), intval(get_data('rest/4')), get_data('json'))</output>
     </edit>
 
     <delete>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
-        <output require="php/lib/actions.php" eval="true">delete(get_data("rest/1"), intval(get_data("rest/3")))</output>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))</check>
+        <output require="php/lib/actions.php" eval="true">delete(get_data('rest/1'), intval(get_data('rest/3')))</output>
     </delete>
 
     <!-- Widget part -->
     <widget id="table1" type="table" nodata="Data not found" checkbox="true">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <header>
             <nombre label="Nombre"/>
             <cif label="CIF"/>
@@ -279,35 +279,34 @@
             <nombre_codpostal label="C.P."/>
         </header>
         <temp eval="true">[
-            set_data("json/page", intval(get_data("json/page"))),
-            set_data("json/order", "id DESC"),
-            set_data("json/limit", 5),
-            set_data("json/offset", intval(get_data("json/page") * get_data("json/limit"))),
+            set_data('json/page', intval(get_data('json/page'))),
+            set_data('json/order', 'id DESC'),
+            set_data('json/limit', 5),
+            set_data('json/offset', intval(get_data('json/page') * get_data('json/limit'))),
         ]</temp>
         <data require="php/lib/log.php" eval="true">merge_data_actions(
-            make_log_bypass(get_data("rest/1"), get_data("rest/2"), execute_query_array("
+            make_log_bypass(get_data('rest/1'), get_data('rest/2'), execute_query_array('
                 SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
                 FROM app_customers
                 WHERE 1 = 1
-                AND ".check_sql("customers", "list")."
-                ORDER BY ".get_data("json/order")."
-                LIMIT ".get_data("json/offset").",".get_data("json/limit"))),
-            xpath_search_first_value("widget[id=table1]/actions", xmlfile2array("apps/customers/xml/customers.xml"))
+                AND '.check_sql('customers', 'list').'
+                ORDER BY '.get_data('json/order').'
+                LIMIT '.get_data('json/offset').','.get_data('json/limit'))),
+            xpath_search_first_value('widget[id=table1]/actions', xmlfile2array('apps/customers/xml/customers.xml'))
         )</data>
         <actions>
             <action app="customers" action="view" icon="search" tooltip="Ver detalle cliente" onclick="saltos.driver.open"/>
         </actions>
-        <footer ifeval="!get_data('json/page')" eval="true">"Total: " . execute_query("
+        <footer ifeval="!get_data('json/page')" eval="true">'Total: ' . execute_query('
             SELECT COUNT(*) total
             FROM app_customers
             WHERE 1 = 1
-            AND ".check_sql("customers", "list")."
-        ")</footer>
+            AND '.check_sql('customers', 'list'))</footer>
     </widget>
 
     <widget id="table2" type="table" nodata="Data not found" checkbox="true">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <header>
             <nombre label="Nombre"/>
             <cif label="CIF"/>
@@ -315,20 +314,20 @@
             <nombre_codpostal label="C.P."/>
         </header>
         <temp eval="true">[
-            set_data("json/page", intval(get_data("json/page"))),
-            set_data("json/order", "id ASC"),
-            set_data("json/limit", 5),
-            set_data("json/offset", intval(get_data("json/page") * get_data("json/limit"))),
+            set_data('json/page', intval(get_data('json/page'))),
+            set_data('json/order', 'id ASC'),
+            set_data('json/limit', 5),
+            set_data('json/offset', intval(get_data('json/page') * get_data('json/limit'))),
         ]</temp>
         <data require="php/lib/log.php" eval="true">merge_data_actions(
-            make_log_bypass(get_data("rest/1"), get_data("rest/2"), execute_query_array("
+            make_log_bypass(get_data('rest/1'), get_data('rest/2'), execute_query_array('
                 SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
                 FROM app_customers
                 WHERE 1 = 1
-                AND ".check_sql("customers", "list")."
-                ORDER BY ".get_data("json/order")."
-                LIMIT ".get_data("json/offset").",".get_data("json/limit"))),
-            xpath_search_first_value("widget[id=table2]/actions", xmlfile2array("apps/customers/xml/customers.xml"))
+                AND '.check_sql('customers', 'list').'
+                ORDER BY '.get_data('json/order').'
+                LIMIT '.get_data('json/offset').','.get_data('json/limit'))),
+            xpath_search_first_value('widget[id=table2]/actions', xmlfile2array('apps/customers/xml/customers.xml'))
         )</data>
         <actions>
             <action app="customers" action="view" icon="search" tooltip="Ver detalle cliente" onclick="saltos.driver.open"/>
@@ -343,31 +342,31 @@
 
     <widget id="plot1">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <data eval="true">[
-            "labels" => ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            "datasets" => [[
-                    "label" => 'First round',
-                    "data" => [8, 5, 3, 5, 2, 3],
-                ],[
-                    "label" => 'Second round',
-                    "data" => [7, 6, 4, 6, 9, 6],
-                ],[
-                    "label" => 'Third round',
-                    "data" => [6, 7, 6, 7, 5, 4],
-                ]]
+            'labels' => ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            'datasets' => [[
+                'label' => 'First round',
+                'data' => [8, 5, 3, 5, 2, 3],
+            ],[
+                'label' => 'Second round',
+                'data' => [7, 6, 4, 6, 9, 6],
+            ],[
+                'label' => 'Third round',
+                'data' => [6, 7, 6, 7, 5, 4],
+            ]]
         ]</data>
     </widget>
 
     <widget id="plot2">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <data eval="true">[
-            "labels" => ['Red', 'Blue', 'Yellow', 'Green'],
-            "datasets" => [[
-                    "label" => 'First round',
-                    "data" => [8, 5, 3, 5],
-                ]]
+            'labels' => ['Red', 'Blue', 'Yellow', 'Green'],
+            'datasets' => [[
+                'label' => 'First round',
+                'data' => [8, 5, 3, 5],
+            ]]
         ]</data>
     </widget>
 

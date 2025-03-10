@@ -28,7 +28,7 @@
 <root>
     <main>
         <check eval="true" logout="true" >current_user()</check>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <title>New Tester Demo App</title>
         <screen>clear</screen>
 
@@ -544,7 +544,7 @@
         </layout>
 
         <javascript>
-            <file eval="true">file_with_hash(file_with_min("apps/tester/js/tester.js"))</file>
+            <file eval="true">file_with_hash(file_with_min('apps/tester/js/tester.js'))</file>
         </javascript>
     </main>
 </root>
