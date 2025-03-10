@@ -53,6 +53,7 @@ use PHPUnit\Framework\Attributes\Depends;
  */
 require_once 'lib/utestlib.php';
 require_once 'php/lib/files.php';
+require_once 'php/lib/notes.php';
 require_once 'apps/common/php/files.php';
 
 /**
@@ -69,10 +70,16 @@ final class test_files extends TestCase
      */
     public function test_files(): void
     {
-        $this->assertFalse(check_files_old('dashboard', 'main', 0));
-        $this->assertFalse(check_files_old('dashboard', 'view', 0));
+        $this->assertFalse(check_files_old('dashboard', 'main'));
+        $this->assertFalse(check_files_old('dashboard', 'view'));
+        $this->assertFalse(check_files_old('configlog', 'view'));
+        $this->assertTrue(check_files_old('customers', 'view'));
+        $this->assertFalse(check_files_old('customers', 'view', 0));
+
         $this->assertFalse(check_files_new('dashboard', 'main'));
-        $this->assertFalse(check_files_new('dashboard', 'view'));
+        $this->assertFalse(check_files_new('dashboard', 'edit'));
+        $this->assertFalse(check_files_new('configlog', 'edit'));
+        $this->assertTrue(check_files_new('customers', 'edit'));
 
         // Add a file to the tbl_uploads
         $id = get_unique_id_md5();
@@ -169,6 +176,27 @@ final class test_files extends TestCase
         $this->assertSame($json2['status'], 'ok');
         $this->assertSame(count($json2), 2);
         $this->assertArrayHasKey('deleted_id', $json2);
+    }
+
+    #[testdox('notes functions')]
+    /**
+     * notes test
+     *
+     * This test performs some tests to validate the correctness
+     * of the notes feature
+     */
+    public function test_notes(): void
+    {
+        $this->assertFalse(check_notes_old('dashboard', 'main'));
+        $this->assertFalse(check_notes_old('dashboard', 'view'));
+        $this->assertFalse(check_notes_old('configlog', 'view'));
+        $this->assertTrue(check_notes_old('customers', 'view'));
+        $this->assertFalse(check_notes_old('customers', 'view', 0));
+
+        $this->assertFalse(check_notes_new('dashboard', 'main'));
+        $this->assertFalse(check_notes_new('dashboard', 'edit'));
+        $this->assertFalse(check_notes_new('configlog', 'edit'));
+        $this->assertTrue(check_notes_new('customers', 'edit'));
     }
 
     #[testdox('fileslog functions')]
