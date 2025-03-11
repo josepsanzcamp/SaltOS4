@@ -134,12 +134,12 @@ endif
 
 ujest:
 ifeq ($(file), ) # default behaviour
-	@jest --config=scripts/jest.config.js $(shell svn st utest/test.*.js | grep -e ^A -e ^M -e ^? | grep '\.'js$$ | gawk '{print "../"$$2}' | sort | paste -s -d' ')
+	@jest --config=scripts/jest.config.js $(shell svn st ujest/test_*.js | grep -e ^A -e ^M -e ^? | grep '\.'js$$ | gawk '{print "../"$$2}' | sort | paste -s -d' ')
 else
 ifeq ($(file), all) # file=all
 	@jest --config=scripts/jest.config.js
 else # file=xxx,yyy,zzz
-	@jest --config=scripts/jest.config.js $(shell echo ${file} | tr ',' '\n' | gawk '{print "../utest/test."$$0".js"}' | paste -s -d' ')
+	@jest --config=scripts/jest.config.js $(shell echo ${file} | tr ',' '\n' | gawk '{print "../ujest/test_"$$0".js"}' | paste -s -d' ')
 endif
 endif
 

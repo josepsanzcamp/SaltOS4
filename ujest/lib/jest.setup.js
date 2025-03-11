@@ -1,8 +1,45 @@
 
-// Needed by bootstrap, core and proxy modules
+/**
+ *  ____        _ _    ___  ____    _  _    ___
+ * / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ * \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ *  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ * |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ *
+ * SaltOS: Framework to develop Rich Internet Applications
+ * Copyright (C) 2007-2025 by Josep Sanz Campderrós
+ * More information in https://www.saltos.org or info@saltos.org
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+'use strict';
+
+/**
+ * Setup file for the unit tests
+ *
+ * This file contains the code that initialize the unit tests
+ */
+
+/**
+ * Needed by bootstrap, core and proxy modules
+ */
 global.md5 = require('../../code/web/lib/md5/md5.min.js');
 
-// Needed by bootstrap module
+/**
+ * Needed by bootstrap module
+ */
 global.window.matchMedia = function() {
     return {
         matches: false,
@@ -11,28 +48,16 @@ global.window.matchMedia = function() {
     };
 };
 
-// This is the same that object.js for the global scope
+/**
+ * This is the same that object.js for the global scope
+ */
 global.saltos = {};
 
-// Load all files of the project
-const files = [
-    'object',
-    'core',
-    'bootstrap',
-    'storage',
-    'hash',
-    'token',
-    'auth',
-    'window',
-    'gettext',
-    'driver',
-    'filter',
-    'backup',
-    'form',
-    'push',
-    'common',
-    'app',
-];
+/**
+ * Load all files of the project
+ */
+const files = ('core,bootstrap,storage,hash,token,auth,window,' +
+    'gettext,driver,filter,backup,form,push,common,app').split(',');
 for (const i in files) {
     require(`../../code/web/js/${files[i]}.js`);
 }
@@ -61,7 +86,9 @@ global.myrequire = (file, fns) => {
     return output;
 };
 
-// Load the needed environment of the proxy part
+/**
+ * Load the needed environment of the proxy part
+ */
 saltos.proxy = myrequire(
     '../../code/web/js/proxy.js',
     `console_log,debug,proxy,

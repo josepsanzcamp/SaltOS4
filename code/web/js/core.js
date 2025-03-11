@@ -671,7 +671,7 @@ saltos.core.toString = arg => {
  * @data => the data that wants to check
  */
 saltos.core.is_attr_value = data => {
-    return typeof data == 'object' && '#attr' in data && 'value' in data;
+    return (data !== null) && (typeof data == 'object') && ('#attr' in data) && ('value' in data);
 };
 
 /**

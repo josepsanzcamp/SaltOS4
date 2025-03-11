@@ -1,8 +1,18 @@
 
-test('md5', () => {
+/**
+ * saltos.proxy.md5
+ *
+ * This function performs the test of the md5 function
+ */
+test('saltos.proxy.md5', () => {
     expect(md5('fortuna')).toBe('39e3c3d3cbf9064e35f1bee7dbd176f8');
 });
 
+/**
+ * saltos.proxy.human_size
+ *
+ * This function performs the test of the human_size function
+ */
 test('saltos.proxy.human_size', () => {
     expect(saltos.proxy.human_size(1073741824, ' ', 'bytes')).toBe('1 Gbytes');
     expect(saltos.proxy.human_size(1073741823, ' ', 'bytes')).toBe('1024 Mbytes');
