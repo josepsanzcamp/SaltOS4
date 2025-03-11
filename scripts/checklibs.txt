@@ -35,6 +35,8 @@ sortablejs|https://github.com/SortableJS/Sortable/tags.atom|<title>|PHRpdGxlPnYx
 
 brotli|https://github.com/kjdev/php-ext-brotli/tags.atom|<title>|PHRpdGxlPjAuMTUuMjwvdGl0bGU+
 browserify|https://github.com/browserify/browserify/tags.atom|<title>|PHRpdGxlPnYxNy4wLjE8L3RpdGxlPg==
+jest|https://github.com/jestjs/jest/tags.atom|<title>|PHRpdGxlPnYzMC4wLjAtYWxwaGEuNzwvdGl0bGU+
+jscs|https://github.com/jscs-dev/node-jscs/tags.atom|<title>|PHRpdGxlPjMuMC43PC90aXRsZT4=
 libreoffice|https://es.libreoffice.org/descarga/libreoffice/|type=deb|PG9wdGlvbiB2YWx1ZT0iL2Rlc2NhcmdhL2xpYnJlb2ZmaWNlLz90eXBlPWRlYi14ODZfNjQmdmVyc2lvbj0yNS4yLjEmbGFuZz1lcyI+
 mariadb|https://github.com/MariaDB/server/tags.atom|<title>|PHRpdGxlPk1hcmlhREIgQ29tbXVuaXR5IFNlcnZlciAxMS44LjE8L3RpdGxlPg==
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|PHRpdGxlPm1pbmlmeSB2MTMuMC4wPC90aXRsZT4=
