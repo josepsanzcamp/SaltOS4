@@ -950,16 +950,6 @@ saltos.core.check_network = async () => {
  * This function checks that the str contains a valid number and is finite
  *
  * str => the string to validate
- *
- * Notes:
- *
- * 123       => true
- * 123.456   => true
- * asd123    => false
- * 123asd    => false
- * Infinity  => false
- * -Infinity => false
- * NaN       => false
  */
 saltos.core.is_number = str => {
     return isFinite(Number(str));

@@ -6,7 +6,7 @@ YELLOW=\033[0;33m
 BLUE=\033[0;34m
 NONE=\033[0m
 
-.PHONY: utest docs
+.PHONY: utest docs ujest
 
 FILES=object,core,bootstrap,storage,hash,token,auth,window,gettext,driver,filter,backup,form,push,common,app
 
@@ -68,10 +68,10 @@ endif
 	phpstan -cscripts/phpstan.neon analyse ${files}; )
 
 ifeq ($(file),) # default behaviour
-	$(eval files := $(shell svn st code/web/js scripts code/apps/*/js | grep -e ^A -e ^M -e ^? | grep '\.'js$$ | grep -v '\.'min'\.'js$$ | gawk '{print $$2}' | sort))
+	$(eval files := $(shell svn st code/web/js scripts ujest code/apps/*/js | grep -e ^A -e ^M -e ^? | grep '\.'js$$ | grep -v '\.'min'\.'js$$ | gawk '{print $$2}' | sort))
 else
 ifeq ($(file),all) # file=all
-	$(eval files := $(shell find code/web/js scripts code/apps/*/js -name *.js | grep -v '\.'min'\.'js$$ | sort))
+	$(eval files := $(shell find code/web/js scripts ujest code/apps/*/js -name *.js | grep -v '\.'min'\.'js$$ | sort))
 else # file=path
 	$(eval files := $(shell find $(file) -name *.js | grep -v '\.'min'\.'js$$ | sort))
 endif
@@ -128,6 +128,17 @@ ifeq ($(file), all) # file=all
 	@phpunit -c scripts/phpunit.xml
 else # file=xxx,yyy,zzz
 	@phpunit -c scripts/phpunit.xml $(shell echo ${file} | tr ',' '\n' | gawk '{print "../../utest/test_"$$0".php"}' | paste -s -d' ')
+endif
+endif
+
+ujest:
+ifeq ($(file), ) # default behaviour
+	@jest --config=scripts/jest.config.js $(shell svn st utest/test.*.js | grep -e ^A -e ^M -e ^? | grep '\.'js$$ | gawk '{print "../"$$2}' | sort | paste -s -d' ')
+else
+ifeq ($(file), all) # file=all
+	@jest --config=scripts/jest.config.js
+else # file=xxx,yyy,zzz
+	@jest --config=scripts/jest.config.js $(shell echo ${file} | tr ',' '\n' | gawk '{print "../utest/test."$$0".js"}' | paste -s -d' ')
 endif
 endif
 
