@@ -251,8 +251,8 @@ final class test_user extends TestCase
         $this->assertArrayHasKey('country', $geoip);
         $this->assertArrayHasKey('ip', $geoip);
         $this->assertArrayHasKey('isp', $geoip);
-        $this->assertSame($geoip['city'], 'Castelló de la Plana');
-        $this->assertSame($geoip['region'], 'Valencia');
+        $this->assertSame($geoip['city'], 'Madrid');
+        $this->assertSame($geoip['region'], 'Madrid');
         $this->assertSame($geoip['country'], 'Spain');
         $this->assertSame($geoip['ip'], '79.116.196.1');
         $this->assertSame($geoip['isp'], 'Digi Spain Telecom S.l.');
@@ -261,17 +261,17 @@ final class test_user extends TestCase
 
         set_data('server/lang', 'en_US');
         $geoip = get_geoip_string($remote_addr);
-        $this->assertSame($geoip, 'Castelló de la Plana, Valencia, Spain ' .
+        $this->assertSame($geoip, 'Madrid, Madrid, Spain ' .
             'using IP 79.116.196.1 and network of Digi Spain Telecom S.l.');
 
         set_data('server/lang', 'es_ES');
         $geoip = get_geoip_string($remote_addr);
-        $this->assertSame($geoip, 'Castelló de la Plana, Valencia, Spain ' .
+        $this->assertSame($geoip, 'Madrid, Madrid, Spain ' .
             'usando la IP 79.116.196.1 y la red de Digi Spain Telecom S.l.');
 
         set_data('server/lang', 'ca_ES');
         $geoip = get_geoip_string($remote_addr);
-        $this->assertSame($geoip, 'Castelló de la Plana, Valencia, Spain ' .
+        $this->assertSame($geoip, 'Madrid, Madrid, Spain ' .
             'fent servir la IP 79.116.196.1 y la xarxa de Digi Spain Telecom S.l.');
 
         set_data('server/lang', null);
