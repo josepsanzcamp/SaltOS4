@@ -7,4 +7,5 @@ module.exports = {
     testMatch: ['**/test_*.js'],
     collectCoverage: true,
     coverageDirectory: '/tmp/jest.report',
+    coveragePathIgnorePatterns: ['/lib/'],
 };
