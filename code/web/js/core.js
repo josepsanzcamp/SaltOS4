@@ -206,7 +206,7 @@ saltos.core.when_visible = (obj, fn, args) => {
     } else if (typeof obj == 'string') {
         id = obj;
     } else {
-        throw new Error('Unknown when_visible obj typeof' + typeof obj);
+        throw new Error('Unknown when_visible obj typeof ' + typeof obj);
     }
     // Launch the interval each millisecond, the idea is wait until found
     // the object and then, validate that not dissapear and wait until the
@@ -910,7 +910,7 @@ saltos.core.check_network = async () => {
     var protocols = ['https', 'http'];
     for (const i in protocols) {
         const protocol = protocols[i];
-        const url = new URL(window.location);
+        const url = new URL(window.location.href);
         const uniqid = saltos.core.uniqid();
         url.protocol = protocol;
         url.pathname += 'api/';

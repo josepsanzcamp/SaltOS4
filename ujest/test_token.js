@@ -32,6 +32,14 @@
  * This file contains the token unit tests
  */
 
+beforeEach(() => {
+    jest.resetAllMocks();
+});
+
+afterEach(() => {
+    jest.restoreAllMocks();
+});
+
 /**
  * saltos.token
  *

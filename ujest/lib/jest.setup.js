@@ -33,6 +33,11 @@
  */
 
 /**
+ * Needed by all user interface features
+ */
+global.bootstrap = require('../../code/web/lib/bootstrap/bootstrap.bundle.min.js');
+
+/**
  * Needed by bootstrap, core and proxy modules
  */
 global.md5 = require('../../code/web/lib/md5/md5.min.js');
@@ -43,8 +48,8 @@ global.md5 = require('../../code/web/lib/md5/md5.min.js');
 global.window.matchMedia = function() {
     return {
         matches: false,
-        addListener: function() {},
-        removeListener: function() {}
+        addEventListener: function() {},
+        removeEventListener: function() {}
     };
 };
 
@@ -56,10 +61,11 @@ global.saltos = {};
 /**
  * Load all files of the project
  */
-const files = ('core,bootstrap,storage,hash,token,auth,window,' +
-    'gettext,driver,filter,backup,form,push,common,app').split(',');
+const files = `core,bootstrap,storage,hash,token,auth,window,
+    gettext,driver,filter,backup,form,push,common,app`.split(',');
 for (const i in files) {
-    require(`../../code/web/js/${files[i]}.js`);
+    const file = files[i].trim();
+    require(`../../code/web/js/${file}.js`);
 }
 
 /**
@@ -85,13 +91,3 @@ global.myrequire = (file, fns) => {
     fs.writeFileSync(original, maincode);
     return output;
 };
-
-/**
- * Load the needed environment of the proxy part
- */
-saltos.proxy = myrequire(
-    '../../code/web/js/proxy.js',
-    `console_log,debug,proxy,
-    queue_open,queue_push,queue_getall,queue_delete,
-    request_serialize,request_unserialize,human_size`
-);

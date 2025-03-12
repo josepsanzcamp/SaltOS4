@@ -32,6 +32,23 @@
  * This file contains the proxy unit tests
  */
 
+beforeEach(() => {
+    jest.resetAllMocks();
+});
+
+afterEach(() => {
+    jest.restoreAllMocks();
+});
+
+/**
+ * Load the needed environment of the proxy part
+ */
+saltos.proxy = myrequire(
+    '../../code/web/js/proxy.js',
+    `console_log,debug,proxy,queue_open,queue_push,queue_getall,
+    queue_delete,request_serialize,request_unserialize,human_size`
+);
+
 /**
  * saltos.proxy.md5
  *

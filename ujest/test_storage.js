@@ -32,6 +32,14 @@
  * This file contains the storage unit tests
  */
 
+beforeEach(() => {
+    jest.resetAllMocks();
+});
+
+afterEach(() => {
+    jest.restoreAllMocks();
+});
+
 /**
  * saltos.storage
  *

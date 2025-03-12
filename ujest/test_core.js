@@ -32,16 +32,25 @@
  * This file contains the core unit tests
  */
 
+beforeEach(() => {
+    jest.resetAllMocks();
+    jest.spyOn(console, 'log').mockImplementation(() => {});
+    global.fetch = jest.fn(() =>
+        Promise.resolve({
+            json: () => Promise.resolve({message: 'Success'}),
+        })
+    );
+});
+
+afterEach(() => {
+    jest.restoreAllMocks();
+});
+
 describe('saltos.core.adderror/addlog', () => {
     beforeEach(() => {
         jest.spyOn(global.saltos.core, 'ajax').mockImplementation(jest.fn());
         jest.spyOn(global.saltos.token, 'get').mockReturnValue('dummyToken');
         jest.spyOn(global.saltos.gettext, 'get').mockReturnValue('en');
-    });
-
-    afterEach(() => {
-        // Restores all mocked methods.
-        jest.restoreAllMocks();
     });
 
     /**
@@ -112,11 +121,6 @@ describe('saltos.core.adderror/addlog', () => {
 describe('window.addEventListener for error and unhandledrejection', () => {
     beforeEach(() => {
         jest.spyOn(global.saltos.core, 'adderror').mockImplementation(jest.fn());
-    });
-
-    afterEach(() => {
-        // Restores all mocked methods.
-        jest.restoreAllMocks();
     });
 
     /**
@@ -225,9 +229,105 @@ test('saltos.core.uniqid', () => {
 });
 
 /**
+ * saltos.core.when_visible
+ *
+ * This function performs the tests of the when_visible function
+ */
+describe('when_visible', () => {
+    beforeEach(() => {
+        jest.useFakeTimers();
+        document.body.innerHTML = ''; // Clears the DOM before each test
+    });
+
+    afterEach(() => {
+        jest.clearAllTimers();
+        jest.useRealTimers();
+    });
+
+    test('executes the callback when the object becomes visible', () => {
+        const mockFn = jest.fn();
+        const div = document.createElement('div');
+        document.body.appendChild(div);
+        saltos.core.when_visible(div, mockFn);
+        jest.advanceTimersByTime(50);
+        expect(mockFn).not.toHaveBeenCalled();
+        Object.defineProperty(div, 'offsetParent', {get: () => div}); // Simulates visibility
+        jest.advanceTimersByTime(50);
+        expect(mockFn).toHaveBeenCalledTimes(1);
+    });
+
+    test('works setting the id as test-div', () => {
+        const mockFn = jest.fn();
+        const div = document.createElement('div');
+        div.setAttribute('id', 'test-div');
+        document.body.appendChild(div);
+        saltos.core.when_visible(div, mockFn);
+        jest.advanceTimersByTime(50);
+        expect(mockFn).not.toHaveBeenCalled();
+        Object.defineProperty(div, 'offsetParent', {get: () => div}); // Simulates visibility
+        jest.advanceTimersByTime(50);
+        expect(mockFn).toHaveBeenCalledTimes(1);
+    });
+
+    test('works with an string id instead of an object', () => {
+        const mockFn = jest.fn();
+        const div = document.createElement('div');
+        div.setAttribute('id', 'test-div');
+        document.body.appendChild(div);
+        saltos.core.when_visible('test-div', mockFn);
+        jest.advanceTimersByTime(50);
+        expect(mockFn).not.toHaveBeenCalled();
+        Object.defineProperty(div, 'offsetParent', {get: () => div}); // Simulates visibility
+        jest.advanceTimersByTime(50);
+        expect(mockFn).toHaveBeenCalledTimes(1);
+    });
+
+    test('throws an error for unsupported obj type', () => {
+        const invalidObj = 123; // Passing a number instead of a string or object
+        const mockFn = jest.fn();
+        expect(() => {
+            saltos.core.when_visible(invalidObj, mockFn);
+        }).toThrowError('Unknown when_visible obj typeof number');
+    });
+
+    test('append the object after some iterations', () => {
+        const mockFn = jest.fn();
+        const div = document.createElement('div');
+        saltos.core.when_visible(div, mockFn);
+        jest.advanceTimersByTime(50);
+        document.body.appendChild(div);
+        expect(mockFn).not.toHaveBeenCalled();
+        Object.defineProperty(div, 'offsetParent', {get: () => div}); // Simulates visibility
+        jest.advanceTimersByTime(50);
+        expect(mockFn).toHaveBeenCalledTimes(1);
+    });
+
+    test('throws an error if the object disappears before being visible', () => {
+        const mockFn = jest.fn();
+        const div = document.createElement('div');
+        div.setAttribute('id', 'test-div');
+        document.body.appendChild(div);
+        const promise = new Promise((resolve, reject) => {
+            try {
+                saltos.core.when_visible(div, mockFn);
+            } catch (error) {
+                reject(error);
+            }
+        });
+        jest.advanceTimersByTime(50);
+        expect(mockFn).not.toHaveBeenCalled();
+        document.body.removeChild(div);
+        expect(async () => {
+            jest.advanceTimersByTime(50);
+            await promise;
+        }).rejects.toThrowError('#test-div not found');
+    });
+});
+
+/**
  * saltos.core.get_keycode
  *
- * This function performs the tests of the uniqid function
+ * This function performs the tests of the get_keycode function
  */
 test('saltos.core.get_keycode', () => {
     expect(saltos.core.get_keycode({keyCode: 23})).toBe(23);
@@ -239,7 +339,7 @@ test('saltos.core.get_keycode', () => {
 /**
  * saltos.core.get_keyname
  *
- * This function performs the tests of the uniqid function
+ * This function performs the tests of the get_keyname function
  */
 test('saltos.core.get_keyname', () => {
     expect(saltos.core.get_keyname({keyCode: 8})).toBe('backspace');
@@ -250,8 +350,189 @@ test('saltos.core.get_keyname', () => {
 });
 
 /**
- * HERE
+ * saltos.core.html
+ *
+ * This function performs the tests of the html function
  */
+describe('saltos.core.html', () => {
+    test('creates a div with inner HTML when only one argument is passed', () => {
+        const result = saltos.core.html('<p>Hello</p>');
+        // Since there is only one child, optimize returns <p> instead of the <div>
+        expect(result).toBeInstanceOf(HTMLElement);
+        expect(result.tagName.toLowerCase()).toBe('p');
+        expect(result.innerHTML).toBe('Hello');
+    });
+
+    test('creates the specified element with inner HTML when two arguments are passed', () => {
+        const result = saltos.core.html('span', 'Test content');
+        // No optimization occurs because there is not a single direct child
+        expect(result).toBeInstanceOf(HTMLElement);
+        expect(result.tagName.toLowerCase()).toBe('span');
+        expect(result.innerHTML).toBe('Test content');
+    });
+
+    test('trims the inner HTML before setting it', () => {
+        const result = saltos.core.html('div', '   <b>Trimmed</b>   ');
+        // Since there is only one child (<b>), optimize returns <b> instead of the <div>
+        expect(result.tagName.toLowerCase()).toBe('b');
+        expect(result.innerHTML).toBe('Trimmed');
+    });
+
+    test('does not optimize if there are multiple children', () => {
+        const result = saltos.core.html('div', '<span>One</span><span>Two</span>');
+        // Since there are multiple children, optimization does not apply, and the <div> remains
+        expect(result.tagName.toLowerCase()).toBe('div');
+        expect(result.children.length).toBe(2);
+    });
+
+    test('optimizes and returns the single child if present', () => {
+        const result = saltos.core.html('div', '<p>Only Child</p>');
+        // Since there is only one child (<p>), optimize returns <p> instead of the <div>
+        expect(result.tagName.toLowerCase()).toBe('p');
+        expect(result.innerHTML).toBe('Only Child');
+    });
+});
+
+/**
+ * saltos.core.ajax
+ *
+ * This function performs the tests of the ajax function
+ */
+describe('saltos.core.ajax', () => {
+    test('makes a successful GET request and calls success callback', async () => {
+        const mockSuccess = jest.fn();
+        const mockResponse = {
+            ok: true,
+            json: jest.fn().mockResolvedValue({message: 'Success'}),
+            headers: new Map([
+                ['content-type', 'application/json'],
+                ['x-about', 'SaltOS 4.0'],
+                ['x-proxy-type', 'network'],
+            ]),
+        };
+
+        global.fetch.mockResolvedValue(mockResponse);
+
+        await saltos.core.ajax({
+            url: '/test',
+            method: 'GET',
+            success: mockSuccess,
+            headers: {},
+            content_type: 'application/json',
+            proxy: 'network,cache',
+            token: 'someToken',
+            lang: 'en_US',
+        });
+
+        expect(global.fetch).toHaveBeenCalledWith('/test', expect.objectContaining({
+            method: 'GET',
+        }));
+        expect(mockSuccess).toHaveBeenCalledWith({message: 'Success'}, mockResponse);
+    });
+
+    test('handles non-200 responses and calls error callback', async () => {
+        const mockError = jest.fn();
+        const mockResponse = {
+            ok: false,
+            headers: new Map(),
+        };
+
+        global.fetch.mockResolvedValue(mockResponse);
+
+        await saltos.core.ajax({url: '/test', method: 'GET', error: mockError});
+
+        expect(mockError).toHaveBeenCalledWith(mockResponse);
+    });
+
+    test('makes a POST request with a body', async () => {
+        const mockSuccess = jest.fn();
+        const mockResponse = {
+            ok: true,
+            json: jest.fn().mockResolvedValue({message: 'Posted'}),
+            headers: new Map([['content-type', 'application/json']]),
+        };
+
+        global.fetch.mockResolvedValue(mockResponse);
+
+        await saltos.core.ajax({url: '/test', method: 'POST', data: 'payload', success: mockSuccess});
+
+        expect(global.fetch).toHaveBeenCalledWith('/test', expect.objectContaining({
+            method: 'POST',
+            body: 'payload',
+        }));
+    });
+
+    test('calls abort callback when request is aborted', async () => {
+        const mockAbort = jest.fn();
+        global.fetch.mockRejectedValue(new DOMException('Aborted', 'AbortError'));
+
+        await saltos.core.ajax({url: '/test', abort: mockAbort, abortable: true});
+
+        expect(mockAbort).toHaveBeenCalled();
+    });
+
+    test('calls error callback on network failure', async () => {
+        const mockError = jest.fn();
+        global.fetch.mockRejectedValue(new TypeError('Network Error'));
+
+        await saltos.core.ajax({url: '/test', error: mockError});
+
+        expect(mockError).toHaveBeenCalled();
+    });
+
+    test('throws an error for unexpected failures', async () => {
+        global.fetch.mockRejectedValue(new Error('Unexpected failure'));
+
+        await expect(
+            saltos.core.ajax({
+                url: '/test',
+                data: '',
+                method: 'GET',
+                success: jest.fn(),  // Mock de success, pero no se ejecutará
+                error: (err) => { throw err; },  // Re-lanza el error para que Jest lo capture
+            })
+        ).rejects.toThrow('Unexpected failure');
+    });
+
+    test('throws an error for unsupported HTTP method', () => {
+        expect(() => saltos.core.ajax({url: '/test', method: 'PUT'}))
+            .toThrowError('Unknown PUT method');
+    });
+
+    test('handles XML response correctly', async () => {
+        const mockSuccess = jest.fn();
+        const mockResponse = {
+            ok: true,
+            text: jest.fn().mockResolvedValue('<root><message>XML Data</message></root>'),
+            headers: new Map([['content-type', 'application/xml']]),
+        };
+
+        global.fetch.mockResolvedValue(mockResponse);
+
+        await saltos.core.ajax({url: '/xml', success: mockSuccess});
+
+        expect(mockSuccess).toHaveBeenCalled();
+        const parsedXML = mockSuccess.mock.calls[0][0]; // First argument of the first call
+        expect(parsedXML).toBeInstanceOf(Document);
+        expect(parsedXML.documentElement.tagName).toBe('root');
+    });
+
+    test('handles plain text response correctly', async () => {
+        const mockSuccess = jest.fn();
+        const mockResponse = {
+            ok: true,
+            text: jest.fn().mockResolvedValue('Plain text response'),
+            headers: new Map([['content-type', 'text/plain']]),
+        };
+
+        global.fetch.mockResolvedValue(mockResponse);
+
+        await saltos.core.ajax({url: '/text', success: mockSuccess});
+
+        expect(mockSuccess).toHaveBeenCalledWith('Plain text response', mockResponse);
+    });
+
+});
 
 /**
  * saltos.core.fix_key
@@ -277,6 +558,121 @@ test('saltos.core.copy_object', () => {
     expect(saltos.core.copy_object(['item#1', 'item#2'])).toStrictEqual(['item#1', 'item#2']);
     expect(saltos.core.copy_object({'item#1': 'item#1', 'item#2': 'item#2'}))
         .toStrictEqual({'item#1': 'item#1', 'item#2': 'item#2'});
+});
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+describe('saltos.core.require', () => {
+    beforeEach(() => {
+        jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+        jest.useRealTimers();
+    });
+
+    test('loads a JavaScript file successfully', async () => {
+        const mockCallback = jest.fn();
+        const mockResponse = {
+            ok: true,
+            text: jest.fn().mockResolvedValue('console.log("Loaded JS");'),
+        };
+
+        global.fetch.mockResolvedValue(mockResponse);
+
+        await new Promise(resolve => {
+            saltos.core.require(['/test.js'], () => {
+                resolve();
+            });
+        });
+
+        expect(fetch).toHaveBeenCalledWith('/test.js', expect.any(Object));
+        expect(document.head.innerHTML).toContain('<script');
+        expect(mockCallback).not.toHaveBeenCalled(); // Execute only after everything has loaded
+    });
+
+    test('loads a CSS file successfully', async () => {
+        const mockCallback = jest.fn();
+        const mockResponse = {
+            ok: true,
+            text: jest.fn().mockResolvedValue('body { background: red; }'),
+        };
+
+        global.fetch.mockResolvedValue(mockResponse);
+
+        await new Promise(resolve => {
+            saltos.core.require(['/test.css'], () => {
+                resolve();
+            });
+        });
+
+        expect(fetch).toHaveBeenCalledWith('/test.css', expect.any(Object));
+        expect(document.head.innerHTML).toContain('<style');
+    });
+
+    test('does not reload already loaded files', async () => {
+        const mockCallback = jest.fn();
+        saltos.core.__require['/alreadyLoaded.js'] = 'load';
+
+        await new Promise(resolve => {
+            saltos.core.require(['/alreadyLoaded.js'], () => {
+                resolve();
+            });
+        });
+
+        expect(fetch).not.toHaveBeenCalled();
+    });
+
+    test('waits when file is already loading', async () => {
+        saltos.core.__require['/test.js'] = 'loading';
+        const promise = saltos.core.require(['/test.js'], jest.fn());
+        jest.advanceTimersByTime(1);
+        await promise;
+        expect(saltos.core.__require['/test.js']).toBe('loading');
+    });
+
+    test('loads a JavaScript module file successfully', async () => {
+        const mockCallback = jest.fn();
+        const mockResponse = {
+            ok: true,
+            text: jest.fn().mockResolvedValue('console.log("Loaded Module");'),
+        };
+
+        global.fetch.mockResolvedValue(mockResponse);
+
+        await new Promise(resolve => {
+            saltos.core.require(['/test.mjs'], () => {
+                resolve();
+            });
+        });
+
+        expect(fetch).toHaveBeenCalledWith('/test.mjs', expect.any(Object));
+        expect(document.head.innerHTML).toContain('<script');
+        expect(mockCallback).not.toHaveBeenCalled(); // Execute only after everything has loaded
+    });
+
+    test('loads a CSS file with hash successfully', async () => {
+        const mockCallback = jest.fn();
+        const mockResponse = {
+            ok: true,
+            text: jest.fn().mockResolvedValue('body { background: red; }'),
+        };
+        const hash = md5('body { background: red; }');
+
+        global.fetch.mockResolvedValue(mockResponse);
+
+        await new Promise(resolve => {
+            saltos.core.require(['/test.css?' + hash], () => {
+                resolve();
+            });
+        });
+
+        expect(fetch).toHaveBeenCalledWith('/test.css?' + hash, expect.any(Object));
+        expect(document.head.innerHTML).toContain('<style');
+    });
 });
 
 /**
@@ -472,4 +868,47 @@ test('saltos.core.is_number', () => {
     expect(saltos.core.is_number(Infinity)).toBe(false);
     expect(saltos.core.is_number(-Infinity)).toBe(false);
     expect(saltos.core.is_number(NaN)).toBe(false);
+});
+
+describe('Core Module Tests', () => {
+    test('Registers service worker if supported and on HTTPS', async () => {
+        Object.defineProperty(window, 'location', {
+            value: {
+                protocol: 'https:',
+                href: 'https://127.0.0.1/saltos/code4',
+            },
+            writable: true,
+        });
+
+        navigator.serviceWorker = {
+            addEventListener: jest.fn(),
+            removeEventListener: jest.fn(),
+            register: jest.fn().mockResolvedValue({update: jest.fn().mockResolvedValue()}),
+            controller: true,
+        };
+
+        document.dispatchEvent(new Event('DOMContentLoaded'));
+
+        expect(navigator.serviceWorker.register).toHaveBeenCalledWith('./proxy.js', {
+            updateViaCache: 'none',
+        });
+    });
+
+    test('Proxy function sends message to service worker', () => {
+        navigator.serviceWorker = {controller: {postMessage: jest.fn()}};
+        saltos.core.proxy('test_message');
+        expect(navigator.serviceWorker.controller.postMessage).toHaveBeenCalledWith('test_message');
+    });
+
+    test('Triggers proxy sync on online event', () => {
+        saltos.core.proxy = jest.fn();
+        window.dispatchEvent(new Event('online'));
+        expect(saltos.core.proxy).toHaveBeenCalledWith('sync');
+    });
+
+    test('Check network detects protocols correctly', async () => {
+        window.open = jest.fn().mockReturnValue({close: jest.fn(), closed: true});
+        const result = await saltos.core.check_network();
+        expect(result).toEqual({http: true, https: true});
+    });
 });

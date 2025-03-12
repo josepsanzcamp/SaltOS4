@@ -127,10 +127,10 @@ saltos.driver.close = arg => {
         item.removeAttribute('autoclose');
     });
     // Continue
-    const url1 = window.location.href.toString();
+    const url1 = window.location.href;
     window.history.back();
     setTimeout(() => {
-        const url2 = window.location.href.toString();
+        const url2 = window.location.href;
         if (url1 == url2) {
             // Old feature
             const type = document.getElementById('screen').getAttribute('type');
