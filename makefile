@@ -10,6 +10,8 @@ NONE=\033[0m
 
 FILES=object,core,bootstrap,storage,hash,token,auth,window,gettext,driver,filter,backup,form,push,common,app
 
+export NODE_PATH := $(shell npm -g root)
+
 all:
 	@echo Nothing to do by default
 
