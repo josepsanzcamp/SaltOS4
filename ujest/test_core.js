@@ -32,6 +32,9 @@
  * This file contains the core unit tests
  */
 
+/**
+ * TODO
+ */
 beforeEach(() => {
     jest.resetAllMocks();
     jest.spyOn(console, 'log').mockImplementation(() => {});
@@ -42,10 +45,18 @@ beforeEach(() => {
     );
 });
 
+/**
+ * TODO
+ */
 afterEach(() => {
     jest.restoreAllMocks();
 });
 
+/**
+ * saltos.core.adderror/addlog
+ *
+ * This function performs the tests of the adderror and adlog functions
+ */
 describe('saltos.core.adderror/addlog', () => {
     beforeEach(() => {
         jest.spyOn(global.saltos.core, 'ajax').mockImplementation(jest.fn());
@@ -118,7 +129,15 @@ describe('saltos.core.adderror/addlog', () => {
     });
 });
 
+/**
+ * TODO
+ *
+ * TODO
+ */
 describe('window.addEventListener for error and unhandledrejection', () => {
+    /**
+     * TODO
+     */
     beforeEach(() => {
         jest.spyOn(global.saltos.core, 'adderror').mockImplementation(jest.fn());
     });
@@ -234,16 +253,27 @@ test('saltos.core.uniqid', () => {
  * This function performs the tests of the when_visible function
  */
 describe('when_visible', () => {
+    /**
+     * TODO
+     */
     beforeEach(() => {
         jest.useFakeTimers();
         document.body.innerHTML = ''; // Clears the DOM before each test
     });
 
+    /**
+     * TODO
+     */
     afterEach(() => {
         jest.clearAllTimers();
         jest.useRealTimers();
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('executes the callback when the object becomes visible', () => {
         const mockFn = jest.fn();
         const div = document.createElement('div');
@@ -256,6 +286,11 @@ describe('when_visible', () => {
         expect(mockFn).toHaveBeenCalledTimes(1);
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('works setting the id as test-div', () => {
         const mockFn = jest.fn();
         const div = document.createElement('div');
@@ -269,6 +304,11 @@ describe('when_visible', () => {
         expect(mockFn).toHaveBeenCalledTimes(1);
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('works with an string id instead of an object', () => {
         const mockFn = jest.fn();
         const div = document.createElement('div');
@@ -282,6 +322,11 @@ describe('when_visible', () => {
         expect(mockFn).toHaveBeenCalledTimes(1);
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('throws an error for unsupported obj type', () => {
         const invalidObj = 123; // Passing a number instead of a string or object
         const mockFn = jest.fn();
@@ -290,6 +335,11 @@ describe('when_visible', () => {
         }).toThrowError('Unknown when_visible obj typeof number');
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('append the object after some iterations', () => {
         const mockFn = jest.fn();
         const div = document.createElement('div');
@@ -302,6 +352,11 @@ describe('when_visible', () => {
         expect(mockFn).toHaveBeenCalledTimes(1);
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('throws an error if the object disappears before being visible', () => {
         const mockFn = jest.fn();
         const div = document.createElement('div');
@@ -355,6 +410,11 @@ test('saltos.core.get_keyname', () => {
  * This function performs the tests of the html function
  */
 describe('saltos.core.html', () => {
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('creates a div with inner HTML when only one argument is passed', () => {
         const result = saltos.core.html('<p>Hello</p>');
         // Since there is only one child, optimize returns <p> instead of the <div>
@@ -363,6 +423,11 @@ describe('saltos.core.html', () => {
         expect(result.innerHTML).toBe('Hello');
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('creates the specified element with inner HTML when two arguments are passed', () => {
         const result = saltos.core.html('span', 'Test content');
         // No optimization occurs because there is not a single direct child
@@ -371,6 +436,11 @@ describe('saltos.core.html', () => {
         expect(result.innerHTML).toBe('Test content');
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('trims the inner HTML before setting it', () => {
         const result = saltos.core.html('div', '   <b>Trimmed</b>   ');
         // Since there is only one child (<b>), optimize returns <b> instead of the <div>
@@ -378,6 +448,11 @@ describe('saltos.core.html', () => {
         expect(result.innerHTML).toBe('Trimmed');
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('does not optimize if there are multiple children', () => {
         const result = saltos.core.html('div', '<span>One</span><span>Two</span>');
         // Since there are multiple children, optimization does not apply, and the <div> remains
@@ -385,6 +460,11 @@ describe('saltos.core.html', () => {
         expect(result.children.length).toBe(2);
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('optimizes and returns the single child if present', () => {
         const result = saltos.core.html('div', '<p>Only Child</p>');
         // Since there is only one child (<p>), optimize returns <p> instead of the <div>
@@ -399,6 +479,11 @@ describe('saltos.core.html', () => {
  * This function performs the tests of the ajax function
  */
 describe('saltos.core.ajax', () => {
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('makes a successful GET request and calls success callback', async () => {
         const mockSuccess = jest.fn();
         const mockResponse = {
@@ -430,6 +515,11 @@ describe('saltos.core.ajax', () => {
         expect(mockSuccess).toHaveBeenCalledWith({message: 'Success'}, mockResponse);
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('handles non-200 responses and calls error callback', async () => {
         const mockError = jest.fn();
         const mockResponse = {
@@ -444,6 +534,11 @@ describe('saltos.core.ajax', () => {
         expect(mockError).toHaveBeenCalledWith(mockResponse);
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('makes a POST request with a body', async () => {
         const mockSuccess = jest.fn();
         const mockResponse = {
@@ -462,6 +557,11 @@ describe('saltos.core.ajax', () => {
         }));
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('calls abort callback when request is aborted', async () => {
         const mockAbort = jest.fn();
         global.fetch.mockRejectedValue(new DOMException('Aborted', 'AbortError'));
@@ -471,6 +571,11 @@ describe('saltos.core.ajax', () => {
         expect(mockAbort).toHaveBeenCalled();
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('calls error callback on network failure', async () => {
         const mockError = jest.fn();
         global.fetch.mockRejectedValue(new TypeError('Network Error'));
@@ -480,6 +585,11 @@ describe('saltos.core.ajax', () => {
         expect(mockError).toHaveBeenCalled();
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('throws an error for unexpected failures', async () => {
         global.fetch.mockRejectedValue(new Error('Unexpected failure'));
 
@@ -494,11 +604,21 @@ describe('saltos.core.ajax', () => {
         ).rejects.toThrow('Unexpected failure');
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('throws an error for unsupported HTTP method', () => {
         expect(() => saltos.core.ajax({url: '/test', method: 'PUT'}))
             .toThrowError('Unknown PUT method');
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('handles XML response correctly', async () => {
         const mockSuccess = jest.fn();
         const mockResponse = {
@@ -517,6 +637,11 @@ describe('saltos.core.ajax', () => {
         expect(parsedXML.documentElement.tagName).toBe('root');
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('handles plain text response correctly', async () => {
         const mockSuccess = jest.fn();
         const mockResponse = {
@@ -531,7 +656,6 @@ describe('saltos.core.ajax', () => {
 
         expect(mockSuccess).toHaveBeenCalledWith('Plain text response', mockResponse);
     });
-
 });
 
 /**
@@ -566,14 +690,25 @@ test('saltos.core.copy_object', () => {
  * TODO
  */
 describe('saltos.core.require', () => {
+    /**
+     * TODO
+     */
     beforeEach(() => {
         jest.useFakeTimers();
     });
 
+    /**
+     * TODO
+     */
     afterEach(() => {
         jest.useRealTimers();
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('loads a JavaScript file successfully', async () => {
         const mockCallback = jest.fn();
         const mockResponse = {
@@ -594,6 +729,11 @@ describe('saltos.core.require', () => {
         expect(mockCallback).not.toHaveBeenCalled(); // Execute only after everything has loaded
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('loads a CSS file successfully', async () => {
         const mockCallback = jest.fn();
         const mockResponse = {
@@ -613,6 +753,11 @@ describe('saltos.core.require', () => {
         expect(document.head.innerHTML).toContain('<style');
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('does not reload already loaded files', async () => {
         const mockCallback = jest.fn();
         saltos.core.__require['/alreadyLoaded.js'] = 'load';
@@ -626,6 +771,11 @@ describe('saltos.core.require', () => {
         expect(fetch).not.toHaveBeenCalled();
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('waits when file is already loading', async () => {
         saltos.core.__require['/test.js'] = 'loading';
         const promise = saltos.core.require(['/test.js'], jest.fn());
@@ -634,6 +784,11 @@ describe('saltos.core.require', () => {
         expect(saltos.core.__require['/test.js']).toBe('loading');
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('loads a JavaScript module file successfully', async () => {
         const mockCallback = jest.fn();
         const mockResponse = {
@@ -654,6 +809,11 @@ describe('saltos.core.require', () => {
         expect(mockCallback).not.toHaveBeenCalled(); // Execute only after everything has loaded
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('loads a CSS file with hash successfully', async () => {
         const mockCallback = jest.fn();
         const mockResponse = {
@@ -870,7 +1030,17 @@ test('saltos.core.is_number', () => {
     expect(saltos.core.is_number(NaN)).toBe(false);
 });
 
+/**
+ * TODO
+ *
+ * TODO
+ */
 describe('Core Module Tests', () => {
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('Registers service worker if supported and on HTTPS', async () => {
         Object.defineProperty(window, 'location', {
             value: {
@@ -894,18 +1064,33 @@ describe('Core Module Tests', () => {
         });
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('Proxy function sends message to service worker', () => {
         navigator.serviceWorker = {controller: {postMessage: jest.fn()}};
         saltos.core.proxy('test_message');
         expect(navigator.serviceWorker.controller.postMessage).toHaveBeenCalledWith('test_message');
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('Triggers proxy sync on online event', () => {
         saltos.core.proxy = jest.fn();
         window.dispatchEvent(new Event('online'));
         expect(saltos.core.proxy).toHaveBeenCalledWith('sync');
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('Check network detects protocols correctly', async () => {
         window.open = jest.fn().mockReturnValue({close: jest.fn(), closed: true});
         const result = await saltos.core.check_network();

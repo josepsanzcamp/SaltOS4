@@ -173,6 +173,19 @@ saltos.gettext.bootstrap.field = field => {
                 }
             }
         }
+        if ('actions' in field) {
+            for (const key in field.actions) {
+                field.actions[key] = saltos.core.join_attr_value(field.actions[key]);
+                const val = field.actions[key];
+                const props = ['label', 'tooltip'];
+                for (const i in props) {
+                    if (props[i] in val) {
+                        field.actions[key][props[i]] =
+                            T(field.actions[key][props[i]]);
+                    }
+                }
+            }
+        }
         if ('data' in field) {
             for (const key in field.data) {
                 const val = field.data[key];

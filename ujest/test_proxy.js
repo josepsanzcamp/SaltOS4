@@ -32,10 +32,16 @@
  * This file contains the proxy unit tests
  */
 
+/**
+ * TODO
+ */
 beforeEach(() => {
     jest.resetAllMocks();
 });
 
+/**
+ * TODO
+ */
 afterEach(() => {
     jest.restoreAllMocks();
 });
