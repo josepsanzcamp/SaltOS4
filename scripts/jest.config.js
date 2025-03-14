@@ -8,4 +8,5 @@ module.exports = {
     collectCoverage: true,
     coverageDirectory: '/tmp/jest.report',
     coveragePathIgnorePatterns: ['/lib/'],
+    snapshotResolver: '<rootDir>/../ujest/lib/snapshotResolver.js',
 };
