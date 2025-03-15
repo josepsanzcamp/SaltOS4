@@ -33,10 +33,25 @@
  */
 
 /**
- * Detect what type of test is running, and load the needed setup
+ * This is the same that object.js for the global scope
  */
-if (!('fetch' in global)) {
-    require('./jsdom.setup.js');
-} else {
-    require('./node.setup.js');
-}
+global.saltos = {};
+
+/**
+ * Needed by core module
+ */
+global.window = {
+    addEventListener: function() {},
+};
+
+/**
+ * Needed by core module
+ */
+global.document = {
+    addEventListener: function() {},
+};
+
+/**
+ * Load all files of the project
+ */
+require(`../../code/web/js/core.js`);

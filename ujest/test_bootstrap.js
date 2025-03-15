@@ -39,7 +39,8 @@
 /**
  * TODO
  */
-const {firefox} = require('playwright');
+const playwright = require('playwright');
+const firefox = playwright.firefox;
 
 /**
  * TODO
@@ -59,6 +60,7 @@ describe('Widget rendering', () => {
             ignoreHTTPSErrors: true,
         });
         page = await context.newPage();
+        //~ await global.page.coverage.startJSCoverage();
     });
 
     /**
@@ -66,6 +68,19 @@ describe('Widget rendering', () => {
      */
     afterAll(async () => {
         await browser.close();
+        /*const coverage = await global.page.coverage.stopJSCoverage();
+        // Verifica que Jest tiene cobertura habilitada
+        if (globalThis.__coverage__) {
+            coverage.forEach(({ url, functions }) => {
+                if (globalThis.__coverage__[url]) {
+                    // Fusionar datos de cobertura con Jest
+                    Object.assign(globalThis.__coverage__[url], functions);
+                } else {
+                    // Añadir nuevo archivo si no existía
+                    globalThis.__coverage__[url] = functions;
+                }
+            });
+        }*/
     });
 
     /**
@@ -112,7 +127,11 @@ describe('Widget rendering', () => {
 
         const widget = await page.$('#widget');
         const screenshot = await widget.screenshot();
-        //~ fs.writeFileSync(path.resolve(__dirname, 'snaps/image1.png'), screenshot);
+        const testName = expect.getState().currentTestName; // "should render correctly"
+        const testPath = expect.getState().testPath; // Ruta del archivo de prueba
+        const dir = path.dirname(testPath); // Obtiene el directorio
+        const file = saltos.core.encode_bad_chars(testName) + '.png';
+        fs.writeFileSync(`${dir}/snaps/${file}`, screenshot);
         expect(screenshot).toMatchSnapshot();
     });
 
@@ -147,7 +166,11 @@ describe('Widget rendering', () => {
 
         const widget = await page.$('#widget');
         const screenshot = await widget.screenshot();
-        //~ fs.writeFileSync(path.resolve(__dirname, 'snaps/image2.png'), screenshot);
+        const testName = expect.getState().currentTestName; // "should render correctly"
+        const testPath = expect.getState().testPath; // Ruta del archivo de prueba
+        const dir = path.dirname(testPath); // Obtiene el directorio
+        const file = saltos.core.encode_bad_chars(testName) + '.png';
+        fs.writeFileSync(`${dir}/snaps/${file}`, screenshot);
         expect(screenshot).toMatchSnapshot();
     });
 });
