@@ -72,7 +72,10 @@ function json_colorize($json)
         '/^(\s*?)(true|false|null)/m' => "$1$red$2$reset", // booleans and null in red
     ];
     foreach ($patterns as $pattern => $replacement) {
-        $json = preg_replace($pattern, $replacement, $json);
+        $temp = preg_replace($pattern, $replacement, $json);
+        if ($temp) {
+            $json = $temp;
+        }
     }
     // Trick for numbers with scientific notation
     $patterns = [
@@ -80,12 +83,15 @@ function json_colorize($json)
         '/^(\s*?)([+-]?\d+(\.\d+)?([eE][+-]?\d+)?)/m' => "$1$magenta$2$reset", // numbers in magenta
     ];
     foreach ($patterns as $pattern => $replacement) {
-        $json = preg_replace_callback($pattern, function ($matches) use ($replacement) {
+        $temp = preg_replace_callback($pattern, function ($matches) use ($replacement) {
             if (is_numeric($matches[2]) && stripos($matches[2], 'e') !== false) {
                 $matches[2] = rtrim(sprintf('%.16f', $matches[2]), '0');
             }
             return str_replace(['$1', '$2'], [$matches[1], $matches[2]], $replacement);
         }, $json);
+        if ($temp) {
+            $json = $temp;
+        }
     }
     return $json;
 }

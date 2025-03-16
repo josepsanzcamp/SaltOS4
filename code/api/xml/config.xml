@@ -81,6 +81,7 @@
         <date.timezone>Europe/Madrid</date.timezone>
         <default_charset>UTF-8</default_charset>
         <gd.jpeg_ignore_warning>1</gd.jpeg_ignore_warning>
+        <pcre.backtrack_limit>10M</pcre.backtrack_limit><!-- 10M instead of 1M -->
     </iniset>
     <putenv>
         <PATH>/bin:/usr/bin:/usr/local/bin</PATH>
