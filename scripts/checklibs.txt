@@ -21,7 +21,7 @@ jstree|https://github.com/vakata/jstree/commits/v.4.0.atom|<updated>|PHVwZGF0ZWQ
 locutus|https://github.com/locutusjs/locutus/tags.atom|<title>|PHRpdGxlPnYyLjAuMzI8L3RpdGxlPg==
 masonry|https://github.com/desandro/masonry/tags.atom|<title>|PHRpdGxlPnY0LjIuMiAtIGZsb2F0IHBvc2l0aW9uIHZhbHVlczwvdGl0bGU+
 md5|https://github.com/blueimp/JavaScript-MD5/tags.atom|<title>|PHRpdGxlPnYyLjE5LjA8L3RpdGxlPg==
-pdfjs|https://github.com/mozilla/pdf.js/tags.atom|<title>|PHRpdGxlPnY0LjEwLjM4PC90aXRsZT4=
+pdfjs|https://github.com/mozilla/pdf.js/tags.atom|<title>|PHRpdGxlPnY1LjAuMzc1PC90aXRsZT4=
 sourcemap|https://github.com/novocaine/sourcemapped-stacktrace/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAxOS0wOS0wMVQwODowNTo1Mlo8L3VwZGF0ZWQ+
 tomselect|https://github.com/orchidjs/tom-select/tags.atom|<title>|PHRpdGxlPnYyLjQuMzwvdGl0bGU+
 venobox|https://github.com/nicolafranchini/VenoBox/tags.atom|<title>|PHRpdGxlPjIuMS44PC90aXRsZT4=
