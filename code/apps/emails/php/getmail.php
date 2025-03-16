@@ -1767,8 +1767,7 @@ function getmail_pdf($ids)
         }
         $output = get_cache_file([__FUNCTION__, $id], '.pdf');
         if (!file_exists($output)) {
-            $options = '--enable-local-file-access';
-            ob_passthru("wkhtmltopdf $options $input $output 2>&1");
+            ob_passthru("wkhtmltopdf $input $output 2>&1");
             chmod_protected($output, 0666);
         }
         $pdfs[] = $output;
@@ -1806,10 +1805,10 @@ function getmail_pdf($ids)
  */
 function __iframe_srcdoc_helper($html)
 {
-    $font = realpath('../web/lib/atkinson/atkinson.min.css');
     $html = '<!doctype html><html><head><meta charset="utf-8">
     <style>body { margin: 0; padding: 0; }</style>
-    <link href="' . $font . '" rel="stylesheet" integrity="">
+    <style>:root { --bs-font-sans-serif: "Atkinson Hyperlegible Next", sans-serif;
+        --bs-font-monospace: "Atkinson Hyperlegible Mono", monospace; }</style>
     <style>:root { font-family: var(--bs-font-sans-serif); }</style>
     <meta http-equiv="Content-Security-Policy" content="default-src \'self\';
         style-src \'self\' \'unsafe-inline\' ${window.location.origin};
