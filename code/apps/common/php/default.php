@@ -82,19 +82,27 @@ function make_app_file($data)
         show_php_error(['phperror' => 'main/screen TODO not found']);
     }
 
-    $list1 = &$array['list#1']['value']['layout']['value']['row#1']['value']['table']['value']['header'];
-    if (!isset($list1)) {
+    $header = &$array['list#1']['value']['layout']['value']['row#1']['value']['table']['value']['header'];
+    if (!isset($header)) {
         show_php_error(['phperror' => 'list/header node not found']);
     }
-    if ($list1 != 'TODO') {
+    if ($header != 'TODO') {
         show_php_error(['phperror' => 'list/header TODO not found']);
     }
 
-    $list2 = &$array['list#2']['value']['data']['value'];
-    if (!isset($list2)) {
+    $actions = &$array['list#1']['value']['layout']['value']['row#1']['value']['table']['value']['actions'];
+    if (!isset($actions)) {
+        show_php_error(['phperror' => 'list/actions node not found']);
+    }
+    if (!is_array($actions)) {
+        show_php_error(['phperror' => 'list/actions ARRAY not found']);
+    }
+
+    $list = &$array['list#2']['value']['data']['value'];
+    if (!isset($list)) {
         show_php_error(['phperror' => 'list/data node not found']);
     }
-    if (!strpos($list2, 'TODO')) {
+    if (!strpos($list, 'TODO')) {
         show_php_error(['phperror' => 'list/data TODO not found']);
     }
 
@@ -108,6 +116,12 @@ function make_app_file($data)
 
     // set the screen
     $screen = $data['screen'];
+
+    // connect to the database if needed
+    $bool = get_config('db/obj');
+    if (!$bool) {
+        db_connect();
+    }
 
     // convert the fields array into a key => val array using the id as key
     $keys = ['id', 'type', 'label'];
@@ -124,14 +138,7 @@ function make_app_file($data)
         foreach ($data['select'] as $key => $val) {
             // as an additional feature, tries to resolve the field if there is not found
             if (!isset($val[2])) {
-                $bool = get_config('db/obj');
-                if (!$bool) {
-                    db_connect();
-                }
                 $val[2] = table2field($val[1]);
-                if (!$bool) {
-                    db_disconnect();
-                }
             }
             $data['select'][$key] = array_combine($keys, $val);
         }
@@ -158,10 +165,24 @@ function make_app_file($data)
         }
     }
     $xml = '<root>' . implode('', $xml) . '</root>';
-    $list1 = xml2array($xml)['root'];
+    $header = xml2array($xml)['root'];
+
+    // update the actions array
+    foreach ($actions as $key => $action) {
+        $action = join_attr_value($action);
+        $action = eval_attr($action);
+        $action0 = get_part_from_string($action['action'], '/', 0);
+        if (__app_has_perm($action['app'], $action0)) {
+            unset($action['app']);
+            unset($action['action']);
+            $actions[$key] = $action;
+        } else {
+            unset($actions[$key]);
+        }
+    }
 
     // set the select fields list
-    $query = $list2;
+    $query = $list;
     $fields = [];
     foreach ($data['list'] as $field) {
         $id = $field['id'];
@@ -191,7 +212,7 @@ function make_app_file($data)
     }
     $fields = implode(', ', $fields);
     $query = str_replace('TODO', $fields, $query);
-    $list2 = $query;
+    $list = $query;
 
     // set the form fields
     $xml = [];
@@ -232,6 +253,11 @@ function make_app_file($data)
     }
     $xml = '<root>' . implode('', $xml) . '</root>';
     $form = xml2array($xml)['root'];
+
+    // disconnect to the database if needed
+    if (!$bool) {
+        db_disconnect();
+    }
 
     // end of function
     return $array;
