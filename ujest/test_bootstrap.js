@@ -78,79 +78,60 @@ describe('Widget rendering', () => {
     });
 
     /**
-     * TODO
-     *
-     * TODO
+     * Prepare the test.each iterator
      */
-    test('renders table', async () => {
-        await page.addScriptTag({path: path.resolve(
-            __dirname, '../code/web/lib/bootstrap/bootstrap.bundle.min.js')});
-        await page.addStyleTag({path: path.resolve(
-            __dirname, '../code/web/lib/bootswatch/cosmo.min.css')});
-
-        const files = `object,core,bootstrap,storage,hash,token,auth,window,
-            gettext,driver,filter,backup,form,push,common,app`.split(',');
-        for (const i in files) {
-            const file = files[i].trim();
-            await page.addScriptTag({path: path.resolve(__dirname, `../code/web/js/${file}.js`)});
-        }
-
-        await page.evaluate(() => {
-            const widget = saltos.bootstrap.field({
-                type: 'table',
-                id: 'table',
-                label: 'Campo 28 (table)',
-                tooltip: 'Tooltip 28 (table)',
-                header: ['Name','Surname',{'label': 'Phone', 'type': 'html'}],
-                data: [
-                    ['Josep','Sanz',`<a href='#'>654 123 789</a>`],
-                    ['Jordi','Company','654 123 789'],
-                    ['Andres','Diaz','654 123 789']
-                ],
-                footer: ['','Total','3'],
-                checkbox: true,
-            });
-            const div = saltos.core.html('<div id="widget" style="width:600px;" />');
-            div.append(widget);
-            document.body.innerHTML = '';
-            document.body.append(div);
-        });
-
-        const widget = await page.$('#widget');
-        const screenshot = await widget.screenshot();
-        const testName = expect.getState().currentTestName; // "should render correctly"
-        const testPath = expect.getState().testPath; // Ruta del archivo de prueba
-        const dir = path.dirname(testPath); // Obtiene el directorio
-        const file = saltos.core.encode_bad_chars(testName) + '.png';
-        fs.writeFileSync(`${dir}/snaps/${file}`, screenshot);
-        expect(screenshot).toMatchSnapshot();
-    });
+    const tester = fs.readFileSync('/tmp/tester.json', 'utf-8');
+    const json = JSON.parse(tester);
 
     /**
      * TODO
      *
      * TODO
      */
-    test('renders ckeditor', async () => {
-        await page.goto('https://127.0.0.1/saltos/code4/#/app/emails');
-        await page.waitForFunction(() => document.querySelector('#user'));
+    test.each(json)('renders $label', async field => {
+        const external = ['integer', 'float', 'textarea', 'ckeditor', 'codemirror', 'excel', 'pdfjs', 'chartjs', 'tags', 'onetag', 'gallery', 'jstree'];
+        if (!external.includes(field.type)) {
+            await page.addScriptTag({path: path.resolve(
+                __dirname, '../code/web/lib/bootstrap/bootstrap.bundle.min.js')});
+            await page.addStyleTag({path: path.resolve(
+                __dirname, '../code/web/lib/bootswatch/cosmo.min.css')});
 
-        await page.evaluate(() => {
-            const widget = saltos.bootstrap.field({
-                type: 'ckeditor',
-                id: 'ckeditor',
-                label: 'Campo 13 (ckeditor)',
-                placeholder: 'Escriba aqui',
-                tooltip: 'Tooltip 13 (ckeditor)',
-                required: 'true',
-                value: 'Texto de prueba<br/><br/>Adios<br/>',
-            });
-            const div = saltos.core.html('<div id="widget" style="width:600px;" />');
-            div.append(widget);
-            document.body.innerHTML = '';
-            document.body.append(div);
-        });
-        await page.waitForFunction(() => document.querySelector('#ckeditor').ckeditor);
+            const files = `object,core,bootstrap,storage,hash,token,auth,window,
+                gettext,driver,filter,backup,form,push,common,app`.split(',');
+            for (const i in files) {
+                const file = files[i].trim();
+                await page.addScriptTag({path: path.resolve(__dirname, `../code/web/js/${file}.js`)});
+            }
+
+            await page.evaluate(field => {
+                const widget = saltos.bootstrap.field(field);
+                const div = saltos.core.html('<div id="widget" style="width:600px;" />');
+                div.append(widget);
+                document.body.innerHTML = '';
+                document.body.append(div);
+            }, field);
+        } else {
+            await page.goto('https://127.0.0.1/saltos/code4/#/app/emails');
+            await page.waitForFunction(() => document.querySelector('#user'));
+
+            await page.evaluate(field => {
+                const widget = saltos.bootstrap.field(field);
+                const div = saltos.core.html('<div id="widget" style="width:600px;" />');
+                div.append(widget);
+                document.body.innerHTML = '';
+                document.body.append(div);
+            }, field);
+        }
+
+        if (field.type == 'ckeditor') {
+            await page.waitForFunction(() => document.querySelector(field.id).ckeditor);
+        } else if (field.type == 'codemirror') {
+            await page.waitForFunction(() => document.querySelector(field.id).codemirror);
+        } else if (['tags', 'onetag'].includes(field.type)) {
+            await page.waitForFunction(() => document.querySelector(field.id).tomselect);
+        } else if (field.type == 'jstree') {
+            await page.waitForFunction(() => document.querySelector(field.id).instance);
+        }
 
         const widget = await page.$('#widget');
         const screenshot = await widget.screenshot();
