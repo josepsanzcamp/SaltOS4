@@ -109,10 +109,10 @@
                     <value>SaltOS; PHP; JavaScript</value>
                 </tags>
 
-                <button id="campo8" tooltip="Tooltip 8 (button)" label="Button text here" onclick="saltos.tester.campo8()" required="true"/>
-                <button id="campo9" tooltip="Tooltip 9 (button)" label="Modal test" onclick="saltos.tester.campo9()" required="true"/>
-                <button id="campo10" tooltip="Tooltip 10 (button)" label="Offcanvas test" onclick="saltos.tester.campo10()" required="true"/>
-                <button id="campo11" tooltip="Tooltip 11 (button)" label="Toast test" onclick="saltos.tester.campo11()" required="true"/>
+                <button id="campo8" tooltip="Tooltip 8 (button)" label="Campo 8 (button)" onclick="saltos.tester.campo8()" required="true"/>
+                <button id="campo9" tooltip="Tooltip 9 (button)" label="Campo 9 (button)" onclick="saltos.tester.campo9()" required="true"/>
+                <button id="campo10" tooltip="Tooltip 10 (button)" label="Campo 10 (button)" onclick="saltos.tester.campo10()" required="true"/>
+                <button id="campo11" tooltip="Tooltip 11 (button)" label="Campo 11 (button)" onclick="saltos.tester.campo11()" required="true"/>
 
                 <textarea id="campo12" label="Campo 12 (textarea)" placeholder="Escriba aqui" tooltip="Tooltip 12 (textarea)" required="true">Texto de prueba&#13;&#13;Adios&#13;</textarea>
                 <ckeditor id="campo13" label="Campo 13 (ckeditor)" placeholder="Escriba aqui" tooltip="Tooltip 13 (ckeditor)" required="true"><![CDATA[Texto de prueba<br/><br/>Adios<br/>]]></ckeditor>
@@ -297,7 +297,7 @@
                         ["id" => "5", "text" => "Five"],
                     ]</data>
                 </jstree>
-                <excel id="campo25a" label="Campo 25 (excel)" tooltip="Tooltip 25 (excel)" required="true">
+                <excel id="campo25a" label="Campo 25 (excel with options)" tooltip="Tooltip 25 (excel)" required="true">
                     <colHeaders eval="true">['Col 1', 'Col 2', 'Col 3', 'Col 4', 'Col 5']</colHeaders>
                     <rowHeaders eval="true">['Row 1', 'Row 2', 'Row 3', 'Row 4', 'Row 5', 'Row 6', 'Row 7', 'Row 8', 'Row 9', 'Row 10']</rowHeaders>
                     <data eval="true">[
@@ -494,51 +494,51 @@
 
                 <hr col_class="col-12 clonable" class="mt-0 border-3"/>
 
-                <codemirror id="campo14a" label="Campo 14 (codemirror with xml indent)" placeholder="Escriba aqui" tooltip="Tooltip 14 (codemirror)" mode="xml" indent="true" required="true" require="php/lib/array2xml.php" eval="true">array2xml(json_decode('{"gc_upload":{"time":0.000291,"deleted":[],"count":0},"gc_trash":{"time":0.000193,"deleted":[],"count":0},"gc_exec":{"time":0.000834,"deleted":[],"count":0}}', true))</codemirror>
-                <codemirror id="campo14b" label="Campo 14 (codemirror with json indent)" placeholder="Escriba aqui" tooltip="Tooltip 14 (codemirror)" mode="json" indent="true" required="true">{"gc_upload":{"time":0.000291,"deleted":[],"count":0},"gc_trash":{"time":0.000193,"deleted":[],"count":0},"gc_exec":{"time":0.000834,"deleted":[],"count":0}}</codemirror>
+                <codemirror id="campo14a" label="Campo 14 (codemirror with xml indent 2)" placeholder="Escriba aqui" tooltip="Tooltip 14 (codemirror)" mode="xml" indent="true" required="true" require="php/lib/array2xml.php" eval="true">array2xml(json_decode('{"gc_upload":{"time":0.000291,"deleted":[],"count":0},"gc_trash":{"time":0.000193,"deleted":[],"count":0},"gc_exec":{"time":0.000834,"deleted":[],"count":0}}', true))</codemirror>
+                <codemirror id="campo14b" label="Campo 14 (codemirror with json indent 2)" placeholder="Escriba aqui" tooltip="Tooltip 14 (codemirror)" mode="json" indent="true" required="true">{"gc_upload":{"time":0.000291,"deleted":[],"count":0},"gc_trash":{"time":0.000193,"deleted":[],"count":0},"gc_exec":{"time":0.000834,"deleted":[],"count":0}}</codemirror>
                 <codemirror id="campo14c" label="Campo 14 (codemirror with autofix json indent)" placeholder="Escriba aqui" tooltip="Tooltip 14 (codemirror)" mode="json" indent="true" required="true">["0 email(s) received","0 email(s) sended"]{"indexing":{"time":0.000385,"total":0}}</codemirror>
 
                 <hr col_class="col-12 clonable" class="mt-0 border-3"/>
 
-                <checkbox id="campo17default0" label="Campo 17 (checkbox default)" tooltip="Tooltip 17 (checkbox)" value="0" required="true"/>
-                <checkbox id="campo17default1" label="Campo 17 (checkbox default)" tooltip="Tooltip 17 (checkbox)" value="1" required="true"/>
-                <switch id="campo18default0" label="Campo 18 (switch default)" tooltip="Tooltip 18 (switch)" value="0" required="true"/>
-                <switch id="campo18default1" label="Campo 18 (switch default)" tooltip="Tooltip 18 (switch)" value="1" required="true"/>
+                <checkbox id="campo17default0" label="Campo 17 (checkbox default off)" tooltip="Tooltip 17 (checkbox)" value="0" required="true"/>
+                <checkbox id="campo17default1" label="Campo 17 (checkbox default on)" tooltip="Tooltip 17 (checkbox)" value="1" required="true"/>
+                <switch id="campo18default0" label="Campo 18 (switch default off)" tooltip="Tooltip 18 (switch)" value="0" required="true"/>
+                <switch id="campo18default1" label="Campo 18 (switch default on)" tooltip="Tooltip 18 (switch)" value="1" required="true"/>
 
-                <checkbox id="campo17none0" label="Campo 17 (checkbox none)" tooltip="Tooltip 17 (checkbox)" value="0" required="true" color="none"/>
-                <checkbox id="campo17none1" label="Campo 17 (checkbox none)" tooltip="Tooltip 17 (checkbox)" value="1" required="true" color="none"/>
-                <switch id="campo18none0" label="Campo 18 (switch none)" tooltip="Tooltip 18 (switch)" value="0" required="true" color="none"/>
-                <switch id="campo18none1" label="Campo 18 (switch none)" tooltip="Tooltip 18 (switch)" value="1" required="true" color="none"/>
+                <checkbox id="campo17none0" label="Campo 17 (checkbox none off)" tooltip="Tooltip 17 (checkbox)" value="0" required="true" color="none"/>
+                <checkbox id="campo17none1" label="Campo 17 (checkbox none on)" tooltip="Tooltip 17 (checkbox)" value="1" required="true" color="none"/>
+                <switch id="campo18none0" label="Campo 18 (switch none off)" tooltip="Tooltip 18 (switch)" value="0" required="true" color="none"/>
+                <switch id="campo18none1" label="Campo 18 (switch none on)" tooltip="Tooltip 18 (switch)" value="1" required="true" color="none"/>
 
-                <checkbox id="campo17primary0" label="Campo 17 (checkbox primary)" tooltip="Tooltip 17 (checkbox)" value="0" required="true" color="primary"/>
-                <checkbox id="campo17primary1" label="Campo 17 (checkbox primary)" tooltip="Tooltip 17 (checkbox)" value="1" required="true" color="primary"/>
-                <switch id="campo18primary0" label="Campo 18 (switch primary)" tooltip="Tooltip 18 (switch)" value="0" required="true" color="primary"/>
-                <switch id="campo18primary1" label="Campo 18 (switch primary)" tooltip="Tooltip 18 (switch)" value="1" required="true" color="primary"/>
+                <checkbox id="campo17primary0" label="Campo 17 (checkbox primary off)" tooltip="Tooltip 17 (checkbox)" value="0" required="true" color="primary"/>
+                <checkbox id="campo17primary1" label="Campo 17 (checkbox primary on)" tooltip="Tooltip 17 (checkbox)" value="1" required="true" color="primary"/>
+                <switch id="campo18primary0" label="Campo 18 (switch primary off)" tooltip="Tooltip 18 (switch)" value="0" required="true" color="primary"/>
+                <switch id="campo18primary1" label="Campo 18 (switch primary on)" tooltip="Tooltip 18 (switch)" value="1" required="true" color="primary"/>
 
-                <checkbox id="campo17secondary0" label="Campo 17 (checkbox secondary)" tooltip="Tooltip 17 (checkbox)" value="0" required="true" color="secondary"/>
-                <checkbox id="campo17secondary1" label="Campo 17 (checkbox secondary)" tooltip="Tooltip 17 (checkbox)" value="1" required="true" color="secondary"/>
-                <switch id="campo18secondary0" label="Campo 18 (switch secondary)" tooltip="Tooltip 18 (switch)" value="0" required="true" color="secondary"/>
-                <switch id="campo18secondary1" label="Campo 18 (switch secondary)" tooltip="Tooltip 18 (switch)" value="1" required="true" color="secondary"/>
+                <checkbox id="campo17secondary0" label="Campo 17 (checkbox secondary off)" tooltip="Tooltip 17 (checkbox)" value="0" required="true" color="secondary"/>
+                <checkbox id="campo17secondary1" label="Campo 17 (checkbox secondary on)" tooltip="Tooltip 17 (checkbox)" value="1" required="true" color="secondary"/>
+                <switch id="campo18secondary0" label="Campo 18 (switch secondary off)" tooltip="Tooltip 18 (switch)" value="0" required="true" color="secondary"/>
+                <switch id="campo18secondary1" label="Campo 18 (switch secondary on)" tooltip="Tooltip 18 (switch)" value="1" required="true" color="secondary"/>
 
-                <checkbox id="campo17success0" label="Campo 17 (checkbox success)" tooltip="Tooltip 17 (checkbox)" value="0" required="true" color="success"/>
-                <checkbox id="campo17success1" label="Campo 17 (checkbox success)" tooltip="Tooltip 17 (checkbox)" value="1" required="true" color="success"/>
-                <switch id="campo18success0" label="Campo 18 (switch success)" tooltip="Tooltip 18 (switch)" value="0" required="true" color="success"/>
-                <switch id="campo18success1" label="Campo 18 (switch success)" tooltip="Tooltip 18 (switch)" value="1" required="true" color="success"/>
+                <checkbox id="campo17success0" label="Campo 17 (checkbox success off)" tooltip="Tooltip 17 (checkbox)" value="0" required="true" color="success"/>
+                <checkbox id="campo17success1" label="Campo 17 (checkbox success on)" tooltip="Tooltip 17 (checkbox)" value="1" required="true" color="success"/>
+                <switch id="campo18success0" label="Campo 18 (switch success off)" tooltip="Tooltip 18 (switch)" value="0" required="true" color="success"/>
+                <switch id="campo18success1" label="Campo 18 (switch success on)" tooltip="Tooltip 18 (switch)" value="1" required="true" color="success"/>
 
-                <checkbox id="campo17danger0" label="Campo 17 (checkbox danger)" tooltip="Tooltip 17 (checkbox)" value="0" required="true" color="danger"/>
-                <checkbox id="campo17danger1" label="Campo 17 (checkbox danger)" tooltip="Tooltip 17 (checkbox)" value="1" required="true" color="danger"/>
-                <switch id="campo18danger0" label="Campo 18 (switch danger)" tooltip="Tooltip 18 (switch)" value="0" required="true" color="danger"/>
-                <switch id="campo18danger1" label="Campo 18 (switch danger)" tooltip="Tooltip 18 (switch)" value="1" required="true" color="danger"/>
+                <checkbox id="campo17danger0" label="Campo 17 (checkbox danger off)" tooltip="Tooltip 17 (checkbox)" value="0" required="true" color="danger"/>
+                <checkbox id="campo17danger1" label="Campo 17 (checkbox danger on)" tooltip="Tooltip 17 (checkbox)" value="1" required="true" color="danger"/>
+                <switch id="campo18danger0" label="Campo 18 (switch danger off)" tooltip="Tooltip 18 (switch)" value="0" required="true" color="danger"/>
+                <switch id="campo18danger1" label="Campo 18 (switch danger on)" tooltip="Tooltip 18 (switch)" value="1" required="true" color="danger"/>
 
-                <checkbox id="campo17warning0" label="Campo 17 (checkbox warning)" tooltip="Tooltip 17 (checkbox)" value="0" required="true" color="warning"/>
-                <checkbox id="campo17warning1" label="Campo 17 (checkbox warning)" tooltip="Tooltip 17 (checkbox)" value="1" required="true" color="warning"/>
-                <switch id="campo18warning0" label="Campo 18 (switch warning)" tooltip="Tooltip 18 (switch)" value="0" required="true" color="warning"/>
-                <switch id="campo18warning1" label="Campo 18 (switch warning)" tooltip="Tooltip 18 (switch)" value="1" required="true" color="warning"/>
+                <checkbox id="campo17warning0" label="Campo 17 (checkbox warning off)" tooltip="Tooltip 17 (checkbox)" value="0" required="true" color="warning"/>
+                <checkbox id="campo17warning1" label="Campo 17 (checkbox warning on)" tooltip="Tooltip 17 (checkbox)" value="1" required="true" color="warning"/>
+                <switch id="campo18warning0" label="Campo 18 (switch warning off)" tooltip="Tooltip 18 (switch)" value="0" required="true" color="warning"/>
+                <switch id="campo18warning1" label="Campo 18 (switch warning on)" tooltip="Tooltip 18 (switch)" value="1" required="true" color="warning"/>
 
-                <checkbox id="campo17info0" label="Campo 17 (checkbox info)" tooltip="Tooltip 17 (checkbox)" value="0" required="true" color="info"/>
-                <checkbox id="campo17info1" label="Campo 17 (checkbox info)" tooltip="Tooltip 17 (checkbox)" value="1" required="true" color="info"/>
-                <switch id="campo18info0" label="Campo 18 (switch info)" tooltip="Tooltip 18 (switch)" value="0" required="true" color="info"/>
-                <switch id="campo18info1" label="Campo 18 (switch info)" tooltip="Tooltip 18 (switch)" value="1" required="true" color="info"/>
+                <checkbox id="campo17info0" label="Campo 17 (checkbox info off)" tooltip="Tooltip 17 (checkbox)" value="0" required="true" color="info"/>
+                <checkbox id="campo17info1" label="Campo 17 (checkbox info on)" tooltip="Tooltip 17 (checkbox)" value="1" required="true" color="info"/>
+                <switch id="campo18info0" label="Campo 18 (switch info off)" tooltip="Tooltip 18 (switch)" value="0" required="true" color="info"/>
+                <switch id="campo18info1" label="Campo 18 (switch info on)" tooltip="Tooltip 18 (switch)" value="1" required="true" color="info"/>
 
             </container>
         </layout>
