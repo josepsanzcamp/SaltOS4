@@ -153,7 +153,8 @@ test('saltos.gettext.bootstrap.field', () => {
         },
         data: [
             {id: 1, name: 'josep', surname: 'sanz', actions: {view: {arg: 'app/x/view/1'}}},
-            {id: 2, name: 'josep', surname: 'sanz', actions: {view: {label: 'text7', tooltip: 'text8', arg: 'app/x/view/2'}}},
+            {id: 2, name: 'josep', surname: 'sanz', actions: {view: {label: 'text7', tooltip: 'text8',
+                arg: 'app/x/view/2'}}},
         ],
         footer: 'text9',
     }).innerHTML;
@@ -274,7 +275,7 @@ test('saltos.gettext.bootstrap.modal', () => {
     expect(html).not.toContain('text2');
     expect(html).toContain('translated1');
     expect(html).toContain('translated2');
-    expect(document.querySelector("#modalTest")).not.toBeNull();
+    expect(document.querySelector('#modalTest')).not.toBeNull();
 });
 
 /**
@@ -306,7 +307,7 @@ test('saltos.gettext.bootstrap.toast', () => {
     expect(html).not.toContain('text2');
     expect(html).toContain('translated1');
     expect(html).toContain('translated2');
-    expect(document.querySelector("#toastTest")).not.toBeNull();
+    expect(document.querySelector('#toastTest')).not.toBeNull();
 });
 
 /**
@@ -377,5 +378,5 @@ test('saltos.gettext.bootstrap.offcanvas', () => {
     const html = document.body.innerHTML;
     expect(html).not.toContain('text1');
     expect(html).toContain('translated1');
-    expect(document.querySelector("#offcanvasTest")).not.toBeNull();
+    expect(document.querySelector('#offcanvasTest')).not.toBeNull();
 });

@@ -6,7 +6,7 @@ module.exports = {
     roots: ['<rootDir>/../ujest'],
     testMatch: ['**/test_*.js'],
     collectCoverage: true,
-    coverageDirectory: '/tmp/jest.report',
-    coveragePathIgnorePatterns: ['/lib/'],
+    coverageReporters: ['json'],
+    coverageDirectory: '/tmp/nyc_output/0',
     snapshotResolver: '<rootDir>/../ujest/lib/snapshotResolver.js',
 };

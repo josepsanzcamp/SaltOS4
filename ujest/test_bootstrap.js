@@ -39,8 +39,10 @@
 /**
  * TODO
  */
-const playwright = require('playwright');
-const firefox = playwright.firefox;
+const puppeteer = require('puppeteer');
+const fs = require('fs');
+const path = require('path');
+const pti = require('puppeteer-to-istanbul');
 
 /**
  * TODO
@@ -50,37 +52,29 @@ const firefox = playwright.firefox;
 describe('Widget rendering', () => {
     let browser;
     let page;
+    let __iter = 0;
 
     /**
      * TODO
      */
-    beforeAll(async () => {
-        browser = await firefox.launch();
-        const context = await browser.newContext({
-            ignoreHTTPSErrors: true,
+    beforeEach(async () => {
+        browser = await puppeteer.launch({
+            args: ['--ignore-certificate-errors'],
         });
-        page = await context.newPage();
-        //~ await global.page.coverage.startJSCoverage();
+        page = await browser.newPage();
+        await page.coverage.startJSCoverage();
     });
 
     /**
      * TODO
      */
-    afterAll(async () => {
+    afterEach(async () => {
+        const jsCoverage = await page.coverage.stopJSCoverage();
+        __iter++;
+        pti.write(jsCoverage, {
+            storagePath: `/tmp/nyc_output/${__iter}`
+        });
         await browser.close();
-        /*const coverage = await global.page.coverage.stopJSCoverage();
-        // Verifica que Jest tiene cobertura habilitada
-        if (globalThis.__coverage__) {
-            coverage.forEach(({ url, functions }) => {
-                if (globalThis.__coverage__[url]) {
-                    // Fusionar datos de cobertura con Jest
-                    Object.assign(globalThis.__coverage__[url], functions);
-                } else {
-                    // Añadir nuevo archivo si no existía
-                    globalThis.__coverage__[url] = functions;
-                }
-            });
-        }*/
     });
 
     /**
@@ -89,9 +83,6 @@ describe('Widget rendering', () => {
      * TODO
      */
     test('renders table', async () => {
-        const fs = require('fs');
-        const path = require('path');
-
         await page.addScriptTag({path: path.resolve(
             __dirname, '../code/web/lib/bootstrap/bootstrap.bundle.min.js')});
         await page.addStyleTag({path: path.resolve(
@@ -141,9 +132,6 @@ describe('Widget rendering', () => {
      * TODO
      */
     test('renders ckeditor', async () => {
-        const fs = require('fs');
-        const path = require('path');
-
         await page.goto('https://127.0.0.1/saltos/code4/#/app/emails');
         await page.waitForFunction(() => document.querySelector('#user'));
 

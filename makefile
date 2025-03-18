@@ -144,6 +144,7 @@ else # file=xxx,yyy,zzz
 	@jest --config=scripts/jest.config.js $(shell echo ${file} | tr ',' '\n' | gawk '{print "../ujest/test_"$$0".js"}' | paste -s -d' ')
 endif
 endif
+	@php scripts/jest_coverage.php
 
 cloc:
 	cloc makefile scripts utest code/api/{index.php,php,xml} code/web/{js,htm} code/apps/*/{js,php,xml,locale,sample}
