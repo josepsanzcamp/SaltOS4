@@ -137,7 +137,7 @@ saltos.emails.init = arg => {
                 return;
             }
             const hasimg = srcdoc => {
-                return /<img\s+[^>]*src=["']data:image\/gif;base64,[^"']+["']/i.test(srcdoc);
+                return /data:image\/gif;base64,/.test(srcdoc);
             };
             if (!hasimg(iframe.srcdoc)) {
                 return;
