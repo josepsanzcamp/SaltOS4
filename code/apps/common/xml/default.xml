@@ -61,18 +61,9 @@
                 <table id="list" nodata="Loading..." dropdown="false">
                     <header>TODO</header>
                     <actions>
-                        <view icon="search" tooltip="View" onclick="saltos.driver.open">
-                            <app eval="true">get_data('rest/1')</app>
-                            <action>view</action>
-                        </view>
-                        <edit icon="pencil" tooltip="Edit" onclick="saltos.driver.open">
-                            <app eval="true">get_data('rest/1')</app>
-                            <action>edit</action>
-                        </edit>
-                        <delete icon="trash" color="danger" tooltip="Delete" onclick="saltos.driver.delete">
-                            <app eval="true">get_data('rest/1')</app>
-                            <action>delete</action>
-                        </delete>
+                        <view icon="search" tooltip="View" onclick="saltos.driver.open"/>
+                        <edit icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
+                        <delete icon="trash" color="danger" tooltip="Delete" onclick="saltos.driver.delete"/>
                     </actions>
                 </table>
             </row>

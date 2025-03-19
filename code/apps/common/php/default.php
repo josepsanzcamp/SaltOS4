@@ -169,14 +169,7 @@ function make_app_file($data)
 
     // update the actions array
     foreach ($actions as $key => $action) {
-        $action = join_attr_value($action);
-        $action = eval_attr($action);
-        $action0 = get_part_from_string($action['action'], '/', 0);
-        if (__app_has_perm($action['app'], $action0)) {
-            unset($action['app']);
-            unset($action['action']);
-            $actions[$key] = $action;
-        } else {
+        if (!__app_has_perm($data['app'], $key)) {
             unset($actions[$key]);
         }
     }

@@ -576,37 +576,38 @@ function make_app_file_helper($yamlfile)
     }
     $files = [$yamlfile, $data['require'], $data['template']];
     $xmlfile = get_cache_file($files, 'xml');
-    if (!cache_exists($xmlfile, $files)) {
-        require_once $data['require'];
-        $array = make_app_file($data);
-        // generate the output xml
-        $header = file_get_contents($data['template']);
-        $header = explode("\n\n", $header);
-        if (substr($header[0], 0, 5) != '<?xml') {
-            show_php_error(['phperror' => 'Internal error']);
-        }
-        if (substr($header[1], 0, 4) != '<!--') {
-            show_php_error(['phperror' => 'Internal error']);
-        }
-        if (substr($header[2], 0, 6) != '<root>') {
-            show_php_error(['phperror' => 'Internal error']);
-        }
-        // generate the output xml
-        $data['indent'] = $data['indent'] ?? false;
-        $xml = $header[0];
-        if ($data['indent']) {
-            $xml .= "\n\n";
-            $xml .= $header[1];
-            $xml .= "\n\n";
-        }
-        $xml .= "<!-- source: $yamlfile -->";
-        if ($data['indent']) {
-            $xml .= "\n\n";
-        }
-        require_once 'php/lib/array2xml.php';
-        $xml .= array2xml(['root' => $array], $data['indent']);
-        file_put_contents($xmlfile, $xml);
-        chmod_protected($xmlfile, 0666);
+    if (cache_exists($xmlfile, $files)) {
+        return $xmlfile;
     }
+    require_once $data['require'];
+    $array = make_app_file($data);
+    // generate the output xml
+    $header = file_get_contents($data['template']);
+    $header = explode("\n\n", $header);
+    if (substr($header[0], 0, 5) != '<?xml') {
+        show_php_error(['phperror' => 'Internal error']);
+    }
+    if (substr($header[1], 0, 4) != '<!--') {
+        show_php_error(['phperror' => 'Internal error']);
+    }
+    if (substr($header[2], 0, 6) != '<root>') {
+        show_php_error(['phperror' => 'Internal error']);
+    }
+    // generate the output xml
+    $data['indent'] = $data['indent'] ?? false;
+    $xml = $header[0];
+    if ($data['indent']) {
+        $xml .= "\n\n";
+        $xml .= $header[1];
+        $xml .= "\n\n";
+    }
+    $xml .= "<!-- source: $yamlfile -->";
+    if ($data['indent']) {
+        $xml .= "\n\n";
+    }
+    require_once 'php/lib/array2xml.php';
+    $xml .= array2xml(['root' => $array], $data['indent']);
+    file_put_contents($xmlfile, $xml);
+    chmod_protected($xmlfile, 0666);
     return $xmlfile;
 }
