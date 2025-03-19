@@ -362,7 +362,7 @@
                 <switch id="state_new" label="New" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" color="success"/>
                 <switch id="state_reply" label="Reply" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
                 <switch id="state_forward" label="Forward" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
-                <switch id="state_wait" label="Pending" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
+                <switch id="state_wait" label="Wait" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
                 <switch id="state_spam" label="SPAM" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" color="danger"/>
                 <switch id="state_crt" label="Request confirmation of receipt" col_class="col-sm-9 col-md-6 col-lg-6 mb-3"/>
                 <text id="state_error" label="Error" color="danger"/>
