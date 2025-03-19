@@ -102,12 +102,15 @@ describe('Widget rendering', () => {
             await page.waitForFunction(id => document.getElementById(id).tomselect, {}, field.id);
         } else if (field.type == 'jstree') {
             await page.waitForFunction(id => document.getElementById(id).instance, {}, field.id);
-        } else if (['chartjs', 'excel', 'pdfjs', 'gallery'].includes(field.type)) {
-            await page.evaluate(() => {
-                return new Promise((resolve) => {
-                    setTimeout(resolve, 1000);
-                });
-            });
+        } else if (field.type == 'excel') {
+            await page.waitForFunction(id => document.getElementById(id).excel, {}, field.id);
+        } else if (field.type == 'chartjs') {
+            await page.evaluate(() => { return new Promise((resolve) => { setTimeout(resolve, 1000); }); });
+        } else if (field.type == 'gallery') {
+            await page.evaluate(() => { return new Promise((resolve) => { setTimeout(resolve, 100); }); });
+        } else if (field.type == 'pdfjs') {
+            await page.waitForFunction(() => { return typeof pdfjsLib == 'object'; });
+            await page.evaluate(() => { return new Promise((resolve) => { setTimeout(resolve, 200); }); });
         }
 
         const widget = await page.$('#widget');
