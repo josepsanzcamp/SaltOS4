@@ -139,6 +139,7 @@ endif
 
 ujest:
 	php scripts/jest_tester.php
+	rm -f /tmp/nyc_output/*/*.json
 ifeq ($(file), ) # default behaviour
 	-@jest --config=scripts/jest.config.js $(shell svn st ujest/test_*.js | grep -e ^A -e ^M -e ^? | grep '\.'js$$ | gawk '{print "../"$$2}' | sort | paste -s -d' ')
 else

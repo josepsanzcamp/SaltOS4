@@ -49,7 +49,7 @@ const pti = require('puppeteer-to-istanbul');
  *
  * TODO
  */
-describe('Widget rendering', () => {
+describe('Bootstrap', () => {
     let browser;
     let page;
 
@@ -85,7 +85,7 @@ describe('Widget rendering', () => {
      *
      * TODO
      */
-    test.each(json)('renders $label', async field => {
+    test.each(json)('$label', async field => {
         await page.evaluate(field => {
             const obj = saltos.bootstrap.field(field);
             const div = saltos.core.html('<div id="widget" style="width:600px;" />');
