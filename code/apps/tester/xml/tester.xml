@@ -540,6 +540,182 @@
                 <switch id="campo18info0" label="Campo 18 (switch info off)" tooltip="Tooltip 18 (switch)" value="0" required="true" color="info"/>
                 <switch id="campo18info1" label="Campo 18 (switch info on)" tooltip="Tooltip 18 (switch)" value="1" required="true" color="info"/>
 
+                <hr col_class="col-12 clonable" class="mt-0 border-3"/>
+
+                <table id="campo28a" label="Campo 28 (table with checkbox)" tooltip="Tooltip 28 (table)" checkbox="true">
+                    <header eval="true">["Name","Surname",["label"=>"Phone","type"=>"html"]]</header>
+                    <data eval="true"><![CDATA[
+                        [
+                            ["Josep", "Sanz", "<a href='tel:654123789'>654 123 789</a>"],
+                            ["Jordi", "Company", "<a href='tel:654123790'>654 123 790</a>"],
+                            ["Andres", "Diaz", "<a href='tel:654123791'>654 123 791</a>"],
+                            ["Maria", "Garcia", "<a href='tel:654123792'>654 123 792</a>"],
+                            ["Laura", "Martinez", "<a href='tel:654123793'>654 123 793</a>"],
+                            ["Carlos", "Lopez", "<a href='tel:654123794'>654 123 794</a>"],
+                            ["Ana", "Fernandez", "<a href='tel:654123795'>654 123 795</a>"],
+                            ["Pedro", "Gomez", "<a href='tel:654123796'>654 123 796</a>"],
+                            ["Sofia", "Ruiz", "<a href='tel:654123797'>654 123 797</a>"],
+                            ["Miguel", "Hernandez", "<a href='tel:654123798'>654 123 798</a>"]
+                        ]
+                    ]]></data>
+                    <footer eval="true">"Total: 10"</footer>
+                </table>
+                <table id="campo28b" label="Campo 28 (table with actions)" tooltip="Tooltip 28 (table)">
+                    <header eval="true">["Name","Surname",["label"=>"Phone","type"=>"html"]]</header>
+                    <data eval="true"><![CDATA[
+                        [
+                            ["Josep", "Sanz", "<a href='tel:654123789'>654 123 789</a>"],
+                            ["Jordi", "Company", "<a href='tel:654123790'>654 123 790</a>"],
+                            ["Andres", "Diaz", "<a href='tel:654123791'>654 123 791</a>"],
+                            ["Maria", "Garcia", "<a href='tel:654123792'>654 123 792</a>"],
+                            ["Laura", "Martinez", "<a href='tel:654123793'>654 123 793</a>"],
+                            ["Carlos", "Lopez", "<a href='tel:654123794'>654 123 794</a>"],
+                            ["Ana", "Fernandez", "<a href='tel:654123795'>654 123 795</a>"],
+                            ["Pedro", "Gomez", "<a href='tel:654123796'>654 123 796</a>"],
+                            ["Sofia", "Ruiz", "<a href='tel:654123797'>654 123 797</a>"],
+                            ["Miguel", "Hernandez", "<a href='tel:654123798'>654 123 798</a>"]
+                        ]
+                    ]]></data>
+                    <actions>
+                        <view icon="search" tooltip="View" onclick="saltos.driver.open"/>
+                        <edit icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
+                        <delete icon="trash" color="danger" tooltip="Delete" onclick="saltos.driver.delete"/>
+                    </actions>
+                    <footer eval="true">"Total: 10"</footer>
+                </table>
+                <table id="campo28c" label="Campo 28 (table with checkbox and actions)" tooltip="Tooltip 28 (table)" checkbox="true" dropdown="false">
+                    <header eval="true">["Name","Surname",["label"=>"Phone","type"=>"html"]]</header>
+                    <data eval="true"><![CDATA[
+                        [
+                            ["Josep", "Sanz", "<a href='tel:654123789'>654 123 789</a>"],
+                            ["Jordi", "Company", "<a href='tel:654123790'>654 123 790</a>"],
+                            ["Andres", "Diaz", "<a href='tel:654123791'>654 123 791</a>"],
+                            ["Maria", "Garcia", "<a href='tel:654123792'>654 123 792</a>"],
+                            ["Laura", "Martinez", "<a href='tel:654123793'>654 123 793</a>"],
+                            ["Carlos", "Lopez", "<a href='tel:654123794'>654 123 794</a>"],
+                            ["Ana", "Fernandez", "<a href='tel:654123795'>654 123 795</a>"],
+                            ["Pedro", "Gomez", "<a href='tel:654123796'>654 123 796</a>"],
+                            ["Sofia", "Ruiz", "<a href='tel:654123797'>654 123 797</a>"],
+                            ["Miguel", "Hernandez", "<a href='tel:654123798'>654 123 798</a>"]
+                        ]
+                    ]]></data>
+                    <actions>
+                        <view icon="search" tooltip="View" onclick="saltos.driver.open"/>
+                        <edit icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
+                        <delete icon="trash" color="danger" tooltip="Delete" onclick="saltos.driver.delete"/>
+                    </actions>
+                    <footer eval="true">"Total: 10"</footer>
+                </table>
+                <table id="campo28d" label="Campo 28 (table with checkbox and action)" tooltip="Tooltip 28 (table)" checkbox="true">
+                    <header eval="true">["Name","Surname",["label"=>"Phone","type"=>"html"]]</header>
+                    <data eval="true"><![CDATA[
+                        [
+                            ["Josep", "Sanz", "<a href='tel:654123789'>654 123 789</a>"],
+                            ["Jordi", "Company", "<a href='tel:654123790'>654 123 790</a>"],
+                            ["Andres", "Diaz", "<a href='tel:654123791'>654 123 791</a>"],
+                            ["Maria", "Garcia", "<a href='tel:654123792'>654 123 792</a>"],
+                            ["Laura", "Martinez", "<a href='tel:654123793'>654 123 793</a>"],
+                            ["Carlos", "Lopez", "<a href='tel:654123794'>654 123 794</a>"],
+                            ["Ana", "Fernandez", "<a href='tel:654123795'>654 123 795</a>"],
+                            ["Pedro", "Gomez", "<a href='tel:654123796'>654 123 796</a>"],
+                            ["Sofia", "Ruiz", "<a href='tel:654123797'>654 123 797</a>"],
+                            ["Miguel", "Hernandez", "<a href='tel:654123798'>654 123 798</a>"]
+                        ]
+                    ]]></data>
+                    <actions>
+                        <view icon="search" tooltip="View" onclick="saltos.driver.open"/>
+                    </actions>
+                    <footer eval="true">"Total: 10"</footer>
+                </table>
+
+                <hr col_class="col-12 clonable" class="mt-0 border-3"/>
+
+                <table id="campo28a" label="Campo 28 (small table with checkbox)" tooltip="Tooltip 28 (table)" checkbox="true" class="table-sm">
+                    <header eval="true">["Name","Surname",["label"=>"Phone","type"=>"html"]]</header>
+                    <data eval="true"><![CDATA[
+                        [
+                            ["Josep", "Sanz", "<a href='tel:654123789'>654 123 789</a>"],
+                            ["Jordi", "Company", "<a href='tel:654123790'>654 123 790</a>"],
+                            ["Andres", "Diaz", "<a href='tel:654123791'>654 123 791</a>"],
+                            ["Maria", "Garcia", "<a href='tel:654123792'>654 123 792</a>"],
+                            ["Laura", "Martinez", "<a href='tel:654123793'>654 123 793</a>"],
+                            ["Carlos", "Lopez", "<a href='tel:654123794'>654 123 794</a>"],
+                            ["Ana", "Fernandez", "<a href='tel:654123795'>654 123 795</a>"],
+                            ["Pedro", "Gomez", "<a href='tel:654123796'>654 123 796</a>"],
+                            ["Sofia", "Ruiz", "<a href='tel:654123797'>654 123 797</a>"],
+                            ["Miguel", "Hernandez", "<a href='tel:654123798'>654 123 798</a>"]
+                        ]
+                    ]]></data>
+                    <footer eval="true">"Total: 10"</footer>
+                </table>
+                <table id="campo28b" label="Campo 28 (small table with actions)" tooltip="Tooltip 28 (table)" class="table-sm">
+                    <header eval="true">["Name","Surname",["label"=>"Phone","type"=>"html"]]</header>
+                    <data eval="true"><![CDATA[
+                        [
+                            ["Josep", "Sanz", "<a href='tel:654123789'>654 123 789</a>"],
+                            ["Jordi", "Company", "<a href='tel:654123790'>654 123 790</a>"],
+                            ["Andres", "Diaz", "<a href='tel:654123791'>654 123 791</a>"],
+                            ["Maria", "Garcia", "<a href='tel:654123792'>654 123 792</a>"],
+                            ["Laura", "Martinez", "<a href='tel:654123793'>654 123 793</a>"],
+                            ["Carlos", "Lopez", "<a href='tel:654123794'>654 123 794</a>"],
+                            ["Ana", "Fernandez", "<a href='tel:654123795'>654 123 795</a>"],
+                            ["Pedro", "Gomez", "<a href='tel:654123796'>654 123 796</a>"],
+                            ["Sofia", "Ruiz", "<a href='tel:654123797'>654 123 797</a>"],
+                            ["Miguel", "Hernandez", "<a href='tel:654123798'>654 123 798</a>"]
+                        ]
+                    ]]></data>
+                    <actions>
+                        <view icon="search" tooltip="View" onclick="saltos.driver.open"/>
+                        <edit icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
+                        <delete icon="trash" color="danger" tooltip="Delete" onclick="saltos.driver.delete"/>
+                    </actions>
+                    <footer eval="true">"Total: 10"</footer>
+                </table>
+                <table id="campo28c" label="Campo 28 (small table with checkbox and actions)" tooltip="Tooltip 28 (table)" checkbox="true" dropdown="false" class="table-sm">
+                    <header eval="true">["Name","Surname",["label"=>"Phone","type"=>"html"]]</header>
+                    <data eval="true"><![CDATA[
+                        [
+                            ["Josep", "Sanz", "<a href='tel:654123789'>654 123 789</a>"],
+                            ["Jordi", "Company", "<a href='tel:654123790'>654 123 790</a>"],
+                            ["Andres", "Diaz", "<a href='tel:654123791'>654 123 791</a>"],
+                            ["Maria", "Garcia", "<a href='tel:654123792'>654 123 792</a>"],
+                            ["Laura", "Martinez", "<a href='tel:654123793'>654 123 793</a>"],
+                            ["Carlos", "Lopez", "<a href='tel:654123794'>654 123 794</a>"],
+                            ["Ana", "Fernandez", "<a href='tel:654123795'>654 123 795</a>"],
+                            ["Pedro", "Gomez", "<a href='tel:654123796'>654 123 796</a>"],
+                            ["Sofia", "Ruiz", "<a href='tel:654123797'>654 123 797</a>"],
+                            ["Miguel", "Hernandez", "<a href='tel:654123798'>654 123 798</a>"]
+                        ]
+                    ]]></data>
+                    <actions>
+                        <view icon="search" tooltip="View" onclick="saltos.driver.open"/>
+                        <edit icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
+                        <delete icon="trash" color="danger" tooltip="Delete" onclick="saltos.driver.delete"/>
+                    </actions>
+                    <footer eval="true">"Total: 10"</footer>
+                </table>
+                <table id="campo28d" label="Campo 28 (small table with checkbox and action)" tooltip="Tooltip 28 (table)" checkbox="true" class="table-sm">
+                    <header eval="true">["Name","Surname",["label"=>"Phone","type"=>"html"]]</header>
+                    <data eval="true"><![CDATA[
+                        [
+                            ["Josep", "Sanz", "<a href='tel:654123789'>654 123 789</a>"],
+                            ["Jordi", "Company", "<a href='tel:654123790'>654 123 790</a>"],
+                            ["Andres", "Diaz", "<a href='tel:654123791'>654 123 791</a>"],
+                            ["Maria", "Garcia", "<a href='tel:654123792'>654 123 792</a>"],
+                            ["Laura", "Martinez", "<a href='tel:654123793'>654 123 793</a>"],
+                            ["Carlos", "Lopez", "<a href='tel:654123794'>654 123 794</a>"],
+                            ["Ana", "Fernandez", "<a href='tel:654123795'>654 123 795</a>"],
+                            ["Pedro", "Gomez", "<a href='tel:654123796'>654 123 796</a>"],
+                            ["Sofia", "Ruiz", "<a href='tel:654123797'>654 123 797</a>"],
+                            ["Miguel", "Hernandez", "<a href='tel:654123798'>654 123 798</a>"]
+                        ]
+                    ]]></data>
+                    <actions>
+                        <view icon="search" tooltip="View" onclick="saltos.driver.open"/>
+                    </actions>
+                    <footer eval="true">"Total: 10"</footer>
+                </table>
+
             </container>
         </layout>
 

@@ -21,6 +21,10 @@ $orig = 'apps/tester/xml/tester.xml';
 $path = 'main/layout/container';
 $dest = '/tmp/tester.json';
 
+$reset = "\e[0m";
+$red = "\e[31m";
+$green = "\e[32m";
+
 $array = xmlfile2array($orig);
 $array = xpath_search_first_value($path, $array);
 $array = eval_attr($array);
@@ -38,10 +42,12 @@ foreach ($array as $key => $val) {
     }
     $array[$key] = $val;
     if (isset($label[$val['label']])) {
-        echo "WARNING: {$val['label']} FOUND!!!\n";
+        echo "{$red}Error: repeated {$val['label']} found!!!{$reset}\n";
+        exit(1);
     }
     $label[$val['label']] = $val['label'];
 }
 $array = array_values($array);
 $json = json_encode($array);
 file_put_contents($dest, $json);
+echo "{$green}Write $dest file{$reset}\n";

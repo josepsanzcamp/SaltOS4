@@ -164,7 +164,7 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
                             <ul class="dropdown-menu">
                             </ul>
                         </div>
-                    `)),v.querySelector("ul").parentElement.addEventListener("show.bs.dropdown",n)),saltos.core.eval_bool(s.first_action));for(var r in s.actions){const y={...saltos.core.join_attr_value(s.actions[r]),...d.actions[r]};if("arg"in y&&""!=y.arg){if(!("onclick"in y))throw new Error("Table onclick not found");y.onclick=`${y.onclick}("${y.arg}")`}else y.disabled=!0;t&&(y.onclick&&(p.setAttribute("_onclick",y.onclick),p.addEventListener("dblclick",e=>{new Function(e.target.parentElement.getAttribute("_onclick")).call(e.target),(document.selection&&document.selection.empty||window.getSelection)&&window.getSelection().removeAllRanges()})),t=!1),"color"in y&&(y.class="text-"+y.color),y.color="none";const g=saltos.bootstrap.__field.button(y);if(e){g.classList.replace("btn","dropdown-item"),g.addEventListener("click",n);const w=saltos.core.html("<li></li>");w.append(g),v.querySelector("ul").append(w)}else g.classList.add("border-0"),v.append(g)}p.append(v)}a.querySelector("tbody").append(p)}}else""==s.nodata&&(s.nodata="&nbsp;"),a.querySelector("tbody").append(saltos.core.html("tbody",`
+                    `)),v.querySelector("ul").parentElement.addEventListener("show.bs.dropdown",n)),saltos.core.eval_bool(s.first_action));for(var r in"actions"in d||(d.actions={}),s.actions){const y={...saltos.core.join_attr_value(s.actions[r]),...d.actions[r]};if("arg"in y&&""!=y.arg){if(!("onclick"in y))throw new Error("Table onclick not found");y.onclick=`${y.onclick}("${y.arg}")`}else y.disabled=!0;t&&(y.onclick&&(p.setAttribute("_onclick",y.onclick),p.addEventListener("dblclick",e=>{new Function(e.target.parentElement.getAttribute("_onclick")).call(e.target),(document.selection&&document.selection.empty||window.getSelection)&&window.getSelection().removeAllRanges()})),t=!1),"color"in y&&(y.class="text-"+y.color),y.color="none";const g=saltos.bootstrap.__field.button(y);if(e){g.classList.replace("btn","dropdown-item"),g.addEventListener("click",n);const w=saltos.core.html("<li></li>");w.append(g),v.querySelector("ul").append(w)}else g.classList.add("border-0"),v.append(g)}p.append(v)}a.querySelector("tbody").append(p)}}else""==s.nodata&&(s.nodata="&nbsp;"),a.querySelector("tbody").append(saltos.core.html("tbody",`
             <tr class="align-middle text-center">
                 <td colspan="100">${s.nodata}</td>
             </tr>
@@ -180,6 +180,13 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
                 --bs-table-active-bg: #fbec88;
                 --bs-table-hover-color: #373a3c;
                 --bs-table-active-color: #373a3c;
+            }
+        </style>
+    `)),a.append(saltos.core.html(`
+        <style>
+            .table-sm button {
+                padding-top: 0;
+                padding-bottom: 0;
             }
         </style>
     `)),a.set=e=>{const t=saltos.bootstrap.__field.table({...s,...e});a.replaceWith(t)},a.add=e=>{const t={...s,...e,data:[...s.data,...e.data]},o=saltos.bootstrap.__field.table(t);a.replaceWith(o)},a=saltos.bootstrap.__label_combine(s,a)},saltos.bootstrap.__field.alert=e=>{saltos.core.check_params(e,["class","id","title","text","body","close","color"]),e.color||(e.color="primary");let t=saltos.core.html(`
@@ -243,7 +250,7 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
             <span class="w-100 h-100 placeholder"></span>
         </div>
     `);return t=saltos.bootstrap.__label_combine(e,t)},saltos.bootstrap.__field.list=l=>{if(saltos.core.check_params(l,["class","id","onclick","truncate","checkbox","nodata"]),saltos.core.check_params(l,["data","actions"],[]),!l.data.length){const r=saltos.bootstrap.__field.alert({id:l.id,title:l.nodata,label:l.label});return r.set=e=>{const t=saltos.bootstrap.__field.list({...l,...e});r.replaceWith(t)},r.add=e=>{const t={...l,...e,data:[...l.data,...e.data]},o=saltos.bootstrap.__field.list(t);r.replaceWith(o)},r}let r;for(var t in r=saltos.core.eval_bool(l.onclick)?saltos.core.html(`<div id="${l.id}" class="list-group ${l.class}"></div>`):saltos.core.html(`<ul id="${l.id}" class="list-group ${l.class}"></ul>`),l.data){const o=l.data[t];saltos.core.check_params(o,["header","body","footer","class","header_text","header_icon","header_color","body_text","body_icon","body_color","footer_text","footer_icon","footer_color","onclick","arg","active","disabled","actions","id"]);let e;if(saltos.core.eval_bool(l.onclick)){if(e=saltos.core.html(`<button
-                class="list-group-item list-group-item-action ${o.class}"></button>`),Object.keys(l.actions).length){const s={...saltos.core.join_attr_value(Object.values(l.actions)[0]),...Object.values(o.actions)[0]};"onclick"in s&&"arg"in s&&(o.onclick=s.onclick,o.arg=s.arg)}""!=o.arg&&(o.onclick=`${o.onclick}("${o.arg}")`),saltos.bootstrap.__onclick_helper(e,o.onclick),saltos.core.eval_bool(l.checkbox)&&(""==o.id&&(o.id=saltos.core.uniqid()),e.setAttribute("id","button_"+o.id))}else e=saltos.core.html(`<li class="list-group-item ${o.class}"></li>`);if(""!=o.header){const a=saltos.core.html(`
+                class="list-group-item list-group-item-action ${o.class}"></button>`),Object.keys(l.actions).length){"actions"in o||(o.actions={});const s={...saltos.core.join_attr_value(Object.values(l.actions)[0]),...Object.values(o.actions)[0]};"onclick"in s&&"arg"in s&&(o.onclick=s.onclick,o.arg=s.arg)}""!=o.arg&&(o.onclick=`${o.onclick}("${o.arg}")`),saltos.bootstrap.__onclick_helper(e,o.onclick),saltos.core.eval_bool(l.checkbox)&&(""==o.id&&(o.id=saltos.core.uniqid()),e.setAttribute("id","button_"+o.id))}else e=saltos.core.html(`<li class="list-group-item ${o.class}"></li>`);if(""!=o.header){const a=saltos.core.html(`
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1 ${o.class}"></h5>
                 </div>

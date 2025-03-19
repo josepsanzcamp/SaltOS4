@@ -2545,6 +2545,9 @@ saltos.bootstrap.__field.table = field => {
                     td.querySelector('ul').parentElement.addEventListener('show.bs.dropdown', dropdown_close);
                 }
                 let first_action = saltos.core.eval_bool(field.first_action);
+                if (!('actions' in val)) {
+                    val.actions = {};
+                }
                 for (const key2 in field.actions) {
                     const val2 = {
                         ...saltos.core.join_attr_value(field.actions[key2]),
@@ -2663,6 +2666,15 @@ saltos.bootstrap.__field.table = field => {
                 --bs-table-active-bg: #fbec88;
                 --bs-table-hover-color: #373a3c;
                 --bs-table-active-color: #373a3c;
+            }
+        </style>
+    `));
+    // The follow code allow to fix a button size issue with small tables
+    obj.append(saltos.core.html(`
+        <style>
+            .table-sm button {
+                padding-top: 0;
+                padding-bottom: 0;
             }
         </style>
     `));
@@ -3416,6 +3428,9 @@ saltos.bootstrap.__field.list = field => {
             item = saltos.core.html(`<button
                 class="list-group-item list-group-item-action ${val.class}"></button>`);
             if (Object.keys(field.actions).length) {
+                if (!('actions' in val)) {
+                    val.actions = {};
+                }
                 const action = {
                     ...saltos.core.join_attr_value(Object.values(field.actions)[0]),
                     ...Object.values(val.actions)[0],
