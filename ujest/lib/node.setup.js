@@ -55,3 +55,55 @@ global.document = {
  * Load all files of the project
  */
 require(`../../code/web/js/core.js`);
+
+/**
+ * Save screenshot
+ *
+ * This function is intended to be used to save the screenshots taken from each
+ * part of the unit test, this simplify the task to compute the output file name
+ * and to write the screenshot into a png file
+ */
+global.mysave = (expect, screenshot) => {
+    const fs = require('fs');
+    const path = require('path');
+
+    const testName = expect.getState().currentTestName;
+    const testPath = expect.getState().testPath;
+
+    const dir = path.dirname(testPath);
+    const file = saltos.core.encode_bad_chars(testName) + '.png';
+
+    fs.writeFileSync(`${dir}/snaps/${file}`, screenshot);
+};
+
+/**
+ * My Pause
+ *
+ * This function is intended to do a pause inside the browser, to do it, we
+ * use a string instead of real code because istanbul tries to inject code
+ * and fails in runtime, one solution can be to put "istanbul ignore next"
+ * in a comment before the next page.evaluate, but I prefer to use a string
+ * in the page.evaluate because it is more simple for me
+ */
+global.mypause = (page, delay) => {
+    return page.evaluate(`
+        new Promise(resolve => {
+            setTimeout(resolve, ${delay});
+        });
+    `, delay);
+};
+
+/**
+ * My Blud
+ *
+ * This function is intended, as the previous function, to execute a blur
+ * in the browser, usefull when you are taken screenshots and need an
+ * screen without cursors and any other highlight in the screen
+ */
+global.myblur = page => {
+    return page.evaluate(`
+        if (document.activeElement) {
+            document.activeElement.blur();
+        }
+    `);
+};

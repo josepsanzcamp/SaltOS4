@@ -40,8 +40,6 @@
  * TODO
  */
 const puppeteer = require('puppeteer');
-const fs = require('fs');
-const path = require('path');
 const pti = require('puppeteer-to-istanbul');
 
 /**
@@ -78,6 +76,7 @@ describe('Bootstrap', () => {
     /**
      * Prepare the test.each iterator
      */
+    const fs = require('fs');
     const json = JSON.parse(fs.readFileSync('/tmp/tester.json', 'utf-8'));
 
     /**
@@ -105,21 +104,17 @@ describe('Bootstrap', () => {
         } else if (field.type == 'excel') {
             await page.waitForFunction(id => document.getElementById(id).excel, {}, field.id);
         } else if (field.type == 'chartjs') {
-            await page.evaluate(() => { return new Promise((resolve) => { setTimeout(resolve, 1000); }); });
+            await mypause(page, 1000);
         } else if (field.type == 'gallery') {
-            await page.evaluate(() => { return new Promise((resolve) => { setTimeout(resolve, 100); }); });
+            await mypause(page, 100);
         } else if (field.type == 'pdfjs') {
             await page.waitForFunction(() => { return typeof pdfjsLib == 'object'; });
-            await page.evaluate(() => { return new Promise((resolve) => { setTimeout(resolve, 200); }); });
+            await mypause(page, 200);
         }
 
         const widget = await page.$('#widget');
         const screenshot = await widget.screenshot();
-        const testName = expect.getState().currentTestName; // "should render correctly"
-        const testPath = expect.getState().testPath; // Ruta del archivo de prueba
-        const dir = path.dirname(testPath); // Obtiene el directorio
-        const file = saltos.core.encode_bad_chars(testName) + '.png';
-        fs.writeFileSync(`${dir}/snaps/${file}`, screenshot);
+        mysave(expect, screenshot);
         expect(screenshot).toMatchSnapshot();
     });
 });
