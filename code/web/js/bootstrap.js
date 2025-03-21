@@ -843,6 +843,10 @@ saltos.bootstrap.__field.codemirror = field => {
         if (field.height) {
             element.nextElementSibling.querySelector('.CodeMirror-scroll').style.minHeight = field.height;
         }
+        // This fix a bug because initially only paint the first 22 lines
+        if (cm.lineCount() > 22) {
+            cm.refresh();
+        }
     });
     // Program the set feature
     element.set = value => {
