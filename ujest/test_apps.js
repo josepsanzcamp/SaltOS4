@@ -79,16 +79,14 @@ afterAll(async () => {
 /**
  * TODO
  */
-let testFailed = false;
 let testFinish = false;
+let _describe = describe;
+let _test = test;
 
 /**
  * TODO
  */
 beforeEach(() => {
-    if (testFailed) {
-        throw new Error('A previous test failed, skipping execution');
-    }
     testFinish = false;
 });
 
@@ -97,7 +95,8 @@ beforeEach(() => {
  */
 afterEach(() => {
     if (!testFinish) {
-        testFailed = true;
+        _describe = describe.skip;
+        _test = test.skip;
     }
 });
 
@@ -106,13 +105,13 @@ afterEach(() => {
  *
  * TODO
  */
-describe('App Login', () => {
+_describe('App Login', () => {
     /**
      * TODO
      *
      * TODO
      */
-    test('Action Login', async () => {
+    _test('Action Login', async () => {
         await page.evaluate(() => { document.body.innerHTML = ''; });
         await page.goto('https://127.0.0.1/saltos/code4');
 
@@ -134,7 +133,7 @@ describe('App Login', () => {
      *
      * TODO
      */
-    test('Action Dashboard', async () => {
+    _test('Action Dashboard', async () => {
         await page.waitForSelector('#user', timeout);
         await page.type('#user', 'admin');
         await page.type('#pass', 'admin');
@@ -163,13 +162,13 @@ describe('App Login', () => {
  *
  * TODO
  */
-describe('App Customers', () => {
+_describe('App Customers', () => {
     /**
      * TODO
      *
      * TODO
      */
-    test('Action List', async () => {
+    _test('Action List', async () => {
         await page.evaluate(() => { document.body.innerHTML = ''; });
         await page.goto('https://127.0.0.1/saltos/code4/#/app/customers');
 
@@ -191,7 +190,7 @@ describe('App Customers', () => {
      *
      * TODO
      */
-    test('Action Create', async () => {
+    _test('Action Create', async () => {
         await page.waitForSelector('#one button', timeout);
         const buttons = await page.$$('#one button');
         await buttons[1].click(); // This trigger the create action
@@ -214,7 +213,7 @@ describe('App Customers', () => {
      *
      * TODO
      */
-    test('Action View', async () => {
+    _test('Action View', async () => {
         await page.waitForSelector('#list button', timeout);
         const buttons = await page.$$('#list button');
         await buttons[0].click(); // This open the dropdown
@@ -238,7 +237,7 @@ describe('App Customers', () => {
      *
      * TODO
      */
-    test('Action Edit', async () => {
+    _test('Action Edit', async () => {
         await page.waitForSelector('#list button', timeout);
         const buttons = await page.$$('#list button');
         await buttons[0].click(); // This open the dropdown
@@ -263,13 +262,13 @@ describe('App Customers', () => {
  *
  * TODO
  */
-describe('App Invoices', () => {
+_describe('App Invoices', () => {
     /**
      * TODO
      *
      * TODO
      */
-    test('Action List', async () => {
+    _test('Action List', async () => {
         await page.evaluate(() => { document.body.innerHTML = ''; });
         await page.goto('https://127.0.0.1/saltos/code4/#/app/invoices');
 
@@ -291,7 +290,7 @@ describe('App Invoices', () => {
      *
      * TODO
      */
-    test('Action Create', async () => {
+    _test('Action Create', async () => {
         await page.waitForSelector('#one button', timeout);
         const buttons = await page.$$('#one button');
         await buttons[1].click(); // This trigger the create action
@@ -314,7 +313,7 @@ describe('App Invoices', () => {
      *
      * TODO
      */
-    test('Action View', async () => {
+    _test('Action View', async () => {
         await page.waitForSelector('#list button', timeout);
         const buttons = await page.$$('#list button');
         await buttons[0].click(); // This open the dropdown
@@ -338,7 +337,7 @@ describe('App Invoices', () => {
      *
      * TODO
      */
-    test('Action Edit', async () => {
+    _test('Action Edit', async () => {
         await page.waitForSelector('#list button', timeout);
         const buttons = await page.$$('#list button');
         await buttons[0].click(); // This open the dropdown
@@ -363,13 +362,13 @@ describe('App Invoices', () => {
  *
  * TODO
  */
-describe('App Emails', () => {
+_describe('App Emails', () => {
     /**
      * TODO
      *
      * TODO
      */
-    test('Action List', async () => {
+    _test('Action List', async () => {
         await page.evaluate(() => { document.body.innerHTML = ''; });
         await page.goto('https://127.0.0.1/saltos/code4/#/app/emails');
 
@@ -391,7 +390,7 @@ describe('App Emails', () => {
      *
      * TODO
      */
-    test('Action Profile', async () => {
+    _test('Action Profile', async () => {
         await page.waitForSelector('#username', timeout);
         const username = await page.$('#username');
         await username.click(); // This open the dropdown
@@ -419,7 +418,7 @@ describe('App Emails', () => {
      *
      * TODO
      */
-    test('Action Help', async () => {
+    _test('Action Help', async () => {
         await page.waitForSelector('#username', timeout);
         const username = await page.$('#username');
         await username.click(); // This open the dropdown
@@ -450,7 +449,7 @@ describe('App Emails', () => {
      *
      * TODO
      */
-    test('Action Filter', async () => {
+    _test('Action Filter', async () => {
         await page.waitForSelector('#top button', timeout);
         const buttons = await page.$$('#top button');
         await buttons[0].click(); // This trigger the filter action
@@ -476,7 +475,7 @@ describe('App Emails', () => {
      *
      * TODO
      */
-    test('Action Create', async () => {
+    _test('Action Create', async () => {
         await page.waitForSelector('#top button', timeout);
         const buttons = await page.$$('#top button');
         await buttons[1].click(); // This trigger the create action
@@ -502,7 +501,7 @@ describe('App Emails', () => {
      *
      * TODO
      */
-    test('Action View', async () => {
+    _test('Action View', async () => {
         await page.waitForSelector('#list button', timeout);
         const buttons = await page.$$('#list button');
         await buttons[0].click(); // This trigger the view action
@@ -526,13 +525,13 @@ describe('App Emails', () => {
  *
  * TODO
  */
-describe('App Logout', () => {
+_describe('App Logout', () => {
     /**
      * TODO
      *
      * TODO
      */
-    test('Action Logout', async () => {
+    _test('Action Logout', async () => {
         await page.waitForSelector('#username', timeout);
         const username = await page.$('#username');
         await username.click(); // This open the dropdown
