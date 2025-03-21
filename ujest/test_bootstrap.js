@@ -41,6 +41,9 @@
  */
 const puppeteer = require('puppeteer');
 const pti = require('puppeteer-to-istanbul');
+const toMatchImageSnapshot = require('jest-image-snapshot').toMatchImageSnapshot;
+expect.extend({toMatchImageSnapshot});
+const timeout = {timeout: 3000};
 
 /**
  * TODO
@@ -48,6 +51,9 @@ const pti = require('puppeteer-to-istanbul');
  * TODO
  */
 describe('Bootstrap', () => {
+    /**
+     * TODO
+     */
     let browser;
     let page;
 
@@ -61,7 +67,7 @@ describe('Bootstrap', () => {
         page = await browser.newPage();
         await page.coverage.startJSCoverage();
         await page.goto('https://127.0.0.1/saltos/code4/#/app/emails');
-        await page.waitForFunction(() => document.getElementById('user'));
+        await page.waitForFunction(() => document.getElementById('user'), timeout);
     });
 
     /**
@@ -69,7 +75,7 @@ describe('Bootstrap', () => {
      */
     afterAll(async () => {
         const jsCoverage = await page.coverage.stopJSCoverage();
-        pti.write(jsCoverage, {storagePath: '/tmp/nyc_output/1'});
+        pti.write(jsCoverage, {storagePath: '/tmp/nyc_output/bootstrap'});
         await browser.close();
     });
 
@@ -93,28 +99,32 @@ describe('Bootstrap', () => {
             document.body.append(div);
         }, field);
 
+        const id = field.id;
         if (field.type == 'ckeditor') {
-            await page.waitForFunction(id => document.getElementById(id).ckeditor, {}, field.id);
+            await page.waitForFunction(id => document.getElementById(id).ckeditor, timeout, id);
         } else if (field.type == 'codemirror') {
-            await page.waitForFunction(id => document.getElementById(id).codemirror, {}, field.id);
+            await page.waitForFunction(id => document.getElementById(id).codemirror, timeout, id);
         } else if (['tags', 'onetag'].includes(field.type)) {
-            await page.waitForFunction(id => document.getElementById(id).tomselect, {}, field.id);
+            await page.waitForFunction(id => document.getElementById(id).tomselect, timeout, id);
         } else if (field.type == 'jstree') {
-            await page.waitForFunction(id => document.getElementById(id).instance, {}, field.id);
+            await page.waitForFunction(id => document.getElementById(id).instance, timeout, id);
         } else if (field.type == 'excel') {
-            await page.waitForFunction(id => document.getElementById(id).excel, {}, field.id);
+            await page.waitForFunction(id => document.getElementById(id).excel, timeout, id);
         } else if (field.type == 'chartjs') {
             await mypause(page, 1000);
         } else if (field.type == 'gallery') {
             await mypause(page, 100);
         } else if (field.type == 'pdfjs') {
-            await page.waitForFunction(() => { return typeof pdfjsLib == 'object'; });
+            await page.waitForFunction(() => { return typeof pdfjsLib == 'object'; }, timeout);
             await mypause(page, 200);
         }
 
         const widget = await page.$('#widget');
-        const screenshot = await widget.screenshot();
-        mysave(expect, screenshot);
-        expect(screenshot).toMatchSnapshot();
+        const screenshot = await widget.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
     });
 });

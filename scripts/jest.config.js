@@ -7,6 +7,5 @@ module.exports = {
     testMatch: ['**/test_*.js'],
     collectCoverage: true,
     coverageReporters: ['json'],
-    coverageDirectory: '/tmp/nyc_output/0',
-    snapshotResolver: '<rootDir>/../ujest/lib/snapshotResolver.js',
+    coverageDirectory: '/tmp/nyc_output/jest',
 };
