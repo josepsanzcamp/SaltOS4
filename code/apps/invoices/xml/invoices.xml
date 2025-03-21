@@ -140,7 +140,7 @@
 
     <!-- Form part -->
     <_form_header>
-        <text id="nombre" label="nombre" required="true"/>
+        <text id="nombre" label="nombre" required="true" autofocus="true"/>
         <text id="direccion" label="direccion" required="true"/>
         <text id="nombre_pais" label="nombre_pais" required="true"/>
         <text id="nombre_provincia" label="nombre_provincia" required="true"/>

@@ -43,6 +43,10 @@ const puppeteer = require('puppeteer');
 const pti = require('puppeteer-to-istanbul');
 const toMatchImageSnapshot = require('jest-image-snapshot').toMatchImageSnapshot;
 expect.extend({toMatchImageSnapshot});
+
+/**
+ * TODO
+ */
 const timeout = {timeout: 3000};
 
 /**
@@ -116,14 +120,14 @@ describe('Bootstrap', () => {
             await mypause(page, 100);
         } else if (field.type == 'pdfjs') {
             await page.waitForFunction(() => { return typeof pdfjsLib == 'object'; }, timeout);
-            await mypause(page, 200);
+            await mypause(page, 500);
         }
 
         const widget = await page.$('#widget');
         const screenshot = await widget.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
+            failureThreshold: 0,
+            failureThresholdType: 'pixel',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
     });

@@ -43,6 +43,10 @@ const puppeteer = require('puppeteer');
 const pti = require('puppeteer-to-istanbul');
 const toMatchImageSnapshot = require('jest-image-snapshot').toMatchImageSnapshot;
 expect.extend({toMatchImageSnapshot});
+
+/**
+ * TODO
+ */
 const timeout = {timeout: 3000};
 
 /**
@@ -74,10 +78,35 @@ afterAll(async () => {
 
 /**
  * TODO
+ */
+let testFailed = false;
+let testFinish = false;
+
+/**
+ * TODO
+ */
+beforeEach(() => {
+    if (testFailed) {
+        throw new Error('A previous test failed, skipping execution');
+    }
+    testFinish = false;
+});
+
+/**
+ * TODO
+ */
+afterEach(() => {
+    if (!testFinish) {
+        testFailed = true;
+    }
+});
+
+/**
+ * TODO
  *
  * TODO
  */
-describe('App Dashboard', () => {
+describe('App Login', () => {
     /**
      * TODO
      *
@@ -85,17 +114,19 @@ describe('App Dashboard', () => {
      */
     test('Action Login', async () => {
         await page.evaluate(() => { document.body.innerHTML = ''; });
-        await page.goto('https://127.0.0.1/saltos/code4/#/app/dashboard');
+        await page.goto('https://127.0.0.1/saltos/code4');
 
         await page.waitForSelector('#user', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
+            failureThreshold: 0,
+            failureThresholdType: 'pixel',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
+
+        testFinish = true;
     });
 
     /**
@@ -113,14 +144,17 @@ describe('App Dashboard', () => {
         await page.waitForSelector('#one', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
 
+        // Special case to allow the chartjs render
         await mypause(page, 1000);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
+            failureThreshold: 0,
+            failureThresholdType: 'pixel',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
+
+        testFinish = true;
     });
 });
 
@@ -142,14 +176,14 @@ describe('App Customers', () => {
         await page.waitForSelector('#list table', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
 
-        await mypause(page, 100);
-
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
+            failureThreshold: 0,
+            failureThresholdType: 'pixel',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
+
+        testFinish = true;
     });
 
     /**
@@ -162,17 +196,17 @@ describe('App Customers', () => {
         const buttons = await page.$$('#one button');
         await buttons[1].click(); // This trigger the create action
 
-        await page.waitForSelector('#codigo', timeout);
+        await page.waitForSelector('#nombre', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-
-        await mypause(page, 100);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
+            failureThreshold: 0,
+            failureThresholdType: 'pixel',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
+
+        testFinish = true;
     });
 
     /**
@@ -186,17 +220,17 @@ describe('App Customers', () => {
         await buttons[0].click(); // This open the dropdown
         await buttons[1].click(); // This trigger the view action
 
-        await page.waitForSelector('#codigo', timeout);
+        await page.waitForSelector('#nombre', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-
-        await mypause(page, 100);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
+            failureThreshold: 0,
+            failureThresholdType: 'pixel',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
+
+        testFinish = true;
     });
 
     /**
@@ -210,17 +244,17 @@ describe('App Customers', () => {
         await buttons[0].click(); // This open the dropdown
         await buttons[2].click(); // This trigger the edit action
 
-        await page.waitForSelector('#codigo', timeout);
+        await page.waitForSelector('#nombre', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-
-        await mypause(page, 100);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
+            failureThreshold: 0,
+            failureThresholdType: 'pixel',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
+
+        testFinish = true;
     });
 });
 
@@ -242,14 +276,14 @@ describe('App Invoices', () => {
         await page.waitForSelector('#list table', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
 
-        await mypause(page, 100);
-
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
+            failureThreshold: 0,
+            failureThresholdType: 'pixel',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
+
+        testFinish = true;
     });
 
     /**
@@ -265,14 +299,14 @@ describe('App Invoices', () => {
         await page.waitForSelector('#nombre', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
 
-        await mypause(page, 100);
-
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
+            failureThreshold: 0,
+            failureThresholdType: 'pixel',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
+
+        testFinish = true;
     });
 
     /**
@@ -289,14 +323,14 @@ describe('App Invoices', () => {
         await page.waitForSelector('#nombre', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
 
-        await mypause(page, 100);
-
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
+            failureThreshold: 0,
+            failureThresholdType: 'pixel',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
+
+        testFinish = true;
     });
 
     /**
@@ -313,14 +347,14 @@ describe('App Invoices', () => {
         await page.waitForSelector('#nombre', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
 
-        await mypause(page, 100);
-
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
+            failureThreshold: 0,
+            failureThresholdType: 'pixel',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
+
+        testFinish = true;
     });
 });
 
@@ -342,95 +376,16 @@ describe('App Emails', () => {
         await page.waitForSelector('#list button', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
 
-        await mypause(page, 100);
-
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
-            customSnapshotsDir: `${__dirname}/snaps`,
-        });
-    });
-
-    /**
-     * TODO
-     *
-     * TODO
-     */
-    test('Action Create', async () => {
-        await page.waitForSelector('#top button', timeout);
-        const buttons = await page.$$('#top button');
-        await buttons[1].click(); // This trigger the create action
-
-        await page.waitForSelector('#from', timeout);
-        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-
-        await mypause(page, 500);
-
-        const screenshot = await page.screenshot({encoding: 'base64'});
-        expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
-            customSnapshotsDir: `${__dirname}/snaps`,
-        });
-    });
-
-    /**
-     * TODO
-     *
-     * TODO
-     */
-    test('Action View', async () => {
-        await page.waitForSelector('#list button', timeout);
-        const buttons = await page.$$('#list button');
-        await buttons[0].click(); // This trigger the view action
-
-        await page.waitForSelector('#from', timeout);
-        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-
-        await mypause(page, 100);
-
-        const screenshot = await page.screenshot({encoding: 'base64'});
-        expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
-            customSnapshotsDir: `${__dirname}/snaps`,
-        });
-    });
-
-    /**
-     * TODO
-     *
-     * TODO
-     */
-    test('Action Filter', async () => {
-        await page.waitForSelector('#list button', timeout);
-        const buttons = await page.$$('#top button');
-        await buttons[0].click(); // This trigger the filter action
-
-        await page.waitForSelector('.offcanvas', timeout);
-        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-
-        await mypause(page, 100);
-
-        const screenshot = await page.screenshot({encoding: 'base64'});
-        expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
+            failureThreshold: 0,
+            failureThresholdType: 'pixel',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
-        await page.evaluate(() => { saltos.common.filter(); });
-        await page.waitForFunction(() => !document.querySelector('.offcanvas'), timeout);
+        testFinish = true;
     });
-});
 
-/**
- * TODO
- *
- * TODO
- */
-describe('App Dropdown', () => {
     /**
      * TODO
      *
@@ -446,17 +401,17 @@ describe('App Dropdown', () => {
         await page.waitForSelector('#oldpass', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
 
-        await mypause(page, 100);
-
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
+            failureThreshold: 0,
+            failureThresholdType: 'pixel',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
         await page.evaluate(() => { saltos.common.profile(); });
         await page.waitForFunction(() => !document.querySelector('#oldpass'), timeout);
+
+        testFinish = true;
     });
 
     /**
@@ -474,19 +429,104 @@ describe('App Dropdown', () => {
         await page.waitForSelector('#pdfjs', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
 
+        // Special case to allow the pdf load
         await mypause(page, 500);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
+            failureThreshold: 0,
+            failureThresholdType: 'pixel',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
         await page.evaluate(() => { saltos.common.help(); });
         await page.waitForFunction(() => !document.querySelector('#pdfjs'), timeout);
+
+        testFinish = true;
     });
 
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    test('Action Filter', async () => {
+        await page.waitForSelector('#top button', timeout);
+        const buttons = await page.$$('#top button');
+        await buttons[0].click(); // This trigger the filter action
+
+        await page.waitForSelector('.offcanvas', timeout);
+        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0,
+            failureThresholdType: 'pixel',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        await page.evaluate(() => { saltos.common.filter(); });
+        await page.waitForFunction(() => !document.querySelector('.offcanvas'), timeout);
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    test('Action Create', async () => {
+        await page.waitForSelector('#top button', timeout);
+        const buttons = await page.$$('#top button');
+        await buttons[1].click(); // This trigger the create action
+
+        await page.waitForSelector('#from', timeout);
+        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+
+        // Special case to allow the ckeditor render
+        await page.waitForFunction(() => document.getElementById('body').ckeditor, timeout);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0,
+            failureThresholdType: 'pixel',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    test('Action View', async () => {
+        await page.waitForSelector('#list button', timeout);
+        const buttons = await page.$$('#list button');
+        await buttons[0].click(); // This trigger the view action
+
+        await page.waitForSelector('#from', timeout);
+        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0,
+            failureThresholdType: 'pixel',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+});
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+describe('App Logout', () => {
     /**
      * TODO
      *
@@ -502,13 +542,13 @@ describe('App Dropdown', () => {
         await page.waitForSelector('#user', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
 
-        await mypause(page, 100);
-
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
+            failureThreshold: 0,
+            failureThresholdType: 'pixel',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
+
+        testFinish = true;
     });
 });
