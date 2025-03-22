@@ -33,6 +33,7 @@ pop3|https://phpclasses.org/browse/file/3.html|<span title=|PHNwYW4gdGl0bGU9IjIw
 rfc822|https://phpclasses.org/browse/file/21704.html|<span title=|PHNwYW4gdGl0bGU9IjIwMTYtMDctMjIgMjA6NTk6MDUiPg==
 sortablejs|https://github.com/SortableJS/Sortable/tags.atom|<title>|PHRpdGxlPnYxLjE1LjY8L3RpdGxlPg==
 
+acorn|https://github.com/acornjs/acorn/tags.atom|<title>|PHRpdGxlPlZlcnNpb24gOC4xNC4xPC90aXRsZT4=
 brotli|https://github.com/kjdev/php-ext-brotli/tags.atom|<title>|PHRpdGxlPjAuMTUuMjwvdGl0bGU+
 browserify|https://github.com/browserify/browserify/tags.atom|<title>|PHRpdGxlPnYxNy4wLjE8L3RpdGxlPg==
 jest|https://github.com/jestjs/jest/tags.atom|<title>|PHRpdGxlPnYzMC4wLjAtYWxwaGEuNzwvdGl0bGU+

@@ -1,6 +1,5 @@
 
 module.exports = {
-    //testEnvironment: 'node',
     testEnvironment: 'jsdom',
     setupFiles: ['<rootDir>/../ujest/lib/jest.setup.js'],
     roots: ['<rootDir>/../ujest'],
