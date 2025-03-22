@@ -134,12 +134,68 @@ describe('App Login', () => {
      *
      * TODO
      */
+    test('Action Login Ko Red', async () => {
+        await page.waitForSelector('#user', timeout);
+        await page.$$eval('button', buttons => buttons[1].click());
+
+        // Special case to allow the login ko
+        await page.waitForSelector('#user', timeout);
+        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+
+        // Special case to allow the toast render
+        await mypause(page, 100);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005, // this is for the shadow
+            failureThresholdType: 'percent', // this is for the shadow
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    test('Action Login Ko Green', async () => {
+        await page.waitForSelector('#user', timeout);
+        await page.$eval('#user', el => el.value = 'admin2');
+        await page.$eval('#pass', el => el.value = 'admin2');
+        await page.$$eval('button', buttons => buttons[1].click());
+
+        // Special case to allow the login ko
+        await page.waitForSelector('#user', timeout);
+        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+
+        // Special case to allow the toast render
+        await mypause(page, 500);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0,
+            failureThresholdType: 'pixel',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        await page.$eval('.toast', el => el.remove());
+        await page.waitForFunction(() => !document.querySelector('.toast'), timeout);
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('Action Dashboard', async () => {
         await page.waitForSelector('#user', timeout);
-        await page.type('#user', 'admin');
-        await page.type('#pass', 'admin');
-        const buttons = await page.$$('button');
-        await buttons[1].click();
+        await page.$eval('#user', el => el.value = 'admin');
+        await page.$eval('#pass', el => el.value = 'admin');
+        await page.$$eval('button', buttons => buttons[1].click());
 
         await page.waitForSelector('#one', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
@@ -193,9 +249,8 @@ describe('App Customers', () => {
      */
     test('Action Create', async () => {
         await page.waitForSelector('#one button', timeout);
-        const buttons = await page.$$('#one button');
-        await buttons[1].click(); // this trigger the create action
-        await page.evaluate(button => button.blur(), buttons[1]); // this lost the focus
+        await page.$$eval('#one button', buttons => buttons[1].click()); // this trigger the create action
+        await page.$$eval('#one button', buttons => buttons[1].blur()); // this lost the focus
 
         await page.waitForSelector('#nombre', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
@@ -217,9 +272,8 @@ describe('App Customers', () => {
      */
     test('Action View', async () => {
         await page.waitForSelector('#list button', timeout);
-        const buttons = await page.$$('#list button');
-        await buttons[0].click(); // this open the dropdown
-        await buttons[1].click(); // this trigger the view action
+        await page.$$eval('#list button', buttons => buttons[0].click()); // this open the dropdown
+        await page.$$eval('#list button', buttons => buttons[1].click()); // this trigger the view action
 
         await page.waitForSelector('#nombre', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
@@ -241,16 +295,15 @@ describe('App Customers', () => {
      */
     test('Action Edit', async () => {
         await page.waitForSelector('#list button', timeout);
-        const buttons = await page.$$('#list button');
-        await buttons[0].click(); // this open the dropdown
-        await buttons[2].click(); // this trigger the edit action
+        await page.$$eval('#list button', buttons => buttons[0].click()); // this open the dropdown
+        await page.$$eval('#list button', buttons => buttons[2].click()); // this trigger the edit action
 
-        const nombre = await page.waitForSelector('#nombre', timeout);
+        await page.waitForSelector('#nombre', timeout);
         // The follow lines disable the spell checker, the blur and focus
         // are executed in separate statements to allow the excetution
-        await page.evaluate(element => element.spellcheck = false, nombre);
-        await page.evaluate(element => element.blur(), nombre);
-        await page.evaluate(element => element.focus(), nombre);
+        await page.$eval('#nombre', element => element.spellcheck = false);
+        await page.$eval('#nombre', element => element.blur());
+        await page.$eval('#nombre', element => element.focus());
         // Continue
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
 
@@ -300,9 +353,8 @@ describe('App Invoices', () => {
      */
     test('Action Create', async () => {
         await page.waitForSelector('#one button', timeout);
-        const buttons = await page.$$('#one button');
-        await buttons[1].click(); // this trigger the create action
-        await page.evaluate(button => button.blur(), buttons[1]); // this lost the focus
+        await page.$$eval('#one button', buttons => buttons[1].click()); // this trigger the create action
+        await page.$$eval('#one button', buttons => buttons[1].blur()); // this lost the focus
 
         await page.waitForSelector('#nombre', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
@@ -324,9 +376,8 @@ describe('App Invoices', () => {
      */
     test('Action View', async () => {
         await page.waitForSelector('#list button', timeout);
-        const buttons = await page.$$('#list button');
-        await buttons[0].click(); // This open the dropdown
-        await buttons[1].click(); // This trigger the view action
+        await page.$$eval('#list button', buttons => buttons[0].click()); // this open the dropdown
+        await page.$$eval('#list button', buttons => buttons[1].click()); // this trigger the view action
 
         await page.waitForSelector('#nombre', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
@@ -348,16 +399,15 @@ describe('App Invoices', () => {
      */
     test('Action Edit', async () => {
         await page.waitForSelector('#list button', timeout);
-        const buttons = await page.$$('#list button');
-        await buttons[0].click(); // this open the dropdown
-        await buttons[2].click(); // this trigger the edit action
+        await page.$$eval('#list button', buttons => buttons[0].click()); // this open the dropdown
+        await page.$$eval('#list button', buttons => buttons[2].click()); // this trigger the edit action
 
-        const nombre = await page.waitForSelector('#nombre', timeout);
+        await page.waitForSelector('#nombre', timeout);
         // The follow lines disable the spell checker, the blur and focus
         // are executed in separate statements to allow the excetution
-        await page.evaluate(element => element.spellcheck = false, nombre);
-        await page.evaluate(element => element.blur(), nombre);
-        await page.evaluate(element => element.focus(), nombre);
+        await page.$eval('#nombre', element => element.spellcheck = false);
+        await page.$eval('#nombre', element => element.blur());
+        await page.$eval('#nombre', element => element.focus());
         // Continue
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
 
@@ -407,10 +457,8 @@ describe('App Emails', () => {
      */
     test('Action Profile', async () => {
         await page.waitForSelector('#username', timeout);
-        const username = await page.$('#username');
-        await username.click(); // this open the dropdown
-        const buttons = await page.$$('#username ~ ul button');
-        await buttons[0].click(); // this trigger the profile action
+        await page.$eval('#username', element => element.click()); // this open the dropdown
+        await page.$$eval('#username ~ ul button', buttons => buttons[0].click()); // this trigger the profile
 
         await page.waitForSelector('#oldpass', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
@@ -435,10 +483,8 @@ describe('App Emails', () => {
      */
     test('Action Help', async () => {
         await page.waitForSelector('#username', timeout);
-        const username = await page.$('#username');
-        await username.click(); // this open the dropdown
-        const buttons = await page.$$('#username ~ ul button');
-        await buttons[1].click(); // this trigger the help action
+        await page.$eval('#username', element => element.click()); // this open the dropdown
+        await page.$$eval('#username ~ ul button', buttons => buttons[1].click()); // this trigger the help
 
         await page.waitForSelector('#pdfjs', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
@@ -466,8 +512,7 @@ describe('App Emails', () => {
      */
     test('Action Filter', async () => {
         await page.waitForSelector('#top button', timeout);
-        const buttons = await page.$$('#top button');
-        await buttons[0].click(); // this trigger the filter action
+        await page.$$eval('#top button', buttons => buttons[0].click()); // this trigger the filter action
 
         await page.waitForSelector('.offcanvas', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
@@ -492,9 +537,8 @@ describe('App Emails', () => {
      */
     test('Action Create', async () => {
         await page.waitForSelector('#top button', timeout);
-        const buttons = await page.$$('#top button');
-        await buttons[1].click(); // this trigger the create action
-        await page.evaluate(button => button.blur(), buttons[1]); // this lost the focus
+        await page.$$eval('#top button', buttons => buttons[1].click()); // this trigger the creste action
+        await page.$$eval('#top button', buttons => buttons[1].blur()); // this lost the focus
 
         await page.waitForSelector('#from', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
@@ -519,9 +563,8 @@ describe('App Emails', () => {
      */
     test('Action View', async () => {
         await page.waitForSelector('#list button', timeout);
-        const buttons = await page.$$('#list button');
-        await buttons[0].click(); // this trigger the view action
-        await page.evaluate(button => button.blur(), buttons[0]); // this lost the focus
+        await page.$$eval('#list button', buttons => buttons[0].click()); // this trigger the view action
+        await page.$$eval('#list button', buttons => buttons[0].blur()); // this lost the focus
 
         await page.waitForSelector('#from', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
@@ -550,10 +593,8 @@ describe('App Logout', () => {
      */
     test('Action Logout', async () => {
         await page.waitForSelector('#username', timeout);
-        const username = await page.$('#username');
-        await username.click(); // this open the dropdown
-        const buttons = await page.$$('#username ~ ul button');
-        await buttons[2].click(); // this trigger the logout action
+        await page.$eval('#username', element => element.click()); // this open the dropdown
+        await page.$$eval('#username ~ ul button', buttons => buttons[2].click()); // this trigger the logout
 
         await page.waitForSelector('#user', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
