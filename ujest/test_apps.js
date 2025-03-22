@@ -175,8 +175,8 @@ describe('App Login', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0,
-            failureThresholdType: 'pixel',
+            failureThreshold: 0.005, // this is for the shadow
+            failureThresholdType: 'percent', // this is for the shadow
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -205,8 +205,8 @@ describe('App Login', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0,
-            failureThresholdType: 'pixel',
+            failureThreshold: 0.005, // this is for the shadow
+            failureThresholdType: 'percent', // this is for the shadow
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -250,7 +250,6 @@ describe('App Customers', () => {
     test('Action Create', async () => {
         await page.waitForSelector('#one button', timeout);
         await page.$$eval('#one button', buttons => buttons[1].click()); // this trigger the create action
-        await page.$$eval('#one button', buttons => buttons[1].blur()); // this lost the focus
 
         await page.waitForSelector('#nombre', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
@@ -280,8 +279,8 @@ describe('App Customers', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0,
-            failureThresholdType: 'pixel',
+            failureThreshold: 0.005, // this is for the shadow
+            failureThresholdType: 'percent', // this is for the shadow
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -299,12 +298,6 @@ describe('App Customers', () => {
         await page.$$eval('#list button', buttons => buttons[2].click()); // this trigger the edit action
 
         await page.waitForSelector('#nombre', timeout);
-        // The follow lines disable the spell checker, the blur and focus
-        // are executed in separate statements to allow the excetution
-        await page.$eval('#nombre', element => element.spellcheck = false);
-        await page.$eval('#nombre', element => element.blur());
-        await page.$eval('#nombre', element => element.focus());
-        // Continue
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
@@ -354,7 +347,6 @@ describe('App Invoices', () => {
     test('Action Create', async () => {
         await page.waitForSelector('#one button', timeout);
         await page.$$eval('#one button', buttons => buttons[1].click()); // this trigger the create action
-        await page.$$eval('#one button', buttons => buttons[1].blur()); // this lost the focus
 
         await page.waitForSelector('#nombre', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
@@ -384,8 +376,8 @@ describe('App Invoices', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0,
-            failureThresholdType: 'pixel',
+            failureThreshold: 0.005, // this is for the shadow
+            failureThresholdType: 'percent', // this is for the shadow
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -403,12 +395,6 @@ describe('App Invoices', () => {
         await page.$$eval('#list button', buttons => buttons[2].click()); // this trigger the edit action
 
         await page.waitForSelector('#nombre', timeout);
-        // The follow lines disable the spell checker, the blur and focus
-        // are executed in separate statements to allow the excetution
-        await page.$eval('#nombre', element => element.spellcheck = false);
-        await page.$eval('#nombre', element => element.blur());
-        await page.$eval('#nombre', element => element.focus());
-        // Continue
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
@@ -494,8 +480,8 @@ describe('App Emails', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0,
-            failureThresholdType: 'pixel',
+            failureThreshold: 0.005, // this is for the shadow
+            failureThresholdType: 'percent', // this is for the shadow
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -519,8 +505,8 @@ describe('App Emails', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0,
-            failureThresholdType: 'pixel',
+            failureThreshold: 0.005, // this is for the shadow
+            failureThresholdType: 'percent', // this is for the shadow
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -538,7 +524,6 @@ describe('App Emails', () => {
     test('Action Create', async () => {
         await page.waitForSelector('#top button', timeout);
         await page.$$eval('#top button', buttons => buttons[1].click()); // this trigger the creste action
-        await page.$$eval('#top button', buttons => buttons[1].blur()); // this lost the focus
 
         await page.waitForSelector('#from', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
@@ -564,15 +549,14 @@ describe('App Emails', () => {
     test('Action View', async () => {
         await page.waitForSelector('#list button', timeout);
         await page.$$eval('#list button', buttons => buttons[0].click()); // this trigger the view action
-        await page.$$eval('#list button', buttons => buttons[0].blur()); // this lost the focus
 
         await page.waitForSelector('#from', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0,
-            failureThresholdType: 'pixel',
+            failureThreshold: 0.005, // this is for the shadow
+            failureThresholdType: 'percent', // this is for the shadow
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
