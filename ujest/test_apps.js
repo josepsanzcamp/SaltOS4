@@ -116,8 +116,8 @@ describe('App Login', () => {
         await page.evaluate(() => { document.body.innerHTML = ''; });
         await page.goto('https://127.0.0.1/saltos/code4');
 
-        await page.waitForSelector('#user', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForSelector('#user', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -138,12 +138,7 @@ describe('App Login', () => {
         await page.waitForSelector('#user', timeout);
         await page.$$eval('button', buttons => buttons[1].click());
 
-        // Special case to allow the login ko
-        await page.waitForSelector('#user', timeout);
-        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-
-        // Special case to allow the toast render
-        await mypause(page, 100);
+        await page.waitForSelector('.is-invalid', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -166,12 +161,11 @@ describe('App Login', () => {
         await page.$eval('#pass', el => el.value = 'admin2');
         await page.$$eval('button', buttons => buttons[1].click());
 
-        // Special case to allow the login ko
-        await page.waitForSelector('#user', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-
-        // Special case to allow the toast render
-        await mypause(page, 500);
+        await page.waitForSelector('.is-valid', timeout);
+        await page.waitForSelector('.toast', timeout);
+        // Special case because the previous toast detection not works as expected
+        await mypause(page, 1000);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -197,9 +191,8 @@ describe('App Login', () => {
         await page.$eval('#pass', el => el.value = 'admin');
         await page.$$eval('button', buttons => buttons[1].click());
 
-        await page.waitForSelector('#one', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-
+        await page.waitForSelector('#one', timeout);
         // Special case to allow the chartjs render
         await mypause(page, 1000);
 
@@ -229,8 +222,8 @@ describe('App Customers', () => {
         await page.evaluate(() => { document.body.innerHTML = ''; });
         await page.goto('https://127.0.0.1/saltos/code4/#/app/customers');
 
-        await page.waitForSelector('#list table', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForSelector('#list table', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -251,8 +244,8 @@ describe('App Customers', () => {
         await page.waitForSelector('#one button', timeout);
         await page.$$eval('#one button', buttons => buttons[1].click()); // this trigger the create action
 
-        await page.waitForSelector('#nombre', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForSelector('#nombre', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -274,8 +267,8 @@ describe('App Customers', () => {
         await page.$$eval('#list button', buttons => buttons[0].click()); // this open the dropdown
         await page.$$eval('#list button', buttons => buttons[1].click()); // this trigger the view action
 
-        await page.waitForSelector('#nombre', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForSelector('#nombre', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -297,8 +290,8 @@ describe('App Customers', () => {
         await page.$$eval('#list button', buttons => buttons[0].click()); // this open the dropdown
         await page.$$eval('#list button', buttons => buttons[2].click()); // this trigger the edit action
 
-        await page.waitForSelector('#nombre', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForSelector('#nombre', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -326,8 +319,8 @@ describe('App Invoices', () => {
         await page.evaluate(() => { document.body.innerHTML = ''; });
         await page.goto('https://127.0.0.1/saltos/code4/#/app/invoices');
 
-        await page.waitForSelector('#list table', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForSelector('#list table', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -348,8 +341,8 @@ describe('App Invoices', () => {
         await page.waitForSelector('#one button', timeout);
         await page.$$eval('#one button', buttons => buttons[1].click()); // this trigger the create action
 
-        await page.waitForSelector('#nombre', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForSelector('#nombre', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -371,8 +364,8 @@ describe('App Invoices', () => {
         await page.$$eval('#list button', buttons => buttons[0].click()); // this open the dropdown
         await page.$$eval('#list button', buttons => buttons[1].click()); // this trigger the view action
 
-        await page.waitForSelector('#nombre', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForSelector('#nombre', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -394,8 +387,8 @@ describe('App Invoices', () => {
         await page.$$eval('#list button', buttons => buttons[0].click()); // this open the dropdown
         await page.$$eval('#list button', buttons => buttons[2].click()); // this trigger the edit action
 
-        await page.waitForSelector('#nombre', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForSelector('#nombre', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -423,8 +416,8 @@ describe('App Emails', () => {
         await page.evaluate(() => { document.body.innerHTML = ''; });
         await page.goto('https://127.0.0.1/saltos/code4/#/app/emails');
 
-        await page.waitForSelector('#list button', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForSelector('#list button', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -446,8 +439,8 @@ describe('App Emails', () => {
         await page.$eval('#username', element => element.click()); // this open the dropdown
         await page.$$eval('#username ~ ul button', buttons => buttons[0].click()); // this trigger the profile
 
-        await page.waitForSelector('#oldpass', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForSelector('#oldpass', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -472,8 +465,8 @@ describe('App Emails', () => {
         await page.$eval('#username', element => element.click()); // this open the dropdown
         await page.$$eval('#username ~ ul button', buttons => buttons[1].click()); // this trigger the help
 
-        await page.waitForSelector('#pdfjs', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForSelector('#pdfjs', timeout);
 
         // Special case to allow the pdf load
         await mypause(page, 500);
@@ -501,7 +494,6 @@ describe('App Emails', () => {
         await page.$$eval('#top button', buttons => buttons[0].click()); // this trigger the filter action
 
         await page.waitForSelector('.offcanvas', timeout);
-        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -525,8 +517,8 @@ describe('App Emails', () => {
         await page.waitForSelector('#top button', timeout);
         await page.$$eval('#top button', buttons => buttons[1].click()); // this trigger the creste action
 
-        await page.waitForSelector('#from', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForSelector('#from', timeout);
 
         // Special case to allow the ckeditor render
         await page.waitForFunction(() => document.getElementById('body').ckeditor, timeout);
@@ -550,8 +542,8 @@ describe('App Emails', () => {
         await page.waitForSelector('#list button', timeout);
         await page.$$eval('#list button', buttons => buttons[0].click()); // this trigger the view action
 
-        await page.waitForSelector('#from', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForSelector('#from', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -580,8 +572,8 @@ describe('App Logout', () => {
         await page.$eval('#username', element => element.click()); // this open the dropdown
         await page.$$eval('#username ~ ul button', buttons => buttons[2].click()); // this trigger the logout
 
-        await page.waitForSelector('#user', timeout);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForSelector('#user', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
