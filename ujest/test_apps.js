@@ -64,7 +64,12 @@ beforeAll(async () => {
     });
     page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080});
-    await page.coverage.startJSCoverage();
+    await page.coverage.startJSCoverage({
+        resetOnNavigation: false,
+        reportAnonymousScripts: false,
+        includeRawScriptCoverage: false,
+        useBlockCoverage: true,
+    });
 });
 
 /**
@@ -138,6 +143,7 @@ describe('App Login', () => {
         await page.waitForSelector('#user', timeout);
         await page.$$eval('button', buttons => buttons[1].click());
 
+        await mypause(page, 100);
         await page.waitForSelector('.is-invalid', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
@@ -190,6 +196,29 @@ describe('App Login', () => {
         await page.$eval('#user', el => el.value = 'admin');
         await page.$eval('#pass', el => el.value = 'admin');
         await page.$$eval('button', buttons => buttons[1].click());
+
+        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForSelector('#one', timeout);
+        // Special case to allow the chartjs render
+        await mypause(page, 1000);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005, // this is for the shadow
+            failureThresholdType: 'percent', // this is for the shadow
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    test('Action Reload', async () => {
+        await page.reload();
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#one', timeout);

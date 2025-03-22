@@ -69,7 +69,12 @@ describe('Bootstrap', () => {
             args: ['--ignore-certificate-errors'],
         });
         page = await browser.newPage();
-        await page.coverage.startJSCoverage();
+        await page.coverage.startJSCoverage({
+            resetOnNavigation: false,
+            reportAnonymousScripts: false,
+            includeRawScriptCoverage: false,
+            useBlockCoverage: true,
+        });
         await page.goto('https://127.0.0.1/saltos/code4/#/app/emails');
         await page.waitForFunction(() => document.getElementById('user'), timeout);
     });
