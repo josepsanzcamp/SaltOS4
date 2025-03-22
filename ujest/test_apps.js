@@ -126,8 +126,8 @@ describe('App Login', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005, // this is for the shadow
-            failureThresholdType: 'percent', // this is for the shadow
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -148,8 +148,8 @@ describe('App Login', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005, // this is for the shadow
-            failureThresholdType: 'percent', // this is for the shadow
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -175,8 +175,8 @@ describe('App Login', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005, // this is for the shadow
-            failureThresholdType: 'percent', // this is for the shadow
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -204,8 +204,8 @@ describe('App Login', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005, // this is for the shadow
-            failureThresholdType: 'percent', // this is for the shadow
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -227,8 +227,126 @@ describe('App Login', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005, // this is for the shadow
-            failureThresholdType: 'percent', // this is for the shadow
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+});
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+describe('App Tester', () => {
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    test('Action Init', async () => {
+        await page.evaluate(() => { document.body.innerHTML = ''; });
+        await page.goto('https://127.0.0.1/saltos/code4/#/app/tester');
+
+        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForSelector('#campo26d', timeout);
+        await mypause(page, 1000);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    test('Action Disabled', async () => {
+        await page.evaluate(() => { saltos.app.form_disabled(true); });
+        await mypause(page, 100);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    test('Action Enabled', async () => {
+        await page.evaluate(() => { saltos.app.form_disabled(false); });
+        await mypause(page, 100);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     */
+    const bs_themes = ['light', 'dark', 'auto'];
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    test.each(bs_themes)('Action Bs Theme %s', async theme => {
+        await page.evaluate(theme => { saltos.bootstrap.set_bs_theme(theme); }, theme);
+        await mypause(page, 100);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     */
+    const css_themes = ['default', 'cerulean', 'cyborg', 'darkly', 'flatly', 'journal', 'litera', 'lumen',
+        'lux', 'materia', 'minty', 'morph', 'pulse', 'quartz', 'sandstone', 'simplex', 'sketchy',
+        'slate', 'solar', 'spacelab', 'superhero', 'united', 'vapor', 'yeti', 'zephyr', 'cosmo'];
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    test.each(css_themes)('Action Css Theme %s', async theme => {
+        await page.evaluate(theme => { saltos.bootstrap.set_css_theme(theme); }, theme);
+        await mypause(page, 500);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -256,8 +374,8 @@ describe('App Customers', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005, // this is for the shadow
-            failureThresholdType: 'percent', // this is for the shadow
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -278,8 +396,8 @@ describe('App Customers', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005, // this is for the shadow
-            failureThresholdType: 'percent', // this is for the shadow
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -301,8 +419,8 @@ describe('App Customers', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005, // this is for the shadow
-            failureThresholdType: 'percent', // this is for the shadow
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -324,8 +442,8 @@ describe('App Customers', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005, // this is for the shadow
-            failureThresholdType: 'percent', // this is for the shadow
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -353,8 +471,8 @@ describe('App Invoices', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005, // this is for the shadow
-            failureThresholdType: 'percent', // this is for the shadow
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -375,8 +493,8 @@ describe('App Invoices', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005, // this is for the shadow
-            failureThresholdType: 'percent', // this is for the shadow
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -398,8 +516,8 @@ describe('App Invoices', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005, // this is for the shadow
-            failureThresholdType: 'percent', // this is for the shadow
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -421,8 +539,8 @@ describe('App Invoices', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005, // this is for the shadow
-            failureThresholdType: 'percent', // this is for the shadow
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -450,8 +568,43 @@ describe('App Emails', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005, // this is for the shadow
-            failureThresholdType: 'percent', // this is for the shadow
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    test('Action Control F', async () => {
+        await page.waitForSelector('#top input', timeout);
+        await page.$$eval('#top input', inputs => inputs[1].blur()); // this blur the focus
+        await mypause(page, 500);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0,
+            failureThresholdType: 'pixel',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        await page.keyboard.down('Control');
+        await page.keyboard.down('Shift');
+        await page.keyboard.press('F');
+        await page.keyboard.up('Shift');
+        await page.keyboard.up('Control');
+
+        await mypause(page, 500);
+
+        const screenshot2 = await page.screenshot({encoding: 'base64'});
+        expect(screenshot2).toMatchImageSnapshot({
+            failureThreshold: 0,
+            failureThresholdType: 'pixel',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -473,8 +626,8 @@ describe('App Emails', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005, // this is for the shadow
-            failureThresholdType: 'percent', // this is for the shadow
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -502,8 +655,8 @@ describe('App Emails', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005, // this is for the shadow
-            failureThresholdType: 'percent', // this is for the shadow
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -526,8 +679,8 @@ describe('App Emails', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005, // this is for the shadow
-            failureThresholdType: 'percent', // this is for the shadow
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -554,8 +707,8 @@ describe('App Emails', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005, // this is for the shadow
-            failureThresholdType: 'percent', // this is for the shadow
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -576,8 +729,8 @@ describe('App Emails', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005, // this is for the shadow
-            failureThresholdType: 'percent', // this is for the shadow
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -606,8 +759,8 @@ describe('App Logout', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005, // this is for the shadow
-            failureThresholdType: 'percent', // this is for the shadow
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
