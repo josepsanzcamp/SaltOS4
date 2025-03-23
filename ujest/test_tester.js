@@ -77,7 +77,7 @@ beforeAll(async () => {
  */
 afterAll(async () => {
     const jsCoverage = await page.coverage.stopJSCoverage();
-    pti.write(jsCoverage, {storagePath: '/tmp/nyc_output/apps'});
+    pti.write(jsCoverage, {storagePath: '/tmp/nyc_output/tester'});
     await browser.close();
 });
 
@@ -111,95 +111,24 @@ afterEach(() => {
  *
  * TODO
  */
-describe('App Login', () => {
+describe('App Tester', () => {
     /**
      * TODO
      *
      * TODO
      */
-    test('Action Login', async () => {
+    test('Action Init', async () => {
         await page.evaluate(() => { document.body.innerHTML = ''; });
-        await page.goto('https://127.0.0.1/saltos/code4');
+        await page.goto('https://127.0.0.1/saltos/code4/#/app/tester');
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForSelector('#user', timeout);
-
-        const screenshot = await page.screenshot({encoding: 'base64'});
-        expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
-            customSnapshotsDir: `${__dirname}/snaps`,
-        });
-
-        testFinish = true;
-    });
-
-    /**
-     * TODO
-     *
-     * TODO
-     */
-    test('Action Login Ko Red', async () => {
-        await page.waitForSelector('#user', timeout);
-        await page.$$eval('button', buttons => buttons[1].click());
-
-        await mypause(page, 100);
-        await page.waitForSelector('.is-invalid', timeout);
-
-        const screenshot = await page.screenshot({encoding: 'base64'});
-        expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
-            customSnapshotsDir: `${__dirname}/snaps`,
-        });
-
-        testFinish = true;
-    });
-
-    /**
-     * TODO
-     *
-     * TODO
-     */
-    test('Action Login Ko Green', async () => {
-        await page.waitForSelector('#user', timeout);
-        await page.$eval('#user', el => el.value = 'admin2');
-        await page.$eval('#pass', el => el.value = 'admin2');
-        await page.$$eval('button', buttons => buttons[1].click());
-
-        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForSelector('.is-valid', timeout);
-        await page.waitForSelector('.toast', timeout);
-        // Special case because the previous toast detection not works as expected
-        await mypause(page, 1000);
-
-        const screenshot = await page.screenshot({encoding: 'base64'});
-        expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
-            customSnapshotsDir: `${__dirname}/snaps`,
-        });
-
-        await page.$eval('.toast', el => el.remove());
-        await page.waitForFunction(() => !document.querySelector('.toast'), timeout);
-
-        testFinish = true;
-    });
-
-    /**
-     * TODO
-     *
-     * TODO
-     */
-    test('Action Dashboard', async () => {
         await page.waitForSelector('#user', timeout);
         await page.$eval('#user', el => el.value = 'admin');
         await page.$eval('#pass', el => el.value = 'admin');
         await page.$$eval('button', buttons => buttons[1].click());
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForSelector('#one', timeout);
-        // Special case to allow the chartjs render
+        await page.waitForSelector('#campo26d', timeout);
         await mypause(page, 1000);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
@@ -217,13 +146,9 @@ describe('App Login', () => {
      *
      * TODO
      */
-    test('Action Reload', async () => {
-        await page.reload();
-
-        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForSelector('#one', timeout);
-        // Special case to allow the chartjs render
-        await mypause(page, 1000);
+    test('Action Disabled', async () => {
+        await page.evaluate(() => { saltos.app.form_disabled(true); });
+        await mypause(page, 100);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -240,13 +165,59 @@ describe('App Login', () => {
      *
      * TODO
      */
-    test('Action Logout', async () => {
-        await page.waitForSelector('#username', timeout);
-        await page.$eval('#username', element => element.click()); // this open the dropdown
-        await page.$$eval('#username ~ ul button', buttons => buttons[2].click()); // this trigger the logout
+    test('Action Enabled', async () => {
+        await page.evaluate(() => { saltos.app.form_disabled(false); });
+        await mypause(page, 100);
 
-        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForSelector('#user', timeout);
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     */
+    const bs_themes = ['light', 'dark', 'auto'];
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    test.each(bs_themes)('Action Bs Theme %s', async theme => {
+        await page.evaluate(theme => { saltos.bootstrap.set_bs_theme(theme); }, theme);
+        await mypause(page, 100);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     */
+    const css_themes = ['default', 'cerulean', 'cyborg', 'darkly', 'flatly', 'journal', 'litera', 'lumen',
+        'lux', 'materia', 'minty', 'morph', 'pulse', 'quartz', 'sandstone', 'simplex', 'sketchy',
+        'slate', 'solar', 'spacelab', 'superhero', 'united', 'vapor', 'yeti', 'zephyr', 'cosmo'];
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    test.each(css_themes)('Action Css Theme %s', async theme => {
+        await page.evaluate(theme => { saltos.bootstrap.set_css_theme(theme); }, theme);
+        await mypause(page, 500);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({

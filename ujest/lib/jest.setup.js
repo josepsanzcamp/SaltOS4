@@ -35,8 +35,8 @@
 /**
  * Detect what type of test is running, and load the needed setup
  */
-if (!('fetch' in global)) {
-    require('./jsdom.setup.js');
-} else {
+if ('fetch' in global) {
     require('./node.setup.js');
+} else {
+    require('./jsdom.setup.js');
 }

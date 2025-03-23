@@ -77,7 +77,7 @@ beforeAll(async () => {
  */
 afterAll(async () => {
     const jsCoverage = await page.coverage.stopJSCoverage();
-    pti.write(jsCoverage, {storagePath: '/tmp/nyc_output/apps'});
+    pti.write(jsCoverage, {storagePath: '/tmp/nyc_output/customers'});
     await browser.close();
 });
 
@@ -111,96 +111,24 @@ afterEach(() => {
  *
  * TODO
  */
-describe('App Login', () => {
+describe('App Customers', () => {
     /**
      * TODO
      *
      * TODO
      */
-    test('Action Login', async () => {
+    test('Action List', async () => {
         await page.evaluate(() => { document.body.innerHTML = ''; });
-        await page.goto('https://127.0.0.1/saltos/code4');
+        await page.goto('https://127.0.0.1/saltos/code4/#/app/customers');
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForSelector('#user', timeout);
-
-        const screenshot = await page.screenshot({encoding: 'base64'});
-        expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
-            customSnapshotsDir: `${__dirname}/snaps`,
-        });
-
-        testFinish = true;
-    });
-
-    /**
-     * TODO
-     *
-     * TODO
-     */
-    test('Action Login Ko Red', async () => {
-        await page.waitForSelector('#user', timeout);
-        await page.$$eval('button', buttons => buttons[1].click());
-
-        await mypause(page, 100);
-        await page.waitForSelector('.is-invalid', timeout);
-
-        const screenshot = await page.screenshot({encoding: 'base64'});
-        expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
-            customSnapshotsDir: `${__dirname}/snaps`,
-        });
-
-        testFinish = true;
-    });
-
-    /**
-     * TODO
-     *
-     * TODO
-     */
-    test('Action Login Ko Green', async () => {
-        await page.waitForSelector('#user', timeout);
-        await page.$eval('#user', el => el.value = 'admin2');
-        await page.$eval('#pass', el => el.value = 'admin2');
-        await page.$$eval('button', buttons => buttons[1].click());
-
-        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForSelector('.is-valid', timeout);
-        await page.waitForSelector('.toast', timeout);
-        // Special case because the previous toast detection not works as expected
-        await mypause(page, 1000);
-
-        const screenshot = await page.screenshot({encoding: 'base64'});
-        expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
-            customSnapshotsDir: `${__dirname}/snaps`,
-        });
-
-        await page.$eval('.toast', el => el.remove());
-        await page.waitForFunction(() => !document.querySelector('.toast'), timeout);
-
-        testFinish = true;
-    });
-
-    /**
-     * TODO
-     *
-     * TODO
-     */
-    test('Action Dashboard', async () => {
         await page.waitForSelector('#user', timeout);
         await page.$eval('#user', el => el.value = 'admin');
         await page.$eval('#pass', el => el.value = 'admin');
         await page.$$eval('button', buttons => buttons[1].click());
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForSelector('#one', timeout);
-        // Special case to allow the chartjs render
-        await mypause(page, 1000);
+        await page.waitForSelector('#list table', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -217,13 +145,11 @@ describe('App Login', () => {
      *
      * TODO
      */
-    test('Action Reload', async () => {
-        await page.reload();
-
+    test('Action More', async () => {
+        await page.waitForFunction(() => document.querySelectorAll('#list tbody tr').length == 25, timeout);
+        await page.$$eval('#one button', buttons => buttons[buttons.length - 1].click());
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForSelector('#one', timeout);
-        // Special case to allow the chartjs render
-        await mypause(page, 1000);
+        await page.waitForFunction(() => document.querySelectorAll('#list tbody tr').length == 50, timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -240,13 +166,118 @@ describe('App Login', () => {
      *
      * TODO
      */
-    test('Action Logout', async () => {
-        await page.waitForSelector('#username', timeout);
-        await page.$eval('#username', element => element.click()); // this open the dropdown
-        await page.$$eval('#username ~ ul button', buttons => buttons[2].click()); // this trigger the logout
+    test('Action Reset', async () => {
+        await page.$$eval('#one button', buttons => buttons[3].click());
+        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForFunction(() => document.querySelectorAll('#list tbody tr').length == 25, timeout);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    test('Action Create', async () => {
+        await page.waitForSelector('#one button', timeout);
+        await page.$$eval('#one button', buttons => buttons[1].click()); // this trigger the create action
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForSelector('#user', timeout);
+        await page.waitForSelector('#nombre', timeout);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    test('Action Cancel', async () => {
+        await page.$$eval('#two button', buttons => buttons[buttons.length - 1].click());
+        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForFunction(() => !document.querySelector('#nombre'), timeout);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    test('Action View', async () => {
+        await page.waitForSelector('#list button', timeout);
+        await page.$$eval('#list button', buttons => buttons[0].click()); // this open the dropdown
+        await page.$$eval('#list button', buttons => buttons[1].click()); // this trigger the view action
+
+        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForSelector('#nombre', timeout);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    test('Action Close', async () => {
+        await page.$$eval('#two button', buttons => buttons[buttons.length - 2].click());
+        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForFunction(() => !document.querySelector('#nombre'), timeout);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    test('Action Edit', async () => {
+        await page.waitForSelector('#list button', timeout);
+        await page.$$eval('#list button', buttons => buttons[0].click()); // this open the dropdown
+        await page.$$eval('#list button', buttons => buttons[2].click()); // this trigger the edit action
+
+        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForSelector('#nombre', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({

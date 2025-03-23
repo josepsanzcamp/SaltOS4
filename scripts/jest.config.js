@@ -7,4 +7,5 @@ module.exports = {
     collectCoverage: true,
     coverageReporters: ['json'],
     coverageDirectory: '/tmp/nyc_output/jest',
+    maxWorkers: 1,
 };
