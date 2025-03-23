@@ -450,6 +450,26 @@ describe('App Customers', () => {
      *
      * TODO
      */
+    test('Action Cancel', async () => {
+        await page.$$eval('#two button', buttons => buttons[buttons.length - 1].click());
+        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForFunction(() => !document.querySelector('#nombre'), timeout);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('Action View', async () => {
         await page.waitForSelector('#list button', timeout);
         await page.$$eval('#list button', buttons => buttons[0].click()); // this open the dropdown
@@ -457,6 +477,26 @@ describe('App Customers', () => {
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#nombre', timeout);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    test('Action Close', async () => {
+        await page.$$eval('#two button', buttons => buttons[buttons.length - 2].click());
+        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForFunction(() => !document.querySelector('#nombre'), timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
