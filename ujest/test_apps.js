@@ -387,6 +387,47 @@ describe('App Customers', () => {
      *
      * TODO
      */
+    test('Action More', async () => {
+        await page.waitForFunction(() => document.querySelectorAll('#list tbody tr').length == 25, timeout);
+        await page.$$eval('#one button', buttons => buttons[buttons.length - 1].click());
+        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForFunction(() => document.querySelectorAll('#list tbody tr').length == 50, timeout);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    test('Action Reset', async () => {
+        await page.$$eval('#one button', buttons => buttons[3].click());
+        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForFunction(() => document.querySelectorAll('#list tbody tr').length == 25, timeout);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('Action Create', async () => {
         await page.waitForSelector('#one button', timeout);
         await page.$$eval('#one button', buttons => buttons[1].click()); // this trigger the create action
