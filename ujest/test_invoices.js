@@ -145,6 +145,65 @@ describe('App Invoices', () => {
      *
      * TODO
      */
+    test('Action Checkbox', async () => {
+        let count;
+
+        // This checks that no checkboxes are enabled
+        count = await page.$$eval('#list input[type=checkbox]:checked', inputs => inputs.length);
+        expect(count).toBe(0);
+
+        // This enable all checkboxes
+        await page.$$eval('#list input[type=checkbox]', inputs => inputs[0].click());
+        count = await page.$$eval('#list input[type=checkbox]:checked', inputs => inputs.length);
+        expect(count).toBe(26);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        // This disable all checkboxes
+        await page.$$eval('#list input[type=checkbox]', inputs => inputs[0].click());
+        count = await page.$$eval('#list input[type=checkbox]:checked', inputs => inputs.length);
+        expect(count).toBe(0);
+
+        // This enable the first row, note that the click is triggered to the first row
+        await page.$$eval('#list tbody tr', rows => rows[0].click());
+        // This event is triggered to the checkbox number six to get only 5 enabled checkboxes
+        await page.evaluate(() => {
+            const checkbox = document.querySelectorAll('#list input[type=checkbox]')[5];
+            const event = new MouseEvent('click', {
+                bubbles: true,
+                ctrlKey: true,
+            });
+            checkbox.dispatchEvent(event);
+        });
+        count = await page.$$eval('#list input[type=checkbox]:checked', inputs => inputs.length);
+        expect(count).toBe(5);
+
+        const screenshot2 = await page.screenshot({encoding: 'base64'});
+        expect(screenshot2).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        // This reset all checkboxes to disabled all selections
+        await page.$$eval('#list input[type=checkbox]', inputs => inputs[0].click());
+        await page.$$eval('#list input[type=checkbox]', inputs => inputs[0].click());
+        count = await page.$$eval('#list input[type=checkbox]:checked', inputs => inputs.length);
+        expect(count).toBe(0);
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
     test('Action Create', async () => {
         await page.waitForSelector('#one button', timeout);
         await page.$$eval('#one button', buttons => buttons[1].click()); // this trigger the create action
