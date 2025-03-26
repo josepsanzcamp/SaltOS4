@@ -295,25 +295,24 @@ const queue_push = data => {
 const queue_getall = () => {
     return new Promise((resolve, reject) => {
         queue_open().then(store => {
-            const items = store.getAll();
-            const keys = store.getAllKeys();
+            const request = store.openCursor();
+            const results = [];
 
-            items.onsuccess = () => {
-                keys.onsuccess = () => {
-                    const result = keys.result.map((key, index) => ({
-                        key: key,
-                        value: items.result[index],
-                    }));
-
-                    resolve(result);
-                };
+            request.onsuccess = (event) => {
+                const cursor = event.target.result;
+                if (cursor) {
+                    results.push({
+                        key: cursor.primaryKey,
+                        value: cursor.value,
+                    });
+                    cursor.continue();
+                } else {
+                    resolve(results);
+                }
             };
 
-            items.onerror = (event) => reject(event);
-            keys.onerror = (event) => reject(event);
-        }).catch(error => {
-            //console.log(error);
-        });
+            request.onerror = (event) => reject(event.target.error);
+        }).catch(reject);
     });
 };
 

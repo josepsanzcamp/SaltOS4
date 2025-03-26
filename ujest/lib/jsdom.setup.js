@@ -61,12 +61,12 @@ global.saltos = {};
 /**
  * Load all files of the project
  */
-const files = `core,bootstrap,storage,hash,token,auth,window,
+/*const files = `core,bootstrap,storage,hash,token,auth,window,
     gettext,driver,filter,backup,form,push,common,app`.split(',');
 for (const i in files) {
     const file = files[i].trim();
     require(`../../code/web/js/${file}.js`);
-}
+}*/
 
 /**
  * My Require

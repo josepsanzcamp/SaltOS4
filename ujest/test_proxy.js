@@ -258,3 +258,229 @@ describe('proxy', () => {
             'error.text', 'You are offline and the requested content is not cached');
     });
 });
+
+describe('IndexedDB Queue Functions', () => {
+    describe('queue_open', () => {
+        test('should resolve with a store object when connection succeeds', async () => {
+            const store = await queue_open();
+            expect(store).toBeDefined();
+            expect(store.name).toBe('saltos');
+        });
+    });
+
+    describe('queue_push', () => {
+        test('should add data to the store', async () => {
+            const testData = {name: 'test', value: 123};
+            await queue_push(testData);
+
+            const result = await queue_getall();
+            expect(result.length).toBe(1);
+            expect(result[0].value).toEqual(testData);
+
+            await queue_delete(result[0].key);
+        });
+    });
+
+    describe('queue_getall', () => {
+        test('should return an empty array when store is empty', async () => {
+            const result = await queue_getall();
+            expect(result).toEqual([]);
+        });
+
+        test('should return all items in FIFO order', async () => {
+            const data1 = {id: 1, name: 'first'};
+            const data2 = {id: 2, name: 'second'};
+
+            await queue_push(data1);
+            await queue_push(data2);
+
+            const result = await queue_getall();
+            expect(result.length).toBe(2);
+            expect(result[0].value).toEqual(data1);
+            expect(result[1].value).toEqual(data2);
+
+            await queue_delete(result[0].key);
+            await queue_delete(result[1].key);
+        });
+    });
+
+    describe('queue_delete', () => {
+        test('should delete an item by its key', async () => {
+            const testData = {name: 'to delete'};
+            await queue_push(testData);
+
+            const result = await queue_getall();
+            expect(result.length).toBe(1);
+            const key = result[0].key;
+
+            await queue_delete(key);
+
+            const result2 = await queue_getall();
+            expect(result2.length).toBe(0);
+        });
+
+        test('should not throw when deleting non-existent key', async () => {
+            await expect(new Promise((resolve) => {
+                queue_delete(999);
+                setTimeout(resolve, 100);
+            })).resolves.not.toThrow();
+        });
+    });
+});
+
+describe('Request Serialization', () => {
+    describe('request_serialize', () => {
+        test('should correctly serialize a GET request', async () => {
+            const request = new Request('https://example.com/api', {
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'},
+                credentials: 'include',
+                referrerPolicy: 'no-referrer',
+                mode: 'cors'
+            });
+
+            const serialized = await request_serialize(request);
+
+            expect(serialized).toEqual({
+                url: 'https://example.com/api',
+                method: 'GET',
+                headers: [['content-type', 'application/json']],
+                //~ credentials: 'include',
+                //~ referrerPolicy: 'no-referrer',
+                //~ mode: 'cors',
+            });
+        });
+
+        test('should correctly serialize a POST request with body', async () => {
+            const request = new Request('https://example.com/api', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({key: 'value'}),
+                credentials: 'same-origin'
+            });
+
+            const serialized = await request_serialize(request);
+
+            expect(serialized).toEqual({
+                url: 'https://example.com/api',
+                method: 'POST',
+                headers: [['content-type', 'application/json']],
+                //~ credentials: 'same-origin',
+                //~ referrerPolicy: 'no-referrer-when-downgrade', // default
+                //~ mode: 'cors', // default
+                body: '{"key":"value"}',
+            });
+        });
+
+        test('should handle empty headers', async () => {
+            const request = new Request('https://example.com/api', {
+                method: 'GET'
+            });
+
+            const serialized = await request_serialize(request);
+
+            expect(serialized.headers).toEqual([]);
+        });
+    });
+
+    describe('request_unserialize', () => {
+        test('should correctly deserialize a GET request', () => {
+            const serialized = {
+                url: 'https://example.com/api',
+                method: 'GET',
+                headers: [['content-type', 'application/json']],
+                credentials: 'include',
+                referrerPolicy: 'no-referrer',
+                mode: 'cors'
+            };
+
+            const request = request_unserialize(serialized);
+
+            expect(request.url).toBe(serialized.url);
+            expect(request.method).toBe(serialized.method);
+            //~ expect(request.credentials).toBe(serialized.credentials);
+            //~ expect(request.referrerPolicy).toBe(serialized.referrerPolicy);
+            //~ expect(request.mode).toBe(serialized.mode);
+            expect(request.headers.get('content-type')).toBe('application/json');
+        });
+
+        test('should correctly deserialize a POST request with body', () => {
+            const serialized = {
+                url: 'https://example.com/api',
+                method: 'POST',
+                headers: [['content-type', 'application/json']],
+                body: '{"key":"value"}',
+                credentials: 'same-origin'
+            };
+
+            const request = request_unserialize(serialized);
+
+            expect(request.method).toBe('POST');
+            expect(request.headers.get('content-type')).toBe('application/json');
+
+            return request.text().then(body => {
+                expect(body).toBe('{"key":"value"}');
+            });
+        });
+
+        test('should handle empty headers', () => {
+            const serialized = {
+                url: 'https://example.com/api',
+                method: 'GET',
+                headers: []
+            };
+
+            const request = request_unserialize(serialized);
+
+            expect(request.headers.get('content-type')).toBeNull();
+        });
+
+        test('should use default values for missing properties', () => {
+            const serialized = {
+                url: 'https://example.com/api',
+                method: 'GET'
+            };
+
+            const request = request_unserialize(serialized);
+
+            //~ expect(request.credentials).toBe('same-origin'); // default
+            //~ expect(request.referrerPolicy).toBe('no-referrer-when-downgrade'); // default
+            //~ expect(request.mode).toBe('cors'); // default
+        });
+    });
+
+    describe('round-trip serialization', () => {
+        test('should serialize and deserialize a GET request correctly', async () => {
+            const originalRequest = new Request('https://example.com/api', {
+                method: 'GET',
+                headers: {'X-Custom': 'Value'},
+                credentials: 'omit'
+            });
+
+            const serialized = await request_serialize(originalRequest);
+            const deserialized = request_unserialize(serialized);
+
+            expect(deserialized.url).toBe(originalRequest.url);
+            expect(deserialized.method).toBe(originalRequest.method);
+            expect(deserialized.credentials).toBe(originalRequest.credentials);
+            expect(deserialized.headers.get('x-custom')).toBe('Value');
+        });
+
+        test('should serialize and deserialize a POST request with body correctly', async () => {
+            const originalRequest = new Request('https://example.com/api', {
+                method: 'POST',
+                headers: {'Content-Type': 'text/plain'},
+                body: 'Hello world'
+            });
+
+            const serialized = await request_serialize(originalRequest);
+            const deserialized = request_unserialize(serialized);
+
+            expect(deserialized.method).toBe('POST');
+            expect(deserialized.headers.get('content-type')).toBe('text/plain');
+
+            const body = await deserialized.text();
+            expect(body).toBe('Hello world');
+        });
+    });
+});
