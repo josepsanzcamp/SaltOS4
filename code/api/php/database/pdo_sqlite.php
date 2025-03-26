@@ -302,7 +302,7 @@ class database_pdo_sqlite
      */
     public function db_last_insert_id()
     {
-        return $this->link->lastInsertId();
+        return intval($this->link->lastInsertId());
     }
 
     /**

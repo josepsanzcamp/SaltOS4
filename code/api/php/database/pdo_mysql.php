@@ -230,7 +230,7 @@ class database_pdo_mysql
      */
     public function db_last_insert_id()
     {
-        return $this->link->lastInsertId();
+        return intval($this->link->lastInsertId());
     }
 
     /**

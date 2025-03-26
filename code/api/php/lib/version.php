@@ -79,7 +79,7 @@ function make_version($app, $reg_id)
     if (!semaphore_acquire($semaphore)) {
         return [T('Could not acquire the semaphore')];
     }
-    // Chck if exists data in the version table
+    // Check if exists data in the version table
     $query = "SELECT MAX(id) FROM {$table}_version WHERE reg_id = ?";
     $version_id = execute_query($query, [$reg_id]);
     // Check if exists data in the main table

@@ -350,10 +350,10 @@ final class test_emails extends TestCase
         $this->assertStringContainsString('Invalid address', $result);
 
         $result = sendmail(1, ['to:admin@example.com', 'priority:1'], '', 'nada');
-        $this->assertSame($result, '');
+        $this->assertIsInt($result);
 
         $result = sendmail(1, ['to:admin@example.com', 'sensitivity:Personal'], '', 'nada');
-        $this->assertSame($result, '');
+        $this->assertIsInt($result);
 
         $result = sendmail(1, ['to:admin@example.com', 'replyto:'], '', 'nada');
         $this->assertStringContainsString('Invalid address', $result);
@@ -387,10 +387,10 @@ final class test_emails extends TestCase
                 'cid' => 'lorem.txt',
             ],
         ]);
-        $this->assertSame($result, '');
+        $this->assertIsInt($result);
 
         $result = sendmail(1, 'admin@example.com', 'nada', 'nada', [], false);
-        $this->assertStringContainsString('', $result);
+        $this->assertStringContainsString('Connection refused', $result);
 
         set_server('QUERY_STRING', 'app/emails/create');
 

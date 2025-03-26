@@ -242,7 +242,7 @@ class database_mysqli
      */
     public function db_last_insert_id()
     {
-        return $this->link->insert_id;
+        return intval($this->link->insert_id);
     }
 
     /**

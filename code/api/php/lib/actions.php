@@ -81,7 +81,7 @@ function insert($app, $data)
     $query = prepare_insert_query($table, $data);
     db_query(...$query);
 
-    $id = execute_query("SELECT MAX(id) FROM $table");
+    $id = db_last_insert_id();
 
     // Prepare all subqueries
     $subtables = app2subtables($app);

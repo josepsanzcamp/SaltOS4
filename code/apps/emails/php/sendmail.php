@@ -53,6 +53,10 @@ use PHPMailer\PHPMailer\SMTP;
  * $subject    => the subject string
  * $body       => the body string
  * $files      => an array with files
+ *
+ * Notes:
+ *
+ * This function must return the last_id if success, and a string if error
  */
 function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
 {
@@ -226,7 +230,7 @@ function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
     if ($async) {
         __getmail_update('state_sent', 0, $last_id);
         __getmail_update('state_error', '', $last_id);
-        return '';
+        return $last_id;
     }
     ob_start();
     $current = $mail->PostSend();
@@ -242,7 +246,7 @@ function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
     __getmail_update('state_sent', 1, $last_id);
     __getmail_update('state_error', '', $last_id);
     unlink($file2);
-    return '';
+    return $last_id;
 }
 
 /**
@@ -636,16 +640,18 @@ function sendmail_action($json, $action, $email_id)
         ];
     }
     // DO THE SEND ACTION
-    $send = sendmail($account_id, $recipients, $subject, $body, $files);
-    if ($send != '') {
+    $last_id = sendmail($account_id, $recipients, $subject, $body, $files);
+    if (is_int($last_id)) {
+        // NOTHING TO DO
+    } elseif (is_string($last_id)) {
         // CANCEL THE ACTION
         return [
             'status' => 'ko',
-            'text' => $send,
+            'text' => $last_id,
         ];
+    } else {
+        show_php_error(['phperror' => 'Internal error']);
     }
-    $query = 'SELECT MAX(id) FROM app_emails WHERE account_id = ? AND is_outbox = 1';
-    $last_id = execute_query($query, [$account_id]);
     // SOME UPDATES
     if (in_array($action, ['reply', 'replyall', 'forward'])) {
         __getmail_update('email_id', $email_id, $last_id);

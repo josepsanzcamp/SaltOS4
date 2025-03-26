@@ -905,9 +905,6 @@ function __getmail_insert(
     $body = __getmail_gettextbody(__getmail_getnode('0', $decoded));
     unset($decoded); // Trick to release memory
     // Insert the new email
-    if (!semaphore_acquire(__FUNCTION__)) {
-        show_php_error(['phperror' => 'Could not acquire the semaphore']);
-    }
     $query = prepare_insert_query('app_emails', [
         'account_id' => $account_id,
         'uidl' => $uidl,
@@ -936,9 +933,7 @@ function __getmail_insert(
     unset($body); // Trick to release memory
     db_query(...$query);
     // Get last_id
-    $query = 'SELECT MAX(id) FROM app_emails WHERE account_id = ? AND is_outbox = ?';
-    $last_id = execute_query($query, [$account_id, $is_outbox]);
-    semaphore_release(__FUNCTION__);
+    $last_id = db_last_insert_id();
     // Insert all address
     foreach ($info['emails'] as $email) {
         $query = prepare_insert_query('app_emails_address', [

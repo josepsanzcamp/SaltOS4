@@ -532,7 +532,7 @@ final class test_database extends TestCase
         $last_id = $obj->db_last_insert_id();
 
         $result = $obj->db_query('SELECT MAX(id) FROM tbl_config');
-        $this->assertEquals($result, [
+        $this->assertSame($result, [
             'total' => 1,
             'header' => ['MAX(id)'],
             'rows' => [
@@ -881,7 +881,7 @@ final class test_database extends TestCase
         $last_id = db_last_insert_id();
 
         $result = db_query('SELECT MAX(id) FROM tbl_config');
-        $this->assertEquals($result, [
+        $this->assertSame($result, [
             'total' => 1,
             'header' => ['MAX(id)'],
             'rows' => [

@@ -314,7 +314,7 @@ class database_sqlite3
      */
     public function db_last_insert_id()
     {
-        return $this->link->lastInsertRowID();
+        return intval($this->link->lastInsertRowID());
     }
 
     /**
