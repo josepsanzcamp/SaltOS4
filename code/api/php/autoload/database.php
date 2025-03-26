@@ -253,6 +253,19 @@ function db_field_name($result, $index)
 }
 
 /**
+ * DB Last Insert ID
+ *
+ * This function returns the last insert id
+ */
+function db_last_insert_id()
+{
+    if (!get_config('db/obj') || !method_exists(get_config('db/obj'), 'db_last_insert_id')) {
+        show_php_error(['dberror' => 'Unknown database connector']);
+    }
+    return get_config('db/obj')->db_last_insert_id();
+}
+
+/**
  * DB Free
  *
  * This function releases all memory used by the resultset queue

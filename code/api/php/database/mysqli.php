@@ -236,6 +236,16 @@ class database_mysqli
     }
 
     /**
+     * DB Last Insert ID
+     *
+     * This function returns the last insert id
+     */
+    public function db_last_insert_id()
+    {
+        return $this->link->insert_id;
+    }
+
+    /**
      * DB Disconnect
      *
      * This function close the database connection and sets the link to null

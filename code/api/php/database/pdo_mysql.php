@@ -224,6 +224,16 @@ class database_pdo_mysql
     }
 
     /**
+     * DB Last Insert ID
+     *
+     * This function returns the last insert id
+     */
+    public function db_last_insert_id()
+    {
+        return $this->link->lastInsertId();
+    }
+
+    /**
      * DB Disconnect
      *
      * This function close the database connection and sets the link to null

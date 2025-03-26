@@ -514,6 +514,35 @@ final class test_database extends TestCase
         $this->assertSame($obj->db_query($query), $result);
     }
 
+    /**
+     * Last Insert Id helper
+     *
+     * This function is intended to check the correctness of the last_insert_id
+     * feature implemented in each database driver.
+     */
+    private function last_insert_id_helper($obj): void
+    {
+        $query = prepare_insert_query('tbl_config', [
+            'user_id' => 1,
+            'key' => 'keyExample',
+            'val' => 'valExample',
+        ]);
+        $obj->db_query(...$query);
+
+        $last_id = $obj->db_last_insert_id();
+
+        $result = $obj->db_query('SELECT MAX(id) FROM tbl_config');
+        $this->assertEquals($result, [
+            'total' => 1,
+            'header' => ['MAX(id)'],
+            'rows' => [
+                ['MAX(id)' => $last_id],
+            ],
+        ]);
+
+        $obj->db_query('DELETE FROM tbl_config WHERE id = ?', [$last_id]);
+    }
+
     #[testdox('pdo_mysql driver')]
     /**
      * PDO MySQL driver
@@ -538,6 +567,9 @@ final class test_database extends TestCase
 
         // Specific part
         $this->assertSame($obj->db_escape('\'"%'), '\\\'\"%');
+
+        // Last insert id part
+        $this->last_insert_id_helper($obj);
 
         // Close connection
         $obj->db_disconnect();
@@ -571,6 +603,9 @@ final class test_database extends TestCase
         // Specific part
         $this->assertSame($obj->db_escape('\'"%'), '\\\'\"%');
 
+        // Last insert id part
+        $this->last_insert_id_helper($obj);
+
         // Close connection
         $obj->db_disconnect();
 
@@ -600,6 +635,9 @@ final class test_database extends TestCase
 
         // Specific part
         $this->assertSame($obj->db_escape('\'"%'), '\'\'"%');
+
+        // Last insert id part
+        $this->last_insert_id_helper($obj);
 
         // Close connection
         $obj->db_disconnect();
@@ -634,6 +672,9 @@ final class test_database extends TestCase
 
         // Specific part
         $this->assertSame($obj->db_escape('\'"%'), '\'\'"%');
+
+        // Last insert id part
+        $this->last_insert_id_helper($obj);
 
         // Close connection
         $obj->db_disconnect();
@@ -829,9 +870,32 @@ final class test_database extends TestCase
             unlink('data/logs/dbwarning.log');
         }
 
+        // Last Insert Id part
+        $query = prepare_insert_query('tbl_config', [
+            'user_id' => 1,
+            'key' => 'keyExample',
+            'val' => 'valExample',
+        ]);
+        db_query(...$query);
+
+        $last_id = db_last_insert_id();
+
+        $result = db_query('SELECT MAX(id) FROM tbl_config');
+        $this->assertEquals($result, [
+            'total' => 1,
+            'header' => ['MAX(id)'],
+            'rows' => [
+                ['MAX(id)' => $last_id],
+            ],
+        ]);
+
+        db_query('DELETE FROM tbl_config WHERE id = ?', [$last_id]);
+
+        // Continue
         db_disconnect();
         $this->assertSame(db_check('SELECT * FROM tbl_users_tokens'), false);
         db_connect();
+        db_connect(); // This second call cover the case when args is null and db/obj has link
 
         $this->assertSame(db_escape('\'"%'), '\\\'\"%');
 
@@ -841,5 +905,6 @@ final class test_database extends TestCase
         test_external_exec('php/database10.php', 'dberror.log', 'unknown field name at position nada');
         test_external_exec('php/database11.php', 'dberror.log', 'unknown database connector');
         test_external_exec('php/database12.php', 'dberror.log', 'unknown database connector');
+        test_external_exec('php/database13.php', 'dberror.log', 'unknown database connector');
     }
 }

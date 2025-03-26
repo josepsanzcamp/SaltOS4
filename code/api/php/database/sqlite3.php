@@ -308,6 +308,16 @@ class database_sqlite3
     }
 
     /**
+     * DB Last Insert ID
+     *
+     * This function returns the last insert id
+     */
+    public function db_last_insert_id()
+    {
+        return $this->link->lastInsertRowID();
+    }
+
+    /**
      * DB Disconnect
      *
      * This function close the database connection and sets the link to null
