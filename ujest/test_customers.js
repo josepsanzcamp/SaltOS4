@@ -209,7 +209,7 @@ describe('App Customers', () => {
      * TODO
      */
     test('Action Cancel', async () => {
-        await page.$$eval('#two button', buttons => buttons[buttons.length - 1].click());
+        await page.$$eval('#two button', buttons => buttons[buttons.length - 1].click()); // cancel button
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForFunction(() => !document.querySelector('#nombre'), timeout);
 
@@ -281,6 +281,134 @@ describe('App Customers', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    test('Action Go Back', async () => {
+        await page.goBack();
+        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForFunction(() => !document.querySelector('#nombre'), timeout);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    test('Action Insert', async () => {
+        await page.goto('https://127.0.0.1/saltos/code4/#/app/customers/create');
+
+        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForSelector('#nombre', timeout);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        await page.$eval('#nombre', el => el.value = 'asd');
+        await page.$eval('#cif', el => el.value = 'asd');
+        await page.$eval('#nombre_poblacion', el => el.value = 'asd');
+        await page.$eval('#nombre_codpostal', el => el.value = 'asd');
+        await page.$$eval('#two button', buttons => buttons[buttons.length - 2].click()); // create button
+
+        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForFunction(() => !document.querySelector('#nombre'), timeout);
+
+        const screenshot2 = await page.screenshot({encoding: 'base64'});
+        expect(screenshot2).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    test('Action Update', async () => {
+        const id = await page.$eval('#list tbody tr', el => el.id.split('/')[1]);
+        await page.goto('https://127.0.0.1/saltos/code4/#/app/customers/edit/' + id);
+
+        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForSelector('#nombre', timeout);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        await page.$eval('#nombre', el => el.value = 'asd2');
+        await page.$eval('#cif', el => el.value = 'asd2');
+        await page.$eval('#nombre_poblacion', el => el.value = 'asd2');
+        await page.$eval('#nombre_codpostal', el => el.value = 'asd2');
+        await page.$$eval('#two button', buttons => buttons[buttons.length - 2].click()); // update button
+
+        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForFunction(() => !document.querySelector('#nombre'), timeout);
+
+        const screenshot2 = await page.screenshot({encoding: 'base64'});
+        expect(screenshot2).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        testFinish = true;
+    });
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    test('Action Delete', async () => {
+        const id = await page.$eval('#list tbody tr', el => el.id.split('/')[1]);
+        await page.evaluate(id => { saltos.driver.delete(`app/customers/delete/${id}`); }, id);
+
+        await page.waitForSelector('.modal', timeout);
+
+        const screenshot = await page.screenshot({encoding: 'base64'});
+        expect(screenshot).toMatchImageSnapshot({
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
+            customSnapshotsDir: `${__dirname}/snaps`,
+        });
+
+        await page.$eval('.modal-footer button', button => button.click()); // yes button
+
+        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForFunction(() => !document.querySelector('.modal'), timeout);
+
+        const screenshot2 = await page.screenshot({encoding: 'base64'});
+        expect(screenshot2).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
