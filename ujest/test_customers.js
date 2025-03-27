@@ -327,10 +327,10 @@ describe('App Customers', () => {
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
-        await page.$eval('#nombre', el => el.value = 'asd');
-        await page.$eval('#cif', el => el.value = 'asd');
-        await page.$eval('#nombre_poblacion', el => el.value = 'asd');
-        await page.$eval('#nombre_codpostal', el => el.value = 'asd');
+        await page.$eval('#nombre', el => el.value = 'Josep Sanz');
+        await page.$eval('#cif', el => el.value = '12345678X');
+        await page.$eval('#nombre_poblacion', el => el.value = 'Barcelona');
+        await page.$eval('#nombre_codpostal', el => el.value = '08001');
         await page.$$eval('#two button', buttons => buttons[buttons.length - 2].click()); // create button
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
@@ -365,10 +365,10 @@ describe('App Customers', () => {
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
-        await page.$eval('#nombre', el => el.value = 'asd2');
-        await page.$eval('#cif', el => el.value = 'asd2');
-        await page.$eval('#nombre_poblacion', el => el.value = 'asd2');
-        await page.$eval('#nombre_codpostal', el => el.value = 'asd2');
+        await page.$eval('#nombre', el => el.value = 'Josep Sanz');
+        await page.$eval('#cif', el => el.value = '12345678Y');
+        await page.$eval('#nombre_poblacion', el => el.value = 'Barcelona');
+        await page.$eval('#nombre_codpostal', el => el.value = '08002');
         await page.$$eval('#two button', buttons => buttons[buttons.length - 2].click()); // update button
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
