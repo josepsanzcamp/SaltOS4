@@ -153,7 +153,9 @@ endif
 	php scripts/jest_coverage.php
 
 cloc:
-	cloc makefile scripts utest code/api/{index.php,php,xml} code/web/{js,htm} code/apps/*/{js,php,xml,locale,sample}
+	find scripts utest ujest code/api/{index.php,php,xml,locale} code/web/{js,htm} code/apps/*/{js,php,xml,locale,sample} > /tmp/cloc.include
+	find code/apps/*/js/*.min.* utest/files/* > /tmp/cloc.exclude
+	cloc --list-file=/tmp/cloc.include --exclude-list-file=/tmp/cloc.exclude
 
 setup:
 	php code/api/index.php setup
