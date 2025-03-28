@@ -42,6 +42,18 @@ $files = array_flip($files);
 $open = "/**\n";
 $close = " */\n";
 foreach ($files as $file => $temp) {
+    $excludes = ['.htaccess', '.min.', 'utest/files/', 'utest/php/', 'ujest/snaps/'];
+    $found = false;
+    foreach ($excludes as $exclude) {
+        if (strpos($file, $exclude) !== false) {
+            $found = true;
+            break;
+        }
+    }
+    if ($found) {
+        unset($files[$file]);
+        continue;
+    }
     $buffer = file_get_contents($file);
     $matches = [];
     $pos = strpos($buffer, $open);
@@ -94,8 +106,8 @@ foreach ($files as $file => $temp) {
     }
     array_shift($matches);
     if (!count($matches)) {
-        unset($files[$file]);
-        continue;
+        echo "Internal error processing $file\n";
+        die();
     }
     $files[$file] = $matches;
 }
@@ -128,6 +140,10 @@ $map = [
     'action' => 'actions',
     'js' => 'javascript',
     'lib' => 'libraries',
+    'utest lib' => 'phpunit libraries',
+    'utest code' => 'phpunit code',
+    'ujest lib' => 'jest libraries',
+    'ujest code' => 'jest code',
 ];
 foreach ($files as $file => $contents) {
     if (substr($file, 0, 13) == 'code/api/php/') {
@@ -136,10 +152,14 @@ foreach ($files as $file => $contents) {
         $path2 = explode('/', $file)[2];
     } elseif (substr($file, 0, 10) == 'code/apps/') {
         $path2 = explode('/', $file)[2];
+    } elseif (substr($file, 0, 10) == 'utest/lib/') {
+        $path2 = 'utest lib';
     } elseif (substr($file, 0, 6) == 'utest/') {
-        $path2 = explode('/', $file)[1];
-        $path2 = substr($path2, 5, -4);
-        $path2 = str_replace('_', ' ', $path2);
+        $path2 = 'utest code';
+    } elseif (substr($file, 0, 10) == 'ujest/lib/') {
+        $path2 = 'ujest lib';
+    } elseif (substr($file, 0, 6) == 'ujest/') {
+        $path2 = 'ujest code';
     } else {
         ob_clean();
         echo "Internal error processing $file\n";

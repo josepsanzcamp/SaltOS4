@@ -1,6 +1,6 @@
 Main Documentation
-SaltOS 4.0 r1681
-January 2025
+SaltOS 4.0 r1923
+March 2025
 
 
 
@@ -40,9 +40,9 @@ This file implements the app action, requires a GET REST request
 and the order of the elements are:
 
 - @1 => the app that you want to execute
-- @2 => the subapp that tou want to use, if the app only contains
-      one subapp, this parameter is not necesary
-- @3 => the id used in some subapps, for example, to get the data
+- @2 => the action that tou want to use, if the app only contains
+      one action, this parameter is not necesary
+- @3 => the id used in some actions, for example, to get the data
       of specific customer using the id
 
 
@@ -118,7 +118,7 @@ want to convert in qrcode.
 
 - @s => size of each pixel used in the qrcode
 - @m => margin of the qrcode (white area that that surround the qrcode)
-- @l => error correction: L (low), M (medium), Q (better), H (best)
+- @l => level error correction: L (low), M (medium), Q (better), H (best)
 
 
 Captcha action
@@ -445,6 +445,17 @@ This function returns the has_notes of the app
 - @app => the app code used to resolve the notes
 
 
++++App to Log+++
+
+```
+function app2log($app)
+```
+
+This function returns the has_log of the app
+
+- @app => the app code used to resolve the log
+
+
 +++Subtable to Id+++
 
 ```
@@ -500,6 +511,72 @@ This function detect if a subtable exists
 - @subtable => the subtable that you want to check if exists
 
 
++++Id to Field+++
+
+```
+function id2field($id)
+```
+
+This function resolves the field of the app from the app id
+
+- @id => the app id used to resolve the field
+
+
++++App to Field+++
+
+```
+function app2field($app)
+```
+
+This function resolves the field of the app from the app code
+
+- @app => the app code used to resolve the field
+
+
++++Table to Field+++
+
+```
+function table2field($table)
+```
+
+This function resolves the field of the app from the app table
+
+- @table => the app table used to resolve the field
+
+
++++Id to Name+++
+
+```
+function id2name($id)
+```
+
+This function resolves the name of the app from the app id
+
+- @id => the app id used to resolve the name
+
+
++++App to Name+++
+
+```
+function app2name($app)
+```
+
+This function resolves the name of the app from the app code
+
+- @app => the app code used to resolve the name
+
+
++++Table to Name+++
+
+```
+function table2name($table)
+```
+
+This function resolves the name of the app from the app table
+
+- @table => the app table used to resolve the name
+
+
 +++Detect apps files+++
 
 ```
@@ -517,7 +594,7 @@ This function returns the files found in the main path and in the apps path
 function current_app()
 ```
 
-This function returns the id of the current app
+This function returns the current app as string
 
 
 +++Detect app file+++
@@ -531,6 +608,13 @@ This function returns the path found for the requested app
 - @app => the app that wants to retrieve the file path
 
 
+Notes:
+
+If the app uses the yaml specification instead of the xml, this
+function call the make_app_file_helper function with the yaml file
+to get the xml file that must to be used in the app layer
+
+
 +++Detect app folder+++
 
 ```
@@ -540,6 +624,19 @@ function detect_app_folder($app)
 This function returns the path found for the requested app
 
 - @app => the app that wants to retrieve the folder path
+
+
++++Make Apps File helper+++
+
+```
+function make_app_file_helper($yamlfile)
+```
+
+function call the make_app_file function defined in the required
+field of the yaml file to generate the equivalent xml file used
+as app file and returns the path to the cached file
+
+- @yamlfile => the yaml file desired to be converted to xml
 
 
 ++Array helper module++
@@ -868,6 +965,38 @@ Notes:
 In case of not found the desired key, the original needed param is returned
 
 
++++Explode With Quotes+++
+
+```
+function explode_with_quotes($separator, $str, $limit = 0)
+```
+
+This function tries to do the same things that the original explode but add
+the quotes feature, don't break an string contained in a single or double
+quotes, this allow to implement features like a search that forces specific
+strings with spaces
+
+- @separator => the delimiter character used in the explode feature
+- @str       => the string that you want to explode
+- @limit     => the number of elements that can contains the result
+
+
++++Grep helper+++
+
+```
+function array_grep($input, $pattern, $invert = false)
+```
+
+This function emulates the grep command, is able to invert the pattern
+selection and returns the same array with the grep applied, tries to do
+the grep ignoring case and ignoring extended chars and is able to search
+words ignoring accents
+
+- @input   => the input array
+- @pattern => the search pattern
+- @invert  => default to false to search, true to invert the selection
+
+
 ++Compatibility helper module++
 
 ```
@@ -928,10 +1057,10 @@ This fie contains useful functions related to configuration features
 function get_config($key, $user_id = -1)
 ```
 
-This function is intended to be used to retrieve values from the
-config system, as first level, the function try to get the value from
-the tbl_config, and if it is not found, then the function try to get
-the values from the config file.
+This function is intended to be used to retrieve values from the config
+system, as first level, the function try to get the value from the
+tbl_config, and if it is not found, then the function try to get the
+values from the config file.
 
 - @key     => the key that you want to retrieve the value
 - @user_id => the user_id used in the first search step
@@ -940,10 +1069,13 @@ the values from the config file.
 Notes:
 
 This function is a new release of the olds getConfig and getDefault,
-depending of the user_id argument, it tries to search in the config
-file or in the database, for negative values the function uses the
-config file and for zero or positive values, tries to search it in
-the database
+depending of the user_id argument, it tries to search in the config file or
+in the database, for negative values the function uses the config file and
+for zero or positive values, tries to search it in the database
+
+To prevent errors in case of duplicates, we are using the ORDER BY id ASC
+LIMIT 1, this allow to get and set only the first register found by the
+select query
 
 
 +++Set config+++
@@ -964,8 +1096,12 @@ in the memory of the config file for negative user_id values
 Notes:
 
 If null val is passed as argument, then the entry of the config or database
-is removed, the main idea is to use the same method used by the setcookie that
-allow to remove entries by setting the value to null
+is removed, the main idea is to use the same method used by the setcookie
+that allow to remove entries by setting the value to null
+
+To prevent errors in case of duplicates, we are using the ORDER BY id ASC
+LIMIT 1, this allow to get and set only the first register found by the
+select query
 
 
 +++Detect config files+++
@@ -1160,6 +1296,15 @@ This function returns the name of the field identified by the index field
 
 - @result => this argument is passed by reference and contains the resultset queue
            obtained by the db_query
+
+
++++DB Last Insert ID+++
+
+```
+function db_last_insert_id()
+```
+
+This function returns the last insert id
 
 
 +++DB Free+++
@@ -1933,6 +2078,19 @@ protect the caller to prevent I/O errors like "nohup php index.php" when
 - @args => the original arguments are passed to the file_get_contents
 
 
++++Get human size+++
+
+```
+function get_human_size($size, $pre = '', $post = '')
+```
+
+This function returns an string containing the size in human format
+
+- @size => the number of bytes to convert to human format
+- @pre  => string added between the number and the unit letter
+post  => string added after the unit letter at the end
+
+
 ++Get data helper module++
 
 ```
@@ -2207,13 +2365,19 @@ and then, saves the log to the specified file
 +++Get Trace+++
 
 ```
-function gettrace($array)
+function gettrace(...$args)
 ```
 
 This function get an array as show_php_error, add the backtrace and debug
 information and convert all array into a string
 
 - @array => the array that can contains the same info that show_php_error
+- @full  => add the full debug backtrace instead of the generic partial
+
+
+This differentiation is because the full debug backtrace can break the
+checklog feature because the time and pid can be different in each
+execution
 
 
 +++Session Backtrace+++
@@ -2648,6 +2812,20 @@ This function merge the rows of a table or list with the specified actions
 
 - @data    => the data of the table or list widget
 - @actions => the desired actions to use in the table or list widget
+
+
++++App has perm+++
+
+```
+function __app_has_perm($app, $perm)
+```
+
+This function checks that the app has the requested perm, used by the
+merge_data_actions to validate the existence of a permission in the
+application.
+
+- @app  => the app to check
+- @perm => the perm to check
 
 
 ++Random helper module++
@@ -3228,7 +3406,7 @@ newline, return)
 function encode_bad_chars($cad, $pad = '_', $extra = '')
 ```
 
-This function tries to replace accender chars and other extended chars into
+This function tries to replace accenteds chars and other extended chars into
 an ascii chars, to do it, they define an array with the pairs of chars to
 do a quick replace, too is converted all to lower and are removed all chars
 that are out of range (valid range are from 0-9 and from a-z), the function
@@ -3366,8 +3544,7 @@ This function can be replaced by strtr in the two arguments option, the
 difference is that str_replace is more efficient that strtr because the
 strtr tries to prepare the replacement list by ordering by size the
 replace_pairs and too to prevent repeated replacements in previously
-replacements, if you write a utest as I, you can see how this function
-is more quickly that strtr and for this reason, I maintain this code.
+replacements, you can see test_strtr.php for more info
 
 
 +++Get Part From String+++
@@ -3376,24 +3553,82 @@ is more quickly that strtr and for this reason, I maintain this code.
 function get_part_from_string($input, $delim, $index)
 ```
 
-This function explodes de input using delim and returns the element
-of the index position
+This function explodes de input using delim and returns the element of the
+index position, if the index is negative, then returns the element beginning
+from the end
 
 - @input => the string that you want to cut in parts
 - @delim => the delimiter char used to cut in parts
 - @index => the index that you want to request of the explode result
 
 
++++Check IDS Helper+++
+
+```
+function __check_ids_helper()
+```
+
+This function checks the correctness of the list of ids and returns a valid
+list available to be used in sql queries or as an array of valid ids
+
+- @ids => the string containing the list of ids
+
+
 +++Check IDS+++
 
 ```
-function check_ids()
+function check_ids(...$args)
 ```
 
-This function checks the correctness of the list of ids and returns
-a valid list available to be used in sql queries
+This function checks the correctness of the list of ids and returns a valid
+list available to be used in sql queries
 
 - @ids => the string containing the list of ids
+
+
++++Check IDS Array+++
+
+```
+function check_ids_array(...$args)
+```
+
+This function checks the correctness of the list of ids and returns a valid
+list available to be used as array of valid ids
+
+- @ids => the string containing the list of ids
+
+
++++String Replace One+++
+
+```
+function str_replace_one($from, $to, $cad)
+```
+
+This function tries to do the same that str_repalce but only for the first
+occurrence
+
+- @from => the string used as search
+- @to   => the string that you want to use as replacement
+- @cad  => the string that you want to modify
+
+
+Notes:
+
+This function can be replaced by preg_replace, but this implementation is
+more efficient, see the test_replace.php for more info
+
+
++++Get String From Quotes+++
+
+```
+function get_string_from_quotes($val)
+```
+
+This string tries to return the string contained in a single or double
+quotes, indended to be used for example in the construction of the where
+used by the search engine
+
+- @val => the string that you want to process
 
 
 ++System helper module++
@@ -3416,16 +3651,23 @@ This function checks the system to detect if all knowed dependencies are found i
 defines an array with the type (class or function), the name and some extra info for the error message
 that is triggered if the dependency is not satisfied
 
-Too, check all directories of the data directory to validate that the process can write inside it
+
++++Check Directories+++
+
+```
+function check_directories()
+```
+
+Check all directories of the data directory to validate that the process can write inside it
 
 
-+++TODO+++
++++Exec Check System+++
 
 ```
 function exec_check_system()
 ```
 
-TODO
+This function executes the check system function and trigger an error if needed
 
 
 ++Tokens helper module++
@@ -3548,13 +3790,13 @@ This fie contains useful functions related to the version of the SaltOS of the p
 +++Get Name Version Revision+++
 
 ```
-function get_name_version_revision($copyright = false)
+function get_name_version_revision($full = false)
 ```
 
 This function returns a string with the SaltOS name, version, revision and
 copyright if needed
 
-- @copyright => boolean to specify if you want to add the copyright to the output
+- @full => boolean to specify if you want to add the copyright to the output
 
 
 +++SVN Version+++
@@ -3773,7 +4015,7 @@ and the pop instead of only shift
 +++Eval Attributes+++
 
 ```
-function eval_attr($array)
+function eval_attr($array, $recursive = true)
 ```
 
 This function is very special in SaltOS, is part of the initial code an
@@ -4296,6 +4538,15 @@ sized array, in this case, is more efficient to get an string separated by comma
 ids instead of an array where each element is an id
 
 
++++DB Last Insert ID+++
+
+```
+public function db_last_insert_id()
+```
+
+This function returns the last insert id
+
+
 +++DB Disconnect+++
 
 ```
@@ -4409,6 +4660,15 @@ concat: this fetch method is an special mode intended to speed up the retrieve o
 arrays, this is useful when you want to get all ids of a query and you want to get a big
 sized array, in this case, is more efficient to get an string separated by commas with all
 ids instead of an array where each element is an id
+
+
++++DB Last Insert ID+++
+
+```
+public function db_last_insert_id()
+```
+
+This function returns the last insert id
 
 
 +++DB Disconnect+++
@@ -4525,6 +4785,15 @@ concat: this fetch method is an special mode intended to speed up the retrieve o
 arrays, this is useful when you want to get all ids of a query and you want to get a big
 sized array, in this case, is more efficient to get an string separated by commas with all
 ids instead of an array where each element is an id
+
+
++++DB Last Insert ID+++
+
+```
+public function db_last_insert_id()
+```
+
+This function returns the last insert id
 
 
 +++DB Disconnect+++
@@ -4649,6 +4918,15 @@ sized array, in this case, is more efficient to get an string separated by comma
 ids instead of an array where each element is an id
 
 
++++DB Last Insert ID+++
+
+```
+public function db_last_insert_id()
+```
+
+This function returns the last insert id
+
+
 +++DB Disconnect+++
 
 ```
@@ -4762,6 +5040,15 @@ concat: this fetch method is an special mode intended to speed up the retrieve o
 arrays, this is useful when you want to get all ids of a query and you want to get a big
 sized array, in this case, is more efficient to get an string separated by commas with all
 ids instead of an array where each element is an id
+
+
++++DB Last Insert ID+++
+
+```
+public function db_last_insert_id()
+```
+
+This function returns the last insert id
 
 
 +++DB Disconnect+++
@@ -5077,6 +5364,50 @@ The normal behavior is returns a png image, but if something was wrong,
 the function can returns an empty string
 
 
++++BarCode image png function+++
+
+```
+function __barcode_image_png($msg, $w, $h, $t)
+```
+
+This function allow to generate a barcode, you can pass the desired
+message that you want to convert in barcode and it returns an image
+with the data
+
+- @msg => Contents of the barcode
+- @w   => width of each unit's bar of the barcode
+- @h   => height of the barcode (without margins and text footer)
+- @t   => type of the barcode, C128 is the most common type used
+
+
+Notes:
+
+The normal behavior is returns a png image without margins and text,
+but if something was wrong, the function can returns an empty string
+
+
++++BarCode image svg function+++
+
+```
+function __barcode_image_svg($msg, $w, $h, $t)
+```
+
+This function allow to generate a barcode, you can pass the desired
+message that you want to convert in barcode and it returns an image
+with the data
+
+- @msg => Contents of the barcode
+- @w   => width of each unit's bar of the barcode
+- @h   => height of the barcode (without margins and text footer)
+- @t   => type of the barcode, C128 is the most common type used
+
+
+Notes:
+
+The normal behavior is returns a svg image without margins and text,
+but if something was wrong, the function can returns an empty string
+
+
 ++Browser helper module++
 
 ```
@@ -5089,7 +5420,16 @@ This file contain useful browser helper functions
 +++Get Browser Platform Device Type+++
 
 ```
-function get_browser_platform_device_type($user_agent = null)
+function get_browser_array($user_agent = null)
+```
+
+This function gets the browser, platform and device_type form the user_agent header
+
+
++++Get Browser Platform Device Type+++
+
+```
+function get_browser_string($user_agent = null)
 ```
 
 This function gets the browser, platform and device_type form the user_agent header
@@ -5822,7 +6162,7 @@ TODO
 +++TODO+++
 
 ```
-function check_files_old($app, $action, $id)
+function check_files_old($app, $action, $id = null)
 ```
 
 TODO
@@ -5944,6 +6284,33 @@ parameter
 - @size => the size used in the control (size x size)
 
 
+++GeoIP helper module++
+
+```
+api/php/lib/geoip.php
+```
+
+This file contain useful geoip helper functions
+
+
++++Get GeoIP information+++
+
+```
+function get_geoip_array($remote_addr)
+```
+
+This function gets the geoip information an returns it
+
+
++++Get GeoIP information+++
+
+```
+function get_geoip_string($remote_addr)
+```
+
+This function gets the geoip information an returns it
+
+
 ++TODO++
 
 ```
@@ -5957,184 +6324,6 @@ TODO
 
 ```
 function detect_help_file($app, $lang)
-```
-
-TODO
-
-
-++Html helper module++
-
-```
-api/php/lib/html.php
-```
-
-This file contain useful html helper functions
-
-
-+++Defines section+++
-
-```
-define('__GIF_IMAGE__', 'data:image/gif;base64,R0lGODdhAQABAIABAOns7wAAACwAAAAAAQABAAACAkQBADs=');
-```
-
-This defines allow to define some useful needed resources by this file.
-
-
-+++Remove Script Tag+++
-
-```
-function remove_script_tag($temp)
-```
-
-This function tries to remove all <script> tags of the string
-
-- @temp => the string that you want to process
-
-
-+++Remove Style Tag+++
-
-```
-function remove_style_tag($temp)
-```
-
-This function tries to remove all <style> tags of the string
-
-- @temp => the string that you want to process
-
-
-+++Remove Comment Tag+++
-
-```
-function remove_comment_tag($temp)
-```
-
-This function tries to remove all <!-- --> tags of the string
-
-- @temp => the string that you want to process
-
-
-+++Remove Meta Tag+++
-
-```
-function remove_meta_tag($temp)
-```
-
-This function tries to remove all <meta > tags of the string
-
-- @temp => the string that you want to process
-
-
-+++Remove Link Tag+++
-
-```
-function remove_link_tag($temp)
-```
-
-This function tries to remove all <link > tags of the string
-
-- @temp => the string that you want to process
-
-
-+++Inline Img Tag+++
-
-```
-function inline_img_tag($html)
-```
-
-This function tries to convert all imgs to an inline imgs
-
-- @temp => the string that you want to process
-
-
-+++Inline Img Style+++
-
-```
-function inline_img_style($html)
-```
-
-This function tries to convert all imgs to an inline imgs
-
-- @temp => the string that you want to process
-
-
-+++Inline Img Background+++
-
-```
-function inline_img_background($html)
-```
-
-This function tries to convert all imgs to an inline imgs
-
-- @temp => the string that you want to process
-
-
-+++TODO+++
-
-```
-function __inline_img_helper($src)
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-function extract_img_tag($html)
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-function extract_img_style($html)
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-function extract_img_background($html)
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-function fix_img_tag($html)
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-function fix_img_style($html)
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-function fix_img_background($html)
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-function fix_file_b64($html)
 ```
 
 TODO
@@ -6566,15 +6755,16 @@ This fie contains useful functions related to the log feature
 +++Make Log function+++
 
 ```
-function make_log($app, $reg_id, $log)
+function make_log($app, $log, $reg_ids, $extra_ids = '')
 ```
 
 This function adds a log register to the associated log table for each
 application.
 
-- @app    => code of the application where you want to add the log
-- @reg_id => register of the app where you want to add the log
-- @log    => the log message that you want to add to the log register
+- @app      => code of the application where you want to add the log
+- @log      => the log message that you want to add to the log register
+- @reg_id   => register ids of the app where you want to add the log
+- @extra_id => extra ids of the app where you want to add the log
 
 
 Notes:
@@ -6584,6 +6774,64 @@ This function returns an integer as response about the control action:
 - +1 => insert executed, this is because the app register exists and the control register not exists
 - -1 => app not found, this is because the app requested not have a table in the apps config
 - -2 => log table not found, this is because the has_log feature is disabled by dbstatic
+
+
++++Make Log Bypass function+++
+
+```
+function make_log_bypass($app, $log, $data)
+```
+
+This function is intended to be used as wrapper between the caller and the
+execute_query or execute_query_array function, the main idea is to do the
+same that make_log but uses the reg_id from the array data, and this array
+can be an array with the contents of one register with an id field, or an
+array of rows where each item must contain an id field
+
+- @app  => code of the application where you want to add the log
+- @data => data with the register or registers of the app where you want to
+         add the log, remember that an id field is needed
+- @log  => the log message that you want to add to the log register
+
+
+Notes:
+
+This function always returns the input data
+
+
++++TODO+++
+
+```
+function get_logs($app, $reg_id)
+```
+
+TODO
+
+
++++Delete Log function+++
+
+```
+function del_log($app, $reg_id)
+```
+
+This function allow to delete the last log to a reg_id of an app, to do it,
+the function requires to specify the app and reg_id
+
+- @app    => code of the application that you want to delete the last log
+- @reg_id => register of the app that you want to delete the last log
+
+
+Notes:
+
+This function returns an integer as response about the control action:
+
+- +1 => delete executed, this is because the app register exists and they can delete the last register
+- -1 => app not found, this is because the app requested not have a table in the apps config
+- -2 => log table not found, this is because the has_version feature is disabled by dbstatic
+- -3 => data not found, this is because the app register not exists and the version register not exists
+
+
+As you can see, negative values denotes an error and positive values denotes a successfully situation
 
 
 ++Math utils helper module++
@@ -6636,7 +6884,7 @@ TODO
 +++TODO+++
 
 ```
-function check_notes_old($app, $action, $id)
+function check_notes_old($app, $action, $id = null)
 ```
 
 TODO
@@ -6871,13 +7119,55 @@ want to convert in qrcode and it returns an image with the data
 - @msg => Contents of the qrcode
 - @s   => size of each pixel used in the qrcode
 - @m   => margin of the qrcode (white area that that surround the qrcode)
-- @l   => error correction: L (low), M (medium), Q (better), H (best)
+- @l   => level error correction: L (low), M (medium), Q (better), H (best)
 
 
 Notes:
 
 The normal behavior is returns a png image, but if something was wrong,
 the function can returns an empty string
+
+
++++QRCode image function+++
+
+```
+function __qrcode_image_png($msg, $s, $l)
+```
+
+This function allow to generate a qrcode with the SaltOS logo embedded
+in the center of the image, you can pass the desired message that you
+want to convert in qrcode and it returns an image with the data
+
+- @msg => Contents of the qrcode
+- @s   => size of each pixel used in the qrcode
+- @l   => level error correction: L (low), M (medium), Q (better), H (best)
+
+
+Notes:
+
+The normal behavior is returns a png image without margins, but if something
+was wrong, the function can returns an empty string
+
+
++++QRCode image function+++
+
+```
+function __qrcode_image_svg($msg, $s, $l)
+```
+
+This function allow to generate a qrcode with the SaltOS logo embedded
+in the center of the image, you can pass the desired message that you
+want to convert in qrcode and it returns an image with the data
+
+- @msg => Contents of the qrcode
+- @s   => size of each pixel used in the qrcode
+- @l   => level error correction: L (low), M (medium), Q (better), H (best)
+
+
+Notes:
+
+The normal behavior is returns a svg image without margins, but if something
+was wrong, the function can returns an empty string
 
 
 ++Score image helper module++
@@ -6906,6 +7196,24 @@ write the score percent
 - @size   => the size of the font of the generated image
 
 
+++Security helper module++
+
+```
+api/php/lib/security.php
+```
+
+This file contain useful securiry helper functions
+
+
++++Get Browser Platform Device Type+++
+
+```
+function get_connection_detected($remote_addr, $user_agent = null)
+```
+
+This function gets the browser, platform and device_type form the user_agent header
+
+
 ++Setup helper module++
 
 ```
@@ -6925,6 +7233,28 @@ This function allow to create the minimal user and group information to do SaltO
 usable by the admin user, only do things if the keys tables of the array are void,
 too is able to maintain the integrity of the tbl_{users,groups}_apps_perms tables
 by removing the unused registers, usefull when you modify the tbl_apps_perms rows
+
+
+++Send file to trash++
+
+```
+api/php/lib/trash.php
+```
+
+This function tries to implement the send to trash feature, to do it, move the
+requested files to the trash folder, execute the insert in the tbl_trash with
+the new file and delete the file from the files app table.
+
+
++++Garbage Collector Trash+++
+
+```
+function gc_trash()
+```
+
+This function tries to clean the trash database of old files, the parameters
+that this function uses is defined in the config file, only uses the timeout
+that is getted from the server/trashtimeout
 
 
 ++Unoconv library++
@@ -7121,7 +7451,7 @@ function __unoconv_remove_margins($page)
 TODO
 
 
-++Add file++
+++Add upload file++
 
 ```
 api/php/lib/upload.php
@@ -7137,10 +7467,10 @@ This function is intended to add files to the upload mecano
 - @data => the inline data in base64 form, with the mime type prefix
 
 
-+++Del file+++
++++Del upload file+++
 
 ```
-function del_file($val)
+function del_upload_file($val)
 ```
 
 This function is intended to del files in the upload mecano
@@ -7154,10 +7484,10 @@ This function is intended to del files in the upload mecano
 - @hash => the hash of the binary data contents
 
 
-+++Check file+++
++++Check upload file+++
 
 ```
-function check_file($val)
+function check_upload_file($val)
 ```
 
 This function is intended to check files in the upload mecano
@@ -7172,10 +7502,10 @@ This function is intended to check files in the upload mecano
 - @hash    => the hash of the binary data contents
 
 
-+++Copy file+++
++++Rename upload file+++
 
 ```
-function copy_file($val, $app, $id)
+function rename_upload_file($val, $app, $id)
 ```
 
 This function copy the file contained in the val parameter to the
@@ -7376,6 +7706,24 @@ saltos.app.send_request = hash
 This function allow to send requests to the server and process the response
 
 
++++TODO+++
+
+```
+saltos.app.__cache = {};
+```
+
+TODO
+
+
++++Process response helper+++
+
+```
+saltos.app.prefetch_cache = (responses)
+```
+
+This function process the responses received by the send request
+
+
 +++Process response helper+++
 
 ```
@@ -7497,66 +7845,6 @@ saltos.app.form_disabled = bool
 
 This function disables all elements of the form, it is intended to be used when you need
 to do screen for view mode.
-
-
-+++Profile screen+++
-
-```
-saltos.app.profile = ()
-```
-
-This function allow to open the profile screen in a offcanvas widget
-
-
-+++Help screen+++
-
-```
-saltos.app.help = ()
-```
-
-This function allow to open the help screen in a modal widget
-
-
-+++Logout feature+++
-
-```
-saltos.app.logout = async ()
-```
-
-This function execute the deauthtoken action and jump to the login screen
-
-
-+++Filter screen+++
-
-```
-saltos.app.filter = ()
-```
-
-This function allow to open the filter screen in a offcanvas widget
-
-
-+++Download helper+++
-
-```
-saltos.app.download = file
-```
-
-This function allow to download files, to do it, make the ajax request and
-using the base64 data response, sets the href of an anchor created dinamically
-to emulate the download action
-
-- @file => the file data used to identify the desired file in the backend part
-
-
-+++Delete helper+++
-
-```
-saltos.app.delete = file
-```
-
-This function allow to remove the files and notes in the files and notes widgets
-
-- @file => the file or note string path
 
 
 +++Ajax helper+++
@@ -8339,6 +8627,7 @@ This function returns a textarea object with the codemirror plugin enabled
 - @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
 - @height      => the height used as style.minHeight parameter
 - @onchange    => the function executed when onchange event is detected
+- @indent      => enables the indent feature, only available for xml, json, css and sql
 
 
 Notes:
@@ -8353,6 +8642,15 @@ feature:
 The returned object contains a textarea with two new properties like codemirror and set,
 the first contains the codemirror object and the second is a function used to update the
 value of the codemirror, intended to load new data.
+
+
++++TODO+++
+
+```
+saltos.bootstrap.__indent_helper = (str, mode)
+```
+
+TODO
 
 
 +++Iframe constructor helper+++
@@ -8550,8 +8848,8 @@ This widget add an icon to the end of the widget with an slashed eye, this allow
 see the entered password to verify it, in reality, this button swaps the input between
 password and text type, allowing to do visible or not the contents of the input
 
-This widget add the hiddens passwords trick that disable the browser autocomplete
-feature using the browser password manager
+Setting the field.autocomplete=false enable the feature that tries to disable the
+autocomplete provided by the browsers password adding the autocomplete="new-password"
 
 
 +++File constructor helper+++
@@ -9614,6 +9912,156 @@ saltos.bootstrap.get_css_theme = ()
 Retrieve the css_theme stored in the localStorage
 
 
+++Common helper module++
+
+```
+web/js/common.js
+```
+
+This fie contains useful functions related to the common applications
+
+
++++Common helper object+++
+
+```
+saltos.common = {};
+```
+
+This object stores all application functions and data
+
+
++++Profile screen+++
+
+```
+saltos.common.profile = ()
+```
+
+This function allow to open the profile screen in a offcanvas widget
+
+
++++Help screen+++
+
+```
+saltos.common.help = ()
+```
+
+This function allow to open the help screen in a modal widget
+
+
++++Logout feature+++
+
+```
+saltos.common.logout = async ()
+```
+
+This function execute the deauthtoken action and jump to the login screen
+
+
++++Filter screen+++
+
+```
+saltos.common.filter = ()
+```
+
+This function allow to open the filter screen in a offcanvas widget
+
+
++++Download helper+++
+
+```
+saltos.common.download = file
+```
+
+This function allow to download files, to do it, make the ajax request and
+using the base64 data response, sets the href of an anchor created dinamically
+to emulate the download action
+
+- @file => the file data used to identify the desired file in the backend part
+
+
++++Delete helper+++
+
+```
+saltos.common.delete = file
+```
+
+This function allow to remove the files and notes in the files and notes widgets
+
+- @file => the file or note string path
+
+
++++TODO+++
+
+```
+saltos.common.version = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.common.log = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.common.edit = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.common.create = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.common.viewpdf = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.common.__remove_helper = id
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.common.allfiles = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.common.allnotes = ()
+```
+
+TODO
+
+
 ++Core helper module++
 
 ```
@@ -9740,6 +10188,17 @@ saltos.core.get_keycode = event
 ```
 
 This function allow to get the keycode of a keyboard event detecting the browser
+
+- @event => the event that contains the keyboard data
+
+
++++Get keyname+++
+
+```
+saltos.core.get_keyname = event
+```
+
+This function allow to get the keyname of a keyboard event detecting the browser
 
 - @event => the event that contains the keyboard data
 
@@ -10027,12 +10486,14 @@ This function is a helper to obtain the timestamp in seconds with the desidet of
 +++Human Size+++
 
 ```
-saltos.core.human_size = size
+saltos.core.human_size = (size, pre = '', post = '')
 ```
 
 Return the human size (G, M, K or original value)
 
 - @size  => the size that you want convert to human size
+- @pre  => string added between the number and the unit letter
+post  => string added after the unit letter at the end
 
 
 +++Check network+++
@@ -10050,6 +10511,17 @@ The first version uses fetch to the img/logo_saltos.svg but for securiry reasons
 the browser never send the request to http from https or viceversa, the unique trick
 that I found to do it is to open a new window for each protocol and wait for the
 expected result
+
+
++++Is Number+++
+
+```
+saltos.core.is_number = str
+```
+
+This function checks that the str contains a valid number and is finite
+
+str => the string to validate
 
 
 ++Driver module++
@@ -10776,6 +11248,15 @@ layout is embedded inside of a col object and is not suitable to put an id attri
 to each col without repetitions.
 
 
++++Style helper array+++
+
+```
+saltos.form.__style = {};
+```
+
+This array allow to the require feature to control the loaded libraries
+
+
 +++Form style helper+++
 
 ```
@@ -10786,6 +11267,15 @@ This function allow to specify styles, you can use the inline of file key to spe
 what kind of usage do you want to do.
 
 - @data => the object that contains the styles requirements (can be file or inline)
+
+
++++Javascript helper array+++
+
+```
+saltos.form.__javascript = {};
+```
+
+This array allow to the require feature to control the loaded libraries
 
 
 +++Form javascript helper+++
@@ -10844,6 +11334,26 @@ saltos.form.gettext = array
 ```
 
 This function load the gettext data from the api to the cli sapi
+
+
++++Form cache helper+++
+
+```
+saltos.form.cache = async val
+```
+
+This function allow to use the cache feature
+
+- @val => the requested cache
+
+
+Notes:
+
+This feature works in conjunction with the prefetch_cache function that
+solves all caches before the real process_response, in order to explain
+how it works, the main idea is to call to send_request, the response is
+processed by prefetch_cache and when all caches are solved, then the
+process_response is called.
 
 
 ++Gettext helper module++
@@ -11268,12 +11778,14 @@ into a valid request that can be used in fetch operations
 +++Human Size+++
 
 ```
-const human_size = size
+const human_size = (size, pre = '', post = '')
 ```
 
 Return the human size (G, M, K or original value)
 
 - @size  => the size that you want convert to human size
+- @pre  => string added between the number and the unit letter
+post  => string added after the unit letter at the end
 
 
 +++Install binding+++

@@ -27,16 +27,20 @@
 
 
 \title{Unit Test Documentation}
-\author{SaltOS 4.0 r1681}
+\author{SaltOS 4.0 r1923}
 \begin{document}
-\date{January 2025}
+\date{March 2025}
 \maketitle
 \clearpage
 
 \tableofcontents
 \clearpage
 
+
 \hypertarget{toc1}{}
+\section{Phpunit Libraries}
+
+\hypertarget{toc2}{}
 \subsection{Autoload file for the unit tests}
 
 \begin{lstlisting}
@@ -45,20 +49,20 @@ lib/autoload.php
 
 This file contains the code that initialize the unit tests
 
-\hypertarget{toc2}{}
+\hypertarget{toc3}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\Assert;
 \end{lstlisting}
 
-\hypertarget{toc3}{}
+\hypertarget{toc4}{}
 \subsubsection{Main autoloader code}
 
 This code emmulates the index.php by loading all autoload files excep
 the zindex.php, initialize the timer and the random generator
 
-\hypertarget{toc4}{}
+\hypertarget{toc5}{}
 \subsection{Unit test helper functions}
 
 \begin{lstlisting}
@@ -68,14 +72,14 @@ lib/utestlib.php
 This file contains the functions used by the web and cli unit tests
 to get the coverage, too contains the pcov and mime helpers.
 
-\hypertarget{toc5}{}
+\hypertarget{toc6}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use SebastianBergmann\CodeCoverage\Data\RawCodeCoverageData;
 \end{lstlisting}
 
-\hypertarget{toc6}{}
+\hypertarget{toc7}{}
 \subsubsection{Test PCOV start helper}
 
 \begin{lstlisting}
@@ -86,7 +90,7 @@ This function puts the flag needed to enable the pcov feature, to do it,
 the function creates a void file and puts permissions to allow that other
 procs can write inside of it
 
-\hypertarget{toc7}{}
+\hypertarget{toc8}{}
 \subsubsection{Test PCOV stop helper}
 
 \begin{lstlisting}
@@ -103,7 +107,7 @@ unit test coverage instance
           to use another value like 1.
 \end{compactitem}
 
-\hypertarget{toc8}{}
+\hypertarget{toc9}{}
 \subsubsection{Test WEB helper}
 
 \begin{lstlisting}
@@ -125,7 +129,7 @@ The token is sent using the TOKEN header to be used in the authentication proces
 \item[\color{myblue}$\bullet$] @token =$>$ The token used if authentication is required
 \end{compactitem}
 
-\hypertarget{toc9}{}
+\hypertarget{toc10}{}
 \subsubsection{Test CLI helper}
 
 \begin{lstlisting}
@@ -154,7 +158,7 @@ the SaltOS app.
 \item[\color{myblue}$\bullet$] @token =$>$ The token used if authentication is required
 \end{compactitem}
 
-\hypertarget{toc10}{}
+\hypertarget{toc11}{}
 \subsubsection{Get Mime helper}
 
 \begin{lstlisting}
@@ -167,7 +171,7 @@ This function returns the content type of the contents of the buffer
 \item[\color{myblue}$\bullet$] @buffer =$>$ the contents that you want to check
 \end{compactitem}
 
-\hypertarget{toc11}{}
+\hypertarget{toc12}{}
 \subsubsection{External tests}
 
 \begin{lstlisting}
@@ -184,10 +188,10 @@ suck as errors, that are not allowed from the phpunit tests
 \end{compactitem}
 
 
-\hypertarget{toc12}{}
-\section{Actions}
-
 \hypertarget{toc13}{}
+\section{Phpunit Code}
+
+\hypertarget{toc14}{}
 \subsection{Test actions}
 
 \begin{lstlisting}
@@ -197,14 +201,14 @@ test_actions.php
 This test performs some tests to validate the correctness
 of the actions functions
 
-\hypertarget{toc14}{}
+\hypertarget{toc15}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc15}{}
+\hypertarget{toc16}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -213,14 +217,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc16}{}
+\hypertarget{toc17}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_actions extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc17}{}
+\hypertarget{toc18}{}
 \subsubsection{actions test}
 
 \begin{lstlisting}
@@ -229,10 +233,6 @@ public function test_actions(): void
 
 This test performs some tests to validate the correctness
 of the actions functions
-
-
-\hypertarget{toc18}{}
-\section{Add}
 
 \hypertarget{toc19}{}
 \subsection{Test addlog}
@@ -287,11 +287,7 @@ public function test_adderror(): void
 This test performs some tests to validate the correctness
 of the adderror functions
 
-
 \hypertarget{toc25}{}
-\section{Apache}
-
-\hypertarget{toc26}{}
 \subsection{Test apache}
 
 \begin{lstlisting}
@@ -301,21 +297,21 @@ test_apache.php
 This test performs some tests to validate the correctness
 of the apache configuration
 
-\hypertarget{toc27}{}
+\hypertarget{toc26}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc28}{}
+\hypertarget{toc27}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_apache extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc29}{}
+\hypertarget{toc28}{}
 \subsubsection{addlog test}
 
 \begin{lstlisting}
@@ -326,11 +322,7 @@ This test performs some tests to validate the correctness of the apache configur
 the main idea is that the path saltos/code4 of the web server must point to the web
 directory.
 
-
-\hypertarget{toc30}{}
-\section{Apps}
-
-\hypertarget{toc31}{}
+\hypertarget{toc29}{}
 \subsection{Test apps}
 
 \begin{lstlisting}
@@ -340,14 +332,14 @@ test_apps.php
 This test performs some tests to validate the correctness
 of the apps functions
 
-\hypertarget{toc32}{}
+\hypertarget{toc30}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc33}{}
+\hypertarget{toc31}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -356,14 +348,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc34}{}
+\hypertarget{toc32}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_apps extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc35}{}
+\hypertarget{toc33}{}
 \subsubsection{apps test}
 
 \begin{lstlisting}
@@ -373,7 +365,7 @@ public function test_apps(): void
 This test performs some tests to validate the correctness
 of the apps functions
 
-\hypertarget{toc36}{}
+\hypertarget{toc34}{}
 \subsubsection{app test}
 
 \begin{lstlisting}
@@ -383,7 +375,7 @@ public function test_app(): void
 This test performs some tests to validate the correctness
 of the app functions
 
-\hypertarget{toc37}{}
+\hypertarget{toc35}{}
 \subsubsection{list test}
 
 \begin{lstlisting}
@@ -393,11 +385,7 @@ public function test_list(): void
 This test performs some tests to validate the correctness
 of the list functions
 
-
-\hypertarget{toc38}{}
-\section{Array}
-
-\hypertarget{toc39}{}
+\hypertarget{toc36}{}
 \subsection{Test array}
 
 \begin{lstlisting}
@@ -407,14 +395,14 @@ test_array.php
 This test performs some tests to validate the correctness
 of the array functions
 
-\hypertarget{toc40}{}
+\hypertarget{toc37}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc41}{}
+\hypertarget{toc38}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -423,14 +411,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc42}{}
+\hypertarget{toc39}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_array extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc43}{}
+\hypertarget{toc40}{}
 \subsubsection{array test}
 
 \begin{lstlisting}
@@ -440,11 +428,7 @@ public function test_array(): void
 This test performs some tests to validate the correctness
 of the array functions
 
-
-\hypertarget{toc44}{}
-\section{Ascii}
-
-\hypertarget{toc45}{}
+\hypertarget{toc41}{}
 \subsection{Test ascii}
 
 \begin{lstlisting}
@@ -454,14 +438,14 @@ test_ascii.php
 This test performs some tests to validate the correctness
 of the ascii functions
 
-\hypertarget{toc46}{}
+\hypertarget{toc42}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc47}{}
+\hypertarget{toc43}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -470,14 +454,14 @@ require_once 'php/lib/ascii.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc48}{}
+\hypertarget{toc44}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_ascii extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc49}{}
+\hypertarget{toc45}{}
 \subsubsection{ascii test}
 
 \begin{lstlisting}
@@ -487,11 +471,7 @@ public function test_ascii(): void
 This test performs some tests to validate the correctness
 of the ascii functions
 
-
-\hypertarget{toc50}{}
-\section{Authupdate}
-
-\hypertarget{toc51}{}
+\hypertarget{toc46}{}
 \subsection{Test authupdate}
 
 \begin{lstlisting}
@@ -500,6 +480,49 @@ test_authupdate.php
 
 This test performs some tests to validate the correctness
 of the authupdate functions
+
+\hypertarget{toc47}{}
+\subsubsection{Importing namespaces}
+
+\begin{lstlisting}
+use PHPUnit\Framework\TestCase;
+\end{lstlisting}
+
+\hypertarget{toc48}{}
+\subsubsection{Loading helper function}
+
+\begin{lstlisting}
+require_once 'lib/utestlib.php';
+\end{lstlisting}
+
+This file contains the needed function used by the unit tests
+
+\hypertarget{toc49}{}
+\subsubsection{Main class of this unit test}
+
+\begin{lstlisting}
+final class test_authupdate extends TestCase
+\end{lstlisting}
+
+\hypertarget{toc50}{}
+\subsubsection{authupdate test}
+
+\begin{lstlisting}
+public function test_authupdate(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the authupdate functions
+
+\hypertarget{toc51}{}
+\subsection{Test cli customers}
+
+\begin{lstlisting}
+test_cli_customers.php
+\end{lstlisting}
+
+This test performs all actions of the customers app suck as: create, insert,
+list, view, edit, update and delete, using the cli sapi interface
 
 \hypertarget{toc52}{}
 \subsubsection{Importing namespaces}
@@ -521,57 +544,10 @@ This file contains the needed function used by the unit tests
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
-final class test_authupdate extends TestCase
-\end{lstlisting}
-
-\hypertarget{toc55}{}
-\subsubsection{authupdate test}
-
-\begin{lstlisting}
-public function test_authupdate(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the authupdate functions
-
-
-\hypertarget{toc56}{}
-\section{Cli Customers}
-
-\hypertarget{toc57}{}
-\subsection{Test cli customers}
-
-\begin{lstlisting}
-test_cli_customers.php
-\end{lstlisting}
-
-This test performs all actions of the customers app suck as: create, insert,
-list, view, edit, update and delete, using the cli sapi interface
-
-\hypertarget{toc58}{}
-\subsubsection{Importing namespaces}
-
-\begin{lstlisting}
-use PHPUnit\Framework\TestCase;
-\end{lstlisting}
-
-\hypertarget{toc59}{}
-\subsubsection{Loading helper function}
-
-\begin{lstlisting}
-require_once 'lib/utestlib.php';
-\end{lstlisting}
-
-This file contains the needed function used by the unit tests
-
-\hypertarget{toc60}{}
-\subsubsection{Main class of this unit test}
-
-\begin{lstlisting}
 final class test_cli_customers extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc61}{}
+\hypertarget{toc55}{}
 \subsubsection{Authtoken}
 
 \begin{lstlisting}
@@ -581,7 +557,7 @@ public function test_authtoken(): array
 This function execute the authtoken rest request, and must to get the
 json with the valid token to continue in the nexts unit tests
 
-\hypertarget{toc62}{}
+\hypertarget{toc56}{}
 \subsubsection{Create}
 
 \begin{lstlisting}
@@ -591,7 +567,7 @@ public function test_create(array $json): array
 This function execute the creates rest request, and must to get the
 json with the layout without data
 
-\hypertarget{toc63}{}
+\hypertarget{toc57}{}
 \subsubsection{Insert}
 
 \begin{lstlisting}
@@ -602,7 +578,7 @@ This function execute the insert rest request, to do it send the json with
 the data that they want to insert and must to get the json with the status
 and the create\_id.
 
-\hypertarget{toc64}{}
+\hypertarget{toc58}{}
 \subsubsection{List}
 
 \begin{lstlisting}
@@ -613,7 +589,7 @@ This function execute the list rest request, to do it send the json with
 the search that they want to use in the list filter and receives the json
 with the data used to populate the table.
 
-\hypertarget{toc65}{}
+\hypertarget{toc59}{}
 \subsubsection{View}
 
 \begin{lstlisting}
@@ -623,7 +599,7 @@ public function test_view(array $json): array
 This function execute the view rest request, intended to retrieve the detail
 of the app with the layout needed to render it.
 
-\hypertarget{toc66}{}
+\hypertarget{toc60}{}
 \subsubsection{Edit}
 
 \begin{lstlisting}
@@ -633,7 +609,7 @@ public function test_edit(array $json): array
 This function execute the view rest request, intended to retrieve the detail
 of the app with the layout needed to render it.
 
-\hypertarget{toc67}{}
+\hypertarget{toc61}{}
 \subsubsection{Upgrade}
 
 \begin{lstlisting}
@@ -644,7 +620,7 @@ This function execute the update rest request, to do it send the json with
 the data that they want to update and must to get the json with the status
 and the updated\_id.
 
-\hypertarget{toc68}{}
+\hypertarget{toc62}{}
 \subsubsection{Delete}
 
 \begin{lstlisting}
@@ -654,11 +630,7 @@ public function test_delete(array $json): void
 This function execute the delete rest request, they must to get the json
 with the status and the deleted\_id.
 
-
-\hypertarget{toc69}{}
-\section{Cli Invoices}
-
-\hypertarget{toc70}{}
+\hypertarget{toc63}{}
 \subsection{Test cli invoices}
 
 \begin{lstlisting}
@@ -668,14 +640,14 @@ test_cli_invoices.php
 This test performs all actions of the invoices app suck as: create, insert,
 list, view, edit, update and delete, using the cli sapi interface
 
-\hypertarget{toc71}{}
+\hypertarget{toc64}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc72}{}
+\hypertarget{toc65}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -684,14 +656,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc73}{}
+\hypertarget{toc66}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_cli_invoices extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc74}{}
+\hypertarget{toc67}{}
 \subsubsection{Authtoken}
 
 \begin{lstlisting}
@@ -701,7 +673,7 @@ public function test_authtoken(): array
 This function execute the authtoken rest request, and must to get the
 json with the valid token to continue in the nexts unit tests
 
-\hypertarget{toc75}{}
+\hypertarget{toc68}{}
 \subsubsection{Create}
 
 \begin{lstlisting}
@@ -711,7 +683,7 @@ public function test_create(array $json): array
 This function execute the creates rest request, and must to get the
 json with the layout without data
 
-\hypertarget{toc76}{}
+\hypertarget{toc69}{}
 \subsubsection{Insert}
 
 \begin{lstlisting}
@@ -722,7 +694,7 @@ This function execute the insert rest request, to do it send the json with
 the data that they want to insert and must to get the json with the status
 and the create\_id.
 
-\hypertarget{toc77}{}
+\hypertarget{toc70}{}
 \subsubsection{List}
 
 \begin{lstlisting}
@@ -733,7 +705,7 @@ This function execute the list rest request, to do it send the json with
 the search that they want to use in the list filter and receives the json
 with the data used to populate the table.
 
-\hypertarget{toc78}{}
+\hypertarget{toc71}{}
 \subsubsection{View}
 
 \begin{lstlisting}
@@ -743,7 +715,7 @@ public function test_view(array $json): array
 This function execute the view rest request, intended to retrieve the detail
 of the app with the layout needed to render it.
 
-\hypertarget{toc79}{}
+\hypertarget{toc72}{}
 \subsubsection{Edit}
 
 \begin{lstlisting}
@@ -753,7 +725,7 @@ public function test_edit(array $json): array
 This function execute the view rest request, intended to retrieve the detail
 of the app with the layout needed to render it.
 
-\hypertarget{toc80}{}
+\hypertarget{toc73}{}
 \subsubsection{Upgrade}
 
 \begin{lstlisting}
@@ -764,7 +736,7 @@ This function execute the update rest request, to do it send the json with
 the data that they want to update and must to get the json with the status
 and the updated\_id.
 
-\hypertarget{toc81}{}
+\hypertarget{toc74}{}
 \subsubsection{Delete}
 
 \begin{lstlisting}
@@ -774,11 +746,7 @@ public function test_delete(array $json): void
 This function execute the delete rest request, they must to get the json
 with the status and the deleted\_id.
 
-
-\hypertarget{toc82}{}
-\section{Cli Tokens}
-
-\hypertarget{toc83}{}
+\hypertarget{toc75}{}
 \subsection{Test cli tokens (first part)}
 
 \begin{lstlisting}
@@ -787,6 +755,79 @@ test_cli_tokens.php
 
 This test performs some part of the actions related with the tokens suck
 as authtoken and checktoken, using the cli sapi interface
+
+\hypertarget{toc76}{}
+\subsubsection{Importing namespaces}
+
+\begin{lstlisting}
+use PHPUnit\Framework\TestCase;
+\end{lstlisting}
+
+\hypertarget{toc77}{}
+\subsubsection{Loading helper function}
+
+\begin{lstlisting}
+require_once 'lib/utestlib.php';
+\end{lstlisting}
+
+This file contains the needed function used by the unit tests
+
+\hypertarget{toc78}{}
+\subsubsection{Main class of this unit test}
+
+\begin{lstlisting}
+final class test_cli_tokens extends TestCase
+\end{lstlisting}
+
+\hypertarget{toc79}{}
+\subsubsection{Authtoken}
+
+\begin{lstlisting}
+public function test_authtoken(): array
+\end{lstlisting}
+
+This function execute the authtoken rest request, and must to get the
+json with the valid token to continue in the nexts unit tests
+
+\hypertarget{toc80}{}
+\subsubsection{Checktoken}
+
+\begin{lstlisting}
+public function test_checktoken(array $json): array
+\end{lstlisting}
+
+This function execute the checktoken rest request, and must to get the
+json with the ok about the valid token that you are trying to check
+
+\hypertarget{toc81}{}
+\subsubsection{Deauthtoken}
+
+\begin{lstlisting}
+public function test_deauthtoken(array $json): array
+\end{lstlisting}
+
+This function execute the deauthtoken rest request, and must to get the
+json with the ok about the valid token that you are deauthenticate
+
+\hypertarget{toc82}{}
+\subsubsection{Checktoken ko}
+
+\begin{lstlisting}
+public function test_checktoken_ko(array $json): void
+\end{lstlisting}
+
+This function execute the checktoken rest request, and must to get the
+json with the ko about the invalid token that you are trying to check
+
+\hypertarget{toc83}{}
+\subsection{Test color}
+
+\begin{lstlisting}
+test_color.php
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the color feature
 
 \hypertarget{toc84}{}
 \subsubsection{Importing namespaces}
@@ -808,87 +849,10 @@ This file contains the needed function used by the unit tests
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
-final class test_cli_tokens extends TestCase
-\end{lstlisting}
-
-\hypertarget{toc87}{}
-\subsubsection{Authtoken}
-
-\begin{lstlisting}
-public function test_authtoken(): array
-\end{lstlisting}
-
-This function execute the authtoken rest request, and must to get the
-json with the valid token to continue in the nexts unit tests
-
-\hypertarget{toc88}{}
-\subsubsection{Checktoken}
-
-\begin{lstlisting}
-public function test_checktoken(array $json): array
-\end{lstlisting}
-
-This function execute the checktoken rest request, and must to get the
-json with the ok about the valid token that you are trying to check
-
-\hypertarget{toc89}{}
-\subsubsection{Deauthtoken}
-
-\begin{lstlisting}
-public function test_deauthtoken(array $json): array
-\end{lstlisting}
-
-This function execute the deauthtoken rest request, and must to get the
-json with the ok about the valid token that you are deauthenticate
-
-\hypertarget{toc90}{}
-\subsubsection{Checktoken ko}
-
-\begin{lstlisting}
-public function test_checktoken_ko(array $json): void
-\end{lstlisting}
-
-This function execute the checktoken rest request, and must to get the
-json with the ko about the invalid token that you are trying to check
-
-
-\hypertarget{toc91}{}
-\section{Color}
-
-\hypertarget{toc92}{}
-\subsection{Test color}
-
-\begin{lstlisting}
-test_color.php
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the color feature
-
-\hypertarget{toc93}{}
-\subsubsection{Importing namespaces}
-
-\begin{lstlisting}
-use PHPUnit\Framework\TestCase;
-\end{lstlisting}
-
-\hypertarget{toc94}{}
-\subsubsection{Loading helper function}
-
-\begin{lstlisting}
-require_once 'lib/utestlib.php';
-\end{lstlisting}
-
-This file contains the needed function used by the unit tests
-
-\hypertarget{toc95}{}
-\subsubsection{Main class of this unit test}
-
-\begin{lstlisting}
 final class test_color extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc96}{}
+\hypertarget{toc87}{}
 \subsubsection{color test}
 
 \begin{lstlisting}
@@ -898,11 +862,7 @@ public function test_color(): void
 This test performs some tests to validate the correctness
 of the color feature
 
-
-\hypertarget{toc97}{}
-\section{Common}
-
-\hypertarget{toc98}{}
+\hypertarget{toc88}{}
 \subsection{Test common}
 
 \begin{lstlisting}
@@ -911,6 +871,92 @@ test_common.php
 
 This test performs some tests to validate the correctness
 of the common functions
+
+\hypertarget{toc89}{}
+\subsubsection{Importing namespaces}
+
+\begin{lstlisting}
+use PHPUnit\Framework\TestCase;
+\end{lstlisting}
+
+\hypertarget{toc90}{}
+\subsubsection{Loading helper function}
+
+\begin{lstlisting}
+require_once 'lib/utestlib.php';
+\end{lstlisting}
+
+This file contains the needed function used by the unit tests
+
+\hypertarget{toc91}{}
+\subsubsection{Main class of this unit test}
+
+\begin{lstlisting}
+final class test_common extends TestCase
+\end{lstlisting}
+
+\hypertarget{toc92}{}
+\subsubsection{common test}
+
+\begin{lstlisting}
+public function test_common(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the common functions
+
+\hypertarget{toc93}{}
+\subsection{Test config}
+
+\begin{lstlisting}
+test_config.php
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the config functions
+
+\hypertarget{toc94}{}
+\subsubsection{Importing namespaces}
+
+\begin{lstlisting}
+use PHPUnit\Framework\TestCase;
+\end{lstlisting}
+
+\hypertarget{toc95}{}
+\subsubsection{Loading helper function}
+
+\begin{lstlisting}
+require_once 'lib/utestlib.php';
+\end{lstlisting}
+
+This file contains the needed function used by the unit tests
+
+\hypertarget{toc96}{}
+\subsubsection{Main class of this unit test}
+
+\begin{lstlisting}
+final class test_config extends TestCase
+\end{lstlisting}
+
+\hypertarget{toc97}{}
+\subsubsection{config test}
+
+\begin{lstlisting}
+public function test_config(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the config functions
+
+\hypertarget{toc98}{}
+\subsection{Test control}
+
+\begin{lstlisting}
+test_control.php
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the control functions
 
 \hypertarget{toc99}{}
 \subsubsection{Importing namespaces}
@@ -923,7 +969,7 @@ use PHPUnit\Framework\TestCase;
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
-require_once 'lib/utestlib.php';
+require_once 'php/lib/control.php';
 \end{lstlisting}
 
 This file contains the needed function used by the unit tests
@@ -932,104 +978,10 @@ This file contains the needed function used by the unit tests
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
-final class test_common extends TestCase
-\end{lstlisting}
-
-\hypertarget{toc102}{}
-\subsubsection{common test}
-
-\begin{lstlisting}
-public function test_common(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the common functions
-
-
-\hypertarget{toc103}{}
-\section{Config}
-
-\hypertarget{toc104}{}
-\subsection{Test config}
-
-\begin{lstlisting}
-test_config.php
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the config functions
-
-\hypertarget{toc105}{}
-\subsubsection{Importing namespaces}
-
-\begin{lstlisting}
-use PHPUnit\Framework\TestCase;
-\end{lstlisting}
-
-\hypertarget{toc106}{}
-\subsubsection{Loading helper function}
-
-\begin{lstlisting}
-require_once 'lib/utestlib.php';
-\end{lstlisting}
-
-This file contains the needed function used by the unit tests
-
-\hypertarget{toc107}{}
-\subsubsection{Main class of this unit test}
-
-\begin{lstlisting}
-final class test_config extends TestCase
-\end{lstlisting}
-
-\hypertarget{toc108}{}
-\subsubsection{config test}
-
-\begin{lstlisting}
-public function test_config(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the config functions
-
-
-\hypertarget{toc109}{}
-\section{Control}
-
-\hypertarget{toc110}{}
-\subsection{Test control}
-
-\begin{lstlisting}
-test_control.php
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the control functions
-
-\hypertarget{toc111}{}
-\subsubsection{Importing namespaces}
-
-\begin{lstlisting}
-use PHPUnit\Framework\TestCase;
-\end{lstlisting}
-
-\hypertarget{toc112}{}
-\subsubsection{Loading helper function}
-
-\begin{lstlisting}
-require_once 'php/lib/control.php';
-\end{lstlisting}
-
-This file contains the needed function used by the unit tests
-
-\hypertarget{toc113}{}
-\subsubsection{Main class of this unit test}
-
-\begin{lstlisting}
 final class test_control extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc114}{}
+\hypertarget{toc102}{}
 \subsubsection{control test}
 
 \begin{lstlisting}
@@ -1039,11 +991,37 @@ public function test_control(): void
 This test performs some tests to validate the correctness
 of the control functions
 
+\hypertarget{toc103}{}
+\subsubsection{log test}
 
-\hypertarget{toc115}{}
-\section{Cron}
+\begin{lstlisting}
+public function test_log(): void
+\end{lstlisting}
 
-\hypertarget{toc116}{}
+This test performs some tests to validate the correctness
+of the log functions
+
+\hypertarget{toc104}{}
+\subsubsection{version test}
+
+\begin{lstlisting}
+public function test_version(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the version functions
+
+\hypertarget{toc105}{}
+\subsubsection{indexing test}
+
+\begin{lstlisting}
+public function test_indexing(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the indexing functions
+
+\hypertarget{toc106}{}
 \subsection{Test cron}
 
 \begin{lstlisting}
@@ -1053,14 +1031,14 @@ test_cron.php
 This test performs some tests to validate the correctness
 of the cron functions
 
-\hypertarget{toc117}{}
+\hypertarget{toc107}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc118}{}
+\hypertarget{toc108}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -1069,14 +1047,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc119}{}
+\hypertarget{toc109}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_cron extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc120}{}
+\hypertarget{toc110}{}
 \subsubsection{Wait cron}
 
 \begin{lstlisting}
@@ -1085,7 +1063,7 @@ private function wait_cron(): void
 
 This function waits 10 seconds until all cron processes are running
 
-\hypertarget{toc121}{}
+\hypertarget{toc111}{}
 \subsubsection{cron}
 
 \begin{lstlisting}
@@ -1095,11 +1073,7 @@ public function test_cron(): void
 This test performs some tests to validate the correctness
 of the cron functions
 
-
-\hypertarget{toc122}{}
-\section{Customers}
-
-\hypertarget{toc123}{}
+\hypertarget{toc112}{}
 \subsection{Test customers}
 
 \begin{lstlisting}
@@ -1109,14 +1083,14 @@ test_customers.php
 This test performs some tests to validate the correctness
 of the customers functions
 
-\hypertarget{toc124}{}
+\hypertarget{toc113}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc125}{}
+\hypertarget{toc114}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -1125,14 +1099,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc126}{}
+\hypertarget{toc115}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_customers extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc127}{}
+\hypertarget{toc116}{}
 \subsubsection{customers test}
 
 \begin{lstlisting}
@@ -1142,25 +1116,21 @@ public function test_customers(): void
 This test performs some tests to validate the correctness
 of the customers functions
 
-
-\hypertarget{toc128}{}
-\section{Database}
-
-\hypertarget{toc129}{}
+\hypertarget{toc117}{}
 \subsection{Test database drivers}
 
 \begin{lstlisting}
 test_database.php
 \end{lstlisting}
 
-\hypertarget{toc130}{}
+\hypertarget{toc118}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc131}{}
+\hypertarget{toc119}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -1169,14 +1139,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc132}{}
+\hypertarget{toc120}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_database extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc133}{}
+\hypertarget{toc121}{}
 \subsubsection{Helper}
 
 \begin{lstlisting}
@@ -1219,7 +1189,17 @@ The tests that performs are the follow:
 \item[\color{myblue}$\bullet$] SELECT NOW() test
 \end{compactitem}
 
-\hypertarget{toc134}{}
+\hypertarget{toc122}{}
+\subsubsection{Last Insert Id helper}
+
+\begin{lstlisting}
+private function last_insert_id_helper($obj): void
+\end{lstlisting}
+
+This function is intended to check the correctness of the last\_insert\_id
+feature implemented in each database driver.
+
+\hypertarget{toc123}{}
 \subsubsection{PDO MySQL driver}
 
 \begin{lstlisting}
@@ -1230,7 +1210,7 @@ This function checks the correctness of the sqlite3 driver by creating a
 database connection, sendint queries validating the expected results and
 closing the connection.
 
-\hypertarget{toc135}{}
+\hypertarget{toc124}{}
 \subsubsection{MySQL improved driver}
 
 \begin{lstlisting}
@@ -1241,7 +1221,7 @@ This function checks the correctness of the sqlite3 driver by creating a
 database connection, sendint queries validating the expected results and
 closing the connection.
 
-\hypertarget{toc136}{}
+\hypertarget{toc125}{}
 \subsubsection{PDO SQLite driver}
 
 \begin{lstlisting}
@@ -1252,7 +1232,7 @@ This function checks the correctness of the sqlite3 driver by creating a
 database connection, sendint queries validating the expected results and
 closing the connection.
 
-\hypertarget{toc137}{}
+\hypertarget{toc126}{}
 \subsubsection{SQLite3 driver}
 
 \begin{lstlisting}
@@ -1263,7 +1243,7 @@ This function checks the correctness of the sqlite3 driver by creating a
 database connection, sendint queries validating the expected results and
 closing the connection.
 
-\hypertarget{toc138}{}
+\hypertarget{toc127}{}
 \subsubsection{PDO mssql driver}
 
 \begin{lstlisting}
@@ -1274,7 +1254,7 @@ This function checks the correctness of the sqlserver driver by creating a
 database connection, sendint queries validating the expected results and
 closing the connection.
 
-\hypertarget{toc139}{}
+\hypertarget{toc128}{}
 \subsubsection{Database driver}
 
 \begin{lstlisting}
@@ -1285,11 +1265,7 @@ This function checks the correctness of the database driver by creating a
 database connection, sendint queries validating the expected results and
 closing the connection.
 
-
-\hypertarget{toc140}{}
-\section{Datetime}
-
-\hypertarget{toc141}{}
+\hypertarget{toc129}{}
 \subsection{Test datetime}
 
 \begin{lstlisting}
@@ -1299,21 +1275,21 @@ test_datetime.php
 This test performs some tests to validate the correctness
 of the datetime functions
 
-\hypertarget{toc142}{}
+\hypertarget{toc130}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc143}{}
+\hypertarget{toc131}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_datetime extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc144}{}
+\hypertarget{toc132}{}
 \subsubsection{datetime test}
 
 \begin{lstlisting}
@@ -1323,11 +1299,7 @@ public function test_datetime(): void
 This test performs some tests to validate the correctness
 of the datetime functions
 
-
-\hypertarget{toc145}{}
-\section{Dbschema}
-
-\hypertarget{toc146}{}
+\hypertarget{toc133}{}
 \subsection{Test dbschema}
 
 \begin{lstlisting}
@@ -1337,14 +1309,14 @@ test_dbschema.php
 This test performs some tests to validate the correctness
 of the dbschema functions
 
-\hypertarget{toc147}{}
+\hypertarget{toc134}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc148}{}
+\hypertarget{toc135}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -1353,14 +1325,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc149}{}
+\hypertarget{toc136}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_dbschema extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc150}{}
+\hypertarget{toc137}{}
 \subsubsection{dbschema test}
 
 \begin{lstlisting}
@@ -1370,7 +1342,7 @@ public function test_dbschema(): void
 This test performs some tests to validate the correctness
 of the dbschema functions
 
-\hypertarget{toc151}{}
+\hypertarget{toc138}{}
 \subsubsection{sql test}
 
 \begin{lstlisting}
@@ -1380,11 +1352,7 @@ public function test_sql(): void
 This test performs some tests to validate the correctness
 of the sql functions
 
-
-\hypertarget{toc152}{}
-\section{Emails}
-
-\hypertarget{toc153}{}
+\hypertarget{toc139}{}
 \subsection{Test emails}
 
 \begin{lstlisting}
@@ -1393,6 +1361,126 @@ test_emails.php
 
 This test performs some tests to validate the correctness
 of the emails functions
+
+\hypertarget{toc140}{}
+\subsubsection{Importing namespaces}
+
+\begin{lstlisting}
+use PHPUnit\Framework\TestCase;
+\end{lstlisting}
+
+\hypertarget{toc141}{}
+\subsubsection{Loading helper function}
+
+\begin{lstlisting}
+require_once 'lib/utestlib.php';
+\end{lstlisting}
+
+This file contains the needed function used by the unit tests
+
+\hypertarget{toc142}{}
+\subsubsection{Main class of this unit test}
+
+\begin{lstlisting}
+final class test_emails extends TestCase
+\end{lstlisting}
+
+\hypertarget{toc143}{}
+\subsubsection{emails test}
+
+\begin{lstlisting}
+public function test_emails(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the emails functions
+
+\hypertarget{toc144}{}
+\subsection{Test error}
+
+\begin{lstlisting}
+test_error.php
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the error functions
+
+\hypertarget{toc145}{}
+\subsubsection{Importing namespaces}
+
+\begin{lstlisting}
+use PHPUnit\Framework\TestCase;
+\end{lstlisting}
+
+\hypertarget{toc146}{}
+\subsubsection{Loading helper function}
+
+\begin{lstlisting}
+require_once 'lib/utestlib.php';
+\end{lstlisting}
+
+This file contains the needed function used by the unit tests
+
+\hypertarget{toc147}{}
+\subsubsection{Main class of this unit test}
+
+\begin{lstlisting}
+final class test_error extends TestCase
+\end{lstlisting}
+
+\hypertarget{toc148}{}
+\subsubsection{error function test}
+
+\begin{lstlisting}
+public function test_error(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the error functions
+
+\hypertarget{toc149}{}
+\subsection{Test exec}
+
+\begin{lstlisting}
+test_exec.php
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the exec functions
+
+\hypertarget{toc150}{}
+\subsubsection{Importing namespaces}
+
+\begin{lstlisting}
+use PHPUnit\Framework\TestCase;
+\end{lstlisting}
+
+\hypertarget{toc151}{}
+\subsubsection{Main class of this unit test}
+
+\begin{lstlisting}
+final class test_exec extends TestCase
+\end{lstlisting}
+
+\hypertarget{toc152}{}
+\subsubsection{exec test}
+
+\begin{lstlisting}
+public function test_exec(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the exec functions
+
+\hypertarget{toc153}{}
+\subsection{Test export}
+
+\begin{lstlisting}
+test_export.php
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the export functions
 
 \hypertarget{toc154}{}
 \subsubsection{Importing namespaces}
@@ -1414,142 +1502,10 @@ This file contains the needed function used by the unit tests
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
-final class test_emails extends TestCase
-\end{lstlisting}
-
-\hypertarget{toc157}{}
-\subsubsection{emails test}
-
-\begin{lstlisting}
-public function test_emails(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the emails functions
-
-
-\hypertarget{toc158}{}
-\section{Error}
-
-\hypertarget{toc159}{}
-\subsection{Test error}
-
-\begin{lstlisting}
-test_error.php
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the error functions
-
-\hypertarget{toc160}{}
-\subsubsection{Importing namespaces}
-
-\begin{lstlisting}
-use PHPUnit\Framework\TestCase;
-\end{lstlisting}
-
-\hypertarget{toc161}{}
-\subsubsection{Loading helper function}
-
-\begin{lstlisting}
-require_once 'lib/utestlib.php';
-\end{lstlisting}
-
-This file contains the needed function used by the unit tests
-
-\hypertarget{toc162}{}
-\subsubsection{Main class of this unit test}
-
-\begin{lstlisting}
-final class test_error extends TestCase
-\end{lstlisting}
-
-\hypertarget{toc163}{}
-\subsubsection{error function test}
-
-\begin{lstlisting}
-public function test_error(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the error functions
-
-
-\hypertarget{toc164}{}
-\section{Exec}
-
-\hypertarget{toc165}{}
-\subsection{Test exec}
-
-\begin{lstlisting}
-test_exec.php
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the exec functions
-
-\hypertarget{toc166}{}
-\subsubsection{Importing namespaces}
-
-\begin{lstlisting}
-use PHPUnit\Framework\TestCase;
-\end{lstlisting}
-
-\hypertarget{toc167}{}
-\subsubsection{Main class of this unit test}
-
-\begin{lstlisting}
-final class test_exec extends TestCase
-\end{lstlisting}
-
-\hypertarget{toc168}{}
-\subsubsection{exec test}
-
-\begin{lstlisting}
-public function test_exec(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the exec functions
-
-
-\hypertarget{toc169}{}
-\section{Export}
-
-\hypertarget{toc170}{}
-\subsection{Test export}
-
-\begin{lstlisting}
-test_export.php
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the export functions
-
-\hypertarget{toc171}{}
-\subsubsection{Importing namespaces}
-
-\begin{lstlisting}
-use PHPUnit\Framework\TestCase;
-\end{lstlisting}
-
-\hypertarget{toc172}{}
-\subsubsection{Loading helper function}
-
-\begin{lstlisting}
-require_once 'lib/utestlib.php';
-\end{lstlisting}
-
-This file contains the needed function used by the unit tests
-
-\hypertarget{toc173}{}
-\subsubsection{Main class of this unit test}
-
-\begin{lstlisting}
 final class test_export extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc174}{}
+\hypertarget{toc157}{}
 \subsubsection{Get data}
 
 \begin{lstlisting}
@@ -1565,7 +1521,7 @@ of the result array of rows
 \item[\color{myblue}$\bullet$] @length =$>$ the size of the rows array
 \end{compactitem}
 
-\hypertarget{toc175}{}
+\hypertarget{toc158}{}
 \subsubsection{export xml test}
 
 \begin{lstlisting}
@@ -1575,7 +1531,7 @@ public function test_export_xml(): void
 This test performs some tests to validate the correctness
 of the export functions
 
-\hypertarget{toc176}{}
+\hypertarget{toc159}{}
 \subsubsection{export csv test}
 
 \begin{lstlisting}
@@ -1585,7 +1541,7 @@ public function test_export_csv(): void
 This test performs some tests to validate the correctness
 of the export functions
 
-\hypertarget{toc177}{}
+\hypertarget{toc160}{}
 \subsubsection{export xlsx test}
 
 \begin{lstlisting}
@@ -1595,7 +1551,7 @@ public function test_export_xlsx(): void
 This test performs some tests to validate the correctness
 of the export functions
 
-\hypertarget{toc178}{}
+\hypertarget{toc161}{}
 \subsubsection{export xls test}
 
 \begin{lstlisting}
@@ -1605,7 +1561,7 @@ public function test_export_xls(): void
 This test performs some tests to validate the correctness
 of the export functions
 
-\hypertarget{toc179}{}
+\hypertarget{toc162}{}
 \subsubsection{export ods test}
 
 \begin{lstlisting}
@@ -1615,7 +1571,7 @@ public function test_export_ods(): void
 This test performs some tests to validate the correctness
 of the export functions
 
-\hypertarget{toc180}{}
+\hypertarget{toc163}{}
 \subsubsection{//\~{} * export bytes test}
 
 \begin{lstlisting}
@@ -1625,7 +1581,7 @@ of the export functions
 //\~{} * This test performs some tests to validate the correctness
 //\~{} * of the export functions
 
-\hypertarget{toc181}{}
+\hypertarget{toc164}{}
 \subsubsection{export edi test}
 
 \begin{lstlisting}
@@ -1635,7 +1591,7 @@ public function test_export_edi(): void
 This test performs some tests to validate the correctness
 of the export functions
 
-\hypertarget{toc182}{}
+\hypertarget{toc165}{}
 \subsubsection{export json test}
 
 \begin{lstlisting}
@@ -1645,7 +1601,7 @@ public function test_export_json(): void
 This test performs some tests to validate the correctness
 of the export functions
 
-\hypertarget{toc183}{}
+\hypertarget{toc166}{}
 \subsubsection{tree2array test}
 
 \begin{lstlisting}
@@ -1655,7 +1611,7 @@ public function test_export_tree2array(): void
 This test performs some tests to validate the correctness
 of the tree2array function
 
-\hypertarget{toc184}{}
+\hypertarget{toc167}{}
 \subsubsection{getkeys test}
 
 \begin{lstlisting}
@@ -1665,7 +1621,7 @@ public function test_export_getkeys(): void
 This test performs some tests to validate the correctness
 of the getkeys function
 
-\hypertarget{toc185}{}
+\hypertarget{toc168}{}
 \subsubsection{external exec}
 
 \begin{lstlisting}
@@ -1675,11 +1631,7 @@ public function test_export_external(): void
 This test performs some tests to validate the correctness
 of the external exec
 
-
-\hypertarget{toc186}{}
-\section{File}
-
-\hypertarget{toc187}{}
+\hypertarget{toc169}{}
 \subsection{Test file}
 
 \begin{lstlisting}
@@ -1689,14 +1641,14 @@ test_file.php
 This test performs some tests to validate the correctness
 of the file functions
 
-\hypertarget{toc188}{}
+\hypertarget{toc170}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc189}{}
+\hypertarget{toc171}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -1705,14 +1657,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc190}{}
+\hypertarget{toc172}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_file extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc191}{}
+\hypertarget{toc173}{}
 \subsubsection{file test}
 
 \begin{lstlisting}
@@ -1722,41 +1674,7 @@ public function test_file(): void
 This test performs some tests to validate the correctness
 of the file functions
 
-\hypertarget{toc192}{}
-\subsubsection{Authtoken}
-
-\begin{lstlisting}
-public function test_authtoken(): array
-\end{lstlisting}
-
-This function execute the authtoken rest request, and must to get the
-json with the valid token to continue in the nexts unit tests
-
-\hypertarget{toc193}{}
-\subsubsection{Addfiles}
-
-\begin{lstlisting}
-public function test_addfiles(array $json): array
-\end{lstlisting}
-
-This function execute the addfiles rest request, and must to get the
-json with the correct data
-
-\hypertarget{toc194}{}
-\subsubsection{Delfiles}
-
-\begin{lstlisting}
-public function test_delfiles(array $json): void
-\end{lstlisting}
-
-This function execute the delfiles rest request, and must to get the
-json with the correct data
-
-
-\hypertarget{toc195}{}
-\section{Files}
-
-\hypertarget{toc196}{}
+\hypertarget{toc174}{}
 \subsection{Test files}
 
 \begin{lstlisting}
@@ -1766,14 +1684,14 @@ test_files.php
 This test performs some tests to validate the correctness
 of the files feature
 
-\hypertarget{toc197}{}
+\hypertarget{toc175}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc198}{}
+\hypertarget{toc176}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -1782,14 +1700,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc199}{}
+\hypertarget{toc177}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_files extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc200}{}
+\hypertarget{toc178}{}
 \subsubsection{files test}
 
 \begin{lstlisting}
@@ -1799,11 +1717,27 @@ public function test_files(): void
 This test performs some tests to validate the correctness
 of the files feature
 
+\hypertarget{toc179}{}
+\subsubsection{notes test}
 
-\hypertarget{toc201}{}
-\section{Gc}
+\begin{lstlisting}
+public function test_notes(): void
+\end{lstlisting}
 
-\hypertarget{toc202}{}
+This test performs some tests to validate the correctness
+of the notes feature
+
+\hypertarget{toc180}{}
+\subsubsection{fileslog test}
+
+\begin{lstlisting}
+public function test_fileslog(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the fileslog feature
+
+\hypertarget{toc181}{}
 \subsection{Test gc}
 
 \begin{lstlisting}
@@ -1813,14 +1747,14 @@ test_gc.php
 This test performs some tests to validate the correctness
 of the gc functions
 
-\hypertarget{toc203}{}
+\hypertarget{toc182}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc204}{}
+\hypertarget{toc183}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -1829,14 +1763,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc205}{}
+\hypertarget{toc184}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_gc extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc206}{}
+\hypertarget{toc185}{}
 \subsubsection{gc exec}
 
 \begin{lstlisting}
@@ -1846,7 +1780,7 @@ public function test_gc_exec(): void
 This test performs some tests to validate the correctness
 of the gc functions
 
-\hypertarget{toc207}{}
+\hypertarget{toc186}{}
 \subsubsection{gc upload}
 
 \begin{lstlisting}
@@ -1856,11 +1790,17 @@ public function test_gc_upload(): void
 This test performs some tests to validate the correctness
 of the gc functions
 
+\hypertarget{toc187}{}
+\subsubsection{gc upload}
 
-\hypertarget{toc208}{}
-\section{Gdlib}
+\begin{lstlisting}
+public function test_gc_trash(): void
+\end{lstlisting}
 
-\hypertarget{toc209}{}
+This test performs some tests to validate the correctness
+of the gc functions
+
+\hypertarget{toc188}{}
 \subsection{Test gdlib}
 
 \begin{lstlisting}
@@ -1870,14 +1810,14 @@ test_gdlib.php
 This test performs some tests to validate the correctness
 of the gdlib feature
 
-\hypertarget{toc210}{}
+\hypertarget{toc189}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc211}{}
+\hypertarget{toc190}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -1886,14 +1826,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc212}{}
+\hypertarget{toc191}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_gdlib extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc213}{}
+\hypertarget{toc192}{}
 \subsubsection{gdlib test}
 
 \begin{lstlisting}
@@ -1903,11 +1843,7 @@ public function test_gdlib(): void
 This test performs some tests to validate the correctness
 of the gdlib feature
 
-
-\hypertarget{toc214}{}
-\section{Getdata}
-
-\hypertarget{toc215}{}
+\hypertarget{toc193}{}
 \subsection{Test getdata}
 
 \begin{lstlisting}
@@ -1917,14 +1853,14 @@ test_getdata.php
 This test performs some tests to validate the correctness
 of the getdata functions
 
-\hypertarget{toc216}{}
+\hypertarget{toc194}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc217}{}
+\hypertarget{toc195}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -1933,14 +1869,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc218}{}
+\hypertarget{toc196}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_getdata extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc219}{}
+\hypertarget{toc197}{}
 \subsubsection{getdata test}
 
 \begin{lstlisting}
@@ -1950,11 +1886,7 @@ public function test_getdata(): void
 This test performs some tests to validate the correctness
 of the getdata functions
 
-
-\hypertarget{toc220}{}
-\section{Gettext}
-
-\hypertarget{toc221}{}
+\hypertarget{toc198}{}
 \subsection{Test gettext}
 
 \begin{lstlisting}
@@ -1964,14 +1896,14 @@ test_gettext.php
 This test performs some tests to validate the correctness
 of the gettext functions
 
-\hypertarget{toc222}{}
+\hypertarget{toc199}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc223}{}
+\hypertarget{toc200}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -1980,14 +1912,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc224}{}
+\hypertarget{toc201}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_gettext extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc225}{}
+\hypertarget{toc202}{}
 \subsubsection{gettext test}
 
 \begin{lstlisting}
@@ -1997,11 +1929,7 @@ public function test_gettext(): void
 This test performs some tests to validate the correctness
 of the gettext functions
 
-
-\hypertarget{toc226}{}
-\section{Help}
-
-\hypertarget{toc227}{}
+\hypertarget{toc203}{}
 \subsection{Test help}
 
 \begin{lstlisting}
@@ -2011,14 +1939,14 @@ test_help.php
 This test performs some tests to validate the correctness
 of the help functions
 
-\hypertarget{toc228}{}
+\hypertarget{toc204}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc229}{}
+\hypertarget{toc205}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -2027,14 +1955,14 @@ require_once 'php/lib/help.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc230}{}
+\hypertarget{toc206}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_help extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc231}{}
+\hypertarget{toc207}{}
 \subsubsection{help test}
 
 \begin{lstlisting}
@@ -2044,11 +1972,7 @@ public function test_help(): void
 This test performs some tests to validate the correctness
 of the help functions
 
-
-\hypertarget{toc232}{}
-\section{Html}
-
-\hypertarget{toc233}{}
+\hypertarget{toc208}{}
 \subsection{Test html}
 
 \begin{lstlisting}
@@ -2058,30 +1982,30 @@ test_html.php
 This test performs some tests to validate the correctness
 of the html functions
 
-\hypertarget{toc234}{}
+\hypertarget{toc209}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc235}{}
+\hypertarget{toc210}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
-require_once 'php/lib/html.php';
+require_once 'apps/emails/php/html.php';
 \end{lstlisting}
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc236}{}
+\hypertarget{toc211}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_html extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc237}{}
+\hypertarget{toc212}{}
 \subsubsection{html test}
 
 \begin{lstlisting}
@@ -2091,11 +2015,7 @@ public function test_html(): void
 This test performs some tests to validate the correctness
 of the html functions
 
-
-\hypertarget{toc238}{}
-\section{Ids}
-
-\hypertarget{toc239}{}
+\hypertarget{toc213}{}
 \subsection{Test IDs}
 
 \begin{lstlisting}
@@ -2105,21 +2025,21 @@ test_ids.php
 This test performs some tests to validate the correctness
 of the check\_ids feature
 
-\hypertarget{toc240}{}
+\hypertarget{toc214}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc241}{}
+\hypertarget{toc215}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_ids extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc242}{}
+\hypertarget{toc216}{}
 \subsubsection{IDs test}
 
 \begin{lstlisting}
@@ -2129,11 +2049,7 @@ public function test_ids(): void
 This test performs some tests to validate the correctness
 of the check\_ids feature
 
-
-\hypertarget{toc243}{}
-\section{Image}
-
-\hypertarget{toc244}{}
+\hypertarget{toc217}{}
 \subsection{Test image}
 
 \begin{lstlisting}
@@ -2142,6 +2058,255 @@ test_image.php
 
 This test performs some tests to validate the correctness
 of the barcode, qrcode, captcha and score features
+
+\hypertarget{toc218}{}
+\subsubsection{Importing namespaces}
+
+\begin{lstlisting}
+use PHPUnit\Framework\TestCase;
+\end{lstlisting}
+
+\hypertarget{toc219}{}
+\subsubsection{Loading helper function}
+
+\begin{lstlisting}
+require_once 'lib/utestlib.php';
+\end{lstlisting}
+
+This file contains the needed function used by the unit tests
+
+\hypertarget{toc220}{}
+\subsubsection{Main class of this unit test}
+
+\begin{lstlisting}
+final class test_image extends TestCase
+\end{lstlisting}
+
+\hypertarget{toc221}{}
+\subsubsection{barcode test}
+
+\begin{lstlisting}
+public function test_barcode(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the barcode feature
+
+\hypertarget{toc222}{}
+\subsubsection{qrcode test}
+
+\begin{lstlisting}
+public function test_qrcode(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the qrcode feature
+
+\hypertarget{toc223}{}
+\subsubsection{captcha test}
+
+\begin{lstlisting}
+public function test_captcha(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the captcha feature
+
+\hypertarget{toc224}{}
+\subsubsection{score test}
+
+\begin{lstlisting}
+public function test_score(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the score feature
+
+\hypertarget{toc225}{}
+\subsection{Test import}
+
+\begin{lstlisting}
+test_import.php
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the import functions
+
+\hypertarget{toc226}{}
+\subsubsection{Importing namespaces}
+
+\begin{lstlisting}
+use PHPUnit\Framework\TestCase;
+\end{lstlisting}
+
+\hypertarget{toc227}{}
+\subsubsection{Loading helper function}
+
+\begin{lstlisting}
+require_once 'lib/utestlib.php';
+\end{lstlisting}
+
+This file contains the needed function used by the unit tests
+
+\hypertarget{toc228}{}
+\subsubsection{Main class of this unit test}
+
+\begin{lstlisting}
+final class test_import extends TestCase
+\end{lstlisting}
+
+\hypertarget{toc229}{}
+\subsubsection{import xml test}
+
+\begin{lstlisting}
+public function test_import_xml(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the import functions
+
+\hypertarget{toc230}{}
+\subsubsection{import csv test}
+
+\begin{lstlisting}
+public function test_import_csv(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the import functions
+
+\hypertarget{toc231}{}
+\subsubsection{import xlsx test}
+
+\begin{lstlisting}
+public function test_import_xlsx(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the import functions
+
+\hypertarget{toc232}{}
+\subsubsection{import xls test}
+
+\begin{lstlisting}
+public function test_import_xls(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the import functions
+
+\hypertarget{toc233}{}
+\subsubsection{import ods test}
+
+\begin{lstlisting}
+public function test_import_ods(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the import functions
+
+\hypertarget{toc234}{}
+\subsubsection{import bytes test}
+
+\begin{lstlisting}
+public function test_import_bytes(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the import functions
+
+\hypertarget{toc235}{}
+\subsubsection{import edi test}
+
+\begin{lstlisting}
+public function test_import_edi(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the import functions
+
+\hypertarget{toc236}{}
+\subsubsection{import json test}
+
+\begin{lstlisting}
+public function test_import_json(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the import functions
+
+\hypertarget{toc237}{}
+\subsubsection{import helper test}
+
+\begin{lstlisting}
+public function test_import_helper(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the import functions
+
+\hypertarget{toc238}{}
+\subsubsection{external exec}
+
+\begin{lstlisting}
+public function test_import_external(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the external exec
+
+\hypertarget{toc239}{}
+\subsection{Test indexing}
+
+\begin{lstlisting}
+test_indexing.php
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the indexing functions
+
+\hypertarget{toc240}{}
+\subsubsection{Importing namespaces}
+
+\begin{lstlisting}
+use PHPUnit\Framework\TestCase;
+\end{lstlisting}
+
+\hypertarget{toc241}{}
+\subsubsection{Loading helper function}
+
+\begin{lstlisting}
+require_once 'lib/utestlib.php';
+\end{lstlisting}
+
+This file contains the needed function used by the unit tests
+
+\hypertarget{toc242}{}
+\subsubsection{Main class of this unit test}
+
+\begin{lstlisting}
+final class test_indexing extends TestCase
+\end{lstlisting}
+
+\hypertarget{toc243}{}
+\subsubsection{indexing test}
+
+\begin{lstlisting}
+public function test_indexing(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the indexing functions
+
+\hypertarget{toc244}{}
+\subsection{Test iniset}
+
+\begin{lstlisting}
+test_iniset.php
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the iniset functions
 
 \hypertarget{toc245}{}
 \subsubsection{Importing namespaces}
@@ -2163,271 +2328,10 @@ This file contains the needed function used by the unit tests
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
-final class test_image extends TestCase
-\end{lstlisting}
-
-\hypertarget{toc248}{}
-\subsubsection{barcode test}
-
-\begin{lstlisting}
-public function test_barcode(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the barcode feature
-
-\hypertarget{toc249}{}
-\subsubsection{qrcode test}
-
-\begin{lstlisting}
-public function test_qrcode(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the qrcode feature
-
-\hypertarget{toc250}{}
-\subsubsection{captcha test}
-
-\begin{lstlisting}
-public function test_captcha(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the captcha feature
-
-\hypertarget{toc251}{}
-\subsubsection{score test}
-
-\begin{lstlisting}
-public function test_score(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the score feature
-
-
-\hypertarget{toc252}{}
-\section{Import}
-
-\hypertarget{toc253}{}
-\subsection{Test import}
-
-\begin{lstlisting}
-test_import.php
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the import functions
-
-\hypertarget{toc254}{}
-\subsubsection{Importing namespaces}
-
-\begin{lstlisting}
-use PHPUnit\Framework\TestCase;
-\end{lstlisting}
-
-\hypertarget{toc255}{}
-\subsubsection{Loading helper function}
-
-\begin{lstlisting}
-require_once 'lib/utestlib.php';
-\end{lstlisting}
-
-This file contains the needed function used by the unit tests
-
-\hypertarget{toc256}{}
-\subsubsection{Main class of this unit test}
-
-\begin{lstlisting}
-final class test_import extends TestCase
-\end{lstlisting}
-
-\hypertarget{toc257}{}
-\subsubsection{import xml test}
-
-\begin{lstlisting}
-public function test_import_xml(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the import functions
-
-\hypertarget{toc258}{}
-\subsubsection{import csv test}
-
-\begin{lstlisting}
-public function test_import_csv(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the import functions
-
-\hypertarget{toc259}{}
-\subsubsection{import xlsx test}
-
-\begin{lstlisting}
-public function test_import_xlsx(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the import functions
-
-\hypertarget{toc260}{}
-\subsubsection{import xls test}
-
-\begin{lstlisting}
-public function test_import_xls(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the import functions
-
-\hypertarget{toc261}{}
-\subsubsection{import ods test}
-
-\begin{lstlisting}
-public function test_import_ods(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the import functions
-
-\hypertarget{toc262}{}
-\subsubsection{import bytes test}
-
-\begin{lstlisting}
-public function test_import_bytes(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the import functions
-
-\hypertarget{toc263}{}
-\subsubsection{import edi test}
-
-\begin{lstlisting}
-public function test_import_edi(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the import functions
-
-\hypertarget{toc264}{}
-\subsubsection{import json test}
-
-\begin{lstlisting}
-public function test_import_json(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the import functions
-
-\hypertarget{toc265}{}
-\subsubsection{import helper test}
-
-\begin{lstlisting}
-public function test_import_helper(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the import functions
-
-\hypertarget{toc266}{}
-\subsubsection{external exec}
-
-\begin{lstlisting}
-public function test_import_external(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the external exec
-
-
-\hypertarget{toc267}{}
-\section{Indexing}
-
-\hypertarget{toc268}{}
-\subsection{Test indexing}
-
-\begin{lstlisting}
-test_indexing.php
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the indexing functions
-
-\hypertarget{toc269}{}
-\subsubsection{Importing namespaces}
-
-\begin{lstlisting}
-use PHPUnit\Framework\TestCase;
-\end{lstlisting}
-
-\hypertarget{toc270}{}
-\subsubsection{Loading helper function}
-
-\begin{lstlisting}
-require_once 'lib/utestlib.php';
-\end{lstlisting}
-
-This file contains the needed function used by the unit tests
-
-\hypertarget{toc271}{}
-\subsubsection{Main class of this unit test}
-
-\begin{lstlisting}
-final class test_indexing extends TestCase
-\end{lstlisting}
-
-\hypertarget{toc272}{}
-\subsubsection{indexing test}
-
-\begin{lstlisting}
-public function test_indexing(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the indexing functions
-
-
-\hypertarget{toc273}{}
-\section{Iniset}
-
-\hypertarget{toc274}{}
-\subsection{Test iniset}
-
-\begin{lstlisting}
-test_iniset.php
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the iniset functions
-
-\hypertarget{toc275}{}
-\subsubsection{Importing namespaces}
-
-\begin{lstlisting}
-use PHPUnit\Framework\TestCase;
-\end{lstlisting}
-
-\hypertarget{toc276}{}
-\subsubsection{Loading helper function}
-
-\begin{lstlisting}
-require_once 'lib/utestlib.php';
-\end{lstlisting}
-
-This file contains the needed function used by the unit tests
-
-\hypertarget{toc277}{}
-\subsubsection{Main class of this unit test}
-
-\begin{lstlisting}
 final class test_iniset extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc278}{}
+\hypertarget{toc248}{}
 \subsubsection{iniset test}
 
 \begin{lstlisting}
@@ -2437,11 +2341,7 @@ public function test_iniset(): void
 This test performs some tests to validate the correctness
 of the iniset functions
 
-
-\hypertarget{toc279}{}
-\section{Invoices}
-
-\hypertarget{toc280}{}
+\hypertarget{toc249}{}
 \subsection{Test invoices}
 
 \begin{lstlisting}
@@ -2451,14 +2351,14 @@ test_invoices.php
 This test performs some tests to validate the correctness
 of the invoices functions
 
-\hypertarget{toc281}{}
+\hypertarget{toc250}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc282}{}
+\hypertarget{toc251}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -2467,14 +2367,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc283}{}
+\hypertarget{toc252}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_invoices extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc284}{}
+\hypertarget{toc253}{}
 \subsubsection{invoices test}
 
 \begin{lstlisting}
@@ -2484,11 +2384,7 @@ public function test_invoices(): void
 This test performs some tests to validate the correctness
 of the invoices functions
 
-
-\hypertarget{toc285}{}
-\section{Log}
-
-\hypertarget{toc286}{}
+\hypertarget{toc254}{}
 \subsection{Test log}
 
 \begin{lstlisting}
@@ -2498,21 +2394,21 @@ test_log.php
 This test performs some tests to validate the correctness
 of the log functions
 
-\hypertarget{toc287}{}
+\hypertarget{toc255}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc288}{}
+\hypertarget{toc256}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_log extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc289}{}
+\hypertarget{toc257}{}
 \subsubsection{log test}
 
 \begin{lstlisting}
@@ -2522,11 +2418,7 @@ public function test_log(): void
 This test performs some tests to validate the correctness
 of the log functions
 
-
-\hypertarget{toc290}{}
-\section{Math}
-
-\hypertarget{toc291}{}
+\hypertarget{toc258}{}
 \subsection{Test math}
 
 \begin{lstlisting}
@@ -2536,14 +2428,14 @@ test_math.php
 This test performs some tests to validate the correctness
 of the math functions
 
-\hypertarget{toc292}{}
+\hypertarget{toc259}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc293}{}
+\hypertarget{toc260}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -2552,14 +2444,14 @@ require_once 'php/lib/math.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc294}{}
+\hypertarget{toc261}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_math extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc295}{}
+\hypertarget{toc262}{}
 \subsubsection{math test}
 
 \begin{lstlisting}
@@ -2569,11 +2461,7 @@ public function test_math(): void
 This test performs some tests to validate the correctness
 of the math functions
 
-
-\hypertarget{toc296}{}
-\section{Memory}
-
-\hypertarget{toc297}{}
+\hypertarget{toc263}{}
 \subsection{Test memory}
 
 \begin{lstlisting}
@@ -2583,21 +2471,21 @@ test_memory.php
 This test performs some tests to validate the correctness
 of the memory functions
 
-\hypertarget{toc298}{}
+\hypertarget{toc264}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc299}{}
+\hypertarget{toc265}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_memory extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc300}{}
+\hypertarget{toc266}{}
 \subsubsection{memory test}
 
 \begin{lstlisting}
@@ -2607,11 +2495,7 @@ public function test_memory(): void
 This test performs some tests to validate the correctness
 of the memory functions
 
-
-\hypertarget{toc301}{}
-\section{Mime}
-
-\hypertarget{toc302}{}
+\hypertarget{toc267}{}
 \subsection{Test mime}
 
 \begin{lstlisting}
@@ -2621,30 +2505,30 @@ test_mime.php
 This test performs some tests to validate the correctness
 of the mime functions
 
-\hypertarget{toc303}{}
+\hypertarget{toc268}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc304}{}
+\hypertarget{toc269}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
-require_once 'php/lib/html.php';
+require_once 'apps/emails/php/html.php';
 \end{lstlisting}
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc305}{}
+\hypertarget{toc270}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_mime extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc306}{}
+\hypertarget{toc271}{}
 \subsubsection{mime test}
 
 \begin{lstlisting}
@@ -2654,11 +2538,70 @@ public function test_mime(): void
 This test performs some tests to validate the correctness
 of the mime functions
 
+\hypertarget{toc272}{}
+\subsection{Test nssdb}
 
-\hypertarget{toc307}{}
-\section{Output}
+\begin{lstlisting}
+test_nssdb.php
+\end{lstlisting}
 
-\hypertarget{toc308}{}
+This test performs some tests to validate the correctness
+of the nssdb functions
+
+\hypertarget{toc273}{}
+\subsubsection{Importing namespaces}
+
+\begin{lstlisting}
+use PHPUnit\Framework\TestCase;
+\end{lstlisting}
+
+\hypertarget{toc274}{}
+\subsubsection{Loading helper function}
+
+\begin{lstlisting}
+require_once 'lib/utestlib.php';
+\end{lstlisting}
+
+This file contains the needed function used by the unit tests
+
+\hypertarget{toc275}{}
+\subsubsection{Main class of this unit test}
+
+\begin{lstlisting}
+final class test_nssdb extends TestCase
+\end{lstlisting}
+
+\hypertarget{toc276}{}
+\subsubsection{nssdb test}
+
+\begin{lstlisting}
+public function test_nssdb(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the nssdb functions
+
+\hypertarget{toc277}{}
+\subsubsection{certs test}
+
+\begin{lstlisting}
+public function test_certs(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the certs functions
+
+\hypertarget{toc278}{}
+\subsubsection{actions test}
+
+\begin{lstlisting}
+public function test_actions(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the certs functions
+
+\hypertarget{toc279}{}
 \subsection{Test output}
 
 \begin{lstlisting}
@@ -2668,14 +2611,14 @@ test_output.php
 This test performs some tests to validate the correctness
 of the output functions
 
-\hypertarget{toc309}{}
+\hypertarget{toc280}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc310}{}
+\hypertarget{toc281}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -2684,14 +2627,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc311}{}
+\hypertarget{toc282}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_output extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc312}{}
+\hypertarget{toc283}{}
 \subsubsection{output test}
 
 \begin{lstlisting}
@@ -2701,7 +2644,7 @@ public function test_output(): void
 This test performs some tests to validate the correctness
 of the output functions
 
-\hypertarget{toc313}{}
+\hypertarget{toc284}{}
 \subsubsection{colorize test}
 
 \begin{lstlisting}
@@ -2711,11 +2654,7 @@ public function test_colorize(): void
 This test performs some tests to validate the correctness
 of the colorize functions
 
-
-\hypertarget{toc314}{}
-\section{Password}
-
-\hypertarget{toc315}{}
+\hypertarget{toc285}{}
 \subsection{Test password}
 
 \begin{lstlisting}
@@ -2725,14 +2664,14 @@ test_password.php
 This test performs some tests to validate the correctness
 of the password functions
 
-\hypertarget{toc316}{}
+\hypertarget{toc286}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc317}{}
+\hypertarget{toc287}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -2741,14 +2680,14 @@ require_once 'php/lib/password.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc318}{}
+\hypertarget{toc288}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_password extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc319}{}
+\hypertarget{toc289}{}
 \subsubsection{password test}
 
 \begin{lstlisting}
@@ -2758,11 +2697,7 @@ public function test_password(): void
 This test performs some tests to validate the correctness
 of the password functions
 
-
-\hypertarget{toc320}{}
-\section{Pdf}
-
-\hypertarget{toc321}{}
+\hypertarget{toc290}{}
 \subsection{Test pdf}
 
 \begin{lstlisting}
@@ -2772,14 +2707,14 @@ test_pdf.php
 This test performs some tests to validate the correctness
 of the pdf functions
 
-\hypertarget{toc322}{}
+\hypertarget{toc291}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc323}{}
+\hypertarget{toc292}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -2788,14 +2723,14 @@ require_once 'php/lib/pdf.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc324}{}
+\hypertarget{toc293}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_pdf extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc325}{}
+\hypertarget{toc294}{}
 \subsubsection{pdf test}
 
 \begin{lstlisting}
@@ -2805,11 +2740,7 @@ public function test_pdf(): void
 This test performs some tests to validate the correctness
 of the pdf functions
 
-
-\hypertarget{toc326}{}
-\section{Perms}
-
-\hypertarget{toc327}{}
+\hypertarget{toc295}{}
 \subsection{Test perms}
 
 \begin{lstlisting}
@@ -2819,14 +2750,14 @@ test_perms.php
 This test performs some tests to validate the correctness
 of the perms functions
 
-\hypertarget{toc328}{}
+\hypertarget{toc296}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc329}{}
+\hypertarget{toc297}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -2835,14 +2766,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc330}{}
+\hypertarget{toc298}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_perms extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc331}{}
+\hypertarget{toc299}{}
 \subsubsection{Authtoken}
 
 \begin{lstlisting}
@@ -2852,7 +2783,7 @@ public function test_authtoken(): array
 This function execute the authtoken rest request, and must to get the
 json with the valid token to continue in the nexts unit tests
 
-\hypertarget{toc332}{}
+\hypertarget{toc300}{}
 \subsubsection{perms test}
 
 \begin{lstlisting}
@@ -2862,11 +2793,7 @@ public function test_perms(array $json): void
 This test performs some tests to validate the correctness
 of the perms functions
 
-
-\hypertarget{toc333}{}
-\section{Ping}
-
-\hypertarget{toc334}{}
+\hypertarget{toc301}{}
 \subsection{Test ping}
 
 \begin{lstlisting}
@@ -2876,14 +2803,14 @@ test_ping.php
 This test performs some tests to validate the correctness
 of the ping functions
 
-\hypertarget{toc335}{}
+\hypertarget{toc302}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc336}{}
+\hypertarget{toc303}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -2892,14 +2819,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc337}{}
+\hypertarget{toc304}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_ping extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc338}{}
+\hypertarget{toc305}{}
 \subsubsection{ping test}
 
 \begin{lstlisting}
@@ -2909,11 +2836,7 @@ public function test_ping(): void
 This test performs some tests to validate the correctness
 of the ping functions
 
-
-\hypertarget{toc339}{}
-\section{Push}
-
-\hypertarget{toc340}{}
+\hypertarget{toc306}{}
 \subsection{Test push}
 
 \begin{lstlisting}
@@ -2923,14 +2846,14 @@ test_push.php
 This test performs some tests to validate the correctness
 of the push functions
 
-\hypertarget{toc341}{}
+\hypertarget{toc307}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc342}{}
+\hypertarget{toc308}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -2939,14 +2862,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc343}{}
+\hypertarget{toc309}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_push extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc344}{}
+\hypertarget{toc310}{}
 \subsubsection{push}
 
 \begin{lstlisting}
@@ -2956,11 +2879,7 @@ public function test_push(): void
 This test performs some tests to validate the correctness
 of the push functions
 
-
-\hypertarget{toc345}{}
-\section{Random}
-
-\hypertarget{toc346}{}
+\hypertarget{toc311}{}
 \subsection{Test random}
 
 \begin{lstlisting}
@@ -2970,21 +2889,21 @@ test_random.php
 This test performs some tests to validate the correctness
 of the random functions
 
-\hypertarget{toc347}{}
+\hypertarget{toc312}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc348}{}
+\hypertarget{toc313}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_random extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc349}{}
+\hypertarget{toc314}{}
 \subsubsection{random test}
 
 \begin{lstlisting}
@@ -2994,16 +2913,320 @@ public function test_random(): void
 This test performs some tests to validate the correctness
 of the random functions
 
+\hypertarget{toc315}{}
+\subsection{Test mime}
 
-\hypertarget{toc350}{}
-\section{Roundcube}
+\begin{lstlisting}
+test_replace.php
+\end{lstlisting}
 
-\hypertarget{toc351}{}
+This test performs some tests to validate the correctness
+of the str\_replace instead of the preg\_replace
+
+\hypertarget{toc316}{}
+\subsubsection{Importing namespaces}
+
+\begin{lstlisting}
+use PHPUnit\Framework\TestCase;
+\end{lstlisting}
+
+\hypertarget{toc317}{}
+\subsubsection{Main class of this unit test}
+
+\begin{lstlisting}
+final class test_replace extends TestCase
+\end{lstlisting}
+
+\hypertarget{toc318}{}
+\subsubsection{replace test}
+
+\begin{lstlisting}
+public function test_replace(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the str\_replace\_assoc instead of the replace function
+
+\hypertarget{toc319}{}
 \subsection{Test roundcube library}
 
 \begin{lstlisting}
 test_roundcube.php
 \end{lstlisting}
+
+\hypertarget{toc320}{}
+\subsubsection{Importing namespaces}
+
+\begin{lstlisting}
+use PHPUnit\Framework\TestCase;
+\end{lstlisting}
+
+\hypertarget{toc321}{}
+\subsubsection{Main class of this unit test}
+
+\begin{lstlisting}
+final class test_roundcube extends TestCase
+\end{lstlisting}
+
+\hypertarget{toc322}{}
+\subsubsection{html2text}
+
+\begin{lstlisting}
+public function test_html2text(): void
+\end{lstlisting}
+
+This function checks the correctness of the html2text method provided by the
+roundcube library.
+
+\hypertarget{toc323}{}
+\subsection{Test semaphore}
+
+\begin{lstlisting}
+test_semaphore.php
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the semaphore functions
+
+\hypertarget{toc324}{}
+\subsubsection{Importing namespaces}
+
+\begin{lstlisting}
+use PHPUnit\Framework\TestCase;
+\end{lstlisting}
+
+\hypertarget{toc325}{}
+\subsubsection{Loading helper function}
+
+\begin{lstlisting}
+require_once 'lib/utestlib.php';
+\end{lstlisting}
+
+This file contains the needed function used by the unit tests
+
+\hypertarget{toc326}{}
+\subsubsection{Main class of this unit test}
+
+\begin{lstlisting}
+final class test_semaphore extends TestCase
+\end{lstlisting}
+
+\hypertarget{toc327}{}
+\subsubsection{semaphore test}
+
+\begin{lstlisting}
+public function test_semaphore(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the semaphore functions
+
+\hypertarget{toc328}{}
+\subsection{Test server}
+
+\begin{lstlisting}
+test_server.php
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the server functions
+
+\hypertarget{toc329}{}
+\subsubsection{Importing namespaces}
+
+\begin{lstlisting}
+use PHPUnit\Framework\TestCase;
+\end{lstlisting}
+
+\hypertarget{toc330}{}
+\subsubsection{Loading helper function}
+
+\begin{lstlisting}
+require_once 'lib/utestlib.php';
+\end{lstlisting}
+
+This file contains the needed function used by the unit tests
+
+\hypertarget{toc331}{}
+\subsubsection{Main class of this unit test}
+
+\begin{lstlisting}
+final class test_server extends TestCase
+\end{lstlisting}
+
+\hypertarget{toc332}{}
+\subsubsection{server test}
+
+\begin{lstlisting}
+public function test_server(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the server functions
+
+\hypertarget{toc333}{}
+\subsection{Test sql}
+
+\begin{lstlisting}
+test_sql.php
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the sql functions
+
+\hypertarget{toc334}{}
+\subsubsection{Importing namespaces}
+
+\begin{lstlisting}
+use PHPUnit\Framework\TestCase;
+\end{lstlisting}
+
+\hypertarget{toc335}{}
+\subsubsection{Loading helper function}
+
+\begin{lstlisting}
+require_once 'lib/utestlib.php';
+\end{lstlisting}
+
+This file contains the needed function used by the unit tests
+
+\hypertarget{toc336}{}
+\subsubsection{Main class of this unit test}
+
+\begin{lstlisting}
+final class test_sql extends TestCase
+\end{lstlisting}
+
+\hypertarget{toc337}{}
+\subsubsection{SQL test}
+
+\begin{lstlisting}
+public function test_sql(): void
+\end{lstlisting}
+
+This function performs some tests to validate the correctness
+of the sql functions
+
+\hypertarget{toc338}{}
+\subsection{Test strings}
+
+\begin{lstlisting}
+test_strings.php
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the strings functions
+
+\hypertarget{toc339}{}
+\subsubsection{Importing namespaces}
+
+\begin{lstlisting}
+use PHPUnit\Framework\TestCase;
+\end{lstlisting}
+
+\hypertarget{toc340}{}
+\subsubsection{Main class of this unit test}
+
+\begin{lstlisting}
+final class test_strings extends TestCase
+\end{lstlisting}
+
+\hypertarget{toc341}{}
+\subsubsection{strings test}
+
+\begin{lstlisting}
+public function test_strings(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the strings functions
+
+\hypertarget{toc342}{}
+\subsection{Test mime}
+
+\begin{lstlisting}
+test_strtr.php
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the str\_replace\_assoc instead of the strtr function
+
+\hypertarget{toc343}{}
+\subsubsection{Importing namespaces}
+
+\begin{lstlisting}
+use PHPUnit\Framework\TestCase;
+\end{lstlisting}
+
+\hypertarget{toc344}{}
+\subsubsection{Main class of this unit test}
+
+\begin{lstlisting}
+final class test_strtr extends TestCase
+\end{lstlisting}
+
+\hypertarget{toc345}{}
+\subsubsection{strtr test}
+
+\begin{lstlisting}
+public function test_strtr(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the str\_replace\_assoc instead of the strtr function
+
+\hypertarget{toc346}{}
+\subsection{Test system}
+
+\begin{lstlisting}
+test_system.php
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the system functions
+
+\hypertarget{toc347}{}
+\subsubsection{Importing namespaces}
+
+\begin{lstlisting}
+use PHPUnit\Framework\TestCase;
+\end{lstlisting}
+
+\hypertarget{toc348}{}
+\subsubsection{Loading helper function}
+
+\begin{lstlisting}
+require_once 'lib/utestlib.php';
+\end{lstlisting}
+
+This file contains the needed function used by the unit tests
+
+\hypertarget{toc349}{}
+\subsubsection{Main class of this unit test}
+
+\begin{lstlisting}
+final class test_system extends TestCase
+\end{lstlisting}
+
+\hypertarget{toc350}{}
+\subsubsection{system test}
+
+\begin{lstlisting}
+public function test_system(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the system functions
+
+\hypertarget{toc351}{}
+\subsection{Test tokens}
+
+\begin{lstlisting}
+test_tokens.php
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the token generator and the token format checker
 
 \hypertarget{toc352}{}
 \subsubsection{Importing namespaces}
@@ -3016,312 +3239,10 @@ use PHPUnit\Framework\TestCase;
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
-final class test_roundcube extends TestCase
-\end{lstlisting}
-
-\hypertarget{toc354}{}
-\subsubsection{html2text}
-
-\begin{lstlisting}
-public function test_html2text(): void
-\end{lstlisting}
-
-This function checks the correctness of the html2text method provided by the
-roundcube library.
-
-
-\hypertarget{toc355}{}
-\section{Semaphore}
-
-\hypertarget{toc356}{}
-\subsection{Test semaphore}
-
-\begin{lstlisting}
-test_semaphore.php
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the semaphore functions
-
-\hypertarget{toc357}{}
-\subsubsection{Importing namespaces}
-
-\begin{lstlisting}
-use PHPUnit\Framework\TestCase;
-\end{lstlisting}
-
-\hypertarget{toc358}{}
-\subsubsection{Loading helper function}
-
-\begin{lstlisting}
-require_once 'lib/utestlib.php';
-\end{lstlisting}
-
-This file contains the needed function used by the unit tests
-
-\hypertarget{toc359}{}
-\subsubsection{Main class of this unit test}
-
-\begin{lstlisting}
-final class test_semaphore extends TestCase
-\end{lstlisting}
-
-\hypertarget{toc360}{}
-\subsubsection{semaphore test}
-
-\begin{lstlisting}
-public function test_semaphore(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the semaphore functions
-
-
-\hypertarget{toc361}{}
-\section{Server}
-
-\hypertarget{toc362}{}
-\subsection{Test server}
-
-\begin{lstlisting}
-test_server.php
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the server functions
-
-\hypertarget{toc363}{}
-\subsubsection{Importing namespaces}
-
-\begin{lstlisting}
-use PHPUnit\Framework\TestCase;
-\end{lstlisting}
-
-\hypertarget{toc364}{}
-\subsubsection{Loading helper function}
-
-\begin{lstlisting}
-require_once 'lib/utestlib.php';
-\end{lstlisting}
-
-This file contains the needed function used by the unit tests
-
-\hypertarget{toc365}{}
-\subsubsection{Main class of this unit test}
-
-\begin{lstlisting}
-final class test_server extends TestCase
-\end{lstlisting}
-
-\hypertarget{toc366}{}
-\subsubsection{server test}
-
-\begin{lstlisting}
-public function test_server(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the server functions
-
-
-\hypertarget{toc367}{}
-\section{Sql}
-
-\hypertarget{toc368}{}
-\subsection{Test sql}
-
-\begin{lstlisting}
-test_sql.php
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the sql functions
-
-\hypertarget{toc369}{}
-\subsubsection{Importing namespaces}
-
-\begin{lstlisting}
-use PHPUnit\Framework\TestCase;
-\end{lstlisting}
-
-\hypertarget{toc370}{}
-\subsubsection{Loading helper function}
-
-\begin{lstlisting}
-require_once 'lib/utestlib.php';
-\end{lstlisting}
-
-This file contains the needed function used by the unit tests
-
-\hypertarget{toc371}{}
-\subsubsection{Main class of this unit test}
-
-\begin{lstlisting}
-final class test_sql extends TestCase
-\end{lstlisting}
-
-\hypertarget{toc372}{}
-\subsubsection{SQL test}
-
-\begin{lstlisting}
-public function test_sql(): void
-\end{lstlisting}
-
-This function performs some tests to validate the correctness
-of the sql functions
-
-
-\hypertarget{toc373}{}
-\section{Strings}
-
-\hypertarget{toc374}{}
-\subsection{Test strings}
-
-\begin{lstlisting}
-test_strings.php
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the strings functions
-
-\hypertarget{toc375}{}
-\subsubsection{Importing namespaces}
-
-\begin{lstlisting}
-use PHPUnit\Framework\TestCase;
-\end{lstlisting}
-
-\hypertarget{toc376}{}
-\subsubsection{Main class of this unit test}
-
-\begin{lstlisting}
-final class test_strings extends TestCase
-\end{lstlisting}
-
-\hypertarget{toc377}{}
-\subsubsection{strings test}
-
-\begin{lstlisting}
-public function test_strings(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the strings functions
-
-
-\hypertarget{toc378}{}
-\section{Strtr}
-
-\hypertarget{toc379}{}
-\subsection{Test mime}
-
-\begin{lstlisting}
-test_strtr.php
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the str\_replace\_assoc instead of the strtr function
-
-\hypertarget{toc380}{}
-\subsubsection{Importing namespaces}
-
-\begin{lstlisting}
-use PHPUnit\Framework\TestCase;
-\end{lstlisting}
-
-\hypertarget{toc381}{}
-\subsubsection{Main class of this unit test}
-
-\begin{lstlisting}
-final class test_strtr extends TestCase
-\end{lstlisting}
-
-\hypertarget{toc382}{}
-\subsubsection{strtr test}
-
-\begin{lstlisting}
-public function test_strtr(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the str\_replace\_assoc instead of the strtr function
-
-
-\hypertarget{toc383}{}
-\section{System}
-
-\hypertarget{toc384}{}
-\subsection{Test system}
-
-\begin{lstlisting}
-test_system.php
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the system functions
-
-\hypertarget{toc385}{}
-\subsubsection{Importing namespaces}
-
-\begin{lstlisting}
-use PHPUnit\Framework\TestCase;
-\end{lstlisting}
-
-\hypertarget{toc386}{}
-\subsubsection{Loading helper function}
-
-\begin{lstlisting}
-require_once 'lib/utestlib.php';
-\end{lstlisting}
-
-This file contains the needed function used by the unit tests
-
-\hypertarget{toc387}{}
-\subsubsection{Main class of this unit test}
-
-\begin{lstlisting}
-final class test_system extends TestCase
-\end{lstlisting}
-
-\hypertarget{toc388}{}
-\subsubsection{system test}
-
-\begin{lstlisting}
-public function test_system(): void
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the system functions
-
-
-\hypertarget{toc389}{}
-\section{Tokens}
-
-\hypertarget{toc390}{}
-\subsection{Test tokens}
-
-\begin{lstlisting}
-test_tokens.php
-\end{lstlisting}
-
-This test performs some tests to validate the correctness
-of the token generator and the token format checker
-
-\hypertarget{toc391}{}
-\subsubsection{Importing namespaces}
-
-\begin{lstlisting}
-use PHPUnit\Framework\TestCase;
-\end{lstlisting}
-
-\hypertarget{toc392}{}
-\subsubsection{Main class of this unit test}
-
-\begin{lstlisting}
 final class test_tokens extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc393}{}
+\hypertarget{toc354}{}
 \subsubsection{Tokens test}
 
 \begin{lstlisting}
@@ -3331,11 +3252,7 @@ public function test_tokens(): void
 This function performs some tests to validate the correctness
 of the token generator and the token format checker
 
-
-\hypertarget{toc394}{}
-\section{Unoconv}
-
-\hypertarget{toc395}{}
+\hypertarget{toc355}{}
 \subsection{Test unoconv}
 
 \begin{lstlisting}
@@ -3345,14 +3262,14 @@ test_unoconv.php
 This test performs some tests to validate the correctness
 of the unoconv functions
 
-\hypertarget{toc396}{}
+\hypertarget{toc356}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc397}{}
+\hypertarget{toc357}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -3361,14 +3278,14 @@ require_once 'php/lib/unoconv.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc398}{}
+\hypertarget{toc358}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_unoconv extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc399}{}
+\hypertarget{toc359}{}
 \subsubsection{Pdf test helper}
 
 \begin{lstlisting}
@@ -3383,7 +3300,7 @@ the correctness of the function
 \item[\color{myblue}$\bullet$] @input =$>$ the input file to use in the test
 \end{compactitem}
 
-\hypertarget{toc400}{}
+\hypertarget{toc360}{}
 \subsubsection{Txt test helper}
 
 \begin{lstlisting}
@@ -3398,7 +3315,7 @@ the correctness of the function
 \item[\color{myblue}$\bullet$] @input =$>$ the input file to use in the test
 \end{compactitem}
 
-\hypertarget{toc401}{}
+\hypertarget{toc361}{}
 \subsubsection{unoconv test}
 
 \begin{lstlisting}
@@ -3408,7 +3325,7 @@ public function test_unoconv(): void
 This test performs some tests to validate the correctness
 of the unoconv functions
 
-\hypertarget{toc402}{}
+\hypertarget{toc362}{}
 \subsubsection{ocr test}
 
 \begin{lstlisting}
@@ -3418,7 +3335,7 @@ public function test_ocr(): void
 This test performs some tests to validate the correctness
 of the ocr functions
 
-\hypertarget{toc403}{}
+\hypertarget{toc363}{}
 \subsubsection{commands test}
 
 \begin{lstlisting}
@@ -3428,11 +3345,79 @@ public function test_commands(): void
 This test performs some tests to validate the correctness
 of the commands functions
 
+\hypertarget{toc364}{}
+\subsection{Test upload}
 
-\hypertarget{toc404}{}
-\section{User}
+\begin{lstlisting}
+test_upload.php
+\end{lstlisting}
 
-\hypertarget{toc405}{}
+This test performs some tests to validate the correctness
+of the upload functions
+
+\hypertarget{toc365}{}
+\subsubsection{Importing namespaces}
+
+\begin{lstlisting}
+use PHPUnit\Framework\TestCase;
+\end{lstlisting}
+
+\hypertarget{toc366}{}
+\subsubsection{Loading helper function}
+
+\begin{lstlisting}
+require_once 'lib/utestlib.php';
+\end{lstlisting}
+
+This file contains the needed function used by the unit tests
+
+\hypertarget{toc367}{}
+\subsubsection{Main class of this unit test}
+
+\begin{lstlisting}
+final class test_upload extends TestCase
+\end{lstlisting}
+
+\hypertarget{toc368}{}
+\subsubsection{Authtoken}
+
+\begin{lstlisting}
+public function test_authtoken(): array
+\end{lstlisting}
+
+This function execute the authtoken rest request, and must to get the
+json with the valid token to continue in the nexts unit tests
+
+\hypertarget{toc369}{}
+\subsubsection{Addfiles}
+
+\begin{lstlisting}
+public function test_addfiles(array $json): array
+\end{lstlisting}
+
+This function execute the addfiles rest request, and must to get the
+json with the correct data
+
+\hypertarget{toc370}{}
+\subsubsection{Delfiles}
+
+\begin{lstlisting}
+public function test_delfiles(array $json): void
+\end{lstlisting}
+
+This function execute the delfiles rest request, and must to get the
+json with the correct data
+
+\hypertarget{toc371}{}
+\subsubsection{Human size}
+
+\begin{lstlisting}
+public function test_human_size(): void
+\end{lstlisting}
+
+This function only try to execute the get\_human\_size function
+
+\hypertarget{toc372}{}
 \subsection{Test users}
 
 \begin{lstlisting}
@@ -3442,14 +3427,14 @@ test_user.php
 This test performs some tests to validate the correctness
 of the users functions
 
-\hypertarget{toc406}{}
+\hypertarget{toc373}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc407}{}
+\hypertarget{toc374}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -3458,14 +3443,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc408}{}
+\hypertarget{toc375}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_user extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc409}{}
+\hypertarget{toc376}{}
 \subsubsection{Authtoken}
 
 \begin{lstlisting}
@@ -3475,7 +3460,7 @@ public function test_authtoken(): array
 This function execute the authtoken rest request, and must to get the
 json with the valid token to continue in the nexts unit tests
 
-\hypertarget{toc410}{}
+\hypertarget{toc377}{}
 \subsubsection{users test}
 
 \begin{lstlisting}
@@ -3485,11 +3470,37 @@ public function test_user(array $json): void
 This test performs some tests to validate the correctness
 of the users functions
 
+\hypertarget{toc378}{}
+\subsubsection{browser test}
 
-\hypertarget{toc411}{}
-\section{Users}
+\begin{lstlisting}
+public function test_browser(): void
+\end{lstlisting}
 
-\hypertarget{toc412}{}
+This test performs some tests to validate the correctness
+of the browser functions
+
+\hypertarget{toc379}{}
+\subsubsection{geoip test}
+
+\begin{lstlisting}
+public function test_geoip(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the geoip functions
+
+\hypertarget{toc380}{}
+\subsubsection{security test}
+
+\begin{lstlisting}
+public function test_security(): void
+\end{lstlisting}
+
+This test performs some tests to validate the correctness
+of the security functions
+
+\hypertarget{toc381}{}
 \subsection{Test users}
 
 \begin{lstlisting}
@@ -3499,14 +3510,14 @@ test_users.php
 This test performs some tests to validate the correctness
 of the users functions
 
-\hypertarget{toc413}{}
+\hypertarget{toc382}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc414}{}
+\hypertarget{toc383}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -3515,14 +3526,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc415}{}
+\hypertarget{toc384}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_users extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc416}{}
+\hypertarget{toc385}{}
 \subsubsection{days test}
 
 \begin{lstlisting}
@@ -3532,7 +3543,7 @@ public function test_days(): void
 This test performs some tests to validate the correctness
 of the days functions
 
-\hypertarget{toc417}{}
+\hypertarget{toc386}{}
 \subsubsection{users test}
 
 \begin{lstlisting}
@@ -3542,7 +3553,7 @@ public function test_users(): void
 This test performs some tests to validate the correctness
 of the users functions
 
-\hypertarget{toc418}{}
+\hypertarget{toc387}{}
 \subsubsection{groups test}
 
 \begin{lstlisting}
@@ -3552,11 +3563,7 @@ public function test_groups(): void
 This test performs some tests to validate the correctness
 of the groups functions
 
-
-\hypertarget{toc419}{}
-\section{Version}
-
-\hypertarget{toc420}{}
+\hypertarget{toc388}{}
 \subsection{Test version}
 
 \begin{lstlisting}
@@ -3566,21 +3573,21 @@ test_version.php
 This test performs some tests to validate the correctness
 of the version related functions
 
-\hypertarget{toc421}{}
+\hypertarget{toc389}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc422}{}
+\hypertarget{toc390}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_version extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc423}{}
+\hypertarget{toc391}{}
 \subsubsection{version test}
 
 \begin{lstlisting}
@@ -3590,11 +3597,7 @@ public function test_version(): void
 This function performs some tests to validate the correctness
 of the version related functions
 
-
-\hypertarget{toc424}{}
-\section{Web Customers}
-
-\hypertarget{toc425}{}
+\hypertarget{toc392}{}
 \subsection{Test web customers}
 
 \begin{lstlisting}
@@ -3604,14 +3607,14 @@ test_web_customers.php
 This test performs all actions of the customers app suck as: create, insert,
 list, view, edit, update and delete, using the apache sapi interface
 
-\hypertarget{toc426}{}
+\hypertarget{toc393}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc427}{}
+\hypertarget{toc394}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -3620,14 +3623,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc428}{}
+\hypertarget{toc395}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_web_customers extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc429}{}
+\hypertarget{toc396}{}
 \subsubsection{Authtoken}
 
 \begin{lstlisting}
@@ -3637,7 +3640,7 @@ public function test_authtoken(): array
 This function execute the authtoken rest request, and must to get the
 json with the valid token to continue in the nexts unit tests
 
-\hypertarget{toc430}{}
+\hypertarget{toc397}{}
 \subsubsection{Create}
 
 \begin{lstlisting}
@@ -3647,7 +3650,7 @@ public function test_create(array $json): array
 This function execute the creates rest request, and must to get the
 json with the layout without data
 
-\hypertarget{toc431}{}
+\hypertarget{toc398}{}
 \subsubsection{Insert}
 
 \begin{lstlisting}
@@ -3658,7 +3661,7 @@ This function execute the insert rest request, to do it send the json with
 the data that they want to insert and must to get the json with the status
 and the create\_id.
 
-\hypertarget{toc432}{}
+\hypertarget{toc399}{}
 \subsubsection{List}
 
 \begin{lstlisting}
@@ -3669,7 +3672,7 @@ This function execute the list rest request, to do it send the json with
 the search that they want to use in the list filter and receives the json
 with the data used to populate the table.
 
-\hypertarget{toc433}{}
+\hypertarget{toc400}{}
 \subsubsection{View}
 
 \begin{lstlisting}
@@ -3679,7 +3682,7 @@ public function test_view(array $json): array
 This function execute the view rest request, intended to retrieve the detail
 of the app with the layout needed to render it.
 
-\hypertarget{toc434}{}
+\hypertarget{toc401}{}
 \subsubsection{Edit}
 
 \begin{lstlisting}
@@ -3689,7 +3692,7 @@ public function test_edit(array $json): array
 This function execute the view rest request, intended to retrieve the detail
 of the app with the layout needed to render it.
 
-\hypertarget{toc435}{}
+\hypertarget{toc402}{}
 \subsubsection{Upgrade}
 
 \begin{lstlisting}
@@ -3700,7 +3703,7 @@ This function execute the update rest request, to do it send the json with
 the data that they want to update and must to get the json with the status
 and the updated\_id.
 
-\hypertarget{toc436}{}
+\hypertarget{toc403}{}
 \subsubsection{Delete}
 
 \begin{lstlisting}
@@ -3710,11 +3713,7 @@ public function test_delete(array $json): void
 This function execute the delete rest request, they must to get the json
 with the status and the deleted\_id.
 
-
-\hypertarget{toc437}{}
-\section{Web Invoices}
-
-\hypertarget{toc438}{}
+\hypertarget{toc404}{}
 \subsection{Test web invoices}
 
 \begin{lstlisting}
@@ -3724,14 +3723,14 @@ test_web_invoices.php
 This test performs all actions of the invoices app suck as: create, insert,
 list, view, edit, update and delete, using the apache sapi interface
 
-\hypertarget{toc439}{}
+\hypertarget{toc405}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc440}{}
+\hypertarget{toc406}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -3740,14 +3739,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc441}{}
+\hypertarget{toc407}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_web_invoices extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc442}{}
+\hypertarget{toc408}{}
 \subsubsection{Authtoken}
 
 \begin{lstlisting}
@@ -3757,7 +3756,7 @@ public function test_authtoken(): array
 This function execute the authtoken rest request, and must to get the
 json with the valid token to continue in the nexts unit tests
 
-\hypertarget{toc443}{}
+\hypertarget{toc409}{}
 \subsubsection{Create}
 
 \begin{lstlisting}
@@ -3767,7 +3766,7 @@ public function test_create(array $json): array
 This function execute the creates rest request, and must to get the
 json with the layout without data
 
-\hypertarget{toc444}{}
+\hypertarget{toc410}{}
 \subsubsection{Insert}
 
 \begin{lstlisting}
@@ -3778,7 +3777,7 @@ This function execute the insert rest request, to do it send the json with
 the data that they want to insert and must to get the json with the status
 and the create\_id.
 
-\hypertarget{toc445}{}
+\hypertarget{toc411}{}
 \subsubsection{List}
 
 \begin{lstlisting}
@@ -3789,7 +3788,7 @@ This function execute the list rest request, to do it send the json with
 the search that they want to use in the list filter and receives the json
 with the data used to populate the table.
 
-\hypertarget{toc446}{}
+\hypertarget{toc412}{}
 \subsubsection{View}
 
 \begin{lstlisting}
@@ -3799,7 +3798,7 @@ public function test_view(array $json): array
 This function execute the view rest request, intended to retrieve the detail
 of the app with the layout needed to render it.
 
-\hypertarget{toc447}{}
+\hypertarget{toc413}{}
 \subsubsection{Edit}
 
 \begin{lstlisting}
@@ -3809,7 +3808,7 @@ public function test_edit(array $json): array
 This function execute the view rest request, intended to retrieve the detail
 of the app with the layout needed to render it.
 
-\hypertarget{toc448}{}
+\hypertarget{toc414}{}
 \subsubsection{Upgrade}
 
 \begin{lstlisting}
@@ -3820,7 +3819,7 @@ This function execute the update rest request, to do it send the json with
 the data that they want to update and must to get the json with the status
 and the updated\_id.
 
-\hypertarget{toc449}{}
+\hypertarget{toc415}{}
 \subsubsection{Delete}
 
 \begin{lstlisting}
@@ -3830,11 +3829,7 @@ public function test_delete(array $json): void
 This function execute the delete rest request, they must to get the json
 with the status and the deleted\_id.
 
-
-\hypertarget{toc450}{}
-\section{Web Tokens}
-
-\hypertarget{toc451}{}
+\hypertarget{toc416}{}
 \subsection{Test web tokens (first part)}
 
 \begin{lstlisting}
@@ -3844,14 +3839,14 @@ test_web_tokens.php
 This test performs some part of the actions related with the tokens suck
 as authtoken and checktoken, using the apache sapi interface
 
-\hypertarget{toc452}{}
+\hypertarget{toc417}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc453}{}
+\hypertarget{toc418}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -3860,14 +3855,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc454}{}
+\hypertarget{toc419}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_web_tokens extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc455}{}
+\hypertarget{toc420}{}
 \subsubsection{Authtoken}
 
 \begin{lstlisting}
@@ -3877,7 +3872,7 @@ public function test_authtoken(): array
 This function execute the authtoken rest request, and must to get the
 json with the valid token to continue in the nexts unit tests
 
-\hypertarget{toc456}{}
+\hypertarget{toc421}{}
 \subsubsection{Checktoken}
 
 \begin{lstlisting}
@@ -3887,7 +3882,7 @@ public function test_checktoken(array $json): array
 This function execute the checktoken rest request, and must to get the
 json with the ok about the valid token that you are trying to check
 
-\hypertarget{toc457}{}
+\hypertarget{toc422}{}
 \subsubsection{Deauthtoken}
 
 \begin{lstlisting}
@@ -3897,7 +3892,7 @@ public function test_deauthtoken(array $json): array
 This function execute the deauthtoken rest request, and must to get the
 json with the ok about the valid token that you are deauthenticate
 
-\hypertarget{toc458}{}
+\hypertarget{toc423}{}
 \subsubsection{Checktoken ko}
 
 \begin{lstlisting}
@@ -3907,11 +3902,7 @@ public function test_checktoken_ko(array $json): void
 This function execute the checktoken rest request, and must to get the
 json with the ko about the invalid token that you are trying to check
 
-
-\hypertarget{toc459}{}
-\section{Xml}
-
-\hypertarget{toc460}{}
+\hypertarget{toc424}{}
 \subsection{Test XML}
 
 \begin{lstlisting}
@@ -3921,14 +3912,14 @@ test_xml.php
 This test performs some tests to validate the correctness
 of the xml related functions
 
-\hypertarget{toc461}{}
+\hypertarget{toc425}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc462}{}
+\hypertarget{toc426}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -3937,14 +3928,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc463}{}
+\hypertarget{toc427}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_xml extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc464}{}
+\hypertarget{toc428}{}
 \subsubsection{XML test}
 
 \begin{lstlisting}
@@ -3954,11 +3945,41 @@ public function test_xml(): void
 This function performs some tests to validate the correctness
 of the xml related functions
 
+\hypertarget{toc429}{}
+\subsection{Test YAML}
 
-\hypertarget{toc465}{}
-\section{Zindex}
+\begin{lstlisting}
+test_yaml.php
+\end{lstlisting}
 
-\hypertarget{toc466}{}
+This test performs some tests to validate the correctness
+of the yaml related functions
+
+\hypertarget{toc430}{}
+\subsubsection{Importing namespaces}
+
+\begin{lstlisting}
+use PHPUnit\Framework\TestCase;
+\end{lstlisting}
+
+\hypertarget{toc431}{}
+\subsubsection{Main class of this unit test}
+
+\begin{lstlisting}
+final class test_yaml extends TestCase
+\end{lstlisting}
+
+\hypertarget{toc432}{}
+\subsubsection{YAML test}
+
+\begin{lstlisting}
+public function test_yaml(): void
+\end{lstlisting}
+
+This function performs some tests to validate the correctness
+of the yaml related functions
+
+\hypertarget{toc433}{}
 \subsection{Test zindex}
 
 \begin{lstlisting}
@@ -3968,14 +3989,14 @@ test_zindex.php
 This test performs some tests to validate the correctness
 of the zindex functions
 
-\hypertarget{toc467}{}
+\hypertarget{toc434}{}
 \subsubsection{Importing namespaces}
 
 \begin{lstlisting}
 use PHPUnit\Framework\TestCase;
 \end{lstlisting}
 
-\hypertarget{toc468}{}
+\hypertarget{toc435}{}
 \subsubsection{Loading helper function}
 
 \begin{lstlisting}
@@ -3984,14 +4005,14 @@ require_once 'lib/utestlib.php';
 
 This file contains the needed function used by the unit tests
 
-\hypertarget{toc469}{}
+\hypertarget{toc436}{}
 \subsubsection{Main class of this unit test}
 
 \begin{lstlisting}
 final class test_zindex extends TestCase
 \end{lstlisting}
 
-\hypertarget{toc470}{}
+\hypertarget{toc437}{}
 \subsubsection{zindex test}
 
 \begin{lstlisting}
@@ -4000,6 +4021,2555 @@ public function test_zindex(): void
 
 This test performs some tests to validate the correctness
 of the zindex functions
+
+
+\hypertarget{toc438}{}
+\section{Jest Libraries}
+
+\hypertarget{toc439}{}
+\subsection{Setup file for the unit tests}
+
+\begin{lstlisting}
+lib/jest.setup.js
+\end{lstlisting}
+
+This file contains the code that initialize the unit tests
+
+\hypertarget{toc440}{}
+\subsubsection{Detect what type of test is running, and load the needed setup}
+
+\begin{lstlisting}
+if ('fetch' in global) {
+\end{lstlisting}
+
+\hypertarget{toc441}{}
+\subsection{Setup file for the unit tests}
+
+\begin{lstlisting}
+lib/jsdom.setup.js
+\end{lstlisting}
+
+This file contains the code that initialize the unit tests
+
+\hypertarget{toc442}{}
+\subsubsection{Needed by all user interface features}
+
+\begin{lstlisting}
+global.bootstrap = require('../../code/web/lib/bootstrap/bootstrap.bundle.min.js');
+\end{lstlisting}
+
+\hypertarget{toc443}{}
+\subsubsection{Needed by bootstrap, core and proxy modules}
+
+\begin{lstlisting}
+global.md5 = require('../../code/web/lib/md5/md5.min.js');
+\end{lstlisting}
+
+\hypertarget{toc444}{}
+\subsubsection{Needed by bootstrap module}
+
+\begin{lstlisting}
+global.window.matchMedia = function() {
+\end{lstlisting}
+
+\hypertarget{toc445}{}
+\subsubsection{This is the same that object.js for the global scope}
+
+\begin{lstlisting}
+global.saltos = {};
+\end{lstlisting}
+
+\hypertarget{toc446}{}
+\subsubsection{Load all files of the project}
+
+\begin{lstlisting}
+/*const files = `core,bootstrap,storage,hash,token,auth,window,
+\end{lstlisting}
+
+\hypertarget{toc447}{}
+\subsubsection{My Require}
+
+\begin{lstlisting}
+global.myrequire = (file, fns)
+\end{lstlisting}
+
+This function is intended to add the needed module.exports at the end of the
+file that you want to process, this is a temporary action used only for the
+require action, and at the end, before the return, the original code is saved
+as a restore action to maintain the original code file
+
+\hypertarget{toc448}{}
+\subsection{Setup file for the unit tests}
+
+\begin{lstlisting}
+lib/node.setup.js
+\end{lstlisting}
+
+This file contains the code that initialize the unit tests
+
+\hypertarget{toc449}{}
+\subsubsection{This is the same that object.js for the global scope}
+
+\begin{lstlisting}
+global.saltos = {};
+\end{lstlisting}
+
+\hypertarget{toc450}{}
+\subsubsection{Needed by core module}
+
+\begin{lstlisting}
+global.window = {
+\end{lstlisting}
+
+\hypertarget{toc451}{}
+\subsubsection{Needed by core module}
+
+\begin{lstlisting}
+global.document = {
+\end{lstlisting}
+
+\hypertarget{toc452}{}
+\subsubsection{Load all files of the project}
+
+\begin{lstlisting}
+require(`../../code/web/js/core.js`);
+\end{lstlisting}
+
+\hypertarget{toc453}{}
+\subsubsection{My Pause}
+
+\begin{lstlisting}
+global.mypause = (page, delay)
+\end{lstlisting}
+
+This function is intended to do a pause inside the browser, to do it, we
+use a string instead of real code because istanbul tries to inject code
+and fails in runtime, one solution can be to put "istanbul ignore next"
+in a comment before the next page.evaluate, but I prefer to use a string
+in the page.evaluate because it is more simple for me
+
+
+\hypertarget{toc454}{}
+\section{Jest Code}
+
+\hypertarget{toc455}{}
+\subsection{Apps unit tests}
+
+\begin{lstlisting}
+test_apps.js
+\end{lstlisting}
+
+This file contains the apps unit tests
+
+\hypertarget{toc456}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+const puppeteer = require('puppeteer');
+\end{lstlisting}
+
+\hypertarget{toc457}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+const timeout = {timeout: 3000};
+\end{lstlisting}
+
+\hypertarget{toc458}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+let browser;
+\end{lstlisting}
+
+\hypertarget{toc459}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeAll(async ()
+\end{lstlisting}
+
+\hypertarget{toc460}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+afterAll(async ()
+\end{lstlisting}
+
+\hypertarget{toc461}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+let testFailed = false;
+\end{lstlisting}
+
+\hypertarget{toc462}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeEach(()
+\end{lstlisting}
+
+\hypertarget{toc463}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+afterEach(()
+\end{lstlisting}
+
+\hypertarget{toc464}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('App Login', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc465}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Login', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc466}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Login Ko Red', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc467}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Login Ko Green', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc468}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Dashboard', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc469}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Reload', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc470}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Logout', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc471}{}
+\subsection{Bootstrap unit tests}
+
+\begin{lstlisting}
+test_bootstrap.js
+\end{lstlisting}
+
+This file contains the bootstrap unit tests
+
+\hypertarget{toc472}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+const puppeteer = require('puppeteer');
+\end{lstlisting}
+
+\hypertarget{toc473}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+const timeout = {timeout: 3000};
+\end{lstlisting}
+
+\hypertarget{toc474}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('Bootstrap', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc475}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+let browser;
+\end{lstlisting}
+
+\hypertarget{toc476}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeAll(async ()
+\end{lstlisting}
+
+\hypertarget{toc477}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+afterAll(async ()
+\end{lstlisting}
+
+\hypertarget{toc478}{}
+\subsubsection{Prepare the test.each iterator}
+
+\begin{lstlisting}
+const fs = require('fs');
+\end{lstlisting}
+
+\hypertarget{toc479}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test.each(json)('$label', async field
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc480}{}
+\subsection{Core unit tests}
+
+\begin{lstlisting}
+test_core.js
+\end{lstlisting}
+
+This file contains the core unit tests
+
+\hypertarget{toc481}{}
+\subsubsection{Load all needed files of the project}
+
+\begin{lstlisting}
+const files = `core,gettext,token`.split(',');
+\end{lstlisting}
+
+\hypertarget{toc482}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeEach(()
+\end{lstlisting}
+
+\hypertarget{toc483}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+afterEach(()
+\end{lstlisting}
+
+\hypertarget{toc484}{}
+\subsubsection{saltos.core.adderror/addlog}
+
+\begin{lstlisting}
+describe('saltos.core.adderror/addlog', ()
+\end{lstlisting}
+
+This function performs the tests of the adderror and adlog functions
+
+\hypertarget{toc485}{}
+\subsubsection{saltos.core.adderror}
+
+\begin{lstlisting}
+test('saltos.core.adderror should send error details to the server', async ()
+\end{lstlisting}
+
+This function performs the tests of the adderror function
+
+\hypertarget{toc486}{}
+\subsubsection{saltos.core.addlog}
+
+\begin{lstlisting}
+test('saltos.core.addlog should send log message to the server', ()
+\end{lstlisting}
+
+This function performs the tests of the addlog function
+
+\hypertarget{toc487}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('window.addEventListener for error and unhandledrejection', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc488}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeEach(()
+\end{lstlisting}
+
+\hypertarget{toc489}{}
+\subsubsection{error}
+
+\begin{lstlisting}
+test('should call saltos.core.adderror when an error occurs', ()
+\end{lstlisting}
+
+This function performs the tests of the error feature
+
+\hypertarget{toc490}{}
+\subsubsection{unhandledrejection}
+
+\begin{lstlisting}
+test('should call saltos.core.adderror when an unhandledrejection occurs', ()
+\end{lstlisting}
+
+This function performs the tests of the unhandledrejection feature
+
+\hypertarget{toc491}{}
+\subsubsection{saltos.core.check\_params}
+
+\begin{lstlisting}
+test('saltos.core.check_params', ()
+\end{lstlisting}
+
+This function performs the test of the check\_params function
+
+\hypertarget{toc492}{}
+\subsubsection{saltos.core.uniqid}
+
+\begin{lstlisting}
+test('saltos.core.uniqid', ()
+\end{lstlisting}
+
+This function performs the tests of the uniqid function
+
+\hypertarget{toc493}{}
+\subsubsection{saltos.core.when\_visible}
+
+\begin{lstlisting}
+describe('when_visible', ()
+\end{lstlisting}
+
+This function performs the tests of the when\_visible function
+
+\hypertarget{toc494}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeEach(()
+\end{lstlisting}
+
+\hypertarget{toc495}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+afterEach(()
+\end{lstlisting}
+
+\hypertarget{toc496}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('executes the callback when the object becomes visible', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc497}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('works setting the id as test-div', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc498}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('works with an string id instead of an object', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc499}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('throws an error for unsupported obj type', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc500}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('append the object after some iterations', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc501}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('throws an error if the object disappears before being visible', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc502}{}
+\subsubsection{saltos.core.get\_keycode}
+
+\begin{lstlisting}
+test('saltos.core.get_keycode', ()
+\end{lstlisting}
+
+This function performs the tests of the get\_keycode function
+
+\hypertarget{toc503}{}
+\subsubsection{saltos.core.get\_keyname}
+
+\begin{lstlisting}
+test('saltos.core.get_keyname', ()
+\end{lstlisting}
+
+This function performs the tests of the get\_keyname function
+
+\hypertarget{toc504}{}
+\subsubsection{saltos.core.html}
+
+\begin{lstlisting}
+describe('saltos.core.html', ()
+\end{lstlisting}
+
+This function performs the tests of the html function
+
+\hypertarget{toc505}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('creates a div with inner HTML when only one argument is passed', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc506}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('creates the specified element with inner HTML when two arguments are passed', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc507}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('trims the inner HTML before setting it', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc508}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('does not optimize if there are multiple children', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc509}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('optimizes and returns the single child if present', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc510}{}
+\subsubsection{saltos.core.ajax}
+
+\begin{lstlisting}
+describe('saltos.core.ajax', ()
+\end{lstlisting}
+
+This function performs the tests of the ajax function
+
+\hypertarget{toc511}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('makes a successful GET request and calls success callback', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc512}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('handles non-200 responses and calls error callback', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc513}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('makes a POST request with a body', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc514}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('calls abort callback when request is aborted', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc515}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('calls error callback on network failure', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc516}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('throws an error for unexpected failures', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc517}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('throws an error for unsupported HTTP method', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc518}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('handles XML response correctly', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc519}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('handles plain text response correctly', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc520}{}
+\subsubsection{saltos.core.fix\_key}
+
+\begin{lstlisting}
+test('saltos.core.fix_key', ()
+\end{lstlisting}
+
+This function performs the test of the fix\_key function
+
+\hypertarget{toc521}{}
+\subsubsection{saltos.core.copy\_object}
+
+\begin{lstlisting}
+test('saltos.core.copy_object', ()
+\end{lstlisting}
+
+This function performs the test of the copy\_object function
+
+\hypertarget{toc522}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('saltos.core.require', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc523}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeEach(()
+\end{lstlisting}
+
+\hypertarget{toc524}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+afterEach(()
+\end{lstlisting}
+
+\hypertarget{toc525}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('loads a JavaScript file successfully', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc526}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('loads a CSS file successfully', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc527}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('does not reload already loaded files', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc528}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('waits when file is already loading', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc529}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('loads a JavaScript module file successfully', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc530}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('loads a CSS file with hash successfully', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc531}{}
+\subsubsection{saltos.core.eval\_bool}
+
+\begin{lstlisting}
+test('saltos.core.eval_bool', ()
+\end{lstlisting}
+
+This function performs the test of the eval\_bool function
+
+\hypertarget{toc532}{}
+\subsubsection{saltos.core.toString}
+
+\begin{lstlisting}
+test('saltos.core.toString', ()
+\end{lstlisting}
+
+This function performs the test of the toString function
+
+\hypertarget{toc533}{}
+\subsubsection{saltos.core.is\_attr\_value}
+
+\begin{lstlisting}
+test('saltos.core.is_attr_value', ()
+\end{lstlisting}
+
+This function performs the test of the is\_attr\_value function
+
+\hypertarget{toc534}{}
+\subsubsection{saltos.core.join\_attr\_value}
+
+\begin{lstlisting}
+test('saltos.core.join_attr_value', ()
+\end{lstlisting}
+
+This function performs the test of the join\_attr\_value function
+
+\hypertarget{toc535}{}
+\subsubsection{saltos.core.encode\_bad\_chars}
+
+\begin{lstlisting}
+test('saltos.core.encode_bad_chars', ()
+\end{lstlisting}
+
+This function performs the test of the encode\_bad\_chars function
+
+\hypertarget{toc536}{}
+\subsubsection{saltos.core.\_\_get\_code\_from\_file\_and\_line}
+
+\begin{lstlisting}
+test('saltos.core.__get_code_from_file_and_line', ()
+\end{lstlisting}
+
+This function performs the test of the \_\_get\_code\_from\_file\_and\_line function
+
+\hypertarget{toc537}{}
+\subsubsection{saltos.core.timestamp}
+
+\begin{lstlisting}
+test('saltos.core.timestamp', ()
+\end{lstlisting}
+
+This function performs the test of the timestamp function
+
+\hypertarget{toc538}{}
+\subsubsection{saltos.core.human\_size}
+
+\begin{lstlisting}
+test('saltos.core.human_size', ()
+\end{lstlisting}
+
+This function performs the test of the human\_size function
+
+\hypertarget{toc539}{}
+\subsubsection{saltos.core.is\_number}
+
+\begin{lstlisting}
+test('saltos.core.is_number', ()
+\end{lstlisting}
+
+This function performs the test of the is\_number function
+
+\hypertarget{toc540}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('Core Module Tests', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc541}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Registers service worker if supported and on HTTPS', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc542}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Proxy function sends message to service worker', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc543}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Triggers proxy sync on online event', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc544}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Check network detects protocols correctly', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc545}{}
+\subsection{Bootstrap unit tests}
+
+\begin{lstlisting}
+test_customers.js
+\end{lstlisting}
+
+This file contains the bootstrap unit tests
+
+\hypertarget{toc546}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+const puppeteer = require('puppeteer');
+\end{lstlisting}
+
+\hypertarget{toc547}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+const timeout = {timeout: 3000};
+\end{lstlisting}
+
+\hypertarget{toc548}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+let browser;
+\end{lstlisting}
+
+\hypertarget{toc549}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeAll(async ()
+\end{lstlisting}
+
+\hypertarget{toc550}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+afterAll(async ()
+\end{lstlisting}
+
+\hypertarget{toc551}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+let testFailed = false;
+\end{lstlisting}
+
+\hypertarget{toc552}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeEach(()
+\end{lstlisting}
+
+\hypertarget{toc553}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+afterEach(()
+\end{lstlisting}
+
+\hypertarget{toc554}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('App Customers', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc555}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action List', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc556}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action More', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc557}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Reset', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc558}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Create', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc559}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Cancel', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc560}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action View', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc561}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Close', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc562}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Edit', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc563}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Go Back', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc564}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Insert', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc565}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Update', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc566}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Delete', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc567}{}
+\subsection{Bootstrap unit tests}
+
+\begin{lstlisting}
+test_emails.js
+\end{lstlisting}
+
+This file contains the bootstrap unit tests
+
+\hypertarget{toc568}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+const puppeteer = require('puppeteer');
+\end{lstlisting}
+
+\hypertarget{toc569}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+const timeout = {timeout: 3000};
+\end{lstlisting}
+
+\hypertarget{toc570}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+let browser;
+\end{lstlisting}
+
+\hypertarget{toc571}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeAll(async ()
+\end{lstlisting}
+
+\hypertarget{toc572}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+afterAll(async ()
+\end{lstlisting}
+
+\hypertarget{toc573}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+let testFailed = false;
+\end{lstlisting}
+
+\hypertarget{toc574}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeEach(()
+\end{lstlisting}
+
+\hypertarget{toc575}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+afterEach(()
+\end{lstlisting}
+
+\hypertarget{toc576}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('App Emails', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc577}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action List', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc578}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Control F', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc579}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Profile', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc580}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Help', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc581}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Filter', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc582}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Create', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc583}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action View', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc584}{}
+\subsection{Window unit tests}
+
+\begin{lstlisting}
+test_filter.js
+\end{lstlisting}
+
+This file contains the window unit tests
+
+\hypertarget{toc585}{}
+\subsubsection{Load all needed files of the project}
+
+\begin{lstlisting}
+const files = `app,backup,core,driver,filter,form,gettext,hash,storage,token`.split(',');
+\end{lstlisting}
+
+\hypertarget{toc586}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeEach(()
+\end{lstlisting}
+
+\hypertarget{toc587}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+afterEach(()
+\end{lstlisting}
+
+\hypertarget{toc588}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('saltos.filter.init()', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc589}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeEach(()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc590}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should initialize filter cache', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc591}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should not make ajax call if cache is already populated', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc592}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('saltos.filter.load()', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc593}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should load filter data and trigger search', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc594}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should only trigger search if filter not found', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc595}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('saltos.filter.update()', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc596}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should update filter cache', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc597}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('saltos.filter.save()', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc598}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should save new filter to cache and server', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc599}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should update existing filter if data changed', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc600}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should not make server call if data unchanged', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc601}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should delete filter when data is null', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc602}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should not delete non-existent filter', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc603}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('saltos.filter.button()', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc604}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeEach(()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc605}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should handle load action', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc606}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should handle update action', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc607}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should handle delete action', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc608}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should handle create action', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc609}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should handle rename action', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc610}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should do nothing for invalid actions', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc611}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('saltos.filter.select()', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc612}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeEach(()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc613}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should update select options and jstree', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc614}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should handle missing form elements gracefully', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc615}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should handle missing select elements gracefully', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc616}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should handle missing form elements gracefully', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc617}{}
+\subsection{Core unit tests}
+
+\begin{lstlisting}
+test_gettext.js
+\end{lstlisting}
+
+This file contains the core unit tests
+
+\hypertarget{toc618}{}
+\subsubsection{Load all needed files of the project}
+
+\begin{lstlisting}
+const files = `bootstrap,core,gettext,storage`.split(',');
+\end{lstlisting}
+
+\hypertarget{toc619}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeEach(()
+\end{lstlisting}
+
+\hypertarget{toc620}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+afterEach(()
+\end{lstlisting}
+
+\hypertarget{toc621}{}
+\subsubsection{saltos.gettext.bootstrap.set/get/get\_short/unset}
+
+\begin{lstlisting}
+test('saltos.gettext.set/get/get_short/unset', ()
+\end{lstlisting}
+
+This function performs the tests of the set/get/get\_short and unset functions
+
+\hypertarget{toc622}{}
+\subsubsection{saltos.gettext.bootstrap.field}
+
+\begin{lstlisting}
+test('saltos.gettext.bootstrap.field', ()
+\end{lstlisting}
+
+This function performs the tests of the field function
+
+\hypertarget{toc623}{}
+\subsubsection{saltos.gettext.bootstrap.modal}
+
+\begin{lstlisting}
+test('saltos.gettext.bootstrap.modal', ()
+\end{lstlisting}
+
+This function performs the tests of the modal function
+
+\hypertarget{toc624}{}
+\subsubsection{saltos.gettext.bootstrap.toast}
+
+\begin{lstlisting}
+test('saltos.gettext.bootstrap.toast', ()
+\end{lstlisting}
+
+This function performs the tests of the toast function
+
+\hypertarget{toc625}{}
+\subsubsection{saltos.gettext.bootstrap.menu}
+
+\begin{lstlisting}
+test('saltos.gettext.bootstrap.menu', ()
+\end{lstlisting}
+
+This function performs the tests of the menu function
+
+\hypertarget{toc626}{}
+\subsubsection{saltos.gettext.bootstrap.offcanvas}
+
+\begin{lstlisting}
+test('saltos.gettext.bootstrap.offcanvas', ()
+\end{lstlisting}
+
+This function performs the tests of the offcanvas function
+
+\hypertarget{toc627}{}
+\subsection{Hash unit tests}
+
+\begin{lstlisting}
+test_hash.js
+\end{lstlisting}
+
+This file contains the hash unit tests
+
+\hypertarget{toc628}{}
+\subsubsection{Load all needed files of the project}
+
+\begin{lstlisting}
+const files = `hash`.split(',');
+\end{lstlisting}
+
+\hypertarget{toc629}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeEach(()
+\end{lstlisting}
+
+\hypertarget{toc630}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+afterEach(()
+\end{lstlisting}
+
+\hypertarget{toc631}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('saltos.hash.__helper', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc632}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should remove leading #', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc633}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should remove leading /', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc634}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should remove both leading # and /', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc635}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should return empty string for empty input', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc636}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should not modify clean hash', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc637}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('saltos.hash.get', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc638}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should return current hash without #', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc639}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should return empty string when no hash', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc640}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should remove leading /', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc641}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('saltos.hash.set', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc642}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should set new hash with proper format', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc643}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should not set same hash', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc644}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should handle hash with #', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc645}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should handle hash with /', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc646}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should handle empty hash', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc647}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('saltos.hash.add', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc648}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should add new hash with proper format', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc649}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should not add same hash', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc650}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should handle hash with #', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc651}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should handle hash with /', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc652}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should handle empty hash', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc653}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('saltos.hash.url2hash', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc654}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should extract hash from URL', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc655}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should handle URL with / after #', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc656}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should return empty string when no hash', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc657}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('saltos.hash.trigger', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc658}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should dispatch hashchange event', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc659}{}
+\subsection{Bootstrap unit tests}
+
+\begin{lstlisting}
+test_invoices.js
+\end{lstlisting}
+
+This file contains the bootstrap unit tests
+
+\hypertarget{toc660}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+const puppeteer = require('puppeteer');
+\end{lstlisting}
+
+\hypertarget{toc661}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+const timeout = {timeout: 3000};
+\end{lstlisting}
+
+\hypertarget{toc662}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+let browser;
+\end{lstlisting}
+
+\hypertarget{toc663}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeAll(async ()
+\end{lstlisting}
+
+\hypertarget{toc664}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+afterAll(async ()
+\end{lstlisting}
+
+\hypertarget{toc665}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+let testFailed = false;
+\end{lstlisting}
+
+\hypertarget{toc666}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeEach(()
+\end{lstlisting}
+
+\hypertarget{toc667}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+afterEach(()
+\end{lstlisting}
+
+\hypertarget{toc668}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('App Invoices', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc669}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action List', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc670}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Checkbox', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc671}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Create', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc672}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action View', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc673}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Edit', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc674}{}
+\subsection{Proxy unit tests}
+
+\begin{lstlisting}
+test_proxy.js
+\end{lstlisting}
+
+This file contains the proxy unit tests
+
+\hypertarget{toc675}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeEach(()
+\end{lstlisting}
+
+\hypertarget{toc676}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+afterEach(()
+\end{lstlisting}
+
+\hypertarget{toc677}{}
+\subsubsection{Load the needed environment of the proxy part}
+
+\begin{lstlisting}
+Object.assign(global, myrequire(
+\end{lstlisting}
+
+\hypertarget{toc678}{}
+\subsubsection{md5}
+
+\begin{lstlisting}
+test('md5', ()
+\end{lstlisting}
+
+This function performs the test of the md5 function
+
+\hypertarget{toc679}{}
+\subsubsection{human\_size}
+
+\begin{lstlisting}
+test('human_size', ()
+\end{lstlisting}
+
+This function performs the test of the human\_size function
+
+\hypertarget{toc680}{}
+\subsection{Push unit tests}
+
+\begin{lstlisting}
+test_push.js
+\end{lstlisting}
+
+This file contains the push unit tests
+
+\hypertarget{toc681}{}
+\subsubsection{Load all needed files of the project}
+
+\begin{lstlisting}
+const files = `app,bootstrap,core,gettext,push,storage,token`.split(',');
+\end{lstlisting}
+
+\hypertarget{toc682}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeEach(()
+\end{lstlisting}
+
+\hypertarget{toc683}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+afterEach(()
+\end{lstlisting}
+
+\hypertarget{toc684}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('saltos.push.fn', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc685}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeEach(()
+\end{lstlisting}
+
+\hypertarget{toc686}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should return early if executing is true', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc687}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should return early if token is not available', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc688}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should return early if navigator is offline', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc689}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should return early if count is greater than or equal to 0', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc690}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should call ajax and handle success response', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc691}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should handle error response', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc692}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('saltos.favicon.fn', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc693}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should start interval if bool is true and executing is false', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc694}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should clear interval if bool is false and executing is true', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc695}{}
+\subsection{Storage unit tests}
+
+\begin{lstlisting}
+test_storage.js
+\end{lstlisting}
+
+This file contains the storage unit tests
+
+\hypertarget{toc696}{}
+\subsubsection{Load all needed files of the project}
+
+\begin{lstlisting}
+const files = `core,storage`.split(',');
+\end{lstlisting}
+
+\hypertarget{toc697}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeEach(()
+\end{lstlisting}
+
+\hypertarget{toc698}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+afterEach(()
+\end{lstlisting}
+
+\hypertarget{toc699}{}
+\subsubsection{saltos.storage}
+
+\begin{lstlisting}
+test('saltos.storage', ()
+\end{lstlisting}
+
+This function performs the test of the storage functions
+
+\hypertarget{toc700}{}
+\subsection{Bootstrap unit tests}
+
+\begin{lstlisting}
+test_tester.js
+\end{lstlisting}
+
+This file contains the bootstrap unit tests
+
+\hypertarget{toc701}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+const puppeteer = require('puppeteer');
+\end{lstlisting}
+
+\hypertarget{toc702}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+const timeout = {timeout: 3000};
+\end{lstlisting}
+
+\hypertarget{toc703}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+let browser;
+\end{lstlisting}
+
+\hypertarget{toc704}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeAll(async ()
+\end{lstlisting}
+
+\hypertarget{toc705}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+afterAll(async ()
+\end{lstlisting}
+
+\hypertarget{toc706}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+let testFailed = false;
+\end{lstlisting}
+
+\hypertarget{toc707}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeEach(()
+\end{lstlisting}
+
+\hypertarget{toc708}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+afterEach(()
+\end{lstlisting}
+
+\hypertarget{toc709}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('App Tester', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc710}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Init', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc711}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Disabled', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc712}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('Action Enabled', async ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc713}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+const bs_themes = ['light', 'dark', 'auto'];
+\end{lstlisting}
+
+\hypertarget{toc714}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test.each(bs_themes)('Action Bs Theme %s', async theme
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc715}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+const css_themes = ['default', 'cerulean', 'cyborg', 'darkly', 'flatly', 'journal', 'litera', 'lumen',
+\end{lstlisting}
+
+\hypertarget{toc716}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test.each(css_themes)('Action Css Theme %s', async theme
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc717}{}
+\subsection{Token unit tests}
+
+\begin{lstlisting}
+test_token.js
+\end{lstlisting}
+
+This file contains the token unit tests
+
+\hypertarget{toc718}{}
+\subsubsection{Load all needed files of the project}
+
+\begin{lstlisting}
+const files = `core,storage,token`.split(',');
+\end{lstlisting}
+
+\hypertarget{toc719}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeEach(()
+\end{lstlisting}
+
+\hypertarget{toc720}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+afterEach(()
+\end{lstlisting}
+
+\hypertarget{toc721}{}
+\subsubsection{saltos.token}
+
+\begin{lstlisting}
+test('saltos.token', ()
+\end{lstlisting}
+
+This function performs the test of the token functions
+
+\hypertarget{toc722}{}
+\subsection{Window unit tests}
+
+\begin{lstlisting}
+test_window.js
+\end{lstlisting}
+
+This file contains the window unit tests
+
+\hypertarget{toc723}{}
+\subsubsection{Load all needed files of the project}
+
+\begin{lstlisting}
+const files = `core,storage,window`.split(',');
+\end{lstlisting}
+
+\hypertarget{toc724}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeEach(()
+\end{lstlisting}
+
+\hypertarget{toc725}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+afterEach(()
+\end{lstlisting}
+
+\hypertarget{toc726}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('saltos.window.open/close', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc727}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+beforeEach(()
+\end{lstlisting}
+
+\hypertarget{toc728}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should call window.open with the app prefix', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc729}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should call window.open with the http prefix', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc730}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should call window.open with the https prefix', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc731}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should throw an error when call window.open with non supported protocol', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc732}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('should call window.close', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc733}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+describe('saltos.window.listeners', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc734}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('set_listener should add a listener for a specific event', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc735}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('unset_listener should remove a listener for a specific event', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc736}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('send should trigger the listener in the same tab when scope is "me"', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc737}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('send should trigger the listener in other tabs when scope is "other"', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc738}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('send should trigger the listener in all tabs when scope is "all"', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc739}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('storage event listener should not trigger if the event is not from localStorage', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc740}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('storage event listener should not trigger if the key does not match', ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc741}{}
+\subsubsection{TODO}
+
+\begin{lstlisting}
+test('storage event listener should not trigger if the event name is not in listeners', ()
+\end{lstlisting}
+
+TODO
 
 % LaTeX2e code generated by txt2tags 3.4 (http://txt2tags.org)
 % cmdline: txt2tags --toc -t tex -i utest.t2t -o utest.tex

@@ -1,9 +1,7 @@
 
 /**
  * @jest-environment node
- */
-
-/**
+ *
  *  ____        _ _    ___  ____    _  _    ___
  * / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
  * \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -31,9 +29,9 @@
 'use strict';
 
 /**
- * Bootstrap unit tests
+ * Apps unit tests
  *
- * This file contains the bootstrap unit tests
+ * This file contains the apps unit tests
  */
 
 /**

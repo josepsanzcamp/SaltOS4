@@ -1,10 +1,348 @@
 Applications Documentation
-SaltOS 4.0 r1681
-January 2025
+SaltOS 4.0 r1923
+March 2025
 
+
+
++Certs+
+
+++TODO++
+
+```
+apps/certs/php/certs.php
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __certs_list($search, $offset, $limit)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __certs_insert($json)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __certs_hash2nick($hash)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __certs_check($hash)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __certs_view($hash)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __certs_delete($hash)
+```
+
+TODO
+
+
+++Directory helper++
+
+```
+apps/certs/php/nssdb.php
+```
+
+This function returns the nssdb directory used by all functions
+
+
++++Passthru helper+++
+
+```
+function __nssdb_passthru_helper($cmd)
+```
+
+This function uses the ob_passthru and improve the output
+
+- @cmd => command line to be executed
+
+
++++Init nssdb repo+++
+
+```
+function __nssdb_init()
+```
+
+This function tries to initialize the nssdb component with an empty repo
+
+
++++Create certificate+++
+
+```
+function __nssdb_create($outfile, $outpass, $subject = '', $name = '')
+```
+
+This function create a dummy self signed certificate intended to be used in
+test cases
+
+$outfile => the p12 file
+$outpass => the password used by the p12 file
+
+
++++Add certificate+++
+
+```
+function __nssdb_add($file, $pass)
+```
+
+This function adds the p12 file that must contains a valid certificate to the
+nssdb repo using the pass if needed
+
+- @file => the p12 file
+- @pass => the p12 password
+
+
++++List certificates+++
+
+```
+function __nssdb_list()
+```
+
+This function returns the list of valid nicks that you can use with pdfsig
+
+
++++Info of a certificate+++
+
+```
+function __nssdb_info($nick, $shortnames = false)
+```
+
+This function returns the info of the nick certificate of the nssdb repo
+
+- @nick => the desired nick used to retrieve info
+
+
++++Pdf signature+++
+
+```
+function __nssdb_pdfsig($nick, $input, $output)
+```
+
+This function uses the pdfsig to add the signature to the pdf using the nick
+certificate of the nssdb repo
+
+- @nick   => the desired nick used to sign de pdf
+- @input  => the desired input file that you want to sign
+- @output => the signed pdf file
+
+
++++Remove certificate+++
+
+```
+function __nssdb_remove($nick)
+```
+
+This function remove the certificate from the nssdb repo indentified by nick
+
+- @nick => the desired nick that you want to remove
+
+
++++Reset nssdb repo+++
+
+```
+function __nssdb_reset()
+```
+
+This function removes the nssdb repo, is the inverted of the init function
+
+
++++Update pdf+++
+
+```
+function __nssdb_update($nick, $input)
+```
+
+This function creates a new pdf document using input as source and adding to
+each page a new box with the important information about the certificate used
+in the signature process
+
+- @nick  => the desired nick used to sign de pdf
+- @input => the desired input pdf file where you want to add the cert info
 
 
 +Common+
+
+++profile application++
+
+```
+apps/common/js/profile.js
+```
+
+This application implements the tipical features associated to profile
+
+
++++Main object+++
+
+```
+saltos.profile = {};
+```
+
+This object contains all SaltOS code
+
+
++++TODO+++
+
+```
+saltos.profile.init = arg
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.profile.authupdate = ()
+```
+
+TODO
+
+
+++TODO++
+
+```
+apps/common/php/actions.php
+```
+
+TODO
+
+
++++Merge data actions+++
+
+```
+function __merge_data_actions($data, $actions)
+```
+
+This function merge the rows of a table or list with the specified actions
+
+- @data    => the data of the table or list widget
+- @actions => the desired actions to use in the table or list widget
+
+
+++Apps helper module++
+
+```
+apps/common/php/default.php
+```
+
+This file contains functions intended to be used as hepers of other functions,
+allowing to convert between formats like yaml to xml using a small specification
+
+
++++Make app file+++
+
+```
+function make_app_file($data)
+```
+
+This function returns the xml of an app using the follow specs passed in @data:
+
+- @require   => this field defines the required php that contains the make_app_file
+              function like this file
+- @_template => the xml app file used as template, this file contains the default
+              specification of the app used in the quick apps defined in the yaml
+- @screen    => the screen used by the template
+- @list      => the list of fields used in the list screen, this must be a list of
+              arrays with 3 elements: id, type and label, types can be as follow:
+              -text    => default field with text
+              -select  => this field resolves the text from a table and field, see
+                          the @select spec
+              -boolean => this field uses an icon with V o X in green or red to
+                          see the value of the field (generaly 1 or 0)
+              -hastext => this field is similar to boolean but the true or false
+                          is detedmined using the contents of the text, no text is
+                          false and some text is true
+- @form      => the list of fields used in the form screen, this must be a list of
+              arrays with 3 elements: id, type and label, types can be as follow:
+              - text, date, time, datetime, checkbox, switch => default widget
+              - textarea, ckeditor, codemirror => widget with 10em of height
+              - select => widget that uses the select spec to resolve the contents
+- @select    => this spec is intended to defined the selects used in the list and
+              forms, requires an array of 3 elements: id, table and field, if the
+              last field is not specified, saltos tries to resolve it using the
+              manifest information (internally use the table2field feature)
+- @attr      => this part contain an array with extra features added to the forms
+              widgets, the spec requires to use a named array that defines the
+              id of the field and each array entry must to be another pair of
+              key and val with the name of the property and the value of it
+
+
+++TODO++
+
+```
+apps/common/php/files.php
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __files_list($search, $offset, $limit)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __files_getfile($file)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __files_check($file)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __files_view($file)
+```
+
+TODO
+
 
 ++Matrix functions++
 
@@ -19,6 +357,15 @@ This file contain all functions needed by the excel widget
 
 ```
 function make_matrix_version($app, $id)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function make_matrix_log($app, $id)
 ```
 
 TODO
@@ -53,10 +400,28 @@ saltos.dashboard.init = arg
 TODO
 
 
+++Dashboard widgets application++
+
+```
+apps/dashboard/js/dashboard_widgets.js
+```
+
+This application implements the tipical features associated to dashboard
+
+
++++Main object+++
+
+```
+saltos.dashboard_widgets = {};
+```
+
+This object contains all SaltOS code
+
+
 +++TODO+++
 
 ```
-saltos.dashboard.authupdate = ()
+saltos.dashboard_widgets.init = arg
 ```
 
 TODO
@@ -184,7 +549,7 @@ TODO
 +++TODO+++
 
 ```
-saltos.emails.viewpdf = ()
+saltos.emails.viewpdf1 = ()
 ```
 
 TODO
@@ -193,7 +558,61 @@ TODO
 +++TODO+++
 
 ```
-saltos.emails.download = ()
+saltos.emails.download1 = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.emails.source = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.emails.viewpdf2 = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.emails.download2 = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.emails.reply = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.emails.replyall = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.emails.forward = ()
 ```
 
 TODO
@@ -306,16 +725,31 @@ message identified by the id argument
 - @id => id of the email
 
 
++++Get GZ File+++
+
+```
+function __getmail_gzfile($id)
+```
+
+This function returns the file that contains the email
+
+- @id => id of the email
+
+
 +++Get source+++
 
 ```
-function __getmail_getsource($id, $max = 0)
+function __getmail_getsource($id)
 ```
 
 This function returns the original RFC822 message as string
 
-- @id  => id of the email
-- @max => max size that can be processed
+- @id => id of the email
+
+
+Notes:
+
+This function returns the email source without the base64 attachments
 
 
 +++Mime decode protected+++
@@ -389,17 +823,6 @@ This function returns an array with the attachment files of the message
 
 - @array => the decoded message in an array format
 - @level => this parameter is internally used to detect recursion
-
-
-+++Get human size+++
-
-```
-function __getmail_gethumansize($size)
-```
-
-This function returns an string containing the size in human format
-
-- @size => the number of bytes to convert to human format
 
 
 +++Get info+++
@@ -671,6 +1094,191 @@ function __iframe_srcdoc_helper($html)
 TODO
 
 
+++Html helper module++
+
+```
+apps/emails/php/html.php
+```
+
+This file contain useful html helper functions
+
+
++++Defines section+++
+
+```
+define('__GIF_IMAGE__', 'data:image/gif;base64,R0lGODlhCgABAIABAOns7////ywAAAAACgABAAACA4SPBQA7');
+```
+
+This defines allow to define some useful needed resources by this file.
+
+
++++Remove Script Tag+++
+
+```
+function remove_script_tag($html)
+```
+
+This function tries to remove all <script> tags of the string
+
+- @temp => the string that you want to process
+
+
++++Remove Style Tag+++
+
+```
+function remove_style_tag($html)
+```
+
+This function tries to remove all <style> tags of the string
+
+- @temp => the string that you want to process
+
+
++++Remove Comment Tag+++
+
+```
+function remove_comment_tag($html)
+```
+
+This function tries to remove all <!-- --> tags of the string
+
+- @temp => the string that you want to process
+
+
++++Remove Meta Tag+++
+
+```
+function remove_meta_tag($html)
+```
+
+This function tries to remove all <meta > tags of the string
+
+- @temp => the string that you want to process
+
+
++++Remove Link Tag+++
+
+```
+function remove_link_tag($html)
+```
+
+This function tries to remove all <link > tags of the string
+
+- @temp => the string that you want to process
+
+
++++Inline Img Tag+++
+
+```
+function inline_img_tag($html)
+```
+
+This function tries to convert all imgs to an inline imgs
+
+- @temp => the string that you want to process
+
+
++++Inline Img Style+++
+
+```
+function inline_img_style($html)
+```
+
+This function tries to convert all imgs to an inline imgs
+
+- @temp => the string that you want to process
+
+
++++Inline Img Background+++
+
+```
+function inline_img_background($html)
+```
+
+This function tries to convert all imgs to an inline imgs
+
+- @temp => the string that you want to process
+
+
++++TODO+++
+
+```
+function __inline_img_helper($src)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function extract_img_tag($html)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function extract_img_style($html)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function extract_img_background($html)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function fix_img_tag($html)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function fix_img_style($html)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function fix_img_background($html)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function fix_file_b64($html)
+```
+
+TODO
+
+Notes:
+
+We are using {48} to force to search a base64 data of 48 of bytes, where decoded
+must to be a 36 bytes string, this match with the cache style file like a md5 hash
+of 32 bytes with 4 bytes more by the extension file (.b64)
+
+
+
 ++Make indexing action++
 
 ```
@@ -714,6 +1322,10 @@ $to         => can be an string with the destination email or an array with
 $subject    => the subject string
 $body       => the body string
 $files      => an array with files
+
+Notes:
+
+This function must return the last_id if success, and a string if error
 
 
 +++Debugoutput helper+++
@@ -960,7 +1572,7 @@ TODO
 +++Campo 22+++
 
 ```
-saltos.tester.campo22 = ()
+saltos.tester.campo23 = ()
 ```
 
 TODO

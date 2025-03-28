@@ -25,8 +25,8 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <header>
 <hgroup>
 <h1>Applications Documentation</h1>
-<h2>SaltOS 4.0 r1681</h2>
-<h3>January 2025</h3>
+<h2>SaltOS 4.0 r1923</h2>
+<h3>March 2025</h3>
 </hgroup>
 </header>
 <article>
@@ -35,273 +35,409 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <div class="body" id="body">
 
   <ul>
-  <li><a href="#toc1">1. Common</a>
+  <li><a href="#toc1">1. Certs</a>
     <ul>
-    <li><a href="#toc2">1.1. Matrix functions</a>
+    <li><a href="#toc2">1.1. TODO</a>
       <ul>
       <li><a href="#toc3">1.1.1. TODO</a>
       </li>
-      </ul>
-    </li>
-    </ul>
-  </li>
-  <li><a href="#toc4">2. Dashboard</a>
-    <ul>
-    <li><a href="#toc5">2.1. Dashboard application</a>
-      <ul>
-      <li><a href="#toc6">2.1.1. Main object</a>
+      <li><a href="#toc4">1.1.2. TODO</a>
       </li>
-      <li><a href="#toc7">2.1.2. TODO</a>
+      <li><a href="#toc5">1.1.3. TODO</a>
       </li>
-      <li><a href="#toc8">2.1.3. TODO</a>
+      <li><a href="#toc6">1.1.4. TODO</a>
+      </li>
+      <li><a href="#toc7">1.1.5. TODO</a>
+      </li>
+      <li><a href="#toc8">1.1.6. TODO</a>
       </li>
       </ul>
     </li>
-    </ul>
-  </li>
-  <li><a href="#toc9">3. Emails</a>
-    <ul>
-    <li><a href="#toc10">3.1. Email application</a>
+    <li><a href="#toc9">1.2. Directory helper</a>
       <ul>
-      <li><a href="#toc11">3.1.1. Driver emails object</a>
+      <li><a href="#toc10">1.2.1. Passthru helper</a>
       </li>
-      <li><a href="#toc12">3.1.2. TODO</a>
+      <li><a href="#toc11">1.2.2. Init nssdb repo</a>
       </li>
-      <li><a href="#toc13">3.1.3. TODO</a>
+      <li><a href="#toc12">1.2.3. Create certificate</a>
       </li>
-      </ul>
-    </li>
-    <li><a href="#toc14">3.2. Email application</a>
-      <ul>
-      <li><a href="#toc15">3.2.1. Main object</a>
+      <li><a href="#toc13">1.2.4. Add certificate</a>
       </li>
-      <li><a href="#toc16">3.2.2. TODO</a>
+      <li><a href="#toc14">1.2.5. List certificates</a>
       </li>
-      <li><a href="#toc17">3.2.3. TODO</a>
+      <li><a href="#toc15">1.2.6. Info of a certificate</a>
       </li>
-      <li><a href="#toc18">3.2.4. TODO</a>
+      <li><a href="#toc16">1.2.7. Pdf signature</a>
       </li>
-      <li><a href="#toc19">3.2.5. TODO</a>
+      <li><a href="#toc17">1.2.8. Remove certificate</a>
       </li>
-      <li><a href="#toc20">3.2.6. TODO</a>
+      <li><a href="#toc18">1.2.9. Reset nssdb repo</a>
       </li>
-      <li><a href="#toc21">3.2.7. TODO</a>
-      </li>
-      <li><a href="#toc22">3.2.8. TODO</a>
-      </li>
-      <li><a href="#toc23">3.2.9. TODO</a>
-      </li>
-      <li><a href="#toc24">3.2.10. TODO</a>
-      </li>
-      </ul>
-    </li>
-    <li><a href="#toc25">3.3. TODO</a>
-      <ul>
-      <li><a href="#toc26">3.3.1. TODO</a>
-      </li>
-      </ul>
-    </li>
-    <li><a href="#toc27">3.4. Get email library</a>
-      <ul>
-      <li><a href="#toc28">3.4.1. Requires section</a>
-      </li>
-      <li><a href="#toc29">3.4.2. Defines section</a>
-      </li>
-      <li><a href="#toc30">3.4.3. Remove all body</a>
-      </li>
-      <li><a href="#toc31">3.4.4. Process message</a>
-      </li>
-      <li><a href="#toc32">3.4.5. Process plain html</a>
-      </li>
-      <li><a href="#toc33">3.4.6. Process file</a>
-      </li>
-      <li><a href="#toc34">3.4.7. Check permissions</a>
-      </li>
-      <li><a href="#toc35">3.4.8. Get source</a>
-      </li>
-      <li><a href="#toc36">3.4.9. Mime decode protected</a>
-      </li>
-      <li><a href="#toc37">3.4.10. Get mime</a>
-      </li>
-      <li><a href="#toc38">3.4.11. Get Node</a>
-      </li>
-      <li><a href="#toc39">3.4.12. Get type</a>
-      </li>
-      <li><a href="#toc40">3.4.13. Get disposition</a>
-      </li>
-      <li><a href="#toc41">3.4.14. Get files</a>
-      </li>
-      <li><a href="#toc42">3.4.15. Get human size</a>
-      </li>
-      <li><a href="#toc43">3.4.16. Get info</a>
-      </li>
-      <li><a href="#toc44">3.4.17. Fix string</a>
-      </li>
-      <li><a href="#toc45">3.4.18. Get text body</a>
-      </li>
-      <li><a href="#toc46">3.4.19. Get full body</a>
-      </li>
-      <li><a href="#toc47">3.4.20. Get cid</a>
-      </li>
-      <li><a href="#toc48">3.4.21. Insert</a>
-      </li>
-      <li><a href="#toc49">3.4.22. Update</a>
-      </li>
-      <li><a href="#toc50">3.4.23. Add bcc</a>
-      </li>
-      <li><a href="#toc51">3.4.24. Gzfile size</a>
-      </li>
-      <li><a href="#toc52">3.4.25. Get email body</a>
-      </li>
-      <li><a href="#toc53">3.4.26. TODO</a>
-      </li>
-      <li><a href="#toc54">3.4.27. TODO</a>
-      </li>
-      <li><a href="#toc55">3.4.28. Get email source</a>
-      </li>
-      <li><a href="#toc56">3.4.29. Get email files</a>
-      </li>
-      <li><a href="#toc57">3.4.30. Get cid</a>
-      </li>
-      <li><a href="#toc58">3.4.31. Is outbox</a>
-      </li>
-      <li><a href="#toc59">3.4.32. Server</a>
-      </li>
-      <li><a href="#toc60">3.4.33. Delete</a>
-      </li>
-      <li><a href="#toc61">3.4.34. Get viewpdf</a>
-      </li>
-      <li><a href="#toc62">3.4.35. Get download</a>
-      </li>
-      <li><a href="#toc63">3.4.36. TODO</a>
-      </li>
-      <li><a href="#toc64">3.4.37. TODO</a>
-      </li>
-      <li><a href="#toc65">3.4.38. TODO</a>
-      </li>
-      </ul>
-    </li>
-    <li><a href="#toc66">3.5. Make indexing action</a>
-    </li>
-    <li><a href="#toc67">3.6. Send email library</a>
-      <ul>
-      <li><a href="#toc68">3.6.1. Used libraries</a>
-      </li>
-      <li><a href="#toc69">3.6.2. Sendmail</a>
-      </li>
-      <li><a href="#toc70">3.6.3. Debugoutput helper</a>
-      </li>
-      <li><a href="#toc71">3.6.4. Parser</a>
-      </li>
-      <li><a href="#toc72">3.6.5. Message Id</a>
-      </li>
-      <li><a href="#toc73">3.6.6. Eml saver</a>
-      </li>
-      <li><a href="#toc74">3.6.7. Obj saver</a>
-      </li>
-      <li><a href="#toc75">3.6.8. TODO</a>
-      </li>
-      <li><a href="#toc76">3.6.9. TODO</a>
-      </li>
-      <li><a href="#toc77">3.6.10. TODO</a>
-      </li>
-      <li><a href="#toc78">3.6.11. TODO</a>
-      </li>
-      <li><a href="#toc79">3.6.12. TODO</a>
+      <li><a href="#toc19">1.2.10. Update pdf</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc80">4. Invoices</a>
+  <li><a href="#toc20">2. Common</a>
     <ul>
-    <li><a href="#toc81">4.1. invoices application</a>
+    <li><a href="#toc21">2.1. profile application</a>
       <ul>
-      <li><a href="#toc82">4.1.1. Main object</a>
+      <li><a href="#toc22">2.1.1. Main object</a>
       </li>
-      <li><a href="#toc83">4.1.2. TODO</a>
+      <li><a href="#toc23">2.1.2. TODO</a>
       </li>
-      <li><a href="#toc84">4.1.3. TODO</a>
+      <li><a href="#toc24">2.1.3. TODO</a>
       </li>
-      <li><a href="#toc85">4.1.4. TODO</a>
+      </ul>
+    </li>
+    <li><a href="#toc25">2.2. TODO</a>
+      <ul>
+      <li><a href="#toc26">2.2.1. Merge data actions</a>
       </li>
-      <li><a href="#toc86">4.1.5. TODO</a>
+      </ul>
+    </li>
+    <li><a href="#toc27">2.3. Apps helper module</a>
+      <ul>
+      <li><a href="#toc28">2.3.1. Make app file</a>
       </li>
-      <li><a href="#toc87">4.1.6. TODO</a>
+      </ul>
+    </li>
+    <li><a href="#toc29">2.4. TODO</a>
+      <ul>
+      <li><a href="#toc30">2.4.1. TODO</a>
       </li>
-      <li><a href="#toc88">4.1.7. TODO</a>
+      <li><a href="#toc31">2.4.2. TODO</a>
+      </li>
+      <li><a href="#toc32">2.4.3. TODO</a>
+      </li>
+      <li><a href="#toc33">2.4.4. TODO</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc34">2.5. Matrix functions</a>
+      <ul>
+      <li><a href="#toc35">2.5.1. TODO</a>
+      </li>
+      <li><a href="#toc36">2.5.2. TODO</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc89">5. Tester</a>
+  <li><a href="#toc37">3. Dashboard</a>
     <ul>
-    <li><a href="#toc90">5.1. Tester application</a>
+    <li><a href="#toc38">3.1. Dashboard application</a>
       <ul>
-      <li><a href="#toc91">5.1.1. Tester object</a>
+      <li><a href="#toc39">3.1.1. Main object</a>
       </li>
-      <li><a href="#toc92">5.1.2. Campo 8</a>
+      <li><a href="#toc40">3.1.2. TODO</a>
       </li>
-      <li><a href="#toc93">5.1.3. Campo 9</a>
+      </ul>
+    </li>
+    <li><a href="#toc41">3.2. Dashboard widgets application</a>
+      <ul>
+      <li><a href="#toc42">3.2.1. Main object</a>
       </li>
-      <li><a href="#toc94">5.1.4. Campo 10</a>
-      </li>
-      <li><a href="#toc95">5.1.5. Campo 11</a>
-      </li>
-      <li><a href="#toc96">5.1.6. Campo 22</a>
+      <li><a href="#toc43">3.2.2. TODO</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc97">6. Users</a>
+  <li><a href="#toc44">4. Emails</a>
     <ul>
-    <li><a href="#toc98">6.1. Login application</a>
+    <li><a href="#toc45">4.1. Email application</a>
       <ul>
-      <li><a href="#toc99">6.1.1. Main object</a>
+      <li><a href="#toc46">4.1.1. Driver emails object</a>
       </li>
-      <li><a href="#toc100">6.1.2. Authenticate login function</a>
+      <li><a href="#toc47">4.1.2. TODO</a>
+      </li>
+      <li><a href="#toc48">4.1.3. TODO</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc101">6.2. Days functions</a>
+    <li><a href="#toc49">4.2. Email application</a>
       <ul>
-      <li><a href="#toc102">6.2.1. Days to bin</a>
+      <li><a href="#toc50">4.2.1. Main object</a>
       </li>
-      <li><a href="#toc103">6.2.2. Bin to days</a>
+      <li><a href="#toc51">4.2.2. TODO</a>
       </li>
-      <li><a href="#toc104">6.2.3. Fix for days</a>
+      <li><a href="#toc52">4.2.3. TODO</a>
+      </li>
+      <li><a href="#toc53">4.2.4. TODO</a>
+      </li>
+      <li><a href="#toc54">4.2.5. TODO</a>
+      </li>
+      <li><a href="#toc55">4.2.6. TODO</a>
+      </li>
+      <li><a href="#toc56">4.2.7. TODO</a>
+      </li>
+      <li><a href="#toc57">4.2.8. TODO</a>
+      </li>
+      <li><a href="#toc58">4.2.9. TODO</a>
+      </li>
+      <li><a href="#toc59">4.2.10. TODO</a>
+      </li>
+      <li><a href="#toc60">4.2.11. TODO</a>
+      </li>
+      <li><a href="#toc61">4.2.12. TODO</a>
+      </li>
+      <li><a href="#toc62">4.2.13. TODO</a>
+      </li>
+      <li><a href="#toc63">4.2.14. TODO</a>
+      </li>
+      <li><a href="#toc64">4.2.15. TODO</a>
+      </li>
+      <li><a href="#toc65">4.2.16. TODO</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc105">6.3. Groups functions</a>
+    <li><a href="#toc66">4.3. TODO</a>
       <ul>
-      <li><a href="#toc106">6.3.1. Insert group action</a>
-      </li>
-      <li><a href="#toc107">6.3.2. Update group action</a>
-      </li>
-      <li><a href="#toc108">6.3.3. Delete group action</a>
+      <li><a href="#toc67">4.3.1. TODO</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc109">6.4. Matrix functions</a>
+    <li><a href="#toc68">4.4. Get email library</a>
       <ul>
-      <li><a href="#toc110">6.4.1. Make matrix</a>
+      <li><a href="#toc69">4.4.1. Requires section</a>
       </li>
-      <li><a href="#toc111">6.4.2. Make matrix</a>
+      <li><a href="#toc70">4.4.2. Defines section</a>
       </li>
-      <li><a href="#toc112">6.4.3. Make matrix</a>
+      <li><a href="#toc71">4.4.3. Remove all body</a>
+      </li>
+      <li><a href="#toc72">4.4.4. Process message</a>
+      </li>
+      <li><a href="#toc73">4.4.5. Process plain html</a>
+      </li>
+      <li><a href="#toc74">4.4.6. Process file</a>
+      </li>
+      <li><a href="#toc75">4.4.7. Check permissions</a>
+      </li>
+      <li><a href="#toc76">4.4.8. Get GZ File</a>
+      </li>
+      <li><a href="#toc77">4.4.9. Get source</a>
+      </li>
+      <li><a href="#toc78">4.4.10. Mime decode protected</a>
+      </li>
+      <li><a href="#toc79">4.4.11. Get mime</a>
+      </li>
+      <li><a href="#toc80">4.4.12. Get Node</a>
+      </li>
+      <li><a href="#toc81">4.4.13. Get type</a>
+      </li>
+      <li><a href="#toc82">4.4.14. Get disposition</a>
+      </li>
+      <li><a href="#toc83">4.4.15. Get files</a>
+      </li>
+      <li><a href="#toc84">4.4.16. Get info</a>
+      </li>
+      <li><a href="#toc85">4.4.17. Fix string</a>
+      </li>
+      <li><a href="#toc86">4.4.18. Get text body</a>
+      </li>
+      <li><a href="#toc87">4.4.19. Get full body</a>
+      </li>
+      <li><a href="#toc88">4.4.20. Get cid</a>
+      </li>
+      <li><a href="#toc89">4.4.21. Insert</a>
+      </li>
+      <li><a href="#toc90">4.4.22. Update</a>
+      </li>
+      <li><a href="#toc91">4.4.23. Add bcc</a>
+      </li>
+      <li><a href="#toc92">4.4.24. Gzfile size</a>
+      </li>
+      <li><a href="#toc93">4.4.25. Get email body</a>
+      </li>
+      <li><a href="#toc94">4.4.26. TODO</a>
+      </li>
+      <li><a href="#toc95">4.4.27. TODO</a>
+      </li>
+      <li><a href="#toc96">4.4.28. Get email source</a>
+      </li>
+      <li><a href="#toc97">4.4.29. Get email files</a>
+      </li>
+      <li><a href="#toc98">4.4.30. Get cid</a>
+      </li>
+      <li><a href="#toc99">4.4.31. Is outbox</a>
+      </li>
+      <li><a href="#toc100">4.4.32. Server</a>
+      </li>
+      <li><a href="#toc101">4.4.33. Delete</a>
+      </li>
+      <li><a href="#toc102">4.4.34. Get viewpdf</a>
+      </li>
+      <li><a href="#toc103">4.4.35. Get download</a>
+      </li>
+      <li><a href="#toc104">4.4.36. TODO</a>
+      </li>
+      <li><a href="#toc105">4.4.37. TODO</a>
+      </li>
+      <li><a href="#toc106">4.4.38. TODO</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc113">6.5. Users functions</a>
+    <li><a href="#toc107">4.5. Html helper module</a>
       <ul>
-      <li><a href="#toc114">6.5.1. Insert user action</a>
+      <li><a href="#toc108">4.5.1. Defines section</a>
       </li>
-      <li><a href="#toc115">6.5.2. Update user action</a>
+      <li><a href="#toc109">4.5.2. Remove Script Tag</a>
       </li>
-      <li><a href="#toc116">6.5.3. Delete user action</a>
+      <li><a href="#toc110">4.5.3. Remove Style Tag</a>
+      </li>
+      <li><a href="#toc111">4.5.4. Remove Comment Tag</a>
+      </li>
+      <li><a href="#toc112">4.5.5. Remove Meta Tag</a>
+      </li>
+      <li><a href="#toc113">4.5.6. Remove Link Tag</a>
+      </li>
+      <li><a href="#toc114">4.5.7. Inline Img Tag</a>
+      </li>
+      <li><a href="#toc115">4.5.8. Inline Img Style</a>
+      </li>
+      <li><a href="#toc116">4.5.9. Inline Img Background</a>
+      </li>
+      <li><a href="#toc117">4.5.10. TODO</a>
+      </li>
+      <li><a href="#toc118">4.5.11. TODO</a>
+      </li>
+      <li><a href="#toc119">4.5.12. TODO</a>
+      </li>
+      <li><a href="#toc120">4.5.13. TODO</a>
+      </li>
+      <li><a href="#toc121">4.5.14. TODO</a>
+      </li>
+      <li><a href="#toc122">4.5.15. TODO</a>
+      </li>
+      <li><a href="#toc123">4.5.16. TODO</a>
+      </li>
+      <li><a href="#toc124">4.5.17. TODO</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc125">4.6. Make indexing action</a>
+    </li>
+    <li><a href="#toc126">4.7. Send email library</a>
+      <ul>
+      <li><a href="#toc127">4.7.1. Used libraries</a>
+      </li>
+      <li><a href="#toc128">4.7.2. Sendmail</a>
+      </li>
+      <li><a href="#toc129">4.7.3. Debugoutput helper</a>
+      </li>
+      <li><a href="#toc130">4.7.4. Parser</a>
+      </li>
+      <li><a href="#toc131">4.7.5. Message Id</a>
+      </li>
+      <li><a href="#toc132">4.7.6. Eml saver</a>
+      </li>
+      <li><a href="#toc133">4.7.7. Obj saver</a>
+      </li>
+      <li><a href="#toc134">4.7.8. TODO</a>
+      </li>
+      <li><a href="#toc135">4.7.9. TODO</a>
+      </li>
+      <li><a href="#toc136">4.7.10. TODO</a>
+      </li>
+      <li><a href="#toc137">4.7.11. TODO</a>
+      </li>
+      <li><a href="#toc138">4.7.12. TODO</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc139">5. Invoices</a>
+    <ul>
+    <li><a href="#toc140">5.1. invoices application</a>
+      <ul>
+      <li><a href="#toc141">5.1.1. Main object</a>
+      </li>
+      <li><a href="#toc142">5.1.2. TODO</a>
+      </li>
+      <li><a href="#toc143">5.1.3. TODO</a>
+      </li>
+      <li><a href="#toc144">5.1.4. TODO</a>
+      </li>
+      <li><a href="#toc145">5.1.5. TODO</a>
+      </li>
+      <li><a href="#toc146">5.1.6. TODO</a>
+      </li>
+      <li><a href="#toc147">5.1.7. TODO</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc148">6. Tester</a>
+    <ul>
+    <li><a href="#toc149">6.1. Tester application</a>
+      <ul>
+      <li><a href="#toc150">6.1.1. Tester object</a>
+      </li>
+      <li><a href="#toc151">6.1.2. Campo 8</a>
+      </li>
+      <li><a href="#toc152">6.1.3. Campo 9</a>
+      </li>
+      <li><a href="#toc153">6.1.4. Campo 10</a>
+      </li>
+      <li><a href="#toc154">6.1.5. Campo 11</a>
+      </li>
+      <li><a href="#toc155">6.1.6. Campo 22</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc156">7. Users</a>
+    <ul>
+    <li><a href="#toc157">7.1. Login application</a>
+      <ul>
+      <li><a href="#toc158">7.1.1. Main object</a>
+      </li>
+      <li><a href="#toc159">7.1.2. Authenticate login function</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc160">7.2. Days functions</a>
+      <ul>
+      <li><a href="#toc161">7.2.1. Days to bin</a>
+      </li>
+      <li><a href="#toc162">7.2.2. Bin to days</a>
+      </li>
+      <li><a href="#toc163">7.2.3. Fix for days</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc164">7.3. Groups functions</a>
+      <ul>
+      <li><a href="#toc165">7.3.1. Insert group action</a>
+      </li>
+      <li><a href="#toc166">7.3.2. Update group action</a>
+      </li>
+      <li><a href="#toc167">7.3.3. Delete group action</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc168">7.4. Matrix functions</a>
+      <ul>
+      <li><a href="#toc169">7.4.1. Make matrix</a>
+      </li>
+      <li><a href="#toc170">7.4.2. Make matrix</a>
+      </li>
+      <li><a href="#toc171">7.4.3. Make matrix</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc172">7.5. Users functions</a>
+      <ul>
+      <li><a href="#toc173">7.5.1. Insert user action</a>
+      </li>
+      <li><a href="#toc174">7.5.2. Update user action</a>
+      </li>
+      <li><a href="#toc175">7.5.3. Delete user action</a>
       </li>
       </ul>
     </li>
@@ -314,10 +450,484 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <div class="body" id="body">
 
 <section id="toc1">
-<h1>1. Common</h1>
+<h1>1. Certs</h1>
 
 <section id="toc2">
-<h2>1.1. Matrix functions</h2>
+<h2>1.1. TODO</h2>
+
+<pre>
+apps/certs/php/certs.php
+</pre>
+
+<p>
+TODO
+</p>
+
+<section id="toc3">
+<h3>1.1.1. TODO</h3>
+
+<pre>
+function __certs_list($search, $offset, $limit)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc4">
+<h3>1.1.2. TODO</h3>
+
+<pre>
+function __certs_insert($json)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc5">
+<h3>1.1.3. TODO</h3>
+
+<pre>
+function __certs_hash2nick($hash)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc6">
+<h3>1.1.4. TODO</h3>
+
+<pre>
+function __certs_check($hash)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc7">
+<h3>1.1.5. TODO</h3>
+
+<pre>
+function __certs_view($hash)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc8">
+<h3>1.1.6. TODO</h3>
+
+<pre>
+function __certs_delete($hash)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+</section>
+<section id="toc9">
+<h2>1.2. Directory helper</h2>
+
+<pre>
+apps/certs/php/nssdb.php
+</pre>
+
+<p>
+This function returns the nssdb directory used by all functions
+</p>
+
+<section id="toc10">
+<h3>1.2.1. Passthru helper</h3>
+
+<pre>
+function __nssdb_passthru_helper($cmd)
+</pre>
+
+<p>
+This function uses the ob_passthru and improve the output
+</p>
+
+<ul>
+<li>@cmd =&gt; command line to be executed
+</li>
+</ul>
+
+</section>
+<section id="toc11">
+<h3>1.2.2. Init nssdb repo</h3>
+
+<pre>
+function __nssdb_init()
+</pre>
+
+<p>
+This function tries to initialize the nssdb component with an empty repo
+</p>
+
+</section>
+<section id="toc12">
+<h3>1.2.3. Create certificate</h3>
+
+<pre>
+function __nssdb_create($outfile, $outpass, $subject = '', $name = '')
+</pre>
+
+<p>
+This function create a dummy self signed certificate intended to be used in
+test cases
+</p>
+<p>
+$outfile =&gt; the p12 file
+$outpass =&gt; the password used by the p12 file
+</p>
+
+</section>
+<section id="toc13">
+<h3>1.2.4. Add certificate</h3>
+
+<pre>
+function __nssdb_add($file, $pass)
+</pre>
+
+<p>
+This function adds the p12 file that must contains a valid certificate to the
+nssdb repo using the pass if needed
+</p>
+
+<ul>
+<li>@file =&gt; the p12 file
+</li>
+<li>@pass =&gt; the p12 password
+</li>
+</ul>
+
+</section>
+<section id="toc14">
+<h3>1.2.5. List certificates</h3>
+
+<pre>
+function __nssdb_list()
+</pre>
+
+<p>
+This function returns the list of valid nicks that you can use with pdfsig
+</p>
+
+</section>
+<section id="toc15">
+<h3>1.2.6. Info of a certificate</h3>
+
+<pre>
+function __nssdb_info($nick, $shortnames = false)
+</pre>
+
+<p>
+This function returns the info of the nick certificate of the nssdb repo
+</p>
+
+<ul>
+<li>@nick =&gt; the desired nick used to retrieve info
+</li>
+</ul>
+
+</section>
+<section id="toc16">
+<h3>1.2.7. Pdf signature</h3>
+
+<pre>
+function __nssdb_pdfsig($nick, $input, $output)
+</pre>
+
+<p>
+This function uses the pdfsig to add the signature to the pdf using the nick
+certificate of the nssdb repo
+</p>
+
+<ul>
+<li>@nick   =&gt; the desired nick used to sign de pdf
+</li>
+<li>@input  =&gt; the desired input file that you want to sign
+</li>
+<li>@output =&gt; the signed pdf file
+</li>
+</ul>
+
+</section>
+<section id="toc17">
+<h3>1.2.8. Remove certificate</h3>
+
+<pre>
+function __nssdb_remove($nick)
+</pre>
+
+<p>
+This function remove the certificate from the nssdb repo indentified by nick
+</p>
+
+<ul>
+<li>@nick =&gt; the desired nick that you want to remove
+</li>
+</ul>
+
+</section>
+<section id="toc18">
+<h3>1.2.9. Reset nssdb repo</h3>
+
+<pre>
+function __nssdb_reset()
+</pre>
+
+<p>
+This function removes the nssdb repo, is the inverted of the init function
+</p>
+
+</section>
+<section id="toc19">
+<h3>1.2.10. Update pdf</h3>
+
+<pre>
+function __nssdb_update($nick, $input)
+</pre>
+
+<p>
+This function creates a new pdf document using input as source and adding to
+each page a new box with the important information about the certificate used
+in the signature process
+</p>
+
+<ul>
+<li>@nick  =&gt; the desired nick used to sign de pdf
+</li>
+<li>@input =&gt; the desired input pdf file where you want to add the cert info
+</li>
+</ul>
+
+</section>
+</section>
+</section>
+<section id="toc20">
+<h1>2. Common</h1>
+
+<section id="toc21">
+<h2>2.1. profile application</h2>
+
+<pre>
+apps/common/js/profile.js
+</pre>
+
+<p>
+This application implements the tipical features associated to profile
+</p>
+
+<section id="toc22">
+<h3>2.1.1. Main object</h3>
+
+<pre>
+saltos.profile = {};
+</pre>
+
+<p>
+This object contains all SaltOS code
+</p>
+
+</section>
+<section id="toc23">
+<h3>2.1.2. TODO</h3>
+
+<pre>
+saltos.profile.init = arg
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc24">
+<h3>2.1.3. TODO</h3>
+
+<pre>
+saltos.profile.authupdate = ()
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+</section>
+<section id="toc25">
+<h2>2.2. TODO</h2>
+
+<pre>
+apps/common/php/actions.php
+</pre>
+
+<p>
+TODO
+</p>
+
+<section id="toc26">
+<h3>2.2.1. Merge data actions</h3>
+
+<pre>
+function __merge_data_actions($data, $actions)
+</pre>
+
+<p>
+This function merge the rows of a table or list with the specified actions
+</p>
+
+<ul>
+<li>@data    =&gt; the data of the table or list widget
+</li>
+<li>@actions =&gt; the desired actions to use in the table or list widget
+</li>
+</ul>
+
+</section>
+</section>
+<section id="toc27">
+<h2>2.3. Apps helper module</h2>
+
+<pre>
+apps/common/php/default.php
+</pre>
+
+<p>
+This file contains functions intended to be used as hepers of other functions,
+allowing to convert between formats like yaml to xml using a small specification
+</p>
+
+<section id="toc28">
+<h3>2.3.1. Make app file</h3>
+
+<pre>
+function make_app_file($data)
+</pre>
+
+<p>
+This function returns the xml of an app using the follow specs passed in @data:
+</p>
+
+<ul>
+<li>@require   =&gt; this field defines the required php that contains the make_app_file
+              function like this file
+</li>
+<li>@_template =&gt; the xml app file used as template, this file contains the default
+              specification of the app used in the quick apps defined in the yaml
+</li>
+<li>@screen    =&gt; the screen used by the template
+</li>
+<li>@list      =&gt; the list of fields used in the list screen, this must be a list of
+              arrays with 3 elements: id, type and label, types can be as follow:
+              -text    =&gt; default field with text
+              -select  =&gt; this field resolves the text from a table and field, see
+                          the @select spec
+              -boolean =&gt; this field uses an icon with V o X in green or red to
+                          see the value of the field (generaly 1 or 0)
+              -hastext =&gt; this field is similar to boolean but the true or false
+                          is detedmined using the contents of the text, no text is
+                          false and some text is true
+</li>
+<li>@form      =&gt; the list of fields used in the form screen, this must be a list of
+              arrays with 3 elements: id, type and label, types can be as follow:
+              <ul>
+              <li>text, date, time, datetime, checkbox, switch =&gt; default widget
+              </li>
+              <li>textarea, ckeditor, codemirror =&gt; widget with 10em of height
+              </li>
+              <li>select =&gt; widget that uses the select spec to resolve the contents
+              </li>
+              </ul>
+</li>
+<li>@select    =&gt; this spec is intended to defined the selects used in the list and
+              forms, requires an array of 3 elements: id, table and field, if the
+              last field is not specified, saltos tries to resolve it using the
+              manifest information (internally use the table2field feature)
+</li>
+<li>@attr      =&gt; this part contain an array with extra features added to the forms
+              widgets, the spec requires to use a named array that defines the
+              id of the field and each array entry must to be another pair of
+              key and val with the name of the property and the value of it
+</li>
+</ul>
+
+</section>
+</section>
+<section id="toc29">
+<h2>2.4. TODO</h2>
+
+<pre>
+apps/common/php/files.php
+</pre>
+
+<p>
+TODO
+</p>
+
+<section id="toc30">
+<h3>2.4.1. TODO</h3>
+
+<pre>
+function __files_list($search, $offset, $limit)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc31">
+<h3>2.4.2. TODO</h3>
+
+<pre>
+function __files_getfile($file)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc32">
+<h3>2.4.3. TODO</h3>
+
+<pre>
+function __files_check($file)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc33">
+<h3>2.4.4. TODO</h3>
+
+<pre>
+function __files_view($file)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+</section>
+<section id="toc34">
+<h2>2.5. Matrix functions</h2>
 
 <pre>
 apps/common/php/matrix.php
@@ -327,8 +937,8 @@ apps/common/php/matrix.php
 This file contain all functions needed by the excel widget
 </p>
 
-<section id="toc3">
-<h3>1.1.1. TODO</h3>
+<section id="toc35">
+<h3>2.5.1. TODO</h3>
 
 <pre>
 function make_matrix_version($app, $id)
@@ -339,13 +949,25 @@ TODO
 </p>
 
 </section>
-</section>
-</section>
-<section id="toc4">
-<h1>2. Dashboard</h1>
+<section id="toc36">
+<h3>2.5.2. TODO</h3>
 
-<section id="toc5">
-<h2>2.1. Dashboard application</h2>
+<pre>
+function make_matrix_log($app, $id)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc37">
+<h1>3. Dashboard</h1>
+
+<section id="toc38">
+<h2>3.1. Dashboard application</h2>
 
 <pre>
 apps/dashboard/js/dashboard.js
@@ -355,8 +977,8 @@ apps/dashboard/js/dashboard.js
 This application implements the tipical features associated to dashboard
 </p>
 
-<section id="toc6">
-<h3>2.1.1. Main object</h3>
+<section id="toc39">
+<h3>3.1.1. Main object</h3>
 
 <pre>
 saltos.dashboard = {};
@@ -367,8 +989,8 @@ This object contains all SaltOS code
 </p>
 
 </section>
-<section id="toc7">
-<h3>2.1.2. TODO</h3>
+<section id="toc40">
+<h3>3.1.2. TODO</h3>
 
 <pre>
 saltos.dashboard.init = arg
@@ -379,11 +1001,35 @@ TODO
 </p>
 
 </section>
-<section id="toc8">
-<h3>2.1.3. TODO</h3>
+</section>
+<section id="toc41">
+<h2>3.2. Dashboard widgets application</h2>
 
 <pre>
-saltos.dashboard.authupdate = ()
+apps/dashboard/js/dashboard_widgets.js
+</pre>
+
+<p>
+This application implements the tipical features associated to dashboard
+</p>
+
+<section id="toc42">
+<h3>3.2.1. Main object</h3>
+
+<pre>
+saltos.dashboard_widgets = {};
+</pre>
+
+<p>
+This object contains all SaltOS code
+</p>
+
+</section>
+<section id="toc43">
+<h3>3.2.2. TODO</h3>
+
+<pre>
+saltos.dashboard_widgets.init = arg
 </pre>
 
 <p>
@@ -393,11 +1039,11 @@ TODO
 </section>
 </section>
 </section>
-<section id="toc9">
-<h1>3. Emails</h1>
+<section id="toc44">
+<h1>4. Emails</h1>
 
-<section id="toc10">
-<h2>3.1. Email application</h2>
+<section id="toc45">
+<h2>4.1. Email application</h2>
 
 <pre>
 apps/emails/js/driver.js
@@ -407,8 +1053,8 @@ apps/emails/js/driver.js
 This application implements the tipical features associated to emails
 </p>
 
-<section id="toc11">
-<h3>3.1.1. Driver emails object</h3>
+<section id="toc46">
+<h3>4.1.1. Driver emails object</h3>
 
 <pre>
 saltos.driver.__types.emails = {};
@@ -419,8 +1065,8 @@ This object stores the functions used by the emails driver
 </p>
 
 </section>
-<section id="toc12">
-<h3>3.1.2. TODO</h3>
+<section id="toc47">
+<h3>4.1.2. TODO</h3>
 
 <pre>
 saltos.driver.__types.emails.template = arg
@@ -431,8 +1077,8 @@ TODO
 </p>
 
 </section>
-<section id="toc13">
-<h3>3.1.3. TODO</h3>
+<section id="toc48">
+<h3>4.1.3. TODO</h3>
 
 <pre>
 saltos.driver.__types.emails.init = saltos.driver.__types.type5.init;
@@ -444,8 +1090,8 @@ TODO
 
 </section>
 </section>
-<section id="toc14">
-<h2>3.2. Email application</h2>
+<section id="toc49">
+<h2>4.2. Email application</h2>
 
 <pre>
 apps/emails/js/emails.js
@@ -455,8 +1101,8 @@ apps/emails/js/emails.js
 This application implements the tipical features associated to emails
 </p>
 
-<section id="toc15">
-<h3>3.2.1. Main object</h3>
+<section id="toc50">
+<h3>4.2.1. Main object</h3>
 
 <pre>
 saltos.emails = {};
@@ -467,8 +1113,8 @@ This object contains all SaltOS code
 </p>
 
 </section>
-<section id="toc16">
-<h3>3.2.2. TODO</h3>
+<section id="toc51">
+<h3>4.2.2. TODO</h3>
 
 <pre>
 saltos.emails.init = arg
@@ -479,8 +1125,8 @@ TODO
 </p>
 
 </section>
-<section id="toc17">
-<h3>3.2.3. TODO</h3>
+<section id="toc52">
+<h3>4.2.3. TODO</h3>
 
 <pre>
 saltos.emails.server = ()
@@ -491,8 +1137,8 @@ TODO
 </p>
 
 </section>
-<section id="toc18">
-<h3>3.2.4. TODO</h3>
+<section id="toc53">
+<h3>4.2.4. TODO</h3>
 
 <pre>
 saltos.emails.delete1 = ()
@@ -503,8 +1149,8 @@ TODO
 </p>
 
 </section>
-<section id="toc19">
-<h3>3.2.5. TODO</h3>
+<section id="toc54">
+<h3>4.2.5. TODO</h3>
 
 <pre>
 saltos.emails.delete2 = ()
@@ -515,8 +1161,8 @@ TODO
 </p>
 
 </section>
-<section id="toc20">
-<h3>3.2.6. TODO</h3>
+<section id="toc55">
+<h3>4.2.6. TODO</h3>
 
 <pre>
 saltos.emails.send = ()
@@ -527,8 +1173,8 @@ TODO
 </p>
 
 </section>
-<section id="toc21">
-<h3>3.2.7. TODO</h3>
+<section id="toc56">
+<h3>4.2.7. TODO</h3>
 
 <pre>
 saltos.emails.setter = what
@@ -539,8 +1185,8 @@ TODO
 </p>
 
 </section>
-<section id="toc22">
-<h3>3.2.8. TODO</h3>
+<section id="toc57">
+<h3>4.2.8. TODO</h3>
 
 <pre>
 saltos.emails.signature = ()
@@ -551,11 +1197,11 @@ TODO
 </p>
 
 </section>
-<section id="toc23">
-<h3>3.2.9. TODO</h3>
+<section id="toc58">
+<h3>4.2.9. TODO</h3>
 
 <pre>
-saltos.emails.viewpdf = ()
+saltos.emails.viewpdf1 = ()
 </pre>
 
 <p>
@@ -563,11 +1209,83 @@ TODO
 </p>
 
 </section>
-<section id="toc24">
-<h3>3.2.10. TODO</h3>
+<section id="toc59">
+<h3>4.2.10. TODO</h3>
 
 <pre>
-saltos.emails.download = ()
+saltos.emails.download1 = ()
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc60">
+<h3>4.2.11. TODO</h3>
+
+<pre>
+saltos.emails.source = ()
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc61">
+<h3>4.2.12. TODO</h3>
+
+<pre>
+saltos.emails.viewpdf2 = ()
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc62">
+<h3>4.2.13. TODO</h3>
+
+<pre>
+saltos.emails.download2 = ()
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc63">
+<h3>4.2.14. TODO</h3>
+
+<pre>
+saltos.emails.reply = ()
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc64">
+<h3>4.2.15. TODO</h3>
+
+<pre>
+saltos.emails.replyall = ()
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc65">
+<h3>4.2.16. TODO</h3>
+
+<pre>
+saltos.emails.forward = ()
 </pre>
 
 <p>
@@ -576,8 +1294,8 @@ TODO
 
 </section>
 </section>
-<section id="toc25">
-<h2>3.3. TODO</h2>
+<section id="toc66">
+<h2>4.3. TODO</h2>
 
 <pre>
 apps/emails/php/filter.php
@@ -587,8 +1305,8 @@ apps/emails/php/filter.php
 TODO
 </p>
 
-<section id="toc26">
-<h3>3.3.1. TODO</h3>
+<section id="toc67">
+<h3>4.3.1. TODO</h3>
 
 <pre>
 function make_where_query_emails($json)
@@ -600,8 +1318,8 @@ TODO
 
 </section>
 </section>
-<section id="toc27">
-<h2>3.4. Get email library</h2>
+<section id="toc68">
+<h2>4.4. Get email library</h2>
 
 <pre>
 apps/emails/php/getmail.php
@@ -611,8 +1329,8 @@ apps/emails/php/getmail.php
 This library provides the necesary functions to download, parse and manage emails.
 </p>
 
-<section id="toc28">
-<h3>3.4.1. Requires section</h3>
+<section id="toc69">
+<h3>4.4.1. Requires section</h3>
 
 <pre>
 require_once 'apps/emails/lib/mimeparser/mime_parser.php';
@@ -623,8 +1341,8 @@ This requires loads the external libraries needed to run this library.
 </p>
 
 </section>
-<section id="toc29">
-<h3>3.4.2. Defines section</h3>
+<section id="toc70">
+<h3>4.4.2. Defines section</h3>
 
 <pre>
 // phpcs:disable Generic.Files.LineLength
@@ -635,8 +1353,8 @@ This defines allow to define some useful standards to do html pages and more.
 </p>
 
 </section>
-<section id="toc30">
-<h3>3.4.3. Remove all body</h3>
+<section id="toc71">
+<h3>4.4.3. Remove all body</h3>
 
 <pre>
 function __getmail_removebody($array)
@@ -652,8 +1370,8 @@ This function removes the body entry in the array, it is only for debug purposes
 </ul>
 
 </section>
-<section id="toc31">
-<h3>3.4.4. Process message</h3>
+<section id="toc72">
+<h3>4.4.4. Process message</h3>
 
 <pre>
 function __getmail_processmessage($disp, $type)
@@ -672,8 +1390,8 @@ allow the node to be processed.
 </ul>
 
 </section>
-<section id="toc32">
-<h3>3.4.5. Process plain html</h3>
+<section id="toc73">
+<h3>4.4.5. Process plain html</h3>
 
 <pre>
 function __getmail_processplainhtml($disp, $type)
@@ -692,8 +1410,8 @@ allow the node to be processed.
 </ul>
 
 </section>
-<section id="toc33">
-<h3>3.4.6. Process file</h3>
+<section id="toc74">
+<h3>4.4.6. Process file</h3>
 
 <pre>
 function __getmail_processfile($disp, $type)
@@ -712,8 +1430,8 @@ allow the node to be processed.
 </ul>
 
 </section>
-<section id="toc34">
-<h3>3.4.7. Check permissions</h3>
+<section id="toc75">
+<h3>4.4.7. Check permissions</h3>
 
 <pre>
 function __getmail_checkperm($id)
@@ -730,11 +1448,28 @@ message identified by the id argument
 </ul>
 
 </section>
-<section id="toc35">
-<h3>3.4.8. Get source</h3>
+<section id="toc76">
+<h3>4.4.8. Get GZ File</h3>
 
 <pre>
-function __getmail_getsource($id, $max = 0)
+function __getmail_gzfile($id)
+</pre>
+
+<p>
+This function returns the file that contains the email
+</p>
+
+<ul>
+<li>@id =&gt; id of the email
+</li>
+</ul>
+
+</section>
+<section id="toc77">
+<h3>4.4.9. Get source</h3>
+
+<pre>
+function __getmail_getsource($id)
 </pre>
 
 <p>
@@ -742,15 +1477,20 @@ This function returns the original RFC822 message as string
 </p>
 
 <ul>
-<li>@id  =&gt; id of the email
-</li>
-<li>@max =&gt; max size that can be processed
+<li>@id =&gt; id of the email
 </li>
 </ul>
 
+<p>
+Notes:
+</p>
+<p>
+This function returns the email source without the base64 attachments
+</p>
+
 </section>
-<section id="toc36">
-<h3>3.4.9. Mime decode protected</h3>
+<section id="toc78">
+<h3>4.4.10. Mime decode protected</h3>
 
 <pre>
 function __getmail_mime_decode_protected($input)
@@ -767,8 +1507,8 @@ using the mime_parser_class to do it, and returns the decoded array.
 </ul>
 
 </section>
-<section id="toc37">
-<h3>3.4.10. Get mime</h3>
+<section id="toc79">
+<h3>4.4.11. Get mime</h3>
 
 <pre>
 function __getmail_getmime($id)
@@ -786,8 +1526,8 @@ file to improve the performance for repeated executions.
 </ul>
 
 </section>
-<section id="toc38">
-<h3>3.4.11. Get Node</h3>
+<section id="toc80">
+<h3>4.4.12. Get Node</h3>
 
 <pre>
 function __getmail_getnode($path, $array)
@@ -805,8 +1545,8 @@ This function returns the node using a xpath notation
 </ul>
 
 </section>
-<section id="toc39">
-<h3>3.4.12. Get type</h3>
+<section id="toc81">
+<h3>4.4.13. Get type</h3>
 
 <pre>
 function __getmail_gettype($array)
@@ -823,8 +1563,8 @@ the follow formats: html, plain, messsage, alternative, multipart or other.
 </ul>
 
 </section>
-<section id="toc40">
-<h3>3.4.13. Get disposition</h3>
+<section id="toc82">
+<h3>4.4.14. Get disposition</h3>
 
 <pre>
 function __getmail_getdisposition($array)
@@ -841,8 +1581,8 @@ it into the follow formats: attachment, inline or other.
 </ul>
 
 </section>
-<section id="toc41">
-<h3>3.4.14. Get files</h3>
+<section id="toc83">
+<h3>4.4.15. Get files</h3>
 
 <pre>
 function __getmail_getfiles($array, $level = 0)
@@ -860,25 +1600,8 @@ This function returns an array with the attachment files of the message
 </ul>
 
 </section>
-<section id="toc42">
-<h3>3.4.15. Get human size</h3>
-
-<pre>
-function __getmail_gethumansize($size)
-</pre>
-
-<p>
-This function returns an string containing the size in human format
-</p>
-
-<ul>
-<li>@size =&gt; the number of bytes to convert to human format
-</li>
-</ul>
-
-</section>
-<section id="toc43">
-<h3>3.4.16. Get info</h3>
+<section id="toc84">
+<h3>4.4.16. Get info</h3>
 
 <pre>
 function __getmail_getinfo($array)
@@ -894,8 +1617,8 @@ Returns all information of the decoded message in a structured format
 </ul>
 
 </section>
-<section id="toc44">
-<h3>3.4.17. Fix string</h3>
+<section id="toc85">
+<h3>4.4.17. Fix string</h3>
 
 <pre>
 function __getmail_fixstring($arg)
@@ -912,8 +1635,8 @@ of the decoded message.
 </ul>
 
 </section>
-<section id="toc45">
-<h3>3.4.18. Get text body</h3>
+<section id="toc86">
+<h3>4.4.18. Get text body</h3>
 
 <pre>
 function __getmail_gettextbody($array, $level = 0)
@@ -931,8 +1654,8 @@ This function returns all text body concatenated as an unique string
 </ul>
 
 </section>
-<section id="toc46">
-<h3>3.4.19. Get full body</h3>
+<section id="toc87">
+<h3>4.4.19. Get full body</h3>
 
 <pre>
 function __getmail_getfullbody($array)
@@ -948,8 +1671,8 @@ This function returns all body and attachments information as an array
 </ul>
 
 </section>
-<section id="toc47">
-<h3>3.4.20. Get cid</h3>
+<section id="toc88">
+<h3>4.4.20. Get cid</h3>
 
 <pre>
 function __getmail_getcid($array, $hash)
@@ -967,8 +1690,8 @@ This function returns the requested attachment indentified by the hash argument
 </ul>
 
 </section>
-<section id="toc48">
-<h3>3.4.21. Insert</h3>
+<section id="toc89">
+<h3>4.4.21. Insert</h3>
 
 <pre>
 function __getmail_insert(
@@ -1002,8 +1725,8 @@ This function do the insert in the app_emails table, and
 </ul>
 
 </section>
-<section id="toc49">
-<h3>3.4.22. Update</h3>
+<section id="toc90">
+<h3>4.4.22. Update</h3>
 
 <pre>
 function __getmail_update($field, $value, $id)
@@ -1024,8 +1747,8 @@ register identified by the id argument.
 </ul>
 
 </section>
-<section id="toc50">
-<h3>3.4.23. Add bcc</h3>
+<section id="toc91">
+<h3>4.4.23. Add bcc</h3>
 
 <pre>
 function __getmail_add_bcc($id, $bcc)
@@ -1045,8 +1768,8 @@ if the current execution is the sender of the message.
 </ul>
 
 </section>
-<section id="toc51">
-<h3>3.4.24. Gzfile size</h3>
+<section id="toc92">
+<h3>4.4.24. Gzfile size</h3>
 
 <pre>
 function gzfilesize($filename)
@@ -1063,8 +1786,8 @@ and allow to know the file size of the file after a gzip descompression.
 </ul>
 
 </section>
-<section id="toc52">
-<h3>3.4.25. Get email body</h3>
+<section id="toc93">
+<h3>4.4.25. Get email body</h3>
 
 <pre>
 function getmail_body($id, $images = false)
@@ -1081,8 +1804,8 @@ intended to be rendered in an iframe, for example
 </ul>
 
 </section>
-<section id="toc53">
-<h3>3.4.26. TODO</h3>
+<section id="toc94">
+<h3>4.4.26. TODO</h3>
 
 <pre>
 function __getmail_head_helper($decoded, $email_id)
@@ -1093,8 +1816,8 @@ TODO
 </p>
 
 </section>
-<section id="toc54">
-<h3>3.4.27. TODO</h3>
+<section id="toc95">
+<h3>4.4.27. TODO</h3>
 
 <pre>
 function __getmail_body_helper($decoded, $images = false)
@@ -1105,8 +1828,8 @@ TODO
 </p>
 
 </section>
-<section id="toc55">
-<h3>3.4.28. Get email source</h3>
+<section id="toc96">
+<h3>4.4.28. Get email source</h3>
 
 <pre>
 function getmail_source($id)
@@ -1123,8 +1846,8 @@ intended to be rendered in an iframe, for example
 </ul>
 
 </section>
-<section id="toc56">
-<h3>3.4.29. Get email files</h3>
+<section id="toc97">
+<h3>4.4.29. Get email files</h3>
 
 <pre>
 function getmail_files($id)
@@ -1141,8 +1864,8 @@ intended to be rendered in an table, for example
 </ul>
 
 </section>
-<section id="toc57">
-<h3>3.4.30. Get cid</h3>
+<section id="toc98">
+<h3>4.4.30. Get cid</h3>
 
 <pre>
 function getmail_cid($id, $cid)
@@ -1160,8 +1883,8 @@ This function returns the requested attachment indentified by the cid argument
 </ul>
 
 </section>
-<section id="toc58">
-<h3>3.4.31. Is outbox</h3>
+<section id="toc99">
+<h3>4.4.31. Is outbox</h3>
 
 <pre>
 function getmail_field($field, $id)
@@ -1179,8 +1902,8 @@ Returns the field of the email identified by the id argument
 </ul>
 
 </section>
-<section id="toc59">
-<h3>3.4.32. Server</h3>
+<section id="toc100">
+<h3>4.4.32. Server</h3>
 
 <pre>
 function getmail_server()
@@ -1191,8 +1914,8 @@ This function implements the old getmail action of the old saltos.
 </p>
 
 </section>
-<section id="toc60">
-<h3>3.4.33. Delete</h3>
+<section id="toc101">
+<h3>4.4.33. Delete</h3>
 
 <pre>
 function getmail_delete($ids)
@@ -1208,8 +1931,8 @@ This function implements the old delete action of the old saltos.
 </ul>
 
 </section>
-<section id="toc61">
-<h3>3.4.34. Get viewpdf</h3>
+<section id="toc102">
+<h3>4.4.34. Get viewpdf</h3>
 
 <pre>
 function getmail_viewpdf($id, $cid)
@@ -1228,8 +1951,8 @@ in a pdf format for the viewpdf widget
 </ul>
 
 </section>
-<section id="toc62">
-<h3>3.4.35. Get download</h3>
+<section id="toc103">
+<h3>4.4.35. Get download</h3>
 
 <pre>
 function getmail_download($id, $cid)
@@ -1248,8 +1971,8 @@ in an array format for the download feature
 </ul>
 
 </section>
-<section id="toc63">
-<h3>3.4.36. TODO</h3>
+<section id="toc104">
+<h3>4.4.36. TODO</h3>
 
 <pre>
 function getmail_setter($ids, $what)
@@ -1260,8 +1983,8 @@ TODO
 </p>
 
 </section>
-<section id="toc64">
-<h3>3.4.37. TODO</h3>
+<section id="toc105">
+<h3>4.4.37. TODO</h3>
 
 <pre>
 function getmail_pdf($ids)
@@ -1272,8 +1995,8 @@ TODO
 </p>
 
 </section>
-<section id="toc65">
-<h3>3.4.38. TODO</h3>
+<section id="toc106">
+<h3>4.4.38. TODO</h3>
 
 <pre>
 function __iframe_srcdoc_helper($html)
@@ -1285,8 +2008,272 @@ TODO
 
 </section>
 </section>
-<section id="toc66">
-<h2>3.5. Make indexing action</h2>
+<section id="toc107">
+<h2>4.5. Html helper module</h2>
+
+<pre>
+apps/emails/php/html.php
+</pre>
+
+<p>
+This file contain useful html helper functions
+</p>
+
+<section id="toc108">
+<h3>4.5.1. Defines section</h3>
+
+<pre>
+define('__GIF_IMAGE__', 'data:image/gif;base64,R0lGODlhCgABAIABAOns7////ywAAAAACgABAAACA4SPBQA7');
+</pre>
+
+<p>
+This defines allow to define some useful needed resources by this file.
+</p>
+
+</section>
+<section id="toc109">
+<h3>4.5.2. Remove Script Tag</h3>
+
+<pre>
+function remove_script_tag($html)
+</pre>
+
+<p>
+This function tries to remove all &lt;script&gt; tags of the string
+</p>
+
+<ul>
+<li>@temp =&gt; the string that you want to process
+</li>
+</ul>
+
+</section>
+<section id="toc110">
+<h3>4.5.3. Remove Style Tag</h3>
+
+<pre>
+function remove_style_tag($html)
+</pre>
+
+<p>
+This function tries to remove all &lt;style&gt; tags of the string
+</p>
+
+<ul>
+<li>@temp =&gt; the string that you want to process
+</li>
+</ul>
+
+</section>
+<section id="toc111">
+<h3>4.5.4. Remove Comment Tag</h3>
+
+<pre>
+function remove_comment_tag($html)
+</pre>
+
+<p>
+This function tries to remove all &lt;!-- --&gt; tags of the string
+</p>
+
+<ul>
+<li>@temp =&gt; the string that you want to process
+</li>
+</ul>
+
+</section>
+<section id="toc112">
+<h3>4.5.5. Remove Meta Tag</h3>
+
+<pre>
+function remove_meta_tag($html)
+</pre>
+
+<p>
+This function tries to remove all &lt;meta &gt; tags of the string
+</p>
+
+<ul>
+<li>@temp =&gt; the string that you want to process
+</li>
+</ul>
+
+</section>
+<section id="toc113">
+<h3>4.5.6. Remove Link Tag</h3>
+
+<pre>
+function remove_link_tag($html)
+</pre>
+
+<p>
+This function tries to remove all &lt;link &gt; tags of the string
+</p>
+
+<ul>
+<li>@temp =&gt; the string that you want to process
+</li>
+</ul>
+
+</section>
+<section id="toc114">
+<h3>4.5.7. Inline Img Tag</h3>
+
+<pre>
+function inline_img_tag($html)
+</pre>
+
+<p>
+This function tries to convert all imgs to an inline imgs
+</p>
+
+<ul>
+<li>@temp =&gt; the string that you want to process
+</li>
+</ul>
+
+</section>
+<section id="toc115">
+<h3>4.5.8. Inline Img Style</h3>
+
+<pre>
+function inline_img_style($html)
+</pre>
+
+<p>
+This function tries to convert all imgs to an inline imgs
+</p>
+
+<ul>
+<li>@temp =&gt; the string that you want to process
+</li>
+</ul>
+
+</section>
+<section id="toc116">
+<h3>4.5.9. Inline Img Background</h3>
+
+<pre>
+function inline_img_background($html)
+</pre>
+
+<p>
+This function tries to convert all imgs to an inline imgs
+</p>
+
+<ul>
+<li>@temp =&gt; the string that you want to process
+</li>
+</ul>
+
+</section>
+<section id="toc117">
+<h3>4.5.10. TODO</h3>
+
+<pre>
+function __inline_img_helper($src)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc118">
+<h3>4.5.11. TODO</h3>
+
+<pre>
+function extract_img_tag($html)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc119">
+<h3>4.5.12. TODO</h3>
+
+<pre>
+function extract_img_style($html)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc120">
+<h3>4.5.13. TODO</h3>
+
+<pre>
+function extract_img_background($html)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc121">
+<h3>4.5.14. TODO</h3>
+
+<pre>
+function fix_img_tag($html)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc122">
+<h3>4.5.15. TODO</h3>
+
+<pre>
+function fix_img_style($html)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc123">
+<h3>4.5.16. TODO</h3>
+
+<pre>
+function fix_img_background($html)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc124">
+<h3>4.5.17. TODO</h3>
+
+<pre>
+function fix_file_b64($html)
+</pre>
+
+<p>
+TODO
+</p>
+<p>
+Notes:
+</p>
+<p>
+We are using {48} to force to search a base64 data of 48 of bytes, where decoded
+must to be a 36 bytes string, this match with the cache style file like a md5 hash
+of 32 bytes with 4 bytes more by the extension file (.b64)
+</p>
+
+</section>
+</section>
+<section id="toc125">
+<h2>4.6. Make indexing action</h2>
 
 <pre>
 apps/emails/php/indexing.php
@@ -1298,8 +2285,8 @@ mroonga engine to search in the fulltext string generated by this action
 </p>
 
 </section>
-<section id="toc67">
-<h2>3.6. Send email library</h2>
+<section id="toc126">
+<h2>4.7. Send email library</h2>
 
 <pre>
 apps/emails/php/sendmail.php
@@ -1309,8 +2296,8 @@ apps/emails/php/sendmail.php
 This library provides the necesary functions to send emails.
 </p>
 
-<section id="toc68">
-<h3>3.6.1. Used libraries</h3>
+<section id="toc127">
+<h3>4.7.1. Used libraries</h3>
 
 <pre>
 use PHPMailer\PHPMailer\PHPMailer;
@@ -1321,8 +2308,8 @@ This use loads the external libraries needed to run this library.
 </p>
 
 </section>
-<section id="toc69">
-<h3>3.6.2. Sendmail</h3>
+<section id="toc128">
+<h3>4.7.2. Sendmail</h3>
 
 <pre>
 function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
@@ -1340,10 +2327,16 @@ $subject    =&gt; the subject string
 $body       =&gt; the body string
 $files      =&gt; an array with files
 </p>
+<p>
+Notes:
+</p>
+<p>
+This function must return the last_id if success, and a string if error
+</p>
 
 </section>
-<section id="toc70">
-<h3>3.6.3. Debugoutput helper</h3>
+<section id="toc129">
+<h3>4.7.3. Debugoutput helper</h3>
 
 <pre>
 function __sendmail_debugoutput_helper($str, $level)
@@ -1364,8 +2357,8 @@ of this function will accomplish the neested callback arguments
 </ul>
 
 </section>
-<section id="toc71">
-<h3>3.6.4. Parser</h3>
+<section id="toc130">
+<h3>4.7.4. Parser</h3>
 
 <pre>
 function __sendmail_parser($oldaddr)
@@ -1383,8 +2376,8 @@ for the addr and the second is for the name.
 </ul>
 
 </section>
-<section id="toc72">
-<h3>3.6.5. Message Id</h3>
+<section id="toc131">
+<h3>4.7.5. Message Id</h3>
 
 <pre>
 function __sendmail_messageid($account_id, $from)
@@ -1404,8 +2397,8 @@ value and checks that is unique in the system to prevent concurrence.
 </ul>
 
 </section>
-<section id="toc73">
-<h3>3.6.6. Eml saver</h3>
+<section id="toc132">
+<h3>4.7.6. Eml saver</h3>
 
 <pre>
 function __sendmail_emlsaver($message, $messageid)
@@ -1423,8 +2416,8 @@ This function is intended to save the RFC822 message into the eml gzfile
 </ul>
 
 </section>
-<section id="toc74">
-<h3>3.6.7. Obj saver</h3>
+<section id="toc133">
+<h3>4.7.7. Obj saver</h3>
 
 <pre>
 function __sendmail_objsaver($mail, $messageid)
@@ -1442,8 +2435,8 @@ This function is intended to save the PHPMailer object into the obj file
 </ul>
 
 </section>
-<section id="toc75">
-<h3>3.6.8. TODO</h3>
+<section id="toc134">
+<h3>4.7.8. TODO</h3>
 
 <pre>
 function sendmail_prepare($action, $email_id)
@@ -1454,8 +2447,8 @@ TODO
 </p>
 
 </section>
-<section id="toc76">
-<h3>3.6.9. TODO</h3>
+<section id="toc135">
+<h3>4.7.9. TODO</h3>
 
 <pre>
 function sendmail_action($json, $action, $email_id)
@@ -1466,8 +2459,8 @@ TODO
 </p>
 
 </section>
-<section id="toc77">
-<h3>3.6.10. TODO</h3>
+<section id="toc136">
+<h3>4.7.10. TODO</h3>
 
 <pre>
 function sendmail_server()
@@ -1478,8 +2471,8 @@ TODO
 </p>
 
 </section>
-<section id="toc78">
-<h3>3.6.11. TODO</h3>
+<section id="toc137">
+<h3>4.7.11. TODO</h3>
 
 <pre>
 function sendmail_files($action, $email_id)
@@ -1490,8 +2483,8 @@ TODO
 </p>
 
 </section>
-<section id="toc79">
-<h3>3.6.12. TODO</h3>
+<section id="toc138">
+<h3>4.7.12. TODO</h3>
 
 <pre>
 function sendmail_signature($json)
@@ -1504,11 +2497,11 @@ TODO
 </section>
 </section>
 </section>
-<section id="toc80">
-<h1>4. Invoices</h1>
+<section id="toc139">
+<h1>5. Invoices</h1>
 
-<section id="toc81">
-<h2>4.1. invoices application</h2>
+<section id="toc140">
+<h2>5.1. invoices application</h2>
 
 <pre>
 apps/invoices/js/invoices.js
@@ -1518,8 +2511,8 @@ apps/invoices/js/invoices.js
 This application implements the tipical features associated to invoices
 </p>
 
-<section id="toc82">
-<h3>4.1.1. Main object</h3>
+<section id="toc141">
+<h3>5.1.1. Main object</h3>
 
 <pre>
 saltos.invoices = {};
@@ -1530,8 +2523,8 @@ This object contains all SaltOS code
 </p>
 
 </section>
-<section id="toc83">
-<h3>4.1.2. TODO</h3>
+<section id="toc142">
+<h3>5.1.2. TODO</h3>
 
 <pre>
 saltos.invoices.init = arg
@@ -1542,8 +2535,8 @@ TODO
 </p>
 
 </section>
-<section id="toc84">
-<h3>4.1.3. TODO</h3>
+<section id="toc143">
+<h3>5.1.3. TODO</h3>
 
 <pre>
 saltos.invoices.compute_total = ()
@@ -1554,8 +2547,8 @@ TODO
 </p>
 
 </section>
-<section id="toc85">
-<h3>4.1.4. TODO</h3>
+<section id="toc144">
+<h3>5.1.4. TODO</h3>
 
 <pre>
 saltos.invoices.add_item = ()
@@ -1566,8 +2559,8 @@ TODO
 </p>
 
 </section>
-<section id="toc86">
-<h3>4.1.5. TODO</h3>
+<section id="toc145">
+<h3>5.1.5. TODO</h3>
 
 <pre>
 saltos.invoices.remove_item = (obj)
@@ -1578,8 +2571,8 @@ TODO
 </p>
 
 </section>
-<section id="toc87">
-<h3>4.1.6. TODO</h3>
+<section id="toc146">
+<h3>5.1.6. TODO</h3>
 
 <pre>
 saltos.invoices.viewpdf = ()
@@ -1590,8 +2583,8 @@ TODO
 </p>
 
 </section>
-<section id="toc88">
-<h3>4.1.7. TODO</h3>
+<section id="toc147">
+<h3>5.1.7. TODO</h3>
 
 <pre>
 saltos.invoices.download = ()
@@ -1604,11 +2597,11 @@ TODO
 </section>
 </section>
 </section>
-<section id="toc89">
-<h1>5. Tester</h1>
+<section id="toc148">
+<h1>6. Tester</h1>
 
-<section id="toc90">
-<h2>5.1. Tester application</h2>
+<section id="toc149">
+<h2>6.1. Tester application</h2>
 
 <pre>
 apps/tester/js/tester.js
@@ -1618,8 +2611,8 @@ apps/tester/js/tester.js
 This application implements the tipical features associated to tester
 </p>
 
-<section id="toc91">
-<h3>5.1.1. Tester object</h3>
+<section id="toc150">
+<h3>6.1.1. Tester object</h3>
 
 <pre>
 saltos.tester = {};
@@ -1630,8 +2623,8 @@ This object stores all function used by this app
 </p>
 
 </section>
-<section id="toc92">
-<h3>5.1.2. Campo 8</h3>
+<section id="toc151">
+<h3>6.1.2. Campo 8</h3>
 
 <pre>
 saltos.tester.campo8 = ()
@@ -1642,8 +2635,8 @@ TODO
 </p>
 
 </section>
-<section id="toc93">
-<h3>5.1.3. Campo 9</h3>
+<section id="toc152">
+<h3>6.1.3. Campo 9</h3>
 
 <pre>
 saltos.tester.campo9 = ()
@@ -1654,8 +2647,8 @@ TODO
 </p>
 
 </section>
-<section id="toc94">
-<h3>5.1.4. Campo 10</h3>
+<section id="toc153">
+<h3>6.1.4. Campo 10</h3>
 
 <pre>
 saltos.tester.campo10 = ()
@@ -1666,8 +2659,8 @@ TODO
 </p>
 
 </section>
-<section id="toc95">
-<h3>5.1.5. Campo 11</h3>
+<section id="toc154">
+<h3>6.1.5. Campo 11</h3>
 
 <pre>
 saltos.tester.campo11 = ()
@@ -1678,11 +2671,11 @@ TODO
 </p>
 
 </section>
-<section id="toc96">
-<h3>5.1.6. Campo 22</h3>
+<section id="toc155">
+<h3>6.1.6. Campo 22</h3>
 
 <pre>
-saltos.tester.campo22 = ()
+saltos.tester.campo23 = ()
 </pre>
 
 <p>
@@ -1692,11 +2685,11 @@ TODO
 </section>
 </section>
 </section>
-<section id="toc97">
-<h1>6. Users</h1>
+<section id="toc156">
+<h1>7. Users</h1>
 
-<section id="toc98">
-<h2>6.1. Login application</h2>
+<section id="toc157">
+<h2>7.1. Login application</h2>
 
 <pre>
 apps/users/js/login.js
@@ -1706,8 +2699,8 @@ apps/users/js/login.js
 This application implements the tipical features associated to login
 </p>
 
-<section id="toc99">
-<h3>6.1.1. Main object</h3>
+<section id="toc158">
+<h3>7.1.1. Main object</h3>
 
 <pre>
 saltos.login = {};
@@ -1718,8 +2711,8 @@ This object contains all SaltOS code
 </p>
 
 </section>
-<section id="toc100">
-<h3>6.1.2. Authenticate login function</h3>
+<section id="toc159">
+<h3>7.1.2. Authenticate login function</h3>
 
 <pre>
 saltos.login.authenticate = async ()
@@ -1732,8 +2725,8 @@ it uses the authenticate function that send data to the authtoken action
 
 </section>
 </section>
-<section id="toc101">
-<h2>6.2. Days functions</h2>
+<section id="toc160">
+<h2>7.2. Days functions</h2>
 
 <pre>
 apps/users/php/days.php
@@ -1743,8 +2736,8 @@ apps/users/php/days.php
 This file contain all functions needed by the days feature
 </p>
 
-<section id="toc102">
-<h3>6.2.1. Days to bin</h3>
+<section id="toc161">
+<h3>7.2.1. Days to bin</h3>
 
 <pre>
 function days2bin($days)
@@ -1763,8 +2756,8 @@ selection 64,32,16,8,4 is returned like from monday to friday (1111100)
 </ul>
 
 </section>
-<section id="toc103">
-<h3>6.2.2. Bin to days</h3>
+<section id="toc162">
+<h3>7.2.2. Bin to days</h3>
 
 <pre>
 function bin2days($days)
@@ -1782,8 +2775,8 @@ decimal like 64,32,16,8,4.
 </ul>
 
 </section>
-<section id="toc104">
-<h3>6.2.3. Fix for days</h3>
+<section id="toc163">
+<h3>7.2.3. Fix for days</h3>
 
 <pre>
 function fix4days($data)
@@ -1804,8 +2797,8 @@ to translate this string into a decimal string like 64,32,16,8,4.
 
 </section>
 </section>
-<section id="toc105">
-<h2>6.3. Groups functions</h2>
+<section id="toc164">
+<h2>7.3. Groups functions</h2>
 
 <pre>
 apps/users/php/groups.php
@@ -1815,8 +2808,8 @@ apps/users/php/groups.php
 This file contain all functions needed by the groups app
 </p>
 
-<section id="toc106">
-<h3>6.3.1. Insert group action</h3>
+<section id="toc165">
+<h3>7.3.1. Insert group action</h3>
 
 <pre>
 function insert_group($data)
@@ -1831,8 +2824,8 @@ TODO
 </p>
 
 </section>
-<section id="toc107">
-<h3>6.3.2. Update group action</h3>
+<section id="toc166">
+<h3>7.3.2. Update group action</h3>
 
 <pre>
 function update_group($group_id, $data)
@@ -1847,8 +2840,8 @@ TODO
 </p>
 
 </section>
-<section id="toc108">
-<h3>6.3.3. Delete group action</h3>
+<section id="toc167">
+<h3>7.3.3. Delete group action</h3>
 
 <pre>
 function delete_group($group_id)
@@ -1864,8 +2857,8 @@ TODO
 
 </section>
 </section>
-<section id="toc109">
-<h2>6.4. Matrix functions</h2>
+<section id="toc168">
+<h2>7.4. Matrix functions</h2>
 
 <pre>
 apps/users/php/matrix.php
@@ -1875,8 +2868,8 @@ apps/users/php/matrix.php
 This file contain all functions needed by the excel widget
 </p>
 
-<section id="toc110">
-<h3>6.4.1. Make matrix</h3>
+<section id="toc169">
+<h3>7.4.1. Make matrix</h3>
 
 <pre>
 function make_matrix_data($perms, $apps, $main, $user)
@@ -1887,8 +2880,8 @@ TODO
 </p>
 
 </section>
-<section id="toc111">
-<h3>6.4.2. Make matrix</h3>
+<section id="toc170">
+<h3>7.4.2. Make matrix</h3>
 
 <pre>
 function make_matrix_cell($perms, $apps, $main, $user)
@@ -1899,8 +2892,8 @@ TODO
 </p>
 
 </section>
-<section id="toc112">
-<h3>6.4.3. Make matrix</h3>
+<section id="toc171">
+<h3>7.4.3. Make matrix</h3>
 
 <pre>
 function unmake_matrix_data($perms, $apps, $main, $json)
@@ -1912,8 +2905,8 @@ TODO
 
 </section>
 </section>
-<section id="toc113">
-<h2>6.5. Users functions</h2>
+<section id="toc172">
+<h2>7.5. Users functions</h2>
 
 <pre>
 apps/users/php/users.php
@@ -1923,8 +2916,8 @@ apps/users/php/users.php
 This file contain all functions needed by the users app
 </p>
 
-<section id="toc114">
-<h3>6.5.1. Insert user action</h3>
+<section id="toc173">
+<h3>7.5.1. Insert user action</h3>
 
 <pre>
 function insert_user($data)
@@ -1939,8 +2932,8 @@ TODO
 </p>
 
 </section>
-<section id="toc115">
-<h3>6.5.2. Update user action</h3>
+<section id="toc174">
+<h3>7.5.2. Update user action</h3>
 
 <pre>
 function update_user($user_id, $data)
@@ -1955,8 +2948,8 @@ TODO
 </p>
 
 </section>
-<section id="toc116">
-<h3>6.5.3. Delete user action</h3>
+<section id="toc175">
+<h3>7.5.3. Delete user action</h3>
 
 <pre>
 function delete_user($user_id)

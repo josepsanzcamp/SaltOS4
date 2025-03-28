@@ -1,8 +1,10 @@
 Unit Test Documentation
-SaltOS 4.0 r1681
-January 2025
+SaltOS 4.0 r1923
+March 2025
 
 
+
++Phpunit Libraries+
 
 ++Autoload file for the unit tests++
 
@@ -142,7 +144,7 @@ suck as errors, that are not allowed from the phpunit tests
 - @error_words => the words that must exists in the error_file
 
 
-+Actions+
++Phpunit Code+
 
 ++Test actions++
 
@@ -186,8 +188,6 @@ public function test_actions(): void
 This test performs some tests to validate the correctness
 of the actions functions
 
-
-+Add+
 
 ++Test addlog++
 
@@ -242,8 +242,6 @@ This test performs some tests to validate the correctness
 of the adderror functions
 
 
-+Apache+
-
 ++Test apache++
 
 ```
@@ -278,8 +276,6 @@ This test performs some tests to validate the correctness of the apache configur
 the main idea is that the path saltos/code4 of the web server must point to the web
 directory.
 
-
-+Apps+
 
 ++Test apps++
 
@@ -344,8 +340,6 @@ This test performs some tests to validate the correctness
 of the list functions
 
 
-+Array+
-
 ++Test array++
 
 ```
@@ -388,8 +382,6 @@ public function test_array(): void
 This test performs some tests to validate the correctness
 of the array functions
 
-
-+Ascii+
 
 ++Test ascii++
 
@@ -434,8 +426,6 @@ This test performs some tests to validate the correctness
 of the ascii functions
 
 
-+Authupdate+
-
 ++Test authupdate++
 
 ```
@@ -478,8 +468,6 @@ public function test_authupdate(): void
 This test performs some tests to validate the correctness
 of the authupdate functions
 
-
-+Cli Customers+
 
 ++Test cli customers++
 
@@ -597,8 +585,6 @@ This function execute the delete rest request, they must to get the json
 with the status and the deleted_id.
 
 
-+Cli Invoices+
-
 ++Test cli invoices++
 
 ```
@@ -715,8 +701,6 @@ This function execute the delete rest request, they must to get the json
 with the status and the deleted_id.
 
 
-+Cli Tokens+
-
 ++Test cli tokens (first part)++
 
 ```
@@ -790,8 +774,6 @@ This function execute the checktoken rest request, and must to get the
 json with the ko about the invalid token that you are trying to check
 
 
-+Color+
-
 ++Test color++
 
 ```
@@ -834,8 +816,6 @@ public function test_color(): void
 This test performs some tests to validate the correctness
 of the color feature
 
-
-+Common+
 
 ++Test common++
 
@@ -880,8 +860,6 @@ This test performs some tests to validate the correctness
 of the common functions
 
 
-+Config+
-
 ++Test config++
 
 ```
@@ -924,8 +902,6 @@ public function test_config(): void
 This test performs some tests to validate the correctness
 of the config functions
 
-
-+Control+
 
 ++Test control++
 
@@ -970,7 +946,35 @@ This test performs some tests to validate the correctness
 of the control functions
 
 
-+Cron+
++++log test+++
+
+```
+public function test_log(): void
+```
+
+This test performs some tests to validate the correctness
+of the log functions
+
+
++++version test+++
+
+```
+public function test_version(): void
+```
+
+This test performs some tests to validate the correctness
+of the version functions
+
+
++++indexing test+++
+
+```
+public function test_indexing(): void
+```
+
+This test performs some tests to validate the correctness
+of the indexing functions
+
 
 ++Test cron++
 
@@ -1024,8 +1028,6 @@ This test performs some tests to validate the correctness
 of the cron functions
 
 
-+Customers+
-
 ++Test customers++
 
 ```
@@ -1068,8 +1070,6 @@ public function test_customers(): void
 This test performs some tests to validate the correctness
 of the customers functions
 
-
-+Database+
 
 ++Test database drivers++
 
@@ -1141,6 +1141,16 @@ The tests that performs are the follow:
 - SELECT NOW() test
 
 
++++Last Insert Id helper+++
+
+```
+private function last_insert_id_helper($obj): void
+```
+
+This function is intended to check the correctness of the last_insert_id
+feature implemented in each database driver.
+
+
 +++PDO MySQL driver+++
 
 ```
@@ -1207,8 +1217,6 @@ database connection, sendint queries validating the expected results and
 closing the connection.
 
 
-+Datetime+
-
 ++Test datetime++
 
 ```
@@ -1242,8 +1250,6 @@ public function test_datetime(): void
 This test performs some tests to validate the correctness
 of the datetime functions
 
-
-+Dbschema+
 
 ++Test dbschema++
 
@@ -1298,8 +1304,6 @@ This test performs some tests to validate the correctness
 of the sql functions
 
 
-+Emails+
-
 ++Test emails++
 
 ```
@@ -1342,8 +1346,6 @@ public function test_emails(): void
 This test performs some tests to validate the correctness
 of the emails functions
 
-
-+Error+
 
 ++Test error++
 
@@ -1388,8 +1390,6 @@ This test performs some tests to validate the correctness
 of the error functions
 
 
-+Exec+
-
 ++Test exec++
 
 ```
@@ -1423,8 +1423,6 @@ public function test_exec(): void
 This test performs some tests to validate the correctness
 of the exec functions
 
-
-+Export+
 
 ++Test export++
 
@@ -1583,8 +1581,6 @@ This test performs some tests to validate the correctness
 of the external exec
 
 
-+File+
-
 ++Test file++
 
 ```
@@ -1627,38 +1623,6 @@ public function test_file(): void
 This test performs some tests to validate the correctness
 of the file functions
 
-
-+++Authtoken+++
-
-```
-public function test_authtoken(): array
-```
-
-This function execute the authtoken rest request, and must to get the
-json with the valid token to continue in the nexts unit tests
-
-
-+++Addfiles+++
-
-```
-public function test_addfiles(array $json): array
-```
-
-This function execute the addfiles rest request, and must to get the
-json with the correct data
-
-
-+++Delfiles+++
-
-```
-public function test_delfiles(array $json): void
-```
-
-This function execute the delfiles rest request, and must to get the
-json with the correct data
-
-
-+Files+
 
 ++Test files++
 
@@ -1703,7 +1667,25 @@ This test performs some tests to validate the correctness
 of the files feature
 
 
-+Gc+
++++notes test+++
+
+```
+public function test_notes(): void
+```
+
+This test performs some tests to validate the correctness
+of the notes feature
+
+
++++fileslog test+++
+
+```
+public function test_fileslog(): void
+```
+
+This test performs some tests to validate the correctness
+of the fileslog feature
+
 
 ++Test gc++
 
@@ -1758,7 +1740,15 @@ This test performs some tests to validate the correctness
 of the gc functions
 
 
-+Gdlib+
++++gc upload+++
+
+```
+public function test_gc_trash(): void
+```
+
+This test performs some tests to validate the correctness
+of the gc functions
+
 
 ++Test gdlib++
 
@@ -1803,8 +1793,6 @@ This test performs some tests to validate the correctness
 of the gdlib feature
 
 
-+Getdata+
-
 ++Test getdata++
 
 ```
@@ -1847,8 +1835,6 @@ public function test_getdata(): void
 This test performs some tests to validate the correctness
 of the getdata functions
 
-
-+Gettext+
 
 ++Test gettext++
 
@@ -1893,8 +1879,6 @@ This test performs some tests to validate the correctness
 of the gettext functions
 
 
-+Help+
-
 ++Test help++
 
 ```
@@ -1938,8 +1922,6 @@ This test performs some tests to validate the correctness
 of the help functions
 
 
-+Html+
-
 ++Test html++
 
 ```
@@ -1960,7 +1942,7 @@ use PHPUnit\Framework\TestCase;
 +++Loading helper function+++
 
 ```
-require_once 'php/lib/html.php';
+require_once 'apps/emails/php/html.php';
 ```
 
 This file contains the needed function used by the unit tests
@@ -1982,8 +1964,6 @@ public function test_html(): void
 This test performs some tests to validate the correctness
 of the html functions
 
-
-+Ids+
 
 ++Test IDs++
 
@@ -2018,8 +1998,6 @@ public function test_ids(): void
 This test performs some tests to validate the correctness
 of the check_ids feature
 
-
-+Image+
 
 ++Test image++
 
@@ -2093,8 +2071,6 @@ public function test_score(): void
 This test performs some tests to validate the correctness
 of the score feature
 
-
-+Import+
 
 ++Test import++
 
@@ -2229,8 +2205,6 @@ This test performs some tests to validate the correctness
 of the external exec
 
 
-+Indexing+
-
 ++Test indexing++
 
 ```
@@ -2273,8 +2247,6 @@ public function test_indexing(): void
 This test performs some tests to validate the correctness
 of the indexing functions
 
-
-+Iniset+
 
 ++Test iniset++
 
@@ -2319,8 +2291,6 @@ This test performs some tests to validate the correctness
 of the iniset functions
 
 
-+Invoices+
-
 ++Test invoices++
 
 ```
@@ -2364,8 +2334,6 @@ This test performs some tests to validate the correctness
 of the invoices functions
 
 
-+Log+
-
 ++Test log++
 
 ```
@@ -2399,8 +2367,6 @@ public function test_log(): void
 This test performs some tests to validate the correctness
 of the log functions
 
-
-+Math+
 
 ++Test math++
 
@@ -2445,8 +2411,6 @@ This test performs some tests to validate the correctness
 of the math functions
 
 
-+Memory+
-
 ++Test memory++
 
 ```
@@ -2481,8 +2445,6 @@ This test performs some tests to validate the correctness
 of the memory functions
 
 
-+Mime+
-
 ++Test mime++
 
 ```
@@ -2503,7 +2465,7 @@ use PHPUnit\Framework\TestCase;
 +++Loading helper function+++
 
 ```
-require_once 'php/lib/html.php';
+require_once 'apps/emails/php/html.php';
 ```
 
 This file contains the needed function used by the unit tests
@@ -2526,7 +2488,68 @@ This test performs some tests to validate the correctness
 of the mime functions
 
 
-+Output+
+++Test nssdb++
+
+```
+test_nssdb.php
+```
+
+This test performs some tests to validate the correctness
+of the nssdb functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_nssdb extends TestCase
+```
+
+
++++nssdb test+++
+
+```
+public function test_nssdb(): void
+```
+
+This test performs some tests to validate the correctness
+of the nssdb functions
+
+
++++certs test+++
+
+```
+public function test_certs(): void
+```
+
+This test performs some tests to validate the correctness
+of the certs functions
+
+
++++actions test+++
+
+```
+public function test_actions(): void
+```
+
+This test performs some tests to validate the correctness
+of the certs functions
+
 
 ++Test output++
 
@@ -2581,8 +2604,6 @@ This test performs some tests to validate the correctness
 of the colorize functions
 
 
-+Password+
-
 ++Test password++
 
 ```
@@ -2626,8 +2647,6 @@ This test performs some tests to validate the correctness
 of the password functions
 
 
-+Pdf+
-
 ++Test pdf++
 
 ```
@@ -2670,8 +2689,6 @@ public function test_pdf(): void
 This test performs some tests to validate the correctness
 of the pdf functions
 
-
-+Perms+
 
 ++Test perms++
 
@@ -2726,8 +2743,6 @@ This test performs some tests to validate the correctness
 of the perms functions
 
 
-+Ping+
-
 ++Test ping++
 
 ```
@@ -2770,8 +2785,6 @@ public function test_ping(): void
 This test performs some tests to validate the correctness
 of the ping functions
 
-
-+Push+
 
 ++Test push++
 
@@ -2816,8 +2829,6 @@ This test performs some tests to validate the correctness
 of the push functions
 
 
-+Random+
-
 ++Test random++
 
 ```
@@ -2852,7 +2863,39 @@ This test performs some tests to validate the correctness
 of the random functions
 
 
-+Roundcube+
+++Test mime++
+
+```
+test_replace.php
+```
+
+This test performs some tests to validate the correctness
+of the str_replace instead of the preg_replace
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Main class of this unit test+++
+
+```
+final class test_replace extends TestCase
+```
+
+
++++replace test+++
+
+```
+public function test_replace(): void
+```
+
+This test performs some tests to validate the correctness
+of the str_replace_assoc instead of the replace function
+
 
 ++Test roundcube library++
 
@@ -2884,8 +2927,6 @@ public function test_html2text(): void
 This function checks the correctness of the html2text method provided by the
 roundcube library.
 
-
-+Semaphore+
 
 ++Test semaphore++
 
@@ -2930,8 +2971,6 @@ This test performs some tests to validate the correctness
 of the semaphore functions
 
 
-+Server+
-
 ++Test server++
 
 ```
@@ -2974,8 +3013,6 @@ public function test_server(): void
 This test performs some tests to validate the correctness
 of the server functions
 
-
-+Sql+
 
 ++Test sql++
 
@@ -3020,8 +3057,6 @@ This function performs some tests to validate the correctness
 of the sql functions
 
 
-+Strings+
-
 ++Test strings++
 
 ```
@@ -3056,8 +3091,6 @@ This test performs some tests to validate the correctness
 of the strings functions
 
 
-+Strtr+
-
 ++Test mime++
 
 ```
@@ -3091,8 +3124,6 @@ public function test_strtr(): void
 This test performs some tests to validate the correctness
 of the str_replace_assoc instead of the strtr function
 
-
-+System+
 
 ++Test system++
 
@@ -3137,8 +3168,6 @@ This test performs some tests to validate the correctness
 of the system functions
 
 
-+Tokens+
-
 ++Test tokens++
 
 ```
@@ -3172,8 +3201,6 @@ public function test_tokens(): void
 This function performs some tests to validate the correctness
 of the token generator and the token format checker
 
-
-+Unoconv+
 
 ++Test unoconv++
 
@@ -3264,7 +3291,77 @@ This test performs some tests to validate the correctness
 of the commands functions
 
 
-+User+
+++Test upload++
+
+```
+test_upload.php
+```
+
+This test performs some tests to validate the correctness
+of the upload functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_upload extends TestCase
+```
+
+
++++Authtoken+++
+
+```
+public function test_authtoken(): array
+```
+
+This function execute the authtoken rest request, and must to get the
+json with the valid token to continue in the nexts unit tests
+
+
++++Addfiles+++
+
+```
+public function test_addfiles(array $json): array
+```
+
+This function execute the addfiles rest request, and must to get the
+json with the correct data
+
+
++++Delfiles+++
+
+```
+public function test_delfiles(array $json): void
+```
+
+This function execute the delfiles rest request, and must to get the
+json with the correct data
+
+
++++Human size+++
+
+```
+public function test_human_size(): void
+```
+
+This function only try to execute the get_human_size function
+
 
 ++Test users++
 
@@ -3319,7 +3416,35 @@ This test performs some tests to validate the correctness
 of the users functions
 
 
-+Users+
++++browser test+++
+
+```
+public function test_browser(): void
+```
+
+This test performs some tests to validate the correctness
+of the browser functions
+
+
++++geoip test+++
+
+```
+public function test_geoip(): void
+```
+
+This test performs some tests to validate the correctness
+of the geoip functions
+
+
++++security test+++
+
+```
+public function test_security(): void
+```
+
+This test performs some tests to validate the correctness
+of the security functions
+
 
 ++Test users++
 
@@ -3384,8 +3509,6 @@ This test performs some tests to validate the correctness
 of the groups functions
 
 
-+Version+
-
 ++Test version++
 
 ```
@@ -3419,8 +3542,6 @@ public function test_version(): void
 This function performs some tests to validate the correctness
 of the version related functions
 
-
-+Web Customers+
 
 ++Test web customers++
 
@@ -3538,8 +3659,6 @@ This function execute the delete rest request, they must to get the json
 with the status and the deleted_id.
 
 
-+Web Invoices+
-
 ++Test web invoices++
 
 ```
@@ -3656,8 +3775,6 @@ This function execute the delete rest request, they must to get the json
 with the status and the deleted_id.
 
 
-+Web Tokens+
-
 ++Test web tokens (first part)++
 
 ```
@@ -3731,8 +3848,6 @@ This function execute the checktoken rest request, and must to get the
 json with the ko about the invalid token that you are trying to check
 
 
-+Xml+
-
 ++Test XML++
 
 ```
@@ -3776,7 +3891,39 @@ This function performs some tests to validate the correctness
 of the xml related functions
 
 
-+Zindex+
+++Test YAML++
+
+```
+test_yaml.php
+```
+
+This test performs some tests to validate the correctness
+of the yaml related functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Main class of this unit test+++
+
+```
+final class test_yaml extends TestCase
+```
+
+
++++YAML test+++
+
+```
+public function test_yaml(): void
+```
+
+This function performs some tests to validate the correctness
+of the yaml related functions
+
 
 ++Test zindex++
 
@@ -3819,5 +3966,2550 @@ public function test_zindex(): void
 
 This test performs some tests to validate the correctness
 of the zindex functions
+
+
++Jest Libraries+
+
+++Setup file for the unit tests++
+
+```
+lib/jest.setup.js
+```
+
+This file contains the code that initialize the unit tests
+
+
++++Detect what type of test is running, and load the needed setup+++
+
+```
+if ('fetch' in global) {
+```
+
+
+++Setup file for the unit tests++
+
+```
+lib/jsdom.setup.js
+```
+
+This file contains the code that initialize the unit tests
+
+
++++Needed by all user interface features+++
+
+```
+global.bootstrap = require('../../code/web/lib/bootstrap/bootstrap.bundle.min.js');
+```
+
+
++++Needed by bootstrap, core and proxy modules+++
+
+```
+global.md5 = require('../../code/web/lib/md5/md5.min.js');
+```
+
+
++++Needed by bootstrap module+++
+
+```
+global.window.matchMedia = function() {
+```
+
+
++++This is the same that object.js for the global scope+++
+
+```
+global.saltos = {};
+```
+
+
++++Load all files of the project+++
+
+```
+/*const files = `core,bootstrap,storage,hash,token,auth,window,
+```
+
+
++++My Require+++
+
+```
+global.myrequire = (file, fns)
+```
+
+This function is intended to add the needed module.exports at the end of the
+file that you want to process, this is a temporary action used only for the
+require action, and at the end, before the return, the original code is saved
+as a restore action to maintain the original code file
+
+
+++Setup file for the unit tests++
+
+```
+lib/node.setup.js
+```
+
+This file contains the code that initialize the unit tests
+
+
++++This is the same that object.js for the global scope+++
+
+```
+global.saltos = {};
+```
+
+
++++Needed by core module+++
+
+```
+global.window = {
+```
+
+
++++Needed by core module+++
+
+```
+global.document = {
+```
+
+
++++Load all files of the project+++
+
+```
+require(`../../code/web/js/core.js`);
+```
+
+
++++My Pause+++
+
+```
+global.mypause = (page, delay)
+```
+
+This function is intended to do a pause inside the browser, to do it, we
+use a string instead of real code because istanbul tries to inject code
+and fails in runtime, one solution can be to put "istanbul ignore next"
+in a comment before the next page.evaluate, but I prefer to use a string
+in the page.evaluate because it is more simple for me
+
+
++Jest Code+
+
+++Apps unit tests++
+
+```
+test_apps.js
+```
+
+This file contains the apps unit tests
+
+
++++TODO+++
+
+```
+const puppeteer = require('puppeteer');
+```
+
+
++++TODO+++
+
+```
+const timeout = {timeout: 3000};
+```
+
+
++++TODO+++
+
+```
+let browser;
+```
+
+
++++TODO+++
+
+```
+beforeAll(async ()
+```
+
+
++++TODO+++
+
+```
+afterAll(async ()
+```
+
+
++++TODO+++
+
+```
+let testFailed = false;
+```
+
+
++++TODO+++
+
+```
+beforeEach(()
+```
+
+
++++TODO+++
+
+```
+afterEach(()
+```
+
+
++++TODO+++
+
+```
+describe('App Login', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Login', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Login Ko Red', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Login Ko Green', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Dashboard', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Reload', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Logout', async ()
+```
+
+TODO
+
+
+++Bootstrap unit tests++
+
+```
+test_bootstrap.js
+```
+
+This file contains the bootstrap unit tests
+
+
++++TODO+++
+
+```
+const puppeteer = require('puppeteer');
+```
+
+
++++TODO+++
+
+```
+const timeout = {timeout: 3000};
+```
+
+
++++TODO+++
+
+```
+describe('Bootstrap', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+let browser;
+```
+
+
++++TODO+++
+
+```
+beforeAll(async ()
+```
+
+
++++TODO+++
+
+```
+afterAll(async ()
+```
+
+
++++Prepare the test.each iterator+++
+
+```
+const fs = require('fs');
+```
+
+
++++TODO+++
+
+```
+test.each(json)('$label', async field
+```
+
+TODO
+
+
+++Core unit tests++
+
+```
+test_core.js
+```
+
+This file contains the core unit tests
+
+
++++Load all needed files of the project+++
+
+```
+const files = `core,gettext,token`.split(',');
+```
+
+
++++TODO+++
+
+```
+beforeEach(()
+```
+
+
++++TODO+++
+
+```
+afterEach(()
+```
+
+
++++saltos.core.adderror/addlog+++
+
+```
+describe('saltos.core.adderror/addlog', ()
+```
+
+This function performs the tests of the adderror and adlog functions
+
+
++++saltos.core.adderror+++
+
+```
+test('saltos.core.adderror should send error details to the server', async ()
+```
+
+This function performs the tests of the adderror function
+
+
++++saltos.core.addlog+++
+
+```
+test('saltos.core.addlog should send log message to the server', ()
+```
+
+This function performs the tests of the addlog function
+
+
++++TODO+++
+
+```
+describe('window.addEventListener for error and unhandledrejection', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+beforeEach(()
+```
+
+
++++error+++
+
+```
+test('should call saltos.core.adderror when an error occurs', ()
+```
+
+This function performs the tests of the error feature
+
+
++++unhandledrejection+++
+
+```
+test('should call saltos.core.adderror when an unhandledrejection occurs', ()
+```
+
+This function performs the tests of the unhandledrejection feature
+
+
++++saltos.core.check_params+++
+
+```
+test('saltos.core.check_params', ()
+```
+
+This function performs the test of the check_params function
+
+
++++saltos.core.uniqid+++
+
+```
+test('saltos.core.uniqid', ()
+```
+
+This function performs the tests of the uniqid function
+
+
++++saltos.core.when_visible+++
+
+```
+describe('when_visible', ()
+```
+
+This function performs the tests of the when_visible function
+
+
++++TODO+++
+
+```
+beforeEach(()
+```
+
+
++++TODO+++
+
+```
+afterEach(()
+```
+
+
++++TODO+++
+
+```
+test('executes the callback when the object becomes visible', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('works setting the id as test-div', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('works with an string id instead of an object', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('throws an error for unsupported obj type', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('append the object after some iterations', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('throws an error if the object disappears before being visible', ()
+```
+
+TODO
+
+
++++saltos.core.get_keycode+++
+
+```
+test('saltos.core.get_keycode', ()
+```
+
+This function performs the tests of the get_keycode function
+
+
++++saltos.core.get_keyname+++
+
+```
+test('saltos.core.get_keyname', ()
+```
+
+This function performs the tests of the get_keyname function
+
+
++++saltos.core.html+++
+
+```
+describe('saltos.core.html', ()
+```
+
+This function performs the tests of the html function
+
+
++++TODO+++
+
+```
+test('creates a div with inner HTML when only one argument is passed', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('creates the specified element with inner HTML when two arguments are passed', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('trims the inner HTML before setting it', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('does not optimize if there are multiple children', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('optimizes and returns the single child if present', ()
+```
+
+TODO
+
+
++++saltos.core.ajax+++
+
+```
+describe('saltos.core.ajax', ()
+```
+
+This function performs the tests of the ajax function
+
+
++++TODO+++
+
+```
+test('makes a successful GET request and calls success callback', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('handles non-200 responses and calls error callback', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('makes a POST request with a body', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('calls abort callback when request is aborted', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('calls error callback on network failure', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('throws an error for unexpected failures', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('throws an error for unsupported HTTP method', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('handles XML response correctly', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('handles plain text response correctly', async ()
+```
+
+TODO
+
+
++++saltos.core.fix_key+++
+
+```
+test('saltos.core.fix_key', ()
+```
+
+This function performs the test of the fix_key function
+
+
++++saltos.core.copy_object+++
+
+```
+test('saltos.core.copy_object', ()
+```
+
+This function performs the test of the copy_object function
+
+
++++TODO+++
+
+```
+describe('saltos.core.require', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+beforeEach(()
+```
+
+
++++TODO+++
+
+```
+afterEach(()
+```
+
+
++++TODO+++
+
+```
+test('loads a JavaScript file successfully', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('loads a CSS file successfully', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('does not reload already loaded files', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('waits when file is already loading', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('loads a JavaScript module file successfully', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('loads a CSS file with hash successfully', async ()
+```
+
+TODO
+
+
++++saltos.core.eval_bool+++
+
+```
+test('saltos.core.eval_bool', ()
+```
+
+This function performs the test of the eval_bool function
+
+
++++saltos.core.toString+++
+
+```
+test('saltos.core.toString', ()
+```
+
+This function performs the test of the toString function
+
+
++++saltos.core.is_attr_value+++
+
+```
+test('saltos.core.is_attr_value', ()
+```
+
+This function performs the test of the is_attr_value function
+
+
++++saltos.core.join_attr_value+++
+
+```
+test('saltos.core.join_attr_value', ()
+```
+
+This function performs the test of the join_attr_value function
+
+
++++saltos.core.encode_bad_chars+++
+
+```
+test('saltos.core.encode_bad_chars', ()
+```
+
+This function performs the test of the encode_bad_chars function
+
+
++++saltos.core.__get_code_from_file_and_line+++
+
+```
+test('saltos.core.__get_code_from_file_and_line', ()
+```
+
+This function performs the test of the __get_code_from_file_and_line function
+
+
++++saltos.core.timestamp+++
+
+```
+test('saltos.core.timestamp', ()
+```
+
+This function performs the test of the timestamp function
+
+
++++saltos.core.human_size+++
+
+```
+test('saltos.core.human_size', ()
+```
+
+This function performs the test of the human_size function
+
+
++++saltos.core.is_number+++
+
+```
+test('saltos.core.is_number', ()
+```
+
+This function performs the test of the is_number function
+
+
++++TODO+++
+
+```
+describe('Core Module Tests', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Registers service worker if supported and on HTTPS', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Proxy function sends message to service worker', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Triggers proxy sync on online event', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Check network detects protocols correctly', async ()
+```
+
+TODO
+
+
+++Bootstrap unit tests++
+
+```
+test_customers.js
+```
+
+This file contains the bootstrap unit tests
+
+
++++TODO+++
+
+```
+const puppeteer = require('puppeteer');
+```
+
+
++++TODO+++
+
+```
+const timeout = {timeout: 3000};
+```
+
+
++++TODO+++
+
+```
+let browser;
+```
+
+
++++TODO+++
+
+```
+beforeAll(async ()
+```
+
+
++++TODO+++
+
+```
+afterAll(async ()
+```
+
+
++++TODO+++
+
+```
+let testFailed = false;
+```
+
+
++++TODO+++
+
+```
+beforeEach(()
+```
+
+
++++TODO+++
+
+```
+afterEach(()
+```
+
+
++++TODO+++
+
+```
+describe('App Customers', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action List', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action More', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Reset', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Create', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Cancel', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action View', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Close', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Edit', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Go Back', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Insert', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Update', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Delete', async ()
+```
+
+TODO
+
+
+++Bootstrap unit tests++
+
+```
+test_emails.js
+```
+
+This file contains the bootstrap unit tests
+
+
++++TODO+++
+
+```
+const puppeteer = require('puppeteer');
+```
+
+
++++TODO+++
+
+```
+const timeout = {timeout: 3000};
+```
+
+
++++TODO+++
+
+```
+let browser;
+```
+
+
++++TODO+++
+
+```
+beforeAll(async ()
+```
+
+
++++TODO+++
+
+```
+afterAll(async ()
+```
+
+
++++TODO+++
+
+```
+let testFailed = false;
+```
+
+
++++TODO+++
+
+```
+beforeEach(()
+```
+
+
++++TODO+++
+
+```
+afterEach(()
+```
+
+
++++TODO+++
+
+```
+describe('App Emails', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action List', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Control F', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Profile', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Help', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Filter', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Create', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action View', async ()
+```
+
+TODO
+
+
+++Window unit tests++
+
+```
+test_filter.js
+```
+
+This file contains the window unit tests
+
+
++++Load all needed files of the project+++
+
+```
+const files = `app,backup,core,driver,filter,form,gettext,hash,storage,token`.split(',');
+```
+
+
++++TODO+++
+
+```
+beforeEach(()
+```
+
+
++++TODO+++
+
+```
+afterEach(()
+```
+
+
++++TODO+++
+
+```
+describe('saltos.filter.init()', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+beforeEach(()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should initialize filter cache', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should not make ajax call if cache is already populated', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+describe('saltos.filter.load()', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should load filter data and trigger search', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should only trigger search if filter not found', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+describe('saltos.filter.update()', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should update filter cache', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+describe('saltos.filter.save()', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should save new filter to cache and server', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should update existing filter if data changed', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should not make server call if data unchanged', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should delete filter when data is null', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should not delete non-existent filter', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+describe('saltos.filter.button()', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+beforeEach(()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should handle load action', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should handle update action', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should handle delete action', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should handle create action', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should handle rename action', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should do nothing for invalid actions', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+describe('saltos.filter.select()', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+beforeEach(()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should update select options and jstree', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should handle missing form elements gracefully', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should handle missing select elements gracefully', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should handle missing form elements gracefully', ()
+```
+
+TODO
+
+
+++Core unit tests++
+
+```
+test_gettext.js
+```
+
+This file contains the core unit tests
+
+
++++Load all needed files of the project+++
+
+```
+const files = `bootstrap,core,gettext,storage`.split(',');
+```
+
+
++++TODO+++
+
+```
+beforeEach(()
+```
+
+
++++TODO+++
+
+```
+afterEach(()
+```
+
+
++++saltos.gettext.bootstrap.set/get/get_short/unset+++
+
+```
+test('saltos.gettext.set/get/get_short/unset', ()
+```
+
+This function performs the tests of the set/get/get_short and unset functions
+
+
++++saltos.gettext.bootstrap.field+++
+
+```
+test('saltos.gettext.bootstrap.field', ()
+```
+
+This function performs the tests of the field function
+
+
++++saltos.gettext.bootstrap.modal+++
+
+```
+test('saltos.gettext.bootstrap.modal', ()
+```
+
+This function performs the tests of the modal function
+
+
++++saltos.gettext.bootstrap.toast+++
+
+```
+test('saltos.gettext.bootstrap.toast', ()
+```
+
+This function performs the tests of the toast function
+
+
++++saltos.gettext.bootstrap.menu+++
+
+```
+test('saltos.gettext.bootstrap.menu', ()
+```
+
+This function performs the tests of the menu function
+
+
++++saltos.gettext.bootstrap.offcanvas+++
+
+```
+test('saltos.gettext.bootstrap.offcanvas', ()
+```
+
+This function performs the tests of the offcanvas function
+
+
+++Hash unit tests++
+
+```
+test_hash.js
+```
+
+This file contains the hash unit tests
+
+
++++Load all needed files of the project+++
+
+```
+const files = `hash`.split(',');
+```
+
+
++++TODO+++
+
+```
+beforeEach(()
+```
+
+
++++TODO+++
+
+```
+afterEach(()
+```
+
+
++++TODO+++
+
+```
+describe('saltos.hash.__helper', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should remove leading #', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should remove leading /', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should remove both leading # and /', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should return empty string for empty input', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should not modify clean hash', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+describe('saltos.hash.get', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should return current hash without #', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should return empty string when no hash', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should remove leading /', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+describe('saltos.hash.set', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should set new hash with proper format', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should not set same hash', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should handle hash with #', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should handle hash with /', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should handle empty hash', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+describe('saltos.hash.add', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should add new hash with proper format', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should not add same hash', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should handle hash with #', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should handle hash with /', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should handle empty hash', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+describe('saltos.hash.url2hash', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should extract hash from URL', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should handle URL with / after #', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should return empty string when no hash', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+describe('saltos.hash.trigger', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should dispatch hashchange event', ()
+```
+
+TODO
+
+
+++Bootstrap unit tests++
+
+```
+test_invoices.js
+```
+
+This file contains the bootstrap unit tests
+
+
++++TODO+++
+
+```
+const puppeteer = require('puppeteer');
+```
+
+
++++TODO+++
+
+```
+const timeout = {timeout: 3000};
+```
+
+
++++TODO+++
+
+```
+let browser;
+```
+
+
++++TODO+++
+
+```
+beforeAll(async ()
+```
+
+
++++TODO+++
+
+```
+afterAll(async ()
+```
+
+
++++TODO+++
+
+```
+let testFailed = false;
+```
+
+
++++TODO+++
+
+```
+beforeEach(()
+```
+
+
++++TODO+++
+
+```
+afterEach(()
+```
+
+
++++TODO+++
+
+```
+describe('App Invoices', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action List', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Checkbox', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Create', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action View', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Edit', async ()
+```
+
+TODO
+
+
+++Proxy unit tests++
+
+```
+test_proxy.js
+```
+
+This file contains the proxy unit tests
+
+
++++TODO+++
+
+```
+beforeEach(()
+```
+
+
++++TODO+++
+
+```
+afterEach(()
+```
+
+
++++Load the needed environment of the proxy part+++
+
+```
+Object.assign(global, myrequire(
+```
+
+
++++md5+++
+
+```
+test('md5', ()
+```
+
+This function performs the test of the md5 function
+
+
++++human_size+++
+
+```
+test('human_size', ()
+```
+
+This function performs the test of the human_size function
+
+
+++Push unit tests++
+
+```
+test_push.js
+```
+
+This file contains the push unit tests
+
+
++++Load all needed files of the project+++
+
+```
+const files = `app,bootstrap,core,gettext,push,storage,token`.split(',');
+```
+
+
++++TODO+++
+
+```
+beforeEach(()
+```
+
+
++++TODO+++
+
+```
+afterEach(()
+```
+
+
++++TODO+++
+
+```
+describe('saltos.push.fn', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+beforeEach(()
+```
+
+
++++TODO+++
+
+```
+test('should return early if executing is true', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should return early if token is not available', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should return early if navigator is offline', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should return early if count is greater than or equal to 0', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should call ajax and handle success response', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should handle error response', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+describe('saltos.favicon.fn', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should start interval if bool is true and executing is false', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should clear interval if bool is false and executing is true', ()
+```
+
+TODO
+
+
+++Storage unit tests++
+
+```
+test_storage.js
+```
+
+This file contains the storage unit tests
+
+
++++Load all needed files of the project+++
+
+```
+const files = `core,storage`.split(',');
+```
+
+
++++TODO+++
+
+```
+beforeEach(()
+```
+
+
++++TODO+++
+
+```
+afterEach(()
+```
+
+
++++saltos.storage+++
+
+```
+test('saltos.storage', ()
+```
+
+This function performs the test of the storage functions
+
+
+++Bootstrap unit tests++
+
+```
+test_tester.js
+```
+
+This file contains the bootstrap unit tests
+
+
++++TODO+++
+
+```
+const puppeteer = require('puppeteer');
+```
+
+
++++TODO+++
+
+```
+const timeout = {timeout: 3000};
+```
+
+
++++TODO+++
+
+```
+let browser;
+```
+
+
++++TODO+++
+
+```
+beforeAll(async ()
+```
+
+
++++TODO+++
+
+```
+afterAll(async ()
+```
+
+
++++TODO+++
+
+```
+let testFailed = false;
+```
+
+
++++TODO+++
+
+```
+beforeEach(()
+```
+
+
++++TODO+++
+
+```
+afterEach(()
+```
+
+
++++TODO+++
+
+```
+describe('App Tester', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Init', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Disabled', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('Action Enabled', async ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+const bs_themes = ['light', 'dark', 'auto'];
+```
+
+
++++TODO+++
+
+```
+test.each(bs_themes)('Action Bs Theme %s', async theme
+```
+
+TODO
+
+
++++TODO+++
+
+```
+const css_themes = ['default', 'cerulean', 'cyborg', 'darkly', 'flatly', 'journal', 'litera', 'lumen',
+```
+
+
++++TODO+++
+
+```
+test.each(css_themes)('Action Css Theme %s', async theme
+```
+
+TODO
+
+
+++Token unit tests++
+
+```
+test_token.js
+```
+
+This file contains the token unit tests
+
+
++++Load all needed files of the project+++
+
+```
+const files = `core,storage,token`.split(',');
+```
+
+
++++TODO+++
+
+```
+beforeEach(()
+```
+
+
++++TODO+++
+
+```
+afterEach(()
+```
+
+
++++saltos.token+++
+
+```
+test('saltos.token', ()
+```
+
+This function performs the test of the token functions
+
+
+++Window unit tests++
+
+```
+test_window.js
+```
+
+This file contains the window unit tests
+
+
++++Load all needed files of the project+++
+
+```
+const files = `core,storage,window`.split(',');
+```
+
+
++++TODO+++
+
+```
+beforeEach(()
+```
+
+
++++TODO+++
+
+```
+afterEach(()
+```
+
+
++++TODO+++
+
+```
+describe('saltos.window.open/close', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+beforeEach(()
+```
+
+
++++TODO+++
+
+```
+test('should call window.open with the app prefix', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should call window.open with the http prefix', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should call window.open with the https prefix', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should throw an error when call window.open with non supported protocol', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('should call window.close', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+describe('saltos.window.listeners', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('set_listener should add a listener for a specific event', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('unset_listener should remove a listener for a specific event', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('send should trigger the listener in the same tab when scope is "me"', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('send should trigger the listener in other tabs when scope is "other"', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('send should trigger the listener in all tabs when scope is "all"', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('storage event listener should not trigger if the event is not from localStorage', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('storage event listener should not trigger if the key does not match', ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+test('storage event listener should not trigger if the event name is not in listeners', ()
+```
+
+TODO
 
 
