@@ -41,6 +41,12 @@
                 <button id="app/users" ifeval="check_user('users', 'main')" onclick="saltos.window.open('app/users')" color="warning" class="fs-1 w-100 h-100" label="Users"/>
                 <button id="app/groups" ifeval="check_user('groups', 'main')" onclick="saltos.window.open('app/groups')" color="warning" class="fs-1 w-100 h-100" label="Groups"/>
                 <button id="app/types" ifeval="check_user('types', 'main')" onclick="saltos.window.open('app/types')" color="info" class="fs-1 w-100 h-100" label="Types"/>
+                <!-- <div col_class="col-12"/>< ! - - this act as break line -->
+                <hr id="separator" col_class="col-12 clonable" class="mt-0 border-3"/><!-- this act as break line -->
+                <table id="app/customers/widget/table1" ifeval="check_user('customers', 'widget')" source="app/customers/widget/table1" col_class="col-xl-6 col-md-12 mb-3" nodata="Data not found"/>
+                <table id="app/customers/widget/table2" ifeval="check_user('customers', 'widget')" source="app/customers/widget/table2" col_class="col-xl-6 col-md-12 mb-3" nodata="Data not found"/>
+                <!-- <div col_class="col-12"/>< ! - - this act as break line -->
+                <hr id="separator" col_class="col-12 clonable" class="mt-0 border-3"/><!-- this act as break line -->
                 <button id="app/configlog" ifeval="check_user('configlog', 'main')" onclick="saltos.window.open('app/configlog')" color="dark" class="fs-1 w-100 h-100" label="Config"/>
                 <button id="app/cronlog" ifeval="check_user('cronlog', 'main')" onclick="saltos.window.open('app/cronlog')" color="dark" class="fs-1 w-100 h-100" label="Cron"/>
                 <button id="app/pushlog" ifeval="check_user('pushlog', 'main')" onclick="saltos.window.open('app/pushlog')" color="dark" class="fs-1 w-100 h-100" label="Push"/>
@@ -50,10 +56,6 @@
                 <button id="app/certs" ifeval="check_user('certs', 'main')" onclick="saltos.window.open('app/certs')" color="dark" class="fs-1 w-100 h-100" label="Certificates"/>
                 <button id="app/fileslog" ifeval="check_user('fileslog', 'main')" onclick="saltos.window.open('app/fileslog')" color="dark" class="fs-1 w-100 h-100" label="Log files"/>
                 <button id="app/tester" ifeval="check_user('tester', 'main')" onclick="saltos.window.open('app/tester')" color="danger" class="fs-1 w-100 h-100" label="Tester"/>
-                <!-- <div col_class="col-12"/>< ! - - this act as break line -->
-                <hr id="separator" col_class="col-12 clonable" class="mt-0 border-3"/><!-- this act as break line -->
-                <table id="app/customers/widget/table1" ifeval="check_user('customers', 'widget')" source="app/customers/widget/table1" col_class="col-xl-6 col-md-12 mb-3" nodata="Data not found"/>
-                <table id="app/customers/widget/table2" ifeval="check_user('customers', 'widget')" source="app/customers/widget/table2" col_class="col-xl-6 col-md-12 mb-3" nodata="Data not found"/>
                 <!-- <div col_class="col-12"/>< ! - - this act as break line -->
                 <hr id="separator" col_class="col-12 clonable" class="mt-0 border-3"/><!-- this act as break line -->
                 <chartjs id="app/customers/widget/plot2pie" ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot2" mode="pie"/>

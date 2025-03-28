@@ -47,4 +47,4 @@ db_connect();
 
 require_once 'apps/emails/php/getmail.php';
 set_data('server/user', 'admin');
-getmail_cid(98, 'nada');
+getmail_cid(48, 'nada');

@@ -46,4 +46,4 @@ $_CONFIG = eval_attr(xmlfiles2array(detect_config_files('xml/config.xml')));
 db_connect();
 
 require_once 'apps/emails/php/getmail.php';
-getmail_source(99);
+getmail_source(49);

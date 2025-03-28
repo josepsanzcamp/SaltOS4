@@ -93,10 +93,10 @@ final class test_emails extends TestCase
             'date3' => 'today',
         ], '', '', 'admin');
         $json = test_cli_helper('app/emails/list/data', [], '', '', 'admin');
-        $json = test_cli_helper('app/emails/view/99', [], '', '', 'admin');
-        $json = test_cli_helper('app/emails/view/files/99', [], '', '', 'admin');
-        $json = test_cli_helper('app/emails/view/body/99', [], '', '', 'admin');
-        $json = test_cli_helper('app/emails/view/body/99/true', [], '', '', 'admin');
+        $json = test_cli_helper('app/emails/view/49', [], '', '', 'admin');
+        $json = test_cli_helper('app/emails/view/files/49', [], '', '', 'admin');
+        $json = test_cli_helper('app/emails/view/body/49', [], '', '', 'admin');
+        $json = test_cli_helper('app/emails/view/body/49/true', [], '', '', 'admin');
 
         $files = glob('data/cache/*.eml');
         foreach ($files as $file) {
@@ -106,10 +106,10 @@ final class test_emails extends TestCase
         $decoded = __getmail_getmime(-1);
         $this->assertSame($decoded, '');
 
-        $decoded = __getmail_getmime(99);
+        $decoded = __getmail_getmime(49);
         $this->assertIsArray($decoded);
 
-        $decoded = __getmail_getmime(99);
+        $decoded = __getmail_getmime(49);
         $this->assertIsArray($decoded);
 
         $result = __getmail_removebody(__getmail_getnode('0', $decoded));
@@ -154,22 +154,22 @@ final class test_emails extends TestCase
 
         set_data('server/user', 'admin');
 
-        $result = getmail_body(99);
+        $result = getmail_body(49);
         $this->assertIsString($result);
 
-        $result = getmail_body(99, true);
+        $result = getmail_body(49, true);
         $this->assertIsString($result);
 
-        $result = getmail_source(99);
+        $result = getmail_source(49);
         $this->assertIsString($result);
 
-        $result = getmail_files(99);
+        $result = getmail_files(49);
         $this->assertIsArray($result);
 
-        $result = getmail_cid(99, $hash);
+        $result = getmail_cid(49, $hash);
         $this->assertIsArray($result);
 
-        $result = getmail_field('is_outbox', 99);
+        $result = getmail_field('is_outbox', 49);
         $this->assertIsInt($result);
 
         $files = glob('data/cache/*.pdf');
@@ -177,23 +177,23 @@ final class test_emails extends TestCase
             unlink($file);
         }
 
-        $result = getmail_viewpdf(99, $hash);
+        $result = getmail_viewpdf(49, $hash);
         $this->assertIsString($result);
 
         // This trick is for execute the __pdf_all2pdf inside getmail_viewpdf
-        $cache1 = get_cache_file([99, $hash], 'jpg');
+        $cache1 = get_cache_file([49, $hash], 'jpg');
         unlink($cache1);
         $output = get_cache_file($cache1, '.pdf');
         file_put_contents($output, '');
-        $cache2 = get_cache_file([99, $hash], 'pdf');
+        $cache2 = get_cache_file([49, $hash], 'pdf');
         unlink($cache2);
-        $result = getmail_viewpdf(99, $hash);
+        $result = getmail_viewpdf(49, $hash);
         $this->assertIsString($result);
         unlink($cache1);
         unlink($output);
         unlink($cache2);
 
-        $result = getmail_download(99, $hash);
+        $result = getmail_download(49, $hash);
         $this->assertIsArray($result);
 
         set_data('rest/0', 'app');
@@ -203,22 +203,22 @@ final class test_emails extends TestCase
         $result = getmail_setter($maxid + 1, 'new=0');
         $this->assertSame($result, T('Permission denied'));
 
-        $result = getmail_setter('99', 'new=1');
+        $result = getmail_setter('49', 'new=1');
         $this->assertSame($result, sprintf(T('%d email(s) modified successfully'), 1));
 
-        $result = getmail_setter('99', 'new=0');
+        $result = getmail_setter('49', 'new=0');
         $this->assertSame($result, sprintf(T('%d email(s) modified successfully'), 1));
 
-        $result = getmail_setter('99', 'wait=1');
+        $result = getmail_setter('49', 'wait=1');
         $this->assertSame($result, sprintf(T('%d email(s) modified successfully'), 1));
 
-        $result = getmail_setter('99', 'wait=0');
+        $result = getmail_setter('49', 'wait=0');
         $this->assertSame($result, sprintf(T('%d email(s) modified successfully'), 1));
 
-        $result = getmail_setter('99', 'spam=1');
+        $result = getmail_setter('49', 'spam=1');
         $this->assertSame($result, sprintf(T('%d email(s) modified successfully'), 1));
 
-        $result = getmail_setter('99', 'spam=0');
+        $result = getmail_setter('49', 'spam=0');
         $this->assertSame($result, sprintf(T('%d email(s) modified successfully'), 1));
 
         $files = glob('data/cache/*.html');
@@ -226,18 +226,18 @@ final class test_emails extends TestCase
             unlink($file);
         }
 
-        $result = getmail_pdf(99);
+        $result = getmail_pdf(49);
         $this->assertIsArray($result);
 
-        $result = getmail_pdf(99);
+        $result = getmail_pdf(49);
         $this->assertIsArray($result);
 
-        $result = getmail_pdf('99,100');
+        $result = getmail_pdf('49,50');
         $this->assertIsArray($result);
 
         $cache = get_cache_file('which wkhtmltopdf', '.out');
         $this->assertNotFalse(file_put_contents($cache, ''));
-        $result = getmail_pdf('99,100');
+        $result = getmail_pdf('49,50');
         $this->assertIsArray($result);
         $this->assertTrue(unlink($cache));
 
@@ -279,7 +279,7 @@ final class test_emails extends TestCase
 
         // !$file case
         $query = prepare_update_query('app_emails_files', [
-            'reg_id' => 100,
+            'reg_id' => 50,
             'retries' => 0,
         ], [
             'uniqid' => 'nada',
@@ -294,7 +294,7 @@ final class test_emails extends TestCase
         unlink('data/logs/warning.log');
 
         $query = 'DELETE FROM app_emails_files WHERE reg_id = ? AND uniqid = ?';
-        db_query($query, [100, 'nada']);
+        db_query($query, [50, 'nada']);
 
         set_data('server/lang', 'en');
 
@@ -397,13 +397,13 @@ final class test_emails extends TestCase
         $result = sendmail_prepare('', '');
         $this->assertIsArray($result);
 
-        $result = sendmail_prepare('reply', 100);
+        $result = sendmail_prepare('reply', 50);
         $this->assertIsArray($result);
 
-        $result = sendmail_prepare('replyall', 100);
+        $result = sendmail_prepare('replyall', 50);
         $this->assertIsArray($result);
 
-        $result = sendmail_prepare('forward', 100);
+        $result = sendmail_prepare('forward', 50);
         $this->assertIsArray($result);
 
         // forward add an upload file that must to be removed
@@ -462,7 +462,7 @@ final class test_emails extends TestCase
             'to' => 'admin@example.com',
             'subject' => 'test email',
             'body' => 'hello world',
-        ], 'reply', 100);
+        ], 'reply', 50);
         $this->assertIsArray($result);
         $this->assertSame($result['status'], 'ok');
 
@@ -471,7 +471,7 @@ final class test_emails extends TestCase
             'to' => 'admin@example.com',
             'subject' => 'test email',
             'body' => 'hello world',
-        ], 'replyall', 100);
+        ], 'replyall', 50);
         $this->assertIsArray($result);
         $this->assertSame($result['status'], 'ok');
 
@@ -480,7 +480,7 @@ final class test_emails extends TestCase
             'to' => 'admin@example.com',
             'subject' => 'test email',
             'body' => 'hello world',
-        ], 'forward', 100);
+        ], 'forward', 50);
         $this->assertIsArray($result);
         $this->assertSame($result['status'], 'ok');
 
@@ -540,7 +540,7 @@ final class test_emails extends TestCase
         $query = 'UPDATE app_emails_accounts SET email_addmetocc = ? WHERE id = ?';
         db_query($query, [0, 1]);
 
-        copy('data/inbox/1/email_0100.eml.gz', 'data/inbox/1/email_0101.eml.gz');
+        copy('data/inbox/1/email_0050.eml.gz', 'data/inbox/1/email_0101.eml.gz');
         $file = get_temp_file('json');
         file_put_contents($file, json_encode([
             'getmailmsgid' => '1/email_0101',
@@ -572,14 +572,14 @@ final class test_emails extends TestCase
         set_server('QUERY_STRING', null);
 
         $this->assertSame(__getmail_getsource(101), '');
-        $expected = gzfilesize('data/inbox/1/email_0100.eml.gz');
-        $actual = strlen(__getmail_getsource(100));
+        $expected = gzfilesize('data/inbox/1/email_0050.eml.gz');
+        $actual = strlen(__getmail_getsource(50));
         $this->assertLessThan($expected, $actual);
         $this->assertSame(__getmail_fixstring([1, 2, 3]), 1);
         $this->assertSame(gzfilesize('../../utest/files/lorem.txt'), 751);
 
         $query = 'SELECT account_id,uidl,is_outbox,datetime,size FROM app_emails WHERE id = ?';
-        $row = execute_query($query, [98]);
+        $row = execute_query($query, [48]);
         $cache = get_cache_file($row, '.eml');
         file_put_contents($cache, '');
 

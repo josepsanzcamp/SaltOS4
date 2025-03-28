@@ -130,6 +130,32 @@ describe('App Emails', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#list button', timeout);
 
+        await page.evaluate(() => {
+            saltos.app.ajax({
+                url: 'app/emails/view/setter/90,91,92,93,94,95',
+                proxy: 'network',
+                data: {
+                    'what': 'new=0',
+                },
+                success: response => {
+                    saltos.window.send('saltos.emails.update');
+                },
+            });
+            saltos.app.ajax({
+                url: 'app/emails/view/setter/96,97,98,99,100',
+                proxy: 'network',
+                data: {
+                    'what': 'new=1',
+                },
+                success: response => {
+                    saltos.window.send('saltos.emails.update');
+                },
+            });
+        });
+
+        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForSelector('#list button', timeout);
+
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,

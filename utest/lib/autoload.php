@@ -62,6 +62,7 @@ init_random();
 
 global $_CONFIG;
 $_CONFIG = eval_attr(xmlfiles2array(detect_config_files('xml/config.xml')));
+ini_set('date.timezone', $_CONFIG['iniset']['date.timezone']);
 db_connect();
 
 $files = glob('data/logs/*');
