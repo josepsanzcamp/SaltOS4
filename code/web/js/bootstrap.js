@@ -895,9 +895,14 @@ saltos.bootstrap.__field.codemirror = field => {
 };
 
 /**
- * TODO
+ * Indent helper
  *
- * TODO
+ * This function allow to indent the string using the mode, this function is
+ * intended to be used inside the codemirror widget, allowing to indent the
+ * contents like xml, json, css or sql
+ *
+ * @str  => string that you want to indent
+ * @mode => mode used to indent (xml, json, css or sql)
  */
 saltos.bootstrap.__indent_helper = (str, mode) => {
     if (!str.trim().length) {
@@ -3112,9 +3117,13 @@ saltos.bootstrap.__field.onetag = field => {
 };
 
 /**
- * TODO
+ * Srcdoc helper
  *
- * TODO
+ * This function adds the needed environment to the html to improve the
+ * render of the html, this function is intended to be used inside the
+ * iframw widget
+ *
+ * @html => the code that you need to process
  */
 saltos.bootstrap.__iframe_srcdoc_helper = html => {
     const font = 'lib/atkinson/atkinson.min.css';

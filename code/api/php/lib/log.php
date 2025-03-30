@@ -141,9 +141,18 @@ function make_log_bypass($app, $log, $data)
 }
 
 /**
- * TODO
+ * Get Logs
  *
- * TODO
+ * This function allow to get all logs associated to an app and reg_id, to do it,
+ * the app must to have enabled the has_log feature, the results will be tunned
+ * in the query to disallow the zeroes in some fields that are replaced by void
+ * strings, too implement the search in the reg_id or inside the reg_ids using
+ * the FIND_IN_SET feature available as native feature in MariaDB and added by
+ * SaltOS to the sqlite drivers thansk to the createFunction feature that allow
+ * to define sql commands from php functions
+ *
+ * @app    => code of the application that you want to get the logs
+ * @reg_id => register of the app that you want to get the logs
  */
 function get_logs($app, $reg_id)
 {

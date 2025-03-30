@@ -28,15 +28,20 @@
 declare(strict_types=1);
 
 /**
- * TODO
+ * Notes module
  *
- * TODO
+ * This file provide some usefull functions for the notes module
  */
 
 /**
- * TODO
+ * Check Notes Old
  *
- * TODO
+ * This function returns true or false and is an utility to know if the ui
+ * must to shown the needed widgets related with the old notes
+ *
+ * @app    => app that you want to use
+ * @action => action that you want to do (create, view, edit)
+ * @id     => register of the app that must contain notes
  */
 function check_notes_old($app, $action, $id = null)
 {
@@ -66,9 +71,13 @@ function check_notes_old($app, $action, $id = null)
 }
 
 /**
- * TODO
+ * Check Notes New
  *
- * TODO
+ * This function returns true or false and is an utility to know if the ui
+ * must to shown the needed widgets related with the new notes
+ *
+ * @app    => app that you want to use
+ * @action => action that you want to do (create, view, edit)
  */
 function check_notes_new($app, $action)
 {

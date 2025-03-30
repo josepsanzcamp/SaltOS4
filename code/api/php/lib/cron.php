@@ -34,9 +34,14 @@ declare(strict_types=1);
  */
 
 /**
- * TODO
+ * Cron compare helper
  *
- * TODO
+ * This function provide the compare feature to the cron system, it is able to
+ * evaluate the first argument to check the posible cases like true case, list
+ * of options, using module, using range and direct case
+ *
+ * @val => the value that you want to evaluate
+ * @now => the now value used in the evaluation
  */
 function __cron_compare($val, $now)
 {
@@ -69,9 +74,10 @@ function __cron_compare($val, $now)
 }
 
 /**
- * TODO
+ * Cron is now helper
  *
- * TODO
+ * This function uses the __crom_compare to validate if the five items of the
+ * cron configuration triggers the execution of the cron task
  */
 function __cron_is_now($minute, $hour, $day, $month, $dow)
 {
@@ -84,9 +90,11 @@ function __cron_is_now($minute, $hour, $day, $month, $dow)
 }
 
 /**
- * TODO
+ * Cron users helper
  *
- * TODO
+ * This function allow to get an array of users from the arg
+ *
+ * @arg => the list of users, can be * from all users
  */
 function __cron_users($arg)
 {
@@ -103,9 +111,11 @@ function __cron_users($arg)
 }
 
 /**
- * TODO
+ * Cron GC
  *
- * TODO
+ * This function tries to monitorize the cron processes and store in the database
+ * all stdout and stderr with the timestamps of the start and stop processes, too
+ * removes all unused files
  */
 function cron_gc()
 {
@@ -155,9 +165,11 @@ function cron_gc()
 }
 
 /**
- * TODO
+ * Cron Exec
  *
- * TODO
+ * This function tries to detect what cron tasks must to execute and with what
+ * users must to execute each cron task, too detects if a previous instance of
+ * the commands was launched previously and is still running in this moment
  */
 function cron_exec()
 {

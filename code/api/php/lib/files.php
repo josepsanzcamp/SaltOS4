@@ -28,15 +28,20 @@
 declare(strict_types=1);
 
 /**
- * TODO
+ * Files module
  *
- * TODO
+ * This file provide some usefull functions for the files module
  */
 
 /**
- * TODO
+ * Check Files Old
  *
- * TODO
+ * This function returns true or false and is an utility to know if the ui
+ * must to shown the needed widgets related with the old files
+ *
+ * @app    => app that you want to use
+ * @action => action that you want to do (create, view, edit)
+ * @id     => register of the app that must contain files
  */
 function check_files_old($app, $action, $id = null)
 {
@@ -66,10 +71,15 @@ function check_files_old($app, $action, $id = null)
 }
 
 /**
- * TODO
+ * Check Files New
  *
- * TODO
+ * This function returns true or false and is an utility to know if the ui
+ * must to shown the needed widgets related with the new files
+ *
+ * @app    => app that you want to use
+ * @action => action that you want to do (create, view, edit)
  */
+
 function check_files_new($app, $action)
 {
     // Check for action

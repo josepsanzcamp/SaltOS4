@@ -737,9 +737,16 @@ function make_fulltext_query($values, $app, $args = [])
 }
 
 /**
- * TODO
+ * Prepare Helper Query
  *
- * TODO
+ * This function allow to get the names and values used internaly by the
+ * prepare_insert_query, prepare_update_query and prepare_where_query, the
+ * main idea is to get the fields of the table and computes the intersect
+ * with the array provided with data, and using the spec of the table
+ * prepare the values with the needed type cast
+ *
+ * @table => the table where to you want to use the data
+ * @array => the array that contains the data
  */
 function __prepare_helper_query($table, $array)
 {
@@ -782,9 +789,14 @@ function __prepare_helper_query($table, $array)
 }
 
 /**
- * TODO
+ * Prepare Insert Query
  *
- * TODO
+ * Returns the prepared insert query for the table with all fields specified
+ * by the array param
+ *
+ * @table => table where you want to add the register
+ * @array => array with key val pairs that represent the field and the value
+ *           of the field
  */
 function prepare_insert_query($table, $array)
 {
@@ -797,9 +809,16 @@ function prepare_insert_query($table, $array)
 }
 
 /**
- * TODO
+ * Prepare Update Query
  *
- * TODO
+ * Returns the prepared update query for the table with all fields specified
+ * by the array param and using the specified where
+ *
+ * @table => table where you want to update the register
+ * @array => array with key val pairs that represent the field and the value of
+ *           the field
+ * @where => array with key val pairs that represent the field and the value of
+ *           the field used in the where part of the query
  */
 function prepare_update_query($table, $array, $where = [])
 {
@@ -819,9 +838,13 @@ function prepare_update_query($table, $array, $where = [])
 }
 
 /**
- * TODO
+ * Prepare Where Query
  *
- * TODO
+ * This function allow to create where sentences joinin all fields by AND
+ *
+ * @table => table where you want to apply the where
+ * @array => array with key val pairs that represent the field and the value of
+ *           the field
  */
 function prepare_where_query($table, $array)
 {

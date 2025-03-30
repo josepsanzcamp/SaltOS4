@@ -35,26 +35,30 @@
  */
 
 /**
- * TODO
+ * Puppeteer setup
+ *
+ * This lines contain the needed setup for run puppeteer and take screenshots
  */
 const puppeteer = require('puppeteer');
 const pti = require('puppeteer-to-istanbul');
 const toMatchImageSnapshot = require('jest-image-snapshot').toMatchImageSnapshot;
 expect.extend({toMatchImageSnapshot});
-
-/**
- * TODO
- */
 const timeout = {timeout: 3000};
 
 /**
- * TODO
+ * Global variables
+ *
+ * This variables contains the browser and page links
  */
 let browser;
 let page;
 
 /**
- * TODO
+ * Before All
+ *
+ * This function contains all code executed before all tests, in this case the
+ * features provided by this function includes the launch of the browser, set
+ * the screen size and start the javascript coverage
  */
 beforeAll(async () => {
     browser = await puppeteer.launch({
@@ -71,7 +75,11 @@ beforeAll(async () => {
 });
 
 /**
- * TODO
+ * After All
+ *
+ * This function contains all code executed after all tests, in this case the
+ * features provided by this function include the stop of the javsacript coverage
+ * recording, the save feature to the desired storage path and the browser close
  */
 afterAll(async () => {
     const jsCoverage = await page.coverage.stopJSCoverage();
@@ -80,13 +88,19 @@ afterAll(async () => {
 });
 
 /**
- * TODO
+ * Workflow variables
+ *
+ * This variables allow to control the workflow of the test, the main idea is to
+ * skip all tests when one test fails
  */
 let testFailed = false;
 let testFinish = false;
 
 /**
- * TODO
+ * Before Each
+ *
+ * This function contains all code executed before each test, in this case the
+ * features provided by this function includes the control of the workflow
  */
 beforeEach(() => {
     if (testFailed) {
@@ -96,7 +110,10 @@ beforeEach(() => {
 });
 
 /**
- * TODO
+ * After Each
+ *
+ * This function contains all code executed after each test, in this case the
+ * features provided by this function includes the control of the workflow
  */
 afterEach(() => {
     if (!testFinish) {
@@ -105,15 +122,18 @@ afterEach(() => {
 });
 
 /**
- * TODO
+ * App Tester
  *
- * TODO
+ * This test is intended to validate the correctness of the tester application
+ * by execute the init, disabled, enabled, all bs_themes and all css_themes and
+ * validate with the expected screenshot
  */
 describe('App Tester', () => {
     /**
-     * TODO
+     * Action Init
      *
-     * TODO
+     * This part of the test tries to initialize the tester screen by provide a
+     * valid credentials and loads the tester application
      */
     test('Action Init', async () => {
         await page.evaluate(() => { document.body.innerHTML = ''; });
@@ -140,9 +160,9 @@ describe('App Tester', () => {
     });
 
     /**
-     * TODO
+     * Action Disabled
      *
-     * TODO
+     * This part of the test tries to disable all widgets
      */
     test('Action Disabled', async () => {
         await page.evaluate(() => { saltos.app.form_disabled(true); });
@@ -159,9 +179,9 @@ describe('App Tester', () => {
     });
 
     /**
-     * TODO
+     * Action Enabled
      *
-     * TODO
+     * This part of the test tries to enable all widgets
      */
     test('Action Enabled', async () => {
         await page.evaluate(() => { saltos.app.form_disabled(false); });
@@ -178,14 +198,14 @@ describe('App Tester', () => {
     });
 
     /**
-     * TODO
+     * List of bs_themes
      */
     const bs_themes = ['light', 'dark', 'auto'];
 
     /**
-     * TODO
+     * Action Bs Theme
      *
-     * TODO
+     * This part of the test tries to set the differents bs_themes
      */
     test.each(bs_themes)('Action Bs Theme %s', async theme => {
         await page.evaluate(theme => { saltos.bootstrap.set_bs_theme(theme); }, theme);
@@ -202,16 +222,16 @@ describe('App Tester', () => {
     });
 
     /**
-     * TODO
+     * List of css_themes
      */
     const css_themes = ['default', 'cerulean', 'cyborg', 'darkly', 'flatly', 'journal', 'litera', 'lumen',
         'lux', 'materia', 'minty', 'morph', 'pulse', 'quartz', 'sandstone', 'simplex', 'sketchy',
         'slate', 'solar', 'spacelab', 'superhero', 'united', 'vapor', 'yeti', 'zephyr', 'cosmo'];
 
     /**
-     * TODO
+     * Action Css Theme
      *
-     * TODO
+     * This part of the test tries to set the differents css_themes
      */
     test.each(css_themes)('Action Css Theme %s', async theme => {
         await page.evaluate(theme => { saltos.bootstrap.set_css_theme(theme); }, theme);

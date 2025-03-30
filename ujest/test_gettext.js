@@ -42,7 +42,7 @@ for (const i in files) {
 }
 
 /**
- * TODO
+ * berofeEach used in this test
  */
 beforeEach(() => {
     jest.resetAllMocks();
@@ -50,7 +50,7 @@ beforeEach(() => {
 });
 
 /**
- * TODO
+ * afterEach used in this test
  */
 afterEach(() => {
     jest.restoreAllMocks();

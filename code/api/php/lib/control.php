@@ -102,9 +102,14 @@ function make_control($app, $reg_id)
 }
 
 /**
- * TODO
+ * Integrity
  *
- * TODO
+ * This function tries to execute some periodic task intended to fix issues with
+ * the integrity of internal relationships, to do it tries to search not found
+ * registers in the control table in the first loop and tries to search not found
+ * registers in the app table in the second loop, with all found not found registers
+ * the function executes the make_control that add or remove the needed control
+ * register to maintain the integrity.
  */
 function integrity()
 {
@@ -121,8 +126,8 @@ function integrity()
         if (!db_check($query)) {
             continue;
         }
-        $range = execute_query("SELECT MAX(id) maxim, MIN(id) minim FROM $table");
-        for ($i = $range['minim']; $i < $range['maxim']; $i += 100000) {
+        $range = execute_query("SELECT MAX(id) max_id, MIN(id) min_id FROM $table");
+        for ($i = $range['min_id']; $i < $range['max_id']; $i += 100000) {
             if (time_get_usage() > get_config('server/percentstop')) {
                 break;
             }
@@ -133,9 +138,9 @@ function integrity()
                 // Search ids of the main application table, that doesn't exists on the
                 // register table
                 $query = "SELECT a.id FROM $table a
-                    LEFT JOIN {$table}_control b ON a.id=b.id
-                    WHERE b.id IS NULL AND a.id>=$i AND a.id<$i+100000 LIMIT 1000";
-                $ids = execute_query_array($query);
+                    LEFT JOIN {$table}_control b ON a.id = b.id
+                    WHERE b.id IS NULL AND a.id >= ? AND a.id < ? + 100000 LIMIT 1000";
+                $ids = execute_query_array($query, [$i, $i]);
                 if (!count($ids)) {
                     break;
                 }
@@ -148,8 +153,8 @@ function integrity()
                 }
             }
         }
-        $range = execute_query("SELECT MAX(id) maxim, MIN(id) minim FROM {$table}_control");
-        for ($i = $range['minim']; $i < $range['maxim']; $i += 100000) {
+        $range = execute_query("SELECT MAX(id) max_id, MIN(id) min_id FROM {$table}_control");
+        for ($i = $range['min_id']; $i < $range['max_id']; $i += 100000) {
             if (time_get_usage() > get_config('server/percentstop')) {
                 break;
             }
@@ -160,9 +165,9 @@ function integrity()
                 // Search ids of the register table, that doesn't exists on the
                 // main application table
                 $query = "SELECT a.id FROM {$table}_control a
-                    LEFT JOIN $table b ON b.id=a.id
-                    WHERE b.id IS NULL AND a.id>=$i AND a.id<$i+100000 LIMIT 1000";
-                $ids = execute_query_array($query);
+                    LEFT JOIN $table b ON b.id = a.id
+                    WHERE b.id IS NULL AND a.id >= ? AND a.id < ? + 100000 LIMIT 1000";
+                $ids = execute_query_array($query, [$i, $i]);
                 if (!count($ids)) {
                     break;
                 }

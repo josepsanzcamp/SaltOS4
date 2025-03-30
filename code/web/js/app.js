@@ -171,9 +171,9 @@ saltos.app.send_request = hash => {
 };
 
 /**
- * TODO
+ * Data helper object
  *
- * TODO
+ * This object allow to the app to store the data of the prefetch feature
  */
 saltos.app.__cache = {};
 

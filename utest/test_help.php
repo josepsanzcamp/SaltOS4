@@ -90,5 +90,17 @@ final class test_help extends TestCase
 
         $file = detect_help_file('emails', 'ca_ES');
         $this->assertStringContainsString('apps/emails/locale/ca_ES/emails.pdf', $file);
+
+        $file = detect_help_file('emails_accounts', 'nada');
+        $this->assertStringContainsString('emails_accounts.pdf', $file);
+
+        $file = detect_help_file('emails_accounts', 'en_US');
+        $this->assertStringContainsString('apps/emails/locale/en_US/emails_accounts.pdf', $file);
+
+        $file = detect_help_file('emails_accounts', 'es_ES');
+        $this->assertStringContainsString('apps/emails/locale/es_ES/emails_accounts.pdf', $file);
+
+        $file = detect_help_file('emails_accounts', 'ca_ES');
+        $this->assertStringContainsString('apps/emails/locale/ca_ES/emails_accounts.pdf', $file);
     }
 }

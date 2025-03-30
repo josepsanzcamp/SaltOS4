@@ -35,26 +35,30 @@
  */
 
 /**
- * TODO
+ * Puppeteer setup
+ *
+ * This lines contain the needed setup for run puppeteer and take screenshots
  */
 const puppeteer = require('puppeteer');
 const pti = require('puppeteer-to-istanbul');
 const toMatchImageSnapshot = require('jest-image-snapshot').toMatchImageSnapshot;
 expect.extend({toMatchImageSnapshot});
-
-/**
- * TODO
- */
 const timeout = {timeout: 3000};
 
 /**
- * TODO
+ * Global variables
+ *
+ * This variables contains the browser and page links
  */
 let browser;
 let page;
 
 /**
- * TODO
+ * Before All
+ *
+ * This function contains all code executed before all tests, in this case the
+ * features provided by this function includes the launch of the browser, set
+ * the screen size and start the javascript coverage
  */
 beforeAll(async () => {
     browser = await puppeteer.launch({
@@ -71,7 +75,11 @@ beforeAll(async () => {
 });
 
 /**
- * TODO
+ * After All
+ *
+ * This function contains all code executed after all tests, in this case the
+ * features provided by this function include the stop of the javsacript coverage
+ * recording, the save feature to the desired storage path and the browser close
  */
 afterAll(async () => {
     const jsCoverage = await page.coverage.stopJSCoverage();
@@ -80,13 +88,19 @@ afterAll(async () => {
 });
 
 /**
- * TODO
+ * Workflow variables
+ *
+ * This variables allow to control the workflow of the test, the main idea is to
+ * skip all tests when one test fails
  */
 let testFailed = false;
 let testFinish = false;
 
 /**
- * TODO
+ * Before Each
+ *
+ * This function contains all code executed before each test, in this case the
+ * features provided by this function includes the control of the workflow
  */
 beforeEach(() => {
     if (testFailed) {
@@ -96,7 +110,10 @@ beforeEach(() => {
 });
 
 /**
- * TODO
+ * After Each
+ *
+ * This function contains all code executed after each test, in this case the
+ * features provided by this function includes the control of the workflow
  */
 afterEach(() => {
     if (!testFinish) {
@@ -105,15 +122,18 @@ afterEach(() => {
 });
 
 /**
- * TODO
+ * App Login
  *
- * TODO
+ * This test is intended to validate the correctness of the login screen and their
+ * particularities, too tries to check the dashboard and the logout to close the
+ * loop of tests
  */
 describe('App Login', () => {
     /**
-     * TODO
+     * Action Login
      *
-     * TODO
+     * This function tries to do a test to validate that the login screen appear
+     * correctly without issues
      */
     test('Action Login', async () => {
         await page.evaluate(() => { document.body.innerHTML = ''; });
@@ -133,9 +153,9 @@ describe('App Login', () => {
     });
 
     /**
-     * TODO
+     * Action Login Ko Red
      *
-     * TODO
+     * This function tries to validate the form when no data is found
      */
     test('Action Login Ko Red', async () => {
         await page.waitForSelector('#user', timeout);
@@ -155,9 +175,9 @@ describe('App Login', () => {
     });
 
     /**
-     * TODO
+     * Action Login Ko Green
      *
-     * TODO
+     * This function tries to validate the form when invalid data is found
      */
     test('Action Login Ko Green', async () => {
         await page.waitForSelector('#user', timeout);
@@ -185,9 +205,10 @@ describe('App Login', () => {
     });
 
     /**
-     * TODO
+     * Action Dashboard
      *
-     * TODO
+     * This function tries to execute the login with valid credentials, to validate
+     * the correctness, the dashboard will appear
      */
     test('Action Dashboard', async () => {
         await page.waitForSelector('#user', timeout);
@@ -211,9 +232,10 @@ describe('App Login', () => {
     });
 
     /**
-     * TODO
+     * Action Reload
      *
-     * TODO
+     * This function tries to do a reload of the previous page, the validation of
+     * this test must accomplish when a valid dashbord appear
      */
     test('Action Reload', async () => {
         await page.reload();
@@ -234,9 +256,11 @@ describe('App Login', () => {
     });
 
     /**
-     * TODO
+     * Action Logout
      *
-     * TODO
+     * This test is intended to check the correctness of the logout feature, to
+     * to it the test tries to locate the logout button placed in the dropdown
+     * menu of the nabvar and click to the third element
      */
     test('Action Logout', async () => {
         await page.waitForSelector('#username', timeout);

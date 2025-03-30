@@ -35,32 +35,35 @@
  */
 
 /**
- * TODO
+ * Puppeteer setup
+ *
+ * This lines contain the needed setup for run puppeteer and take screenshots
  */
 const puppeteer = require('puppeteer');
 const pti = require('puppeteer-to-istanbul');
 const toMatchImageSnapshot = require('jest-image-snapshot').toMatchImageSnapshot;
 expect.extend({toMatchImageSnapshot});
-
-/**
- * TODO
- */
 const timeout = {timeout: 3000};
 
 /**
- * TODO
+ * Bootstrap
  *
- * TODO
+ * This test contains the code needed to create all widgets and validate the
+ * correctness of them
  */
 describe('Bootstrap', () => {
     /**
-     * TODO
+     * Global variables
+     *
+     * This variables contains the browser and page links
      */
     let browser;
     let page;
 
     /**
-     * TODO
+     * Before All
+     *
+     * This function contains all code executed before all tests
      */
     beforeAll(async () => {
         browser = await puppeteer.launch({
@@ -78,7 +81,9 @@ describe('Bootstrap', () => {
     });
 
     /**
-     * TODO
+     * After All
+     *
+     * This function contains all code executed after all tests
      */
     afterAll(async () => {
         const jsCoverage = await page.coverage.stopJSCoverage();
@@ -93,9 +98,11 @@ describe('Bootstrap', () => {
     const json = JSON.parse(fs.readFileSync('/tmp/tester.json', 'utf-8'));
 
     /**
-     * TODO
+     * Real test
      *
-     * TODO
+     * This function executes the real test for each json item, its able to
+     * create a widget and validate the correctness of the widget comparing
+     * the new widget screenshot to the backup widget screenshot
      */
     test.each(json)('$label', async field => {
         await page.evaluate(field => {

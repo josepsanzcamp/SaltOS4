@@ -35,26 +35,30 @@
  */
 
 /**
- * TODO
+ * Puppeteer setup
+ *
+ * This lines contain the needed setup for run puppeteer and take screenshots
  */
 const puppeteer = require('puppeteer');
 const pti = require('puppeteer-to-istanbul');
 const toMatchImageSnapshot = require('jest-image-snapshot').toMatchImageSnapshot;
 expect.extend({toMatchImageSnapshot});
-
-/**
- * TODO
- */
 const timeout = {timeout: 3000};
 
 /**
- * TODO
+ * Global variables
+ *
+ * This variables contains the browser and page links
  */
 let browser;
 let page;
 
 /**
- * TODO
+ * Before All
+ *
+ * This function contains all code executed before all tests, in this case the
+ * features provided by this function includes the launch of the browser, set
+ * the screen size and start the javascript coverage
  */
 beforeAll(async () => {
     browser = await puppeteer.launch({
@@ -71,7 +75,11 @@ beforeAll(async () => {
 });
 
 /**
- * TODO
+ * After All
+ *
+ * This function contains all code executed after all tests, in this case the
+ * features provided by this function include the stop of the javsacript coverage
+ * recording, the save feature to the desired storage path and the browser close
  */
 afterAll(async () => {
     const jsCoverage = await page.coverage.stopJSCoverage();
@@ -80,13 +88,19 @@ afterAll(async () => {
 });
 
 /**
- * TODO
+ * Workflow variables
+ *
+ * This variables allow to control the workflow of the test, the main idea is to
+ * skip all tests when one test fails
  */
 let testFailed = false;
 let testFinish = false;
 
 /**
- * TODO
+ * Before Each
+ *
+ * This function contains all code executed before each test, in this case the
+ * features provided by this function includes the control of the workflow
  */
 beforeEach(() => {
     if (testFailed) {
@@ -96,7 +110,10 @@ beforeEach(() => {
 });
 
 /**
- * TODO
+ * After Each
+ *
+ * This function contains all code executed after each test, in this case the
+ * features provided by this function includes the control of the workflow
  */
 afterEach(() => {
     if (!testFinish) {
@@ -105,15 +122,17 @@ afterEach(() => {
 });
 
 /**
- * TODO
+ * App Customers
  *
- * TODO
+ * This test is intended to validate the correctness of the customers application
+ * by execute the list, more, reset, create, cancel, view, close, edit, back,
+ * insert, update and delete features and validate with the expected screenshot
  */
 describe('App Customers', () => {
     /**
-     * TODO
+     * Action List
      *
-     * TODO
+     * This part of the test tries to load the list screen
      */
     test('Action List', async () => {
         await page.evaluate(() => { document.body.innerHTML = ''; });
@@ -139,9 +158,9 @@ describe('App Customers', () => {
     });
 
     /**
-     * TODO
+     * Action List
      *
-     * TODO
+     * This part of the test tries to validate the correctness of the more feature
      */
     test('Action More', async () => {
         await page.waitForFunction(() => document.querySelectorAll('#list tbody tr').length == 25, timeout);
@@ -160,9 +179,9 @@ describe('App Customers', () => {
     });
 
     /**
-     * TODO
+     * Action Reset
      *
-     * TODO
+     * This part of the test tries to validate the correctness of the reset feature
      */
     test('Action Reset', async () => {
         await page.$$eval('#one button', buttons => buttons[3].click());
@@ -180,9 +199,9 @@ describe('App Customers', () => {
     });
 
     /**
-     * TODO
+     * Action Create
      *
-     * TODO
+     * This part of the test tries to load the create screen
      */
     test('Action Create', async () => {
         await page.waitForSelector('#one button', timeout);
@@ -202,9 +221,9 @@ describe('App Customers', () => {
     });
 
     /**
-     * TODO
+     * Action Cancel
      *
-     * TODO
+     * This part of the test tries to validate the correctness of the cancel feature
      */
     test('Action Cancel', async () => {
         await page.$$eval('#two button', buttons => buttons[buttons.length - 1].click()); // cancel button
@@ -222,9 +241,9 @@ describe('App Customers', () => {
     });
 
     /**
-     * TODO
+     * Action View
      *
-     * TODO
+     * This part of the test tries to load the view screen
      */
     test('Action View', async () => {
         await page.waitForSelector('#list button', timeout);
@@ -245,9 +264,9 @@ describe('App Customers', () => {
     });
 
     /**
-     * TODO
+     * Action Close
      *
-     * TODO
+     * This part of the test tries to validate the correctness of the close feature
      */
     test('Action Close', async () => {
         await page.$$eval('#two button', buttons => buttons[buttons.length - 2].click());
@@ -265,9 +284,9 @@ describe('App Customers', () => {
     });
 
     /**
-     * TODO
+     * Action Edit
      *
-     * TODO
+     * This part of the test tries to load the edit screen
      */
     test('Action Edit', async () => {
         await page.waitForSelector('#list button', timeout);
@@ -288,9 +307,9 @@ describe('App Customers', () => {
     });
 
     /**
-     * TODO
+     * Action Go Back
      *
-     * TODO
+     * This part of the test tries to validate the correctness of the go back feature
      */
     test('Action Go Back', async () => {
         await page.goBack();
@@ -308,9 +327,9 @@ describe('App Customers', () => {
     });
 
     /**
-     * TODO
+     * Action Insert
      *
-     * TODO
+     * This part of the test tries to validate the correctness of the insert feature
      */
     test('Action Insert', async () => {
         await page.goto('https://127.0.0.1/saltos/code4/#/app/customers/create');
@@ -345,9 +364,9 @@ describe('App Customers', () => {
     });
 
     /**
-     * TODO
+     * Action Update
      *
-     * TODO
+     * This part of the test tries to validate the correctness of the update feature
      */
     test('Action Update', async () => {
         const id = await page.$eval('#list tbody tr', el => el.id.split('/')[1]);
@@ -383,9 +402,9 @@ describe('App Customers', () => {
     });
 
     /**
-     * TODO
+     * Action Delete
      *
-     * TODO
+     * This part of the test tries to validate the correctness of the delete feature
      */
     test('Action Delete', async () => {
         const id = await page.$eval('#list tbody tr', el => el.id.split('/')[1]);

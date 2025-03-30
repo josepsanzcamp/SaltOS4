@@ -33,9 +33,10 @@
  */
 
 /**
- * TODO
+ * Push constructor helper object
  *
- * TODO
+ * This object allow to the constructor to use a rational structure for a quick access of each
+ * helper
  */
 saltos.push = {
     executing: false,
@@ -43,9 +44,11 @@ saltos.push = {
 };
 
 /**
- * TODO
+ * Push helper
  *
- * TODO
+ * This function tries to send the push request to the server with the latest
+ * timestamp, and process the response depending the kind of response, too it
+ * includes features to prevent concurrence and malfunctions
  */
 saltos.push.fn = () => {
     if (saltos.push.executing) {
@@ -97,9 +100,11 @@ saltos.push.fn = () => {
 };
 
 /**
- * TODO
+ * Load setup
  *
- * TODO
+ * This function is executed when window is loaded and defines the current
+ * timestamp and launch the timer that executes periodically the function
+ * each second
  */
 window.addEventListener('load', async event => {
     if ('timestamp' in saltos.push) {
@@ -122,9 +127,10 @@ window.addEventListener('online', event => {
 });
 
 /**
- * TODO
+ * Favicon constructor helper object
  *
- * TODO
+ * This object allow to the constructor to use a rational structure for a quick access of each
+ * helper
  */
 saltos.favicon = {
     executing: false,
@@ -132,9 +138,12 @@ saltos.favicon = {
 };
 
 /**
- * TODO
+ * Favicon helper
  *
- * TODO
+ * This function is intended to launch and stop the favicon animation depending
+ * the bool argument
+ *
+ * @bool => true to run the animation and false to stop the animation
  */
 saltos.favicon.fn = bool => {
     if (bool && !saltos.favicon.executing) {
@@ -154,9 +163,10 @@ saltos.favicon.fn = bool => {
 };
 
 /**
- * TODO
+ * Visibility Change
  *
- * TODO
+ * This function is executed where the vilibilitychange event is triggered and
+ * the main task is to cancel the favicon animation
  */
 document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
@@ -165,9 +175,9 @@ document.addEventListener('visibilitychange', () => {
 });
 
 /**
- * TODO
+ * Run
  *
- * TODO
+ * This function run the favicon animation of the app is not visible
  */
 saltos.favicon.run = () => {
     if (document.visibilityState !== 'visible') {

@@ -28,15 +28,17 @@
 declare(strict_types=1);
 
 /**
- * TODO
+ * Dependencies feature
  *
- * TODO
+ * This file contains the code that has the ability to identify dependencies
  */
 
 /**
- * TODO
+ * Check Dependencies
  *
- * TODO
+ * This function allow to get all dependencies of an app and id, intended to check
+ * the if the sytem can delete some register or if the register has relations with
+ * other apps or tables
  */
 function check_dependencies($app, $id)
 {

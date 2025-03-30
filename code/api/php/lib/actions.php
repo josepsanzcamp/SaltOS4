@@ -28,9 +28,11 @@
 declare(strict_types=1);
 
 /**
- * TODO
+ * Actions module
  *
- * TODO
+ * This file provides the basic actions used by all apps like insert,
+ * update and delete, this modules uses features from others modules
+ * as controol, log, version, indexing, upload, depend and trash.
  */
 
 /**
@@ -39,7 +41,13 @@ declare(strict_types=1);
  * This action allow to insert registers in the database associated to
  * each app
  *
- * TODO
+ * @app  => the application involved in the action
+ * @data => an array with the data that you want to use for the operation
+ *
+ * Notes:
+ *
+ * The data array must contains the fields of the main table, an object
+ * with the subtables, and with two fields (addfiles and addnotes)
  */
 function insert($app, $data)
 {
@@ -154,9 +162,16 @@ function insert($app, $data)
  * Update action
  *
  * This action allow to update registers in the database associated to
- * each app and requires the app, id, data and a valid token.
+ * each app
  *
- * TODO
+ * @app  => the application involved in the action
+ * @data => an array with the data that you want to use for the operation
+ *
+ * Notes:
+ *
+ * The data array must contains the fields of the main table, an object
+ * with the subtables, and with four fields (addfiles, delfiles, addnotes
+ * and delnotes)
  */
 function update($app, $id, $data)
 {
@@ -312,7 +327,17 @@ function update($app, $id, $data)
  * This action allow to delete registers in the database associated to
  * each app
  *
- * TODO
+ * @app  => the application involved in the action
+ * @data => an array with the data that you want to use for the operation
+ *
+ * Notes:
+ *
+ * This action removes the register identified by the id in the main table
+ * of the app and the subtables, too removes the related data of the files
+ * and notes tables, as an excepcion, the version table maintain all data
+ * to allow the recovery action, too, the files of the files feature will
+ * be moved to the trash folder to allow the previous recovery from the
+ * version table
  */
 function delete($app, $id)
 {

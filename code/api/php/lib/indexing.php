@@ -244,13 +244,20 @@ function __get_fkeys_helper($table)
 }
 
 /**
- * TODO
+ * Indexing Files
  *
- * TODO
+ * This function tries to index al unindexed files, and to do it tries to search
+ * the pending files and tries to index using the unoconv2txt, this function needs
+ * a file and returns all contents in a text format, to protect this function of
+ * posible fails, the system first increment the retry field and then tries to
+ * index and update the file register, if some thing is wrong in the index time
+ * the script must unexpectedly finish and in the next executions can continue
+ * in the same file, but only for three times, the requirement to index a file
+ * is that indexed = 0 and retries < 3
  */
 function indexing_files()
 {
-    $query = "SELECT id,code,`table` FROM tbl_apps WHERE `table`!=''";
+    $query = "SELECT id, code, `table` FROM tbl_apps WHERE `table` != ''";
     $apps = execute_query_array($query);
     $total = 0;
     foreach ($apps as $app) {
@@ -264,8 +271,8 @@ function indexing_files()
             continue;
         }
         // Search all pending files
-        $query = "SELECT id,reg_id,file FROM {$table}_files
-            WHERE indexed=0 AND retries<3 AND file!='' LIMIT 1000";
+        $query = "SELECT id, reg_id, file FROM {$table}_files
+            WHERE indexed = 0 AND retries < 3 AND file != '' LIMIT 1000";
         $result = db_query($query);
         while ($row = db_fetch_row($result)) {
             if (time_get_usage() > get_config('server/percentstop')) {
@@ -298,9 +305,14 @@ function indexing_files()
 }
 
 /**
- * TODO
+ * Indexing Apps
  *
- * TODO
+ * This function tries to execute some periodic task intended to fix issues with
+ * the indexing relationships, to do it tries to search not found registers in
+ * the indexing table in the first loop and tries to search not found registers
+ * in the app table in the second loop, with all found not found registers the
+ * function executes the make_index that add or remove the needed index register
+ * to maintain the integrity with the indexing feature.
  */
 function indexing_apps()
 {
@@ -317,8 +329,8 @@ function indexing_apps()
         if (!db_check($query)) {
             continue;
         }
-        $range = execute_query("SELECT MAX(id) maxim, MIN(id) minim FROM $table");
-        for ($i = $range['minim']; $i < $range['maxim']; $i += 100000) {
+        $range = execute_query("SELECT MAX(id) max_id, MIN(id) min_id FROM $table");
+        for ($i = $range['min_id']; $i < $range['max_id']; $i += 100000) {
             if (time_get_usage() > get_config('server/percentstop')) {
                 break;
             }
@@ -344,8 +356,8 @@ function indexing_apps()
                 }
             }
         }
-        $range = execute_query("SELECT MAX(id) maxim, MIN(id) minim FROM {$table}_index");
-        for ($i = $range['minim']; $i < $range['maxim']; $i += 100000) {
+        $range = execute_query("SELECT MAX(id) max_id, MIN(id) min_id FROM {$table}_index");
+        for ($i = $range['min_id']; $i < $range['max_id']; $i += 100000) {
             if (time_get_usage() > get_config('server/percentstop')) {
                 break;
             }
