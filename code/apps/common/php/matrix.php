@@ -30,22 +30,26 @@ declare(strict_types=1);
 /**
  * Matrix functions
  *
- * This file contain all functions needed by the excel widget
+ * This file contains all the functions required by the Excel widget for handling
+ * version and log data in a matrix format.
  */
 
 /**
- * TODO
+ * Create matrix for version data
  *
- * TODO
+ * This function generates a matrix structure for displaying version-related data
+ * in the Excel widget, including headers, data formatting, and cell attributes.
  */
 function make_matrix_version($app, $id)
 {
-    // the table and fields are the hidden fields of files tables
+    // Retrieve the corresponding table for the application
     $table = app2table($app);
-    // continue retrieving versions data
+
+    // Fetch version data using the required library
     require_once 'php/lib/version.php';
     $data = array_values(get_version($app, $id));
-    // compute the versions header used in the sheet
+
+    // Compute headers for versions to be displayed in the sheet
     $query = "SELECT (SELECT name FROM tbl_users b WHERE b.id=user_id) user, datetime, ver_id
         FROM {$table}_version WHERE reg_id = ? ORDER BY id ASC";
     $versions = execute_query_array($query, [$id]);
@@ -55,8 +59,8 @@ function make_matrix_version($app, $id)
         $val['ver_id'] = 'v' . $val['ver_id'];
         $versions[$key] = implode('<br/>', $val);
     }
-    // join table with id with field name
-    // and convert the tree into a matrix
+
+    // Convert tree-like data into a flat matrix format
     foreach ($data as $key => $val) {
         $temp = [];
         foreach ($val as $key2 => $val2) {
@@ -68,22 +72,26 @@ function make_matrix_version($app, $id)
         }
         $data[$key] = $temp;
     }
-    // compute headers with all unique table.id.field
+
+    // Generate headers with unique table, ID, and field names
     $headers = [];
     foreach ($data as $key => $val) {
         $headers = array_merge($headers, array_keys($val));
     }
     $headers = array_keys(array_flip($headers));
-    // create a filled matrix using as key the headers
+
+    // Fill matrix data using headers as keys
     foreach ($data as $key => $val) {
         $temp = array_fill_keys($headers, '');
         $temp = array_replace($temp, $val);
         $temp = array_values($temp);
         $data[$key] = $temp;
     }
-    // change the dimensions of the matrix
+
+    // Transpose matrix dimensions
     $data = array_transpose($data);
-    // compute ranges to colotize
+
+    // Compute ranges for colorization based on headers
     $ranges = [];
     $old = [];
     $pos = [];
@@ -113,12 +121,14 @@ function make_matrix_version($app, $id)
         $pos[] = $key;
         $ranges[] = $pos;
     }
-    // remove the table and id from headers
+
+    // Simplify headers by removing table and ID information
     foreach ($headers as $key => $val) {
         $temp = explode('.', $val);
         $headers[$key] = $temp[2];
     }
-    // define colors for odd ranges
+
+    // Apply color schemes to matrix cells based on ranges
     $matrix = [];
     $colors = [
         'bg-primary-subtle text-black',
@@ -142,7 +152,8 @@ function make_matrix_version($app, $id)
             }
         }
     }
-    // define colors using diff detector
+
+    // Add diff-based colorization to matrix cells
     $val0 = null;
     foreach ($data as $key => $val) {
         foreach ($val as $key2 => $val2) {
@@ -166,13 +177,15 @@ function make_matrix_version($app, $id)
             $val0 = $val2;
         }
     }
-    // add the text-break class to all cells
+
+    // Add text-break class to all cells for improved readability
     foreach ($data as $key => $val) {
         foreach ($val as $key2 => $val2) {
             $matrix[$key][$key2]['className'] .= ' text-break';
         }
     }
-    // compute widths using atkinson hyperlegible font
+
+    // Compute column widths for headers and data using font metrics
     require_once 'php/lib/gdlib.php';
     $widths = [0];
     $size = 12;
@@ -196,9 +209,11 @@ function make_matrix_version($app, $id)
     foreach ($widths as $key => $val) {
         $widths[$key] = min($maxwidth, $val);
     }
-    // convert the matrix to one dimension
+
+    // Convert matrix to single-dimensional array
     $matrix = array_merge(...$matrix);
-    // return the excel field
+
+    // Return the Excel field with headers, data, and formatting information
     return [
         'colHeaders' => $versions,
         'rowHeaders' => $headers,
@@ -210,18 +225,22 @@ function make_matrix_version($app, $id)
 }
 
 /**
- * TODO
+ * Create matrix for log data
  *
- * TODO
+ * This function processes log data and generates headers and formatting information
+ * for integration into the Excel widget.
  */
 function make_matrix_log($app, $id)
 {
-    // the table and fields are the hidden fields of files tables
+    // Retrieve the corresponding table for the application
     $table = app2table($app);
-    // continue retrieving logs data
+
+    // Fetch logs using the required library
     require_once 'php/lib/log.php';
     $data = get_logs($app, $id);
     $users = [];
+
+    // Process logs and associate user names with entries
     foreach ($data as $key => $val) {
         $user_id = $val['user_id'];
         unset($val['id']);
@@ -233,12 +252,14 @@ function make_matrix_log($app, $id)
         $val['datetime'] = datetime_format($val['datetime']);
         $data[$key] = $val;
     }
-    // Set the headers
+
+    // Generate column headers for the log matrix
     $headers = array_combine(array_keys($data[0]), array_keys($data[0]));
     foreach ($headers as $key => $val) {
         $headers[$key] = ucwords(str_replace('_', ' ', $val));
     }
-    // compute widths using atkinson hyperlegible font
+
+    // Compute column widths for headers and data using font metrics
     require_once 'php/lib/gdlib.php';
     $widths = [0];
     $size = 12;
@@ -257,7 +278,8 @@ function make_matrix_log($app, $id)
     foreach ($widths as $key => $val) {
         $widths[$key] = min($maxwidth, $val);
     }
-    // return the excel field
+
+    // Return the Excel field
     return [
         'colHeaders' => array_values($headers),
         'data' => $data,

@@ -200,12 +200,7 @@ function inline_img_style($html)
             continue;
         }
         foreach ($matches[1] as $src) {
-            if (in_array(substr($src, 0, 1), ['"', "'"])) {
-                $src = substr($src, 1);
-            }
-            if (in_array(substr($src, -1, 1), ['"', "'"])) {
-                $src = substr($src, 0, -1);
-            }
+            $src = trim($src, '"\''); // Remove surrounding quotes
             $img = __inline_img_helper($src);
             if ($img == $src) {
                 continue;
@@ -264,9 +259,14 @@ function inline_img_background($html)
 }
 
 /**
- * TODO
+ * Inline Image Helper
  *
- * TODO
+ * This function fetches and processes image URLs, ensuring compatibility and resizing
+ * where necessary. It also manages caching and handles errors gracefully.
+ *
+ * @src => Image source URL or path.
+ *
+ * Returns the inline image data or a placeholder GIF in case of errors.
  */
 function __inline_img_helper($src)
 {
@@ -283,7 +283,7 @@ function __inline_img_helper($src)
     if (file_exists($error)) {
         return __GIF_IMAGE__;
     }
-    // headers added to solve akamai 403 forbidden error
+    // Headers added to resolve Akamai 403 forbidden errors
     $data = __url_get_contents($src, [
         'headers' => [
             'User-Agent' => get_data('server/user_agent'),
@@ -323,9 +323,14 @@ function __inline_img_helper($src)
 }
 
 /**
- * TODO
+ * Extract Inline Images from Tags
  *
- * TODO
+ * This function extracts inline images from HTML `<img>` tags and replaces their `src`
+ * attributes with `cid` references for email compatibility.
+ *
+ * @html => HTML content to parse.
+ *
+ * Returns the modified HTML content and an array of image files.
  */
 function extract_img_tag($html)
 {
@@ -333,9 +338,9 @@ function extract_img_tag($html)
         return [$html, []];
     }
     $dom = new DOMDocument();
-    libxml_use_internal_errors(true); // Trick
+    libxml_use_internal_errors(true); // Suppress warnings
     $dom->loadHTML($html);
-    libxml_clear_errors(); // Trick
+    libxml_clear_errors(); // Clear warnings
     $items = $dom->getElementsByTagName('img');
     $files = [];
     foreach ($items as $item) {
@@ -352,9 +357,14 @@ function extract_img_tag($html)
 }
 
 /**
- * TODO
+ * Extract Inline Images from Styles
  *
- * TODO
+ * This function extracts images embedded in CSS `style` attributes and replaces them
+ * with `cid` references for email compatibility.
+ *
+ * @html => HTML content to parse.
+ *
+ * Returns the modified HTML content and an array of image files.
  */
 function extract_img_style($html)
 {
@@ -362,9 +372,9 @@ function extract_img_style($html)
         return [$html, []];
     }
     $dom = new DOMDocument();
-    libxml_use_internal_errors(true); // Trick
+    libxml_use_internal_errors(true); // Suppress warnings
     $dom->loadHTML($html);
-    libxml_clear_errors(); // Trick
+    libxml_clear_errors(); // Clear warnings
     $items = $dom->getElementsByTagName('*');
     $files = [];
     foreach ($items as $item) {
@@ -374,12 +384,7 @@ function extract_img_style($html)
             continue;
         }
         foreach ($matches[1] as $src) {
-            if (in_array(substr($src, 0, 1), ['"', "'"])) {
-                $src = substr($src, 1);
-            }
-            if (in_array(substr($src, -1, 1), ['"', "'"])) {
-                $src = substr($src, 0, -1);
-            }
+            $src = trim($src, '"\''); // Remove surrounding quotes
             $img = mime_extract(__inline_img_helper($src));
             if ($img['data'] == '' || $img['type'] == '') {
                 continue;
@@ -393,9 +398,14 @@ function extract_img_style($html)
 }
 
 /**
- * TODO
+ * Extract Inline Images from Backgrounds
  *
- * TODO
+ * This function extracts images embedded in HTML `background` attributes and replaces them
+ * with `cid` references for email compatibility.
+ *
+ * @html => HTML content to parse.
+ *
+ * Returns the modified HTML content and an array of image files.
  */
 function extract_img_background($html)
 {
@@ -403,9 +413,9 @@ function extract_img_background($html)
         return [$html, []];
     }
     $dom = new DOMDocument();
-    libxml_use_internal_errors(true); // Trick
+    libxml_use_internal_errors(true); // Suppress warnings
     $dom->loadHTML($html);
-    libxml_clear_errors(); // Trick
+    libxml_clear_errors(); // Clear warnings
     $items = $dom->getElementsByTagName('*');
     $files = [];
     foreach ($items as $item) {
@@ -425,9 +435,14 @@ function extract_img_background($html)
 }
 
 /**
- * TODO
+ * Fix Image Tags
  *
- * TODO
+ * This function processes `<img>` tags in the given HTML to replace non-inline image `src` attributes
+ * with a placeholder image (`__GIF_IMAGE__`), ensuring compatibility and avoiding external dependencies.
+ *
+ * @html => The HTML content to process.
+ *
+ * Returns the updated HTML content with fixed image tags.
  */
 function fix_img_tag($html)
 {
@@ -435,15 +450,15 @@ function fix_img_tag($html)
         return $html;
     }
     $dom = new DOMDocument();
-    libxml_use_internal_errors(true); // Trick
+    libxml_use_internal_errors(true); // Suppress warnings
     $dom->loadHTML($html);
-    libxml_clear_errors(); // Trick
+    libxml_clear_errors(); // Clear warnings
     $items = $dom->getElementsByTagName('img');
     foreach ($items as $item) {
         $src = $item->getAttribute('src');
         $scheme = parse_url($src, PHP_URL_SCHEME);
         if (in_array($scheme, ['data'])) {
-            continue;
+            continue; // Skip inline images
         }
         $froms = [
             $src,
@@ -459,9 +474,14 @@ function fix_img_tag($html)
 }
 
 /**
- * TODO
+ * Fix Image Styles
  *
- * TODO
+ * This function processes CSS `style` attributes in HTML elements to replace non-inline image URLs
+ * within `url()` properties with a placeholder image (`__GIF_IMAGE__`).
+ *
+ * @html => The HTML content to process.
+ *
+ * Returns the updated HTML content with fixed image styles.
  */
 function fix_img_style($html)
 {
@@ -469,9 +489,9 @@ function fix_img_style($html)
         return $html;
     }
     $dom = new DOMDocument();
-    libxml_use_internal_errors(true); // Trick
+    libxml_use_internal_errors(true); // Suppress warnings
     $dom->loadHTML($html);
-    libxml_clear_errors(); // Trick
+    libxml_clear_errors(); // Clear warnings
     $items = $dom->getElementsByTagName('*');
     foreach ($items as $item) {
         $style = $item->getAttribute('style');
@@ -480,15 +500,10 @@ function fix_img_style($html)
             continue;
         }
         foreach ($matches[1] as $src) {
-            if (in_array(substr($src, 0, 1), ['"', "'"])) {
-                $src = substr($src, 1);
-            }
-            if (in_array(substr($src, -1, 1), ['"', "'"])) {
-                $src = substr($src, 0, -1);
-            }
+            $src = trim($src, '"\''); // Remove surrounding quotes
             $scheme = parse_url($src, PHP_URL_SCHEME);
             if (in_array($scheme, ['data'])) {
-                continue;
+                continue; // Skip inline images
             }
             $froms = [
                 $src,
@@ -505,9 +520,14 @@ function fix_img_style($html)
 }
 
 /**
- * TODO
+ * Fix Image Backgrounds
  *
- * TODO
+ * This function processes `background` attributes in HTML elements to replace non-inline image URLs
+ * with a placeholder image (`__GIF_IMAGE__`).
+ *
+ * @html => The HTML content to process.
+ *
+ * Returns the updated HTML content with fixed image backgrounds.
  */
 function fix_img_background($html)
 {
@@ -515,9 +535,9 @@ function fix_img_background($html)
         return $html;
     }
     $dom = new DOMDocument();
-    libxml_use_internal_errors(true); // Trick
+    libxml_use_internal_errors(true); // Suppress warnings
     $dom->loadHTML($html);
-    libxml_clear_errors(); // Trick
+    libxml_clear_errors(); // Clear warnings
     $items = $dom->getElementsByTagName('*');
     foreach ($items as $item) {
         $src = $item->getAttribute('background');
@@ -526,7 +546,7 @@ function fix_img_background($html)
         }
         $scheme = parse_url($src, PHP_URL_SCHEME);
         if (in_array($scheme, ['data'])) {
-            continue;
+            continue; // Skip inline images
         }
         $froms = [
             $src,
@@ -542,16 +562,19 @@ function fix_img_background($html)
 }
 
 /**
- * TODO
+ * Fix Base64-Encoded Files
  *
- * TODO
+ * This function replaces inline base64-encoded file data in HTML with the corresponding
+ * cached image content, ensuring that embedded images are properly handled.
+ *
+ * @html => The HTML content to process.
+ *
+ * Return the updated HTML content with fixed base64-encoded files.
  *
  * Notes:
  *
- * We are using {48} to force to search a base64 data of 48 of bytes, where decoded
- * must to be a 36 bytes string, this match with the cache style file like a md5 hash
- * of 32 bytes with 4 bytes more by the extension file (.b64)
- *
+ * We are using `{48}` to match base64 data of 48 bytes, which decodes into a 36-byte string
+ * that matches the MD5 hash style used in cached files (32 bytes plus 4-byte `.b64` extension).
  */
 function fix_file_b64($html)
 {

@@ -27,9 +27,10 @@
 'use strict';
 
 /**
- * Window unit tests
+ * Filter unit tests
  *
- * This file contains the window unit tests
+ * This file contains unit tests for the filter management system
+ * including initialization, loading, saving, and UI interactions
  */
 
 /**
@@ -42,29 +43,34 @@ for (const i in files) {
 }
 
 /**
- * TODO
+ * Reset mocks before each test
+ *
+ * Ensures all Jest mocks are reset before each test case runs
  */
 beforeEach(() => {
     jest.resetAllMocks();
 });
 
 /**
- * TODO
+ * Restore mocks after each test
+ *
+ * Ensures all Jest mocks are restored to their original implementations
+ * after each test case completes
  */
 afterEach(() => {
     jest.restoreAllMocks();
 });
 
 /**
- * TODO
+ * Test suite for filter initialization
  *
- * TODO
+ * Contains tests for initializing the filter cache from server data
  */
 describe('saltos.filter.init()', () => {
     /**
-     * TODO
+     * Setup before each test in this suite
      *
-     * TODO
+     * Mocks window location and sets up AJAX response for filter data
      */
     beforeEach(() => {
         window.location.hash = '#app/testapp/page';
@@ -81,9 +87,10 @@ describe('saltos.filter.init()', () => {
     });
 
     /**
-     * TODO
+     * Test filter cache initialization
      *
-     * TODO
+     * Verifies that the init function makes an AJAX call to load filters
+     * and properly populates the cache
      */
     test('should initialize filter cache', async () => {
         await saltos.filter.init();
@@ -98,9 +105,10 @@ describe('saltos.filter.init()', () => {
     });
 
     /**
-     * TODO
+     * Test cache reuse
      *
-     * TODO
+     * Verifies that subsequent init calls don't make AJAX requests
+     * when cache is already populated
      */
     test('should not make ajax call if cache is already populated', async () => {
         await saltos.filter.init();
@@ -109,20 +117,26 @@ describe('saltos.filter.init()', () => {
 });
 
 /**
- * TODO
+ * Test suite for filter loading
  *
- * TODO
+ * Contains tests for loading filter data into forms and triggering searches
  */
 describe('saltos.filter.load()', () => {
+    /**
+     * Setup before each test in this suite
+     *
+     * Mocks form data and driver search functions
+     */
     beforeEach(() => {
         jest.spyOn(saltos.form, 'data').mockImplementation(jest.fn());
         jest.spyOn(saltos.driver, 'search').mockImplementation(jest.fn());
     });
 
     /**
-     * TODO
+     * Test loading existing filter
      *
-     * TODO
+     * Verifies that loading a filter populates form data
+     * and triggers a search
      */
     test('should load filter data and trigger search', () => {
         saltos.filter.load('filter1');
@@ -131,9 +145,10 @@ describe('saltos.filter.load()', () => {
     });
 
     /**
-     * TODO
+     * Test loading non-existent filter
      *
-     * TODO
+     * Verifies that loading an unknown filter only triggers search
+     * without modifying form data
      */
     test('should only trigger search if filter not found', () => {
         saltos.filter.load('nonExistentFilter');
@@ -143,15 +158,15 @@ describe('saltos.filter.load()', () => {
 });
 
 /**
- * TODO
+ * Test suite for filter updates
  *
- * TODO
+ * Contains tests for updating the local filter cache
  */
 describe('saltos.filter.update()', () => {
     /**
-     * TODO
+     * Test updating filter cache
      *
-     * TODO
+     * Verifies that update modifies the filter cache correctly
      */
     test('should update filter cache', () => {
         saltos.filter.update('filter1', {field1: 'value2'});
@@ -160,15 +175,15 @@ describe('saltos.filter.update()', () => {
 });
 
 /**
- * TODO
+ * Test suite for filter saving
  *
- * TODO
+ * Contains tests for saving filters to both cache and server
  */
 describe('saltos.filter.save()', () => {
     /**
-     * TODO
+     * Test saving new filter
      *
-     * TODO
+     * Verifies that new filters are added to cache and saved to server
      */
     test('should save new filter to cache and server', () => {
         saltos.filter.save('filter3', {field: 'value3'});
@@ -183,9 +198,9 @@ describe('saltos.filter.save()', () => {
     });
 
     /**
-     * TODO
+     * Test updating existing filter
      *
-     * TODO
+     * Verifies that modified filters are updated in cache and server
      */
     test('should update existing filter if data changed', () => {
         saltos.filter.save('filter3', {field: 'newValue'});
@@ -194,9 +209,9 @@ describe('saltos.filter.save()', () => {
     });
 
     /**
-     * TODO
+     * Test unchanged filter
      *
-     * TODO
+     * Verifies that unchanged filters don't trigger server updates
      */
     test('should not make server call if data unchanged', () => {
         saltos.filter.save('filter3', {field: 'newValue'});
@@ -204,9 +219,9 @@ describe('saltos.filter.save()', () => {
     });
 
     /**
-     * TODO
+     * Test filter deletion
      *
-     * TODO
+     * Verifies that filters are removed from cache and server when set to null
      */
     test('should delete filter when data is null', () => {
         saltos.filter.save('filter3', null);
@@ -221,9 +236,9 @@ describe('saltos.filter.save()', () => {
     });
 
     /**
-     * TODO
+     * Test deleting non-existent filter
      *
-     * TODO
+     * Verifies that attempting to delete unknown filters doesn't trigger server calls
      */
     test('should not delete non-existent filter', () => {
         saltos.filter.save('filter3', null);
@@ -232,15 +247,15 @@ describe('saltos.filter.save()', () => {
 });
 
 /**
- * TODO
+ * Test suite for filter UI buttons
  *
- * TODO
+ * Contains tests for all filter-related UI actions
  */
 describe('saltos.filter.button()', () => {
     /**
-     * TODO
+     * Setup before each test in this suite
      *
-     * TODO
+     * Sets up DOM elements and mocks filter functions
      */
     beforeEach(() => {
         document.body.innerHTML = `
@@ -257,9 +272,9 @@ describe('saltos.filter.button()', () => {
     });
 
     /**
-     * TODO
+     * Test load action
      *
-     * TODO
+     * Verifies that load button loads selected filter and resets selection
      */
     test('should handle load action', () => {
         saltos.filter.button('load');
@@ -268,9 +283,9 @@ describe('saltos.filter.button()', () => {
     });
 
     /**
-     * TODO
+     * Test update action
      *
-     * TODO
+     * Verifies that update button saves current form data to selected filter
      */
     test('should handle update action', () => {
         saltos.filter.button('update');
@@ -279,9 +294,9 @@ describe('saltos.filter.button()', () => {
     });
 
     /**
-     * TODO
+     * Test delete action
      *
-     * TODO
+     * Verifies that delete button removes selected filter and refreshes UI
      */
     test('should handle delete action', () => {
         saltos.filter.button('delete');
@@ -291,9 +306,9 @@ describe('saltos.filter.button()', () => {
     });
 
     /**
-     * TODO
+     * Test create action
      *
-     * TODO
+     * Verifies that create button saves current form data as new filter
      */
     test('should handle create action', () => {
         saltos.filter.button('create');
@@ -303,9 +318,10 @@ describe('saltos.filter.button()', () => {
     });
 
     /**
-     * TODO
+     * Test rename action
      *
-     * TODO
+     * Verifies that rename button moves filter data to new name
+     * and removes old filter entry
      */
     test('should handle rename action', () => {
         saltos.filter.button('rename');
@@ -317,9 +333,9 @@ describe('saltos.filter.button()', () => {
     });
 
     /**
-     * TODO
+     * Test invalid action
      *
-     * TODO
+     * Verifies that unknown actions don't modify filter cache
      */
     test('should do nothing for invalid actions', () => {
         const originalCache = {...saltos.filter.__cache};
@@ -329,15 +345,15 @@ describe('saltos.filter.button()', () => {
 });
 
 /**
- * TODO
+ * Test suite for filter selection UI
  *
- * TODO
+ * Contains tests for updating filter dropdown and tree view
  */
 describe('saltos.filter.select()', () => {
     /**
-     * TODO
+     * Setup before each test in this suite
      *
-     * TODO
+     * Populates filter cache with test data
      */
     beforeEach(() => {
         saltos.filter.__cache = {
@@ -348,9 +364,9 @@ describe('saltos.filter.select()', () => {
     });
 
     /**
-     * TODO
+     * Test UI update
      *
-     * TODO
+     * Verifies that select updates dropdown options and tree view
      */
     test('should update select options and jstree', () => {
         const jstreeMock = {
@@ -369,9 +385,9 @@ describe('saltos.filter.select()', () => {
     });
 
     /**
-     * TODO
+     * Test missing tree element
      *
-     * TODO
+     * Verifies graceful handling when tree element is missing
      */
     test('should handle missing form elements gracefully', () => {
         document.getElementById('jstree').remove();
@@ -379,9 +395,9 @@ describe('saltos.filter.select()', () => {
     });
 
     /**
-     * TODO
+     * Test missing select element
      *
-     * TODO
+     * Verifies graceful handling when select element is missing
      */
     test('should handle missing select elements gracefully', () => {
         document.querySelector('select').remove();
@@ -389,9 +405,9 @@ describe('saltos.filter.select()', () => {
     });
 
     /**
-     * TODO
+     * Test missing form elements
      *
-     * TODO
+     * Verifies graceful handling when all form elements are missing
      */
     test('should handle missing form elements gracefully', () => {
         document.body.innerHTML = ''; // Remove all elements

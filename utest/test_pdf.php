@@ -128,6 +128,7 @@ final class test_pdf extends TestCase
             "'y','z'",
         ]);
 
+        // @phpstan-ignore method.alreadyNarrowedType
         $this->assertTrue(
             defined('K_TCPDF_THROW_EXCEPTION_ERROR'),
             'K_TCPDF_THROW_EXCEPTION_ERROR not found'

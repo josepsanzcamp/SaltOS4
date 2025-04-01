@@ -29,7 +29,8 @@
 /**
  * Push unit tests
  *
- * This file contains the push unit tests
+ * This file contains unit tests for the push notification functionality
+ * and favicon status updates in the SaltOS framework.
  */
 
 /**
@@ -42,23 +43,29 @@ for (const i in files) {
 }
 
 /**
- * TODO
+ * Reset mocks before each test
+ *
+ * Ensures all Jest mocks are reset before each test case runs
  */
 beforeEach(() => {
     jest.resetAllMocks();
 });
 
 /**
- * TODO
+ * Restore mocks after each test
+ *
+ * Ensures all Jest mocks are restored to their original implementations
+ * after each test case completes
  */
 afterEach(() => {
     jest.restoreAllMocks();
 });
 
 /**
- * TODO
+ * Test suite for saltos.push.fn functionality
  *
- * TODO
+ * Contains tests for the push notification system's main function,
+ * including various execution conditions and response handling
  */
 describe('saltos.push.fn', () => {
     Object.defineProperty(global.navigator, 'onLine', {
@@ -67,7 +74,9 @@ describe('saltos.push.fn', () => {
     });
 
     /**
-     * TODO
+     * Setup before each test in this suite
+     *
+     * Initializes mock implementations and resets push notification state
      */
     beforeEach(() => {
         saltos.push.executing = false;
@@ -79,9 +88,10 @@ describe('saltos.push.fn', () => {
     });
 
     /**
-     * TODO
+     * Test push function when already executing
      *
-     * TODO
+     * Verifies that the push function exits early when a push operation
+     * is already in progress
      */
     test('should return early if executing is true', () => {
         saltos.push.executing = true;
@@ -90,9 +100,10 @@ describe('saltos.push.fn', () => {
     });
 
     /**
-     * TODO
+     * Test push function without token
      *
-     * TODO
+     * Verifies that the push function exits early when no authentication
+     * token is available
      */
     test('should return early if token is not available', () => {
         saltos.token.get.mockReturnValue(null);
@@ -101,9 +112,10 @@ describe('saltos.push.fn', () => {
     });
 
     /**
-     * TODO
+     * Test push function when offline
      *
-     * TODO
+     * Verifies that the push function exits early when the browser
+     * is offline
      */
     test('should return early if navigator is offline', () => {
         navigator.onLine = false;
@@ -112,9 +124,10 @@ describe('saltos.push.fn', () => {
     });
 
     /**
-     * TODO
+     * Test push function with positive count
      *
-     * TODO
+     * Verifies that the push function exits early when the countdown
+     * counter hasn't reached zero
      */
     test('should return early if count is greater than or equal to 0', () => {
         saltos.push.count = 10;
@@ -123,9 +136,10 @@ describe('saltos.push.fn', () => {
     });
 
     /**
-     * TODO
+     * Test push function with successful response
      *
-     * TODO
+     * Verifies that the push function makes an AJAX call and properly
+     * handles a successful response
      */
     test('should call ajax and handle success response', () => {
         saltos.push.count = -1;
@@ -143,9 +157,10 @@ describe('saltos.push.fn', () => {
     });
 
     /**
-     * TODO
+     * Test push function with error response
      *
-     * TODO
+     * Verifies that the push function properly handles an error response
+     * from the server
      */
     test('should handle error response', () => {
         saltos.push.count = -1;
@@ -160,9 +175,10 @@ describe('saltos.push.fn', () => {
 });
 
 /**
- * TODO
+ * Test suite for saltos.favicon.fn functionality
  *
- * TODO
+ * Contains tests for the favicon status update functionality,
+ * including visibility state handling
  */
 describe('saltos.favicon.fn', () => {
     Object.defineProperty(document, 'visibilityState', {
@@ -171,9 +187,10 @@ describe('saltos.favicon.fn', () => {
     });
 
     /**
-     * TODO
+     * Test favicon function activation
      *
-     * TODO
+     * Verifies that the favicon update interval starts when
+     * the function is activated
      */
     test('should start interval if bool is true and executing is false', () => {
         document.visibilityState = 'unknown';
@@ -182,9 +199,10 @@ describe('saltos.favicon.fn', () => {
     });
 
     /**
-     * TODO
+     * Test favicon function deactivation
      *
-     * TODO
+     * Verifies that the favicon update interval stops when
+     * the function is deactivated
      */
     test('should clear interval if bool is false and executing is true', () => {
         document.visibilityState = 'unknown';

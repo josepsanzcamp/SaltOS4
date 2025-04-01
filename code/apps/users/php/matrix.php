@@ -30,13 +30,15 @@ declare(strict_types=1);
 /**
  * Matrix functions
  *
- * This file contain all functions needed by the excel widget
+ * This file contains all the functions required by the Excel widget for handling
+ * permissions and applications in a matrix structure.
  */
 
 /**
- * Make matrix
+ * Create matrix data
  *
- * TODO
+ * This function generates a matrix of permissions and applications, associating each
+ * application with its respective permissions and their assigned values ("Allow", "Deny", or "").
  */
 function make_matrix_data($perms, $apps, $main, $user)
 {
@@ -44,6 +46,7 @@ function make_matrix_data($perms, $apps, $main, $user)
     $apps = array_flip($apps);
 
     $matrix = [];
+    // Initialize the matrix with empty values
     foreach ($apps as $app_id => $app_pos) {
         foreach ($perms as $perm_id => $perm_pos) {
             if (!isset($matrix[$app_pos])) {
@@ -55,6 +58,7 @@ function make_matrix_data($perms, $apps, $main, $user)
     //~ print_r($matrix);
     //~ die();
 
+    // Populate the matrix with main data
     $main = array_protected($main);
     foreach ($main as $cell) {
         if ($cell['deny']) {
@@ -71,6 +75,7 @@ function make_matrix_data($perms, $apps, $main, $user)
         //~ die();
     }
 
+    // Populate the matrix with user data
     $user = array_protected($user);
     foreach ($user as $cell) {
         if ($cell['deny']) {
@@ -93,9 +98,10 @@ function make_matrix_data($perms, $apps, $main, $user)
 }
 
 /**
- * Make matrix
+ * Create matrix cells
  *
- * TODO
+ * This function generates matrix cells with additional attributes such as column and row indices,
+ * and dropdown options for editing cell values. Read-only attributes are applied to specific cells.
  */
 function make_matrix_cell($perms, $apps, $main, $user)
 {
@@ -103,6 +109,7 @@ function make_matrix_cell($perms, $apps, $main, $user)
     $apps = array_flip($apps);
 
     $matrix = [];
+    // Initialize the matrix with cell metadata
     foreach ($apps as $app_id => $app_pos) {
         foreach ($perms as $perm_id => $perm_pos) {
             if (!isset($matrix[$app_pos])) {
@@ -118,6 +125,7 @@ function make_matrix_cell($perms, $apps, $main, $user)
     //~ print_r($matrix);
     //~ die();
 
+    // Update cell attributes with main data
     $main = array_protected($main);
     foreach ($main as $cell) {
         $perm_pos = $perms[$cell['perm_id']];
@@ -142,6 +150,7 @@ function make_matrix_cell($perms, $apps, $main, $user)
         //~ die();
     }
 
+    // Update cell attributes with user data
     $user = array_protected($user);
     foreach ($user as $cell) {
         $perm_pos = $perms[$cell['perm_id']];
@@ -164,9 +173,10 @@ function make_matrix_cell($perms, $apps, $main, $user)
 }
 
 /**
- * Make matrix
+ * Unmake matrix data
  *
- * TODO
+ * This function reverses the matrix data into a more manageable format by applying
+ * permission and application mappings while validating data consistency.
  */
 function unmake_matrix_data($perms, $apps, $main, $json)
 {
@@ -174,6 +184,7 @@ function unmake_matrix_data($perms, $apps, $main, $json)
         return $json;
     }
 
+    // Reorganize the main data for easier access
     foreach ($main as $key => $val) {
         unset($main[$key]);
         $key = $val['app_id'] . '|' . $val['perm_id'];
@@ -182,6 +193,7 @@ function unmake_matrix_data($perms, $apps, $main, $json)
 
     $matrix = [];
     $json = array_protected($json);
+    // Process JSON data into the matrix
     foreach ($json as $app_pos => $temp) {
         foreach ($temp as $perm_pos => $val) {
             $app_id = $apps[$app_pos];
@@ -204,7 +216,7 @@ function unmake_matrix_data($perms, $apps, $main, $json)
                 default:
                     show_json_error("Unknown value $val");
             }
-            $key =  "$app_id|$perm_id";
+            $key = "$app_id|$perm_id";
             if (isset($main[$key])) {
                 $case = $main[$key]['allow'] . $main[$key]['deny'] . $allow . $deny;
                 if (in_array($case, ['0010', '0001', '1001'])) {
@@ -224,6 +236,12 @@ function unmake_matrix_data($perms, $apps, $main, $json)
     return $matrix;
 }
 
+/**
+ * Generate matrix permissions
+ *
+ * This function generates the complete matrix data and metadata for use in
+ * the Excel widget, including column headers, row headers, data values, and cell details.
+ */
 function make_matrix_perms($table, $field, $id)
 {
     $perms = execute_query_array("SELECT id, CONCAT_WS('/',code,NULLIF(owner,'')) code

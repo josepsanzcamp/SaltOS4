@@ -27,22 +27,24 @@
 'use strict';
 
 /**
- * profile application
+ * Profile application
  *
- * This application implements the tipical features associated to profile
+ * This application implements the typical features associated with user profiles,
+ * such as managing themes, language settings, and authentication updates.
  */
 
 /**
  * Main object
  *
- * This object contains all SaltOS code
+ * Contains all the logic and code for the SaltOS framework related to the profile application.
  */
 saltos.profile = {};
 
 /**
- * TODO
+ * Initialization of profile settings
  *
- * TODO
+ * This method initializes the profile settings by setting the current Bootstrap theme,
+ * custom CSS theme, and language preferences in the respective input fields.
  */
 saltos.profile.init = arg => {
     document.getElementById('bs_theme').value = saltos.bootstrap.get_bs_theme();
@@ -51,9 +53,11 @@ saltos.profile.init = arg => {
 };
 
 /**
- * TODO
+ * Update authentication settings
  *
- * TODO
+ * This method restores the previous state of the application if necessary,
+ * validates required fields, and then updates the authentication credentials
+ * using the provided old password, new password, and its confirmation.
  */
 saltos.profile.authupdate = () => {
     saltos.backup.restore('right');

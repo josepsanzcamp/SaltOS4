@@ -1,6 +1,6 @@
 Unit Test Documentation
-SaltOS 4.0 r1923
-March 2025
+SaltOS 4.0 r1924
+April 2025
 
 
 
@@ -4103,123 +4103,144 @@ test_apps.js
 This file contains the apps unit tests
 
 
-+++TODO+++
++++Puppeteer setup+++
 
 ```
 const puppeteer = require('puppeteer');
 ```
 
-
-+++TODO+++
-
-```
-const timeout = {timeout: 3000};
-```
+This lines contain the needed setup for run puppeteer and take screenshots
 
 
-+++TODO+++
++++Global variables+++
 
 ```
 let browser;
 ```
 
+This variables contains the browser and page links
 
-+++TODO+++
+
++++Before All+++
 
 ```
 beforeAll(async ()
 ```
 
+This function contains all code executed before all tests, in this case the
+features provided by this function includes the launch of the browser, set
+the screen size and start the javascript coverage
 
-+++TODO+++
+
++++After All+++
 
 ```
 afterAll(async ()
 ```
 
+This function contains all code executed after all tests, in this case the
+features provided by this function include the stop of the javsacript coverage
+recording, the save feature to the desired storage path and the browser close
 
-+++TODO+++
+
++++Workflow variables+++
 
 ```
 let testFailed = false;
 ```
 
+This variables allow to control the workflow of the test, the main idea is to
+skip all tests when one test fails
 
-+++TODO+++
+
++++Before Each+++
 
 ```
 beforeEach(()
 ```
 
+This function contains all code executed before each test, in this case the
+features provided by this function includes the control of the workflow
 
-+++TODO+++
+
++++After Each+++
 
 ```
 afterEach(()
 ```
 
+This function contains all code executed after each test, in this case the
+features provided by this function includes the control of the workflow
 
-+++TODO+++
+
++++App Login+++
 
 ```
 describe('App Login', ()
 ```
 
-TODO
+This test is intended to validate the correctness of the login screen and their
+particularities, too tries to check the dashboard and the logout to close the
+loop of tests
 
 
-+++TODO+++
++++Action Login+++
 
 ```
 test('Action Login', async ()
 ```
 
-TODO
+This function tries to do a test to validate that the login screen appear
+correctly without issues
 
 
-+++TODO+++
++++Action Login Ko Red+++
 
 ```
 test('Action Login Ko Red', async ()
 ```
 
-TODO
+This function tries to validate the form when no data is found
 
 
-+++TODO+++
++++Action Login Ko Green+++
 
 ```
 test('Action Login Ko Green', async ()
 ```
 
-TODO
+This function tries to validate the form when invalid data is found
 
 
-+++TODO+++
++++Action Dashboard+++
 
 ```
 test('Action Dashboard', async ()
 ```
 
-TODO
+This function tries to execute the login with valid credentials, to validate
+the correctness, the dashboard will appear
 
 
-+++TODO+++
++++Action Reload+++
 
 ```
 test('Action Reload', async ()
 ```
 
-TODO
+This function tries to do a reload of the previous page, the validation of
+this test must accomplish when a valid dashbord appear
 
 
-+++TODO+++
++++Action Logout+++
 
 ```
 test('Action Logout', async ()
 ```
 
-TODO
+This test is intended to check the correctness of the logout feature, to
+to it the test tries to locate the logout button placed in the dropdown
+menu of the nabvar and click to the third element
 
 
 ++Bootstrap unit tests++
@@ -4231,48 +4252,50 @@ test_bootstrap.js
 This file contains the bootstrap unit tests
 
 
-+++TODO+++
++++Puppeteer setup+++
 
 ```
 const puppeteer = require('puppeteer');
 ```
 
-
-+++TODO+++
-
-```
-const timeout = {timeout: 3000};
-```
+This lines contain the needed setup for run puppeteer and take screenshots
 
 
-+++TODO+++
++++Bootstrap+++
 
 ```
 describe('Bootstrap', ()
 ```
 
-TODO
+This test contains the code needed to create all widgets and validate the
+correctness of them
 
 
-+++TODO+++
++++Global variables+++
 
 ```
 let browser;
 ```
 
+This variables contains the browser and page links
 
-+++TODO+++
+
++++Before All+++
 
 ```
 beforeAll(async ()
 ```
 
+This function contains all code executed before all tests
 
-+++TODO+++
+
++++After All+++
 
 ```
 afterAll(async ()
 ```
+
+This function contains all code executed after all tests
 
 
 +++Prepare the test.each iterator+++
@@ -4282,13 +4305,15 @@ const fs = require('fs');
 ```
 
 
-+++TODO+++
++++Real test+++
 
 ```
 test.each(json)('$label', async field
 ```
 
-TODO
+This function executes the real test for each json item, its able to
+create a widget and validate the correctness of the widget comparing
+the new widget screenshot to the backup widget screenshot
 
 
 ++Core unit tests++
@@ -4297,7 +4322,9 @@ TODO
 test_core.js
 ```
 
-This file contains the core unit tests
+This file contains comprehensive unit tests for the core functionality
+of the SaltOS framework, including error handling, AJAX operations,
+utility functions, and service worker integration.
 
 
 +++Load all needed files of the project+++
@@ -4307,467 +4334,493 @@ const files = `core,gettext,token`.split(',');
 ```
 
 
-+++TODO+++
++++Reset mocks before each test+++
 
 ```
 beforeEach(()
 ```
 
+Initializes mock implementations for console.log and fetch API
+before each test case runs
 
-+++TODO+++
+
++++Restore mocks after each test+++
 
 ```
 afterEach(()
 ```
 
+Restores original implementations of mocked functions
+after each test case completes
 
-+++saltos.core.adderror/addlog+++
+
++++Test suite for error and log reporting+++
 
 ```
 describe('saltos.core.adderror/addlog', ()
 ```
 
-This function performs the tests of the adderror and adlog functions
+Contains tests for core error handling and logging functionality
 
 
-+++saltos.core.adderror+++
++++Setup before each test in this suite+++
+
+```
+beforeEach(()
+```
+
+Mocks core dependencies including AJAX, token, and gettext functions
+
+
++++Test error reporting functionality+++
 
 ```
 test('saltos.core.adderror should send error details to the server', async ()
 ```
 
-This function performs the tests of the adderror function
+Verifies that error details including stack traces are properly
+processed and sent to the server
 
 
-+++saltos.core.addlog+++
++++Test log reporting functionality+++
 
 ```
 test('saltos.core.addlog should send log message to the server', ()
 ```
 
-This function performs the tests of the addlog function
+Verifies that log messages are properly formatted and sent to the server
 
 
-+++TODO+++
++++Test suite for global error handling+++
 
 ```
 describe('window.addEventListener for error and unhandledrejection', ()
 ```
 
-TODO
+Contains tests for window-level error and unhandled promise rejection handlers
 
 
-+++TODO+++
++++Setup before each test in this suite+++
 
 ```
 beforeEach(()
 ```
 
+Mocks the core error reporting function
 
-+++error+++
+
++++Test global error handling+++
 
 ```
 test('should call saltos.core.adderror when an error occurs', ()
 ```
 
-This function performs the tests of the error feature
+Verifies that window error events are properly captured and reported
 
 
-+++unhandledrejection+++
++++Test unhandled promise rejection handling+++
 
 ```
 test('should call saltos.core.adderror when an unhandledrejection occurs', ()
 ```
 
-This function performs the tests of the unhandledrejection feature
+Verifies that unhandled promise rejections are properly captured and reported
 
 
-+++saltos.core.check_params+++
++++Test parameter validation functionality+++
 
 ```
 test('saltos.core.check_params', ()
 ```
 
-This function performs the test of the check_params function
+Verifies that missing parameters are properly initialized with default values
 
 
-+++saltos.core.uniqid+++
++++Test unique ID generation+++
 
 ```
 test('saltos.core.uniqid', ()
 ```
 
-This function performs the tests of the uniqid function
+Verifies that generated IDs are unique and follow expected format
 
 
-+++saltos.core.when_visible+++
++++Test suite for visibility detection+++
 
 ```
 describe('when_visible', ()
 ```
 
-This function performs the tests of the when_visible function
+Contains tests for the when_visible utility function
 
 
-+++TODO+++
++++Setup before each test in this suite+++
 
 ```
 beforeEach(()
 ```
 
+Configures fake timers and clears DOM
 
-+++TODO+++
+
++++Cleanup after each test in this suite+++
 
 ```
 afterEach(()
 ```
 
+Clears timers and restores real timer implementation
 
-+++TODO+++
+
++++Test basic visibility detection+++
 
 ```
 test('executes the callback when the object becomes visible', ()
 ```
 
-TODO
+Verifies callback is executed when element becomes visible
 
 
-+++TODO+++
++++Test visibility detection with ID+++
 
 ```
 test('works setting the id as test-div', ()
 ```
 
-TODO
+Verifies function works with elements that have IDs
 
 
-+++TODO+++
++++Test visibility detection with string ID+++
 
 ```
 test('works with an string id instead of an object', ()
 ```
 
-TODO
+Verifies function works when passed an element ID string
 
 
-+++TODO+++
++++Test invalid input handling+++
 
 ```
 test('throws an error for unsupported obj type', ()
 ```
 
-TODO
+Verifies function throws error for unsupported input types
 
 
-+++TODO+++
++++Test delayed element attachment+++
 
 ```
 test('append the object after some iterations', ()
 ```
 
-TODO
+Verifies function works when element is added to DOM after initialization
 
 
-+++TODO+++
++++Test element removal handling+++
 
 ```
 test('throws an error if the object disappears before being visible', ()
 ```
 
-TODO
+Verifies function throws error if element is removed before becoming visible
 
 
-+++saltos.core.get_keycode+++
++++Test key code extraction+++
 
 ```
 test('saltos.core.get_keycode', ()
 ```
 
-This function performs the tests of the get_keycode function
+Verifies function correctly extracts key codes from different event properties
 
 
-+++saltos.core.get_keyname+++
++++Test key name resolution+++
 
 ```
 test('saltos.core.get_keyname', ()
 ```
 
-This function performs the tests of the get_keyname function
+Verifies function correctly maps key codes to common key names
 
 
-+++saltos.core.html+++
++++Test suite for HTML element creation+++
 
 ```
 describe('saltos.core.html', ()
 ```
 
-This function performs the tests of the html function
+Contains tests for the html utility function
 
 
-+++TODO+++
++++Test single argument usage+++
 
 ```
 test('creates a div with inner HTML when only one argument is passed', ()
 ```
 
-TODO
+Verifies function creates element from HTML string with optimization
 
 
-+++TODO+++
++++Test two argument usage+++
 
 ```
 test('creates the specified element with inner HTML when two arguments are passed', ()
 ```
 
-TODO
+Verifies function creates specified element type with content
 
 
-+++TODO+++
++++Test HTML trimming+++
 
 ```
 test('trims the inner HTML before setting it', ()
 ```
 
-TODO
+Verifies function trims whitespace from HTML content
 
 
-+++TODO+++
++++Test multiple children handling+++
 
 ```
 test('does not optimize if there are multiple children', ()
 ```
 
-TODO
+Verifies function preserves container element when multiple children exist
 
 
-+++TODO+++
++++Test single child optimization+++
 
 ```
 test('optimizes and returns the single child if present', ()
 ```
 
-TODO
+Verifies function optimizes by returning single child element directly
 
 
-+++saltos.core.ajax+++
++++Test suite for AJAX functionality+++
 
 ```
 describe('saltos.core.ajax', ()
 ```
 
-This function performs the tests of the ajax function
+Contains comprehensive tests for the core AJAX implementation
 
 
-+++TODO+++
++++Test successful GET request+++
 
 ```
 test('makes a successful GET request and calls success callback', async ()
 ```
 
-TODO
+Verifies proper request construction and success callback handling
 
 
-+++TODO+++
++++Test error response handling+++
 
 ```
 test('handles non-200 responses and calls error callback', async ()
 ```
 
-TODO
+Verifies proper error callback invocation for non-200 responses
 
 
-+++TODO+++
++++Test POST request handling+++
 
 ```
 test('makes a POST request with a body', async ()
 ```
 
-TODO
+Verifies proper construction of POST requests with body content
 
 
-+++TODO+++
++++Test request abortion+++
 
 ```
 test('calls abort callback when request is aborted', async ()
 ```
 
-TODO
+Verifies proper handling of aborted requests
 
 
-+++TODO+++
++++Test network failure handling+++
 
 ```
 test('calls error callback on network failure', async ()
 ```
 
-TODO
+Verifies proper error callback invocation for network failures
 
 
-+++TODO+++
++++Test unexpected error handling+++
 
 ```
 test('throws an error for unexpected failures', async ()
 ```
 
-TODO
+Verifies proper propagation of unexpected errors
 
 
-+++TODO+++
++++Test unsupported method handling+++
 
 ```
 test('throws an error for unsupported HTTP method', ()
 ```
 
-TODO
+Verifies proper error throwing for unsupported HTTP methods
 
 
-+++TODO+++
++++Test XML response handling+++
 
 ```
 test('handles XML response correctly', async ()
 ```
 
-TODO
+Verifies proper parsing of XML response content
 
 
-+++TODO+++
++++Test plain text response handling+++
 
 ```
 test('handles plain text response correctly', async ()
 ```
 
-TODO
+Verifies proper handling of plain text responses
 
 
-+++saltos.core.fix_key+++
++++Test key normalization+++
 
 ```
 test('saltos.core.fix_key', ()
 ```
 
-This function performs the test of the fix_key function
+Verifies function properly removes suffixes from keys
 
 
-+++saltos.core.copy_object+++
++++Test object copying+++
 
 ```
 test('saltos.core.copy_object', ()
 ```
 
-This function performs the test of the copy_object function
+Verifies function creates proper shallow copies of objects
 
 
-+++TODO+++
++++Test suite for resource loading+++
 
 ```
 describe('saltos.core.require', ()
 ```
 
-TODO
+Contains tests for the require functionality
 
 
-+++TODO+++
++++Setup before each test in this suite+++
 
 ```
 beforeEach(()
 ```
 
+Configures fake timers for testing asynchronous operations
 
-+++TODO+++
+
++++Cleanup after each test in this suite+++
 
 ```
 afterEach(()
 ```
 
+Restores real timer implementation
 
-+++TODO+++
+
++++Test JavaScript file loading+++
 
 ```
 test('loads a JavaScript file successfully', async ()
 ```
 
-TODO
+Verifies proper loading and injection of JavaScript files
 
 
-+++TODO+++
++++Test CSS file loading+++
 
 ```
 test('loads a CSS file successfully', async ()
 ```
 
-TODO
+Verifies proper loading and injection of CSS files
 
 
-+++TODO+++
++++Test cached resource handling+++
 
 ```
 test('does not reload already loaded files', async ()
 ```
 
-TODO
+Verifies that already loaded resources are not reloaded
 
 
-+++TODO+++
++++Test pending resource handling+++
 
 ```
 test('waits when file is already loading', async ()
 ```
 
-TODO
+Verifies proper waiting behavior for resources already being loaded
 
 
-+++TODO+++
++++Test module file loading+++
 
 ```
 test('loads a JavaScript module file successfully', async ()
 ```
 
-TODO
+Verifies proper handling of JavaScript module files
 
 
-+++TODO+++
++++Test hashed resource loading+++
 
 ```
 test('loads a CSS file with hash successfully', async ()
 ```
 
-TODO
+Verifies proper handling of resources with cache-busting hashes
 
 
-+++saltos.core.eval_bool+++
++++Test boolean evaluation+++
 
 ```
 test('saltos.core.eval_bool', ()
 ```
 
-This function performs the test of the eval_bool function
+Verifies proper conversion of various values to boolean
 
 
-+++saltos.core.toString+++
++++Test string conversion+++
 
 ```
 test('saltos.core.toString', ()
 ```
 
-This function performs the test of the toString function
+Verifies proper string conversion of various values
 
 
-+++saltos.core.is_attr_value+++
++++Test attribute value detection+++
 
 ```
 test('saltos.core.is_attr_value', ()
 ```
 
-This function performs the test of the is_attr_value function
+Verifies proper identification of attribute-value objects
 
 
-+++saltos.core.join_attr_value+++
++++Test attribute-value joining+++
 
 ```
 test('saltos.core.join_attr_value', ()
 ```
 
-This function performs the test of the join_attr_value function
+Verifies proper merging of attribute and value objects
 
 
 +++saltos.core.encode_bad_chars+++
@@ -4815,49 +4868,54 @@ test('saltos.core.is_number', ()
 This function performs the test of the is_number function
 
 
-+++TODO+++
++++Core Module Tests+++
 
 ```
 describe('Core Module Tests', ()
 ```
 
-TODO
+This test suite validates the core functionalities of the SaltOS framework,
+ensuring that essential features operate correctly under different scenarios.
 
 
-+++TODO+++
++++Test service worker registration+++
 
 ```
 test('Registers service worker if supported and on HTTPS', async ()
 ```
 
-TODO
+This test checks if the service worker is registered properly when the
+browser supports service workers and the application is running over HTTPS.
 
 
-+++TODO+++
++++Test proxy function messaging+++
 
 ```
 test('Proxy function sends message to service worker', ()
 ```
 
-TODO
+This test ensures that the proxy function sends the correct message
+to the service worker's controller using the `postMessage` method.
 
 
-+++TODO+++
++++Test proxy synchronization on online events+++
 
 ```
 test('Triggers proxy sync on online event', ()
 ```
 
-TODO
+This test verifies that the proxy synchronization is triggered correctly
+when the browser's online event is fired.
 
 
-+++TODO+++
++++Test network protocol detection+++
 
 ```
 test('Check network detects protocols correctly', async ()
 ```
 
-TODO
+This test checks that the `check_network` function accurately detects
+HTTP and HTTPS protocols by simulating network conditions.
 
 
 ++Bootstrap unit tests++
@@ -4869,177 +4927,193 @@ test_customers.js
 This file contains the bootstrap unit tests
 
 
-+++TODO+++
++++Puppeteer setup+++
 
 ```
 const puppeteer = require('puppeteer');
 ```
 
-
-+++TODO+++
-
-```
-const timeout = {timeout: 3000};
-```
+This lines contain the needed setup for run puppeteer and take screenshots
 
 
-+++TODO+++
++++Global variables+++
 
 ```
 let browser;
 ```
 
+This variables contains the browser and page links
 
-+++TODO+++
+
++++Before All+++
 
 ```
 beforeAll(async ()
 ```
 
+This function contains all code executed before all tests, in this case the
+features provided by this function includes the launch of the browser, set
+the screen size and start the javascript coverage
 
-+++TODO+++
+
++++After All+++
 
 ```
 afterAll(async ()
 ```
 
+This function contains all code executed after all tests, in this case the
+features provided by this function include the stop of the javsacript coverage
+recording, the save feature to the desired storage path and the browser close
 
-+++TODO+++
+
++++Workflow variables+++
 
 ```
 let testFailed = false;
 ```
 
+This variables allow to control the workflow of the test, the main idea is to
+skip all tests when one test fails
 
-+++TODO+++
+
++++Before Each+++
 
 ```
 beforeEach(()
 ```
 
+This function contains all code executed before each test, in this case the
+features provided by this function includes the control of the workflow
 
-+++TODO+++
+
++++After Each+++
 
 ```
 afterEach(()
 ```
 
+This function contains all code executed after each test, in this case the
+features provided by this function includes the control of the workflow
 
-+++TODO+++
+
++++App Customers+++
 
 ```
 describe('App Customers', ()
 ```
 
-TODO
+This test is intended to validate the correctness of the customers application
+by execute the list, more, reset, create, cancel, view, close, edit, back,
+insert, update and delete features and validate with the expected screenshot
 
 
-+++TODO+++
++++Action List+++
 
 ```
 test('Action List', async ()
 ```
 
-TODO
+This part of the test tries to load the list screen
 
 
-+++TODO+++
++++Action List+++
 
 ```
 test('Action More', async ()
 ```
 
-TODO
+This part of the test tries to validate the correctness of the more feature
 
 
-+++TODO+++
++++Action Reset+++
 
 ```
 test('Action Reset', async ()
 ```
 
-TODO
+This part of the test tries to validate the correctness of the reset feature
 
 
-+++TODO+++
++++Action Create+++
 
 ```
 test('Action Create', async ()
 ```
 
-TODO
+This part of the test tries to load the create screen
 
 
-+++TODO+++
++++Action Cancel+++
 
 ```
 test('Action Cancel', async ()
 ```
 
-TODO
+This part of the test tries to validate the correctness of the cancel feature
 
 
-+++TODO+++
++++Action View+++
 
 ```
 test('Action View', async ()
 ```
 
-TODO
+This part of the test tries to load the view screen
 
 
-+++TODO+++
++++Action Close+++
 
 ```
 test('Action Close', async ()
 ```
 
-TODO
+This part of the test tries to validate the correctness of the close feature
 
 
-+++TODO+++
++++Action Edit+++
 
 ```
 test('Action Edit', async ()
 ```
 
-TODO
+This part of the test tries to load the edit screen
 
 
-+++TODO+++
++++Action Go Back+++
 
 ```
 test('Action Go Back', async ()
 ```
 
-TODO
+This part of the test tries to validate the correctness of the go back feature
 
 
-+++TODO+++
++++Action Insert+++
 
 ```
 test('Action Insert', async ()
 ```
 
-TODO
+This part of the test tries to validate the correctness of the insert feature
 
 
-+++TODO+++
++++Action Update+++
 
 ```
 test('Action Update', async ()
 ```
 
-TODO
+This part of the test tries to validate the correctness of the update feature
 
 
-+++TODO+++
++++Action Delete+++
 
 ```
 test('Action Delete', async ()
 ```
 
-TODO
+This part of the test tries to validate the correctness of the delete feature
 
 
 ++Bootstrap unit tests++
@@ -5051,141 +5125,159 @@ test_emails.js
 This file contains the bootstrap unit tests
 
 
-+++TODO+++
++++Puppeteer setup+++
 
 ```
 const puppeteer = require('puppeteer');
 ```
 
-
-+++TODO+++
-
-```
-const timeout = {timeout: 3000};
-```
+This lines contain the needed setup for run puppeteer and take screenshots
 
 
-+++TODO+++
++++Global variables+++
 
 ```
 let browser;
 ```
 
+This variables contains the browser and page links
 
-+++TODO+++
+
++++Before All+++
 
 ```
 beforeAll(async ()
 ```
 
+This function contains all code executed before all tests, in this case the
+features provided by this function includes the launch of the browser, set
+the screen size and start the javascript coverage
 
-+++TODO+++
+
++++After All+++
 
 ```
 afterAll(async ()
 ```
 
+This function contains all code executed after all tests, in this case the
+features provided by this function include the stop of the javsacript coverage
+recording, the save feature to the desired storage path and the browser close
 
-+++TODO+++
+
++++Workflow variables+++
 
 ```
 let testFailed = false;
 ```
 
+This variables allow to control the workflow of the test, the main idea is to
+skip all tests when one test fails
 
-+++TODO+++
+
++++Before Each+++
 
 ```
 beforeEach(()
 ```
 
+This function contains all code executed before each test, in this case the
+features provided by this function includes the control of the workflow
 
-+++TODO+++
+
++++After Each+++
 
 ```
 afterEach(()
 ```
 
+This function contains all code executed after each test, in this case the
+features provided by this function includes the control of the workflow
 
-+++TODO+++
+
++++App Emails+++
 
 ```
 describe('App Emails', ()
 ```
 
-TODO
+This test is intended to validate the correctness of the emails application by
+execute the list, control+f, profile, help, filter, create and view features and
+validate with the expected screenshot
 
 
-+++TODO+++
++++Action List+++
 
 ```
 test('Action List', async ()
 ```
 
-TODO
+This action tries to sets the emails as new and not new of all emails that
+appear in the screen
 
 
-+++TODO+++
++++Action Control F+++
 
 ```
 test('Action Control F', async ()
 ```
 
-TODO
+This part of the test tries to validate the control+f focus
 
 
-+++TODO+++
++++Action Profile+++
 
 ```
 test('Action Profile', async ()
 ```
 
-TODO
+This part of the test tries to load the profile screen
 
 
-+++TODO+++
++++Action Help+++
 
 ```
 test('Action Help', async ()
 ```
 
-TODO
+This part of the test tries to load the help screen
 
 
-+++TODO+++
++++Action Filter+++
 
 ```
 test('Action Filter', async ()
 ```
 
-TODO
+This part of the test tries to load the filter screen
 
 
-+++TODO+++
++++Action Create+++
 
 ```
 test('Action Create', async ()
 ```
 
-TODO
+This part of the test tries to load the create screen
 
 
-+++TODO+++
++++Action View+++
 
 ```
 test('Action View', async ()
 ```
 
-TODO
+This part of the test tries to load the view screen
 
 
-++Window unit tests++
+++Filter unit tests++
 
 ```
 test_filter.js
 ```
 
-This file contains the window unit tests
+This file contains unit tests for the filter management system
+including initialization, loading, saving, and UI interactions
 
 
 +++Load all needed files of the project+++
@@ -5195,279 +5287,298 @@ const files = `app,backup,core,driver,filter,form,gettext,hash,storage,token`.sp
 ```
 
 
-+++TODO+++
++++Reset mocks before each test+++
 
 ```
 beforeEach(()
 ```
 
+Ensures all Jest mocks are reset before each test case runs
 
-+++TODO+++
+
++++Restore mocks after each test+++
 
 ```
 afterEach(()
 ```
 
+Ensures all Jest mocks are restored to their original implementations
+after each test case completes
 
-+++TODO+++
+
++++Test suite for filter initialization+++
 
 ```
 describe('saltos.filter.init()', ()
 ```
 
-TODO
+Contains tests for initializing the filter cache from server data
 
 
-+++TODO+++
++++Setup before each test in this suite+++
 
 ```
 beforeEach(()
 ```
 
-TODO
+Mocks window location and sets up AJAX response for filter data
 
 
-+++TODO+++
++++Test filter cache initialization+++
 
 ```
 test('should initialize filter cache', async ()
 ```
 
-TODO
+Verifies that the init function makes an AJAX call to load filters
+and properly populates the cache
 
 
-+++TODO+++
++++Test cache reuse+++
 
 ```
 test('should not make ajax call if cache is already populated', async ()
 ```
 
-TODO
+Verifies that subsequent init calls don't make AJAX requests
+when cache is already populated
 
 
-+++TODO+++
++++Test suite for filter loading+++
 
 ```
 describe('saltos.filter.load()', ()
 ```
 
-TODO
+Contains tests for loading filter data into forms and triggering searches
 
 
-+++TODO+++
++++Setup before each test in this suite+++
+
+```
+beforeEach(()
+```
+
+Mocks form data and driver search functions
+
+
++++Test loading existing filter+++
 
 ```
 test('should load filter data and trigger search', ()
 ```
 
-TODO
+Verifies that loading a filter populates form data
+and triggers a search
 
 
-+++TODO+++
++++Test loading non-existent filter+++
 
 ```
 test('should only trigger search if filter not found', ()
 ```
 
-TODO
+Verifies that loading an unknown filter only triggers search
+without modifying form data
 
 
-+++TODO+++
++++Test suite for filter updates+++
 
 ```
 describe('saltos.filter.update()', ()
 ```
 
-TODO
+Contains tests for updating the local filter cache
 
 
-+++TODO+++
++++Test updating filter cache+++
 
 ```
 test('should update filter cache', ()
 ```
 
-TODO
+Verifies that update modifies the filter cache correctly
 
 
-+++TODO+++
++++Test suite for filter saving+++
 
 ```
 describe('saltos.filter.save()', ()
 ```
 
-TODO
+Contains tests for saving filters to both cache and server
 
 
-+++TODO+++
++++Test saving new filter+++
 
 ```
 test('should save new filter to cache and server', ()
 ```
 
-TODO
+Verifies that new filters are added to cache and saved to server
 
 
-+++TODO+++
++++Test updating existing filter+++
 
 ```
 test('should update existing filter if data changed', ()
 ```
 
-TODO
+Verifies that modified filters are updated in cache and server
 
 
-+++TODO+++
++++Test unchanged filter+++
 
 ```
 test('should not make server call if data unchanged', ()
 ```
 
-TODO
+Verifies that unchanged filters don't trigger server updates
 
 
-+++TODO+++
++++Test filter deletion+++
 
 ```
 test('should delete filter when data is null', ()
 ```
 
-TODO
+Verifies that filters are removed from cache and server when set to null
 
 
-+++TODO+++
++++Test deleting non-existent filter+++
 
 ```
 test('should not delete non-existent filter', ()
 ```
 
-TODO
+Verifies that attempting to delete unknown filters doesn't trigger server calls
 
 
-+++TODO+++
++++Test suite for filter UI buttons+++
 
 ```
 describe('saltos.filter.button()', ()
 ```
 
-TODO
+Contains tests for all filter-related UI actions
 
 
-+++TODO+++
++++Setup before each test in this suite+++
 
 ```
 beforeEach(()
 ```
 
-TODO
+Sets up DOM elements and mocks filter functions
 
 
-+++TODO+++
++++Test load action+++
 
 ```
 test('should handle load action', ()
 ```
 
-TODO
+Verifies that load button loads selected filter and resets selection
 
 
-+++TODO+++
++++Test update action+++
 
 ```
 test('should handle update action', ()
 ```
 
-TODO
+Verifies that update button saves current form data to selected filter
 
 
-+++TODO+++
++++Test delete action+++
 
 ```
 test('should handle delete action', ()
 ```
 
-TODO
+Verifies that delete button removes selected filter and refreshes UI
 
 
-+++TODO+++
++++Test create action+++
 
 ```
 test('should handle create action', ()
 ```
 
-TODO
+Verifies that create button saves current form data as new filter
 
 
-+++TODO+++
++++Test rename action+++
 
 ```
 test('should handle rename action', ()
 ```
 
-TODO
+Verifies that rename button moves filter data to new name
+and removes old filter entry
 
 
-+++TODO+++
++++Test invalid action+++
 
 ```
 test('should do nothing for invalid actions', ()
 ```
 
-TODO
+Verifies that unknown actions don't modify filter cache
 
 
-+++TODO+++
++++Test suite for filter selection UI+++
 
 ```
 describe('saltos.filter.select()', ()
 ```
 
-TODO
+Contains tests for updating filter dropdown and tree view
 
 
-+++TODO+++
++++Setup before each test in this suite+++
 
 ```
 beforeEach(()
 ```
 
-TODO
+Populates filter cache with test data
 
 
-+++TODO+++
++++Test UI update+++
 
 ```
 test('should update select options and jstree', ()
 ```
 
-TODO
+Verifies that select updates dropdown options and tree view
 
 
-+++TODO+++
++++Test missing tree element+++
 
 ```
 test('should handle missing form elements gracefully', ()
 ```
 
-TODO
+Verifies graceful handling when tree element is missing
 
 
-+++TODO+++
++++Test missing select element+++
 
 ```
 test('should handle missing select elements gracefully', ()
 ```
 
-TODO
+Verifies graceful handling when select element is missing
 
 
-+++TODO+++
++++Test missing form elements+++
 
 ```
 test('should handle missing form elements gracefully', ()
 ```
 
-TODO
+Verifies graceful handling when all form elements are missing
 
 
 ++Core unit tests++
@@ -5486,14 +5597,14 @@ const files = `bootstrap,core,gettext,storage`.split(',');
 ```
 
 
-+++TODO+++
++++berofeEach used in this test+++
 
 ```
 beforeEach(()
 ```
 
 
-+++TODO+++
++++afterEach used in this test+++
 
 ```
 afterEach(()
@@ -5560,7 +5671,8 @@ This function performs the tests of the offcanvas function
 test_hash.js
 ```
 
-This file contains the hash unit tests
+This file contains unit tests for hash management functionality
+including hash parsing, manipulation, and event triggering
 
 
 +++Load all needed files of the project+++
@@ -5570,270 +5682,282 @@ const files = `hash`.split(',');
 ```
 
 
-+++TODO+++
++++Reset mocks before each test+++
 
 ```
 beforeEach(()
 ```
 
+Initializes mock implementations for history API functions
+and resets all mocks between test cases
 
-+++TODO+++
+
++++Restore mocks after each test+++
 
 ```
 afterEach(()
 ```
 
+Restores original implementations of mocked functions
+after each test case completes
 
-+++TODO+++
+
++++Test suite for hash helper function+++
 
 ```
 describe('saltos.hash.__helper', ()
 ```
 
-TODO
+Contains tests for the internal hash normalization function
+that cleans hash strings by removing special characters
 
 
-+++TODO+++
++++Test hash with leading #+++
 
 ```
 test('should remove leading #', ()
 ```
 
-TODO
+Verifies the helper removes the # character from the beginning
 
 
-+++TODO+++
++++Test hash with leading /+++
 
 ```
 test('should remove leading /', ()
 ```
 
-TODO
+Verifies the helper removes the / character from the beginning
 
 
-+++TODO+++
++++Test hash with leading #/+++
 
 ```
 test('should remove both leading # and /', ()
 ```
 
-TODO
+Verifies the helper removes both # and / characters from the beginning
 
 
-+++TODO+++
++++Test empty hash+++
 
 ```
 test('should return empty string for empty input', ()
 ```
 
-TODO
+Verifies the helper returns empty string for empty input
 
 
-+++TODO+++
++++Test clean hash+++
 
 ```
 test('should not modify clean hash', ()
 ```
 
-TODO
+Verifies the helper returns unchanged input when no special characters
 
 
-+++TODO+++
++++Test suite for hash getter function+++
 
 ```
 describe('saltos.hash.get', ()
 ```
 
-TODO
+Contains tests for retrieving the current window hash
+with proper formatting
 
 
-+++TODO+++
++++Test getting current hash+++
 
 ```
 test('should return current hash without #', ()
 ```
 
-TODO
+Verifies the function returns hash without # prefix
 
 
-+++TODO+++
++++Test getting empty hash+++
 
 ```
 test('should return empty string when no hash', ()
 ```
 
-TODO
+Verifies the function returns empty string when no hash exists
 
 
-+++TODO+++
++++Test getting hash with leading /+++
 
 ```
 test('should remove leading /', ()
 ```
 
-TODO
+Verifies the function removes leading / from the hash
 
 
-+++TODO+++
++++Test suite for hash setter function+++
 
 ```
 describe('saltos.hash.set', ()
 ```
 
-TODO
+Contains tests for replacing the current hash
+using history.replaceState
 
 
-+++TODO+++
++++Test setting new hash+++
 
 ```
 test('should set new hash with proper format', ()
 ```
 
-TODO
+Verifies the function updates hash with proper format
+and uses replaceState
 
 
-+++TODO+++
++++Test setting same hash+++
 
 ```
 test('should not set same hash', ()
 ```
 
-TODO
+Verifies the function doesn't update history when hash doesn't change
 
 
-+++TODO+++
++++Test setting hash with #+++
 
 ```
 test('should handle hash with #', ()
 ```
 
-TODO
+Verifies the function properly handles input containing #
 
 
-+++TODO+++
++++Test setting hash with /+++
 
 ```
 test('should handle hash with /', ()
 ```
 
-TODO
+Verifies the function properly handles input containing /
 
 
-+++TODO+++
++++Test setting empty hash+++
 
 ```
 test('should handle empty hash', ()
 ```
 
-TODO
+Verifies the function properly handles empty hash input
 
 
-+++TODO+++
++++Test suite for hash adder function+++
 
 ```
 describe('saltos.hash.add', ()
 ```
 
-TODO
+Contains tests for adding new hash entries
+using history.pushState
 
 
-+++TODO+++
++++Test adding new hash+++
 
 ```
 test('should add new hash with proper format', ()
 ```
 
-TODO
+Verifies the function updates hash with proper format
+and uses pushState
 
 
-+++TODO+++
++++Test adding same hash+++
 
 ```
 test('should not add same hash', ()
 ```
 
-TODO
+Verifies the function doesn't update history when hash doesn't change
 
 
-+++TODO+++
++++Test adding hash with #+++
 
 ```
 test('should handle hash with #', ()
 ```
 
-TODO
+Verifies the function properly handles input containing #
 
 
-+++TODO+++
++++Test adding hash with /+++
 
 ```
 test('should handle hash with /', ()
 ```
 
-TODO
+Verifies the function properly handles input containing /
 
 
-+++TODO+++
++++Test adding empty hash+++
 
 ```
 test('should handle empty hash', ()
 ```
 
-TODO
+Verifies the function properly handles empty hash input
 
 
-+++TODO+++
++++Test suite for URL hash extraction+++
 
 ```
 describe('saltos.hash.url2hash', ()
 ```
 
-TODO
+Contains tests for extracting hash fragments from URLs
 
 
-+++TODO+++
++++Test extracting hash from URL+++
 
 ```
 test('should extract hash from URL', ()
 ```
 
-TODO
+Verifies the function extracts hash fragment correctly
 
 
-+++TODO+++
++++Test extracting hash with /+++
 
 ```
 test('should handle URL with / after #', ()
 ```
 
-TODO
+Verifies the function handles hashes containing /
 
 
-+++TODO+++
++++Test URL without hash+++
 
 ```
 test('should return empty string when no hash', ()
 ```
 
-TODO
+Verifies the function returns empty string when no hash exists
 
 
-+++TODO+++
++++Test suite for hash change events+++
 
 ```
 describe('saltos.hash.trigger', ()
 ```
 
-TODO
+Contains tests for triggering hashchange events
 
 
-+++TODO+++
++++Test triggering hash change+++
 
 ```
 test('should dispatch hashchange event', ()
 ```
 
-TODO
+Verifies the function dispatches a hashchange event
 
 
 ++Bootstrap unit tests++
@@ -5845,114 +5969,131 @@ test_invoices.js
 This file contains the bootstrap unit tests
 
 
-+++TODO+++
++++Puppeteer setup+++
 
 ```
 const puppeteer = require('puppeteer');
 ```
 
-
-+++TODO+++
-
-```
-const timeout = {timeout: 3000};
-```
+This lines contain the needed setup for run puppeteer and take screenshots
 
 
-+++TODO+++
++++Global variables+++
 
 ```
 let browser;
 ```
 
+This variables contains the browser and page links
 
-+++TODO+++
+
++++Before All+++
 
 ```
 beforeAll(async ()
 ```
 
+This function contains all code executed before all tests, in this case the
+features provided by this function includes the launch of the browser, set
+the screen size and start the javascript coverage
 
-+++TODO+++
+
++++After All+++
 
 ```
 afterAll(async ()
 ```
 
+This function contains all code executed after all tests, in this case the
+features provided by this function include the stop of the javsacript coverage
+recording, the save feature to the desired storage path and the browser close
 
-+++TODO+++
+
++++Workflow variables+++
 
 ```
 let testFailed = false;
 ```
 
+This variables allow to control the workflow of the test, the main idea is to
+skip all tests when one test fails
 
-+++TODO+++
+
++++Before Each+++
 
 ```
 beforeEach(()
 ```
 
+This function contains all code executed before each test, in this case the
+features provided by this function includes the control of the workflow
 
-+++TODO+++
+
++++After Each+++
 
 ```
 afterEach(()
 ```
 
+This function contains all code executed after each test, in this case the
+features provided by this function includes the control of the workflow
 
-+++TODO+++
+
++++App Invoices+++
 
 ```
 describe('App Invoices', ()
 ```
 
-TODO
+This test is intended to validate the correctness of the invoices application
+by execute the list, checkbox, create, view and edit features and validate with
+the expected screenshot
 
 
-+++TODO+++
++++Action List+++
 
 ```
 test('Action List', async ()
 ```
 
-TODO
+This part of the test tries to load the list screen
 
 
-+++TODO+++
++++Action List+++
 
 ```
 test('Action Checkbox', async ()
 ```
 
-TODO
+This part of the test tries to validate the correctness of the checkbox
+feature
 
 
-+++TODO+++
++++Action Create+++
 
 ```
 test('Action Create', async ()
 ```
 
-TODO
+This part of the test tries to load the create screen
 
 
-+++TODO+++
++++Action View+++
 
 ```
 test('Action View', async ()
 ```
 
-TODO
+This part of the test tries to load the view screen
 
 
-+++TODO+++
++++Action Edit+++
 
 ```
 test('Action Edit', async ()
 ```
 
-TODO
+This part of the test tries to load the edit screen
 
 
 ++Proxy unit tests++
@@ -5964,14 +6105,14 @@ test_proxy.js
 This file contains the proxy unit tests
 
 
-+++TODO+++
++++berofeEach used in this test+++
 
 ```
 beforeEach(()
 ```
 
 
-+++TODO+++
++++afterEach used in this test+++
 
 ```
 afterEach(()
@@ -6009,7 +6150,8 @@ This function performs the test of the human_size function
 test_push.js
 ```
 
-This file contains the push unit tests
+This file contains unit tests for the push notification functionality
+and favicon status updates in the SaltOS framework.
 
 
 +++Load all needed files of the project+++
@@ -6019,115 +6161,132 @@ const files = `app,bootstrap,core,gettext,push,storage,token`.split(',');
 ```
 
 
-+++TODO+++
++++Reset mocks before each test+++
 
 ```
 beforeEach(()
 ```
 
+Ensures all Jest mocks are reset before each test case runs
 
-+++TODO+++
+
++++Restore mocks after each test+++
 
 ```
 afterEach(()
 ```
 
+Ensures all Jest mocks are restored to their original implementations
+after each test case completes
 
-+++TODO+++
+
++++Test suite for saltos.push.fn functionality+++
 
 ```
 describe('saltos.push.fn', ()
 ```
 
-TODO
+Contains tests for the push notification system's main function,
+including various execution conditions and response handling
 
 
-+++TODO+++
++++Setup before each test in this suite+++
 
 ```
 beforeEach(()
 ```
 
+Initializes mock implementations and resets push notification state
 
-+++TODO+++
+
++++Test push function when already executing+++
 
 ```
 test('should return early if executing is true', ()
 ```
 
-TODO
+Verifies that the push function exits early when a push operation
+is already in progress
 
 
-+++TODO+++
++++Test push function without token+++
 
 ```
 test('should return early if token is not available', ()
 ```
 
-TODO
+Verifies that the push function exits early when no authentication
+token is available
 
 
-+++TODO+++
++++Test push function when offline+++
 
 ```
 test('should return early if navigator is offline', ()
 ```
 
-TODO
+Verifies that the push function exits early when the browser
+is offline
 
 
-+++TODO+++
++++Test push function with positive count+++
 
 ```
 test('should return early if count is greater than or equal to 0', ()
 ```
 
-TODO
+Verifies that the push function exits early when the countdown
+counter hasn't reached zero
 
 
-+++TODO+++
++++Test push function with successful response+++
 
 ```
 test('should call ajax and handle success response', ()
 ```
 
-TODO
+Verifies that the push function makes an AJAX call and properly
+handles a successful response
 
 
-+++TODO+++
++++Test push function with error response+++
 
 ```
 test('should handle error response', ()
 ```
 
-TODO
+Verifies that the push function properly handles an error response
+from the server
 
 
-+++TODO+++
++++Test suite for saltos.favicon.fn functionality+++
 
 ```
 describe('saltos.favicon.fn', ()
 ```
 
-TODO
+Contains tests for the favicon status update functionality,
+including visibility state handling
 
 
-+++TODO+++
++++Test favicon function activation+++
 
 ```
 test('should start interval if bool is true and executing is false', ()
 ```
 
-TODO
+Verifies that the favicon update interval starts when
+the function is activated
 
 
-+++TODO+++
++++Test favicon function deactivation+++
 
 ```
 test('should clear interval if bool is false and executing is true', ()
 ```
 
-TODO
+Verifies that the favicon update interval stops when
+the function is deactivated
 
 
 ++Storage unit tests++
@@ -6146,14 +6305,14 @@ const files = `core,storage`.split(',');
 ```
 
 
-+++TODO+++
++++berofeEach used in this test+++
 
 ```
 beforeEach(()
 ```
 
 
-+++TODO+++
++++afterEach used in this test+++
 
 ```
 afterEach(()
@@ -6178,128 +6337,145 @@ test_tester.js
 This file contains the bootstrap unit tests
 
 
-+++TODO+++
++++Puppeteer setup+++
 
 ```
 const puppeteer = require('puppeteer');
 ```
 
-
-+++TODO+++
-
-```
-const timeout = {timeout: 3000};
-```
+This lines contain the needed setup for run puppeteer and take screenshots
 
 
-+++TODO+++
++++Global variables+++
 
 ```
 let browser;
 ```
 
+This variables contains the browser and page links
 
-+++TODO+++
+
++++Before All+++
 
 ```
 beforeAll(async ()
 ```
 
+This function contains all code executed before all tests, in this case the
+features provided by this function includes the launch of the browser, set
+the screen size and start the javascript coverage
 
-+++TODO+++
+
++++After All+++
 
 ```
 afterAll(async ()
 ```
 
+This function contains all code executed after all tests, in this case the
+features provided by this function include the stop of the javsacript coverage
+recording, the save feature to the desired storage path and the browser close
 
-+++TODO+++
+
++++Workflow variables+++
 
 ```
 let testFailed = false;
 ```
 
+This variables allow to control the workflow of the test, the main idea is to
+skip all tests when one test fails
 
-+++TODO+++
+
++++Before Each+++
 
 ```
 beforeEach(()
 ```
 
+This function contains all code executed before each test, in this case the
+features provided by this function includes the control of the workflow
 
-+++TODO+++
+
++++After Each+++
 
 ```
 afterEach(()
 ```
 
+This function contains all code executed after each test, in this case the
+features provided by this function includes the control of the workflow
 
-+++TODO+++
+
++++App Tester+++
 
 ```
 describe('App Tester', ()
 ```
 
-TODO
+This test is intended to validate the correctness of the tester application
+by execute the init, disabled, enabled, all bs_themes and all css_themes and
+validate with the expected screenshot
 
 
-+++TODO+++
++++Action Init+++
 
 ```
 test('Action Init', async ()
 ```
 
-TODO
+This part of the test tries to initialize the tester screen by provide a
+valid credentials and loads the tester application
 
 
-+++TODO+++
++++Action Disabled+++
 
 ```
 test('Action Disabled', async ()
 ```
 
-TODO
+This part of the test tries to disable all widgets
 
 
-+++TODO+++
++++Action Enabled+++
 
 ```
 test('Action Enabled', async ()
 ```
 
-TODO
+This part of the test tries to enable all widgets
 
 
-+++TODO+++
++++List of bs_themes+++
 
 ```
 const bs_themes = ['light', 'dark', 'auto'];
 ```
 
 
-+++TODO+++
++++Action Bs Theme+++
 
 ```
 test.each(bs_themes)('Action Bs Theme %s', async theme
 ```
 
-TODO
+This part of the test tries to set the differents bs_themes
 
 
-+++TODO+++
++++List of css_themes+++
 
 ```
 const css_themes = ['default', 'cerulean', 'cyborg', 'darkly', 'flatly', 'journal', 'litera', 'lumen',
 ```
 
 
-+++TODO+++
++++Action Css Theme+++
 
 ```
 test.each(css_themes)('Action Css Theme %s', async theme
 ```
 
-TODO
+This part of the test tries to set the differents css_themes
 
 
 ++Token unit tests++
@@ -6318,14 +6494,14 @@ const files = `core,storage,token`.split(',');
 ```
 
 
-+++TODO+++
++++berofeEach used in this test+++
 
 ```
 beforeEach(()
 ```
 
 
-+++TODO+++
++++afterEach used in this test+++
 
 ```
 afterEach(()
@@ -6347,7 +6523,8 @@ This function performs the test of the token functions
 test_window.js
 ```
 
-This file contains the window unit tests
+This file contains unit tests for window management functionality
+including window opening/closing and cross-tab communication
 
 
 +++Load all needed files of the project+++
@@ -6357,159 +6534,178 @@ const files = `core,storage,window`.split(',');
 ```
 
 
-+++TODO+++
++++Reset mocks before each test+++
 
 ```
 beforeEach(()
 ```
 
+Ensures all Jest mocks are reset before each test case runs
 
-+++TODO+++
+
++++Restore mocks after each test+++
 
 ```
 afterEach(()
 ```
 
+Ensures all Jest mocks are restored to their original implementations
+after each test case completes
 
-+++TODO+++
+
++++Test suite for window open/close functionality+++
 
 ```
 describe('saltos.window.open/close', ()
 ```
 
-TODO
+Contains tests for opening new windows with different URL types
+and closing the current window
 
 
-+++TODO+++
++++Setup before each test in this suite+++
 
 ```
 beforeEach(()
 ```
 
+Mocks window.open and window.close functions
 
-+++TODO+++
+
++++Test opening app URLs+++
 
 ```
 test('should call window.open with the app prefix', ()
 ```
 
-TODO
+Verifies that app URLs are properly prefixed with .#/
+when opening new windows
 
 
-+++TODO+++
++++Test opening HTTP URLs+++
 
 ```
 test('should call window.open with the http prefix', ()
 ```
 
-TODO
+Verifies that HTTP URLs are passed through unchanged
+when opening new windows
 
 
-+++TODO+++
++++Test opening HTTPS URLs+++
 
 ```
 test('should call window.open with the https prefix', ()
 ```
 
-TODO
+Verifies that HTTPS URLs are passed through unchanged
+when opening new windows
 
 
-+++TODO+++
++++Test unsupported URL protocols+++
 
 ```
 test('should throw an error when call window.open with non supported protocol', ()
 ```
 
-TODO
+Verifies that attempting to open URLs with unsupported protocols
+throws an error
 
 
-+++TODO+++
++++Test window closing+++
 
 ```
 test('should call window.close', ()
 ```
 
-TODO
+Verifies that the close function properly calls window.close
 
 
-+++TODO+++
++++Test suite for window event listeners+++
 
 ```
 describe('saltos.window.listeners', ()
 ```
 
-TODO
+Contains tests for cross-tab communication functionality
+including setting listeners and sending events between tabs
 
 
-+++TODO+++
++++Test setting event listeners+++
 
 ```
 test('set_listener should add a listener for a specific event', ()
 ```
 
-TODO
+Verifies that listeners can be registered for specific events
 
 
-+++TODO+++
++++Test removing event listeners+++
 
 ```
 test('unset_listener should remove a listener for a specific event', ()
 ```
 
-TODO
+Verifies that listeners can be removed for specific events
 
 
-+++TODO+++
++++Test sending events to current tab+++
 
 ```
 test('send should trigger the listener in the same tab when scope is "me"', ()
 ```
 
-TODO
+Verifies that events with "me" scope only trigger callbacks
+in the current tab
 
 
-+++TODO+++
++++Test sending events to other tabs+++
 
 ```
 test('send should trigger the listener in other tabs when scope is "other"', ()
 ```
 
-TODO
+Verifies that events with "other" scope trigger callbacks
+in other tabs through localStorage events
 
 
-+++TODO+++
++++Test sending events to all tabs+++
 
 ```
 test('send should trigger the listener in all tabs when scope is "all"', ()
 ```
 
-TODO
+Verifies that events with "all" scope trigger callbacks
+in all tabs including the current one
 
 
-+++TODO+++
++++Test sessionStorage event filtering+++
 
 ```
 test('storage event listener should not trigger if the event is not from localStorage', ()
 ```
 
-TODO
+Verifies that events from sessionStorage don't trigger
+the cross-tab communication callbacks
 
 
-+++TODO+++
++++Test event key filtering+++
 
 ```
 test('storage event listener should not trigger if the key does not match', ()
 ```
 
-TODO
+Verifies that events with incorrect keys don't trigger
+the cross-tab communication callbacks
 
 
-+++TODO+++
++++Test unregistered event filtering+++
 
 ```
 test('storage event listener should not trigger if the event name is not in listeners', ()
 ```
 
-TODO
+Verifies that events for unregistered event names don't trigger
+any callbacks
 
 

@@ -29,7 +29,8 @@
 /**
  * Window unit tests
  *
- * This file contains the window unit tests
+ * This file contains unit tests for window management functionality
+ * including window opening/closing and cross-tab communication
  */
 
 /**
@@ -42,27 +43,35 @@ for (const i in files) {
 }
 
 /**
- * TODO
+ * Reset mocks before each test
+ *
+ * Ensures all Jest mocks are reset before each test case runs
  */
 beforeEach(() => {
     jest.resetAllMocks();
 });
 
 /**
- * TODO
+ * Restore mocks after each test
+ *
+ * Ensures all Jest mocks are restored to their original implementations
+ * after each test case completes
  */
 afterEach(() => {
     jest.restoreAllMocks();
 });
 
 /**
- * TODO
+ * Test suite for window open/close functionality
  *
- * TODO
+ * Contains tests for opening new windows with different URL types
+ * and closing the current window
  */
 describe('saltos.window.open/close', () => {
     /**
-     * TODO
+     * Setup before each test in this suite
+     *
+     * Mocks window.open and window.close functions
      */
     beforeEach(() => {
         jest.spyOn(window, 'open').mockImplementation(jest.fn());
@@ -70,9 +79,10 @@ describe('saltos.window.open/close', () => {
     });
 
     /**
-     * TODO
+     * Test opening app URLs
      *
-     * TODO
+     * Verifies that app URLs are properly prefixed with .#/
+     * when opening new windows
      */
     test('should call window.open with the app prefix', () => {
         saltos.window.open('app/emails');
@@ -80,9 +90,10 @@ describe('saltos.window.open/close', () => {
     });
 
     /**
-     * TODO
+     * Test opening HTTP URLs
      *
-     * TODO
+     * Verifies that HTTP URLs are passed through unchanged
+     * when opening new windows
      */
     test('should call window.open with the http prefix', () => {
         saltos.window.open('http://www.saltos.org');
@@ -90,9 +101,10 @@ describe('saltos.window.open/close', () => {
     });
 
     /**
-     * TODO
+     * Test opening HTTPS URLs
      *
-     * TODO
+     * Verifies that HTTPS URLs are passed through unchanged
+     * when opening new windows
      */
     test('should call window.open with the https prefix', () => {
         saltos.window.open('https://www.saltos.org');
@@ -100,18 +112,19 @@ describe('saltos.window.open/close', () => {
     });
 
     /**
-     * TODO
+     * Test unsupported URL protocols
      *
-     * TODO
+     * Verifies that attempting to open URLs with unsupported protocols
+     * throws an error
      */
     test('should throw an error when call window.open with non supported protocol', () => {
         expect(() => { saltos.window.open('proto://www.saltos.org'); }).toThrow(Error);
     });
 
     /**
-     * TODO
+     * Test window closing
      *
-     * TODO
+     * Verifies that the close function properly calls window.close
      */
     test('should call window.close', () => {
         saltos.window.close();
@@ -120,15 +133,16 @@ describe('saltos.window.open/close', () => {
 });
 
 /**
- * TODO
+ * Test suite for window event listeners
  *
- * TODO
+ * Contains tests for cross-tab communication functionality
+ * including setting listeners and sending events between tabs
  */
 describe('saltos.window.listeners', () => {
     /**
-     * TODO
+     * Test setting event listeners
      *
-     * TODO
+     * Verifies that listeners can be registered for specific events
      */
     test('set_listener should add a listener for a specific event', () => {
         const mockCallback = jest.fn();
@@ -137,9 +151,9 @@ describe('saltos.window.listeners', () => {
     });
 
     /**
-     * TODO
+     * Test removing event listeners
      *
-     * TODO
+     * Verifies that listeners can be removed for specific events
      */
     test('unset_listener should remove a listener for a specific event', () => {
         saltos.window.unset_listener('testEvent');
@@ -147,9 +161,10 @@ describe('saltos.window.listeners', () => {
     });
 
     /**
-     * TODO
+     * Test sending events to current tab
      *
-     * TODO
+     * Verifies that events with "me" scope only trigger callbacks
+     * in the current tab
      */
     test('send should trigger the listener in the same tab when scope is "me"', () => {
         const mockCallback = jest.fn();
@@ -159,9 +174,10 @@ describe('saltos.window.listeners', () => {
     });
 
     /**
-     * TODO
+     * Test sending events to other tabs
      *
-     * TODO
+     * Verifies that events with "other" scope trigger callbacks
+     * in other tabs through localStorage events
      */
     test('send should trigger the listener in other tabs when scope is "other"', () => {
         const mockCallback = jest.fn();
@@ -177,9 +193,10 @@ describe('saltos.window.listeners', () => {
     });
 
     /**
-     * TODO
+     * Test sending events to all tabs
      *
-     * TODO
+     * Verifies that events with "all" scope trigger callbacks
+     * in all tabs including the current one
      */
     test('send should trigger the listener in all tabs when scope is "all"', () => {
         const mockCallback = jest.fn();
@@ -195,9 +212,10 @@ describe('saltos.window.listeners', () => {
     });
 
     /**
-     * TODO
+     * Test sessionStorage event filtering
      *
-     * TODO
+     * Verifies that events from sessionStorage don't trigger
+     * the cross-tab communication callbacks
      */
     test('storage event listener should not trigger if the event is not from localStorage', () => {
         const mockCallback = jest.fn();
@@ -211,9 +229,10 @@ describe('saltos.window.listeners', () => {
     });
 
     /**
-     * TODO
+     * Test event key filtering
      *
-     * TODO
+     * Verifies that events with incorrect keys don't trigger
+     * the cross-tab communication callbacks
      */
     test('storage event listener should not trigger if the key does not match', () => {
         const mockCallback = jest.fn();
@@ -227,9 +246,10 @@ describe('saltos.window.listeners', () => {
     });
 
     /**
-     * TODO
+     * Test unregistered event filtering
      *
-     * TODO
+     * Verifies that events for unregistered event names don't trigger
+     * any callbacks
      */
     test('storage event listener should not trigger if the event name is not in listeners', () => {
         const mockCallback = jest.fn();

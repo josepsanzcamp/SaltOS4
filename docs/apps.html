@@ -25,8 +25,8 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <header>
 <hgroup>
 <h1>Applications Documentation</h1>
-<h2>SaltOS 4.0 r1923</h2>
-<h3>March 2025</h3>
+<h2>SaltOS 4.0 r1924</h2>
+<h3>April 2025</h3>
 </hgroup>
 </header>
 <article>
@@ -37,19 +37,19 @@ pre{background-color:#e6e6e6;padding:5px 3px}
   <ul>
   <li><a href="#toc1">1. Certs</a>
     <ul>
-    <li><a href="#toc2">1.1. TODO</a>
+    <li><a href="#toc2">1.1. Certificate Management Functions</a>
       <ul>
-      <li><a href="#toc3">1.1.1. TODO</a>
+      <li><a href="#toc3">1.1.1. List Certificates</a>
       </li>
-      <li><a href="#toc4">1.1.2. TODO</a>
+      <li><a href="#toc4">1.1.2. Insert Certificates</a>
       </li>
-      <li><a href="#toc5">1.1.3. TODO</a>
+      <li><a href="#toc5">1.1.3. Convert Certificate Hash to Nickname</a>
       </li>
-      <li><a href="#toc6">1.1.4. TODO</a>
+      <li><a href="#toc6">1.1.4. Check Certificate Existence</a>
       </li>
-      <li><a href="#toc7">1.1.5. TODO</a>
+      <li><a href="#toc7">1.1.5. View Certificate Information</a>
       </li>
-      <li><a href="#toc8">1.1.6. TODO</a>
+      <li><a href="#toc8">1.1.6. Delete Certificate</a>
       </li>
       </ul>
     </li>
@@ -81,19 +81,19 @@ pre{background-color:#e6e6e6;padding:5px 3px}
   </li>
   <li><a href="#toc20">2. Common</a>
     <ul>
-    <li><a href="#toc21">2.1. profile application</a>
+    <li><a href="#toc21">2.1. Profile application</a>
       <ul>
       <li><a href="#toc22">2.1.1. Main object</a>
       </li>
-      <li><a href="#toc23">2.1.2. TODO</a>
+      <li><a href="#toc23">2.1.2. Initialization of profile settings</a>
       </li>
-      <li><a href="#toc24">2.1.3. TODO</a>
+      <li><a href="#toc24">2.1.3. Update authentication settings</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc25">2.2. TODO</a>
+    <li><a href="#toc25">2.2. Data Actions Merger</a>
       <ul>
-      <li><a href="#toc26">2.2.1. Merge data actions</a>
+      <li><a href="#toc26">2.2.1. Merge data with actions</a>
       </li>
       </ul>
     </li>
@@ -103,23 +103,23 @@ pre{background-color:#e6e6e6;padding:5px 3px}
       </li>
       </ul>
     </li>
-    <li><a href="#toc29">2.4. TODO</a>
+    <li><a href="#toc29">2.4. File management functions</a>
       <ul>
-      <li><a href="#toc30">2.4.1. TODO</a>
+      <li><a href="#toc30">2.4.1. List files in the logs directory</a>
       </li>
-      <li><a href="#toc31">2.4.2. TODO</a>
+      <li><a href="#toc31">2.4.2. Get the full path of a file</a>
       </li>
-      <li><a href="#toc32">2.4.3. TODO</a>
+      <li><a href="#toc32">2.4.3. Check if a file exists</a>
       </li>
-      <li><a href="#toc33">2.4.4. TODO</a>
+      <li><a href="#toc33">2.4.4. View the contents of a file</a>
       </li>
       </ul>
     </li>
     <li><a href="#toc34">2.5. Matrix functions</a>
       <ul>
-      <li><a href="#toc35">2.5.1. TODO</a>
+      <li><a href="#toc35">2.5.1. Create matrix for version data</a>
       </li>
-      <li><a href="#toc36">2.5.2. TODO</a>
+      <li><a href="#toc36">2.5.2. Create matrix for log data</a>
       </li>
       </ul>
     </li>
@@ -131,7 +131,7 @@ pre{background-color:#e6e6e6;padding:5px 3px}
       <ul>
       <li><a href="#toc39">3.1.1. Main object</a>
       </li>
-      <li><a href="#toc40">3.1.2. TODO</a>
+      <li><a href="#toc40">3.1.2. Initialization of dashboard</a>
       </li>
       </ul>
     </li>
@@ -139,7 +139,7 @@ pre{background-color:#e6e6e6;padding:5px 3px}
       <ul>
       <li><a href="#toc42">3.2.1. Main object</a>
       </li>
-      <li><a href="#toc43">3.2.2. TODO</a>
+      <li><a href="#toc43">3.2.2. Initialization of dashboard widgets</a>
       </li>
       </ul>
     </li>
@@ -151,9 +151,9 @@ pre{background-color:#e6e6e6;padding:5px 3px}
       <ul>
       <li><a href="#toc46">4.1.1. Driver emails object</a>
       </li>
-      <li><a href="#toc47">4.1.2. TODO</a>
+      <li><a href="#toc47">4.1.2. Create email template</a>
       </li>
-      <li><a href="#toc48">4.1.3. TODO</a>
+      <li><a href="#toc48">4.1.3. Initialization, open, and close handlers for emails</a>
       </li>
       </ul>
     </li>
@@ -161,41 +161,41 @@ pre{background-color:#e6e6e6;padding:5px 3px}
       <ul>
       <li><a href="#toc50">4.2.1. Main object</a>
       </li>
-      <li><a href="#toc51">4.2.2. TODO</a>
+      <li><a href="#toc51">4.2.2. Initialize the email application</a>
       </li>
-      <li><a href="#toc52">4.2.3. TODO</a>
+      <li><a href="#toc52">4.2.3. Perform server-related actions for emails</a>
       </li>
-      <li><a href="#toc53">4.2.4. TODO</a>
+      <li><a href="#toc53">4.2.4. Delete selected emails</a>
       </li>
-      <li><a href="#toc54">4.2.5. TODO</a>
+      <li><a href="#toc54">4.2.5. Delete a single email</a>
       </li>
-      <li><a href="#toc55">4.2.6. TODO</a>
+      <li><a href="#toc55">4.2.6. Send an email</a>
       </li>
-      <li><a href="#toc56">4.2.7. TODO</a>
+      <li><a href="#toc56">4.2.7. Set email state</a>
       </li>
-      <li><a href="#toc57">4.2.8. TODO</a>
+      <li><a href="#toc57">4.2.8. Add signature to email</a>
       </li>
-      <li><a href="#toc58">4.2.9. TODO</a>
+      <li><a href="#toc58">4.2.9. View selected emails in PDF format</a>
       </li>
-      <li><a href="#toc59">4.2.10. TODO</a>
+      <li><a href="#toc59">4.2.10. Download selected emails as PDF</a>
       </li>
-      <li><a href="#toc60">4.2.11. TODO</a>
+      <li><a href="#toc60">4.2.11. View email source</a>
       </li>
-      <li><a href="#toc61">4.2.12. TODO</a>
+      <li><a href="#toc61">4.2.12. View an email in PDF format</a>
       </li>
-      <li><a href="#toc62">4.2.13. TODO</a>
+      <li><a href="#toc62">4.2.13. Download an email as PDF</a>
       </li>
-      <li><a href="#toc63">4.2.14. TODO</a>
+      <li><a href="#toc63">4.2.14. Reply to an email</a>
       </li>
-      <li><a href="#toc64">4.2.15. TODO</a>
+      <li><a href="#toc64">4.2.15. Reply to all recipients of an email</a>
       </li>
-      <li><a href="#toc65">4.2.16. TODO</a>
+      <li><a href="#toc65">4.2.16. Forward an email</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc66">4.3. TODO</a>
+    <li><a href="#toc66">4.3. Email Query Builder</a>
       <ul>
-      <li><a href="#toc67">4.3.1. TODO</a>
+      <li><a href="#toc67">4.3.1. Generate WHERE query for emails</a>
       </li>
       </ul>
     </li>
@@ -251,9 +251,9 @@ pre{background-color:#e6e6e6;padding:5px 3px}
       </li>
       <li><a href="#toc93">4.4.25. Get email body</a>
       </li>
-      <li><a href="#toc94">4.4.26. TODO</a>
+      <li><a href="#toc94">4.4.26. Generate formatted email header information</a>
       </li>
-      <li><a href="#toc95">4.4.27. TODO</a>
+      <li><a href="#toc95">4.4.27. Extract and format the body of an email</a>
       </li>
       <li><a href="#toc96">4.4.28. Get email source</a>
       </li>
@@ -271,11 +271,11 @@ pre{background-color:#e6e6e6;padding:5px 3px}
       </li>
       <li><a href="#toc103">4.4.35. Get download</a>
       </li>
-      <li><a href="#toc104">4.4.36. TODO</a>
+      <li><a href="#toc104">4.4.36. Update email states</a>
       </li>
-      <li><a href="#toc105">4.4.37. TODO</a>
+      <li><a href="#toc105">4.4.37. Generate PDF from emails</a>
       </li>
-      <li><a href="#toc106">4.4.38. TODO</a>
+      <li><a href="#toc106">4.4.38. Generate iframe content with secure policies</a>
       </li>
       </ul>
     </li>
@@ -299,21 +299,21 @@ pre{background-color:#e6e6e6;padding:5px 3px}
       </li>
       <li><a href="#toc116">4.5.9. Inline Img Background</a>
       </li>
-      <li><a href="#toc117">4.5.10. TODO</a>
+      <li><a href="#toc117">4.5.10. Inline Image Helper</a>
       </li>
-      <li><a href="#toc118">4.5.11. TODO</a>
+      <li><a href="#toc118">4.5.11. Extract Inline Images from Tags</a>
       </li>
-      <li><a href="#toc119">4.5.12. TODO</a>
+      <li><a href="#toc119">4.5.12. Extract Inline Images from Styles</a>
       </li>
-      <li><a href="#toc120">4.5.13. TODO</a>
+      <li><a href="#toc120">4.5.13. Extract Inline Images from Backgrounds</a>
       </li>
-      <li><a href="#toc121">4.5.14. TODO</a>
+      <li><a href="#toc121">4.5.14. Fix Image Tags</a>
       </li>
-      <li><a href="#toc122">4.5.15. TODO</a>
+      <li><a href="#toc122">4.5.15. Fix Image Styles</a>
       </li>
-      <li><a href="#toc123">4.5.16. TODO</a>
+      <li><a href="#toc123">4.5.16. Fix Image Backgrounds</a>
       </li>
-      <li><a href="#toc124">4.5.17. TODO</a>
+      <li><a href="#toc124">4.5.17. Fix Base64-Encoded Files</a>
       </li>
       </ul>
     </li>
@@ -335,15 +335,15 @@ pre{background-color:#e6e6e6;padding:5px 3px}
       </li>
       <li><a href="#toc133">4.7.7. Obj saver</a>
       </li>
-      <li><a href="#toc134">4.7.8. TODO</a>
+      <li><a href="#toc134">4.7.8. Prepare email for sending</a>
       </li>
-      <li><a href="#toc135">4.7.9. TODO</a>
+      <li><a href="#toc135">4.7.9. Perform email sending action</a>
       </li>
-      <li><a href="#toc136">4.7.10. TODO</a>
+      <li><a href="#toc136">4.7.10. Send queued emails from the server</a>
       </li>
-      <li><a href="#toc137">4.7.11. TODO</a>
+      <li><a href="#toc137">4.7.11. Retrieve email attachments</a>
       </li>
-      <li><a href="#toc138">4.7.12. TODO</a>
+      <li><a href="#toc138">4.7.12. Update email signature, CC, and encryption state</a>
       </li>
       </ul>
     </li>
@@ -351,21 +351,21 @@ pre{background-color:#e6e6e6;padding:5px 3px}
   </li>
   <li><a href="#toc139">5. Invoices</a>
     <ul>
-    <li><a href="#toc140">5.1. invoices application</a>
+    <li><a href="#toc140">5.1. Invoices application</a>
       <ul>
       <li><a href="#toc141">5.1.1. Main object</a>
       </li>
-      <li><a href="#toc142">5.1.2. TODO</a>
+      <li><a href="#toc142">5.1.2. Initialize the invoices application</a>
       </li>
-      <li><a href="#toc143">5.1.3. TODO</a>
+      <li><a href="#toc143">5.1.3. Compute total invoice amount</a>
       </li>
-      <li><a href="#toc144">5.1.4. TODO</a>
+      <li><a href="#toc144">5.1.4. Add a new item to the invoice</a>
       </li>
-      <li><a href="#toc145">5.1.5. TODO</a>
+      <li><a href="#toc145">5.1.5. Remove an item from the invoice</a>
       </li>
-      <li><a href="#toc146">5.1.6. TODO</a>
+      <li><a href="#toc146">5.1.6. View selected invoices in PDF format</a>
       </li>
-      <li><a href="#toc147">5.1.7. TODO</a>
+      <li><a href="#toc147">5.1.7. Download selected invoices as PDF</a>
       </li>
       </ul>
     </li>
@@ -377,15 +377,15 @@ pre{background-color:#e6e6e6;padding:5px 3px}
       <ul>
       <li><a href="#toc150">6.1.1. Tester object</a>
       </li>
-      <li><a href="#toc151">6.1.2. Campo 8</a>
+      <li><a href="#toc151">6.1.2. Campo 8: Alert functionality</a>
       </li>
-      <li><a href="#toc152">6.1.3. Campo 9</a>
+      <li><a href="#toc152">6.1.3. Campo 9: Modal functionality</a>
       </li>
-      <li><a href="#toc153">6.1.4. Campo 10</a>
+      <li><a href="#toc153">6.1.4. Campo 10: Offcanvas functionality</a>
       </li>
-      <li><a href="#toc154">6.1.5. Campo 11</a>
+      <li><a href="#toc154">6.1.5. Campo 11: Toast functionality</a>
       </li>
-      <li><a href="#toc155">6.1.6. Campo 22</a>
+      <li><a href="#toc155">6.1.6. Campo 22: Open statistics page</a>
       </li>
       </ul>
     </li>
@@ -423,21 +423,23 @@ pre{background-color:#e6e6e6;padding:5px 3px}
     </li>
     <li><a href="#toc168">7.4. Matrix functions</a>
       <ul>
-      <li><a href="#toc169">7.4.1. Make matrix</a>
+      <li><a href="#toc169">7.4.1. Create matrix data</a>
       </li>
-      <li><a href="#toc170">7.4.2. Make matrix</a>
+      <li><a href="#toc170">7.4.2. Create matrix cells</a>
       </li>
-      <li><a href="#toc171">7.4.3. Make matrix</a>
+      <li><a href="#toc171">7.4.3. Unmake matrix data</a>
+      </li>
+      <li><a href="#toc172">7.4.4. Generate matrix permissions</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc172">7.5. Users functions</a>
+    <li><a href="#toc173">7.5. Users functions</a>
       <ul>
-      <li><a href="#toc173">7.5.1. Insert user action</a>
+      <li><a href="#toc174">7.5.1. Insert user action</a>
       </li>
-      <li><a href="#toc174">7.5.2. Update user action</a>
+      <li><a href="#toc175">7.5.2. Update user action</a>
       </li>
-      <li><a href="#toc175">7.5.3. Delete user action</a>
+      <li><a href="#toc176">7.5.3. Delete user action</a>
       </li>
       </ul>
     </li>
@@ -453,85 +455,146 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <h1>1. Certs</h1>
 
 <section id="toc2">
-<h2>1.1. TODO</h2>
+<h2>1.1. Certificate Management Functions</h2>
 
 <pre>
 apps/certs/php/certs.php
 </pre>
 
 <p>
-TODO
+This file contains the main functions for managing certificates, including listing,
+inserting, checking, viewing, and deleting certificates from the NSS database.
 </p>
 
 <section id="toc3">
-<h3>1.1.1. TODO</h3>
+<h3>1.1.1. List Certificates</h3>
 
 <pre>
 function __certs_list($search, $offset, $limit)
 </pre>
 
 <p>
-TODO
+This function retrieves a list of certificates from the NSS database, applies search filters,
+and paginates the results based on offset and limit parameters.
+</p>
+
+<ul>
+<li>@search =&gt; Search term or query to filter certificates.
+</li>
+<li>@offset =&gt; Offset for pagination.
+</li>
+<li>@limit  =&gt; Maximum number of certificates to retrieve.
+</li>
+</ul>
+
+<p>
+Return the list of certificates with their ID and name.
 </p>
 
 </section>
 <section id="toc4">
-<h3>1.1.2. TODO</h3>
+<h3>1.1.2. Insert Certificates</h3>
 
 <pre>
 function __certs_insert($json)
 </pre>
 
 <p>
-TODO
+This function inserts certificates into the NSS database. It validates the uploaded files,
+processes them, and handles errors if the import is unsuccessful.
+</p>
+
+<ul>
+<li>@json =&gt; JSON object containing the certificate files and their details.
+</li>
+</ul>
+
+<p>
+Return the status and message of the operation.
 </p>
 
 </section>
 <section id="toc5">
-<h3>1.1.3. TODO</h3>
+<h3>1.1.3. Convert Certificate Hash to Nickname</h3>
 
 <pre>
 function __certs_hash2nick($hash)
 </pre>
 
 <p>
-TODO
+This function maps a certificate hash to its corresponding nickname in the NSS database.
+</p>
+
+<ul>
+<li>@hash =&gt; MD5 hash of the certificate nickname.
+</li>
+</ul>
+
+<p>
+Return the nickname of the certificate, or an empty string if not found.
 </p>
 
 </section>
 <section id="toc6">
-<h3>1.1.4. TODO</h3>
+<h3>1.1.4. Check Certificate Existence</h3>
 
 <pre>
 function __certs_check($hash)
 </pre>
 
 <p>
-TODO
+This function checks if a certificate with the given hash exists in the NSS database.
+</p>
+
+<ul>
+<li>@hash =&gt; MD5 hash of the certificate nickname.
+</li>
+</ul>
+
+<p>
+Return true if the certificate exists, false otherwise.
 </p>
 
 </section>
 <section id="toc7">
-<h3>1.1.5. TODO</h3>
+<h3>1.1.5. View Certificate Information</h3>
 
 <pre>
 function __certs_view($hash)
 </pre>
 
 <p>
-TODO
+This function retrieves detailed information about a certificate using its hash.
+</p>
+
+<ul>
+<li>@hash =&gt; MD5 hash of the certificate nickname.
+</li>
+</ul>
+
+<p>
+Return the status, nickname, and detailed information of the certificate.
 </p>
 
 </section>
 <section id="toc8">
-<h3>1.1.6. TODO</h3>
+<h3>1.1.6. Delete Certificate</h3>
 
 <pre>
 function __certs_delete($hash)
 </pre>
 
 <p>
-TODO
+This function removes a certificate from the NSS database using its hash.
+</p>
+
+<ul>
+<li>@hash =&gt; MD5 hash of the certificate nickname.
+</li>
+</ul>
+
+<p>
+Return the status of the delete operation.
 </p>
 
 </section>
@@ -720,14 +783,15 @@ in the signature process
 <h1>2. Common</h1>
 
 <section id="toc21">
-<h2>2.1. profile application</h2>
+<h2>2.1. Profile application</h2>
 
 <pre>
 apps/common/js/profile.js
 </pre>
 
 <p>
-This application implements the tipical features associated to profile
+This application implements the typical features associated with user profiles,
+such as managing themes, language settings, and authentication updates.
 </p>
 
 <section id="toc22">
@@ -738,63 +802,76 @@ saltos.profile = {};
 </pre>
 
 <p>
-This object contains all SaltOS code
+Contains all the logic and code for the SaltOS framework related to the profile application.
 </p>
 
 </section>
 <section id="toc23">
-<h3>2.1.2. TODO</h3>
+<h3>2.1.2. Initialization of profile settings</h3>
 
 <pre>
 saltos.profile.init = arg
 </pre>
 
 <p>
-TODO
+This method initializes the profile settings by setting the current Bootstrap theme,
+custom CSS theme, and language preferences in the respective input fields.
 </p>
 
 </section>
 <section id="toc24">
-<h3>2.1.3. TODO</h3>
+<h3>2.1.3. Update authentication settings</h3>
 
 <pre>
 saltos.profile.authupdate = ()
 </pre>
 
 <p>
-TODO
+This method restores the previous state of the application if necessary,
+validates required fields, and then updates the authentication credentials
+using the provided old password, new password, and its confirmation.
 </p>
 
 </section>
 </section>
 <section id="toc25">
-<h2>2.2. TODO</h2>
+<h2>2.2. Data Actions Merger</h2>
 
 <pre>
 apps/common/php/actions.php
 </pre>
 
 <p>
-TODO
+This file contains functionality for merging action controls
+with data rows in tables or lists, including permission checks
 </p>
 
 <section id="toc26">
-<h3>2.2.1. Merge data actions</h3>
+<h3>2.2.1. Merge data with actions</h3>
 
 <pre>
 function __merge_data_actions($data, $actions)
 </pre>
 
 <p>
-This function merge the rows of a table or list with the specified actions
+Combines dataset rows with action controls while verifying permissions.
+Processes each action definition, checks user permissions, and attaches
+permitted actions to each data row.
 </p>
 
 <ul>
-<li>@data    =&gt; the data of the table or list widget
+<li>@data    =&gt; Dataset containing rows to display in table/list
 </li>
-<li>@actions =&gt; the desired actions to use in the table or list widget
+<li>@actions =&gt; Action definitions to merge with each data row
 </li>
 </ul>
+
+<p>
+Returns the modified dataset with actions attached to each row
+</p>
+<p>
+Throws error if actions parameter is not an array
+</p>
 
 </section>
 </section>
@@ -867,61 +944,107 @@ This function returns the xml of an app using the follow specs passed in @data:
 </section>
 </section>
 <section id="toc29">
-<h2>2.4. TODO</h2>
+<h2>2.4. File management functions</h2>
 
 <pre>
 apps/common/php/files.php
 </pre>
 
 <p>
-TODO
+These functions handle file operations such as listing files, retrieving file paths,
+checking for file existence, and viewing file contents. They are primarily designed
+to interact with the `data/logs` directory.
 </p>
 
 <section id="toc30">
-<h3>2.4.1. TODO</h3>
+<h3>2.4.1. List files in the logs directory</h3>
 
 <pre>
 function __files_list($search, $offset, $limit)
 </pre>
 
 <p>
-TODO
+This function retrieves a list of files from the `data/logs` directory, applies search filters,
+and paginates the results based on the specified offset and limit. The returned data includes
+metadata such as file size and type.
+</p>
+
+<ul>
+<li>@search =&gt; Search term or query to filter files.
+</li>
+<li>@offset =&gt; Offset for pagination.
+</li>
+<li>@limit  =&gt; Maximum number of files to retrieve.
+</li>
+</ul>
+
+<p>
+Returns a list of files with metadata including ID, name, size, and type.
 </p>
 
 </section>
 <section id="toc31">
-<h3>2.4.2. TODO</h3>
+<h3>2.4.2. Get the full path of a file</h3>
 
 <pre>
 function __files_getfile($file)
 </pre>
 
 <p>
-TODO
+This function searches for a file by its name in the `data/logs` directory and returns
+its full path if found. Otherwise, it returns an empty string.
+</p>
+
+<ul>
+<li>@file =&gt; Name of the file to search for.
+</li>
+</ul>
+
+<p>
+Returns the full path of the file or an empty string if not found.
 </p>
 
 </section>
 <section id="toc32">
-<h3>2.4.3. TODO</h3>
+<h3>2.4.3. Check if a file exists</h3>
 
 <pre>
 function __files_check($file)
 </pre>
 
 <p>
-TODO
+This function checks whether a file exists in the `data/logs` directory by searching for its name.
+</p>
+
+<ul>
+<li>@file =&gt; Name of the file to check.
+</li>
+</ul>
+
+<p>
+Returns `true` if the file exists, otherwise `false`.
 </p>
 
 </section>
 <section id="toc33">
-<h3>2.4.4. TODO</h3>
+<h3>2.4.4. View the contents of a file</h3>
 
 <pre>
 function __files_view($file)
 </pre>
 
 <p>
-TODO
+This function retrieves the contents of a file from the `data/logs` directory. It supports both
+regular files and gzip-compressed files. The returned data includes the file name, size, type, and content.
+</p>
+
+<ul>
+<li>@file =&gt; Name of the file to view.
+</li>
+</ul>
+
+<p>
+Returns metadata and content of the file. If the file is not found, it returns an error response.
 </p>
 
 </section>
@@ -934,30 +1057,33 @@ apps/common/php/matrix.php
 </pre>
 
 <p>
-This file contain all functions needed by the excel widget
+This file contains all the functions required by the Excel widget for handling
+version and log data in a matrix format.
 </p>
 
 <section id="toc35">
-<h3>2.5.1. TODO</h3>
+<h3>2.5.1. Create matrix for version data</h3>
 
 <pre>
 function make_matrix_version($app, $id)
 </pre>
 
 <p>
-TODO
+This function generates a matrix structure for displaying version-related data
+in the Excel widget, including headers, data formatting, and cell attributes.
 </p>
 
 </section>
 <section id="toc36">
-<h3>2.5.2. TODO</h3>
+<h3>2.5.2. Create matrix for log data</h3>
 
 <pre>
 function make_matrix_log($app, $id)
 </pre>
 
 <p>
-TODO
+This function processes log data and generates headers and formatting information
+for integration into the Excel widget.
 </p>
 
 </section>
@@ -974,7 +1100,8 @@ apps/dashboard/js/dashboard.js
 </pre>
 
 <p>
-This application implements the tipical features associated to dashboard
+This module implements the typical features associated with a dashboard,
+allowing dynamic interaction with various elements and functionalities.
 </p>
 
 <section id="toc39">
@@ -985,19 +1112,20 @@ saltos.dashboard = {};
 </pre>
 
 <p>
-This object contains all SaltOS code
+Contains all the logic and code for the SaltOS framework related to the dashboard.
 </p>
 
 </section>
 <section id="toc40">
-<h3>3.1.2. TODO</h3>
+<h3>3.1.2. Initialization of dashboard</h3>
 
 <pre>
 saltos.dashboard.init = arg
 </pre>
 
 <p>
-TODO
+This method sets up listeners, configures the catalog layout, and initializes
+the dashboard widgets based on user-defined or default configurations.
 </p>
 
 </section>
@@ -1010,7 +1138,8 @@ apps/dashboard/js/dashboard_widgets.js
 </pre>
 
 <p>
-This application implements the tipical features associated to dashboard
+This module implements the typical features associated with a widget dashboard,
+allowing interaction and customization of elements in a dynamic environment.
 </p>
 
 <section id="toc42">
@@ -1021,19 +1150,20 @@ saltos.dashboard_widgets = {};
 </pre>
 
 <p>
-This object contains all SaltOS code
+Contains all the logic and code for the SaltOS framework related to the dashboard widgets.
 </p>
 
 </section>
 <section id="toc43">
-<h3>3.2.2. TODO</h3>
+<h3>3.2.2. Initialization of dashboard widgets</h3>
 
 <pre>
 saltos.dashboard_widgets.init = arg
 </pre>
 
 <p>
-TODO
+This method sets up the interactive elements of the dashboard, including assigning style classes
+and configuring drag-and-drop functionality between different containers.
 </p>
 
 </section>
@@ -1050,7 +1180,8 @@ apps/emails/js/driver.js
 </pre>
 
 <p>
-This application implements the tipical features associated to emails
+This application implements the typical features associated with email functionality,
+including templates and initialization processes for handling email-related tasks.
 </p>
 
 <section id="toc46">
@@ -1061,31 +1192,35 @@ saltos.driver.__types.emails = {};
 </pre>
 
 <p>
-This object stores the functions used by the emails driver
+This object stores the functions and properties used by the email driver,
+providing the necessary methods for managing email operations.
 </p>
 
 </section>
 <section id="toc47">
-<h3>4.1.2. TODO</h3>
+<h3>4.1.2. Create email template</h3>
 
 <pre>
 saltos.driver.__types.emails.template = arg
 </pre>
 
 <p>
-TODO
+This function generates a template for the email driver, configuring specific
+attributes and layout modifications. It sets the 'type' attribute to 'emails'
+and adjusts the layout of the corresponding element for proper display.
 </p>
 
 </section>
 <section id="toc48">
-<h3>4.1.3. TODO</h3>
+<h3>4.1.3. Initialization, open, and close handlers for emails</h3>
 
 <pre>
-saltos.driver.__types.emails.init = saltos.driver.__types.type5.init;
+saltos.driver.__types.emails.init = saltos.driver.__types.type5.init; // Inherits initialization from type5
 </pre>
 
 <p>
-TODO
+These methods inherit their implementations from the 'type5' driver, allowing
+reuse of core functionality for initializing, opening, and closing email resources.
 </p>
 
 </section>
@@ -1098,7 +1233,10 @@ apps/emails/js/emails.js
 </pre>
 
 <p>
-This application implements the tipical features associated to emails
+This application implements typical features associated with email functionality,
+such as initialization, server actions, email deletion, sending, setting states,
+handling signatures, generating and downloading PDFs, viewing email sources, replying
+and forwarding.
 </p>
 
 <section id="toc50">
@@ -1109,211 +1247,239 @@ saltos.emails = {};
 </pre>
 
 <p>
-This object contains all SaltOS code
+This object contains all SaltOS code related to email operations.
 </p>
 
 </section>
 <section id="toc51">
-<h3>4.2.2. TODO</h3>
+<h3>4.2.2. Initialize the email application</h3>
 
 <pre>
 saltos.emails.init = arg
 </pre>
 
 <p>
-TODO
+This method handles initialization tasks for different views (`create`, `view`, `close`, `list`)
+in the email application. It manages UI updates, visibility behaviors, and email state changes.
 </p>
+
+<ul>
+<li>@param {string} arg Specifies the type of view or action to initialize.
+</li>
+</ul>
 
 </section>
 <section id="toc52">
-<h3>4.2.3. TODO</h3>
+<h3>4.2.3. Perform server-related actions for emails</h3>
 
 <pre>
 saltos.emails.server = ()
 </pre>
 
 <p>
-TODO
+This method triggers server-side actions for emails and displays the responses in toasts.
 </p>
 
 </section>
 <section id="toc53">
-<h3>4.2.4. TODO</h3>
+<h3>4.2.4. Delete selected emails</h3>
 
 <pre>
 saltos.emails.delete1 = ()
 </pre>
 
 <p>
-TODO
+This method deletes multiple emails selected by the user, after showing a confirmation modal.
 </p>
 
 </section>
 <section id="toc54">
-<h3>4.2.5. TODO</h3>
+<h3>4.2.5. Delete a single email</h3>
 
 <pre>
 saltos.emails.delete2 = ()
 </pre>
 
 <p>
-TODO
+This method deletes the currently viewed email after showing a confirmation modal.
 </p>
 
 </section>
 <section id="toc55">
-<h3>4.2.6. TODO</h3>
+<h3>4.2.6. Send an email</h3>
 
 <pre>
 saltos.emails.send = ()
 </pre>
 
 <p>
-TODO
+This method validates the required fields and sends the email data to the server.
+It handles responses and clears unsaved data on success.
 </p>
 
 </section>
 <section id="toc56">
-<h3>4.2.7. TODO</h3>
+<h3>4.2.7. Set email state</h3>
 
 <pre>
 saltos.emails.setter = what
 </pre>
 
 <p>
-TODO
+This function updates the state of a specific email identified by its ID. The updated state is sent
+to the server, and the UI is refreshed afterward.
 </p>
+
+<ul>
+<li>@param {string} what Specifies the state to set for the email.
+</li>
+</ul>
 
 </section>
 <section id="toc57">
-<h3>4.2.8. TODO</h3>
+<h3>4.2.8. Add signature to email</h3>
 
 <pre>
 saltos.emails.signature = ()
 </pre>
 
 <p>
-TODO
+This function applies the email signature based on the selected account and its related data.
+The signature is retrieved from the server and updated in the email form.
 </p>
 
 </section>
 <section id="toc58">
-<h3>4.2.9. TODO</h3>
+<h3>4.2.9. View selected emails in PDF format</h3>
 
 <pre>
 saltos.emails.viewpdf1 = ()
 </pre>
 
 <p>
-TODO
+This function opens a PDF view for all selected emails in the list.
+If no emails are selected, a modal prompts the user to select emails first.
 </p>
 
 </section>
 <section id="toc59">
-<h3>4.2.10. TODO</h3>
+<h3>4.2.10. Download selected emails as PDF</h3>
 
 <pre>
 saltos.emails.download1 = ()
 </pre>
 
 <p>
-TODO
+This function downloads all selected emails in the list as a PDF file.
+If no emails are selected, a modal prompts the user to select emails first.
 </p>
 
 </section>
 <section id="toc60">
-<h3>4.2.11. TODO</h3>
+<h3>4.2.11. View email source</h3>
 
 <pre>
 saltos.emails.source = ()
 </pre>
 
 <p>
-TODO
+This function opens the raw source of the selected email for viewing in the driver.
 </p>
 
 </section>
 <section id="toc61">
-<h3>4.2.12. TODO</h3>
+<h3>4.2.12. View an email in PDF format</h3>
 
 <pre>
 saltos.emails.viewpdf2 = ()
 </pre>
 
 <p>
-TODO
+This function opens a PDF view for the currently selected email.
 </p>
 
 </section>
 <section id="toc62">
-<h3>4.2.13. TODO</h3>
+<h3>4.2.13. Download an email as PDF</h3>
 
 <pre>
 saltos.emails.download2 = ()
 </pre>
 
 <p>
-TODO
+This function downloads the currently selected email in PDF format.
 </p>
 
 </section>
 <section id="toc63">
-<h3>4.2.14. TODO</h3>
+<h3>4.2.14. Reply to an email</h3>
 
 <pre>
 saltos.emails.reply = ()
 </pre>
 
 <p>
-TODO
+This function opens the reply form for the currently selected email.
 </p>
 
 </section>
 <section id="toc64">
-<h3>4.2.15. TODO</h3>
+<h3>4.2.15. Reply to all recipients of an email</h3>
 
 <pre>
 saltos.emails.replyall = ()
 </pre>
 
 <p>
-TODO
+This function opens the reply-all form for the currently selected email, including all recipients.
 </p>
 
 </section>
 <section id="toc65">
-<h3>4.2.16. TODO</h3>
+<h3>4.2.16. Forward an email</h3>
 
 <pre>
 saltos.emails.forward = ()
 </pre>
 
 <p>
-TODO
+This function opens the forward form for the currently selected email.
 </p>
 
 </section>
 </section>
 <section id="toc66">
-<h2>4.3. TODO</h2>
+<h2>4.3. Email Query Builder</h2>
 
 <pre>
 apps/emails/php/filter.php
 </pre>
 
 <p>
-TODO
+This function builds an SQL WHERE query for filtering emails based on various criteria
+such as account, fields, search terms, dates, and specific email states.
 </p>
 
 <section id="toc67">
-<h3>4.3.1. TODO</h3>
+<h3>4.3.1. Generate WHERE query for emails</h3>
 
 <pre>
 function make_where_query_emails($json)
 </pre>
 
 <p>
-TODO
+This function takes a JSON input and generates a dynamic SQL WHERE clause to filter emails.
+The query is constructed based on several optional parameters such as account ID, search fields,
+dates, and flags indicating specific states (e.g., new emails, waiting emails, spam).
+</p>
+
+<ul>
+<li>@json =&gt; Input parameters for generating the query.
+</li>
+</ul>
+
+<p>
+Returns the dynamically constructed SQL WHERE clause.
 </p>
 
 </section>
@@ -1805,26 +1971,54 @@ intended to be rendered in an iframe, for example
 
 </section>
 <section id="toc94">
-<h3>4.4.26. TODO</h3>
+<h3>4.4.26. Generate formatted email header information</h3>
 
 <pre>
 function __getmail_head_helper($decoded, $email_id)
 </pre>
 
 <p>
-TODO
+This function extracts and formats header details from the decoded email structure,
+including sender, recipients, date, subject, and attachments. It handles edge cases
+such as missing data, and ensures that all information is presented in a structured
+and readable format. HTML encoding is applied to ensure safe display within a web interface.
 </p>
+
+<ul>
+<li>@param array $decoded Decoded structure of the email, containing metadata and header information.
+</li>
+<li>@param int $email_id ID of the email to retrieve additional account-specific details.
+</li>
+<li>@return string Returns a formatted HTML string with the email header information.
+</li>
+</ul>
 
 </section>
 <section id="toc95">
-<h3>4.4.27. TODO</h3>
+<h3>4.4.27. Extract and format the body of an email</h3>
 
 <pre>
 function __getmail_body_helper($decoded, $images = false)
 </pre>
 
 <p>
-TODO
+This function processes the decoded content of an email, extracting the plain
+text and HTML bodies while applying necessary transformations for safe and
+structured display. It handles inline images, styles, and embedded attachments,
+ensuring compatibility and security.
+</p>
+
+<ul>
+<li>@decoded =&gt; Decoded structure of the email, typically containing nodes with
+            metadata and body content.
+</li>
+<li>@images  =&gt; Specifies whether inline images should be embedded directly into
+            the content.
+</li>
+</ul>
+
+<p>
+Returns the formatted email body, including plain text, HTML, and inline attachments.
 </p>
 
 </section>
@@ -1972,38 +2166,78 @@ in an array format for the download feature
 
 </section>
 <section id="toc104">
-<h3>4.4.36. TODO</h3>
+<h3>4.4.36. Update email states</h3>
 
 <pre>
 function getmail_setter($ids, $what)
 </pre>
 
 <p>
-TODO
+This function modifies the state of emails (e.g., `new`, `wait`, or `spam`)
+based on the provided IDs and action. It validates user permissions for the
+selected emails before updating their states. The function calculates the
+number of records to be modified and updates the database accordingly.
+</p>
+
+<ul>
+<li>@ids  =&gt; Comma-separated list of email IDs to be updated.
+</li>
+<li>@what =&gt; Specifies the state change in the format `key=value` (e.g., `new=0`).
+</li>
+</ul>
+
+<p>
+Returns a response message indicating the number of emails modified.
 </p>
 
 </section>
 <section id="toc105">
-<h3>4.4.37. TODO</h3>
+<h3>4.4.37. Generate PDF from emails</h3>
 
 <pre>
 function getmail_pdf($ids)
 </pre>
 
 <p>
-TODO
+This function generates PDF files for the provided email IDs using either the
+`wkhtmltopdf` command or a fallback library. If multiple emails are selected,
+their PDFs are merged into a single file. It validates user permissions for
+accessing the emails and manages caching for performance optimization.
+</p>
+
+<ul>
+<li>@ids =&gt; List or comma-separated string of email IDs to generate PDFs for.
+</li>
+</ul>
+
+<p>
+Returns metadata of the generated PDF file, including its name, type, and
+base64-encoded data.
 </p>
 
 </section>
 <section id="toc106">
-<h3>4.4.38. TODO</h3>
+<h3>4.4.38. Generate iframe content with secure policies</h3>
 
 <pre>
 function __iframe_srcdoc_helper($html)
 </pre>
 
 <p>
-TODO
+This function generates the `srcdoc` content for an iframe element, embedding
+the provided HTML string. It ensures the content is styled using predefined
+fonts and enforces a strict Content Security Policy (CSP) to limit the sources
+for styles, fonts, and images. This helps maintain security and compatibility
+within the iframe.
+</p>
+
+<ul>
+<li>@html =&gt; The HTML content to be embedded in the iframe.
+</li>
+</ul>
+
+<p>
+Return a complete HTML document string suitable for `srcdoc` use in an iframe.
 </p>
 
 </section>
@@ -2168,106 +2402,185 @@ This function tries to convert all imgs to an inline imgs
 
 </section>
 <section id="toc117">
-<h3>4.5.10. TODO</h3>
+<h3>4.5.10. Inline Image Helper</h3>
 
 <pre>
 function __inline_img_helper($src)
 </pre>
 
 <p>
-TODO
+This function fetches and processes image URLs, ensuring compatibility and resizing
+where necessary. It also manages caching and handles errors gracefully.
+</p>
+
+<ul>
+<li>@src =&gt; Image source URL or path.
+</li>
+</ul>
+
+<p>
+Returns the inline image data or a placeholder GIF in case of errors.
 </p>
 
 </section>
 <section id="toc118">
-<h3>4.5.11. TODO</h3>
+<h3>4.5.11. Extract Inline Images from Tags</h3>
 
 <pre>
 function extract_img_tag($html)
 </pre>
 
 <p>
-TODO
+This function extracts inline images from HTML `&lt;img&gt;` tags and replaces their `src`
+attributes with `cid` references for email compatibility.
+</p>
+
+<ul>
+<li>@html =&gt; HTML content to parse.
+</li>
+</ul>
+
+<p>
+Returns the modified HTML content and an array of image files.
 </p>
 
 </section>
 <section id="toc119">
-<h3>4.5.12. TODO</h3>
+<h3>4.5.12. Extract Inline Images from Styles</h3>
 
 <pre>
 function extract_img_style($html)
 </pre>
 
 <p>
-TODO
+This function extracts images embedded in CSS `style` attributes and replaces them
+with `cid` references for email compatibility.
+</p>
+
+<ul>
+<li>@html =&gt; HTML content to parse.
+</li>
+</ul>
+
+<p>
+Returns the modified HTML content and an array of image files.
 </p>
 
 </section>
 <section id="toc120">
-<h3>4.5.13. TODO</h3>
+<h3>4.5.13. Extract Inline Images from Backgrounds</h3>
 
 <pre>
 function extract_img_background($html)
 </pre>
 
 <p>
-TODO
+This function extracts images embedded in HTML `background` attributes and replaces them
+with `cid` references for email compatibility.
+</p>
+
+<ul>
+<li>@html =&gt; HTML content to parse.
+</li>
+</ul>
+
+<p>
+Returns the modified HTML content and an array of image files.
 </p>
 
 </section>
 <section id="toc121">
-<h3>4.5.14. TODO</h3>
+<h3>4.5.14. Fix Image Tags</h3>
 
 <pre>
 function fix_img_tag($html)
 </pre>
 
 <p>
-TODO
+This function processes `&lt;img&gt;` tags in the given HTML to replace non-inline image `src` attributes
+with a placeholder image (`<span class="underline">GIF_IMAGE</span>`), ensuring compatibility and avoiding external dependencies.
+</p>
+
+<ul>
+<li>@html =&gt; The HTML content to process.
+</li>
+</ul>
+
+<p>
+Returns the updated HTML content with fixed image tags.
 </p>
 
 </section>
 <section id="toc122">
-<h3>4.5.15. TODO</h3>
+<h3>4.5.15. Fix Image Styles</h3>
 
 <pre>
 function fix_img_style($html)
 </pre>
 
 <p>
-TODO
+This function processes CSS `style` attributes in HTML elements to replace non-inline image URLs
+within `url()` properties with a placeholder image (`<span class="underline">GIF_IMAGE</span>`).
+</p>
+
+<ul>
+<li>@html =&gt; The HTML content to process.
+</li>
+</ul>
+
+<p>
+Returns the updated HTML content with fixed image styles.
 </p>
 
 </section>
 <section id="toc123">
-<h3>4.5.16. TODO</h3>
+<h3>4.5.16. Fix Image Backgrounds</h3>
 
 <pre>
 function fix_img_background($html)
 </pre>
 
 <p>
-TODO
+This function processes `background` attributes in HTML elements to replace non-inline image URLs
+with a placeholder image (`<span class="underline">GIF_IMAGE</span>`).
+</p>
+
+<ul>
+<li>@html =&gt; The HTML content to process.
+</li>
+</ul>
+
+<p>
+Returns the updated HTML content with fixed image backgrounds.
 </p>
 
 </section>
 <section id="toc124">
-<h3>4.5.17. TODO</h3>
+<h3>4.5.17. Fix Base64-Encoded Files</h3>
 
 <pre>
 function fix_file_b64($html)
 </pre>
 
 <p>
-TODO
+This function replaces inline base64-encoded file data in HTML with the corresponding
+cached image content, ensuring that embedded images are properly handled.
+</p>
+
+<ul>
+<li>@html =&gt; The HTML content to process.
+</li>
+</ul>
+
+<p>
+Return the updated HTML content with fixed base64-encoded files.
 </p>
 <p>
 Notes:
 </p>
 <p>
-We are using {48} to force to search a base64 data of 48 of bytes, where decoded
-must to be a 36 bytes string, this match with the cache style file like a md5 hash
-of 32 bytes with 4 bytes more by the extension file (.b64)
+We are using `{48}` to match base64 data of 48 bytes, which decodes into a 36-byte string
+that matches the MD5 hash style used in cached files (32 bytes plus 4-byte `.b64` extension).
 </p>
 
 </section>
@@ -2436,62 +2749,122 @@ This function is intended to save the PHPMailer object into the obj file
 
 </section>
 <section id="toc134">
-<h3>4.7.8. TODO</h3>
+<h3>4.7.8. Prepare email for sending</h3>
 
 <pre>
 function sendmail_prepare($action, $email_id)
 </pre>
 
 <p>
-TODO
+This function constructs the required parameters for sending an email, including sender details,
+recipients, subject, body, and attachments. The behavior varies based on the specified action
+(`reply`, `replyall`, or `forward`). It retrieves necessary data from the database and processes
+the email's metadata to ensure compatibility with the given action.
+</p>
+
+<ul>
+<li>@action   =&gt; Specifies the action to perform (`reply`, `replyall`, or `forward`).
+</li>
+<li>@email_id =&gt; ID of the email being replied to, forwarded, or used for metadata.
+</li>
+</ul>
+
+<p>
+Return the prepared email parameters, including sender, recipients, subject, body, state, and attachments.
 </p>
 
 </section>
 <section id="toc135">
-<h3>4.7.9. TODO</h3>
+<h3>4.7.9. Perform email sending action</h3>
 
 <pre>
 function sendmail_action($json, $action, $email_id)
 </pre>
 
 <p>
-TODO
+This function handles the process of sending an email, including assembling email data,
+recipients, and attachments. It also manages inline images, updates email states, and
+cleans up temporary files after execution. The function supports multiple actions such
+as `reply`, `replyall`, and `forward`.
+</p>
+
+<ul>
+<li>@json     =&gt; JSON object containing email data (e.g., recipients, subject, body, attachments).
+</li>
+<li>@action   =&gt; Specifies the action to perform (`reply`, `replyall`, or `forward`).
+</li>
+<li>@email_id =&gt; ID of the email being replied to, forwarded, or used for metadata.
+</li>
+</ul>
+
+<p>
+Returns the status and message of the email action.
 </p>
 
 </section>
 <section id="toc136">
-<h3>4.7.10. TODO</h3>
+<h3>4.7.10. Send queued emails from the server</h3>
 
 <pre>
 function sendmail_server()
 </pre>
 
 <p>
-TODO
+This function processes and sends emails queued in the outbox. It uses a semaphore mechanism
+to prevent simultaneous execution, handles SMTP settings dynamically, updates email states,
+and manages errors during the sending process. The function is intended for use in cron jobs.
 </p>
+
+<ul>
+<li>@return array Returns an array of messages detailing the sending result, including errors and successes.
+</li>
+</ul>
 
 </section>
 <section id="toc137">
-<h3>4.7.11. TODO</h3>
+<h3>4.7.11. Retrieve email attachments</h3>
 
 <pre>
 function sendmail_files($action, $email_id)
 </pre>
 
 <p>
-TODO
+This function handles the retrieval of email attachments based on the specified action,
+such as `forward`. It validates permissions, decodes the message, and stores attachments
+locally if not already uploaded. Finally, it retrieves a list of attachments from the upload table.
+</p>
+
+<ul>
+<li>@action   =&gt; Specifies the email action (`forward` in this case).
+</li>
+<li>@email_id =&gt; ID of the email to retrieve attachments from.
+</li>
+</ul>
+
+<p>
+Returns a list of attachments with metadata including ID, app, name, size, type, and hash.
 </p>
 
 </section>
 <section id="toc138">
-<h3>4.7.12. TODO</h3>
+<h3>4.7.12. Update email signature, CC, and encryption state</h3>
 
 <pre>
 function sendmail_signature($json)
 </pre>
 
 <p>
-TODO
+This function updates the email body with a new signature, adjusts the CC list,
+and replaces the encryption state (`state_crt`) based on the selected account.
+</p>
+
+<ul>
+<li>@json =&gt; JSON object containing email data and account information.
+</li>
+</ul>
+
+<p>
+Return the updated email body, CC list, and encryption state.
 </p>
 
 </section>
@@ -2501,14 +2874,15 @@ TODO
 <h1>5. Invoices</h1>
 
 <section id="toc140">
-<h2>5.1. invoices application</h2>
+<h2>5.1. Invoices application</h2>
 
 <pre>
 apps/invoices/js/invoices.js
 </pre>
 
 <p>
-This application implements the tipical features associated to invoices
+This application provides core functionalities for managing invoices, including creating,
+editing, viewing, and exporting invoices in PDF format.
 </p>
 
 <section id="toc141">
@@ -2519,79 +2893,95 @@ saltos.invoices = {};
 </pre>
 
 <p>
-This object contains all SaltOS code
+This object contains all SaltOS code related to invoice operations.
 </p>
 
 </section>
 <section id="toc142">
-<h3>5.1.2. TODO</h3>
+<h3>5.1.2. Initialize the invoices application</h3>
 
 <pre>
 saltos.invoices.init = arg
 </pre>
 
 <p>
-TODO
+This method handles initialization tasks based on the type of operation (`view`, `create`, or `edit`).
+It updates UI elements and attaches appropriate event listeners.
 </p>
+
+<ul>
+<li>@arg =&gt; Specifies the type of operation to initialize.
+</li>
+</ul>
 
 </section>
 <section id="toc143">
-<h3>5.1.3. TODO</h3>
+<h3>5.1.3. Compute total invoice amount</h3>
 
 <pre>
 saltos.invoices.compute_total = ()
 </pre>
 
 <p>
-TODO
+This method calculates the subtotal for each invoice item and the grand total for all items.
+It handles discounts, rounds values to two decimal places, and updates the total fields.
 </p>
 
 </section>
 <section id="toc144">
-<h3>5.1.4. TODO</h3>
+<h3>5.1.4. Add a new item to the invoice</h3>
 
 <pre>
 saltos.invoices.add_item = ()
 </pre>
 
 <p>
-TODO
+This method creates a new invoice item and initializes its layout and event listeners.
+It ensures consistent behavior for the form fields and recomputes the totals after addition.
 </p>
 
 </section>
 <section id="toc145">
-<h3>5.1.5. TODO</h3>
+<h3>5.1.5. Remove an item from the invoice</h3>
 
 <pre>
 saltos.invoices.remove_item = (obj)
 </pre>
 
 <p>
-TODO
+This method deletes an invoice item or marks it with a negative value if it is hidden.
+It updates the invoice totals after removal.
 </p>
+
+<ul>
+<li>@obj =&gt; Reference to the item to remove.
+</li>
+</ul>
 
 </section>
 <section id="toc146">
-<h3>5.1.6. TODO</h3>
+<h3>5.1.6. View selected invoices in PDF format</h3>
 
 <pre>
 saltos.invoices.viewpdf = ()
 </pre>
 
 <p>
-TODO
+This method opens a PDF viewer to display the selected invoices.
+If no invoices are selected, it prompts the user to select invoices first.
 </p>
 
 </section>
 <section id="toc147">
-<h3>5.1.7. TODO</h3>
+<h3>5.1.7. Download selected invoices as PDF</h3>
 
 <pre>
 saltos.invoices.download = ()
 </pre>
 
 <p>
-TODO
+This method downloads the selected invoices in PDF format.
+If no invoices are selected, it prompts the user to select invoices first.
 </p>
 
 </section>
@@ -2608,7 +2998,8 @@ apps/tester/js/tester.js
 </pre>
 
 <p>
-This application implements the tipical features associated to tester
+This application implements the typical features associated with a tester,
+showcasing functionalities such as modals, toasts, and offcanvas elements.
 </p>
 
 <section id="toc150">
@@ -2619,67 +3010,92 @@ saltos.tester = {};
 </pre>
 
 <p>
-This object stores all function used by this app
+This object stores all the functions used by the Tester application,
+providing the necessary methods for interaction and testing features.
 </p>
 
 </section>
 <section id="toc151">
-<h3>6.1.2. Campo 8</h3>
+<h3>6.1.2. Campo 8: Alert functionality</h3>
 
 <pre>
 saltos.tester.campo8 = ()
 </pre>
 
 <p>
-TODO
+This function triggers a simple alert box when called, showcasing a button-click behavior.
 </p>
 
 </section>
 <section id="toc152">
-<h3>6.1.3. Campo 9</h3>
+<h3>6.1.3. Campo 9: Modal functionality</h3>
 
 <pre>
 saltos.tester.campo9 = ()
 </pre>
 
 <p>
-TODO
+This function displays a Bootstrap modal with a title, body, and footer. The modal includes:
 </p>
+
+<ul>
+<li>Text placeholders for content.
+</li>
+<li>A dropdown menu for additional options.
+</li>
+<li>Footer buttons to accept or cancel actions, with corresponding console logs.
+</li>
+</ul>
 
 </section>
 <section id="toc153">
-<h3>6.1.4. Campo 10</h3>
+<h3>6.1.4. Campo 10: Offcanvas functionality</h3>
 
 <pre>
 saltos.tester.campo10 = ()
 </pre>
 
 <p>
-TODO
+This function displays a Bootstrap offcanvas element with a title and body content.
+The body includes:
 </p>
+
+<ul>
+<li>Text placeholders for content.
+</li>
+<li>A dropdown menu for additional options.
+</li>
+</ul>
 
 </section>
 <section id="toc154">
-<h3>6.1.5. Campo 11</h3>
+<h3>6.1.5. Campo 11: Toast functionality</h3>
 
 <pre>
 saltos.tester.campo11 = ()
 </pre>
 
 <p>
-TODO
+This function displays a Bootstrap toast notification with customizable attributes, including:
 </p>
+
+<ul>
+<li>A title and subtitle for context.
+</li>
+<li>Body content with dynamic timestamp information.
+</li>
+</ul>
 
 </section>
 <section id="toc155">
-<h3>6.1.6. Campo 22</h3>
+<h3>6.1.6. Campo 22: Open statistics page</h3>
 
 <pre>
 saltos.tester.campo23 = ()
 </pre>
 
 <p>
-TODO
+This function opens the SaltOS statistics page in a new browser tab or window.
 </p>
 
 </section>
@@ -2819,9 +3235,11 @@ function insert_group($data)
 This action allow to insert registers in the database associated to
 the groups app and only requires the data.
 </p>
-<p>
-TODO
-</p>
+
+<ul>
+<li>@data =&gt; the array with all data used to create the new group
+</li>
+</ul>
 
 </section>
 <section id="toc166">
@@ -2835,9 +3253,13 @@ function update_group($group_id, $data)
 This action allow to update registers in the database associated to
 the groups app and requires the group_id and data.
 </p>
-<p>
-TODO
-</p>
+
+<ul>
+<li>@group_id =&gt; the group_id desired to be updated
+</li>
+<li>@data     =&gt; the array with all data used to update the group
+</li>
+</ul>
 
 </section>
 <section id="toc167">
@@ -2851,9 +3273,11 @@ function delete_group($group_id)
 This action allow to delete registers in the database associated to
 the groups app and only requires the group_id.
 </p>
-<p>
-TODO
-</p>
+
+<ul>
+<li>@group_id =&gt; the group_id desired to be deleted
+</li>
+</ul>
 
 </section>
 </section>
@@ -2865,47 +3289,64 @@ apps/users/php/matrix.php
 </pre>
 
 <p>
-This file contain all functions needed by the excel widget
+This file contains all the functions required by the Excel widget for handling
+permissions and applications in a matrix structure.
 </p>
 
 <section id="toc169">
-<h3>7.4.1. Make matrix</h3>
+<h3>7.4.1. Create matrix data</h3>
 
 <pre>
 function make_matrix_data($perms, $apps, $main, $user)
 </pre>
 
 <p>
-TODO
+This function generates a matrix of permissions and applications, associating each
+application with its respective permissions and their assigned values ("Allow", "Deny", or "").
 </p>
 
 </section>
 <section id="toc170">
-<h3>7.4.2. Make matrix</h3>
+<h3>7.4.2. Create matrix cells</h3>
 
 <pre>
 function make_matrix_cell($perms, $apps, $main, $user)
 </pre>
 
 <p>
-TODO
+This function generates matrix cells with additional attributes such as column and row indices,
+and dropdown options for editing cell values. Read-only attributes are applied to specific cells.
 </p>
 
 </section>
 <section id="toc171">
-<h3>7.4.3. Make matrix</h3>
+<h3>7.4.3. Unmake matrix data</h3>
 
 <pre>
 function unmake_matrix_data($perms, $apps, $main, $json)
 </pre>
 
 <p>
-TODO
+This function reverses the matrix data into a more manageable format by applying
+permission and application mappings while validating data consistency.
+</p>
+
+</section>
+<section id="toc172">
+<h3>7.4.4. Generate matrix permissions</h3>
+
+<pre>
+function make_matrix_perms($table, $field, $id)
+</pre>
+
+<p>
+This function generates the complete matrix data and metadata for use in
+the Excel widget, including column headers, row headers, data values, and cell details.
 </p>
 
 </section>
 </section>
-<section id="toc172">
+<section id="toc173">
 <h2>7.5. Users functions</h2>
 
 <pre>
@@ -2916,7 +3357,7 @@ apps/users/php/users.php
 This file contain all functions needed by the users app
 </p>
 
-<section id="toc173">
+<section id="toc174">
 <h3>7.5.1. Insert user action</h3>
 
 <pre>
@@ -2927,12 +3368,14 @@ function insert_user($data)
 This action allow to insert registers in the database associated to
 the users app and only requires the data.
 </p>
-<p>
-TODO
-</p>
+
+<ul>
+<li>@data =&gt; the array with all data used to create the new user
+</li>
+</ul>
 
 </section>
-<section id="toc174">
+<section id="toc175">
 <h3>7.5.2. Update user action</h3>
 
 <pre>
@@ -2943,12 +3386,16 @@ function update_user($user_id, $data)
 This action allow to update registers in the database associated to
 the users app and requires the user_id and data.
 </p>
-<p>
-TODO
-</p>
+
+<ul>
+<li>@user_id =&gt; the user_id desired to be updated
+</li>
+<li>@data    =&gt; the array with all data used to update the user
+</li>
+</ul>
 
 </section>
-<section id="toc175">
+<section id="toc176">
 <h3>7.5.3. Delete user action</h3>
 
 <pre>
@@ -2959,14 +3406,16 @@ function delete_user($user_id)
 This action allow to delete registers in the database associated to
 the users app and only requires the user_id.
 </p>
-<p>
-TODO
-</p>
+
+<ul>
+<li>@group_id =&gt; the user_id desired to be deleted
+</li>
+</ul>
+
 </section>
 </section>
 </section>
 </div>
-
 <!-- html code generated by txt2tags 3.4 (http://txt2tags.org) -->
 <!-- cmdline: txt2tags -\-toc -t html -i apps.t2t -o apps.html -->
 </article></body></html>

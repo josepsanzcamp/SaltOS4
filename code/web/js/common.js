@@ -162,9 +162,9 @@ saltos.common.delete = file => {
 };
 
 /**
- * TODO
+ * Version common helper
  *
- * TODO
+ * This function open the version widget
  */
 saltos.common.version = () => {
     const app = saltos.hash.get().split('/').at(1);
@@ -173,9 +173,9 @@ saltos.common.version = () => {
 };
 
 /**
- * TODO
+ * Log common helper
  *
- * TODO
+ * This function open the log widget
  */
 saltos.common.log = () => {
     const app = saltos.hash.get().split('/').at(1);
@@ -184,9 +184,9 @@ saltos.common.log = () => {
 };
 
 /**
- * TODO
+ * Edit common helper
  *
- * TODO
+ * This function open the edit screen
  */
 saltos.common.edit = () => {
     const app = saltos.hash.get().split('/').at(1);
@@ -195,9 +195,9 @@ saltos.common.edit = () => {
 };
 
 /**
- * TODO
+ * Create common helper
  *
- * TODO
+ * This function open the create screen
  */
 saltos.common.create = () => {
     const app = saltos.hash.get().split('/').at(1);
@@ -205,9 +205,9 @@ saltos.common.create = () => {
 };
 
 /**
- * TODO
+ * Viewpdf common helper
  *
- * TODO
+ * This function open the viewpdf widget
  */
 saltos.common.viewpdf = () => {
     const app = saltos.hash.get().split('/').at(1);
@@ -216,9 +216,12 @@ saltos.common.viewpdf = () => {
 };
 
 /**
- * TODO
+ * Remove common helper
  *
- * TODO
+ * This function works as helper for the allfiles and allnotes functions and
+ * tries to detect if the table identified by the argument contains something
+ *
+ * @id => the id of the table
  */
 saltos.common.__remove_helper = id => {
     const obj = document.getElementById(id);
@@ -234,18 +237,18 @@ saltos.common.__remove_helper = id => {
 };
 
 /**
- * TODO
+ * Allfiles common helper
  *
- * TODO
+ * This function remove the allfiles table if it is void
  */
 saltos.common.allfiles = () => {
     saltos.common.__remove_helper('allfiles');
 };
 
 /**
- * TODO
+ * Allnotes common helper
  *
- * TODO
+ * This function remove the allnotes table if it is void
  */
 saltos.common.allnotes = () => {
     saltos.common.__remove_helper('allnotes');

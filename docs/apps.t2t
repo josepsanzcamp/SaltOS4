@@ -1,72 +1,107 @@
 Applications Documentation
-SaltOS 4.0 r1923
-March 2025
+SaltOS 4.0 r1924
+April 2025
 
 
 
 +Certs+
 
-++TODO++
+++Certificate Management Functions++
 
 ```
 apps/certs/php/certs.php
 ```
 
-TODO
+This file contains the main functions for managing certificates, including listing,
+inserting, checking, viewing, and deleting certificates from the NSS database.
 
 
-+++TODO+++
++++List Certificates+++
 
 ```
 function __certs_list($search, $offset, $limit)
 ```
 
-TODO
+This function retrieves a list of certificates from the NSS database, applies search filters,
+and paginates the results based on offset and limit parameters.
+
+- @search => Search term or query to filter certificates.
+- @offset => Offset for pagination.
+- @limit  => Maximum number of certificates to retrieve.
 
 
-+++TODO+++
+Return the list of certificates with their ID and name.
+
+
++++Insert Certificates+++
 
 ```
 function __certs_insert($json)
 ```
 
-TODO
+This function inserts certificates into the NSS database. It validates the uploaded files,
+processes them, and handles errors if the import is unsuccessful.
+
+- @json => JSON object containing the certificate files and their details.
 
 
-+++TODO+++
+Return the status and message of the operation.
+
+
++++Convert Certificate Hash to Nickname+++
 
 ```
 function __certs_hash2nick($hash)
 ```
 
-TODO
+This function maps a certificate hash to its corresponding nickname in the NSS database.
+
+- @hash => MD5 hash of the certificate nickname.
 
 
-+++TODO+++
+Return the nickname of the certificate, or an empty string if not found.
+
+
++++Check Certificate Existence+++
 
 ```
 function __certs_check($hash)
 ```
 
-TODO
+This function checks if a certificate with the given hash exists in the NSS database.
+
+- @hash => MD5 hash of the certificate nickname.
 
 
-+++TODO+++
+Return true if the certificate exists, false otherwise.
+
+
++++View Certificate Information+++
 
 ```
 function __certs_view($hash)
 ```
 
-TODO
+This function retrieves detailed information about a certificate using its hash.
+
+- @hash => MD5 hash of the certificate nickname.
 
 
-+++TODO+++
+Return the status, nickname, and detailed information of the certificate.
+
+
++++Delete Certificate+++
 
 ```
 function __certs_delete($hash)
 ```
 
-TODO
+This function removes a certificate from the NSS database using its hash.
+
+- @hash => MD5 hash of the certificate nickname.
+
+
+Return the status of the delete operation.
 
 
 ++Directory helper++
@@ -194,13 +229,14 @@ in the signature process
 
 +Common+
 
-++profile application++
+++Profile application++
 
 ```
 apps/common/js/profile.js
 ```
 
-This application implements the tipical features associated to profile
+This application implements the typical features associated with user profiles,
+such as managing themes, language settings, and authentication updates.
 
 
 +++Main object+++
@@ -209,46 +245,57 @@ This application implements the tipical features associated to profile
 saltos.profile = {};
 ```
 
-This object contains all SaltOS code
+Contains all the logic and code for the SaltOS framework related to the profile application.
 
 
-+++TODO+++
++++Initialization of profile settings+++
 
 ```
 saltos.profile.init = arg
 ```
 
-TODO
+This method initializes the profile settings by setting the current Bootstrap theme,
+custom CSS theme, and language preferences in the respective input fields.
 
 
-+++TODO+++
++++Update authentication settings+++
 
 ```
 saltos.profile.authupdate = ()
 ```
 
-TODO
+This method restores the previous state of the application if necessary,
+validates required fields, and then updates the authentication credentials
+using the provided old password, new password, and its confirmation.
 
 
-++TODO++
+++Data Actions Merger++
 
 ```
 apps/common/php/actions.php
 ```
 
-TODO
+This file contains functionality for merging action controls
+with data rows in tables or lists, including permission checks
 
 
-+++Merge data actions+++
++++Merge data with actions+++
 
 ```
 function __merge_data_actions($data, $actions)
 ```
 
-This function merge the rows of a table or list with the specified actions
+Combines dataset rows with action controls while verifying permissions.
+Processes each action definition, checks user permissions, and attaches
+permitted actions to each data row.
 
-- @data    => the data of the table or list widget
-- @actions => the desired actions to use in the table or list widget
+- @data    => Dataset containing rows to display in table/list
+- @actions => Action definitions to merge with each data row
+
+
+Returns the modified dataset with actions attached to each row
+
+Throws error if actions parameter is not an array
 
 
 ++Apps helper module++
@@ -299,49 +346,77 @@ This function returns the xml of an app using the follow specs passed in @data:
               key and val with the name of the property and the value of it
 
 
-++TODO++
+++File management functions++
 
 ```
 apps/common/php/files.php
 ```
 
-TODO
+These functions handle file operations such as listing files, retrieving file paths,
+checking for file existence, and viewing file contents. They are primarily designed
+to interact with the `data/logs` directory.
 
 
-+++TODO+++
++++List files in the logs directory+++
 
 ```
 function __files_list($search, $offset, $limit)
 ```
 
-TODO
+This function retrieves a list of files from the `data/logs` directory, applies search filters,
+and paginates the results based on the specified offset and limit. The returned data includes
+metadata such as file size and type.
+
+- @search => Search term or query to filter files.
+- @offset => Offset for pagination.
+- @limit  => Maximum number of files to retrieve.
 
 
-+++TODO+++
+Returns a list of files with metadata including ID, name, size, and type.
+
+
++++Get the full path of a file+++
 
 ```
 function __files_getfile($file)
 ```
 
-TODO
+This function searches for a file by its name in the `data/logs` directory and returns
+its full path if found. Otherwise, it returns an empty string.
+
+- @file => Name of the file to search for.
 
 
-+++TODO+++
+Returns the full path of the file or an empty string if not found.
+
+
++++Check if a file exists+++
 
 ```
 function __files_check($file)
 ```
 
-TODO
+This function checks whether a file exists in the `data/logs` directory by searching for its name.
+
+- @file => Name of the file to check.
 
 
-+++TODO+++
+Returns `true` if the file exists, otherwise `false`.
+
+
++++View the contents of a file+++
 
 ```
 function __files_view($file)
 ```
 
-TODO
+This function retrieves the contents of a file from the `data/logs` directory. It supports both
+regular files and gzip-compressed files. The returned data includes the file name, size, type, and content.
+
+- @file => Name of the file to view.
+
+
+Returns metadata and content of the file. If the file is not found, it returns an error response.
 
 
 ++Matrix functions++
@@ -350,25 +425,28 @@ TODO
 apps/common/php/matrix.php
 ```
 
-This file contain all functions needed by the excel widget
+This file contains all the functions required by the Excel widget for handling
+version and log data in a matrix format.
 
 
-+++TODO+++
++++Create matrix for version data+++
 
 ```
 function make_matrix_version($app, $id)
 ```
 
-TODO
+This function generates a matrix structure for displaying version-related data
+in the Excel widget, including headers, data formatting, and cell attributes.
 
 
-+++TODO+++
++++Create matrix for log data+++
 
 ```
 function make_matrix_log($app, $id)
 ```
 
-TODO
+This function processes log data and generates headers and formatting information
+for integration into the Excel widget.
 
 
 +Dashboard+
@@ -379,7 +457,8 @@ TODO
 apps/dashboard/js/dashboard.js
 ```
 
-This application implements the tipical features associated to dashboard
+This module implements the typical features associated with a dashboard,
+allowing dynamic interaction with various elements and functionalities.
 
 
 +++Main object+++
@@ -388,16 +467,17 @@ This application implements the tipical features associated to dashboard
 saltos.dashboard = {};
 ```
 
-This object contains all SaltOS code
+Contains all the logic and code for the SaltOS framework related to the dashboard.
 
 
-+++TODO+++
++++Initialization of dashboard+++
 
 ```
 saltos.dashboard.init = arg
 ```
 
-TODO
+This method sets up listeners, configures the catalog layout, and initializes
+the dashboard widgets based on user-defined or default configurations.
 
 
 ++Dashboard widgets application++
@@ -406,7 +486,8 @@ TODO
 apps/dashboard/js/dashboard_widgets.js
 ```
 
-This application implements the tipical features associated to dashboard
+This module implements the typical features associated with a widget dashboard,
+allowing interaction and customization of elements in a dynamic environment.
 
 
 +++Main object+++
@@ -415,16 +496,17 @@ This application implements the tipical features associated to dashboard
 saltos.dashboard_widgets = {};
 ```
 
-This object contains all SaltOS code
+Contains all the logic and code for the SaltOS framework related to the dashboard widgets.
 
 
-+++TODO+++
++++Initialization of dashboard widgets+++
 
 ```
 saltos.dashboard_widgets.init = arg
 ```
 
-TODO
+This method sets up the interactive elements of the dashboard, including assigning style classes
+and configuring drag-and-drop functionality between different containers.
 
 
 +Emails+
@@ -435,7 +517,8 @@ TODO
 apps/emails/js/driver.js
 ```
 
-This application implements the tipical features associated to emails
+This application implements the typical features associated with email functionality,
+including templates and initialization processes for handling email-related tasks.
 
 
 +++Driver emails object+++
@@ -444,25 +527,29 @@ This application implements the tipical features associated to emails
 saltos.driver.__types.emails = {};
 ```
 
-This object stores the functions used by the emails driver
+This object stores the functions and properties used by the email driver,
+providing the necessary methods for managing email operations.
 
 
-+++TODO+++
++++Create email template+++
 
 ```
 saltos.driver.__types.emails.template = arg
 ```
 
-TODO
+This function generates a template for the email driver, configuring specific
+attributes and layout modifications. It sets the 'type' attribute to 'emails'
+and adjusts the layout of the corresponding element for proper display.
 
 
-+++TODO+++
++++Initialization, open, and close handlers for emails+++
 
 ```
-saltos.driver.__types.emails.init = saltos.driver.__types.type5.init;
+saltos.driver.__types.emails.init = saltos.driver.__types.type5.init; // Inherits initialization from type5
 ```
 
-TODO
+These methods inherit their implementations from the 'type5' driver, allowing
+reuse of core functionality for initializing, opening, and closing email resources.
 
 
 ++Email application++
@@ -471,7 +558,10 @@ TODO
 apps/emails/js/emails.js
 ```
 
-This application implements the tipical features associated to emails
+This application implements typical features associated with email functionality,
+such as initialization, server actions, email deletion, sending, setting states,
+handling signatures, generating and downloading PDFs, viewing email sources, replying
+and forwarding.
 
 
 +++Main object+++
@@ -480,160 +570,178 @@ This application implements the tipical features associated to emails
 saltos.emails = {};
 ```
 
-This object contains all SaltOS code
+This object contains all SaltOS code related to email operations.
 
 
-+++TODO+++
++++Initialize the email application+++
 
 ```
 saltos.emails.init = arg
 ```
 
-TODO
+This method handles initialization tasks for different views (`create`, `view`, `close`, `list`)
+in the email application. It manages UI updates, visibility behaviors, and email state changes.
+
+- @param {string} arg Specifies the type of view or action to initialize.
 
 
-+++TODO+++
++++Perform server-related actions for emails+++
 
 ```
 saltos.emails.server = ()
 ```
 
-TODO
+This method triggers server-side actions for emails and displays the responses in toasts.
 
 
-+++TODO+++
++++Delete selected emails+++
 
 ```
 saltos.emails.delete1 = ()
 ```
 
-TODO
+This method deletes multiple emails selected by the user, after showing a confirmation modal.
 
 
-+++TODO+++
++++Delete a single email+++
 
 ```
 saltos.emails.delete2 = ()
 ```
 
-TODO
+This method deletes the currently viewed email after showing a confirmation modal.
 
 
-+++TODO+++
++++Send an email+++
 
 ```
 saltos.emails.send = ()
 ```
 
-TODO
+This method validates the required fields and sends the email data to the server.
+It handles responses and clears unsaved data on success.
 
 
-+++TODO+++
++++Set email state+++
 
 ```
 saltos.emails.setter = what
 ```
 
-TODO
+This function updates the state of a specific email identified by its ID. The updated state is sent
+to the server, and the UI is refreshed afterward.
+
+- @param {string} what Specifies the state to set for the email.
 
 
-+++TODO+++
++++Add signature to email+++
 
 ```
 saltos.emails.signature = ()
 ```
 
-TODO
+This function applies the email signature based on the selected account and its related data.
+The signature is retrieved from the server and updated in the email form.
 
 
-+++TODO+++
++++View selected emails in PDF format+++
 
 ```
 saltos.emails.viewpdf1 = ()
 ```
 
-TODO
+This function opens a PDF view for all selected emails in the list.
+If no emails are selected, a modal prompts the user to select emails first.
 
 
-+++TODO+++
++++Download selected emails as PDF+++
 
 ```
 saltos.emails.download1 = ()
 ```
 
-TODO
+This function downloads all selected emails in the list as a PDF file.
+If no emails are selected, a modal prompts the user to select emails first.
 
 
-+++TODO+++
++++View email source+++
 
 ```
 saltos.emails.source = ()
 ```
 
-TODO
+This function opens the raw source of the selected email for viewing in the driver.
 
 
-+++TODO+++
++++View an email in PDF format+++
 
 ```
 saltos.emails.viewpdf2 = ()
 ```
 
-TODO
+This function opens a PDF view for the currently selected email.
 
 
-+++TODO+++
++++Download an email as PDF+++
 
 ```
 saltos.emails.download2 = ()
 ```
 
-TODO
+This function downloads the currently selected email in PDF format.
 
 
-+++TODO+++
++++Reply to an email+++
 
 ```
 saltos.emails.reply = ()
 ```
 
-TODO
+This function opens the reply form for the currently selected email.
 
 
-+++TODO+++
++++Reply to all recipients of an email+++
 
 ```
 saltos.emails.replyall = ()
 ```
 
-TODO
+This function opens the reply-all form for the currently selected email, including all recipients.
 
 
-+++TODO+++
++++Forward an email+++
 
 ```
 saltos.emails.forward = ()
 ```
 
-TODO
+This function opens the forward form for the currently selected email.
 
 
-++TODO++
+++Email Query Builder++
 
 ```
 apps/emails/php/filter.php
 ```
 
-TODO
+This function builds an SQL WHERE query for filtering emails based on various criteria
+such as account, fields, search terms, dates, and specific email states.
 
 
-+++TODO+++
++++Generate WHERE query for emails+++
 
 ```
 function make_where_query_emails($json)
 ```
 
-TODO
+This function takes a JSON input and generates a dynamic SQL WHERE clause to filter emails.
+The query is constructed based on several optional parameters such as account ID, search fields,
+dates, and flags indicating specific states (e.g., new emails, waiting emails, spam).
+
+- @json => Input parameters for generating the query.
+
+
+Returns the dynamically constructed SQL WHERE clause.
 
 
 ++Get email library++
@@ -955,22 +1063,40 @@ intended to be rendered in an iframe, for example
 - @id => id of the email
 
 
-+++TODO+++
++++Generate formatted email header information+++
 
 ```
 function __getmail_head_helper($decoded, $email_id)
 ```
 
-TODO
+This function extracts and formats header details from the decoded email structure,
+including sender, recipients, date, subject, and attachments. It handles edge cases
+such as missing data, and ensures that all information is presented in a structured
+and readable format. HTML encoding is applied to ensure safe display within a web interface.
+
+- @param array $decoded Decoded structure of the email, containing metadata and header information.
+- @param int $email_id ID of the email to retrieve additional account-specific details.
+- @return string Returns a formatted HTML string with the email header information.
 
 
-+++TODO+++
++++Extract and format the body of an email+++
 
 ```
 function __getmail_body_helper($decoded, $images = false)
 ```
 
-TODO
+This function processes the decoded content of an email, extracting the plain
+text and HTML bodies while applying necessary transformations for safe and
+structured display. It handles inline images, styles, and embedded attachments,
+ensuring compatibility and security.
+
+- @decoded => Decoded structure of the email, typically containing nodes with
+            metadata and body content.
+- @images  => Specifies whether inline images should be embedded directly into
+            the content.
+
+
+Returns the formatted email body, including plain text, HTML, and inline attachments.
 
 
 +++Get email source+++
@@ -1067,31 +1193,58 @@ in an array format for the download feature
 - @cid => the cid of the content requested
 
 
-+++TODO+++
++++Update email states+++
 
 ```
 function getmail_setter($ids, $what)
 ```
 
-TODO
+This function modifies the state of emails (e.g., `new`, `wait`, or `spam`)
+based on the provided IDs and action. It validates user permissions for the
+selected emails before updating their states. The function calculates the
+number of records to be modified and updates the database accordingly.
+
+- @ids  => Comma-separated list of email IDs to be updated.
+- @what => Specifies the state change in the format `key=value` (e.g., `new=0`).
 
 
-+++TODO+++
+Returns a response message indicating the number of emails modified.
+
+
++++Generate PDF from emails+++
 
 ```
 function getmail_pdf($ids)
 ```
 
-TODO
+This function generates PDF files for the provided email IDs using either the
+`wkhtmltopdf` command or a fallback library. If multiple emails are selected,
+their PDFs are merged into a single file. It validates user permissions for
+accessing the emails and manages caching for performance optimization.
+
+- @ids => List or comma-separated string of email IDs to generate PDFs for.
 
 
-+++TODO+++
+Returns metadata of the generated PDF file, including its name, type, and
+base64-encoded data.
+
+
++++Generate iframe content with secure policies+++
 
 ```
 function __iframe_srcdoc_helper($html)
 ```
 
-TODO
+This function generates the `srcdoc` content for an iframe element, embedding
+the provided HTML string. It ensures the content is styled using predefined
+fonts and enforces a strict Content Security Policy (CSP) to limit the sources
+for styles, fonts, and images. This helps maintain security and compatibility
+within the iframe.
+
+- @html => The HTML content to be embedded in the iframe.
+
+
+Return a complete HTML document string suitable for `srcdoc` use in an iframe.
 
 
 ++Html helper module++
@@ -1200,83 +1353,129 @@ This function tries to convert all imgs to an inline imgs
 - @temp => the string that you want to process
 
 
-+++TODO+++
++++Inline Image Helper+++
 
 ```
 function __inline_img_helper($src)
 ```
 
-TODO
+This function fetches and processes image URLs, ensuring compatibility and resizing
+where necessary. It also manages caching and handles errors gracefully.
+
+- @src => Image source URL or path.
 
 
-+++TODO+++
+Returns the inline image data or a placeholder GIF in case of errors.
+
+
++++Extract Inline Images from Tags+++
 
 ```
 function extract_img_tag($html)
 ```
 
-TODO
+This function extracts inline images from HTML `<img>` tags and replaces their `src`
+attributes with `cid` references for email compatibility.
+
+- @html => HTML content to parse.
 
 
-+++TODO+++
+Returns the modified HTML content and an array of image files.
+
+
++++Extract Inline Images from Styles+++
 
 ```
 function extract_img_style($html)
 ```
 
-TODO
+This function extracts images embedded in CSS `style` attributes and replaces them
+with `cid` references for email compatibility.
+
+- @html => HTML content to parse.
 
 
-+++TODO+++
+Returns the modified HTML content and an array of image files.
+
+
++++Extract Inline Images from Backgrounds+++
 
 ```
 function extract_img_background($html)
 ```
 
-TODO
+This function extracts images embedded in HTML `background` attributes and replaces them
+with `cid` references for email compatibility.
+
+- @html => HTML content to parse.
 
 
-+++TODO+++
+Returns the modified HTML content and an array of image files.
+
+
++++Fix Image Tags+++
 
 ```
 function fix_img_tag($html)
 ```
 
-TODO
+This function processes `<img>` tags in the given HTML to replace non-inline image `src` attributes
+with a placeholder image (`__GIF_IMAGE__`), ensuring compatibility and avoiding external dependencies.
+
+- @html => The HTML content to process.
 
 
-+++TODO+++
+Returns the updated HTML content with fixed image tags.
+
+
++++Fix Image Styles+++
 
 ```
 function fix_img_style($html)
 ```
 
-TODO
+This function processes CSS `style` attributes in HTML elements to replace non-inline image URLs
+within `url()` properties with a placeholder image (`__GIF_IMAGE__`).
+
+- @html => The HTML content to process.
 
 
-+++TODO+++
+Returns the updated HTML content with fixed image styles.
+
+
++++Fix Image Backgrounds+++
 
 ```
 function fix_img_background($html)
 ```
 
-TODO
+This function processes `background` attributes in HTML elements to replace non-inline image URLs
+with a placeholder image (`__GIF_IMAGE__`).
+
+- @html => The HTML content to process.
 
 
-+++TODO+++
+Returns the updated HTML content with fixed image backgrounds.
+
+
++++Fix Base64-Encoded Files+++
 
 ```
 function fix_file_b64($html)
 ```
 
-TODO
+This function replaces inline base64-encoded file data in HTML with the corresponding
+cached image content, ensuring that embedded images are properly handled.
+
+- @html => The HTML content to process.
+
+
+Return the updated HTML content with fixed base64-encoded files.
 
 Notes:
 
-We are using {48} to force to search a base64 data of 48 of bytes, where decoded
-must to be a 36 bytes string, this match with the cache style file like a md5 hash
-of 32 bytes with 4 bytes more by the extension file (.b64)
-
+We are using `{48}` to match base64 data of 48 bytes, which decodes into a 36-byte string
+that matches the MD5 hash style used in cached files (32 bytes plus 4-byte `.b64` extension).
 
 
 ++Make indexing action++
@@ -1394,60 +1593,98 @@ This function is intended to save the PHPMailer object into the obj file
 - @messageid => the message id computed previously
 
 
-+++TODO+++
++++Prepare email for sending+++
 
 ```
 function sendmail_prepare($action, $email_id)
 ```
 
-TODO
+This function constructs the required parameters for sending an email, including sender details,
+recipients, subject, body, and attachments. The behavior varies based on the specified action
+(`reply`, `replyall`, or `forward`). It retrieves necessary data from the database and processes
+the email's metadata to ensure compatibility with the given action.
+
+- @action   => Specifies the action to perform (`reply`, `replyall`, or `forward`).
+- @email_id => ID of the email being replied to, forwarded, or used for metadata.
 
 
-+++TODO+++
+Return the prepared email parameters, including sender, recipients, subject, body, state, and attachments.
+
+
++++Perform email sending action+++
 
 ```
 function sendmail_action($json, $action, $email_id)
 ```
 
-TODO
+This function handles the process of sending an email, including assembling email data,
+recipients, and attachments. It also manages inline images, updates email states, and
+cleans up temporary files after execution. The function supports multiple actions such
+as `reply`, `replyall`, and `forward`.
+
+- @json     => JSON object containing email data (e.g., recipients, subject, body, attachments).
+- @action   => Specifies the action to perform (`reply`, `replyall`, or `forward`).
+- @email_id => ID of the email being replied to, forwarded, or used for metadata.
 
 
-+++TODO+++
+Returns the status and message of the email action.
+
+
++++Send queued emails from the server+++
 
 ```
 function sendmail_server()
 ```
 
-TODO
+This function processes and sends emails queued in the outbox. It uses a semaphore mechanism
+to prevent simultaneous execution, handles SMTP settings dynamically, updates email states,
+and manages errors during the sending process. The function is intended for use in cron jobs.
+
+- @return array Returns an array of messages detailing the sending result, including errors and successes.
 
 
-+++TODO+++
++++Retrieve email attachments+++
 
 ```
 function sendmail_files($action, $email_id)
 ```
 
-TODO
+This function handles the retrieval of email attachments based on the specified action,
+such as `forward`. It validates permissions, decodes the message, and stores attachments
+locally if not already uploaded. Finally, it retrieves a list of attachments from the upload table.
+
+- @action   => Specifies the email action (`forward` in this case).
+- @email_id => ID of the email to retrieve attachments from.
 
 
-+++TODO+++
+Returns a list of attachments with metadata including ID, app, name, size, type, and hash.
+
+
++++Update email signature, CC, and encryption state+++
 
 ```
 function sendmail_signature($json)
 ```
 
-TODO
+This function updates the email body with a new signature, adjusts the CC list,
+and replaces the encryption state (`state_crt`) based on the selected account.
+
+- @json => JSON object containing email data and account information.
+
+
+Return the updated email body, CC list, and encryption state.
 
 
 +Invoices+
 
-++invoices application++
+++Invoices application++
 
 ```
 apps/invoices/js/invoices.js
 ```
 
-This application implements the tipical features associated to invoices
+This application provides core functionalities for managing invoices, including creating,
+editing, viewing, and exporting invoices in PDF format.
 
 
 +++Main object+++
@@ -1456,61 +1693,71 @@ This application implements the tipical features associated to invoices
 saltos.invoices = {};
 ```
 
-This object contains all SaltOS code
+This object contains all SaltOS code related to invoice operations.
 
 
-+++TODO+++
++++Initialize the invoices application+++
 
 ```
 saltos.invoices.init = arg
 ```
 
-TODO
+This method handles initialization tasks based on the type of operation (`view`, `create`, or `edit`).
+It updates UI elements and attaches appropriate event listeners.
+
+- @arg => Specifies the type of operation to initialize.
 
 
-+++TODO+++
++++Compute total invoice amount+++
 
 ```
 saltos.invoices.compute_total = ()
 ```
 
-TODO
+This method calculates the subtotal for each invoice item and the grand total for all items.
+It handles discounts, rounds values to two decimal places, and updates the total fields.
 
 
-+++TODO+++
++++Add a new item to the invoice+++
 
 ```
 saltos.invoices.add_item = ()
 ```
 
-TODO
+This method creates a new invoice item and initializes its layout and event listeners.
+It ensures consistent behavior for the form fields and recomputes the totals after addition.
 
 
-+++TODO+++
++++Remove an item from the invoice+++
 
 ```
 saltos.invoices.remove_item = (obj)
 ```
 
-TODO
+This method deletes an invoice item or marks it with a negative value if it is hidden.
+It updates the invoice totals after removal.
+
+- @obj => Reference to the item to remove.
 
 
-+++TODO+++
++++View selected invoices in PDF format+++
 
 ```
 saltos.invoices.viewpdf = ()
 ```
 
-TODO
+This method opens a PDF viewer to display the selected invoices.
+If no invoices are selected, it prompts the user to select invoices first.
 
 
-+++TODO+++
++++Download selected invoices as PDF+++
 
 ```
 saltos.invoices.download = ()
 ```
 
-TODO
+This method downloads the selected invoices in PDF format.
+If no invoices are selected, it prompts the user to select invoices first.
 
 
 +Tester+
@@ -1521,7 +1768,8 @@ TODO
 apps/tester/js/tester.js
 ```
 
-This application implements the tipical features associated to tester
+This application implements the typical features associated with a tester,
+showcasing functionalities such as modals, toasts, and offcanvas elements.
 
 
 +++Tester object+++
@@ -1530,52 +1778,61 @@ This application implements the tipical features associated to tester
 saltos.tester = {};
 ```
 
-This object stores all function used by this app
+This object stores all the functions used by the Tester application,
+providing the necessary methods for interaction and testing features.
 
 
-+++Campo 8+++
++++Campo 8: Alert functionality+++
 
 ```
 saltos.tester.campo8 = ()
 ```
 
-TODO
+This function triggers a simple alert box when called, showcasing a button-click behavior.
 
 
-+++Campo 9+++
++++Campo 9: Modal functionality+++
 
 ```
 saltos.tester.campo9 = ()
 ```
 
-TODO
+This function displays a Bootstrap modal with a title, body, and footer. The modal includes:
+- Text placeholders for content.
+- A dropdown menu for additional options.
+- Footer buttons to accept or cancel actions, with corresponding console logs.
 
 
-+++Campo 10+++
++++Campo 10: Offcanvas functionality+++
 
 ```
 saltos.tester.campo10 = ()
 ```
 
-TODO
+This function displays a Bootstrap offcanvas element with a title and body content.
+The body includes:
+- Text placeholders for content.
+- A dropdown menu for additional options.
 
 
-+++Campo 11+++
++++Campo 11: Toast functionality+++
 
 ```
 saltos.tester.campo11 = ()
 ```
 
-TODO
+This function displays a Bootstrap toast notification with customizable attributes, including:
+- A title and subtitle for context.
+- Body content with dynamic timestamp information.
 
 
-+++Campo 22+++
++++Campo 22: Open statistics page+++
 
 ```
 saltos.tester.campo23 = ()
 ```
 
-TODO
+This function opens the SaltOS statistics page in a new browser tab or window.
 
 
 +Users+
@@ -1677,7 +1934,7 @@ function insert_group($data)
 This action allow to insert registers in the database associated to
 the groups app and only requires the data.
 
-TODO
+- @data => the array with all data used to create the new group
 
 
 +++Update group action+++
@@ -1689,7 +1946,8 @@ function update_group($group_id, $data)
 This action allow to update registers in the database associated to
 the groups app and requires the group_id and data.
 
-TODO
+- @group_id => the group_id desired to be updated
+- @data     => the array with all data used to update the group
 
 
 +++Delete group action+++
@@ -1701,7 +1959,7 @@ function delete_group($group_id)
 This action allow to delete registers in the database associated to
 the groups app and only requires the group_id.
 
-TODO
+- @group_id => the group_id desired to be deleted
 
 
 ++Matrix functions++
@@ -1710,34 +1968,48 @@ TODO
 apps/users/php/matrix.php
 ```
 
-This file contain all functions needed by the excel widget
+This file contains all the functions required by the Excel widget for handling
+permissions and applications in a matrix structure.
 
 
-+++Make matrix+++
++++Create matrix data+++
 
 ```
 function make_matrix_data($perms, $apps, $main, $user)
 ```
 
-TODO
+This function generates a matrix of permissions and applications, associating each
+application with its respective permissions and their assigned values ("Allow", "Deny", or "").
 
 
-+++Make matrix+++
++++Create matrix cells+++
 
 ```
 function make_matrix_cell($perms, $apps, $main, $user)
 ```
 
-TODO
+This function generates matrix cells with additional attributes such as column and row indices,
+and dropdown options for editing cell values. Read-only attributes are applied to specific cells.
 
 
-+++Make matrix+++
++++Unmake matrix data+++
 
 ```
 function unmake_matrix_data($perms, $apps, $main, $json)
 ```
 
-TODO
+This function reverses the matrix data into a more manageable format by applying
+permission and application mappings while validating data consistency.
+
+
++++Generate matrix permissions+++
+
+```
+function make_matrix_perms($table, $field, $id)
+```
+
+This function generates the complete matrix data and metadata for use in
+the Excel widget, including column headers, row headers, data values, and cell details.
 
 
 ++Users functions++
@@ -1758,7 +2030,7 @@ function insert_user($data)
 This action allow to insert registers in the database associated to
 the users app and only requires the data.
 
-TODO
+- @data => the array with all data used to create the new user
 
 
 +++Update user action+++
@@ -1770,7 +2042,8 @@ function update_user($user_id, $data)
 This action allow to update registers in the database associated to
 the users app and requires the user_id and data.
 
-TODO
+- @user_id => the user_id desired to be updated
+- @data    => the array with all data used to update the user
 
 
 +++Delete user action+++
@@ -1782,6 +2055,6 @@ function delete_user($user_id)
 This action allow to delete registers in the database associated to
 the users app and only requires the user_id.
 
-TODO
+- @group_id => the user_id desired to be deleted
 
 

@@ -28,22 +28,30 @@
 declare(strict_types=1);
 
 /**
- * TODO
+ * Certificate Management Functions
  *
- * TODO
+ * This file contains the main functions for managing certificates, including listing,
+ * inserting, checking, viewing, and deleting certificates from the NSS database.
  */
 
 /**
- * TODO
+ * List Certificates
  *
- * TODO
+ * This function retrieves a list of certificates from the NSS database, applies search filters,
+ * and paginates the results based on offset and limit parameters.
+ *
+ * @search => Search term or query to filter certificates.
+ * @offset => Offset for pagination.
+ * @limit  => Maximum number of certificates to retrieve.
+ *
+ * Return the list of certificates with their ID and name.
  */
 function __certs_list($search, $offset, $limit)
 {
     require_once 'apps/certs/php/nssdb.php';
     $list = __nssdb_list();
 
-    // Implement the search feature
+    // Apply search filters
     $search = explode_with_quotes(' ', $search);
     foreach ($search as $key => $val) {
         $val = get_string_from_quotes($val);
@@ -59,12 +67,12 @@ function __certs_list($search, $offset, $limit)
         $list = array_grep($list, $val, $type == '-');
     }
 
-    // Implement the offset and limit feature
+    // Apply pagination
     if ($limit !== INF) {
         $list = array_slice($list, $offset, $limit);
     }
 
-    // Returns the list with two items: id and name
+    // Format the list to include ID and name
     foreach ($list as $key => $val) {
         $list[$key] = ['id' => md5($val), 'name' => $val];
     }
@@ -73,9 +81,14 @@ function __certs_list($search, $offset, $limit)
 }
 
 /**
- * TODO
+ * Insert Certificates
  *
- * TODO
+ * This function inserts certificates into the NSS database. It validates the uploaded files,
+ * processes them, and handles errors if the import is unsuccessful.
+ *
+ * @json => JSON object containing the certificate files and their details.
+ *
+ * Return the status and message of the operation.
  */
 function __certs_insert($json)
 {
@@ -121,9 +134,13 @@ function __certs_insert($json)
 }
 
 /**
- * TODO
+ * Convert Certificate Hash to Nickname
  *
- * TODO
+ * This function maps a certificate hash to its corresponding nickname in the NSS database.
+ *
+ * @hash => MD5 hash of the certificate nickname.
+ *
+ * Return the nickname of the certificate, or an empty string if not found.
  */
 function __certs_hash2nick($hash)
 {
@@ -138,9 +155,13 @@ function __certs_hash2nick($hash)
 }
 
 /**
- * TODO
+ * Check Certificate Existence
  *
- * TODO
+ * This function checks if a certificate with the given hash exists in the NSS database.
+ *
+ * @hash => MD5 hash of the certificate nickname.
+ *
+ * Return true if the certificate exists, false otherwise.
  */
 function __certs_check($hash)
 {
@@ -151,9 +172,13 @@ function __certs_check($hash)
 }
 
 /**
- * TODO
+ * View Certificate Information
  *
- * TODO
+ * This function retrieves detailed information about a certificate using its hash.
+ *
+ * @hash => MD5 hash of the certificate nickname.
+ *
+ * Return the status, nickname, and detailed information of the certificate.
  */
 function __certs_view($hash)
 {
@@ -177,9 +202,13 @@ function __certs_view($hash)
 }
 
 /**
- * TODO
+ * Delete Certificate
  *
- * TODO
+ * This function removes a certificate from the NSS database using its hash.
+ *
+ * @hash => MD5 hash of the certificate nickname.
+ *
+ * Return the status of the delete operation.
  */
 function __certs_delete($hash)
 {

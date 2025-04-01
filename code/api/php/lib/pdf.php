@@ -34,15 +34,16 @@ declare(strict_types=1);
 /**
  * PDF helper module
  *
- * This file contains useful functions related to PDF using tcpdf
+ * This file contains useful functions related to PDF generation using TCPDF library
+ * including custom PDF class extensions and various PDF manipulation utilities
  */
 
 require_once 'lib/tcpdf/vendor/autoload.php';
 
 /**
- * TODO
+ * Custom PDF class extending TCPDF
  *
- * TODO
+ * Provides enhanced functionality for header/footer management and page checks
  */
 class MyPDF extends TCPDF
 {
@@ -54,9 +55,9 @@ class MyPDF extends TCPDF
     private $list_pages;
 
     /**
-     * TODO
+     * Initialize PDF document settings
      *
-     * TODO
+     * Resets all internal variables to their default state
      */
     public function Init()
     {
@@ -69,9 +70,10 @@ class MyPDF extends TCPDF
     }
 
     /**
-     * TODO
+     * Set header content and data
      *
-     * TODO
+     * @arr => Header template array
+     * @row => Data row for header evaluation
      */
     public function set_header($arr, $row)
     {
@@ -80,9 +82,10 @@ class MyPDF extends TCPDF
     }
 
     /**
-     * TODO
+     * Set footer content and data
      *
-     * TODO
+     * @arr => Footer template array
+     * @row => Data row for footer evaluation
      */
     public function set_footer($arr, $row)
     {
@@ -91,9 +94,9 @@ class MyPDF extends TCPDF
     }
 
     /**
-     * TODO
+     * Override TCPDF header method
      *
-     * TODO
+     * Processes and renders the header content while temporarily disabling Y checks
      */
     public function Header()
     {
@@ -103,9 +106,9 @@ class MyPDF extends TCPDF
     }
 
     /**
-     * TODO
+     * Override TCPDF footer method
      *
-     * TODO
+     * Tracks page numbers where footers need to be rendered
      */
     public function Footer()
     {
@@ -113,9 +116,9 @@ class MyPDF extends TCPDF
     }
 
     /**
-     * TODO
+     * Render all accumulated footers
      *
-     * TODO
+     * Processes footer content on all tracked pages while temporarily disabling Y checks
      */
     public function render_footers()
     {
@@ -128,9 +131,9 @@ class MyPDF extends TCPDF
     }
 
     /**
-     * TODO
+     * Check Y position and add new page if needed
      *
-     * TODO
+     * @offset => Additional offset to consider in Y position check
      */
     public function check_y($offset = 0)
     {
@@ -146,9 +149,13 @@ class MyPDF extends TCPDF
 }
 
 /**
- * TODO
+ * Evaluate dynamic value in PDF context
  *
- * TODO
+ * @input => Expression to evaluate
+ * @row   => Data row for variable substitution
+ * @pdf   => PDF object reference
+ *
+ * Returns the evaluated result
  */
 function __pdf_eval_value($input, $row, $pdf)
 {
@@ -156,9 +163,13 @@ function __pdf_eval_value($input, $row, $pdf)
 }
 
 /**
- * TODO
+ * Evaluate array values in PDF context
  *
- * TODO
+ * @array => Input array with expressions
+ * @row   => Data row for variable substitution
+ * @pdf   => PDF object reference
+ *
+ * Returns array with evaluated values
  */
 function __pdf_eval_array($array, $row, $pdf)
 {
@@ -169,9 +180,13 @@ function __pdf_eval_array($array, $row, $pdf)
 }
 
 /**
- * TODO
+ * Advanced string explosion with quote and parentheses awareness
  *
- * TODO
+ * @separator => Delimiter character
+ * @str       => Input string to explode
+ * @limit     => Maximum number of splits
+ *
+ * Returns array of exploded parts
  */
 function __pdf_eval_explode($separator, $str, $limit = 0)
 {
@@ -212,9 +227,12 @@ function __pdf_eval_explode($separator, $str, $limit = 0)
 }
 
 /**
- * TODO
+ * Process PDF template tags and generate PDF content
  *
- * TODO
+ * @array => PDF template definition array
+ * @row   => Data row for template evaluation
+ *
+ * Returns the generated PDF object or output array
  */
 function __pdf_eval_pdftag($array, $row = [])
 {
@@ -485,9 +503,12 @@ function __pdf_eval_pdftag($array, $row = [])
 }
 
 /**
- * TODO
+ * Generate PDF from template file
  *
- * TODO
+ * @file => Path to PDF template file
+ * @row  => Data row for template evaluation
+ *
+ * Returns array containing PDF name, type and base64 encoded data
  */
 function pdf($file, $row = [])
 {
@@ -510,9 +531,11 @@ function pdf($file, $row = [])
 }
 
 /**
- * TODO
+ * Convert various file types to PDF
  *
- * TODO
+ * @input => Path to input file to convert
+ *
+ * Returns PDF content as string
  */
 function __pdf_all2pdf($input)
 {

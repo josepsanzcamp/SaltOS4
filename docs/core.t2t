@@ -1,6 +1,6 @@
 Main Documentation
-SaltOS 4.0 r1923
-March 2025
+SaltOS 4.0 r1924
+April 2025
 
 
 
@@ -44,15 +44,6 @@ and the order of the elements are:
       one action, this parameter is not necesary
 - @3 => the id used in some actions, for example, to get the data
       of specific customer using the id
-
-
-List action (triggered when type attr is table or list)
-
-This action tries to facility the creation of lists with the tipicals
-features suck as rows, actions for each row, and other improvements as
-the list with count and without count.
-
-TODO: pending to add the order by from the list header
 
 
 ++Authentication helper module++
@@ -3340,40 +3331,63 @@ app and the prefix to be added to the id field of the in subquery
 - @default => sql fraement returned if some thing was wrong
 
 
-+++TODO+++
++++Prepare Helper Query+++
 
 ```
 function __prepare_helper_query($table, $array)
 ```
 
-TODO
+This function allow to get the names and values used internaly by the
+prepare_insert_query, prepare_update_query and prepare_where_query, the
+main idea is to get the fields of the table and computes the intersect
+with the array provided with data, and using the spec of the table
+prepare the values with the needed type cast
+
+- @table => the table where to you want to use the data
+- @array => the array that contains the data
 
 
-+++TODO+++
++++Prepare Insert Query+++
 
 ```
 function prepare_insert_query($table, $array)
 ```
 
-TODO
+Returns the prepared insert query for the table with all fields specified
+by the array param
+
+- @table => table where you want to add the register
+- @array => array with key val pairs that represent the field and the value
+          of the field
 
 
-+++TODO+++
++++Prepare Update Query+++
 
 ```
 function prepare_update_query($table, $array, $where = [])
 ```
 
-TODO
+Returns the prepared update query for the table with all fields specified
+by the array param and using the specified where
+
+- @table => table where you want to update the register
+- @array => array with key val pairs that represent the field and the value of
+          the field
+- @where => array with key val pairs that represent the field and the value of
+          the field used in the where part of the query
 
 
-+++TODO+++
++++Prepare Where Query+++
 
 ```
 function prepare_where_query($table, $array)
 ```
 
-TODO
+This function allow to create where sentences joinin all fields by AND
+
+- @table => table where you want to apply the where
+- @array => array with key val pairs that represent the field and the value of
+          the field
 
 
 ++String utils helper module++
@@ -5062,13 +5076,15 @@ This function close the database connection and sets the link to null
 
 +Libraries+
 
-++TODO++
+++Actions module++
 
 ```
 api/php/lib/actions.php
 ```
 
-TODO
+This file provides the basic actions used by all apps like insert,
+update and delete, this modules uses features from others modules
+as controol, log, version, indexing, upload, depend and trash.
 
 
 +++Insert action+++
@@ -5080,7 +5096,14 @@ function insert($app, $data)
 This action allow to insert registers in the database associated to
 each app
 
-TODO
+- @app  => the application involved in the action
+- @data => an array with the data that you want to use for the operation
+
+
+Notes:
+
+The data array must contains the fields of the main table, an object
+with the subtables, and with two fields (addfiles and addnotes)
 
 
 +++Update action+++
@@ -5090,9 +5113,17 @@ function update($app, $id, $data)
 ```
 
 This action allow to update registers in the database associated to
-each app and requires the app, id, data and a valid token.
+each app
 
-TODO
+- @app  => the application involved in the action
+- @data => an array with the data that you want to use for the operation
+
+
+Notes:
+
+The data array must contains the fields of the main table, an object
+with the subtables, and with four fields (addfiles, delfiles, addnotes
+and delnotes)
 
 
 +++Delete action+++
@@ -5104,7 +5135,18 @@ function delete($app, $id)
 This action allow to delete registers in the database associated to
 each app
 
-TODO
+- @app  => the application involved in the action
+- @data => an array with the data that you want to use for the operation
+
+
+Notes:
+
+This action removes the register identified by the id in the main table
+of the app and the subtables, too removes the related data of the files
+and notes tables, as an excepcion, the version table maintain all data
+to allow the recovery action, too, the files of the files feature will
+be moved to the trash folder to allow the previous recovery from the
+version table
 
 
 ++Array to XML helper module++
@@ -5564,13 +5606,18 @@ This function returns an integer as response about the control action:
 As you can see, negative values denotes an error and positive values denotes a successfully situation
 
 
-+++TODO+++
++++Integrity+++
 
 ```
 function integrity()
 ```
 
-TODO
+This function tries to execute some periodic task intended to fix issues with
+the integrity of internal relationships, to do it tries to search not found
+registers in the control table in the first loop and tries to search not found
+registers in the app table in the second loop, with all found not found registers
+the function executes the make_control that add or remove the needed control
+register to maintain the integrity.
 
 
 ++Cron utils helper module++
@@ -5582,49 +5629,61 @@ api/php/lib/cron.php
 This fie contains useful functions related to cron operations
 
 
-+++TODO+++
++++Cron compare helper+++
 
 ```
 function __cron_compare($val, $now)
 ```
 
-TODO
+This function provide the compare feature to the cron system, it is able to
+evaluate the first argument to check the posible cases like true case, list
+of options, using module, using range and direct case
+
+- @val => the value that you want to evaluate
+- @now => the now value used in the evaluation
 
 
-+++TODO+++
++++Cron is now helper+++
 
 ```
 function __cron_is_now($minute, $hour, $day, $month, $dow)
 ```
 
-TODO
+This function uses the __crom_compare to validate if the five items of the
+cron configuration triggers the execution of the cron task
 
 
-+++TODO+++
++++Cron users helper+++
 
 ```
 function __cron_users($arg)
 ```
 
-TODO
+This function allow to get an array of users from the arg
+
+- @arg => the list of users, can be * from all users
 
 
-+++TODO+++
++++Cron GC+++
 
 ```
 function cron_gc()
 ```
 
-TODO
+This function tries to monitorize the cron processes and store in the database
+all stdout and stderr with the timestamps of the start and stop processes, too
+removes all unused files
 
 
-+++TODO+++
++++Cron Exec+++
 
 ```
 function cron_exec()
 ```
 
-TODO
+This function tries to detect what cron tasks must to execute and with what
+users must to execute each cron task, too detects if a previous instance of
+the commands was launched previously and is still running in this moment
 
 
 ++Database schema helper module++
@@ -6000,22 +6059,24 @@ This function returns the drop index command
 - @table => table where the indes is part of
 
 
-++TODO++
+++Dependencies feature++
 
 ```
 api/php/lib/depend.php
 ```
 
-TODO
+This file contains the code that has the ability to identify dependencies
 
 
-+++TODO+++
++++Check Dependencies+++
 
 ```
 function check_dependencies($app, $id)
 ```
 
-TODO
+This function allow to get all dependencies of an app and id, intended to check
+the if the sytem can delete some register or if the register has relations with
+other apps or tables
 
 
 ++Export helper module++
@@ -6150,31 +6211,36 @@ in the tree
 - @array => the tree array that you want to process
 
 
-++TODO++
+++Files module++
 
 ```
 api/php/lib/files.php
 ```
 
-TODO
+This file provide some usefull functions for the files module
 
 
-+++TODO+++
++++Check Files Old+++
 
 ```
 function check_files_old($app, $action, $id = null)
 ```
 
-TODO
+This function returns true or false and is an utility to know if the ui
+must to shown the needed widgets related with the old files
+
+- @app    => app that you want to use
+- @action => action that you want to do (create, view, edit)
+- @id     => register of the app that must contain files
 
 
-+++TODO+++
++++Check Files New+++
 
-```
-function check_files_new($app, $action)
-```
+This function returns true or false and is an utility to know if the ui
+must to shown the needed widgets related with the new files
 
-TODO
+- @app    => app that you want to use
+- @action => action that you want to do (create, view, edit)
 
 
 +++Get cid+++
@@ -6311,22 +6377,29 @@ function get_geoip_string($remote_addr)
 This function gets the geoip information an returns it
 
 
-++TODO++
+++Help feature++
 
 ```
 api/php/lib/help.php
 ```
 
-TODO
+This file contains the help functions used by SaltOS
 
 
-+++TODO+++
++++Detect Help File+++
 
 ```
 function detect_help_file($app, $lang)
 ```
 
-TODO
+This function is intended to return the name of the pdf file used as help
+for the app and lang, they use 4 checks to search the correct file that must
+to returns, the first in to search in the app folder for the specified lang,
+otherwise search for some othe lang, and if no app file is found, then the
+same process is used for the notfound.pdf file.
+
+- @app  => the application to search
+- @lang => the prefered lang to search
 
 
 ++Import file helper module++
@@ -6725,22 +6798,34 @@ Notes:
 This function uses the dbschema.php library
 
 
-+++TODO+++
++++Indexing Files+++
 
 ```
 function indexing_files()
 ```
 
-TODO
+This function tries to index al unindexed files, and to do it tries to search
+the pending files and tries to index using the unoconv2txt, this function needs
+a file and returns all contents in a text format, to protect this function of
+posible fails, the system first increment the retry field and then tries to
+index and update the file register, if some thing is wrong in the index time
+the script must unexpectedly finish and in the next executions can continue
+in the same file, but only for three times, the requirement to index a file
+is that indexed = 0 and retries < 3
 
 
-+++TODO+++
++++Indexing Apps+++
 
 ```
 function indexing_apps()
 ```
 
-TODO
+This function tries to execute some periodic task intended to fix issues with
+the indexing relationships, to do it tries to search not found registers in
+the indexing table in the first loop and tries to search not found registers
+in the app table in the second loop, with all found not found registers the
+function executes the make_index that add or remove the needed index register
+to maintain the integrity with the indexing feature.
 
 
 ++Log helper module++
@@ -6799,13 +6884,22 @@ Notes:
 This function always returns the input data
 
 
-+++TODO+++
++++Get Logs+++
 
 ```
 function get_logs($app, $reg_id)
 ```
 
-TODO
+This function allow to get all logs associated to an app and reg_id, to do it,
+the app must to have enabled the has_log feature, the results will be tunned
+in the query to disallow the zeroes in some fields that are replaced by void
+strings, too implement the search in the reg_id or inside the reg_ids using
+the FIND_IN_SET feature available as native feature in MariaDB and added by
+SaltOS to the sqlite drivers thansk to the createFunction feature that allow
+to define sql commands from php functions
+
+- @app    => code of the application that you want to get the logs
+- @reg_id => register of the app that you want to get the logs
 
 
 +++Delete Log function+++
@@ -6872,31 +6966,40 @@ Notes:
 See www.polprimos.com for understand this algorithm
 
 
-++TODO++
+++Notes module++
 
 ```
 api/php/lib/notes.php
 ```
 
-TODO
+This file provide some usefull functions for the notes module
 
 
-+++TODO+++
++++Check Notes Old+++
 
 ```
 function check_notes_old($app, $action, $id = null)
 ```
 
-TODO
+This function returns true or false and is an utility to know if the ui
+must to shown the needed widgets related with the old notes
+
+- @app    => app that you want to use
+- @action => action that you want to do (create, view, edit)
+- @id     => register of the app that must contain notes
 
 
-+++TODO+++
++++Check Notes New+++
 
 ```
 function check_notes_new($app, $action)
 ```
 
-TODO
+This function returns true or false and is an utility to know if the ui
+must to shown the needed widgets related with the new notes
+
+- @app    => app that you want to use
+- @action => action that you want to do (create, view, edit)
 
 
 ++Password helper module++
@@ -6929,133 +7032,162 @@ password
 api/php/lib/pdf.php
 ```
 
-This file contains useful functions related to PDF using tcpdf
+This file contains useful functions related to PDF generation using TCPDF library
+including custom PDF class extensions and various PDF manipulation utilities
 
 
-+++TODO+++
++++Custom PDF class extending TCPDF+++
 
 ```
 class MyPDF extends TCPDF
 ```
 
-TODO
+Provides enhanced functionality for header/footer management and page checks
 
 
-+++TODO+++
++++Initialize PDF document settings+++
 
 ```
 public function Init()
 ```
 
-TODO
+Resets all internal variables to their default state
 
 
-+++TODO+++
++++Set header content and data+++
 
 ```
 public function set_header($arr, $row)
 ```
 
-TODO
+- @arr => Header template array
+- @row => Data row for header evaluation
 
 
-+++TODO+++
++++Set footer content and data+++
 
 ```
 public function set_footer($arr, $row)
 ```
 
-TODO
+- @arr => Footer template array
+- @row => Data row for footer evaluation
 
 
-+++TODO+++
++++Override TCPDF header method+++
 
 ```
 public function Header()
 ```
 
-TODO
+Processes and renders the header content while temporarily disabling Y checks
 
 
-+++TODO+++
++++Override TCPDF footer method+++
 
 ```
 public function Footer()
 ```
 
-TODO
+Tracks page numbers where footers need to be rendered
 
 
-+++TODO+++
++++Render all accumulated footers+++
 
 ```
 public function render_footers()
 ```
 
-TODO
+Processes footer content on all tracked pages while temporarily disabling Y checks
 
 
-+++TODO+++
++++Check Y position and add new page if needed+++
 
 ```
 public function check_y($offset = 0)
 ```
 
-TODO
+- @offset => Additional offset to consider in Y position check
 
 
-+++TODO+++
++++Evaluate dynamic value in PDF context+++
 
 ```
 function __pdf_eval_value($input, $row, $pdf)
 ```
 
-TODO
+- @input => Expression to evaluate
+- @row   => Data row for variable substitution
+- @pdf   => PDF object reference
 
 
-+++TODO+++
+Returns the evaluated result
+
+
++++Evaluate array values in PDF context+++
 
 ```
 function __pdf_eval_array($array, $row, $pdf)
 ```
 
-TODO
+- @array => Input array with expressions
+- @row   => Data row for variable substitution
+- @pdf   => PDF object reference
 
 
-+++TODO+++
+Returns array with evaluated values
+
+
++++Advanced string explosion with quote and parentheses awareness+++
 
 ```
 function __pdf_eval_explode($separator, $str, $limit = 0)
 ```
 
-TODO
+- @separator => Delimiter character
+- @str       => Input string to explode
+- @limit     => Maximum number of splits
 
 
-+++TODO+++
+Returns array of exploded parts
+
+
++++Process PDF template tags and generate PDF content+++
 
 ```
 function __pdf_eval_pdftag($array, $row = [])
 ```
 
-TODO
+- @array => PDF template definition array
+- @row   => Data row for template evaluation
 
 
-+++TODO+++
+Returns the generated PDF object or output array
+
+
++++Generate PDF from template file+++
 
 ```
 function pdf($file, $row = [])
 ```
 
-TODO
+- @file => Path to PDF template file
+- @row  => Data row for template evaluation
 
 
-+++TODO+++
+Returns array containing PDF name, type and base64 encoded data
+
+
++++Convert various file types to PDF+++
 
 ```
 function __pdf_all2pdf($input)
 ```
 
-TODO
+- @input => Path to input file to convert
+
+
+Returns PDF content as string
 
 
 ++Push utils helper module++
@@ -7361,94 +7493,171 @@ and then, extract the text of each page to finish the task.
 - @pdf => the file that you want to process
 
 
-+++TODO+++
++++Calculate histogram value+++
 
 ```
 function __unoconv_histogram($values, $usage1, $usage2)
 ```
 
-TODO
+This function calculates a representative value from a histogram based on given usage thresholds.
+It finds the highest percentage where at least a certain portion of values and unique values are included.
+
+- @values => array of values to analyze
+- @usage1 => minimum percentage of total values to include (0-1)
+- @usage2 => minimum percentage of unique values to include (0-1)
 
 
-+++TODO+++
+Returns the calculated representative value
+
+
++++Rotate coordinates+++
 
 ```
 function __unoconv_rotate($posx, $posy, $angle)
 ```
 
-TODO
+This function rotates a point around the origin by a given angle in degrees.
+
+- @posx  => x coordinate of the point
+- @posy  => y coordinate of the point
+- @angle => rotation angle in degrees
 
 
-+++TODO+++
+Returns the array with new x and y coordinates
+
+
++++Extract attributes from OCR node+++
 
 ```
 function __unoconv_node2attr($node)
 ```
 
-TODO
+This function processes a node from OCR output to extract its attributes,
+specifically focusing on the bounding box information.
+
+- @node => the OCR node to process
 
 
-+++TODO+++
+Returns the array containing node ID and bounding box coordinates
+
+
++++Extract text value from OCR node+++
 
 ```
 function __unoconv_node2value($node)
 ```
 
-TODO
+This function extracts the text content from an OCR node, handling nested arrays.
+
+- @node => the OCR node to process
 
 
-+++TODO+++
+Returns the extracted text content
+
+
++++Convert OCR lines to character matrix+++
 
 ```
 function __unoconv_lines2matrix($lines, $width, $height)
 ```
 
-TODO
+This function converts OCR-detected lines and words into a 2D character matrix
+for text reconstruction and analysis.
+
+- @lines  => array of OCR-detected lines and words
+- @width  => width divisor for coordinate normalization
+- @height => height divisor for coordinate normalization
 
 
-+++TODO+++
+Returns the 2D character matrix or index of problematic line if error occurs
+
+
++++Reorder line coordinates+++
 
 ```
 function __unoconv_fixline($line, $pos1, $pos2, $pos3, $pos4)
 ```
 
-TODO
+This function reorders the coordinates of a line based on specified positions,
+used for correcting orientation in OCR results.
+
+- @line => original line coordinates
+- @pos1 => target position for first coordinate
+- @pos2 => target position for second coordinate
+- @pos3 => target position for third coordinate
+- @pos4 => target position for fourth coordinate
 
 
-+++TODO+++
+Returns the reordered line coordinates
+
+
++++Convert HOCR to plain text+++
 
 ```
 function __unoconv_hocr2txt($hocr)
 ```
 
-TODO
+This function processes HOCR (HTML OCR) output to extract and reconstruct
+the text content while maintaining spatial relationships.
+
+- @hocr => HOCR content to process
 
 
-+++TODO+++
+Returns the extracted plain text
+
+
++++Proportional substring extraction+++
 
 ```
 function __unoconv_substr($string, $start, $length, $reference)
 ```
 
-TODO
+This function extracts a substring based on proportional positions relative
+to a reference length, useful for working with scaled text representations.
+
+- @string    => input string to extract from
+- @start     => starting position (relative to reference)
+- @length    => length to extract (relative to reference)
+- @reference => reference length for proportional calculation
 
 
-+++TODO+++
+Returns the extracted substring
+
+
++++2D proportional substring extraction+++
 
 ```
 function __unoconv_substr2d($page, $x1, $x2, $x3, $y1, $y2, $y3)
 ```
 
-TODO
+This function extracts a 2D region from a text page based on proportional
+coordinates, maintaining spatial relationships in the extracted content.
+
+- @page => array of text lines representing the page
+- @x1   => starting x position (relative to x3)
+- @x2   => width to extract (relative to x3)
+- @x3   => reference width for x coordinates
+- @y1   => starting y position (relative to y3)
+- @y2   => height to extract (relative to y3)
+- @y3   => reference height for y coordinates
 
 
-+++TODO+++
+Returns the array of extracted lines
+
+
++++Remove margins from text page+++
 
 ```
 function __unoconv_remove_margins($page)
 ```
 
-TODO
+This function trims empty margins from a text page, removing leading/trailing
+whitespace and empty lines from the top and bottom.
+
+- @page => text content to process (multiple lines separated by newlines)
+
+
+Returns the text content with margins removed
 
 
 ++Add upload file++
@@ -7706,13 +7915,13 @@ saltos.app.send_request = hash
 This function allow to send requests to the server and process the response
 
 
-+++TODO+++
++++Data helper object+++
 
 ```
 saltos.app.__cache = {};
 ```
 
-TODO
+This object allow to the app to store the data of the prefetch feature
 
 
 +++Process response helper+++
@@ -8644,13 +8853,18 @@ the first contains the codemirror object and the second is a function used to up
 value of the codemirror, intended to load new data.
 
 
-+++TODO+++
++++Indent helper+++
 
 ```
 saltos.bootstrap.__indent_helper = (str, mode)
 ```
 
-TODO
+This function allow to indent the string using the mode, this function is
+intended to be used inside the codemirror widget, allowing to indent the
+contents like xml, json, css or sql
+
+- @str  => string that you want to indent
+- @mode => mode used to indent (xml, json, css or sql)
 
 
 +++Iframe constructor helper+++
@@ -9217,13 +9431,17 @@ This widget uses the tom-select plugin, more info in their project website:
 - https://tom-select.js.org/
 
 
-+++TODO+++
++++Srcdoc helper+++
 
 ```
 saltos.bootstrap.__iframe_srcdoc_helper = html
 ```
 
-TODO
+This function adds the needed environment to the html to improve the
+render of the html, this function is intended to be used inside the
+iframw widget
+
+- @html => the code that you need to process
 
 
 +++Datalist helper+++
@@ -9990,76 +10208,79 @@ This function allow to remove the files and notes in the files and notes widgets
 - @file => the file or note string path
 
 
-+++TODO+++
++++Version common helper+++
 
 ```
 saltos.common.version = ()
 ```
 
-TODO
+This function open the version widget
 
 
-+++TODO+++
++++Log common helper+++
 
 ```
 saltos.common.log = ()
 ```
 
-TODO
+This function open the log widget
 
 
-+++TODO+++
++++Edit common helper+++
 
 ```
 saltos.common.edit = ()
 ```
 
-TODO
+This function open the edit screen
 
 
-+++TODO+++
++++Create common helper+++
 
 ```
 saltos.common.create = ()
 ```
 
-TODO
+This function open the create screen
 
 
-+++TODO+++
++++Viewpdf common helper+++
 
 ```
 saltos.common.viewpdf = ()
 ```
 
-TODO
+This function open the viewpdf widget
 
 
-+++TODO+++
++++Remove common helper+++
 
 ```
 saltos.common.__remove_helper = id
 ```
 
-TODO
+This function works as helper for the allfiles and allnotes functions and
+tries to detect if the table identified by the argument contains something
+
+- @id => the id of the table
 
 
-+++TODO+++
++++Allfiles common helper+++
 
 ```
 saltos.common.allfiles = ()
 ```
 
-TODO
+This function remove the allfiles table if it is void
 
 
-+++TODO+++
++++Allnotes common helper+++
 
 ```
 saltos.common.allnotes = ()
 ```
 
-TODO
+This function remove the allnotes table if it is void
 
 
 ++Core helper module++
@@ -11852,31 +12073,36 @@ web/js/push.js
 This fie contains useful functions related to the push and favicon features
 
 
-+++TODO+++
++++Push constructor helper object+++
 
 ```
 saltos.push = {
 ```
 
-TODO
+This object allow to the constructor to use a rational structure for a quick access of each
+helper
 
 
-+++TODO+++
++++Push helper+++
 
 ```
 saltos.push.fn = ()
 ```
 
-TODO
+This function tries to send the push request to the server with the latest
+timestamp, and process the response depending the kind of response, too it
+includes features to prevent concurrence and malfunctions
 
 
-+++TODO+++
++++Load setup+++
 
 ```
 window.addEventListener('load', async event
 ```
 
-TODO
+This function is executed when window is loaded and defines the current
+timestamp and launch the timer that executes periodically the function
+each second
 
 
 +++Online sync+++
@@ -11888,40 +12114,45 @@ window.addEventListener('online', event
 This function send a push request when navigator detects an online change
 
 
-+++TODO+++
++++Favicon constructor helper object+++
 
 ```
 saltos.favicon = {
 ```
 
-TODO
+This object allow to the constructor to use a rational structure for a quick access of each
+helper
 
 
-+++TODO+++
++++Favicon helper+++
 
 ```
 saltos.favicon.fn = bool
 ```
 
-TODO
+This function is intended to launch and stop the favicon animation depending
+the bool argument
+
+- @bool => true to run the animation and false to stop the animation
 
 
-+++TODO+++
++++Visibility Change+++
 
 ```
 document.addEventListener('visibilitychange', ()
 ```
 
-TODO
+This function is executed where the vilibilitychange event is triggered and
+the main task is to cancel the favicon animation
 
 
-+++TODO+++
++++Run+++
 
 ```
 saltos.favicon.run = ()
 ```
 
-TODO
+This function run the favicon animation of the app is not visible
 
 
 ++Token helper module++

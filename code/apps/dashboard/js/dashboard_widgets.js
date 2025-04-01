@@ -29,23 +29,26 @@
 /**
  * Dashboard widgets application
  *
- * This application implements the tipical features associated to dashboard
+ * This module implements the typical features associated with a widget dashboard,
+ * allowing interaction and customization of elements in a dynamic environment.
  */
 
 /**
  * Main object
  *
- * This object contains all SaltOS code
+ * Contains all the logic and code for the SaltOS framework related to the dashboard widgets.
  */
 saltos.dashboard_widgets = {};
 
 /**
- * TODO
+ * Initialization of dashboard widgets
  *
- * TODO
+ * This method sets up the interactive elements of the dashboard, including assigning style classes
+ * and configuring drag-and-drop functionality between different containers.
  */
 saltos.dashboard_widgets.init = arg => {
     setTimeout(() => {
+        // Modify style classes to adjust font sizes
         document.querySelectorAll('.fs-1').forEach(item => {
             item.classList.replace('fs-1', 'fs-2');
         });
@@ -55,6 +58,7 @@ saltos.dashboard_widgets.init = arg => {
         });
     }, 1);
 
+    // Configure drag-and-drop functionality for the widget catalog
     new Sortable(document.getElementById('catalog'), {
         group: {
             name: 'widgets',
@@ -71,6 +75,7 @@ saltos.dashboard_widgets.init = arg => {
         }
     });
 
+    // Configure drag-and-drop functionality for the widget dashboard
     new Sortable(document.getElementById('dashboard'), {
         group: 'widgets',
         onSort: () => {

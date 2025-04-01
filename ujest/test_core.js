@@ -29,7 +29,9 @@
 /**
  * Core unit tests
  *
- * This file contains the core unit tests
+ * This file contains comprehensive unit tests for the core functionality
+ * of the SaltOS framework, including error handling, AJAX operations,
+ * utility functions, and service worker integration.
  */
 
 /**
@@ -42,7 +44,10 @@ for (const i in files) {
 }
 
 /**
- * TODO
+ * Reset mocks before each test
+ *
+ * Initializes mock implementations for console.log and fetch API
+ * before each test case runs
  */
 beforeEach(() => {
     jest.resetAllMocks();
@@ -55,18 +60,26 @@ beforeEach(() => {
 });
 
 /**
- * TODO
+ * Restore mocks after each test
+ *
+ * Restores original implementations of mocked functions
+ * after each test case completes
  */
 afterEach(() => {
     jest.restoreAllMocks();
 });
 
 /**
- * saltos.core.adderror/addlog
+ * Test suite for error and log reporting
  *
- * This function performs the tests of the adderror and adlog functions
+ * Contains tests for core error handling and logging functionality
  */
 describe('saltos.core.adderror/addlog', () => {
+    /**
+     * Setup before each test in this suite
+     *
+     * Mocks core dependencies including AJAX, token, and gettext functions
+     */
     beforeEach(() => {
         jest.spyOn(global.saltos.core, 'ajax').mockImplementation(jest.fn());
         jest.spyOn(global.saltos.token, 'get').mockReturnValue('dummyToken');
@@ -74,9 +87,10 @@ describe('saltos.core.adderror/addlog', () => {
     });
 
     /**
-     * saltos.core.adderror
+     * Test error reporting functionality
      *
-     * This function performs the tests of the adderror function
+     * Verifies that error details including stack traces are properly
+     * processed and sent to the server
      */
     test('saltos.core.adderror should send error details to the server', async () => {
         const mockMessage = 'Error message';
@@ -115,9 +129,9 @@ describe('saltos.core.adderror/addlog', () => {
     });
 
     /**
-     * saltos.core.addlog
+     * Test log reporting functionality
      *
-     * This function performs the tests of the addlog function
+     * Verifies that log messages are properly formatted and sent to the server
      */
     test('saltos.core.addlog should send log message to the server', () => {
         const mockMessage = 'Test log message';
@@ -139,22 +153,24 @@ describe('saltos.core.adderror/addlog', () => {
 });
 
 /**
- * TODO
+ * Test suite for global error handling
  *
- * TODO
+ * Contains tests for window-level error and unhandled promise rejection handlers
  */
 describe('window.addEventListener for error and unhandledrejection', () => {
     /**
-     * TODO
+     * Setup before each test in this suite
+     *
+     * Mocks the core error reporting function
      */
     beforeEach(() => {
         jest.spyOn(global.saltos.core, 'adderror').mockImplementation(jest.fn());
     });
 
     /**
-     * error
+     * Test global error handling
      *
-     * This function performs the tests of the error feature
+     * Verifies that window error events are properly captured and reported
      */
     test('should call saltos.core.adderror when an error occurs', () => {
         // Create a fake error event
@@ -182,9 +198,9 @@ describe('window.addEventListener for error and unhandledrejection', () => {
     });
 
     /**
-     * unhandledrejection
+     * Test unhandled promise rejection handling
      *
-     * This function performs the tests of the unhandledrejection feature
+     * Verifies that unhandled promise rejections are properly captured and reported
      */
     test('should call saltos.core.adderror when an unhandledrejection occurs', () => {
         // Create a fake rejection event with all necessary fields
@@ -221,9 +237,9 @@ describe('window.addEventListener for error and unhandledrejection', () => {
 });
 
 /**
- * saltos.core.check_params
+ * Test parameter validation functionality
  *
- * This function performs the test of the check_params function
+ * Verifies that missing parameters are properly initialized with default values
  */
 test('saltos.core.check_params', () => {
     let field = {nada: 'x', id: undefined};
@@ -238,9 +254,9 @@ test('saltos.core.check_params', () => {
 });
 
 /**
- * saltos.core.uniqid
+ * Test unique ID generation
  *
- * This function performs the tests of the uniqid function
+ * Verifies that generated IDs are unique and follow expected format
  */
 test('saltos.core.uniqid', () => {
     const total = 1000000;
@@ -257,13 +273,15 @@ test('saltos.core.uniqid', () => {
 });
 
 /**
- * saltos.core.when_visible
+ * Test suite for visibility detection
  *
- * This function performs the tests of the when_visible function
+ * Contains tests for the when_visible utility function
  */
 describe('when_visible', () => {
     /**
-     * TODO
+     * Setup before each test in this suite
+     *
+     * Configures fake timers and clears DOM
      */
     beforeEach(() => {
         jest.useFakeTimers();
@@ -271,7 +289,9 @@ describe('when_visible', () => {
     });
 
     /**
-     * TODO
+     * Cleanup after each test in this suite
+     *
+     * Clears timers and restores real timer implementation
      */
     afterEach(() => {
         jest.clearAllTimers();
@@ -279,9 +299,9 @@ describe('when_visible', () => {
     });
 
     /**
-     * TODO
+     * Test basic visibility detection
      *
-     * TODO
+     * Verifies callback is executed when element becomes visible
      */
     test('executes the callback when the object becomes visible', () => {
         const mockFn = jest.fn();
@@ -296,9 +316,9 @@ describe('when_visible', () => {
     });
 
     /**
-     * TODO
+     * Test visibility detection with ID
      *
-     * TODO
+     * Verifies function works with elements that have IDs
      */
     test('works setting the id as test-div', () => {
         const mockFn = jest.fn();
@@ -314,9 +334,9 @@ describe('when_visible', () => {
     });
 
     /**
-     * TODO
+     * Test visibility detection with string ID
      *
-     * TODO
+     * Verifies function works when passed an element ID string
      */
     test('works with an string id instead of an object', () => {
         const mockFn = jest.fn();
@@ -332,9 +352,9 @@ describe('when_visible', () => {
     });
 
     /**
-     * TODO
+     * Test invalid input handling
      *
-     * TODO
+     * Verifies function throws error for unsupported input types
      */
     test('throws an error for unsupported obj type', () => {
         const invalidObj = 123; // Passing a number instead of a string or object
@@ -345,9 +365,9 @@ describe('when_visible', () => {
     });
 
     /**
-     * TODO
+     * Test delayed element attachment
      *
-     * TODO
+     * Verifies function works when element is added to DOM after initialization
      */
     test('append the object after some iterations', () => {
         const mockFn = jest.fn();
@@ -362,9 +382,9 @@ describe('when_visible', () => {
     });
 
     /**
-     * TODO
+     * Test element removal handling
      *
-     * TODO
+     * Verifies function throws error if element is removed before becoming visible
      */
     test('throws an error if the object disappears before being visible', () => {
         const mockFn = jest.fn();
@@ -389,9 +409,9 @@ describe('when_visible', () => {
 });
 
 /**
- * saltos.core.get_keycode
+ * Test key code extraction
  *
- * This function performs the tests of the get_keycode function
+ * Verifies function correctly extracts key codes from different event properties
  */
 test('saltos.core.get_keycode', () => {
     expect(saltos.core.get_keycode({keyCode: 23})).toBe(23);
@@ -401,9 +421,9 @@ test('saltos.core.get_keycode', () => {
 });
 
 /**
- * saltos.core.get_keyname
+ * Test key name resolution
  *
- * This function performs the tests of the get_keyname function
+ * Verifies function correctly maps key codes to common key names
  */
 test('saltos.core.get_keyname', () => {
     expect(saltos.core.get_keyname({keyCode: 8})).toBe('backspace');
@@ -414,15 +434,15 @@ test('saltos.core.get_keyname', () => {
 });
 
 /**
- * saltos.core.html
+ * Test suite for HTML element creation
  *
- * This function performs the tests of the html function
+ * Contains tests for the html utility function
  */
 describe('saltos.core.html', () => {
     /**
-     * TODO
+     * Test single argument usage
      *
-     * TODO
+     * Verifies function creates element from HTML string with optimization
      */
     test('creates a div with inner HTML when only one argument is passed', () => {
         const result = saltos.core.html('<p>Hello</p>');
@@ -433,9 +453,9 @@ describe('saltos.core.html', () => {
     });
 
     /**
-     * TODO
+     * Test two argument usage
      *
-     * TODO
+     * Verifies function creates specified element type with content
      */
     test('creates the specified element with inner HTML when two arguments are passed', () => {
         const result = saltos.core.html('span', 'Test content');
@@ -446,9 +466,9 @@ describe('saltos.core.html', () => {
     });
 
     /**
-     * TODO
+     * Test HTML trimming
      *
-     * TODO
+     * Verifies function trims whitespace from HTML content
      */
     test('trims the inner HTML before setting it', () => {
         const result = saltos.core.html('div', '   <b>Trimmed</b>   ');
@@ -458,9 +478,9 @@ describe('saltos.core.html', () => {
     });
 
     /**
-     * TODO
+     * Test multiple children handling
      *
-     * TODO
+     * Verifies function preserves container element when multiple children exist
      */
     test('does not optimize if there are multiple children', () => {
         const result = saltos.core.html('div', '<span>One</span><span>Two</span>');
@@ -470,9 +490,9 @@ describe('saltos.core.html', () => {
     });
 
     /**
-     * TODO
+     * Test single child optimization
      *
-     * TODO
+     * Verifies function optimizes by returning single child element directly
      */
     test('optimizes and returns the single child if present', () => {
         const result = saltos.core.html('div', '<p>Only Child</p>');
@@ -483,15 +503,15 @@ describe('saltos.core.html', () => {
 });
 
 /**
- * saltos.core.ajax
+ * Test suite for AJAX functionality
  *
- * This function performs the tests of the ajax function
+ * Contains comprehensive tests for the core AJAX implementation
  */
 describe('saltos.core.ajax', () => {
     /**
-     * TODO
+     * Test successful GET request
      *
-     * TODO
+     * Verifies proper request construction and success callback handling
      */
     test('makes a successful GET request and calls success callback', async () => {
         const mockSuccess = jest.fn();
@@ -525,9 +545,9 @@ describe('saltos.core.ajax', () => {
     });
 
     /**
-     * TODO
+     * Test error response handling
      *
-     * TODO
+     * Verifies proper error callback invocation for non-200 responses
      */
     test('handles non-200 responses and calls error callback', async () => {
         const mockError = jest.fn();
@@ -544,9 +564,9 @@ describe('saltos.core.ajax', () => {
     });
 
     /**
-     * TODO
+     * Test POST request handling
      *
-     * TODO
+     * Verifies proper construction of POST requests with body content
      */
     test('makes a POST request with a body', async () => {
         const mockSuccess = jest.fn();
@@ -567,9 +587,9 @@ describe('saltos.core.ajax', () => {
     });
 
     /**
-     * TODO
+     * Test request abortion
      *
-     * TODO
+     * Verifies proper handling of aborted requests
      */
     test('calls abort callback when request is aborted', async () => {
         const mockAbort = jest.fn();
@@ -581,9 +601,9 @@ describe('saltos.core.ajax', () => {
     });
 
     /**
-     * TODO
+     * Test network failure handling
      *
-     * TODO
+     * Verifies proper error callback invocation for network failures
      */
     test('calls error callback on network failure', async () => {
         const mockError = jest.fn();
@@ -595,9 +615,9 @@ describe('saltos.core.ajax', () => {
     });
 
     /**
-     * TODO
+     * Test unexpected error handling
      *
-     * TODO
+     * Verifies proper propagation of unexpected errors
      */
     test('throws an error for unexpected failures', async () => {
         global.fetch.mockRejectedValue(new Error('Unexpected failure'));
@@ -614,9 +634,9 @@ describe('saltos.core.ajax', () => {
     });
 
     /**
-     * TODO
+     * Test unsupported method handling
      *
-     * TODO
+     * Verifies proper error throwing for unsupported HTTP methods
      */
     test('throws an error for unsupported HTTP method', () => {
         expect(() => saltos.core.ajax({url: '/test', method: 'PUT'}))
@@ -624,9 +644,9 @@ describe('saltos.core.ajax', () => {
     });
 
     /**
-     * TODO
+     * Test XML response handling
      *
-     * TODO
+     * Verifies proper parsing of XML response content
      */
     test('handles XML response correctly', async () => {
         const mockSuccess = jest.fn();
@@ -647,9 +667,9 @@ describe('saltos.core.ajax', () => {
     });
 
     /**
-     * TODO
+     * Test plain text response handling
      *
-     * TODO
+     * Verifies proper handling of plain text responses
      */
     test('handles plain text response correctly', async () => {
         const mockSuccess = jest.fn();
@@ -668,9 +688,9 @@ describe('saltos.core.ajax', () => {
 });
 
 /**
- * saltos.core.fix_key
+ * Test key normalization
  *
- * This function performs the test of the fix_key function
+ * Verifies function properly removes suffixes from keys
  */
 test('saltos.core.fix_key', () => {
     expect(saltos.core.fix_key('item')).toBe('item');
@@ -681,9 +701,9 @@ test('saltos.core.fix_key', () => {
 });
 
 /**
- * saltos.core.copy_object
+ * Test object copying
  *
- * This function performs the test of the copy_object function
+ * Verifies function creates proper shallow copies of objects
  */
 test('saltos.core.copy_object', () => {
     expect(saltos.core.copy_object('item')).toBe('item');
@@ -694,29 +714,33 @@ test('saltos.core.copy_object', () => {
 });
 
 /**
- * TODO
+ * Test suite for resource loading
  *
- * TODO
+ * Contains tests for the require functionality
  */
 describe('saltos.core.require', () => {
     /**
-     * TODO
+     * Setup before each test in this suite
+     *
+     * Configures fake timers for testing asynchronous operations
      */
     beforeEach(() => {
         jest.useFakeTimers();
     });
 
     /**
-     * TODO
+     * Cleanup after each test in this suite
+     *
+     * Restores real timer implementation
      */
     afterEach(() => {
         jest.useRealTimers();
     });
 
     /**
-     * TODO
+     * Test JavaScript file loading
      *
-     * TODO
+     * Verifies proper loading and injection of JavaScript files
      */
     test('loads a JavaScript file successfully', async () => {
         const mockCallback = jest.fn();
@@ -739,9 +763,9 @@ describe('saltos.core.require', () => {
     });
 
     /**
-     * TODO
+     * Test CSS file loading
      *
-     * TODO
+     * Verifies proper loading and injection of CSS files
      */
     test('loads a CSS file successfully', async () => {
         const mockCallback = jest.fn();
@@ -763,9 +787,9 @@ describe('saltos.core.require', () => {
     });
 
     /**
-     * TODO
+     * Test cached resource handling
      *
-     * TODO
+     * Verifies that already loaded resources are not reloaded
      */
     test('does not reload already loaded files', async () => {
         const mockCallback = jest.fn();
@@ -781,9 +805,9 @@ describe('saltos.core.require', () => {
     });
 
     /**
-     * TODO
+     * Test pending resource handling
      *
-     * TODO
+     * Verifies proper waiting behavior for resources already being loaded
      */
     test('waits when file is already loading', async () => {
         saltos.core.__require['/test.js'] = 'loading';
@@ -794,9 +818,9 @@ describe('saltos.core.require', () => {
     });
 
     /**
-     * TODO
+     * Test module file loading
      *
-     * TODO
+     * Verifies proper handling of JavaScript module files
      */
     test('loads a JavaScript module file successfully', async () => {
         const mockCallback = jest.fn();
@@ -819,9 +843,9 @@ describe('saltos.core.require', () => {
     });
 
     /**
-     * TODO
+     * Test hashed resource loading
      *
-     * TODO
+     * Verifies proper handling of resources with cache-busting hashes
      */
     test('loads a CSS file with hash successfully', async () => {
         const mockCallback = jest.fn();
@@ -845,9 +869,9 @@ describe('saltos.core.require', () => {
 });
 
 /**
- * saltos.core.eval_bool
+ * Test boolean evaluation
  *
- * This function performs the test of the eval_bool function
+ * Verifies proper conversion of various values to boolean
  */
 test('saltos.core.eval_bool', () => {
     expect(saltos.core.eval_bool(undefined)).toBe(false);
@@ -873,9 +897,9 @@ test('saltos.core.eval_bool', () => {
 });
 
 /**
- * saltos.core.toString
+ * Test string conversion
  *
- * This function performs the test of the toString function
+ * Verifies proper string conversion of various values
  */
 test('saltos.core.toString', () => {
     expect(saltos.core.toString(undefined)).toBe('undefined');
@@ -895,9 +919,9 @@ test('saltos.core.toString', () => {
 });
 
 /**
- * saltos.core.is_attr_value
+ * Test attribute value detection
  *
- * This function performs the test of the is_attr_value function
+ * Verifies proper identification of attribute-value objects
  */
 test('saltos.core.is_attr_value', () => {
     expect(saltos.core.is_attr_value(undefined)).toBe(false);
@@ -917,9 +941,9 @@ test('saltos.core.is_attr_value', () => {
 });
 
 /**
- * saltos.core.join_attr_value
+ * Test attribute-value joining
  *
- * This function performs the test of the join_attr_value function
+ * Verifies proper merging of attribute and value objects
  */
 test('saltos.core.join_attr_value', () => {
     expect(saltos.core.join_attr_value(undefined)).toBe(undefined);
@@ -1040,15 +1064,17 @@ test('saltos.core.is_number', () => {
 });
 
 /**
- * TODO
+ * Core Module Tests
  *
- * TODO
+ * This test suite validates the core functionalities of the SaltOS framework,
+ * ensuring that essential features operate correctly under different scenarios.
  */
 describe('Core Module Tests', () => {
     /**
-     * TODO
+     * Test service worker registration
      *
-     * TODO
+     * This test checks if the service worker is registered properly when the
+     * browser supports service workers and the application is running over HTTPS.
      */
     test('Registers service worker if supported and on HTTPS', async () => {
         Object.defineProperty(window, 'location', {
@@ -1074,9 +1100,10 @@ describe('Core Module Tests', () => {
     });
 
     /**
-     * TODO
+     * Test proxy function messaging
      *
-     * TODO
+     * This test ensures that the proxy function sends the correct message
+     * to the service worker's controller using the `postMessage` method.
      */
     test('Proxy function sends message to service worker', () => {
         navigator.serviceWorker = {controller: {postMessage: jest.fn()}};
@@ -1085,9 +1112,10 @@ describe('Core Module Tests', () => {
     });
 
     /**
-     * TODO
+     * Test proxy synchronization on online events
      *
-     * TODO
+     * This test verifies that the proxy synchronization is triggered correctly
+     * when the browser's online event is fired.
      */
     test('Triggers proxy sync on online event', () => {
         saltos.core.proxy = jest.fn();
@@ -1096,9 +1124,10 @@ describe('Core Module Tests', () => {
     });
 
     /**
-     * TODO
+     * Test network protocol detection
      *
-     * TODO
+     * This test checks that the `check_network` function accurately detects
+     * HTTP and HTTPS protocols by simulating network conditions.
      */
     test('Check network detects protocols correctly', async () => {
         window.open = jest.fn().mockReturnValue({close: jest.fn(), closed: true});

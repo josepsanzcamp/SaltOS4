@@ -362,13 +362,23 @@ function __sendmail_objsaver($mail, $messageid)
 }
 
 /**
- * TODO
+ * Prepare email for sending
  *
- * TODO
+ * This function constructs the required parameters for sending an email, including sender details,
+ * recipients, subject, body, and attachments. The behavior varies based on the specified action
+ * (`reply`, `replyall`, or `forward`). It retrieves necessary data from the database and processes
+ * the email's metadata to ensure compatibility with the given action.
+ *
+ * @action   => Specifies the action to perform (`reply`, `replyall`, or `forward`).
+ * @email_id => ID of the email being replied to, forwarded, or used for metadata.
+ *
+ * Return the prepared email parameters, including sender, recipients, subject, body, state, and attachments.
  */
 function sendmail_prepare($action, $email_id)
 {
     require_once 'apps/emails/php/getmail.php';
+
+    // Retrieve the default email account
     $query = "SELECT id
         FROM app_emails_accounts
         WHERE user_id = ?
@@ -378,8 +388,9 @@ function sendmail_prepare($action, $email_id)
         LIMIT 1";
     $account_id = execute_query($query, [current_user()]);
     if (!$account_id) {
+        // Fallback: Retrieve the most active email account if the default is not found
         $query = "SELECT id FROM (
-            SELECT id,(
+            SELECT id, (
                 SELECT COUNT(*) FROM app_emails_address
                 WHERE email_id IN (
                     SELECT id FROM app_emails
@@ -392,12 +403,16 @@ function sendmail_prepare($action, $email_id)
             LIMIT 1) z";
         $account_id = execute_query($query, [current_user()]);
     }
+
+    // Initialize variables for email details
     $to_extra = [];
     $cc_extra = [];
     $bcc_extra = [];
     $state_crt = '';
     $subject_extra = '';
     $body_extra = '';
+
+    // Adjust account ID if replying, replying all, or forwarding
     if (in_array($action, ['reply', 'replyall', 'forward'])) {
         $query = 'SELECT account_id FROM app_emails WHERE id = ?';
         $result2 = execute_query($query, [$email_id]);
@@ -405,23 +420,28 @@ function sendmail_prepare($action, $email_id)
             $account_id = $result2;
         }
     }
-    // GET THE DEFAULT ADDMETOCC
+
+    // Add "cc" recipient if configured in the account
     $query = 'SELECT * FROM app_emails_accounts WHERE user_id = ? AND id = ?';
     $result2 = execute_query($query, [current_user(), $account_id]);
     if ($result2 && $result2['email_addmetocc']) {
         $cc_extra[] = $result2['email_name'] . ' <' . $result2['email_from'] . '>';
     }
-    // GET THE DEFAULT CRT
+
+    // Retrieve encryption state (CRT)
     if ($result2) {
         $state_crt = $result2['email_crt'];
     }
-    // GET THE DEFAULT SIGNATURE
+
+    // Retrieve signature
     if ($result2) {
         $body_extra = __HTML_NEWLINE__ . __SECTION_OPEN__ . __SIGNATURE_OPEN__ .
             $result2['email_signature'] . __SIGNATURE_CLOSE__ . __SECTION_CLOSE__;
     } else {
         $body_extra = __HTML_NEWLINE__ . __SECTION_OPEN__ . __SECTION_CLOSE__;
     }
+
+    // Handle "reply" and "replyall" actions
     if (in_array($action, ['reply', 'replyall'])) {
         $query = 'SELECT * FROM app_emails_address WHERE email_id = ?';
         $result2 = execute_query_array($query, [$email_id]);
@@ -433,6 +453,7 @@ function sendmail_prepare($action, $email_id)
                 $finded_from = $addr;
             }
         }
+        // Add "to" recipient from "Reply-To" or "From"
         if (isset($finded_replyto) || isset($finded_from)) {
             $finded = null;
             if (isset($finded_replyto)) {
@@ -447,6 +468,8 @@ function sendmail_prepare($action, $email_id)
             }
         }
     }
+
+    // Handle "replyall" for additional recipients in "To" and "CC"
     if ($action == 'replyall') {
         if (isset($finded_replyto) && isset($finded_from)) {
             $finded_tocc = [];
@@ -486,6 +509,8 @@ function sendmail_prepare($action, $email_id)
             }
         }
     }
+
+    // Handle "forward" action for "From" metadata
     if ($action == 'forward') {
         $query = 'SELECT * FROM app_emails_address WHERE email_id = ?';
         $result2 = execute_query_array($query, [$email_id]);
@@ -495,6 +520,8 @@ function sendmail_prepare($action, $email_id)
             }
         }
     }
+
+    // Append original email metadata for reply, replyall, or forward
     if (in_array($action, ['reply', 'replyall', 'forward'])) {
         $query = 'SELECT * FROM app_emails WHERE id = ?';
         $row2 = execute_query($query, [$email_id]);
@@ -527,28 +554,46 @@ function sendmail_prepare($action, $email_id)
             unset($decoded); // TRICK TO RELEASE MEMORY
         }
     }
-    // CONTINUE
+
+    // Prepare final email details
     $to_extra = implode('; ', $to_extra);
     $cc_extra = implode('; ', $cc_extra);
     $bcc_extra = implode('; ', $bcc_extra);
-    return ['from' => $account_id,
-        'to' => $to_extra, 'cc' => $cc_extra, 'bcc' => $bcc_extra,
-        'subject' => $subject_extra, 'body' => $body_extra,
-        'state_crt' => $state_crt, 'priority' => 0, 'sensitivity' => 0,
+
+    return [
+        'from' => $account_id,
+        'to' => $to_extra,
+        'cc' => $cc_extra,
+        'bcc' => $bcc_extra,
+        'subject' => $subject_extra,
+        'body' => $body_extra,
+        'state_crt' => $state_crt,
+        'priority' => 0,
+        'sensitivity' => 0,
         'files' => sendmail_files($action, $email_id),
     ];
 }
 
 /**
- * TODO
+ * Perform email sending action
  *
- * TODO
+ * This function handles the process of sending an email, including assembling email data,
+ * recipients, and attachments. It also manages inline images, updates email states, and
+ * cleans up temporary files after execution. The function supports multiple actions such
+ * as `reply`, `replyall`, and `forward`.
+ *
+ * @json     => JSON object containing email data (e.g., recipients, subject, body, attachments).
+ * @action   => Specifies the action to perform (`reply`, `replyall`, or `forward`).
+ * @email_id => ID of the email being replied to, forwarded, or used for metadata.
+ *
+ * Returns the status and message of the email action.
  */
 function sendmail_action($json, $action, $email_id)
 {
     require_once 'apps/emails/php/getmail.php';
     require_once 'php/lib/upload.php';
-    // GET ALL DATA
+
+    // Extract data from input JSON
     $account_id = intval($json['from'] ?? 0);
     $to = strval($json['to'] ?? '');
     $cc = strval($json['cc'] ?? '');
@@ -559,16 +604,19 @@ function sendmail_action($json, $action, $email_id)
     $priority = intval($json['priority'] ?? 0);
     $sensitivity = intval($json['sensitivity'] ?? 0);
     $uploads = array_protected($json['files'] ?? []);
-    // SEARCH FROM
+
+    // Validate sender account
     $query = "SELECT CONCAT(email_name,' <',email_from,'>') email
         FROM app_emails_accounts WHERE user_id = ? AND id = ?";
     $from = execute_query($query, [current_user(), $account_id]);
     if (!$from) {
         show_php_error(['phperror' => 'From not found']);
     }
-    // REMOVE THE SIGNATURE TAG IF EXISTS
+
+    // Remove signature tags from the email body
     $body = str_replace([__SECTION_OPEN__, __SECTION_CLOSE__], '', $body);
-    // PREPARE THE RECIPIENTS
+
+    // Prepare recipients
     $recipients = [];
     $to = explode(';', $to);
     foreach ($to as $addr) {
@@ -591,7 +639,8 @@ function sendmail_action($json, $action, $email_id)
             $recipients[] = 'bcc:' . $addr;
         }
     }
-    // ADD EXTRAS IN THE RECIPIENTS
+
+    // Add extra options for recipients (encryption, priority, sensitivity)
     if ($state_crt) {
         $recipients[] = 'crt:' . $from;
     }
@@ -603,7 +652,8 @@ function sendmail_action($json, $action, $email_id)
     if (isset($sensitivities[$sensitivity])) {
         $recipients[] = 'sensitivity:' . $sensitivities[$sensitivity];
     }
-    // ADD UPLOADED ATTACHMENTS
+
+    // Process uploaded attachments
     $files = [];
     $dir = get_directory('dirs/uploaddir') ?? getcwd_protected() . '/data/upload/';
     foreach ($uploads as $file) {
@@ -626,7 +676,8 @@ function sendmail_action($json, $action, $email_id)
             ];
         }
     }
-    // TRY TO CONVERT THE INLINE IMAGES INTO ATTACHMENTS WITH CID
+
+    // Convert inline images to attachments with CID
     require_once 'apps/emails/php/html.php';
     [$body, $files1] = extract_img_tag($body);
     [$body, $files2] = extract_img_style($body);
@@ -639,12 +690,13 @@ function sendmail_action($json, $action, $email_id)
             'cid' => $hash,
         ];
     }
-    // DO THE SEND ACTION
+
+    // Perform the email sending action
     $last_id = sendmail($account_id, $recipients, $subject, $body, $files);
     if (is_int($last_id)) {
-        // NOTHING TO DO
+        // Success: No additional actions needed
     } elseif (is_string($last_id)) {
-        // CANCEL THE ACTION
+        // Error: Return failure response
         return [
             'status' => 'ko',
             'text' => $last_id,
@@ -652,7 +704,8 @@ function sendmail_action($json, $action, $email_id)
     } else {
         show_php_error(['phperror' => 'Internal error']);
     }
-    // SOME UPDATES
+
+    // Update states for reply, replyall, or forward actions
     if (in_array($action, ['reply', 'replyall', 'forward'])) {
         __getmail_update('email_id', $email_id, $last_id);
         $campo = null;
@@ -667,11 +720,13 @@ function sendmail_action($json, $action, $email_id)
         }
         __getmail_update($campo, 1, $email_id);
     }
-    // REMOVE THE UPLOADED FILES
+
+    // Delete uploaded temporary files
     foreach ($uploads as $file) {
         del_upload_file($file);
     }
-    // FINISH THE ACTION
+
+    // Finish the action
     return [
         'status' => 'ok',
         'text' => T('Email sent successfully'),
@@ -679,18 +734,23 @@ function sendmail_action($json, $action, $email_id)
 }
 
 /**
- * TODO
+ * Send queued emails from the server
  *
- * TODO
+ * This function processes and sends emails queued in the outbox. It uses a semaphore mechanism
+ * to prevent simultaneous execution, handles SMTP settings dynamically, updates email states,
+ * and manages errors during the sending process. The function is intended for use in cron jobs.
+ *
+ * @return array Returns an array of messages detailing the sending result, including errors and successes.
  */
 function sendmail_server()
 {
-    // check the semaphore
+    // Acquire the semaphore to prevent simultaneous execution
     $semaphore = [__FUNCTION__, current_user()];
     if (!semaphore_acquire($semaphore, 100000)) {
         return [T('Could not acquire the semaphore')];
     }
-    // begin the spool operation
+
+    // Begin the spool operation: retrieve emails queued for sending
     $query = 'SELECT a.id, a.account_id, a.uidl
         FROM app_emails a
         LEFT JOIN app_emails_accounts c ON c.id = a.account_id
@@ -698,15 +758,22 @@ function sendmail_server()
     $result = execute_query_array($query, [current_user()]);
     require_once 'apps/emails/lib/phpmailer/vendor/autoload.php';
     require_once 'apps/emails/php/getmail.php';
-    $sended = 0;
-    $haserror = [];
+
+    $sended = 0; // Counter for successfully sent emails
+    $haserror = []; // Array to collect error messages
+
     foreach ($result as $row) {
+        // Stop if server resource usage exceeds allowed threshold
         if (time_get_usage() > get_config('server/percentstop')) {
             break;
         }
+
+        // Retrieve email details
         $last_id = $row['id'];
         $messageid = $row['account_id'] . '/' . $row['uidl'];
         $file = get_directory('dirs/outboxdir') . $messageid . '.obj';
+
+        // Check if the email file exists in the outbox
         if (!file_exists($file)) {
             $error = T('This email was not sent by an internal error');
             __getmail_update('state_sent', 1, $last_id);
@@ -714,6 +781,8 @@ function sendmail_server()
             $haserror[] = $error;
             continue;
         }
+
+        // Unserialize the email object and validate its integrity
         $mail = unserialize(file_get_contents($file));
         if (!$mail || !method_exists($mail, 'PostSend')) {
             $error = T('This email was not sent by an internal error');
@@ -723,17 +792,21 @@ function sendmail_server()
             $haserror[] = $error;
             continue;
         }
+
         /** @var PHPMailer $mail */
         ob_start();
         $current = $mail->PostSend();
         $error = ob_get_clean();
+
+        // Handle errors during email sending
         if ($current !== true) {
+            // Retrieve SMTP settings and check if they need updating
             $host = $mail->Host;
             $port = $mail->Port;
             $extra = $mail->SMTPSecure;
             $user = $mail->Username;
             $pass = $mail->Password;
-            // FIND ACCOUNT DATA
+
             $query = 'SELECT * FROM app_emails_accounts WHERE id = ?';
             $result2 = execute_query($query, [$row['account_id']]);
             $current_host = $result2['smtp_host'];
@@ -741,7 +814,8 @@ function sendmail_server()
             $current_extra = $result2['smtp_extra'];
             $current_user = $result2['smtp_user'];
             $current_pass = $result2['smtp_pass'];
-            // CONTINUE
+
+            // Check if SMTP settings match the email account configuration
             $idem = 1;
             if ($current_host != $host) {
                 $idem = 0;
@@ -758,6 +832,8 @@ function sendmail_server()
             if ($current_pass != $pass) {
                 $idem = 0;
             }
+
+            // Update SMTP settings if necessary
             if (!$idem) {
                 if (!in_array($current_host, ['mail', 'sendmail', 'qmail', ''])) {
                     $mail->IsSMTP();
@@ -777,11 +853,15 @@ function sendmail_server()
                         $mail->IsQmail();
                     }
                 }
+
+                // Retry sending the email
                 ob_start();
                 $current = $mail->PostSend();
                 $error = ob_get_clean();
             }
         }
+
+        // Update email state based on sending result
         if ($current !== true) {
             if (!$error) {
                 $error = $mail->ErrorInfo;
@@ -796,38 +876,54 @@ function sendmail_server()
             $sended++;
         }
     }
+
     $haserror[] = sprintf(T('%d email(s) sended'), $sended);
-    // intended to be used by cron feature
+
+    // Notify via push if running in a cron context
     if (get_data('server/xuid') && $sended) {
         require_once 'php/lib/push.php';
         push_insert('event', 'saltos.emails.update');
     }
-    // release the semaphore
+
+    // Release the semaphore
     semaphore_release($semaphore);
+
     return $haserror;
 }
 
 /**
- * TODO
+ * Retrieve email attachments
  *
- * TODO
+ * This function handles the retrieval of email attachments based on the specified action,
+ * such as `forward`. It validates permissions, decodes the message, and stores attachments
+ * locally if not already uploaded. Finally, it retrieves a list of attachments from the upload table.
+ *
+ * @action   => Specifies the email action (`forward` in this case).
+ * @email_id => ID of the email to retrieve attachments from.
+ *
+ * Returns a list of attachments with metadata including ID, app, name, size, type, and hash.
  */
 function sendmail_files($action, $email_id)
 {
     if ($action == 'forward' && $email_id) {
         require_once 'apps/emails/php/getmail.php';
         require_once 'php/lib/upload.php';
+
+        // Check permissions for accessing the email
         if (!__getmail_checkperm($email_id)) {
             show_php_error(['phperror' => 'Permission denied']);
         }
+
+        // Decode the email message
         $decoded = __getmail_getmime($email_id);
         if (!$decoded) {
-            show_php_error(['phperror' => 'Could not decode de message']);
+            show_php_error(['phperror' => 'Could not decode the message']);
         }
-        // CONTINUE
+
+        // Retrieve files from the email node
         $result = __getmail_getfiles(__getmail_getnode('0', $decoded));
         foreach ($result as $val) {
-            // Check that attachment is not found in the upload table
+            // Check if the attachment already exists in the upload table
             $id = check_upload_file([
                 'user_id' => current_user(),
                 'uniqid' => $val['chash'],
@@ -840,7 +936,8 @@ function sendmail_files($action, $email_id)
             if ($id) {
                 continue;
             }
-            // Store it in a local file and do the insert
+
+            // Store attachment locally and insert it into the upload table
             add_upload_file([
                 'id' => $val['chash'],
                 'app' => current_hash(),
@@ -851,30 +948,42 @@ function sendmail_files($action, $email_id)
             ]);
         }
     }
+
+    // Retrieve uploaded attachments
     $query = "SELECT uniqid id,app,name,size,type,'' data,'' error,file,hash
         FROM tbl_uploads WHERE user_id = ? AND app = ? ORDER BY id DESC";
     $files = execute_query_array($query, [current_user(), current_hash()]);
+
     return $files;
 }
 
 /**
- * TODO
+ * Update email signature, CC, and encryption state
  *
- * TODO
+ * This function updates the email body with a new signature, adjusts the CC list,
+ * and replaces the encryption state (`state_crt`) based on the selected account.
+ *
+ * @json => JSON object containing email data and account information.
+ *
+ * Return the updated email body, CC list, and encryption state.
  */
 function sendmail_signature($json)
 {
     require_once 'apps/emails/php/getmail.php';
+
+    // Extract data from input JSON
     $old = intval($json['old'] ?? 0);
     $new = intval($json['new'] ?? 0);
     $body = strval($json['body'] ?? '');
     $cc = strval($json['cc'] ?? '');
     $state_crt = intval($json['state_crt'] ?? 0);
-    // FIND THE OLD AND NEW CC'S AND STATE_CRT'S
+
+    // Retrieve old and new account details
     $query = 'SELECT * FROM app_emails_accounts WHERE user_id = ? AND id = ?';
     $result_old = execute_query($query, [current_user(), $old]);
     $result_new = execute_query($query, [current_user(), $new]);
-    // REPLACE THE SIGNATURE BODY
+
+    // Replace the signature in the email body
     if ($result_new) {
         $auto = __SIGNATURE_OPEN__ . $result_new['email_signature'] . __SIGNATURE_CLOSE__;
     } else {
@@ -888,7 +997,8 @@ function sendmail_signature($json)
     if ($pos1 !== false && $pos2 !== false) {
         $body = substr_replace($body, $auto, $pos1, $pos2 - $pos1);
     }
-    // REPLACE THE CC
+
+    // Replace the CC list with new recipients
     if ($result_old && $result_new) {
         $cc = explode(';', $cc);
         foreach ($cc as $key => $val) {
@@ -918,12 +1028,14 @@ function sendmail_signature($json)
         }
         $cc = implode('; ', $cc);
     }
-    // REPLACE THE STATE_CRT
+
+    // Replace the encryption state
     if ($result_old && $result_new) {
         if ($result_old['email_crt'] == $state_crt) {
             $state_crt = $result_new['email_crt'];
         }
     }
-    // PREPARE THE OUTPUT
+
+    // Prepare the output
     return ['body' => $body, 'cc' => $cc, 'state_crt' => $state_crt];
 }

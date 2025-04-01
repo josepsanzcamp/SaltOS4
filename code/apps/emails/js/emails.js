@@ -29,22 +29,29 @@
 /**
  * Email application
  *
- * This application implements the tipical features associated to emails
+ * This application implements typical features associated with email functionality,
+ * such as initialization, server actions, email deletion, sending, setting states,
+ * handling signatures, generating and downloading PDFs, viewing email sources, replying
+ * and forwarding.
  */
 
 /**
  * Main object
  *
- * This object contains all SaltOS code
+ * This object contains all SaltOS code related to email operations.
  */
 saltos.emails = {};
 
 /**
- * TODO
+ * Initialize the email application
  *
- * TODO
+ * This method handles initialization tasks for different views (`create`, `view`, `close`, `list`)
+ * in the email application. It manages UI updates, visibility behaviors, and email state changes.
+ *
+ * @param {string} arg Specifies the type of view or action to initialize.
  */
 saltos.emails.init = arg => {
+    // Handle list visibility and reset button states
     if (['create', 'view', 'close'].includes(arg)) {
         saltos.core.when_visible('list', () => {
             const obj = document.getElementById('list');
@@ -55,6 +62,7 @@ saltos.emails.init = arg => {
         });
     }
 
+    // Handle state changes for list and view
     if (['list', 'view'].includes(arg)) {
         const id = saltos.hash.get().split('/').at(-1);
         if (!isNaN(parseInt(id))) {
@@ -73,6 +81,7 @@ saltos.emails.init = arg => {
         }
     }
 
+    // Handle initialization for creating emails
     if (['create'].includes(arg)) {
         saltos.core.when_visible('from', () => {
             saltos.emails.old_account = document.getElementById('from').value;
@@ -83,8 +92,9 @@ saltos.emails.init = arg => {
         }
     }
 
+    // Handle initialization for viewing emails
     if (['view'].includes(arg)) {
-        // Remove the non needed fields
+        // Remove unnecessary fields
         if (document.getElementById('cc').value == '') {
             document.getElementById('cc').closest('.mb-3').remove();
         }
@@ -95,7 +105,7 @@ saltos.emails.init = arg => {
             document.getElementById('state_error').closest('.mb-3').remove();
         }
 
-        // Remove the non needed switchs and buttons
+        // Remove unnecessary switches and buttons
         if (document.getElementById('is_outbox').value == '1') {
             document.getElementById('state_new').closest('.mb-3').remove();
             document.getElementById('state_reply').closest('.mb-3').remove();
@@ -125,12 +135,12 @@ saltos.emails.init = arg => {
             document.getElementById('wait0').closest('li').remove();
         }
 
-        // Remove the non needed table
+        // Remove unnecessary table if no files exist
         if (document.getElementById('num_files').value == '0') {
             document.getElementById('files').closest('.mb-3').remove();
         }
 
-        // Load the body with images
+        // Load the email body with images
         saltos.core.when_visible('body', () => {
             const iframe = document.getElementById('body');
             if (!iframe) {
@@ -167,7 +177,7 @@ saltos.emails.init = arg => {
             });
         });
 
-        // Remove the only button
+        // Remove specific button for certain screen types
         const type = document.getElementById('screen').getAttribute('type');
         if (type == 'type1') {
             document.getElementById('only').parentElement.parentElement.remove();
@@ -176,9 +186,9 @@ saltos.emails.init = arg => {
 };
 
 /**
- * TODO
+ * Perform server-related actions for emails
  *
- * TODO
+ * This method triggers server-side actions for emails and displays the responses in toasts.
  */
 saltos.emails.server = () => {
     saltos.app.ajax({
@@ -194,9 +204,9 @@ saltos.emails.server = () => {
 };
 
 /**
- * TODO
+ * Delete selected emails
  *
- * TODO
+ * This method deletes multiple emails selected by the user, after showing a confirmation modal.
  */
 saltos.emails.delete1 = () => {
     let ids = saltos.app.checkbox_ids(document.getElementById('list'));
@@ -238,9 +248,9 @@ saltos.emails.delete1 = () => {
 };
 
 /**
- * TODO
+ * Delete a single email
  *
- * TODO
+ * This method deletes the currently viewed email after showing a confirmation modal.
  */
 saltos.emails.delete2 = () => {
     saltos.app.modal('Delete this email???', 'Do you want to delete this email???', {
@@ -272,9 +282,10 @@ saltos.emails.delete2 = () => {
 };
 
 /**
- * TODO
+ * Send an email
  *
- * TODO
+ * This method validates the required fields and sends the email data to the server.
+ * It handles responses and clears unsaved data on success.
  */
 saltos.emails.send = () => {
     saltos.backup.restore('two,one');
@@ -317,9 +328,12 @@ saltos.emails.send = () => {
 };
 
 /**
- * TODO
+ * Set email state
  *
- * TODO
+ * This function updates the state of a specific email identified by its ID. The updated state is sent
+ * to the server, and the UI is refreshed afterward.
+ *
+ * @param {string} what Specifies the state to set for the email.
  */
 saltos.emails.setter = what => {
     const id = saltos.hash.get().split('/').at(3);
@@ -338,9 +352,10 @@ saltos.emails.setter = what => {
 };
 
 /**
- * TODO
+ * Add signature to email
  *
- * TODO
+ * This function applies the email signature based on the selected account and its related data.
+ * The signature is retrieved from the server and updated in the email form.
  */
 saltos.emails.signature = () => {
     const old_account = saltos.emails.old_account;
@@ -365,9 +380,10 @@ saltos.emails.signature = () => {
 };
 
 /**
- * TODO
+ * View selected emails in PDF format
  *
- * TODO
+ * This function opens a PDF view for all selected emails in the list.
+ * If no emails are selected, a modal prompts the user to select emails first.
  */
 saltos.emails.viewpdf1 = () => {
     let ids = saltos.app.checkbox_ids(document.getElementById('list'));
@@ -386,9 +402,10 @@ saltos.emails.viewpdf1 = () => {
 };
 
 /**
- * TODO
+ * Download selected emails as PDF
  *
- * TODO
+ * This function downloads all selected emails in the list as a PDF file.
+ * If no emails are selected, a modal prompts the user to select emails first.
  */
 saltos.emails.download1 = () => {
     let ids = saltos.app.checkbox_ids(document.getElementById('list'));
@@ -407,9 +424,9 @@ saltos.emails.download1 = () => {
 };
 
 /**
- * TODO
+ * View email source
  *
- * TODO
+ * This function opens the raw source of the selected email for viewing in the driver.
  */
 saltos.emails.source = () => {
     const id = saltos.hash.get().split('/').at(3);
@@ -417,9 +434,9 @@ saltos.emails.source = () => {
 };
 
 /**
- * TODO
+ * View an email in PDF format
  *
- * TODO
+ * This function opens a PDF view for the currently selected email.
  */
 saltos.emails.viewpdf2 = () => {
     const id = saltos.hash.get().split('/').at(3);
@@ -427,9 +444,9 @@ saltos.emails.viewpdf2 = () => {
 };
 
 /**
- * TODO
+ * Download an email as PDF
  *
- * TODO
+ * This function downloads the currently selected email in PDF format.
  */
 saltos.emails.download2 = () => {
     const id = saltos.hash.get().split('/').at(3);
@@ -437,9 +454,9 @@ saltos.emails.download2 = () => {
 };
 
 /**
- * TODO
+ * Reply to an email
  *
- * TODO
+ * This function opens the reply form for the currently selected email.
  */
 saltos.emails.reply = () => {
     const id = saltos.hash.get().split('/').at(3);
@@ -447,9 +464,9 @@ saltos.emails.reply = () => {
 };
 
 /**
- * TODO
+ * Reply to all recipients of an email
  *
- * TODO
+ * This function opens the reply-all form for the currently selected email, including all recipients.
  */
 saltos.emails.replyall = () => {
     const id = saltos.hash.get().split('/').at(3);
@@ -457,9 +474,9 @@ saltos.emails.replyall = () => {
 };
 
 /**
- * TODO
+ * Forward an email
  *
- * TODO
+ * This function opens the forward form for the currently selected email.
  */
 saltos.emails.forward = () => {
     const id = saltos.hash.get().split('/').at(3);

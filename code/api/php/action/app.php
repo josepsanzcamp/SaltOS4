@@ -38,14 +38,6 @@ declare(strict_types=1);
  *       one action, this parameter is not necesary
  * @3 => the id used in some actions, for example, to get the data
  *       of specific customer using the id
- *
- * List action (triggered when type attr is table or list)
- *
- * This action tries to facility the creation of lists with the tipicals
- * features suck as rows, actions for each row, and other improvements as
- * the list with count and without count.
- *
- * TODO: pending to add the order by from the list header
  */
 
 // Check for rest/1, that is the name of the app to load

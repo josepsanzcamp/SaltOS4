@@ -307,9 +307,16 @@ function __unoconv_pdf2ocr($pdf)
 }
 
 /**
- * TODO
+ * Calculate histogram value
  *
- * TODO
+ * This function calculates a representative value from a histogram based on given usage thresholds.
+ * It finds the highest percentage where at least a certain portion of values and unique values are included.
+ *
+ * @values => array of values to analyze
+ * @usage1 => minimum percentage of total values to include (0-1)
+ * @usage2 => minimum percentage of unique values to include (0-1)
+ *
+ * Returns the calculated representative value
  */
 function __unoconv_histogram($values, $usage1, $usage2)
 {
@@ -353,9 +360,15 @@ function __unoconv_histogram($values, $usage1, $usage2)
 }
 
 /**
- * TODO
+ * Rotate coordinates
  *
- * TODO
+ * This function rotates a point around the origin by a given angle in degrees.
+ *
+ * @posx  => x coordinate of the point
+ * @posy  => y coordinate of the point
+ * @angle => rotation angle in degrees
+ *
+ * Returns the array with new x and y coordinates
  */
 function __unoconv_rotate($posx, $posy, $angle)
 {
@@ -368,9 +381,14 @@ function __unoconv_rotate($posx, $posy, $angle)
 }
 
 /**
- * TODO
+ * Extract attributes from OCR node
  *
- * TODO
+ * This function processes a node from OCR output to extract its attributes,
+ * specifically focusing on the bounding box information.
+ *
+ * @node => the OCR node to process
+ *
+ * Returns the array containing node ID and bounding box coordinates
  */
 function __unoconv_node2attr($node)
 {
@@ -389,9 +407,13 @@ function __unoconv_node2attr($node)
 }
 
 /**
- * TODO
+ * Extract text value from OCR node
  *
- * TODO
+ * This function extracts the text content from an OCR node, handling nested arrays.
+ *
+ * @node => the OCR node to process
+ *
+ * Returns the extracted text content
  */
 function __unoconv_node2value($node)
 {
@@ -403,9 +425,16 @@ function __unoconv_node2value($node)
 }
 
 /**
- * TODO
+ * Convert OCR lines to character matrix
  *
- * TODO
+ * This function converts OCR-detected lines and words into a 2D character matrix
+ * for text reconstruction and analysis.
+ *
+ * @lines  => array of OCR-detected lines and words
+ * @width  => width divisor for coordinate normalization
+ * @height => height divisor for coordinate normalization
+ *
+ * Returns the 2D character matrix or index of problematic line if error occurs
  */
 function __unoconv_lines2matrix($lines, $width, $height)
 {
@@ -447,9 +476,18 @@ function __unoconv_lines2matrix($lines, $width, $height)
 }
 
 /**
- * TODO
+ * Reorder line coordinates
  *
- * TODO
+ * This function reorders the coordinates of a line based on specified positions,
+ * used for correcting orientation in OCR results.
+ *
+ * @line => original line coordinates
+ * @pos1 => target position for first coordinate
+ * @pos2 => target position for second coordinate
+ * @pos3 => target position for third coordinate
+ * @pos4 => target position for fourth coordinate
+ *
+ * Returns the reordered line coordinates
  */
 function __unoconv_fixline($line, $pos1, $pos2, $pos3, $pos4)
 {
@@ -462,9 +500,14 @@ function __unoconv_fixline($line, $pos1, $pos2, $pos3, $pos4)
 }
 
 /**
- * TODO
+ * Convert HOCR to plain text
  *
- * TODO
+ * This function processes HOCR (HTML OCR) output to extract and reconstruct
+ * the text content while maintaining spatial relationships.
+ *
+ * @hocr => HOCR content to process
+ *
+ * Returns the extracted plain text
  */
 function __unoconv_hocr2txt($hocr)
 {
@@ -591,9 +634,17 @@ function __unoconv_hocr2txt($hocr)
 }
 
 /**
- * TODO
+ * Proportional substring extraction
  *
- * TODO
+ * This function extracts a substring based on proportional positions relative
+ * to a reference length, useful for working with scaled text representations.
+ *
+ * @string    => input string to extract from
+ * @start     => starting position (relative to reference)
+ * @length    => length to extract (relative to reference)
+ * @reference => reference length for proportional calculation
+ *
+ * Returns the extracted substring
  */
 function __unoconv_substr($string, $start, $length, $reference)
 {
@@ -605,9 +656,20 @@ function __unoconv_substr($string, $start, $length, $reference)
 }
 
 /**
- * TODO
+ * 2D proportional substring extraction
  *
- * TODO
+ * This function extracts a 2D region from a text page based on proportional
+ * coordinates, maintaining spatial relationships in the extracted content.
+ *
+ * @page => array of text lines representing the page
+ * @x1   => starting x position (relative to x3)
+ * @x2   => width to extract (relative to x3)
+ * @x3   => reference width for x coordinates
+ * @y1   => starting y position (relative to y3)
+ * @y2   => height to extract (relative to y3)
+ * @y3   => reference height for y coordinates
+ *
+ * Returns the array of extracted lines
  */
 function __unoconv_substr2d($page, $x1, $x2, $x3, $y1, $y2, $y3)
 {
@@ -625,9 +687,14 @@ function __unoconv_substr2d($page, $x1, $x2, $x3, $y1, $y2, $y3)
 }
 
 /**
- * TODO
+ * Remove margins from text page
  *
- * TODO
+ * This function trims empty margins from a text page, removing leading/trailing
+ * whitespace and empty lines from the top and bottom.
+ *
+ * @page => text content to process (multiple lines separated by newlines)
+ *
+ * Returns the text content with margins removed
  */
 function __unoconv_remove_margins($page)
 {

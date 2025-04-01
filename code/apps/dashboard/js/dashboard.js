@@ -29,27 +29,31 @@
 /**
  * Dashboard application
  *
- * This application implements the tipical features associated to dashboard
+ * This module implements the typical features associated with a dashboard,
+ * allowing dynamic interaction with various elements and functionalities.
  */
 
 /**
  * Main object
  *
- * This object contains all SaltOS code
+ * Contains all the logic and code for the SaltOS framework related to the dashboard.
  */
 saltos.dashboard = {};
 
 /**
- * TODO
+ * Initialization of dashboard
  *
- * TODO
+ * This method sets up listeners, configures the catalog layout, and initializes
+ * the dashboard widgets based on user-defined or default configurations.
  */
 saltos.dashboard.init = arg => {
+    // Sets a listener to update dashboard-related elements on event triggers
     saltos.window.set_listener('saltos.dashboard.update', event => {
         saltos.hash.trigger();
     });
 
     /*
+    // Example listener for customer updates, updating associated widgets dynamically
     saltos.window.set_listener('saltos.customers.update', event => {
         saltos.app.ajax({
             url: 'app/customers/widget/table1',
@@ -73,10 +77,12 @@ saltos.dashboard.init = arg => {
     });
     */
 
+    // Configures catalog properties
     const catalog = arg.catalog;
     catalog.row['#attr'].row_class = 'row mt-3';
     catalog.row['#attr'].row_style = '';
 
+    // Retrieves dashboard widget configuration and sets it up
     const config = arg.config;
     const key = 'app/dashboard/widgets/default';
     let ids = [];
@@ -84,6 +90,7 @@ saltos.dashboard.init = arg => {
         ids = JSON.parse(config[key]);
     }
 
+    // Filters catalog rows to match the specified IDs in the configuration
     const original = catalog.row.value;
     if (ids.length) {
         catalog.row.value = {};
@@ -102,6 +109,7 @@ saltos.dashboard.init = arg => {
         }
     }
 
+    // Constructs the dashboard layout using the filtered catalog values
     saltos.form.layout({
         '#attr': {
             append: 'one',

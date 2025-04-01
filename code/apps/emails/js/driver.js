@@ -29,33 +29,38 @@
 /**
  * Email application
  *
- * This application implements the tipical features associated to emails
+ * This application implements the typical features associated with email functionality,
+ * including templates and initialization processes for handling email-related tasks.
  */
 
 /**
  * Driver emails object
  *
- * This object stores the functions used by the emails driver
+ * This object stores the functions and properties used by the email driver,
+ * providing the necessary methods for managing email operations.
  */
 saltos.driver.__types.emails = {};
 
 /**
- * TODO
+ * Create email template
  *
- * TODO
+ * This function generates a template for the email driver, configuring specific
+ * attributes and layout modifications. It sets the 'type' attribute to 'emails'
+ * and adjusts the layout of the corresponding element for proper display.
  */
 saltos.driver.__types.emails.template = arg => {
-    const obj = saltos.driver.__types.type5.template();
-    obj.setAttribute('type', 'emails');
-    obj.querySelector('#one').classList.replace('col-xl', 'col-xl-4');
+    const obj = saltos.driver.__types.type5.template(); // Reuses the template from type5
+    obj.setAttribute('type', 'emails'); // Set the type attribute to 'emails'
+    obj.querySelector('#one').classList.replace('col-xl', 'col-xl-4'); // Adjust layout classes
     return obj;
 };
 
 /**
- * TODO
+ * Initialization, open, and close handlers for emails
  *
- * TODO
+ * These methods inherit their implementations from the 'type5' driver, allowing
+ * reuse of core functionality for initializing, opening, and closing email resources.
  */
-saltos.driver.__types.emails.init = saltos.driver.__types.type5.init;
-saltos.driver.__types.emails.open = saltos.driver.__types.type5.open;
-saltos.driver.__types.emails.close = saltos.driver.__types.type5.close;
+saltos.driver.__types.emails.init = saltos.driver.__types.type5.init; // Inherits initialization from type5
+saltos.driver.__types.emails.open = saltos.driver.__types.type5.open; // Inherits opening logic from type5
+saltos.driver.__types.emails.close = saltos.driver.__types.type5.close; // Inherits closing logic from type5

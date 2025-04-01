@@ -39,7 +39,7 @@ declare(strict_types=1);
  * This action allow to insert registers in the database associated to
  * the groups app and only requires the data.
  *
- * TODO
+ * @data => the array with all data used to create the new group
  */
 function insert_group($data)
 {
@@ -95,7 +95,8 @@ function insert_group($data)
  * This action allow to update registers in the database associated to
  * the groups app and requires the group_id and data.
  *
- * TODO
+ * @group_id => the group_id desired to be updated
+ * @data     => the array with all data used to update the group
  */
 function update_group($group_id, $data)
 {
@@ -180,7 +181,7 @@ function update_group($group_id, $data)
  * This action allow to delete registers in the database associated to
  * the groups app and only requires the group_id.
  *
- * TODO
+ * @group_id => the group_id desired to be deleted
  */
 function delete_group($group_id)
 {

@@ -39,7 +39,7 @@ declare(strict_types=1);
  * This action allow to insert registers in the database associated to
  * the users app and only requires the data.
  *
- * TODO
+ * @data => the array with all data used to create the new user
  */
 function insert_user($data)
 {
@@ -128,7 +128,8 @@ function insert_user($data)
  * This action allow to update registers in the database associated to
  * the users app and requires the user_id and data.
  *
- * TODO
+ * @user_id => the user_id desired to be updated
+ * @data    => the array with all data used to update the user
  */
 function update_user($user_id, $data)
 {
@@ -251,7 +252,7 @@ function update_user($user_id, $data)
  * This action allow to delete registers in the database associated to
  * the users app and only requires the user_id.
  *
- * TODO
+ * @group_id => the user_id desired to be deleted
  */
 function delete_user($user_id)
 {

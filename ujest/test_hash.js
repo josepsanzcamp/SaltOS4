@@ -29,7 +29,8 @@
 /**
  * Hash unit tests
  *
- * This file contains the hash unit tests
+ * This file contains unit tests for hash management functionality
+ * including hash parsing, manipulation, and event triggering
  */
 
 /**
@@ -42,7 +43,10 @@ for (const i in files) {
 }
 
 /**
- * TODO
+ * Reset mocks before each test
+ *
+ * Initializes mock implementations for history API functions
+ * and resets all mocks between test cases
  */
 beforeEach(() => {
     jest.resetAllMocks();
@@ -51,58 +55,62 @@ beforeEach(() => {
 });
 
 /**
- * TODO
+ * Restore mocks after each test
+ *
+ * Restores original implementations of mocked functions
+ * after each test case completes
  */
 afterEach(() => {
     jest.restoreAllMocks();
 });
 
 /**
- * TODO
+ * Test suite for hash helper function
  *
- * TODO
+ * Contains tests for the internal hash normalization function
+ * that cleans hash strings by removing special characters
  */
 describe('saltos.hash.__helper', () => {
     /**
-     * TODO
+     * Test hash with leading #
      *
-     * TODO
+     * Verifies the helper removes the # character from the beginning
      */
     test('should remove leading #', () => {
         expect(saltos.hash.__helper('#test')).toBe('test');
     });
 
     /**
-     * TODO
+     * Test hash with leading /
      *
-     * TODO
+     * Verifies the helper removes the / character from the beginning
      */
     test('should remove leading /', () => {
         expect(saltos.hash.__helper('/test')).toBe('test');
     });
 
     /**
-     * TODO
+     * Test hash with leading #/
      *
-     * TODO
+     * Verifies the helper removes both # and / characters from the beginning
      */
     test('should remove both leading # and /', () => {
         expect(saltos.hash.__helper('#/test')).toBe('test');
     });
 
     /**
-     * TODO
+     * Test empty hash
      *
-     * TODO
+     * Verifies the helper returns empty string for empty input
      */
     test('should return empty string for empty input', () => {
         expect(saltos.hash.__helper('')).toBe('');
     });
 
     /**
-     * TODO
+     * Test clean hash
      *
-     * TODO
+     * Verifies the helper returns unchanged input when no special characters
      */
     test('should not modify clean hash', () => {
         expect(saltos.hash.__helper('test')).toBe('test');
@@ -110,15 +118,16 @@ describe('saltos.hash.__helper', () => {
 });
 
 /**
- * TODO
+ * Test suite for hash getter function
  *
- * TODO
+ * Contains tests for retrieving the current window hash
+ * with proper formatting
  */
 describe('saltos.hash.get', () => {
     /**
-     * TODO
+     * Test getting current hash
      *
-     * TODO
+     * Verifies the function returns hash without # prefix
      */
     test('should return current hash without #', () => {
         window.location.hash = '#test';
@@ -126,9 +135,9 @@ describe('saltos.hash.get', () => {
     });
 
     /**
-     * TODO
+     * Test getting empty hash
      *
-     * TODO
+     * Verifies the function returns empty string when no hash exists
      */
     test('should return empty string when no hash', () => {
         window.location.hash = '';
@@ -136,9 +145,9 @@ describe('saltos.hash.get', () => {
     });
 
     /**
-     * TODO
+     * Test getting hash with leading /
      *
-     * TODO
+     * Verifies the function removes leading / from the hash
      */
     test('should remove leading /', () => {
         window.location.hash = '#/test';
@@ -147,15 +156,17 @@ describe('saltos.hash.get', () => {
 });
 
 /**
- * TODO
+ * Test suite for hash setter function
  *
- * TODO
+ * Contains tests for replacing the current hash
+ * using history.replaceState
  */
 describe('saltos.hash.set', () => {
     /**
-     * TODO
+     * Test setting new hash
      *
-     * TODO
+     * Verifies the function updates hash with proper format
+     * and uses replaceState
      */
     test('should set new hash with proper format', () => {
         window.location.hash = '#old';
@@ -165,9 +176,9 @@ describe('saltos.hash.set', () => {
     });
 
     /**
-     * TODO
+     * Test setting same hash
      *
-     * TODO
+     * Verifies the function doesn't update history when hash doesn't change
      */
     test('should not set same hash', () => {
         window.location.hash = '#same';
@@ -177,9 +188,9 @@ describe('saltos.hash.set', () => {
     });
 
     /**
-     * TODO
+     * Test setting hash with #
      *
-     * TODO
+     * Verifies the function properly handles input containing #
      */
     test('should handle hash with #', () => {
         saltos.hash.set('#test');
@@ -187,9 +198,9 @@ describe('saltos.hash.set', () => {
     });
 
     /**
-     * TODO
+     * Test setting hash with /
      *
-     * TODO
+     * Verifies the function properly handles input containing /
      */
     test('should handle hash with /', () => {
         saltos.hash.set('/test');
@@ -197,9 +208,9 @@ describe('saltos.hash.set', () => {
     });
 
     /**
-     * TODO
+     * Test setting empty hash
      *
-     * TODO
+     * Verifies the function properly handles empty hash input
      */
     test('should handle empty hash', () => {
         saltos.hash.set('');
@@ -208,15 +219,17 @@ describe('saltos.hash.set', () => {
 });
 
 /**
- * TODO
+ * Test suite for hash adder function
  *
- * TODO
+ * Contains tests for adding new hash entries
+ * using history.pushState
  */
 describe('saltos.hash.add', () => {
     /**
-     * TODO
+     * Test adding new hash
      *
-     * TODO
+     * Verifies the function updates hash with proper format
+     * and uses pushState
      */
     test('should add new hash with proper format', () => {
         window.location.hash = '#old';
@@ -226,9 +239,9 @@ describe('saltos.hash.add', () => {
     });
 
     /**
-     * TODO
+     * Test adding same hash
      *
-     * TODO
+     * Verifies the function doesn't update history when hash doesn't change
      */
     test('should not add same hash', () => {
         window.location.hash = '#same';
@@ -238,9 +251,9 @@ describe('saltos.hash.add', () => {
     });
 
     /**
-     * TODO
+     * Test adding hash with #
      *
-     * TODO
+     * Verifies the function properly handles input containing #
      */
     test('should handle hash with #', () => {
         saltos.hash.add('#test');
@@ -248,9 +261,9 @@ describe('saltos.hash.add', () => {
     });
 
     /**
-     * TODO
+     * Test adding hash with /
      *
-     * TODO
+     * Verifies the function properly handles input containing /
      */
     test('should handle hash with /', () => {
         saltos.hash.add('/test');
@@ -258,9 +271,9 @@ describe('saltos.hash.add', () => {
     });
 
     /**
-     * TODO
+     * Test adding empty hash
      *
-     * TODO
+     * Verifies the function properly handles empty hash input
      */
     test('should handle empty hash', () => {
         saltos.hash.add('');
@@ -269,15 +282,15 @@ describe('saltos.hash.add', () => {
 });
 
 /**
- * TODO
+ * Test suite for URL hash extraction
  *
- * TODO
+ * Contains tests for extracting hash fragments from URLs
  */
 describe('saltos.hash.url2hash', () => {
     /**
-     * TODO
+     * Test extracting hash from URL
      *
-     * TODO
+     * Verifies the function extracts hash fragment correctly
      */
     test('should extract hash from URL', () => {
         const url = 'http://example.com/#test';
@@ -285,9 +298,9 @@ describe('saltos.hash.url2hash', () => {
     });
 
     /**
-     * TODO
+     * Test extracting hash with /
      *
-     * TODO
+     * Verifies the function handles hashes containing /
      */
     test('should handle URL with / after #', () => {
         const url = 'http://example.com/#/test';
@@ -295,9 +308,9 @@ describe('saltos.hash.url2hash', () => {
     });
 
     /**
-     * TODO
+     * Test URL without hash
      *
-     * TODO
+     * Verifies the function returns empty string when no hash exists
      */
     test('should return empty string when no hash', () => {
         const url = 'http://example.com/';
@@ -306,15 +319,15 @@ describe('saltos.hash.url2hash', () => {
 });
 
 /**
- * TODO
+ * Test suite for hash change events
  *
- * TODO
+ * Contains tests for triggering hashchange events
  */
 describe('saltos.hash.trigger', () => {
     /**
-     * TODO
+     * Test triggering hash change
      *
-     * TODO
+     * Verifies the function dispatches a hashchange event
      */
     test('should dispatch hashchange event', () => {
         window.dispatchEvent = jest.fn();

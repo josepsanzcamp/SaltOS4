@@ -1056,7 +1056,7 @@ function getmail_body($id, $images = false)
     }
     $decoded = __getmail_getmime($id);
     if (!$decoded) {
-        show_php_error(['phperror' => 'Could not decode de message']);
+        show_php_error(['phperror' => 'Could not decode the message']);
     }
     // MARCAR CORREO COMO LEIDO SI ES EL PROPIETARIO
     $query = 'SELECT id FROM app_emails_control WHERE id = ? AND user_id = ?';
@@ -1076,17 +1076,26 @@ function getmail_body($id, $images = false)
 }
 
 /**
- * TODO
+ * Generate formatted email header information
  *
- * TODO
+ * This function extracts and formats header details from the decoded email structure,
+ * including sender, recipients, date, subject, and attachments. It handles edge cases
+ * such as missing data, and ensures that all information is presented in a structured
+ * and readable format. HTML encoding is applied to ensure safe display within a web interface.
+ *
+ * @param array $decoded Decoded structure of the email, containing metadata and header information.
+ * @param int $email_id ID of the email to retrieve additional account-specific details.
+ * @return string Returns a formatted HTML string with the email header information.
  */
 function __getmail_head_helper($decoded, $email_id)
 {
+    // Extract basic header information from the decoded structure
     $result = __getmail_getinfo(__getmail_getnode('0', $decoded));
-    $lista = ['from', 'to', 'cc', 'bcc'];
-    foreach ($lista as $temp) {
-        unset($result[$temp]);
+    foreach (['from', 'to', 'cc', 'bcc'] as $temp) {
+        unset($result[$temp]); // Remove existing fields that will be rebuilt
     }
+
+    // Process email addresses and group them by type (from, to, cc, bcc)
     foreach ($result['emails'] as $email) {
         if ($email['name'] != '') {
             $email['value'] = "{$email["name"]} <{$email["value"]}>";
@@ -1096,9 +1105,13 @@ function __getmail_head_helper($decoded, $email_id)
         }
         $result[$email['type']][] = $email['value'];
     }
+
+    // Format the 'from' field
     if (isset($result['from'])) {
         $result['from'] = implode('; ', $result['from']);
     }
+
+    // Format the 'to' field and handle edge cases for missing data
     if (isset($result['to'])) {
         $result['to'] = implode('; ', $result['to']);
         $query = 'SELECT email_from FROM app_emails_accounts WHERE id=(
@@ -1126,12 +1139,16 @@ function __getmail_head_helper($decoded, $email_id)
             ) END";
         $result['to'] = execute_query($query, [$email_id, $email_id, $email_id]);
     }
+
+    // Format 'cc' and 'bcc' fields
     if (isset($result['cc'])) {
         $result['cc'] = implode('; ', $result['cc']);
     }
     if (isset($result['bcc'])) {
         $result['bcc'] = implode('; ', $result['bcc']);
     }
+
+    // Define the labels for the email header fields
     $lista = [
         'from' => T('From'),
         'to' => T('To'),
@@ -1140,21 +1157,20 @@ function __getmail_head_helper($decoded, $email_id)
         'datetime' => T('Datetime'),
         'subject' => T('Subject'),
     ];
-    if (!isset($result['from'])) {
-        unset($lista['from']);
+
+    // Remove fields that are not present in the result
+    foreach (['from', 'to', 'cc', 'bcc'] as $temp) {
+        if (!isset($result[$temp])) {
+            unset($lista[$temp]);
+        }
     }
-    if (!isset($result['to'])) {
-        unset($lista['to']);
-    }
-    if (!isset($result['cc'])) {
-        unset($lista['cc']);
-    }
-    if (!isset($result['bcc'])) {
-        unset($lista['bcc']);
-    }
+
+    // Handle cases where the subject is missing
     if (!$result['subject']) {
         $result['subject'] = T('(no subject)');
     }
+
+    // Build the HTML structure for the email header
     $buffer = __HTML_BOX_OPEN__;
     foreach ($lista as $key2 => $val2) {
         $result[$key2] = str_replace(['<', '>'], ['&lt;', '&gt;'], $result[$key2]);
@@ -1163,6 +1179,8 @@ function __getmail_head_helper($decoded, $email_id)
         $buffer .= '<b>' . $result[$key2] . '</b>';
         $buffer .= __HTML_TEXT_CLOSE__;
     }
+
+    // Append attachment details to the buffer
     $first = true;
     foreach ($result['files'] as $file) {
         $cname = $file['cname'];
@@ -1179,47 +1197,73 @@ function __getmail_head_helper($decoded, $email_id)
     if (!$first) {
         $buffer .= __HTML_TEXT_CLOSE__;
     }
+
+    // Close the HTML structure
     $buffer .= __HTML_SEPARATOR__;
     $buffer .= __HTML_BOX_CLOSE__;
+
+    // Return the formatted HTML string
     return $buffer;
 }
 
 /**
- * TODO
+ * Extract and format the body of an email
  *
- * TODO
+ * This function processes the decoded content of an email, extracting the plain
+ * text and HTML bodies while applying necessary transformations for safe and
+ * structured display. It handles inline images, styles, and embedded attachments,
+ * ensuring compatibility and security.
+ *
+ * @decoded => Decoded structure of the email, typically containing nodes with
+ *             metadata and body content.
+ * @images  => Specifies whether inline images should be embedded directly into
+ *             the content.
+ *
+ * Returns the formatted email body, including plain text, HTML, and inline attachments.
  */
 function __getmail_body_helper($decoded, $images = false)
 {
-    $buffer = '';
-    $result = __getmail_getfullbody(__getmail_getnode('0', $decoded));
-    $first = true;
+    $buffer = ''; // Initialize the buffer for the formatted email body
+    $result = __getmail_getfullbody(__getmail_getnode('0', $decoded)); // Retrieve the full body of the email
+    $first = true; // Flag to determine if this is the first body segment
+
     foreach ($result as $index => $node) {
-        $disp = $node['disp'];
-        $type = $node['type'];
+        $disp = $node['disp']; // Content disposition (e.g., inline or attachment)
+        $type = $node['type']; // Content type (e.g., plain or html)
+
+        // Process plain text and HTML parts of the email
         if (__getmail_processplainhtml($disp, $type)) {
             $temp = $node['body'];
+
+            // Process plain text content
             if ($type == 'plain') {
                 $temp = wordwrap($temp, 80, "\n", true);
                 $temp = htmlentities($temp, ENT_COMPAT, 'UTF-8');
                 $temp = str_replace([' ', "\t", "\n"], ['&nbsp;', str_repeat('&nbsp;', 4), '<br>'], $temp);
             }
+
+            // Process HTML content
             if ($type == 'html') {
                 require_once 'apps/emails/php/html.php';
-                $temp = remove_script_tag($temp);
-                $temp = remove_style_tag($temp);
-                $temp = remove_comment_tag($temp);
-                $temp = remove_meta_tag($temp);
-                $temp = remove_link_tag($temp);
+                $temp = remove_script_tag($temp); // Remove potentially unsafe script tags
+                $temp = remove_style_tag($temp); // Remove style tags
+                $temp = remove_comment_tag($temp); // Remove comments
+                $temp = remove_meta_tag($temp); // Remove meta tags
+                $temp = remove_link_tag($temp); // Remove link tags
+
+                // Embed inline images if specified
                 if ($images) {
                     $temp = inline_img_tag($temp);
                     $temp = inline_img_style($temp);
                     $temp = inline_img_background($temp);
                 }
             }
+
+            // Replace inline attachments (CID references) with their corresponding data
             foreach ($result as $index2 => $node2) {
                 $disp2 = $node2['disp'];
                 $type2 = $node2['type'];
+
                 if (
                     !__getmail_processplainhtml($disp2, $type2) &&
                     !__getmail_processmessage($disp2, $type2)
@@ -1233,25 +1277,33 @@ function __getmail_body_helper($decoded, $images = false)
                     }
                 }
             }
+
+            // Finalize HTML processing with additional fixes
             if ($type == 'html') {
                 $temp = fix_img_tag($temp);
                 $temp = fix_img_style($temp);
                 $temp = fix_img_background($temp);
                 $temp = fix_file_b64($temp);
             }
+
+            // Add separators between different body parts
             if (!$first) {
                 $buffer .= __HTML_SEPARATOR__;
             }
+
+            // Wrap plain text or HTML content with appropriate tags
             if ($type == 'plain') {
                 $buffer .= __PLAIN_TEXT_OPEN__ . $temp . __PLAIN_TEXT_CLOSE__;
             }
             if ($type == 'html') {
                 $buffer .= __HTML_TEXT_OPEN__ . $temp . __HTML_TEXT_CLOSE__;
             }
-            $first = false;
+
+            $first = false; // Update the flag after processing the first segment
         }
     }
-    return $buffer;
+
+    return $buffer; // Return the formatted email body
 }
 
 /**
@@ -1294,7 +1346,7 @@ function getmail_files($id)
     }
     $decoded = __getmail_getmime($id);
     if (!$decoded) {
-        show_php_error(['phperror' => 'Could not decode de message']);
+        show_php_error(['phperror' => 'Could not decode the message']);
     }
     // CONTINUE
     $result = __getmail_getfiles(__getmail_getnode('0', $decoded));
@@ -1324,7 +1376,7 @@ function getmail_cid($id, $cid)
     }
     $decoded = __getmail_getmime($id);
     if (!$decoded) {
-        show_php_error(['phperror' => 'Could not decode de message']);
+        show_php_error(['phperror' => 'Could not decode the message']);
     }
     // continue
     $result = __getmail_getcid(__getmail_getnode('0', $decoded), $cid);
@@ -1675,14 +1727,24 @@ function getmail_download($id, $cid)
 }
 
 /**
- * TODO
+ * Update email states
  *
- * TODO
+ * This function modifies the state of emails (e.g., `new`, `wait`, or `spam`)
+ * based on the provided IDs and action. It validates user permissions for the
+ * selected emails before updating their states. The function calculates the
+ * number of records to be modified and updates the database accordingly.
+ *
+ * @ids  => Comma-separated list of email IDs to be updated.
+ * @what => Specifies the state change in the format `key=value` (e.g., `new=0`).
+ *
+ * Returns a response message indicating the number of emails modified.
  */
 function getmail_setter($ids, $what)
 {
     $ids = check_ids($ids);
     $numids = count(explode(',', $ids));
+
+    // Validate user permissions for the selected emails
     $query = "SELECT id FROM app_emails a WHERE id IN ($ids) AND id IN (
         SELECT id FROM app_emails_control b WHERE b.id=a.id AND user_id = ?)";
     $result = execute_query_array($query, [current_user()]);
@@ -1690,68 +1752,82 @@ function getmail_setter($ids, $what)
     if ($numresult != $numids) {
         return T('Permission denied');
     }
-    // process the real action
+
+    // Process the state change action
     $what = explode('=', $what);
     $what[1] = intval($what[1]);
     if ($what[0] == 'new') {
-        // BUSCAR CUANTOS REGISTROS SE VAN A MODIFICAR
+        // Update the `state_new` for emails not in the outbox
         $query = "SELECT COUNT(*) FROM app_emails
             WHERE id IN ($ids) AND state_new != ? AND is_outbox = 0";
         $numids = execute_query($query, [$what[1]]);
-        // PONER STATE_NEW = 0 EN LOS CORREOS SELECCIONADOS
         $query = "UPDATE app_emails SET state_new = ?
             WHERE id IN ($ids) AND state_new != ? AND is_outbox = 0";
         db_query($query, [$what[1], $what[1]]);
     } elseif ($what[0] == 'wait') {
-        // BUSCAR CUANTOS REGISTROS SE VAN A MODIFICAR
+        // Update the `state_wait` for selected emails
         $query = "SELECT COUNT(*) FROM app_emails
             WHERE id IN ($ids) AND state_wait != ?";
         $numids = execute_query($query, [$what[1]]);
-        // PONER STATE_WAIT = 1 EN LOS CORREOS SELECCIONADOS
         $query = "UPDATE app_emails SET state_new = 0, state_wait = ?
             WHERE id IN ($ids) AND state_wait != ?";
         db_query($query, [$what[1], $what[1]]);
     } elseif ($what[0] == 'spam') {
-        // BUSCAR CUANTOS REGISTROS SE VAN A MODIFICAR
+        // Update the `state_spam` for emails not in the outbox
         $query = "SELECT COUNT(*) FROM app_emails
             WHERE id IN ($ids) AND state_spam != ? AND is_outbox = 0";
         $numids = execute_query($query, [$what[1]]);
-        // PONER STATE_SPAM = 1 EN LOS CORREOS SELECCIONADOS
         $query = "UPDATE app_emails SET state_new = 0, state_spam = ?
             WHERE id IN ($ids) AND state_spam != ? AND is_outbox = 0";
         db_query($query, [$what[1], $what[1]]);
     }
-    // return the response
+
+    // Return the response message
     return sprintf(T('%d email(s) modified successfully'), $numids);
 }
 
 /**
- * TODO
+ * Generate PDF from emails
  *
- * TODO
+ * This function generates PDF files for the provided email IDs using either the
+ * `wkhtmltopdf` command or a fallback library. If multiple emails are selected,
+ * their PDFs are merged into a single file. It validates user permissions for
+ * accessing the emails and manages caching for performance optimization.
+ *
+ * @ids => List or comma-separated string of email IDs to generate PDFs for.
+ *
+ * Returns metadata of the generated PDF file, including its name, type, and
+ * base64-encoded data.
  */
 function getmail_pdf($ids)
 {
+    // Check if the required command is available
     if (!check_commands('wkhtmltopdf')) {
         require_once 'php/lib/pdf.php';
         return pdf('apps/emails/xml/pdf.xml', ['id' => check_ids($ids)]);
     }
+
+    // Use caching to avoid redundant operations
     static $cache = [];
     $hash = md5(serialize($ids));
     if (isset($cache[$hash])) {
         return $cache[$hash];
     }
+
     $ids = check_ids_array($ids);
     $pdfs = [];
     foreach ($ids as $id) {
+        // Validate user permissions for accessing the email
         if (!__getmail_checkperm($id)) {
             show_php_error(['phperror' => 'Permission denied']);
         }
+
+        // Generate HTML content for the email
         $input = get_cache_file([__FUNCTION__, $id], '.html');
         if (!file_exists($input)) {
             $decoded = __getmail_getmime($id);
             if (!$decoded) {
-                show_php_error(['phperror' => 'Could not decode de message']);
+                show_php_error(['phperror' => 'Could not decode the message']);
             }
             $buffer = '';
             $buffer .= __getmail_head_helper($decoded, $id);
@@ -1760,6 +1836,8 @@ function getmail_pdf($ids)
             file_put_contents($input, $buffer);
             chmod_protected($input, 0666);
         }
+
+        // Generate PDF file from the HTML content
         $output = get_cache_file([__FUNCTION__, $id], '.pdf');
         if (!file_exists($output)) {
             ob_passthru("wkhtmltopdf $input $output 2>&1");
@@ -1767,6 +1845,8 @@ function getmail_pdf($ids)
         }
         $pdfs[] = $output;
     }
+
+    // Merge PDFs if multiple files are generated
     if (count($pdfs) > 1) {
         $input = implode(' ', $pdfs);
         $output = get_cache_file([__FUNCTION__, $ids], '.pdf');
@@ -1775,6 +1855,8 @@ function getmail_pdf($ids)
     } else {
         $output = $pdfs[0];
     }
+
+    // Determine the name of the PDF file
     if (count($pdfs) > 1) {
         $name = encode_bad_chars(T('Emails')) . '.pdf';
     } else {
@@ -1785,6 +1867,8 @@ function getmail_pdf($ids)
         FROM app_emails
         WHERE id IN ({$ids[0]})")) . '.pdf';
     }
+
+    // Cache and return the generated PDF metadata
     $cache[$hash] = [
         'name' => $name,
         'type' => 'application/pdf',
@@ -1794,12 +1878,21 @@ function getmail_pdf($ids)
 }
 
 /**
- * TODO
+ * Generate iframe content with secure policies
  *
- * TODO
+ * This function generates the `srcdoc` content for an iframe element, embedding
+ * the provided HTML string. It ensures the content is styled using predefined
+ * fonts and enforces a strict Content Security Policy (CSP) to limit the sources
+ * for styles, fonts, and images. This helps maintain security and compatibility
+ * within the iframe.
+ *
+ * @html => The HTML content to be embedded in the iframe.
+ *
+ * Return a complete HTML document string suitable for `srcdoc` use in an iframe.
  */
 function __iframe_srcdoc_helper($html)
 {
+    // Generate the iframe content with styles and security policies
     $html = '<!doctype html><html><head><meta charset="utf-8">
     <style>body { margin: 0; padding: 0; }</style>
     <style>:root { --bs-font-sans-serif: "Atkinson Hyperlegible Next", sans-serif;
@@ -1810,5 +1903,7 @@ function __iframe_srcdoc_helper($html)
         font-src \'self\' ${window.location.origin};
         img-src \'self\' data: ${window.location.origin};">
     </head><body>' . $html . '</body></html>';
+
+    // Return the complete HTML document string
     return $html;
 }

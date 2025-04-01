@@ -27,30 +27,36 @@
 'use strict';
 
 /**
- * invoices application
+ * Invoices application
  *
- * This application implements the tipical features associated to invoices
+ * This application provides core functionalities for managing invoices, including creating,
+ * editing, viewing, and exporting invoices in PDF format.
  */
 
 /**
  * Main object
  *
- * This object contains all SaltOS code
+ * This object contains all SaltOS code related to invoice operations.
  */
 saltos.invoices = {};
 
 /**
- * TODO
+ * Initialize the invoices application
  *
- * TODO
+ * This method handles initialization tasks based on the type of operation (`view`, `create`, or `edit`).
+ * It updates UI elements and attaches appropriate event listeners.
+ *
+ * @arg => Specifies the type of operation to initialize.
  */
 saltos.invoices.init = arg => {
+    // Handle initialization for viewing invoices
     if (arg == 'view') {
         document.querySelectorAll('.detail button, .footer button').forEach(item => {
             item.closest('.col-auto').remove();
         });
     }
 
+    // Handle initialization for creating or editing invoices
     if (['create', 'edit'].includes(arg)) {
         document.querySelectorAll('[id*=unidades], [id*=precio], [id*=descuento]').forEach(item => {
             item.removeEventListener('change', saltos.invoices.compute_total);
@@ -63,9 +69,10 @@ saltos.invoices.init = arg => {
 };
 
 /**
- * TODO
+ * Compute total invoice amount
  *
- * TODO
+ * This method calculates the subtotal for each invoice item and the grand total for all items.
+ * It handles discounts, rounds values to two decimal places, and updates the total fields.
  */
 saltos.invoices.compute_total = () => {
     let total = 0;
@@ -85,9 +92,10 @@ saltos.invoices.compute_total = () => {
 };
 
 /**
- * TODO
+ * Add a new item to the invoice
  *
- * TODO
+ * This method creates a new invoice item and initializes its layout and event listeners.
+ * It ensures consistent behavior for the form fields and recomputes the totals after addition.
  */
 saltos.invoices.add_item = () => {
     saltos.backup.restore('two,one');
@@ -105,9 +113,12 @@ saltos.invoices.add_item = () => {
 };
 
 /**
- * TODO
+ * Remove an item from the invoice
  *
- * TODO
+ * This method deletes an invoice item or marks it with a negative value if it is hidden.
+ * It updates the invoice totals after removal.
+ *
+ * @obj => Reference to the item to remove.
  */
 saltos.invoices.remove_item = (obj) => {
     // This long line is to do a copy of the array to iterate and remove at the same time
@@ -123,9 +134,10 @@ saltos.invoices.remove_item = (obj) => {
 };
 
 /**
- * TODO
+ * View selected invoices in PDF format
  *
- * TODO
+ * This method opens a PDF viewer to display the selected invoices.
+ * If no invoices are selected, it prompts the user to select invoices first.
  */
 saltos.invoices.viewpdf = () => {
     let ids = saltos.app.checkbox_ids(document.getElementById('table'));
@@ -144,9 +156,10 @@ saltos.invoices.viewpdf = () => {
 };
 
 /**
- * TODO
+ * Download selected invoices as PDF
  *
- * TODO
+ * This method downloads the selected invoices in PDF format.
+ * If no invoices are selected, it prompts the user to select invoices first.
  */
 saltos.invoices.download = () => {
     let ids = saltos.app.checkbox_ids(document.getElementById('table'));

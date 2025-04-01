@@ -27,9 +27,9 @@
 
 
 \title{Main Documentation}
-\author{SaltOS 4.0 r1923}
+\author{SaltOS 4.0 r1924}
 \begin{document}
-\date{March 2025}
+\date{April 2025}
 \maketitle
 \clearpage
 
@@ -84,14 +84,6 @@ and the order of the elements are:
 \item[\color{myblue}$\bullet$] @3 =$>$ the id used in some actions, for example, to get the data
       of specific customer using the id
 \end{compactitem}
-
-List action (triggered when type attr is table or list)
-
-This action tries to facility the creation of lists with the tipicals
-features suck as rows, actions for each row, and other improvements as
-the list with count and without count.
-
-TODO: pending to add the order by from the list header
 
 \hypertarget{toc4}{}
 \subsection{Authentication helper module}
@@ -3687,40 +3679,71 @@ app and the prefix to be added to the id field of the in subquery
 \end{compactitem}
 
 \hypertarget{toc232}{}
-\subsubsection{TODO}
+\subsubsection{Prepare Helper Query}
 
 \begin{lstlisting}
 function __prepare_helper_query($table, $array)
 \end{lstlisting}
 
-TODO
+This function allow to get the names and values used internaly by the
+prepare\_insert\_query, prepare\_update\_query and prepare\_where\_query, the
+main idea is to get the fields of the table and computes the intersect
+with the array provided with data, and using the spec of the table
+prepare the values with the needed type cast
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @table =$>$ the table where to you want to use the data
+\item[\color{myblue}$\bullet$] @array =$>$ the array that contains the data
+\end{compactitem}
 
 \hypertarget{toc233}{}
-\subsubsection{TODO}
+\subsubsection{Prepare Insert Query}
 
 \begin{lstlisting}
 function prepare_insert_query($table, $array)
 \end{lstlisting}
 
-TODO
+Returns the prepared insert query for the table with all fields specified
+by the array param
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @table =$>$ table where you want to add the register
+\item[\color{myblue}$\bullet$] @array =$>$ array with key val pairs that represent the field and the value
+          of the field
+\end{compactitem}
 
 \hypertarget{toc234}{}
-\subsubsection{TODO}
+\subsubsection{Prepare Update Query}
 
 \begin{lstlisting}
 function prepare_update_query($table, $array, $where = [])
 \end{lstlisting}
 
-TODO
+Returns the prepared update query for the table with all fields specified
+by the array param and using the specified where
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @table =$>$ table where you want to update the register
+\item[\color{myblue}$\bullet$] @array =$>$ array with key val pairs that represent the field and the value of
+          the field
+\item[\color{myblue}$\bullet$] @where =$>$ array with key val pairs that represent the field and the value of
+          the field used in the where part of the query
+\end{compactitem}
 
 \hypertarget{toc235}{}
-\subsubsection{TODO}
+\subsubsection{Prepare Where Query}
 
 \begin{lstlisting}
 function prepare_where_query($table, $array)
 \end{lstlisting}
 
-TODO
+This function allow to create where sentences joinin all fields by AND
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @table =$>$ table where you want to apply the where
+\item[\color{myblue}$\bullet$] @array =$>$ array with key val pairs that represent the field and the value of
+          the field
+\end{compactitem}
 
 \hypertarget{toc236}{}
 \subsection{String utils helper module}
@@ -5522,13 +5545,15 @@ This function close the database connection and sets the link to null
 \section{Libraries}
 
 \hypertarget{toc363}{}
-\subsection{TODO}
+\subsection{Actions module}
 
 \begin{lstlisting}
 api/php/lib/actions.php
 \end{lstlisting}
 
-TODO
+This file provides the basic actions used by all apps like insert,
+update and delete, this modules uses features from others modules
+as controol, log, version, indexing, upload, depend and trash.
 
 \hypertarget{toc364}{}
 \subsubsection{Insert action}
@@ -5540,7 +5565,15 @@ function insert($app, $data)
 This action allow to insert registers in the database associated to
 each app
 
-TODO
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @app  =$>$ the application involved in the action
+\item[\color{myblue}$\bullet$] @data =$>$ an array with the data that you want to use for the operation
+\end{compactitem}
+
+Notes:
+
+The data array must contains the fields of the main table, an object
+with the subtables, and with two fields (addfiles and addnotes)
 
 \hypertarget{toc365}{}
 \subsubsection{Update action}
@@ -5550,9 +5583,18 @@ function update($app, $id, $data)
 \end{lstlisting}
 
 This action allow to update registers in the database associated to
-each app and requires the app, id, data and a valid token.
+each app
 
-TODO
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @app  =$>$ the application involved in the action
+\item[\color{myblue}$\bullet$] @data =$>$ an array with the data that you want to use for the operation
+\end{compactitem}
+
+Notes:
+
+The data array must contains the fields of the main table, an object
+with the subtables, and with four fields (addfiles, delfiles, addnotes
+and delnotes)
 
 \hypertarget{toc366}{}
 \subsubsection{Delete action}
@@ -5564,7 +5606,19 @@ function delete($app, $id)
 This action allow to delete registers in the database associated to
 each app
 
-TODO
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @app  =$>$ the application involved in the action
+\item[\color{myblue}$\bullet$] @data =$>$ an array with the data that you want to use for the operation
+\end{compactitem}
+
+Notes:
+
+This action removes the register identified by the id in the main table
+of the app and the subtables, too removes the related data of the files
+and notes tables, as an excepcion, the version table maintain all data
+to allow the recovery action, too, the files of the files feature will
+be moved to the trash folder to allow the previous recovery from the
+version table
 
 \hypertarget{toc367}{}
 \subsection{Array to XML helper module}
@@ -6062,13 +6116,18 @@ This function returns an integer as response about the control action:
 As you can see, negative values denotes an error and positive values denotes a successfully situation
 
 \hypertarget{toc399}{}
-\subsubsection{TODO}
+\subsubsection{Integrity}
 
 \begin{lstlisting}
 function integrity()
 \end{lstlisting}
 
-TODO
+This function tries to execute some periodic task intended to fix issues with
+the integrity of internal relationships, to do it tries to search not found
+registers in the control table in the first loop and tries to search not found
+registers in the app table in the second loop, with all found not found registers
+the function executes the make\_control that add or remove the needed control
+register to maintain the integrity.
 
 \hypertarget{toc400}{}
 \subsection{Cron utils helper module}
@@ -6080,49 +6139,65 @@ api/php/lib/cron.php
 This fie contains useful functions related to cron operations
 
 \hypertarget{toc401}{}
-\subsubsection{TODO}
+\subsubsection{Cron compare helper}
 
 \begin{lstlisting}
 function __cron_compare($val, $now)
 \end{lstlisting}
 
-TODO
+This function provide the compare feature to the cron system, it is able to
+evaluate the first argument to check the posible cases like true case, list
+of options, using module, using range and direct case
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @val =$>$ the value that you want to evaluate
+\item[\color{myblue}$\bullet$] @now =$>$ the now value used in the evaluation
+\end{compactitem}
 
 \hypertarget{toc402}{}
-\subsubsection{TODO}
+\subsubsection{Cron is now helper}
 
 \begin{lstlisting}
 function __cron_is_now($minute, $hour, $day, $month, $dow)
 \end{lstlisting}
 
-TODO
+This function uses the \_\_crom\_compare to validate if the five items of the
+cron configuration triggers the execution of the cron task
 
 \hypertarget{toc403}{}
-\subsubsection{TODO}
+\subsubsection{Cron users helper}
 
 \begin{lstlisting}
 function __cron_users($arg)
 \end{lstlisting}
 
-TODO
+This function allow to get an array of users from the arg
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @arg =$>$ the list of users, can be * from all users
+\end{compactitem}
 
 \hypertarget{toc404}{}
-\subsubsection{TODO}
+\subsubsection{Cron GC}
 
 \begin{lstlisting}
 function cron_gc()
 \end{lstlisting}
 
-TODO
+This function tries to monitorize the cron processes and store in the database
+all stdout and stderr with the timestamps of the start and stop processes, too
+removes all unused files
 
 \hypertarget{toc405}{}
-\subsubsection{TODO}
+\subsubsection{Cron Exec}
 
 \begin{lstlisting}
 function cron_exec()
 \end{lstlisting}
 
-TODO
+This function tries to detect what cron tasks must to execute and with what
+users must to execute each cron task, too detects if a previous instance of
+the commands was launched previously and is still running in this moment
 
 \hypertarget{toc406}{}
 \subsection{Database schema helper module}
@@ -6525,22 +6600,24 @@ This function returns the drop index command
 \end{compactitem}
 
 \hypertarget{toc435}{}
-\subsection{TODO}
+\subsection{Dependencies feature}
 
 \begin{lstlisting}
 api/php/lib/depend.php
 \end{lstlisting}
 
-TODO
+This file contains the code that has the ability to identify dependencies
 
 \hypertarget{toc436}{}
-\subsubsection{TODO}
+\subsubsection{Check Dependencies}
 
 \begin{lstlisting}
 function check_dependencies($app, $id)
 \end{lstlisting}
 
-TODO
+This function allow to get all dependencies of an app and id, intended to check
+the if the sytem can delete some register or if the register has relations with
+other apps or tables
 
 \hypertarget{toc437}{}
 \subsection{Export helper module}
@@ -6684,31 +6761,40 @@ in the tree
 \end{compactitem}
 
 \hypertarget{toc445}{}
-\subsection{TODO}
+\subsection{Files module}
 
 \begin{lstlisting}
 api/php/lib/files.php
 \end{lstlisting}
 
-TODO
+This file provide some usefull functions for the files module
 
 \hypertarget{toc446}{}
-\subsubsection{TODO}
+\subsubsection{Check Files Old}
 
 \begin{lstlisting}
 function check_files_old($app, $action, $id = null)
 \end{lstlisting}
 
-TODO
+This function returns true or false and is an utility to know if the ui
+must to shown the needed widgets related with the old files
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @app    =$>$ app that you want to use
+\item[\color{myblue}$\bullet$] @action =$>$ action that you want to do (create, view, edit)
+\item[\color{myblue}$\bullet$] @id     =$>$ register of the app that must contain files
+\end{compactitem}
 
 \hypertarget{toc447}{}
-\subsubsection{TODO}
+\subsubsection{Check Files New}
 
-\begin{lstlisting}
-function check_files_new($app, $action)
-\end{lstlisting}
+This function returns true or false and is an utility to know if the ui
+must to shown the needed widgets related with the new files
 
-TODO
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @app    =$>$ app that you want to use
+\item[\color{myblue}$\bullet$] @action =$>$ action that you want to do (create, view, edit)
+\end{compactitem}
 
 \hypertarget{toc448}{}
 \subsubsection{Get cid}
@@ -6854,22 +6940,31 @@ function get_geoip_string($remote_addr)
 This function gets the geoip information an returns it
 
 \hypertarget{toc459}{}
-\subsection{TODO}
+\subsection{Help feature}
 
 \begin{lstlisting}
 api/php/lib/help.php
 \end{lstlisting}
 
-TODO
+This file contains the help functions used by SaltOS
 
 \hypertarget{toc460}{}
-\subsubsection{TODO}
+\subsubsection{Detect Help File}
 
 \begin{lstlisting}
 function detect_help_file($app, $lang)
 \end{lstlisting}
 
-TODO
+This function is intended to return the name of the pdf file used as help
+for the app and lang, they use 4 checks to search the correct file that must
+to returns, the first in to search in the app folder for the specified lang,
+otherwise search for some othe lang, and if no app file is found, then the
+same process is used for the notfound.pdf file.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @app  =$>$ the application to search
+\item[\color{myblue}$\bullet$] @lang =$>$ the prefered lang to search
+\end{compactitem}
 
 \hypertarget{toc461}{}
 \subsection{Import file helper module}
@@ -7308,22 +7403,34 @@ Notes:
 This function uses the dbschema.php library
 
 \hypertarget{toc486}{}
-\subsubsection{TODO}
+\subsubsection{Indexing Files}
 
 \begin{lstlisting}
 function indexing_files()
 \end{lstlisting}
 
-TODO
+This function tries to index al unindexed files, and to do it tries to search
+the pending files and tries to index using the unoconv2txt, this function needs
+a file and returns all contents in a text format, to protect this function of
+posible fails, the system first increment the retry field and then tries to
+index and update the file register, if some thing is wrong in the index time
+the script must unexpectedly finish and in the next executions can continue
+in the same file, but only for three times, the requirement to index a file
+is that indexed = 0 and retries $<$ 3
 
 \hypertarget{toc487}{}
-\subsubsection{TODO}
+\subsubsection{Indexing Apps}
 
 \begin{lstlisting}
 function indexing_apps()
 \end{lstlisting}
 
-TODO
+This function tries to execute some periodic task intended to fix issues with
+the indexing relationships, to do it tries to search not found registers in
+the indexing table in the first loop and tries to search not found registers
+in the app table in the second loop, with all found not found registers the
+function executes the make\_index that add or remove the needed index register
+to maintain the integrity with the indexing feature.
 
 \hypertarget{toc488}{}
 \subsection{Log helper module}
@@ -7386,13 +7493,24 @@ Notes:
 This function always returns the input data
 
 \hypertarget{toc491}{}
-\subsubsection{TODO}
+\subsubsection{Get Logs}
 
 \begin{lstlisting}
 function get_logs($app, $reg_id)
 \end{lstlisting}
 
-TODO
+This function allow to get all logs associated to an app and reg\_id, to do it,
+the app must to have enabled the has\_log feature, the results will be tunned
+in the query to disallow the zeroes in some fields that are replaced by void
+strings, too implement the search in the reg\_id or inside the reg\_ids using
+the FIND\_IN\_SET feature available as native feature in MariaDB and added by
+SaltOS to the sqlite drivers thansk to the createFunction feature that allow
+to define sql commands from php functions
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @app    =$>$ code of the application that you want to get the logs
+\item[\color{myblue}$\bullet$] @reg\_id =$>$ register of the app that you want to get the logs
+\end{compactitem}
 
 \hypertarget{toc492}{}
 \subsubsection{Delete Log function}
@@ -7464,31 +7582,44 @@ Notes:
 See \htmladdnormallink{www.polprimos.com}{www.polprimos.com} for understand this algorithm
 
 \hypertarget{toc496}{}
-\subsection{TODO}
+\subsection{Notes module}
 
 \begin{lstlisting}
 api/php/lib/notes.php
 \end{lstlisting}
 
-TODO
+This file provide some usefull functions for the notes module
 
 \hypertarget{toc497}{}
-\subsubsection{TODO}
+\subsubsection{Check Notes Old}
 
 \begin{lstlisting}
 function check_notes_old($app, $action, $id = null)
 \end{lstlisting}
 
-TODO
+This function returns true or false and is an utility to know if the ui
+must to shown the needed widgets related with the old notes
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @app    =$>$ app that you want to use
+\item[\color{myblue}$\bullet$] @action =$>$ action that you want to do (create, view, edit)
+\item[\color{myblue}$\bullet$] @id     =$>$ register of the app that must contain notes
+\end{compactitem}
 
 \hypertarget{toc498}{}
-\subsubsection{TODO}
+\subsubsection{Check Notes New}
 
 \begin{lstlisting}
 function check_notes_new($app, $action)
 \end{lstlisting}
 
-TODO
+This function returns true or false and is an utility to know if the ui
+must to shown the needed widgets related with the new notes
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @app    =$>$ app that you want to use
+\item[\color{myblue}$\bullet$] @action =$>$ action that you want to do (create, view, edit)
+\end{compactitem}
 
 \hypertarget{toc499}{}
 \subsection{Password helper module}
@@ -7523,133 +7654,174 @@ password
 api/php/lib/pdf.php
 \end{lstlisting}
 
-This file contains useful functions related to PDF using tcpdf
+This file contains useful functions related to PDF generation using TCPDF library
+including custom PDF class extensions and various PDF manipulation utilities
 
 \hypertarget{toc502}{}
-\subsubsection{TODO}
+\subsubsection{Custom PDF class extending TCPDF}
 
 \begin{lstlisting}
 class MyPDF extends TCPDF
 \end{lstlisting}
 
-TODO
+Provides enhanced functionality for header/footer management and page checks
 
 \hypertarget{toc503}{}
-\subsubsection{TODO}
+\subsubsection{Initialize PDF document settings}
 
 \begin{lstlisting}
 public function Init()
 \end{lstlisting}
 
-TODO
+Resets all internal variables to their default state
 
 \hypertarget{toc504}{}
-\subsubsection{TODO}
+\subsubsection{Set header content and data}
 
 \begin{lstlisting}
 public function set_header($arr, $row)
 \end{lstlisting}
 
-TODO
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @arr =$>$ Header template array
+\item[\color{myblue}$\bullet$] @row =$>$ Data row for header evaluation
+\end{compactitem}
 
 \hypertarget{toc505}{}
-\subsubsection{TODO}
+\subsubsection{Set footer content and data}
 
 \begin{lstlisting}
 public function set_footer($arr, $row)
 \end{lstlisting}
 
-TODO
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @arr =$>$ Footer template array
+\item[\color{myblue}$\bullet$] @row =$>$ Data row for footer evaluation
+\end{compactitem}
 
 \hypertarget{toc506}{}
-\subsubsection{TODO}
+\subsubsection{Override TCPDF header method}
 
 \begin{lstlisting}
 public function Header()
 \end{lstlisting}
 
-TODO
+Processes and renders the header content while temporarily disabling Y checks
 
 \hypertarget{toc507}{}
-\subsubsection{TODO}
+\subsubsection{Override TCPDF footer method}
 
 \begin{lstlisting}
 public function Footer()
 \end{lstlisting}
 
-TODO
+Tracks page numbers where footers need to be rendered
 
 \hypertarget{toc508}{}
-\subsubsection{TODO}
+\subsubsection{Render all accumulated footers}
 
 \begin{lstlisting}
 public function render_footers()
 \end{lstlisting}
 
-TODO
+Processes footer content on all tracked pages while temporarily disabling Y checks
 
 \hypertarget{toc509}{}
-\subsubsection{TODO}
+\subsubsection{Check Y position and add new page if needed}
 
 \begin{lstlisting}
 public function check_y($offset = 0)
 \end{lstlisting}
 
-TODO
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @offset =$>$ Additional offset to consider in Y position check
+\end{compactitem}
 
 \hypertarget{toc510}{}
-\subsubsection{TODO}
+\subsubsection{Evaluate dynamic value in PDF context}
 
 \begin{lstlisting}
 function __pdf_eval_value($input, $row, $pdf)
 \end{lstlisting}
 
-TODO
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @input =$>$ Expression to evaluate
+\item[\color{myblue}$\bullet$] @row   =$>$ Data row for variable substitution
+\item[\color{myblue}$\bullet$] @pdf   =$>$ PDF object reference
+\end{compactitem}
+
+Returns the evaluated result
 
 \hypertarget{toc511}{}
-\subsubsection{TODO}
+\subsubsection{Evaluate array values in PDF context}
 
 \begin{lstlisting}
 function __pdf_eval_array($array, $row, $pdf)
 \end{lstlisting}
 
-TODO
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @array =$>$ Input array with expressions
+\item[\color{myblue}$\bullet$] @row   =$>$ Data row for variable substitution
+\item[\color{myblue}$\bullet$] @pdf   =$>$ PDF object reference
+\end{compactitem}
+
+Returns array with evaluated values
 
 \hypertarget{toc512}{}
-\subsubsection{TODO}
+\subsubsection{Advanced string explosion with quote and parentheses awareness}
 
 \begin{lstlisting}
 function __pdf_eval_explode($separator, $str, $limit = 0)
 \end{lstlisting}
 
-TODO
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @separator =$>$ Delimiter character
+\item[\color{myblue}$\bullet$] @str       =$>$ Input string to explode
+\item[\color{myblue}$\bullet$] @limit     =$>$ Maximum number of splits
+\end{compactitem}
+
+Returns array of exploded parts
 
 \hypertarget{toc513}{}
-\subsubsection{TODO}
+\subsubsection{Process PDF template tags and generate PDF content}
 
 \begin{lstlisting}
 function __pdf_eval_pdftag($array, $row = [])
 \end{lstlisting}
 
-TODO
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @array =$>$ PDF template definition array
+\item[\color{myblue}$\bullet$] @row   =$>$ Data row for template evaluation
+\end{compactitem}
+
+Returns the generated PDF object or output array
 
 \hypertarget{toc514}{}
-\subsubsection{TODO}
+\subsubsection{Generate PDF from template file}
 
 \begin{lstlisting}
 function pdf($file, $row = [])
 \end{lstlisting}
 
-TODO
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @file =$>$ Path to PDF template file
+\item[\color{myblue}$\bullet$] @row  =$>$ Data row for template evaluation
+\end{compactitem}
+
+Returns array containing PDF name, type and base64 encoded data
 
 \hypertarget{toc515}{}
-\subsubsection{TODO}
+\subsubsection{Convert various file types to PDF}
 
 \begin{lstlisting}
 function __pdf_all2pdf($input)
 \end{lstlisting}
 
-TODO
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @input =$>$ Path to input file to convert
+\end{compactitem}
+
+Returns PDF content as string
 
 \hypertarget{toc516}{}
 \subsection{Push utils helper module}
@@ -7979,94 +8151,181 @@ and then, extract the text of each page to finish the task.
 \end{compactitem}
 
 \hypertarget{toc540}{}
-\subsubsection{TODO}
+\subsubsection{Calculate histogram value}
 
 \begin{lstlisting}
 function __unoconv_histogram($values, $usage1, $usage2)
 \end{lstlisting}
 
-TODO
+This function calculates a representative value from a histogram based on given usage thresholds.
+It finds the highest percentage where at least a certain portion of values and unique values are included.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @values =$>$ array of values to analyze
+\item[\color{myblue}$\bullet$] @usage1 =$>$ minimum percentage of total values to include (0-1)
+\item[\color{myblue}$\bullet$] @usage2 =$>$ minimum percentage of unique values to include (0-1)
+\end{compactitem}
+
+Returns the calculated representative value
 
 \hypertarget{toc541}{}
-\subsubsection{TODO}
+\subsubsection{Rotate coordinates}
 
 \begin{lstlisting}
 function __unoconv_rotate($posx, $posy, $angle)
 \end{lstlisting}
 
-TODO
+This function rotates a point around the origin by a given angle in degrees.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @posx  =$>$ x coordinate of the point
+\item[\color{myblue}$\bullet$] @posy  =$>$ y coordinate of the point
+\item[\color{myblue}$\bullet$] @angle =$>$ rotation angle in degrees
+\end{compactitem}
+
+Returns the array with new x and y coordinates
 
 \hypertarget{toc542}{}
-\subsubsection{TODO}
+\subsubsection{Extract attributes from OCR node}
 
 \begin{lstlisting}
 function __unoconv_node2attr($node)
 \end{lstlisting}
 
-TODO
+This function processes a node from OCR output to extract its attributes,
+specifically focusing on the bounding box information.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @node =$>$ the OCR node to process
+\end{compactitem}
+
+Returns the array containing node ID and bounding box coordinates
 
 \hypertarget{toc543}{}
-\subsubsection{TODO}
+\subsubsection{Extract text value from OCR node}
 
 \begin{lstlisting}
 function __unoconv_node2value($node)
 \end{lstlisting}
 
-TODO
+This function extracts the text content from an OCR node, handling nested arrays.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @node =$>$ the OCR node to process
+\end{compactitem}
+
+Returns the extracted text content
 
 \hypertarget{toc544}{}
-\subsubsection{TODO}
+\subsubsection{Convert OCR lines to character matrix}
 
 \begin{lstlisting}
 function __unoconv_lines2matrix($lines, $width, $height)
 \end{lstlisting}
 
-TODO
+This function converts OCR-detected lines and words into a 2D character matrix
+for text reconstruction and analysis.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @lines  =$>$ array of OCR-detected lines and words
+\item[\color{myblue}$\bullet$] @width  =$>$ width divisor for coordinate normalization
+\item[\color{myblue}$\bullet$] @height =$>$ height divisor for coordinate normalization
+\end{compactitem}
+
+Returns the 2D character matrix or index of problematic line if error occurs
 
 \hypertarget{toc545}{}
-\subsubsection{TODO}
+\subsubsection{Reorder line coordinates}
 
 \begin{lstlisting}
 function __unoconv_fixline($line, $pos1, $pos2, $pos3, $pos4)
 \end{lstlisting}
 
-TODO
+This function reorders the coordinates of a line based on specified positions,
+used for correcting orientation in OCR results.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @line =$>$ original line coordinates
+\item[\color{myblue}$\bullet$] @pos1 =$>$ target position for first coordinate
+\item[\color{myblue}$\bullet$] @pos2 =$>$ target position for second coordinate
+\item[\color{myblue}$\bullet$] @pos3 =$>$ target position for third coordinate
+\item[\color{myblue}$\bullet$] @pos4 =$>$ target position for fourth coordinate
+\end{compactitem}
+
+Returns the reordered line coordinates
 
 \hypertarget{toc546}{}
-\subsubsection{TODO}
+\subsubsection{Convert HOCR to plain text}
 
 \begin{lstlisting}
 function __unoconv_hocr2txt($hocr)
 \end{lstlisting}
 
-TODO
+This function processes HOCR (HTML OCR) output to extract and reconstruct
+the text content while maintaining spatial relationships.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @hocr =$>$ HOCR content to process
+\end{compactitem}
+
+Returns the extracted plain text
 
 \hypertarget{toc547}{}
-\subsubsection{TODO}
+\subsubsection{Proportional substring extraction}
 
 \begin{lstlisting}
 function __unoconv_substr($string, $start, $length, $reference)
 \end{lstlisting}
 
-TODO
+This function extracts a substring based on proportional positions relative
+to a reference length, useful for working with scaled text representations.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @string    =$>$ input string to extract from
+\item[\color{myblue}$\bullet$] @start     =$>$ starting position (relative to reference)
+\item[\color{myblue}$\bullet$] @length    =$>$ length to extract (relative to reference)
+\item[\color{myblue}$\bullet$] @reference =$>$ reference length for proportional calculation
+\end{compactitem}
+
+Returns the extracted substring
 
 \hypertarget{toc548}{}
-\subsubsection{TODO}
+\subsubsection{2D proportional substring extraction}
 
 \begin{lstlisting}
 function __unoconv_substr2d($page, $x1, $x2, $x3, $y1, $y2, $y3)
 \end{lstlisting}
 
-TODO
+This function extracts a 2D region from a text page based on proportional
+coordinates, maintaining spatial relationships in the extracted content.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @page =$>$ array of text lines representing the page
+\item[\color{myblue}$\bullet$] @x1   =$>$ starting x position (relative to x3)
+\item[\color{myblue}$\bullet$] @x2   =$>$ width to extract (relative to x3)
+\item[\color{myblue}$\bullet$] @x3   =$>$ reference width for x coordinates
+\item[\color{myblue}$\bullet$] @y1   =$>$ starting y position (relative to y3)
+\item[\color{myblue}$\bullet$] @y2   =$>$ height to extract (relative to y3)
+\item[\color{myblue}$\bullet$] @y3   =$>$ reference height for y coordinates
+\end{compactitem}
+
+Returns the array of extracted lines
 
 \hypertarget{toc549}{}
-\subsubsection{TODO}
+\subsubsection{Remove margins from text page}
 
 \begin{lstlisting}
 function __unoconv_remove_margins($page)
 \end{lstlisting}
 
-TODO
+This function trims empty margins from a text page, removing leading/trailing
+whitespace and empty lines from the top and bottom.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @page =$>$ text content to process (multiple lines separated by newlines)
+\end{compactitem}
+
+Returns the text content with margins removed
 
 \hypertarget{toc550}{}
 \subsection{Add upload file}
@@ -8344,13 +8603,13 @@ saltos.app.send_request = hash
 This function allow to send requests to the server and process the response
 
 \hypertarget{toc567}{}
-\subsubsection{TODO}
+\subsubsection{Data helper object}
 
 \begin{lstlisting}
 saltos.app.__cache = {};
 \end{lstlisting}
 
-TODO
+This object allow to the app to store the data of the prefetch feature
 
 \hypertarget{toc568}{}
 \subsubsection{Process response helper}
@@ -9347,13 +9606,20 @@ the first contains the codemirror object and the second is a function used to up
 value of the codemirror, intended to load new data.
 
 \hypertarget{toc619}{}
-\subsubsection{TODO}
+\subsubsection{Indent helper}
 
 \begin{lstlisting}
 saltos.bootstrap.__indent_helper = (str, mode)
 \end{lstlisting}
 
-TODO
+This function allow to indent the string using the mode, this function is
+intended to be used inside the codemirror widget, allowing to indent the
+contents like xml, json, css or sql
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @str  =$>$ string that you want to indent
+\item[\color{myblue}$\bullet$] @mode =$>$ mode used to indent (xml, json, css or sql)
+\end{compactitem}
 
 \hypertarget{toc620}{}
 \subsubsection{Iframe constructor helper}
@@ -9955,13 +10221,19 @@ This widget uses the tom-select plugin, more info in their project website:
 \end{compactitem}
 
 \hypertarget{toc639}{}
-\subsubsection{TODO}
+\subsubsection{Srcdoc helper}
 
 \begin{lstlisting}
 saltos.bootstrap.__iframe_srcdoc_helper = html
 \end{lstlisting}
 
-TODO
+This function adds the needed environment to the html to improve the
+render of the html, this function is intended to be used inside the
+iframw widget
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @html =$>$ the code that you need to process
+\end{compactitem}
 
 \hypertarget{toc640}{}
 \subsubsection{Datalist helper}
@@ -10792,76 +11064,81 @@ This function allow to remove the files and notes in the files and notes widgets
 \end{compactitem}
 
 \hypertarget{toc682}{}
-\subsubsection{TODO}
+\subsubsection{Version common helper}
 
 \begin{lstlisting}
 saltos.common.version = ()
 \end{lstlisting}
 
-TODO
+This function open the version widget
 
 \hypertarget{toc683}{}
-\subsubsection{TODO}
+\subsubsection{Log common helper}
 
 \begin{lstlisting}
 saltos.common.log = ()
 \end{lstlisting}
 
-TODO
+This function open the log widget
 
 \hypertarget{toc684}{}
-\subsubsection{TODO}
+\subsubsection{Edit common helper}
 
 \begin{lstlisting}
 saltos.common.edit = ()
 \end{lstlisting}
 
-TODO
+This function open the edit screen
 
 \hypertarget{toc685}{}
-\subsubsection{TODO}
+\subsubsection{Create common helper}
 
 \begin{lstlisting}
 saltos.common.create = ()
 \end{lstlisting}
 
-TODO
+This function open the create screen
 
 \hypertarget{toc686}{}
-\subsubsection{TODO}
+\subsubsection{Viewpdf common helper}
 
 \begin{lstlisting}
 saltos.common.viewpdf = ()
 \end{lstlisting}
 
-TODO
+This function open the viewpdf widget
 
 \hypertarget{toc687}{}
-\subsubsection{TODO}
+\subsubsection{Remove common helper}
 
 \begin{lstlisting}
 saltos.common.__remove_helper = id
 \end{lstlisting}
 
-TODO
+This function works as helper for the allfiles and allnotes functions and
+tries to detect if the table identified by the argument contains something
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @id =$>$ the id of the table
+\end{compactitem}
 
 \hypertarget{toc688}{}
-\subsubsection{TODO}
+\subsubsection{Allfiles common helper}
 
 \begin{lstlisting}
 saltos.common.allfiles = ()
 \end{lstlisting}
 
-TODO
+This function remove the allfiles table if it is void
 
 \hypertarget{toc689}{}
-\subsubsection{TODO}
+\subsubsection{Allnotes common helper}
 
 \begin{lstlisting}
 saltos.common.allnotes = ()
 \end{lstlisting}
 
-TODO
+This function remove the allnotes table if it is void
 
 \hypertarget{toc690}{}
 \subsection{Core helper module}
@@ -12817,31 +13094,36 @@ web/js/push.js
 This fie contains useful functions related to the push and favicon features
 
 \hypertarget{toc836}{}
-\subsubsection{TODO}
+\subsubsection{Push constructor helper object}
 
 \begin{lstlisting}
 saltos.push = {
 \end{lstlisting}
 
-TODO
+This object allow to the constructor to use a rational structure for a quick access of each
+helper
 
 \hypertarget{toc837}{}
-\subsubsection{TODO}
+\subsubsection{Push helper}
 
 \begin{lstlisting}
 saltos.push.fn = ()
 \end{lstlisting}
 
-TODO
+This function tries to send the push request to the server with the latest
+timestamp, and process the response depending the kind of response, too it
+includes features to prevent concurrence and malfunctions
 
 \hypertarget{toc838}{}
-\subsubsection{TODO}
+\subsubsection{Load setup}
 
 \begin{lstlisting}
 window.addEventListener('load', async event
 \end{lstlisting}
 
-TODO
+This function is executed when window is loaded and defines the current
+timestamp and launch the timer that executes periodically the function
+each second
 
 \hypertarget{toc839}{}
 \subsubsection{Online sync}
@@ -12853,40 +13135,47 @@ window.addEventListener('online', event
 This function send a push request when navigator detects an online change
 
 \hypertarget{toc840}{}
-\subsubsection{TODO}
+\subsubsection{Favicon constructor helper object}
 
 \begin{lstlisting}
 saltos.favicon = {
 \end{lstlisting}
 
-TODO
+This object allow to the constructor to use a rational structure for a quick access of each
+helper
 
 \hypertarget{toc841}{}
-\subsubsection{TODO}
+\subsubsection{Favicon helper}
 
 \begin{lstlisting}
 saltos.favicon.fn = bool
 \end{lstlisting}
 
-TODO
+This function is intended to launch and stop the favicon animation depending
+the bool argument
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @bool =$>$ true to run the animation and false to stop the animation
+\end{compactitem}
 
 \hypertarget{toc842}{}
-\subsubsection{TODO}
+\subsubsection{Visibility Change}
 
 \begin{lstlisting}
 document.addEventListener('visibilitychange', ()
 \end{lstlisting}
 
-TODO
+This function is executed where the vilibilitychange event is triggered and
+the main task is to cancel the favicon animation
 
 \hypertarget{toc843}{}
-\subsubsection{TODO}
+\subsubsection{Run}
 
 \begin{lstlisting}
 saltos.favicon.run = ()
 \end{lstlisting}
 
-TODO
+This function run the favicon animation of the app is not visible
 
 \hypertarget{toc844}{}
 \subsection{Token helper module}

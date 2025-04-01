@@ -28,19 +28,26 @@
 declare(strict_types=1);
 
 /**
- * TODO
+ * Email Query Builder
  *
- * TODO
+ * This function builds an SQL WHERE query for filtering emails based on various criteria
+ * such as account, fields, search terms, dates, and specific email states.
  */
 
 /**
- * TODO
+ * Generate WHERE query for emails
  *
- * TODO
+ * This function takes a JSON input and generates a dynamic SQL WHERE clause to filter emails.
+ * The query is constructed based on several optional parameters such as account ID, search fields,
+ * dates, and flags indicating specific states (e.g., new emails, waiting emails, spam).
+ *
+ * @json => Input parameters for generating the query.
+ *
+ * Returns the dynamically constructed SQL WHERE clause.
  */
 function make_where_query_emails($json)
 {
-    // Prepare fields
+    // Extract input fields from the JSON object
     $account_id = $json['account_id'] ?? '';
     $fields = $json['fields'] ?? '';
     $search = $json['search'] ?? '';
@@ -55,7 +62,8 @@ function make_where_query_emails($json)
     $withoutfiles = $json['withoutfiles'] ?? '';
     $onlyinbox = $json['onlyinbox'] ?? '';
     $onlyoutbox = $json['onlyoutbox'] ?? '';
-    // Some helper fields
+
+    // Map input fields to their corresponding database columns
     $fields_array = [
         '' => '',
         'email' => '`from`,`to`,cc,bcc',
@@ -63,6 +71,8 @@ function make_where_query_emails($json)
         'body' => 'body',
     ];
     $fields = isset($fields_array[$fields]) ? $fields : '';
+
+    // Define conditions for date ranges
     $date3_array = [
         'today' => "DATE(datetime)=DATE('" . current_date() . "')",
         'yesterday' => "DATE(datetime)=DATE('" . current_date(-86400) . "')",
@@ -70,6 +80,8 @@ function make_where_query_emails($json)
         'month' => "DATE(datetime)>=DATE('" . current_date(-86400 * 30) . "')",
     ];
     $date3 = isset($date3_array[$date3]) ? $date3 : '';
+
+    // Define conditions for email states
     $only = intval($onlynew) . intval($onlywait) . intval($onlyspam);
     $only_array = [
         '100' => "state_new='1'",
@@ -81,8 +93,9 @@ function make_where_query_emails($json)
         '111' => "(state_new='1' OR state_wait='1' OR state_spam='1')",
     ];
     $only = isset($only_array[$only]) ? $only : '';
-    // Make the query part
-    $query = ['1=1'];
+
+    // Start building the WHERE clause
+    $query = ['1=1']; // Default condition to ensure the query is valid
     if ($account_id != '') {
         $query[] = "account_id='$account_id'";
     }
@@ -116,6 +129,8 @@ function make_where_query_emails($json)
     if ($date3 != '') {
         $query[] = $date3_array[$date3];
     }
+
+    // Combine all conditions into a single WHERE clause
     $query = implode(' AND ', $query);
     return $query;
 }
