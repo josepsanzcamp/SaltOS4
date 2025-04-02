@@ -27,7 +27,7 @@
 
 
 \title{Devel Documentation}
-\author{SaltOS 4.0 r1924}
+\author{SaltOS 4.0 r1930}
 \begin{document}
 \date{April 2025}
 \maketitle
@@ -433,12 +433,147 @@ This file contains the follow important nodes:
 
 Handled in `proxy.js` + `core.js`:
 
-\begin{itemize}
+\begin{compactitem}
 \item[\color{myblue}$\bullet$] Automatically registers in the browser
 \item[\color{myblue}$\bullet$] Acts as a proxy for fetch requests
 \item[\color{myblue}$\bullet$] Returns cached responses if offline
 \item[\color{myblue}$\bullet$] Queues write requests and syncs when online
 \item[\color{myblue}$\bullet$] Works transparently with core AJAX logic
+\end{compactitem}
+
+
+\hypertarget{toc21}{}
+\section{Makefile Overview}
+
+This `Makefile` automates building, testing, documentation, and setup tasks in SaltOS4.
+
+\hypertarget{toc22}{}
+\subsection{Build Targets}
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] `make web`: Builds and minifies production assets:
+  \begin{compactitem}
+  \item[\color{myblue}$\bullet$] Combines and compresses CSS/JS
+  \item[\color{myblue}$\bullet$] Uses `fixpath.php`, `md5sum.php`, `uglifyjs`, `minify`, `sha384.php`
+  \item[\color{myblue}$\bullet$] Handles app-specific JS from `apps/*/js/*.js`
+  \item[\color{myblue}$\bullet$] Generates the `proxy.js` script with source maps
+  \end{compactitem}
+\item[\color{myblue}$\bullet$] `make devel`: Prepares a development environment with unminified assets using `debug.php`.
+\item[\color{myblue}$\bullet$] `make clean`: Deletes generated files:
+  \begin{compactitem}
+  \item[\color{myblue}$\bullet$] Minified JS, CSS, maps, HTML, `proxy.js`, and per-app compiled assets
+  \end{compactitem}
+\end{compactitem}
+
+\hypertarget{toc23}{}
+\subsection{Documentation}
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] `make docs`: Generates `.t2t`, `.pdf`, and `.html` documentation using scripts:
+  \begin{compactitem}
+  \item[\color{myblue}$\bullet$] Backend: `docs/api.t2t`
+  \item[\color{myblue}$\bullet$] Frontend: `docs/web.t2t`
+  \item[\color{myblue}$\bullet$] Applications: `docs/apps.t2t`
+  \item[\color{myblue}$\bullet$] PHP tests: `docs/utest.t2t`
+  \item[\color{myblue}$\bullet$] JS tests: `docs/ujest.t2t`
+  \item[\color{myblue}$\bullet$] Developer manual: `docs/devel.t2t`
+  \end{compactitem}
+\end{compactitem}
+
+\hypertarget{toc24}{}
+\subsection{Testing}
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] `make test`: Runs:
+  \begin{compactitem}
+  \item[\color{myblue}$\bullet$] `phpcs`, `php -l`, `phpstan` on PHP files
+  \item[\color{myblue}$\bullet$] `jscs`, `node -c` on JS files
+  \item[\color{myblue}$\bullet$] Accepts variable `file=...`, `file=all`, or none (uses SVN diff)
+  \end{compactitem}
+\item[\color{myblue}$\bullet$] `make utest`: Runs PHPUnit with optional filtering by file
+\item[\color{myblue}$\bullet$] `make ujest`: Runs JS tests with Jest:
+  \begin{compactitem}
+  \item[\color{myblue}$\bullet$] Cleans diff snapshots and temp coverage
+  \item[\color{myblue}$\bullet$] Supports full or filtered test runs
+  \item[\color{myblue}$\bullet$] Generates coverage report
+  \end{compactitem}
+\end{compactitem}
+
+\hypertarget{toc25}{}
+\subsection{Environment Checks}
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] `make check`: Verifies required folders and system commands:
+  \begin{compactitem}
+  \item[\color{myblue}$\bullet$] Symbolic links: `api/data`, `web/apps`, etc.
+  \item[\color{myblue}$\bullet$] Commands: `php`, `node`, `jest`, `phpunit`, `uglifyjs`, `txt2tags`, etc.
+  \end{compactitem}
+\end{compactitem}
+
+\hypertarget{toc26}{}
+\subsection{Dependency Management}
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] `make libs`: Checks required PHP libraries via `checklibs.php`
+\end{compactitem}
+
+\hypertarget{toc27}{}
+\subsection{Code Statistics}
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] `make cloc`: Uses `cloc` to count lines of code excluding minified and ignored files
+\end{compactitem}
+
+\hypertarget{toc28}{}
+\subsection{System Setup}
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] `make setup`: Initializes SaltOS4 system
+\item[\color{myblue}$\bullet$] `make setupmysql`: Sets up all applications using MariaDB
+\item[\color{myblue}$\bullet$] `make setupsqlite`: Sets up all applications using SQLite
+\item[\color{myblue}$\bullet$] `make setupinstall`: Combines cleaning + full MySQL + SQLite setup
+\item[\color{myblue}$\bullet$] `make setupclean`: Cleans data directories and resets the database
+\end{compactitem}
+
+\hypertarget{toc29}{}
+\subsection{System Actions}
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] `make gc`: Launches garbage collection
+\item[\color{myblue}$\bullet$] `make indexing`: Performs indexing operations
+\item[\color{myblue}$\bullet$] `make integrity`: Runs integrity checks
+\item[\color{myblue}$\bullet$] `make cron`: Executes scheduled tasks (cron)
+\end{compactitem}
+
+
+\hypertarget{toc30}{}
+\section{Script Directory Overview}
+
+This section describes the purpose of each script and configuration file in the `scripts/` directory.
+
+All descriptions below are based on the actual content of each file.
+
+\begin{itemize}
+\item[\color{myblue}$\bullet$] `checklibs.php`: Validates the current versions of required libraries by parsing `checklibs.txt`, performing curl requests, and comparing base64-encoded version strings. Updates the file if needed.
+\item[\color{myblue}$\bullet$] `checklibs.txt`: Contains a list of required libraries, with their URLs and expected version tags encoded in base64.
+\item[\color{myblue}$\bullet$] `debug.php`: Generates a debug-friendly version of the frontend using `debug.php`.
+\item[\color{myblue}$\bullet$] `fixpath.php`: Adjusts file paths in generated HTML/JS/CSS to match the deployment structure.
+\item[\color{myblue}$\bullet$] `jest.config.js`: Configuration file for running JavaScript unit tests with Jest.
+\item[\color{myblue}$\bullet$] `jest\_coverage.php`: Processes Jest coverage reports and outputs them in a readable format.
+\item[\color{myblue}$\bullet$] `jest\_tester.php`: Parses the layout structure from `apps/tester/xml/tester.xml`, checks for duplicate widget tags, and exports the data as `/tmp/tester.json`.
+\item[\color{myblue}$\bullet$] `jscs.json`: Defines JavaScript coding standards used by the JSCS code style checker.
+\item[\color{myblue}$\bullet$] `make\_bootswatch.php`: Cleans up Bootswatch CSS files by removing any external `@import` statements.
+\item[\color{myblue}$\bullet$] `make\_instance.sh`: Creates a new runnable SaltOS4 instance by linking `.htaccess`, preparing folders like `data/` and `tmp/`, and applying permissions.
+\item[\color{myblue}$\bullet$] `makehtml.php`: Converts a `.t2t` documentation file into an HTML file using `txt2tags`.
+\item[\color{myblue}$\bullet$] `maket2t.php`: Scans a source directory and extracts `/** ... */` comments from each file to generate a `.t2t` documentation file.
+\item[\color{myblue}$\bullet$] `makepdf.php`: Converts a `.t2t` documentation file into a `.pdf` using LaTeX.
+\item[\color{myblue}$\bullet$] `md5sum.php`: Generates an MD5 checksum of one or more files.
+\item[\color{myblue}$\bullet$] `migrate\_v3\_to\_v4.php`: Migrates a SaltOS system from version 3 to version 4, adapting data and file structure.
+\item[\color{myblue}$\bullet$] `phpcs.xml`: Configuration file for PHP\_CodeSniffer to enforce PHP coding standards.
+\item[\color{myblue}$\bullet$] `phpstan.neon`: Configuration file for PHPStan, specifying analysis rules and paths for static code analysis.
+\item[\color{myblue}$\bullet$] `phpunit.xml`: Configuration file for PHPUnit, specifying test directories, filters, and bootstrap files.
+\item[\color{myblue}$\bullet$] `sha384.php`: Calculates SHA-384 hashes for files to use in Subresource Integrity (SRI) attributes in HTML.
+\item[\color{myblue}$\bullet$] `updatet2t.php`: Updates the second and third lines of a `.t2t` file (used to update the version and date of `devel.t2t`).
 
 \end{itemize}
 

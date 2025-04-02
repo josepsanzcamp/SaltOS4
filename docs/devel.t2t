@@ -1,5 +1,5 @@
 Devel Documentation
-SaltOS 4.0 r1924
+SaltOS 4.0 r1930
 April 2025
 
 
@@ -354,4 +354,106 @@ Handled in `proxy.js` + `core.js`:
 - Returns cached responses if offline
 - Queues write requests and syncs when online
 - Works transparently with core AJAX logic
+
+
++Makefile Overview+
+
+This `Makefile` automates building, testing, documentation, and setup tasks in SaltOS4.
+
+++Build Targets++
+
+- `make web`: Builds and minifies production assets:
+  - Combines and compresses CSS/JS
+  - Uses `fixpath.php`, `md5sum.php`, `uglifyjs`, `minify`, `sha384.php`
+  - Handles app-specific JS from `apps/*/js/*.js`
+  - Generates the `proxy.js` script with source maps
+- `make devel`: Prepares a development environment with unminified assets using `debug.php`.
+- `make clean`: Deletes generated files:
+  - Minified JS, CSS, maps, HTML, `proxy.js`, and per-app compiled assets
+
+
+++Documentation++
+
+- `make docs`: Generates `.t2t`, `.pdf`, and `.html` documentation using scripts:
+  - Backend: `docs/api.t2t`
+  - Frontend: `docs/web.t2t`
+  - Applications: `docs/apps.t2t`
+  - PHP tests: `docs/utest.t2t`
+  - JS tests: `docs/ujest.t2t`
+  - Developer manual: `docs/devel.t2t`
+
+
+++Testing++
+
+- `make test`: Runs:
+  - `phpcs`, `php -l`, `phpstan` on PHP files
+  - `jscs`, `node -c` on JS files
+  - Accepts variable `file=...`, `file=all`, or none (uses SVN diff)
+- `make utest`: Runs PHPUnit with optional filtering by file
+- `make ujest`: Runs JS tests with Jest:
+  - Cleans diff snapshots and temp coverage
+  - Supports full or filtered test runs
+  - Generates coverage report
+
+
+++Environment Checks++
+
+- `make check`: Verifies required folders and system commands:
+  - Symbolic links: `api/data`, `web/apps`, etc.
+  - Commands: `php`, `node`, `jest`, `phpunit`, `uglifyjs`, `txt2tags`, etc.
+
+
+++Dependency Management++
+
+- `make libs`: Checks required PHP libraries via `checklibs.php`
+
+
+++Code Statistics++
+
+- `make cloc`: Uses `cloc` to count lines of code excluding minified and ignored files
+
+
+++System Setup++
+
+- `make setup`: Initializes SaltOS4 system
+- `make setupmysql`: Sets up all applications using MariaDB
+- `make setupsqlite`: Sets up all applications using SQLite
+- `make setupinstall`: Combines cleaning + full MySQL + SQLite setup
+- `make setupclean`: Cleans data directories and resets the database
+
+
+++System Actions++
+
+- `make gc`: Launches garbage collection
+- `make indexing`: Performs indexing operations
+- `make integrity`: Runs integrity checks
+- `make cron`: Executes scheduled tasks (cron)
+
+
++Script Directory Overview+
+
+This section describes the purpose of each script and configuration file in the `scripts/` directory.
+
+All descriptions below are based on the actual content of each file.
+
+- `checklibs.php`: Validates the current versions of required libraries by parsing `checklibs.txt`, performing curl requests, and comparing base64-encoded version strings. Updates the file if needed.
+- `checklibs.txt`: Contains a list of required libraries, with their URLs and expected version tags encoded in base64.
+- `debug.php`: Generates a debug-friendly version of the frontend using `debug.php`.
+- `fixpath.php`: Adjusts file paths in generated HTML/JS/CSS to match the deployment structure.
+- `jest.config.js`: Configuration file for running JavaScript unit tests with Jest.
+- `jest_coverage.php`: Processes Jest coverage reports and outputs them in a readable format.
+- `jest_tester.php`: Parses the layout structure from `apps/tester/xml/tester.xml`, checks for duplicate widget tags, and exports the data as `/tmp/tester.json`.
+- `jscs.json`: Defines JavaScript coding standards used by the JSCS code style checker.
+- `make_bootswatch.php`: Cleans up Bootswatch CSS files by removing any external `@import` statements.
+- `make_instance.sh`: Creates a new runnable SaltOS4 instance by linking `.htaccess`, preparing folders like `data/` and `tmp/`, and applying permissions.
+- `makehtml.php`: Converts a `.t2t` documentation file into an HTML file using `txt2tags`.
+- `maket2t.php`: Scans a source directory and extracts `/** ... */` comments from each file to generate a `.t2t` documentation file.
+- `makepdf.php`: Converts a `.t2t` documentation file into a `.pdf` using LaTeX.
+- `md5sum.php`: Generates an MD5 checksum of one or more files.
+- `migrate_v3_to_v4.php`: Migrates a SaltOS system from version 3 to version 4, adapting data and file structure.
+- `phpcs.xml`: Configuration file for PHP_CodeSniffer to enforce PHP coding standards.
+- `phpstan.neon`: Configuration file for PHPStan, specifying analysis rules and paths for static code analysis.
+- `phpunit.xml`: Configuration file for PHPUnit, specifying test directories, filters, and bootstrap files.
+- `sha384.php`: Calculates SHA-384 hashes for files to use in Subresource Integrity (SRI) attributes in HTML.
+- `updatet2t.php`: Updates the second and third lines of a `.t2t` file (used to update the version and date of `devel.t2t`).
 

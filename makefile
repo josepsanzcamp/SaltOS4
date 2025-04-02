@@ -105,6 +105,7 @@ docs:
 	php scripts/maket2t.php docs/ujest.t2t ujest/
 	php scripts/makepdf.php docs/ujest.t2t
 	php scripts/makehtml.php docs/ujest.t2t
+	php scripts/updatet2t.php docs/devel.t2t
 	php scripts/makepdf.php docs/devel.t2t
 	php scripts/makehtml.php docs/devel.t2t
 
