@@ -1,0 +1,4266 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Jest Test Documentation</title>
+<meta name="generator" content="http://txt2tags.org">
+<style>
+body{background-color:#fff;color:#000;}
+hr{background-color:#000;border:0;color:#000;}
+hr.heavy{height:5px;}
+hr.light{height:1px;}
+img{border:0;display:block;}
+img.right{margin:0 0 0 auto;}
+img.center{border:0;margin:0 auto;}
+table th,table td{padding:4px;}
+.center,header{text-align:center;}
+table.center {margin-left:auto; margin-right:auto;}
+.right{text-align:right;}
+.left{text-align:left;}
+.tableborder,.tableborder td,.tableborder th{border:1px solid #000;}
+.underline{text-decoration:underline;}
+pre{background-color:#e6e6e6;padding:5px 3px}
+</style>
+</head>
+<body>
+<header>
+<hgroup>
+<h1>Jest Test Documentation</h1>
+<h2>SaltOS 4.0 r1929</h2>
+<h3>April 2025</h3>
+</hgroup>
+</header>
+<article>
+
+<nav>
+<div class="body" id="body">
+
+  <ul>
+  <li><a href="#toc1">1. Jest Libraries</a>
+    <ul>
+    <li><a href="#toc2">1.1. Setup file for the unit tests</a>
+      <ul>
+      <li><a href="#toc3">1.1.1. Detect what type of test is running, and load the needed setup</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc4">1.2. Setup file for the unit tests</a>
+      <ul>
+      <li><a href="#toc5">1.2.1. Needed by all user interface features</a>
+      </li>
+      <li><a href="#toc6">1.2.2. Needed by bootstrap, core and proxy modules</a>
+      </li>
+      <li><a href="#toc7">1.2.3. Needed by bootstrap module</a>
+      </li>
+      <li><a href="#toc8">1.2.4. This is the same that object.js for the global scope</a>
+      </li>
+      <li><a href="#toc9">1.2.5. Load all files of the project</a>
+      </li>
+      <li><a href="#toc10">1.2.6. My Require</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc11">1.3. Setup file for the unit tests</a>
+      <ul>
+      <li><a href="#toc12">1.3.1. This is the same that object.js for the global scope</a>
+      </li>
+      <li><a href="#toc13">1.3.2. Needed by core module</a>
+      </li>
+      <li><a href="#toc14">1.3.3. Needed by core module</a>
+      </li>
+      <li><a href="#toc15">1.3.4. Load all files of the project</a>
+      </li>
+      <li><a href="#toc16">1.3.5. My Pause</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc17">2. Jest Code</a>
+    <ul>
+    <li><a href="#toc18">2.1. Apps unit tests</a>
+      <ul>
+      <li><a href="#toc19">2.1.1. Puppeteer setup</a>
+      </li>
+      <li><a href="#toc20">2.1.2. Global variables</a>
+      </li>
+      <li><a href="#toc21">2.1.3. Before All</a>
+      </li>
+      <li><a href="#toc22">2.1.4. After All</a>
+      </li>
+      <li><a href="#toc23">2.1.5. Workflow variables</a>
+      </li>
+      <li><a href="#toc24">2.1.6. Before Each</a>
+      </li>
+      <li><a href="#toc25">2.1.7. After Each</a>
+      </li>
+      <li><a href="#toc26">2.1.8. App Login</a>
+      </li>
+      <li><a href="#toc27">2.1.9. Action Login</a>
+      </li>
+      <li><a href="#toc28">2.1.10. Action Login Ko Red</a>
+      </li>
+      <li><a href="#toc29">2.1.11. Action Login Ko Green</a>
+      </li>
+      <li><a href="#toc30">2.1.12. Action Dashboard</a>
+      </li>
+      <li><a href="#toc31">2.1.13. Action Reload</a>
+      </li>
+      <li><a href="#toc32">2.1.14. Action Logout</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc33">2.2. Bootstrap unit tests</a>
+      <ul>
+      <li><a href="#toc34">2.2.1. Puppeteer setup</a>
+      </li>
+      <li><a href="#toc35">2.2.2. Bootstrap</a>
+      </li>
+      <li><a href="#toc36">2.2.3. Global variables</a>
+      </li>
+      <li><a href="#toc37">2.2.4. Before All</a>
+      </li>
+      <li><a href="#toc38">2.2.5. After All</a>
+      </li>
+      <li><a href="#toc39">2.2.6. Prepare the test.each iterator</a>
+      </li>
+      <li><a href="#toc40">2.2.7. Real test</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc41">2.3. Core unit tests</a>
+      <ul>
+      <li><a href="#toc42">2.3.1. Load all needed files of the project</a>
+      </li>
+      <li><a href="#toc43">2.3.2. Reset mocks before each test</a>
+      </li>
+      <li><a href="#toc44">2.3.3. Restore mocks after each test</a>
+      </li>
+      <li><a href="#toc45">2.3.4. Test suite for error and log reporting</a>
+      </li>
+      <li><a href="#toc46">2.3.5. Setup before each test in this suite</a>
+      </li>
+      <li><a href="#toc47">2.3.6. Test error reporting functionality</a>
+      </li>
+      <li><a href="#toc48">2.3.7. Test log reporting functionality</a>
+      </li>
+      <li><a href="#toc49">2.3.8. Test suite for global error handling</a>
+      </li>
+      <li><a href="#toc50">2.3.9. Setup before each test in this suite</a>
+      </li>
+      <li><a href="#toc51">2.3.10. Test global error handling</a>
+      </li>
+      <li><a href="#toc52">2.3.11. Test unhandled promise rejection handling</a>
+      </li>
+      <li><a href="#toc53">2.3.12. Test parameter validation functionality</a>
+      </li>
+      <li><a href="#toc54">2.3.13. Test unique ID generation</a>
+      </li>
+      <li><a href="#toc55">2.3.14. Test suite for visibility detection</a>
+      </li>
+      <li><a href="#toc56">2.3.15. Setup before each test in this suite</a>
+      </li>
+      <li><a href="#toc57">2.3.16. Cleanup after each test in this suite</a>
+      </li>
+      <li><a href="#toc58">2.3.17. Test basic visibility detection</a>
+      </li>
+      <li><a href="#toc59">2.3.18. Test visibility detection with ID</a>
+      </li>
+      <li><a href="#toc60">2.3.19. Test visibility detection with string ID</a>
+      </li>
+      <li><a href="#toc61">2.3.20. Test invalid input handling</a>
+      </li>
+      <li><a href="#toc62">2.3.21. Test delayed element attachment</a>
+      </li>
+      <li><a href="#toc63">2.3.22. Test element removal handling</a>
+      </li>
+      <li><a href="#toc64">2.3.23. Test key code extraction</a>
+      </li>
+      <li><a href="#toc65">2.3.24. Test key name resolution</a>
+      </li>
+      <li><a href="#toc66">2.3.25. Test suite for HTML element creation</a>
+      </li>
+      <li><a href="#toc67">2.3.26. Test single argument usage</a>
+      </li>
+      <li><a href="#toc68">2.3.27. Test two argument usage</a>
+      </li>
+      <li><a href="#toc69">2.3.28. Test HTML trimming</a>
+      </li>
+      <li><a href="#toc70">2.3.29. Test multiple children handling</a>
+      </li>
+      <li><a href="#toc71">2.3.30. Test single child optimization</a>
+      </li>
+      <li><a href="#toc72">2.3.31. Test suite for AJAX functionality</a>
+      </li>
+      <li><a href="#toc73">2.3.32. Test successful GET request</a>
+      </li>
+      <li><a href="#toc74">2.3.33. Test error response handling</a>
+      </li>
+      <li><a href="#toc75">2.3.34. Test POST request handling</a>
+      </li>
+      <li><a href="#toc76">2.3.35. Test request abortion</a>
+      </li>
+      <li><a href="#toc77">2.3.36. Test network failure handling</a>
+      </li>
+      <li><a href="#toc78">2.3.37. Test unexpected error handling</a>
+      </li>
+      <li><a href="#toc79">2.3.38. Test unsupported method handling</a>
+      </li>
+      <li><a href="#toc80">2.3.39. Test XML response handling</a>
+      </li>
+      <li><a href="#toc81">2.3.40. Test plain text response handling</a>
+      </li>
+      <li><a href="#toc82">2.3.41. Test key normalization</a>
+      </li>
+      <li><a href="#toc83">2.3.42. Test object copying</a>
+      </li>
+      <li><a href="#toc84">2.3.43. Test suite for resource loading</a>
+      </li>
+      <li><a href="#toc85">2.3.44. Setup before each test in this suite</a>
+      </li>
+      <li><a href="#toc86">2.3.45. Cleanup after each test in this suite</a>
+      </li>
+      <li><a href="#toc87">2.3.46. Test JavaScript file loading</a>
+      </li>
+      <li><a href="#toc88">2.3.47. Test CSS file loading</a>
+      </li>
+      <li><a href="#toc89">2.3.48. Test cached resource handling</a>
+      </li>
+      <li><a href="#toc90">2.3.49. Test pending resource handling</a>
+      </li>
+      <li><a href="#toc91">2.3.50. Test module file loading</a>
+      </li>
+      <li><a href="#toc92">2.3.51. Test hashed resource loading</a>
+      </li>
+      <li><a href="#toc93">2.3.52. Test boolean evaluation</a>
+      </li>
+      <li><a href="#toc94">2.3.53. Test string conversion</a>
+      </li>
+      <li><a href="#toc95">2.3.54. Test attribute value detection</a>
+      </li>
+      <li><a href="#toc96">2.3.55. Test attribute-value joining</a>
+      </li>
+      <li><a href="#toc97">2.3.56. saltos.core.encode_bad_chars</a>
+      </li>
+      <li><a href="#toc98">2.3.57. saltos.core.__get_code_from_file_and_line</a>
+      </li>
+      <li><a href="#toc99">2.3.58. saltos.core.timestamp</a>
+      </li>
+      <li><a href="#toc100">2.3.59. saltos.core.human_size</a>
+      </li>
+      <li><a href="#toc101">2.3.60. saltos.core.is_number</a>
+      </li>
+      <li><a href="#toc102">2.3.61. Core Module Tests</a>
+      </li>
+      <li><a href="#toc103">2.3.62. Test service worker registration</a>
+      </li>
+      <li><a href="#toc104">2.3.63. Test proxy function messaging</a>
+      </li>
+      <li><a href="#toc105">2.3.64. Test proxy synchronization on online events</a>
+      </li>
+      <li><a href="#toc106">2.3.65. Test network protocol detection</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc107">2.4. Bootstrap unit tests</a>
+      <ul>
+      <li><a href="#toc108">2.4.1. Puppeteer setup</a>
+      </li>
+      <li><a href="#toc109">2.4.2. Global variables</a>
+      </li>
+      <li><a href="#toc110">2.4.3. Before All</a>
+      </li>
+      <li><a href="#toc111">2.4.4. After All</a>
+      </li>
+      <li><a href="#toc112">2.4.5. Workflow variables</a>
+      </li>
+      <li><a href="#toc113">2.4.6. Before Each</a>
+      </li>
+      <li><a href="#toc114">2.4.7. After Each</a>
+      </li>
+      <li><a href="#toc115">2.4.8. App Customers</a>
+      </li>
+      <li><a href="#toc116">2.4.9. Action List</a>
+      </li>
+      <li><a href="#toc117">2.4.10. Action List</a>
+      </li>
+      <li><a href="#toc118">2.4.11. Action Reset</a>
+      </li>
+      <li><a href="#toc119">2.4.12. Action Create</a>
+      </li>
+      <li><a href="#toc120">2.4.13. Action Cancel</a>
+      </li>
+      <li><a href="#toc121">2.4.14. Action View</a>
+      </li>
+      <li><a href="#toc122">2.4.15. Action Close</a>
+      </li>
+      <li><a href="#toc123">2.4.16. Action Edit</a>
+      </li>
+      <li><a href="#toc124">2.4.17. Action Go Back</a>
+      </li>
+      <li><a href="#toc125">2.4.18. Action Insert</a>
+      </li>
+      <li><a href="#toc126">2.4.19. Action Update</a>
+      </li>
+      <li><a href="#toc127">2.4.20. Action Delete</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc128">2.5. Bootstrap unit tests</a>
+      <ul>
+      <li><a href="#toc129">2.5.1. Puppeteer setup</a>
+      </li>
+      <li><a href="#toc130">2.5.2. Global variables</a>
+      </li>
+      <li><a href="#toc131">2.5.3. Before All</a>
+      </li>
+      <li><a href="#toc132">2.5.4. After All</a>
+      </li>
+      <li><a href="#toc133">2.5.5. Workflow variables</a>
+      </li>
+      <li><a href="#toc134">2.5.6. Before Each</a>
+      </li>
+      <li><a href="#toc135">2.5.7. After Each</a>
+      </li>
+      <li><a href="#toc136">2.5.8. App Emails</a>
+      </li>
+      <li><a href="#toc137">2.5.9. Action List</a>
+      </li>
+      <li><a href="#toc138">2.5.10. Action Control F</a>
+      </li>
+      <li><a href="#toc139">2.5.11. Action Profile</a>
+      </li>
+      <li><a href="#toc140">2.5.12. Action Help</a>
+      </li>
+      <li><a href="#toc141">2.5.13. Action Filter</a>
+      </li>
+      <li><a href="#toc142">2.5.14. Action Create</a>
+      </li>
+      <li><a href="#toc143">2.5.15. Action View</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc144">2.6. Filter unit tests</a>
+      <ul>
+      <li><a href="#toc145">2.6.1. Load all needed files of the project</a>
+      </li>
+      <li><a href="#toc146">2.6.2. Reset mocks before each test</a>
+      </li>
+      <li><a href="#toc147">2.6.3. Restore mocks after each test</a>
+      </li>
+      <li><a href="#toc148">2.6.4. Test suite for filter initialization</a>
+      </li>
+      <li><a href="#toc149">2.6.5. Setup before each test in this suite</a>
+      </li>
+      <li><a href="#toc150">2.6.6. Test filter cache initialization</a>
+      </li>
+      <li><a href="#toc151">2.6.7. Test cache reuse</a>
+      </li>
+      <li><a href="#toc152">2.6.8. Test suite for filter loading</a>
+      </li>
+      <li><a href="#toc153">2.6.9. Setup before each test in this suite</a>
+      </li>
+      <li><a href="#toc154">2.6.10. Test loading existing filter</a>
+      </li>
+      <li><a href="#toc155">2.6.11. Test loading non-existent filter</a>
+      </li>
+      <li><a href="#toc156">2.6.12. Test suite for filter updates</a>
+      </li>
+      <li><a href="#toc157">2.6.13. Test updating filter cache</a>
+      </li>
+      <li><a href="#toc158">2.6.14. Test suite for filter saving</a>
+      </li>
+      <li><a href="#toc159">2.6.15. Test saving new filter</a>
+      </li>
+      <li><a href="#toc160">2.6.16. Test updating existing filter</a>
+      </li>
+      <li><a href="#toc161">2.6.17. Test unchanged filter</a>
+      </li>
+      <li><a href="#toc162">2.6.18. Test filter deletion</a>
+      </li>
+      <li><a href="#toc163">2.6.19. Test deleting non-existent filter</a>
+      </li>
+      <li><a href="#toc164">2.6.20. Test suite for filter UI buttons</a>
+      </li>
+      <li><a href="#toc165">2.6.21. Setup before each test in this suite</a>
+      </li>
+      <li><a href="#toc166">2.6.22. Test load action</a>
+      </li>
+      <li><a href="#toc167">2.6.23. Test update action</a>
+      </li>
+      <li><a href="#toc168">2.6.24. Test delete action</a>
+      </li>
+      <li><a href="#toc169">2.6.25. Test create action</a>
+      </li>
+      <li><a href="#toc170">2.6.26. Test rename action</a>
+      </li>
+      <li><a href="#toc171">2.6.27. Test invalid action</a>
+      </li>
+      <li><a href="#toc172">2.6.28. Test suite for filter selection UI</a>
+      </li>
+      <li><a href="#toc173">2.6.29. Setup before each test in this suite</a>
+      </li>
+      <li><a href="#toc174">2.6.30. Test UI update</a>
+      </li>
+      <li><a href="#toc175">2.6.31. Test missing tree element</a>
+      </li>
+      <li><a href="#toc176">2.6.32. Test missing select element</a>
+      </li>
+      <li><a href="#toc177">2.6.33. Test missing form elements</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc178">2.7. Core unit tests</a>
+      <ul>
+      <li><a href="#toc179">2.7.1. Load all needed files of the project</a>
+      </li>
+      <li><a href="#toc180">2.7.2. berofeEach used in this test</a>
+      </li>
+      <li><a href="#toc181">2.7.3. afterEach used in this test</a>
+      </li>
+      <li><a href="#toc182">2.7.4. saltos.gettext.bootstrap.set/get/get_short/unset</a>
+      </li>
+      <li><a href="#toc183">2.7.5. saltos.gettext.bootstrap.field</a>
+      </li>
+      <li><a href="#toc184">2.7.6. saltos.gettext.bootstrap.modal</a>
+      </li>
+      <li><a href="#toc185">2.7.7. saltos.gettext.bootstrap.toast</a>
+      </li>
+      <li><a href="#toc186">2.7.8. saltos.gettext.bootstrap.menu</a>
+      </li>
+      <li><a href="#toc187">2.7.9. saltos.gettext.bootstrap.offcanvas</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc188">2.8. Hash unit tests</a>
+      <ul>
+      <li><a href="#toc189">2.8.1. Load all needed files of the project</a>
+      </li>
+      <li><a href="#toc190">2.8.2. Reset mocks before each test</a>
+      </li>
+      <li><a href="#toc191">2.8.3. Restore mocks after each test</a>
+      </li>
+      <li><a href="#toc192">2.8.4. Test suite for hash helper function</a>
+      </li>
+      <li><a href="#toc193">2.8.5. Test hash with leading #</a>
+      </li>
+      <li><a href="#toc194">2.8.6. Test hash with leading /</a>
+      </li>
+      <li><a href="#toc195">2.8.7. Test hash with leading #/</a>
+      </li>
+      <li><a href="#toc196">2.8.8. Test empty hash</a>
+      </li>
+      <li><a href="#toc197">2.8.9. Test clean hash</a>
+      </li>
+      <li><a href="#toc198">2.8.10. Test suite for hash getter function</a>
+      </li>
+      <li><a href="#toc199">2.8.11. Test getting current hash</a>
+      </li>
+      <li><a href="#toc200">2.8.12. Test getting empty hash</a>
+      </li>
+      <li><a href="#toc201">2.8.13. Test getting hash with leading /</a>
+      </li>
+      <li><a href="#toc202">2.8.14. Test suite for hash setter function</a>
+      </li>
+      <li><a href="#toc203">2.8.15. Test setting new hash</a>
+      </li>
+      <li><a href="#toc204">2.8.16. Test setting same hash</a>
+      </li>
+      <li><a href="#toc205">2.8.17. Test setting hash with #</a>
+      </li>
+      <li><a href="#toc206">2.8.18. Test setting hash with /</a>
+      </li>
+      <li><a href="#toc207">2.8.19. Test setting empty hash</a>
+      </li>
+      <li><a href="#toc208">2.8.20. Test suite for hash adder function</a>
+      </li>
+      <li><a href="#toc209">2.8.21. Test adding new hash</a>
+      </li>
+      <li><a href="#toc210">2.8.22. Test adding same hash</a>
+      </li>
+      <li><a href="#toc211">2.8.23. Test adding hash with #</a>
+      </li>
+      <li><a href="#toc212">2.8.24. Test adding hash with /</a>
+      </li>
+      <li><a href="#toc213">2.8.25. Test adding empty hash</a>
+      </li>
+      <li><a href="#toc214">2.8.26. Test suite for URL hash extraction</a>
+      </li>
+      <li><a href="#toc215">2.8.27. Test extracting hash from URL</a>
+      </li>
+      <li><a href="#toc216">2.8.28. Test extracting hash with /</a>
+      </li>
+      <li><a href="#toc217">2.8.29. Test URL without hash</a>
+      </li>
+      <li><a href="#toc218">2.8.30. Test suite for hash change events</a>
+      </li>
+      <li><a href="#toc219">2.8.31. Test triggering hash change</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc220">2.9. Bootstrap unit tests</a>
+      <ul>
+      <li><a href="#toc221">2.9.1. Puppeteer setup</a>
+      </li>
+      <li><a href="#toc222">2.9.2. Global variables</a>
+      </li>
+      <li><a href="#toc223">2.9.3. Before All</a>
+      </li>
+      <li><a href="#toc224">2.9.4. After All</a>
+      </li>
+      <li><a href="#toc225">2.9.5. Workflow variables</a>
+      </li>
+      <li><a href="#toc226">2.9.6. Before Each</a>
+      </li>
+      <li><a href="#toc227">2.9.7. After Each</a>
+      </li>
+      <li><a href="#toc228">2.9.8. App Invoices</a>
+      </li>
+      <li><a href="#toc229">2.9.9. Action List</a>
+      </li>
+      <li><a href="#toc230">2.9.10. Action List</a>
+      </li>
+      <li><a href="#toc231">2.9.11. Action Create</a>
+      </li>
+      <li><a href="#toc232">2.9.12. Action View</a>
+      </li>
+      <li><a href="#toc233">2.9.13. Action Edit</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc234">2.10. Proxy unit tests</a>
+      <ul>
+      <li><a href="#toc235">2.10.1. berofeEach used in this test</a>
+      </li>
+      <li><a href="#toc236">2.10.2. afterEach used in this test</a>
+      </li>
+      <li><a href="#toc237">2.10.3. Load the needed environment of the proxy part</a>
+      </li>
+      <li><a href="#toc238">2.10.4. md5</a>
+      </li>
+      <li><a href="#toc239">2.10.5. human_size</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc240">2.11. Push unit tests</a>
+      <ul>
+      <li><a href="#toc241">2.11.1. Load all needed files of the project</a>
+      </li>
+      <li><a href="#toc242">2.11.2. Reset mocks before each test</a>
+      </li>
+      <li><a href="#toc243">2.11.3. Restore mocks after each test</a>
+      </li>
+      <li><a href="#toc244">2.11.4. Test suite for saltos.push.fn functionality</a>
+      </li>
+      <li><a href="#toc245">2.11.5. Setup before each test in this suite</a>
+      </li>
+      <li><a href="#toc246">2.11.6. Test push function when already executing</a>
+      </li>
+      <li><a href="#toc247">2.11.7. Test push function without token</a>
+      </li>
+      <li><a href="#toc248">2.11.8. Test push function when offline</a>
+      </li>
+      <li><a href="#toc249">2.11.9. Test push function with positive count</a>
+      </li>
+      <li><a href="#toc250">2.11.10. Test push function with successful response</a>
+      </li>
+      <li><a href="#toc251">2.11.11. Test push function with error response</a>
+      </li>
+      <li><a href="#toc252">2.11.12. Test suite for saltos.favicon.fn functionality</a>
+      </li>
+      <li><a href="#toc253">2.11.13. Test favicon function activation</a>
+      </li>
+      <li><a href="#toc254">2.11.14. Test favicon function deactivation</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc255">2.12. Storage unit tests</a>
+      <ul>
+      <li><a href="#toc256">2.12.1. Load all needed files of the project</a>
+      </li>
+      <li><a href="#toc257">2.12.2. berofeEach used in this test</a>
+      </li>
+      <li><a href="#toc258">2.12.3. afterEach used in this test</a>
+      </li>
+      <li><a href="#toc259">2.12.4. saltos.storage</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc260">2.13. Bootstrap unit tests</a>
+      <ul>
+      <li><a href="#toc261">2.13.1. Puppeteer setup</a>
+      </li>
+      <li><a href="#toc262">2.13.2. Global variables</a>
+      </li>
+      <li><a href="#toc263">2.13.3. Before All</a>
+      </li>
+      <li><a href="#toc264">2.13.4. After All</a>
+      </li>
+      <li><a href="#toc265">2.13.5. Workflow variables</a>
+      </li>
+      <li><a href="#toc266">2.13.6. Before Each</a>
+      </li>
+      <li><a href="#toc267">2.13.7. After Each</a>
+      </li>
+      <li><a href="#toc268">2.13.8. App Tester</a>
+      </li>
+      <li><a href="#toc269">2.13.9. Action Init</a>
+      </li>
+      <li><a href="#toc270">2.13.10. Action Disabled</a>
+      </li>
+      <li><a href="#toc271">2.13.11. Action Enabled</a>
+      </li>
+      <li><a href="#toc272">2.13.12. List of bs_themes</a>
+      </li>
+      <li><a href="#toc273">2.13.13. Action Bs Theme</a>
+      </li>
+      <li><a href="#toc274">2.13.14. List of css_themes</a>
+      </li>
+      <li><a href="#toc275">2.13.15. Action Css Theme</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc276">2.14. Token unit tests</a>
+      <ul>
+      <li><a href="#toc277">2.14.1. Load all needed files of the project</a>
+      </li>
+      <li><a href="#toc278">2.14.2. berofeEach used in this test</a>
+      </li>
+      <li><a href="#toc279">2.14.3. afterEach used in this test</a>
+      </li>
+      <li><a href="#toc280">2.14.4. saltos.token</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc281">2.15. Window unit tests</a>
+      <ul>
+      <li><a href="#toc282">2.15.1. Load all needed files of the project</a>
+      </li>
+      <li><a href="#toc283">2.15.2. Reset mocks before each test</a>
+      </li>
+      <li><a href="#toc284">2.15.3. Restore mocks after each test</a>
+      </li>
+      <li><a href="#toc285">2.15.4. Test suite for window open/close functionality</a>
+      </li>
+      <li><a href="#toc286">2.15.5. Setup before each test in this suite</a>
+      </li>
+      <li><a href="#toc287">2.15.6. Test opening app URLs</a>
+      </li>
+      <li><a href="#toc288">2.15.7. Test opening HTTP URLs</a>
+      </li>
+      <li><a href="#toc289">2.15.8. Test opening HTTPS URLs</a>
+      </li>
+      <li><a href="#toc290">2.15.9. Test unsupported URL protocols</a>
+      </li>
+      <li><a href="#toc291">2.15.10. Test window closing</a>
+      </li>
+      <li><a href="#toc292">2.15.11. Test suite for window event listeners</a>
+      </li>
+      <li><a href="#toc293">2.15.12. Test setting event listeners</a>
+      </li>
+      <li><a href="#toc294">2.15.13. Test removing event listeners</a>
+      </li>
+      <li><a href="#toc295">2.15.14. Test sending events to current tab</a>
+      </li>
+      <li><a href="#toc296">2.15.15. Test sending events to other tabs</a>
+      </li>
+      <li><a href="#toc297">2.15.16. Test sending events to all tabs</a>
+      </li>
+      <li><a href="#toc298">2.15.17. Test sessionStorage event filtering</a>
+      </li>
+      <li><a href="#toc299">2.15.18. Test event key filtering</a>
+      </li>
+      <li><a href="#toc300">2.15.19. Test unregistered event filtering</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+
+</div>
+</nav>
+<div class="body" id="body">
+
+<section id="toc1">
+<h1>1. Jest Libraries</h1>
+
+<section id="toc2">
+<h2>1.1. Setup file for the unit tests</h2>
+
+<pre>
+lib/jest.setup.js
+</pre>
+
+<p>
+This file contains the code that initialize the unit tests
+</p>
+
+<section id="toc3">
+<h3>1.1.1. Detect what type of test is running, and load the needed setup</h3>
+
+<pre>
+if ('fetch' in global) {
+</pre>
+
+</section>
+</section>
+<section id="toc4">
+<h2>1.2. Setup file for the unit tests</h2>
+
+<pre>
+lib/jsdom.setup.js
+</pre>
+
+<p>
+This file contains the code that initialize the unit tests
+</p>
+
+<section id="toc5">
+<h3>1.2.1. Needed by all user interface features</h3>
+
+<pre>
+global.bootstrap = require('../../code/web/lib/bootstrap/bootstrap.bundle.min.js');
+</pre>
+
+</section>
+<section id="toc6">
+<h3>1.2.2. Needed by bootstrap, core and proxy modules</h3>
+
+<pre>
+global.md5 = require('../../code/web/lib/md5/md5.min.js');
+</pre>
+
+</section>
+<section id="toc7">
+<h3>1.2.3. Needed by bootstrap module</h3>
+
+<pre>
+global.window.matchMedia = function() {
+</pre>
+
+</section>
+<section id="toc8">
+<h3>1.2.4. This is the same that object.js for the global scope</h3>
+
+<pre>
+global.saltos = {};
+</pre>
+
+</section>
+<section id="toc9">
+<h3>1.2.5. Load all files of the project</h3>
+
+<pre>
+/*const files = `core,bootstrap,storage,hash,token,auth,window,
+</pre>
+
+</section>
+<section id="toc10">
+<h3>1.2.6. My Require</h3>
+
+<pre>
+global.myrequire = (file, fns)
+</pre>
+
+<p>
+This function is intended to add the needed module.exports at the end of the
+file that you want to process, this is a temporary action used only for the
+require action, and at the end, before the return, the original code is saved
+as a restore action to maintain the original code file
+</p>
+
+</section>
+</section>
+<section id="toc11">
+<h2>1.3. Setup file for the unit tests</h2>
+
+<pre>
+lib/node.setup.js
+</pre>
+
+<p>
+This file contains the code that initialize the unit tests
+</p>
+
+<section id="toc12">
+<h3>1.3.1. This is the same that object.js for the global scope</h3>
+
+<pre>
+global.saltos = {};
+</pre>
+
+</section>
+<section id="toc13">
+<h3>1.3.2. Needed by core module</h3>
+
+<pre>
+global.window = {
+</pre>
+
+</section>
+<section id="toc14">
+<h3>1.3.3. Needed by core module</h3>
+
+<pre>
+global.document = {
+</pre>
+
+</section>
+<section id="toc15">
+<h3>1.3.4. Load all files of the project</h3>
+
+<pre>
+require(`../../code/web/js/core.js`);
+</pre>
+
+</section>
+<section id="toc16">
+<h3>1.3.5. My Pause</h3>
+
+<pre>
+global.mypause = (page, delay)
+</pre>
+
+<p>
+This function is intended to do a pause inside the browser, to do it, we
+use a string instead of real code because istanbul tries to inject code
+and fails in runtime, one solution can be to put "istanbul ignore next"
+in a comment before the next page.evaluate, but I prefer to use a string
+in the page.evaluate because it is more simple for me
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc17">
+<h1>2. Jest Code</h1>
+
+<section id="toc18">
+<h2>2.1. Apps unit tests</h2>
+
+<pre>
+test_apps.js
+</pre>
+
+<p>
+This file contains the apps unit tests
+</p>
+
+<section id="toc19">
+<h3>2.1.1. Puppeteer setup</h3>
+
+<pre>
+const puppeteer = require('puppeteer');
+</pre>
+
+<p>
+This lines contain the needed setup for run puppeteer and take screenshots
+</p>
+
+</section>
+<section id="toc20">
+<h3>2.1.2. Global variables</h3>
+
+<pre>
+let browser;
+</pre>
+
+<p>
+This variables contains the browser and page links
+</p>
+
+</section>
+<section id="toc21">
+<h3>2.1.3. Before All</h3>
+
+<pre>
+beforeAll(async ()
+</pre>
+
+<p>
+This function contains all code executed before all tests, in this case the
+features provided by this function includes the launch of the browser, set
+the screen size and start the javascript coverage
+</p>
+
+</section>
+<section id="toc22">
+<h3>2.1.4. After All</h3>
+
+<pre>
+afterAll(async ()
+</pre>
+
+<p>
+This function contains all code executed after all tests, in this case the
+features provided by this function include the stop of the javsacript coverage
+recording, the save feature to the desired storage path and the browser close
+</p>
+
+</section>
+<section id="toc23">
+<h3>2.1.5. Workflow variables</h3>
+
+<pre>
+let testFailed = false;
+</pre>
+
+<p>
+This variables allow to control the workflow of the test, the main idea is to
+skip all tests when one test fails
+</p>
+
+</section>
+<section id="toc24">
+<h3>2.1.6. Before Each</h3>
+
+<pre>
+beforeEach(()
+</pre>
+
+<p>
+This function contains all code executed before each test, in this case the
+features provided by this function includes the control of the workflow
+</p>
+
+</section>
+<section id="toc25">
+<h3>2.1.7. After Each</h3>
+
+<pre>
+afterEach(()
+</pre>
+
+<p>
+This function contains all code executed after each test, in this case the
+features provided by this function includes the control of the workflow
+</p>
+
+</section>
+<section id="toc26">
+<h3>2.1.8. App Login</h3>
+
+<pre>
+describe('App Login', ()
+</pre>
+
+<p>
+This test is intended to validate the correctness of the login screen and their
+particularities, too tries to check the dashboard and the logout to close the
+loop of tests
+</p>
+
+</section>
+<section id="toc27">
+<h3>2.1.9. Action Login</h3>
+
+<pre>
+test('Action Login', async ()
+</pre>
+
+<p>
+This function tries to do a test to validate that the login screen appear
+correctly without issues
+</p>
+
+</section>
+<section id="toc28">
+<h3>2.1.10. Action Login Ko Red</h3>
+
+<pre>
+test('Action Login Ko Red', async ()
+</pre>
+
+<p>
+This function tries to validate the form when no data is found
+</p>
+
+</section>
+<section id="toc29">
+<h3>2.1.11. Action Login Ko Green</h3>
+
+<pre>
+test('Action Login Ko Green', async ()
+</pre>
+
+<p>
+This function tries to validate the form when invalid data is found
+</p>
+
+</section>
+<section id="toc30">
+<h3>2.1.12. Action Dashboard</h3>
+
+<pre>
+test('Action Dashboard', async ()
+</pre>
+
+<p>
+This function tries to execute the login with valid credentials, to validate
+the correctness, the dashboard will appear
+</p>
+
+</section>
+<section id="toc31">
+<h3>2.1.13. Action Reload</h3>
+
+<pre>
+test('Action Reload', async ()
+</pre>
+
+<p>
+This function tries to do a reload of the previous page, the validation of
+this test must accomplish when a valid dashbord appear
+</p>
+
+</section>
+<section id="toc32">
+<h3>2.1.14. Action Logout</h3>
+
+<pre>
+test('Action Logout', async ()
+</pre>
+
+<p>
+This test is intended to check the correctness of the logout feature, to
+to it the test tries to locate the logout button placed in the dropdown
+menu of the nabvar and click to the third element
+</p>
+
+</section>
+</section>
+<section id="toc33">
+<h2>2.2. Bootstrap unit tests</h2>
+
+<pre>
+test_bootstrap.js
+</pre>
+
+<p>
+This file contains the bootstrap unit tests
+</p>
+
+<section id="toc34">
+<h3>2.2.1. Puppeteer setup</h3>
+
+<pre>
+const puppeteer = require('puppeteer');
+</pre>
+
+<p>
+This lines contain the needed setup for run puppeteer and take screenshots
+</p>
+
+</section>
+<section id="toc35">
+<h3>2.2.2. Bootstrap</h3>
+
+<pre>
+describe('Bootstrap', ()
+</pre>
+
+<p>
+This test contains the code needed to create all widgets and validate the
+correctness of them
+</p>
+
+</section>
+<section id="toc36">
+<h3>2.2.3. Global variables</h3>
+
+<pre>
+let browser;
+</pre>
+
+<p>
+This variables contains the browser and page links
+</p>
+
+</section>
+<section id="toc37">
+<h3>2.2.4. Before All</h3>
+
+<pre>
+beforeAll(async ()
+</pre>
+
+<p>
+This function contains all code executed before all tests
+</p>
+
+</section>
+<section id="toc38">
+<h3>2.2.5. After All</h3>
+
+<pre>
+afterAll(async ()
+</pre>
+
+<p>
+This function contains all code executed after all tests
+</p>
+
+</section>
+<section id="toc39">
+<h3>2.2.6. Prepare the test.each iterator</h3>
+
+<pre>
+const fs = require('fs');
+</pre>
+
+</section>
+<section id="toc40">
+<h3>2.2.7. Real test</h3>
+
+<pre>
+test.each(json)('$label', async field
+</pre>
+
+<p>
+This function executes the real test for each json item, its able to
+create a widget and validate the correctness of the widget comparing
+the new widget screenshot to the backup widget screenshot
+</p>
+
+</section>
+</section>
+<section id="toc41">
+<h2>2.3. Core unit tests</h2>
+
+<pre>
+test_core.js
+</pre>
+
+<p>
+This file contains comprehensive unit tests for the core functionality
+of the SaltOS framework, including error handling, AJAX operations,
+utility functions, and service worker integration.
+</p>
+
+<section id="toc42">
+<h3>2.3.1. Load all needed files of the project</h3>
+
+<pre>
+const files = `core,gettext,token`.split(',');
+</pre>
+
+</section>
+<section id="toc43">
+<h3>2.3.2. Reset mocks before each test</h3>
+
+<pre>
+beforeEach(()
+</pre>
+
+<p>
+Initializes mock implementations for console.log and fetch API
+before each test case runs
+</p>
+
+</section>
+<section id="toc44">
+<h3>2.3.3. Restore mocks after each test</h3>
+
+<pre>
+afterEach(()
+</pre>
+
+<p>
+Restores original implementations of mocked functions
+after each test case completes
+</p>
+
+</section>
+<section id="toc45">
+<h3>2.3.4. Test suite for error and log reporting</h3>
+
+<pre>
+describe('saltos.core.adderror/addlog', ()
+</pre>
+
+<p>
+Contains tests for core error handling and logging functionality
+</p>
+
+</section>
+<section id="toc46">
+<h3>2.3.5. Setup before each test in this suite</h3>
+
+<pre>
+beforeEach(()
+</pre>
+
+<p>
+Mocks core dependencies including AJAX, token, and gettext functions
+</p>
+
+</section>
+<section id="toc47">
+<h3>2.3.6. Test error reporting functionality</h3>
+
+<pre>
+test('saltos.core.adderror should send error details to the server', async ()
+</pre>
+
+<p>
+Verifies that error details including stack traces are properly
+processed and sent to the server
+</p>
+
+</section>
+<section id="toc48">
+<h3>2.3.7. Test log reporting functionality</h3>
+
+<pre>
+test('saltos.core.addlog should send log message to the server', ()
+</pre>
+
+<p>
+Verifies that log messages are properly formatted and sent to the server
+</p>
+
+</section>
+<section id="toc49">
+<h3>2.3.8. Test suite for global error handling</h3>
+
+<pre>
+describe('window.addEventListener for error and unhandledrejection', ()
+</pre>
+
+<p>
+Contains tests for window-level error and unhandled promise rejection handlers
+</p>
+
+</section>
+<section id="toc50">
+<h3>2.3.9. Setup before each test in this suite</h3>
+
+<pre>
+beforeEach(()
+</pre>
+
+<p>
+Mocks the core error reporting function
+</p>
+
+</section>
+<section id="toc51">
+<h3>2.3.10. Test global error handling</h3>
+
+<pre>
+test('should call saltos.core.adderror when an error occurs', ()
+</pre>
+
+<p>
+Verifies that window error events are properly captured and reported
+</p>
+
+</section>
+<section id="toc52">
+<h3>2.3.11. Test unhandled promise rejection handling</h3>
+
+<pre>
+test('should call saltos.core.adderror when an unhandledrejection occurs', ()
+</pre>
+
+<p>
+Verifies that unhandled promise rejections are properly captured and reported
+</p>
+
+</section>
+<section id="toc53">
+<h3>2.3.12. Test parameter validation functionality</h3>
+
+<pre>
+test('saltos.core.check_params', ()
+</pre>
+
+<p>
+Verifies that missing parameters are properly initialized with default values
+</p>
+
+</section>
+<section id="toc54">
+<h3>2.3.13. Test unique ID generation</h3>
+
+<pre>
+test('saltos.core.uniqid', ()
+</pre>
+
+<p>
+Verifies that generated IDs are unique and follow expected format
+</p>
+
+</section>
+<section id="toc55">
+<h3>2.3.14. Test suite for visibility detection</h3>
+
+<pre>
+describe('when_visible', ()
+</pre>
+
+<p>
+Contains tests for the when_visible utility function
+</p>
+
+</section>
+<section id="toc56">
+<h3>2.3.15. Setup before each test in this suite</h3>
+
+<pre>
+beforeEach(()
+</pre>
+
+<p>
+Configures fake timers and clears DOM
+</p>
+
+</section>
+<section id="toc57">
+<h3>2.3.16. Cleanup after each test in this suite</h3>
+
+<pre>
+afterEach(()
+</pre>
+
+<p>
+Clears timers and restores real timer implementation
+</p>
+
+</section>
+<section id="toc58">
+<h3>2.3.17. Test basic visibility detection</h3>
+
+<pre>
+test('executes the callback when the object becomes visible', ()
+</pre>
+
+<p>
+Verifies callback is executed when element becomes visible
+</p>
+
+</section>
+<section id="toc59">
+<h3>2.3.18. Test visibility detection with ID</h3>
+
+<pre>
+test('works setting the id as test-div', ()
+</pre>
+
+<p>
+Verifies function works with elements that have IDs
+</p>
+
+</section>
+<section id="toc60">
+<h3>2.3.19. Test visibility detection with string ID</h3>
+
+<pre>
+test('works with an string id instead of an object', ()
+</pre>
+
+<p>
+Verifies function works when passed an element ID string
+</p>
+
+</section>
+<section id="toc61">
+<h3>2.3.20. Test invalid input handling</h3>
+
+<pre>
+test('throws an error for unsupported obj type', ()
+</pre>
+
+<p>
+Verifies function throws error for unsupported input types
+</p>
+
+</section>
+<section id="toc62">
+<h3>2.3.21. Test delayed element attachment</h3>
+
+<pre>
+test('append the object after some iterations', ()
+</pre>
+
+<p>
+Verifies function works when element is added to DOM after initialization
+</p>
+
+</section>
+<section id="toc63">
+<h3>2.3.22. Test element removal handling</h3>
+
+<pre>
+test('throws an error if the object disappears before being visible', ()
+</pre>
+
+<p>
+Verifies function throws error if element is removed before becoming visible
+</p>
+
+</section>
+<section id="toc64">
+<h3>2.3.23. Test key code extraction</h3>
+
+<pre>
+test('saltos.core.get_keycode', ()
+</pre>
+
+<p>
+Verifies function correctly extracts key codes from different event properties
+</p>
+
+</section>
+<section id="toc65">
+<h3>2.3.24. Test key name resolution</h3>
+
+<pre>
+test('saltos.core.get_keyname', ()
+</pre>
+
+<p>
+Verifies function correctly maps key codes to common key names
+</p>
+
+</section>
+<section id="toc66">
+<h3>2.3.25. Test suite for HTML element creation</h3>
+
+<pre>
+describe('saltos.core.html', ()
+</pre>
+
+<p>
+Contains tests for the html utility function
+</p>
+
+</section>
+<section id="toc67">
+<h3>2.3.26. Test single argument usage</h3>
+
+<pre>
+test('creates a div with inner HTML when only one argument is passed', ()
+</pre>
+
+<p>
+Verifies function creates element from HTML string with optimization
+</p>
+
+</section>
+<section id="toc68">
+<h3>2.3.27. Test two argument usage</h3>
+
+<pre>
+test('creates the specified element with inner HTML when two arguments are passed', ()
+</pre>
+
+<p>
+Verifies function creates specified element type with content
+</p>
+
+</section>
+<section id="toc69">
+<h3>2.3.28. Test HTML trimming</h3>
+
+<pre>
+test('trims the inner HTML before setting it', ()
+</pre>
+
+<p>
+Verifies function trims whitespace from HTML content
+</p>
+
+</section>
+<section id="toc70">
+<h3>2.3.29. Test multiple children handling</h3>
+
+<pre>
+test('does not optimize if there are multiple children', ()
+</pre>
+
+<p>
+Verifies function preserves container element when multiple children exist
+</p>
+
+</section>
+<section id="toc71">
+<h3>2.3.30. Test single child optimization</h3>
+
+<pre>
+test('optimizes and returns the single child if present', ()
+</pre>
+
+<p>
+Verifies function optimizes by returning single child element directly
+</p>
+
+</section>
+<section id="toc72">
+<h3>2.3.31. Test suite for AJAX functionality</h3>
+
+<pre>
+describe('saltos.core.ajax', ()
+</pre>
+
+<p>
+Contains comprehensive tests for the core AJAX implementation
+</p>
+
+</section>
+<section id="toc73">
+<h3>2.3.32. Test successful GET request</h3>
+
+<pre>
+test('makes a successful GET request and calls success callback', async ()
+</pre>
+
+<p>
+Verifies proper request construction and success callback handling
+</p>
+
+</section>
+<section id="toc74">
+<h3>2.3.33. Test error response handling</h3>
+
+<pre>
+test('handles non-200 responses and calls error callback', async ()
+</pre>
+
+<p>
+Verifies proper error callback invocation for non-200 responses
+</p>
+
+</section>
+<section id="toc75">
+<h3>2.3.34. Test POST request handling</h3>
+
+<pre>
+test('makes a POST request with a body', async ()
+</pre>
+
+<p>
+Verifies proper construction of POST requests with body content
+</p>
+
+</section>
+<section id="toc76">
+<h3>2.3.35. Test request abortion</h3>
+
+<pre>
+test('calls abort callback when request is aborted', async ()
+</pre>
+
+<p>
+Verifies proper handling of aborted requests
+</p>
+
+</section>
+<section id="toc77">
+<h3>2.3.36. Test network failure handling</h3>
+
+<pre>
+test('calls error callback on network failure', async ()
+</pre>
+
+<p>
+Verifies proper error callback invocation for network failures
+</p>
+
+</section>
+<section id="toc78">
+<h3>2.3.37. Test unexpected error handling</h3>
+
+<pre>
+test('throws an error for unexpected failures', async ()
+</pre>
+
+<p>
+Verifies proper propagation of unexpected errors
+</p>
+
+</section>
+<section id="toc79">
+<h3>2.3.38. Test unsupported method handling</h3>
+
+<pre>
+test('throws an error for unsupported HTTP method', ()
+</pre>
+
+<p>
+Verifies proper error throwing for unsupported HTTP methods
+</p>
+
+</section>
+<section id="toc80">
+<h3>2.3.39. Test XML response handling</h3>
+
+<pre>
+test('handles XML response correctly', async ()
+</pre>
+
+<p>
+Verifies proper parsing of XML response content
+</p>
+
+</section>
+<section id="toc81">
+<h3>2.3.40. Test plain text response handling</h3>
+
+<pre>
+test('handles plain text response correctly', async ()
+</pre>
+
+<p>
+Verifies proper handling of plain text responses
+</p>
+
+</section>
+<section id="toc82">
+<h3>2.3.41. Test key normalization</h3>
+
+<pre>
+test('saltos.core.fix_key', ()
+</pre>
+
+<p>
+Verifies function properly removes suffixes from keys
+</p>
+
+</section>
+<section id="toc83">
+<h3>2.3.42. Test object copying</h3>
+
+<pre>
+test('saltos.core.copy_object', ()
+</pre>
+
+<p>
+Verifies function creates proper shallow copies of objects
+</p>
+
+</section>
+<section id="toc84">
+<h3>2.3.43. Test suite for resource loading</h3>
+
+<pre>
+describe('saltos.core.require', ()
+</pre>
+
+<p>
+Contains tests for the require functionality
+</p>
+
+</section>
+<section id="toc85">
+<h3>2.3.44. Setup before each test in this suite</h3>
+
+<pre>
+beforeEach(()
+</pre>
+
+<p>
+Configures fake timers for testing asynchronous operations
+</p>
+
+</section>
+<section id="toc86">
+<h3>2.3.45. Cleanup after each test in this suite</h3>
+
+<pre>
+afterEach(()
+</pre>
+
+<p>
+Restores real timer implementation
+</p>
+
+</section>
+<section id="toc87">
+<h3>2.3.46. Test JavaScript file loading</h3>
+
+<pre>
+test('loads a JavaScript file successfully', async ()
+</pre>
+
+<p>
+Verifies proper loading and injection of JavaScript files
+</p>
+
+</section>
+<section id="toc88">
+<h3>2.3.47. Test CSS file loading</h3>
+
+<pre>
+test('loads a CSS file successfully', async ()
+</pre>
+
+<p>
+Verifies proper loading and injection of CSS files
+</p>
+
+</section>
+<section id="toc89">
+<h3>2.3.48. Test cached resource handling</h3>
+
+<pre>
+test('does not reload already loaded files', async ()
+</pre>
+
+<p>
+Verifies that already loaded resources are not reloaded
+</p>
+
+</section>
+<section id="toc90">
+<h3>2.3.49. Test pending resource handling</h3>
+
+<pre>
+test('waits when file is already loading', async ()
+</pre>
+
+<p>
+Verifies proper waiting behavior for resources already being loaded
+</p>
+
+</section>
+<section id="toc91">
+<h3>2.3.50. Test module file loading</h3>
+
+<pre>
+test('loads a JavaScript module file successfully', async ()
+</pre>
+
+<p>
+Verifies proper handling of JavaScript module files
+</p>
+
+</section>
+<section id="toc92">
+<h3>2.3.51. Test hashed resource loading</h3>
+
+<pre>
+test('loads a CSS file with hash successfully', async ()
+</pre>
+
+<p>
+Verifies proper handling of resources with cache-busting hashes
+</p>
+
+</section>
+<section id="toc93">
+<h3>2.3.52. Test boolean evaluation</h3>
+
+<pre>
+test('saltos.core.eval_bool', ()
+</pre>
+
+<p>
+Verifies proper conversion of various values to boolean
+</p>
+
+</section>
+<section id="toc94">
+<h3>2.3.53. Test string conversion</h3>
+
+<pre>
+test('saltos.core.toString', ()
+</pre>
+
+<p>
+Verifies proper string conversion of various values
+</p>
+
+</section>
+<section id="toc95">
+<h3>2.3.54. Test attribute value detection</h3>
+
+<pre>
+test('saltos.core.is_attr_value', ()
+</pre>
+
+<p>
+Verifies proper identification of attribute-value objects
+</p>
+
+</section>
+<section id="toc96">
+<h3>2.3.55. Test attribute-value joining</h3>
+
+<pre>
+test('saltos.core.join_attr_value', ()
+</pre>
+
+<p>
+Verifies proper merging of attribute and value objects
+</p>
+
+</section>
+<section id="toc97">
+<h3>2.3.56. saltos.core.encode_bad_chars</h3>
+
+<pre>
+test('saltos.core.encode_bad_chars', ()
+</pre>
+
+<p>
+This function performs the test of the encode_bad_chars function
+</p>
+
+</section>
+<section id="toc98">
+<h3>2.3.57. saltos.core.__get_code_from_file_and_line</h3>
+
+<pre>
+test('saltos.core.__get_code_from_file_and_line', ()
+</pre>
+
+<p>
+This function performs the test of the __get_code_from_file_and_line function
+</p>
+
+</section>
+<section id="toc99">
+<h3>2.3.58. saltos.core.timestamp</h3>
+
+<pre>
+test('saltos.core.timestamp', ()
+</pre>
+
+<p>
+This function performs the test of the timestamp function
+</p>
+
+</section>
+<section id="toc100">
+<h3>2.3.59. saltos.core.human_size</h3>
+
+<pre>
+test('saltos.core.human_size', ()
+</pre>
+
+<p>
+This function performs the test of the human_size function
+</p>
+
+</section>
+<section id="toc101">
+<h3>2.3.60. saltos.core.is_number</h3>
+
+<pre>
+test('saltos.core.is_number', ()
+</pre>
+
+<p>
+This function performs the test of the is_number function
+</p>
+
+</section>
+<section id="toc102">
+<h3>2.3.61. Core Module Tests</h3>
+
+<pre>
+describe('Core Module Tests', ()
+</pre>
+
+<p>
+This test suite validates the core functionalities of the SaltOS framework,
+ensuring that essential features operate correctly under different scenarios.
+</p>
+
+</section>
+<section id="toc103">
+<h3>2.3.62. Test service worker registration</h3>
+
+<pre>
+test('Registers service worker if supported and on HTTPS', async ()
+</pre>
+
+<p>
+This test checks if the service worker is registered properly when the
+browser supports service workers and the application is running over HTTPS.
+</p>
+
+</section>
+<section id="toc104">
+<h3>2.3.63. Test proxy function messaging</h3>
+
+<pre>
+test('Proxy function sends message to service worker', ()
+</pre>
+
+<p>
+This test ensures that the proxy function sends the correct message
+to the service worker's controller using the `postMessage` method.
+</p>
+
+</section>
+<section id="toc105">
+<h3>2.3.64. Test proxy synchronization on online events</h3>
+
+<pre>
+test('Triggers proxy sync on online event', ()
+</pre>
+
+<p>
+This test verifies that the proxy synchronization is triggered correctly
+when the browser's online event is fired.
+</p>
+
+</section>
+<section id="toc106">
+<h3>2.3.65. Test network protocol detection</h3>
+
+<pre>
+test('Check network detects protocols correctly', async ()
+</pre>
+
+<p>
+This test checks that the `check_network` function accurately detects
+HTTP and HTTPS protocols by simulating network conditions.
+</p>
+
+</section>
+</section>
+<section id="toc107">
+<h2>2.4. Bootstrap unit tests</h2>
+
+<pre>
+test_customers.js
+</pre>
+
+<p>
+This file contains the bootstrap unit tests
+</p>
+
+<section id="toc108">
+<h3>2.4.1. Puppeteer setup</h3>
+
+<pre>
+const puppeteer = require('puppeteer');
+</pre>
+
+<p>
+This lines contain the needed setup for run puppeteer and take screenshots
+</p>
+
+</section>
+<section id="toc109">
+<h3>2.4.2. Global variables</h3>
+
+<pre>
+let browser;
+</pre>
+
+<p>
+This variables contains the browser and page links
+</p>
+
+</section>
+<section id="toc110">
+<h3>2.4.3. Before All</h3>
+
+<pre>
+beforeAll(async ()
+</pre>
+
+<p>
+This function contains all code executed before all tests, in this case the
+features provided by this function includes the launch of the browser, set
+the screen size and start the javascript coverage
+</p>
+
+</section>
+<section id="toc111">
+<h3>2.4.4. After All</h3>
+
+<pre>
+afterAll(async ()
+</pre>
+
+<p>
+This function contains all code executed after all tests, in this case the
+features provided by this function include the stop of the javsacript coverage
+recording, the save feature to the desired storage path and the browser close
+</p>
+
+</section>
+<section id="toc112">
+<h3>2.4.5. Workflow variables</h3>
+
+<pre>
+let testFailed = false;
+</pre>
+
+<p>
+This variables allow to control the workflow of the test, the main idea is to
+skip all tests when one test fails
+</p>
+
+</section>
+<section id="toc113">
+<h3>2.4.6. Before Each</h3>
+
+<pre>
+beforeEach(()
+</pre>
+
+<p>
+This function contains all code executed before each test, in this case the
+features provided by this function includes the control of the workflow
+</p>
+
+</section>
+<section id="toc114">
+<h3>2.4.7. After Each</h3>
+
+<pre>
+afterEach(()
+</pre>
+
+<p>
+This function contains all code executed after each test, in this case the
+features provided by this function includes the control of the workflow
+</p>
+
+</section>
+<section id="toc115">
+<h3>2.4.8. App Customers</h3>
+
+<pre>
+describe('App Customers', ()
+</pre>
+
+<p>
+This test is intended to validate the correctness of the customers application
+by execute the list, more, reset, create, cancel, view, close, edit, back,
+insert, update and delete features and validate with the expected screenshot
+</p>
+
+</section>
+<section id="toc116">
+<h3>2.4.9. Action List</h3>
+
+<pre>
+test('Action List', async ()
+</pre>
+
+<p>
+This part of the test tries to load the list screen
+</p>
+
+</section>
+<section id="toc117">
+<h3>2.4.10. Action List</h3>
+
+<pre>
+test('Action More', async ()
+</pre>
+
+<p>
+This part of the test tries to validate the correctness of the more feature
+</p>
+
+</section>
+<section id="toc118">
+<h3>2.4.11. Action Reset</h3>
+
+<pre>
+test('Action Reset', async ()
+</pre>
+
+<p>
+This part of the test tries to validate the correctness of the reset feature
+</p>
+
+</section>
+<section id="toc119">
+<h3>2.4.12. Action Create</h3>
+
+<pre>
+test('Action Create', async ()
+</pre>
+
+<p>
+This part of the test tries to load the create screen
+</p>
+
+</section>
+<section id="toc120">
+<h3>2.4.13. Action Cancel</h3>
+
+<pre>
+test('Action Cancel', async ()
+</pre>
+
+<p>
+This part of the test tries to validate the correctness of the cancel feature
+</p>
+
+</section>
+<section id="toc121">
+<h3>2.4.14. Action View</h3>
+
+<pre>
+test('Action View', async ()
+</pre>
+
+<p>
+This part of the test tries to load the view screen
+</p>
+
+</section>
+<section id="toc122">
+<h3>2.4.15. Action Close</h3>
+
+<pre>
+test('Action Close', async ()
+</pre>
+
+<p>
+This part of the test tries to validate the correctness of the close feature
+</p>
+
+</section>
+<section id="toc123">
+<h3>2.4.16. Action Edit</h3>
+
+<pre>
+test('Action Edit', async ()
+</pre>
+
+<p>
+This part of the test tries to load the edit screen
+</p>
+
+</section>
+<section id="toc124">
+<h3>2.4.17. Action Go Back</h3>
+
+<pre>
+test('Action Go Back', async ()
+</pre>
+
+<p>
+This part of the test tries to validate the correctness of the go back feature
+</p>
+
+</section>
+<section id="toc125">
+<h3>2.4.18. Action Insert</h3>
+
+<pre>
+test('Action Insert', async ()
+</pre>
+
+<p>
+This part of the test tries to validate the correctness of the insert feature
+</p>
+
+</section>
+<section id="toc126">
+<h3>2.4.19. Action Update</h3>
+
+<pre>
+test('Action Update', async ()
+</pre>
+
+<p>
+This part of the test tries to validate the correctness of the update feature
+</p>
+
+</section>
+<section id="toc127">
+<h3>2.4.20. Action Delete</h3>
+
+<pre>
+test('Action Delete', async ()
+</pre>
+
+<p>
+This part of the test tries to validate the correctness of the delete feature
+</p>
+
+</section>
+</section>
+<section id="toc128">
+<h2>2.5. Bootstrap unit tests</h2>
+
+<pre>
+test_emails.js
+</pre>
+
+<p>
+This file contains the bootstrap unit tests
+</p>
+
+<section id="toc129">
+<h3>2.5.1. Puppeteer setup</h3>
+
+<pre>
+const puppeteer = require('puppeteer');
+</pre>
+
+<p>
+This lines contain the needed setup for run puppeteer and take screenshots
+</p>
+
+</section>
+<section id="toc130">
+<h3>2.5.2. Global variables</h3>
+
+<pre>
+let browser;
+</pre>
+
+<p>
+This variables contains the browser and page links
+</p>
+
+</section>
+<section id="toc131">
+<h3>2.5.3. Before All</h3>
+
+<pre>
+beforeAll(async ()
+</pre>
+
+<p>
+This function contains all code executed before all tests, in this case the
+features provided by this function includes the launch of the browser, set
+the screen size and start the javascript coverage
+</p>
+
+</section>
+<section id="toc132">
+<h3>2.5.4. After All</h3>
+
+<pre>
+afterAll(async ()
+</pre>
+
+<p>
+This function contains all code executed after all tests, in this case the
+features provided by this function include the stop of the javsacript coverage
+recording, the save feature to the desired storage path and the browser close
+</p>
+
+</section>
+<section id="toc133">
+<h3>2.5.5. Workflow variables</h3>
+
+<pre>
+let testFailed = false;
+</pre>
+
+<p>
+This variables allow to control the workflow of the test, the main idea is to
+skip all tests when one test fails
+</p>
+
+</section>
+<section id="toc134">
+<h3>2.5.6. Before Each</h3>
+
+<pre>
+beforeEach(()
+</pre>
+
+<p>
+This function contains all code executed before each test, in this case the
+features provided by this function includes the control of the workflow
+</p>
+
+</section>
+<section id="toc135">
+<h3>2.5.7. After Each</h3>
+
+<pre>
+afterEach(()
+</pre>
+
+<p>
+This function contains all code executed after each test, in this case the
+features provided by this function includes the control of the workflow
+</p>
+
+</section>
+<section id="toc136">
+<h3>2.5.8. App Emails</h3>
+
+<pre>
+describe('App Emails', ()
+</pre>
+
+<p>
+This test is intended to validate the correctness of the emails application by
+execute the list, control+f, profile, help, filter, create and view features and
+validate with the expected screenshot
+</p>
+
+</section>
+<section id="toc137">
+<h3>2.5.9. Action List</h3>
+
+<pre>
+test('Action List', async ()
+</pre>
+
+<p>
+This action tries to sets the emails as new and not new of all emails that
+appear in the screen
+</p>
+
+</section>
+<section id="toc138">
+<h3>2.5.10. Action Control F</h3>
+
+<pre>
+test('Action Control F', async ()
+</pre>
+
+<p>
+This part of the test tries to validate the control+f focus
+</p>
+
+</section>
+<section id="toc139">
+<h3>2.5.11. Action Profile</h3>
+
+<pre>
+test('Action Profile', async ()
+</pre>
+
+<p>
+This part of the test tries to load the profile screen
+</p>
+
+</section>
+<section id="toc140">
+<h3>2.5.12. Action Help</h3>
+
+<pre>
+test('Action Help', async ()
+</pre>
+
+<p>
+This part of the test tries to load the help screen
+</p>
+
+</section>
+<section id="toc141">
+<h3>2.5.13. Action Filter</h3>
+
+<pre>
+test('Action Filter', async ()
+</pre>
+
+<p>
+This part of the test tries to load the filter screen
+</p>
+
+</section>
+<section id="toc142">
+<h3>2.5.14. Action Create</h3>
+
+<pre>
+test('Action Create', async ()
+</pre>
+
+<p>
+This part of the test tries to load the create screen
+</p>
+
+</section>
+<section id="toc143">
+<h3>2.5.15. Action View</h3>
+
+<pre>
+test('Action View', async ()
+</pre>
+
+<p>
+This part of the test tries to load the view screen
+</p>
+
+</section>
+</section>
+<section id="toc144">
+<h2>2.6. Filter unit tests</h2>
+
+<pre>
+test_filter.js
+</pre>
+
+<p>
+This file contains unit tests for the filter management system
+including initialization, loading, saving, and UI interactions
+</p>
+
+<section id="toc145">
+<h3>2.6.1. Load all needed files of the project</h3>
+
+<pre>
+const files = `app,backup,core,driver,filter,form,gettext,hash,storage,token`.split(',');
+</pre>
+
+</section>
+<section id="toc146">
+<h3>2.6.2. Reset mocks before each test</h3>
+
+<pre>
+beforeEach(()
+</pre>
+
+<p>
+Ensures all Jest mocks are reset before each test case runs
+</p>
+
+</section>
+<section id="toc147">
+<h3>2.6.3. Restore mocks after each test</h3>
+
+<pre>
+afterEach(()
+</pre>
+
+<p>
+Ensures all Jest mocks are restored to their original implementations
+after each test case completes
+</p>
+
+</section>
+<section id="toc148">
+<h3>2.6.4. Test suite for filter initialization</h3>
+
+<pre>
+describe('saltos.filter.init()', ()
+</pre>
+
+<p>
+Contains tests for initializing the filter cache from server data
+</p>
+
+</section>
+<section id="toc149">
+<h3>2.6.5. Setup before each test in this suite</h3>
+
+<pre>
+beforeEach(()
+</pre>
+
+<p>
+Mocks window location and sets up AJAX response for filter data
+</p>
+
+</section>
+<section id="toc150">
+<h3>2.6.6. Test filter cache initialization</h3>
+
+<pre>
+test('should initialize filter cache', async ()
+</pre>
+
+<p>
+Verifies that the init function makes an AJAX call to load filters
+and properly populates the cache
+</p>
+
+</section>
+<section id="toc151">
+<h3>2.6.7. Test cache reuse</h3>
+
+<pre>
+test('should not make ajax call if cache is already populated', async ()
+</pre>
+
+<p>
+Verifies that subsequent init calls don't make AJAX requests
+when cache is already populated
+</p>
+
+</section>
+<section id="toc152">
+<h3>2.6.8. Test suite for filter loading</h3>
+
+<pre>
+describe('saltos.filter.load()', ()
+</pre>
+
+<p>
+Contains tests for loading filter data into forms and triggering searches
+</p>
+
+</section>
+<section id="toc153">
+<h3>2.6.9. Setup before each test in this suite</h3>
+
+<pre>
+beforeEach(()
+</pre>
+
+<p>
+Mocks form data and driver search functions
+</p>
+
+</section>
+<section id="toc154">
+<h3>2.6.10. Test loading existing filter</h3>
+
+<pre>
+test('should load filter data and trigger search', ()
+</pre>
+
+<p>
+Verifies that loading a filter populates form data
+and triggers a search
+</p>
+
+</section>
+<section id="toc155">
+<h3>2.6.11. Test loading non-existent filter</h3>
+
+<pre>
+test('should only trigger search if filter not found', ()
+</pre>
+
+<p>
+Verifies that loading an unknown filter only triggers search
+without modifying form data
+</p>
+
+</section>
+<section id="toc156">
+<h3>2.6.12. Test suite for filter updates</h3>
+
+<pre>
+describe('saltos.filter.update()', ()
+</pre>
+
+<p>
+Contains tests for updating the local filter cache
+</p>
+
+</section>
+<section id="toc157">
+<h3>2.6.13. Test updating filter cache</h3>
+
+<pre>
+test('should update filter cache', ()
+</pre>
+
+<p>
+Verifies that update modifies the filter cache correctly
+</p>
+
+</section>
+<section id="toc158">
+<h3>2.6.14. Test suite for filter saving</h3>
+
+<pre>
+describe('saltos.filter.save()', ()
+</pre>
+
+<p>
+Contains tests for saving filters to both cache and server
+</p>
+
+</section>
+<section id="toc159">
+<h3>2.6.15. Test saving new filter</h3>
+
+<pre>
+test('should save new filter to cache and server', ()
+</pre>
+
+<p>
+Verifies that new filters are added to cache and saved to server
+</p>
+
+</section>
+<section id="toc160">
+<h3>2.6.16. Test updating existing filter</h3>
+
+<pre>
+test('should update existing filter if data changed', ()
+</pre>
+
+<p>
+Verifies that modified filters are updated in cache and server
+</p>
+
+</section>
+<section id="toc161">
+<h3>2.6.17. Test unchanged filter</h3>
+
+<pre>
+test('should not make server call if data unchanged', ()
+</pre>
+
+<p>
+Verifies that unchanged filters don't trigger server updates
+</p>
+
+</section>
+<section id="toc162">
+<h3>2.6.18. Test filter deletion</h3>
+
+<pre>
+test('should delete filter when data is null', ()
+</pre>
+
+<p>
+Verifies that filters are removed from cache and server when set to null
+</p>
+
+</section>
+<section id="toc163">
+<h3>2.6.19. Test deleting non-existent filter</h3>
+
+<pre>
+test('should not delete non-existent filter', ()
+</pre>
+
+<p>
+Verifies that attempting to delete unknown filters doesn't trigger server calls
+</p>
+
+</section>
+<section id="toc164">
+<h3>2.6.20. Test suite for filter UI buttons</h3>
+
+<pre>
+describe('saltos.filter.button()', ()
+</pre>
+
+<p>
+Contains tests for all filter-related UI actions
+</p>
+
+</section>
+<section id="toc165">
+<h3>2.6.21. Setup before each test in this suite</h3>
+
+<pre>
+beforeEach(()
+</pre>
+
+<p>
+Sets up DOM elements and mocks filter functions
+</p>
+
+</section>
+<section id="toc166">
+<h3>2.6.22. Test load action</h3>
+
+<pre>
+test('should handle load action', ()
+</pre>
+
+<p>
+Verifies that load button loads selected filter and resets selection
+</p>
+
+</section>
+<section id="toc167">
+<h3>2.6.23. Test update action</h3>
+
+<pre>
+test('should handle update action', ()
+</pre>
+
+<p>
+Verifies that update button saves current form data to selected filter
+</p>
+
+</section>
+<section id="toc168">
+<h3>2.6.24. Test delete action</h3>
+
+<pre>
+test('should handle delete action', ()
+</pre>
+
+<p>
+Verifies that delete button removes selected filter and refreshes UI
+</p>
+
+</section>
+<section id="toc169">
+<h3>2.6.25. Test create action</h3>
+
+<pre>
+test('should handle create action', ()
+</pre>
+
+<p>
+Verifies that create button saves current form data as new filter
+</p>
+
+</section>
+<section id="toc170">
+<h3>2.6.26. Test rename action</h3>
+
+<pre>
+test('should handle rename action', ()
+</pre>
+
+<p>
+Verifies that rename button moves filter data to new name
+and removes old filter entry
+</p>
+
+</section>
+<section id="toc171">
+<h3>2.6.27. Test invalid action</h3>
+
+<pre>
+test('should do nothing for invalid actions', ()
+</pre>
+
+<p>
+Verifies that unknown actions don't modify filter cache
+</p>
+
+</section>
+<section id="toc172">
+<h3>2.6.28. Test suite for filter selection UI</h3>
+
+<pre>
+describe('saltos.filter.select()', ()
+</pre>
+
+<p>
+Contains tests for updating filter dropdown and tree view
+</p>
+
+</section>
+<section id="toc173">
+<h3>2.6.29. Setup before each test in this suite</h3>
+
+<pre>
+beforeEach(()
+</pre>
+
+<p>
+Populates filter cache with test data
+</p>
+
+</section>
+<section id="toc174">
+<h3>2.6.30. Test UI update</h3>
+
+<pre>
+test('should update select options and jstree', ()
+</pre>
+
+<p>
+Verifies that select updates dropdown options and tree view
+</p>
+
+</section>
+<section id="toc175">
+<h3>2.6.31. Test missing tree element</h3>
+
+<pre>
+test('should handle missing form elements gracefully', ()
+</pre>
+
+<p>
+Verifies graceful handling when tree element is missing
+</p>
+
+</section>
+<section id="toc176">
+<h3>2.6.32. Test missing select element</h3>
+
+<pre>
+test('should handle missing select elements gracefully', ()
+</pre>
+
+<p>
+Verifies graceful handling when select element is missing
+</p>
+
+</section>
+<section id="toc177">
+<h3>2.6.33. Test missing form elements</h3>
+
+<pre>
+test('should handle missing form elements gracefully', ()
+</pre>
+
+<p>
+Verifies graceful handling when all form elements are missing
+</p>
+
+</section>
+</section>
+<section id="toc178">
+<h2>2.7. Core unit tests</h2>
+
+<pre>
+test_gettext.js
+</pre>
+
+<p>
+This file contains the core unit tests
+</p>
+
+<section id="toc179">
+<h3>2.7.1. Load all needed files of the project</h3>
+
+<pre>
+const files = `bootstrap,core,gettext,storage`.split(',');
+</pre>
+
+</section>
+<section id="toc180">
+<h3>2.7.2. berofeEach used in this test</h3>
+
+<pre>
+beforeEach(()
+</pre>
+
+</section>
+<section id="toc181">
+<h3>2.7.3. afterEach used in this test</h3>
+
+<pre>
+afterEach(()
+</pre>
+
+</section>
+<section id="toc182">
+<h3>2.7.4. saltos.gettext.bootstrap.set/get/get_short/unset</h3>
+
+<pre>
+test('saltos.gettext.set/get/get_short/unset', ()
+</pre>
+
+<p>
+This function performs the tests of the set/get/get_short and unset functions
+</p>
+
+</section>
+<section id="toc183">
+<h3>2.7.5. saltos.gettext.bootstrap.field</h3>
+
+<pre>
+test('saltos.gettext.bootstrap.field', ()
+</pre>
+
+<p>
+This function performs the tests of the field function
+</p>
+
+</section>
+<section id="toc184">
+<h3>2.7.6. saltos.gettext.bootstrap.modal</h3>
+
+<pre>
+test('saltos.gettext.bootstrap.modal', ()
+</pre>
+
+<p>
+This function performs the tests of the modal function
+</p>
+
+</section>
+<section id="toc185">
+<h3>2.7.7. saltos.gettext.bootstrap.toast</h3>
+
+<pre>
+test('saltos.gettext.bootstrap.toast', ()
+</pre>
+
+<p>
+This function performs the tests of the toast function
+</p>
+
+</section>
+<section id="toc186">
+<h3>2.7.8. saltos.gettext.bootstrap.menu</h3>
+
+<pre>
+test('saltos.gettext.bootstrap.menu', ()
+</pre>
+
+<p>
+This function performs the tests of the menu function
+</p>
+
+</section>
+<section id="toc187">
+<h3>2.7.9. saltos.gettext.bootstrap.offcanvas</h3>
+
+<pre>
+test('saltos.gettext.bootstrap.offcanvas', ()
+</pre>
+
+<p>
+This function performs the tests of the offcanvas function
+</p>
+
+</section>
+</section>
+<section id="toc188">
+<h2>2.8. Hash unit tests</h2>
+
+<pre>
+test_hash.js
+</pre>
+
+<p>
+This file contains unit tests for hash management functionality
+including hash parsing, manipulation, and event triggering
+</p>
+
+<section id="toc189">
+<h3>2.8.1. Load all needed files of the project</h3>
+
+<pre>
+const files = `hash`.split(',');
+</pre>
+
+</section>
+<section id="toc190">
+<h3>2.8.2. Reset mocks before each test</h3>
+
+<pre>
+beforeEach(()
+</pre>
+
+<p>
+Initializes mock implementations for history API functions
+and resets all mocks between test cases
+</p>
+
+</section>
+<section id="toc191">
+<h3>2.8.3. Restore mocks after each test</h3>
+
+<pre>
+afterEach(()
+</pre>
+
+<p>
+Restores original implementations of mocked functions
+after each test case completes
+</p>
+
+</section>
+<section id="toc192">
+<h3>2.8.4. Test suite for hash helper function</h3>
+
+<pre>
+describe('saltos.hash.__helper', ()
+</pre>
+
+<p>
+Contains tests for the internal hash normalization function
+that cleans hash strings by removing special characters
+</p>
+
+</section>
+<section id="toc193">
+<h3>2.8.5. Test hash with leading #</h3>
+
+<pre>
+test('should remove leading #', ()
+</pre>
+
+<p>
+Verifies the helper removes the # character from the beginning
+</p>
+
+</section>
+<section id="toc194">
+<h3>2.8.6. Test hash with leading /</h3>
+
+<pre>
+test('should remove leading /', ()
+</pre>
+
+<p>
+Verifies the helper removes the / character from the beginning
+</p>
+
+</section>
+<section id="toc195">
+<h3>2.8.7. Test hash with leading #/</h3>
+
+<pre>
+test('should remove both leading # and /', ()
+</pre>
+
+<p>
+Verifies the helper removes both # and / characters from the beginning
+</p>
+
+</section>
+<section id="toc196">
+<h3>2.8.8. Test empty hash</h3>
+
+<pre>
+test('should return empty string for empty input', ()
+</pre>
+
+<p>
+Verifies the helper returns empty string for empty input
+</p>
+
+</section>
+<section id="toc197">
+<h3>2.8.9. Test clean hash</h3>
+
+<pre>
+test('should not modify clean hash', ()
+</pre>
+
+<p>
+Verifies the helper returns unchanged input when no special characters
+</p>
+
+</section>
+<section id="toc198">
+<h3>2.8.10. Test suite for hash getter function</h3>
+
+<pre>
+describe('saltos.hash.get', ()
+</pre>
+
+<p>
+Contains tests for retrieving the current window hash
+with proper formatting
+</p>
+
+</section>
+<section id="toc199">
+<h3>2.8.11. Test getting current hash</h3>
+
+<pre>
+test('should return current hash without #', ()
+</pre>
+
+<p>
+Verifies the function returns hash without # prefix
+</p>
+
+</section>
+<section id="toc200">
+<h3>2.8.12. Test getting empty hash</h3>
+
+<pre>
+test('should return empty string when no hash', ()
+</pre>
+
+<p>
+Verifies the function returns empty string when no hash exists
+</p>
+
+</section>
+<section id="toc201">
+<h3>2.8.13. Test getting hash with leading /</h3>
+
+<pre>
+test('should remove leading /', ()
+</pre>
+
+<p>
+Verifies the function removes leading / from the hash
+</p>
+
+</section>
+<section id="toc202">
+<h3>2.8.14. Test suite for hash setter function</h3>
+
+<pre>
+describe('saltos.hash.set', ()
+</pre>
+
+<p>
+Contains tests for replacing the current hash
+using history.replaceState
+</p>
+
+</section>
+<section id="toc203">
+<h3>2.8.15. Test setting new hash</h3>
+
+<pre>
+test('should set new hash with proper format', ()
+</pre>
+
+<p>
+Verifies the function updates hash with proper format
+and uses replaceState
+</p>
+
+</section>
+<section id="toc204">
+<h3>2.8.16. Test setting same hash</h3>
+
+<pre>
+test('should not set same hash', ()
+</pre>
+
+<p>
+Verifies the function doesn't update history when hash doesn't change
+</p>
+
+</section>
+<section id="toc205">
+<h3>2.8.17. Test setting hash with #</h3>
+
+<pre>
+test('should handle hash with #', ()
+</pre>
+
+<p>
+Verifies the function properly handles input containing #
+</p>
+
+</section>
+<section id="toc206">
+<h3>2.8.18. Test setting hash with /</h3>
+
+<pre>
+test('should handle hash with /', ()
+</pre>
+
+<p>
+Verifies the function properly handles input containing /
+</p>
+
+</section>
+<section id="toc207">
+<h3>2.8.19. Test setting empty hash</h3>
+
+<pre>
+test('should handle empty hash', ()
+</pre>
+
+<p>
+Verifies the function properly handles empty hash input
+</p>
+
+</section>
+<section id="toc208">
+<h3>2.8.20. Test suite for hash adder function</h3>
+
+<pre>
+describe('saltos.hash.add', ()
+</pre>
+
+<p>
+Contains tests for adding new hash entries
+using history.pushState
+</p>
+
+</section>
+<section id="toc209">
+<h3>2.8.21. Test adding new hash</h3>
+
+<pre>
+test('should add new hash with proper format', ()
+</pre>
+
+<p>
+Verifies the function updates hash with proper format
+and uses pushState
+</p>
+
+</section>
+<section id="toc210">
+<h3>2.8.22. Test adding same hash</h3>
+
+<pre>
+test('should not add same hash', ()
+</pre>
+
+<p>
+Verifies the function doesn't update history when hash doesn't change
+</p>
+
+</section>
+<section id="toc211">
+<h3>2.8.23. Test adding hash with #</h3>
+
+<pre>
+test('should handle hash with #', ()
+</pre>
+
+<p>
+Verifies the function properly handles input containing #
+</p>
+
+</section>
+<section id="toc212">
+<h3>2.8.24. Test adding hash with /</h3>
+
+<pre>
+test('should handle hash with /', ()
+</pre>
+
+<p>
+Verifies the function properly handles input containing /
+</p>
+
+</section>
+<section id="toc213">
+<h3>2.8.25. Test adding empty hash</h3>
+
+<pre>
+test('should handle empty hash', ()
+</pre>
+
+<p>
+Verifies the function properly handles empty hash input
+</p>
+
+</section>
+<section id="toc214">
+<h3>2.8.26. Test suite for URL hash extraction</h3>
+
+<pre>
+describe('saltos.hash.url2hash', ()
+</pre>
+
+<p>
+Contains tests for extracting hash fragments from URLs
+</p>
+
+</section>
+<section id="toc215">
+<h3>2.8.27. Test extracting hash from URL</h3>
+
+<pre>
+test('should extract hash from URL', ()
+</pre>
+
+<p>
+Verifies the function extracts hash fragment correctly
+</p>
+
+</section>
+<section id="toc216">
+<h3>2.8.28. Test extracting hash with /</h3>
+
+<pre>
+test('should handle URL with / after #', ()
+</pre>
+
+<p>
+Verifies the function handles hashes containing /
+</p>
+
+</section>
+<section id="toc217">
+<h3>2.8.29. Test URL without hash</h3>
+
+<pre>
+test('should return empty string when no hash', ()
+</pre>
+
+<p>
+Verifies the function returns empty string when no hash exists
+</p>
+
+</section>
+<section id="toc218">
+<h3>2.8.30. Test suite for hash change events</h3>
+
+<pre>
+describe('saltos.hash.trigger', ()
+</pre>
+
+<p>
+Contains tests for triggering hashchange events
+</p>
+
+</section>
+<section id="toc219">
+<h3>2.8.31. Test triggering hash change</h3>
+
+<pre>
+test('should dispatch hashchange event', ()
+</pre>
+
+<p>
+Verifies the function dispatches a hashchange event
+</p>
+
+</section>
+</section>
+<section id="toc220">
+<h2>2.9. Bootstrap unit tests</h2>
+
+<pre>
+test_invoices.js
+</pre>
+
+<p>
+This file contains the bootstrap unit tests
+</p>
+
+<section id="toc221">
+<h3>2.9.1. Puppeteer setup</h3>
+
+<pre>
+const puppeteer = require('puppeteer');
+</pre>
+
+<p>
+This lines contain the needed setup for run puppeteer and take screenshots
+</p>
+
+</section>
+<section id="toc222">
+<h3>2.9.2. Global variables</h3>
+
+<pre>
+let browser;
+</pre>
+
+<p>
+This variables contains the browser and page links
+</p>
+
+</section>
+<section id="toc223">
+<h3>2.9.3. Before All</h3>
+
+<pre>
+beforeAll(async ()
+</pre>
+
+<p>
+This function contains all code executed before all tests, in this case the
+features provided by this function includes the launch of the browser, set
+the screen size and start the javascript coverage
+</p>
+
+</section>
+<section id="toc224">
+<h3>2.9.4. After All</h3>
+
+<pre>
+afterAll(async ()
+</pre>
+
+<p>
+This function contains all code executed after all tests, in this case the
+features provided by this function include the stop of the javsacript coverage
+recording, the save feature to the desired storage path and the browser close
+</p>
+
+</section>
+<section id="toc225">
+<h3>2.9.5. Workflow variables</h3>
+
+<pre>
+let testFailed = false;
+</pre>
+
+<p>
+This variables allow to control the workflow of the test, the main idea is to
+skip all tests when one test fails
+</p>
+
+</section>
+<section id="toc226">
+<h3>2.9.6. Before Each</h3>
+
+<pre>
+beforeEach(()
+</pre>
+
+<p>
+This function contains all code executed before each test, in this case the
+features provided by this function includes the control of the workflow
+</p>
+
+</section>
+<section id="toc227">
+<h3>2.9.7. After Each</h3>
+
+<pre>
+afterEach(()
+</pre>
+
+<p>
+This function contains all code executed after each test, in this case the
+features provided by this function includes the control of the workflow
+</p>
+
+</section>
+<section id="toc228">
+<h3>2.9.8. App Invoices</h3>
+
+<pre>
+describe('App Invoices', ()
+</pre>
+
+<p>
+This test is intended to validate the correctness of the invoices application
+by execute the list, checkbox, create, view and edit features and validate with
+the expected screenshot
+</p>
+
+</section>
+<section id="toc229">
+<h3>2.9.9. Action List</h3>
+
+<pre>
+test('Action List', async ()
+</pre>
+
+<p>
+This part of the test tries to load the list screen
+</p>
+
+</section>
+<section id="toc230">
+<h3>2.9.10. Action List</h3>
+
+<pre>
+test('Action Checkbox', async ()
+</pre>
+
+<p>
+This part of the test tries to validate the correctness of the checkbox
+feature
+</p>
+
+</section>
+<section id="toc231">
+<h3>2.9.11. Action Create</h3>
+
+<pre>
+test('Action Create', async ()
+</pre>
+
+<p>
+This part of the test tries to load the create screen
+</p>
+
+</section>
+<section id="toc232">
+<h3>2.9.12. Action View</h3>
+
+<pre>
+test('Action View', async ()
+</pre>
+
+<p>
+This part of the test tries to load the view screen
+</p>
+
+</section>
+<section id="toc233">
+<h3>2.9.13. Action Edit</h3>
+
+<pre>
+test('Action Edit', async ()
+</pre>
+
+<p>
+This part of the test tries to load the edit screen
+</p>
+
+</section>
+</section>
+<section id="toc234">
+<h2>2.10. Proxy unit tests</h2>
+
+<pre>
+test_proxy.js
+</pre>
+
+<p>
+This file contains the proxy unit tests
+</p>
+
+<section id="toc235">
+<h3>2.10.1. berofeEach used in this test</h3>
+
+<pre>
+beforeEach(()
+</pre>
+
+</section>
+<section id="toc236">
+<h3>2.10.2. afterEach used in this test</h3>
+
+<pre>
+afterEach(()
+</pre>
+
+</section>
+<section id="toc237">
+<h3>2.10.3. Load the needed environment of the proxy part</h3>
+
+<pre>
+Object.assign(global, myrequire(
+</pre>
+
+</section>
+<section id="toc238">
+<h3>2.10.4. md5</h3>
+
+<pre>
+test('md5', ()
+</pre>
+
+<p>
+This function performs the test of the md5 function
+</p>
+
+</section>
+<section id="toc239">
+<h3>2.10.5. human_size</h3>
+
+<pre>
+test('human_size', ()
+</pre>
+
+<p>
+This function performs the test of the human_size function
+</p>
+
+</section>
+</section>
+<section id="toc240">
+<h2>2.11. Push unit tests</h2>
+
+<pre>
+test_push.js
+</pre>
+
+<p>
+This file contains unit tests for the push notification functionality
+and favicon status updates in the SaltOS framework.
+</p>
+
+<section id="toc241">
+<h3>2.11.1. Load all needed files of the project</h3>
+
+<pre>
+const files = `app,bootstrap,core,gettext,push,storage,token`.split(',');
+</pre>
+
+</section>
+<section id="toc242">
+<h3>2.11.2. Reset mocks before each test</h3>
+
+<pre>
+beforeEach(()
+</pre>
+
+<p>
+Ensures all Jest mocks are reset before each test case runs
+</p>
+
+</section>
+<section id="toc243">
+<h3>2.11.3. Restore mocks after each test</h3>
+
+<pre>
+afterEach(()
+</pre>
+
+<p>
+Ensures all Jest mocks are restored to their original implementations
+after each test case completes
+</p>
+
+</section>
+<section id="toc244">
+<h3>2.11.4. Test suite for saltos.push.fn functionality</h3>
+
+<pre>
+describe('saltos.push.fn', ()
+</pre>
+
+<p>
+Contains tests for the push notification system's main function,
+including various execution conditions and response handling
+</p>
+
+</section>
+<section id="toc245">
+<h3>2.11.5. Setup before each test in this suite</h3>
+
+<pre>
+beforeEach(()
+</pre>
+
+<p>
+Initializes mock implementations and resets push notification state
+</p>
+
+</section>
+<section id="toc246">
+<h3>2.11.6. Test push function when already executing</h3>
+
+<pre>
+test('should return early if executing is true', ()
+</pre>
+
+<p>
+Verifies that the push function exits early when a push operation
+is already in progress
+</p>
+
+</section>
+<section id="toc247">
+<h3>2.11.7. Test push function without token</h3>
+
+<pre>
+test('should return early if token is not available', ()
+</pre>
+
+<p>
+Verifies that the push function exits early when no authentication
+token is available
+</p>
+
+</section>
+<section id="toc248">
+<h3>2.11.8. Test push function when offline</h3>
+
+<pre>
+test('should return early if navigator is offline', ()
+</pre>
+
+<p>
+Verifies that the push function exits early when the browser
+is offline
+</p>
+
+</section>
+<section id="toc249">
+<h3>2.11.9. Test push function with positive count</h3>
+
+<pre>
+test('should return early if count is greater than or equal to 0', ()
+</pre>
+
+<p>
+Verifies that the push function exits early when the countdown
+counter hasn't reached zero
+</p>
+
+</section>
+<section id="toc250">
+<h3>2.11.10. Test push function with successful response</h3>
+
+<pre>
+test('should call ajax and handle success response', ()
+</pre>
+
+<p>
+Verifies that the push function makes an AJAX call and properly
+handles a successful response
+</p>
+
+</section>
+<section id="toc251">
+<h3>2.11.11. Test push function with error response</h3>
+
+<pre>
+test('should handle error response', ()
+</pre>
+
+<p>
+Verifies that the push function properly handles an error response
+from the server
+</p>
+
+</section>
+<section id="toc252">
+<h3>2.11.12. Test suite for saltos.favicon.fn functionality</h3>
+
+<pre>
+describe('saltos.favicon.fn', ()
+</pre>
+
+<p>
+Contains tests for the favicon status update functionality,
+including visibility state handling
+</p>
+
+</section>
+<section id="toc253">
+<h3>2.11.13. Test favicon function activation</h3>
+
+<pre>
+test('should start interval if bool is true and executing is false', ()
+</pre>
+
+<p>
+Verifies that the favicon update interval starts when
+the function is activated
+</p>
+
+</section>
+<section id="toc254">
+<h3>2.11.14. Test favicon function deactivation</h3>
+
+<pre>
+test('should clear interval if bool is false and executing is true', ()
+</pre>
+
+<p>
+Verifies that the favicon update interval stops when
+the function is deactivated
+</p>
+
+</section>
+</section>
+<section id="toc255">
+<h2>2.12. Storage unit tests</h2>
+
+<pre>
+test_storage.js
+</pre>
+
+<p>
+This file contains the storage unit tests
+</p>
+
+<section id="toc256">
+<h3>2.12.1. Load all needed files of the project</h3>
+
+<pre>
+const files = `core,storage`.split(',');
+</pre>
+
+</section>
+<section id="toc257">
+<h3>2.12.2. berofeEach used in this test</h3>
+
+<pre>
+beforeEach(()
+</pre>
+
+</section>
+<section id="toc258">
+<h3>2.12.3. afterEach used in this test</h3>
+
+<pre>
+afterEach(()
+</pre>
+
+</section>
+<section id="toc259">
+<h3>2.12.4. saltos.storage</h3>
+
+<pre>
+test('saltos.storage', ()
+</pre>
+
+<p>
+This function performs the test of the storage functions
+</p>
+
+</section>
+</section>
+<section id="toc260">
+<h2>2.13. Bootstrap unit tests</h2>
+
+<pre>
+test_tester.js
+</pre>
+
+<p>
+This file contains the bootstrap unit tests
+</p>
+
+<section id="toc261">
+<h3>2.13.1. Puppeteer setup</h3>
+
+<pre>
+const puppeteer = require('puppeteer');
+</pre>
+
+<p>
+This lines contain the needed setup for run puppeteer and take screenshots
+</p>
+
+</section>
+<section id="toc262">
+<h3>2.13.2. Global variables</h3>
+
+<pre>
+let browser;
+</pre>
+
+<p>
+This variables contains the browser and page links
+</p>
+
+</section>
+<section id="toc263">
+<h3>2.13.3. Before All</h3>
+
+<pre>
+beforeAll(async ()
+</pre>
+
+<p>
+This function contains all code executed before all tests, in this case the
+features provided by this function includes the launch of the browser, set
+the screen size and start the javascript coverage
+</p>
+
+</section>
+<section id="toc264">
+<h3>2.13.4. After All</h3>
+
+<pre>
+afterAll(async ()
+</pre>
+
+<p>
+This function contains all code executed after all tests, in this case the
+features provided by this function include the stop of the javsacript coverage
+recording, the save feature to the desired storage path and the browser close
+</p>
+
+</section>
+<section id="toc265">
+<h3>2.13.5. Workflow variables</h3>
+
+<pre>
+let testFailed = false;
+</pre>
+
+<p>
+This variables allow to control the workflow of the test, the main idea is to
+skip all tests when one test fails
+</p>
+
+</section>
+<section id="toc266">
+<h3>2.13.6. Before Each</h3>
+
+<pre>
+beforeEach(()
+</pre>
+
+<p>
+This function contains all code executed before each test, in this case the
+features provided by this function includes the control of the workflow
+</p>
+
+</section>
+<section id="toc267">
+<h3>2.13.7. After Each</h3>
+
+<pre>
+afterEach(()
+</pre>
+
+<p>
+This function contains all code executed after each test, in this case the
+features provided by this function includes the control of the workflow
+</p>
+
+</section>
+<section id="toc268">
+<h3>2.13.8. App Tester</h3>
+
+<pre>
+describe('App Tester', ()
+</pre>
+
+<p>
+This test is intended to validate the correctness of the tester application
+by execute the init, disabled, enabled, all bs_themes and all css_themes and
+validate with the expected screenshot
+</p>
+
+</section>
+<section id="toc269">
+<h3>2.13.9. Action Init</h3>
+
+<pre>
+test('Action Init', async ()
+</pre>
+
+<p>
+This part of the test tries to initialize the tester screen by provide a
+valid credentials and loads the tester application
+</p>
+
+</section>
+<section id="toc270">
+<h3>2.13.10. Action Disabled</h3>
+
+<pre>
+test('Action Disabled', async ()
+</pre>
+
+<p>
+This part of the test tries to disable all widgets
+</p>
+
+</section>
+<section id="toc271">
+<h3>2.13.11. Action Enabled</h3>
+
+<pre>
+test('Action Enabled', async ()
+</pre>
+
+<p>
+This part of the test tries to enable all widgets
+</p>
+
+</section>
+<section id="toc272">
+<h3>2.13.12. List of bs_themes</h3>
+
+<pre>
+const bs_themes = ['light', 'dark', 'auto'];
+</pre>
+
+</section>
+<section id="toc273">
+<h3>2.13.13. Action Bs Theme</h3>
+
+<pre>
+test.each(bs_themes)('Action Bs Theme %s', async theme
+</pre>
+
+<p>
+This part of the test tries to set the differents bs_themes
+</p>
+
+</section>
+<section id="toc274">
+<h3>2.13.14. List of css_themes</h3>
+
+<pre>
+const css_themes = ['default', 'cerulean', 'cyborg', 'darkly', 'flatly', 'journal', 'litera', 'lumen',
+</pre>
+
+</section>
+<section id="toc275">
+<h3>2.13.15. Action Css Theme</h3>
+
+<pre>
+test.each(css_themes)('Action Css Theme %s', async theme
+</pre>
+
+<p>
+This part of the test tries to set the differents css_themes
+</p>
+
+</section>
+</section>
+<section id="toc276">
+<h2>2.14. Token unit tests</h2>
+
+<pre>
+test_token.js
+</pre>
+
+<p>
+This file contains the token unit tests
+</p>
+
+<section id="toc277">
+<h3>2.14.1. Load all needed files of the project</h3>
+
+<pre>
+const files = `core,storage,token`.split(',');
+</pre>
+
+</section>
+<section id="toc278">
+<h3>2.14.2. berofeEach used in this test</h3>
+
+<pre>
+beforeEach(()
+</pre>
+
+</section>
+<section id="toc279">
+<h3>2.14.3. afterEach used in this test</h3>
+
+<pre>
+afterEach(()
+</pre>
+
+</section>
+<section id="toc280">
+<h3>2.14.4. saltos.token</h3>
+
+<pre>
+test('saltos.token', ()
+</pre>
+
+<p>
+This function performs the test of the token functions
+</p>
+
+</section>
+</section>
+<section id="toc281">
+<h2>2.15. Window unit tests</h2>
+
+<pre>
+test_window.js
+</pre>
+
+<p>
+This file contains unit tests for window management functionality
+including window opening/closing and cross-tab communication
+</p>
+
+<section id="toc282">
+<h3>2.15.1. Load all needed files of the project</h3>
+
+<pre>
+const files = `core,storage,window`.split(',');
+</pre>
+
+</section>
+<section id="toc283">
+<h3>2.15.2. Reset mocks before each test</h3>
+
+<pre>
+beforeEach(()
+</pre>
+
+<p>
+Ensures all Jest mocks are reset before each test case runs
+</p>
+
+</section>
+<section id="toc284">
+<h3>2.15.3. Restore mocks after each test</h3>
+
+<pre>
+afterEach(()
+</pre>
+
+<p>
+Ensures all Jest mocks are restored to their original implementations
+after each test case completes
+</p>
+
+</section>
+<section id="toc285">
+<h3>2.15.4. Test suite for window open/close functionality</h3>
+
+<pre>
+describe('saltos.window.open/close', ()
+</pre>
+
+<p>
+Contains tests for opening new windows with different URL types
+and closing the current window
+</p>
+
+</section>
+<section id="toc286">
+<h3>2.15.5. Setup before each test in this suite</h3>
+
+<pre>
+beforeEach(()
+</pre>
+
+<p>
+Mocks window.open and window.close functions
+</p>
+
+</section>
+<section id="toc287">
+<h3>2.15.6. Test opening app URLs</h3>
+
+<pre>
+test('should call window.open with the app prefix', ()
+</pre>
+
+<p>
+Verifies that app URLs are properly prefixed with .#/
+when opening new windows
+</p>
+
+</section>
+<section id="toc288">
+<h3>2.15.7. Test opening HTTP URLs</h3>
+
+<pre>
+test('should call window.open with the http prefix', ()
+</pre>
+
+<p>
+Verifies that HTTP URLs are passed through unchanged
+when opening new windows
+</p>
+
+</section>
+<section id="toc289">
+<h3>2.15.8. Test opening HTTPS URLs</h3>
+
+<pre>
+test('should call window.open with the https prefix', ()
+</pre>
+
+<p>
+Verifies that HTTPS URLs are passed through unchanged
+when opening new windows
+</p>
+
+</section>
+<section id="toc290">
+<h3>2.15.9. Test unsupported URL protocols</h3>
+
+<pre>
+test('should throw an error when call window.open with non supported protocol', ()
+</pre>
+
+<p>
+Verifies that attempting to open URLs with unsupported protocols
+throws an error
+</p>
+
+</section>
+<section id="toc291">
+<h3>2.15.10. Test window closing</h3>
+
+<pre>
+test('should call window.close', ()
+</pre>
+
+<p>
+Verifies that the close function properly calls window.close
+</p>
+
+</section>
+<section id="toc292">
+<h3>2.15.11. Test suite for window event listeners</h3>
+
+<pre>
+describe('saltos.window.listeners', ()
+</pre>
+
+<p>
+Contains tests for cross-tab communication functionality
+including setting listeners and sending events between tabs
+</p>
+
+</section>
+<section id="toc293">
+<h3>2.15.12. Test setting event listeners</h3>
+
+<pre>
+test('set_listener should add a listener for a specific event', ()
+</pre>
+
+<p>
+Verifies that listeners can be registered for specific events
+</p>
+
+</section>
+<section id="toc294">
+<h3>2.15.13. Test removing event listeners</h3>
+
+<pre>
+test('unset_listener should remove a listener for a specific event', ()
+</pre>
+
+<p>
+Verifies that listeners can be removed for specific events
+</p>
+
+</section>
+<section id="toc295">
+<h3>2.15.14. Test sending events to current tab</h3>
+
+<pre>
+test('send should trigger the listener in the same tab when scope is "me"', ()
+</pre>
+
+<p>
+Verifies that events with "me" scope only trigger callbacks
+in the current tab
+</p>
+
+</section>
+<section id="toc296">
+<h3>2.15.15. Test sending events to other tabs</h3>
+
+<pre>
+test('send should trigger the listener in other tabs when scope is "other"', ()
+</pre>
+
+<p>
+Verifies that events with "other" scope trigger callbacks
+in other tabs through localStorage events
+</p>
+
+</section>
+<section id="toc297">
+<h3>2.15.16. Test sending events to all tabs</h3>
+
+<pre>
+test('send should trigger the listener in all tabs when scope is "all"', ()
+</pre>
+
+<p>
+Verifies that events with "all" scope trigger callbacks
+in all tabs including the current one
+</p>
+
+</section>
+<section id="toc298">
+<h3>2.15.17. Test sessionStorage event filtering</h3>
+
+<pre>
+test('storage event listener should not trigger if the event is not from localStorage', ()
+</pre>
+
+<p>
+Verifies that events from sessionStorage don't trigger
+the cross-tab communication callbacks
+</p>
+
+</section>
+<section id="toc299">
+<h3>2.15.18. Test event key filtering</h3>
+
+<pre>
+test('storage event listener should not trigger if the key does not match', ()
+</pre>
+
+<p>
+Verifies that events with incorrect keys don't trigger
+the cross-tab communication callbacks
+</p>
+
+</section>
+<section id="toc300">
+<h3>2.15.19. Test unregistered event filtering</h3>
+
+<pre>
+test('storage event listener should not trigger if the event name is not in listeners', ()
+</pre>
+
+<p>
+Verifies that events for unregistered event names don't trigger
+any callbacks
+</p>
+</section>
+</section>
+</section>
+</div>
+
+<!-- html code generated by txt2tags 3.4 (http://txt2tags.org) -->
+<!-- cmdline: txt2tags -\-toc -t html -i ujest.t2t -o ujest.html -->
+</article></body></html>

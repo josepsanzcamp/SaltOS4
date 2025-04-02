@@ -1,0 +1,7668 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Web Client Documentation</title>
+<meta name="generator" content="http://txt2tags.org">
+<style>
+body{background-color:#fff;color:#000;}
+hr{background-color:#000;border:0;color:#000;}
+hr.heavy{height:5px;}
+hr.light{height:1px;}
+img{border:0;display:block;}
+img.right{margin:0 0 0 auto;}
+img.center{border:0;margin:0 auto;}
+table th,table td{padding:4px;}
+.center,header{text-align:center;}
+table.center {margin-left:auto; margin-right:auto;}
+.right{text-align:right;}
+.left{text-align:left;}
+.tableborder,.tableborder td,.tableborder th{border:1px solid #000;}
+.underline{text-decoration:underline;}
+pre{background-color:#e6e6e6;padding:5px 3px}
+</style>
+</head>
+<body>
+<header>
+<hgroup>
+<h1>Web Client Documentation</h1>
+<h2>SaltOS 4.0 r1929</h2>
+<h3>April 2025</h3>
+</hgroup>
+</header>
+<article>
+
+<nav>
+<div class="body" id="body">
+
+  <ul>
+  <li><a href="#toc1">1. Javascript</a>
+    <ul>
+    <li><a href="#toc2">1.1. Application helper module</a>
+      <ul>
+      <li><a href="#toc3">1.1.1. Application helper object</a>
+      </li>
+      <li><a href="#toc4">1.1.2. Modal function</a>
+      </li>
+      <li><a href="#toc5">1.1.3. Toast function</a>
+      </li>
+      <li><a href="#toc6">1.1.4. Show error helper</a>
+      </li>
+      <li><a href="#toc7">1.1.5. Check response helper</a>
+      </li>
+      <li><a href="#toc8">1.1.6. Send request helper</a>
+      </li>
+      <li><a href="#toc9">1.1.7. Data helper object</a>
+      </li>
+      <li><a href="#toc10">1.1.8. Process response helper</a>
+      </li>
+      <li><a href="#toc11">1.1.9. Process response helper</a>
+      </li>
+      <li><a href="#toc12">1.1.10. Source helper</a>
+      </li>
+      <li><a href="#toc13">1.1.11. Get data</a>
+      </li>
+      <li><a href="#toc14">1.1.12. Get data ids helper</a>
+      </li>
+      <li><a href="#toc15">1.1.13. Get data parse helper</a>
+      </li>
+      <li><a href="#toc16">1.1.14. Checkbox ids</a>
+      </li>
+      <li><a href="#toc17">1.1.15. Check form</a>
+      </li>
+      <li><a href="#toc18">1.1.16. Form disabled</a>
+      </li>
+      <li><a href="#toc19">1.1.17. Ajax helper</a>
+      </li>
+      <li><a href="#toc20">1.1.18. Online message</a>
+      </li>
+      <li><a href="#toc21">1.1.19. Offline message</a>
+      </li>
+      <li><a href="#toc22">1.1.20. Main app code</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc23">1.2. Authentication helper module</a>
+      <ul>
+      <li><a href="#toc24">1.2.1. Authentication helper object</a>
+      </li>
+      <li><a href="#toc25">1.2.2. Authenticate token function</a>
+      </li>
+      <li><a href="#toc26">1.2.3. Check token function</a>
+      </li>
+      <li><a href="#toc27">1.2.4. De-authenticate token function</a>
+      </li>
+      <li><a href="#toc28">1.2.5. Authenticate update function</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc29">1.3. Backup &amp; Autosave helper module</a>
+      <ul>
+      <li><a href="#toc30">1.3.1. Form backup helper</a>
+      </li>
+      <li><a href="#toc31">1.3.2. Backup object</a>
+      </li>
+      <li><a href="#toc32">1.3.3. Save feature</a>
+      </li>
+      <li><a href="#toc33">1.3.4. Restore feature</a>
+      </li>
+      <li><a href="#toc34">1.3.5. Selector helper</a>
+      </li>
+      <li><a href="#toc35">1.3.6. Autosave feature object</a>
+      </li>
+      <li><a href="#toc36">1.3.7. Init</a>
+      </li>
+      <li><a href="#toc37">1.3.8. Save</a>
+      </li>
+      <li><a href="#toc38">1.3.9. Restore</a>
+      </li>
+      <li><a href="#toc39">1.3.10. Clear</a>
+      </li>
+      <li><a href="#toc40">1.3.11. Purge</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc41">1.4. Bootstrap helper module</a>
+      <ul>
+      <li><a href="#toc42">1.4.1. Bootstrap helper object</a>
+      </li>
+      <li><a href="#toc43">1.4.2. Form fields constructor</a>
+      </li>
+      <li><a href="#toc44">1.4.3. Form_field constructor helper object</a>
+      </li>
+      <li><a href="#toc45">1.4.4. Div constructor helper</a>
+      </li>
+      <li><a href="#toc46">1.4.5. Container constructor helper</a>
+      </li>
+      <li><a href="#toc47">1.4.6. Row constructor helper</a>
+      </li>
+      <li><a href="#toc48">1.4.7. Col constructor helper</a>
+      </li>
+      <li><a href="#toc49">1.4.8. HR constructor helper</a>
+      </li>
+      <li><a href="#toc50">1.4.9. Text constructor helper</a>
+      </li>
+      <li><a href="#toc51">1.4.10. Hidden constructor helper</a>
+      </li>
+      <li><a href="#toc52">1.4.11. Integer constructor helper</a>
+      </li>
+      <li><a href="#toc53">1.4.12. Float constructor helper</a>
+      </li>
+      <li><a href="#toc54">1.4.13. Color constructor helper</a>
+      </li>
+      <li><a href="#toc55">1.4.14. Date constructor helper</a>
+      </li>
+      <li><a href="#toc56">1.4.15. Time constructor helper</a>
+      </li>
+      <li><a href="#toc57">1.4.16. Datetime constructor helper</a>
+      </li>
+      <li><a href="#toc58">1.4.17. Textarea constructor helper</a>
+      </li>
+      <li><a href="#toc59">1.4.18. Ckeditor constructor helper</a>
+      </li>
+      <li><a href="#toc60">1.4.19. Codemirror constructor helper</a>
+      </li>
+      <li><a href="#toc61">1.4.20. Indent helper</a>
+      </li>
+      <li><a href="#toc62">1.4.21. Iframe constructor helper</a>
+      </li>
+      <li><a href="#toc63">1.4.22. Select constructor helper</a>
+      </li>
+      <li><a href="#toc64">1.4.23. Multiselect constructor helper</a>
+      </li>
+      <li><a href="#toc65">1.4.24. Checkbox constructor helper</a>
+      </li>
+      <li><a href="#toc66">1.4.25. Switch constructor helper</a>
+      </li>
+      <li><a href="#toc67">1.4.26. Button constructor helper</a>
+      </li>
+      <li><a href="#toc68">1.4.27. Password constructor helper</a>
+      </li>
+      <li><a href="#toc69">1.4.28. File constructor helper</a>
+      </li>
+      <li><a href="#toc70">1.4.29. Link constructor helper</a>
+      </li>
+      <li><a href="#toc71">1.4.30. Label constructor helper</a>
+      </li>
+      <li><a href="#toc72">1.4.31. Image constructor helper</a>
+      </li>
+      <li><a href="#toc73">1.4.32. Excel constructor helper</a>
+      </li>
+      <li><a href="#toc74">1.4.33. Pdfjs constructor helper</a>
+      </li>
+      <li><a href="#toc75">1.4.34. Table constructor helper</a>
+      </li>
+      <li><a href="#toc76">1.4.35. Alert constructor helper</a>
+      </li>
+      <li><a href="#toc77">1.4.36. Card constructor helper</a>
+      </li>
+      <li><a href="#toc78">1.4.37. Chart.js constructor helper</a>
+      </li>
+      <li><a href="#toc79">1.4.38. Tags constructor helper</a>
+      </li>
+      <li><a href="#toc80">1.4.39. One tag constructor helper</a>
+      </li>
+      <li><a href="#toc81">1.4.40. Srcdoc helper</a>
+      </li>
+      <li><a href="#toc82">1.4.41. Datalist helper</a>
+      </li>
+      <li><a href="#toc83">1.4.42. Value helper</a>
+      </li>
+      <li><a href="#toc84">1.4.43. Gallery constructor helper</a>
+      </li>
+      <li><a href="#toc85">1.4.44. Placeholder helper</a>
+      </li>
+      <li><a href="#toc86">1.4.45. List widget constructor helper</a>
+      </li>
+      <li><a href="#toc87">1.4.46. Tabs widget constructor helper</a>
+      </li>
+      <li><a href="#toc88">1.4.47. Pills widget constructor helper</a>
+      </li>
+      <li><a href="#toc89">1.4.48. V-Pills widget constructor helper</a>
+      </li>
+      <li><a href="#toc90">1.4.49. Accordion widget constructor helper</a>
+      </li>
+      <li><a href="#toc91">1.4.50. JS Tree constructor helper</a>
+      </li>
+      <li><a href="#toc92">1.4.51. Dropdown constructor helper</a>
+      </li>
+      <li><a href="#toc93">1.4.52. Private text constructor helper</a>
+      </li>
+      <li><a href="#toc94">1.4.53. Private textarea constructor helper</a>
+      </li>
+      <li><a href="#toc95">1.4.54. Private tooltip constructor helper</a>
+      </li>
+      <li><a href="#toc96">1.4.55. Private tooltip hide helper</a>
+      </li>
+      <li><a href="#toc97">1.4.56. Label helper</a>
+      </li>
+      <li><a href="#toc98">1.4.57. Label Combine</a>
+      </li>
+      <li><a href="#toc99">1.4.58. Onclick helper</a>
+      </li>
+      <li><a href="#toc100">1.4.59. Onchange helper</a>
+      </li>
+      <li><a href="#toc101">1.4.60. Onenter helper</a>
+      </li>
+      <li><a href="#toc102">1.4.61. Menu constructor helper</a>
+      </li>
+      <li><a href="#toc103">1.4.62. Navbar constructor helper</a>
+      </li>
+      <li><a href="#toc104">1.4.63. Modal constructor helper object</a>
+      </li>
+      <li><a href="#toc105">1.4.64. Modal constructor helper</a>
+      </li>
+      <li><a href="#toc106">1.4.65. Offcanvas constructor helper object</a>
+      </li>
+      <li><a href="#toc107">1.4.66. Offcanvas constructor helper</a>
+      </li>
+      <li><a href="#toc108">1.4.67. Toast constructor helper</a>
+      </li>
+      <li><a href="#toc109">1.4.68. Accesskey listener</a>
+      </li>
+      <li><a href="#toc110">1.4.69. Window match media</a>
+      </li>
+      <li><a href="#toc111">1.4.70. Set data_bs_theme</a>
+      </li>
+      <li><a href="#toc112">1.4.71. Set bs theme</a>
+      </li>
+      <li><a href="#toc113">1.4.72. Set css theme</a>
+      </li>
+      <li><a href="#toc114">1.4.73. Get bs theme</a>
+      </li>
+      <li><a href="#toc115">1.4.74. Get css theme</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc116">1.5. Common helper module</a>
+      <ul>
+      <li><a href="#toc117">1.5.1. Common helper object</a>
+      </li>
+      <li><a href="#toc118">1.5.2. Profile screen</a>
+      </li>
+      <li><a href="#toc119">1.5.3. Help screen</a>
+      </li>
+      <li><a href="#toc120">1.5.4. Logout feature</a>
+      </li>
+      <li><a href="#toc121">1.5.5. Filter screen</a>
+      </li>
+      <li><a href="#toc122">1.5.6. Download helper</a>
+      </li>
+      <li><a href="#toc123">1.5.7. Delete helper</a>
+      </li>
+      <li><a href="#toc124">1.5.8. Version common helper</a>
+      </li>
+      <li><a href="#toc125">1.5.9. Log common helper</a>
+      </li>
+      <li><a href="#toc126">1.5.10. Edit common helper</a>
+      </li>
+      <li><a href="#toc127">1.5.11. Create common helper</a>
+      </li>
+      <li><a href="#toc128">1.5.12. Viewpdf common helper</a>
+      </li>
+      <li><a href="#toc129">1.5.13. Remove common helper</a>
+      </li>
+      <li><a href="#toc130">1.5.14. Allfiles common helper</a>
+      </li>
+      <li><a href="#toc131">1.5.15. Allnotes common helper</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc132">1.6. Core helper module</a>
+      <ul>
+      <li><a href="#toc133">1.6.1. Core helper object</a>
+      </li>
+      <li><a href="#toc134">1.6.2. Error management</a>
+      </li>
+      <li><a href="#toc135">1.6.3. Old error handler</a>
+      </li>
+      <li><a href="#toc136">1.6.4. New error handler</a>
+      </li>
+      <li><a href="#toc137">1.6.5. Log management</a>
+      </li>
+      <li><a href="#toc138">1.6.6. Check params</a>
+      </li>
+      <li><a href="#toc139">1.6.7. UniqID</a>
+      </li>
+      <li><a href="#toc140">1.6.8. When visible</a>
+      </li>
+      <li><a href="#toc141">1.6.9. Get keycode</a>
+      </li>
+      <li><a href="#toc142">1.6.10. Get keyname</a>
+      </li>
+      <li><a href="#toc143">1.6.11. HTML builder</a>
+      </li>
+      <li><a href="#toc144">1.6.12. Ajax helper array</a>
+      </li>
+      <li><a href="#toc145">1.6.13. AJAX</a>
+      </li>
+      <li><a href="#toc146">1.6.14. Fix key</a>
+      </li>
+      <li><a href="#toc147">1.6.15. Copy object</a>
+      </li>
+      <li><a href="#toc148">1.6.16. Optimizer object</a>
+      </li>
+      <li><a href="#toc149">1.6.17. Require helper array</a>
+      </li>
+      <li><a href="#toc150">1.6.18. Require feature</a>
+      </li>
+      <li><a href="#toc151">1.6.19. Eval Bool</a>
+      </li>
+      <li><a href="#toc152">1.6.20. toString function</a>
+      </li>
+      <li><a href="#toc153">1.6.21. Is attr value</a>
+      </li>
+      <li><a href="#toc154">1.6.22. Join attr value</a>
+      </li>
+      <li><a href="#toc155">1.6.23. Encode Bar Chars</a>
+      </li>
+      <li><a href="#toc156">1.6.24. Prepare Words</a>
+      </li>
+      <li><a href="#toc157">1.6.25. Main core code</a>
+      </li>
+      <li><a href="#toc158">1.6.26. Proxy feature</a>
+      </li>
+      <li><a href="#toc159">1.6.27. Online sync</a>
+      </li>
+      <li><a href="#toc160">1.6.28. Get code from file and line</a>
+      </li>
+      <li><a href="#toc161">1.6.29. Timestamp helper</a>
+      </li>
+      <li><a href="#toc162">1.6.30. Human Size</a>
+      </li>
+      <li><a href="#toc163">1.6.31. Check network</a>
+      </li>
+      <li><a href="#toc164">1.6.32. Is Number</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc165">1.7. Driver module</a>
+      <ul>
+      <li><a href="#toc166">1.7.1. Driver object</a>
+      </li>
+      <li><a href="#toc167">1.7.2. Driver init</a>
+      </li>
+      <li><a href="#toc168">1.7.3. Driver open</a>
+      </li>
+      <li><a href="#toc169">1.7.4. Driver close</a>
+      </li>
+      <li><a href="#toc170">1.7.5. Driver cancel</a>
+      </li>
+      <li><a href="#toc171">1.7.6. Driver search</a>
+      </li>
+      <li><a href="#toc172">1.7.7. Driver search</a>
+      </li>
+      <li><a href="#toc173">1.7.8. Driver more</a>
+      </li>
+      <li><a href="#toc174">1.7.9. Driver insert</a>
+      </li>
+      <li><a href="#toc175">1.7.10. Driver update</a>
+      </li>
+      <li><a href="#toc176">1.7.11. Driver delete</a>
+      </li>
+      <li><a href="#toc177">1.7.12. Driver placeholder</a>
+      </li>
+      <li><a href="#toc178">1.7.13. Driver styles</a>
+      </li>
+      <li><a href="#toc179">1.7.14. Driver search if needed</a>
+      </li>
+      <li><a href="#toc180">1.7.15. Driver internal object</a>
+      </li>
+      <li><a href="#toc181">1.7.16. Driver type1 object</a>
+      </li>
+      <li><a href="#toc182">1.7.17. Driver type1 template</a>
+      </li>
+      <li><a href="#toc183">1.7.18. Driver type1 init</a>
+      </li>
+      <li><a href="#toc184">1.7.19. Driver type1 open</a>
+      </li>
+      <li><a href="#toc185">1.7.20. Driver type1 close</a>
+      </li>
+      <li><a href="#toc186">1.7.21. Driver type2 object</a>
+      </li>
+      <li><a href="#toc187">1.7.22. Driver type2 template</a>
+      </li>
+      <li><a href="#toc188">1.7.23. Driver type2 init</a>
+      </li>
+      <li><a href="#toc189">1.7.24. Driver type2 open</a>
+      </li>
+      <li><a href="#toc190">1.7.25. Driver type2 close</a>
+      </li>
+      <li><a href="#toc191">1.7.26. Driver type3 object</a>
+      </li>
+      <li><a href="#toc192">1.7.27. Driver type3 template</a>
+      </li>
+      <li><a href="#toc193">1.7.28. Driver type3 init</a>
+      </li>
+      <li><a href="#toc194">1.7.29. Driver type3 open</a>
+      </li>
+      <li><a href="#toc195">1.7.30. Driver type3 close</a>
+      </li>
+      <li><a href="#toc196">1.7.31. Driver type4 object</a>
+      </li>
+      <li><a href="#toc197">1.7.32. Driver type4 template</a>
+      </li>
+      <li><a href="#toc198">1.7.33. Driver type4 init</a>
+      </li>
+      <li><a href="#toc199">1.7.34. Driver type4 open</a>
+      </li>
+      <li><a href="#toc200">1.7.35. Driver type4 close</a>
+      </li>
+      <li><a href="#toc201">1.7.36. Driver type5 object</a>
+      </li>
+      <li><a href="#toc202">1.7.37. Driver type5 template</a>
+      </li>
+      <li><a href="#toc203">1.7.38. Driver type5 init</a>
+      </li>
+      <li><a href="#toc204">1.7.39. Driver type5 open</a>
+      </li>
+      <li><a href="#toc205">1.7.40. Driver type5 close</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc206">1.8. Filter module</a>
+      <ul>
+      <li><a href="#toc207">1.8.1. Filter object</a>
+      </li>
+      <li><a href="#toc208">1.8.2. Filter cache</a>
+      </li>
+      <li><a href="#toc209">1.8.3. Init filter</a>
+      </li>
+      <li><a href="#toc210">1.8.4. Load filter</a>
+      </li>
+      <li><a href="#toc211">1.8.5. Update filter</a>
+      </li>
+      <li><a href="#toc212">1.8.6. Update filter</a>
+      </li>
+      <li><a href="#toc213">1.8.7. Filter button helper</a>
+      </li>
+      <li><a href="#toc214">1.8.8. Select button helper</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc215">1.9. Form helper module</a>
+      <ul>
+      <li><a href="#toc216">1.9.1. Form constructor helper object</a>
+      </li>
+      <li><a href="#toc217">1.9.2. Data helper object</a>
+      </li>
+      <li><a href="#toc218">1.9.3. Form data helper</a>
+      </li>
+      <li><a href="#toc219">1.9.4. Data template helper</a>
+      </li>
+      <li><a href="#toc220">1.9.5. Layout template helper</a>
+      </li>
+      <li><a href="#toc221">1.9.6. Form layout helper</a>
+      </li>
+      <li><a href="#toc222">1.9.7. Form layout auto helper object</a>
+      </li>
+      <li><a href="#toc223">1.9.8. Form layout auto helper for containers</a>
+      </li>
+      <li><a href="#toc224">1.9.9. Form layout auto helper for rows</a>
+      </li>
+      <li><a href="#toc225">1.9.10. Form layout auto helper for cols</a>
+      </li>
+      <li><a href="#toc226">1.9.11. Style helper array</a>
+      </li>
+      <li><a href="#toc227">1.9.12. Form style helper</a>
+      </li>
+      <li><a href="#toc228">1.9.13. Javascript helper array</a>
+      </li>
+      <li><a href="#toc229">1.9.14. Form javascript helper</a>
+      </li>
+      <li><a href="#toc230">1.9.15. Form title helper</a>
+      </li>
+      <li><a href="#toc231">1.9.16. Form screen helper</a>
+      </li>
+      <li><a href="#toc232">1.9.17. Form navbar helper</a>
+      </li>
+      <li><a href="#toc233">1.9.18. Load gettext helper</a>
+      </li>
+      <li><a href="#toc234">1.9.19. Form cache helper</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc235">1.10. Gettext helper module</a>
+      <ul>
+      <li><a href="#toc236">1.10.1. Gettext helper object</a>
+      </li>
+      <li><a href="#toc237">1.10.2. Get gettext function</a>
+      </li>
+      <li><a href="#toc238">1.10.3. Get Short gettext function</a>
+      </li>
+      <li><a href="#toc239">1.10.4. Set gettext function</a>
+      </li>
+      <li><a href="#toc240">1.10.5. Unset gettext and expires_at</a>
+      </li>
+      <li><a href="#toc241">1.10.6. Get Text function</a>
+      </li>
+      <li><a href="#toc242">1.10.7. T function</a>
+      </li>
+      <li><a href="#toc243">1.10.8. Bootstrap gettext object</a>
+      </li>
+      <li><a href="#toc244">1.10.9. Bootstrap field overload</a>
+      </li>
+      <li><a href="#toc245">1.10.10. Bootstrap modal overload</a>
+      </li>
+      <li><a href="#toc246">1.10.11. Bootstrap toast overload</a>
+      </li>
+      <li><a href="#toc247">1.10.12. Bootstrap menu overload</a>
+      </li>
+      <li><a href="#toc248">1.10.13. Bootstrap offcanvas overload</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc249">1.11. Hash helper module</a>
+      <ul>
+      <li><a href="#toc250">1.11.1. Hash helper object</a>
+      </li>
+      <li><a href="#toc251">1.11.2. Get hash</a>
+      </li>
+      <li><a href="#toc252">1.11.3. Set hash</a>
+      </li>
+      <li><a href="#toc253">1.11.4. Add hash</a>
+      </li>
+      <li><a href="#toc254">1.11.5. Hash helper</a>
+      </li>
+      <li><a href="#toc255">1.11.6. Url to hash</a>
+      </li>
+      <li><a href="#toc256">1.11.7. Change trigger</a>
+      </li>
+      <li><a href="#toc257">1.11.8. Hash change management</a>
+      </li>
+      <li><a href="#toc258">1.11.9. Before unload management</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc259">1.12. Object helper module</a>
+      <ul>
+      <li><a href="#toc260">1.12.1. Main object</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc261">1.13. Proxy module</a>
+      <ul>
+      <li><a href="#toc262">1.13.1. Console log</a>
+      </li>
+      <li><a href="#toc263">1.13.2. Debug function</a>
+      </li>
+      <li><a href="#toc264">1.13.3. Proxy function</a>
+      </li>
+      <li><a href="#toc265">1.13.4. Queue open</a>
+      </li>
+      <li><a href="#toc266">1.13.5. Queue push</a>
+      </li>
+      <li><a href="#toc267">1.13.6. Queue getall</a>
+      </li>
+      <li><a href="#toc268">1.13.7. Queue delete</a>
+      </li>
+      <li><a href="#toc269">1.13.8. Request serialize</a>
+      </li>
+      <li><a href="#toc270">1.13.9. Request unserialize</a>
+      </li>
+      <li><a href="#toc271">1.13.10. Human Size</a>
+      </li>
+      <li><a href="#toc272">1.13.11. Install binding</a>
+      </li>
+      <li><a href="#toc273">1.13.12. Activate binding</a>
+      </li>
+      <li><a href="#toc274">1.13.13. Fetch binding</a>
+      </li>
+      <li><a href="#toc275">1.13.14. Sync in progress flag</a>
+      </li>
+      <li><a href="#toc276">1.13.15. Message binding</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc277">1.14. Push &amp; favicon helper module</a>
+      <ul>
+      <li><a href="#toc278">1.14.1. Push constructor helper object</a>
+      </li>
+      <li><a href="#toc279">1.14.2. Push helper</a>
+      </li>
+      <li><a href="#toc280">1.14.3. Load setup</a>
+      </li>
+      <li><a href="#toc281">1.14.4. Online sync</a>
+      </li>
+      <li><a href="#toc282">1.14.5. Favicon constructor helper object</a>
+      </li>
+      <li><a href="#toc283">1.14.6. Favicon helper</a>
+      </li>
+      <li><a href="#toc284">1.14.7. Visibility Change</a>
+      </li>
+      <li><a href="#toc285">1.14.8. Run</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc286">1.15. Token helper module</a>
+      <ul>
+      <li><a href="#toc287">1.15.1. Storage helper object</a>
+      </li>
+      <li><a href="#toc288">1.15.2. Pathname helper string</a>
+      </li>
+      <li><a href="#toc289">1.15.3. Get key</a>
+      </li>
+      <li><a href="#toc290">1.15.4. Get Item</a>
+      </li>
+      <li><a href="#toc291">1.15.5. Set Item</a>
+      </li>
+      <li><a href="#toc292">1.15.6. Remove Item</a>
+      </li>
+      <li><a href="#toc293">1.15.7. Clear</a>
+      </li>
+      <li><a href="#toc294">1.15.8. Get Item With Timestamp</a>
+      </li>
+      <li><a href="#toc295">1.15.9. Set Item With Timestamp</a>
+      </li>
+      <li><a href="#toc296">1.15.10. Purge With Timestamp</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc297">1.16. Token helper module</a>
+      <ul>
+      <li><a href="#toc298">1.16.1. Token helper object</a>
+      </li>
+      <li><a href="#toc299">1.16.2. Get token function</a>
+      </li>
+      <li><a href="#toc300">1.16.3. Get expires_at function</a>
+      </li>
+      <li><a href="#toc301">1.16.4. Set token and expires_at</a>
+      </li>
+      <li><a href="#toc302">1.16.5. Unset token and expires_at</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc303">1.17. Window helper module</a>
+      <ul>
+      <li><a href="#toc304">1.17.1. Window communication helper object</a>
+      </li>
+      <li><a href="#toc305">1.17.2. Open window</a>
+      </li>
+      <li><a href="#toc306">1.17.3. Close window</a>
+      </li>
+      <li><a href="#toc307">1.17.4. Listeners helper object</a>
+      </li>
+      <li><a href="#toc308">1.17.5. Set listener</a>
+      </li>
+      <li><a href="#toc309">1.17.6. Unset listener</a>
+      </li>
+      <li><a href="#toc310">1.17.7. Send message</a>
+      </li>
+      <li><a href="#toc311">1.17.8. Storage management</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+
+</div>
+</nav>
+<div class="body" id="body">
+
+<section id="toc1">
+<h1>1. Javascript</h1>
+
+<section id="toc2">
+<h2>1.1. Application helper module</h2>
+
+<pre>
+web/js/app.js
+</pre>
+
+<p>
+This fie contains useful functions related to the main application, at the end of this file you
+can see the main code that launch the application to be executed from the browser
+</p>
+
+<section id="toc3">
+<h3>1.1.1. Application helper object</h3>
+
+<pre>
+saltos.app = {};
+</pre>
+
+<p>
+This object stores all application functions and data
+</p>
+
+</section>
+<section id="toc4">
+<h3>1.1.2. Modal function</h3>
+
+<pre>
+saltos.app.modal = (title, message, extra = {})
+</pre>
+
+<p>
+This function tries to implement a modal box, the main difference between the tipical alert
+is that this alert allow to you to specify the title and a more complex message, but it only
+shows one button to close it.
+</p>
+
+<ul>
+<li>@title   =&gt; title of the modal dialog
+</li>
+<li>@message =&gt; message of the modal dialog
+</li>
+<li>@extra   =&gt; object with array of buttons and color
+</li>
+</ul>
+
+</section>
+<section id="toc5">
+<h3>1.1.3. Toast function</h3>
+
+<pre>
+saltos.app.toast = (title, message, extra = {})
+</pre>
+
+<p>
+This function tries to implement a toast notice.
+</p>
+
+<ul>
+<li>@title   =&gt; title of the toast
+</li>
+<li>@message =&gt; message of the toast
+</li>
+<li>@extra   =&gt; object with array of buttons and color
+</li>
+</ul>
+
+</section>
+<section id="toc6">
+<h3>1.1.4. Show error helper</h3>
+
+<pre>
+saltos.app.show_error = error
+</pre>
+
+<p>
+This function allow to show a modal dialog with de details of an error
+</p>
+
+</section>
+<section id="toc7">
+<h3>1.1.5. Check response helper</h3>
+
+<pre>
+saltos.app.check_response = response
+</pre>
+
+<p>
+This function is intended to process the response received by ajax requests and returns
+if an error is detected in the response.
+</p>
+
+</section>
+<section id="toc8">
+<h3>1.1.6. Send request helper</h3>
+
+<pre>
+saltos.app.send_request = hash
+</pre>
+
+<p>
+This function allow to send requests to the server and process the response
+</p>
+
+</section>
+<section id="toc9">
+<h3>1.1.7. Data helper object</h3>
+
+<pre>
+saltos.app.__cache = {};
+</pre>
+
+<p>
+This object allow to the app to store the data of the prefetch feature
+</p>
+
+</section>
+<section id="toc10">
+<h3>1.1.8. Process response helper</h3>
+
+<pre>
+saltos.app.prefetch_cache = (responses)
+</pre>
+
+<p>
+This function process the responses received by the send request
+</p>
+
+</section>
+<section id="toc11">
+<h3>1.1.9. Process response helper</h3>
+
+<pre>
+saltos.app.process_response = async response
+</pre>
+
+<p>
+This function process the responses received by the send request
+</p>
+
+</section>
+<section id="toc12">
+<h3>1.1.10. Source helper</h3>
+
+<pre>
+saltos.app.__source_helper = field
+</pre>
+
+<p>
+This function is intended to provide an asynchronous sources for a field, using the source attribute,
+you can program an asynchronous ajax request to retrieve the data used to create the field.
+</p>
+<p>
+This function is used in the fields of type table, alert, card and chartjs, the call of this function
+is private and is intended to be used as a helper from the builders of the previous types opening
+another way to pass arguments.
+</p>
+
+<ul>
+<li>@id     =&gt; the id used to set the reference for to the object
+</li>
+<li>@type   =&gt; the type used to set the type for to the object
+</li>
+<li>@source =&gt; data source used to load asynchronously the contents of the table (header, data,
+           footer and divider)
+</li>
+<li>@height =&gt; the height used as style.height parameter
+</li>
+<li>@label  =&gt; this parameter is used as text for the label
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+At the end of the object replacement, the load event is triggered to the old object to notify
+that the update was finished.
+</p>
+
+</section>
+<section id="toc13">
+<h3>1.1.11. Get data</h3>
+
+<pre>
+saltos.app.get_data = full
+</pre>
+
+<p>
+This function retrieves the data of the fields in the current layout. to do this it uses
+the saltos.form.__form.fields that contains the list of all used fields in the layout, this
+function can retrieve all fields or only the fields that contains differences between the
+original data and the current data.
+</p>
+
+<ul>
+<li>@full =&gt; boolean to indicate if you want the entire form or only the differences
+</li>
+</ul>
+
+</section>
+<section id="toc14">
+<h3>1.1.12. Get data ids helper</h3>
+
+<pre>
+saltos.app.__get_data_ids_helper = data
+</pre>
+
+<p>
+This function allow to retrieve the needed ids in the fields used as template
+</p>
+
+<ul>
+<li>@data =&gt; the contents of the object with data
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+The main idea of this function is to add the id fields if it is needed, for example
+if some field of the template is modified and their value contains a different value
+that void.
+</p>
+
+</section>
+<section id="toc15">
+<h3>1.1.13. Get data parse helper</h3>
+
+<pre>
+saltos.app.__get_data_parser_helper = data
+</pre>
+
+<p>
+This function allow to join in an object the values that share the same prefix part of
+the key, for example, if you have an object with two ventries (a.a and a.b), then the
+resulted value will be an object a with two entries (a and b).
+</p>
+
+<ul>
+<li>@data =&gt; the contents of the object with data
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This function is used to allow the specification of multiples parameters, for example,
+in the navbar widget where the widget expects an object for the brand configuration, too
+is used by get_data to separate in a more pretty structure some fields as the details used
+in the invoices.
+</p>
+
+</section>
+<section id="toc16">
+<h3>1.1.14. Checkbox ids</h3>
+
+<pre>
+saltos.app.checkbox_ids = obj
+</pre>
+
+<p>
+Retrieve the selected checkboxes contained in an obj, useful for the checkboxes
+that appear in the bootstrap table widget.
+</p>
+
+<ul>
+<li>@obj =&gt; the object that contains the checkboxes, generally the table widget
+</li>
+</ul>
+
+</section>
+<section id="toc17">
+<h3>1.1.15. Check form</h3>
+
+<pre>
+saltos.app.check_required = ()
+</pre>
+
+<p>
+This function tries to check if all required fields contain data, if the required field are
+right, the is-valid class will be applied to all required elements and true is returned,
+otherwise the is-invalid class will be added to the void required elements and false is
+returned.
+</p>
+
+</section>
+<section id="toc18">
+<h3>1.1.16. Form disabled</h3>
+
+<pre>
+saltos.app.form_disabled = bool
+</pre>
+
+<p>
+This function disables all elements of the form, it is intended to be used when you need
+to do screen for view mode.
+</p>
+
+</section>
+<section id="toc19">
+<h3>1.1.17. Ajax helper</h3>
+
+<pre>
+saltos.app.ajax = args
+</pre>
+
+<p>
+This function uses the saltos.core.ajax to implement the ajax feature, and in
+this scope, tries to simplify the needed configuration by provide a compound of
+defined features and code, intended to process the responses, the errors, to
+add the token, the lang.
+</p>
+
+<ul>
+<li>@url     =&gt; url of the ajax call
+</li>
+<li>@success =&gt; callback function for the success action (optional)
+</li>
+<li>@error   =&gt; callback function for the error action (optional)
+</li>
+<li>@abort   =&gt; callback function for the abort action (optional)
+</li>
+<li>@data    =&gt; data used in the body of the request
+</li>
+<li>@proxy   =&gt; add the Proxy header with the value passed, intended to be used by the SaltOS PROXY
+</li>
+<li>@loading =&gt; enable or disable the loading feature, true by default
+</li>
+</ul>
+
+</section>
+<section id="toc20">
+<h3>1.1.18. Online message</h3>
+
+<pre>
+window.addEventListener('online', event
+</pre>
+
+<p>
+This function show a message when navigator detects an online/offline change
+</p>
+
+</section>
+<section id="toc21">
+<h3>1.1.19. Offline message</h3>
+
+<pre>
+window.addEventListener('offline', event
+</pre>
+
+<p>
+This function show a message when navigator detects an online/offline change
+</p>
+
+</section>
+<section id="toc22">
+<h3>1.1.20. Main app code</h3>
+
+<pre>
+window.addEventListener('load', async event
+</pre>
+
+<p>
+This is the code that must to be executed to initialize all requirements of this module
+</p>
+
+</section>
+</section>
+<section id="toc23">
+<h2>1.2. Authentication helper module</h2>
+
+<pre>
+web/js/auth.js
+</pre>
+
+<p>
+This file contains all needed code to do authentications with all features suck as the
+main authentication using a user and password pair, the checktoken and the deauthtoken
+to control it.
+</p>
+
+<section id="toc24">
+<h3>1.2.1. Authentication helper object</h3>
+
+<pre>
+saltos.authenticate = {};
+</pre>
+
+<p>
+This object stores all authentication functions to get access, check tokens to maintain
+the access and the deauthtoken to close the access
+</p>
+
+</section>
+<section id="toc25">
+<h3>1.2.2. Authenticate token function</h3>
+
+<pre>
+saltos.authenticate.authtoken = async (user, pass)
+</pre>
+
+<p>
+This function uses the authtoken action to try to authenticate an user with the user/pass
+credentials passed by argument.
+</p>
+
+<ul>
+<li>@user =&gt; username used to the authentication process
+</li>
+<li>@pass =&gt; password used to the authentication process
+</li>
+</ul>
+
+</section>
+<section id="toc26">
+<h3>1.2.3. Check token function</h3>
+
+<pre>
+saltos.authenticate.checktoken = async ()
+</pre>
+
+<p>
+This function uses the checktoken action to check the validity of the current token.
+</p>
+
+</section>
+<section id="toc27">
+<h3>1.2.4. De-authenticate token function</h3>
+
+<pre>
+saltos.authenticate.deauthtoken = async ()
+</pre>
+
+<p>
+This function uses the deauthtoken action to try to de-authenticate an user with the token
+credentials.
+</p>
+
+</section>
+<section id="toc28">
+<h3>1.2.5. Authenticate update function</h3>
+
+<pre>
+saltos.authenticate.authupdate = (oldpass, newpass, renewpass)
+</pre>
+
+<p>
+This function is intended to be used in the profile feature to allow the password change
+by the user.
+</p>
+
+<ul>
+<li>@oldpass   =&gt; old password used to validate the correctness of the transaction
+</li>
+<li>@newpass   =&gt; new password used to update the old password
+</li>
+<li>@renewpass =&gt; repite the new password used to update the old password
+</li>
+</ul>
+
+</section>
+</section>
+<section id="toc29">
+<h2>1.3. Backup &amp; Autosave helper module</h2>
+
+<pre>
+web/js/backup.js
+</pre>
+
+<p>
+This module provides the needed tools to implement the backup &amp; autosave feature
+</p>
+
+<section id="toc30">
+<h3>1.3.1. Form backup helper</h3>
+
+<pre>
+saltos.backup = {};
+</pre>
+
+<p>
+This object stores the needed structure to allocate the forms backups with all their
+data and the functions needed to do and restore the backups to the main __form object.
+</p>
+<p>
+Notes:
+</p>
+<p>
+This object is intended to store more forms that one, usefull when driver uses the same
+screen to allocate lists and forms that contains fields for the search engine or fields
+for the create or edit features.
+</p>
+
+</section>
+<section id="toc31">
+<h3>1.3.2. Backup object</h3>
+
+<pre>
+saltos.backup.__forms = {};
+</pre>
+
+<p>
+This object stores the backup data
+</p>
+
+</section>
+<section id="toc32">
+<h3>1.3.3. Save feature</h3>
+
+<pre>
+saltos.backup.save = key
+</pre>
+
+<p>
+This action performs a backup using the specified key
+</p>
+
+<ul>
+<li>@key =&gt; the key selector that you want to use.
+</li>
+</ul>
+
+</section>
+<section id="toc33">
+<h3>1.3.4. Restore feature</h3>
+
+<pre>
+saltos.backup.restore = key
+</pre>
+
+<p>
+This action performs the restoration action using the specified key, if the
+key is not found, then empty fields and templates are used for the restoration
+</p>
+
+<ul>
+<li>@key =&gt; the key selector that you want to use.
+</li>
+</ul>
+
+</section>
+<section id="toc34">
+<h3>1.3.5. Selector helper</h3>
+
+<pre>
+saltos.backup.__selector_helper = key
+</pre>
+
+<p>
+This function allow to search the forms contexts stored in the backup, allow to
+do queries like two,one or top+one, in each case, the result will be an array
+with the ids of the found items uwing the selector trick.
+</p>
+<p>
+All actions that uses this selector, are able to understand some expressions like comma
+and plus, the follow examples shown how runs the selector in the restore feature:
+</p>
+
+<ul>
+<li>@two,one =&gt; this example is intended to restore the two context if it is found, otherwise
+tries to restore the one context, otherwise a void context is set.
+</li>
+</ul>
+
+<ul>
+<li>@top+one =&gt; this example is intended to restore two contexts in one context, intender to
+load the context of the search list that can be contained in the top and one containers.
+</li>
+</ul>
+
+<ul>
+<li>@key =&gt; the key selector that you want to use.
+</li>
+</ul>
+
+</section>
+<section id="toc35">
+<h3>1.3.6. Autosave feature object</h3>
+
+<pre>
+saltos.autosave = {};
+</pre>
+
+<p>
+This object stores all functions used by the autosave feature
+</p>
+<p>
+Notes:
+</p>
+<p>
+The autosave feature uses the init, save, restore, clear and purge functions, and
+workflow of the operation will be start using the init to initialize the key, then
+the save to store the data of the key context, the restore will be used when a new
+screen is loaded to load the stored data, the clear will remove the data and the
+purge will remove the old entries, act as a garbage collector
+</p>
+<p>
+As an additional feature, this module uses the storage with the timestamp, this
+usage allow to detect old entries and purge it.
+</p>
+
+</section>
+<section id="toc36">
+<h3>1.3.7. Init</h3>
+
+<pre>
+saltos.autosave.init = (key, hash = saltos.hash.get())
+</pre>
+
+<p>
+This function checks that the key not exists and creates a void entry, used by
+save to allow the storage of data.
+</p>
+
+<ul>
+<li>@key  =&gt; the key selector that you want to use.
+</li>
+<li>@hash =&gt; optional hash used in the current action.
+</li>
+</ul>
+
+</section>
+<section id="toc37">
+<h3>1.3.8. Save</h3>
+
+<pre>
+saltos.autosave.save = (key, hash = saltos.hash.get())
+</pre>
+
+<p>
+This function save the key context data in the storage, only apply if previously
+an init is executed.
+</p>
+
+<ul>
+<li>@key  =&gt; the key selector that you want to use.
+</li>
+<li>@hash =&gt; optional hash used in the current action.
+</li>
+</ul>
+
+</section>
+<section id="toc38">
+<h3>1.3.9. Restore</h3>
+
+<pre>
+saltos.autosave.restore = (key, hash = saltos.hash.get())
+</pre>
+
+<p>
+This function restore the key context data of the storage, only apply if data is found
+and if data contains real data, not a void object
+</p>
+
+<ul>
+<li>@key  =&gt; the key selector that you want to use.
+</li>
+<li>@hash =&gt; optional hash used in the current action.
+</li>
+</ul>
+
+</section>
+<section id="toc39">
+<h3>1.3.10. Clear</h3>
+
+<pre>
+saltos.autosave.clear = (key, hash = saltos.hash.get())
+</pre>
+
+<p>
+This function remove the key context data in the storage, apply in all cases
+</p>
+
+<ul>
+<li>@key  =&gt; the key selector that you want to use.
+</li>
+<li>@hash =&gt; optional hash used in the current action.
+</li>
+</ul>
+
+</section>
+<section id="toc40">
+<h3>1.3.11. Purge</h3>
+
+<pre>
+saltos.autosave.purge = (key, hash = saltos.hash.get())
+</pre>
+
+<p>
+This function purge the void and old data, to do it, checks if data exists
+and if it is void, in this case the element will be removed.
+</p>
+<p>
+As an additional feature, uses the saltos.storage.purgeWithTimestamp to maintain
+clean the localStorage by purging old entries.
+</p>
+
+<ul>
+<li>@key  =&gt; the key selector that you want to use.
+</li>
+<li>@hash =&gt; optional hash used in the current action.
+</li>
+</ul>
+
+</section>
+</section>
+<section id="toc41">
+<h2>1.4. Bootstrap helper module</h2>
+
+<pre>
+web/js/bootstrap.js
+</pre>
+
+<p>
+This fie contains useful functions related to the bootstrap widgets, allow to create widgets and
+other plugins suck as plots or rich editors
+</p>
+
+<section id="toc42">
+<h3>1.4.1. Bootstrap helper object</h3>
+
+<pre>
+saltos.bootstrap = {};
+</pre>
+
+<p>
+This object stores all bootstrap functions and data
+</p>
+
+</section>
+<section id="toc43">
+<h3>1.4.2. Form fields constructor</h3>
+
+<pre>
+saltos.bootstrap.field = field
+</pre>
+
+<p>
+This function and their helpers, allow the creation of the interface using the bootstrap
+widgets, the types that can be called are the follow:
+</p>
+
+<ul>
+<li>@div         =&gt; id, class, style
+</li>
+<li>@container   =&gt; id, class, style
+</li>
+<li>@row         =&gt; id, class, style
+</li>
+<li>@col         =&gt; id, class, style
+</li>
+<li>@text        =&gt; id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, OE, OC
+</li>
+<li>@hidden      =&gt; id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, color, OE, OC
+</li>
+<li>@integer     =&gt; id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, OE, OC
+</li>
+<li>@float       =&gt; id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, OE, OC
+</li>
+<li>@color       =&gt; id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, OE, OC
+</li>
+<li>@date        =&gt; id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, OE, OC
+</li>
+<li>@time        =&gt; id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, OE, OC
+</li>
+<li>@datetime    =&gt; id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, OE, OC
+</li>
+<li>@textarea    =&gt; id, class, PL, value, DS, RO, RQ, AF, AK, rows, tooltip, label, color, height, OC
+</li>
+<li>@ckeditor    =&gt; id, class, PL, value, DS, RO, RQ, AF, AK, rows, label, color, height, OC
+</li>
+<li>@codemirror  =&gt; id, class, PL, value, DS, RO, RQ, AF, AK, rows, mode, label, color, height, OC
+</li>
+<li>@iframe      =&gt; id, class, src, srcdoc, height, label, color
+</li>
+<li>@select      =&gt; id, class, DS, RQ, AF, AK, rows, multiple, size, value, tooltip, label, color, OC
+</li>
+<li>@multiselect =&gt; id, class, DS, RQ, AF, AK, rows, multiple, size, value, multiple, tooltip, label, color
+</li>
+<li>@checkbox    =&gt; id, class, DS, RO, AK, label, value, tooltip, color, OC
+</li>
+<li>@switch      =&gt; id, class, DS, RO, AK, label, value, tooltip, color, OC
+</li>
+<li>@button      =&gt; id, class, DS, AF, AK, label, onclick, tooltip, color, autoclose
+</li>
+<li>@password    =&gt; id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, OE, OC
+</li>
+<li>@file        =&gt; id, class, DS, RQ, AF, AK, multiple, tooltip, label, color, OC
+</li>
+<li>@link        =&gt; id, DS, AK, value, onclick, tooltip, label, color
+</li>
+<li>@label       =&gt; id, class, label, tooltip
+</li>
+<li>@image       =&gt; id, class, value, alt, tooltip, width, height, label, color
+</li>
+<li>@excel       =&gt; id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth,
+                colWidths, label, color
+</li>
+<li>@pdfjs       =&gt; id, class, value, label, color
+</li>
+<li>@table       =&gt; id, class, header, data, footer, value, label, color
+</li>
+<li>@alert       =&gt; id, class, title, text, body, value, label, color
+</li>
+<li>@card        =&gt; id, image, alt, header, footer, title, text, body, value, label, color
+</li>
+<li>@chartjs     =&gt; id, mode, data, value, label, color
+</li>
+<li>@tags        =&gt; id, class, PL, value, DS, RO, RQ, AF, AK, datalist, tooltip, label, color, OC
+</li>
+<li>@onetag      =&gt; id, class, PL, value, DS, RO, RQ, AF, AK, datalist, tooltip, label, color, OC
+</li>
+<li>@gallery     =&gt; id, class, label, images, color
+</li>
+<li>@placeholder =&gt; id, color, height, label
+</li>
+<li>@list        =&gt; id, class, header, extra, data, footer, onclick, active, disabled, label
+</li>
+<li>@tabs        =&gt; id, tabs, label, content, active, disabled, label
+</li>
+<li>@pills       =&gt; id, tabs, label, content, active, disabled, label
+</li>
+<li>@vpills      =&gt; id, tabs, label, content, active, disabled, label
+</li>
+<li>@accordion   =&gt; id, flush, multiple, items, label
+</li>
+<li>@jstree      =&gt; id, open, onclick, data
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+To do more small the previous list, we have used the follow abreviations:
+</p>
+
+<ul>
+<li>@PL =&gt; placeholder
+</li>
+<li>@DS =&gt; disabled
+</li>
+<li>@RO =&gt; readonly
+</li>
+<li>@RQ =&gt; required
+</li>
+<li>@AF =&gt; autofocus
+</li>
+<li>@AK =&gt; accesskey
+</li>
+<li>@OE =&gt; onenter
+</li>
+<li>@OC =&gt; onchange
+</li>
+</ul>
+
+<p>
+The saltos.bootstrap.__field object is part of this constructor and act with the constructor
+as a helper, the idea is that the user must to call the constructor and the helpers are
+only for internal use.
+</p>
+
+</section>
+<section id="toc44">
+<h3>1.4.3. Form_field constructor helper object</h3>
+
+<pre>
+saltos.bootstrap.__field = {};
+</pre>
+
+<p>
+This object allow to the constructor to use a rational structure for a quick access of each helper
+</p>
+
+</section>
+<section id="toc45">
+<h3>1.4.4. Div constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.div = field
+</pre>
+
+<p>
+This function returns an object of the type class by default, you can pass the class
+argument in the field object to specify what kind of class do you want to use.
+</p>
+
+<ul>
+<li>@id    =&gt; the id used by the object
+</li>
+<li>@class =&gt; the class used in the div object
+</li>
+<li>@style =&gt; the style used in the div object
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+As special feature for div containes suck as cols, rows and containers, the unused arguments of fields
+are set as data-bs-{subfield} in the object to be accesed from the obj directly, this allow to set for
+example the data-bs-title or other parameter in a div container to be used futher
+</p>
+
+</section>
+<section id="toc46">
+<h3>1.4.5. Container constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.container = field
+</pre>
+
+<p>
+This function returns an object of the container-fluid class by default, you can pass the class
+argument in the field object to specify what kind of container do you want to do.
+</p>
+
+<ul>
+<li>@id    =&gt; the id used by the object
+</li>
+<li>@class =&gt; the class used in the div object
+</li>
+<li>@style =&gt; the style used in the div object
+</li>
+</ul>
+
+</section>
+<section id="toc47">
+<h3>1.4.6. Row constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.row = field
+</pre>
+
+<p>
+This function returns an object of the row class by default, you can pass the class argument
+in the field object to specify what kind of row do you want to do.
+</p>
+
+<ul>
+<li>@id    =&gt; the id used by the object
+</li>
+<li>@class =&gt; the class used in the div object
+</li>
+<li>@style =&gt; the style used in the div object
+</li>
+</ul>
+
+</section>
+<section id="toc48">
+<h3>1.4.7. Col constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.col = field
+</pre>
+
+<p>
+This function returns an object of the col class by default, you can pass the class argument
+in the field object to specify what kind of col do you want to do.
+</p>
+
+<ul>
+<li>@id    =&gt; the id used by the object
+</li>
+<li>@class =&gt; the class used in the div object
+</li>
+<li>@style =&gt; the style used in the div object
+</li>
+</ul>
+
+</section>
+<section id="toc49">
+<h3>1.4.8. HR constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.hr = field
+</pre>
+
+<p>
+This function returns an object of the type class by default, you can pass the class
+argument in the field object to specify what kind of class do you want to use.
+</p>
+
+<ul>
+<li>@id    =&gt; the id used by the object
+</li>
+<li>@class =&gt; the class used in the div object
+</li>
+<li>@style =&gt; the style used in the div object
+</li>
+</ul>
+
+</section>
+<section id="toc50">
+<h3>1.4.9. Text constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.text = field
+</pre>
+
+<p>
+This function returns an input object of type text, you can pass the same arguments
+that for the input object of type text
+</p>
+
+<ul>
+<li>@id          =&gt; the id used by the object
+</li>
+<li>@class       =&gt; allow to add more classes to the default form-control
+</li>
+<li>@placeholder =&gt; the text used as placeholder parameter
+</li>
+<li>@value       =&gt; the value used as value parameter
+</li>
+<li>@disabled    =&gt; this parameter raise the disabled flag
+</li>
+<li>@readonly    =&gt; this parameter raise the readonly flag
+</li>
+<li>@required    =&gt; this parameter raise the required flag
+</li>
+<li>@autofocus   =&gt; this parameter raise the autofocus flag
+</li>
+<li>@tooltip     =&gt; this parameter raise the title flag
+</li>
+<li>@accesskey   =&gt; the key used as accesskey parameter
+</li>
+<li>@label       =&gt; this parameter is used as text for the label
+</li>
+<li>@color       =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@onenter     =&gt; the function executed when enter key is pressed
+</li>
+<li>@onchange    =&gt; the function executed when onchange event is detected
+</li>
+</ul>
+
+</section>
+<section id="toc51">
+<h3>1.4.10. Hidden constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.hidden = field
+</pre>
+
+<p>
+This function returns an input object of type hidden, you can pass the same arguments
+that for the input object of type text
+</p>
+
+<ul>
+<li>@id          =&gt; the id used by the object
+</li>
+<li>@class       =&gt; allow to add more classes to the default form-control
+</li>
+<li>@placeholder =&gt; the text used as placeholder parameter
+</li>
+<li>@value       =&gt; the value used as value parameter
+</li>
+<li>@disabled    =&gt; this parameter raise the disabled flag
+</li>
+<li>@readonly    =&gt; this parameter raise the readonly flag
+</li>
+<li>@required    =&gt; this parameter raise the required flag
+</li>
+<li>@autofocus   =&gt; this parameter raise the autofocus flag
+</li>
+<li>@tooltip     =&gt; this parameter raise the title flag
+</li>
+<li>@accesskey   =&gt; the key used as accesskey parameter
+</li>
+<li>@color       =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@onenter     =&gt; the function executed when enter key is pressed
+</li>
+<li>@onchange    =&gt; the function executed when onchange event is detected
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This function allow the previous parameters but for hidden inputs, only id
+and value are usually used, in some cases can be interesting to use the
+class to identify a group of hidden input
+</p>
+
+</section>
+<section id="toc52">
+<h3>1.4.11. Integer constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.integer = field
+</pre>
+
+<p>
+This function returns an input object of type integer, you can pass the same arguments
+that for the input object of type text
+</p>
+
+<ul>
+<li>@id          =&gt; the id used by the object
+</li>
+<li>@class       =&gt; allow to add more classes to the default form-control
+</li>
+<li>@placeholder =&gt; the text used as placeholder parameter
+</li>
+<li>@value       =&gt; the value used as value parameter
+</li>
+<li>@disabled    =&gt; this parameter raise the disabled flag
+</li>
+<li>@readonly    =&gt; this parameter raise the readonly flag
+</li>
+<li>@required    =&gt; this parameter raise the required flag
+</li>
+<li>@autofocus   =&gt; this parameter raise the autofocus flag
+</li>
+<li>@tooltip     =&gt; this parameter raise the title flag
+</li>
+<li>@accesskey   =&gt; the key used as accesskey parameter
+</li>
+<li>@label       =&gt; this parameter is used as text for the label
+</li>
+<li>@color       =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@onenter     =&gt; the function executed when enter key is pressed
+</li>
+<li>@onchange    =&gt; the function executed when onchange event is detected
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This widget requires the imask library and can be loaded automatically using the require
+feature:
+</p>
+
+<ul>
+<li>@lib/imaskjs/imask.min.js
+</li>
+</ul>
+
+</section>
+<section id="toc53">
+<h3>1.4.12. Float constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.float = field
+</pre>
+
+<p>
+This function returns an input object of type float, you can pass the same arguments
+that for the input object of type text
+</p>
+
+<ul>
+<li>@id          =&gt; the id used by the object
+</li>
+<li>@class       =&gt; allow to add more classes to the default form-control
+</li>
+<li>@placeholder =&gt; the text used as placeholder parameter
+</li>
+<li>@value       =&gt; the value used as value parameter
+</li>
+<li>@disabled    =&gt; this parameter raise the disabled flag
+</li>
+<li>@readonly    =&gt; this parameter raise the readonly flag
+</li>
+<li>@required    =&gt; this parameter raise the required flag
+</li>
+<li>@autofocus   =&gt; this parameter raise the autofocus flag
+</li>
+<li>@tooltip     =&gt; this parameter raise the title flag
+</li>
+<li>@accesskey   =&gt; the key used as accesskey parameter
+</li>
+<li>@label       =&gt; this parameter is used as text for the label
+</li>
+<li>@color       =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@onenter     =&gt; the function executed when enter key is pressed
+</li>
+<li>@onchange    =&gt; the function executed when onchange event is detected
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This widget requires the imask library and can be loaded automatically using the require
+feature:
+</p>
+
+<ul>
+<li>@lib/imaskjs/imask.min.js
+</li>
+</ul>
+
+</section>
+<section id="toc54">
+<h3>1.4.13. Color constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.color = field
+</pre>
+
+<p>
+This function returns an input object of type color, you can pass the same
+arguments that for the input object of type text
+</p>
+
+<ul>
+<li>@id          =&gt; the id used by the object
+</li>
+<li>@class       =&gt; allow to add more classes to the default form-control
+</li>
+<li>@placeholder =&gt; the text used as placeholder parameter
+</li>
+<li>@value       =&gt; the value used as value parameter
+</li>
+<li>@disabled    =&gt; this parameter raise the disabled flag
+</li>
+<li>@readonly    =&gt; this parameter raise the readonly flag
+</li>
+<li>@required    =&gt; this parameter raise the required flag
+</li>
+<li>@autofocus   =&gt; this parameter raise the autofocus flag
+</li>
+<li>@tooltip     =&gt; this parameter raise the title flag
+</li>
+<li>@accesskey   =&gt; the key used as accesskey parameter
+</li>
+<li>@label       =&gt; this parameter is used as text for the label
+</li>
+<li>@color       =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@onenter     =&gt; the function executed when enter key is pressed
+</li>
+<li>@onchange    =&gt; the function executed when onchange event is detected
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+Ths color input launch a warning if value is not in the format #rrggbb,
+for this reason it is set to #000000 if value is void
+</p>
+
+</section>
+<section id="toc55">
+<h3>1.4.14. Date constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.date = field
+</pre>
+
+<p>
+This function returns an input object of type date, you can pass the same arguments
+that for the input object of type text
+</p>
+
+<ul>
+<li>@id          =&gt; the id used by the object
+</li>
+<li>@class       =&gt; allow to add more classes to the default form-control
+</li>
+<li>@placeholder =&gt; the text used as placeholder parameter
+</li>
+<li>@value       =&gt; the value used as value parameter
+</li>
+<li>@disabled    =&gt; this parameter raise the disabled flag
+</li>
+<li>@readonly    =&gt; this parameter raise the readonly flag
+</li>
+<li>@required    =&gt; this parameter raise the required flag
+</li>
+<li>@autofocus   =&gt; this parameter raise the autofocus flag
+</li>
+<li>@tooltip     =&gt; this parameter raise the title flag
+</li>
+<li>@accesskey   =&gt; the key used as accesskey parameter
+</li>
+<li>@label       =&gt; this parameter is used as text for the label
+</li>
+<li>@color       =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@onenter     =&gt; the function executed when enter key is pressed
+</li>
+<li>@onchange    =&gt; the function executed when onchange event is detected
+</li>
+</ul>
+
+</section>
+<section id="toc56">
+<h3>1.4.15. Time constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.time = field
+</pre>
+
+<p>
+This function returns an input object of type time, you can pass the same arguments
+that for the input object of type text
+</p>
+
+<ul>
+<li>@id          =&gt; the id used by the object
+</li>
+<li>@class       =&gt; allow to add more classes to the default form-control
+</li>
+<li>@placeholder =&gt; the text used as placeholder parameter
+</li>
+<li>@value       =&gt; the value used as value parameter
+</li>
+<li>@disabled    =&gt; this parameter raise the disabled flag
+</li>
+<li>@readonly    =&gt; this parameter raise the readonly flag
+</li>
+<li>@required    =&gt; this parameter raise the required flag
+</li>
+<li>@autofocus   =&gt; this parameter raise the autofocus flag
+</li>
+<li>@tooltip     =&gt; this parameter raise the title flag
+</li>
+<li>@accesskey   =&gt; the key used as accesskey parameter
+</li>
+<li>@label       =&gt; this parameter is used as text for the label
+</li>
+<li>@color       =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@onenter     =&gt; the function executed when enter key is pressed
+</li>
+<li>@onchange    =&gt; the function executed when onchange event is detected
+</li>
+</ul>
+
+</section>
+<section id="toc57">
+<h3>1.4.16. Datetime constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.datetime = field
+</pre>
+
+<p>
+This function returns an input object of type datetime, you can pass the same arguments
+that for the input object of type text
+</p>
+
+<ul>
+<li>@id          =&gt; the id used by the object
+</li>
+<li>@class       =&gt; allow to add more classes to the default form-control
+</li>
+<li>@placeholder =&gt; the text used as placeholder parameter
+</li>
+<li>@value       =&gt; the value used as value parameter
+</li>
+<li>@disabled    =&gt; this parameter raise the disabled flag
+</li>
+<li>@readonly    =&gt; this parameter raise the readonly flag
+</li>
+<li>@required    =&gt; this parameter raise the required flag
+</li>
+<li>@autofocus   =&gt; this parameter raise the autofocus flag
+</li>
+<li>@tooltip     =&gt; this parameter raise the title flag
+</li>
+<li>@accesskey   =&gt; the key used as accesskey parameter
+</li>
+<li>@label       =&gt; this parameter is used as text for the label
+</li>
+<li>@color       =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@onenter     =&gt; the function executed when enter key is pressed
+</li>
+<li>@onchange    =&gt; the function executed when onchange event is detected
+</li>
+</ul>
+
+</section>
+<section id="toc58">
+<h3>1.4.17. Textarea constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.textarea = field
+</pre>
+
+<p>
+This function returns a textarea object with the autogrow plugin enabled
+</p>
+
+<ul>
+<li>@id          =&gt; the id used by the object
+</li>
+<li>@class       =&gt; allow to add more classes to the default form-control
+</li>
+<li>@placeholder =&gt; the text used as placeholder parameter
+</li>
+<li>@value       =&gt; the value used as value parameter
+</li>
+<li>@disabled    =&gt; this parameter raise the disabled flag
+</li>
+<li>@readonly    =&gt; this parameter raise the readonly flag
+</li>
+<li>@required    =&gt; this parameter raise the required flag
+</li>
+<li>@autofocus   =&gt; this parameter raise the autofocus flag
+</li>
+<li>@tooltip     =&gt; this parameter raise the title flag
+</li>
+<li>@accesskey   =&gt; the key used as accesskey parameter
+</li>
+<li>@label       =&gt; this parameter is used as text for the label
+</li>
+<li>@color       =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@height      =&gt; the height used as style.minHeight parameter
+</li>
+<li>@onchange    =&gt; the function executed when onchange event is detected
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This widget requires the autoheight library and can be loaded automatically using the require
+feature:
+</p>
+
+<ul>
+<li>@lib/autoheight/autoheight.min.js
+</li>
+</ul>
+
+</section>
+<section id="toc59">
+<h3>1.4.18. Ckeditor constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.ckeditor = field
+</pre>
+
+<p>
+This function returns a textarea object with the ckeditor plugin enabled
+</p>
+
+<ul>
+<li>@id          =&gt; the id used by the object
+</li>
+<li>@class       =&gt; allow to add more classes to the default form-control
+</li>
+<li>@placeholder =&gt; the text used as placeholder parameter
+</li>
+<li>@value       =&gt; the value used as value parameter
+</li>
+<li>@disabled    =&gt; this parameter raise the disabled flag
+</li>
+<li>@readonly    =&gt; this parameter raise the readonly flag
+</li>
+<li>@required    =&gt; this parameter raise the required flag
+</li>
+<li>@autofocus   =&gt; this parameter raise the autofocus flag
+</li>
+<li>@tooltip     =&gt; this parameter raise the title flag
+</li>
+<li>@accesskey   =&gt; the key used as accesskey parameter
+</li>
+<li>@label       =&gt; this parameter is used as text for the label
+</li>
+<li>@color       =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@height      =&gt; the height used as style.minHeight parameter
+</li>
+<li>@onchange    =&gt; the function executed when onchange event is detected
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This widget requires the ckeditor library and can be loaded automatically using the require
+feature:
+</p>
+
+<ul>
+<li>@lib/ckeditor/ckeditor.min.js
+</li>
+</ul>
+
+<p>
+The returned object contains a textarea with two new properties like ckeditor and set,
+the first contains the ckeditor object and the second is a function used to update the
+value of the ckeditor, intended to load new data.
+</p>
+
+</section>
+<section id="toc60">
+<h3>1.4.19. Codemirror constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.codemirror = field
+</pre>
+
+<p>
+This function returns a textarea object with the codemirror plugin enabled
+</p>
+
+<ul>
+<li>@mode        =&gt; used to define the mode parameter of the codemirror
+</li>
+<li>@id          =&gt; the id used by the object
+</li>
+<li>@class       =&gt; allow to add more classes to the default form-control
+</li>
+<li>@placeholder =&gt; the text used as placeholder parameter
+</li>
+<li>@value       =&gt; the value used as value parameter
+</li>
+<li>@disabled    =&gt; this parameter raise the disabled flag
+</li>
+<li>@readonly    =&gt; this parameter raise the readonly flag
+</li>
+<li>@required    =&gt; this parameter raise the required flag
+</li>
+<li>@autofocus   =&gt; this parameter raise the autofocus flag
+</li>
+<li>@tooltip     =&gt; this parameter raise the title flag
+</li>
+<li>@accesskey   =&gt; the key used as accesskey parameter
+</li>
+<li>@label       =&gt; this parameter is used as text for the label
+</li>
+<li>@color       =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@height      =&gt; the height used as style.minHeight parameter
+</li>
+<li>@onchange    =&gt; the function executed when onchange event is detected
+</li>
+<li>@indent      =&gt; enables the indent feature, only available for xml, json, css and sql
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This widget requires the codemirror library and can be loaded automatically using the require
+feature:
+</p>
+
+<ul>
+<li>@lib/codemirror/codemirror.min.css
+</li>
+<li>@lib/codemirror/codemirror.min.js
+</li>
+</ul>
+
+<p>
+The returned object contains a textarea with two new properties like codemirror and set,
+the first contains the codemirror object and the second is a function used to update the
+value of the codemirror, intended to load new data.
+</p>
+
+</section>
+<section id="toc61">
+<h3>1.4.20. Indent helper</h3>
+
+<pre>
+saltos.bootstrap.__indent_helper = (str, mode)
+</pre>
+
+<p>
+This function allow to indent the string using the mode, this function is
+intended to be used inside the codemirror widget, allowing to indent the
+contents like xml, json, css or sql
+</p>
+
+<ul>
+<li>@str  =&gt; string that you want to indent
+</li>
+<li>@mode =&gt; mode used to indent (xml, json, css or sql)
+</li>
+</ul>
+
+</section>
+<section id="toc62">
+<h3>1.4.21. Iframe constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.iframe = field
+</pre>
+
+<p>
+This function returns an iframe object, you can pass the follow arguments:
+</p>
+
+<ul>
+<li>@id     =&gt; the id used by the object
+</li>
+<li>@src    =&gt; the value used as src parameter
+</li>
+<li>@srcdoc =&gt; the value used as srcdoc parameter
+</li>
+<li>@class  =&gt; allow to add more classes to the default form-control
+</li>
+<li>@height =&gt; the height used as style.minHeight parameter
+</li>
+<li>@label  =&gt; this parameter is used as text for the label
+</li>
+<li>@color  =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This function allow to put contents in the srcdoc, as an extra feature, this content is
+embedded with a doctype with html, head and body, includes the default saltos font and
+to provide a security layer, this function creates an iframe with a sandbox and add to
+the srcdoc a meta to configure the CSP that must apply to the contents
+</p>
+
+</section>
+<section id="toc63">
+<h3>1.4.22. Select constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.select = field
+</pre>
+
+<p>
+This function returns a select object, you can pass the follow arguments:
+</p>
+
+<ul>
+<li>@id        =&gt; the id used by the object
+</li>
+<li>@class     =&gt; allow to add more classes to the default form-select
+</li>
+<li>@disabled  =&gt; this parameter raise the disabled flag
+</li>
+<li>@required  =&gt; this parameter raise the required flag
+</li>
+<li>@autofocus =&gt; this parameter raise the autofocus flag
+</li>
+<li>@multiple  =&gt; this parameter enables the multiple selection feature of the select
+</li>
+<li>@size      =&gt; this parameter allow to see the options list opened with n (size) entries
+</li>
+<li>@value     =&gt; the value used to detect the selected option
+</li>
+<li>@tooltip   =&gt; this parameter raise the title flag
+</li>
+<li>@accesskey =&gt; the key used as accesskey parameter
+</li>
+<li>@rows      =&gt; this parameter contains the list of options, each option must be an object
+              with label and value entries
+</li>
+<li>@label     =&gt; this parameter is used as text for the label
+</li>
+<li>@color     =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@onchange  =&gt; the function executed when onchange event is detected
+</li>
+</ul>
+
+</section>
+<section id="toc64">
+<h3>1.4.23. Multiselect constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.multiselect = field
+</pre>
+
+<p>
+This function returns a multiselect object, you can pass the follow arguments:
+</p>
+
+<ul>
+<li>@id        =&gt; the id used by the object
+</li>
+<li>@class     =&gt; allow to add more classes to the default form-select
+</li>
+<li>@disabled  =&gt; this parameter raise the disabled flag
+</li>
+<li>@required  =&gt; this parameter raise the required flag
+</li>
+<li>@size      =&gt; this parameter allow to see the options list opened with n (size) entries
+</li>
+<li>@value     =&gt; the value used as src parameter
+</li>
+<li>@tooltip   =&gt; this parameter raise the title flag
+</li>
+<li>@accesskey =&gt; the key used as accesskey parameter
+</li>
+<li>@rows      =&gt; this parameter contains the list of options, each option must be an object
+              with label and value entries
+</li>
+<li>@label     =&gt; this parameter is used as text for the label
+</li>
+<li>@color     =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@separator =&gt; the separator string used to split and join the values
+</li>
+<li>@onchange  =&gt; the function executed when onchange event is detected
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This widget is created joinin 2 selects and 2 buttons, the user must get the value
+using the hidden input that is builded using the original id passed by argument.
+</p>
+<p>
+TODO: detected a bug with this widget in chrome in mobile browsers
+</p>
+
+</section>
+<section id="toc65">
+<h3>1.4.24. Checkbox constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.checkbox = field
+</pre>
+
+<p>
+This function returns a checkbox object, you can pass the follow arguments:
+</p>
+
+<ul>
+<li>@id        =&gt; the id used by the object
+</li>
+<li>@class     =&gt; allow to add more classes to the default form-check
+</li>
+<li>@disabled  =&gt; this parameter raise the disabled flag
+</li>
+<li>@readonly  =&gt; this parameter raise the readonly flag
+</li>
+<li>@required  =&gt; this parameter raise the required flag
+</li>
+<li>@label     =&gt; this parameter is used as label for the checkbox
+</li>
+<li>@value     =&gt; this parameter is used to check or unckeck the checkbox, the value
+              must contain a number that raise as true or false in the if condition
+</li>
+<li>@tooltip   =&gt; this parameter raise the title flag
+</li>
+<li>@accesskey =&gt; the key used as accesskey parameter
+</li>
+<li>@color     =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@onchange  =&gt; the function executed when onchange event is detected
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This widget returns their value by setting a zero or one (0/1) value on the value of the input.
+</p>
+
+</section>
+<section id="toc66">
+<h3>1.4.25. Switch constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.switch = field
+</pre>
+
+<p>
+This function returns a switch object, you can pass the follow arguments:
+</p>
+
+<ul>
+<li>@id        =&gt; the id used by the object
+</li>
+<li>@class     =&gt; allow to add more classes to the default form-check and form-switch
+</li>
+<li>@disabled  =&gt; this parameter raise the disabled flag
+</li>
+<li>@readonly  =&gt; this parameter raise the readonly flag
+</li>
+<li>@label     =&gt; this parameter is used as label for the switch
+</li>
+<li>@value     =&gt; this parameter is used to check or unckeck the switch, the value
+              must contain a number that raise as true or false in the if condition
+</li>
+<li>@tooltip   =&gt; this parameter raise the title flag
+</li>
+<li>@accesskey =&gt; the key used as accesskey parameter
+</li>
+<li>@color     =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@onchange  =&gt; the function executed when onchange event is detected
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This widget uses the checkbox constructor
+</p>
+
+</section>
+<section id="toc67">
+<h3>1.4.26. Button constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.button = field
+</pre>
+
+<p>
+This function returns a button object, you can pass the follow arguments:
+</p>
+
+<ul>
+<li>@id        =&gt; the id used by the object
+</li>
+<li>@class     =&gt; allow to add more classes to the default form-select
+</li>
+<li>@disabled  =&gt; this parameter raise the disabled flag
+</li>
+<li>@autofocus =&gt; this parameter raise the autofocus flag
+</li>
+<li>@label     =&gt; label to be used as text in the contents of the buttons
+</li>
+<li>@onclick   =&gt; callback function that is executed when the button is pressed
+</li>
+<li>@tooltip   =&gt; this parameter raise the title flag
+</li>
+<li>@accesskey =&gt; the key used as accesskey parameter
+</li>
+<li>@color     =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@collapse  =&gt; a boolean to enable or disable the collapse feature in the button
+</li>
+<li>@target    =&gt; the id of the element controlled by the collapse feature
+</li>
+<li>@addbr     =&gt; this special feature adds a void label with a new line tag to align the button with
+              the other elements that are label+widget
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+The buttons adds the focus-ring classes to use this new feature that solves issues suck as
+hidden focus when you try to focus a button inside a modal, for example.
+</p>
+
+</section>
+<section id="toc68">
+<h3>1.4.27. Password constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.password = field
+</pre>
+
+<p>
+This function returns an input object of type password, you can pass some arguments as:
+</p>
+
+<ul>
+<li>@id           =&gt; the id used by the object
+</li>
+<li>@class        =&gt; allow to add more classes to the default form-control
+</li>
+<li>@placeholder  =&gt; the text used as placeholder parameter
+</li>
+<li>@value        =&gt; the value used as value parameter
+</li>
+<li>@disabled     =&gt; this parameter raise the disabled flag
+</li>
+<li>@readonly     =&gt; this parameter raise the readonly flag
+</li>
+<li>@required     =&gt; this parameter raise the required flag
+</li>
+<li>@autofocus    =&gt; this parameter raise the autofocus flag
+</li>
+<li>@tooltip      =&gt; this parameter raise the title flag
+</li>
+<li>@accesskey    =&gt; the key used as accesskey parameter
+</li>
+<li>@label        =&gt; this parameter is used as text for the label
+</li>
+<li>@color        =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@onenter      =&gt; the function executed when enter key is pressed
+</li>
+<li>@onchange     =&gt; the function executed when onchange event is detected
+</li>
+<li>@autocomplete =&gt; set to false to enable the hiddens passwords trick
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This widget add an icon to the end of the widget with an slashed eye, this allow to
+see the entered password to verify it, in reality, this button swaps the input between
+password and text type, allowing to do visible or not the contents of the input
+</p>
+<p>
+Setting the field.autocomplete=false enable the feature that tries to disable the
+autocomplete provided by the browsers password adding the autocomplete="new-password"
+</p>
+
+</section>
+<section id="toc69">
+<h3>1.4.28. File constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.file = field
+</pre>
+
+<p>
+This function returns an input object of type password, you can pass some arguments as:
+</p>
+
+<ul>
+<li>@id        =&gt; the id used by the object
+</li>
+<li>@class     =&gt; allow to add more classes to the default form-control
+</li>
+<li>@disabled  =&gt; this parameter raise the disabled flag
+</li>
+<li>@required  =&gt; this parameter raise the required flag
+</li>
+<li>@autofocus =&gt; this parameter raise the autofocus flag
+</li>
+<li>@multiple  =&gt; this parameter raise the multiple flag, intended to select more files at time
+</li>
+<li>@tooltip   =&gt; this parameter raise the title flag
+</li>
+<li>@accesskey =&gt; the key used as accesskey parameter
+</li>
+<li>@label     =&gt; this parameter is used as text for the label
+</li>
+<li>@color     =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@onchange  =&gt; the function executed when onchange event is detected
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This control allow to select file from the tradicional input, and automatically, send it
+to the server using the addfiles action, add a row in the widget's table to show information
+about the new file and allow too to delete it using the trash button.
+</p>
+<p>
+To get the data, the controls store each file information in each added row of the table and
+in addition, too join all information in a data structure of the input of type file.
+</p>
+<p>
+The difference between this control and the older controls is that they send the files to
+the server and store the information related to the file on the server to be processed after
+the real upload action.
+</p>
+
+</section>
+<section id="toc70">
+<h3>1.4.29. Link constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.link = field
+</pre>
+
+<p>
+This function creates a field similar of text but with the appearance of a link using a button,
+the object can receive the follow arguments:
+</p>
+
+<ul>
+<li>@id        =&gt; the id used by the object
+</li>
+<li>@class     =&gt; allow to add more classes to the default form-select
+</li>
+<li>@disabled  =&gt; this parameter raise the disabled flag
+</li>
+<li>@autofocus =&gt; this parameter raise the autofocus flag
+</li>
+<li>@label     =&gt; label to be used as text in the contents of the buttons
+</li>
+<li>@onclick   =&gt; callback function that is executed when the button is pressed
+</li>
+<li>@tooltip   =&gt; this parameter raise the title flag
+</li>
+<li>@accesskey =&gt; the key used as accesskey parameter
+</li>
+<li>@color     =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@collapse  =&gt; a boolean to enable or disable the collapse feature in the button
+</li>
+<li>@target    =&gt; the id of the element controlled by the collapse feature
+</li>
+<li>@addbr     =&gt; this special feature adds a void label with a new line tag to align the button with
+              the other elements that are label+widget
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This object is not a real link, it's a button that uses the btn-link class to get the link
+appearance
+</p>
+
+</section>
+<section id="toc71">
+<h3>1.4.30. Label constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.label = field
+</pre>
+
+<p>
+This function returns a label object, you can pass some arguments as:
+</p>
+
+<ul>
+<li>@id      =&gt; the id used to set the reference for to the object
+</li>
+<li>@class   =&gt; allow to add more classes to the default form-label
+</li>
+<li>@label   =&gt; this parameter is used as text for the label
+</li>
+<li>@tooltip =&gt; this parameter raise the title flag
+</li>
+</ul>
+
+</section>
+<section id="toc72">
+<h3>1.4.31. Image constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.image = field
+</pre>
+
+<p>
+This function returns an image object, you can pass some arguments as:
+</p>
+
+<ul>
+<li>@id      =&gt; the id used to set the reference for to the object
+</li>
+<li>@class   =&gt; allow to add more classes to the default img-fluid
+</li>
+<li>@value   =&gt; the value used as src parameter
+</li>
+<li>@alt     =&gt; this parameter is used as text for the alt parameter
+</li>
+<li>@tooltip =&gt; this parameter raise the title flag
+</li>
+<li>@label   =&gt; this parameter is used as text for the label
+</li>
+<li>@width   =&gt; this parameter is used as width for the image
+</li>
+<li>@height  =&gt; this parameter is used as height for the image
+</li>
+<li>@color   =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+</ul>
+
+</section>
+<section id="toc73">
+<h3>1.4.32. Excel constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.excel = field
+</pre>
+
+<p>
+This function creates and returns an excel object, to do this they use the handsontable library,
+currently this library uses a privative license, by this reason, we are using the version 6.2.2
+that is the latest release published using the MIT license.
+</p>
+<p>
+This widget can receive the following arguments:
+</p>
+
+<ul>
+<li>@id             =&gt; the id used to set the reference for to the object
+</li>
+<li>@class          =&gt; allow to set the class to the div object used to allocate the widget
+</li>
+<li>@data           =&gt; this parameter must contain a 2D matrix with the data that you want to show
+                   in the sheet
+</li>
+<li>@rowHeaders     =&gt; can be an array with the headers that you want to use instead the def numbers
+</li>
+<li>@colHeaders     =&gt; can be an array with the headers that you want to use instead the def letters
+</li>
+<li>@minSpareRows   =&gt; can be a number with the void rows at the end of the sheet
+</li>
+<li>@contextMenu    =&gt; can be a boolean with the desired value to allow or not the provided
+                   context menu of the widget
+</li>
+<li>@rowHeaderWidth =&gt; can be a number with the width of the headers rows
+</li>
+<li>@colWidths      =&gt; can be an array with the widths of the headers cols
+</li>
+<li>@label          =&gt; this parameter is used as text for the label
+</li>
+<li>@color          =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+You can get the values after to do changes by accessing to the data of the div used to create
+the widget.
+</p>
+<p>
+This widget requires the handsontable library and can be loaded automatically using the require
+feature:
+</p>
+
+<ul>
+<li>@lib/handsontable/handsontable.full.min.css
+</li>
+<li>@lib/handsontable/handsontable.full.min.js
+</li>
+</ul>
+
+</section>
+<section id="toc74">
+<h3>1.4.33. Pdfjs constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.pdfjs = field
+</pre>
+
+<p>
+This function creates and returns a pdfviewer object, to do this they use the pdf.js library.
+</p>
+
+<ul>
+<li>@id     =&gt; the id used to set the reference for to the object
+</li>
+<li>@class  =&gt; allow to set the class to the div object used to allocate the widget
+</li>
+<li>@src    =&gt; the file that contains the pdf document
+</li>
+<li>@srcdoc =&gt; the data that contains the pdf document
+</li>
+<li>@label  =&gt; this parameter is used as text for the label
+</li>
+<li>@color  =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This widget requires the pdfjs library and can be loaded automatically using the require
+feature:
+</p>
+
+<ul>
+<li>@lib/pdfjs/pdf.min.mjs
+</li>
+<li>@lib/pdfjs/pdf.worker.min.mjs
+</li>
+</ul>
+
+<p>
+The last file (the worker) is loaded by the library and not by SaltOS, is for this reason
+that this file not appear in the next requires
+</p>
+<p>
+Change scale causes issues in scrollTop when pdfjs is used inside a modal, to prevent this,
+the two updates to the pdfViewer.currentScaleValue = 'update' will add a control to fix
+that modal scrollTop is the same.
+</p>
+
+</section>
+<section id="toc75">
+<h3>1.4.34. Table constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.table = field
+</pre>
+
+<p>
+Returns a table using the follow params:
+</p>
+
+<ul>
+<li>@id       =&gt; the id used to set the reference for to the object
+</li>
+<li>@class    =&gt; allow to add more classes to the default table table-striped table-hover
+</li>
+<li>@header   =&gt; array with the header to use
+</li>
+<li>@data     =&gt; 2D array with the data used to mount the body table
+</li>
+<li>@footer   =&gt; array with the footer to use
+</li>
+<li>@checkbox =&gt; add a checkbox in the first cell of each row, for mono or multi selection
+</li>
+<li>@dropdown =&gt; a boolean value to force the usage of the dropdown feature, void for auto detection
+</li>
+<li>@label    =&gt; this parameter is used as text for the label
+</li>
+<li>@color    =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@nodata   =&gt; text used when no data is found
+</li>
+<li>@actions  =&gt; each row of the data can contain an array with the actions of each row
+</li>
+</ul>
+
+<p>
+Each action can contain:
+</p>
+
+<ul>
+<li>@app     =&gt; the application that must be used to check the permissions
+</li>
+<li>@action  =&gt; the accion that must to be used to check the permissions
+</li>
+<li>@value   =&gt; the text used as label in the button of the action
+</li>
+<li>@icon    =&gt; the icon used in the button of the action
+</li>
+<li>@tooltip =&gt; the tooltip used in the button of the action
+</li>
+<li>@onclick =&gt; the onclick function that receives as argument the arg to access the action
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This function defines the yellow color used for the hover and active rows.
+</p>
+<p>
+The header field must be an object with the labels, types, aligns, ..., of each field,
+if the header is ommited, then the data will be painted using the default order of the
+data without filters, the recomendation is to use header to specify which fields must
+to be painted, the order, the type and the alignment.
+</p>
+<p>
+The actions will be added using a dropdown menu if more than one action appear in the
+the row data, the idea of this feature is to prevent that the icons uses lot of space
+of the row data, and for this reason, it will define the dropdown variable that enables
+or not the contraction feature
+</p>
+<p>
+The elements of the data cells can contains an object with the field specification used
+to the saltos.bootstrap.field constructor, it is useful to convert some fields to inputs
+instead of simple text, too is able to use the type attribute in the header specification
+to identify if you want to use a column with some special type as for example, the icons
+</p>
+
+</section>
+<section id="toc76">
+<h3>1.4.35. Alert constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.alert = field
+</pre>
+
+<p>
+This component allow to set boxes type alert in the contents, only requires:
+</p>
+
+<ul>
+<li>@id    =&gt; the id used to set the reference for to the object
+</li>
+<li>@class =&gt; allow to add more classes to the default alert
+</li>
+<li>@title =&gt; title used in the body of the card, not used if void
+</li>
+<li>@text  =&gt; text used in the body of the card, not used if void
+</li>
+<li>@body  =&gt; this option allow to specify an specific html to the body of the card, intended
+          to personalize the body's card
+</li>
+<li>@close =&gt; boolean to specify if you want to add the dismissible option to the alert
+</li>
+<li>@label =&gt; this parameter is used as text for the label
+</li>
+<li>@color =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+</ul>
+
+<p>
+Note:
+</p>
+<p>
+I have added the dismissible option using the close attribute, too I have added a modification
+for the style to allow the content to use the original size of the alert, in a future, I don't
+know if I maintain this or I remove it, but at the moment, this is added by default
+</p>
+
+</section>
+<section id="toc77">
+<h3>1.4.36. Card constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.card = field
+</pre>
+
+<p>
+This functions creates a card with a lot of options:
+</p>
+
+<ul>
+<li>@id     =&gt; the id used to set the reference for to the object
+</li>
+<li>@image  =&gt; image used as top image in the card, not used if void
+</li>
+<li>@alt    =&gt; alt text used in the top image if you specify an image
+</li>
+<li>@header =&gt; text used in the header, not used if void
+</li>
+<li>@footer =&gt; text used in the footer, not used if void
+</li>
+<li>@title  =&gt; title used in the body of the card, not used if void
+</li>
+<li>@text   =&gt; text used in the body of the card, not used if void
+</li>
+<li>@body   =&gt; this option allow to specify an specific html to the body of the card, intended
+           to personalize the body's card
+</li>
+<li>@label  =&gt; this parameter is used as text for the label
+</li>
+<li>@color  =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+</ul>
+
+</section>
+<section id="toc78">
+<h3>1.4.37. Chart.js constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.chartjs = field
+</pre>
+
+<p>
+This function creates a chart using the chart.js library, to do this requires de follow arguments:
+</p>
+
+<ul>
+<li>@id    =&gt; the id used by the object
+</li>
+<li>@mode  =&gt; to specify what kind of plot do you want to do: can be bar, line, doughnut, pie
+</li>
+<li>@data  =&gt; the data used to plot the graph, see the data argument used by the graph.js library
+</li>
+<li>@label =&gt; this parameter is used as text for the label
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+To be more practice and for stetic reasons, I'm adding to all datasets the borderWidth = 1
+</p>
+<p>
+This widget requires the chartjs library and can be loaded automatically using the require
+feature:
+</p>
+
+<ul>
+<li>@lib/chartjs/chart.umd.min.js
+</li>
+</ul>
+
+</section>
+<section id="toc79">
+<h3>1.4.38. Tags constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.tags = field
+</pre>
+
+<p>
+This function creates a text input that allow to manage tags, each tag is paint as a badge
+and each tag can be deleted, the result is stored in a text using a comma separated values
+</p>
+
+<ul>
+<li>@id          =&gt; the id used by the object
+</li>
+<li>@value       =&gt; comma separated values
+</li>
+<li>@datalist    =&gt; array with options for the datalist, used as autocomplete for the text input
+</li>
+<li>@label       =&gt; this parameter is used as text for the label
+</li>
+<li>@class       =&gt; allow to add more classes to the default form-control
+</li>
+<li>@placeholder =&gt; the text used as placeholder parameter
+</li>
+<li>@disabled    =&gt; this parameter raise the disabled flag
+</li>
+<li>@readonly    =&gt; this parameter raise the readonly flag
+</li>
+<li>@required    =&gt; this parameter raise the required flag
+</li>
+<li>@autofocus   =&gt; this parameter raise the autofocus flag
+</li>
+<li>@tooltip     =&gt; this parameter raise the title flag
+</li>
+<li>@accesskey   =&gt; the key used as accesskey parameter
+</li>
+<li>@color       =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@separator   =&gt; the separator string used to split and join the tags
+</li>
+<li>@onchange    =&gt; the function executed when onchange event is detected
+</li>
+<li>@create      =&gt; allow to specify if the widget can create new items
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This widget contains a datalist with ajax autoload, this allow to send requests
+to the desired path to retrieve the contents of the datalist for the autocomplete,
+this request uses an historical keyword that can be retrieved in the json/term
+</p>
+<p>
+This widget uses the tom-select plugin, more info in their project website:
+</p>
+
+<ul>
+<li><a href="https://tom-select.js.org/">https://tom-select.js.org/</a>
+</li>
+</ul>
+
+</section>
+<section id="toc80">
+<h3>1.4.39. One tag constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.onetag = field
+</pre>
+
+<p>
+This function creates a select that allow to be used as a text input like a select widget and allow
+to create new items writing directly inside of the widget.
+</p>
+
+<ul>
+<li>@id          =&gt; the id used by the object
+</li>
+<li>@value       =&gt; the value of this field
+</li>
+<li>@datalist    =&gt; array with options for the datalist, used as autocomplete for the text input
+</li>
+<li>@label       =&gt; this parameter is used as text for the label
+</li>
+<li>@class       =&gt; allow to add more classes to the default form-control
+</li>
+<li>@placeholder =&gt; the text used as placeholder parameter
+</li>
+<li>@disabled    =&gt; this parameter raise the disabled flag
+</li>
+<li>@readonly    =&gt; this parameter raise the readonly flag
+</li>
+<li>@required    =&gt; this parameter raise the required flag
+</li>
+<li>@autofocus   =&gt; this parameter raise the autofocus flag
+</li>
+<li>@tooltip     =&gt; this parameter raise the title flag
+</li>
+<li>@accesskey   =&gt; the key used as accesskey parameter
+</li>
+<li>@color       =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@onchange    =&gt; the function executed when onchange event is detected
+</li>
+<li>@create      =&gt; allow to specify if the widget can create new items
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This widget contains a datalist with ajax autoload, this allow to send requests
+to the desired path to retrieve the contents of the datalist for the autocomplete,
+this request uses an historical keyword that can be retrieved in the json/term
+</p>
+<p>
+This widget uses the tom-select plugin, more info in their project website:
+</p>
+
+<ul>
+<li><a href="https://tom-select.js.org/">https://tom-select.js.org/</a>
+</li>
+</ul>
+
+</section>
+<section id="toc81">
+<h3>1.4.40. Srcdoc helper</h3>
+
+<pre>
+saltos.bootstrap.__iframe_srcdoc_helper = html
+</pre>
+
+<p>
+This function adds the needed environment to the html to improve the
+render of the html, this function is intended to be used inside the
+iframw widget
+</p>
+
+<ul>
+<li>@html =&gt; the code that you need to process
+</li>
+</ul>
+
+</section>
+<section id="toc82">
+<h3>1.4.41. Datalist helper</h3>
+
+<pre>
+saltos.bootstrap.__datalist_helper = datalist
+</pre>
+
+<p>
+This function is a helper function used by the tags and onetag widgets
+and is intended to be used as load function by the tomselect library.
+</p>
+
+<ul>
+<li>@datalist =&gt; the original datalist that can be an string or an object
+</li>
+</ul>
+
+</section>
+<section id="toc83">
+<h3>1.4.42. Value helper</h3>
+
+<pre>
+saltos.bootstrap.__value_helper = (value, separator)
+</pre>
+
+<p>
+This function is a helper function used by the tags widget and is intended
+to be used to convert a string into an array using the separator for split.
+</p>
+
+<ul>
+<li>@value     =&gt; the original value that must to be processed
+</li>
+<li>@separator =&gt; the separator string used in the split
+</li>
+</ul>
+
+</section>
+<section id="toc84">
+<h3>1.4.43. Gallery constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.gallery = field
+</pre>
+
+<p>
+This function returns a gallery object, you can pass some arguments as:
+</p>
+
+<ul>
+<li>@id     =&gt; the id used to set the reference for to the object
+</li>
+<li>@class  =&gt; allow to add more classes to the default img-fluid
+</li>
+<li>@label  =&gt; this parameter is used as text for the label
+</li>
+<li>@images =&gt; the array with images, each image can be a string or object
+</li>
+<li>@color  =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+</ul>
+
+<p>
+This widget requires venobox, masonry and imagesloaded
+</p>
+<p>
+This widget requires the venobox, masonry and imagesloaded libraries and can be loaded
+automatically using the require feature:
+</p>
+
+<ul>
+<li>@lib/venobox/venobox.min.css
+</li>
+<li>@lib/venobox/venobox.min.js
+</li>
+<li>@lib/masonry/masonry.pkgd.min.js
+</li>
+<li>@lib/imagesloaded/imagesloaded.pkgd.min.js
+</li>
+</ul>
+
+</section>
+<section id="toc85">
+<h3>1.4.44. Placeholder helper</h3>
+
+<pre>
+saltos.bootstrap.__field.placeholder = field
+</pre>
+
+<p>
+This function returns a grey area that uses all space with the placeholder glow effect
+</p>
+
+<ul>
+<li>@id     =&gt; id used in the original object, it must be replaced when the data will be available
+</li>
+<li>@color  =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@height =&gt; the height used as style.height parameter
+</li>
+<li>@label  =&gt; this parameter is used as text for the label
+</li>
+</ul>
+
+</section>
+<section id="toc86">
+<h3>1.4.45. List widget constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.list = field
+</pre>
+
+<p>
+Returns a list widget using the follow params:
+</p>
+
+<ul>
+<li>@id       =&gt; the id used to set the reference for to the object
+</li>
+<li>@class    =&gt; allow to add more classes to the default list-group
+</li>
+<li>@onclick  =&gt; this parameter allow to enable or disable the buttons in the list
+</li>
+<li>@data     =&gt; 2D array with the data used to mount the list
+</li>
+<li>@truncate =&gt; this parameter add the text-truncate to all texts of the items
+</li>
+<li>@checkbox =&gt; add a checkbox in the first cell of each row, for mono or multi selection
+</li>
+<li>@nodata   =&gt; text used when no data is found
+</li>
+<li>@label    =&gt; this parameter is used as text for the label
+</li>
+</ul>
+
+<p>
+Each item in the data can contain:
+</p>
+
+<ul>
+<li>@header   =&gt; string with the header to use
+</li>
+<li>@body     =&gt; string with the data to use
+</li>
+<li>@footer   =&gt; string with the footer to use
+</li>
+<li>@onclick  =&gt; the onclick function that receives as argument the url to access the action
+</li>
+<li>@url      =&gt; this parameter is used as argument for the onclick function
+</li>
+<li>@active   =&gt; this parameter raise the active flag
+</li>
+<li>@disabled =&gt; this parameter raise the disabled flag
+</li>
+<li>@actions  =&gt; this parameter allow to recicle the actions feature of the list action
+</li>
+<li>@id       =&gt; the id used to set the reference for each checkbox
+</li>
+</ul>
+
+<p>
+As an extra fields, the widget allow to provide multiple texts and icons
+</p>
+
+<ul>
+<li>@header_text  =&gt; an small text added at the end of the same line of the header
+</li>
+<li>@header_icon  =&gt; an small icon added at the end of the same line of the header
+</li>
+<li>@header_color =&gt; the color used in the previous small text and icon
+</li>
+<li>@body_text    =&gt; an small text added at the end of the same line of the body
+</li>
+<li>@body_icon    =&gt; an small icon added at the end of the same line of the body
+</li>
+<li>@body_color   =&gt; the color used in the previous small text and icon
+</li>
+<li>@footer_text  =&gt; an small text added at the end of the same line of the footer
+</li>
+<li>@footer_icon  =&gt; an small icon added at the end of the same line of the footer
+</li>
+<li>@footer_color =&gt; the color used in the previous small text and icon
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+The first onclick parameter is used to raise the construction of the widget and items,
+depending of this parameter, the function uses a dir or an ul element to do the list
+</p>
+
+</section>
+<section id="toc87">
+<h3>1.4.46. Tabs widget constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.tabs = field
+</pre>
+
+<p>
+Returns a tabs widget using the follow params:
+</p>
+
+<ul>
+<li>@id    =&gt; the id used to set the reference for to the object
+</li>
+<li>@items =&gt; 2D array with the data used to mount the tab and content
+</li>
+<li>@label    =&gt; this parameter is used as text for the label
+</li>
+</ul>
+
+<p>
+Each item in the tabs can contain:
+</p>
+
+<ul>
+<li>@label    =&gt; string with the text label to use in the tab button
+</li>
+<li>@content  =&gt; string with the content to be used in the content area
+</li>
+<li>@active   =&gt; this parameter raise the active flag
+</li>
+<li>@disabled =&gt; this parameter raise the disabled flag
+</li>
+</ul>
+
+</section>
+<section id="toc88">
+<h3>1.4.47. Pills widget constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.pills = field
+</pre>
+
+<p>
+Returns a tabs widget using the follow params:
+</p>
+
+<ul>
+<li>@id    =&gt; the id used to set the reference for to the object
+</li>
+<li>@items =&gt; 2D array with the data used to mount the tab and content
+</li>
+<li>@label    =&gt; this parameter is used as text for the label
+</li>
+</ul>
+
+<p>
+Each item in the tabs can contain:
+</p>
+
+<ul>
+<li>@label    =&gt; string with the text label to use in the tab button
+</li>
+<li>@content  =&gt; string with the content to be used in the content area
+</li>
+<li>@active   =&gt; this parameter raise the active flag
+</li>
+<li>@disabled =&gt; this parameter raise the disabled flag
+</li>
+</ul>
+
+</section>
+<section id="toc89">
+<h3>1.4.48. V-Pills widget constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.vpills = field
+</pre>
+
+<p>
+Returns a tabs widget using the follow params:
+</p>
+
+<ul>
+<li>@id    =&gt; the id used to set the reference for to the object
+</li>
+<li>@items =&gt; 2D array with the data used to mount the tab and content
+</li>
+<li>@label    =&gt; this parameter is used as text for the label
+</li>
+</ul>
+
+<p>
+Each item in the tabs can contain:
+</p>
+
+<ul>
+<li>@label    =&gt; string with the text name to use in the tab button
+</li>
+<li>@content  =&gt; string with the content to be used in the content area
+</li>
+<li>@active   =&gt; this parameter raise the active flag
+</li>
+<li>@disabled =&gt; this parameter raise the disabled flag
+</li>
+</ul>
+
+</section>
+<section id="toc90">
+<h3>1.4.49. Accordion widget constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.accordion = field
+</pre>
+
+<p>
+Returns an accordion widget using the follow params:
+</p>
+
+<ul>
+<li>@id       =&gt; the id used to set the reference for to the object
+</li>
+<li>@flush    =&gt; if true, add the accordion-flush to the widget
+</li>
+<li>@multiple =&gt; if true, allow to have open multiple items at same time
+</li>
+<li>@items    =&gt; 2D array with the data used to mount the accordion and content
+</li>
+<li>@label    =&gt; this parameter is used as text for the label
+</li>
+</ul>
+
+<p>
+Each item in the tabs can contain:
+</p>
+
+<ul>
+<li>@label    =&gt; string with the text label to use in the tab button
+</li>
+<li>@content  =&gt; string with the content to be used in the content area
+</li>
+<li>@active   =&gt; this parameter raise the active flag
+</li>
+</ul>
+
+</section>
+<section id="toc91">
+<h3>1.4.50. JS Tree constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.jstree = field
+</pre>
+
+<p>
+This function returns a jstree object using the follow parameters:
+</p>
+
+<ul>
+<li>@id      =&gt; the id used to set the reference for to the object
+</li>
+<li>@class    =&gt; allow to add more classes to the default table table-striped table-hover
+</li>
+<li>@open    =&gt; the open boolean that open all nodes
+</li>
+<li>@onclick =&gt; the callback that receives the id as argument of the selected item
+</li>
+<li>@nodata   =&gt; text used when no data is found
+</li>
+<li>@label    =&gt; this parameter is used as text for the label
+</li>
+<li>@data    =&gt; the data used to make the tree, must to be an array with nodes
+</li>
+</ul>
+
+<p>
+Each node must contain the follow items:
+</p>
+
+<ul>
+<li>@id       =&gt; the id of the node (used in the onclick callback)
+</li>
+<li>@text     =&gt; the text of the node
+</li>
+<li>@children =&gt; an array with the nodes childrens
+</li>
+</ul>
+
+</section>
+<section id="toc92">
+<h3>1.4.51. Dropdown constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__field.dropdown = field
+</pre>
+
+<p>
+This function returns a dropdown object, you can pass the follow arguments:
+</p>
+
+<ul>
+<li>@id        =&gt; the id used by the object
+</li>
+<li>@class     =&gt; allow to add more classes to the default btn-group
+</li>
+<li>@disabled  =&gt; this parameter raise the disabled flag
+</li>
+<li>@label     =&gt; label to be used as text in the contents of the buttons
+</li>
+<li>@onclick   =&gt; callback function that is executed when the button is pressed
+</li>
+<li>@split     =&gt; to use a split button instead of single button
+</li>
+<li>@tooltip   =&gt; this parameter raise the title flag
+</li>
+<li>@icon      =&gt; the icon used in the main button
+</li>
+<li>@accesskey =&gt; the key used as accesskey parameter
+</li>
+<li>@color     =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@menu      =&gt; with this option, you can specify an array with the contents of the dropdown menu
+</li>
+</ul>
+
+<ul>
+<li>@label     =&gt; label of the menu
+</li>
+<li>@icon      =&gt; icon of the menu
+</li>
+<li>@disabled  =&gt; this boolean allow to disable this menu entry
+</li>
+<li>@active    =&gt; this boolean marks the option as active
+</li>
+<li>@onclick   =&gt; the callback used when the user select the menu
+</li>
+<li>@divider   =&gt; you can set this boolean to true to convert the element into a divider
+</li>
+<li>@tooltip   =&gt; this parameter raise the title flag
+</li>
+<li>@accesskey =&gt; the key used as accesskey parameter
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+The tooltip can not be applied to the dropdown button because causes an internal error,
+in this case, the tooltip only are applied in the first button of the split button and
+all items of the menu, as brief, tootip only can be applied in all real actions buttons
+and not in the dropdown button that opens the real dropdown menu
+</p>
+
+</section>
+<section id="toc93">
+<h3>1.4.52. Private text constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__text_helper = field
+</pre>
+
+<p>
+This function returns an input object of type text, you can pass some arguments as:
+</p>
+
+<ul>
+<li>@id          =&gt; the id used by the object
+</li>
+<li>@class       =&gt; allow to add more classes to the default form-control
+</li>
+<li>@placeholder =&gt; the text used as placeholder parameter
+</li>
+<li>@value       =&gt; the value used as value parameter
+</li>
+<li>@disabled    =&gt; this parameter raise the disabled flag
+</li>
+<li>@readonly    =&gt; this parameter raise the readonly flag
+</li>
+<li>@required    =&gt; this parameter raise the required flag
+</li>
+<li>@autofocus   =&gt; this parameter raise the autofocus flag
+</li>
+<li>@tooltip     =&gt; this parameter raise the title flag
+</li>
+<li>@color       =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@onenter     =&gt; the function executed when enter key is pressed
+</li>
+<li>@onchange    =&gt; the function executed when onchange event is detected
+</li>
+<li>@autosave    =&gt; allow to disable the autosave feature for this field, true by default
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This function is intended to be used by other helpers of the form_field constructor
+</p>
+
+</section>
+<section id="toc94">
+<h3>1.4.53. Private textarea constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__textarea_helper = field
+</pre>
+
+<p>
+This function returns a textarea object, you can pass the follow arguments:
+</p>
+
+<ul>
+<li>@id          =&gt; the id used by the object
+</li>
+<li>@class       =&gt; allow to add more classes to the default form-control
+</li>
+<li>@placeholder =&gt; the text used as placeholder parameter
+</li>
+<li>@value       =&gt; the value used as value parameter
+</li>
+<li>@disabled    =&gt; this parameter raise the disabled flag
+</li>
+<li>@readonly    =&gt; this parameter raise the readonly flag
+</li>
+<li>@required    =&gt; this parameter raise the required flag
+</li>
+<li>@autofocus   =&gt; this parameter raise the autofocus flag
+</li>
+<li>@tooltip     =&gt; this parameter raise the title flag
+</li>
+<li>@color       =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@onchange    =&gt; the function executed when onchange event is detected
+</li>
+<li>@autosave    =&gt; allow to disable the autosave feature for this field, true by default
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This function is intended to be used by other helpers of the form_field constructor
+</p>
+
+</section>
+<section id="toc95">
+<h3>1.4.54. Private tooltip constructor helper</h3>
+
+<pre>
+saltos.bootstrap.__tooltip_helper = obj
+</pre>
+
+<p>
+This function is intended to enable the tooltip in the object, too it try to do some
+extra features: program that only show the tooltip when hover and hide when will get
+the focus or get the click event
+</p>
+
+<ul>
+<li>@obj =&gt; the object that you want to enable the tooltip feature
+</li>
+</ul>
+
+</section>
+<section id="toc96">
+<h3>1.4.55. Private tooltip hide helper</h3>
+
+<pre>
+saltos.bootstrap.__tooltip_hide = ()
+</pre>
+
+<p>
+This function is intended to hide all running tooltips, it's used when some widgets
+replaces the old elements by new elements, if the tooltip is show when the transition
+happens, it's necessary to remove it to prevent a blocking elements in the user
+interface.
+</p>
+
+</section>
+<section id="toc97">
+<h3>1.4.56. Label helper</h3>
+
+<pre>
+saltos.bootstrap.__label_helper = field
+</pre>
+
+<p>
+This function is a helper for label field, it is intended to returns the label object
+or a void string, this is because if no label is present in the field argument, then
+an empty string is returned, in the reception of the result, generally this is added
+to an object and it is ignored because an empty string is not an element, this thing
+is used by the optimizer to removes the unnecessary envelopment
+</p>
+
+<ul>
+<li>@field =&gt; the field that contains the label to be added if needed
+</li>
+</ul>
+
+</section>
+<section id="toc98">
+<h3>1.4.57. Label Combine</h3>
+
+<pre>
+saltos.bootstrap.__label_combine = (field, old)
+</pre>
+
+<p>
+This function combine the label with the object, to do it, tries to create a new
+container object to put the label and the passed object, and then tries to optimize
+to detect if the label is void
+</p>
+
+<ul>
+<li>@field =&gt; the field that contains the label
+</li>
+<li>@old   =&gt; the object
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This function acts as helper to add a label by the constructors that not implement
+any specific label container, in the other cases, each constructor must to implement
+their code because each case is different
+</p>
+
+</section>
+<section id="toc99">
+<h3>1.4.58. Onclick helper</h3>
+
+<pre>
+saltos.bootstrap.__onclick_helper = (obj, fn)
+</pre>
+
+<p>
+This function is a helper function that adds the onclick event listener to the obj
+using the correct way to do it, to do it, checks the type of fn.
+</p>
+
+<ul>
+<li>@obj   =&gt; the object where you want to add the onclick event
+</li>
+<li>@fn    =&gt; the function that must be executed when onclick
+</li>
+</ul>
+
+</section>
+<section id="toc100">
+<h3>1.4.59. Onchange helper</h3>
+
+<pre>
+saltos.bootstrap.__onchange_helper = (obj, fn)
+</pre>
+
+<p>
+This function is a helper function that adds the onchange event listener to the obj
+using the correct way to do it, to do it, checks the type of fn.
+</p>
+
+<ul>
+<li>@obj   =&gt; the object where you want to add the onchange event
+</li>
+<li>@fn    =&gt; the function that must be executed when onchange
+</li>
+</ul>
+
+</section>
+<section id="toc101">
+<h3>1.4.60. Onenter helper</h3>
+
+<pre>
+saltos.bootstrap.__onenter_helper = (obj, fn)
+</pre>
+
+<p>
+This function adds the event and detects the enter key in order to execute fn
+</p>
+
+<ul>
+<li>@obj =&gt; the object that you want to enable the onenter feature
+</li>
+<li>@fn  =&gt; the function executed when the onenter is raised
+</li>
+</ul>
+
+</section>
+<section id="toc102">
+<h3>1.4.61. Menu constructor helper</h3>
+
+<pre>
+saltos.bootstrap.menu = args
+</pre>
+
+<p>
+This function creates a menu intended to be used in navbar, nabs and tabs
+</p>
+
+<ul>
+<li>@class =&gt; the class used in the main ul element
+</li>
+<li>@menu  =&gt; an array with the follow elements:
+</li>
+</ul>
+
+<ul>
+<li>@label             =&gt; label of the menu
+</li>
+<li>@id                =&gt; id used in the button element
+</li>
+<li>@icon              =&gt; icon of the menu
+</li>
+<li>@disabled          =&gt; this boolean allow to disable this menu entry
+</li>
+<li>@active            =&gt; this boolean marks the option as active
+</li>
+<li>@onclick           =&gt; the callback used when the user select the menu
+</li>
+<li>@dropdown_menu_end =&gt; this trick allow to open the dropdown menu from the end to start
+</li>
+<li>@menu              =&gt; with this option, you can specify an array with the contents of the dropdown menu
+</li>
+</ul>
+
+<ul>
+<li>@label    =&gt; label of the menu
+</li>
+<li>@id       =&gt; id used in the button element
+</li>
+<li>@icon     =&gt; icon of the menu
+</li>
+<li>@disabled =&gt; this boolean allow to disable this menu entry
+</li>
+<li>@active   =&gt; this boolean marks the option as active
+</li>
+<li>@onclick  =&gt; the callback used when the user select the menu
+</li>
+<li>@divider  =&gt; you can set this boolean to true to convert the element into a divider
+</li>
+</ul>
+
+</section>
+<section id="toc103">
+<h3>1.4.62. Navbar constructor helper</h3>
+
+<pre>
+saltos.bootstrap.navbar = args
+</pre>
+
+<p>
+This component creates a navbar intended to be used as header
+</p>
+
+<ul>
+<li>@id    =&gt; the id used by the object
+</li>
+<li>@brand =&gt; contains an object with the label, image, width and height to be used
+</li>
+<li>@color =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@pos   =&gt; position of the navbar, can be fixed-top, fixed-bottom, sticky-top, sticky-bottom
+</li>
+<li>@class =&gt; class added to the navbar item
+</li>
+</ul>
+
+<ul>
+<li>@label  =&gt; text used in the brand
+</li>
+<li>@image  =&gt; filename of the brand image
+</li>
+<li>@alt    =&gt; alt text used in the brand image
+</li>
+<li>@width  =&gt; width of the brand image
+</li>
+<li>@height =&gt; height of the brand image
+</li>
+<li>@class  =&gt; class added to the navbar-brand item
+</li>
+</ul>
+
+<ul>
+<li>@items =&gt; contains an array with the objects that will be added to the collapse
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+If you want to use an image that uses all height of the navbar, you can set the class and
+brand.class to py-0, the main idea is to use a combination of paddings with a brand to
+gets a navbar of 56px of height
+</p>
+
+</section>
+<section id="toc104">
+<h3>1.4.63. Modal constructor helper object</h3>
+
+<pre>
+saltos.bootstrap.__modal = {};
+</pre>
+
+<p>
+This object is used to store the element and the instance of the modal
+</p>
+
+</section>
+<section id="toc105">
+<h3>1.4.64. Modal constructor helper</h3>
+
+<pre>
+saltos.bootstrap.modal = args
+</pre>
+
+<p>
+This function creates a bootstrap modal and open it, offers two ways of usage:
+</p>
+<p>
+1) you can pass a string to get a quick action
+</p>
+
+<ul>
+<li>@close   =&gt; this string close the current modal
+</li>
+<li>@isopen  =&gt; this string is used to check if some modal is open at the moment
+</li>
+</ul>
+
+<p>
+2) you can pass an object with the follow items, intended to open a new modal
+</p>
+
+<ul>
+<li>@id      =&gt; the id used by the object
+</li>
+<li>@class   =&gt; allow to add more classes to the default dialog
+</li>
+<li>@title   =&gt; title used by the modal
+</li>
+<li>@close   =&gt; text used in the close button for aria purposes
+</li>
+<li>@body    =&gt; the content used in the modal's body
+</li>
+<li>@footer  =&gt; the content used in the modal's footer
+</li>
+<li>@static  =&gt; forces the modal to be static (prevent close by clicking outside the modal or
+            by pressing the escape key)
+</li>
+<li>@color   =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+</ul>
+
+<p>
+Returns a boolean that indicates if the modal can be open or not
+</p>
+<p>
+Notes:
+</p>
+<p>
+This modal will be destroyed (instance and element) when it closes, too is important
+to undestand that only one modal is allowed at each moment.
+</p>
+<p>
+Body and footer allow to use a string containing a html fragment or an object, and
+the footer too detects that the string contains something different to void, and if
+void content is detected, then the footer is removed.
+</p>
+<p>
+As an extra bonus, this widget has some tricks to improve the style of the footer, as
+you can see in the modal-footer part by removing the border and the top padding.
+</p>
+
+</section>
+<section id="toc106">
+<h3>1.4.65. Offcanvas constructor helper object</h3>
+
+<pre>
+saltos.bootstrap.__offcanvas = {};
+</pre>
+
+<p>
+This object is used to store the element and the instance of the offcanvas
+</p>
+
+</section>
+<section id="toc107">
+<h3>1.4.66. Offcanvas constructor helper</h3>
+
+<pre>
+saltos.bootstrap.offcanvas = args
+</pre>
+
+<p>
+This function creates a bootstrap offcanvas and open it, offers two ways of usage:
+</p>
+<p>
+1) you can pass a string to get a quick action
+</p>
+
+<ul>
+<li>@close  =&gt; this string close the current offcanvas
+</li>
+<li>@isopen =&gt; this string is used to check if some offcanvas is open at the moment
+</li>
+</ul>
+
+<p>
+2) you can pass an object with the follow items, intended to open a new offcanvas
+</p>
+
+<ul>
+<li>@id       =&gt; the id used by the object
+</li>
+<li>@pos      =&gt; allow to specify the position of the offcanvac (start, end, top or bottom)
+</li>
+<li>@title    =&gt; title used by the offcanvas
+</li>
+<li>@close    =&gt; text used in the close button for aria purposes
+</li>
+<li>@body     =&gt; the content used in the offcanvas's body
+</li>
+<li>@static   =&gt; forces the offcanvas to be static (prevent close by clicking outside the
+             offcanvas or by pressing the escape key)
+</li>
+<li>@backdrop =&gt; to configure the backdrop feature (true or false)
+</li>
+<li>@keyboard =&gt; to configure the keyboard feature (true or false)
+</li>
+<li>@color    =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+<li>@resize   =&gt; the resize allow to the offcanvas to resize the contents of the screen to prevent
+             offcanvas from hiding things
+</li>
+</ul>
+
+<p>
+Returns a boolean that indicates if the offcanvas can be open or not
+</p>
+<p>
+Notes:
+</p>
+<p>
+This offcanvas will be destroyed (instance and element) when it closes, too is important
+to undestand that only one offcanvas is allowed at each moment.
+</p>
+<p>
+Body allow to use a string containing a html fragment or an object, as the modal body.
+</p>
+<p>
+The resize option only works with start and end positions, too you can use left or right
+as replacements for start and end positions, the resize will be disabled in top or bottom
+positions.
+</p>
+
+</section>
+<section id="toc108">
+<h3>1.4.67. Toast constructor helper</h3>
+
+<pre>
+saltos.bootstrap.toast = args
+</pre>
+
+<p>
+This function creates a bootstrap toast and show it, and can accept the follow params:
+</p>
+
+<ul>
+<li>@id       =&gt; the id used by the object
+</li>
+<li>@class    =&gt; allow to add more classes to the default toast
+</li>
+<li>@title    =&gt; title used by the toast
+</li>
+<li>@subtitle =&gt; small text used by the toast
+</li>
+<li>@close    =&gt; text used in the close button for aria purposes
+</li>
+<li>@body     =&gt; the content used in the toast's body
+</li>
+<li>@color    =&gt; the color of the widget (primary, secondary, success, danger, warning, info, none)
+</li>
+</ul>
+
+<p>
+Returns a boolean that indicates if the toast can be created (see the hash note)
+</p>
+<p>
+Notes:
+</p>
+<p>
+The toast will be destroyed (instance and element) when it closes.
+</p>
+<p>
+All toasts are added to a toast-container placed in the body of the document, this container
+is created automatically if it not exists when the first toast need it.
+</p>
+<p>
+Each toast includes a hash to prevent the creation of repeated toasts.
+</p>
+<p>
+Body allow to use a string containing a html fragment or an object, as the modal body.
+</p>
+
+</section>
+<section id="toc109">
+<h3>1.4.68. Accesskey listener</h3>
+
+<pre>
+window.addEventListener('keydown', event
+</pre>
+
+<p>
+This function is intended to improve the default accesskey in the object by
+adding features suck as combinations of keys like ctrl+shift+f or ctrl+delete
+</p>
+
+<ul>
+<li>@obj =&gt; the object that you want to enable the accesskey feature
+</li>
+</ul>
+
+</section>
+<section id="toc110">
+<h3>1.4.69. Window match media</h3>
+
+<pre>
+saltos.bootstrap.window_match_media = window.matchMedia('(prefers-color-scheme: dark)');
+</pre>
+
+<p>
+This function returns an object intended to monitorize the bs_theme
+</p>
+
+</section>
+<section id="toc111">
+<h3>1.4.70. Set data_bs_theme</h3>
+
+<pre>
+saltos.bootstrap.set_data_bs_theme = e
+</pre>
+
+<p>
+This function sets the data_bs_theme attribute to enable or disable the dark bs theme
+</p>
+
+</section>
+<section id="toc112">
+<h3>1.4.71. Set bs theme</h3>
+
+<pre>
+saltos.bootstrap.set_bs_theme = theme
+</pre>
+
+<p>
+This function sets the bs theme
+</p>
+
+<ul>
+<li>@theme =&gt; Can be auto, light or dark
+</li>
+</ul>
+
+</section>
+<section id="toc113">
+<h3>1.4.72. Set css theme</h3>
+
+<pre>
+saltos.bootstrap.set_css_theme = theme
+</pre>
+
+<p>
+This function sets the css theme
+</p>
+
+<ul>
+<li>@theme =&gt; Can be default or one of the bootswatch themes
+</li>
+</ul>
+
+</section>
+<section id="toc114">
+<h3>1.4.73. Get bs theme</h3>
+
+<pre>
+saltos.bootstrap.get_bs_theme = ()
+</pre>
+
+<p>
+Retrieve the bs_theme stored in the localStorage
+</p>
+
+</section>
+<section id="toc115">
+<h3>1.4.74. Get css theme</h3>
+
+<pre>
+saltos.bootstrap.get_css_theme = ()
+</pre>
+
+<p>
+Retrieve the css_theme stored in the localStorage
+</p>
+
+</section>
+</section>
+<section id="toc116">
+<h2>1.5. Common helper module</h2>
+
+<pre>
+web/js/common.js
+</pre>
+
+<p>
+This fie contains useful functions related to the common applications
+</p>
+
+<section id="toc117">
+<h3>1.5.1. Common helper object</h3>
+
+<pre>
+saltos.common = {};
+</pre>
+
+<p>
+This object stores all application functions and data
+</p>
+
+</section>
+<section id="toc118">
+<h3>1.5.2. Profile screen</h3>
+
+<pre>
+saltos.common.profile = ()
+</pre>
+
+<p>
+This function allow to open the profile screen in a offcanvas widget
+</p>
+
+</section>
+<section id="toc119">
+<h3>1.5.3. Help screen</h3>
+
+<pre>
+saltos.common.help = ()
+</pre>
+
+<p>
+This function allow to open the help screen in a modal widget
+</p>
+
+</section>
+<section id="toc120">
+<h3>1.5.4. Logout feature</h3>
+
+<pre>
+saltos.common.logout = async ()
+</pre>
+
+<p>
+This function execute the deauthtoken action and jump to the login screen
+</p>
+
+</section>
+<section id="toc121">
+<h3>1.5.5. Filter screen</h3>
+
+<pre>
+saltos.common.filter = ()
+</pre>
+
+<p>
+This function allow to open the filter screen in a offcanvas widget
+</p>
+
+</section>
+<section id="toc122">
+<h3>1.5.6. Download helper</h3>
+
+<pre>
+saltos.common.download = file
+</pre>
+
+<p>
+This function allow to download files, to do it, make the ajax request and
+using the base64 data response, sets the href of an anchor created dinamically
+to emulate the download action
+</p>
+
+<ul>
+<li>@file =&gt; the file data used to identify the desired file in the backend part
+</li>
+</ul>
+
+</section>
+<section id="toc123">
+<h3>1.5.7. Delete helper</h3>
+
+<pre>
+saltos.common.delete = file
+</pre>
+
+<p>
+This function allow to remove the files and notes in the files and notes widgets
+</p>
+
+<ul>
+<li>@file =&gt; the file or note string path
+</li>
+</ul>
+
+</section>
+<section id="toc124">
+<h3>1.5.8. Version common helper</h3>
+
+<pre>
+saltos.common.version = ()
+</pre>
+
+<p>
+This function open the version widget
+</p>
+
+</section>
+<section id="toc125">
+<h3>1.5.9. Log common helper</h3>
+
+<pre>
+saltos.common.log = ()
+</pre>
+
+<p>
+This function open the log widget
+</p>
+
+</section>
+<section id="toc126">
+<h3>1.5.10. Edit common helper</h3>
+
+<pre>
+saltos.common.edit = ()
+</pre>
+
+<p>
+This function open the edit screen
+</p>
+
+</section>
+<section id="toc127">
+<h3>1.5.11. Create common helper</h3>
+
+<pre>
+saltos.common.create = ()
+</pre>
+
+<p>
+This function open the create screen
+</p>
+
+</section>
+<section id="toc128">
+<h3>1.5.12. Viewpdf common helper</h3>
+
+<pre>
+saltos.common.viewpdf = ()
+</pre>
+
+<p>
+This function open the viewpdf widget
+</p>
+
+</section>
+<section id="toc129">
+<h3>1.5.13. Remove common helper</h3>
+
+<pre>
+saltos.common.__remove_helper = id
+</pre>
+
+<p>
+This function works as helper for the allfiles and allnotes functions and
+tries to detect if the table identified by the argument contains something
+</p>
+
+<ul>
+<li>@id =&gt; the id of the table
+</li>
+</ul>
+
+</section>
+<section id="toc130">
+<h3>1.5.14. Allfiles common helper</h3>
+
+<pre>
+saltos.common.allfiles = ()
+</pre>
+
+<p>
+This function remove the allfiles table if it is void
+</p>
+
+</section>
+<section id="toc131">
+<h3>1.5.15. Allnotes common helper</h3>
+
+<pre>
+saltos.common.allnotes = ()
+</pre>
+
+<p>
+This function remove the allnotes table if it is void
+</p>
+
+</section>
+</section>
+<section id="toc132">
+<h2>1.6. Core helper module</h2>
+
+<pre>
+web/js/core.js
+</pre>
+
+<p>
+This fie contains useful functions related to the core application, provides the low level features
+for manage errors, logs, manipulates html and DOM objects, manage ajax requests, and more things
+</p>
+
+<section id="toc133">
+<h3>1.6.1. Core helper object</h3>
+
+<pre>
+saltos.core = {};
+</pre>
+
+<p>
+This object stores all core functions and data
+</p>
+
+</section>
+<section id="toc134">
+<h3>1.6.2. Error management</h3>
+
+<pre>
+saltos.core.adderror = async (message, source, lineno, colno, stack)
+</pre>
+
+<p>
+This function allow to SaltOS to log in server the javascript errors produced in the
+client's browser
+</p>
+
+<ul>
+<li>@message =&gt; the error message
+</li>
+<li>@source  =&gt; the filename where the error was triggered
+</li>
+<li>@lineno  =&gt; the line number where the error was triggered
+</li>
+<li>@colno   =&gt; the column number where the error was triggered
+</li>
+<li>@stack   =&gt; the backtrace stack of all execution until the error
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This function is called from some addEventListeners, the original was the error event
+but when change the ajax requests from xhr to fetch to setup the proxy feature, the
+errors was mapped by the event unhandledrejection.
+</p>
+
+</section>
+<section id="toc135">
+<h3>1.6.3. Old error handler</h3>
+
+<pre>
+window.addEventListener('error', event
+</pre>
+
+<p>
+This code allow to capture the old errors triggered outside the fetch requests
+</p>
+
+</section>
+<section id="toc136">
+<h3>1.6.4. New error handler</h3>
+
+<pre>
+window.addEventListener('unhandledrejection', event
+</pre>
+
+<p>
+This code allow to capture the new errors triggered inside the fetch requests
+</p>
+
+</section>
+<section id="toc137">
+<h3>1.6.5. Log management</h3>
+
+<pre>
+saltos.core.addlog = msg
+</pre>
+
+<p>
+This function allow to send messages to the addlog of the server side, requires an argument:
+</p>
+
+<ul>
+<li>@msg =&gt; the message that do you want to log on the server log file
+</li>
+</ul>
+
+</section>
+<section id="toc138">
+<h3>1.6.6. Check params</h3>
+
+<pre>
+saltos.core.check_params = (obj, params, value = '')
+</pre>
+
+<p>
+This function allow to prepare parameters to be used by other functions, the main idea
+is that the other functions can access to properties of an object without getting errors
+caused by the nonexistence, to do this, checks for the existence of all params in the obj
+and if some param is not found, then define it using the default value passed:
+</p>
+
+<ul>
+<li>@obj    =&gt; the object that contains the arguments, for example
+</li>
+<li>@params =&gt; an array with the arguments that must to exists
+</li>
+<li>@value  =&gt; the default value used if an argument doesn't exists
+</li>
+</ul>
+
+</section>
+<section id="toc139">
+<h3>1.6.7. UniqID</h3>
+
+<pre>
+saltos.core.uniqid = ()
+</pre>
+
+<p>
+This function generates an unique id formed by the word 'id' and a number that can take
+values between 0 and 999999, useful when some widget requires an id and the user don't
+provide it to the widget constructor
+</p>
+
+</section>
+<section id="toc140">
+<h3>1.6.8. When visible</h3>
+
+<pre>
+saltos.core.when_visible = (obj, fn, args)
+</pre>
+
+<p>
+This function allow to execute some code when the object is visible, useful for third part
+widgets as ckeditor or codemirror that requires a rendered environemt to initialize their
+code and paint the widget correctly
+</p>
+
+<ul>
+<li>@obj  =&gt; the object that do you want to monitorize the visibility
+</li>
+<li>@fn   =&gt; the callback that you want to execute
+</li>
+<li>@args =&gt; the arguments passed to the callback when execute it
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+As an extra feature, the object can be an string containing the id of the object, intended
+to be used when the object not exists at the moment to call this function
+</p>
+
+</section>
+<section id="toc141">
+<h3>1.6.9. Get keycode</h3>
+
+<pre>
+saltos.core.get_keycode = event
+</pre>
+
+<p>
+This function allow to get the keycode of a keyboard event detecting the browser
+</p>
+
+<ul>
+<li>@event =&gt; the event that contains the keyboard data
+</li>
+</ul>
+
+</section>
+<section id="toc142">
+<h3>1.6.10. Get keyname</h3>
+
+<pre>
+saltos.core.get_keyname = event
+</pre>
+
+<p>
+This function allow to get the keyname of a keyboard event detecting the browser
+</p>
+
+<ul>
+<li>@event =&gt; the event that contains the keyboard data
+</li>
+</ul>
+
+</section>
+<section id="toc143">
+<h3>1.6.11. HTML builder</h3>
+
+<pre>
+saltos.core.html = (...args)
+</pre>
+
+<p>
+This function allow to create an DOM fragment from a string that contains html code, can
+work with one or two arguments:
+</p>
+
+<ul>
+<li>@type =&gt; the type used when create the container element
+</li>
+<li>@html =&gt; contains the html code that you want to use as template
+</li>
+</ul>
+
+<p>
+The main use is only using the html argument and omiting the type, in this case, the
+type used will be a div, but if you want to create a fragment of object, for example
+as tr or td, you need to specify that the coontainer type used to create the objects
+must to be a table or tr, is you don't specify the type, the div container creates
+a breaked portion of the element and they don't works as expected because the DOM
+builded is bad, you can see this problem in action when work with tables and try to
+create separate portions of the table as trs or tds.
+</p>
+
+</section>
+<section id="toc144">
+<h3>1.6.12. Ajax helper array</h3>
+
+<pre>
+saltos.core.__ajax = [];
+</pre>
+
+<p>
+This array allow to the ajax feature to manage the active request, intended to abort
+if it is needed when onhashchange.
+</p>
+
+</section>
+<section id="toc145">
+<h3>1.6.13. AJAX</h3>
+
+<pre>
+saltos.core.ajax = args
+</pre>
+
+<p>
+This function allow to use ajax using the same form that with jQuery without jQuery
+</p>
+
+<ul>
+<li>@url          =&gt; url of the ajax call
+</li>
+<li>@data         =&gt; data used in the body of the request
+</li>
+<li>@method       =&gt; the method of the request (can be GET or POST, GET by default)
+</li>
+<li>@success      =&gt; callback function for the success action (optional)
+</li>
+<li>@error        =&gt; callback function for the error action (optional)
+</li>
+<li>@abort        =&gt; callback function for the abort action (optional)
+</li>
+<li>@abortable    =&gt; boolean to enable or disable the abort feature (false by default)
+</li>
+<li>@content_type =&gt; the content-type that you want to use in the transfer
+</li>
+<li>@proxy        =&gt; add the Proxy header with the value passed, intended to be used by the SaltOS PROXY
+</li>
+<li>@token        =&gt; add the Token header with the value passed, intended to be used by the SaltOS API
+</li>
+<li>@lang         =&gt; add the Lang header with the value passed, intended to be used by the SaltOS API
+</li>
+<li>@headers      =&gt; an object with the headers that you want to send
+</li>
+</ul>
+
+<p>
+The main idea of this function is to abstract the usage of the XMLHttpRequest in a simple
+way as jQuery do but without using jQuery.
+</p>
+<p>
+The catch part is intended to control the errors caused during the ajax execution,
+in this case is important to understand that the catch can be triggered by errors
+caused by network errors or by other cases like a code error, a throw new error or
+something similar like this, to fix it, the error and abort arguments will be used
+only when abortError or typeError appear in the error.name
+</p>
+
+</section>
+<section id="toc146">
+<h3>1.6.14. Fix key</h3>
+
+<pre>
+saltos.core.fix_key = arg
+</pre>
+
+<p>
+This function is intended to fix the keys of the objects, this is caused because you can not
+have 2 repeated keys in an object, to have more entries with the same name, SaltOS add a suffix
+by adding #num, with this trick, SaltOS is able to process XML files with the same node name
+and convert it to an array structure, and when convert this to json, the same problem appear and
+for this reason, exists this function here
+</p>
+
+<ul>
+<li>@arg =&gt; can be an string or an array of strings and returns the same structure with the keys fixed
+</li>
+</ul>
+
+</section>
+<section id="toc147">
+<h3>1.6.15. Copy object</h3>
+
+<pre>
+saltos.core.copy_object = arg
+</pre>
+
+<p>
+This function is intended to do copies of objects using as intermediate a json file
+</p>
+
+<ul>
+<li>@arg =&gt; the object that you want to copy
+</li>
+</ul>
+
+</section>
+<section id="toc148">
+<h3>1.6.16. Optimizer object</h3>
+
+<pre>
+saltos.core.optimize = obj
+</pre>
+
+<p>
+This function checks an object to see if only contains one children and in this case, returns
+directly the children instead of the original object, otherwise nothing to do and returns the
+original object
+</p>
+
+<ul>
+<li>@obj =&gt; the object to check and optimize
+</li>
+</ul>
+
+</section>
+<section id="toc149">
+<h3>1.6.17. Require helper array</h3>
+
+<pre>
+saltos.core.__require = {};
+</pre>
+
+<p>
+This array allow to the require feature to control the loaded libraries
+</p>
+
+</section>
+<section id="toc150">
+<h3>1.6.18. Require feature</h3>
+
+<pre>
+saltos.core.require = (files, callback)
+</pre>
+
+<p>
+This function allow the other functions to declare their requirements to previously load the
+desired file intead of create the object and throwing an error.
+</p>
+
+<ul>
+<li>@file =&gt; the file desired to be loaded
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This function is intended to load styles (css files) or javacript code (js files), in each
+case, they uses a different technique, for css the load is asynchronous and for javascript
+the load will be synchronous.
+</p>
+
+</section>
+<section id="toc151">
+<h3>1.6.19. Eval Bool</h3>
+
+<pre>
+saltos.core.eval_bool = arg
+</pre>
+
+<p>
+This function returns a boolean depending on the input evaluation, the main idea
+is to get an string, for example, and determine if must be considered true or false
+otherwise returns the original argument and send a log message to the console.
+</p>
+<p>
+The valid inputs are the strings one, zero, void, true, false, on, off, yes and no
+</p>
+
+<ul>
+<li>@arg =&gt; the value that do you want to evaluates as boolean
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This function is the same feature that the same function proviced by the backend by the
+php/autoload/xml2array.php file with more javascript details as type detection.
+</p>
+
+</section>
+<section id="toc152">
+<h3>1.6.20. toString function</h3>
+
+<pre>
+saltos.core.toString = arg
+</pre>
+
+<p>
+This function tries to convert to string from any other formats as boolean,
+number, null, undefined or other type.
+</p>
+
+</section>
+<section id="toc153">
+<h3>1.6.21. Is attr value</h3>
+
+<pre>
+saltos.core.is_attr_value = data
+</pre>
+
+<p>
+This function return true if the data argument is an object with #attr and value
+</p>
+
+<ul>
+<li>@data =&gt; the data that wants to check
+</li>
+</ul>
+
+</section>
+<section id="toc154">
+<h3>1.6.22. Join attr value</h3>
+
+<pre>
+saltos.core.join_attr_value = data
+</pre>
+
+<p>
+This function return an object that contains all elements of the #attr and value
+</p>
+
+<ul>
+<li>@data =&gt; the data that wants to join
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+If the content of value is only a string, then the result will be an array with the
+elements of the #attr joined with a new element with the name value and with the contents
+of the original value.
+</p>
+
+</section>
+<section id="toc155">
+<h3>1.6.23. Encode Bar Chars</h3>
+
+<pre>
+saltos.core.encode_bad_chars = (cad, pad = '_', extra = '')
+</pre>
+
+<p>
+This function tries to replace accender chars and other extended chars into
+an ascii chars, to do it, they define an array with the pairs of chars to
+do a quick replace, too is converted all to lower and are removed all chars
+that are out of range (valid range are from 0-9 and from a-z), the function
+allow to specify an extra parameter to add extra chars that must to be
+allowed in the output, all other chars will be converted to the padding
+argument, as a bonus extra, all padding repetitions will be removed to
+only allow one pading char at time
+</p>
+
+<ul>
+<li>@cad   =&gt; the input string to encode
+</li>
+<li>@pad   =&gt; the padding char using to replace the bar chars
+</li>
+<li>@extra =&gt; the list of chars allowed to appear in the output
+</li>
+</ul>
+
+</section>
+<section id="toc156">
+<h3>1.6.24. Prepare Words</h3>
+
+<pre>
+saltos.core.prepare_words = (cad, pad = ' ')
+</pre>
+
+<p>
+This function allow to prepare words removing repetitions in the padding char
+</p>
+
+<ul>
+<li>@cad =&gt; the input string to prepare
+</li>
+<li>@pad =&gt; the padding char using to replace the repetitions
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+Apart of remove repetitions of the padding char, the function will try to
+remove padding chars in the start and in the end of the string
+</p>
+
+</section>
+<section id="toc157">
+<h3>1.6.25. Main core code</h3>
+
+<pre>
+document.addEventListener('DOMContentLoaded', event
+</pre>
+
+<p>
+This is the code that must to be executed to initialize all requirements of this module
+</p>
+
+</section>
+<section id="toc158">
+<h3>1.6.26. Proxy feature</h3>
+
+<pre>
+saltos.core.proxy = msg
+</pre>
+
+<p>
+This function is intended to send messages to the proxy feature
+</p>
+
+</section>
+<section id="toc159">
+<h3>1.6.27. Online sync</h3>
+
+<pre>
+window.addEventListener('online', event
+</pre>
+
+<p>
+This function send a sync message to the proxy when navigator detects an online change
+</p>
+
+</section>
+<section id="toc160">
+<h3>1.6.28. Get code from file and line</h3>
+
+<pre>
+saltos.core.__get_code_from_file_and_line = (file = 'unknown', line = 'unknown')
+</pre>
+
+<p>
+This function returns the string that contains the PATHINFO_FILENAME and the line to idenfify
+the launcher of an error, for example
+</p>
+
+<ul>
+<li>@file =&gt; filename used to obtain the first part of the code
+</li>
+<li>@line =&gt; line used to construct the last part of the code
+</li>
+</ul>
+
+</section>
+<section id="toc161">
+<h3>1.6.29. Timestamp helper</h3>
+
+<pre>
+saltos.core.timestamp = (offset = 0)
+</pre>
+
+<p>
+This function is a helper to obtain the timestamp in seconds with the desidet offset
+</p>
+
+<ul>
+<li>@offset =&gt; offset added to the timestamp, negative to go back in the time
+</li>
+</ul>
+
+</section>
+<section id="toc162">
+<h3>1.6.30. Human Size</h3>
+
+<pre>
+saltos.core.human_size = (size, pre = '', post = '')
+</pre>
+
+<p>
+Return the human size (G, M, K or original value)
+</p>
+
+<ul>
+<li>@size  =&gt; the size that you want convert to human size
+</li>
+<li>@pre  =&gt; string added between the number and the unit letter
+post  =&gt; string added after the unit letter at the end
+</li>
+</ul>
+
+</section>
+<section id="toc163">
+<h3>1.6.31. Check network</h3>
+
+<pre>
+saltos.core.check_network = async ()
+</pre>
+
+<p>
+This function checks the network state by sending a request over https and http
+channels, this is usefull to detect certificate issues
+</p>
+<p>
+Notes:
+</p>
+<p>
+The first version uses fetch to the img/logo_saltos.svg but for securiry reasons,
+the browser never send the request to http from https or viceversa, the unique trick
+that I found to do it is to open a new window for each protocol and wait for the
+expected result
+</p>
+
+</section>
+<section id="toc164">
+<h3>1.6.32. Is Number</h3>
+
+<pre>
+saltos.core.is_number = str
+</pre>
+
+<p>
+This function checks that the str contains a valid number and is finite
+</p>
+<p>
+str =&gt; the string to validate
+</p>
+
+</section>
+</section>
+<section id="toc165">
+<h2>1.7. Driver module</h2>
+
+<pre>
+web/js/driver.js
+</pre>
+
+<p>
+Intended to be used as an abstraction layer to allow multiple screens configurations
+</p>
+
+<section id="toc166">
+<h3>1.7.1. Driver object</h3>
+
+<pre>
+saltos.driver = {};
+</pre>
+
+<p>
+This object stores the functions used by the layouts widgets and must work with all screens
+</p>
+
+</section>
+<section id="toc167">
+<h3>1.7.2. Driver init</h3>
+
+<pre>
+saltos.driver.init = async arg
+</pre>
+
+<p>
+This function initialize the driver screen, detects and replaces the styles, compute
+the paddings checking the contents of the top and bottom layouts, initialize the filter
+and the autosave features, and executes the specific init function.
+</p>
+
+<ul>
+<li>@arg =&gt; the desired action to do
+</li>
+</ul>
+
+</section>
+<section id="toc168">
+<h3>1.7.3. Driver open</h3>
+
+<pre>
+saltos.driver.open = arg
+</pre>
+
+<p>
+This function launch the specific open action for the screen type
+</p>
+
+<ul>
+<li>@arg =&gt; this argument is bypassed to the destination
+</li>
+</ul>
+
+</section>
+<section id="toc169">
+<h3>1.7.4. Driver close</h3>
+
+<pre>
+saltos.driver.close = arg
+</pre>
+
+<p>
+This function close the current app using the history back if it is available,
+otherwise use the specific close action for the screen type
+</p>
+
+<ul>
+<li>@arg =&gt; this argument forces to execute the specific driver close
+</li>
+</ul>
+
+</section>
+<section id="toc170">
+<h3>1.7.5. Driver cancel</h3>
+
+<pre>
+saltos.driver.cancel = arg
+</pre>
+
+<p>
+This function works in conjuntion with the autosave module, and checks if the
+current screen contains new data, in this case ask to the user if they want
+continue.
+</p>
+<p>
+This function checks that modal is close, otherwise an old confirm is used
+to ask to the user.
+</p>
+<p>
+If the user decides continue to close, then the saltos.driver.close is executed
+bypassing the arg argument.
+</p>
+
+<ul>
+<li>@arg =&gt; this argument is bypassed to the destination
+</li>
+</ul>
+
+</section>
+<section id="toc171">
+<h3>1.7.6. Driver search</h3>
+
+<pre>
+saltos.driver.search = arg
+</pre>
+
+<p>
+This function implement the search feature associated to tables and lists
+using the filters fields
+</p>
+
+<ul>
+<li>@arg =&gt; unused at this scope
+</li>
+</ul>
+
+</section>
+<section id="toc172">
+<h3>1.7.7. Driver search</h3>
+
+<pre>
+saltos.driver.reset = arg
+</pre>
+
+<p>
+This function implement the reset feature associated to the filters fields
+</p>
+
+<ul>
+<li>@arg =&gt; unused at this scope
+</li>
+</ul>
+
+</section>
+<section id="toc173">
+<h3>1.7.8. Driver more</h3>
+
+<pre>
+saltos.driver.more = arg
+</pre>
+
+<p>
+This function implement the more feature associated to tables and lists
+using the filters fields
+</p>
+
+<ul>
+<li>@arg =&gt; unused at this scope
+</li>
+</ul>
+
+</section>
+<section id="toc174">
+<h3>1.7.9. Driver insert</h3>
+
+<pre>
+saltos.driver.insert = arg
+</pre>
+
+<p>
+This function implement the insert feature associated to the current app fields
+</p>
+
+<ul>
+<li>@arg =&gt; unused at this scope
+</li>
+</ul>
+
+</section>
+<section id="toc175">
+<h3>1.7.10. Driver update</h3>
+
+<pre>
+saltos.driver.update = arg
+</pre>
+
+<p>
+This function implement the update feature associated to the current app fields
+</p>
+
+<ul>
+<li>@arg =&gt; unused at this scope
+</li>
+</ul>
+
+</section>
+<section id="toc176">
+<h3>1.7.11. Driver delete</h3>
+
+<pre>
+saltos.driver.delete = async arg
+</pre>
+
+<p>
+This function implement the delete feature associated to the current app register
+</p>
+
+<ul>
+<li>@arg =&gt; this field can contain the hash of the deletion
+</li>
+</ul>
+
+</section>
+<section id="toc177">
+<h3>1.7.12. Driver placeholder</h3>
+
+<pre>
+saltos.driver.placeholder = arg
+</pre>
+
+<p>
+This function sets a placeholder object in the element identified by the arg
+</p>
+
+<ul>
+<li>@arg =&gt; the id of the element where do you want to put the placeholder
+</li>
+</ul>
+
+</section>
+<section id="toc178">
+<h3>1.7.13. Driver styles</h3>
+
+<pre>
+saltos.driver.styles = (arg = 'xl')
+</pre>
+
+<p>
+This function returns the style object that contains the tricks to do
+that the screen with verticals scrolls runs as expected
+</p>
+
+<ul>
+<li>@arg =&gt; the break-size used in the driver screen, xl as default
+</li>
+</ul>
+
+</section>
+<section id="toc179">
+<h3>1.7.14. Driver search if needed</h3>
+
+<pre>
+saltos.driver.search_if_needed = arg
+</pre>
+
+<p>
+This function launch the saltos.driver.search action if the action is the
+same before and after the setTimeout, too is launched if action source and
+the action destination complains with some pair of actions defined in the
+arg argument.
+</p>
+
+<ul>
+<li>@arg =&gt; an array with pairs of actions
+</li>
+</ul>
+
+</section>
+<section id="toc180">
+<h3>1.7.15. Driver internal object</h3>
+
+<pre>
+saltos.driver.__types = {};
+</pre>
+
+<p>
+This object stores the functions used by the main driver
+</p>
+
+</section>
+<section id="toc181">
+<h3>1.7.16. Driver type1 object</h3>
+
+<pre>
+saltos.driver.__types.type1 = {};
+</pre>
+
+<p>
+This object stores the functions used by the type1 driver
+</p>
+
+</section>
+<section id="toc182">
+<h3>1.7.17. Driver type1 template</h3>
+
+<pre>
+saltos.driver.__types.type1.template = arg
+</pre>
+
+<p>
+This function returns the type1 template to mount the screen
+</p>
+
+<ul>
+<li>@arg =&gt; unused at this scope
+</li>
+</ul>
+
+</section>
+<section id="toc183">
+<h3>1.7.18. Driver type1 init</h3>
+
+<pre>
+saltos.driver.__types.type1.init = arg
+</pre>
+
+<p>
+This function initialize the type1 driver screen for the arg requested
+</p>
+
+<ul>
+<li>@arg =&gt; the desired action to do
+</li>
+</ul>
+
+</section>
+<section id="toc184">
+<h3>1.7.19. Driver type1 open</h3>
+
+<pre>
+saltos.driver.__types.type1.open = arg
+</pre>
+
+<p>
+This function open a new window
+</p>
+
+<ul>
+<li>@arg =&gt; the desired url
+</li>
+</ul>
+
+</section>
+<section id="toc185">
+<h3>1.7.20. Driver type1 close</h3>
+
+<pre>
+saltos.driver.__types.type1.close = arg
+</pre>
+
+<p>
+This function close the window
+</p>
+
+<ul>
+<li>@arg =&gt; unused at this scope
+</li>
+</ul>
+
+</section>
+<section id="toc186">
+<h3>1.7.21. Driver type2 object</h3>
+
+<pre>
+saltos.driver.__types.type2 = {};
+</pre>
+
+<p>
+This object stores the functions used by the type2 driver
+</p>
+
+</section>
+<section id="toc187">
+<h3>1.7.22. Driver type2 template</h3>
+
+<pre>
+saltos.driver.__types.type2.template = arg
+</pre>
+
+<p>
+This function returns the type2 template to mount the screen
+</p>
+
+<ul>
+<li>@arg =&gt; unused at this scope
+</li>
+</ul>
+
+</section>
+<section id="toc188">
+<h3>1.7.23. Driver type2 init</h3>
+
+<pre>
+saltos.driver.__types.type2.init = arg
+</pre>
+
+<p>
+This function initialize the type2 driver screen for the arg requested
+</p>
+
+<ul>
+<li>@arg =&gt; the desired action to do
+</li>
+</ul>
+
+</section>
+<section id="toc189">
+<h3>1.7.24. Driver type2 open</h3>
+
+<pre>
+saltos.driver.__types.type2.open = arg
+</pre>
+
+<p>
+This function open a new content
+</p>
+
+<ul>
+<li>@arg =&gt; the desired url
+</li>
+</ul>
+
+</section>
+<section id="toc190">
+<h3>1.7.25. Driver type2 close</h3>
+
+<pre>
+saltos.driver.__types.type2.close = arg
+</pre>
+
+<p>
+This function close the two zone of the screen
+</p>
+
+<ul>
+<li>@arg =&gt; unused at this scope
+</li>
+</ul>
+
+</section>
+<section id="toc191">
+<h3>1.7.26. Driver type3 object</h3>
+
+<pre>
+saltos.driver.__types.type3 = {};
+</pre>
+
+<p>
+This object stores the functions used by the type3 driver
+</p>
+
+</section>
+<section id="toc192">
+<h3>1.7.27. Driver type3 template</h3>
+
+<pre>
+saltos.driver.__types.type3.template = arg
+</pre>
+
+<p>
+This function returns the type3 template to mount the screen
+</p>
+
+<ul>
+<li>@arg =&gt; unused at this scope
+</li>
+</ul>
+
+</section>
+<section id="toc193">
+<h3>1.7.28. Driver type3 init</h3>
+
+<pre>
+saltos.driver.__types.type3.init = arg
+</pre>
+
+<p>
+This function initialize the type3 driver screen for the arg requested
+</p>
+
+<ul>
+<li>@arg =&gt; the desired action to do
+</li>
+</ul>
+
+</section>
+<section id="toc194">
+<h3>1.7.29. Driver type3 open</h3>
+
+<pre>
+saltos.driver.__types.type3.open = saltos.driver.__types.type2.open;
+</pre>
+
+<p>
+This function bypass to the type2 driver
+</p>
+
+<ul>
+<li>@arg =&gt; the desired url
+</li>
+</ul>
+
+</section>
+<section id="toc195">
+<h3>1.7.30. Driver type3 close</h3>
+
+<pre>
+saltos.driver.__types.type3.close = arg
+</pre>
+
+<p>
+This function close the three and/or two zone of the screen
+</p>
+
+<ul>
+<li>@arg =&gt; unused at this scope
+</li>
+</ul>
+
+</section>
+<section id="toc196">
+<h3>1.7.31. Driver type4 object</h3>
+
+<pre>
+saltos.driver.__types.type4 = {};
+</pre>
+
+<p>
+This object stores the functions used by the type4 driver
+</p>
+
+</section>
+<section id="toc197">
+<h3>1.7.32. Driver type4 template</h3>
+
+<pre>
+saltos.driver.__types.type4.template = arg
+</pre>
+
+<p>
+This function returns the type4 template to mount the screen
+</p>
+
+<ul>
+<li>@arg =&gt; unused at this scope
+</li>
+</ul>
+
+</section>
+<section id="toc198">
+<h3>1.7.33. Driver type4 init</h3>
+
+<pre>
+saltos.driver.__types.type4.init = arg
+</pre>
+
+<p>
+This function initialize the type4 driver screen for the arg requested
+</p>
+
+<ul>
+<li>@arg =&gt; the desired action to do
+</li>
+</ul>
+
+</section>
+<section id="toc199">
+<h3>1.7.34. Driver type4 open</h3>
+
+<pre>
+saltos.driver.__types.type4.open = saltos.driver.__types.type2.open;
+</pre>
+
+<p>
+This function bypass to the type2 driver
+</p>
+
+<ul>
+<li>@arg =&gt; the desired url
+</li>
+</ul>
+
+</section>
+<section id="toc200">
+<h3>1.7.35. Driver type4 close</h3>
+
+<pre>
+saltos.driver.__types.type4.close = arg
+</pre>
+
+<p>
+This function close the modal
+</p>
+
+<ul>
+<li>@arg =&gt; unused at this scope
+</li>
+</ul>
+
+</section>
+<section id="toc201">
+<h3>1.7.36. Driver type5 object</h3>
+
+<pre>
+saltos.driver.__types.type5 = {};
+</pre>
+
+<p>
+This object stores the functions used by the type5 driver
+</p>
+
+</section>
+<section id="toc202">
+<h3>1.7.37. Driver type5 template</h3>
+
+<pre>
+saltos.driver.__types.type5.template = arg
+</pre>
+
+<p>
+This function returns the type5 template to mount the screen
+</p>
+
+<ul>
+<li>@arg =&gt; unused at this scope
+</li>
+</ul>
+
+</section>
+<section id="toc203">
+<h3>1.7.38. Driver type5 init</h3>
+
+<pre>
+saltos.driver.__types.type5.init = arg
+</pre>
+
+<p>
+This function initialize the type5 driver screen for the arg requested
+</p>
+
+<ul>
+<li>@arg =&gt; the desired action to do
+</li>
+</ul>
+
+</section>
+<section id="toc204">
+<h3>1.7.39. Driver type5 open</h3>
+
+<pre>
+saltos.driver.__types.type5.open = saltos.driver.__types.type2.open;
+</pre>
+
+<p>
+This function bypass to the type2 driver
+</p>
+
+<ul>
+<li>@arg =&gt; the desired url
+</li>
+</ul>
+
+</section>
+<section id="toc205">
+<h3>1.7.40. Driver type5 close</h3>
+
+<pre>
+saltos.driver.__types.type5.close = arg
+</pre>
+
+<p>
+This function close the modal and/or two zone of the screen
+</p>
+
+<ul>
+<li>@arg =&gt; unused at this scope
+</li>
+</ul>
+
+</section>
+</section>
+<section id="toc206">
+<h2>1.8. Filter module</h2>
+
+<pre>
+web/js/filter.js
+</pre>
+
+<p>
+Implements all filters features
+</p>
+
+<section id="toc207">
+<h3>1.8.1. Filter object</h3>
+
+<pre>
+saltos.filter = {};
+</pre>
+
+<p>
+This object stores the functions used by the filter module
+</p>
+
+</section>
+<section id="toc208">
+<h3>1.8.2. Filter cache</h3>
+
+<pre>
+saltos.filter.__cache = {};
+</pre>
+
+<p>
+This object stores the cache used by the filter module
+</p>
+
+</section>
+<section id="toc209">
+<h3>1.8.3. Init filter</h3>
+
+<pre>
+saltos.filter.init = async ()
+</pre>
+
+<p>
+This function initialize the filter module by loading the current filters for
+the current app. The main idea is to load all filters to be used by load and
+save.
+</p>
+
+<ul>
+<li>@app =&gt; the name of the app used to load the filters
+</li>
+</ul>
+
+</section>
+<section id="toc210">
+<h3>1.8.4. Load filter</h3>
+
+<pre>
+saltos.filter.load = (name)
+</pre>
+
+<p>
+This function gets the filter indentified by the app and name and restore
+all values of the search form widgets from the cache for afterwards execute
+the saltos.driver.search, that load the data in the list
+</p>
+
+<ul>
+<li>@app  =&gt; the name of the desired app to be used
+</li>
+<li>@name =&gt; the name of the desired filter
+</li>
+</ul>
+
+</section>
+<section id="toc211">
+<h3>1.8.5. Update filter</h3>
+
+<pre>
+saltos.filter.update = (name, data)
+</pre>
+
+<p>
+This function only updates the cache filter
+</p>
+
+<ul>
+<li>@app  =&gt; the name of the desired app to be used
+</li>
+<li>@name =&gt; the name of the desired filter that wants to update
+</li>
+<li>@data =&gt; the data of the desired filter that wants to update
+</li>
+</ul>
+
+</section>
+<section id="toc212">
+<h3>1.8.6. Update filter</h3>
+
+<pre>
+saltos.filter.save = (name, data)
+</pre>
+
+<p>
+This function save the data in the cache and in the server api
+</p>
+
+<ul>
+<li>@app  =&gt; the name of the desired app to be used
+</li>
+<li>@name =&gt; the name of the desired filter that wants to save
+</li>
+<li>@data =&gt; the data of the desired filter that wants to save
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This function allow to save and delete entries, using data as object or as null
+you can modify the behaviour, and the actions are performed in the cache and
+in the server api.
+</p>
+<p>
+Too this function checks if data has suffered changes to optimize the network
+and prevent non needed ajax requests.
+</p>
+
+</section>
+<section id="toc213">
+<h3>1.8.7. Filter button helper</h3>
+
+<pre>
+saltos.filter.button = arg
+</pre>
+
+<p>
+This function allow to manage the filters buttons, can process requests
+like load a filter, update a filter, delete a filter, create a filter and
+rename a filter.
+</p>
+
+<ul>
+<li>@arg =&gt; the desired action that you want to do
+</li>
+</ul>
+
+</section>
+<section id="toc214">
+<h3>1.8.8. Select button helper</h3>
+
+<pre>
+saltos.filter.select = arg
+</pre>
+
+<p>
+This function updates the contents of the select button and the contents of
+the jstree widget, is executed when create a filter, rename a filter or delete
+a filter
+</p>
+
+<ul>
+<li>@arg =&gt; unused argument at the moment
+</li>
+</ul>
+
+</section>
+</section>
+<section id="toc215">
+<h2>1.9. Form helper module</h2>
+
+<pre>
+web/js/form.js
+</pre>
+
+<p>
+This module provides the needed tools to implement the form feature
+</p>
+
+<section id="toc216">
+<h3>1.9.1. Form constructor helper object</h3>
+
+<pre>
+saltos.form = {};
+</pre>
+
+<p>
+This object allow to the constructor to use a rational structure for a quick access of each
+helper
+</p>
+
+</section>
+<section id="toc217">
+<h3>1.9.2. Data helper object</h3>
+
+<pre>
+saltos.form.__form = {
+</pre>
+
+<p>
+This object allow to the app to store the data of the fields map
+</p>
+
+</section>
+<section id="toc218">
+<h3>1.9.3. Form data helper</h3>
+
+<pre>
+saltos.form.data = (data, sync = true)
+</pre>
+
+<p>
+This function sets the values of the request to the objects placed in the document, too as bonus
+extra, it tries to search the field spec in the array to update the value of the field spec to
+allow that the get_data can differ between the original data and the modified data.
+</p>
+
+</section>
+<section id="toc219">
+<h3>1.9.4. Data template helper</h3>
+
+<pre>
+saltos.form.__data_template_helper = (template_id, data, index)
+</pre>
+
+<p>
+This function allow to convert the data object that contains the values for the fields idenfidied
+by the keys of the associative array into a data object with the keys ready to be used by the
+fields of a template, this fields are of the follow structure: TEMPLATE_ID#ID#INDEX
+</p>
+
+<ul>
+<li>@template_id =&gt; the template identity used in the spec
+</li>
+<li>@data        =&gt; the object that contains the data associated to the row
+</li>
+<li>@index       =&gt; the index used in all fields of the template
+</li>
+</ul>
+
+</section>
+<section id="toc220">
+<h3>1.9.5. Layout template helper</h3>
+
+<pre>
+saltos.form.__layout_template_helper = (template_id, index)
+</pre>
+
+<p>
+This function returns the template identified by the template_id for the specified index, ready
+to be used by the saltos.form.layout function.
+</p>
+
+<ul>
+<li>@template_id =&gt; the template identity used in the spec
+</li>
+<li>@index       =&gt; the index used in all fields of the template
+</li>
+</ul>
+
+</section>
+<section id="toc221">
+<h3>1.9.6. Form layout helper</h3>
+
+<pre>
+saltos.form.layout = (layout, extra)
+</pre>
+
+<p>
+This function process the layout command, its able to process nodes as container, row, col and div
+and all form_field defined in the bootstrap file.
+</p>
+<p>
+Each objects as container, rows and cols, have two modes of works:
+</p>
+<p>
+1) normal mode =&gt; requires that the user specify all layout, container, row, col and fields.
+</p>
+<p>
+2) auto mode =&gt; only requires set auto='true' to the container, row or col, and with this, all childrens
+of the node are created inside the correct element, if the auto appear in the container then a container,
+a row and one col for each field are created, if the auto appear in the row then a row with one col for
+each field are created, if the auto appear in the col then one col for each field are created, this mode
+allow to optimize and speedup the creation of each screen by allow to reduce the amount of xml needed
+to define each screen but allowing to be a lot of specific and define from all to zero auto features.
+</p>
+<p>
+Notes:
+</p>
+<p>
+This function add the fields to the saltos.form.__form.fields, this allow to the saltos.app.get_data
+can retrieve the desired information of the fields.
+</p>
+
+</section>
+<section id="toc222">
+<h3>1.9.7. Form layout auto helper object</h3>
+
+<pre>
+saltos.form.__layout_auto_helper = {};
+</pre>
+
+<p>
+This object stores the functions used as layout_auto_helper for containers, rows and cols
+</p>
+
+</section>
+<section id="toc223">
+<h3>1.9.8. Form layout auto helper for containers</h3>
+
+<pre>
+saltos.form.__layout_auto_helper.container = layout
+</pre>
+
+<p>
+This functions implements the auto feature used by the layout function, allow to specify the
+follow arguments:
+</p>
+
+<ul>
+<li>@id              =&gt; defines the id used by the container element
+</li>
+<li>@container_class =&gt; defines the class used by the container element
+</li>
+<li>@container_style =&gt; defines the style used by the container element
+</li>
+<li>@row_class       =&gt; defines the class used by the row element
+</li>
+<li>@row_style       =&gt; defines the style used by the row element
+</li>
+<li>@col_class       =&gt; defines the class used by the col element
+</li>
+<li>@col_style       =&gt; defines the style used by the col element
+</li>
+</ul>
+
+</section>
+<section id="toc224">
+<h3>1.9.9. Form layout auto helper for rows</h3>
+
+<pre>
+saltos.form.__layout_auto_helper.row = layout
+</pre>
+
+<p>
+This functions implements the auto feature used by the layout function, allow to specify the
+follow arguments:
+</p>
+
+<ul>
+<li>@id              =&gt; defines the id used by the container element
+</li>
+<li>@row_class       =&gt; defines the class used by the row element
+</li>
+<li>@row_style       =&gt; defines the style used by the row element
+</li>
+<li>@col_class       =&gt; defines the class used by the col element
+</li>
+<li>@col_style       =&gt; defines the style used by the col element
+</li>
+</ul>
+
+</section>
+<section id="toc225">
+<h3>1.9.10. Form layout auto helper for cols</h3>
+
+<pre>
+saltos.form.__layout_auto_helper.col = layout
+</pre>
+
+<p>
+This functions implements the auto feature used by the layout function, allow to specify the
+follow arguments:
+</p>
+
+<ul>
+<li>@col_class       =&gt; defines the class used by the col element
+</li>
+<li>@col_style       =&gt; defines the style used by the col element
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This function not allow to specify the id because in this functions, each object of the
+layout is embedded inside of a col object and is not suitable to put an id attribute
+to each col without repetitions.
+</p>
+
+</section>
+<section id="toc226">
+<h3>1.9.11. Style helper array</h3>
+
+<pre>
+saltos.form.__style = {};
+</pre>
+
+<p>
+This array allow to the require feature to control the loaded libraries
+</p>
+
+</section>
+<section id="toc227">
+<h3>1.9.12. Form style helper</h3>
+
+<pre>
+saltos.form.style = async data
+</pre>
+
+<p>
+This function allow to specify styles, you can use the inline of file key to specify
+what kind of usage do you want to do.
+</p>
+
+<ul>
+<li>@data =&gt; the object that contains the styles requirements (can be file or inline)
+</li>
+</ul>
+
+</section>
+<section id="toc228">
+<h3>1.9.13. Javascript helper array</h3>
+
+<pre>
+saltos.form.__javascript = {};
+</pre>
+
+<p>
+This array allow to the require feature to control the loaded libraries
+</p>
+
+</section>
+<section id="toc229">
+<h3>1.9.14. Form javascript helper</h3>
+
+<pre>
+saltos.form.javascript = async data
+</pre>
+
+<p>
+This function allow to specify scripts, you can use the inline of file key to specify
+what kind of usage do you want to do.
+</p>
+
+<ul>
+<li>@data =&gt; the object that contains the javascript requirements (can be file or inline)
+</li>
+</ul>
+
+</section>
+<section id="toc230">
+<h3>1.9.15. Form title helper</h3>
+
+<pre>
+saltos.form.title = title
+</pre>
+
+<p>
+This function sets the document title, too it checks the existence of the About
+header received in the ajax calls and stored in the saltos object to be used in the
+last part of the title.
+</p>
+
+<ul>
+<li>@title =&gt; The title that you want to set in the page
+</li>
+</ul>
+
+</section>
+<section id="toc231">
+<h3>1.9.16. Form screen helper</h3>
+
+<pre>
+saltos.form.screen = action
+</pre>
+
+<p>
+This function adds and removes the spinner to emulate the loading effect screen, too is able
+to clear the screen by removing all contents of the body
+</p>
+
+<ul>
+<li>@action =&gt; use loading, unloading or clear to execute the desired action
+</li>
+</ul>
+
+</section>
+<section id="toc232">
+<h3>1.9.17. Form navbar helper</h3>
+
+<pre>
+saltos.form.navbar = navbar
+</pre>
+
+<p>
+This function create a navbar with their menus on the top of the page, more
+info about this feature in the bootstrap documentation
+</p>
+
+<ul>
+<li>@navbar
+</li>
+</ul>
+
+</section>
+<section id="toc233">
+<h3>1.9.18. Load gettext helper</h3>
+
+<pre>
+saltos.form.gettext = array
+</pre>
+
+<p>
+This function load the gettext data from the api to the cli sapi
+</p>
+
+</section>
+<section id="toc234">
+<h3>1.9.19. Form cache helper</h3>
+
+<pre>
+saltos.form.cache = async val
+</pre>
+
+<p>
+This function allow to use the cache feature
+</p>
+
+<ul>
+<li>@val =&gt; the requested cache
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This feature works in conjunction with the prefetch_cache function that
+solves all caches before the real process_response, in order to explain
+how it works, the main idea is to call to send_request, the response is
+processed by prefetch_cache and when all caches are solved, then the
+process_response is called.
+</p>
+
+</section>
+</section>
+<section id="toc235">
+<h2>1.10. Gettext helper module</h2>
+
+<pre>
+web/js/gettext.js
+</pre>
+
+<p>
+This fie contains useful functions related to gettext funcionality, allow to manage the
+SaltOS translations using a merged system of the unix locales and the old SaltOS translations
+system.
+</p>
+
+<section id="toc236">
+<h3>1.10.1. Gettext helper object</h3>
+
+<pre>
+saltos.gettext = {
+</pre>
+
+<p>
+This object stores all gettext functions to get and set data using the localStorage
+</p>
+
+</section>
+<section id="toc237">
+<h3>1.10.2. Get gettext function</h3>
+
+<pre>
+saltos.gettext.get = ()
+</pre>
+
+<p>
+This function returns the gettext stored in the localStorage
+</p>
+
+</section>
+<section id="toc238">
+<h3>1.10.3. Get Short gettext function</h3>
+
+<pre>
+saltos.gettext.get_short = ()
+</pre>
+
+<p>
+This function returns the short version of gettext stored in the localStorage
+</p>
+
+</section>
+<section id="toc239">
+<h3>1.10.4. Set gettext function</h3>
+
+<pre>
+saltos.gettext.set = lang
+</pre>
+
+<p>
+This function sets the gettext stored in the localStorage
+</p>
+
+<ul>
+<li>@gettext      =&gt; the gettext that you want to store in the localStorage
+</li>
+</ul>
+
+</section>
+<section id="toc240">
+<h3>1.10.5. Unset gettext and expires_at</h3>
+
+<pre>
+saltos.gettext.unset = ()
+</pre>
+
+<p>
+This function removes the gettext and expires_at in the localStorage
+</p>
+
+</section>
+<section id="toc241">
+<h3>1.10.6. Get Text function</h3>
+
+<pre>
+saltos.gettext.T = text
+</pre>
+
+<p>
+This function replaces the gettext abreviation _() using the SaltOS gettext
+feature, is based in the original system of the old SaltOS with improvements
+to do more open as the GNU gettext
+</p>
+
+<ul>
+<li>@text =&gt; The text that you want to translate
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This function uses multiples locales at same time, SaltOS provides a basic set of
+usefull strings and each application can add and overwrite more strings, this is
+the same feature that old SaltOS provides
+</p>
+
+</section>
+<section id="toc242">
+<h3>1.10.7. T function</h3>
+
+<pre>
+window.T = saltos.gettext.T;
+</pre>
+
+<p>
+This line allow to publish the saltos.gettext.T function in the global scope
+</p>
+
+</section>
+<section id="toc243">
+<h3>1.10.8. Bootstrap gettext object</h3>
+
+<pre>
+saltos.gettext.bootstrap = {};
+</pre>
+
+<p>
+This object stores some bootstrap overloads that allow to other modules to
+access to the bootstrap modules using the gettext feature and translating
+texts.
+</p>
+
+</section>
+<section id="toc244">
+<h3>1.10.9. Bootstrap field overload</h3>
+
+<pre>
+saltos.gettext.bootstrap.field = field
+</pre>
+
+<p>
+This function overload the saltos.bootstrap.field funtion to add gettext
+features to the arguments depending the type of field.
+</p>
+
+<ul>
+<li>@field =&gt; the argument passed to the original bootstrap function
+</li>
+</ul>
+
+</section>
+<section id="toc245">
+<h3>1.10.10. Bootstrap modal overload</h3>
+
+<pre>
+saltos.gettext.bootstrap.modal = args
+</pre>
+
+<p>
+This function overload the saltos.bootstrap.modal funtion to add gettext
+features to the arguments
+</p>
+
+<ul>
+<li>@arg =&gt; the argument passed to the original bootstrap function
+</li>
+</ul>
+
+</section>
+<section id="toc246">
+<h3>1.10.11. Bootstrap toast overload</h3>
+
+<pre>
+saltos.gettext.bootstrap.toast = args
+</pre>
+
+<p>
+This function overload the saltos.bootstrap.toast funtion to add gettext
+features to the arguments
+</p>
+
+<ul>
+<li>@arg =&gt; the argument passed to the original bootstrap function
+</li>
+</ul>
+
+</section>
+<section id="toc247">
+<h3>1.10.12. Bootstrap menu overload</h3>
+
+<pre>
+saltos.gettext.bootstrap.menu = args
+</pre>
+
+<p>
+This function overload the saltos.bootstrap.menu funtion to add gettext
+features to the arguments
+</p>
+
+<ul>
+<li>@arg =&gt; the argument passed to the original bootstrap function
+</li>
+</ul>
+
+</section>
+<section id="toc248">
+<h3>1.10.13. Bootstrap offcanvas overload</h3>
+
+<pre>
+saltos.gettext.bootstrap.offcanvas = args
+</pre>
+
+<p>
+This function overload the saltos.bootstrap.offcanvas funtion to add gettext
+features to the arguments
+</p>
+
+<ul>
+<li>@arg =&gt; the argument passed to the original bootstrap function
+</li>
+</ul>
+
+</section>
+</section>
+<section id="toc249">
+<h2>1.11. Hash helper module</h2>
+
+<pre>
+web/js/hash.js
+</pre>
+
+<p>
+This module includes the code used to manage the hash feature in the browser
+and to provide an onhashchange function
+</p>
+
+<section id="toc250">
+<h3>1.11.1. Hash helper object</h3>
+
+<pre>
+saltos.hash = {};
+</pre>
+
+<p>
+This object stores all hash functions to get, set and trigger a change
+</p>
+
+</section>
+<section id="toc251">
+<h3>1.11.2. Get hash</h3>
+
+<pre>
+saltos.hash.get = ()
+</pre>
+
+<p>
+Function intended to return the current hash without the pillow
+</p>
+
+</section>
+<section id="toc252">
+<h3>1.11.3. Set hash</h3>
+
+<pre>
+saltos.hash.set = hash
+</pre>
+
+<p>
+Function intended to replace the hash in the current url, adds the pilow if it is not found
+in the hash argument
+</p>
+
+<ul>
+<li>@hash =&gt; this must contain the hash with or without the pillow
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+The # char is added by default if it is not found in the hash, additionally the dot is
+added to force to remove all chars before the # char in the window.location
+</p>
+<p>
+The operation is cancelled if the current hash is the same that the new hash
+</p>
+
+</section>
+<section id="toc253">
+<h3>1.11.4. Add hash</h3>
+
+<pre>
+saltos.hash.add = hash
+</pre>
+
+<p>
+Function intended to add a hash in the current history, adds the pilow if it is not found
+in the hash argument
+</p>
+
+<ul>
+<li>@hash =&gt; this must contain the hash with or without the pillow
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+The # char is added by default if it is not found in the hash, additionally the dot is
+added to force to remove all chars before the # char in the window.location
+</p>
+<p>
+The operation is cancelled if the current hash is the same that the new hash
+</p>
+
+</section>
+<section id="toc254">
+<h3>1.11.5. Hash helper</h3>
+
+<pre>
+saltos.hash.__helper = hash
+</pre>
+
+<p>
+This function is used by all other functions to clean the hash
+</p>
+
+<ul>
+<li>@hash =&gt; the hash that you want to check and clean
+</li>
+</ul>
+
+</section>
+<section id="toc255">
+<h3>1.11.6. Url to hash</h3>
+
+<pre>
+saltos.hash.url2hash = url
+</pre>
+
+<p>
+This function allow to convert and url string into a hash string
+</p>
+
+<ul>
+<li>@url =&gt; the url string that contains the hash that you want to retrieve
+</li>
+</ul>
+
+</section>
+<section id="toc256">
+<h3>1.11.7. Change trigger</h3>
+
+<pre>
+saltos.hash.trigger = ()
+</pre>
+
+<p>
+This function triggers the hashchange event to execute the onhashchange
+</p>
+
+</section>
+<section id="toc257">
+<h3>1.11.8. Hash change management</h3>
+
+<pre>
+window.addEventListener('hashchange', event
+</pre>
+
+<p>
+This function allow to SaltOS to update the contents when hash change
+</p>
+
+</section>
+<section id="toc258">
+<h3>1.11.9. Before unload management</h3>
+
+<pre>
+window.addEventListener('beforeunload', event
+</pre>
+
+<p>
+This function allow to SaltOS to update the contents when hash change
+</p>
+
+</section>
+</section>
+<section id="toc259">
+<h2>1.12. Object helper module</h2>
+
+<pre>
+web/js/object.js
+</pre>
+
+<p>
+This file contains the main saltos object
+</p>
+
+<section id="toc260">
+<h3>1.12.1. Main object</h3>
+
+<pre>
+const saltos = {};
+</pre>
+
+<p>
+This object contains all SaltOS code
+</p>
+
+</section>
+</section>
+<section id="toc261">
+<h2>1.13. Proxy module</h2>
+
+<pre>
+web/js/proxy.js
+</pre>
+
+<p>
+This module provides a service worker that acts as a proxy, it uses the headers
+requests to understand what kind of thing the request needs and tries to do
+it with the more better manner.
+</p>
+
+<section id="toc262">
+<h3>1.13.1. Console log</h3>
+
+<pre>
+const console_log = (message)
+</pre>
+
+<p>
+This function only apply as console.log replacement for debug purposes
+</p>
+
+<ul>
+<li>@message =&gt; the message that you want to send to the console
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This function send a message to all clients and exists because in some cases
+the console.log not apply for service workers, this is a simple and quick
+solution for help in the debug process
+</p>
+
+</section>
+<section id="toc263">
+<h3>1.13.2. Debug function</h3>
+
+<pre>
+const debug = (action, url, type, duration, size)
+</pre>
+
+<p>
+This function returns an array with the needed things to print into a console.log
+the fetch message with the url, the response type and the duration of the task
+</p>
+
+<ul>
+<li>@url      =&gt; url of the request
+</li>
+<li>@type     =&gt; type of the request (network, cache or error)
+</li>
+<li>@duration =&gt; duration of the entire task in milliseconds
+</li>
+</ul>
+
+</section>
+<section id="toc264">
+<h3>1.13.3. Proxy function</h3>
+
+<pre>
+const proxy = async request
+</pre>
+
+<p>
+This function receives a request to do a fetch or try to use a cached result
+if a network error occurs, if no response is available, a json error is returned
+to the application layer
+</p>
+<p>
+This function can perform actions like fetch, cache, queue or error, in each
+case, tries to execute each part using the order defined by the proxy header
+that can be added from the layer application ajax call
+</p>
+
+<ul>
+<li>@request =&gt; the request that must to be processed
+</li>
+</ul>
+
+</section>
+<section id="toc265">
+<h3>1.13.4. Queue open</h3>
+
+<pre>
+const queue_open = ()
+</pre>
+
+<p>
+This function returns a promise to the store object that can be used
+in the add, delete or getAll features.
+</p>
+
+</section>
+<section id="toc266">
+<h3>1.13.5. Queue push</h3>
+
+<pre>
+const queue_push = data
+</pre>
+
+<p>
+This function adds an entry to the queue system
+</p>
+
+<ul>
+<li>@data =&gt; the object that you want to store in the database
+</li>
+</ul>
+
+</section>
+<section id="toc267">
+<h3>1.13.6. Queue getall</h3>
+
+<pre>
+const queue_getall = ()
+</pre>
+
+<p>
+This function returns all entries of the queue using the fifo
+order
+</p>
+
+</section>
+<section id="toc268">
+<h3>1.13.7. Queue delete</h3>
+
+<pre>
+const queue_delete = key
+</pre>
+
+<p>
+This function allow to delete the entry identified by @key
+</p>
+
+<ul>
+<li>@key =&gt; the primaryKey that you want to delete
+</li>
+</ul>
+
+</section>
+<section id="toc269">
+<h3>1.13.8. Request serialize</h3>
+
+<pre>
+const request_serialize = async request
+</pre>
+
+<p>
+This function allow to gets a request and returns an object
+that can be stored in an indexedDB
+</p>
+
+<ul>
+<li>@request =&gt; the request that must to be converted into an object
+</li>
+</ul>
+
+</section>
+<section id="toc270">
+<h3>1.13.9. Request unserialize</h3>
+
+<pre>
+const request_unserialize = request
+</pre>
+
+<p>
+This function allow to convert an object stored in an indexedDB
+into a valid request that can be used in fetch operations
+</p>
+
+<ul>
+<li>@request =&gt; the object that must to be converted into a request
+</li>
+</ul>
+
+</section>
+<section id="toc271">
+<h3>1.13.10. Human Size</h3>
+
+<pre>
+const human_size = (size, pre = '', post = '')
+</pre>
+
+<p>
+Return the human size (G, M, K or original value)
+</p>
+
+<ul>
+<li>@size  =&gt; the size that you want convert to human size
+</li>
+<li>@pre  =&gt; string added between the number and the unit letter
+post  =&gt; string added after the unit letter at the end
+</li>
+</ul>
+
+</section>
+<section id="toc272">
+<h3>1.13.11. Install binding</h3>
+
+<pre>
+self.addEventListener('install', event
+</pre>
+
+<p>
+This code implements the install feature
+</p>
+
+</section>
+<section id="toc273">
+<h3>1.13.12. Activate binding</h3>
+
+<pre>
+self.addEventListener('activate', event
+</pre>
+
+<p>
+This code implements the activate feature
+</p>
+
+</section>
+<section id="toc274">
+<h3>1.13.13. Fetch binding</h3>
+
+<pre>
+self.addEventListener('fetch', event
+</pre>
+
+<p>
+This code implements the fetch feature
+</p>
+
+</section>
+<section id="toc275">
+<h3>1.13.14. Sync in progress flag</h3>
+
+<pre>
+let sync_in_progress = false;
+</pre>
+
+<p>
+Flag used to prevent concurrent execution of the sync operation in a service worker.
+It ensures that only one sync process runs at a time by setting the flag to true
+when the sync starts and resetting it to false once the process completes. If another
+sync request is received while sync_in_progress is true, the new sync is ignored
+until the current one finishes.
+</p>
+
+</section>
+<section id="toc276">
+<h3>1.13.15. Message binding</h3>
+
+<pre>
+self.addEventListener('message', async event
+</pre>
+
+<p>
+This code implements the message feature
+</p>
+<p>
+Notes:
+</p>
+<p>
+If the message contains the reserved word reset, then all caches are deleted
+and the service worker is released, too can receive a hello word that is intended
+to test the comunication between the proxy and the app layer
+</p>
+
+</section>
+</section>
+<section id="toc277">
+<h2>1.14. Push &amp; favicon helper module</h2>
+
+<pre>
+web/js/push.js
+</pre>
+
+<p>
+This fie contains useful functions related to the push and favicon features
+</p>
+
+<section id="toc278">
+<h3>1.14.1. Push constructor helper object</h3>
+
+<pre>
+saltos.push = {
+</pre>
+
+<p>
+This object allow to the constructor to use a rational structure for a quick access of each
+helper
+</p>
+
+</section>
+<section id="toc279">
+<h3>1.14.2. Push helper</h3>
+
+<pre>
+saltos.push.fn = ()
+</pre>
+
+<p>
+This function tries to send the push request to the server with the latest
+timestamp, and process the response depending the kind of response, too it
+includes features to prevent concurrence and malfunctions
+</p>
+
+</section>
+<section id="toc280">
+<h3>1.14.3. Load setup</h3>
+
+<pre>
+window.addEventListener('load', async event
+</pre>
+
+<p>
+This function is executed when window is loaded and defines the current
+timestamp and launch the timer that executes periodically the function
+each second
+</p>
+
+</section>
+<section id="toc281">
+<h3>1.14.4. Online sync</h3>
+
+<pre>
+window.addEventListener('online', event
+</pre>
+
+<p>
+This function send a push request when navigator detects an online change
+</p>
+
+</section>
+<section id="toc282">
+<h3>1.14.5. Favicon constructor helper object</h3>
+
+<pre>
+saltos.favicon = {
+</pre>
+
+<p>
+This object allow to the constructor to use a rational structure for a quick access of each
+helper
+</p>
+
+</section>
+<section id="toc283">
+<h3>1.14.6. Favicon helper</h3>
+
+<pre>
+saltos.favicon.fn = bool
+</pre>
+
+<p>
+This function is intended to launch and stop the favicon animation depending
+the bool argument
+</p>
+
+<ul>
+<li>@bool =&gt; true to run the animation and false to stop the animation
+</li>
+</ul>
+
+</section>
+<section id="toc284">
+<h3>1.14.7. Visibility Change</h3>
+
+<pre>
+document.addEventListener('visibilitychange', ()
+</pre>
+
+<p>
+This function is executed where the vilibilitychange event is triggered and
+the main task is to cancel the favicon animation
+</p>
+
+</section>
+<section id="toc285">
+<h3>1.14.8. Run</h3>
+
+<pre>
+saltos.favicon.run = ()
+</pre>
+
+<p>
+This function run the favicon animation of the app is not visible
+</p>
+
+</section>
+</section>
+<section id="toc286">
+<h2>1.15. Token helper module</h2>
+
+<pre>
+web/js/storage.js
+</pre>
+
+<p>
+This module provides the needed tools to manage the tokens
+</p>
+
+<section id="toc287">
+<h3>1.15.1. Storage helper object</h3>
+
+<pre>
+saltos.storage = {};
+</pre>
+
+<p>
+This object manage the localStorage using a prefix to prevent collisions
+</p>
+
+</section>
+<section id="toc288">
+<h3>1.15.2. Pathname helper string</h3>
+
+<pre>
+saltos.storage.pathname = saltos.core.encode_bad_chars(window.location.pathname);
+</pre>
+
+<p>
+This string contains the pathname for the current execution
+</p>
+
+</section>
+<section id="toc289">
+<h3>1.15.3. Get key</h3>
+
+<pre>
+saltos.storage.get_key = key
+</pre>
+
+<p>
+This function returns the real key used by localStorage to store a retrieve
+the data.
+</p>
+<p>
+key =&gt; the desired key used to access to the local storage
+</p>
+
+</section>
+<section id="toc290">
+<h3>1.15.4. Get Item</h3>
+
+<pre>
+saltos.storage.getItem = key
+</pre>
+
+<p>
+This function is the same that localStorage.getItem but using the get_key as key
+</p>
+<p>
+key =&gt; the desired key used to access to the local storage
+</p>
+
+</section>
+<section id="toc291">
+<h3>1.15.5. Set Item</h3>
+
+<pre>
+saltos.storage.setItem = (key, value)
+</pre>
+
+<p>
+This function is the same that localStorage.setItem but using the get_key as key
+</p>
+<p>
+key   =&gt; the desired key used to access to the local storage
+value =&gt; the value that you want to set
+</p>
+
+</section>
+<section id="toc292">
+<h3>1.15.6. Remove Item</h3>
+
+<pre>
+saltos.storage.removeItem = key
+</pre>
+
+<p>
+This function is the same that localStorage.removeItem but using the get_key as key
+</p>
+<p>
+key =&gt; the desired key used to access to the local storage
+</p>
+
+</section>
+<section id="toc293">
+<h3>1.15.7. Clear</h3>
+
+<pre>
+saltos.storage.clear = ()
+</pre>
+
+<p>
+This function is the same that localStorage.clear but only removes the entries that
+are using the same prefix that the current context, to do it, this code checks all
+keys and removes all items that starts with the prefix returned by get_key
+</p>
+
+</section>
+<section id="toc294">
+<h3>1.15.8. Get Item With Timestamp</h3>
+
+<pre>
+saltos.storage.getItemWithTimestamp = key
+</pre>
+
+<p>
+This function tries to do the same thing that getItem but using a timestampd data
+structure, to do it, only returns the value entrie
+</p>
+<p>
+key =&gt; the desired key used to access to the local storage
+</p>
+
+</section>
+<section id="toc295">
+<h3>1.15.9. Set Item With Timestamp</h3>
+
+<pre>
+saltos.storage.setItemWithTimestamp = (key, value)
+</pre>
+
+<p>
+This function tries to do the same thing that setItem but using a timestampd data
+structure, to do it, sets an object with the timestamp and the original value.
+</p>
+<p>
+key =&gt; the desired key used to access to the local storage
+</p>
+
+</section>
+<section id="toc296">
+<h3>1.15.10. Purge With Timestamp</h3>
+
+<pre>
+saltos.storage.purgeWithTimestamp = (prefix, offset)
+</pre>
+
+<p>
+This function tries to purge old data using the prefix and offset in the current
+timestamp.
+</p>
+
+<ul>
+<li>@prefix =&gt; the prefix used in the search process
+</li>
+<li>@offset =&gt; the offset used in the timestamp comparison
+</li>
+</ul>
+
+</section>
+</section>
+<section id="toc297">
+<h2>1.16. Token helper module</h2>
+
+<pre>
+web/js/token.js
+</pre>
+
+<p>
+This module provides the needed tools to manage the tokens
+</p>
+
+<section id="toc298">
+<h3>1.16.1. Token helper object</h3>
+
+<pre>
+saltos.token = {};
+</pre>
+
+<p>
+This object stores all token functions to get and set data using the localStorage
+</p>
+
+</section>
+<section id="toc299">
+<h3>1.16.2. Get token function</h3>
+
+<pre>
+saltos.token.get = ()
+</pre>
+
+<p>
+This function returns the token stored in the localStorage
+</p>
+
+</section>
+<section id="toc300">
+<h3>1.16.3. Get expires_at function</h3>
+
+<pre>
+saltos.token.get_expires_at = ()
+</pre>
+
+<p>
+This function returns the expires_at stored in the localStorage
+</p>
+
+</section>
+<section id="toc301">
+<h3>1.16.4. Set token and expires_at</h3>
+
+<pre>
+saltos.token.set = response
+</pre>
+
+<p>
+This function store the token and expires_at in the localStorage
+</p>
+
+<ul>
+<li>@response   =&gt; the object that contains the follow parameters:
+</li>
+<li>@token      =&gt; the token that you want to store in the localStorage
+</li>
+<li>@expires_at =&gt; the expires_at of the token that you want to store in the localStorage
+</li>
+</ul>
+
+</section>
+<section id="toc302">
+<h3>1.16.5. Unset token and expires_at</h3>
+
+<pre>
+saltos.token.unset = ()
+</pre>
+
+<p>
+This function removes the token and expires_at in the localStorage
+</p>
+
+</section>
+</section>
+<section id="toc303">
+<h2>1.17. Window helper module</h2>
+
+<pre>
+web/js/window.js
+</pre>
+
+<p>
+This function provides all needed code to manage the windows (open and close) and too
+to provide a tool to send messages between tabs inside the same browser.
+</p>
+
+<section id="toc304">
+<h3>1.17.1. Window communication helper object</h3>
+
+<pre>
+saltos.window = {};
+</pre>
+
+<p>
+This object stores all windows communications functions to send and listen messages
+</p>
+
+</section>
+<section id="toc305">
+<h3>1.17.2. Open window</h3>
+
+<pre>
+saltos.window.open = url
+</pre>
+
+<p>
+This function is intended to open new tabs in the window, at the moment only is a wrapper to
+the window.open but in a future, can add more features
+</p>
+
+<ul>
+<li>@url =&gt; the url of the page to load
+</li>
+</ul>
+
+</section>
+<section id="toc306">
+<h3>1.17.3. Close window</h3>
+
+<pre>
+saltos.window.close = ()
+</pre>
+
+<p>
+This function is intended to close the current window
+</p>
+
+</section>
+<section id="toc307">
+<h3>1.17.4. Listeners helper object</h3>
+
+<pre>
+saltos.window.listeners = {};
+</pre>
+
+<p>
+This object stores all listeners added by the set_listeners and used by the onstorage
+</p>
+
+</section>
+<section id="toc308">
+<h3>1.17.5. Set listener</h3>
+
+<pre>
+saltos.window.set_listener = (name, fn)
+</pre>
+
+<p>
+This function allos to set a listener function to the named event
+</p>
+
+<ul>
+<li>@name =&gt; the name of the event that you want to suscribe
+</li>
+<li>@fn   =&gt; callback executed when event named is triggered
+</li>
+</ul>
+
+</section>
+<section id="toc309">
+<h3>1.17.6. Unset listener</h3>
+
+<pre>
+saltos.window.unset_listener = (name)
+</pre>
+
+<p>
+This function removes a listener from the listeners object
+</p>
+
+<ul>
+<li>@name =&gt; the name of the event that you want to unsuscribe
+</li>
+</ul>
+
+</section>
+<section id="toc310">
+<h3>1.17.7. Send message</h3>
+
+<pre>
+saltos.window.send = (name, data = '', scope = 'all')
+</pre>
+
+<p>
+This function allow to send a message to all tabs using the name and data
+as event and argument of the callback executed.
+</p>
+
+<ul>
+<li>@name  =&gt; the name of the event that you want to send
+</li>
+<li>@data  =&gt; the arguments used by the callback function
+</li>
+<li>@scope =&gt; the scope where the event must to be triggered (me, all, other)
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+The usage of the localStorage causes the execution of the onstorage function
+of the other tabs but not for the tab that send the message, to fix this we
+are dispatching an event in the current window, this allow that all tabs
+(including the source of the message sent) receives the notification and
+executes the listeners if needed
+</p>
+<p>
+As this module uses the saltos.storage module, it's important that understand
+that the saltos.storage adds a prefix in the keys to allow the separation of
+the data for the different instances of the same app, this is important because
+the key generated to send the event to the origin of the message must contains
+the prefix that too
+</p>
+
+</section>
+<section id="toc311">
+<h3>1.17.8. Storage management</h3>
+
+<pre>
+window.addEventListener('storage', event
+</pre>
+
+<p>
+This function allow to SaltOS to receive the messages sended by other tabs
+using the localStorage.
+</p>
+</section>
+</section>
+</section>
+</div>
+
+<!-- html code generated by txt2tags 3.4 (http://txt2tags.org) -->
+<!-- cmdline: txt2tags -\-toc -t html -i web.t2t -o web.html -->
+</article></body></html>

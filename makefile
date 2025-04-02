@@ -90,9 +90,23 @@ else # libs=lib[,lib,lib]
 endif
 
 docs:
-	php scripts/makedocs.php docs/core.t2t code/api/php code/web/js
-	php scripts/makedocs.php docs/apps.t2t code/apps/*/php code/apps/*/js
-	php scripts/makedocs.php docs/utest.t2t utest/ ujest/
+	php scripts/maket2t.php docs/api.t2t code/api/php
+	php scripts/makepdf.php docs/api.t2t
+	php scripts/makehtml.php docs/api.t2t
+	php scripts/maket2t.php docs/web.t2t code/web/js
+	php scripts/makepdf.php docs/web.t2t
+	php scripts/makehtml.php docs/web.t2t
+	php scripts/maket2t.php docs/apps.t2t code/apps/*/php code/apps/*/js
+	php scripts/makepdf.php docs/apps.t2t
+	php scripts/makehtml.php docs/apps.t2t
+	php scripts/maket2t.php docs/utest.t2t utest/
+	php scripts/makepdf.php docs/utest.t2t
+	php scripts/makehtml.php docs/utest.t2t
+	php scripts/maket2t.php docs/ujest.t2t ujest/
+	php scripts/makepdf.php docs/ujest.t2t
+	php scripts/makehtml.php docs/ujest.t2t
+	php scripts/makepdf.php docs/devel.t2t
+	php scripts/makehtml.php docs/devel.t2t
 
 check:
 	@echo -e "$(YELLOW)Directories:$(NONE)"

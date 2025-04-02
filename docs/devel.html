@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Devel Documentation</title>
+<meta name="generator" content="http://txt2tags.org">
+<style>
+body{background-color:#fff;color:#000;}
+hr{background-color:#000;border:0;color:#000;}
+hr.heavy{height:5px;}
+hr.light{height:1px;}
+img{border:0;display:block;}
+img.right{margin:0 0 0 auto;}
+img.center{border:0;margin:0 auto;}
+table th,table td{padding:4px;}
+.center,header{text-align:center;}
+table.center {margin-left:auto; margin-right:auto;}
+.right{text-align:right;}
+.left{text-align:left;}
+.tableborder,.tableborder td,.tableborder th{border:1px solid #000;}
+.underline{text-decoration:underline;}
+pre{background-color:#e6e6e6;padding:5px 3px}
+</style>
+</head>
+<body>
+<header>
+<hgroup>
+<h1>Devel Documentation</h1>
+<h2>SaltOS 4.0 r1924</h2>
+<h3>April 2025</h3>
+</hgroup>
+</header>
+<article>
+
+<nav>
+<div class="body" id="body">
+
+  <ul>
+  <li><a href="#toc1">1. Introduction</a>
+  </li>
+  <li><a href="#toc2">2. Backend Structure &amp; API (api/)</a>
+    <ul>
+    <li><a href="#toc3">2.1. Autoloaded Modules (`php/autoload/`)</a>
+    </li>
+    <li><a href="#toc4">2.2. Database Drivers (`php/database/`)</a>
+    </li>
+    <li><a href="#toc5">2.3. Libraries (`php/lib/`)</a>
+    </li>
+    <li><a href="#toc6">2.4. Action Modules (`php/action/`)</a>
+    </li>
+    <li><a href="#toc7">2.5. Other API Components</a>
+    </li>
+    <li><a href="#toc8">2.6. API Access</a>
+      <ul>
+      <li><a href="#toc9">2.6.1. Web server access (Apache, Nginx, Cherokee)</a>
+      </li>
+      <li><a href="#toc10">2.6.2. Command-line access (CLI)</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc11">3. Frontend Structure (web/)</a>
+    <ul>
+    <li><a href="#toc12">3.1. Frontend Deployment</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc13">4. Application System</a>
+    <ul>
+    <li><a href="#toc14">4.1. YAML-based Apps</a>
+      <ul>
+      <li><a href="#toc15">4.1.1. tokenslog.yaml</a>
+      </li>
+      <li><a href="#toc16">4.1.2. configlog.yaml</a>
+      </li>
+      <li><a href="#toc17">4.1.3. types.yaml</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc18">4.2. XML-based Complex Apps</a>
+      <ul>
+      <li><a href="#toc19">4.2.1. customers.xml</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc20">5. Offline Support (Service Worker)</a>
+  </li>
+  </ul>
+
+</div>
+</nav>
+<div class="body" id="body">
+
+<section id="toc1">
+<h1>1. Introduction</h1>
+
+<p>
+SaltOS4 is a modular, extensible framework for building Rich Internet Applications (RIAs). It is designed for rapid development of dynamic, offline-capable applications using a clean separation between backend and frontend.
+</p>
+<p>
+It is composed of:
+</p>
+
+<ul>
+<li>A PHP backend (`api/`)
+</li>
+<li>A JavaScript frontend (`web/`)
+</li>
+<li>REST/JSON API with support for CLI execution
+</li>
+<li>Offline operation through a Service Worker proxy
+</li>
+<li>Declarative and dinamic app definitions via XML and/or YAML
+</li>
+<li>Shared templates and logic to reduce boilerplate
+</li>
+<li>Clean separation of frontend and backend
+</li>
+<li>Rapid development of apps with shared templates and logic
+</li>
+</ul>
+
+</section>
+<section id="toc2">
+<h1>2. Backend Structure &amp; API (api/)</h1>
+
+<p>
+The backend is under the `api/` folder and contains four folders (autoload, database, lib and actions) to organize the code depending their usage and functionality.
+</p>
+
+<section id="toc3">
+<h2>2.1. Autoloaded Modules (`php/autoload/`)</h2>
+
+<p>
+Core functions automatically loaded on each request:
+</p>
+
+<ul>
+<li>`autoload/apps.php`: * Apps helper module
+</li>
+<li>`autoload/array.php`: * Array helper module
+</li>
+<li>`autoload/compat.php`: * Compatibility helper module
+</li>
+<li>`autoload/config.php`: * Config helper module
+</li>
+<li>`autoload/database.php`: * Database helper module
+</li>
+<li>`autoload/datetime.php`: * Datetime helper module
+</li>
+<li>`autoload/error.php`: * Error helper module
+</li>
+<li>`autoload/exec.php`: * Execution helper module
+</li>
+<li>`autoload/file.php`: * File utils helper module
+</li>
+<li>`autoload/getdata.php`: * Get data helper module
+</li>
+<li>`autoload/gettext.php`: * Gettext helper module
+</li>
+<li>`autoload/iniset.php`: * Iniset helper module
+</li>
+<li>`autoload/json.php`: * Json helper module
+</li>
+<li>`autoload/log.php`: * Log helper module
+</li>
+<li>`autoload/memory.php`: * Memory helper module
+</li>
+<li>`autoload/mime.php`: * Mime helper module
+</li>
+<li>`autoload/output.php`: * Output helper module
+</li>
+<li>`autoload/pcov.php`: * PCOV helper module
+</li>
+<li>`autoload/perms.php`: * Permissions helper module
+</li>
+<li>`autoload/random.php`: * Random helper module
+</li>
+<li>`autoload/semaphores.php`: * Semaphore helper module
+</li>
+<li>`autoload/server.php`: * Server helper module
+</li>
+<li>`autoload/sql.php`: * SQL utils helper module
+</li>
+<li>`autoload/strings.php`: * String utils helper module
+</li>
+<li>`autoload/system.php`: * System helper module
+</li>
+<li>`autoload/tokens.php`: * Tokens helper module
+</li>
+<li>`autoload/user.php`: * User helper module
+</li>
+<li>`autoload/version.php`: * Version helper module
+</li>
+<li>`autoload/xml2array.php`: * XML to Array helper module
+</li>
+<li>`autoload/yaml.php`: * Yaml helper module
+</li>
+<li>`autoload/zindex.php`: * Main execution module
+</li>
+</ul>
+
+</section>
+<section id="toc4">
+<h2>2.2. Database Drivers (`php/database/`)</h2>
+
+<p>
+Supports:
+</p>
+
+<ul>
+<li>`database/libsqlite.php`: * SQLite3 functions library
+</li>
+<li>`database/mysqli.php`: * MySQL improved driver
+</li>
+<li>`database/pdo_mssql.php`: * PDO MsSQL driver
+</li>
+<li>`database/pdo_mysql.php`: * PDO MySQL driver
+</li>
+<li>`database/pdo_sqlite.php`: * PDO SQLite driver
+</li>
+<li>`database/sqlite3.php`: * SQLite3 driver
+</li>
+</ul>
+
+</section>
+<section id="toc5">
+<h2>2.3. Libraries (`php/lib/`)</h2>
+
+<p>
+Not autoloaded; provide extra functionality:
+</p>
+
+<ul>
+<li>`lib/actions.php`: * Actions module
+</li>
+<li>`lib/array2xml.php`: * Array to XML helper module
+</li>
+<li>`lib/ascii.php`: * Make Table ASCII
+</li>
+<li>`lib/auth.php`: * Login functions
+</li>
+<li>`lib/barcode.php`: * Barcode helper module
+</li>
+<li>`lib/browser.php`: * Browser helper module
+</li>
+<li>`lib/captcha.php`: * Captcha helper module
+</li>
+<li>`lib/color.php`: * Color helper module
+</li>
+<li>`lib/control.php`: * Control helper module
+</li>
+<li>`lib/cron.php`: * Cron utils helper module
+</li>
+<li>`lib/dbschema.php`: * Database schema helper module
+</li>
+<li>`lib/depend.php`: * Dependencies feature
+</li>
+<li>`lib/export.php`: * Export helper module
+</li>
+<li>`lib/files.php`: * Files module
+</li>
+<li>`lib/gc.php`: * Garbage collector helper module
+</li>
+<li>`lib/gdlib.php`: * GD utils helper module
+</li>
+<li>`lib/geoip.php`: * GeoIP helper module
+</li>
+<li>`lib/help.php`: * Help feature
+</li>
+<li>`lib/import.php`: * Import file helper module
+</li>
+<li>`lib/indexing.php`: * Make index helper module
+</li>
+<li>`lib/log.php`: * Log helper module
+</li>
+<li>`lib/math.php`: * Math utils helper module
+</li>
+<li>`lib/notes.php`: * Notes module
+</li>
+<li>`lib/password.php`: * Password helper module
+</li>
+<li>`lib/pdf.php`: * PDF helper module
+</li>
+<li>`lib/push.php`: * Push utils helper module
+</li>
+<li>`lib/qrcode.php`: * QRCode helper module
+</li>
+<li>`lib/score.php`: * Score image helper module
+</li>
+<li>`lib/security.php`: * Security helper module
+</li>
+<li>`lib/setup.php`: * Setup helper module
+</li>
+<li>`lib/trash.php`: * Send file to trash
+</li>
+<li>`lib/unoconv.php`: * Unoconv library
+</li>
+<li>`lib/upload.php`: * Add upload file
+</li>
+<li>`lib/version.php`: * Version helper module
+</li>
+</ul>
+
+</section>
+<section id="toc6">
+<h2>2.4. Action Modules (`php/action/`)</h2>
+
+<p>
+Handle concrete system actions (CLI-aware where needed):
+</p>
+
+<ul>
+<li>`action/add.php`: * Add log action
+</li>
+<li>`action/app.php`: * Application action
+</li>
+<li>`action/auth.php`: * Authentication helper module
+</li>
+<li>`action/cron.php`: * Garbage Collector action
+</li>
+<li>`action/gc.php`: * Garbage Collector action
+</li>
+<li>`action/image.php`: * BarCode action
+</li>
+<li>`action/indexing.php`: * Make indexing action
+</li>
+<li>`action/integrity.php`: * Make indexing action
+</li>
+<li>`action/ping.php`: * Ping action
+</li>
+<li>`action/push.php`: * Garbage Collector action
+</li>
+<li>`action/setup.php`: * DB Schema action
+</li>
+<li>`action/upload.php`: * Add files action
+</li>
+</ul>
+
+</section>
+<section id="toc7">
+<h2>2.5. Other API Components</h2>
+
+<ul>
+<li>`index.php`: entry point that loads autoload and then `zindex.php`
+</li>
+<li>`img/`: SaltOS logos and related branding
+</li>
+<li>`locale/`: multilingual resources (`.yaml`, `.odt`, `.pdf`)
+</li>
+<li>`xml/`: base configuration
+  <ul>
+  <li>`config.xml`: contains the global system configuration, including general options, paths, preferences, and base parameters that affect all of SaltOS4.
+  </li>
+  <li>`cron.xml`: defines the scheduled tasks that the system must run automatically, such as data cleanup, email sending, or synchronizations.
+  </li>
+  <li>`locale.xml`: specifies the available languages in the system and their codes, allowing the interface localization to be managed.
+  </li>
+  <li>`bs_theme.xml`: defines the visual themes compatible with Bootstrap that the system can use to customize the interface appearance.
+  </li>
+  <li>`css_theme.xml`: contains additional visual style definitions, such as colors, fonts, and CSS rules to adapt the system's look and feel.
+  </li>
+  <li>`dbschema.xml`: describes the general database schema — tables, columns, indexes, and relationships required for the overall functioning of SaltOS4.
+  </li>
+  <li>`dbstatic.xml`: includes static data that must be inserted into certain tables during system initialization, such as user types, default values, or base configurations.
+  </li>
+  </ul>
+</li>
+</ul>
+
+</section>
+<section id="toc8">
+<h2>2.6. API Access</h2>
+
+<p>
+SaltOS4 supports access via HTTP or CLI.
+</p>
+
+<section id="toc9">
+<h3>2.6.1. Web server access (Apache, Nginx, Cherokee)</h3>
+
+<p>
+The main idea of sending information to SaltOS is to use the latest technologies, to do it, we are using restful request
+</p>
+
+<ul>
+<li>GET with REST:
+  <ul>
+  <li>An example request: `<a href="https://host/?/app/invoices/view/2">https://host/?/app/invoices/view/2</a>`
+  </li>
+  <li>`@rest/0` = app
+  </li>
+  <li>`@rest/1` = invoices
+  </li>
+  <li>`@rest/2` = view
+  </li>
+  <li>`@rest/3` = 2
+  </li>
+  </ul>
+</li>
+<li>POST with JSON:
+  <ul>
+  <li>An example request: `<a href="https://host/?/app/invoices/insert">https://host/?/app/invoices/insert</a>`
+  </li>
+  <li>Use `Content-Type: application/json`
+  </li>
+  <li>Body parsed into `@json/...`
+  </li>
+  </ul>
+</li>
+</ul>
+
+</section>
+<section id="toc10">
+<h3>2.6.2. Command-line access (CLI)</h3>
+
+<ul>
+<li>`php api/index.php app/customers/view/100`
+</li>
+<li>`user=admin php api/index.php app/customers/view/100`
+</li>
+<li>`cat data.json | user=admin php app/customers/insert`
+</li>
+</ul>
+
+</section>
+</section>
+</section>
+<section id="toc11">
+<h1>3. Frontend Structure (web/)</h1>
+
+<p>
+Frontend is a JavaScript SPA in the `web/` folder.
+</p>
+
+<ul>
+<li>`index.htm`: loads Bootstrap, SaltOS scripts
+</li>
+<li>`web/js/`: client-side modules
+</li>
+<li>`web/lib/`: JS libraries
+</li>
+</ul>
+
+<p>
+JavaScript Modules:
+</p>
+
+<ul>
+<li>`app.js`: * Application helper module
+</li>
+<li>`auth.js`: * Authentication helper module
+</li>
+<li>`backup.js`: * Backup &amp; Autosave helper module
+</li>
+<li>`bootstrap.js`: * Bootstrap helper module
+</li>
+<li>`common.js`: * Common helper module
+</li>
+<li>`core.js`: * Core helper module
+</li>
+<li>`driver.js`: * Driver module
+</li>
+<li>`filter.js`: * Filter module
+</li>
+<li>`form.js`: * Form helper module
+</li>
+<li>`gettext.js`: * Gettext helper module
+</li>
+<li>`hash.js`: * Hash helper module
+</li>
+<li>`object.js`: * Object helper module
+</li>
+<li>`proxy.js`: * Proxy module
+</li>
+<li>`push.js`: * Push &amp; favicon helper module
+</li>
+<li>`storage.js`: * Token helper module
+</li>
+<li>`token.js`: * Token helper module
+</li>
+<li>`window.js`: * Window helper module
+</li>
+</ul>
+
+<section id="toc12">
+<h2>3.1. Frontend Deployment</h2>
+
+<p>
+To use SaltOS4 from the browser:
+</p>
+
+<ul>
+<li>Publish `web/`
+</li>
+<li>Create symbolic links inside `web/`:
+  <ul>
+  <li>`apps/` → application resources
+  </li>
+  <li>`api/` → backend
+  </li>
+  </ul>
+</li>
+<li>Inside `api/`, symbolic links to:
+  <ul>
+  <li>`data/` → file storage
+  </li>
+  <li>`apps/` → app definitions
+  </li>
+  </ul>
+</li>
+</ul>
+
+</section>
+</section>
+<section id="toc13">
+<h1>4. Application System</h1>
+
+<p>
+Applications in SaltOS4 are modular, defined in folders under `apps/`.
+</p>
+<p>
+Each folder may contain:
+</p>
+
+<ul>
+<li>`xml/manifest.xml`: declares the apps
+</li>
+<li>`xml/*.xml` or `xml/*.yaml`: application definitions
+</li>
+<li>`php/`, `js/`, `locale/`: optional logic and translations
+</li>
+<li>`dbschema.xml`, `dbstatic.xml`: database structure and static content
+</li>
+</ul>
+
+<section id="toc14">
+<h2>4.1. YAML-based Apps</h2>
+
+<p>
+SaltOS4 supports YAML for fast app declarations using the common template logic.
+</p>
+
+<section id="toc15">
+<h3>4.1.1. tokenslog.yaml</h3>
+
+<pre>
+app: tokenslog
+require: apps/common/php/default.php
+template: apps/common/xml/default.xml
+indent: true
+screen: type2
+list:
+    # [id, type, label]
+    - [user_id, select, User]
+    - [created_at, text, Created]
+    - [token, text, Token]
+    - [active, boolean, Active]
+form:
+    # [id, type, label]
+    - [active, switch, Active]
+    - [user_id, select, User]
+    - [created_at, datetime, Created]
+    - [updated_at, datetime, Updated]
+    - [remote_addr, text, Remote Addres]
+    - [user_agent, text, User Agent]
+    - [token, text, Token]
+    - [expires_at, datetime, Expires]
+select:
+    # [id, table, optional field]
+    - [user_id, tbl_users]
+</pre>
+
+</section>
+<section id="toc16">
+<h3>4.1.2. configlog.yaml</h3>
+
+<pre>
+app: configlog
+require: apps/common/php/default.php
+template: apps/common/xml/default.xml
+indent: true
+screen: type2
+list:
+    # [id, type, label]
+    - [user_id, select, User]
+    - [key, text, Key]
+form:
+    # [id, type, label]
+    - [user_id, select, User]
+    - [key, text, Key]
+    - [val, codemirror, Value]
+select:
+    # [id, table, optional field]
+    - [user_id, tbl_users]
+attr:
+    # field:
+    #   attr: value
+    key:
+        required: true
+        autofocus: true
+    val:
+        required: true
+        mode: json
+        indent: true
+</pre>
+
+</section>
+<section id="toc17">
+<h3>4.1.3. types.yaml</h3>
+
+<pre>
+app: types
+require: apps/common/php/default.php
+template: apps/common/xml/default.xml
+indent: true
+screen: type5
+list:
+    # [id, type, label]
+    - [name, text, Name]
+    - [description, text, Description]
+    - [active, boolean, Active]
+form:
+    # [id, type, label]
+    - [active, switch, Active]
+    - [name, text, Name]
+    - [description, textarea, Description]
+attr:
+    # field:
+    #   attr: value
+    name:
+        required: true
+        autofocus: true
+    description:
+        required: true
+</pre>
+
+<p>
+These examples demonstrate the simplicity of defining apps in YAML.
+</p>
+
+</section>
+</section>
+<section id="toc18">
+<h2>4.2. XML-based Complex Apps</h2>
+
+<p>
+SaltOS4 also allows full custom apps defined in XML, often used for more complex business logic and interface customization.
+</p>
+
+<section id="toc19">
+<h3>4.2.1. customers.xml</h3>
+
+<p>
+This file contains the follow important nodes:
+</p>
+
+<ul>
+<li>`&lt;main&gt;`: Defines a call to app/customers/main that returns the screen type, literals, and the navbar specification
+</li>
+<li>`&lt;list default="true"&gt;`: Defines a call to app/customers/list that returns a cache load from app/customers/list/cache
+</li>
+<li>`&lt;list id="cache"&gt;`: Defines a call to app/customers/list/cache that returns the interface of a list screen
+</li>
+<li>`&lt;list id="data"&gt;`: Defines a call to app/customers/list/data that returns the data of a list
+</li>
+<li>`&lt;_form&gt;`: This defines a form, there is no way to access it externally, it is for internal use
+</li>
+<li>`&lt;_data require="php/lib/log.php" eval="true"&gt;`: This defines a data block of a detail view, not accessible externally, intended for internal use
+</li>
+<li>`&lt;create&gt;`: Defines a call to app/customers/create that returns a cache load from app/customers/create/cache
+</li>
+<li>`&lt;create id="cache"&gt;`: Defines a call to app/customers/create/cache that returns the interface of a creation screen
+</li>
+<li>`&lt;create id="insert"&gt;`: Defines a call to app/customers/insert that allows inserting a record and returns the status
+</li>
+<li>`&lt;view&gt;`: Defines a call to app/customers/view that returns a cache load from app/customers/view/cache
+</li>
+<li>`&lt;view id="cache"&gt;`: Defines a call to app/customers/view/cache that returns the interface of a creation screen
+</li>
+<li>`&lt;edit&gt;`: Defines a call to app/customers/edit that returns a cache load from app/customers/edit/cache
+</li>
+<li>`&lt;edit id="cache"&gt;`: Defines a call to app/customers/edit/cache that returns the interface of a creation screen
+</li>
+<li>`&lt;edit id="update"&gt;`: Defines a call to app/customers/update that allows updating a record and returns the status
+</li>
+<li>`&lt;delete&gt;`: Defines a call to app/customers/delete that allows deleting a record and returns the status
+</li>
+<li>`&lt;action id="setup"&gt;`: Defines a call to app/customers/setup that allows to execute the setup for this application
+</li>
+</ul>
+
+</section>
+</section>
+</section>
+<section id="toc20">
+<h1>5. Offline Support (Service Worker)</h1>
+
+<p>
+Handled in `proxy.js` + `core.js`:
+</p>
+
+<ul>
+<li>Automatically registers in the browser
+</li>
+<li>Acts as a proxy for fetch requests
+</li>
+<li>Returns cached responses if offline
+</li>
+<li>Queues write requests and syncs when online
+</li>
+<li>Works transparently with core AJAX logic
+<p></p>
+</li>
+</ul>
+
+</section>
+</div>
+<!-- html code generated by txt2tags 3.4 (http://txt2tags.org) -->
+<!-- cmdline: txt2tags -\-toc -t html -i devel.t2t -o devel.html -->
+</article></body></html>

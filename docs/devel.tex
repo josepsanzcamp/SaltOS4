@@ -1,0 +1,447 @@
+\documentclass[a4paper]{article}
+\usepackage{graphicx}
+\usepackage{paralist} % needed for compact lists
+\usepackage[normalem]{ulem} % needed by strike
+\usepackage[urlcolor=myblue,colorlinks=true,linkcolor=myblue]{hyperref}
+\usepackage[english]{babel}
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage{eurosym}
+\usepackage{sans}
+\usepackage{fullpage}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{sectsty}
+\allsectionsfont{\color{myblue}}
+\definecolor{myblue}{RGB}{39,128,227}
+\setlength{\parindent}{0mm}
+\setlength{\parskip}{3mm}
+\setlength{\plparsep}{2.5mm}
+\def\htmladdnormallink#1#2{\href{#2}{#1}}
+\definecolor{mygrey}{rgb}{0.9,0.9,0.9}
+\usepackage{courier}
+\lstset{basicstyle=\ttfamily,backgroundcolor=\color{mygrey},breaklines=true}
+\usepackage{tocloft}
+\setlength{\cftsubsubsecnumwidth}{13mm}
+\setlength\cftparskip{3mm}
+
+
+\title{Devel Documentation}
+\author{SaltOS 4.0 r1924}
+\begin{document}
+\date{April 2025}
+\maketitle
+\clearpage
+
+\tableofcontents
+\clearpage
+
+
+\hypertarget{toc1}{}
+\section{Introduction}
+
+SaltOS4 is a modular, extensible framework for building Rich Internet Applications (RIAs). It is designed for rapid development of dynamic, offline-capable applications using a clean separation between backend and frontend.
+
+It is composed of:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] A PHP backend (`api/`)
+\item[\color{myblue}$\bullet$] A JavaScript frontend (`web/`)
+\item[\color{myblue}$\bullet$] REST/JSON API with support for CLI execution
+\item[\color{myblue}$\bullet$] Offline operation through a Service Worker proxy
+\item[\color{myblue}$\bullet$] Declarative and dinamic app definitions via XML and/or YAML
+\item[\color{myblue}$\bullet$] Shared templates and logic to reduce boilerplate
+\item[\color{myblue}$\bullet$] Clean separation of frontend and backend
+\item[\color{myblue}$\bullet$] Rapid development of apps with shared templates and logic
+\end{compactitem}
+
+
+\hypertarget{toc2}{}
+\section{Backend Structure \& API (api/)}
+
+The backend is under the `api/` folder and contains four folders (autoload, database, lib and actions) to organize the code depending their usage and functionality.
+
+\hypertarget{toc3}{}
+\subsection{Autoloaded Modules (`php/autoload/`)}
+
+Core functions automatically loaded on each request:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] `autoload/apps.php`: * Apps helper module
+\item[\color{myblue}$\bullet$] `autoload/array.php`: * Array helper module
+\item[\color{myblue}$\bullet$] `autoload/compat.php`: * Compatibility helper module
+\item[\color{myblue}$\bullet$] `autoload/config.php`: * Config helper module
+\item[\color{myblue}$\bullet$] `autoload/database.php`: * Database helper module
+\item[\color{myblue}$\bullet$] `autoload/datetime.php`: * Datetime helper module
+\item[\color{myblue}$\bullet$] `autoload/error.php`: * Error helper module
+\item[\color{myblue}$\bullet$] `autoload/exec.php`: * Execution helper module
+\item[\color{myblue}$\bullet$] `autoload/file.php`: * File utils helper module
+\item[\color{myblue}$\bullet$] `autoload/getdata.php`: * Get data helper module
+\item[\color{myblue}$\bullet$] `autoload/gettext.php`: * Gettext helper module
+\item[\color{myblue}$\bullet$] `autoload/iniset.php`: * Iniset helper module
+\item[\color{myblue}$\bullet$] `autoload/json.php`: * Json helper module
+\item[\color{myblue}$\bullet$] `autoload/log.php`: * Log helper module
+\item[\color{myblue}$\bullet$] `autoload/memory.php`: * Memory helper module
+\item[\color{myblue}$\bullet$] `autoload/mime.php`: * Mime helper module
+\item[\color{myblue}$\bullet$] `autoload/output.php`: * Output helper module
+\item[\color{myblue}$\bullet$] `autoload/pcov.php`: * PCOV helper module
+\item[\color{myblue}$\bullet$] `autoload/perms.php`: * Permissions helper module
+\item[\color{myblue}$\bullet$] `autoload/random.php`: * Random helper module
+\item[\color{myblue}$\bullet$] `autoload/semaphores.php`: * Semaphore helper module
+\item[\color{myblue}$\bullet$] `autoload/server.php`: * Server helper module
+\item[\color{myblue}$\bullet$] `autoload/sql.php`: * SQL utils helper module
+\item[\color{myblue}$\bullet$] `autoload/strings.php`: * String utils helper module
+\item[\color{myblue}$\bullet$] `autoload/system.php`: * System helper module
+\item[\color{myblue}$\bullet$] `autoload/tokens.php`: * Tokens helper module
+\item[\color{myblue}$\bullet$] `autoload/user.php`: * User helper module
+\item[\color{myblue}$\bullet$] `autoload/version.php`: * Version helper module
+\item[\color{myblue}$\bullet$] `autoload/xml2array.php`: * XML to Array helper module
+\item[\color{myblue}$\bullet$] `autoload/yaml.php`: * Yaml helper module
+\item[\color{myblue}$\bullet$] `autoload/zindex.php`: * Main execution module
+\end{compactitem}
+
+\hypertarget{toc4}{}
+\subsection{Database Drivers (`php/database/`)}
+
+Supports:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] `database/libsqlite.php`: * SQLite3 functions library
+\item[\color{myblue}$\bullet$] `database/mysqli.php`: * MySQL improved driver
+\item[\color{myblue}$\bullet$] `database/pdo\_mssql.php`: * PDO MsSQL driver
+\item[\color{myblue}$\bullet$] `database/pdo\_mysql.php`: * PDO MySQL driver
+\item[\color{myblue}$\bullet$] `database/pdo\_sqlite.php`: * PDO SQLite driver
+\item[\color{myblue}$\bullet$] `database/sqlite3.php`: * SQLite3 driver
+\end{compactitem}
+
+\hypertarget{toc5}{}
+\subsection{Libraries (`php/lib/`)}
+
+Not autoloaded; provide extra functionality:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] `lib/actions.php`: * Actions module
+\item[\color{myblue}$\bullet$] `lib/array2xml.php`: * Array to XML helper module
+\item[\color{myblue}$\bullet$] `lib/ascii.php`: * Make Table ASCII
+\item[\color{myblue}$\bullet$] `lib/auth.php`: * Login functions
+\item[\color{myblue}$\bullet$] `lib/barcode.php`: * Barcode helper module
+\item[\color{myblue}$\bullet$] `lib/browser.php`: * Browser helper module
+\item[\color{myblue}$\bullet$] `lib/captcha.php`: * Captcha helper module
+\item[\color{myblue}$\bullet$] `lib/color.php`: * Color helper module
+\item[\color{myblue}$\bullet$] `lib/control.php`: * Control helper module
+\item[\color{myblue}$\bullet$] `lib/cron.php`: * Cron utils helper module
+\item[\color{myblue}$\bullet$] `lib/dbschema.php`: * Database schema helper module
+\item[\color{myblue}$\bullet$] `lib/depend.php`: * Dependencies feature
+\item[\color{myblue}$\bullet$] `lib/export.php`: * Export helper module
+\item[\color{myblue}$\bullet$] `lib/files.php`: * Files module
+\item[\color{myblue}$\bullet$] `lib/gc.php`: * Garbage collector helper module
+\item[\color{myblue}$\bullet$] `lib/gdlib.php`: * GD utils helper module
+\item[\color{myblue}$\bullet$] `lib/geoip.php`: * GeoIP helper module
+\item[\color{myblue}$\bullet$] `lib/help.php`: * Help feature
+\item[\color{myblue}$\bullet$] `lib/import.php`: * Import file helper module
+\item[\color{myblue}$\bullet$] `lib/indexing.php`: * Make index helper module
+\item[\color{myblue}$\bullet$] `lib/log.php`: * Log helper module
+\item[\color{myblue}$\bullet$] `lib/math.php`: * Math utils helper module
+\item[\color{myblue}$\bullet$] `lib/notes.php`: * Notes module
+\item[\color{myblue}$\bullet$] `lib/password.php`: * Password helper module
+\item[\color{myblue}$\bullet$] `lib/pdf.php`: * PDF helper module
+\item[\color{myblue}$\bullet$] `lib/push.php`: * Push utils helper module
+\item[\color{myblue}$\bullet$] `lib/qrcode.php`: * QRCode helper module
+\item[\color{myblue}$\bullet$] `lib/score.php`: * Score image helper module
+\item[\color{myblue}$\bullet$] `lib/security.php`: * Security helper module
+\item[\color{myblue}$\bullet$] `lib/setup.php`: * Setup helper module
+\item[\color{myblue}$\bullet$] `lib/trash.php`: * Send file to trash
+\item[\color{myblue}$\bullet$] `lib/unoconv.php`: * Unoconv library
+\item[\color{myblue}$\bullet$] `lib/upload.php`: * Add upload file
+\item[\color{myblue}$\bullet$] `lib/version.php`: * Version helper module
+\end{compactitem}
+
+\hypertarget{toc6}{}
+\subsection{Action Modules (`php/action/`)}
+
+Handle concrete system actions (CLI-aware where needed):
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] `action/add.php`: * Add log action
+\item[\color{myblue}$\bullet$] `action/app.php`: * Application action
+\item[\color{myblue}$\bullet$] `action/auth.php`: * Authentication helper module
+\item[\color{myblue}$\bullet$] `action/cron.php`: * Garbage Collector action
+\item[\color{myblue}$\bullet$] `action/gc.php`: * Garbage Collector action
+\item[\color{myblue}$\bullet$] `action/image.php`: * BarCode action
+\item[\color{myblue}$\bullet$] `action/indexing.php`: * Make indexing action
+\item[\color{myblue}$\bullet$] `action/integrity.php`: * Make indexing action
+\item[\color{myblue}$\bullet$] `action/ping.php`: * Ping action
+\item[\color{myblue}$\bullet$] `action/push.php`: * Garbage Collector action
+\item[\color{myblue}$\bullet$] `action/setup.php`: * DB Schema action
+\item[\color{myblue}$\bullet$] `action/upload.php`: * Add files action
+\end{compactitem}
+
+\hypertarget{toc7}{}
+\subsection{Other API Components}
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] `index.php`: entry point that loads autoload and then `zindex.php`
+\item[\color{myblue}$\bullet$] `img/`: SaltOS logos and related branding
+\item[\color{myblue}$\bullet$] `locale/`: multilingual resources (`.yaml`, `.odt`, `.pdf`)
+\item[\color{myblue}$\bullet$] `xml/`: base configuration
+  \begin{compactitem}
+  \item[\color{myblue}$\bullet$] `config.xml`: contains the global system configuration, including general options, paths, preferences, and base parameters that affect all of SaltOS4.
+  \item[\color{myblue}$\bullet$] `cron.xml`: defines the scheduled tasks that the system must run automatically, such as data cleanup, email sending, or synchronizations.
+  \item[\color{myblue}$\bullet$] `locale.xml`: specifies the available languages in the system and their codes, allowing the interface localization to be managed.
+  \item[\color{myblue}$\bullet$] `bs\_theme.xml`: defines the visual themes compatible with Bootstrap that the system can use to customize the interface appearance.
+  \item[\color{myblue}$\bullet$] `css\_theme.xml`: contains additional visual style definitions, such as colors, fonts, and CSS rules to adapt the system's look and feel.
+  \item[\color{myblue}$\bullet$] `dbschema.xml`: describes the general database schema — tables, columns, indexes, and relationships required for the overall functioning of SaltOS4.
+  \item[\color{myblue}$\bullet$] `dbstatic.xml`: includes static data that must be inserted into certain tables during system initialization, such as user types, default values, or base configurations.
+  \end{compactitem}
+\end{compactitem}
+
+\hypertarget{toc8}{}
+\subsection{API Access}
+
+SaltOS4 supports access via HTTP or CLI.
+
+\hypertarget{toc9}{}
+\subsubsection{Web server access (Apache, Nginx, Cherokee)}
+
+The main idea of sending information to SaltOS is to use the latest technologies, to do it, we are using restful request
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] GET with REST:
+  \begin{compactitem}
+  \item[\color{myblue}$\bullet$] An example request: `\htmladdnormallink{https://host/?/app/invoices/view/2}{https://host/?/app/invoices/view/2}`
+  \item[\color{myblue}$\bullet$] `@rest/0` = app
+  \item[\color{myblue}$\bullet$] `@rest/1` = invoices
+  \item[\color{myblue}$\bullet$] `@rest/2` = view
+  \item[\color{myblue}$\bullet$] `@rest/3` = 2
+  \end{compactitem}
+\item[\color{myblue}$\bullet$] POST with JSON:
+  \begin{compactitem}
+  \item[\color{myblue}$\bullet$] An example request: `\htmladdnormallink{https://host/?/app/invoices/insert}{https://host/?/app/invoices/insert}`
+  \item[\color{myblue}$\bullet$] Use `Content-Type: application/json`
+  \item[\color{myblue}$\bullet$] Body parsed into `@json/...`
+  \end{compactitem}
+\end{compactitem}
+
+\hypertarget{toc10}{}
+\subsubsection{Command-line access (CLI)}
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] `php api/index.php app/customers/view/100`
+\item[\color{myblue}$\bullet$] `user=admin php api/index.php app/customers/view/100`
+\item[\color{myblue}$\bullet$] `cat data.json $|$ user=admin php app/customers/insert`
+\end{compactitem}
+
+
+\hypertarget{toc11}{}
+\section{Frontend Structure (web/)}
+
+Frontend is a JavaScript SPA in the `web/` folder.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] `index.htm`: loads Bootstrap, SaltOS scripts
+\item[\color{myblue}$\bullet$] `web/js/`: client-side modules
+\item[\color{myblue}$\bullet$] `web/lib/`: JS libraries
+\end{compactitem}
+
+JavaScript Modules:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] `app.js`: * Application helper module
+\item[\color{myblue}$\bullet$] `auth.js`: * Authentication helper module
+\item[\color{myblue}$\bullet$] `backup.js`: * Backup \& Autosave helper module
+\item[\color{myblue}$\bullet$] `bootstrap.js`: * Bootstrap helper module
+\item[\color{myblue}$\bullet$] `common.js`: * Common helper module
+\item[\color{myblue}$\bullet$] `core.js`: * Core helper module
+\item[\color{myblue}$\bullet$] `driver.js`: * Driver module
+\item[\color{myblue}$\bullet$] `filter.js`: * Filter module
+\item[\color{myblue}$\bullet$] `form.js`: * Form helper module
+\item[\color{myblue}$\bullet$] `gettext.js`: * Gettext helper module
+\item[\color{myblue}$\bullet$] `hash.js`: * Hash helper module
+\item[\color{myblue}$\bullet$] `object.js`: * Object helper module
+\item[\color{myblue}$\bullet$] `proxy.js`: * Proxy module
+\item[\color{myblue}$\bullet$] `push.js`: * Push \& favicon helper module
+\item[\color{myblue}$\bullet$] `storage.js`: * Token helper module
+\item[\color{myblue}$\bullet$] `token.js`: * Token helper module
+\item[\color{myblue}$\bullet$] `window.js`: * Window helper module
+\end{compactitem}
+
+\hypertarget{toc12}{}
+\subsection{Frontend Deployment}
+
+To use SaltOS4 from the browser:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Publish `web/`
+\item[\color{myblue}$\bullet$] Create symbolic links inside `web/`:
+  \begin{compactitem}
+  \item[\color{myblue}$\bullet$] `apps/` → application resources
+  \item[\color{myblue}$\bullet$] `api/` → backend
+  \end{compactitem}
+\item[\color{myblue}$\bullet$] Inside `api/`, symbolic links to:
+  \begin{compactitem}
+  \item[\color{myblue}$\bullet$] `data/` → file storage
+  \item[\color{myblue}$\bullet$] `apps/` → app definitions
+  \end{compactitem}
+\end{compactitem}
+
+
+\hypertarget{toc13}{}
+\section{Application System}
+
+Applications in SaltOS4 are modular, defined in folders under `apps/`.
+
+Each folder may contain:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] `xml/manifest.xml`: declares the apps
+\item[\color{myblue}$\bullet$] `xml/*.xml` or `xml/*.yaml`: application definitions
+\item[\color{myblue}$\bullet$] `php/`, `js/`, `locale/`: optional logic and translations
+\item[\color{myblue}$\bullet$] `dbschema.xml`, `dbstatic.xml`: database structure and static content
+\end{compactitem}
+
+\hypertarget{toc14}{}
+\subsection{YAML-based Apps}
+
+SaltOS4 supports YAML for fast app declarations using the common template logic.
+
+\hypertarget{toc15}{}
+\subsubsection{tokenslog.yaml}
+
+\begin{lstlisting}
+app: tokenslog
+require: apps/common/php/default.php
+template: apps/common/xml/default.xml
+indent: true
+screen: type2
+list:
+    # [id, type, label]
+    - [user_id, select, User]
+    - [created_at, text, Created]
+    - [token, text, Token]
+    - [active, boolean, Active]
+form:
+    # [id, type, label]
+    - [active, switch, Active]
+    - [user_id, select, User]
+    - [created_at, datetime, Created]
+    - [updated_at, datetime, Updated]
+    - [remote_addr, text, Remote Addres]
+    - [user_agent, text, User Agent]
+    - [token, text, Token]
+    - [expires_at, datetime, Expires]
+select:
+    # [id, table, optional field]
+    - [user_id, tbl_users]
+\end{lstlisting}
+
+\hypertarget{toc16}{}
+\subsubsection{configlog.yaml}
+
+\begin{lstlisting}
+app: configlog
+require: apps/common/php/default.php
+template: apps/common/xml/default.xml
+indent: true
+screen: type2
+list:
+    # [id, type, label]
+    - [user_id, select, User]
+    - [key, text, Key]
+form:
+    # [id, type, label]
+    - [user_id, select, User]
+    - [key, text, Key]
+    - [val, codemirror, Value]
+select:
+    # [id, table, optional field]
+    - [user_id, tbl_users]
+attr:
+    # field:
+    #   attr: value
+    key:
+        required: true
+        autofocus: true
+    val:
+        required: true
+        mode: json
+        indent: true
+\end{lstlisting}
+
+\hypertarget{toc17}{}
+\subsubsection{types.yaml}
+
+\begin{lstlisting}
+app: types
+require: apps/common/php/default.php
+template: apps/common/xml/default.xml
+indent: true
+screen: type5
+list:
+    # [id, type, label]
+    - [name, text, Name]
+    - [description, text, Description]
+    - [active, boolean, Active]
+form:
+    # [id, type, label]
+    - [active, switch, Active]
+    - [name, text, Name]
+    - [description, textarea, Description]
+attr:
+    # field:
+    #   attr: value
+    name:
+        required: true
+        autofocus: true
+    description:
+        required: true
+\end{lstlisting}
+
+These examples demonstrate the simplicity of defining apps in YAML.
+
+\hypertarget{toc18}{}
+\subsection{XML-based Complex Apps}
+
+SaltOS4 also allows full custom apps defined in XML, often used for more complex business logic and interface customization.
+
+\hypertarget{toc19}{}
+\subsubsection{customers.xml}
+
+This file contains the follow important nodes:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] `$<$main$>$`: Defines a call to app/customers/main that returns the screen type, literals, and the navbar specification
+\item[\color{myblue}$\bullet$] `$<$list default="true"$>$`: Defines a call to app/customers/list that returns a cache load from app/customers/list/cache
+\item[\color{myblue}$\bullet$] `$<$list id="cache"$>$`: Defines a call to app/customers/list/cache that returns the interface of a list screen
+\item[\color{myblue}$\bullet$] `$<$list id="data"$>$`: Defines a call to app/customers/list/data that returns the data of a list
+\item[\color{myblue}$\bullet$] `$<$\_form$>$`: This defines a form, there is no way to access it externally, it is for internal use
+\item[\color{myblue}$\bullet$] `$<$\_data require="php/lib/log.php" eval="true"$>$`: This defines a data block of a detail view, not accessible externally, intended for internal use
+\item[\color{myblue}$\bullet$] `$<$create$>$`: Defines a call to app/customers/create that returns a cache load from app/customers/create/cache
+\item[\color{myblue}$\bullet$] `$<$create id="cache"$>$`: Defines a call to app/customers/create/cache that returns the interface of a creation screen
+\item[\color{myblue}$\bullet$] `$<$create id="insert"$>$`: Defines a call to app/customers/insert that allows inserting a record and returns the status
+\item[\color{myblue}$\bullet$] `$<$view$>$`: Defines a call to app/customers/view that returns a cache load from app/customers/view/cache
+\item[\color{myblue}$\bullet$] `$<$view id="cache"$>$`: Defines a call to app/customers/view/cache that returns the interface of a creation screen
+\item[\color{myblue}$\bullet$] `$<$edit$>$`: Defines a call to app/customers/edit that returns a cache load from app/customers/edit/cache
+\item[\color{myblue}$\bullet$] `$<$edit id="cache"$>$`: Defines a call to app/customers/edit/cache that returns the interface of a creation screen
+\item[\color{myblue}$\bullet$] `$<$edit id="update"$>$`: Defines a call to app/customers/update that allows updating a record and returns the status
+\item[\color{myblue}$\bullet$] `$<$delete$>$`: Defines a call to app/customers/delete that allows deleting a record and returns the status
+\item[\color{myblue}$\bullet$] `$<$action id="setup"$>$`: Defines a call to app/customers/setup that allows to execute the setup for this application
+\end{compactitem}
+
+
+\hypertarget{toc20}{}
+\section{Offline Support (Service Worker)}
+
+Handled in `proxy.js` + `core.js`:
+
+\begin{itemize}
+\item[\color{myblue}$\bullet$] Automatically registers in the browser
+\item[\color{myblue}$\bullet$] Acts as a proxy for fetch requests
+\item[\color{myblue}$\bullet$] Returns cached responses if offline
+\item[\color{myblue}$\bullet$] Queues write requests and syncs when online
+\item[\color{myblue}$\bullet$] Works transparently with core AJAX logic
+
+\end{itemize}
+
+% LaTeX2e code generated by txt2tags 3.4 (http://txt2tags.org)
+% cmdline: txt2tags --toc -t tex -i devel.t2t -o devel.tex
+\end{document}
