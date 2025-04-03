@@ -1083,9 +1083,10 @@ function getmail_body($id, $images = false)
  * such as missing data, and ensures that all information is presented in a structured
  * and readable format. HTML encoding is applied to ensure safe display within a web interface.
  *
- * @param array $decoded Decoded structure of the email, containing metadata and header information.
- * @param int $email_id ID of the email to retrieve additional account-specific details.
- * @return string Returns a formatted HTML string with the email header information.
+ * @decoded  => Decoded structure of the email, containing metadata and header information.
+ * @email_id => ID of the email to retrieve additional account-specific details.
+ *
+ * Returns a formatted HTML string with the email header information.
  */
 function __getmail_head_helper($decoded, $email_id)
 {

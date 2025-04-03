@@ -72,19 +72,19 @@ $jsonfile = array_shift($argv);
 
 // Prepare the json
 $json = json_decode(file_get_contents($jsonfile), true);
-$dict = [];
-foreach($json as $item) {
+$images = [];
+foreach ($json as $item) {
     $type = $item['type'];
-    if (isset($dict[$type])) {
+    if (isset($images[$type])) {
         continue;
     }
     $label = encode_bad_chars($item['label'], '-');
     $file = "ujest/snaps/test-bootstrap-js-bootstrap-$label-1-snap.png";
     if (file_exists($file)) {
-        $dict[$type] = $file;
+        $images[$type] = $file;
     }
 }
-//~ print_r($dict);
+//~ print_r($images);
 //~ die();
 
 // Get the source and process it
@@ -95,8 +95,8 @@ foreach ($buffer as $key => $val) {
     if (strncmp('saltos.bootstrap.__field.', $val, 25) === 0) {
         if ($buffer[$key - 1] == '```' && $buffer[$key + 1] == '```') {
             $type = strtok(substr($val, 25), ' ');
-            if (isset($dict[$type])) {
-                $buffer[$key + 2] = "\n[../{$dict[$type]}]\n";
+            if (isset($images[$type])) {
+                $buffer[$key + 2] = "\n[../{$images[$type]}]\n";
             }
         }
     }
