@@ -100,6 +100,7 @@ ifneq (,$(findstring api,$(file)))
 endif
 ifneq (,$(findstring web,$(file)))
 	php scripts/maket2t.php docs/web.t2t code/web/js
+	php scripts/imagest2t.php docs/web.t2t /tmp/tester.json
 	php scripts/makepdf.php docs/web.t2t
 	php scripts/makehtml.php docs/web.t2t
 endif

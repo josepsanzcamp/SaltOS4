@@ -66,6 +66,19 @@ $buffer2 = str_replace("\t", str_repeat(' ', 4), $buffer2);
 $buffer2 = str_replace('\\item', "\\item[\\color{myblue}\$\\bullet\$]", $buffer2);
 $buffer = array_merge($buffer0, $buffer1, $buffer2);
 $buffer = implode("\n", $buffer);
+// FIX FOR THE IMAGE POSITION
+$pos = strpos($buffer, "\\includegraphics{");
+while ($pos !== false) {
+    $pos2 = strpos($buffer, "}", $pos);
+    $data = substr($buffer, $pos + 17, $pos2 - $pos - 17);
+    $latex = "\\begin{center}\\includegraphics[width=0.5\\textwidth]{" . $data . "}\\end{center}";
+    if (isset($removeimages) && $removeimages) {
+        $latex = "";
+    }
+    $buffer = substr_replace($buffer, $latex, $pos, $pos2 - $pos + 1);
+    $pos = strpos($buffer, "\\includegraphics{", $pos);
+}
+// CONTINUE
 file_put_contents("${file}.tex", $buffer);
 for ($i = 0; $i < 3; $i++) {
     ob_passthru("pdflatex ${file}.tex");
