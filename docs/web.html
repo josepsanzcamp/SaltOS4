@@ -25,7 +25,7 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <header>
 <hgroup>
 <h1>Web Client Documentation</h1>
-<h2>SaltOS 4.0 r1929</h2>
+<h2>SaltOS 4.0 r1931</h2>
 <h3>April 2025</h3>
 </hgroup>
 </header>
@@ -579,11 +579,11 @@ pre{background-color:#e6e6e6;padding:5px 3px}
       </li>
       </ul>
     </li>
-    <li><a href="#toc261">1.13. Proxy module</a>
+    <li><a href="#toc261">1.13. SaltOS4 Proxy Service Worker</a>
       <ul>
-      <li><a href="#toc262">1.13.1. Console log</a>
+      <li><a href="#toc262">1.13.1. Broadcast console log to all active tabs</a>
       </li>
-      <li><a href="#toc263">1.13.2. Debug function</a>
+      <li><a href="#toc263">1.13.2. Build formatted console debug output</a>
       </li>
       <li><a href="#toc264">1.13.3. Proxy function</a>
       </li>
@@ -6866,64 +6866,80 @@ This object contains all SaltOS code
 </section>
 </section>
 <section id="toc261">
-<h2>1.13. Proxy module</h2>
+<h2>1.13. SaltOS4 Proxy Service Worker</h2>
 
 <pre>
 web/js/proxy.js
 </pre>
 
 <p>
-This module provides a service worker that acts as a proxy, it uses the headers
-requests to understand what kind of thing the request needs and tries to do
-it with the more better manner.
+This module implements a service worker that acts as a network proxy.
+It intercepts all fetch requests and uses request headers to determine
+the appropriate behavior:
+</p>
+
+<ul>
+<li>Serve from cache when available
+</li>
+<li>Fetch from network if necessary
+</li>
+<li>Queue write operations (e.g. POST) when offline
+</li>
+<li>Synchronize queued writes once reconnected
+</li>
+</ul>
+
+<p>
+All logic integrates transparently with the frontend’s AJAX layer.
 </p>
 
 <section id="toc262">
-<h3>1.13.1. Console log</h3>
+<h3>1.13.1. Broadcast console log to all active tabs</h3>
 
 <pre>
 const console_log = (message)
 </pre>
 
 <p>
-This function only apply as console.log replacement for debug purposes
+This function acts as a replacement for `console.log()` inside the service worker.
+Because some browsers suppress service worker logs, this sends the message
+to all connected clients using `postMessage`.
 </p>
 
 <ul>
-<li>@message =&gt; the message that you want to send to the console
+<li>@message =&gt; The debug message to be shown in the client console.
 </li>
 </ul>
 
-<p>
-Notes:
-</p>
-<p>
-This function send a message to all clients and exists because in some cases
-the console.log not apply for service workers, this is a simple and quick
-solution for help in the debug process
-</p>
-
 </section>
 <section id="toc263">
-<h3>1.13.2. Debug function</h3>
+<h3>1.13.2. Build formatted console debug output</h3>
 
 <pre>
 const debug = (action, url, type, duration, size)
 </pre>
 
 <p>
-This function returns an array with the needed things to print into a console.log
-the fetch message with the url, the response type and the duration of the task
+Prepares a styled debug message with action type, duration, and response size.
+Output is designed for `console_log(...)`, not direct logging.
 </p>
 
 <ul>
-<li>@url      =&gt; url of the request
+<li>@action   =&gt; Action type (GET, POST, etc.)
 </li>
-<li>@type     =&gt; type of the request (network, cache or error)
+<li>@url      =&gt; URL of the request
 </li>
-<li>@duration =&gt; duration of the entire task in milliseconds
+<li>@type     =&gt; Result source: 'network', 'cache', 'queue', or 'error'
+</li>
+<li>@duration =&gt; Time taken in milliseconds
+</li>
+<li>@size     =&gt; Size of the response in bytes
 </li>
 </ul>
+
+<p>
+Returns the formatted message and styling for `console.log(...)`
+</p>
 
 </section>
 <section id="toc264">

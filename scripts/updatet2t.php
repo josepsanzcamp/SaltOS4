@@ -27,13 +27,14 @@ chdir($outdir);
 $rev = intval(ob_passthru('svnversion'));
 $date = date('F Y');
 
-// Get the source
+// Get the source and process it
 $buffer = file_get_contents($outfile);
+$hash1 = md5($buffer);
 $buffer = explode("\n", $buffer);
 $buffer[1] = "SaltOS 4.0 r$rev";
 $buffer[2] = $date;
 $buffer = implode("\n", $buffer);
-
-// Write the t2t file
-file_put_contents($outfile, $buffer);
-//~ die();
+$hash2 = md5($buffer);
+if ($hash1 != $hash2) {
+    file_put_contents($outfile, $buffer);
+}

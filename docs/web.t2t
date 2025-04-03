@@ -1,5 +1,5 @@
 Web Client Documentation
-SaltOS 4.0 r1929
+SaltOS 4.0 r1931
 April 2025
 
 
@@ -4036,47 +4036,55 @@ const saltos = {};
 This object contains all SaltOS code
 
 
-++Proxy module++
+++SaltOS4 Proxy Service Worker++
 
 ```
 web/js/proxy.js
 ```
 
-This module provides a service worker that acts as a proxy, it uses the headers
-requests to understand what kind of thing the request needs and tries to do
-it with the more better manner.
+This module implements a service worker that acts as a network proxy.
+It intercepts all fetch requests and uses request headers to determine
+the appropriate behavior:
+
+- Serve from cache when available
+- Fetch from network if necessary
+- Queue write operations (e.g. POST) when offline
+- Synchronize queued writes once reconnected
 
 
-+++Console log+++
+All logic integrates transparently with the frontend’s AJAX layer.
+
+
++++Broadcast console log to all active tabs+++
 
 ```
 const console_log = (message)
 ```
 
-This function only apply as console.log replacement for debug purposes
+This function acts as a replacement for `console.log()` inside the service worker.
+Because some browsers suppress service worker logs, this sends the message
+to all connected clients using `postMessage`.
 
-- @message => the message that you want to send to the console
-
-
-Notes:
-
-This function send a message to all clients and exists because in some cases
-the console.log not apply for service workers, this is a simple and quick
-solution for help in the debug process
+- @message => The debug message to be shown in the client console.
 
 
-+++Debug function+++
++++Build formatted console debug output+++
 
 ```
 const debug = (action, url, type, duration, size)
 ```
 
-This function returns an array with the needed things to print into a console.log
-the fetch message with the url, the response type and the duration of the task
+Prepares a styled debug message with action type, duration, and response size.
+Output is designed for `console_log(...)`, not direct logging.
 
-- @url      => url of the request
-- @type     => type of the request (network, cache or error)
-- @duration => duration of the entire task in milliseconds
+- @action   => Action type (GET, POST, etc.)
+- @url      => URL of the request
+- @type     => Result source: 'network', 'cache', 'queue', or 'error'
+- @duration => Time taken in milliseconds
+- @size     => Size of the response in bytes
+
+
+Returns the formatted message and styling for `console.log(...)`
 
 
 +++Proxy function+++

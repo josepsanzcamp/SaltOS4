@@ -90,24 +90,40 @@ else # libs=lib[,lib,lib]
 endif
 
 docs:
+ifeq ($(file),)
+	$(MAKE) docs file=api,web,apps,utest,ujest,devel
+else
+ifneq (,$(findstring api,$(file)))
 	php scripts/maket2t.php docs/api.t2t code/api/php
 	php scripts/makepdf.php docs/api.t2t
 	php scripts/makehtml.php docs/api.t2t
+endif
+ifneq (,$(findstring web,$(file)))
 	php scripts/maket2t.php docs/web.t2t code/web/js
 	php scripts/makepdf.php docs/web.t2t
 	php scripts/makehtml.php docs/web.t2t
+endif
+ifneq (,$(findstring apps,$(file)))
 	php scripts/maket2t.php docs/apps.t2t code/apps/*/php code/apps/*/js
 	php scripts/makepdf.php docs/apps.t2t
 	php scripts/makehtml.php docs/apps.t2t
+endif
+ifneq (,$(findstring utest,$(file)))
 	php scripts/maket2t.php docs/utest.t2t utest/
 	php scripts/makepdf.php docs/utest.t2t
 	php scripts/makehtml.php docs/utest.t2t
+endif
+ifneq (,$(findstring ujest,$(file)))
 	php scripts/maket2t.php docs/ujest.t2t ujest/
 	php scripts/makepdf.php docs/ujest.t2t
 	php scripts/makehtml.php docs/ujest.t2t
+endif
+ifneq (,$(findstring devel,$(file)))
 	php scripts/updatet2t.php docs/devel.t2t
 	php scripts/makepdf.php docs/devel.t2t
 	php scripts/makehtml.php docs/devel.t2t
+endif
+endif
 
 check:
 	@echo -e "$(YELLOW)Directories:$(NONE)"

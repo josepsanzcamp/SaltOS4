@@ -25,7 +25,7 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <header>
 <hgroup>
 <h1>Devel Documentation</h1>
-<h2>SaltOS 4.0 r1930</h2>
+<h2>SaltOS 4.0 r1931</h2>
 <h3>April 2025</h3>
 </hgroup>
 </header>
@@ -36,78 +36,126 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 
   <ul>
   <li><a href="#toc1">1. Introduction</a>
-  </li>
-  <li><a href="#toc2">2. Backend Structure &amp; API (api/)</a>
     <ul>
-    <li><a href="#toc3">2.1. Autoloaded Modules (`php/autoload/`)</a>
+    <li><a href="#toc2">1.1. Advanced System Features</a>
     </li>
-    <li><a href="#toc4">2.2. Database Drivers (`php/database/`)</a>
+    <li><a href="#toc3">1.2. Project Structure</a>
     </li>
-    <li><a href="#toc5">2.3. Libraries (`php/lib/`)</a>
+    <li><a href="#toc4">1.3. Code Directory</a>
     </li>
-    <li><a href="#toc6">2.4. Action Modules (`php/action/`)</a>
+    <li><a href="#toc5">1.4. Data Directory</a>
     </li>
-    <li><a href="#toc7">2.5. Other API Components</a>
+    </ul>
+  </li>
+  <li><a href="#toc6">2. Backend Structure (api/)</a>
+    <ul>
+    <li><a href="#toc7">2.1. Autoloaded Modules (`php/autoload/`)</a>
     </li>
-    <li><a href="#toc8">2.6. API Access</a>
+    <li><a href="#toc8">2.2. Database Drivers (`php/database/`)</a>
+    </li>
+    <li><a href="#toc9">2.3. Libraries (`php/lib/`)</a>
+    </li>
+    <li><a href="#toc10">2.4. Action Modules (`php/action/`)</a>
+    </li>
+    <li><a href="#toc11">2.5. Other API Components</a>
+    </li>
+    <li><a href="#toc12">2.6. API Access</a>
       <ul>
-      <li><a href="#toc9">2.6.1. Web server access (Apache, Nginx, Cherokee)</a>
+      <li><a href="#toc13">2.6.1. Web server access (Apache, Nginx, Cherokee)</a>
       </li>
-      <li><a href="#toc10">2.6.2. Command-line access (CLI)</a>
+      <li><a href="#toc14">2.6.2. Command-line access (CLI)</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc15">2.7. API Authentication</a>
+      <ul>
+      <li><a href="#toc16">2.7.1. HTTP Access</a>
+      </li>
+      <li><a href="#toc17">2.7.2. CLI Access</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc11">3. Frontend Structure (web/)</a>
+  <li><a href="#toc18">3. Frontend Structure (web/)</a>
     <ul>
-    <li><a href="#toc12">3.1. Frontend Deployment</a>
+    <li><a href="#toc19">3.1. Frontend Deployment</a>
     </li>
-    </ul>
-  </li>
-  <li><a href="#toc13">4. Application System</a>
-    <ul>
-    <li><a href="#toc14">4.1. YAML-based Apps</a>
+    <li><a href="#toc20">3.2. Offline Support (Service Worker)</a>
+    </li>
+    <li><a href="#toc21">3.3. Proxy Service Worker Internals</a>
+    </li>
+    <li><a href="#toc22">Structure Overview</a>
+    </li>
+    <li><a href="#toc23">3.4. Frontend Authentication</a>
       <ul>
-      <li><a href="#toc15">4.1.1. tokenslog.yaml</a>
+      <li><a href="#toc24">3.4.1. Core Auth Module</a>
       </li>
-      <li><a href="#toc16">4.1.2. configlog.yaml</a>
-      </li>
-      <li><a href="#toc17">4.1.3. types.yaml</a>
+      <li><a href="#toc25">3.4.2. Login Workflow</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc18">4.2. XML-based Complex Apps</a>
+    <li><a href="#toc26">3.5. Frontend Build System</a>
       <ul>
-      <li><a href="#toc19">4.2.1. customers.xml</a>
+      <li><a href="#toc27">3.5.1. Overview of Modes</a>
+      </li>
+      <li><a href="#toc28">3.5.2. Build Process with Makefile</a>
       </li>
       </ul>
     </li>
+    <li><a href="#toc29">Web Directory Overview</a>
+    </li>
+    <li><a href="#toc30">Comparison Table</a>
+    </li>
     </ul>
   </li>
-  <li><a href="#toc20">5. Offline Support (Service Worker)</a>
-  </li>
-  <li><a href="#toc21">6. Makefile Overview</a>
+  <li><a href="#toc31">4. Application System</a>
     <ul>
-    <li><a href="#toc22">6.1. Build Targets</a>
+    <li><a href="#toc32">4.1. YAML-based Apps</a>
+      <ul>
+      <li><a href="#toc33">4.1.1. tokenslog.yaml</a>
+      </li>
+      <li><a href="#toc34">4.1.2. configlog.yaml</a>
+      </li>
+      <li><a href="#toc35">4.1.3. types.yaml</a>
+      </li>
+      </ul>
     </li>
-    <li><a href="#toc23">6.2. Documentation</a>
+    <li><a href="#toc36">4.2. XML-based Complex Apps</a>
+      <ul>
+      <li><a href="#toc37">4.2.1. customers.xml</a>
+      </li>
+      </ul>
     </li>
-    <li><a href="#toc24">6.3. Testing</a>
+    <li><a href="#toc38">4.3. Available Layouts Type1 To Type5</a>
     </li>
-    <li><a href="#toc25">6.4. Environment Checks</a>
+    <li><a href="#toc39">4.4. Data Model using dbschema.xml</a>
     </li>
-    <li><a href="#toc26">6.5. Dependency Management</a>
-    </li>
-    <li><a href="#toc27">6.6. Code Statistics</a>
-    </li>
-    <li><a href="#toc28">6.7. System Setup</a>
-    </li>
-    <li><a href="#toc29">6.8. System Actions</a>
+    <li><a href="#toc40">4.5. Static Data using dbstatic.xml</a>
     </li>
     </ul>
   </li>
-  <li><a href="#toc30">7. Script Directory Overview</a>
+  <li><a href="#toc41">5. Makefile Overview</a>
+    <ul>
+    <li><a href="#toc42">5.1. Build Targets</a>
+    </li>
+    <li><a href="#toc43">5.2. Documentation</a>
+    </li>
+    <li><a href="#toc44">5.3. Testing</a>
+    </li>
+    <li><a href="#toc45">5.4. Environment Checks</a>
+    </li>
+    <li><a href="#toc46">5.5. Dependency Management</a>
+    </li>
+    <li><a href="#toc47">5.6. Code Statistics</a>
+    </li>
+    <li><a href="#toc48">5.7. System Setup</a>
+    </li>
+    <li><a href="#toc49">5.8. System Actions</a>
+    </li>
+    <li><a href="#toc50">5.9. Script Directory Overview</a>
+    </li>
+    </ul>
   </li>
   </ul>
 
@@ -144,15 +192,117 @@ It is composed of:
 </li>
 </ul>
 
-</section>
 <section id="toc2">
-<h1>2. Backend Structure &amp; API (api/)</h1>
+<h2>1.1. Advanced System Features</h2>
+
+<p>
+SaltOS4 includes two key functionalities that stand out for their utility and focus on traceability:
+</p>
+
+<ul>
+<li>Version traceability of records: Each modification in application data generates a new version of the record, maintaining a complete change history, similar to version control systems like Subversion or Git.
+</li>
+<li>Data access logging: The system records who accessed a piece of data, from where, and in what context (e.g., if it was shown in a list or form). This provides full auditability of data usage and consultation.
+</li>
+</ul>
+
+</section>
+<section id="toc3">
+<h2>1.2. Project Structure</h2>
+
+<p>
+The root directory of SaltOS4 is organized as follows:
+</p>
+
+<ul>
+<li>`README.md`: Provides an overview and quick-start instructions for the project.
+</li>
+<li>`LICENSE.md`: Text of the open-source license under which SaltOS4 is released.
+</li>
+<li>`makefile`: Automates repetitive development tasks, such as generating documentation using the scripts in `scripts/`.
+</li>
+<li>`code/`: Contains the full source code of the system, split into backend (PHP) and frontend (JavaScript) modules.
+</li>
+<li>`docs/`: Documentation files written in `.t2t` format, including generated outputs (`.pdf`, `.html`) and the source files used to build them.
+</li>
+<li>`scripts/`: Collection of PHP utilities that extract documentation from code comments, produce `.t2t`, `.pdf`, or `.html` outputs and more...
+</li>
+<li>`ujest/`: JavaScript unit tests using Jest.
+</li>
+<li>`utest/`: PHP unit tests using PHPUnit.
+</li>
+</ul>
+
+<p>
+This structure keeps the system cleanly separated between source code, documentation, automation, and testing components.
+</p>
+
+</section>
+<section id="toc4">
+<h2>1.3. Code Directory</h2>
+
+<p>
+The `code/` directory contains the source code and runtime data of SaltOS4, structured as follows:
+</p>
+
+<ul>
+<li>`api/`: Backend core written in PHP. Handles REST endpoints, internal services, and logic.
+</li>
+<li>`apps/`: Application modules. Each app includes its own backend, frontend, and configuration (PHP, JS, XML).
+</li>
+<li>`data/`: Stores persistent and temporary data generated by the system, such as files, images, downloaded or sent emails, cache, and temp files.
+</li>
+<li>`web/`: Frontend resources — primarily JavaScript and CSS — used in the browser interface.
+</li>
+</ul>
+
+<p>
+This structure supports both application logic and data flow across the SaltOS4 system.
+</p>
+
+</section>
+<section id="toc5">
+<h2>1.4. Data Directory</h2>
+
+<p>
+SaltOS4 stores runtime and persistent data under the `data/` directory. This folder contains several subdirectories used for caching, file storage, logging, and background task management. It is essential for the proper operation of the system.
+</p>
+
+<ul>
+<li>`cache/`: Stores cached data to improve performance.
+</li>
+<li>`cron/`: Contains execution records and temporary files for scheduled tasks.
+</li>
+<li>`files/`: Persistent file storage used by applications.
+</li>
+<li>`inbox/`: Incoming data such as fetched emails.
+</li>
+<li>`logs/`: Application and system logs.
+</li>
+<li>`outbox/`: Outgoing data, such as email messages.
+</li>
+<li>`temp/`: Temporary files used during various operations.
+</li>
+<li>`trash/`: Items marked as deleted but not permanently removed.
+</li>
+<li>`upload/`: Staging area for newly uploaded files before they are processed.
+</li>
+</ul>
+
+<p>
+Make sure this directory is writable by the web server and CLI user.
+</p>
+
+</section>
+</section>
+<section id="toc6">
+<h1>2. Backend Structure (api/)</h1>
 
 <p>
 The backend is under the `api/` folder and contains four folders (autoload, database, lib and actions) to organize the code depending their usage and functionality.
 </p>
 
-<section id="toc3">
+<section id="toc7">
 <h2>2.1. Autoloaded Modules (`php/autoload/`)</h2>
 
 <p>
@@ -225,7 +375,7 @@ Core functions automatically loaded on each request:
 </ul>
 
 </section>
-<section id="toc4">
+<section id="toc8">
 <h2>2.2. Database Drivers (`php/database/`)</h2>
 
 <p>
@@ -248,7 +398,7 @@ Supports:
 </ul>
 
 </section>
-<section id="toc5">
+<section id="toc9">
 <h2>2.3. Libraries (`php/lib/`)</h2>
 
 <p>
@@ -327,7 +477,7 @@ Not autoloaded; provide extra functionality:
 </ul>
 
 </section>
-<section id="toc6">
+<section id="toc10">
 <h2>2.4. Action Modules (`php/action/`)</h2>
 
 <p>
@@ -362,7 +512,7 @@ Handle concrete system actions (CLI-aware where needed):
 </ul>
 
 </section>
-<section id="toc7">
+<section id="toc11">
 <h2>2.5. Other API Components</h2>
 
 <ul>
@@ -393,14 +543,14 @@ Handle concrete system actions (CLI-aware where needed):
 </ul>
 
 </section>
-<section id="toc8">
+<section id="toc12">
 <h2>2.6. API Access</h2>
 
 <p>
 SaltOS4 supports access via HTTP or CLI.
 </p>
 
-<section id="toc9">
+<section id="toc13">
 <h3>2.6.1. Web server access (Apache, Nginx, Cherokee)</h3>
 
 <p>
@@ -435,7 +585,7 @@ The main idea of sending information to SaltOS is to use the latest technologies
 </ul>
 
 </section>
-<section id="toc10">
+<section id="toc14">
 <h3>2.6.2. Command-line access (CLI)</h3>
 
 <ul>
@@ -449,8 +599,105 @@ The main idea of sending information to SaltOS is to use the latest technologies
 
 </section>
 </section>
+<section id="toc15">
+<h2>2.7. API Authentication</h2>
+
+<p>
+SaltOS4 implements token-based authentication for both HTTP and CLI access. The authentication logic is handled by `auth.php`, which delegates to utility functions in `php/lib/auth.php`. Tokens are validated based on IP address and user agent.
+</p>
+<p>
+Supported authentication actions:
+</p>
+
+<ul>
+<li>`auth/login`: Authenticates a user using `user` and `pass` (JSON fields). Returns a token and user metadata.
+</li>
+<li>`auth/check`: Validates the current token.
+</li>
+<li>`auth/logout`: Invalidates the current token and ends the session.
+</li>
+<li>`auth/update`: Changes the password of the currently authenticated user.
+</li>
+</ul>
+
+<p>
+Each request is handled in `api/php/action/auth.php`, which delegates to utility functions defined in `php/lib/auth.php`.
+</p>
+<p>
+The token is associated with the client IP address and user-agent to prevent misuse. Internally, `current_token()` retrieves the token from the request and validates it against stored sessions.
+</p>
+
+<section id="toc16">
+<h3>2.7.1. HTTP Access</h3>
+
+<p>
+Users authenticate by calling the `auth/login` endpoint with a JSON payload and receive a token in response. This token must be included in subsequent requests using the `Authorization` header.
+</p>
+<p>
+Example of authenticating via `curl`:
+</p>
+
+<pre>
+curl -X POST https://yourdomain/api/auth/login \
+    -H "Content-Type: application/json" \
+    -d '{"user":"admin", "pass":"secret"}'
+</pre>
+
+<p>
+Once authenticated, subsequent requests must include the token using a header:
+</p>
+
+<pre>
+curl https://yourdomain/api/app/yourapp/list \
+    -H "Authorization: Bearer your-token-goes-here"
+</pre>
+
+<p>
+The backend automatically links the token to the user and group using functions from `autoload/user.php`. Permissions are enforced using `autoload/perms.php`, which determines whether a user can perform a given action on a given application or record.
+</p>
+
 </section>
-<section id="toc11">
+<section id="toc17">
+<h3>2.7.2. CLI Access</h3>
+
+<p>
+Authentication also works from the command line using the same API structure. Credentials are provided as JSON via stdin, and the result is a token.
+</p>
+<p>
+Example::
+</p>
+
+<pre>
+echo '{"user":"admin","pass":"secret"}' | php index.php auth/login
+</pre>
+
+<p>
+Subsequent authenticated requests use the token as an environment variable:
+</p>
+
+<pre>
+token=your-token php index.php app/customers/list
+</pre>
+
+<p>
+Alternatively, if the user executing the PHP script is the owner of the `index.php` file, the token is not required. You can specify the user directly:
+</p>
+<p>
+Example::
+</p>
+
+<pre>
+user=admin php index.php app/customers/list
+</pre>
+
+<p>
+This shortcut is only allowed for the instance owner. Other system users must use token-based authentication to prevent privilege escalation.
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc18">
 <h1>3. Frontend Structure (web/)</h1>
 
 <p>
@@ -507,7 +754,7 @@ JavaScript Modules:
 </li>
 </ul>
 
-<section id="toc12">
+<section id="toc19">
 <h2>3.1. Frontend Deployment</h2>
 
 <p>
@@ -536,8 +783,310 @@ To use SaltOS4 from the browser:
 </ul>
 
 </section>
+<section id="toc20">
+<h2>3.2. Offline Support (Service Worker)</h2>
+
+<p>
+SaltOS4 includes a service worker defined in `js/proxy.js` that transparently enables offline support and network optimization.
+</p>
+<p>
+Main features:
+</p>
+
+<ul>
+<li>Intercepts all `fetch` requests and serves them from cache when offline.
+</li>
+<li>Queues write operations (e.g., POST) and synchronizes them when the network is restored.
+</li>
+<li>Integrates with the core AJAX layer (`core.js`) without requiring changes in application logic.
+</li>
+<li>Logs operations (network, cache, queue, error) using visual debug tools.
+</li>
+<li>Handles smart caching and fallback behavior depending on the request type.
+</li>
+</ul>
+
+<p>
+This proxy mechanism ensures a responsive and resilient user experience even under unreliable network conditions.
+</p>
+
 </section>
-<section id="toc13">
+<section id="toc21">
+<h2>3.3. Proxy Service Worker Internals</h2>
+
+<p>
+The file `js/proxy.js` implements the service worker used by SaltOS4 to act as a network proxy for frontend requests. It includes debugging utilities, a request handler, and caching logic.
+</p>
+
+</section>
+<section id="toc22">
+<h2>Structure Overview</h2>
+
+<p>
+The script is written in strict mode and organized as follows:
+</p>
+
+  <ul>
+  <li><strong>Banner and License Header</strong>: ASCII logo and GPL license.
+  </li>
+  <li><strong>`console_log(message)`</strong>:
+    <ul>
+    <li>Sends debug messages to all connected clients.
+    </li>
+    <li>Used instead of `console.log()` because some browsers suppress SW logs.
+    </li>
+    </ul>
+  </li>
+  <li><strong>`debug(action, url, type, duration, size)`</strong>:
+    <ul>
+    <li>Prepares styled debug output showing request type (`network`, `cache`, `queue`, `error`), duration, and response size.
+    <p></p>
+The actual request handling logic (not fully shown here) includes:
+    <p></p>
+    </li>
+    </ul>
+  </li>
+  <li>`fetch` event listener:
+    <ul>
+    <li>Intercepts all network requests.
+    </li>
+    <li>Uses headers to determine cache strategy or fallback behavior.
+    </li>
+    <li>Responds from cache or fetches from the network, optionally logging each action.
+    <p></p>
+== Cache Strategies ==
+    <p></p>
+Although not all logic is visible in the current excerpt, the structure suggests support for:
+    <p></p>
+    </li>
+    </ul>
+  </li>
+  <li>Smart caching based on headers or resource types.
+  </li>
+  <li>Differentiated handling of errors, including timeouts or unreachable hosts.
+  </li>
+  <li>Possible queuing or offline fallback for POST/PUT operations.
+  <p></p>
+== Debugging Support ==
+  <p></p>
+Service worker debug output is enhanced via:
+  <p></p>
+  </li>
+  <li>`console_log(...)`: forwards logs to browser clients.
+  </li>
+  <li>`debug(...)`: shows color-coded summaries in the browser console, including request method, duration, and source (cache/network).
+  <p></p>
+== Summary ==
+  <p></p>
+The proxy service worker plays a key role in SaltOS4’s offline capabilities and performance optimization. It acts intelligently based on request metadata and provides a robust debugging interface even when `console.log()` is unavailable in service workers.
+  </li>
+  </ul>
+
+</section>
+<section id="toc23">
+<h2>3.4. Frontend Authentication</h2>
+
+<p>
+SaltOS4 uses JavaScript modules to handle login and authentication on the client side. The core logic is implemented in `web/js/auth.js`, while the login form logic is defined in `apps/users/js/login.js`.
+</p>
+
+<section id="toc24">
+<h3>3.4.1. Core Auth Module</h3>
+
+<p>
+The `saltos.authenticate` module provides these functions:
+</p>
+
+<ul>
+<li>`authtoken(user, pass)`: Sends credentials to the backend (`auth/login`). If successful, stores the token using `saltos.token.set(...)`.
+</li>
+<li>`checktoken()`: Validates the current token by calling `auth/check`.
+</li>
+<li>`deauthtoken()`: Logs out the user and removes the token (`auth/logout`).
+</li>
+<li>`authupdate(old, new, renew)`: Changes the user's password (`auth/update`).
+</li>
+</ul>
+
+<p>
+These functions internally use `saltos.app.ajax(...)`, which wraps `saltos.core.ajax(...)` for simplified usage.
+</p>
+
+</section>
+<section id="toc25">
+<h3>3.4.2. Login Workflow</h3>
+
+<p>
+The `saltos.login.authenticate` function handles the login form:
+</p>
+
+<ul>
+<li>Validates that required fields are filled.
+</li>
+<li>Retrieves `user` and `pass` from the form.
+</li>
+<li>Calls `saltos.authenticate.authtoken(...)`.
+</li>
+<li>On failure, shows an error with `saltos.app.toast(...)`.
+</li>
+<li>On success:
+</li>
+<li>Redirects to `app/dashboard` if login was accessed directly.
+</li>
+<li>Triggers the global event `saltos.app.login`.
+</li>
+</ul>
+
+<p>
+This flow enables seamless login via the web UI while leveraging the same token-based backend used for API and CLI access.
+</p>
+
+</section>
+</section>
+<section id="toc26">
+<h2>3.5. Frontend Build System</h2>
+
+<p>
+SaltOS4 provides two build modes for the frontend: production and development. These modes are designed to balance efficiency and ease of debugging, and they are automatically generated using the `make web` and `make devel` targets in the project’s `Makefile`.
+</p>
+
+<section id="toc27">
+<h3>3.5.1. Overview of Modes</h3>
+
+<ul>
+<li><strong>Production Mode (`make web`)</strong>:
+  <ul>
+  <li>Combines and minifies all JavaScript into `index.js`.
+  </li>
+  <li>Combines the service worker proxy and MD5 loader into `proxy.js`.
+  </li>
+  <li>Generates a minified `index.htm` with `integrity` hashes and MD5-based cache busting.
+  </li>
+  <li>Loads minimal assets, optimized for performance and security.
+  </li>
+  </ul>
+</li>
+<li><strong>Development Mode (`make devel`)</strong>:
+  <ul>
+  <li>Loads all source files individually from the `js/` folder.
+  </li>
+  <li>Skips minification, hashing, and integrity checks.
+  </li>
+  <li>Generates an `index.htm` with expanded script references for direct debugging.
+  </li>
+  <li>`proxy.js` becomes a lightweight loader with `importScripts(...)`.
+  </li>
+  </ul>
+</li>
+</ul>
+
+</section>
+<section id="toc28">
+<h3>3.5.2. Build Process with Makefile</h3>
+
+<ul>
+<li>`make web`:
+  <ul>
+  <li>Uses scripts such as `fixpath.php`, `md5sum.php`, `uglifyjs`, `sha384.php`.
+  </li>
+  <li>Populates `index.htm` based on the `web/htm/index.htm` template, inserting hashes and integrity attributes.
+  </li>
+  </ul>
+</li>
+<li>`make devel`:
+  <ul>
+  <li>Uses `debug.php` to create a loader that references unminified files directly.
+  </li>
+  <li>Generates a simplified `proxy.js` pointing to the original sources.
+  </li>
+  </ul>
+</li>
+</ul>
+
+<p>
+Both modes are based on the same HTML loader template found in `web/htm/index.htm`, which is dynamically populated depending on the mode.
+</p>
+
+</section>
+</section>
+<section id="toc29">
+<h2>Web Directory Overview</h2>
+
+<ul>
+<li>`api/`: symlink to the backend API (`code/api`)
+</li>
+<li>`apps/`: symlink to application code (`code/apps`)
+</li>
+<li>`htm/`: loader templates for generating `index.htm`
+</li>
+<li>`img/`: interface images and logos
+</li>
+<li>`index.htm`: main entry point, minified in production, expanded in development
+</li>
+<li>`index.js`: combined JavaScript (production only)
+</li>
+<li>`index.js.map`: sourcemap for `index.js` (production only)
+</li>
+<li>`proxy.js`: combined service worker or loader depending on mode
+</li>
+<li>`proxy.js.map`: sourcemap (production only)
+</li>
+<li>`js/`: source JavaScript code
+</li>
+<li>`lib/`: third-party libraries
+</li>
+</ul>
+
+</section>
+<section id="toc30">
+<h2>Comparison Table</h2>
+
+<table class="tableborder">
+<tr>
+<td><strong>Feature</strong></td>
+<td><strong>Production Mode (`make web`)</strong></td>
+<td><strong>Development Mode (`make devel`)</strong></td>
+</tr>
+<tr>
+<td>Main JS</td>
+<td>Combined in `index.js`</td>
+<td>Loaded as individual source files</td>
+</tr>
+<tr>
+<td>Proxy</td>
+<td>Minified `proxy.js`</td>
+<td>Lightweight `importScripts(...)` loader</td>
+</tr>
+<tr>
+<td>HTML Loader</td>
+<td>Minified `index.htm` with `integrity`</td>
+<td>Expanded `index.htm` with raw script tags</td>
+</tr>
+<tr>
+<td>Integrity Check</td>
+<td>Enabled (SRI hashes)</td>
+<td>Disabled (empty `integrity` attributes)</td>
+</tr>
+<tr>
+<td>Cache Busting</td>
+<td>Enabled (MD5 hashes)</td>
+<td>Disabled</td>
+</tr>
+<tr>
+<td>Sourcemaps</td>
+<td>Included for debugging</td>
+<td>Uses original sources directly</td>
+</tr>
+<tr>
+<td>Goal</td>
+<td>Efficiency and security</td>
+<td>Debugging and development flexibility</td>
+</tr>
+</table>
+
+</section>
+</section>
+<section id="toc31">
 <h1>4. Application System</h1>
 
 <p>
@@ -558,14 +1107,14 @@ Each folder may contain:
 </li>
 </ul>
 
-<section id="toc14">
+<section id="toc32">
 <h2>4.1. YAML-based Apps</h2>
 
 <p>
 SaltOS4 supports YAML for fast app declarations using the common template logic.
 </p>
 
-<section id="toc15">
+<section id="toc33">
 <h3>4.1.1. tokenslog.yaml</h3>
 
 <pre>
@@ -596,7 +1145,7 @@ select:
 </pre>
 
 </section>
-<section id="toc16">
+<section id="toc34">
 <h3>4.1.2. configlog.yaml</h3>
 
 <pre>
@@ -630,7 +1179,7 @@ attr:
 </pre>
 
 </section>
-<section id="toc17">
+<section id="toc35">
 <h3>4.1.3. types.yaml</h3>
 
 <pre>
@@ -665,14 +1214,14 @@ These examples demonstrate the simplicity of defining apps in YAML.
 
 </section>
 </section>
-<section id="toc18">
+<section id="toc36">
 <h2>4.2. XML-based Complex Apps</h2>
 
 <p>
 SaltOS4 also allows full custom apps defined in XML, often used for more complex business logic and interface customization.
 </p>
 
-<section id="toc19">
+<section id="toc37">
 <h3>4.2.1. customers.xml</h3>
 
 <p>
@@ -716,37 +1265,123 @@ This file contains the follow important nodes:
 
 </section>
 </section>
-</section>
-<section id="toc20">
-<h1>5. Offline Support (Service Worker)</h1>
+<section id="toc38">
+<h2>4.3. Available Layouts Type1 To Type5</h2>
 
 <p>
-Handled in `proxy.js` + `core.js`:
+The interface engine (driver.js) in SaltOS4 supports multiple layout types depending on the application’s needs:
 </p>
 
 <ul>
-<li>Automatically registers in the browser
+<li>type1: Simple layout with a single zone (#one). Each action opens a new view.
 </li>
-<li>Acts as a proxy for fetch requests
+<li>type2: Two zones — #one for the list and #two for details and attachments.
 </li>
-<li>Returns cached responses if offline
+<li>type3: Three zones — #one, #two, and #three — allowing all views at once.
 </li>
-<li>Queues write requests and syncs when online
+<li>type4: Extends type1. Adds #two as a modal to show details while keeping #one as the main area.
 </li>
-<li>Works transparently with core AJAX logic
+<li>type5: Extends type2. Shows details in #two and uses #three as a modal for attachments.
+</li>
+</ul>
+
+<p>
+Mobile adaptation:
+</p>
+<p>
+If an app is configured with type2, type3, type4 or type5 and the window.innerWidth is less than 1200 pixels, the system automatically switches to type1. This improves usability on mobile devices by simplifying the workflow and avoiding cluttered interfaces.
+</p>
+
+</section>
+<section id="toc39">
+<h2>4.4. Data Model using dbschema.xml</h2>
+
+<p>
+Each application can define its own database schema through a dbschema.xml file. This file declares the required tables and fields. In addition, there is a central file (api/xml/dbschema.xml) that contains the shared tables used system-wide:
+</p>
+
+<ul>
+<li>tbl_apps, tbl_perms, tbl_users_apps_perms, tbl_groups_apps_perms: permission control per user and group.
+</li>
+<li>tbl_uploads: temporarily uploaded files not yet assigned to an app.
+</li>
+<li>tbl_cron: execution log for scheduled tasks.
+</li>
+<li>tbl_push: push notifications.
+</li>
+<li>tbl_trash: records of deleted files.
+</li>
+</ul>
+
+<p>
+Examples of dbschema.xml in real apps:
+</p>
+
+<ul>
+<li>apps/emails/xml/dbschema.xml: defines tables for emails, accounts, and addresses.
+</li>
+<li>apps/customers/xml/dbschema.xml: structure for customers including fiscal and geographic data.
+</li>
+<li>apps/invoices/xml/dbschema.xml: invoice headers, line items, and due dates.
+</li>
+<li>apps/types/xml/dbschema.xml: generic system for type definitions.
 </li>
 </ul>
 
 </section>
-<section id="toc21">
-<h1>6. Makefile Overview</h1>
+<section id="toc40">
+<h2>4.5. Static Data using dbstatic.xml</h2>
+
+<p>
+The file `dbstatic.xml` defines static records that are inserted into the database during system initialization. These values are essential for SaltOS4 to operate correctly and include:
+</p>
+
+<ul>
+<li>Default permissions and ownership levels
+</li>
+<li>Core user and group records
+</li>
+<li>Registered applications in the system
+</li>
+<li>Permission-to-application assignments
+</li>
+<li>Initial permission grants for the main user
+</li>
+</ul>
+
+<p>
+Example from `api/xml/dbstatic.xml`:
+</p>
+
+<ul>
+<li>Table `tbl_perms`: defines available permissions like `main`, `create`, `widget`, `action`, etc., with optional ownership levels (`user`, `group`, `all`).
+</li>
+<li>Other tables likely define rows for default users, groups, apps, or app-permission mappings, though they are not visible in the excerpt shown.
+</li>
+</ul>
+
+<p>
+Each `&lt;row&gt;` inside `&lt;table&gt;` specifies a record to insert, using attributes like `id`, `code`, `name`, `owner`, and `active`.
+</p>
+<p>
+This static data ensures consistent behavior across installations and is critical to bootstrapping the system correctly.
+</p>
+
+</section>
+</section>
+<section id="toc41">
+<h1>5. Makefile Overview</h1>
 
 <p>
 This `Makefile` automates building, testing, documentation, and setup tasks in SaltOS4.
 </p>
 
-<section id="toc22">
-<h2>6.1. Build Targets</h2>
+<section id="toc42">
+<h2>5.1. Build Targets</h2>
+
+<p>
+SaltOS4 includes several `make` targets to manage the build process for both production and development environments. These targets automate the generation of optimized assets, cleanup of temporary files, and preparation of debug-friendly output.
+</p>
 
 <ul>
 <li>`make web`: Builds and minifies production assets:
@@ -772,31 +1407,58 @@ This `Makefile` automates building, testing, documentation, and setup tasks in S
 </ul>
 
 </section>
-<section id="toc23">
-<h2>6.2. Documentation</h2>
+<section id="toc43">
+<h2>5.2. Documentation</h2>
+
+<p>
+The `make docs` target is used to automatically generate documentation for multiple source areas. It leverages PHP scripts to extract comments and convert `.t2t` files into both PDF and HTML formats.
+</p>
+<p>
+You can control which documentation files are processed using the `file` parameter. If no value is passed, all sections are generated by default.
+</p>
+<p>
+Examples:
+</p>
 
 <ul>
-<li>`make docs`: Generates `.t2t`, `.pdf`, and `.html` documentation using scripts:
-  <ul>
-  <li>Backend: `docs/api.t2t`
-  </li>
-  <li>Frontend: `docs/web.t2t`
-  </li>
-  <li>Applications: `docs/apps.t2t`
-  </li>
-  <li>PHP tests: `docs/utest.t2t`
-  </li>
-  <li>JS tests: `docs/ujest.t2t`
-  </li>
-  <li>Developer manual: `docs/devel.t2t`
-  </li>
-  </ul>
+<li>`make docs` → generates everything
+</li>
+<li>`make docs file=api` → generates only API documentation
+</li>
+<li>`make docs file=api,web` → generates both API and web documentation
 </li>
 </ul>
 
+<p>
+Supported sections:
+</p>
+
+<ul>
+<li>`api`: generates the backend doc `docs/api.t2t` from `code/api/php`
+</li>
+<li>`web`: generates the fronend doc `docs/web.t2t` from `code/web/js`
+</li>
+<li>`apps`: generates the applications doc `docs/apps.t2t` from `code/apps/*/php` and `code/apps/*/js`
+</li>
+<li>`utest`: generates the php unit test doc `docs/utest.t2t` from `utest/`
+</li>
+<li>`ujest`: generates the javascript unit test `docs/ujest.t2t` from `ujest/`
+</li>
+<li>`devel`: updates de developer manual `docs/devel.t2t` (version/date) and regenerates its output
+</li>
+</ul>
+
+<p>
+This logic is implemented using pattern matching via `findstring` in the Makefile, allowing comma-separated values to select multiple targets at once.
+</p>
+
 </section>
-<section id="toc24">
-<h2>6.3. Testing</h2>
+<section id="toc44">
+<h2>5.3. Testing</h2>
+
+<p>
+SaltOS4 integrates various testing mechanisms to maintain code quality across both PHP and JavaScript components. The `make` system provides convenient commands for running static analysis, unit tests, and coverage reports. Below are the available targets:
+</p>
 
 <ul>
 <li>`make test`: Runs:
@@ -824,8 +1486,12 @@ This `Makefile` automates building, testing, documentation, and setup tasks in S
 </ul>
 
 </section>
-<section id="toc25">
-<h2>6.4. Environment Checks</h2>
+<section id="toc45">
+<h2>5.4. Environment Checks</h2>
+
+<p>
+SaltOS4 includes a helper target to verify that the environment is correctly set up. This check ensures required directories, symbolic links, and external tools are available before running builds, tests, or development tasks.
+</p>
 
 <ul>
 <li>`make check`: Verifies required folders and system commands:
@@ -839,26 +1505,100 @@ This `Makefile` automates building, testing, documentation, and setup tasks in S
 </ul>
 
 </section>
-<section id="toc26">
-<h2>6.5. Dependency Management</h2>
+<section id="toc46">
+<h2>5.5. Dependency Management</h2>
+
+<p>
+`make libs` executes `scripts/checklibs.php`, which checks for new versions of required PHP and JavaScript libraries, as well as other external software used by the system. This mechanism helps monitor version updates and ensures that all dependencies remain current.
+</p>
+<p>
+Libraries can be integrated through various methods depending on how they are distributed — for example:
+</p>
 
 <ul>
-<li>`make libs`: Checks required PHP libraries via `checklibs.php`
+<li>Via `wget` from a direct URL
+</li>
+<li>Via `npm`
+</li>
+<li>Via Composer for PHP packages
 </li>
 </ul>
 
-</section>
-<section id="toc27">
-<h2>6.6. Code Statistics</h2>
+<p>
+The monitoring is based on the file `checklibs.txt`, where each line defines how to retrieve and compare the current version of a library or tool.
+</p>
+<p>
+Example line from `checklibs.txt`:
+</p>
+
+<pre>
+phpmailer|https://github.com/PHPMailer/PHPMailer/tags.atom|&lt;title&gt;|PHRpdGxlPlBIUE1haWxlciA2LjkuMzwvdGl0bGU+
+</pre>
+
+<p>
+As you can see, this line consists of four fields, using pipes (|) as separators:
+</p>
 
 <ul>
-<li>`make cloc`: Uses `cloc` to count lines of code excluding minified and ignored files
+<li>The name of the item (library, command, etc.), used as an identifier
+</li>
+<li>The URL to fetch the latest version information (can be XML, JSON, or plain HTML)
+</li>
+<li>A regular expression pattern to match the relevant line that announces the latest version
+</li>
+<li>A base64-encoded string representing the last matched content, used to detect changes
 </li>
 </ul>
 
+<p>
+This tells `checklibs.php` to:
+</p>
+
+<ul>
+<li>Retrieve the GitHub tags feed for PHPMailer in Atom (XML) format
+</li>
+<li>Match the line containing the version information using the regex
+</li>
+<li>Compare the base64-encoded result with the previously recorded one to determine if an update is available
+</li>
+</ul>
+
+<p>
+This system is useful for tracking updates manually without relying on automatic dependency managers.
+</p>
+
 </section>
-<section id="toc28">
-<h2>6.7. System Setup</h2>
+<section id="toc47">
+<h2>5.6. Code Statistics</h2>
+
+<p>
+`make cloc` uses `cloc` to count lines of code excluding minified and ignored files, you can see an example here:
+</p>
+
+<pre>
+---------------------------------------------------------------------------
+Language                    files         blank       comment          code
+---------------------------------------------------------------------------
+PHP                           302          3809         18565         23321
+JavaScript                     44          1040          6596         10536
+XML                            47           312          1258          4566
+YAML                           15            14           355           450
+Text                            4            13             0            93
+Bourne Shell                    1             5             0            36
+HTML                            1             2            24            15
+JSON                            1             0             0            12
+---------------------------------------------------------------------------
+SUM:                          415          5195         26798         39029
+---------------------------------------------------------------------------
+</pre>
+
+</section>
+<section id="toc48">
+<h2>5.7. System Setup</h2>
+
+<p>
+These targets initialize or reset the SaltOS4 environment, including database setup and cleanup of data directories. They allow switching between MariaDB and SQLite, and can be used to fully reconfigure the system during development or deployment.
+</p>
 
 <ul>
 <li>`make setup`: Initializes SaltOS4 system
@@ -874,8 +1614,12 @@ This `Makefile` automates building, testing, documentation, and setup tasks in S
 </ul>
 
 </section>
-<section id="toc29">
-<h2>6.8. System Actions</h2>
+<section id="toc49">
+<h2>5.8. System Actions</h2>
+
+<p>
+These targets trigger internal maintenance operations in SaltOS4, such as garbage collection, indexing, integrity validation, and scheduled task execution. They help keep the system optimized and consistent.
+</p>
 
 <ul>
 <li>`make gc`: Launches garbage collection
@@ -889,9 +1633,8 @@ This `Makefile` automates building, testing, documentation, and setup tasks in S
 </ul>
 
 </section>
-</section>
-<section id="toc30">
-<h1>7. Script Directory Overview</h1>
+<section id="toc50">
+<h2>5.9. Script Directory Overview</h2>
 
 <p>
 This section describes the purpose of each script and configuration file in the `scripts/` directory.
@@ -944,6 +1687,7 @@ All descriptions below are based on the actual content of each file.
 </li>
 </ul>
 
+</section>
 </section>
 </div>
 <!-- html code generated by txt2tags 3.4 (http://txt2tags.org) -->

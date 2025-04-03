@@ -27,7 +27,7 @@
 
 
 \title{Web Client Documentation}
-\author{SaltOS 4.0 r1929}
+\author{SaltOS 4.0 r1931}
 \begin{document}
 \date{April 2025}
 \maketitle
@@ -4393,50 +4393,59 @@ const saltos = {};
 This object contains all SaltOS code
 
 \hypertarget{toc261}{}
-\subsection{Proxy module}
+\subsection{SaltOS4 Proxy Service Worker}
 
 \begin{lstlisting}
 web/js/proxy.js
 \end{lstlisting}
 
-This module provides a service worker that acts as a proxy, it uses the headers
-requests to understand what kind of thing the request needs and tries to do
-it with the more better manner.
+This module implements a service worker that acts as a network proxy.
+It intercepts all fetch requests and uses request headers to determine
+the appropriate behavior:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Serve from cache when available
+\item[\color{myblue}$\bullet$] Fetch from network if necessary
+\item[\color{myblue}$\bullet$] Queue write operations (e.g. POST) when offline
+\item[\color{myblue}$\bullet$] Synchronize queued writes once reconnected
+\end{compactitem}
+
+All logic integrates transparently with the frontend’s AJAX layer.
 
 \hypertarget{toc262}{}
-\subsubsection{Console log}
+\subsubsection{Broadcast console log to all active tabs}
 
 \begin{lstlisting}
 const console_log = (message)
 \end{lstlisting}
 
-This function only apply as console.log replacement for debug purposes
+This function acts as a replacement for `console.log()` inside the service worker.
+Because some browsers suppress service worker logs, this sends the message
+to all connected clients using `postMessage`.
 
 \begin{compactitem}
-\item[\color{myblue}$\bullet$] @message =$>$ the message that you want to send to the console
+\item[\color{myblue}$\bullet$] @message =$>$ The debug message to be shown in the client console.
 \end{compactitem}
 
-Notes:
-
-This function send a message to all clients and exists because in some cases
-the console.log not apply for service workers, this is a simple and quick
-solution for help in the debug process
-
 \hypertarget{toc263}{}
-\subsubsection{Debug function}
+\subsubsection{Build formatted console debug output}
 
 \begin{lstlisting}
 const debug = (action, url, type, duration, size)
 \end{lstlisting}
 
-This function returns an array with the needed things to print into a console.log
-the fetch message with the url, the response type and the duration of the task
+Prepares a styled debug message with action type, duration, and response size.
+Output is designed for `console\_log(...)`, not direct logging.
 
 \begin{compactitem}
-\item[\color{myblue}$\bullet$] @url      =$>$ url of the request
-\item[\color{myblue}$\bullet$] @type     =$>$ type of the request (network, cache or error)
-\item[\color{myblue}$\bullet$] @duration =$>$ duration of the entire task in milliseconds
+\item[\color{myblue}$\bullet$] @action   =$>$ Action type (GET, POST, etc.)
+\item[\color{myblue}$\bullet$] @url      =$>$ URL of the request
+\item[\color{myblue}$\bullet$] @type     =$>$ Result source: 'network', 'cache', 'queue', or 'error'
+\item[\color{myblue}$\bullet$] @duration =$>$ Time taken in milliseconds
+\item[\color{myblue}$\bullet$] @size     =$>$ Size of the response in bytes
 \end{compactitem}
+
+Returns the formatted message and styling for `console.log(...)`
 
 \hypertarget{toc264}{}
 \subsubsection{Proxy function}
