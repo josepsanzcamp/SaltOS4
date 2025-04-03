@@ -1,5 +1,5 @@
 Devel Documentation
-SaltOS 4.0 r1931
+SaltOS 4.0 r1932
 April 2025
 
 
@@ -186,18 +186,53 @@ Handle concrete system actions (CLI-aware where needed):
 
 ++Other API Components++
 
-- `index.php`: entry point that loads autoload and then `zindex.php`
-- `img/`: SaltOS logos and related branding
-- `locale/`: multilingual resources (`.yaml`, `.odt`, `.pdf`)
-- `xml/`: base configuration
-  - `config.xml`: contains the global system configuration, including general options, paths, preferences, and base parameters that affect all of SaltOS4.
-  - `cron.xml`: defines the scheduled tasks that the system must run automatically, such as data cleanup, email sending, or synchronizations.
-  - `locale.xml`: specifies the available languages in the system and their codes, allowing the interface localization to be managed.
-  - `bs_theme.xml`: defines the visual themes compatible with Bootstrap that the system can use to customize the interface appearance.
-  - `css_theme.xml`: contains additional visual style definitions, such as colors, fonts, and CSS rules to adapt the system's look and feel.
-  - `dbschema.xml`: describes the general database schema — tables, columns, indexes, and relationships required for the overall functioning of SaltOS4.
-  - `dbstatic.xml`: includes static data that must be inserted into certain tables during system initialization, such as user types, default values, or base configurations.
+This section lists complementary elements in the backend that support the main API logic.
 
+- `index.php`: Main API entry point. It loads required bootstrap files (`autoload`, `zindex.php`) and dispatches incoming REST or CLI requests.
+- `img/`: Contains SaltOS4 logos and branding assets.
+- `locale/`: Stores multilingual resources used for translations and documentation. Includes `.yaml` files for language mapping, and `.odt`/`.pdf` for external formats.
+- `xml/`: Holds static configuration files (e.g. schema, themes, locales).
+- `lib/`: Contains third-party or integrated libraries used across the backend logic. Includes:
+  - `atkinson`, `gorrisans`: font support
+  - `browscap`: browser capability detection
+  - `edifact`: EDI message parsing
+  - `fpdi`: PDF manipulation and import
+  - `phpgeoip`: IP geolocation
+  - `phpspreadsheet`: spreadsheet creation and parsing
+  - `roundcube`, `tcpdf`, `wolfsoftware`, `yaml`: other protocol, rendering, and utility libraries
+
+
+++Application Configuration Files++
+
+SaltOS4 relies on several XML configuration files to define system-wide behavior, themes, languages, scheduled tasks, and database initialization. These files are stored in the root configuration directories and are essential for proper system setup.
+
++++dbschema.xml+++
+
+Defines the database schema structure used across all applications. It lists all tables, their fields, types, primary keys, indexes, and relationships.
+
++++dbstatic.xml+++
+
+Populates static content in the database. This includes predefined record values required for the system to operate correctly (e.g., permission types, core options).
+
++++config.xml+++
+
+Contains global system configuration, such as paths, timezones, defaults, UI settings, and other bootstrap parameters.
+
++++cron.xml+++
+
+Specifies scheduled tasks and their timing. Each entry defines a script to be executed periodically, along with interval definitions and optional conditions.
+
++++locale.xml+++
+
+Defines available languages and translation mappings for the interface. Used by the frontend and backend to provide multi-language support.
+
++++bs_theme.xml+++
+
+Defines Bootstrap theme settings, including color schemes, spacing, and variables that adapt the interface visually.
+
++++css_theme.xml+++
+
+Defines custom CSS style variants used in the frontend. Enables additional visual personalization beyond Bootstrap presets.
 
 ++API Access++
 
@@ -289,6 +324,50 @@ user=admin php index.php app/customers/list
 
 This shortcut is only allowed for the instance owner. Other system users must use token-based authentication to prevent privilege escalation.
 
+++Token Lifecycle & Session Security++
+
+SaltOS4 uses token-based authentication for both HTTP and CLI access. Beyond basic login/logout operations, the system enforces session integrity and security through token validation mechanisms.
+
++++Token Binding+++
+
+Each token is bound to the following client attributes:
+
+- **IP address** (`remote_addr`)
+- **User agent** (`user_agent`)
+
+
+This ensures that a token cannot be reused from another location or browser, protecting against token theft and reuse attacks.
+
++++Expiration and Invalidation+++
+
+Tokens are subject to expiration based on system configuration. They may be invalidated:
+
+  - After a certain period of inactivity
+  - On user logout
+  - When explicitly reset by administrators
+  - If the IP address or user agent changes
+
+
+Expired or invalid tokens are automatically purged during background cleanup tasks (`crontab_users()`).
+
++++CLI Considerations+++
+
+When executing scripts from the command line:
+
+- Tokens can be obtained via `auth/login` and passed as `token=...` in subsequent commands.
+- If the script is executed by the **owner of `index.php`**, tokens can be bypassed by specifying `user=...` directly.
+- This bypass is not allowed for other system users, providing a secure fallback that respects file ownership.
+
+
++++Additional Protections+++
+
+- All token operations are guarded by semaphores to prevent race conditions.
+- The backend checks token validity on every request via `checktoken()` (web) or `current_token()` (CLI).
+- Sessions are tightly coupled to server-side validation and cannot be spoofed via headers alone.
+
+
+These security measures collectively ensure that only valid users can perform actions and that token reuse or hijacking is effectively prevented.
+
 +Frontend Structure (web/)+
 
 Frontend is a JavaScript SPA in the `web/` folder.
@@ -319,6 +398,45 @@ JavaScript Modules:
 - `window.js`: * Window helper module
 
 
+++Frontend Logic (core.js and app.js)++
+
+SaltOS4's frontend architecture is built upon two central modules: `core.js` and `app.js`. Together, they form the foundation for most runtime behavior, enabling dynamic interaction with the backend and managing the user interface.
+
++++core.js Overview+++
+
+The file `core.js` contains low-level utility functions and system-wide features. It is responsible for:
+
+- Capturing and reporting JavaScript errors, including sourcemapped stack traces.
+- Sending AJAX requests, abstracted through `saltos.core.ajax(...)`.
+- Creating and manipulating HTML and DOM nodes (`saltos.core.html(...)`, `saltos.core.append(...)`).
+- Managing configuration options and global parameters.
+- Serving as a base for other frontend modules (like auth, filter, window, etc).
+
+
+This file acts as the technical backbone for the client-side logic.
+
++++app.js Overview+++
+
+The file `app.js` implements the high-level application layer. It builds on top of `core.js` and adds features related to UI interaction and view management:
+
+- Registers and manages application views and layouts.
+- Handles modal dialogs, toast notifications, and main layout rendering.
+- Processes hash-based navigation (`#app/xyz/...`) and dispatches actions.
+- Manages event hooks (e.g., `saltos.app.login`, `saltos.app.ready`).
+- Integrates layout types (`type1` to `type5`) through `saltos.driver`.
+
+
+It is also responsible for launching the application when loaded in the browser.
+
++++Integration and Responsibilities+++
+
+- `core.js` provides shared functionality, DOM helpers, AJAX, and error reporting.
+- `app.js` drives the user interface, manages state, and coordinates navigation.
+- Modules like `auth.js`, `filter.js`, `form.js` and others rely on both core and app for foundational logic.
+
+
+These two modules form the base platform for all SaltOS4 frontend applications.
+
 ++Frontend Deployment++
 
 To use SaltOS4 from the browser:
@@ -334,62 +452,52 @@ To use SaltOS4 from the browser:
 
 ++Offline Support (Service Worker)++
 
-SaltOS4 includes a service worker defined in `js/proxy.js` that transparently enables offline support and network optimization.
+SaltOS4 includes a service worker defined in `js/proxy.js` that transparently enables offline support and network optimization. It plays a key role in improving performance and user experience, even under poor connectivity conditions.
 
-Main features:
++++Main Features+++
 
 - Intercepts all `fetch` requests and serves them from cache when offline.
 - Queues write operations (e.g., POST) and synchronizes them when the network is restored.
-- Integrates with the core AJAX layer (`core.js`) without requiring changes in application logic.
+- Integrates seamlessly with the core AJAX layer (`core.js`), requiring no changes in application logic.
 - Logs operations (network, cache, queue, error) using visual debug tools.
-- Handles smart caching and fallback behavior depending on the request type.
+- Handles smart caching and fallback strategies depending on the request type.
 
 
-This proxy mechanism ensures a responsive and resilient user experience even under unreliable network conditions.
++++Internal Structure+++
 
-++Proxy Service Worker Internals++
+The service worker (`js/proxy.js`) contains the following key components:
 
-The file `js/proxy.js` implements the service worker used by SaltOS4 to act as a network proxy for frontend requests. It includes debugging utilities, a request handler, and caching logic.
-
-== Structure Overview ==
-
-The script is written in strict mode and organized as follows:
-
-  - **Banner and License Header**: ASCII logo and GPL license.
-  - **`console_log(message)`**:
-    - Sends debug messages to all connected clients.
-    - Used instead of `console.log()` because some browsers suppress SW logs.
-  - **`debug(action, url, type, duration, size)`**:
-    - Prepares styled debug output showing request type (`network`, `cache`, `queue`, `error`), duration, and response size.
-
-The actual request handling logic (not fully shown here) includes:
-
-  - `fetch` event listener:
-    - Intercepts all network requests.
-    - Uses headers to determine cache strategy or fallback behavior.
-    - Responds from cache or fetches from the network, optionally logging each action.
-
-== Cache Strategies ==
-
-Although not all logic is visible in the current excerpt, the structure suggests support for:
-
-  - Smart caching based on headers or resource types.
-  - Differentiated handling of errors, including timeouts or unreachable hosts.
-  - Possible queuing or offline fallback for POST/PUT operations.
-
-== Debugging Support ==
-
-Service worker debug output is enhanced via:
-
-  - `console_log(...)`: forwards logs to browser clients.
-  - `debug(...)`: shows color-coded summaries in the browser console, including request method, duration, and source (cache/network).
-
-== Summary ==
-
-The proxy service worker plays a key role in SaltOS4’s offline capabilities and performance optimization. It acts intelligently based on request metadata and provides a robust debugging interface even when `console.log()` is unavailable in service workers.
+- **`console_log(message)`**:
+  - Broadcasts messages to all connected clients using `postMessage`, since `console.log()` is often suppressed in service workers.
+- **`debug(action, url, type, duration, size)`**:
+  - Builds color-coded debug output showing the nature of the request (`network`, `cache`, `queue`, `error`), its duration, and response size.
+- **`fetch` event listener**:
+  - Intercepts all network requests.
+  - Determines behavior based on request method and headers.
+  - Responds from cache, fetches from the network, or queues operations depending on availability and context.
+- **`message` event listener**:
+  - Handles external control commands sent by the application. Supported messages include:
+    - `resetCache`: clears the entire cache storage.
+    - `resetQueue`: clears the queue of pending offline operations.
+    - `stop`: unregisters the service worker.
+    - `hello`: returns a "hello" reply for testing communication.
+    - `sync`: processes all queued requests and tries to send them online.
 
 
+These capabilities allow external scripts to manage the state and behavior of the proxy dynamically.
 
++++Debugging and Observability+++
+
+To aid debugging:
+
+- All major proxy actions are logged with clear visual indicators.
+- Logs are forwarded to client tabs for visibility, even if the browser suppresses SW console output.
+- This makes the proxy easier to monitor during development.
+
+
++++Summary+++
+
+SaltOS4’s service worker acts as a smart, low-level proxy that enables offline functionality and efficient request handling. It ensures smooth interaction with the backend while minimizing the impact of network failures or latency.
 
 
 ++Frontend Authentication++
@@ -453,7 +561,7 @@ SaltOS4 provides two build modes for the frontend: production and development. T
 
 Both modes are based on the same HTML loader template found in `web/htm/index.htm`, which is dynamically populated depending on the mode.
 
-== Web Directory Overview ==
++++Web Directory Overview+++
 
 - `api/`: symlink to the backend API (`code/api`)
 - `apps/`: symlink to application code (`code/apps`)
@@ -468,7 +576,7 @@ Both modes are based on the same HTML loader template found in `web/htm/index.ht
 - `lib/`: third-party libraries
 
 
-== Comparison Table ==
++++Comparison Table+++
 
 | **Feature** | **Production Mode (`make web`)** | **Development Mode (`make devel`)** |
 | Main JS | Combined in `index.js` | Loaded as individual source files |
