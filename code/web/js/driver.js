@@ -495,7 +495,7 @@ saltos.driver.styles = (arg = 'xl') => {
         <style>
             @media (min-width: ${size}px) {
                 .overflow-auto-${arg} {
-                    height: calc(100vh - ${height}px);
+                    height: calc(100vh - ${height}px - 0.5px);
                     overflow: auto;
                 }
             }

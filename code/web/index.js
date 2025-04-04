@@ -516,7 +516,7 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
         <style>
             @media (min-width: ${o}px) {
                 .overflow-auto-${e} {
-                    height: calc(100vh - ${s}px);
+                    height: calc(100vh - ${s}px - 0.5px);
                     overflow: auto;
                 }
             }
