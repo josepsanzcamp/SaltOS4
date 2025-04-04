@@ -9,7 +9,7 @@ tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<title>|PHRpdGxlPjYuOS4xPC90
 yaml|https://github.com/symfony/yaml/tags.atom|<title>|PHRpdGxlPnY3LjIuNTwvdGl0bGU+
 
 autoheight|https://github.com/kamilkp/autoheight/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAxNi0wOC0wN1QyMzo0MToxMVo8L3VwZGF0ZWQ+
-bootstrap|https://github.com/twbs/bootstrap/tags.atom|<title>|PHRpdGxlPnY1LjMuNDwvdGl0bGU+
+bootstrap|https://github.com/twbs/bootstrap/tags.atom|<title>|PHRpdGxlPnY1LjMuNTwvdGl0bGU+
 bootswatch|https://github.com/thomaspark/bootswatch/tags.atom|<title>|PHRpdGxlPnY1LjMuMzwvdGl0bGU+
 chartjs|https://github.com/chartjs/Chart.js/tags.atom|<title>|PHRpdGxlPnY0LjQuODwvdGl0bGU+
 ckeditor|https://github.com/ckeditor/ckeditor5/tags.atom|<title>|PHRpdGxlPnY0NC4zLjA8L3RpdGxlPg==
@@ -46,8 +46,8 @@ mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|PHRpdGxlPk1yb29uZ2E
 node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjUtMDQtMDEsIFZlcnNpb24gMjMuMTEuMCAoQ3VycmVudCksIEBhZHVoOTU8L3RpdGxlPg==
 pcov|https://github.com/krakjoe/pcov/tags.atom|<title>|PHRpdGxlPnYxLjAuMTI8L3RpdGxlPg==
 php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjQuNlJDMTwvdGl0bGU+
-phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|PHRpdGxlPjMuMTIuMCAtIDIwMjUtMDMtMTg8L3RpdGxlPg==
+phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|PHRpdGxlPjMuMTIuMSAtIDIwMjUtMDQtMDQ8L3RpdGxlPg==
 phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjIuMS4xMTwvdGl0bGU+
-phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|PHRpdGxlPlBIUFVuaXQgMTIuMC4xMDwvdGl0bGU+
+phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|PHRpdGxlPlBIUFVuaXQgMTIuMS4wPC90aXRsZT4=
 uglifyjs|https://github.com/mishoo/UglifyJS/tags.atom|<title>|PHRpdGxlPnYzLjE5LjM8L3RpdGxlPg==
 wpcs|https://github.com/WordPress/WordPress-Coding-Standards/tags.atom|<title>|PHRpdGxlPjMuMS4wPC90aXRsZT4=
