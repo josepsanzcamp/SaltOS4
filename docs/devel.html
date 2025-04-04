@@ -25,7 +25,7 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <header>
 <hgroup>
 <h1>Devel Documentation</h1>
-<h2>SaltOS 4.0 r1932</h2>
+<h2>SaltOS 4.0 r1937</h2>
 <h3>April 2025</h3>
 </hgroup>
 </header>
@@ -47,7 +47,7 @@ pre{background-color:#e6e6e6;padding:5px 3px}
     </li>
     </ul>
   </li>
-  <li><a href="#toc6">2. Backend Structure (api/)</a>
+  <li><a href="#toc6">2. Backend (api/)</a>
     <ul>
     <li><a href="#toc7">2.1. Autoloaded Modules (`php/autoload/`)</a>
     </li>
@@ -59,7 +59,7 @@ pre{background-color:#e6e6e6;padding:5px 3px}
     </li>
     <li><a href="#toc11">2.5. Other API Components</a>
     </li>
-    <li><a href="#toc12">2.6. Application Configuration Files</a>
+    <li><a href="#toc12">2.6. Configuration Files</a>
       <ul>
       <li><a href="#toc13">2.6.1. dbschema.xml</a>
       </li>
@@ -107,9 +107,9 @@ pre{background-color:#e6e6e6;padding:5px 3px}
     </li>
     </ul>
   </li>
-  <li><a href="#toc31">3. Frontend Structure (web/)</a>
+  <li><a href="#toc31">3. Frontend (web/)</a>
     <ul>
-    <li><a href="#toc32">3.1. Frontend Logic (core.js and app.js)</a>
+    <li><a href="#toc32">3.1. Logic (core.js and app.js)</a>
       <ul>
       <li><a href="#toc33">3.1.1. core.js Overview</a>
       </li>
@@ -119,7 +119,7 @@ pre{background-color:#e6e6e6;padding:5px 3px}
       </li>
       </ul>
     </li>
-    <li><a href="#toc36">3.2. Frontend Deployment</a>
+    <li><a href="#toc36">3.2. Deployment</a>
     </li>
     <li><a href="#toc37">3.3. Offline Support (Service Worker)</a>
       <ul>
@@ -131,75 +131,67 @@ pre{background-color:#e6e6e6;padding:5px 3px}
       </li>
       <li><a href="#toc41">3.3.4. Summary</a>
       </li>
-      </ul>
-    </li>
-    <li><a href="#toc42">3.4. Frontend Authentication</a>
-      <ul>
-      <li><a href="#toc43">3.4.1. Core Auth Module</a>
+      <li><a href="#toc42">3.3.5. Core Auth Module</a>
       </li>
-      <li><a href="#toc44">3.4.2. Login Workflow</a>
+      <li><a href="#toc43">3.3.6. Login Workflow</a>
       </li>
-      </ul>
-    </li>
-    <li><a href="#toc45">3.5. Frontend Build System</a>
-      <ul>
-      <li><a href="#toc46">3.5.1. Overview of Modes</a>
+      <li><a href="#toc44">3.3.7. Overview of Modes</a>
       </li>
-      <li><a href="#toc47">3.5.2. Build Process with Makefile</a>
+      <li><a href="#toc45">3.3.8. Build Process with Makefile</a>
       </li>
-      <li><a href="#toc48">3.5.3. Web Directory Overview</a>
+      <li><a href="#toc46">3.3.9. Web Directory Overview</a>
       </li>
-      <li><a href="#toc49">3.5.4. Comparison Table</a>
+      <li><a href="#toc47">3.3.10. Comparison Table</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc50">4. Application System</a>
+  <li><a href="#toc48">4. Application System</a>
     <ul>
-    <li><a href="#toc51">4.1. YAML-based Apps</a>
+    <li><a href="#toc49">4.1. YAML-based Apps</a>
       <ul>
-      <li><a href="#toc52">4.1.1. tokenslog.yaml</a>
+      <li><a href="#toc50">4.1.1. tokenslog.yaml</a>
       </li>
-      <li><a href="#toc53">4.1.2. configlog.yaml</a>
+      <li><a href="#toc51">4.1.2. configlog.yaml</a>
       </li>
-      <li><a href="#toc54">4.1.3. types.yaml</a>
+      <li><a href="#toc52">4.1.3. types.yaml</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc55">4.2. XML-based Complex Apps</a>
+    <li><a href="#toc53">4.2. XML-based Complex Apps</a>
       <ul>
-      <li><a href="#toc56">4.2.1. customers.xml</a>
+      <li><a href="#toc54">4.2.1. customers.xml</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc57">4.3. Available Layouts Type1 To Type5</a>
+    <li><a href="#toc55">4.3. Available Layouts Type1 To Type5</a>
     </li>
-    <li><a href="#toc58">4.4. Data Model using dbschema.xml</a>
+    <li><a href="#toc56">4.4. Data Model using dbschema.xml</a>
     </li>
-    <li><a href="#toc59">4.5. Static Data using dbstatic.xml</a>
+    <li><a href="#toc57">4.5. Static Data using dbstatic.xml</a>
     </li>
     </ul>
   </li>
-  <li><a href="#toc60">5. Makefile Overview</a>
+  <li><a href="#toc58">5. Makefile Overview</a>
     <ul>
-    <li><a href="#toc61">5.1. Build Targets</a>
+    <li><a href="#toc59">5.1. Build Targets</a>
     </li>
-    <li><a href="#toc62">5.2. Documentation</a>
+    <li><a href="#toc60">5.2. Documentation</a>
     </li>
-    <li><a href="#toc63">5.3. Testing</a>
+    <li><a href="#toc61">5.3. Testing</a>
     </li>
-    <li><a href="#toc64">5.4. Environment Checks</a>
+    <li><a href="#toc62">5.4. Environment Checks</a>
     </li>
-    <li><a href="#toc65">5.5. Dependency Management</a>
+    <li><a href="#toc63">5.5. Dependency Management</a>
     </li>
-    <li><a href="#toc66">5.6. Code Statistics</a>
+    <li><a href="#toc64">5.6. Code Statistics</a>
     </li>
-    <li><a href="#toc67">5.7. System Setup</a>
+    <li><a href="#toc65">5.7. System Setup</a>
     </li>
-    <li><a href="#toc68">5.8. System Actions</a>
+    <li><a href="#toc66">5.8. System Actions</a>
     </li>
-    <li><a href="#toc69">5.9. Script Directory Overview</a>
+    <li><a href="#toc67">5.9. Script Directory Overview</a>
     </li>
     </ul>
   </li>
@@ -342,7 +334,7 @@ Make sure this directory is writable by the web server and CLI user.
 </section>
 </section>
 <section id="toc6">
-<h1>2. Backend Structure (api/)</h1>
+<h1>2. Backend (api/)</h1>
 
 <p>
 The backend is under the `api/` folder and contains four folders (autoload, database, lib and actions) to organize the code depending their usage and functionality.
@@ -596,7 +588,7 @@ This section lists complementary elements in the backend that support the main A
 
 </section>
 <section id="toc12">
-<h2>2.6. Application Configuration Files</h2>
+<h2>2.6. Configuration Files</h2>
 
 <p>
 SaltOS4 relies on several XML configuration files to define system-wide behavior, themes, languages, scheduled tasks, and database initialization. These files are stored in the root configuration directories and are essential for proper system setup.
@@ -898,7 +890,7 @@ These security measures collectively ensure that only valid users can perform ac
 </section>
 </section>
 <section id="toc31">
-<h1>3. Frontend Structure (web/)</h1>
+<h1>3. Frontend (web/)</h1>
 
 <p>
 Frontend is a JavaScript SPA in the `web/` folder.
@@ -955,7 +947,7 @@ JavaScript Modules:
 </ul>
 
 <section id="toc32">
-<h2>3.1. Frontend Logic (core.js and app.js)</h2>
+<h2>3.1. Logic (core.js and app.js)</h2>
 
 <p>
 SaltOS4's frontend architecture is built upon two central modules: `core.js` and `app.js`. Together, they form the foundation for most runtime behavior, enabling dynamic interaction with the backend and managing the user interface.
@@ -1030,7 +1022,7 @@ These two modules form the base platform for all SaltOS4 frontend applications.
 </section>
 </section>
 <section id="toc36">
-<h2>3.2. Frontend Deployment</h2>
+<h2>3.2. Deployment</h2>
 
 <p>
 To use SaltOS4 from the browser:
@@ -1160,18 +1152,16 @@ To aid debugging:
 <p>
 SaltOS4’s service worker acts as a smart, low-level proxy that enables offline functionality and efficient request handling. It ensures smooth interaction with the backend while minimizing the impact of network failures or latency.
 </p>
-
-</section>
-</section>
-<section id="toc42">
-<h2>3.4. Frontend Authentication</h2>
-
+<p>
++Authentication++
+</p>
 <p>
 SaltOS4 uses JavaScript modules to handle login and authentication on the client side. The core logic is implemented in `web/js/auth.js`, while the login form logic is defined in `apps/users/js/login.js`.
 </p>
 
-<section id="toc43">
-<h3>3.4.1. Core Auth Module</h3>
+</section>
+<section id="toc42">
+<h3>3.3.5. Core Auth Module</h3>
 
 <p>
 The `saltos.authenticate` module provides these functions:
@@ -1193,8 +1183,8 @@ These functions internally use `saltos.app.ajax(...)`, which wraps `saltos.core.
 </p>
 
 </section>
-<section id="toc44">
-<h3>3.4.2. Login Workflow</h3>
+<section id="toc43">
+<h3>3.3.6. Login Workflow</h3>
 
 <p>
 The `saltos.login.authenticate` function handles the login form:
@@ -1220,18 +1210,16 @@ The `saltos.login.authenticate` function handles the login form:
 <p>
 This flow enables seamless login via the web UI while leveraging the same token-based backend used for API and CLI access.
 </p>
-
-</section>
-</section>
-<section id="toc45">
-<h2>3.5. Frontend Build System</h2>
-
+<p>
++Build System++
+</p>
 <p>
 SaltOS4 provides two build modes for the frontend: production and development. These modes are designed to balance efficiency and ease of debugging, and they are automatically generated using the `make web` and `make devel` targets in the project’s `Makefile`.
 </p>
 
-<section id="toc46">
-<h3>3.5.1. Overview of Modes</h3>
+</section>
+<section id="toc44">
+<h3>3.3.7. Overview of Modes</h3>
 
 <ul>
 <li><strong>Production Mode (`make web`)</strong>:
@@ -1261,8 +1249,8 @@ SaltOS4 provides two build modes for the frontend: production and development. T
 </ul>
 
 </section>
-<section id="toc47">
-<h3>3.5.2. Build Process with Makefile</h3>
+<section id="toc45">
+<h3>3.3.8. Build Process with Makefile</h3>
 
 <ul>
 <li>`make web`:
@@ -1288,8 +1276,8 @@ Both modes are based on the same HTML loader template found in `web/htm/index.ht
 </p>
 
 </section>
-<section id="toc48">
-<h3>3.5.3. Web Directory Overview</h3>
+<section id="toc46">
+<h3>3.3.9. Web Directory Overview</h3>
 
 <ul>
 <li>`api/`: symlink to the backend API (`code/api`)
@@ -1317,8 +1305,8 @@ Both modes are based on the same HTML loader template found in `web/htm/index.ht
 </ul>
 
 </section>
-<section id="toc49">
-<h3>3.5.4. Comparison Table</h3>
+<section id="toc47">
+<h3>3.3.10. Comparison Table</h3>
 
 <table class="tableborder">
 <tr>
@@ -1366,7 +1354,7 @@ Both modes are based on the same HTML loader template found in `web/htm/index.ht
 </section>
 </section>
 </section>
-<section id="toc50">
+<section id="toc48">
 <h1>4. Application System</h1>
 
 <p>
@@ -1387,14 +1375,14 @@ Each folder may contain:
 </li>
 </ul>
 
-<section id="toc51">
+<section id="toc49">
 <h2>4.1. YAML-based Apps</h2>
 
 <p>
-SaltOS4 supports YAML for fast app declarations using the common template logic.
+SaltOS4 allows simple applications to be defined using YAML. This format is ideal for CRUD-style interfaces with basic forms and lists. Below are real-world examples used in the system.
 </p>
 
-<section id="toc52">
+<section id="toc50">
 <h3>4.1.1. tokenslog.yaml</h3>
 
 <pre>
@@ -1425,7 +1413,7 @@ select:
 </pre>
 
 </section>
-<section id="toc53">
+<section id="toc51">
 <h3>4.1.2. configlog.yaml</h3>
 
 <pre>
@@ -1459,7 +1447,7 @@ attr:
 </pre>
 
 </section>
-<section id="toc54">
+<section id="toc52">
 <h3>4.1.3. types.yaml</h3>
 
 <pre>
@@ -1494,15 +1482,33 @@ These examples demonstrate the simplicity of defining apps in YAML.
 
 </section>
 </section>
-<section id="toc55">
+<section id="toc53">
 <h2>4.2. XML-based Complex Apps</h2>
 
 <p>
 SaltOS4 also allows full custom apps defined in XML, often used for more complex business logic and interface customization.
 </p>
 
-<section id="toc56">
+<section id="toc54">
 <h3>4.2.1. customers.xml</h3>
+
+<p>
+The following is a small example illustrating the structure of an application XML file:
+</p>
+
+<pre>
+&lt;main&gt;
+  &lt;screen&gt;type5&lt;/screen&gt;
+  &lt;title&gt;Customers&lt;/title&gt;
+  &lt;navbar&gt;
+    &lt;item id="list" icon="list"&gt;List&lt;/item&gt;
+    &lt;item id="create" icon="plus"&gt;New&lt;/item&gt;
+  &lt;/navbar&gt;
+&lt;/main&gt;
+.
+.
+.
+</pre>
 
 <p>
 This file contains the follow important nodes:
@@ -1545,7 +1551,7 @@ This file contains the follow important nodes:
 
 </section>
 </section>
-<section id="toc57">
+<section id="toc55">
 <h2>4.3. Available Layouts Type1 To Type5</h2>
 
 <p>
@@ -1573,7 +1579,7 @@ If an app is configured with type2, type3, type4 or type5 and the window.innerWi
 </p>
 
 </section>
-<section id="toc58">
+<section id="toc56">
 <h2>4.4. Data Model using dbschema.xml</h2>
 
 <p>
@@ -1609,7 +1615,7 @@ Examples of dbschema.xml in real apps:
 </ul>
 
 </section>
-<section id="toc59">
+<section id="toc57">
 <h2>4.5. Static Data using dbstatic.xml</h2>
 
 <p>
@@ -1630,6 +1636,9 @@ The file `dbstatic.xml` defines static records that are inserted into the databa
 </ul>
 
 <p>
+These static values are inserted during system initialization and are critical to bootstrapping SaltOS4 correctly. They are also used by the `make setup` and `make setupinstall` targets to preload essential entities.
+</p>
+<p>
 Example from `api/xml/dbstatic.xml`:
 </p>
 
@@ -1649,14 +1658,14 @@ This static data ensures consistent behavior across installations and is critica
 
 </section>
 </section>
-<section id="toc60">
+<section id="toc58">
 <h1>5. Makefile Overview</h1>
 
 <p>
 This `Makefile` automates building, testing, documentation, and setup tasks in SaltOS4.
 </p>
 
-<section id="toc61">
+<section id="toc59">
 <h2>5.1. Build Targets</h2>
 
 <p>
@@ -1687,7 +1696,7 @@ SaltOS4 includes several `make` targets to manage the build process for both pro
 </ul>
 
 </section>
-<section id="toc62">
+<section id="toc60">
 <h2>5.2. Documentation</h2>
 
 <p>
@@ -1733,7 +1742,7 @@ This logic is implemented using pattern matching via `findstring` in the Makefil
 </p>
 
 </section>
-<section id="toc63">
+<section id="toc61">
 <h2>5.3. Testing</h2>
 
 <p>
@@ -1766,7 +1775,7 @@ SaltOS4 integrates various testing mechanisms to maintain code quality across bo
 </ul>
 
 </section>
-<section id="toc64">
+<section id="toc62">
 <h2>5.4. Environment Checks</h2>
 
 <p>
@@ -1785,7 +1794,7 @@ SaltOS4 includes a helper target to verify that the environment is correctly set
 </ul>
 
 </section>
-<section id="toc65">
+<section id="toc63">
 <h2>5.5. Dependency Management</h2>
 
 <p>
@@ -1848,7 +1857,7 @@ This system is useful for tracking updates manually without relying on automatic
 </p>
 
 </section>
-<section id="toc66">
+<section id="toc64">
 <h2>5.6. Code Statistics</h2>
 
 <p>
@@ -1873,7 +1882,7 @@ SUM:                          415          5195         26798         39029
 </pre>
 
 </section>
-<section id="toc67">
+<section id="toc65">
 <h2>5.7. System Setup</h2>
 
 <p>
@@ -1894,7 +1903,7 @@ These targets initialize or reset the SaltOS4 environment, including database se
 </ul>
 
 </section>
-<section id="toc68">
+<section id="toc66">
 <h2>5.8. System Actions</h2>
 
 <p>
@@ -1913,7 +1922,7 @@ These targets trigger internal maintenance operations in SaltOS4, such as garbag
 </ul>
 
 </section>
-<section id="toc69">
+<section id="toc67">
 <h2>5.9. Script Directory Overview</h2>
 
 <p>

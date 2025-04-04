@@ -27,7 +27,7 @@
 
 
 \title{Devel Documentation}
-\author{SaltOS 4.0 r1932}
+\author{SaltOS 4.0 r1937}
 \begin{document}
 \date{April 2025}
 \maketitle
@@ -118,7 +118,7 @@ Make sure this directory is writable by the web server and CLI user.
 
 
 \hypertarget{toc6}{}
-\section{Backend Structure (api/)}
+\section{Backend (api/)}
 
 The backend is under the `api/` folder and contains four folders (autoload, database, lib and actions) to organize the code depending their usage and functionality.
 
@@ -260,7 +260,7 @@ This section lists complementary elements in the backend that support the main A
 \end{compactitem}
 
 \hypertarget{toc12}{}
-\subsection{Application Configuration Files}
+\subsection{Configuration Files}
 
 SaltOS4 relies on several XML configuration files to define system-wide behavior, themes, languages, scheduled tasks, and database initialization. These files are stored in the root configuration directories and are essential for proper system setup.
 
@@ -457,7 +457,7 @@ These security measures collectively ensure that only valid users can perform ac
 
 
 \hypertarget{toc31}{}
-\section{Frontend Structure (web/)}
+\section{Frontend (web/)}
 
 Frontend is a JavaScript SPA in the `web/` folder.
 
@@ -490,7 +490,7 @@ JavaScript Modules:
 \end{compactitem}
 
 \hypertarget{toc32}{}
-\subsection{Frontend Logic (core.js and app.js)}
+\subsection{Logic (core.js and app.js)}
 
 SaltOS4's frontend architecture is built upon two central modules: `core.js` and `app.js`. Together, they form the foundation for most runtime behavior, enabling dynamic interaction with the backend and managing the user interface.
 
@@ -536,7 +536,7 @@ It is also responsible for launching the application when loaded in the browser.
 These two modules form the base platform for all SaltOS4 frontend applications.
 
 \hypertarget{toc36}{}
-\subsection{Frontend Deployment}
+\subsection{Deployment}
 
 To use SaltOS4 from the browser:
 
@@ -621,12 +621,11 @@ To aid debugging:
 
 SaltOS4’s service worker acts as a smart, low-level proxy that enables offline functionality and efficient request handling. It ensures smooth interaction with the backend while minimizing the impact of network failures or latency.
 
-\hypertarget{toc42}{}
-\subsection{Frontend Authentication}
++Authentication++
 
 SaltOS4 uses JavaScript modules to handle login and authentication on the client side. The core logic is implemented in `web/js/auth.js`, while the login form logic is defined in `apps/users/js/login.js`.
 
-\hypertarget{toc43}{}
+\hypertarget{toc42}{}
 \subsubsection{Core Auth Module}
 
 The `saltos.authenticate` module provides these functions:
@@ -640,7 +639,7 @@ The `saltos.authenticate` module provides these functions:
 
 These functions internally use `saltos.app.ajax(...)`, which wraps `saltos.core.ajax(...)` for simplified usage.
 
-\hypertarget{toc44}{}
+\hypertarget{toc43}{}
 \subsubsection{Login Workflow}
 
 The `saltos.login.authenticate` function handles the login form:
@@ -657,12 +656,11 @@ The `saltos.login.authenticate` function handles the login form:
 
 This flow enables seamless login via the web UI while leveraging the same token-based backend used for API and CLI access.
 
-\hypertarget{toc45}{}
-\subsection{Frontend Build System}
++Build System++
 
 SaltOS4 provides two build modes for the frontend: production and development. These modes are designed to balance efficiency and ease of debugging, and they are automatically generated using the `make web` and `make devel` targets in the project’s `Makefile`.
 
-\hypertarget{toc46}{}
+\hypertarget{toc44}{}
 \subsubsection{Overview of Modes}
 
 \begin{compactitem}
@@ -682,7 +680,7 @@ SaltOS4 provides two build modes for the frontend: production and development. T
   \end{compactitem}
 \end{compactitem}
 
-\hypertarget{toc47}{}
+\hypertarget{toc45}{}
 \subsubsection{Build Process with Makefile}
 
 \begin{compactitem}
@@ -700,7 +698,7 @@ SaltOS4 provides two build modes for the frontend: production and development. T
 
 Both modes are based on the same HTML loader template found in `web/htm/index.htm`, which is dynamically populated depending on the mode.
 
-\hypertarget{toc48}{}
+\hypertarget{toc46}{}
 \subsubsection{Web Directory Overview}
 
 \begin{compactitem}
@@ -717,7 +715,7 @@ Both modes are based on the same HTML loader template found in `web/htm/index.ht
 \item[\color{myblue}$\bullet$] `lib/`: third-party libraries
 \end{compactitem}
 
-\hypertarget{toc49}{}
+\hypertarget{toc47}{}
 \subsubsection{Comparison Table}
 
 \begin{center}\begin{tabular}{|l|l|l|}
@@ -732,7 +730,7 @@ Both modes are based on the same HTML loader template found in `web/htm/index.ht
 \hline \end{tabular}\end{center}
 
 
-\hypertarget{toc50}{}
+\hypertarget{toc48}{}
 \section{Application System}
 
 Applications in SaltOS4 are modular, defined in folders under `apps/`.
@@ -746,12 +744,12 @@ Each folder may contain:
 \item[\color{myblue}$\bullet$] `dbschema.xml`, `dbstatic.xml`: database structure and static content
 \end{compactitem}
 
-\hypertarget{toc51}{}
+\hypertarget{toc49}{}
 \subsection{YAML-based Apps}
 
-SaltOS4 supports YAML for fast app declarations using the common template logic.
+SaltOS4 allows simple applications to be defined using YAML. This format is ideal for CRUD-style interfaces with basic forms and lists. Below are real-world examples used in the system.
 
-\hypertarget{toc52}{}
+\hypertarget{toc50}{}
 \subsubsection{tokenslog.yaml}
 
 \begin{lstlisting}
@@ -781,7 +779,7 @@ select:
     - [user_id, tbl_users]
 \end{lstlisting}
 
-\hypertarget{toc53}{}
+\hypertarget{toc51}{}
 \subsubsection{configlog.yaml}
 
 \begin{lstlisting}
@@ -814,7 +812,7 @@ attr:
         indent: true
 \end{lstlisting}
 
-\hypertarget{toc54}{}
+\hypertarget{toc52}{}
 \subsubsection{types.yaml}
 
 \begin{lstlisting}
@@ -845,13 +843,29 @@ attr:
 
 These examples demonstrate the simplicity of defining apps in YAML.
 
-\hypertarget{toc55}{}
+\hypertarget{toc53}{}
 \subsection{XML-based Complex Apps}
 
 SaltOS4 also allows full custom apps defined in XML, often used for more complex business logic and interface customization.
 
-\hypertarget{toc56}{}
+\hypertarget{toc54}{}
 \subsubsection{customers.xml}
+
+The following is a small example illustrating the structure of an application XML file:
+
+\begin{lstlisting}
+<main>
+  <screen>type5</screen>
+  <title>Customers</title>
+  <navbar>
+    <item id="list" icon="list">List</item>
+    <item id="create" icon="plus">New</item>
+  </navbar>
+</main>
+.
+.
+.
+\end{lstlisting}
 
 This file contains the follow important nodes:
 
@@ -874,7 +888,7 @@ This file contains the follow important nodes:
 \item[\color{myblue}$\bullet$] `$<$action id="setup"$>$`: Defines a call to app/customers/setup that allows to execute the setup for this application
 \end{compactitem}
 
-\hypertarget{toc57}{}
+\hypertarget{toc55}{}
 \subsection{Available Layouts Type1 To Type5}
 
 The interface engine (driver.js) in SaltOS4 supports multiple layout types depending on the application’s needs:
@@ -891,7 +905,7 @@ Mobile adaptation:
 
 If an app is configured with type2, type3, type4 or type5 and the window.innerWidth is less than 1200 pixels, the system automatically switches to type1. This improves usability on mobile devices by simplifying the workflow and avoiding cluttered interfaces.
 
-\hypertarget{toc58}{}
+\hypertarget{toc56}{}
 \subsection{Data Model using dbschema.xml}
 
 Each application can define its own database schema through a dbschema.xml file. This file declares the required tables and fields. In addition, there is a central file (api/xml/dbschema.xml) that contains the shared tables used system-wide:
@@ -913,7 +927,7 @@ Examples of dbschema.xml in real apps:
 \item[\color{myblue}$\bullet$] apps/types/xml/dbschema.xml: generic system for type definitions.
 \end{compactitem}
 
-\hypertarget{toc59}{}
+\hypertarget{toc57}{}
 \subsection{Static Data using dbstatic.xml}
 
 The file `dbstatic.xml` defines static records that are inserted into the database during system initialization. These values are essential for SaltOS4 to operate correctly and include:
@@ -925,6 +939,8 @@ The file `dbstatic.xml` defines static records that are inserted into the databa
 \item[\color{myblue}$\bullet$] Permission-to-application assignments
 \item[\color{myblue}$\bullet$] Initial permission grants for the main user
 \end{compactitem}
+
+These static values are inserted during system initialization and are critical to bootstrapping SaltOS4 correctly. They are also used by the `make setup` and `make setupinstall` targets to preload essential entities.
 
 Example from `api/xml/dbstatic.xml`:
 
@@ -938,12 +954,12 @@ Each `$<$row$>$` inside `$<$table$>$` specifies a record to insert, using attrib
 This static data ensures consistent behavior across installations and is critical to bootstrapping the system correctly.
 
 
-\hypertarget{toc60}{}
+\hypertarget{toc58}{}
 \section{Makefile Overview}
 
 This `Makefile` automates building, testing, documentation, and setup tasks in SaltOS4.
 
-\hypertarget{toc61}{}
+\hypertarget{toc59}{}
 \subsection{Build Targets}
 
 SaltOS4 includes several `make` targets to manage the build process for both production and development environments. These targets automate the generation of optimized assets, cleanup of temporary files, and preparation of debug-friendly output.
@@ -963,7 +979,7 @@ SaltOS4 includes several `make` targets to manage the build process for both pro
   \end{compactitem}
 \end{compactitem}
 
-\hypertarget{toc62}{}
+\hypertarget{toc60}{}
 \subsection{Documentation}
 
 The `make docs` target is used to automatically generate documentation for multiple source areas. It leverages PHP scripts to extract comments and convert `.t2t` files into both PDF and HTML formats.
@@ -991,7 +1007,7 @@ Supported sections:
 
 This logic is implemented using pattern matching via `findstring` in the Makefile, allowing comma-separated values to select multiple targets at once.
 
-\hypertarget{toc63}{}
+\hypertarget{toc61}{}
 \subsection{Testing}
 
 SaltOS4 integrates various testing mechanisms to maintain code quality across both PHP and JavaScript components. The `make` system provides convenient commands for running static analysis, unit tests, and coverage reports. Below are the available targets:
@@ -1012,7 +1028,7 @@ SaltOS4 integrates various testing mechanisms to maintain code quality across bo
   \end{compactitem}
 \end{compactitem}
 
-\hypertarget{toc64}{}
+\hypertarget{toc62}{}
 \subsection{Environment Checks}
 
 SaltOS4 includes a helper target to verify that the environment is correctly set up. This check ensures required directories, symbolic links, and external tools are available before running builds, tests, or development tasks.
@@ -1025,7 +1041,7 @@ SaltOS4 includes a helper target to verify that the environment is correctly set
   \end{compactitem}
 \end{compactitem}
 
-\hypertarget{toc65}{}
+\hypertarget{toc63}{}
 \subsection{Dependency Management}
 
 `make libs` executes `scripts/checklibs.php`, which checks for new versions of required PHP and JavaScript libraries, as well as other external software used by the system. This mechanism helps monitor version updates and ensures that all dependencies remain current.
@@ -1065,7 +1081,7 @@ This tells `checklibs.php` to:
 
 This system is useful for tracking updates manually without relying on automatic dependency managers.
 
-\hypertarget{toc66}{}
+\hypertarget{toc64}{}
 \subsection{Code Statistics}
 
 `make cloc` uses `cloc` to count lines of code excluding minified and ignored files, you can see an example here:
@@ -1087,7 +1103,7 @@ SUM:                          415          5195         26798         39029
 ---------------------------------------------------------------------------
 \end{lstlisting}
 
-\hypertarget{toc67}{}
+\hypertarget{toc65}{}
 \subsection{System Setup}
 
 These targets initialize or reset the SaltOS4 environment, including database setup and cleanup of data directories. They allow switching between MariaDB and SQLite, and can be used to fully reconfigure the system during development or deployment.
@@ -1100,7 +1116,7 @@ These targets initialize or reset the SaltOS4 environment, including database se
 \item[\color{myblue}$\bullet$] `make setupclean`: Cleans data directories and resets the database
 \end{compactitem}
 
-\hypertarget{toc68}{}
+\hypertarget{toc66}{}
 \subsection{System Actions}
 
 These targets trigger internal maintenance operations in SaltOS4, such as garbage collection, indexing, integrity validation, and scheduled task execution. They help keep the system optimized and consistent.
@@ -1112,7 +1128,7 @@ These targets trigger internal maintenance operations in SaltOS4, such as garbag
 \item[\color{myblue}$\bullet$] `make cron`: Executes scheduled tasks (cron)
 \end{compactitem}
 
-\hypertarget{toc69}{}
+\hypertarget{toc67}{}
 \subsection{Script Directory Overview}
 
 This section describes the purpose of each script and configuration file in the `scripts/` directory.

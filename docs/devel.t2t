@@ -1,5 +1,5 @@
 Devel Documentation
-SaltOS 4.0 r1932
+SaltOS 4.0 r1937
 April 2025
 
 
@@ -73,7 +73,7 @@ SaltOS4 stores runtime and persistent data under the `data/` directory. This fol
 
 Make sure this directory is writable by the web server and CLI user.
 
-+Backend Structure (api/)+
++Backend (api/)+
 
 The backend is under the `api/` folder and contains four folders (autoload, database, lib and actions) to organize the code depending their usage and functionality.
 
@@ -202,7 +202,7 @@ This section lists complementary elements in the backend that support the main A
   - `roundcube`, `tcpdf`, `wolfsoftware`, `yaml`: other protocol, rendering, and utility libraries
 
 
-++Application Configuration Files++
+++Configuration Files++
 
 SaltOS4 relies on several XML configuration files to define system-wide behavior, themes, languages, scheduled tasks, and database initialization. These files are stored in the root configuration directories and are essential for proper system setup.
 
@@ -368,7 +368,7 @@ When executing scripts from the command line:
 
 These security measures collectively ensure that only valid users can perform actions and that token reuse or hijacking is effectively prevented.
 
-+Frontend Structure (web/)+
++Frontend (web/)+
 
 Frontend is a JavaScript SPA in the `web/` folder.
 
@@ -398,7 +398,7 @@ JavaScript Modules:
 - `window.js`: * Window helper module
 
 
-++Frontend Logic (core.js and app.js)++
+++Logic (core.js and app.js)++
 
 SaltOS4's frontend architecture is built upon two central modules: `core.js` and `app.js`. Together, they form the foundation for most runtime behavior, enabling dynamic interaction with the backend and managing the user interface.
 
@@ -437,7 +437,7 @@ It is also responsible for launching the application when loaded in the browser.
 
 These two modules form the base platform for all SaltOS4 frontend applications.
 
-++Frontend Deployment++
+++Deployment++
 
 To use SaltOS4 from the browser:
 
@@ -500,7 +500,7 @@ To aid debugging:
 SaltOS4’s service worker acts as a smart, low-level proxy that enables offline functionality and efficient request handling. It ensures smooth interaction with the backend while minimizing the impact of network failures or latency.
 
 
-++Frontend Authentication++
++Authentication++
 
 SaltOS4 uses JavaScript modules to handle login and authentication on the client side. The core logic is implemented in `web/js/auth.js`, while the login form logic is defined in `apps/users/js/login.js`.
 
@@ -531,7 +531,7 @@ The `saltos.login.authenticate` function handles the login form:
 
 This flow enables seamless login via the web UI while leveraging the same token-based backend used for API and CLI access.
 
-++Frontend Build System++
++Build System++
 
 SaltOS4 provides two build modes for the frontend: production and development. These modes are designed to balance efficiency and ease of debugging, and they are automatically generated using the `make web` and `make devel` targets in the project’s `Makefile`.
 
@@ -600,9 +600,10 @@ Each folder may contain:
 
 ++YAML-based Apps++
 
-SaltOS4 supports YAML for fast app declarations using the common template logic.
+SaltOS4 allows simple applications to be defined using YAML. This format is ideal for CRUD-style interfaces with basic forms and lists. Below are real-world examples used in the system.
 
 +++tokenslog.yaml+++
+
 ```
 app: tokenslog
 require: apps/common/php/default.php
@@ -631,6 +632,7 @@ select:
 ```
 
 +++configlog.yaml+++
+
 ```
 app: configlog
 require: apps/common/php/default.php
@@ -662,6 +664,7 @@ attr:
 ```
 
 +++types.yaml+++
+
 ```
 app: types
 require: apps/common/php/default.php
@@ -695,6 +698,22 @@ These examples demonstrate the simplicity of defining apps in YAML.
 SaltOS4 also allows full custom apps defined in XML, often used for more complex business logic and interface customization.
 
 +++customers.xml+++
+
+The following is a small example illustrating the structure of an application XML file:
+
+```
+<main>
+  <screen>type5</screen>
+  <title>Customers</title>
+  <navbar>
+    <item id="list" icon="list">List</item>
+    <item id="create" icon="plus">New</item>
+  </navbar>
+</main>
+.
+.
+.
+```
 
 This file contains the follow important nodes:
 
@@ -760,6 +779,8 @@ The file `dbstatic.xml` defines static records that are inserted into the databa
 - Permission-to-application assignments
 - Initial permission grants for the main user
 
+
+These static values are inserted during system initialization and are critical to bootstrapping SaltOS4 correctly. They are also used by the `make setup` and `make setupinstall` targets to preload essential entities.
 
 Example from `api/xml/dbstatic.xml`:
 
