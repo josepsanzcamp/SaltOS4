@@ -2033,8 +2033,8 @@ saltos.bootstrap.__field.excel = field => {
     `);
     const input = saltos.bootstrap.__field.hidden(saltos.core.copy_object(field));
     obj.prepend(input);
-    field.numcols = parseInt(field.numcols);
-    field.numrows = parseInt(field.numrows);
+    field.numcols = parseInt(field.numcols, 10);
+    field.numrows = parseInt(field.numrows, 10);
     if (!field.numcols) {
         field.numcols = 26;
     }
@@ -2059,12 +2059,12 @@ saltos.bootstrap.__field.excel = field => {
     if (field.rowHeaderWidth == '') {
         field.rowHeaderWidth = undefined;
     } else {
-        field.rowHeaderWidth = parseInt(field.rowHeaderWidth);
+        field.rowHeaderWidth = parseInt(field.rowHeaderWidth, 10);
     }
     if (field.colWidths == '') {
         field.colWidths = undefined;
     } else if (typeof field.colWidths == 'string') {
-        field.colWidths = parseInt(field.colWidths);
+        field.colWidths = parseInt(field.colWidths, 10);
     }
     input.data = saltos.core.copy_object(field.data);
     const element = obj.querySelector('div');

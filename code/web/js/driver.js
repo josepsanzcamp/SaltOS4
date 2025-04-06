@@ -262,7 +262,7 @@ saltos.driver.reset = arg => {
  * @arg => unused at this scope
  */
 saltos.driver.more = arg => {
-    document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1;
+    document.getElementById('page').value = parseInt(document.getElementById('page').value, 10) + 1;
     saltos.backup.restore('top+one');
     const data = saltos.app.get_data(true);
     const app = saltos.hash.get().split('/').at(1);

@@ -318,8 +318,8 @@ saltos.app.get_data = full => {
             case 'integer':
             case 'checkbox':
             case 'switch':
-                val = parseInt(val);
-                old = parseInt(old);
+                val = parseInt(val, 10);
+                old = parseInt(old, 10);
                 if (isNaN(val)) {
                     val = 0;
                 }
@@ -530,7 +530,7 @@ saltos.app.check_required = () => {
         }
         // to detect the value of the checkbox or switch fields
         if (['checkbox', 'switch'].includes(field.type)) {
-            value = parseInt(value);
+            value = parseInt(value, 10);
         }
         // to detect the color, focus and value of the excel fields
         if (field.type == 'excel') {

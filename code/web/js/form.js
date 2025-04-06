@@ -72,7 +72,7 @@ saltos.form.data = (data, sync = true) => {
         }
         for (const key in data.value) {
             const val = data.value[key];
-            if (parseInt(key)) {
+            if (parseInt(key, 10)) {
                 const temp1 = saltos.form.__layout_template_helper(template_id, key);
                 const temp2 = saltos.form.layout(temp1, 'div');
                 const temp3 = document.getElementById(template_id + '.' + (key - 1));
