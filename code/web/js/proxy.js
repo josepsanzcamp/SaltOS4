@@ -126,7 +126,7 @@ const proxy = async request => {
     }
     order = order.split(',');
 
-    let duration = 0;
+    const start = Date.now();
     let status = 200;
     let statusText = '';
     for (const i in order) {
@@ -134,23 +134,20 @@ const proxy = async request => {
             case 'network': {
                 // Network feature
                 try {
-                    const start = Date.now();
                     const response = await fetch(request.clone());
-                    const end = Date.now();
                     if (!response.ok) {
                         status = response.status;
                         statusText = response.statusText;
                         continue;
                     }
                     (await caches.open('saltos')).put(new_request, response.clone());
-                    duration += end - start;
                     const headers2 = JSON.stringify(Object.fromEntries([...response.headers]));
                     const body2 = await response.clone().text();
                     const size2 = human_size(JSON.stringify([headers2, body2]).length);
                     return {
                         type: 'network',
                         response: response,
-                        duration: duration,
+                        duration: Date.now() - start,
                         size: `${size}/${size2}`,
                     };
                 } catch (error) {
@@ -161,20 +158,17 @@ const proxy = async request => {
 
             case 'cache': {
                 // Cache feature
-                const start = Date.now();
                 const response = await caches.match(new_request);
-                const end = Date.now();
                 if (!response) {
                     continue;
                 }
-                duration += end - start;
                 const headers2 = JSON.stringify(Object.fromEntries([...response.headers]));
                 const body2 = await response.clone().text();
                 const size2 = human_size(JSON.stringify([headers2, body2]).length);
                 return {
                     type: 'cache',
                     response: response,
-                    duration: duration,
+                    duration: Date.now() - start,
                     size: `${size}/${size2}`,
                 };
                 break;
@@ -195,7 +189,7 @@ const proxy = async request => {
                 return {
                     type: 'queue',
                     response: response,
-                    duration: duration,
+                    duration: Date.now() - start,
                     size: `${size}/${size2}`,
                 };
             }
@@ -220,7 +214,7 @@ const proxy = async request => {
         return {
             type: 'error',
             response: response,
-            duration: duration,
+            duration: Date.now() - start,
             size: `${size}/${size2}`,
         };
     } else {
@@ -240,7 +234,7 @@ const proxy = async request => {
         return {
             type: 'error',
             response: response,
-            duration: duration,
+            duration: Date.now() - start,
             size: `${size}/${size2}`,
         };
     }
@@ -533,28 +527,24 @@ self.addEventListener('message', async event => {
             for (const i in result) {
                 const request = request_unserialize(result[i].value);
                 let response = null;
+                const start = Date.now();
                 let type = 'network';
                 let headers = null;
                 let body = null;
-                let start = 0;
-                let end = 0;
                 try {
-                    start = Date.now();
                     response = await fetch(request);
-                    end = Date.now();
                     if (!response.ok) {
                         type = 'error';
                     }
                     headers = JSON.stringify(Object.fromEntries([...response.headers]));
                     body = await response.text();
                 } catch (error) {
-                    end = Date.now();
                     type = 'error';
                     //console.log(error);
                 }
                 const size = human_size(JSON.stringify(result[i].value).length);
                 const size2 = human_size(JSON.stringify([headers, body]).length);
-                const array = debug('sync', request.url, type, end - start, `${size}/${size2}`);
+                const array = debug('sync', request.url, type, Date.now() - start, `${size}/${size2}`);
                 event.source.postMessage(array);
                 if (type == 'error') {
                     break;
