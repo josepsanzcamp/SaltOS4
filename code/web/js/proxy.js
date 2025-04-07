@@ -98,17 +98,59 @@ const debug = (action, url, type, duration, size) => {
 };
 
 /**
+ * Timeout configuration
+ *
+ * These values define the adaptive timeout logic used by the proxy:
+ *
+ * - `timeout_max`: the default timeout value (30s), used when the proxy starts
+ *   or after recovery from a previous failure.
+ *
+ * - `timeout_min`: the minimum timeout (1s), applied immediately after a network
+ *   failure to avoid cascading long waits during degraded connectivity.
+ *
+ * - `timeout`: the current timeout value in use. It is reset to `timeout_max`
+ *   when the Service Worker restarts, or kept as `timeout_min` between requests
+ *   while the SW remains active after detecting a failure.
+ *
+ * This mechanism helps the system respond quickly to unreachable hosts,
+ * and gracefully recover when the network is restored.
+ */
+const timeout_max = 30000;
+const timeout_min = 1000;
+let timeout = timeout_max;
+
+/**
  * Proxy function
  *
- * This function receives a request to do a fetch or try to use a cached result
- * if a network error occurs, if no response is available, a json error is returned
- * to the application layer
+ * This function receives a request to perform a fetch or try to use a cached
+ * result if a network error occurs. If no response is available at all,
+ * a JSON error is returned to the application layer.
  *
- * This function can perform actions like fetch, cache, queue or error, in each
- * case, tries to execute each part using the order defined by the proxy header
- * that can be added from the layer application ajax call
+ * It supports different request resolution strategies: 'network', 'cache',
+ * 'queue', or 'error'. The processing order can be controlled from the
+ * application layer by setting the `x-proxy-order` request header.
  *
- * @request => the request that must to be processed
+ * This proxy implements an adaptive timeout mechanism to improve performance
+ * and responsiveness in degraded network conditions:
+ *
+ * - Initial network timeout is set to 30 seconds.
+ * - If a fetch fails due to network timeout or hang, the timeout is immediately
+ *   reduced to 1 second to prevent long cascades of delayed requests.
+ * - If the Service Worker goes inactive (e.g., tab closed or app unused),
+ *   the timeout resets back to 30 seconds on reactivation.
+ * - The system does not disable the browser’s own HTTP cache:
+ *   if a request is served from memory/disk cache, it is treated as valid.
+ * - No persistent storage is used; the timeout decays and recovers naturally
+ *   through the Service Worker lifecycle.
+ *
+ * This behavior works like a lightweight "quantum" scheduler: when one request
+ * reveals the host is unreachable, the system becomes more aggressive and shortens
+ * the timeout window for subsequent requests. This avoids interface rendering delays
+ * when multiple network-dependent fetches are needed.
+ *
+ * @request => the incoming request to be processed.
+ *
+ * Returns an object with type, response, duration, and size.
  */
 const proxy = async request => {
     // Prepare new_request for cache usage
@@ -134,7 +176,10 @@ const proxy = async request => {
             case 'network': {
                 // Network feature
                 try {
-                    const response = await fetch(request.clone());
+                    const controller = new AbortController();
+                    const timer = setTimeout(() => controller.abort(), timeout);
+                    const response = await fetch(request.clone(), {signal: controller.signal});
+                    clearTimeout(timer);
                     if (!response.ok) {
                         status = response.status;
                         statusText = response.statusText;
@@ -151,6 +196,14 @@ const proxy = async request => {
                         size: `${size}/${size2}`,
                     };
                 } catch (error) {
+                    if (error.name == 'AbortError') {
+                        status = 598;
+                        statusText = 'Timeout exceded';
+                        timeout = timeout_min;
+                    } else {
+                        status = 599;
+                        statusText = error.message;
+                    }
                     //console.log(error);
                 }
                 break;
