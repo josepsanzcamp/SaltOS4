@@ -221,7 +221,8 @@ describe('proxy', () => {
         const request = new Request('https://example.com', {method: 'GET', headers: new Headers({})});
         const result = await proxy(request);
 
-        expect(fetch).toHaveBeenCalledWith(request);
+        const controller = new AbortController();
+        expect(fetch).toHaveBeenCalledWith(request, {signal: controller.signal});
         expect(result.type).toBe('network');
     });
 
