@@ -3573,6 +3573,7 @@ saltos.bootstrap.__field.list = field => {
         obj.append(item);
     }
     // The follow code allow to colorize the hover and active rows of the list
+    // The --bs-primary-color is used as main color here from bootstrap 5.3.5
     obj.append(saltos.core.html(`
         <style>
             .list-group {
@@ -3580,6 +3581,7 @@ saltos.bootstrap.__field.list = field => {
                 --bs-list-group-action-active-bg: #fbec88;
                 --bs-list-group-action-hover-color: #373a3c;
                 --bs-list-group-action-active-color: #373a3c;
+                --bs-list-group-action-color: --var(--bs-primary-color);
             }
             .list-group-item:nth-child(odd) {
                 --bs-list-group-bg: rgba(var(--bs-emphasis-color-rgb), 0.05);

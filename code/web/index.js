@@ -308,6 +308,7 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
                 --bs-list-group-action-active-bg: #fbec88;
                 --bs-list-group-action-hover-color: #373a3c;
                 --bs-list-group-action-active-color: #373a3c;
+                --bs-list-group-action-color: --var(--bs-primary-color);
             }
             .list-group-item:nth-child(odd) {
                 --bs-list-group-bg: rgba(var(--bs-emphasis-color-rgb), 0.05);
