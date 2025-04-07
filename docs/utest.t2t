@@ -1,5 +1,5 @@
 Phpunit Test Documentation
-SaltOS 4.0 r1929
+SaltOS 4.0 r1947
 April 2025
 
 
@@ -2750,7 +2750,7 @@ test_ping.php
 ```
 
 This test performs some tests to validate the correctness
-of the ping functions
+of the ping feature
 
 
 +++Importing namespaces+++
@@ -2783,7 +2783,7 @@ public function test_ping(): void
 ```
 
 This test performs some tests to validate the correctness
-of the ping functions
+of the ping feature
 
 
 ++Test push++

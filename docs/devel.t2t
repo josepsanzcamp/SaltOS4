@@ -1,5 +1,5 @@
 Devel Documentation
-SaltOS 4.0 r1937
+SaltOS 4.0 r1948
 April 2025
 
 
@@ -178,7 +178,6 @@ Handle concrete system actions (CLI-aware where needed):
 - `action/image.php`: * BarCode action
 - `action/indexing.php`: * Make indexing action
 - `action/integrity.php`: * Make indexing action
-- `action/ping.php`: * Ping action
 - `action/push.php`: * Garbage Collector action
 - `action/setup.php`: * DB Schema action
 - `action/upload.php`: * Add files action
@@ -565,7 +564,7 @@ Both modes are based on the same HTML loader template found in `web/htm/index.ht
 
 - `api/`: symlink to the backend API (`code/api`)
 - `apps/`: symlink to application code (`code/apps`)
-- `htm/`: loader templates for generating `index.htm`
+- `htm/`: loader templates for generating `index.htm` and `ping.htm`
 - `img/`: interface images and logos
 - `index.htm`: main entry point, minified in production, expanded in development
 - `index.js`: combined JavaScript (production only)

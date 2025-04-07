@@ -1,5 +1,5 @@
 Applications Documentation
-SaltOS 4.0 r1929
+SaltOS 4.0 r1947
 April 2025
 
 
@@ -1074,9 +1074,11 @@ including sender, recipients, date, subject, and attachments. It handles edge ca
 such as missing data, and ensures that all information is presented in a structured
 and readable format. HTML encoding is applied to ensure safe display within a web interface.
 
-- @param array $decoded Decoded structure of the email, containing metadata and header information.
-- @param int $email_id ID of the email to retrieve additional account-specific details.
-- @return string Returns a formatted HTML string with the email header information.
+- @decoded  => Decoded structure of the email, containing metadata and header information.
+- @email_id => ID of the email to retrieve additional account-specific details.
+
+
+Returns a formatted HTML string with the email header information.
 
 
 +++Extract and format the body of an email+++

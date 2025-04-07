@@ -36,7 +36,7 @@ declare(strict_types=1);
  * Test ping
  *
  * This test performs some tests to validate the correctness
- * of the ping functions
+ * of the ping feature
  */
 
 /**
@@ -63,35 +63,19 @@ final class test_ping extends TestCase
      * ping test
      *
      * This test performs some tests to validate the correctness
-     * of the ping functions
+     * of the ping feature
      */
     public function test_ping(): void
     {
-        $result = test_web_helper('ping', null, '', '');
-        $this->assertSame('<script>close()</script>', $result);
-
-        $response = __url_get_contents('https://127.0.0.1/saltos/code4/api/?/`ping');
+        $response = __url_get_contents('https://127.0.0.1/saltos/code4/htm/ping.htm');
         $this->assertSame('<script>close()</script>', $response['body']);
 
         $key = array_key_search('content-type', $response['headers']);
-        $value = strtok($response['headers'][$key], ';');
+        $value = $response['headers'][$key];
         $this->assertSame('text/html', $value);
 
-        $key = array_key_search('expires', $response['headers']);
+        $key = array_key_search('content-length', $response['headers']);
         $value = $response['headers'][$key];
-        $this->assertSame('-1', $value);
-
-        $key = array_key_search('cache-control', $response['headers']);
-        $value = $response['headers'][$key];
-        $this->assertStringContainsString('no-store', $value);
-        $this->assertStringContainsString('no-cache', $value);
-        $this->assertStringContainsString('must-revalidate', $value);
-        $this->assertStringContainsString('post-check=0', $value);
-        $this->assertStringContainsString('pre-check=0', $value);
-        $this->assertStringContainsString('no-transform', $value);
-
-        $key = array_key_search('pragma', $response['headers']);
-        $value = $response['headers'][$key];
-        $this->assertSame('no-cache', $value);
+        $this->assertSame('24', $value);
     }
 }

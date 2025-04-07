@@ -27,7 +27,7 @@
 
 
 \title{Applications Documentation}
-\author{SaltOS 4.0 r1929}
+\author{SaltOS 4.0 r1947}
 \begin{document}
 \date{April 2025}
 \maketitle
@@ -1193,10 +1193,11 @@ such as missing data, and ensures that all information is presented in a structu
 and readable format. HTML encoding is applied to ensure safe display within a web interface.
 
 \begin{compactitem}
-\item[\color{myblue}$\bullet$] @param array \$decoded Decoded structure of the email, containing metadata and header information.
-\item[\color{myblue}$\bullet$] @param int \$email\_id ID of the email to retrieve additional account-specific details.
-\item[\color{myblue}$\bullet$] @return string Returns a formatted HTML string with the email header information.
+\item[\color{myblue}$\bullet$] @decoded  =$>$ Decoded structure of the email, containing metadata and header information.
+\item[\color{myblue}$\bullet$] @email\_id =$>$ ID of the email to retrieve additional account-specific details.
 \end{compactitem}
+
+Returns a formatted HTML string with the email header information.
 
 \hypertarget{toc95}{}
 \subsubsection{Extract and format the body of an email}

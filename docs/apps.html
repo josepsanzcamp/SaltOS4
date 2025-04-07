@@ -25,7 +25,7 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <header>
 <hgroup>
 <h1>Applications Documentation</h1>
-<h2>SaltOS 4.0 r1929</h2>
+<h2>SaltOS 4.0 r1947</h2>
 <h3>April 2025</h3>
 </hgroup>
 </header>
@@ -1985,13 +1985,15 @@ and readable format. HTML encoding is applied to ensure safe display within a we
 </p>
 
 <ul>
-<li>@param array $decoded Decoded structure of the email, containing metadata and header information.
+<li>@decoded  =&gt; Decoded structure of the email, containing metadata and header information.
 </li>
-<li>@param int $email_id ID of the email to retrieve additional account-specific details.
-</li>
-<li>@return string Returns a formatted HTML string with the email header information.
+<li>@email_id =&gt; ID of the email to retrieve additional account-specific details.
 </li>
 </ul>
+
+<p>
+Returns a formatted HTML string with the email header information.
+</p>
 
 </section>
 <section id="toc95">
