@@ -913,8 +913,8 @@ saltos.core.check_network = async () => {
         const url = new URL(window.location.href);
         const uniqid = saltos.core.uniqid();
         url.protocol = protocol;
-        url.pathname += 'api/';
-        url.search = '/ping/' + uniqid;
+        url.pathname += 'htm/ping.htm';
+        url.search = uniqid;
         url.hash = '';
         const options = 'popup,width=100,height=100,left=9999,top=9999';
         const win = window.open(url.toString(), uniqid, options);
