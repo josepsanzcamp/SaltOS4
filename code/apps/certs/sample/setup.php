@@ -33,36 +33,39 @@ declare(strict_types=1);
  * This file contains useful functions related to the setup process
  */
 
-if (!get_data('server/xuid')) {
-    show_php_error(['phperror' => 'Permission denied']);
-}
+/**
+ * TODO
+ *
+ * TODO
+ */
+function __setup_helper_certs()
+{
+    require_once 'php/lib/control.php';
+    require_once 'php/lib/log.php';
+    require_once 'php/lib/version.php';
+    require_once 'php/lib/indexing.php';
+    require_once 'apps/certs/php/nssdb.php';
+    $time1 = microtime(true);
 
-if (!semaphore_acquire('app/customers/setup')) {
-    show_php_error(['phperror' => 'Could not acquire the semaphore']);
-}
-
-require_once 'apps/certs/php/nssdb.php';
-$time1 = microtime(true);
-
-// Import certificates
-$total = 0;
-$exists = count(__nssdb_list());
-if (!$exists) {
-    __nssdb_init();
-    $files = glob('apps/certs/sample/certs/*.p12');
-    foreach ($files as $file) {
-        $output = __nssdb_add($file, '1234');
-        if (implode('', $output) == 'pk12util: PKCS12 IMPORT SUCCESSFUL') {
-            $total++;
+    // Import certificates
+    $total = 0;
+    $exists = count(__nssdb_list());
+    if (!$exists) {
+        __nssdb_init();
+        $files = glob('apps/certs/sample/certs/*.p12');
+        foreach ($files as $file) {
+            $output = __nssdb_add($file, '1234');
+            if (implode('', $output) == 'pk12util: PKCS12 IMPORT SUCCESSFUL') {
+                $total++;
+            }
         }
     }
-}
 
-$time2 = microtime(true);
-semaphore_release('app/customers/setup');
-output_handler_json([
-    'setup' => [
-        'time' => round($time2 - $time1, 6),
-        'total' => $total,
-    ],
-]);
+    $time2 = microtime(true);
+    return [
+        'setup' => [
+            'time' => round($time2 - $time1, 6),
+            'total' => $total,
+        ],
+    ];
+}

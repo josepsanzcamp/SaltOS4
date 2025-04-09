@@ -31,28 +31,7 @@
             <menu class="navbar-nav me-auto mb-2 mb-lg-0">
                 <item label="Dashboard" onclick="saltos.window.open('app/dashboard')"/>
                 <item label="Applications">
-                    <menu>
-                        <item ifeval="check_user('emails', 'main')" label="Emails" onclick="saltos.window.open('app/emails')"/>
-                        <item divider="true"/>
-                        <item ifeval="check_user('customers', 'main')" label="Customers" onclick="saltos.window.open('app/customers')"/>
-                        <item ifeval="check_user('invoices', 'main')" label="Invoices" onclick="saltos.window.open('app/invoices')"/>
-                        <item divider="true"/>
-                        <item ifeval="check_user('users', 'main')" label="Users" onclick="saltos.window.open('app/users')"/>
-                        <item ifeval="check_user('groups', 'main')" label="Groups" onclick="saltos.window.open('app/groups')"/>
-                        <item divider="true"/>
-                        <item ifeval="check_user('types', 'main')" label="Types" onclick="saltos.window.open('app/types')"/>
-                        <item divider="true"/>
-                        <item ifeval="check_user('configlog', 'main')" label="Config" onclick="saltos.window.open('app/configlog')"/>
-                        <item ifeval="check_user('cronlog', 'main')" label="Cron" onclick="saltos.window.open('app/cronlog')"/>
-                        <item ifeval="check_user('pushlog', 'main')" label="Push" onclick="saltos.window.open('app/pushlog')"/>
-                        <item ifeval="check_user('trashlog', 'main')" label="Trash" onclick="saltos.window.open('app/trashlog')"/>
-                        <item ifeval="check_user('uploadlog', 'main')" label="Upload" onclick="saltos.window.open('app/uploadlog')"/>
-                        <item ifeval="check_user('tokenslog', 'main')" label="Tokens" onclick="saltos.window.open('app/tokenslog')"/>
-                        <item ifeval="check_user('certs', 'main')" label="Certificates" onclick="saltos.window.open('app/certs')"/>
-                        <item ifeval="check_user('fileslog', 'main')" label="Log files" onclick="saltos.window.open('app/fileslog')"/>
-                        <item divider="true"/>
-                        <item ifeval="check_user('tester', 'main')" label="Tester" onclick="saltos.window.open('app/tester')"/>
-                    </menu>
+                    <menu require="apps/dashboard/php/dashboard.php" eval="true">__navbar_helper()</menu>
                 </item>
             </menu>
             <menu class="navbar-nav ms-auto mb-2 mb-lg-0">

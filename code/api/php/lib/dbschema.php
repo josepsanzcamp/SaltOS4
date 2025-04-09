@@ -848,6 +848,21 @@ function __manifest2dbstatic($files)
             $array['table']['value']['row']['#attr']['deny'] = $deny;
             set_array($dbstatic['tables'], 'table', $array['table']);
         }
+        if (!isset($data['groups']) || !is_array($data['groups'])) {
+            continue;
+        }
+        foreach ($data['groups'] as $group) {
+            $group = join_attr_value($group);
+            // Add the apps data package
+            $xml = '<table name="tbl_apps_groups">
+                        <row code="" name="" description=""/>
+                    </table>';
+            $array = xml2array($xml);
+            foreach ($group as $key => $val) {
+                $array['table']['value']['row']['#attr'][$key] = $val;
+            }
+            set_array($dbstatic['tables'], 'table', $array['table']);
+        }
     }
     return $dbstatic;
 }

@@ -124,14 +124,19 @@
 
     <!-- Form part -->
     <_form>
+        <switch id="active" label="Active"/>
+        <div col_class="col-12"/><!-- this act as break line -->
+
         <text id="code" label="Code" required="true" autofocus="true"/>
         <text id="name" label="Name" required="true"/>
-        <switch id="active" label="Active"/>
+
         <textarea id="description" label="Description" required="true" height="10em" col_class="col-12 mb-3"/>
+
         <multiselect id="users_id" label="Users" size="7" col_class="col-md-8 mb-3">
             <rows eval="true">execute_query_array("SELECT CONCAT(name,' (',login,')') label, id value
                 FROM tbl_users WHERE active = 1 ORDER BY login ASC")</rows>
         </multiselect>
+
         <excel id="perms" label="Applications and permissions" col_class="col-12 mb-3" rowHeaderWidth="200" colWidths="100"/>
     </_form>
 

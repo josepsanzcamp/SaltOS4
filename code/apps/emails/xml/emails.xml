@@ -496,9 +496,4 @@
         <check eval="true">true</check>
         <output require="apps/emails/php/indexing.php"/>
     </action>
-
-    <action id="setup">
-        <check eval="true">true</check>
-        <output require="apps/emails/sample/setup.php"/>
-    </action>
 </root>

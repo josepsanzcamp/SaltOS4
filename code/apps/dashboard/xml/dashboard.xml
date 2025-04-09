@@ -38,13 +38,14 @@
                 <button onclick="saltos.window.open('app/dashboard_widgets')" tooltip="To configure the dashboard widgets" icon="gear"/>
             </row>
         </layout>
+        <layout append="one">
+            <row auto="true" id="catalog" col_class="col-xl-4 col-md-6 mb-3" row_class="row mt-3"
+                require="apps/dashboard/php/dashboard.php" eval="true">__dashboard_config()</row>
+        </layout>
         <javascript>
             <file eval="true">file_with_hash(file_with_min('apps/dashboard/js/dashboard.js'))</file>
             <inline>saltos.driver.init('main')</inline>
-            <inline eval="true">'saltos.dashboard.init(' . json_encode([
-                'catalog' => xpath_search_first_value('main/layout[append=one]', xmlfile2array('apps/dashboard/xml/dashboard_widgets.xml')),
-                'config' => get_config_array('app/dashboard/widgets/', current_user()),
-            ]) . ')'</inline>
+            <inline>saltos.dashboard.init()</inline>
         </javascript>
     </main>
 </root>

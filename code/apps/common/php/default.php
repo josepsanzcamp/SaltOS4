@@ -114,6 +114,20 @@ function make_app_file($data)
         show_php_error(['phperror' => 'form TODO not found']);
     }
 
+    $col_class = [
+        'create' => &$array['create#1']['value']['layout']['value']['row']['#attr']['col_class'],
+        'view' => &$array['view#1']['value']['layout']['value']['row']['#attr']['col_class'],
+        'edit' => &$array['edit#1']['value']['layout']['value']['row']['#attr']['col_class'],
+    ];
+    foreach ($col_class as $key => $val) {
+        if (!isset($col_class[$key])) {
+            show_php_error(['phperror' => "$key col_class not found"]);
+        }
+        if ($col_class[$key] != 'TODO') {
+            show_php_error(['phperror' => "$key col_class TODO not found"]);
+        }
+    }
+
     // set the screen
     $screen = $data['screen'];
 
@@ -225,20 +239,30 @@ function make_app_file($data)
             case 'datetime':
             case 'checkbox':
             case 'switch':
-                $xml[] = "<$type id=\"$id\" label=\"$label\" $attr/>";
-                break;
+            case 'integer':
+            case 'float':
+            case 'color':
             case 'textarea':
             case 'ckeditor':
             case 'codemirror':
-                $xml[] = "<$type id=\"$id\" label=\"$label\" height=\"10em\" $attr/>";
+                $xml[] = "<$type id=\"$id\" label=\"$label\" $attr/>";
                 break;
             case 'select':
                 $field2 = $data['select'][$id]['field'];
                 $table2 = $data['select'][$id]['table'];
                 $xml[] = "<select id=\"$id\" label=\"$label\" $attr>";
-                $xml[] = "<rows eval=\"true\">execute_query_array(\"SELECT '' label, '0' value
-                    UNION SELECT $field2 label, id value FROM $table2\")</rows>";
+                $xml[] = "<rows eval=\"true\">execute_query_array(\"
+                    SELECT '' label, '0' value UNION
+                    SELECT $field2 label, id value FROM $table2\")</rows>";
                 $xml[] = '</select>';
+                break;
+            case 'multiselect':
+                $field2 = $data['select'][$id]['field'];
+                $table2 = $data['select'][$id]['table'];
+                $xml[] = "<multiselect id=\"$id\" label=\"$label\" $attr>";
+                $xml[] = "<rows eval=\"true\">execute_query_array(\"
+                    SELECT $field2 label, id value FROM $table2\")</rows>";
+                $xml[] = '</multiselect>';
                 break;
             default:
                 show_php_error(['phperror' => "$type not found"]);
@@ -246,6 +270,11 @@ function make_app_file($data)
     }
     $xml = '<root>' . implode('', $xml) . '</root>';
     $form = xml2array($xml)['root'];
+
+    // set the col_class if needed
+    foreach ($col_class as $key => $val) {
+        $col_class[$key] = $data['col_class'];
+    }
 
     // disconnect to the database if needed
     if (!$bool) {

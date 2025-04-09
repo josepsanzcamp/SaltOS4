@@ -46,6 +46,25 @@ db_connect();
 require_once 'php/lib/dbschema.php';
 require_once 'php/lib/setup.php';
 
+// This part allow request like setup/crm for specific setups
+if (get_data('rest/1')) {
+    $dir = encode_bad_chars(strval(get_data('rest/1')));
+
+    // Search for specific setup
+    $file = "apps/$dir/sample/setup.php";
+    if (file_exists($file)) {
+        require_once $file;
+        $output = "__setup_helper_$dir"();
+        semaphore_release('setup');
+        output_handler_json($output);
+    }
+
+    // Generic setup for .sql.gz files
+    $output = __setup_helper($dir);
+    semaphore_release('setup');
+    output_handler_json($output);
+}
+
 $dbschema_check = __dbschema_check();
 $dbschema_hash = __dbschema_hash();
 $dbstatic_check = __dbstatic_check();

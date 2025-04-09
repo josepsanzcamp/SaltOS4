@@ -26,9 +26,12 @@
 -->
 
 <root>
+    <groups>
+        <group code="devel" name="Devel" description="Development Tester"/>
+    </groups>
     <apps>
-        <app id="3" active="1"
+        <app id="3" active="1" group="devel"
             code="tester" name="Tester" description="Tester app"
-            perms="main" allow="1" deny="0"/>
+            perms="main,menu" allow="1" deny="0"/>
     </apps>
 </root>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ -  ____        _ _    ___  ____    _  _    ___
+ - / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ - \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ -  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ - |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ -
+ - SaltOS: Framework to develop Rich Internet Applications
+ - Copyright (C) 2007-2025 by Josep Sanz Campderrós
+ - More information in https://www.saltos.org or info@saltos.org
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU General Public License as published by
+ - the Free Software Foundation, either version 3 of the License, or
+ - (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ - GNU General Public License for more details.
+ -
+ - You should have received a copy of the GNU General Public License
+ - along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<root>
+    <tables>
+        <table name="app_suppliers">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="name" type="VARCHAR(255)"/>
+                <field name="email" type="VARCHAR(255)"/>
+                <field name="phone" type="VARCHAR(255)"/>
+                <field name="address" type="VARCHAR(255)"/>
+                <field name="city" type="VARCHAR(255)"/>
+                <field name="zip" type="VARCHAR(255)"/>
+                <field name="country" type="VARCHAR(255)"/>
+                <field name="tax_id" type="INT(11)"/>
+                <field name="website" type="VARCHAR(255)"/>
+                <field name="notes" type="TEXT"/>
+                <field name="created_at" type="DATE"/>
+                <field name="type_id" type="INT(11)"/>
+            </fields>
+        </table>
+        <table name="app_purchase">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="date" type="DATE"/>
+                <field name="supplier_id" type="INT(11)"/>
+                <field name="code" type="VARCHAR(255)"/>
+                <field name="description" type="TEXT"/>
+                <field name="subtotal" type="FLOAT"/>
+                <field name="tax" type="FLOAT"/>
+                <field name="total" type="FLOAT"/>
+                <field name="paid" type="FLOAT"/>
+                <field name="status_id" type="INT(11)"/>
+                <field name="invoice_date" type="DATE"/>
+                <field name="paid_date" type="DATE"/>
+                <field name="notes" type="TEXT"/>
+            </fields>
+        </table>
+    </tables>
+</root>

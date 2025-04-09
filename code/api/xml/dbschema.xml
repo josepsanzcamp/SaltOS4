@@ -155,6 +155,7 @@ that maintain the database using as reference this file
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                 <field name="active" type="INT(11)"/>
+                <field name="group" type="VARCHAR(255)"/>
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
@@ -167,6 +168,14 @@ that maintain the database using as reference this file
                 <field name="has_files" type="INT(11)"/>
                 <field name="has_notes" type="INT(11)"/>
                 <field name="has_log" type="INT(11)"/>
+            </fields>
+        </table>
+        <table name="tbl_apps_groups">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="code" type="VARCHAR(255)"/>
+                <field name="name" type="VARCHAR(255)"/>
+                <field name="description" type="TEXT"/>
             </fields>
         </table>
         <table name="tbl_perms">

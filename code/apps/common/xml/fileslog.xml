@@ -122,11 +122,11 @@
         <cache>app/fileslog/main</cache>
         <title eval="true">T('Detail') . ' - ' . T(app2name(get_data('rest/1')))</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-12 mb-3">
+            <row auto="true" col_class="col-md-4 mb-3">
                 <text id="name" label="Name"/>
                 <text id="type" label="Type"/>
                 <text id="size" label="Size"/>
-                <textarea id="data" label="Data" height="10em"/>
+                <textarea id="data" label="Data" height="10em" col_class="col-md-12 mb-3"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>

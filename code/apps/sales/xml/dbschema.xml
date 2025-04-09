@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ -  ____        _ _    ___  ____    _  _    ___
+ - / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ - \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ -  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ - |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ -
+ - SaltOS: Framework to develop Rich Internet Applications
+ - Copyright (C) 2007-2025 by Josep Sanz Campderrós
+ - More information in https://www.saltos.org or info@saltos.org
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU General Public License as published by
+ - the Free Software Foundation, either version 3 of the License, or
+ - (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ - GNU General Public License for more details.
+ -
+ - You should have received a copy of the GNU General Public License
+ - along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<root>
+    <tables>
+        <table name="app_invoices">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="code" type="VARCHAR(255)"/>
+                <field name="date" type="DATE"/>
+                <field name="customer_id" type="INT(11)" fkey="app_customers"/>
+                <field name="customer_name" type="VARCHAR(255)"/>
+                <field name="customer_address" type="TEXT"/>
+                <field name="customer_city" type="VARCHAR(255)"/>
+                <field name="customer_zip" type="VARCHAR(255)"/>
+                <field name="customer_country" type="VARCHAR(255)"/>
+                <field name="customer_code" type="VARCHAR(255)"/>
+                <field name="description" type="TEXT"/>
+                <field name="subtotal" type="FLOAT"/>
+                <field name="tax" type="FLOAT"/>
+                <field name="total" type="FLOAT"/>
+                <field name="status_id" type="INT(11)" fkey="app_types"/>
+                <field name="paid" type="FLOAT"/>
+                <field name="due_date" type="DATE"/>
+                <field name="is_closed" type="INT(11)"/>
+                <field name="is_paid" type="INT(11)"/>
+            </fields>
+        </table>
+        <table name="app_invoices_lines">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="invoice_id" type="INT(11)"/>
+                <field name="product_id" type="INT(11)"/>
+                <field name="description" type="VARCHAR(255)"/>
+                <field name="quantity" type="FLOAT"/>
+                <field name="price" type="FLOAT"/>
+                <field name="discount" type="FLOAT"/>
+                <field name="tax_id" type="INT(11)"/>
+                <field name="total" type="FLOAT"/>
+            </fields>
+        </table>
+        <table name="app_products">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="name" type="VARCHAR(255)"/>
+                <field name="code" type="VARCHAR(255)"/>
+                <field name="description" type="TEXT"/>
+                <field name="price" type="FLOAT"/>
+                <field name="tax_id" type="INT(11)" fkey="app_taxes"/>
+                <field name="type_id" type="INT(11)" fkey="app_types"/>
+                <field name="active" type="INT(11)"/>
+            </fields>
+        </table>
+        <table name="app_taxes">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="name" type="VARCHAR(255)"/>
+                <field name="value" type="FLOAT"/>
+                <field name="active" type="INT(11)"/>
+                <field name="default" type="INT(11)"/>
+            </fields>
+        </table>
+        <table name="app_workorders">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="date" type="DATE"/>
+                <field name="worker_id" type="INT(11)" fkey="app_employees"/>
+                <field name="client_id" type="INT(11)" fkey="app_customers"/>
+                <field name="description" type="TEXT"/>
+                <field name="hours" type="FLOAT"/>
+                <field name="price" type="FLOAT"/>
+                <field name="total" type="FLOAT"/>
+                <field name="invoice_id" type="INT(11)" fkey="app_invoices"/>
+            </fields>
+        </table>
+    </tables>
+</root>

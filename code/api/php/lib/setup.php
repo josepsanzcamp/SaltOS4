@@ -137,3 +137,64 @@ function setup()
 
     return $output;
 }
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function __setup_helper($dir)
+{
+    require_once 'php/lib/control.php';
+    require_once 'php/lib/log.php';
+    require_once 'php/lib/version.php';
+    require_once 'php/lib/indexing.php';
+    $time1 = microtime(true);
+
+    // Search all files of the requested directory
+    $files = glob("apps/$dir/sample/sql/*.sql.gz");
+    $total = [];
+    foreach ($files as $file) {
+        // Prepare the table and app variables
+        $table = basename($file, '.sql.gz');
+        $app = '';
+        if (table_exists($table)) {
+            $app = table2app($table);
+        }
+        if (subtable_exists($table)) {
+            $app = subtable2app($table);
+        }
+        if (!$app) {
+            show_php_error(['phperror' => "table $table without app"]);
+        }
+        if (!isset($total[$app])) {
+            $total[$app] = 0;
+        }
+
+        // Check if table contains some data
+        $exists = execute_query("SELECT COUNT(*) FROM $table");
+        if (!$exists) {
+            // Load and executes the query
+            $query = file_get_contents("compress.zlib://$file");
+            db_query($query);
+
+            // Add the needed control, version, index and log
+            $ids = execute_query_array("SELECT id FROM $table");
+            foreach ($ids as $id) {
+                make_control($app, $id);
+                make_version($app, $id);
+                make_index($app, $id);
+                $total[$app]++;
+            }
+            make_log($app, 'setup', $ids);
+        }
+    }
+
+    $time2 = microtime(true);
+    return [
+        'setup' => [
+            'time' => round($time2 - $time1, 6),
+            'total' => $total,
+        ],
+    ];
+}

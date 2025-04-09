@@ -141,7 +141,7 @@
         <cache eval="true">'app/' . get_data('rest/1') . '/main'</cache>
         <title eval="true">T('New') . ' - ' . T(app2name(get_data('rest/1')))</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-12 mb-3" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_form']</row>
+            <row auto="true" col_class="TODO" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_form']</row>
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -181,7 +181,7 @@
         <cache eval="true">'app/' . get_data('rest/1') . '/main'</cache>
         <title eval="true">T('Detail') . ' - ' . T(app2name(get_data('rest/1')))</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-12 mb-3" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_form']</row>
+            <row auto="true" col_class="TODO" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_form']</row>
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -225,7 +225,7 @@
         <cache eval="true">'app/' . get_data('rest/1') . '/main'</cache>
         <title eval="true">T('Modify') . ' - ' . T(app2name(get_data('rest/1')))</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-12 mb-3" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_form']</row>
+            <row auto="true" col_class="TODO" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_form']</row>
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -247,10 +247,4 @@
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))</check>
         <output require="php/lib/actions.php" eval="true">delete(get_data('rest/1'), intval(get_data('rest/3')))</output>
     </delete>
-
-    <!-- Actions part -->
-    <action id="setup">
-        <check eval="true">file_exists('apps/'.get_data('rest/1').'/sample/setup.php')</check>
-        <output eval="true">require_once 'apps/'.get_data('rest/1').'/sample/setup.php'</output>
-    </action>
 </root>

@@ -528,9 +528,8 @@ function escape_reserved_word($word)
         return $word;
     }
     $words = [
-        'key', 'value', 'field', 'table',
-        'from', 'to', 'in', 'out',
-        'start', 'stop', 'begin', 'end',
+        'key', 'value', 'field', 'table', 'default', 'order', 'group',
+        'from', 'to', 'in', 'out', 'start', 'stop', 'begin', 'end',
     ];
     if (in_array($word, $words)) {
         return "`$word`";

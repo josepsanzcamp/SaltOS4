@@ -50,7 +50,7 @@ saltos.bootstrap = {};
  * @container   => id, class, style
  * @row         => id, class, style
  * @col         => id, class, style
- * @text        => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, OE, OC
+ * @text        => id, class, PL, value, DS, RO, RQ, AF, AK, datalist, tooltip, label, color, OE, OC
  * @hidden      => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, color, OE, OC
  * @integer     => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, OE, OC
  * @float       => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, OE, OC
@@ -296,14 +296,26 @@ saltos.bootstrap.__field.hr = field => {
  * @tooltip     => this parameter raise the title flag
  * @accesskey   => the key used as accesskey parameter
  * @label       => this parameter is used as text for the label
+ * @datalist    => array with options for the datalist, used as autocomplete for the text input
  * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
  * @onenter     => the function executed when enter key is pressed
  * @onchange    => the function executed when onchange event is detected
  */
 saltos.bootstrap.__field.text = field => {
+    saltos.core.check_params(field, ['datalist'], []);
     field.type = 'text';
-    let obj = saltos.bootstrap.__text_helper(field);
-    obj = saltos.bootstrap.__label_combine(field, obj);
+    let obj = saltos.core.html(`<div></div>`);
+    obj.append(saltos.bootstrap.__label_helper(field));
+    obj.append(saltos.bootstrap.__text_helper(field));
+    if (field.datalist.length) {
+        obj.querySelector('input').setAttribute('list', field.id + '_datalist');
+        obj.append(saltos.core.html(`<datalist id="${field.id}_datalist"></datalist>`));
+        for (const key in field.datalist) {
+            const val = field.datalist[key];
+            obj.querySelector('datalist').append(saltos.core.html(`<option value="${val}" />`));
+        }
+    }
+    obj = saltos.core.optimize(obj);
     return obj;
 };
 
