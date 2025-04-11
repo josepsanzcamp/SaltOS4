@@ -28,15 +28,33 @@
 declare(strict_types=1);
 
 /**
- * TODO
+ * Dashboard and navbar generation logic.
  *
- * TODO
+ * This file contains helper functions used to build the SaltOS dashboard and navbar
+ * dynamically based on the applications configured in the system and the permissions
+ * of the current user.
+ *
+ * Functions included:
+ * - __dashboard_helper(): Generates the full dashboard widget layout (alerts, buttons, separators)
+ * - __dashboard_config(): Applies user-specific configuration to customize the dashboard layout
+ * - __navbar_helper(): Builds the application menu structure for the top navigation bar
+ *
+ * These functions are used internally by the SaltOS UI rendering engine to generate
+ * the initial layout and navigation menus seen by each user on login.
  */
 
 /**
- * TODO
+ * Build the default dashboard layout with groups and application buttons.
  *
- * TODO
+ * This function retrieves all active applications from `tbl_apps`,
+ * groups them by `group`, filters them by user permissions (menu access),
+ * and then formats them into a widget-based structure suitable for rendering
+ * on the dashboard, including alerts, buttons, and separators.
+ *
+ * Each group of apps is preceded by an alert (group title and description),
+ * followed by buttons for each app, and a horizontal rule (`<hr>`) at the end.
+ *
+ * @return array An array of widgets (alerts, buttons, hr) to render the dashboard
  */
 function __dashboard_helper()
 {
@@ -97,9 +115,17 @@ function __dashboard_helper()
 }
 
 /**
- * TODO
+ * Build a personalized dashboard layout based on user config.
  *
- * TODO
+ * This function loads the full list of dashboard items using `__dashboard_helper()`
+ * and then tries to fetch the widget configuration saved by the current user
+ * under the path `app/dashboard/widgets/default`.
+ *
+ * If configuration is found, it reconstructs the dashboard by preserving only
+ * the items selected by the user, in the specified order. Otherwise, it returns
+ * the default layout.
+ *
+ * @return array The personalized or default dashboard widget list
  */
 function __dashboard_config()
 {
@@ -127,9 +153,21 @@ function __dashboard_config()
 }
 
 /**
- * TODO
+ * Build the application menu for the navbar.
  *
- * TODO
+ * This function generates the main application menu for the navbar by:
+ * - Fetching all active apps grouped by `group`
+ * - Filtering them by user permissions
+ * - Mapping the group metadata from `tbl_apps_groups`
+ * - Creating a linear structure of `<item>` elements including:
+ *   - Group labels (disabled items)
+ *   - App entries with onclick handlers
+ *   - A divider after each group
+ *
+ * The result is an array of menu items that represents the full application
+ * navigation tree grouped visually in the UI.
+ *
+ * @return array An array of navbar `<item>` definitions
  */
 function __navbar_helper()
 {

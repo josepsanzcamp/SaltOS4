@@ -73,8 +73,6 @@
                     <header>
                         <customer_name label="Customer"/>
                         <customer_code label="CIF"/>
-                        <customer_city label="City"/>
-                        <customer_zip label="Zip"/>
                         <code label="Invoice"/>
                         <date label="Date"/>
                         <total label="Total"/>
@@ -111,7 +109,7 @@
         ]</temp>
         <data require="php/lib/log.php" eval="true">merge_data_actions(
             make_log_bypass(get_data('rest/1'), get_data('rest/2'), execute_query_array("
-                SELECT id, customer_name, customer_code, customer_city, customer_zip, code, date, total,
+                SELECT id, customer_name, customer_code, code, date, total,
                 IF(is_closed, 'check-lg text-success', 'x-lg text-danger') is_closed,
                 IF(is_paid, 'check-lg text-success', 'x-lg text-danger') is_paid
                 FROM ".app2table(get_data('rest/1')).'
@@ -146,7 +144,7 @@
     <list id="filter" eval="true">xmlfile2array('apps/common/xml/filter.xml')['list']</list>
 
     <!-- Form part -->
-    <_form_header>
+    <_form>
         <switch id="is_closed" label="Closed" col_class="col-md-3 mb-3"/>
         <text id="code" label="Invoice" col_class="col-md-3 mb-3"/>
         <date id="date" label="Date" col_class="col-md-3 mb-3"/>
@@ -171,37 +169,63 @@
         <date id="paid_date" label="Paid date" col_class="col-md-3 mb-3"/>
 
         <textarea id="description" label="Description" height="5em" col_class="col-md-12 mb-3"/>
-    </_form_header>
-    <_form_detail>
-        <hidden id="id"/>
-        <textarea id="description" label="Description" col_class="col mb-3" required="true"/>
-        <float id="quantity" label="Quant." col_class="col-md-1 mb-3" required="true"/>
-        <float id="price" label="Price" col_class="col-md-1 mb-3" required="true"/>
-        <float id="discount" label="Disc." col_class="col-md-1 mb-3"/>
-        <text id="tax_id" label="Tax" col_class="col-md-1 mb-3">
-            <datalist eval="true">execute_query_array("
-                SELECT DISTINCT value FROM app_taxes WHERE active=1 ORDER BY `default` DESC, value DESC")</datalist>
-        </text>
-        <text id="total" label="Total" col_class="col-md-1 mb-3" ignore="true"/>
-        <button onclick="saltos.invoices.remove_item(this)" icon="trash" col_class="col-auto mb-3" tooltip="Remove this line" addbr="true"/>
-    </_form_detail>
-    <_form_footer>
-        <div col_class="col mb-3"/>
-        <text id="subtotal" label="Subtotal" col_class="col-md-1 mb-3" ignore="true"/>
-        <text id="tax" label="Tax" col_class="col-md-1 mb-3" ignore="true"/>
-        <text id="total" label="Total" col_class="col-md-1 mb-3" ignore="true"/>
-        <button onclick="saltos.invoices.add_item()" icon="plus-lg" col_class="col-auto mb-3" tooltip="Añadir mas conceptos" addbr="true"/>
-    </_form_footer>
 
-    <_data_header require="php/lib/log.php" eval="true">make_log_bypass(get_data('rest/1'), get_data('rest/2'), execute_query('
-        SELECT * FROM '.app2table(get_data('rest/1')).' WHERE id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')),
-        [intval(get_data('rest/3'))]))</_data_header>
+        <excel id="concepts" label="Concepts" col_class="col-md-12 mb-3">
+            <colHeaders eval="true">['Description', 'Quantity', 'Price', 'Discount', 'Tax', 'Total']</colHeaders>
+            <rowHeaders eval="true">null</rowHeaders>
+            <colWidths>saltos.invoices.colWidths_concepts</colWidths>
+            <numcols>6</numcols>
+            <numrows>5</numrows>
+            <minSpareRows>1</minSpareRows>
+            <cells>saltos.invoices.cells_concepts</cells>
+            <afterChange>saltos.invoices.afterChange_concepts</afterChange>
+            <autoWrapRow>true</autoWrapRow>
+        </excel>
+
+        <excel id="taxes" label="Taxes" col_class="col-md-6 mb-3">
+            <colHeaders eval="true">['Tax', 'Base', 'Total']</colHeaders>
+            <rowHeaders eval="true">null</rowHeaders>
+            <colWidths>saltos.invoices.colWidths_taxes</colWidths>
+            <numcols>3</numcols>
+            <numrows>1</numrows>
+            <cells>saltos.invoices.cells_taxes</cells>
+        </excel>
+        <hidden id="alltaxes">
+            <data eval="true">execute_query_array("SELECT name, value FROM app_taxes WHERE active=1")</data>
+        </hidden>
+
+        <excel id="totals" label="Totals" col_class="col-md-6 mb-3">
+            <colHeaders eval="true">['Subtotal', 'Tax', 'Total']</colHeaders>
+            <rowHeaders eval="true">null</rowHeaders>
+            <colWidths>saltos.invoices.colWidths_totals</colWidths>
+            <numcols>3</numcols>
+            <numrows>1</numrows>
+            <cells>saltos.invoices.cells_totals</cells>
+        </excel>
+    </_form>
+
+    <_data require="php/lib/log.php" eval="true">array_merge(
+        make_log_bypass(get_data('rest/1'), get_data('rest/2'), execute_query('
+            SELECT * FROM '.app2table(get_data('rest/1')).' WHERE id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')),
+            [intval(get_data('rest/3'))])),
+        ['concepts' => matrix_values(execute_query_array('SELECT description, quantity, price, discount, tax_value, total
+            FROM '.app2table(get_data('rest/1')).'_lines WHERE invoice_id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')),
+            [intval(get_data('rest/3'))]))],
+        ['taxes' => matrix_values(execute_query_array('SELECT tax_name, base, tax
+            FROM '.app2table(get_data('rest/1')).'_taxes WHERE invoice_id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')),
+            [intval(get_data('rest/3'))]))],
+        ['totals' => matrix_values(execute_query_array('SELECT subtotal, tax, total
+            FROM '.app2table(get_data('rest/1')).' WHERE id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')),
+            [intval(get_data('rest/3'))]))],
+    )</_data>
+<!--
     <_data_detail eval="true">execute_query_array('SELECT *
         FROM '.app2table(get_data('rest/1')).'_lines WHERE invoice_id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')).' ORDER BY id ASC',
         [intval(get_data('rest/3'))])</_data_detail>
     <_data_footer eval="true">execute_query('SELECT id, subtotal, tax, total
         FROM '.app2table(get_data('rest/1')).' WHERE id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')),
         [intval(get_data('rest/3'))])</_data_footer>
+-->
 
     <create>
         <check eval="true" logout="true">current_user()</check>
@@ -215,9 +239,7 @@
         <cache eval="true">'app/' . get_data('rest/1') . '/main'</cache>
         <title eval="true">T('New') . ' - ' . T(app2name(get_data('rest/1')))</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-6 mb-3" row_class="row header" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))["_form_header"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))["_form_detail"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" row_class="row footer" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))["_form_footer"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_form']</row>
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -242,9 +264,7 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))</check>
         <cache eval="true">'app/' . get_data('rest/1') . '/view/cache'</cache>
-        <data eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))["_data_header"]</data>
-        <data template_id="detail" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))["_data_detail"]</data>
-        <data eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))["_data_footer"]</data>
+        <data eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_data']</data>
         <data><allfiles eval="true">xmlfile2array('apps/common/xml/files.xml')['_data']</allfiles></data>
         <data><allnotes eval="true">xmlfile2array('apps/common/xml/notes.xml')['_data']</allnotes></data>
         <javascript>
@@ -261,9 +281,7 @@
         <cache eval="true">'app/' . get_data('rest/1') . '/main'</cache>
         <title eval="true">T('Detail') . ' - ' . T(app2name(get_data('rest/1')))</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-6 mb-3" row_class="row header" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))["_form_header"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))["_form_detail"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" row_class="row footer" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))["_form_footer"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_form']</row>
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -297,9 +315,7 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))</check>
         <cache eval="true">'app/' . get_data('rest/1') . '/edit/cache'</cache>
-        <data eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))["_data_header"]</data>
-        <data template_id="detail" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))["_data_detail"]</data>
-        <data eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))["_data_footer"]</data>
+        <data eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_data']</data>
         <data><allfiles eval="true">xmlfile2array('apps/common/xml/files.xml')['_data']</allfiles></data>
         <data><allnotes eval="true">xmlfile2array('apps/common/xml/notes.xml')['_data']</allnotes></data>
         <javascript>
@@ -316,9 +332,7 @@
         <cache eval="true">'app/' . get_data('rest/1') . '/main'</cache>
         <title eval="true">T('Modify') . ' - ' . T(app2name(get_data('rest/1')))</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-6 mb-3" row_class="row header" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))["_form_header"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))["_form_detail"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" row_class="row footer" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))["_form_footer"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_form']</row>
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">

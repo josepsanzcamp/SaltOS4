@@ -663,3 +663,34 @@ function array_grep($input, $pattern, $invert = false)
     $input = array_values($input);
     return $input;
 }
+
+/**
+ * Convert a multidimensional associative matrix into a purely indexed matrix.
+ *
+ * This function recursively transforms a 2D associative array (matrix)
+ * into a fully numeric-indexed matrix by applying `array_values()` at both
+ * levels: the rows and the matrix itself.
+ *
+ * For example, it converts:
+ *     [
+ *         'row1' => ['a' => 1, 'b' => 2],
+ *         'row2' => ['x' => 3, 'y' => 4]
+ *     ]
+ * Into:
+ *     [
+ *         [1, 2],
+ *         [3, 4]
+ *     ]
+ *
+ * @matrix => A 2D associative array
+ *
+ * Return a 2D numeric-indexed array
+ */
+function matrix_values($matrix)
+{
+    foreach ($matrix as $key => $val) {
+        $matrix[$key] = array_values($val);
+    }
+    $matrix = array_values($matrix);
+    return $matrix;
+}

@@ -53,14 +53,26 @@
         <table name="app_invoices_lines">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-                <field name="invoice_id" type="INT(11)"/>
-                <field name="product_id" type="INT(11)"/>
+                <field name="invoice_id" type="INT(11)" fkey="app_invoices"/>
+                <field name="product_id" type="INT(11)" fkey="app_products"/>
                 <field name="description" type="VARCHAR(255)"/>
                 <field name="quantity" type="FLOAT"/>
                 <field name="price" type="FLOAT"/>
                 <field name="discount" type="FLOAT"/>
-                <field name="tax_id" type="INT(11)"/>
+                <field name="tax_id" type="INT(11)" fkey="app_taxes"/>
+                <field name="tax_value" type="FLOAT"/>
                 <field name="total" type="FLOAT"/>
+            </fields>
+        </table>
+        <table name="app_invoices_taxes">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="invoice_id" type="INT(11)" fkey="app_invoices"/>
+                <field name="tax_id" type="INT(11)" fkey="app_taxes"/>
+                <field name="tax_name" type="VARCHAR(255)"/>
+                <field name="tax_value" type="FLOAT"/>
+                <field name="base" type="FLOAT"/>
+                <field name="tax" type="FLOAT"/>
             </fields>
         </table>
         <table name="app_products">

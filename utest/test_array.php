@@ -196,5 +196,29 @@ final class test_array extends TestCase
         ]), [
             'hola mundo' => 'Hola Mundo',
         ]);
+
+        $input = [
+            'row1' => ['a' => 1, 'b' => 2],
+            'row2' => ['x' => 3, 'y' => 4],
+        ];
+        $expected = [
+            [1, 2],
+            [3, 4],
+        ];
+        $this->assertEquals($expected, matrix_values($input));
+
+        $input = [
+            ['a' => 10, 'b' => 20],
+            ['x' => 30, 'y' => 40],
+        ];
+        $expected = [
+            [10, 20],
+            [30, 40],
+        ];
+        $this->assertEquals($expected, matrix_values($input));
+
+        $input = [];
+        $expected = [];
+        $this->assertEquals($expected, matrix_values($input));
     }
 }

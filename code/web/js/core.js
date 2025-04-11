@@ -949,8 +949,45 @@ saltos.core.check_network = async () => {
  *
  * This function checks that the str contains a valid number and is finite
  *
- * str => the string to validate
+ * @arg => the argument to validate
  */
-saltos.core.is_number = str => {
-    return isFinite(Number(str));
+saltos.core.is_number = arg => {
+    if (typeof arg == 'number') {
+        return isFinite(arg);
+    }
+    if (typeof arg == 'string') {
+        arg = arg.trim();
+        if (arg != '') {
+            return isFinite(Number(arg));
+        }
+    }
+    return false;
+};
+
+/**
+ * Checks whether the given string represents a valid JavaScript function expression.
+ *
+ * This includes both arrow functions (e.g. "x => x * 2") and traditional function expressions
+ * (e.g. "function(x) { return x * 2; }"). The string is evaluated using `eval`, so it must be
+ * syntactically correct and wrapped properly if necessary.
+ *
+ * @arg => The argument to evaluate.
+ *
+ * Returns true if the string is a valid function, false otherwise.
+ */
+saltos.core.is_function = arg => {
+    if (typeof arg == 'function') {
+        return true;
+    }
+    if (typeof arg == 'string') {
+        try {
+            let fn = eval(`(${arg})`);
+            if (typeof fn === 'function') {
+                return true;
+            }
+        } catch (error) {
+            // Silent catch: invalid function syntax
+        }
+    }
+    return false;
 };

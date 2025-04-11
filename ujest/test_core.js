@@ -1056,11 +1056,45 @@ test('saltos.core.is_number', () => {
     expect(saltos.core.is_number(123.456)).toBe(true);
     expect(saltos.core.is_number('123')).toBe(true);
     expect(saltos.core.is_number('123.456')).toBe(true);
+    expect(saltos.core.is_number('  123  ')).toBe(true);
+    expect(saltos.core.is_number('  123.456  ')).toBe(true);
     expect(saltos.core.is_number('asd123')).toBe(false);
     expect(saltos.core.is_number('123asd')).toBe(false);
     expect(saltos.core.is_number(Infinity)).toBe(false);
     expect(saltos.core.is_number(-Infinity)).toBe(false);
     expect(saltos.core.is_number(NaN)).toBe(false);
+    expect(saltos.core.is_number(null)).toBe(false);
+    expect(saltos.core.is_number(true)).toBe(false);
+    expect(saltos.core.is_number(false)).toBe(false);
+    expect(saltos.core.is_number([])).toBe(false);
+    expect(saltos.core.is_number({})).toBe(false);
+    expect(saltos.core.is_number('function() {}')).toBe(false);
+    expect(saltos.core.is_number('() => {}')).toBe(false);
+    expect(saltos.core.is_number(function() {})).toBe(false);
+    expect(saltos.core.is_number(() => {})).toBe(false);
+});
+
+/**
+ * saltos.core.is_function
+ *
+ * This function performs the test of the is_function function
+ */
+test('saltos.core.is_function', () => {
+    expect(saltos.core.is_function('function() {}')).toBe(true);
+    expect(saltos.core.is_function('() => {}')).toBe(true);
+    expect(saltos.core.is_function(function() {})).toBe(true);
+    expect(saltos.core.is_function(() => {})).toBe(true);
+    expect(saltos.core.is_function(123)).toBe(false);
+    expect(saltos.core.is_function('123')).toBe(false);
+    expect(saltos.core.is_function('asd123')).toBe(false);
+    expect(saltos.core.is_function(Infinity)).toBe(false);
+    expect(saltos.core.is_function(-Infinity)).toBe(false);
+    expect(saltos.core.is_function(NaN)).toBe(false);
+    expect(saltos.core.is_function(null)).toBe(false);
+    expect(saltos.core.is_function(true)).toBe(false);
+    expect(saltos.core.is_function(false)).toBe(false);
+    expect(saltos.core.is_function([])).toBe(false);
+    expect(saltos.core.is_function({})).toBe(false);
 });
 
 /**

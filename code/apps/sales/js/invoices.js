@@ -49,95 +49,171 @@ saltos.invoices = {};
  * @arg => Specifies the type of operation to initialize.
  */
 saltos.invoices.init = arg => {
-    // Handle initialization for viewing invoices
-    if (arg == 'view') {
-        document.querySelectorAll('.detail button, .footer button').forEach(item => {
-            item.closest('.col-auto').remove();
-        });
+    // Nothing to do at the moment
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.invoices.colWidths_concepts = index => {
+    if (index == 0) {
+        const width = document.getElementById('concepts').parentElement.offsetWidth - 2;
+        return Math.floor(width - 500);
+    }
+    return 100;
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.invoices.cells_concepts = (row, column, prop) => {
+    if (column == 4) {
+        return {
+            type: 'dropdown',
+            source: document.getElementById('alltaxes').data.map(row => row.value),
+        };
+    }
+    if (column == 5) {
+        return {
+            readOnly: true,
+        };
+    }
+    return {};
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.invoices.colWidths_taxes = index => {
+    if (index == 0) {
+        const width = document.getElementById('taxes').parentElement.offsetWidth - 2;
+        return Math.floor(width - 200);
+    }
+    return 100;
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.invoices.cells_taxes = (row, column, prop) => {
+    return {
+        readOnly: true,
+    };
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.invoices.colWidths_totals = index => {
+    const width = document.getElementById('taxes').parentElement.offsetWidth - 2;
+    return Math.floor(width / 3);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.invoices.cells_totals = (row, column, prop) => {
+    return {
+        readOnly: true,
+    };
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.invoices.afterChange_concepts = (changes, source) => {
+    console.log(source);
+    if (source != 'edit') {
+        return;
     }
 
-    // Handle initialization for creating or editing invoices
-    if (['create', 'edit'].includes(arg)) {
-        document.querySelectorAll('[id*=quantity], [id*=price], [id*=discount], [id*=tax]').forEach(item => {
-            item.removeEventListener('change', saltos.invoices.compute_total);
-            item.addEventListener('change', saltos.invoices.compute_total);
-        });
-        document.querySelectorAll('[id*=\\.total], #subtotal, #tax, #total').forEach(item => {
-            item.setAttribute('disabled', '');
-        });
+    // Check, validate and compute the concepts matrix
+    const concepts = document.getElementById('concepts').data;
+    for (const i in concepts) {
+        const line = concepts[i];
+        let ok = true;
+        for (let j = 1; j <= 3; j++) {
+            if (!saltos.core.is_number(line[j])) {
+                // This case detect when discount (pos 3) is void but
+                // quantity (pos 1) and price (pos 2) have valid data
+                if (j == 3 && ok) {
+                    line[3] = 0;
+                    continue;
+                }
+                // here, non valid data was detected
+                ok = false;
+                continue;
+            }
+            // here, it tries to normalice the number
+            line[j] = parseFloat(line[j]);
+        }
+        if (ok) {
+            // Computes the total for this line
+            line[5] = line[1] * line[2] * (1 - line[3] / 100);
+            // Round using two decimals
+            line[5] = Math.round(line[5] * 100) / 100;
+        }
     }
-};
 
-/**
- * Compute total invoice amount
- *
- * This method calculates the subtotal for each invoice item and the grand total for all items.
- * It handles discounts, rounds values to two decimal places, and updates the total fields.
- */
-saltos.invoices.compute_total = () => {
-    let subtotal = 0;
-    let tax = 0;
-    let total = 0;
-    document.querySelectorAll('.detail').forEach(item => {
-        if (item.querySelector('[id*=quantity]') === null) {
-            return;
+    // This trigger a concepts refresh
+    document.getElementById('concepts').excel.updateSettings({});
+
+    // Compute the taxes matrix
+    const taxes = {};
+    const alltaxes = document.getElementById('alltaxes').data;
+    // Create the taxes structure by tax and compute all bases
+    for (const i in concepts) {
+        const line = concepts[i];
+        const tax = line[4];
+        const base = line[5];
+        if (!(tax in taxes)) {
+            const temp = alltaxes.find(row => row.value == tax);
+            if (!temp) {
+                continue;
+            }
+            taxes[tax] = [temp.name, 0, 0];
         }
-        const quantity = item.querySelector('[id*=quantity]').value;
-        const price = item.querySelector('[id*=price]').value;
-        const discount = item.querySelector('[id*=discount]').value;
-        const _tax = item.querySelector('[id*=tax]').value;
-        let _total = quantity * price * (1 - (discount / 100));
-        _total = Math.round(100 * _total) / 100;
-        item.querySelector('[id*=total]').value = _total;
-        subtotal += _total;
-        tax += _total * (_tax / 100);
-        total += _total * (1 + (_tax / 100))
-    });
-    document.getElementById('subtotal').value = subtotal;
-    document.getElementById('tax').value = tax;
-    document.getElementById('total').value = total;
-};
+        taxes[tax][1] += base;
+    }
+    // Apply each tax to each base
+    for (const i in taxes) {
+        taxes[i][2] = taxes[i][1] * i / 100;
+    }
+    // Round using two decimals
+    for (const i in taxes) {
+        taxes[i][1] = Math.round(taxes[i][1] * 100) / 100;
+        taxes[i][2] = Math.round(taxes[i][2] * 100) / 100;
+    }
+    // Update the entire matrix
+    document.getElementById('taxes').set(Object.values(taxes));
 
-/**
- * Add a new item to the invoice
- *
- * This method creates a new invoice item and initializes its layout and event listeners.
- * It ensures consistent behavior for the form fields and recomputes the totals after addition.
- */
-saltos.invoices.add_item = () => {
-    saltos.backup.restore('two,one');
-    const layout = saltos.form.__layout_template_helper('detail', saltos.core.uniqid());
-    const obj = saltos.form.layout(layout, 'div');
-    // Important notice: this function modify the layout and is important to do the
-    // same that saltos.form.layout at the end when append is used, without this the
-    // next calls to get_data will restore the old two,one layout to the used array
-    // in saltos.form.__form.fields, without this two lines, only works in r1427 or
-    // earlier, this feature breaks in r1428 and was complex to be fixed
-    const key = saltos.backup.__selector_helper('two,one');
-    saltos.backup.save(key[0]);
-    document.querySelector('.footer').before(obj);
-    saltos.invoices.init('edit');
-};
-
-/**
- * Remove an item from the invoice
- *
- * This method deletes an invoice item or marks it with a negative value if it is hidden.
- * It updates the invoice totals after removal.
- *
- * @obj => Reference to the item to remove.
- */
-saltos.invoices.remove_item = (obj) => {
-    // This long line is to do a copy of the array to iterate and remove at the same time
-    const items = Array.prototype.slice.call(obj.closest('.row').childNodes);
-    items.forEach(item => {
-        if (item.classList.contains('d-none') && item.querySelector('input').value != '') {
-            item.querySelector('input').value *= -1;
-        } else {
-            item.remove();
-        }
-    });
-    saltos.invoices.compute_total();
+    // Compute the totals matrix
+    const totals = [0, 0, 0];
+    for (const i in taxes) {
+        totals[0] += taxes[i][1];
+        totals[1] += taxes[i][2];
+    }
+    totals[2] = totals[0] + totals[1];
+    // Round using two decimals
+    totals[0] = Math.round(totals[0] * 100) / 100;
+    totals[1] = Math.round(totals[1] * 100) / 100;
+    totals[2] = Math.round(totals[2] * 100) / 100;
+    // Update the entire matrix
+    document.getElementById('totals').set([totals]);
 };
 
 /**

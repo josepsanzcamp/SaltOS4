@@ -335,9 +335,12 @@ saltos.bootstrap.__field.text = field => {
  * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
  * @accesskey   => the key used as accesskey parameter
- * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @color       => the color of the widget (primary, secondary, success, danger, warning,
+ *                 info, none)
  * @onenter     => the function executed when enter key is pressed
  * @onchange    => the function executed when onchange event is detected
+ * @data        => this widget can store data in the data attribute, usefull to store
+ *                 an array or object with data
  *
  * Notes:
  *
@@ -348,6 +351,9 @@ saltos.bootstrap.__field.text = field => {
 saltos.bootstrap.__field.hidden = field => {
     field.type = 'hidden';
     const obj = saltos.bootstrap.__text_helper(field);
+    if ('data' in field) {
+        obj.data = field.data;
+    }
     return obj;
 };
 
@@ -1169,7 +1175,9 @@ saltos.bootstrap.__field.select = field => {
  * This widget is created joinin 2 selects and 2 buttons, the user must get the value
  * using the hidden input that is builded using the original id passed by argument.
  *
- * TODO: detected a bug with this widget in chrome in mobile browsers
+ * Warning:
+ *
+ * Detected a bug with this widget in chrome in mobile browsers
  */
 saltos.bootstrap.__field.multiselect = field => {
     saltos.core.check_params(field, ['value', 'class', 'id', 'disabled', 'required',
@@ -2010,6 +2018,11 @@ saltos.bootstrap.__field.image = field => {
  * @colWidths      => can be an array with the widths of the headers cols
  * @label          => this parameter is used as text for the label
  * @color          => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @afterChange    => the afterChange function that receives one argument (changes), a 2D array containing
+ *                    information about each of the edited cells [[row, prop, oldVal, newVal], ...],
+ *                    you can do something like changes.forEach(([row, prop, oldValue, newValue])
+ * @autoWrapCol    => used as autoWrapCol in the handsontable widget
+ * @autoWrapRow    => used as autoWrapRow in the handsontable widget
  *
  * Notes:
  *
@@ -2026,7 +2039,8 @@ saltos.bootstrap.__field.excel = field => {
     saltos.core.check_params(field, ['id', 'class', 'value', 'data', 'required', 'disabled',
                                      'rowHeaders', 'colHeaders', 'minSpareRows', 'height',
                                      'contextMenu', 'rowHeaderWidth', 'colWidths', 'color',
-                                     'numcols', 'numrows', 'cell', 'cells']);
+                                     'numcols', 'numrows', 'cell', 'cells', 'afterChange',
+                                     'autoWrapCol', 'autoWrapRow']);
     if (!field.color) {
         field.color = 'primary';
     }
@@ -2073,10 +2087,26 @@ saltos.bootstrap.__field.excel = field => {
     } else {
         field.rowHeaderWidth = parseInt(field.rowHeaderWidth, 10);
     }
-    if (field.colWidths == '') {
-        field.colWidths = undefined;
-    } else if (typeof field.colWidths == 'string') {
-        field.colWidths = parseInt(field.colWidths, 10);
+    if (typeof field.colWidths == 'string') {
+        if (field.colWidths == '') {
+            field.colWidths = undefined;
+        } else if (saltos.core.is_number(field.colWidths)) {
+            field.colWidths = parseInt(field.colWidths, 10);
+        } else if (saltos.core.is_function(field.colWidths)) {
+            field.colWidths = eval(field.colWidths);
+        }
+    }
+    if (typeof field.cells == 'string') {
+        if (field.cells == '') {
+            field.cells = undefined;
+        } else if (saltos.core.is_function(field.cells)) {
+            field.cells = eval(field.cells);
+        }
+    }
+    if (typeof field.afterChange == 'string') {
+        if (saltos.core.is_function(field.afterChange)) {
+            field.afterChange = eval(field.afterChange);
+        }
     }
     input.data = saltos.core.copy_object(field.data);
     const element = obj.querySelector('div');
@@ -2094,10 +2124,11 @@ saltos.bootstrap.__field.excel = field => {
         contextMenu: field.contextMenu,
         rowHeaderWidth: field.rowHeaderWidth,
         colWidths: field.colWidths,
-        autoWrapCol: false,
-        autoWrapRow: false,
+        autoWrapCol: field.autoWrapCol,
+        autoWrapRow: field.autoWrapRow,
         cell: field.cell,
         cells: field.cells,
+        afterChange: field.afterChange,
     };
     saltos.core.require([
         'lib/handsontable/handsontable.full.min.css',

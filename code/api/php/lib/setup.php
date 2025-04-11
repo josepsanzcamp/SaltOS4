@@ -139,9 +139,23 @@ function setup()
 }
 
 /**
- * TODO
+ * Load and initialize sample data for all apps in the given directory.
  *
- * TODO
+ * This function is used during the setup or development phase to populate
+ * the database with sample data stored in `.sql.gz` files under
+ * `apps/<dir>/sample/sql/`. For each file:
+ *
+ * - It infers the corresponding table and app.
+ * - If the table is empty, it loads the data from the SQL file.
+ * - It then generates control/version/index/log metadata for each inserted record.
+ * - It ensures that subtable and main table mappings are respected.
+ *
+ * The function returns timing information and the number of records processed
+ * per app, which can be used for diagnostics or logging.
+ *
+ * @dir => The directory under `apps/` (e.g., "crm", "sales", ...)
+ *
+ * Return an associative array with total execution time and per-app counts
  */
 function __setup_helper($dir)
 {

@@ -34,7 +34,7 @@ rfc822|https://www.phpclasses.org/browse/file/21704.html|<span title=|PHNwYW4gdG
 sortablejs|https://github.com/SortableJS/Sortable/tags.atom|<title>|PHRpdGxlPnYxLjE1LjY8L3RpdGxlPg==
 
 acorn|https://github.com/acornjs/acorn/tags.atom|<title>|PHRpdGxlPlZlcnNpb24gOC4xNC4xPC90aXRsZT4=
-brotli|https://github.com/kjdev/php-ext-brotli/tags.atom|<title>|PHRpdGxlPjAuMTUuMjwvdGl0bGU+
+brotli|https://github.com/kjdev/php-ext-brotli/tags.atom|<title>|PHRpdGxlPjAuMTUuMitwaWU8L3RpdGxlPg==
 browserify|https://github.com/browserify/browserify/tags.atom|<title>|PHRpdGxlPnYxNy4wLjE8L3RpdGxlPg==
 cloc|https://github.com/AlDanial/cloc/tags.atom|<title>|PHRpdGxlPnYyLjA0PC90aXRsZT4=
 jest|https://github.com/jestjs/jest/tags.atom|<title>|PHRpdGxlPnYzMC4wLjAtYWxwaGEuNzwvdGl0bGU+
@@ -45,7 +45,7 @@ minify|https://github.com/coderaiser/minify/tags.atom|<title>|PHRpdGxlPm1pbmlmeS
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|PHRpdGxlPk1yb29uZ2EgMTUuMDUgLSAyMDI1LTA0LTA4PC90aXRsZT4=
 node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjUtMDQtMDEsIFZlcnNpb24gMjMuMTEuMCAoQ3VycmVudCksIEBhZHVoOTU8L3RpdGxlPg==
 pcov|https://github.com/krakjoe/pcov/tags.atom|<title>|PHRpdGxlPnYxLjAuMTI8L3RpdGxlPg==
-php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjMuMjA8L3RpdGxlPg==
+php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPlBIUCA4LjQuNjwvdGl0bGU+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|PHRpdGxlPjMuMTIuMSAtIDIwMjUtMDQtMDQ8L3RpdGxlPg==
 phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjIuMS4xMTwvdGl0bGU+
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|PHRpdGxlPlBIUFVuaXQgMTIuMS4yPC90aXRsZT4=
