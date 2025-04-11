@@ -192,7 +192,6 @@ saltos.invoices.cells_totals = (row, column, prop) => {
  * @source  => Source of the change event (only `'edit'` triggers processing)
  */
 saltos.invoices.afterChange_concepts = (changes, source) => {
-    console.log(source);
     if (source != 'edit') {
         return;
     }
@@ -235,6 +234,9 @@ saltos.invoices.afterChange_concepts = (changes, source) => {
     for (const i in concepts) {
         const line = concepts[i];
         const tax = line[4];
+        if (!saltos.core.is_number(tax)) {
+            continue;
+        }
         const base = line[5];
         if (!(tax in taxes)) {
             const temp = alltaxes.find(row => row.value == tax);
@@ -255,7 +257,11 @@ saltos.invoices.afterChange_concepts = (changes, source) => {
         taxes[i][2] = Math.round(taxes[i][2] * 100) / 100;
     }
     // Update the entire matrix
-    document.getElementById('taxes').set(Object.values(taxes));
+    if (Object.keys(taxes).length) {
+        document.getElementById('taxes').set(Object.values(taxes));
+    } else {
+        document.getElementById('taxes').set([[null, null, null]]);
+    }
 
     // Compute the totals matrix
     const totals = [0, 0, 0];
@@ -269,7 +275,11 @@ saltos.invoices.afterChange_concepts = (changes, source) => {
     totals[1] = Math.round(totals[1] * 100) / 100;
     totals[2] = Math.round(totals[2] * 100) / 100;
     // Update the entire matrix
-    document.getElementById('totals').set([totals]);
+    if (Object.keys(taxes).length) {
+        document.getElementById('totals').set([totals]);
+    } else {
+        document.getElementById('totals').set([[null, null, null]]);
+    }
 };
 
 /**
