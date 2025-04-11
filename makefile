@@ -105,7 +105,7 @@ ifneq (,$(findstring web,$(file)))
 	php scripts/makehtml.php docs/web.t2t
 endif
 ifneq (,$(findstring apps,$(file)))
-	php scripts/maket2t.php docs/apps.t2t code/apps/*/php code/apps/*/js
+	php scripts/maket2t.php docs/apps.t2t code/apps/*/{php,js}
 	php scripts/makepdf.php docs/apps.t2t
 	php scripts/makehtml.php docs/apps.t2t
 endif

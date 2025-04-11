@@ -21,20 +21,9 @@ $outfile = basename($temp);
 $files = [];
 foreach ($argv as $path) {
     $temp = explode("\n", trim(ob_passthru("find $path -type f")));
-    sort($temp);
     $files = array_merge($files, $temp);
 }
-// Trick to sort only the code/apps/*
-$temp = [];
-foreach ($files as $key => $val) {
-    if (substr($val, 0, 10) == 'code/apps/') {
-        $temp[] = $val;
-        unset($files[$key]);
-    }
-}
-sort($temp);
-$files = array_merge($files, $temp);
-// Continue
+sort($files);
 $files = array_flip($files);
 //~ $files = ["core/php/autoload/import.php" => ""];
 //~ print_r($files);
