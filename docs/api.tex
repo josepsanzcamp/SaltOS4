@@ -27,7 +27,7 @@
 
 
 \title{Api Documentation}
-\author{SaltOS 4.0 r1947}
+\author{SaltOS 4.0 r1952}
 \begin{document}
 \date{April 2025}
 \maketitle
@@ -1134,6 +1134,34 @@ words ignoring accents
 \end{compactitem}
 
 \hypertarget{toc73}{}
+\subsubsection{Convert a multidimensional associative matrix into a purely indexed matrix.}
+
+\begin{lstlisting}
+function matrix_values($matrix)
+\end{lstlisting}
+
+This function recursively transforms a 2D associative array (matrix)
+into a fully numeric-indexed matrix by applying `array\_values()` at both
+levels: the rows and the matrix itself.
+
+For example, it converts:
+    [
+        'row1' =$>$ \htmladdnormallink{'a' =$>$ 1, 'b' =$>$}{2},
+        'row2' =$>$ \htmladdnormallink{'x' =$>$ 3, 'y' =$>$}{4}
+    ]
+Into:
+    [
+        \htmladdnormallink{1,}{2},
+        \htmladdnormallink{3,}{4}
+    ]
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @matrix =$>$ A 2D associative array
+\end{compactitem}
+
+Return a 2D numeric-indexed array
+
+\hypertarget{toc74}{}
 \subsection{Compatibility helper module}
 
 \begin{lstlisting}
@@ -1142,7 +1170,7 @@ api/php/autoload/compat.php
 
 This file add some functions used by SaltOS that can not be found in all allowed versions of PHP
 
-\hypertarget{toc74}{}
+\hypertarget{toc75}{}
 \subsubsection{Array Key Last}
 
 \begin{lstlisting}
@@ -1161,7 +1189,7 @@ Notes:
 Code copied from the follow web:
 \htmladdnormallink{https://www.php.net/manual/es/function.array-key-last.php\#124007}{https://www.php.net/manual/es/function.array-key-last.php\#124007}
 
-\hypertarget{toc75}{}
+\hypertarget{toc76}{}
 \subsubsection{Array Key First}
 
 \begin{lstlisting}
@@ -1180,7 +1208,7 @@ Notes:
 Code copied from the follow web:
 \htmladdnormallink{https://www.php.net/manual/es/function.array-key-last.php\#124007}{https://www.php.net/manual/es/function.array-key-last.php\#124007}
 
-\hypertarget{toc76}{}
+\hypertarget{toc77}{}
 \subsection{Config helper module}
 
 \begin{lstlisting}
@@ -1189,7 +1217,7 @@ api/php/autoload/config.php
 
 This fie contains useful functions related to configuration features
 
-\hypertarget{toc77}{}
+\hypertarget{toc78}{}
 \subsubsection{Get config}
 
 \begin{lstlisting}
@@ -1217,7 +1245,7 @@ To prevent errors in case of duplicates, we are using the ORDER BY id ASC
 LIMIT 1, this allow to get and set only the first register found by the
 select query
 
-\hypertarget{toc78}{}
+\hypertarget{toc79}{}
 \subsubsection{Set config}
 
 \begin{lstlisting}
@@ -1244,7 +1272,7 @@ To prevent errors in case of duplicates, we are using the ORDER BY id ASC
 LIMIT 1, this allow to get and set only the first register found by the
 select query
 
-\hypertarget{toc79}{}
+\hypertarget{toc80}{}
 \subsubsection{Detect config files}
 
 \begin{lstlisting}
@@ -1257,7 +1285,7 @@ This function returns the files found in the main path, in the apps path and in 
 \item[\color{myblue}$\bullet$] @file =$>$ the pattern used to search files
 \end{compactitem}
 
-\hypertarget{toc80}{}
+\hypertarget{toc81}{}
 \subsubsection{Get config array}
 
 \begin{lstlisting}
@@ -1272,7 +1300,7 @@ using a prefix for all keys.
 \item[\color{myblue}$\bullet$] @user\_id =$>$ the user\_id used in the search query
 \end{compactitem}
 
-\hypertarget{toc81}{}
+\hypertarget{toc82}{}
 \subsubsection{Prepare Config Files}
 
 \begin{lstlisting}
@@ -1291,7 +1319,7 @@ decisions about overwrite the contents like this function do
 \item[\color{myblue}$\bullet$] @array =$>$ the main array that you want to prepare as config array
 \end{compactitem}
 
-\hypertarget{toc82}{}
+\hypertarget{toc83}{}
 \subsection{Database helper module}
 
 \begin{lstlisting}
@@ -1301,7 +1329,7 @@ api/php/autoload/database.php
 This fie contains useful functions related to database, allow to connect, check queries, execute
 queries, disconnect, retrieve rows and manipulate resultsets of the database
 
-\hypertarget{toc83}{}
+\hypertarget{toc84}{}
 \subsubsection{DB Connect}
 
 \begin{lstlisting}
@@ -1329,7 +1357,7 @@ If the args argument is null, the the function try to use the configuration stor
 and depending of the argument presense, it will return the database object or store it in the config
 to be used by the nexts functions of this php file
 
-\hypertarget{toc84}{}
+\hypertarget{toc85}{}
 \subsubsection{DB Check}
 
 \begin{lstlisting}
@@ -1342,7 +1370,7 @@ This function is intended to check that the query execution will not trigger an 
 \item[\color{myblue}$\bullet$] @query =$>$ the query that you want to validate
 \end{compactitem}
 
-\hypertarget{toc85}{}
+\hypertarget{toc86}{}
 \subsubsection{DB Escape}
 
 \begin{lstlisting}
@@ -1356,7 +1384,7 @@ in a sql query
 \item[\color{myblue}$\bullet$] @str =$>$ the string that you want to sanitize
 \end{compactitem}
 
-\hypertarget{toc86}{}
+\hypertarget{toc87}{}
 \subsubsection{DB Query}
 
 \begin{lstlisting}
@@ -1390,7 +1418,7 @@ arrays, this is useful when you want to get all ids of a query and you want to g
 sized array, in this case, is more efficient to get an string separated by commas with all
 ids instead of an array where each element is an id
 
-\hypertarget{toc87}{}
+\hypertarget{toc88}{}
 \subsubsection{DB Fetch Row}
 
 \begin{lstlisting}
@@ -1404,7 +1432,7 @@ This function returns the next row of the resultset queue
            obtained by the db\_query
 \end{compactitem}
 
-\hypertarget{toc88}{}
+\hypertarget{toc89}{}
 \subsubsection{DB Fetch All}
 
 \begin{lstlisting}
@@ -1418,7 +1446,7 @@ This function returns all rows of the resultset queue
            obtained by the db\_query
 \end{compactitem}
 
-\hypertarget{toc89}{}
+\hypertarget{toc90}{}
 \subsubsection{DB Num Rows}
 
 \begin{lstlisting}
@@ -1432,7 +1460,7 @@ This function returns the total number of the results in the resultset queue
            obtained by the db\_query
 \end{compactitem}
 
-\hypertarget{toc90}{}
+\hypertarget{toc91}{}
 \subsubsection{DB Num Fields}
 
 \begin{lstlisting}
@@ -1446,7 +1474,7 @@ This function returns the number of fields of the resultset queue
            obtained by the db\_query
 \end{compactitem}
 
-\hypertarget{toc91}{}
+\hypertarget{toc92}{}
 \subsubsection{DB Field Name}
 
 \begin{lstlisting}
@@ -1460,7 +1488,7 @@ This function returns the name of the field identified by the index field
            obtained by the db\_query
 \end{compactitem}
 
-\hypertarget{toc92}{}
+\hypertarget{toc93}{}
 \subsubsection{DB Last Insert ID}
 
 \begin{lstlisting}
@@ -1469,7 +1497,7 @@ function db_last_insert_id()
 
 This function returns the last insert id
 
-\hypertarget{toc93}{}
+\hypertarget{toc94}{}
 \subsubsection{DB Free}
 
 \begin{lstlisting}
@@ -1483,7 +1511,7 @@ This function releases all memory used by the resultset queue
            obtained by the db\_query
 \end{compactitem}
 
-\hypertarget{toc94}{}
+\hypertarget{toc95}{}
 \subsubsection{DB Disconnect}
 
 \begin{lstlisting}
@@ -1492,7 +1520,7 @@ function db_disconnect()
 
 This function close the database connection and sets the link to null
 
-\hypertarget{toc95}{}
+\hypertarget{toc96}{}
 \subsection{Datetime helper module}
 
 \begin{lstlisting}
@@ -1502,7 +1530,7 @@ api/php/autoload/datetime.php
 This fie contains useful functions related to datetime, allow to get current timestamp in various
 formats, allow to evaluate timestamps and some helper more
 
-\hypertarget{toc96}{}
+\hypertarget{toc97}{}
 \subsubsection{Current Date}
 
 \begin{lstlisting}
@@ -1517,7 +1545,7 @@ current time mark
 \item[\color{myblue}$\bullet$] @offset =$>$ the bias added to the current time mark
 \end{compactitem}
 
-\hypertarget{toc97}{}
+\hypertarget{toc98}{}
 \subsubsection{Current Time}
 
 \begin{lstlisting}
@@ -1532,7 +1560,7 @@ current time mark
 \item[\color{myblue}$\bullet$] @offset =$>$ the bias added to the current time mark
 \end{compactitem}
 
-\hypertarget{toc98}{}
+\hypertarget{toc99}{}
 \subsubsection{Current DateTime}
 
 \begin{lstlisting}
@@ -1547,7 +1575,7 @@ move the current time mark
 \item[\color{myblue}$\bullet$] @offset =$>$ the bias added to the current time mark
 \end{compactitem}
 
-\hypertarget{toc99}{}
+\hypertarget{toc100}{}
 \subsubsection{Current Decimals}
 
 \begin{lstlisting}
@@ -1568,7 +1596,7 @@ Notes:
 This function is used by current\_datetime\_decimals, and don't have more uses
 that provice more precision in the logs files
 
-\hypertarget{toc100}{}
+\hypertarget{toc101}{}
 \subsubsection{Current DateTime Decimals}
 
 \begin{lstlisting}
@@ -1584,7 +1612,7 @@ more accuracy to debug issues, for example
 \item[\color{myblue}$\bullet$] @size   =$>$ the size used by the decimal part
 \end{compactitem}
 
-\hypertarget{toc101}{}
+\hypertarget{toc102}{}
 \subsubsection{Dateval}
 
 \begin{lstlisting}
@@ -1608,7 +1636,7 @@ as emulated null, the month are limited to 12 and the day is limited to the
 days of the month and year, this is useful because the dates that are more
 greather that zero, will have a valid and an existing value
 
-\hypertarget{toc102}{}
+\hypertarget{toc103}{}
 \subsubsection{Day of a Month helper}
 
 \begin{lstlisting}
@@ -1623,7 +1651,7 @@ is useful because allow to fix problems in dates that use days out of range
 \item[\color{myblue}$\bullet$] @month =$>$ month that you want to use in the validation
 \end{compactitem}
 
-\hypertarget{toc103}{}
+\hypertarget{toc104}{}
 \subsubsection{Timeval}
 
 \begin{lstlisting}
@@ -1638,7 +1666,7 @@ the elements, the result will be of the format HH:II:SS
 \item[\color{myblue}$\bullet$] @value =$>$ the input value to validate
 \end{compactitem}
 
-\hypertarget{toc104}{}
+\hypertarget{toc105}{}
 \subsubsection{Datetimeval}
 
 \begin{lstlisting}
@@ -1662,7 +1690,7 @@ as emulated null, the month are limited to 12 and the day is limited to the
 days of the month and year, this is useful because the dates that are more
 greather that zero, will have a valid and an existing value
 
-\hypertarget{toc105}{}
+\hypertarget{toc106}{}
 \subsubsection{Time to Seconds}
 
 \begin{lstlisting}
@@ -1675,7 +1703,7 @@ This function converts the time format into seconds
 \item[\color{myblue}$\bullet$] @time =$>$ time to be converted into seconds, the format will be HH:II:SS
 \end{compactitem}
 
-\hypertarget{toc106}{}
+\hypertarget{toc107}{}
 \subsubsection{Seconds to Time}
 
 \begin{lstlisting}
@@ -1688,7 +1716,7 @@ This function converts the seconds into time format
 \item[\color{myblue}$\bullet$] @secs =$>$ seconds to be converted to time format, the format will be a number
 \end{compactitem}
 
-\hypertarget{toc107}{}
+\hypertarget{toc108}{}
 \subsubsection{Current Day Of Week}
 
 \begin{lstlisting}
@@ -1703,7 +1731,7 @@ used to move the current time mark
 \item[\color{myblue}$\bullet$] @offset =$>$ the bias added to the current time mark
 \end{compactitem}
 
-\hypertarget{toc108}{}
+\hypertarget{toc109}{}
 \subsubsection{Datetime format}
 
 \begin{lstlisting}
@@ -1716,7 +1744,7 @@ This function returns the datetime using the europe format for d/m/Y instead of 
 \item[\color{myblue}$\bullet$] @x =$>$ the datetime string that you want to convert
 \end{compactitem}
 
-\hypertarget{toc109}{}
+\hypertarget{toc110}{}
 \subsection{Error helper module}
 
 \begin{lstlisting}
@@ -1726,7 +1754,7 @@ api/php/autoload/error.php
 This fie contains useful functions related to error management, allow to trigger and manage
 errors, too contains the code used for the error and exception handlers
 
-\hypertarget{toc110}{}
+\hypertarget{toc111}{}
 \subsubsection{Show PHP Error}
 
 \begin{lstlisting}
@@ -1778,7 +1806,7 @@ because each execution modify the pid and the time entries and break the
 optimization of the hash with the checklog to prevent repetitions in the
 log file
 
-\hypertarget{toc111}{}
+\hypertarget{toc112}{}
 \subsubsection{Do Message Error}
 
 \begin{lstlisting}
@@ -1810,7 +1838,7 @@ THs input @array can contain pairs of key val:
 Returns an array with the text and the json formated output ready to be used
 in the log file and in the stdout channel
 
-\hypertarget{toc112}{}
+\hypertarget{toc113}{}
 \subsubsection{Program Handlers}
 
 \begin{lstlisting}
@@ -1819,7 +1847,7 @@ function program_handlers()
 
 This function program all error handlers
 
-\hypertarget{toc113}{}
+\hypertarget{toc114}{}
 \subsubsection{Error Handler}
 
 \begin{lstlisting}
@@ -1837,7 +1865,7 @@ Ths arguments are defined by the set\_error\_handler:
 \item[\color{myblue}$\bullet$] @line    =$>$ The line where the error will occurred
 \end{compactitem}
 
-\hypertarget{toc114}{}
+\hypertarget{toc115}{}
 \subsubsection{Exception Handler}
 
 \begin{lstlisting}
@@ -1853,7 +1881,7 @@ Ths arguments are defined by the set\_exception\_handler:
       methods
 \end{compactitem}
 
-\hypertarget{toc115}{}
+\hypertarget{toc116}{}
 \subsubsection{Shutdown Handler}
 
 \begin{lstlisting}
@@ -1866,7 +1894,7 @@ execution will execute this function and only it must to trigger an error if a r
 error is in the stack of the errors events, to do it this function uses the error\_get\_last
 to check if the value in in the list of typified errors
 
-\hypertarget{toc116}{}
+\hypertarget{toc117}{}
 \subsubsection{Get code from trace}
 
 \begin{lstlisting}
@@ -1889,7 +1917,7 @@ This function gets the arguments dinamically, this allow to send for example the
 the trace, the desired index or both datas in your prefered order, the trick to detect each
 param is to expect an array for the trace and a number for the index.
 
-\hypertarget{toc117}{}
+\hypertarget{toc118}{}
 \subsubsection{Show JSON Error}
 
 \begin{lstlisting}
@@ -1906,7 +1934,7 @@ is created automatically to help the backtrace of the issues
 \item[\color{myblue}$\bullet$] @logout =$>$ this allow to send the logout flag to force to show the login screen
 \end{compactitem}
 
-\hypertarget{toc118}{}
+\hypertarget{toc119}{}
 \subsubsection{Get code from file and line}
 
 \begin{lstlisting}
@@ -1921,7 +1949,7 @@ the launcher of an error, for example
 \item[\color{myblue}$\bullet$] @line =$>$ line used to construct the last part of the code
 \end{compactitem}
 
-\hypertarget{toc119}{}
+\hypertarget{toc120}{}
 \subsubsection{Detect Recursion}
 
 \begin{lstlisting}
@@ -1938,7 +1966,7 @@ or the function, and returns the count of times that appear
        by a comma
 \end{compactitem}
 
-\hypertarget{toc120}{}
+\hypertarget{toc121}{}
 \subsubsection{Overload error handler}
 
 \begin{lstlisting}
@@ -1954,7 +1982,7 @@ try/catch or using the documented specification
 \item[\color{myblue}$\bullet$] @words =$>$ the list of words that must to contain the error desired to be ignored
 \end{compactitem}
 
-\hypertarget{toc121}{}
+\hypertarget{toc122}{}
 \subsection{Execution helper module}
 
 \begin{lstlisting}
@@ -1964,7 +1992,7 @@ api/php/autoload/exec.php
 This fie contains useful functions related to execution of external programs, allow to execute,
 check commands and manage some features as the cache usage or the timeout used in each execution
 
-\hypertarget{toc122}{}
+\hypertarget{toc123}{}
 \subsubsection{OB Passthru}
 
 \begin{lstlisting}
@@ -1985,7 +2013,7 @@ provided methods, passthru, system, exec and shell\_exec, another
 feature is that the function detects what command are available
 to use
 
-\hypertarget{toc123}{}
+\hypertarget{toc124}{}
 \subsubsection{Check Commands}
 
 \begin{lstlisting}
@@ -2000,7 +2028,7 @@ in the system, to do it, uses the unix command witch
 \item[\color{myblue}$\bullet$] @expires  =$>$ the expires time used to compute if the cache is valid
 \end{compactitem}
 
-\hypertarget{toc124}{}
+\hypertarget{toc125}{}
 \subsubsection{Is Disabled Function}
 
 \begin{lstlisting}
@@ -2022,7 +2050,7 @@ As an extra feature, this function can receive two arguments
 to add and del functions to the static \$array, this is usefull
 for utest to check the correctness of the function
 
-\hypertarget{toc125}{}
+\hypertarget{toc126}{}
 \subsubsection{Exec Timeout}
 
 \begin{lstlisting}
@@ -2040,7 +2068,7 @@ break the execution killing the process
 
 Returns the string that contains the command with ths timeout control
 
-\hypertarget{toc126}{}
+\hypertarget{toc127}{}
 \subsection{File utils helper module}
 
 \begin{lstlisting}
@@ -2050,7 +2078,7 @@ api/php/autoload/file.php
 This fie contains useful functions related to the file usage, allow to manage directories, files,
 caches, paths, permissions, remote files and more
 
-\hypertarget{toc127}{}
+\hypertarget{toc128}{}
 \subsubsection{Get Directory}
 
 \begin{lstlisting}
@@ -2065,7 +2093,7 @@ something as store data in the log file, for example
 \item[\color{myblue}$\bullet$] @key =$>$ the key used in get\_config to request the configured directory
 \end{compactitem}
 
-\hypertarget{toc128}{}
+\hypertarget{toc129}{}
 \subsubsection{Get Temp File}
 
 \begin{lstlisting}
@@ -2084,7 +2112,7 @@ Notes:
 
 This function uses the dirs/tempdir config key
 
-\hypertarget{toc129}{}
+\hypertarget{toc130}{}
 \subsubsection{Get Cache File}
 
 \begin{lstlisting}
@@ -2103,7 +2131,7 @@ Notes:
 
 This function uses the dirs/cachedir config key
 
-\hypertarget{toc130}{}
+\hypertarget{toc131}{}
 \subsubsection{Cache Exists}
 
 \begin{lstlisting}
@@ -2118,7 +2146,7 @@ of the filemtime between the cache file and all files of the second argument
 \item[\color{myblue}$\bullet$] @files =$>$ array of files that are considered as dependencies of the cache
 \end{compactitem}
 
-\hypertarget{toc131}{}
+\hypertarget{toc132}{}
 \subsubsection{URL Get Contents}
 
 \begin{lstlisting}
@@ -2137,7 +2165,7 @@ Notes:
 This function only returns the body of the request, if you are interested
 to get the headers of the request, try to use the \_\_url\_get\_contents
 
-\hypertarget{toc132}{}
+\hypertarget{toc133}{}
 \subsubsection{URL Get Contents helper}
 
 \begin{lstlisting}
@@ -2161,7 +2189,7 @@ for request remote files using protocols as http or https
 
 This function returns an array with four elements, body, headers, cookies and code
 
-\hypertarget{toc133}{}
+\hypertarget{toc134}{}
 \subsubsection{Extension}
 
 \begin{lstlisting}
@@ -2174,7 +2202,7 @@ This function returns the PATHINFO\_EXTENSION of the file
 \item[\color{myblue}$\bullet$] @file =$>$ file used in the pathinfo call
 \end{compactitem}
 
-\hypertarget{toc134}{}
+\hypertarget{toc135}{}
 \subsubsection{Encode Bar Chars File}
 
 \begin{lstlisting}
@@ -2190,7 +2218,7 @@ separating the filename with the extension
 \item[\color{myblue}$\bullet$] @file =$>$ filename used in the encode process
 \end{compactitem}
 
-\hypertarget{toc135}{}
+\hypertarget{toc136}{}
 \subsubsection{Realpath Protected}
 
 \begin{lstlisting}
@@ -2207,7 +2235,7 @@ of this function the file is not found
 \item[\color{myblue}$\bullet$] @path =$>$ path used in the realpath call
 \end{compactitem}
 
-\hypertarget{toc136}{}
+\hypertarget{toc137}{}
 \subsubsection{Getcwd Protected}
 
 \begin{lstlisting}
@@ -2219,7 +2247,7 @@ that the result is not an slash, this is an issue in some cases caused by
 permissions problems, and a good solution for this cases is to get the directory
 of the script as current work directory
 
-\hypertarget{toc137}{}
+\hypertarget{toc138}{}
 \subsubsection{Glob Protected}
 
 \begin{lstlisting}
@@ -2236,7 +2264,7 @@ problem
 \item[\color{myblue}$\bullet$] @pattern =$>$ pattern used in the glob command
 \end{compactitem}
 
-\hypertarget{toc138}{}
+\hypertarget{toc139}{}
 \subsubsection{Chmod Protected}
 
 \begin{lstlisting}
@@ -2252,7 +2280,7 @@ the fileowner of the file is the same user that is executing the script
 \item[\color{myblue}$\bullet$] @mode =$>$ mode used by the chmod function
 \end{compactitem}
 
-\hypertarget{toc139}{}
+\hypertarget{toc140}{}
 \subsubsection{Fsockopen Protected}
 
 \begin{lstlisting}
@@ -2265,7 +2293,7 @@ the certificates validations
 Ths arguments is the same that the fsockopen function, in this case, the
 function uses the stream\_socket\_client to emulate the original fsockopen
 
-\hypertarget{toc140}{}
+\hypertarget{toc141}{}
 \subsubsection{File with hash}
 
 \begin{lstlisting}
@@ -2280,7 +2308,7 @@ to know when the file has changed
 \item[\color{myblue}$\bullet$] @file =$>$ the file that you want to add the hash querystring argument
 \end{compactitem}
 
-\hypertarget{toc141}{}
+\hypertarget{toc142}{}
 \subsubsection{File with min}
 
 \begin{lstlisting}
@@ -2294,7 +2322,7 @@ filename and the extension of the file if the .min. file exists
 \item[\color{myblue}$\bullet$] @file =$>$ the file that you want to add the .min. part if exists
 \end{compactitem}
 
-\hypertarget{toc142}{}
+\hypertarget{toc143}{}
 \subsubsection{File Get Contents Protected}
 
 \begin{lstlisting}
@@ -2309,7 +2337,7 @@ protect the caller to prevent I/O errors like "nohup php index.php" when
 \item[\color{myblue}$\bullet$] @args =$>$ the original arguments are passed to the file\_get\_contents
 \end{compactitem}
 
-\hypertarget{toc143}{}
+\hypertarget{toc144}{}
 \subsubsection{Get human size}
 
 \begin{lstlisting}
@@ -2324,7 +2352,7 @@ This function returns an string containing the size in human format
 post  =$>$ string added after the unit letter at the end
 \end{compactitem}
 
-\hypertarget{toc144}{}
+\hypertarget{toc145}{}
 \subsection{Get data helper module}
 
 \begin{lstlisting}
@@ -2334,7 +2362,7 @@ api/php/autoload/getdata.php
 This fie contains useful functions related to the \$\_DATA global variable, allow to get and set
 values in the global \$\_DATA variable using xpath as key
 
-\hypertarget{toc145}{}
+\hypertarget{toc146}{}
 \subsubsection{Get data}
 
 \begin{lstlisting}
@@ -2355,7 +2383,7 @@ value of the rest, intended to get the last value of the rest array,
 too you can get the rest array using negative indexes beginning
 from the last position
 
-\hypertarget{toc146}{}
+\hypertarget{toc147}{}
 \subsubsection{Set data}
 
 \begin{lstlisting}
@@ -2375,7 +2403,7 @@ If null val is passed as argument, then the entry of the data is removed,
 the main idea is to use the same method used by the setcookie that allow
 to remove entries by setting the value to null
 
-\hypertarget{toc147}{}
+\hypertarget{toc148}{}
 \subsection{Gettext helper module}
 
 \begin{lstlisting}
@@ -2386,7 +2414,7 @@ This fie contains useful functions related to gettext funcionality, allow to man
 SaltOS translations using a merged system of the unix locales and the old SaltOS translations
 system.
 
-\hypertarget{toc148}{}
+\hypertarget{toc149}{}
 \subsubsection{Get Text function}
 
 \begin{lstlisting}
@@ -2411,7 +2439,7 @@ If you call the function without argument, the function returns the gettext
 dictionary intended to populate the clients gettext module and contains the
 app, the lang and the locales for the app and lang.
 
-\hypertarget{toc149}{}
+\hypertarget{toc150}{}
 \subsubsection{Check lang format}
 
 \begin{lstlisting}
@@ -2425,7 +2453,7 @@ string that can be used safely as lang in other sites
 \item[\color{myblue}$\bullet$] @lang =$>$ the lang that you want to process
 \end{compactitem}
 
-\hypertarget{toc150}{}
+\hypertarget{toc151}{}
 \subsubsection{Current lang}
 
 \begin{lstlisting}
@@ -2434,7 +2462,7 @@ function current_lang()
 
 This function returns the current lang
 
-\hypertarget{toc151}{}
+\hypertarget{toc152}{}
 \subsection{Iniset helper module}
 
 \begin{lstlisting}
@@ -2444,7 +2472,7 @@ api/php/autoload/iniset.php
 This fie contains useful functions related to the evaluation of the iniset, puntenv and extra
 directives configures in the config.xml file
 
-\hypertarget{toc152}{}
+\hypertarget{toc153}{}
 \subsubsection{Eval Iniset}
 
 \begin{lstlisting}
@@ -2461,7 +2489,7 @@ or mbstring.detect\_order that must to be set by using another mb\_* functions
 \item[\color{myblue}$\bullet$] @array =$>$ the array with the pairs of keys vals
 \end{compactitem}
 
-\hypertarget{toc153}{}
+\hypertarget{toc154}{}
 \subsubsection{Eval Putenv}
 
 \begin{lstlisting}
@@ -2476,7 +2504,7 @@ if is needed to change or not the current setting
 \item[\color{myblue}$\bullet$] @array =$>$ the array with the pairs of keys vals
 \end{compactitem}
 
-\hypertarget{toc154}{}
+\hypertarget{toc155}{}
 \subsubsection{According to the documentation, putenv must return false in error cases, but}
 
 \begin{lstlisting}
@@ -2491,7 +2519,7 @@ be executed when putenv returns false never can be executed.
 As trick, I have added the void key condition to force a case that executes
 the show\_php\_error
 
-\hypertarget{toc155}{}
+\hypertarget{toc156}{}
 \subsubsection{Eval Extras}
 
 \begin{lstlisting}
@@ -2505,7 +2533,7 @@ functions and for the gettext initialization process
 \item[\color{myblue}$\bullet$] @array =$>$ the array with the pairs of keys vals
 \end{compactitem}
 
-\hypertarget{toc156}{}
+\hypertarget{toc157}{}
 \subsection{Json helper module}
 
 \begin{lstlisting}
@@ -2514,7 +2542,7 @@ api/php/autoload/json.php
 
 This fie contains useful functions related to colors
 
-\hypertarget{toc157}{}
+\hypertarget{toc158}{}
 \subsubsection{Terminal colors}
 
 \begin{lstlisting}
@@ -2523,7 +2551,7 @@ define('__COLORS_MAP__', [
 
 This define sets the colors array used in the next functions
 
-\hypertarget{toc158}{}
+\hypertarget{toc159}{}
 \subsubsection{Json colorize}
 
 \begin{lstlisting}
@@ -2543,7 +2571,7 @@ decimal style, to do it, detects numbers with the e letter and print using the
 places, ensuring precision up to the typical limit of a double type in C, which
 supports approximately 15-17 significant digits
 
-\hypertarget{toc159}{}
+\hypertarget{toc160}{}
 \subsection{Log helper module}
 
 \begin{lstlisting}
@@ -2553,7 +2581,7 @@ api/php/autoload/log.php
 This fie contains useful functions related to the logs files, allowing to add and check contents
 to the logs file, useful for debug purposes
 
-\hypertarget{toc160}{}
+\hypertarget{toc161}{}
 \subsubsection{Check Log}
 
 \begin{lstlisting}
@@ -2571,7 +2599,7 @@ replacement that is able to found the hash in the file
 \item[\color{myblue}$\bullet$] @file =$>$ the file where search the pattern
 \end{compactitem}
 
-\hypertarget{toc161}{}
+\hypertarget{toc162}{}
 \subsubsection{Add Log}
 
 \begin{lstlisting}
@@ -2593,7 +2621,7 @@ The logs files are stored in the logsdir (/data/logs)
 
 This function performs the log rotation is the maxfilesize is reached
 
-\hypertarget{toc162}{}
+\hypertarget{toc163}{}
 \subsubsection{Add Trace}
 
 \begin{lstlisting}
@@ -2610,7 +2638,7 @@ and then, saves the log to the specified file
 \item[\color{myblue}$\bullet$] @file  =$>$ the file where do you want to store the log contents
 \end{compactitem}
 
-\hypertarget{toc163}{}
+\hypertarget{toc164}{}
 \subsubsection{Get Trace}
 
 \begin{lstlisting}
@@ -2629,7 +2657,7 @@ This differentiation is because the full debug backtrace can break the
 checklog feature because the time and pid can be different in each
 execution
 
-\hypertarget{toc164}{}
+\hypertarget{toc165}{}
 \subsubsection{Session Backtrace}
 
 \begin{lstlisting}
@@ -2644,7 +2672,7 @@ The fields of this array allow to do low level debug processes, this data is
 generally used by the semaphores and some forced addtrace calls, but causes
 problems in the error reporting because break the hash and checklog optimization
 
-\hypertarget{toc165}{}
+\hypertarget{toc166}{}
 \subsection{Memory helper module}
 
 \begin{lstlisting}
@@ -2655,7 +2683,7 @@ This fie contains useful functions related to memory and time usage, allow to co
 of time and/or memory of a process, intended to prevent crashes in processes that requires more
 time or memory resources that the defined by the system limits
 
-\hypertarget{toc166}{}
+\hypertarget{toc167}{}
 \subsubsection{Memory Get Free}
 
 \begin{lstlisting}
@@ -2668,7 +2696,7 @@ This function returns the free memory in bytes or the percentage of the memory\_
 \item[\color{myblue}$\bullet$] @bytes =$>$ if true, returns the free bytes, if false, returns the percentage
 \end{compactitem}
 
-\hypertarget{toc167}{}
+\hypertarget{toc168}{}
 \subsubsection{Get Time Usage}
 
 \begin{lstlisting}
@@ -2681,7 +2709,7 @@ This function returns the time usage in seconds or in percentage of the max\_exe
 \item[\color{myblue}$\bullet$] @secs =$>$ if true, returns the used seconds, if false, returns the percentage
 \end{compactitem}
 
-\hypertarget{toc168}{}
+\hypertarget{toc169}{}
 \subsubsection{Get Free Time}
 
 \begin{lstlisting}
@@ -2694,7 +2722,7 @@ This function returns the free time in seconds or in percentage of the max\_exec
 \item[\color{myblue}$\bullet$] @secs =$>$ if true, returns the used seconds, if false, returns the percentage
 \end{compactitem}
 
-\hypertarget{toc169}{}
+\hypertarget{toc170}{}
 \subsubsection{Init Time Get}
 
 \begin{lstlisting}
@@ -2703,7 +2731,7 @@ function init_timer()
 
 This function call the helper to initialize the static ini to the current microtime
 
-\hypertarget{toc170}{}
+\hypertarget{toc171}{}
 \subsubsection{Get Time helper}
 
 \begin{lstlisting}
@@ -2713,7 +2741,7 @@ function __time_get_helper($fn, $secs)
 This function is a helper of the time\_get\_usage and time\_get\_free functions, is used to
 check the time usage and the free time that remain to finish the execution of the script
 
-\hypertarget{toc171}{}
+\hypertarget{toc172}{}
 \subsubsection{Set Max Memory Limit}
 
 \begin{lstlisting}
@@ -2723,7 +2751,7 @@ function set_max_memory_limit()
 This function is intended to do a ini\_set with a more greather value to allow an
 exceptionally amount of memory usage
 
-\hypertarget{toc172}{}
+\hypertarget{toc173}{}
 \subsubsection{Set Max Execution Time}
 
 \begin{lstlisting}
@@ -2733,7 +2761,7 @@ function set_max_execution_time()
 This function is intended to do a ini\_set with a more greather value to allow an
 exceptionally amount of execution time
 
-\hypertarget{toc173}{}
+\hypertarget{toc174}{}
 \subsection{Mime helper module}
 
 \begin{lstlisting}
@@ -2743,7 +2771,7 @@ api/php/autoload/mime.php
 This file contains the mimetype feature provided by saltos using different techniques
 suck as the extension file, using the mime\_content\_type or the finfo\_file functions.
 
-\hypertarget{toc174}{}
+\hypertarget{toc175}{}
 \subsubsection{SaltOS Content Type}
 
 \begin{lstlisting}
@@ -2757,7 +2785,7 @@ techniques.
 \item[\color{myblue}$\bullet$] @file =$>$ the file of which you want to know the content-type
 \end{compactitem}
 
-\hypertarget{toc175}{}
+\hypertarget{toc176}{}
 \subsubsection{SaltOS Content Type first helper}
 
 \begin{lstlisting}
@@ -2771,7 +2799,7 @@ pass the string image/jpeg, this function will returns the string image.
 \item[\color{myblue}$\bullet$] @mime =$>$ the mime that you want to process
 \end{compactitem}
 
-\hypertarget{toc176}{}
+\hypertarget{toc177}{}
 \subsubsection{SaltOS Content Type second helper}
 
 \begin{lstlisting}
@@ -2785,7 +2813,7 @@ pass the string image/jpeg, this function will returns the string jpeg.
 \item[\color{myblue}$\bullet$] @mime =$>$ the mime that you want to process
 \end{compactitem}
 
-\hypertarget{toc177}{}
+\hypertarget{toc178}{}
 \subsubsection{Mime inline}
 
 \begin{lstlisting}
@@ -2800,7 +2828,7 @@ and the encoded in base64 data, intended to embed it in img tags, for example.
 \item[\color{myblue}$\bullet$] @data =$>$ the contents of the data that must to be encoded in base64
 \end{compactitem}
 
-\hypertarget{toc178}{}
+\hypertarget{toc179}{}
 \subsubsection{SaltOS Content Type from string}
 
 \begin{lstlisting}
@@ -2814,7 +2842,7 @@ This function tries to return content-type of the buffer contents
            the content-type.
 \end{compactitem}
 
-\hypertarget{toc179}{}
+\hypertarget{toc180}{}
 \subsubsection{Mime extract}
 
 \begin{lstlisting}
@@ -2828,7 +2856,7 @@ is to return the type and data used in the inline image, for example
 \item[\color{myblue}$\bullet$] @data =$>$ an inline image in the format of data:image/png;base64,xxxxx
 \end{compactitem}
 
-\hypertarget{toc180}{}
+\hypertarget{toc181}{}
 \subsubsection{Mime to name}
 
 \begin{lstlisting}
@@ -2847,7 +2875,7 @@ Notes:
 \item[\color{myblue}$\bullet$] This function contains some special cases that contains special chars
 \end{compactitem}
 
-\hypertarget{toc181}{}
+\hypertarget{toc182}{}
 \subsection{Output helper module}
 
 \begin{lstlisting}
@@ -2858,7 +2886,7 @@ This fie contains useful functions related to the output of the SaltOS, allow to
 the clients using the specified format and configuration, useful to return contents, too implement
 a specific output for the json format that is the most format used by the new SaltOS
 
-\hypertarget{toc182}{}
+\hypertarget{toc183}{}
 \subsubsection{Output Handler}
 
 \begin{lstlisting}
@@ -2878,7 +2906,7 @@ the follow arguments:
 \item[\color{myblue}$\bullet$] @extra =$>$ headers that you can add to the transfer
 \end{compactitem}
 
-\hypertarget{toc183}{}
+\hypertarget{toc184}{}
 \subsubsection{Output header helper}
 
 \begin{lstlisting}
@@ -2892,7 +2920,7 @@ This function is a filter to ignore the headers when CLI SAPI is detected
 \item[\color{myblue}$\bullet$] @replace =$>$ The boolean used as replace in the original function, true by default
 \end{compactitem}
 
-\hypertarget{toc184}{}
+\hypertarget{toc185}{}
 \subsubsection{Output Handler JSON}
 
 \begin{lstlisting}
@@ -2912,7 +2940,7 @@ This function is able to generate a pretty output when stdout is connected to
 a terminal, intended to be used by humans, in other cases, the output will be
 minified.
 
-\hypertarget{toc185}{}
+\hypertarget{toc186}{}
 \subsection{PCOV helper module}
 
 \begin{lstlisting}
@@ -2922,7 +2950,7 @@ api/php/autoload/pcov.php
 This fie contains useful functions related to the pcov module used to
 measure the coverage of the unit tests
 
-\hypertarget{toc186}{}
+\hypertarget{toc187}{}
 \subsubsection{PCOV start}
 
 \begin{lstlisting}
@@ -2932,7 +2960,7 @@ function pcov_start()
 This function start the pcov recording to allow the measuring of the
 coverage in the unit tests.
 
-\hypertarget{toc187}{}
+\hypertarget{toc188}{}
 \subsubsection{PCOV stop}
 
 \begin{lstlisting}
@@ -2943,7 +2971,7 @@ This function stop the pcov recording that allow the measuring of the
 coverage in the unit tests and puts in the output file the collected
 data in a serialized format
 
-\hypertarget{toc188}{}
+\hypertarget{toc189}{}
 \subsection{Permissions helper module}
 
 \begin{lstlisting}
@@ -2954,7 +2982,7 @@ This fie contains useful functions related to permissions, allow to apply permis
 or in sql queries, to do it, uses all permissions tables and predefined configurations, more info
 in each function
 
-\hypertarget{toc189}{}
+\hypertarget{toc190}{}
 \subsubsection{Check User}
 
 \begin{lstlisting}
@@ -2974,7 +3002,7 @@ an integrity error is launched.
 \item[\color{myblue}$\bullet$] @perm =$>$ the perm to check
 \end{compactitem}
 
-\hypertarget{toc190}{}
+\hypertarget{toc191}{}
 \subsubsection{Check SQL}
 
 \begin{lstlisting}
@@ -2996,7 +3024,7 @@ associated to an user with a specific permission and to an specific
 register, as an optimization, it detects if the all owner is on and
 return a true expression to improve the performance
 
-\hypertarget{toc191}{}
+\hypertarget{toc192}{}
 \subsubsection{Perms helper function}
 
 \begin{lstlisting}
@@ -3011,7 +3039,7 @@ dictionary of all conversions and resolves the data using it
 \item[\color{myblue}$\bullet$] @arg =$>$ the argument passed to the function
 \end{compactitem}
 
-\hypertarget{toc192}{}
+\hypertarget{toc193}{}
 \subsubsection{Id to Perm}
 
 \begin{lstlisting}
@@ -3024,7 +3052,7 @@ This function resolves the code of the perm from the perm id
 \item[\color{myblue}$\bullet$] @id =$>$ the id used to resolve the perm
 \end{compactitem}
 
-\hypertarget{toc193}{}
+\hypertarget{toc194}{}
 \subsubsection{Perm to Id}
 
 \begin{lstlisting}
@@ -3042,7 +3070,7 @@ Notes:
 This function can return an integer or an array of integers, depending
 if the app is using the owner parameter or not
 
-\hypertarget{toc194}{}
+\hypertarget{toc195}{}
 \subsubsection{Perm Exists}
 
 \begin{lstlisting}
@@ -3062,7 +3090,7 @@ of the owner parameter, the function will return true for a perm that
 contains the owner and for the perm without the owner, for exampe, this
 function returns true for perm list and form perm list$|$user
 
-\hypertarget{toc195}{}
+\hypertarget{toc196}{}
 \subsubsection{Check App Perm Id}
 
 \begin{lstlisting}
@@ -3079,7 +3107,7 @@ of each action, to guarantee the security
 \item[\color{myblue}$\bullet$] @id   =$>$ the id to check, if needed, you can omit in the create case
 \end{compactitem}
 
-\hypertarget{toc196}{}
+\hypertarget{toc197}{}
 \subsubsection{User is admin}
 
 \begin{lstlisting}
@@ -3088,7 +3116,7 @@ function __user_is_admin($app)
 
 This function returns true if the current user has all perms for the app
 
-\hypertarget{toc197}{}
+\hypertarget{toc198}{}
 \subsubsection{Merge data actions}
 
 \begin{lstlisting}
@@ -3102,7 +3130,7 @@ This function merge the rows of a table or list with the specified actions
 \item[\color{myblue}$\bullet$] @actions =$>$ the desired actions to use in the table or list widget
 \end{compactitem}
 
-\hypertarget{toc198}{}
+\hypertarget{toc199}{}
 \subsubsection{App has perm}
 
 \begin{lstlisting}
@@ -3118,7 +3146,7 @@ application.
 \item[\color{myblue}$\bullet$] @perm =$>$ the perm to check
 \end{compactitem}
 
-\hypertarget{toc199}{}
+\hypertarget{toc200}{}
 \subsection{Random helper module}
 
 \begin{lstlisting}
@@ -3128,7 +3156,7 @@ api/php/autoload/random.php
 This fie contains useful functions related to random number generator, currently only initialize
 the internal generator, but in the future we can add more features if it is needed
 
-\hypertarget{toc200}{}
+\hypertarget{toc201}{}
 \subsubsection{Init Random}
 
 \begin{lstlisting}
@@ -3143,7 +3171,7 @@ This function previously sets the seed using the microtime, but reading
 the srand php documentation, I see that the seed is not needed because
 if it is not provided, a randomly seed is used by default
 
-\hypertarget{toc201}{}
+\hypertarget{toc202}{}
 \subsection{Semaphore helper module}
 
 \begin{lstlisting}
@@ -3153,7 +3181,7 @@ api/php/autoload/semaphores.php
 This fie contains useful functions related to semaphores, allow to create and use semaphores
 for acquiring and release semaphores that guaranty the exclusivity of the code execution
 
-\hypertarget{toc202}{}
+\hypertarget{toc203}{}
 \subsubsection{Semaphore Acquire}
 
 \begin{lstlisting}
@@ -3167,7 +3195,7 @@ This function implement the acquire of a semaphore
 \item[\color{myblue}$\bullet$] @timeout =$>$ the timeout used in waiting operations
 \end{compactitem}
 
-\hypertarget{toc203}{}
+\hypertarget{toc204}{}
 \subsubsection{Semaphore Release}
 
 \begin{lstlisting}
@@ -3180,7 +3208,7 @@ This function implement the release of the semaphore
 \item[\color{myblue}$\bullet$] @name =$>$ the name of the semaphore
 \end{compactitem}
 
-\hypertarget{toc204}{}
+\hypertarget{toc205}{}
 \subsubsection{Semaphore Shutdown}
 
 \begin{lstlisting}
@@ -3191,7 +3219,7 @@ This function implement the shutdown of all semaphores, to do it,
 the function will iterate in each semaphore to release and set to
 null the semaphore pointer
 
-\hypertarget{toc205}{}
+\hypertarget{toc206}{}
 \subsubsection{Semaphore File}
 
 \begin{lstlisting}
@@ -3205,7 +3233,7 @@ named semaphore, useful for debug purposes
 \item[\color{myblue}$\bullet$] @name =$>$ the name of the semaphore
 \end{compactitem}
 
-\hypertarget{toc206}{}
+\hypertarget{toc207}{}
 \subsubsection{Semaphore helper}
 
 \begin{lstlisting}
@@ -3224,7 +3252,7 @@ class and each if stripos acts as a methods of a class
 \item[\color{myblue}$\bullet$] @timeout =$>$ the timeout used in waiting operations
 \end{compactitem}
 
-\hypertarget{toc207}{}
+\hypertarget{toc208}{}
 \subsubsection{Semaphore USleep helper}
 
 \begin{lstlisting}
@@ -3245,7 +3273,7 @@ function
 \item[\color{myblue}$\bullet$] @usec =$>$ the micro seconds that you want to sleep
 \end{compactitem}
 
-\hypertarget{toc208}{}
+\hypertarget{toc209}{}
 \subsection{Server helper module}
 
 \begin{lstlisting}
@@ -3255,7 +3283,7 @@ api/php/autoload/server.php
 This fie contains useful functions related to the \$\_SERVER global variable, currently only publish
 a getter function, but in the future, can store more features if it is needed
 
-\hypertarget{toc209}{}
+\hypertarget{toc210}{}
 \subsubsection{Get Server}
 
 \begin{lstlisting}
@@ -3268,7 +3296,7 @@ This function returns the server variable requested by index if it exists
 \item[\color{myblue}$\bullet$] @key =$>$ the index key used to get the value of the server
 \end{compactitem}
 
-\hypertarget{toc210}{}
+\hypertarget{toc211}{}
 \subsubsection{Set Server}
 
 \begin{lstlisting}
@@ -3282,7 +3310,7 @@ This function is intended to replace some server variabe in runtime mode
 \item[\color{myblue}$\bullet$] @val =$>$ the value that you want to set in the server array
 \end{compactitem}
 
-\hypertarget{toc211}{}
+\hypertarget{toc212}{}
 \subsubsection{Current hash}
 
 \begin{lstlisting}
@@ -3292,7 +3320,7 @@ function current_hash()
 This function tries to do the same like current\_user but for the hash parameter
 obtained from the QUERY\_STRING server variable
 
-\hypertarget{toc212}{}
+\hypertarget{toc213}{}
 \subsection{SQL utils helper module}
 
 \begin{lstlisting}
@@ -3308,7 +3336,7 @@ Too it provides functions to do subparts of the where queries suck as special li
 or match again combinations for the fulltext search engine, see all detailed information by
 reading the list of functions of this module
 
-\hypertarget{toc213}{}
+\hypertarget{toc214}{}
 \subsubsection{Parse Query}
 
 \begin{lstlisting}
@@ -3328,7 +3356,7 @@ because we can not put comments inside another comment!!!
 \item[\color{myblue}$\bullet$] @type  =$>$ the db type that you want to allow by the filters
 \end{compactitem}
 
-\hypertarget{toc214}{}
+\hypertarget{toc215}{}
 \subsubsection{Parse Query Type helper}
 
 \begin{lstlisting}
@@ -3338,7 +3366,7 @@ function __parse_query_type()
 This function returns the type used by parse\_query using as detector the
 dbtype of the config file, currently only allow to return MYSQL and/or SQLITE
 
-\hypertarget{toc215}{}
+\hypertarget{toc216}{}
 \subsubsection{Parse Query Strpos helper}
 
 \begin{lstlisting}
@@ -3358,7 +3386,7 @@ The arguments are the same that the strpos function
 \item[\color{myblue}$\bullet$] @offset   =$>$ bias applied to begin the search of the needle
 \end{compactitem}
 
-\hypertarget{toc216}{}
+\hypertarget{toc217}{}
 \subsubsection{Execute Query}
 
 \begin{lstlisting}
@@ -3397,7 +3425,7 @@ Be carefully to use the output of this command in an foreach, for example
 because you can get for the same query differents output types, if you
 need to be more standarized in the output types, see the execute\_query\_array
 
-\hypertarget{toc217}{}
+\hypertarget{toc218}{}
 \subsubsection{Execute Query Array}
 
 \begin{lstlisting}
@@ -3413,7 +3441,7 @@ in a foreach, for example
 \item[\color{myblue}$\bullet$] @query =$>$ the SQL query that you want to execute
 \end{compactitem}
 
-\hypertarget{toc218}{}
+\hypertarget{toc219}{}
 \subsubsection{Get Fields}
 
 \begin{lstlisting}
@@ -3426,7 +3454,7 @@ This function returns the fields of the requested table
 \item[\color{myblue}$\bullet$] @table =$>$ the table where that you want to know the fields
 \end{compactitem}
 
-\hypertarget{toc219}{}
+\hypertarget{toc220}{}
 \subsubsection{Get Indexes}
 
 \begin{lstlisting}
@@ -3439,7 +3467,7 @@ This function returns the indexes of the requested table
 \item[\color{myblue}$\bullet$] @table =$>$ the table where that you want to know the indexes
 \end{compactitem}
 
-\hypertarget{toc220}{}
+\hypertarget{toc221}{}
 \subsubsection{Get Tables}
 
 \begin{lstlisting}
@@ -3448,7 +3476,7 @@ function get_tables()
 
 This function returns the tables of the database
 
-\hypertarget{toc221}{}
+\hypertarget{toc222}{}
 \subsubsection{Get Field Type}
 
 \begin{lstlisting}
@@ -3462,7 +3490,7 @@ the real database, for example, returns string if the field is of TEXT type
 \item[\color{myblue}$\bullet$] @type =$>$ the real type in the database
 \end{compactitem}
 
-\hypertarget{toc222}{}
+\hypertarget{toc223}{}
 \subsubsection{Get Field Size}
 
 \begin{lstlisting}
@@ -3482,7 +3510,7 @@ In general, type1 is used to detect the size of text fields, the type2
 is used for VARCHAR(X) that specify the size of the VARCHAR in the type2
 parameter.
 
-\hypertarget{toc223}{}
+\hypertarget{toc224}{}
 \subsubsection{Has Engine}
 
 \begin{lstlisting}
@@ -3496,7 +3524,7 @@ availabie
 \item[\color{myblue}$\bullet$] @engine =$>$ the engine that you want to get information about existence
 \end{compactitem}
 
-\hypertarget{toc224}{}
+\hypertarget{toc225}{}
 \subsubsection{Make Insert Query}
 
 \begin{lstlisting}
@@ -3525,7 +3553,7 @@ This function uses the array\_key\_exists instead of isset because the
 check of the \$array[\$name] fails when the item exists but is false or
 null, for example
 
-\hypertarget{toc225}{}
+\hypertarget{toc226}{}
 \subsubsection{Make Update Query}
 
 \begin{lstlisting}
@@ -3556,7 +3584,7 @@ This function uses the array\_key\_exists instead of isset because the
 check of the \$array[\$name] fails when the item exists but is false or
 null, for example
 
-\hypertarget{toc226}{}
+\hypertarget{toc227}{}
 \subsubsection{Make Where Query}
 
 \begin{lstlisting}
@@ -3578,7 +3606,7 @@ a different comparison operator, you can use the field name and add the
 operator that you want to use in the comparison, the allowed comparison
 operators are $>$, $<$, =, $>$=, $<$=, !=
 
-\hypertarget{toc227}{}
+\hypertarget{toc228}{}
 \subsubsection{Escape Reserved Word}
 
 \begin{lstlisting}
@@ -3599,7 +3627,7 @@ Notes:
 If you use an array as argument, then the function is applied to all
 elements of the array.
 
-\hypertarget{toc228}{}
+\hypertarget{toc229}{}
 \subsubsection{Make Like Query}
 
 \begin{lstlisting}
@@ -3624,7 +3652,7 @@ search string, this allow to the function to use the like or not like
 depending the sign of the word, and too to use the disjunction or
 conjunction in each like group
 
-\hypertarget{toc229}{}
+\hypertarget{toc230}{}
 \subsubsection{Make Fulltext Query Helper}
 
 \begin{lstlisting}
@@ -3648,7 +3676,7 @@ This function differs between the make\_like\_query in the idea that this
 function only is used to search using fulltext indexes and in one unique
 field named search
 
-\hypertarget{toc230}{}
+\hypertarget{toc231}{}
 \subsubsection{Make Fulltext Query}
 
 \begin{lstlisting}
@@ -3668,7 +3696,7 @@ app and the prefix to be added to the id field of the in subquery
 \item[\color{myblue}$\bullet$] @default =$>$ sql fraement returned if some thing was wrong
 \end{compactitem}
 
-\hypertarget{toc231}{}
+\hypertarget{toc232}{}
 \subsubsection{Prepare Helper Query}
 
 \begin{lstlisting}
@@ -3686,7 +3714,7 @@ prepare the values with the needed type cast
 \item[\color{myblue}$\bullet$] @array =$>$ the array that contains the data
 \end{compactitem}
 
-\hypertarget{toc232}{}
+\hypertarget{toc233}{}
 \subsubsection{Prepare Insert Query}
 
 \begin{lstlisting}
@@ -3702,7 +3730,7 @@ by the array param
           of the field
 \end{compactitem}
 
-\hypertarget{toc233}{}
+\hypertarget{toc234}{}
 \subsubsection{Prepare Update Query}
 
 \begin{lstlisting}
@@ -3720,7 +3748,7 @@ by the array param and using the specified where
           the field used in the where part of the query
 \end{compactitem}
 
-\hypertarget{toc234}{}
+\hypertarget{toc235}{}
 \subsubsection{Prepare Where Query}
 
 \begin{lstlisting}
@@ -3735,7 +3763,7 @@ This function allow to create where sentences joinin all fields by AND
           the field
 \end{compactitem}
 
-\hypertarget{toc235}{}
+\hypertarget{toc236}{}
 \subsection{String utils helper module}
 
 \begin{lstlisting}
@@ -3746,7 +3774,7 @@ This fie contains useful functions related to strings manipulations, suck as get
 UTF8, remove bad chars, of apply filters to the text, manipulate texts of other related tasks
 with strings
 
-\hypertarget{toc236}{}
+\hypertarget{toc237}{}
 \subsubsection{Remove Bar Chars}
 
 \begin{lstlisting}
@@ -3761,7 +3789,7 @@ newline, return)
 \item[\color{myblue}$\bullet$] @pad  =$>$ padding string used as replacement for bar chars (void by default)
 \end{compactitem}
 
-\hypertarget{toc237}{}
+\hypertarget{toc238}{}
 \subsubsection{Encode Bar Chars}
 
 \begin{lstlisting}
@@ -3783,7 +3811,7 @@ only allow one pading char at time
 \item[\color{myblue}$\bullet$] @extra =$>$ the list of chars allowed to appear in the output
 \end{compactitem}
 
-\hypertarget{toc238}{}
+\hypertarget{toc239}{}
 \subsubsection{Prepare Words}
 
 \begin{lstlisting}
@@ -3802,7 +3830,7 @@ Notes:
 Apart of remove repetitions of the padding char, the function will try to
 remove padding chars in the start and in the end of the string
 
-\hypertarget{toc239}{}
+\hypertarget{toc240}{}
 \subsubsection{Sprintr}
 
 \begin{lstlisting}
@@ -3818,7 +3846,7 @@ are removed, optimizing the output string
 \item[\color{myblue}$\bullet$] @array =$>$ the array that do you want to convert into string
 \end{compactitem}
 
-\hypertarget{toc240}{}
+\hypertarget{toc241}{}
 \subsubsection{Get Unique ID MD5}
 
 \begin{lstlisting}
@@ -3827,7 +3855,7 @@ function get_unique_id_md5()
 
 This function returns an unique hash using the random generator
 
-\hypertarget{toc241}{}
+\hypertarget{toc242}{}
 \subsubsection{Intelligence Cut}
 
 \begin{lstlisting}
@@ -3842,7 +3870,7 @@ This function allow to cut text by searching spaces to prevent to break words
 \item[\color{myblue}$\bullet$] @end =$>$ the suffix added if the text is cutted
 \end{compactitem}
 
-\hypertarget{toc242}{}
+\hypertarget{toc243}{}
 \subsubsection{Normalize Value}
 
 \begin{lstlisting}
@@ -3857,7 +3885,7 @@ get the number without factor
 \item[\color{myblue}$\bullet$] @value =$>$ the string that contain the number, for example "123k"
 \end{compactitem}
 
-\hypertarget{toc243}{}
+\hypertarget{toc244}{}
 \subsubsection{HTML to Text}
 
 \begin{lstlisting}
@@ -3873,7 +3901,7 @@ example
 \item[\color{myblue}$\bullet$] @html =$>$ the html code that you want to convert to plain text
 \end{compactitem}
 
-\hypertarget{toc244}{}
+\hypertarget{toc245}{}
 \subsubsection{Get UTF-8}
 
 \begin{lstlisting}
@@ -3886,7 +3914,7 @@ This function returns the string codified in a UTF-8 encoding
 \item[\color{myblue}$\bullet$] @str =$>$ the input string that you want to covnert to UTF-8
 \end{compactitem}
 
-\hypertarget{toc245}{}
+\hypertarget{toc246}{}
 \subsubsection{Words Exists}
 
 \begin{lstlisting}
@@ -3900,7 +3928,7 @@ This function check that all words exists in the buffer
 \item[\color{myblue}$\bullet$] @buffer =$>$ the string where we must to found the words
 \end{compactitem}
 
-\hypertarget{toc246}{}
+\hypertarget{toc247}{}
 \subsubsection{String Replace Assoc}
 
 \begin{lstlisting}
@@ -3924,7 +3952,7 @@ strtr tries to prepare the replacement list by ordering by size the
 replace\_pairs and too to prevent repeated replacements in previously
 replacements, you can see test\_strtr.php for more info
 
-\hypertarget{toc247}{}
+\hypertarget{toc248}{}
 \subsubsection{Get Part From String}
 
 \begin{lstlisting}
@@ -3941,7 +3969,7 @@ from the end
 \item[\color{myblue}$\bullet$] @index =$>$ the index that you want to request of the explode result
 \end{compactitem}
 
-\hypertarget{toc248}{}
+\hypertarget{toc249}{}
 \subsubsection{Check IDS Helper}
 
 \begin{lstlisting}
@@ -3955,7 +3983,7 @@ list available to be used in sql queries or as an array of valid ids
 \item[\color{myblue}$\bullet$] @ids =$>$ the string containing the list of ids
 \end{compactitem}
 
-\hypertarget{toc249}{}
+\hypertarget{toc250}{}
 \subsubsection{Check IDS}
 
 \begin{lstlisting}
@@ -3969,7 +3997,7 @@ list available to be used in sql queries
 \item[\color{myblue}$\bullet$] @ids =$>$ the string containing the list of ids
 \end{compactitem}
 
-\hypertarget{toc250}{}
+\hypertarget{toc251}{}
 \subsubsection{Check IDS Array}
 
 \begin{lstlisting}
@@ -3983,7 +4011,7 @@ list available to be used as array of valid ids
 \item[\color{myblue}$\bullet$] @ids =$>$ the string containing the list of ids
 \end{compactitem}
 
-\hypertarget{toc251}{}
+\hypertarget{toc252}{}
 \subsubsection{String Replace One}
 
 \begin{lstlisting}
@@ -4004,7 +4032,7 @@ Notes:
 This function can be replaced by preg\_replace, but this implementation is
 more efficient, see the test\_replace.php for more info
 
-\hypertarget{toc252}{}
+\hypertarget{toc253}{}
 \subsubsection{Get String From Quotes}
 
 \begin{lstlisting}
@@ -4019,7 +4047,7 @@ used by the search engine
 \item[\color{myblue}$\bullet$] @val =$>$ the string that you want to process
 \end{compactitem}
 
-\hypertarget{toc253}{}
+\hypertarget{toc254}{}
 \subsection{System helper module}
 
 \begin{lstlisting}
@@ -4029,7 +4057,7 @@ api/php/autoload/system.php
 This fie contains useful functions related to system checks, allow to detect dependencies not
 installed on the system, or misconfigurations on the SaltOS installation
 
-\hypertarget{toc254}{}
+\hypertarget{toc255}{}
 \subsubsection{Check System}
 
 \begin{lstlisting}
@@ -4040,7 +4068,7 @@ This function checks the system to detect if all knowed dependencies are found i
 defines an array with the type (class or function), the name and some extra info for the error message
 that is triggered if the dependency is not satisfied
 
-\hypertarget{toc255}{}
+\hypertarget{toc256}{}
 \subsubsection{Check Directories}
 
 \begin{lstlisting}
@@ -4049,7 +4077,7 @@ function check_directories()
 
 Check all directories of the data directory to validate that the process can write inside it
 
-\hypertarget{toc256}{}
+\hypertarget{toc257}{}
 \subsubsection{Exec Check System}
 
 \begin{lstlisting}
@@ -4058,7 +4086,7 @@ function exec_check_system()
 
 This function executes the check system function and trigger an error if needed
 
-\hypertarget{toc257}{}
+\hypertarget{toc258}{}
 \subsection{Tokens helper module}
 
 \begin{lstlisting}
@@ -4067,7 +4095,7 @@ api/php/autoload/tokens.php
 
 This fie contains the functions related to the tokens usage and manipulations
 
-\hypertarget{toc258}{}
+\hypertarget{toc259}{}
 \subsubsection{Get Unique Token}
 
 \begin{lstlisting}
@@ -4076,7 +4104,7 @@ function get_unique_token()
 
 This function returns a string with a new and unique token
 
-\hypertarget{toc259}{}
+\hypertarget{toc260}{}
 \subsubsection{Check token format}
 
 \begin{lstlisting}
@@ -4090,7 +4118,7 @@ string that can be used safely as token in sql queries
 \item[\color{myblue}$\bullet$] @token =$>$ the token that you want to process
 \end{compactitem}
 
-\hypertarget{toc260}{}
+\hypertarget{toc261}{}
 \subsection{User helper module}
 
 \begin{lstlisting}
@@ -4101,7 +4129,7 @@ This file contains the functions associated to the user validation, to
 improve the performance, all functions are using a cache based trick
 that performs an important speed up
 
-\hypertarget{toc261}{}
+\hypertarget{toc262}{}
 \subsubsection{Current Token}
 
 \begin{lstlisting}
@@ -4112,7 +4140,7 @@ This function returns the id of the current token, this info is retrieved
 using the token of the request, for security reasons, this validation only
 can be performed by the same origin that execute the login action
 
-\hypertarget{toc262}{}
+\hypertarget{toc263}{}
 \subsubsection{Current User}
 
 \begin{lstlisting}
@@ -4129,7 +4157,7 @@ current\_token function and using the server/user variable in the data
 structure that contains the desired login when executed using the cli
 sapi.
 
-\hypertarget{toc263}{}
+\hypertarget{toc264}{}
 \subsubsection{Current Group}
 
 \begin{lstlisting}
@@ -4139,7 +4167,7 @@ function current_group()
 This function returns the id of the current group, this info is retrieved
 using the token of the request
 
-\hypertarget{toc264}{}
+\hypertarget{toc265}{}
 \subsubsection{Current Groups}
 
 \begin{lstlisting}
@@ -4151,7 +4179,7 @@ using the token of the request and the main idea of this function is to
 returns the list of all groups associated to the current user to facily the
 permissions checks
 
-\hypertarget{toc265}{}
+\hypertarget{toc266}{}
 \subsubsection{Crontab Users}
 
 \begin{lstlisting}
@@ -4168,7 +4196,7 @@ and only accepts the first execution, this is to prevent that multiples calls
 to other actions and functions that requires the integrity of the passwords
 and tokens
 
-\hypertarget{toc266}{}
+\hypertarget{toc267}{}
 \subsection{Version helper module}
 
 \begin{lstlisting}
@@ -4177,7 +4205,7 @@ api/php/autoload/version.php
 
 This fie contains useful functions related to the version of the SaltOS of the php engine
 
-\hypertarget{toc267}{}
+\hypertarget{toc268}{}
 \subsubsection{Get Name Version Revision}
 
 \begin{lstlisting}
@@ -4191,7 +4219,7 @@ copyright if needed
 \item[\color{myblue}$\bullet$] @full =$>$ boolean to specify if you want to add the copyright to the output
 \end{compactitem}
 
-\hypertarget{toc268}{}
+\hypertarget{toc269}{}
 \subsubsection{SVN Version}
 
 \begin{lstlisting}
@@ -4204,7 +4232,7 @@ This function tries to return the svn version of the project
 \item[\color{myblue}$\bullet$] @dir =$>$ allow to specify where do you want to execute the svnversion command
 \end{compactitem}
 
-\hypertarget{toc269}{}
+\hypertarget{toc270}{}
 \subsubsection{SVN Version helper}
 
 \begin{lstlisting}
@@ -4217,7 +4245,7 @@ This function tries to return the svn version of the project
 \item[\color{myblue}$\bullet$] @dir =$>$ allow to specify where do you want to execute the svnversion command
 \end{compactitem}
 
-\hypertarget{toc270}{}
+\hypertarget{toc271}{}
 \subsubsection{GIT Version}
 
 \begin{lstlisting}
@@ -4230,7 +4258,7 @@ This function tries to return the git version of the project
 \item[\color{myblue}$\bullet$] @dir =$>$ allow to specify where do you want to execute the gitversion command
 \end{compactitem}
 
-\hypertarget{toc271}{}
+\hypertarget{toc272}{}
 \subsubsection{GIT Version helper}
 
 \begin{lstlisting}
@@ -4243,7 +4271,7 @@ This function tries to return the git version of the project
 \item[\color{myblue}$\bullet$] @dir =$>$ allow to specify where do you want to execute the gitversion command
 \end{compactitem}
 
-\hypertarget{toc272}{}
+\hypertarget{toc273}{}
 \subsection{XML to Array helper module}
 
 \begin{lstlisting}
@@ -4255,7 +4283,7 @@ main version of the SaltOS because the main idea defined some years ago continue
 compare this code, you can see more accuracy in the specification to be more specific and precise
 but this code is a part of all the SaltOS versions
 
-\hypertarget{toc273}{}
+\hypertarget{toc274}{}
 \subsubsection{Set Array}
 
 \begin{lstlisting}
@@ -4278,7 +4306,7 @@ added to allow multiples instances of the same key in an associative array
 \item[\color{myblue}$\bullet$] @value =$>$ the value that you want to set in this position of the array
 \end{compactitem}
 
-\hypertarget{toc274}{}
+\hypertarget{toc275}{}
 \subsubsection{Unset Array}
 
 \begin{lstlisting}
@@ -4295,7 +4323,7 @@ will remove "test", "test\#1" and "test\#2"
 \item[\color{myblue}$\bullet$] @name  =$>$ the key used in the array and as prefix of the entries of the array
 \end{compactitem}
 
-\hypertarget{toc275}{}
+\hypertarget{toc276}{}
 \subsubsection{Fix Key}
 
 \begin{lstlisting}
@@ -4310,7 +4338,7 @@ the fix\_key of the "test\#2", the function will returns "test"
 \item[\color{myblue}$\bullet$] @arg =$>$ the name of the key that you want to remove the suffix part (if exists)
 \end{compactitem}
 
-\hypertarget{toc276}{}
+\hypertarget{toc277}{}
 \subsubsection{XML Files to Array}
 
 \begin{lstlisting}
@@ -4336,7 +4364,7 @@ Notes:
   process the contents to join with a certain logics
 \end{compactitem}
 
-\hypertarget{toc277}{}
+\hypertarget{toc278}{}
 \subsubsection{XML File to Array}
 
 \begin{lstlisting}
@@ -4355,7 +4383,7 @@ management to optimize the usage
 \item[\color{myblue}$\bullet$] @usecache =$>$ if do you want to enable the cache feature
 \end{compactitem}
 
-\hypertarget{toc278}{}
+\hypertarget{toc279}{}
 \subsubsection{XML to Array}
 
 \begin{lstlisting}
@@ -4369,7 +4397,7 @@ This function allow to convert a XML string to an array
 \item[\color{myblue}$\bullet$] @file =$>$ filename of the contents, only used when an errors occurs
 \end{compactitem}
 
-\hypertarget{toc279}{}
+\hypertarget{toc280}{}
 \subsubsection{XML to Struct}
 
 \begin{lstlisting}
@@ -4398,7 +4426,7 @@ the key of this feature and this function
 \item[\color{myblue}$\bullet$] @file =$>$ the source filename, it is used only to generate error reports
 \end{compactitem}
 
-\hypertarget{toc280}{}
+\hypertarget{toc281}{}
 \subsubsection{Struct to Array}
 
 \begin{lstlisting}
@@ -4429,7 +4457,7 @@ reorder all keys of the resulted array and this add a very big cost if the xml
 is big, this problem was detected in 2014 and was optimized by add the reverse
 and the pop instead of only shift
 
-\hypertarget{toc281}{}
+\hypertarget{toc282}{}
 \subsubsection{Eval Attributes}
 
 \begin{lstlisting}
@@ -4470,7 +4498,7 @@ that this version only accepts three internal commands and the other
 attributes can be maintained in order to be used by other processes
 (internally or externally)
 
-\hypertarget{toc282}{}
+\hypertarget{toc283}{}
 \subsubsection{Eval Bool}
 
 \begin{lstlisting}
@@ -4487,7 +4515,7 @@ The valid inputs are the strings one, zero, void, true, false, on, off, yes and 
 \item[\color{myblue}$\bullet$] @arg =$>$ the value that do you want to evaluates as boolean
 \end{compactitem}
 
-\hypertarget{toc283}{}
+\hypertarget{toc284}{}
 \subsection{Yaml helper module}
 
 \begin{lstlisting}
@@ -4497,7 +4525,7 @@ api/php/autoload/yaml.php
 This file provide the functions provided by the php-yaml package, intended
 to be used by setups that can not install this package.
 
-\hypertarget{toc284}{}
+\hypertarget{toc285}{}
 \subsubsection{Yaml Parse}
 
 \begin{lstlisting}
@@ -4510,7 +4538,7 @@ Parse a YAML string into a PHP array.
 \item[\color{myblue}$\bullet$] @yaml =$>$ The YAML string.
 \end{compactitem}
 
-\hypertarget{toc285}{}
+\hypertarget{toc286}{}
 \subsubsection{Yaml Parse File}
 
 \begin{lstlisting}
@@ -4523,7 +4551,7 @@ Parse a YAML file into a PHP array
 \item[\color{myblue}$\bullet$] @filename =$>$ The path to the YAML file
 \end{compactitem}
 
-\hypertarget{toc286}{}
+\hypertarget{toc287}{}
 \subsubsection{Yaml Emit}
 
 \begin{lstlisting}
@@ -4538,7 +4566,7 @@ Emit an array as a YAML string.
 \item[\color{myblue}$\bullet$] @indent =$>$ The number of spaces to use for indentation (default: 4).
 \end{compactitem}
 
-\hypertarget{toc287}{}
+\hypertarget{toc288}{}
 \subsubsection{Yaml Emit File}
 
 \begin{lstlisting}
@@ -4554,7 +4582,7 @@ Emit an array as a YAML file
 \item[\color{myblue}$\bullet$] @indent   =$>$ The number of spaces to use for indentation (default: 4)
 \end{compactitem}
 
-\hypertarget{toc288}{}
+\hypertarget{toc289}{}
 \subsection{Main execution module}
 
 \begin{lstlisting}
@@ -4625,10 +4653,10 @@ As a brief resume, you can use the follow keys in get\_data or set\_data:
 \end{compactitem}
 
 
-\hypertarget{toc289}{}
+\hypertarget{toc290}{}
 \section{Database}
 
-\hypertarget{toc290}{}
+\hypertarget{toc291}{}
 \subsection{SQLite3 functions library}
 
 \begin{lstlisting}
@@ -4647,7 +4675,7 @@ More info about this feature by searching:
 \item[\color{myblue}$\bullet$] @SQLite3 =$>$ createFunction/createAggregate
 \end{compactitem}
 
-\hypertarget{toc291}{}
+\hypertarget{toc292}{}
 \subsubsection{GROUP\_CONCAT}
 
 \begin{lstlisting}
@@ -4656,7 +4684,7 @@ function __libsqlite_group_concat_step($context, $rows, $string, $separator = ',
 
 This function add the GROUP\_CONCAT to the SQLite database
 
-\hypertarget{toc292}{}
+\hypertarget{toc293}{}
 \subsubsection{GROUP\_CONCAT}
 
 \begin{lstlisting}
@@ -4665,7 +4693,7 @@ function __libsqlite_group_concat_finalize($context, $rows)
 
 This function add the GROUP\_CONCAT to the SQLite database
 
-\hypertarget{toc293}{}
+\hypertarget{toc294}{}
 \subsubsection{REPLACE}
 
 \begin{lstlisting}
@@ -4674,7 +4702,7 @@ function __libsqlite_replace($subject, $search, $replace)
 
 This function add the REPLACE to the SQLite database
 
-\hypertarget{toc294}{}
+\hypertarget{toc295}{}
 \subsubsection{LPAD}
 
 \begin{lstlisting}
@@ -4683,7 +4711,7 @@ function __libsqlite_lpad($input, $length, $char)
 
 This function add the LPAD to the SQLite database
 
-\hypertarget{toc295}{}
+\hypertarget{toc296}{}
 \subsubsection{CONCAT}
 
 \begin{lstlisting}
@@ -4692,7 +4720,7 @@ function __libsqlite_concat(...$args)
 
 This function add the CONCAT to the SQLite database
 
-\hypertarget{toc296}{}
+\hypertarget{toc297}{}
 \subsubsection{CONCAT\_WS}
 
 \begin{lstlisting}
@@ -4701,7 +4729,7 @@ function __libsqlite_concat_ws(...$args)
 
 This function add the CONCAT\_WS to the SQLite database
 
-\hypertarget{toc297}{}
+\hypertarget{toc298}{}
 \subsubsection{UNIX\_TIMESTAMP}
 
 \begin{lstlisting}
@@ -4710,7 +4738,7 @@ function __libsqlite_unix_timestamp($date)
 
 This function add the UNIX\_TIMESTAMP to the SQLite database
 
-\hypertarget{toc298}{}
+\hypertarget{toc299}{}
 \subsubsection{FROM\_UNIXTIME}
 
 \begin{lstlisting}
@@ -4719,7 +4747,7 @@ function __libsqlite_from_unixtime($timestamp)
 
 This function add the FROM\_UNIXTIME to the SQLite database
 
-\hypertarget{toc299}{}
+\hypertarget{toc300}{}
 \subsubsection{YEAR}
 
 \begin{lstlisting}
@@ -4728,7 +4756,7 @@ function __libsqlite_year($date)
 
 This function add the YEAR to the SQLite database
 
-\hypertarget{toc300}{}
+\hypertarget{toc301}{}
 \subsubsection{MONTH}
 
 \begin{lstlisting}
@@ -4737,7 +4765,7 @@ function __libsqlite_month($date)
 
 This function add the MONTH to the SQLite database
 
-\hypertarget{toc301}{}
+\hypertarget{toc302}{}
 \subsubsection{WEEK}
 
 \begin{lstlisting}
@@ -4746,7 +4774,7 @@ function __libsqlite_week($date, $mode = 0)
 
 This function add the WEEK to the SQLite database
 
-\hypertarget{toc302}{}
+\hypertarget{toc303}{}
 \subsubsection{TRUNCATE}
 
 \begin{lstlisting}
@@ -4755,7 +4783,7 @@ function __libsqlite_truncate($n, $d)
 
 This function add the TRUNCATE to the SQLite database
 
-\hypertarget{toc303}{}
+\hypertarget{toc304}{}
 \subsubsection{DAY}
 
 \begin{lstlisting}
@@ -4764,7 +4792,7 @@ function __libsqlite_day($date)
 
 This function add the DAY to the SQLite database
 
-\hypertarget{toc304}{}
+\hypertarget{toc305}{}
 \subsubsection{DAYOFYEAR}
 
 \begin{lstlisting}
@@ -4773,7 +4801,7 @@ function __libsqlite_dayofyear($date)
 
 This function add the DAYOFYEAR to the SQLite database
 
-\hypertarget{toc305}{}
+\hypertarget{toc306}{}
 \subsubsection{DAYOFWEEK}
 
 \begin{lstlisting}
@@ -4782,7 +4810,7 @@ function __libsqlite_dayofweek($date)
 
 This function add the DAYOFWEEK to the SQLite database
 
-\hypertarget{toc306}{}
+\hypertarget{toc307}{}
 \subsubsection{HOUR}
 
 \begin{lstlisting}
@@ -4791,7 +4819,7 @@ function __libsqlite_hour($date)
 
 This function add the HOUR to the SQLite database
 
-\hypertarget{toc307}{}
+\hypertarget{toc308}{}
 \subsubsection{MINUTE}
 
 \begin{lstlisting}
@@ -4800,7 +4828,7 @@ function __libsqlite_minute($date)
 
 This function add the MINUTE to the SQLite database
 
-\hypertarget{toc308}{}
+\hypertarget{toc309}{}
 \subsubsection{SECOND}
 
 \begin{lstlisting}
@@ -4809,7 +4837,7 @@ function __libsqlite_second($date)
 
 This function add the SECOND to the SQLite database
 
-\hypertarget{toc309}{}
+\hypertarget{toc310}{}
 \subsubsection{MD5}
 
 \begin{lstlisting}
@@ -4818,7 +4846,7 @@ function __libsqlite_md5($temp)
 
 This function add the MD5 to the SQLite database
 
-\hypertarget{toc310}{}
+\hypertarget{toc311}{}
 \subsubsection{REPEAT}
 
 \begin{lstlisting}
@@ -4827,7 +4855,7 @@ function __libsqlite_repeat($str, $count)
 
 This function add the REPEAT to the SQLite database
 
-\hypertarget{toc311}{}
+\hypertarget{toc312}{}
 \subsubsection{FIND\_IN\_SET}
 
 \begin{lstlisting}
@@ -4836,7 +4864,7 @@ function __libsqlite_find_in_set($str, $strlist)
 
 This function add the FIND\_IN\_SET to the SQLite database
 
-\hypertarget{toc312}{}
+\hypertarget{toc313}{}
 \subsubsection{IF}
 
 \begin{lstlisting}
@@ -4845,7 +4873,7 @@ function __libsqlite_if($condition, $value_if_true, $value_if_false)
 
 This function add the IF to the SQLite database
 
-\hypertarget{toc313}{}
+\hypertarget{toc314}{}
 \subsubsection{POW}
 
 \begin{lstlisting}
@@ -4854,7 +4882,7 @@ function __libsqlite_pow($base, $exp)
 
 This function add the POW to the SQLite database
 
-\hypertarget{toc314}{}
+\hypertarget{toc315}{}
 \subsubsection{DATE\_FORMAT}
 
 \begin{lstlisting}
@@ -4863,7 +4891,7 @@ function __libsqlite_date_format($date, $format)
 
 This function add the DATE\_FORMAT to the SQLite database
 
-\hypertarget{toc315}{}
+\hypertarget{toc316}{}
 \subsubsection{NOW}
 
 \begin{lstlisting}
@@ -4872,7 +4900,7 @@ function __libsqlite_now()
 
 This function add the NOW to the SQLite database
 
-\hypertarget{toc316}{}
+\hypertarget{toc317}{}
 \subsection{MySQL improved driver}
 
 \begin{lstlisting}
@@ -4883,7 +4911,7 @@ This file implements the MySQL improved driver. This driver was coded later that
 mysql driver and contains lots of improvements respect to the old mysql driver. The old mysql
 driver was removed in the PHP 7.0 release.
 
-\hypertarget{toc317}{}
+\hypertarget{toc318}{}
 \subsubsection{Database MySQL improved class}
 
 \begin{lstlisting}
@@ -4892,7 +4920,7 @@ class database_mysqli
 
 This class allow to SaltOS to connect to MySQL databases using the MySQL improved driver
 
-\hypertarget{toc318}{}
+\hypertarget{toc319}{}
 \subsubsection{Private link variable}
 
 \begin{lstlisting}
@@ -4901,7 +4929,7 @@ private $link = null;
 
 This private variable contains the link to the database
 
-\hypertarget{toc319}{}
+\hypertarget{toc320}{}
 \subsubsection{Constructor}
 
 \begin{lstlisting}
@@ -4924,7 +4952,7 @@ Notes of this driver:
 MYSQLI\_REPORT\_ERROR $|$ MYSQLI\_REPORT\_STRICT are the same that PDO::ERRMODE\_EXCEPTION
 MYSQLI\_USE\_RESULT is the same that PDO::MYSQL\_ATTR\_USE\_BUFFERED\_QUERY = false
 
-\hypertarget{toc320}{}
+\hypertarget{toc321}{}
 \subsubsection{DB Check}
 
 \begin{lstlisting}
@@ -4937,7 +4965,7 @@ This public function is intended to check that the query execution will not trig
 \item[\color{myblue}$\bullet$] @query =$>$ the query that you want to validate
 \end{compactitem}
 
-\hypertarget{toc321}{}
+\hypertarget{toc322}{}
 \subsubsection{DB Escape}
 
 \begin{lstlisting}
@@ -4951,7 +4979,7 @@ in a sql query
 \item[\color{myblue}$\bullet$] @str =$>$ the string that you want to sanitize
 \end{compactitem}
 
-\hypertarget{toc322}{}
+\hypertarget{toc323}{}
 \subsubsection{DB Query}
 
 \begin{lstlisting}
@@ -4985,7 +5013,7 @@ arrays, this is useful when you want to get all ids of a query and you want to g
 sized array, in this case, is more efficient to get an string separated by commas with all
 ids instead of an array where each element is an id
 
-\hypertarget{toc323}{}
+\hypertarget{toc324}{}
 \subsubsection{DB Last Insert ID}
 
 \begin{lstlisting}
@@ -4994,7 +5022,7 @@ public function db_last_insert_id()
 
 This function returns the last insert id
 
-\hypertarget{toc324}{}
+\hypertarget{toc325}{}
 \subsubsection{DB Disconnect}
 
 \begin{lstlisting}
@@ -5003,7 +5031,7 @@ public function db_disconnect()
 
 This function close the database connection and sets the link to null
 
-\hypertarget{toc325}{}
+\hypertarget{toc326}{}
 \subsection{PDO MsSQL driver}
 
 \begin{lstlisting}
@@ -5013,7 +5041,7 @@ api/php/database/pdo_mssql.php
 This file implements the MySQL improved driver. This driver uses the dblib library to connect
 with SQL servers.
 
-\hypertarget{toc326}{}
+\hypertarget{toc327}{}
 \subsubsection{Database PDO MsSQL class}
 
 \begin{lstlisting}
@@ -5022,7 +5050,7 @@ class database_pdo_mssql
 
 This class allow to SaltOS to connect to MsSQL databases using the PDO driver
 
-\hypertarget{toc327}{}
+\hypertarget{toc328}{}
 \subsubsection{Private link variable}
 
 \begin{lstlisting}
@@ -5031,7 +5059,7 @@ private $link = null;
 
 This private variable contains the link to the database
 
-\hypertarget{toc328}{}
+\hypertarget{toc329}{}
 \subsubsection{Constructor}
 
 \begin{lstlisting}
@@ -5049,7 +5077,7 @@ This public function is intended to stablish the connection to the database
 \item[\color{myblue}$\bullet$] @pass =$>$ pass used to stablish the connection
 \end{compactitem}
 
-\hypertarget{toc329}{}
+\hypertarget{toc330}{}
 \subsubsection{DB Check}
 
 \begin{lstlisting}
@@ -5062,7 +5090,7 @@ This public function is intended to check that the query execution will not trig
 \item[\color{myblue}$\bullet$] @query =$>$ the query that you want to validate
 \end{compactitem}
 
-\hypertarget{toc330}{}
+\hypertarget{toc331}{}
 \subsubsection{DB Escape}
 
 \begin{lstlisting}
@@ -5081,7 +5109,7 @@ Notes:
 This driver adds a simple quotes at the beginning and at the finish of ths string, by this
 reason this function returns the substr(1, -1) of the quoted string.
 
-\hypertarget{toc331}{}
+\hypertarget{toc332}{}
 \subsubsection{DB Query}
 
 \begin{lstlisting}
@@ -5115,7 +5143,7 @@ arrays, this is useful when you want to get all ids of a query and you want to g
 sized array, in this case, is more efficient to get an string separated by commas with all
 ids instead of an array where each element is an id
 
-\hypertarget{toc332}{}
+\hypertarget{toc333}{}
 \subsubsection{DB Last Insert ID}
 
 \begin{lstlisting}
@@ -5124,7 +5152,7 @@ public function db_last_insert_id()
 
 This function returns the last insert id
 
-\hypertarget{toc333}{}
+\hypertarget{toc334}{}
 \subsubsection{DB Disconnect}
 
 \begin{lstlisting}
@@ -5133,7 +5161,7 @@ public function db_disconnect()
 
 This function close the database connection and sets the link to null
 
-\hypertarget{toc334}{}
+\hypertarget{toc335}{}
 \subsection{PDO MySQL driver}
 
 \begin{lstlisting}
@@ -5144,7 +5172,7 @@ This file implements the MySQL improved driver. This is the recommended driver w
 to use MySQL servers, it uses the PDO extension and alow to connect to MySQL servers with a
 good performance.
 
-\hypertarget{toc335}{}
+\hypertarget{toc336}{}
 \subsubsection{Database PDO MySQL class}
 
 \begin{lstlisting}
@@ -5153,7 +5181,7 @@ class database_pdo_mysql
 
 This class allow to SaltOS to connect to MySQL databases using the PDO driver
 
-\hypertarget{toc336}{}
+\hypertarget{toc337}{}
 \subsubsection{Private link variable}
 
 \begin{lstlisting}
@@ -5162,7 +5190,7 @@ private $link = null;
 
 This private variable contains the link to the database
 
-\hypertarget{toc337}{}
+\hypertarget{toc338}{}
 \subsubsection{Constructor}
 
 \begin{lstlisting}
@@ -5180,7 +5208,7 @@ This public function is intended to stablish the connection to the database
 \item[\color{myblue}$\bullet$] @pass =$>$ pass used to stablish the connection
 \end{compactitem}
 
-\hypertarget{toc338}{}
+\hypertarget{toc339}{}
 \subsubsection{DB Check}
 
 \begin{lstlisting}
@@ -5193,7 +5221,7 @@ This public function is intended to check that the query execution will not trig
 \item[\color{myblue}$\bullet$] @query =$>$ the query that you want to validate
 \end{compactitem}
 
-\hypertarget{toc339}{}
+\hypertarget{toc340}{}
 \subsubsection{DB Escape}
 
 \begin{lstlisting}
@@ -5212,7 +5240,7 @@ Notes:
 This driver adds a simple quotes at the beginning and at the finish of ths string, by this
 reason this function returns the substr(1, -1) of the quoted string.
 
-\hypertarget{toc340}{}
+\hypertarget{toc341}{}
 \subsubsection{DB Query}
 
 \begin{lstlisting}
@@ -5246,7 +5274,7 @@ arrays, this is useful when you want to get all ids of a query and you want to g
 sized array, in this case, is more efficient to get an string separated by commas with all
 ids instead of an array where each element is an id
 
-\hypertarget{toc341}{}
+\hypertarget{toc342}{}
 \subsubsection{DB Last Insert ID}
 
 \begin{lstlisting}
@@ -5255,7 +5283,7 @@ public function db_last_insert_id()
 
 This function returns the last insert id
 
-\hypertarget{toc342}{}
+\hypertarget{toc343}{}
 \subsubsection{DB Disconnect}
 
 \begin{lstlisting}
@@ -5264,7 +5292,7 @@ public function db_disconnect()
 
 This function close the database connection and sets the link to null
 
-\hypertarget{toc343}{}
+\hypertarget{toc344}{}
 \subsection{PDO SQLite driver}
 
 \begin{lstlisting}
@@ -5277,7 +5305,7 @@ solves the concurrence problem using POSIX semaphores, generally it is a good op
 that don't require a fulltext search optimizations suck as mroonga, intended for a personal
 usage or demos.
 
-\hypertarget{toc344}{}
+\hypertarget{toc345}{}
 \subsubsection{Database PDO SQLite class}
 
 \begin{lstlisting}
@@ -5286,7 +5314,7 @@ class database_pdo_sqlite
 
 This class allow to SaltOS to connect to SQLite databases using the PDO driver
 
-\hypertarget{toc345}{}
+\hypertarget{toc346}{}
 \subsubsection{Private link variable}
 
 \begin{lstlisting}
@@ -5295,7 +5323,7 @@ private $link = null;
 
 This private variable contains the link to the database
 
-\hypertarget{toc346}{}
+\hypertarget{toc347}{}
 \subsubsection{Constructor}
 
 \begin{lstlisting}
@@ -5316,7 +5344,7 @@ this is a great feature that allow to use SQLite as MySQL, and using this featur
 database, this driver uses the libsqlite to add a lot of features found in MySQL and
 used in a lot of queries by SaltOS
 
-\hypertarget{toc347}{}
+\hypertarget{toc348}{}
 \subsubsection{DB Check}
 
 \begin{lstlisting}
@@ -5329,7 +5357,7 @@ This public function is intended to check that the query execution will not trig
 \item[\color{myblue}$\bullet$] @query =$>$ the query that you want to validate
 \end{compactitem}
 
-\hypertarget{toc348}{}
+\hypertarget{toc349}{}
 \subsubsection{DB Escape}
 
 \begin{lstlisting}
@@ -5348,7 +5376,7 @@ Notes:
 This driver adds a simple quotes at the beginning and at the finish of ths string, by this
 reason this function returns the substr(1, -1) of the quoted string.
 
-\hypertarget{toc349}{}
+\hypertarget{toc350}{}
 \subsubsection{DB Query}
 
 \begin{lstlisting}
@@ -5382,7 +5410,7 @@ arrays, this is useful when you want to get all ids of a query and you want to g
 sized array, in this case, is more efficient to get an string separated by commas with all
 ids instead of an array where each element is an id
 
-\hypertarget{toc350}{}
+\hypertarget{toc351}{}
 \subsubsection{DB Last Insert ID}
 
 \begin{lstlisting}
@@ -5391,7 +5419,7 @@ public function db_last_insert_id()
 
 This function returns the last insert id
 
-\hypertarget{toc351}{}
+\hypertarget{toc352}{}
 \subsubsection{DB Disconnect}
 
 \begin{lstlisting}
@@ -5400,7 +5428,7 @@ public function db_disconnect()
 
 This function close the database connection and sets the link to null
 
-\hypertarget{toc352}{}
+\hypertarget{toc353}{}
 \subsection{SQLite3 driver}
 
 \begin{lstlisting}
@@ -5412,7 +5440,7 @@ to use SQLite3 files as database server, this driver solves the concurrence prob
 POSIX semaphores, generally it is a good option for setups that don't require a fulltext
 search optimizations suck as mroonga, intended for a personal usage or demos.
 
-\hypertarget{toc353}{}
+\hypertarget{toc354}{}
 \subsubsection{Database SQLite3 class}
 
 \begin{lstlisting}
@@ -5421,7 +5449,7 @@ class database_sqlite3
 
 This class allow to SaltOS to connect to SQLite databases using the SQLite3 driver
 
-\hypertarget{toc354}{}
+\hypertarget{toc355}{}
 \subsubsection{Private link variable}
 
 \begin{lstlisting}
@@ -5430,7 +5458,7 @@ private $link = null;
 
 This private variable contains the link to the database
 
-\hypertarget{toc355}{}
+\hypertarget{toc356}{}
 \subsubsection{Constructor}
 
 \begin{lstlisting}
@@ -5451,7 +5479,7 @@ this is a great feature that allow to use SQLite as MySQL, and using this featur
 database, this driver uses the libsqlite to add a lot of features found in MySQL and
 used in a lot of queries by SaltOS
 
-\hypertarget{toc356}{}
+\hypertarget{toc357}{}
 \subsubsection{DB Check}
 
 \begin{lstlisting}
@@ -5464,7 +5492,7 @@ This public function is intended to check that the query execution will not trig
 \item[\color{myblue}$\bullet$] @query =$>$ the query that you want to validate
 \end{compactitem}
 
-\hypertarget{toc357}{}
+\hypertarget{toc358}{}
 \subsubsection{DB Escape}
 
 \begin{lstlisting}
@@ -5478,7 +5506,7 @@ in a sql query
 \item[\color{myblue}$\bullet$] @str =$>$ the string that you want to sanitize
 \end{compactitem}
 
-\hypertarget{toc358}{}
+\hypertarget{toc359}{}
 \subsubsection{DB Query}
 
 \begin{lstlisting}
@@ -5512,7 +5540,7 @@ arrays, this is useful when you want to get all ids of a query and you want to g
 sized array, in this case, is more efficient to get an string separated by commas with all
 ids instead of an array where each element is an id
 
-\hypertarget{toc359}{}
+\hypertarget{toc360}{}
 \subsubsection{DB Last Insert ID}
 
 \begin{lstlisting}
@@ -5521,7 +5549,7 @@ public function db_last_insert_id()
 
 This function returns the last insert id
 
-\hypertarget{toc360}{}
+\hypertarget{toc361}{}
 \subsubsection{DB Disconnect}
 
 \begin{lstlisting}
@@ -5531,10 +5559,10 @@ public function db_disconnect()
 This function close the database connection and sets the link to null
 
 
-\hypertarget{toc361}{}
+\hypertarget{toc362}{}
 \section{Libraries}
 
-\hypertarget{toc362}{}
+\hypertarget{toc363}{}
 \subsection{Actions module}
 
 \begin{lstlisting}
@@ -5545,7 +5573,7 @@ This file provides the basic actions used by all apps like insert,
 update and delete, this modules uses features from others modules
 as controol, log, version, indexing, upload, depend and trash.
 
-\hypertarget{toc363}{}
+\hypertarget{toc364}{}
 \subsubsection{Insert action}
 
 \begin{lstlisting}
@@ -5565,7 +5593,7 @@ Notes:
 The data array must contains the fields of the main table, an object
 with the subtables, and with two fields (addfiles and addnotes)
 
-\hypertarget{toc364}{}
+\hypertarget{toc365}{}
 \subsubsection{Update action}
 
 \begin{lstlisting}
@@ -5586,7 +5614,7 @@ The data array must contains the fields of the main table, an object
 with the subtables, and with four fields (addfiles, delfiles, addnotes
 and delnotes)
 
-\hypertarget{toc365}{}
+\hypertarget{toc366}{}
 \subsubsection{Delete action}
 
 \begin{lstlisting}
@@ -5610,7 +5638,7 @@ to allow the recovery action, too, the files of the files feature will
 be moved to the trash folder to allow the previous recovery from the
 version table
 
-\hypertarget{toc366}{}
+\hypertarget{toc367}{}
 \subsection{Array to XML helper module}
 
 \begin{lstlisting}
@@ -5621,7 +5649,7 @@ This fie is a part of the most old files of the SaltOS, accomplish the task to c
 to an XML string, currently it is little used because the most important module compared to this
 is the inverse xml2array module
 
-\hypertarget{toc367}{}
+\hypertarget{toc368}{}
 \subsubsection{Check Node Name}
 
 \begin{lstlisting}
@@ -5635,7 +5663,7 @@ return if the node name is valid
 \item[\color{myblue}$\bullet$] @name =$>$ the name that you want to validate
 \end{compactitem}
 
-\hypertarget{toc368}{}
+\hypertarget{toc369}{}
 \subsubsection{Check Attr Name}
 
 \begin{lstlisting}
@@ -5649,7 +5677,7 @@ return if the attribute name is valid
 \item[\color{myblue}$\bullet$] @name =$>$ the name that you want to validate
 \end{compactitem}
 
-\hypertarget{toc369}{}
+\hypertarget{toc370}{}
 \subsubsection{Write Nodes array2xml helper}
 
 \begin{lstlisting}
@@ -5664,7 +5692,7 @@ return a string with the tree array
 \item[\color{myblue}$\bullet$] @level =$>$ can be null to minify the output zero to indent the XML contents
 \end{compactitem}
 
-\hypertarget{toc370}{}
+\hypertarget{toc371}{}
 \subsubsection{Array to XML}
 
 \begin{lstlisting}
@@ -5679,7 +5707,7 @@ language file, to do it, uses some helpers as \_\_array2xml\_* functions
 \item[\color{myblue}$\bullet$] @indent =$>$ a boolean to enable or disable the indent (the old minify) feature
 \end{compactitem}
 
-\hypertarget{toc371}{}
+\hypertarget{toc372}{}
 \subsection{Make Table ASCII}
 
 \begin{lstlisting}
@@ -5689,7 +5717,7 @@ api/php/lib/ascii.php
 This table is intended for debug purposes and is able to paint in ascii
 mode the contents of a matrix
 
-\hypertarget{toc372}{}
+\hypertarget{toc373}{}
 \subsubsection{Make Table ASCII}
 
 \begin{lstlisting}
@@ -5705,7 +5733,7 @@ mode the contents of a matrix
 \item[\color{myblue}$\bullet$] @compact =$>$ set to true if you want to minify the ascii table
 \end{compactitem}
 
-\hypertarget{toc373}{}
+\hypertarget{toc374}{}
 \subsection{Login functions}
 
 \begin{lstlisting}
@@ -5714,7 +5742,7 @@ api/php/lib/auth.php
 
 This file contain all functions needed by the logins app
 
-\hypertarget{toc374}{}
+\hypertarget{toc375}{}
 \subsubsection{Authentication token action}
 
 \begin{lstlisting}
@@ -5734,7 +5762,7 @@ to the user will be revoked when a new token is assigned, as the result of this 
 is a flag that indicates the validity of the token, this action returns a json with the
 status of te token instead of returns a json with an error in case of non validity
 
-\hypertarget{toc375}{}
+\hypertarget{toc376}{}
 \subsubsection{Deauthentication token action}
 
 \begin{lstlisting}
@@ -5747,7 +5775,7 @@ be performed by the same actor that execute the login action
 
 The unique requirement to execute this action is to have a valid token
 
-\hypertarget{toc376}{}
+\hypertarget{toc377}{}
 \subsubsection{Check token action}
 
 \begin{lstlisting}
@@ -5762,7 +5790,7 @@ result of this action is a flag that indicates the validity of the token, this a
 returns a json with the status of te token instead of returns a json with an error in
 case of non validity
 
-\hypertarget{toc377}{}
+\hypertarget{toc378}{}
 \subsubsection{Authentication update action}
 
 \begin{lstlisting}
@@ -5783,7 +5811,7 @@ users by a token, and providing the old password to update a new password
 This action requires a valid token associated to the user that wants to do
 the password update
 
-\hypertarget{toc378}{}
+\hypertarget{toc379}{}
 \subsubsection{Score check}
 
 \begin{lstlisting}
@@ -5796,7 +5824,7 @@ This function checks the score quality of the provided password
 \item[\color{myblue}$\bullet$] @newpass =$>$ the password thay you want to check
 \end{compactitem}
 
-\hypertarget{toc379}{}
+\hypertarget{toc380}{}
 \subsubsection{Old password check}
 
 \begin{lstlisting}
@@ -5810,7 +5838,7 @@ This function checks that the provided password is valid for the user\_id
 \item[\color{myblue}$\bullet$] @oldpass =$>$ the password to use in the check task
 \end{compactitem}
 
-\hypertarget{toc380}{}
+\hypertarget{toc381}{}
 \subsubsection{New password check}
 
 \begin{lstlisting}
@@ -5824,7 +5852,7 @@ This function checks that the provided password has never been used by the user\
 \item[\color{myblue}$\bullet$] @newpass =$>$ the password to use in the check task
 \end{compactitem}
 
-\hypertarget{toc381}{}
+\hypertarget{toc382}{}
 \subsubsection{Old password disable}
 
 \begin{lstlisting}
@@ -5837,7 +5865,7 @@ This function disable all passwords associated to the user\_id
 \item[\color{myblue}$\bullet$] @user\_id =$>$ the user\_id to use in the check task
 \end{compactitem}
 
-\hypertarget{toc382}{}
+\hypertarget{toc383}{}
 \subsubsection{New password insert}
 
 \begin{lstlisting}
@@ -5855,7 +5883,7 @@ Notes:
 
 This function returns the created and expires timestamps
 
-\hypertarget{toc383}{}
+\hypertarget{toc384}{}
 \subsection{Barcode helper module}
 
 \begin{lstlisting}
@@ -5864,7 +5892,7 @@ api/php/lib/barcode.php
 
 This fie contains useful functions related to barcodes
 
-\hypertarget{toc384}{}
+\hypertarget{toc385}{}
 \subsubsection{BarCode image function}
 
 \begin{lstlisting}
@@ -5889,7 +5917,7 @@ Notes:
 The normal behavior is returns a png image, but if something was wrong,
 the function can returns an empty string
 
-\hypertarget{toc385}{}
+\hypertarget{toc386}{}
 \subsubsection{BarCode image png function}
 
 \begin{lstlisting}
@@ -5912,7 +5940,7 @@ Notes:
 The normal behavior is returns a png image without margins and text,
 but if something was wrong, the function can returns an empty string
 
-\hypertarget{toc386}{}
+\hypertarget{toc387}{}
 \subsubsection{BarCode image svg function}
 
 \begin{lstlisting}
@@ -5935,7 +5963,7 @@ Notes:
 The normal behavior is returns a svg image without margins and text,
 but if something was wrong, the function can returns an empty string
 
-\hypertarget{toc387}{}
+\hypertarget{toc388}{}
 \subsection{Browser helper module}
 
 \begin{lstlisting}
@@ -5944,7 +5972,7 @@ api/php/lib/browser.php
 
 This file contain useful browser helper functions
 
-\hypertarget{toc388}{}
+\hypertarget{toc389}{}
 \subsubsection{Get Browser Platform Device Type}
 
 \begin{lstlisting}
@@ -5953,7 +5981,7 @@ function get_browser_array($user_agent = null)
 
 This function gets the browser, platform and device\_type form the user\_agent header
 
-\hypertarget{toc389}{}
+\hypertarget{toc390}{}
 \subsubsection{Get Browser Platform Device Type}
 
 \begin{lstlisting}
@@ -5962,7 +5990,7 @@ function get_browser_string($user_agent = null)
 
 This function gets the browser, platform and device\_type form the user\_agent header
 
-\hypertarget{toc390}{}
+\hypertarget{toc391}{}
 \subsection{Captcha helper module}
 
 \begin{lstlisting}
@@ -5971,7 +5999,7 @@ api/php/lib/captcha.php
 
 This fie contains useful functions related to captchas
 
-\hypertarget{toc391}{}
+\hypertarget{toc392}{}
 \subsubsection{Captcha Image}
 
 \begin{lstlisting}
@@ -6010,7 +6038,7 @@ Too appear in ther posts if you search for it in google:
 \item[\color{myblue}$\bullet$] \htmladdnormallink{http://www.google.es/search?q=captcha+alto\_linea}{http://www.google.es/search?q=captcha+alto\_linea}
 \end{compactitem}
 
-\hypertarget{toc392}{}
+\hypertarget{toc393}{}
 \subsubsection{Captcha Make Number function}
 
 \begin{lstlisting}
@@ -6024,7 +6052,7 @@ checks that the output is a prime number
 \item[\color{myblue}$\bullet$] @length =$>$ the length of the desired output string
 \end{compactitem}
 
-\hypertarget{toc393}{}
+\hypertarget{toc394}{}
 \subsubsection{Captcha Make Math Operation function}
 
 \begin{lstlisting}
@@ -6038,7 +6066,7 @@ as trick, checks that the output operation is performed by prime numbers
 \item[\color{myblue}$\bullet$] @length =$>$ the length of the desired output string
 \end{compactitem}
 
-\hypertarget{toc394}{}
+\hypertarget{toc395}{}
 \subsection{Color helper module}
 
 \begin{lstlisting}
@@ -6047,7 +6075,7 @@ api/php/lib/color.php
 
 This fie contains useful functions related to colors
 
-\hypertarget{toc395}{}
+\hypertarget{toc396}{}
 \subsubsection{Color To Dec function}
 
 \begin{lstlisting}
@@ -6065,7 +6093,7 @@ Is able to understand colors with the formats \#abcdef, abcdef, \#000, \#fff
 \item[\color{myblue}$\bullet$] @component =$>$ The component that you want to retrieve their value
 \end{compactitem}
 
-\hypertarget{toc396}{}
+\hypertarget{toc397}{}
 \subsection{Control helper module}
 
 \begin{lstlisting}
@@ -6075,7 +6103,7 @@ api/php/lib/control.php
 This fie contains useful functions related to the control and version system, they allow to
 relationate registers with users and groups, and to add and retrieve the versions of a register
 
-\hypertarget{toc397}{}
+\hypertarget{toc398}{}
 \subsubsection{Make Control function}
 
 \begin{lstlisting}
@@ -6105,7 +6133,7 @@ This function returns an integer as response about the control action:
 
 As you can see, negative values denotes an error and positive values denotes a successfully situation
 
-\hypertarget{toc398}{}
+\hypertarget{toc399}{}
 \subsubsection{Integrity}
 
 \begin{lstlisting}
@@ -6119,7 +6147,7 @@ registers in the app table in the second loop, with all found not found register
 the function executes the make\_control that add or remove the needed control
 register to maintain the integrity.
 
-\hypertarget{toc399}{}
+\hypertarget{toc400}{}
 \subsection{Cron utils helper module}
 
 \begin{lstlisting}
@@ -6128,7 +6156,7 @@ api/php/lib/cron.php
 
 This fie contains useful functions related to cron operations
 
-\hypertarget{toc400}{}
+\hypertarget{toc401}{}
 \subsubsection{Cron compare helper}
 
 \begin{lstlisting}
@@ -6144,7 +6172,7 @@ of options, using module, using range and direct case
 \item[\color{myblue}$\bullet$] @now =$>$ the now value used in the evaluation
 \end{compactitem}
 
-\hypertarget{toc401}{}
+\hypertarget{toc402}{}
 \subsubsection{Cron is now helper}
 
 \begin{lstlisting}
@@ -6154,7 +6182,7 @@ function __cron_is_now($minute, $hour, $day, $month, $dow)
 This function uses the \_\_crom\_compare to validate if the five items of the
 cron configuration triggers the execution of the cron task
 
-\hypertarget{toc402}{}
+\hypertarget{toc403}{}
 \subsubsection{Cron users helper}
 
 \begin{lstlisting}
@@ -6167,7 +6195,7 @@ This function allow to get an array of users from the arg
 \item[\color{myblue}$\bullet$] @arg =$>$ the list of users, can be * from all users
 \end{compactitem}
 
-\hypertarget{toc403}{}
+\hypertarget{toc404}{}
 \subsubsection{Cron GC}
 
 \begin{lstlisting}
@@ -6178,7 +6206,7 @@ This function tries to monitorize the cron processes and store in the database
 all stdout and stderr with the timestamps of the start and stop processes, too
 removes all unused files
 
-\hypertarget{toc404}{}
+\hypertarget{toc405}{}
 \subsubsection{Cron Exec}
 
 \begin{lstlisting}
@@ -6189,7 +6217,7 @@ This function tries to detect what cron tasks must to execute and with what
 users must to execute each cron task, too detects if a previous instance of
 the commands was launched previously and is still running in this moment
 
-\hypertarget{toc405}{}
+\hypertarget{toc406}{}
 \subsection{Database schema helper module}
 
 \begin{lstlisting}
@@ -6199,7 +6227,7 @@ api/php/lib/dbschema.php
 This fie contains useful functions related to database schema, allow to manage the entire database
 schema, and too, allow to maintain contents of some tables using the dbstatic feature
 
-\hypertarget{toc406}{}
+\hypertarget{toc407}{}
 \subsubsection{DB Schema}
 
 \begin{lstlisting}
@@ -6209,7 +6237,7 @@ function db_schema()
 This function try to maintain the database structure, to do it, this feature uses the dbschema.xml
 file to store the database structure.
 
-\hypertarget{toc407}{}
+\hypertarget{toc408}{}
 \subsubsection{DB Schema hash}
 
 \begin{lstlisting}
@@ -6218,7 +6246,7 @@ function __dbschema_hash()
 
 This function returns the hash used by db\_schema
 
-\hypertarget{toc408}{}
+\hypertarget{toc409}{}
 \subsubsection{DB Schema check}
 
 \begin{lstlisting}
@@ -6227,7 +6255,7 @@ function __dbschema_check()
 
 This function returns the comparison between the old hash and the new hash
 
-\hypertarget{toc409}{}
+\hypertarget{toc410}{}
 \subsubsection{DB Static}
 
 \begin{lstlisting}
@@ -6241,7 +6269,7 @@ maintaned.
 This version of the db\_static allow you to use a comma separated values in
 fields as "id", start by "id\_" or end by "\_id"
 
-\hypertarget{toc410}{}
+\hypertarget{toc411}{}
 \subsubsection{DB Static hash}
 
 \begin{lstlisting}
@@ -6250,7 +6278,7 @@ function __dbstatic_hash()
 
 This function returns the hash used by db\_static
 
-\hypertarget{toc411}{}
+\hypertarget{toc412}{}
 \subsubsection{DB Static check}
 
 \begin{lstlisting}
@@ -6259,7 +6287,7 @@ function __dbstatic_check()
 
 This function returns the comparison between the old hash and the new hash
 
-\hypertarget{toc412}{}
+\hypertarget{toc413}{}
 \subsubsection{DB Static insert}
 
 \begin{lstlisting}
@@ -6279,7 +6307,7 @@ Notes:
 This feature allow to you to use comma separated lists of values, commonly used for id
 fields as user\_id, perms\_id, or similar.
 
-\hypertarget{toc413}{}
+\hypertarget{toc414}{}
 \subsubsection{Get Tables from DB Schema}
 
 \begin{lstlisting}
@@ -6288,7 +6316,7 @@ function get_tables_from_dbschema()
 
 This function returns the tables from the DB Schema file
 
-\hypertarget{toc414}{}
+\hypertarget{toc415}{}
 \subsubsection{Get Fields from DB Schema}
 
 \begin{lstlisting}
@@ -6301,7 +6329,7 @@ This function returns the fields from the DB Schema file
 \item[\color{myblue}$\bullet$] @table =$>$ the table that you want to request the fields
 \end{compactitem}
 
-\hypertarget{toc415}{}
+\hypertarget{toc416}{}
 \subsubsection{Get Indexes from DB Schema}
 
 \begin{lstlisting}
@@ -6314,7 +6342,7 @@ This function returns the indexes from the DB Schema file
 \item[\color{myblue}$\bullet$] @table =$>$ the table that you want to request the indexes
 \end{compactitem}
 
-\hypertarget{toc416}{}
+\hypertarget{toc417}{}
 \subsubsection{Get Ignores from DB Schema}
 
 \begin{lstlisting}
@@ -6323,7 +6351,7 @@ function get_ignores_from_dbschema()
 
 This function returns the ignores tables from the DB Schema file
 
-\hypertarget{toc417}{}
+\hypertarget{toc418}{}
 \subsubsection{Get Fulltext from DB Schema}
 
 \begin{lstlisting}
@@ -6332,7 +6360,7 @@ function get_fulltext_from_dbschema()
 
 This function returns the fulltext tables from the DB Schema file
 
-\hypertarget{toc418}{}
+\hypertarget{toc419}{}
 \subsubsection{Get Fkeys from DB Schema}
 
 \begin{lstlisting}
@@ -6345,7 +6373,7 @@ This function returns the fkeys from the DB Schema file
 \item[\color{myblue}$\bullet$] @table =$>$ the table that you want to request the fkeys
 \end{compactitem}
 
-\hypertarget{toc419}{}
+\hypertarget{toc420}{}
 \subsubsection{DB Schema helper}
 
 \begin{lstlisting}
@@ -6360,7 +6388,7 @@ to returns the tables of the DB Schema or the fields of a table
 \item[\color{myblue}$\bullet$] @table =$>$ the table used by some features
 \end{compactitem}
 
-\hypertarget{toc420}{}
+\hypertarget{toc421}{}
 \subsubsection{DB Schema Auto Apps}
 
 \begin{lstlisting}
@@ -6379,7 +6407,7 @@ This feature creates a table and try to use Mroonga storage engine with one fiel
 idea of this tables is to store all contents of the register to do quick searchs using a
 fulltext search engine
 
-\hypertarget{toc421}{}
+\hypertarget{toc422}{}
 \subsubsection{DB Schema Auto Fkey}
 
 \begin{lstlisting}
@@ -6400,7 +6428,7 @@ and for this reason, SaltOS creates an index automatically, to improve the perfo
 This function checks that the field not exists in the defined indexes to prevent error in duplicates
 indexes
 
-\hypertarget{toc422}{}
+\hypertarget{toc423}{}
 \subsubsection{DB Schema Auto Name}
 
 \begin{lstlisting}
@@ -6424,7 +6452,7 @@ You can see how the name of the index is different for MySQL and SQLite, this is
 because in MySQL, the name can be repeated in different tables, but in SQLite,
 the name must be unique in the database
 
-\hypertarget{toc423}{}
+\hypertarget{toc424}{}
 \subsubsection{Get Apps From DBStatic}
 
 \begin{lstlisting}
@@ -6434,7 +6462,7 @@ function get_apps_from_dbstatic()
 This function returns the list of apps that have a table and field defined
 in the dbstatic file
 
-\hypertarget{toc424}{}
+\hypertarget{toc425}{}
 \subsubsection{Get Tables From DBStatic}
 
 \begin{lstlisting}
@@ -6444,7 +6472,7 @@ function get_tables_from_dbstatic()
 This function returns the list of tables that have a table and field defined
 in the dbstatic file
 
-\hypertarget{toc425}{}
+\hypertarget{toc426}{}
 \subsubsection{Get Field From DBStatic}
 
 \begin{lstlisting}
@@ -6467,7 +6495,7 @@ useful if you want some field of the app table and you want to use
 the app code instead of the app table to identify what row do you
 want to use
 
-\hypertarget{toc426}{}
+\hypertarget{toc427}{}
 \subsubsection{DB Static helper}
 
 \begin{lstlisting}
@@ -6485,7 +6513,7 @@ indexing feature
 \item[\color{myblue}$\bullet$] @field =$>$ the field used by some features
 \end{compactitem}
 
-\hypertarget{toc427}{}
+\hypertarget{toc428}{}
 \subsubsection{Manifest to dbstatic}
 
 \begin{lstlisting}
@@ -6499,7 +6527,7 @@ of the manifests files.
 \item[\color{myblue}$\bullet$] @files =$>$ An array with all the manifests files
 \end{compactitem}
 
-\hypertarget{toc428}{}
+\hypertarget{toc429}{}
 \subsubsection{DB Schema Create Table}
 
 \begin{lstlisting}
@@ -6517,7 +6545,7 @@ tablespec argument
 This function creates the table, supports the primary key, supports the
 foreign key, and detect fulltext indexes with mroonga engines
 
-\hypertarget{toc429}{}
+\hypertarget{toc430}{}
 \subsubsection{DB Schema Alter Table}
 
 \begin{lstlisting}
@@ -6531,7 +6559,7 @@ This function returns the alter table command
 \item[\color{myblue}$\bullet$] @dest =$>$ destination table
 \end{compactitem}
 
-\hypertarget{toc430}{}
+\hypertarget{toc431}{}
 \subsubsection{DB Schema Insert From Select}
 
 \begin{lstlisting}
@@ -6545,7 +6573,7 @@ This function returns the insert from select command
 \item[\color{myblue}$\bullet$] @dest =$>$ destination table
 \end{compactitem}
 
-\hypertarget{toc431}{}
+\hypertarget{toc432}{}
 \subsubsection{DB Schema Drop Table}
 
 \begin{lstlisting}
@@ -6558,7 +6586,7 @@ This function returns the drop table command
 \item[\color{myblue}$\bullet$] @table =$>$ table that you want to drop
 \end{compactitem}
 
-\hypertarget{toc432}{}
+\hypertarget{toc433}{}
 \subsubsection{DB Schema Create Index}
 
 \begin{lstlisting}
@@ -6575,7 +6603,7 @@ indexspec argument
 
 This function creates the index, supports fulltext indexes
 
-\hypertarget{toc433}{}
+\hypertarget{toc434}{}
 \subsubsection{DB Schema Drop Index}
 
 \begin{lstlisting}
@@ -6589,7 +6617,7 @@ This function returns the drop index command
 \item[\color{myblue}$\bullet$] @table =$>$ table where the indes is part of
 \end{compactitem}
 
-\hypertarget{toc434}{}
+\hypertarget{toc435}{}
 \subsection{Dependencies feature}
 
 \begin{lstlisting}
@@ -6598,7 +6626,7 @@ api/php/lib/depend.php
 
 This file contains the code that has the ability to identify dependencies
 
-\hypertarget{toc435}{}
+\hypertarget{toc436}{}
 \subsubsection{Check Dependencies}
 
 \begin{lstlisting}
@@ -6609,7 +6637,7 @@ This function allow to get all dependencies of an app and id, intended to check
 the if the sytem can delete some register or if the register has relations with
 other apps or tables
 
-\hypertarget{toc436}{}
+\hypertarget{toc437}{}
 \subsection{Export helper module}
 
 \begin{lstlisting}
@@ -6619,7 +6647,7 @@ api/php/lib/export.php
 This fie contains useful functions related to export data, allow to generate outputs in formats
 suck as excel, csv, edi, json and xml
 
-\hypertarget{toc437}{}
+\hypertarget{toc438}{}
 \subsubsection{Export File main function}
 
 \begin{lstlisting}
@@ -6651,7 +6679,7 @@ This function is intended to export data in the supported formats
 If file argument is specified, void string is returned
 If file argument is not specified, then they will returns all data
 
-\hypertarget{toc438}{}
+\hypertarget{toc439}{}
 \subsubsection{Export File XML}
 
 \begin{lstlisting}
@@ -6668,7 +6696,7 @@ This function is intended to export data in xml format
 
 They will returns all data
 
-\hypertarget{toc439}{}
+\hypertarget{toc440}{}
 \subsubsection{Export File CSV}
 
 \begin{lstlisting}
@@ -6689,7 +6717,7 @@ This function is intended to export data in csv format
 
 They will returns all data
 
-\hypertarget{toc440}{}
+\hypertarget{toc441}{}
 \subsubsection{Export File Excel}
 
 \begin{lstlisting}
@@ -6706,7 +6734,7 @@ This function is intended to export data in excel format
 
 They will returns all data
 
-\hypertarget{toc441}{}
+\hypertarget{toc442}{}
 \subsubsection{Export File JSON}
 
 \begin{lstlisting}
@@ -6722,7 +6750,7 @@ This function is intended to export data in json format
 
 They will returns all data
 
-\hypertarget{toc442}{}
+\hypertarget{toc443}{}
 \subsubsection{Tree to Array}
 
 \begin{lstlisting}
@@ -6736,7 +6764,7 @@ a tree structure into a csv, for example
 \item[\color{myblue}$\bullet$] @array =$>$ the tree that you want to convert into a 2D matrix
 \end{compactitem}
 
-\hypertarget{toc443}{}
+\hypertarget{toc444}{}
 \subsubsection{Get Keys}
 
 \begin{lstlisting}
@@ -6750,7 +6778,7 @@ in the tree
 \item[\color{myblue}$\bullet$] @array =$>$ the tree array that you want to process
 \end{compactitem}
 
-\hypertarget{toc444}{}
+\hypertarget{toc445}{}
 \subsection{Files module}
 
 \begin{lstlisting}
@@ -6759,7 +6787,7 @@ api/php/lib/files.php
 
 This file provide some usefull functions for the files module
 
-\hypertarget{toc445}{}
+\hypertarget{toc446}{}
 \subsubsection{Check Files Old}
 
 \begin{lstlisting}
@@ -6775,7 +6803,7 @@ must to shown the needed widgets related with the old files
 \item[\color{myblue}$\bullet$] @id     =$>$ register of the app that must contain files
 \end{compactitem}
 
-\hypertarget{toc446}{}
+\hypertarget{toc447}{}
 \subsubsection{Check Files New}
 
 This function returns true or false and is an utility to know if the ui
@@ -6786,7 +6814,7 @@ must to shown the needed widgets related with the new files
 \item[\color{myblue}$\bullet$] @action =$>$ action that you want to do (create, view, edit)
 \end{compactitem}
 
-\hypertarget{toc447}{}
+\hypertarget{toc448}{}
 \subsubsection{Get cid}
 
 \begin{lstlisting}
@@ -6800,7 +6828,7 @@ This function returns the requested attachment indentified by the cid argument
 \item[\color{myblue}$\bullet$] @cid =$>$ the cid of the content requested
 \end{compactitem}
 
-\hypertarget{toc448}{}
+\hypertarget{toc449}{}
 \subsubsection{Get viewpdf}
 
 \begin{lstlisting}
@@ -6815,7 +6843,7 @@ in a pdf format for the viewpdf widget
 \item[\color{myblue}$\bullet$] @cid =$>$ the cid of the content requested
 \end{compactitem}
 
-\hypertarget{toc449}{}
+\hypertarget{toc450}{}
 \subsubsection{Get download}
 
 \begin{lstlisting}
@@ -6830,7 +6858,7 @@ in an array format for the download feature
 \item[\color{myblue}$\bullet$] @cid =$>$ the cid of the content requested
 \end{compactitem}
 
-\hypertarget{toc450}{}
+\hypertarget{toc451}{}
 \subsection{Garbage collector helper module}
 
 \begin{lstlisting}
@@ -6840,7 +6868,7 @@ api/php/lib/gc.php
 This fie contains useful functions related to the garbaging unused resources, currently only
 implements the clear of temporary files
 
-\hypertarget{toc451}{}
+\hypertarget{toc452}{}
 \subsubsection{Garbage Collector Executor}
 
 \begin{lstlisting}
@@ -6853,7 +6881,7 @@ getted from the server/cachetimeout config file key, too is able to detect
 hidden files and remove except the special files as current directory,
 parent directory and htaccess file
 
-\hypertarget{toc452}{}
+\hypertarget{toc453}{}
 \subsection{GD utils helper module}
 
 \begin{lstlisting}
@@ -6862,7 +6890,7 @@ api/php/lib/gdlib.php
 
 This fie contains useful functions related to the GD library
 
-\hypertarget{toc453}{}
+\hypertarget{toc454}{}
 \subsubsection{Compute width}
 
 \begin{lstlisting}
@@ -6885,7 +6913,7 @@ As the default font in saltos is the Atkinson Hyperlegible, in this
 function was set as default font and you can not replace at the
 moment
 
-\hypertarget{toc454}{}
+\hypertarget{toc455}{}
 \subsubsection{Image resize}
 
 \begin{lstlisting}
@@ -6902,7 +6930,7 @@ parameter
 \item[\color{myblue}$\bullet$] @size =$>$ the size used in the control (size x size)
 \end{compactitem}
 
-\hypertarget{toc455}{}
+\hypertarget{toc456}{}
 \subsection{GeoIP helper module}
 
 \begin{lstlisting}
@@ -6911,7 +6939,7 @@ api/php/lib/geoip.php
 
 This file contain useful geoip helper functions
 
-\hypertarget{toc456}{}
+\hypertarget{toc457}{}
 \subsubsection{Get GeoIP information}
 
 \begin{lstlisting}
@@ -6920,7 +6948,7 @@ function get_geoip_array($remote_addr)
 
 This function gets the geoip information an returns it
 
-\hypertarget{toc457}{}
+\hypertarget{toc458}{}
 \subsubsection{Get GeoIP information}
 
 \begin{lstlisting}
@@ -6929,7 +6957,7 @@ function get_geoip_string($remote_addr)
 
 This function gets the geoip information an returns it
 
-\hypertarget{toc458}{}
+\hypertarget{toc459}{}
 \subsection{Help feature}
 
 \begin{lstlisting}
@@ -6938,7 +6966,7 @@ api/php/lib/help.php
 
 This file contains the help functions used by SaltOS
 
-\hypertarget{toc459}{}
+\hypertarget{toc460}{}
 \subsubsection{Detect Help File}
 
 \begin{lstlisting}
@@ -6956,7 +6984,7 @@ same process is used for the notfound.pdf file.
 \item[\color{myblue}$\bullet$] @lang =$>$ the prefered lang to search
 \end{compactitem}
 
-\hypertarget{toc460}{}
+\hypertarget{toc461}{}
 \subsection{Import file helper module}
 
 \begin{lstlisting}
@@ -6968,7 +6996,7 @@ excel, csv, edi, json, xml and bytes. Too this module allow to manipulate data u
 array of the core of the SaltOS, allowing to add, modify and remove nodes, too can apply patch
 of the memory data and paint arrays as ascii tables
 
-\hypertarget{toc461}{}
+\hypertarget{toc462}{}
 \subsubsection{Import File main function}
 
 \begin{lstlisting}
@@ -6998,7 +7026,7 @@ This function is intended to import data in the supported formats
 This function returns an array with the loaded data from file
 Can return a matrix or tree, depending the nodes parameter
 
-\hypertarget{toc462}{}
+\hypertarget{toc463}{}
 \subsubsection{UTF8 BOM helper}
 
 \begin{lstlisting}
@@ -7013,7 +7041,7 @@ This function remove the bom header of the string
 
 Returns the data without the bom characters
 
-\hypertarget{toc463}{}
+\hypertarget{toc464}{}
 \subsubsection{XML to Array}
 
 \begin{lstlisting}
@@ -7028,7 +7056,7 @@ This function convert an xml into an array
 
 Returns an array with the contents of the xml
 
-\hypertarget{toc464}{}
+\hypertarget{toc465}{}
 \subsubsection{Special Chars helper}
 
 \begin{lstlisting}
@@ -7043,7 +7071,7 @@ This function is a helper used by the csv2array function
 
 Returns the input with the expected replacements
 
-\hypertarget{toc465}{}
+\hypertarget{toc466}{}
 \subsubsection{CSV to Array helper}
 
 \begin{lstlisting}
@@ -7059,7 +7087,7 @@ This function is a helper of the \_\_import\_xml2array
 
 Returns a matrix with the contents
 
-\hypertarget{toc466}{}
+\hypertarget{toc467}{}
 \subsubsection{XLS to Array helper}
 
 \begin{lstlisting}
@@ -7081,7 +7109,7 @@ This fuction can convert an excel file into a matrix structure, it has some addi
 
 Returns a matrix with the contents
 
-\hypertarget{toc467}{}
+\hypertarget{toc468}{}
 \subsubsection{Bytes to Array helper}
 
 \begin{lstlisting}
@@ -7105,7 +7133,7 @@ Notes:
 The map must be an array of strings of the follow form:
 ["field1;0;10", "field2;10;20", "field3;20;40"]
 
-\hypertarget{toc468}{}
+\hypertarget{toc469}{}
 \subsubsection{Edi to Array helper}
 
 \begin{lstlisting}
@@ -7118,7 +7146,7 @@ This fuction can convert an edi file into a tree structure
 \item[\color{myblue}$\bullet$] @file =$>$ local filename used to load the data
 \end{compactitem}
 
-\hypertarget{toc469}{}
+\hypertarget{toc470}{}
 \subsubsection{JSON to Array helper}
 
 \begin{lstlisting}
@@ -7131,7 +7159,7 @@ This fuction can convert an excel file into a tree structure
 \item[\color{myblue}$\bullet$] @file =$>$ local filename used to load the data
 \end{compactitem}
 
-\hypertarget{toc470}{}
+\hypertarget{toc471}{}
 \subsubsection{Check Real Matrix helper}
 
 \begin{lstlisting}
@@ -7147,7 +7175,7 @@ checks that the keys are numeric and that all values are non arrays
 \item[\color{myblue}$\bullet$] @array =$>$ the array to check
 \end{compactitem}
 
-\hypertarget{toc471}{}
+\hypertarget{toc472}{}
 \subsubsection{Remove Void helper}
 
 \begin{lstlisting}
@@ -7160,7 +7188,7 @@ This function is able to remove an entire row or column if it is void
 \item[\color{myblue}$\bullet$] @array =$>$ the array to fix
 \end{compactitem}
 
-\hypertarget{toc472}{}
+\hypertarget{toc473}{}
 \subsubsection{Array to Tree helper}
 
 \begin{lstlisting}
@@ -7181,7 +7209,7 @@ specification
              previous option is set to true
 \end{compactitem}
 
-\hypertarget{toc473}{}
+\hypertarget{toc474}{}
 \subsubsection{Array Intersect}
 
 \begin{lstlisting}
@@ -7196,7 +7224,7 @@ maintaining the order of the filter array.
 \item[\color{myblue}$\bullet$] @filter =$>$ the array where obtain the keys to apply the filter
 \end{compactitem}
 
-\hypertarget{toc474}{}
+\hypertarget{toc475}{}
 \subsubsection{Array to Tree Set helper}
 
 \begin{lstlisting}
@@ -7212,7 +7240,7 @@ by the tree setting the values of each pair of key val
 \item[\color{myblue}$\bullet$] @parts  =$>$ an array with pairs of key val
 \end{compactitem}
 
-\hypertarget{toc475}{}
+\hypertarget{toc476}{}
 \subsubsection{Array to Tree Clean helper}
 
 \begin{lstlisting}
@@ -7225,7 +7253,7 @@ This function tries to clean the tree by setting an automatic indexes
 \item[\color{myblue}$\bullet$] @array =$>$ the array to clean
 \end{compactitem}
 
-\hypertarget{toc476}{}
+\hypertarget{toc477}{}
 \subsubsection{Column to Name helper}
 
 \begin{lstlisting}
@@ -7246,7 +7274,7 @@ This function was copied from:
 \item[\color{myblue}$\bullet$] \htmladdnormallink{http://www.php.net/manual/en/function.base-convert.php\#94874}{http://www.php.net/manual/en/function.base-convert.php\#94874}
 \end{compactitem}
 
-\hypertarget{toc477}{}
+\hypertarget{toc478}{}
 \subsubsection{Name to Column helper}
 
 \begin{lstlisting}
@@ -7267,7 +7295,7 @@ This function was copied from:
 \item[\color{myblue}$\bullet$] \htmladdnormallink{http://www.php.net/manual/en/function.base-convert.php\#94874}{http://www.php.net/manual/en/function.base-convert.php\#94874}
 \end{compactitem}
 
-\hypertarget{toc478}{}
+\hypertarget{toc479}{}
 \subsubsection{Is Name helper}
 
 \begin{lstlisting}
@@ -7281,7 +7309,7 @@ used in the name of the column
 \item[\color{myblue}$\bullet$] @name =$>$ the name that you want to check
 \end{compactitem}
 
-\hypertarget{toc479}{}
+\hypertarget{toc480}{}
 \subsubsection{Cell to Column and Row helper}
 
 \begin{lstlisting}
@@ -7299,7 +7327,7 @@ Notes:
 This function tries to retusn an array with two elements, for example, for
 the cell AX23, the function returns [AX,23]
 
-\hypertarget{toc480}{}
+\hypertarget{toc481}{}
 \subsection{Make index helper module}
 
 \begin{lstlisting}
@@ -7309,7 +7337,7 @@ api/php/lib/indexing.php
 This fie contains useful functions related to the indexing feature that internally uses the
 mroonga engine to search in the fulltext string generated by this feature
 
-\hypertarget{toc481}{}
+\hypertarget{toc482}{}
 \subsubsection{Make Index main function}
 
 \begin{lstlisting}
@@ -7340,7 +7368,7 @@ This function returns an integer as response about the index action:
 
 As you can see, negative values denotes an error and positive values denotes a successfully situation
 
-\hypertarget{toc482}{}
+\hypertarget{toc483}{}
 \subsubsection{Make Index helper}
 
 \begin{lstlisting}
@@ -7357,7 +7385,7 @@ This function uses a cache technique to improve the performance, returns
 an array with all fields and subqueries to allow to retrieve all data
 related to the app register
 
-\hypertarget{toc483}{}
+\hypertarget{toc484}{}
 \subsubsection{Get Field helper}
 
 \begin{lstlisting}
@@ -7375,7 +7403,7 @@ Notes:
 
 This function uses the dbschema.php library
 
-\hypertarget{toc484}{}
+\hypertarget{toc485}{}
 \subsubsection{Get Fkeys helper}
 
 \begin{lstlisting}
@@ -7392,7 +7420,7 @@ Notes:
 
 This function uses the dbschema.php library
 
-\hypertarget{toc485}{}
+\hypertarget{toc486}{}
 \subsubsection{Indexing Files}
 
 \begin{lstlisting}
@@ -7408,7 +7436,7 @@ the script must unexpectedly finish and in the next executions can continue
 in the same file, but only for three times, the requirement to index a file
 is that indexed = 0 and retries $<$ 3
 
-\hypertarget{toc486}{}
+\hypertarget{toc487}{}
 \subsubsection{Indexing Apps}
 
 \begin{lstlisting}
@@ -7422,7 +7450,7 @@ in the app table in the second loop, with all found not found registers the
 function executes the make\_index that add or remove the needed index register
 to maintain the integrity with the indexing feature.
 
-\hypertarget{toc487}{}
+\hypertarget{toc488}{}
 \subsection{Log helper module}
 
 \begin{lstlisting}
@@ -7431,7 +7459,7 @@ api/php/lib/log.php
 
 This fie contains useful functions related to the log feature
 
-\hypertarget{toc488}{}
+\hypertarget{toc489}{}
 \subsubsection{Make Log function}
 
 \begin{lstlisting}
@@ -7458,7 +7486,7 @@ This function returns an integer as response about the control action:
 \item[\color{myblue}$\bullet$] -2 =$>$ log table not found, this is because the has\_log feature is disabled by dbstatic
 \end{compactitem}
 
-\hypertarget{toc489}{}
+\hypertarget{toc490}{}
 \subsubsection{Make Log Bypass function}
 
 \begin{lstlisting}
@@ -7482,7 +7510,7 @@ Notes:
 
 This function always returns the input data
 
-\hypertarget{toc490}{}
+\hypertarget{toc491}{}
 \subsubsection{Get Logs}
 
 \begin{lstlisting}
@@ -7502,7 +7530,7 @@ to define sql commands from php functions
 \item[\color{myblue}$\bullet$] @reg\_id =$>$ register of the app that you want to get the logs
 \end{compactitem}
 
-\hypertarget{toc491}{}
+\hypertarget{toc492}{}
 \subsubsection{Delete Log function}
 
 \begin{lstlisting}
@@ -7530,7 +7558,7 @@ This function returns an integer as response about the control action:
 
 As you can see, negative values denotes an error and positive values denotes a successfully situation
 
-\hypertarget{toc492}{}
+\hypertarget{toc493}{}
 \subsection{Math utils helper module}
 
 \begin{lstlisting}
@@ -7539,7 +7567,7 @@ api/php/lib/math.php
 
 This fie contains useful functions related to math operations
 
-\hypertarget{toc493}{}
+\hypertarget{toc494}{}
 \subsubsection{Sign function}
 
 \begin{lstlisting}
@@ -7552,7 +7580,7 @@ This function returns 1 for positive, -1 for negative and 0 for zero.
 \item[\color{myblue}$\bullet$] @n =$>$ the number that you want to be processed
 \end{compactitem}
 
-\hypertarget{toc494}{}
+\hypertarget{toc495}{}
 \subsubsection{Is Prime Number}
 
 \begin{lstlisting}
@@ -7571,7 +7599,7 @@ Notes:
 
 See \htmladdnormallink{www.polprimos.com}{www.polprimos.com} for understand this algorithm
 
-\hypertarget{toc495}{}
+\hypertarget{toc496}{}
 \subsection{Notes module}
 
 \begin{lstlisting}
@@ -7580,7 +7608,7 @@ api/php/lib/notes.php
 
 This file provide some usefull functions for the notes module
 
-\hypertarget{toc496}{}
+\hypertarget{toc497}{}
 \subsubsection{Check Notes Old}
 
 \begin{lstlisting}
@@ -7596,7 +7624,7 @@ must to shown the needed widgets related with the old notes
 \item[\color{myblue}$\bullet$] @id     =$>$ register of the app that must contain notes
 \end{compactitem}
 
-\hypertarget{toc497}{}
+\hypertarget{toc498}{}
 \subsubsection{Check Notes New}
 
 \begin{lstlisting}
@@ -7611,7 +7639,7 @@ must to shown the needed widgets related with the new notes
 \item[\color{myblue}$\bullet$] @action =$>$ action that you want to do (create, view, edit)
 \end{compactitem}
 
-\hypertarget{toc498}{}
+\hypertarget{toc499}{}
 \subsection{Password helper module}
 
 \begin{lstlisting}
@@ -7621,7 +7649,7 @@ api/php/lib/password.php
 This fie contains useful functions related to password, currently only publish one feature to check
 the password strength, but is open to be used to add more password features if it is needed
 
-\hypertarget{toc499}{}
+\hypertarget{toc500}{}
 \subsubsection{Password Strength}
 
 \begin{lstlisting}
@@ -7637,7 +7665,7 @@ password
 \item[\color{myblue}$\bullet$] @pass =$>$ password that do you want to check
 \end{compactitem}
 
-\hypertarget{toc500}{}
+\hypertarget{toc501}{}
 \subsection{PDF helper module}
 
 \begin{lstlisting}
@@ -7647,7 +7675,7 @@ api/php/lib/pdf.php
 This file contains useful functions related to PDF generation using TCPDF library
 including custom PDF class extensions and various PDF manipulation utilities
 
-\hypertarget{toc501}{}
+\hypertarget{toc502}{}
 \subsubsection{Custom PDF class extending TCPDF}
 
 \begin{lstlisting}
@@ -7656,7 +7684,7 @@ class MyPDF extends TCPDF
 
 Provides enhanced functionality for header/footer management and page checks
 
-\hypertarget{toc502}{}
+\hypertarget{toc503}{}
 \subsubsection{Initialize PDF document settings}
 
 \begin{lstlisting}
@@ -7665,7 +7693,7 @@ public function Init()
 
 Resets all internal variables to their default state
 
-\hypertarget{toc503}{}
+\hypertarget{toc504}{}
 \subsubsection{Set header content and data}
 
 \begin{lstlisting}
@@ -7677,7 +7705,7 @@ public function set_header($arr, $row)
 \item[\color{myblue}$\bullet$] @row =$>$ Data row for header evaluation
 \end{compactitem}
 
-\hypertarget{toc504}{}
+\hypertarget{toc505}{}
 \subsubsection{Set footer content and data}
 
 \begin{lstlisting}
@@ -7689,7 +7717,7 @@ public function set_footer($arr, $row)
 \item[\color{myblue}$\bullet$] @row =$>$ Data row for footer evaluation
 \end{compactitem}
 
-\hypertarget{toc505}{}
+\hypertarget{toc506}{}
 \subsubsection{Override TCPDF header method}
 
 \begin{lstlisting}
@@ -7698,7 +7726,7 @@ public function Header()
 
 Processes and renders the header content while temporarily disabling Y checks
 
-\hypertarget{toc506}{}
+\hypertarget{toc507}{}
 \subsubsection{Override TCPDF footer method}
 
 \begin{lstlisting}
@@ -7707,7 +7735,7 @@ public function Footer()
 
 Tracks page numbers where footers need to be rendered
 
-\hypertarget{toc507}{}
+\hypertarget{toc508}{}
 \subsubsection{Render all accumulated footers}
 
 \begin{lstlisting}
@@ -7716,7 +7744,7 @@ public function render_footers()
 
 Processes footer content on all tracked pages while temporarily disabling Y checks
 
-\hypertarget{toc508}{}
+\hypertarget{toc509}{}
 \subsubsection{Check Y position and add new page if needed}
 
 \begin{lstlisting}
@@ -7727,7 +7755,7 @@ public function check_y($offset = 0)
 \item[\color{myblue}$\bullet$] @offset =$>$ Additional offset to consider in Y position check
 \end{compactitem}
 
-\hypertarget{toc509}{}
+\hypertarget{toc510}{}
 \subsubsection{Evaluate dynamic value in PDF context}
 
 \begin{lstlisting}
@@ -7742,7 +7770,7 @@ function __pdf_eval_value($input, $row, $pdf)
 
 Returns the evaluated result
 
-\hypertarget{toc510}{}
+\hypertarget{toc511}{}
 \subsubsection{Evaluate array values in PDF context}
 
 \begin{lstlisting}
@@ -7757,7 +7785,7 @@ function __pdf_eval_array($array, $row, $pdf)
 
 Returns array with evaluated values
 
-\hypertarget{toc511}{}
+\hypertarget{toc512}{}
 \subsubsection{Advanced string explosion with quote and parentheses awareness}
 
 \begin{lstlisting}
@@ -7772,7 +7800,7 @@ function __pdf_eval_explode($separator, $str, $limit = 0)
 
 Returns array of exploded parts
 
-\hypertarget{toc512}{}
+\hypertarget{toc513}{}
 \subsubsection{Process PDF template tags and generate PDF content}
 
 \begin{lstlisting}
@@ -7786,7 +7814,7 @@ function __pdf_eval_pdftag($array, $row = [])
 
 Returns the generated PDF object or output array
 
-\hypertarget{toc513}{}
+\hypertarget{toc514}{}
 \subsubsection{Generate PDF from template file}
 
 \begin{lstlisting}
@@ -7800,7 +7828,7 @@ function pdf($file, $row = [])
 
 Returns array containing PDF name, type and base64 encoded data
 
-\hypertarget{toc514}{}
+\hypertarget{toc515}{}
 \subsubsection{Convert various file types to PDF}
 
 \begin{lstlisting}
@@ -7813,7 +7841,7 @@ function __pdf_all2pdf($input)
 
 Returns PDF content as string
 
-\hypertarget{toc515}{}
+\hypertarget{toc516}{}
 \subsection{Push utils helper module}
 
 \begin{lstlisting}
@@ -7822,7 +7850,7 @@ api/php/lib/push.php
 
 This fie contains useful functions related to push feature
 
-\hypertarget{toc516}{}
+\hypertarget{toc517}{}
 \subsubsection{Push insert}
 
 \begin{lstlisting}
@@ -7836,7 +7864,7 @@ This function adds an entry to the push system using the type and message
 \item[\color{myblue}$\bullet$] @message =$>$ the desired message that you want to put in the queue
 \end{compactitem}
 
-\hypertarget{toc517}{}
+\hypertarget{toc518}{}
 \subsubsection{Push select}
 
 \begin{lstlisting}
@@ -7857,7 +7885,7 @@ Notes:
   using only the type and message to detect repetitions
 \end{compactitem}
 
-\hypertarget{toc518}{}
+\hypertarget{toc519}{}
 \subsection{QRCode helper module}
 
 \begin{lstlisting}
@@ -7866,7 +7894,7 @@ api/php/lib/qrcode.php
 
 This fie contains useful functions related to QRCodes
 
-\hypertarget{toc519}{}
+\hypertarget{toc520}{}
 \subsubsection{QRCode image function}
 
 \begin{lstlisting}
@@ -7889,7 +7917,7 @@ Notes:
 The normal behavior is returns a png image, but if something was wrong,
 the function can returns an empty string
 
-\hypertarget{toc520}{}
+\hypertarget{toc521}{}
 \subsubsection{QRCode image function}
 
 \begin{lstlisting}
@@ -7911,7 +7939,7 @@ Notes:
 The normal behavior is returns a png image without margins, but if something
 was wrong, the function can returns an empty string
 
-\hypertarget{toc521}{}
+\hypertarget{toc522}{}
 \subsubsection{QRCode image function}
 
 \begin{lstlisting}
@@ -7933,7 +7961,7 @@ Notes:
 The normal behavior is returns a svg image without margins, but if something
 was wrong, the function can returns an empty string
 
-\hypertarget{toc522}{}
+\hypertarget{toc523}{}
 \subsection{Score image helper module}
 
 \begin{lstlisting}
@@ -7942,7 +7970,7 @@ api/php/lib/score.php
 
 This fie contains useful functions related to score images
 
-\hypertarget{toc523}{}
+\hypertarget{toc524}{}
 \subsubsection{Score Image function}
 
 \begin{lstlisting}
@@ -7961,7 +7989,7 @@ write the score percent
 \item[\color{myblue}$\bullet$] @size   =$>$ the size of the font of the generated image
 \end{compactitem}
 
-\hypertarget{toc524}{}
+\hypertarget{toc525}{}
 \subsection{Security helper module}
 
 \begin{lstlisting}
@@ -7970,7 +7998,7 @@ api/php/lib/security.php
 
 This file contain useful securiry helper functions
 
-\hypertarget{toc525}{}
+\hypertarget{toc526}{}
 \subsubsection{Get Browser Platform Device Type}
 
 \begin{lstlisting}
@@ -7979,7 +8007,7 @@ function get_connection_detected($remote_addr, $user_agent = null)
 
 This function gets the browser, platform and device\_type form the user\_agent header
 
-\hypertarget{toc526}{}
+\hypertarget{toc527}{}
 \subsection{Setup helper module}
 
 \begin{lstlisting}
@@ -7988,7 +8016,7 @@ api/php/lib/setup.php
 
 This file contains useful functions related to the setup process
 
-\hypertarget{toc527}{}
+\hypertarget{toc528}{}
 \subsubsection{Setup function}
 
 \begin{lstlisting}
@@ -8000,7 +8028,34 @@ usable by the admin user, only do things if the keys tables of the array are voi
 too is able to maintain the integrity of the tbl\_\{users,groups\}\_apps\_perms tables
 by removing the unused registers, usefull when you modify the tbl\_apps\_perms rows
 
-\hypertarget{toc528}{}
+\hypertarget{toc529}{}
+\subsubsection{Load and initialize sample data for all apps in the given directory.}
+
+\begin{lstlisting}
+function __setup_helper($dir)
+\end{lstlisting}
+
+This function is used during the setup or development phase to populate
+the database with sample data stored in `.sql.gz` files under
+`apps/$<$dir$>$/sample/sql/`. For each file:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] It infers the corresponding table and app.
+\item[\color{myblue}$\bullet$] If the table is empty, it loads the data from the SQL file.
+\item[\color{myblue}$\bullet$] It then generates control/version/index/log metadata for each inserted record.
+\item[\color{myblue}$\bullet$] It ensures that subtable and main table mappings are respected.
+\end{compactitem}
+
+The function returns timing information and the number of records processed
+per app, which can be used for diagnostics or logging.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @dir =$>$ The directory under `apps/` (e.g., "crm", "sales", ...)
+\end{compactitem}
+
+Return an associative array with total execution time and per-app counts
+
+\hypertarget{toc530}{}
 \subsection{Send file to trash}
 
 \begin{lstlisting}
@@ -8011,7 +8066,7 @@ This function tries to implement the send to trash feature, to do it, move the
 requested files to the trash folder, execute the insert in the tbl\_trash with
 the new file and delete the file from the files app table.
 
-\hypertarget{toc529}{}
+\hypertarget{toc531}{}
 \subsubsection{Garbage Collector Trash}
 
 \begin{lstlisting}
@@ -8022,7 +8077,7 @@ This function tries to clean the trash database of old files, the parameters
 that this function uses is defined in the config file, only uses the timeout
 that is getted from the server/trashtimeout
 
-\hypertarget{toc530}{}
+\hypertarget{toc532}{}
 \subsection{Unoconv library}
 
 \begin{lstlisting}
@@ -8033,7 +8088,7 @@ This file contains all functions that allow conversions between formats like
 docx, xlsx and more to pdf, too includes the ocr code that allow to get text
 from images.
 
-\hypertarget{toc531}{}
+\hypertarget{toc533}{}
 \subsubsection{Unoconv to PDF}
 
 \begin{lstlisting}
@@ -8046,7 +8101,7 @@ This function allow to convert all input files into their equivalent pdf file
 \item[\color{myblue}$\bullet$] @input =$>$ the file that you want to process
 \end{compactitem}
 
-\hypertarget{toc532}{}
+\hypertarget{toc534}{}
 \subsubsection{Unoconv to TXT}
 
 \begin{lstlisting}
@@ -8059,7 +8114,7 @@ This function allow to convert all input files into their equivalent txt file
 \item[\color{myblue}$\bullet$] @input =$>$ the file that you want to process
 \end{compactitem}
 
-\hypertarget{toc533}{}
+\hypertarget{toc535}{}
 \subsubsection{Unoconv list}
 
 \begin{lstlisting}
@@ -8068,7 +8123,7 @@ function __unoconv_list()
 
 This function returns an array with all suported extensions by libreoffice
 
-\hypertarget{toc534}{}
+\hypertarget{toc536}{}
 \subsubsection{PDF to TXT}
 
 \begin{lstlisting}
@@ -8082,7 +8137,7 @@ This function convert files between pdf to txt using the pdftotext
 \item[\color{myblue}$\bullet$] @output =$>$ the file where you want to store the result
 \end{compactitem}
 
-\hypertarget{toc535}{}
+\hypertarget{toc537}{}
 \subsubsection{All to PDF}
 
 \begin{lstlisting}
@@ -8096,7 +8151,7 @@ This function convert all formats to pdf using libreoffice
 \item[\color{myblue}$\bullet$] @output =$>$ the file where you want to store the result
 \end{compactitem}
 
-\hypertarget{toc536}{}
+\hypertarget{toc538}{}
 \subsubsection{Convert}
 
 \begin{lstlisting}
@@ -8111,7 +8166,7 @@ This function convert between formats using libreoffice
 \item[\color{myblue}$\bullet$] @format =$>$ the desired destination format
 \end{compactitem}
 
-\hypertarget{toc537}{}
+\hypertarget{toc539}{}
 \subsubsection{Image to OCR}
 
 \begin{lstlisting}
@@ -8126,7 +8181,7 @@ the tesseract process.
 \item[\color{myblue}$\bullet$] @file =$>$ the file that you want to process
 \end{compactitem}
 
-\hypertarget{toc538}{}
+\hypertarget{toc540}{}
 \subsubsection{PDF to OCR}
 
 \begin{lstlisting}
@@ -8140,7 +8195,7 @@ and then, extract the text of each page to finish the task.
 \item[\color{myblue}$\bullet$] @pdf =$>$ the file that you want to process
 \end{compactitem}
 
-\hypertarget{toc539}{}
+\hypertarget{toc541}{}
 \subsubsection{Calculate histogram value}
 
 \begin{lstlisting}
@@ -8158,7 +8213,7 @@ It finds the highest percentage where at least a certain portion of values and u
 
 Returns the calculated representative value
 
-\hypertarget{toc540}{}
+\hypertarget{toc542}{}
 \subsubsection{Rotate coordinates}
 
 \begin{lstlisting}
@@ -8175,7 +8230,7 @@ This function rotates a point around the origin by a given angle in degrees.
 
 Returns the array with new x and y coordinates
 
-\hypertarget{toc541}{}
+\hypertarget{toc543}{}
 \subsubsection{Extract attributes from OCR node}
 
 \begin{lstlisting}
@@ -8191,7 +8246,7 @@ specifically focusing on the bounding box information.
 
 Returns the array containing node ID and bounding box coordinates
 
-\hypertarget{toc542}{}
+\hypertarget{toc544}{}
 \subsubsection{Extract text value from OCR node}
 
 \begin{lstlisting}
@@ -8206,7 +8261,7 @@ This function extracts the text content from an OCR node, handling nested arrays
 
 Returns the extracted text content
 
-\hypertarget{toc543}{}
+\hypertarget{toc545}{}
 \subsubsection{Convert OCR lines to character matrix}
 
 \begin{lstlisting}
@@ -8224,7 +8279,7 @@ for text reconstruction and analysis.
 
 Returns the 2D character matrix or index of problematic line if error occurs
 
-\hypertarget{toc544}{}
+\hypertarget{toc546}{}
 \subsubsection{Reorder line coordinates}
 
 \begin{lstlisting}
@@ -8244,7 +8299,7 @@ used for correcting orientation in OCR results.
 
 Returns the reordered line coordinates
 
-\hypertarget{toc545}{}
+\hypertarget{toc547}{}
 \subsubsection{Convert HOCR to plain text}
 
 \begin{lstlisting}
@@ -8260,7 +8315,7 @@ the text content while maintaining spatial relationships.
 
 Returns the extracted plain text
 
-\hypertarget{toc546}{}
+\hypertarget{toc548}{}
 \subsubsection{Proportional substring extraction}
 
 \begin{lstlisting}
@@ -8279,7 +8334,7 @@ to a reference length, useful for working with scaled text representations.
 
 Returns the extracted substring
 
-\hypertarget{toc547}{}
+\hypertarget{toc549}{}
 \subsubsection{2D proportional substring extraction}
 
 \begin{lstlisting}
@@ -8301,7 +8356,7 @@ coordinates, maintaining spatial relationships in the extracted content.
 
 Returns the array of extracted lines
 
-\hypertarget{toc548}{}
+\hypertarget{toc550}{}
 \subsubsection{Remove margins from text page}
 
 \begin{lstlisting}
@@ -8317,7 +8372,7 @@ whitespace and empty lines from the top and bottom.
 
 Returns the text content with margins removed
 
-\hypertarget{toc549}{}
+\hypertarget{toc551}{}
 \subsection{Add upload file}
 
 \begin{lstlisting}
@@ -8335,7 +8390,7 @@ This function is intended to add files to the upload mecano
 \item[\color{myblue}$\bullet$] @data =$>$ the inline data in base64 form, with the mime type prefix
 \end{compactitem}
 
-\hypertarget{toc550}{}
+\hypertarget{toc552}{}
 \subsubsection{Del upload file}
 
 \begin{lstlisting}
@@ -8354,7 +8409,7 @@ This function is intended to del files in the upload mecano
 \item[\color{myblue}$\bullet$] @hash =$>$ the hash of the binary data contents
 \end{compactitem}
 
-\hypertarget{toc551}{}
+\hypertarget{toc553}{}
 \subsubsection{Check upload file}
 
 \begin{lstlisting}
@@ -8374,7 +8429,7 @@ This function is intended to check files in the upload mecano
 \item[\color{myblue}$\bullet$] @hash    =$>$ the hash of the binary data contents
 \end{compactitem}
 
-\hypertarget{toc552}{}
+\hypertarget{toc554}{}
 \subsubsection{Rename upload file}
 
 \begin{lstlisting}
@@ -8390,7 +8445,7 @@ app folder and create the files register using the id argument
 \item[\color{myblue}$\bullet$] @id  =$>$ the id of the application register
 \end{compactitem}
 
-\hypertarget{toc553}{}
+\hypertarget{toc555}{}
 \subsubsection{Garbage Collector Upload}
 
 \begin{lstlisting}
@@ -8401,7 +8456,7 @@ This function tries to clean the upload database of old files, the parameters
 that this function uses is defined in the config file, only uses the timeout
 that is getted from the server/cachetimeout
 
-\hypertarget{toc554}{}
+\hypertarget{toc556}{}
 \subsection{Version helper module}
 
 \begin{lstlisting}
@@ -8411,7 +8466,7 @@ api/php/lib/version.php
 This fie contains useful functions related to the control and version system, they allow to
 relationate registers with users and groups, and to add and retrieve the versions of a register
 
-\hypertarget{toc555}{}
+\hypertarget{toc557}{}
 \subsubsection{Make Version function}
 
 \begin{lstlisting}
@@ -8447,7 +8502,7 @@ This function returns an integer as response about the control action:
 
 As you can see, negative values denotes an error and positive values denotes a successfully situation
 
-\hypertarget{toc556}{}
+\hypertarget{toc558}{}
 \subsubsection{Get Version}
 
 \begin{lstlisting}
@@ -8481,7 +8536,7 @@ This function returns an array or an integer as response about the control actio
 
 As you can see, negative values denotes an error and positive values denotes a successfully situation
 
-\hypertarget{toc557}{}
+\hypertarget{toc559}{}
 \subsubsection{Delete Version function}
 
 \begin{lstlisting}

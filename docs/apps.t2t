@@ -1,5 +1,5 @@
 Applications Documentation
-SaltOS 4.0 r1947
+SaltOS 4.0 r1952
 April 2025
 
 
@@ -507,6 +507,82 @@ saltos.dashboard_widgets.init = arg
 
 This method sets up the interactive elements of the dashboard, including assigning style classes
 and configuring drag-and-drop functionality between different containers.
+
+
+++Dashboard and navbar generation logic.++
+
+```
+apps/dashboard/php/dashboard.php
+```
+
+This file contains helper functions used to build the SaltOS dashboard and navbar
+dynamically based on the applications configured in the system and the permissions
+of the current user.
+
+Functions included:
+- __dashboard_helper(): Generates the full dashboard widget layout (alerts, buttons, separators)
+- __dashboard_config(): Applies user-specific configuration to customize the dashboard layout
+- __navbar_helper(): Builds the application menu structure for the top navigation bar
+
+
+These functions are used internally by the SaltOS UI rendering engine to generate
+the initial layout and navigation menus seen by each user on login.
+
+
++++Build the default dashboard layout with groups and application buttons.+++
+
+```
+function __dashboard_helper()
+```
+
+This function retrieves all active applications from `tbl_apps`,
+groups them by `group`, filters them by user permissions (menu access),
+and then formats them into a widget-based structure suitable for rendering
+on the dashboard, including alerts, buttons, and separators.
+
+Each group of apps is preceded by an alert (group title and description),
+followed by buttons for each app, and a horizontal rule (`<hr>`) at the end.
+
+- @return array An array of widgets (alerts, buttons, hr) to render the dashboard
+
+
++++Build a personalized dashboard layout based on user config.+++
+
+```
+function __dashboard_config()
+```
+
+This function loads the full list of dashboard items using `__dashboard_helper()`
+and then tries to fetch the widget configuration saved by the current user
+under the path `app/dashboard/widgets/default`.
+
+If configuration is found, it reconstructs the dashboard by preserving only
+the items selected by the user, in the specified order. Otherwise, it returns
+the default layout.
+
+- @return array The personalized or default dashboard widget list
+
+
++++Build the application menu for the navbar.+++
+
+```
+function __navbar_helper()
+```
+
+This function generates the main application menu for the navbar by:
+- Fetching all active apps grouped by `group`
+- Filtering them by user permissions
+- Mapping the group metadata from `tbl_apps_groups`
+- Creating a linear structure of `<item>` elements including:
+  - Group labels (disabled items)
+  - App entries with onclick handlers
+  - A divider after each group
+
+
+The result is an array of menu items that represents the full application
+navigation tree grouped visually in the UI.
+
+- @return array An array of navbar `<item>` definitions
 
 
 +Emails+
@@ -1677,12 +1753,12 @@ and replaces the encryption state (`state_crt`) based on the selected account.
 Return the updated email body, CC list, and encryption state.
 
 
-+Invoices+
++Sales+
 
 ++Invoices application++
 
 ```
-apps/invoices/js/invoices.js
+apps/sales/js/invoices.js
 ```
 
 This application provides core functionalities for managing invoices, including creating,
@@ -1710,36 +1786,131 @@ It updates UI elements and attaches appropriate event listeners.
 - @arg => Specifies the type of operation to initialize.
 
 
-+++Compute total invoice amount+++
++++Calculate the dynamic width for each column in the "concepts" table.+++
 
 ```
-saltos.invoices.compute_total = ()
+saltos.invoices.colWidths_concepts = index
 ```
 
-This method calculates the subtotal for each invoice item and the grand total for all items.
-It handles discounts, rounds values to two decimal places, and updates the total fields.
+This function returns the width for each column. For the first column (index 0),
+it dynamically calculates the remaining space based on the container width minus
+a fixed width (500px) reserved for other columns. For all other columns, it returns 100px.
+
+- @index => Column index
 
 
-+++Add a new item to the invoice+++
-
-```
-saltos.invoices.add_item = ()
-```
-
-This method creates a new invoice item and initializes its layout and event listeners.
-It ensures consistent behavior for the form fields and recomputes the totals after addition.
+Returns the width in pixels
 
 
-+++Remove an item from the invoice+++
++++Define cell configuration for each column in the "concepts" table.+++
 
 ```
-saltos.invoices.remove_item = (obj)
+saltos.invoices.cells_concepts = (row, column, prop)
 ```
 
-This method deletes an invoice item or marks it with a negative value if it is hidden.
-It updates the invoice totals after removal.
+This function provides per-column behavior:
+- Column 4: renders a dropdown with available tax values (from #alltaxes).
+- Column 5: sets the cell as read-only (used for calculated values).
+- Other columns: no special config.
 
-- @obj => Reference to the item to remove.
+
+- @row    => Row index
+- @column => Column index
+- @prop   => Column property name
+
+
+Returns the configuration object
+
+
++++Calculate the dynamic width for each column in the "taxes" table.+++
+
+```
+saltos.invoices.colWidths_taxes = index
+```
+
+The first column (index 0) fills the available space minus 200px reserved for other columns.
+All other columns get a fixed width of 100px.
+
+- @index => Column index
+
+
+Returns the width in pixels
+
+
++++Define cell configuration for each column in the "taxes" table.+++
+
+```
+saltos.invoices.cells_taxes = (row, column, prop)
+```
+
+All cells in this table are read-only.
+
+- @row    => Row index
+- @column => Column index
+- @prop   => Column property name
+
+
+Returns the configuration object
+
+
++++Calculate equal column widths for the "totals" table.+++
+
+```
+saltos.invoices.colWidths_totals = index
+```
+
+The table is divided into 3 equal columns, based on the container width.
+
+- @index => Column index
+
+
+Returns the width in pixels
+
+
++++Define cell configuration for the "totals" table.+++
+
+```
+saltos.invoices.cells_totals = (row, column, prop)
+```
+
+All cells in this table are read-only.
+
+- @row    => Row index
+- @column => Column index
+- @prop   => Column property name
+
+
+Returns the configuration object
+
+
++++Handle and recalculate invoice line totals and tax breakdowns after user edits.+++
+
+```
+saltos.invoices.afterChange_concepts = (changes, source)
+```
+
+This function is triggered after the user modifies any cell in the "concepts" matrix
+(invoice lines). It performs the following operations:
+
+- Ignores changes triggered by internal actions (non-`edit` sources).
+- Validates and normalizes quantity, price, and discount values:
+    - Ensures `line[1]`, `line[2]`, `line[3]` (qty, price, discount) are numeric.
+    - Defaults discount to 0 if empty but qty and price are valid.
+- Calculates the line total as: `qty × price × (1 - discount%)`, rounded to 2 decimals.
+- Updates the concepts grid to reflect computed values.
+- Recomputes the taxes matrix:
+    - Aggregates taxable bases per tax value (`line[4]`).
+    - Computes tax amount for each group: `base × (tax% / 100)`.
+- Rounds all tax results to 2 decimals and updates the taxes grid.
+- Computes the totals matrix:
+    - `subtotal` = sum of all taxable bases
+    - `tax` = sum of all tax amounts
+    - `total` = subtotal + tax
+    - Results are rounded and shown in the totals grid.
+
+
+- @changes => Array of cell changes from the spreadsheet component
+- @source  => Source of the change event (only `'edit'` triggers processing)
 
 
 +++View selected invoices in PDF format+++

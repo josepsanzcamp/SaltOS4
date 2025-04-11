@@ -27,7 +27,7 @@
 
 
 \title{Jest Test Documentation}
-\author{SaltOS 4.0 r1947}
+\author{SaltOS 4.0 r1952}
 \begin{document}
 \date{April 2025}
 \maketitle
@@ -941,6 +941,15 @@ test('saltos.core.is_number', ()
 This function performs the test of the is\_number function
 
 \hypertarget{toc102}{}
+\subsubsection{saltos.core.is\_function}
+
+\begin{lstlisting}
+test('saltos.core.is_function', ()
+\end{lstlisting}
+
+This function performs the test of the is\_function function
+
+\hypertarget{toc103}{}
 \subsubsection{Core Module Tests}
 
 \begin{lstlisting}
@@ -950,7 +959,7 @@ describe('Core Module Tests', ()
 This test suite validates the core functionalities of the SaltOS framework,
 ensuring that essential features operate correctly under different scenarios.
 
-\hypertarget{toc103}{}
+\hypertarget{toc104}{}
 \subsubsection{Test service worker registration}
 
 \begin{lstlisting}
@@ -960,7 +969,7 @@ test('Registers service worker if supported and on HTTPS', async ()
 This test checks if the service worker is registered properly when the
 browser supports service workers and the application is running over HTTPS.
 
-\hypertarget{toc104}{}
+\hypertarget{toc105}{}
 \subsubsection{Test proxy function messaging}
 
 \begin{lstlisting}
@@ -970,7 +979,7 @@ test('Proxy function sends message to service worker', ()
 This test ensures that the proxy function sends the correct message
 to the service worker's controller using the `postMessage` method.
 
-\hypertarget{toc105}{}
+\hypertarget{toc106}{}
 \subsubsection{Test proxy synchronization on online events}
 
 \begin{lstlisting}
@@ -980,7 +989,7 @@ test('Triggers proxy sync on online event', ()
 This test verifies that the proxy synchronization is triggered correctly
 when the browser's online event is fired.
 
-\hypertarget{toc106}{}
+\hypertarget{toc107}{}
 \subsubsection{Test network protocol detection}
 
 \begin{lstlisting}
@@ -990,7 +999,7 @@ test('Check network detects protocols correctly', async ()
 This test checks that the `check\_network` function accurately detects
 HTTP and HTTPS protocols by simulating network conditions.
 
-\hypertarget{toc107}{}
+\hypertarget{toc108}{}
 \subsection{Bootstrap unit tests}
 
 \begin{lstlisting}
@@ -999,7 +1008,7 @@ test_customers.js
 
 This file contains the bootstrap unit tests
 
-\hypertarget{toc108}{}
+\hypertarget{toc109}{}
 \subsubsection{Puppeteer setup}
 
 \begin{lstlisting}
@@ -1008,7 +1017,7 @@ const puppeteer = require('puppeteer');
 
 This lines contain the needed setup for run puppeteer and take screenshots
 
-\hypertarget{toc109}{}
+\hypertarget{toc110}{}
 \subsubsection{Global variables}
 
 \begin{lstlisting}
@@ -1017,7 +1026,7 @@ let browser;
 
 This variables contains the browser and page links
 
-\hypertarget{toc110}{}
+\hypertarget{toc111}{}
 \subsubsection{Before All}
 
 \begin{lstlisting}
@@ -1028,7 +1037,7 @@ This function contains all code executed before all tests, in this case the
 features provided by this function includes the launch of the browser, set
 the screen size and start the javascript coverage
 
-\hypertarget{toc111}{}
+\hypertarget{toc112}{}
 \subsubsection{After All}
 
 \begin{lstlisting}
@@ -1039,7 +1048,7 @@ This function contains all code executed after all tests, in this case the
 features provided by this function include the stop of the javsacript coverage
 recording, the save feature to the desired storage path and the browser close
 
-\hypertarget{toc112}{}
+\hypertarget{toc113}{}
 \subsubsection{Workflow variables}
 
 \begin{lstlisting}
@@ -1049,7 +1058,7 @@ let testFailed = false;
 This variables allow to control the workflow of the test, the main idea is to
 skip all tests when one test fails
 
-\hypertarget{toc113}{}
+\hypertarget{toc114}{}
 \subsubsection{Before Each}
 
 \begin{lstlisting}
@@ -1059,7 +1068,7 @@ beforeEach(()
 This function contains all code executed before each test, in this case the
 features provided by this function includes the control of the workflow
 
-\hypertarget{toc114}{}
+\hypertarget{toc115}{}
 \subsubsection{After Each}
 
 \begin{lstlisting}
@@ -1069,7 +1078,7 @@ afterEach(()
 This function contains all code executed after each test, in this case the
 features provided by this function includes the control of the workflow
 
-\hypertarget{toc115}{}
+\hypertarget{toc116}{}
 \subsubsection{App Customers}
 
 \begin{lstlisting}
@@ -1080,7 +1089,7 @@ This test is intended to validate the correctness of the customers application
 by execute the list, more, reset, create, cancel, view, close, edit, back,
 insert, update and delete features and validate with the expected screenshot
 
-\hypertarget{toc116}{}
+\hypertarget{toc117}{}
 \subsubsection{Action List}
 
 \begin{lstlisting}
@@ -1089,7 +1098,7 @@ test('Action List', async ()
 
 This part of the test tries to load the list screen
 
-\hypertarget{toc117}{}
+\hypertarget{toc118}{}
 \subsubsection{Action List}
 
 \begin{lstlisting}
@@ -1098,7 +1107,7 @@ test('Action More', async ()
 
 This part of the test tries to validate the correctness of the more feature
 
-\hypertarget{toc118}{}
+\hypertarget{toc119}{}
 \subsubsection{Action Reset}
 
 \begin{lstlisting}
@@ -1107,7 +1116,7 @@ test('Action Reset', async ()
 
 This part of the test tries to validate the correctness of the reset feature
 
-\hypertarget{toc119}{}
+\hypertarget{toc120}{}
 \subsubsection{Action Create}
 
 \begin{lstlisting}
@@ -1116,7 +1125,7 @@ test('Action Create', async ()
 
 This part of the test tries to load the create screen
 
-\hypertarget{toc120}{}
+\hypertarget{toc121}{}
 \subsubsection{Action Cancel}
 
 \begin{lstlisting}
@@ -1125,7 +1134,7 @@ test('Action Cancel', async ()
 
 This part of the test tries to validate the correctness of the cancel feature
 
-\hypertarget{toc121}{}
+\hypertarget{toc122}{}
 \subsubsection{Action View}
 
 \begin{lstlisting}
@@ -1134,7 +1143,7 @@ test('Action View', async ()
 
 This part of the test tries to load the view screen
 
-\hypertarget{toc122}{}
+\hypertarget{toc123}{}
 \subsubsection{Action Close}
 
 \begin{lstlisting}
@@ -1143,7 +1152,7 @@ test('Action Close', async ()
 
 This part of the test tries to validate the correctness of the close feature
 
-\hypertarget{toc123}{}
+\hypertarget{toc124}{}
 \subsubsection{Action Edit}
 
 \begin{lstlisting}
@@ -1152,7 +1161,7 @@ test('Action Edit', async ()
 
 This part of the test tries to load the edit screen
 
-\hypertarget{toc124}{}
+\hypertarget{toc125}{}
 \subsubsection{Action Go Back}
 
 \begin{lstlisting}
@@ -1161,7 +1170,7 @@ test('Action Go Back', async ()
 
 This part of the test tries to validate the correctness of the go back feature
 
-\hypertarget{toc125}{}
+\hypertarget{toc126}{}
 \subsubsection{Action Insert}
 
 \begin{lstlisting}
@@ -1170,7 +1179,7 @@ test('Action Insert', async ()
 
 This part of the test tries to validate the correctness of the insert feature
 
-\hypertarget{toc126}{}
+\hypertarget{toc127}{}
 \subsubsection{Action Update}
 
 \begin{lstlisting}
@@ -1179,7 +1188,7 @@ test('Action Update', async ()
 
 This part of the test tries to validate the correctness of the update feature
 
-\hypertarget{toc127}{}
+\hypertarget{toc128}{}
 \subsubsection{Action Delete}
 
 \begin{lstlisting}
@@ -1188,7 +1197,7 @@ test('Action Delete', async ()
 
 This part of the test tries to validate the correctness of the delete feature
 
-\hypertarget{toc128}{}
+\hypertarget{toc129}{}
 \subsection{Bootstrap unit tests}
 
 \begin{lstlisting}
@@ -1197,7 +1206,7 @@ test_emails.js
 
 This file contains the bootstrap unit tests
 
-\hypertarget{toc129}{}
+\hypertarget{toc130}{}
 \subsubsection{Puppeteer setup}
 
 \begin{lstlisting}
@@ -1206,7 +1215,7 @@ const puppeteer = require('puppeteer');
 
 This lines contain the needed setup for run puppeteer and take screenshots
 
-\hypertarget{toc130}{}
+\hypertarget{toc131}{}
 \subsubsection{Global variables}
 
 \begin{lstlisting}
@@ -1215,7 +1224,7 @@ let browser;
 
 This variables contains the browser and page links
 
-\hypertarget{toc131}{}
+\hypertarget{toc132}{}
 \subsubsection{Before All}
 
 \begin{lstlisting}
@@ -1226,7 +1235,7 @@ This function contains all code executed before all tests, in this case the
 features provided by this function includes the launch of the browser, set
 the screen size and start the javascript coverage
 
-\hypertarget{toc132}{}
+\hypertarget{toc133}{}
 \subsubsection{After All}
 
 \begin{lstlisting}
@@ -1237,7 +1246,7 @@ This function contains all code executed after all tests, in this case the
 features provided by this function include the stop of the javsacript coverage
 recording, the save feature to the desired storage path and the browser close
 
-\hypertarget{toc133}{}
+\hypertarget{toc134}{}
 \subsubsection{Workflow variables}
 
 \begin{lstlisting}
@@ -1247,7 +1256,7 @@ let testFailed = false;
 This variables allow to control the workflow of the test, the main idea is to
 skip all tests when one test fails
 
-\hypertarget{toc134}{}
+\hypertarget{toc135}{}
 \subsubsection{Before Each}
 
 \begin{lstlisting}
@@ -1257,7 +1266,7 @@ beforeEach(()
 This function contains all code executed before each test, in this case the
 features provided by this function includes the control of the workflow
 
-\hypertarget{toc135}{}
+\hypertarget{toc136}{}
 \subsubsection{After Each}
 
 \begin{lstlisting}
@@ -1267,7 +1276,7 @@ afterEach(()
 This function contains all code executed after each test, in this case the
 features provided by this function includes the control of the workflow
 
-\hypertarget{toc136}{}
+\hypertarget{toc137}{}
 \subsubsection{App Emails}
 
 \begin{lstlisting}
@@ -1278,7 +1287,7 @@ This test is intended to validate the correctness of the emails application by
 execute the list, control+f, profile, help, filter, create and view features and
 validate with the expected screenshot
 
-\hypertarget{toc137}{}
+\hypertarget{toc138}{}
 \subsubsection{Action List}
 
 \begin{lstlisting}
@@ -1288,7 +1297,7 @@ test('Action List', async ()
 This action tries to sets the emails as new and not new of all emails that
 appear in the screen
 
-\hypertarget{toc138}{}
+\hypertarget{toc139}{}
 \subsubsection{Action Control F}
 
 \begin{lstlisting}
@@ -1297,7 +1306,7 @@ test('Action Control F', async ()
 
 This part of the test tries to validate the control+f focus
 
-\hypertarget{toc139}{}
+\hypertarget{toc140}{}
 \subsubsection{Action Profile}
 
 \begin{lstlisting}
@@ -1306,7 +1315,7 @@ test('Action Profile', async ()
 
 This part of the test tries to load the profile screen
 
-\hypertarget{toc140}{}
+\hypertarget{toc141}{}
 \subsubsection{Action Help}
 
 \begin{lstlisting}
@@ -1315,7 +1324,7 @@ test('Action Help', async ()
 
 This part of the test tries to load the help screen
 
-\hypertarget{toc141}{}
+\hypertarget{toc142}{}
 \subsubsection{Action Filter}
 
 \begin{lstlisting}
@@ -1324,7 +1333,7 @@ test('Action Filter', async ()
 
 This part of the test tries to load the filter screen
 
-\hypertarget{toc142}{}
+\hypertarget{toc143}{}
 \subsubsection{Action Create}
 
 \begin{lstlisting}
@@ -1333,7 +1342,7 @@ test('Action Create', async ()
 
 This part of the test tries to load the create screen
 
-\hypertarget{toc143}{}
+\hypertarget{toc144}{}
 \subsubsection{Action View}
 
 \begin{lstlisting}
@@ -1342,7 +1351,7 @@ test('Action View', async ()
 
 This part of the test tries to load the view screen
 
-\hypertarget{toc144}{}
+\hypertarget{toc145}{}
 \subsection{Filter unit tests}
 
 \begin{lstlisting}
@@ -1352,14 +1361,14 @@ test_filter.js
 This file contains unit tests for the filter management system
 including initialization, loading, saving, and UI interactions
 
-\hypertarget{toc145}{}
+\hypertarget{toc146}{}
 \subsubsection{Load all needed files of the project}
 
 \begin{lstlisting}
 const files = `app,backup,core,driver,filter,form,gettext,hash,storage,token`.split(',');
 \end{lstlisting}
 
-\hypertarget{toc146}{}
+\hypertarget{toc147}{}
 \subsubsection{Reset mocks before each test}
 
 \begin{lstlisting}
@@ -1368,7 +1377,7 @@ beforeEach(()
 
 Ensures all Jest mocks are reset before each test case runs
 
-\hypertarget{toc147}{}
+\hypertarget{toc148}{}
 \subsubsection{Restore mocks after each test}
 
 \begin{lstlisting}
@@ -1378,7 +1387,7 @@ afterEach(()
 Ensures all Jest mocks are restored to their original implementations
 after each test case completes
 
-\hypertarget{toc148}{}
+\hypertarget{toc149}{}
 \subsubsection{Test suite for filter initialization}
 
 \begin{lstlisting}
@@ -1387,7 +1396,7 @@ describe('saltos.filter.init()', ()
 
 Contains tests for initializing the filter cache from server data
 
-\hypertarget{toc149}{}
+\hypertarget{toc150}{}
 \subsubsection{Setup before each test in this suite}
 
 \begin{lstlisting}
@@ -1396,7 +1405,7 @@ beforeEach(()
 
 Mocks window location and sets up AJAX response for filter data
 
-\hypertarget{toc150}{}
+\hypertarget{toc151}{}
 \subsubsection{Test filter cache initialization}
 
 \begin{lstlisting}
@@ -1406,7 +1415,7 @@ test('should initialize filter cache', async ()
 Verifies that the init function makes an AJAX call to load filters
 and properly populates the cache
 
-\hypertarget{toc151}{}
+\hypertarget{toc152}{}
 \subsubsection{Test cache reuse}
 
 \begin{lstlisting}
@@ -1416,7 +1425,7 @@ test('should not make ajax call if cache is already populated', async ()
 Verifies that subsequent init calls don't make AJAX requests
 when cache is already populated
 
-\hypertarget{toc152}{}
+\hypertarget{toc153}{}
 \subsubsection{Test suite for filter loading}
 
 \begin{lstlisting}
@@ -1425,7 +1434,7 @@ describe('saltos.filter.load()', ()
 
 Contains tests for loading filter data into forms and triggering searches
 
-\hypertarget{toc153}{}
+\hypertarget{toc154}{}
 \subsubsection{Setup before each test in this suite}
 
 \begin{lstlisting}
@@ -1434,7 +1443,7 @@ beforeEach(()
 
 Mocks form data and driver search functions
 
-\hypertarget{toc154}{}
+\hypertarget{toc155}{}
 \subsubsection{Test loading existing filter}
 
 \begin{lstlisting}
@@ -1444,7 +1453,7 @@ test('should load filter data and trigger search', ()
 Verifies that loading a filter populates form data
 and triggers a search
 
-\hypertarget{toc155}{}
+\hypertarget{toc156}{}
 \subsubsection{Test loading non-existent filter}
 
 \begin{lstlisting}
@@ -1454,7 +1463,7 @@ test('should only trigger search if filter not found', ()
 Verifies that loading an unknown filter only triggers search
 without modifying form data
 
-\hypertarget{toc156}{}
+\hypertarget{toc157}{}
 \subsubsection{Test suite for filter updates}
 
 \begin{lstlisting}
@@ -1463,7 +1472,7 @@ describe('saltos.filter.update()', ()
 
 Contains tests for updating the local filter cache
 
-\hypertarget{toc157}{}
+\hypertarget{toc158}{}
 \subsubsection{Test updating filter cache}
 
 \begin{lstlisting}
@@ -1472,7 +1481,7 @@ test('should update filter cache', ()
 
 Verifies that update modifies the filter cache correctly
 
-\hypertarget{toc158}{}
+\hypertarget{toc159}{}
 \subsubsection{Test suite for filter saving}
 
 \begin{lstlisting}
@@ -1481,7 +1490,7 @@ describe('saltos.filter.save()', ()
 
 Contains tests for saving filters to both cache and server
 
-\hypertarget{toc159}{}
+\hypertarget{toc160}{}
 \subsubsection{Test saving new filter}
 
 \begin{lstlisting}
@@ -1490,7 +1499,7 @@ test('should save new filter to cache and server', ()
 
 Verifies that new filters are added to cache and saved to server
 
-\hypertarget{toc160}{}
+\hypertarget{toc161}{}
 \subsubsection{Test updating existing filter}
 
 \begin{lstlisting}
@@ -1499,7 +1508,7 @@ test('should update existing filter if data changed', ()
 
 Verifies that modified filters are updated in cache and server
 
-\hypertarget{toc161}{}
+\hypertarget{toc162}{}
 \subsubsection{Test unchanged filter}
 
 \begin{lstlisting}
@@ -1508,7 +1517,7 @@ test('should not make server call if data unchanged', ()
 
 Verifies that unchanged filters don't trigger server updates
 
-\hypertarget{toc162}{}
+\hypertarget{toc163}{}
 \subsubsection{Test filter deletion}
 
 \begin{lstlisting}
@@ -1517,7 +1526,7 @@ test('should delete filter when data is null', ()
 
 Verifies that filters are removed from cache and server when set to null
 
-\hypertarget{toc163}{}
+\hypertarget{toc164}{}
 \subsubsection{Test deleting non-existent filter}
 
 \begin{lstlisting}
@@ -1526,7 +1535,7 @@ test('should not delete non-existent filter', ()
 
 Verifies that attempting to delete unknown filters doesn't trigger server calls
 
-\hypertarget{toc164}{}
+\hypertarget{toc165}{}
 \subsubsection{Test suite for filter UI buttons}
 
 \begin{lstlisting}
@@ -1535,7 +1544,7 @@ describe('saltos.filter.button()', ()
 
 Contains tests for all filter-related UI actions
 
-\hypertarget{toc165}{}
+\hypertarget{toc166}{}
 \subsubsection{Setup before each test in this suite}
 
 \begin{lstlisting}
@@ -1544,7 +1553,7 @@ beforeEach(()
 
 Sets up DOM elements and mocks filter functions
 
-\hypertarget{toc166}{}
+\hypertarget{toc167}{}
 \subsubsection{Test load action}
 
 \begin{lstlisting}
@@ -1553,7 +1562,7 @@ test('should handle load action', ()
 
 Verifies that load button loads selected filter and resets selection
 
-\hypertarget{toc167}{}
+\hypertarget{toc168}{}
 \subsubsection{Test update action}
 
 \begin{lstlisting}
@@ -1562,7 +1571,7 @@ test('should handle update action', ()
 
 Verifies that update button saves current form data to selected filter
 
-\hypertarget{toc168}{}
+\hypertarget{toc169}{}
 \subsubsection{Test delete action}
 
 \begin{lstlisting}
@@ -1571,7 +1580,7 @@ test('should handle delete action', ()
 
 Verifies that delete button removes selected filter and refreshes UI
 
-\hypertarget{toc169}{}
+\hypertarget{toc170}{}
 \subsubsection{Test create action}
 
 \begin{lstlisting}
@@ -1580,7 +1589,7 @@ test('should handle create action', ()
 
 Verifies that create button saves current form data as new filter
 
-\hypertarget{toc170}{}
+\hypertarget{toc171}{}
 \subsubsection{Test rename action}
 
 \begin{lstlisting}
@@ -1590,7 +1599,7 @@ test('should handle rename action', ()
 Verifies that rename button moves filter data to new name
 and removes old filter entry
 
-\hypertarget{toc171}{}
+\hypertarget{toc172}{}
 \subsubsection{Test invalid action}
 
 \begin{lstlisting}
@@ -1599,7 +1608,7 @@ test('should do nothing for invalid actions', ()
 
 Verifies that unknown actions don't modify filter cache
 
-\hypertarget{toc172}{}
+\hypertarget{toc173}{}
 \subsubsection{Test suite for filter selection UI}
 
 \begin{lstlisting}
@@ -1608,7 +1617,7 @@ describe('saltos.filter.select()', ()
 
 Contains tests for updating filter dropdown and tree view
 
-\hypertarget{toc173}{}
+\hypertarget{toc174}{}
 \subsubsection{Setup before each test in this suite}
 
 \begin{lstlisting}
@@ -1617,7 +1626,7 @@ beforeEach(()
 
 Populates filter cache with test data
 
-\hypertarget{toc174}{}
+\hypertarget{toc175}{}
 \subsubsection{Test UI update}
 
 \begin{lstlisting}
@@ -1626,7 +1635,7 @@ test('should update select options and jstree', ()
 
 Verifies that select updates dropdown options and tree view
 
-\hypertarget{toc175}{}
+\hypertarget{toc176}{}
 \subsubsection{Test missing tree element}
 
 \begin{lstlisting}
@@ -1635,7 +1644,7 @@ test('should handle missing form elements gracefully', ()
 
 Verifies graceful handling when tree element is missing
 
-\hypertarget{toc176}{}
+\hypertarget{toc177}{}
 \subsubsection{Test missing select element}
 
 \begin{lstlisting}
@@ -1644,7 +1653,7 @@ test('should handle missing select elements gracefully', ()
 
 Verifies graceful handling when select element is missing
 
-\hypertarget{toc177}{}
+\hypertarget{toc178}{}
 \subsubsection{Test missing form elements}
 
 \begin{lstlisting}
@@ -1653,7 +1662,7 @@ test('should handle missing form elements gracefully', ()
 
 Verifies graceful handling when all form elements are missing
 
-\hypertarget{toc178}{}
+\hypertarget{toc179}{}
 \subsection{Core unit tests}
 
 \begin{lstlisting}
@@ -1662,28 +1671,28 @@ test_gettext.js
 
 This file contains the core unit tests
 
-\hypertarget{toc179}{}
+\hypertarget{toc180}{}
 \subsubsection{Load all needed files of the project}
 
 \begin{lstlisting}
 const files = `bootstrap,core,gettext,storage`.split(',');
 \end{lstlisting}
 
-\hypertarget{toc180}{}
+\hypertarget{toc181}{}
 \subsubsection{berofeEach used in this test}
 
 \begin{lstlisting}
 beforeEach(()
 \end{lstlisting}
 
-\hypertarget{toc181}{}
+\hypertarget{toc182}{}
 \subsubsection{afterEach used in this test}
 
 \begin{lstlisting}
 afterEach(()
 \end{lstlisting}
 
-\hypertarget{toc182}{}
+\hypertarget{toc183}{}
 \subsubsection{saltos.gettext.bootstrap.set/get/get\_short/unset}
 
 \begin{lstlisting}
@@ -1692,7 +1701,7 @@ test('saltos.gettext.set/get/get_short/unset', ()
 
 This function performs the tests of the set/get/get\_short and unset functions
 
-\hypertarget{toc183}{}
+\hypertarget{toc184}{}
 \subsubsection{saltos.gettext.bootstrap.field}
 
 \begin{lstlisting}
@@ -1701,7 +1710,7 @@ test('saltos.gettext.bootstrap.field', ()
 
 This function performs the tests of the field function
 
-\hypertarget{toc184}{}
+\hypertarget{toc185}{}
 \subsubsection{saltos.gettext.bootstrap.modal}
 
 \begin{lstlisting}
@@ -1710,7 +1719,7 @@ test('saltos.gettext.bootstrap.modal', ()
 
 This function performs the tests of the modal function
 
-\hypertarget{toc185}{}
+\hypertarget{toc186}{}
 \subsubsection{saltos.gettext.bootstrap.toast}
 
 \begin{lstlisting}
@@ -1719,7 +1728,7 @@ test('saltos.gettext.bootstrap.toast', ()
 
 This function performs the tests of the toast function
 
-\hypertarget{toc186}{}
+\hypertarget{toc187}{}
 \subsubsection{saltos.gettext.bootstrap.menu}
 
 \begin{lstlisting}
@@ -1728,7 +1737,7 @@ test('saltos.gettext.bootstrap.menu', ()
 
 This function performs the tests of the menu function
 
-\hypertarget{toc187}{}
+\hypertarget{toc188}{}
 \subsubsection{saltos.gettext.bootstrap.offcanvas}
 
 \begin{lstlisting}
@@ -1737,7 +1746,7 @@ test('saltos.gettext.bootstrap.offcanvas', ()
 
 This function performs the tests of the offcanvas function
 
-\hypertarget{toc188}{}
+\hypertarget{toc189}{}
 \subsection{Hash unit tests}
 
 \begin{lstlisting}
@@ -1747,14 +1756,14 @@ test_hash.js
 This file contains unit tests for hash management functionality
 including hash parsing, manipulation, and event triggering
 
-\hypertarget{toc189}{}
+\hypertarget{toc190}{}
 \subsubsection{Load all needed files of the project}
 
 \begin{lstlisting}
 const files = `hash`.split(',');
 \end{lstlisting}
 
-\hypertarget{toc190}{}
+\hypertarget{toc191}{}
 \subsubsection{Reset mocks before each test}
 
 \begin{lstlisting}
@@ -1764,7 +1773,7 @@ beforeEach(()
 Initializes mock implementations for history API functions
 and resets all mocks between test cases
 
-\hypertarget{toc191}{}
+\hypertarget{toc192}{}
 \subsubsection{Restore mocks after each test}
 
 \begin{lstlisting}
@@ -1774,7 +1783,7 @@ afterEach(()
 Restores original implementations of mocked functions
 after each test case completes
 
-\hypertarget{toc192}{}
+\hypertarget{toc193}{}
 \subsubsection{Test suite for hash helper function}
 
 \begin{lstlisting}
@@ -1784,7 +1793,7 @@ describe('saltos.hash.__helper', ()
 Contains tests for the internal hash normalization function
 that cleans hash strings by removing special characters
 
-\hypertarget{toc193}{}
+\hypertarget{toc194}{}
 \subsubsection{Test hash with leading \#}
 
 \begin{lstlisting}
@@ -1793,7 +1802,7 @@ test('should remove leading #', ()
 
 Verifies the helper removes the \# character from the beginning
 
-\hypertarget{toc194}{}
+\hypertarget{toc195}{}
 \subsubsection{Test hash with leading /}
 
 \begin{lstlisting}
@@ -1802,7 +1811,7 @@ test('should remove leading /', ()
 
 Verifies the helper removes the / character from the beginning
 
-\hypertarget{toc195}{}
+\hypertarget{toc196}{}
 \subsubsection{Test hash with leading \#/}
 
 \begin{lstlisting}
@@ -1811,7 +1820,7 @@ test('should remove both leading # and /', ()
 
 Verifies the helper removes both \# and / characters from the beginning
 
-\hypertarget{toc196}{}
+\hypertarget{toc197}{}
 \subsubsection{Test empty hash}
 
 \begin{lstlisting}
@@ -1820,7 +1829,7 @@ test('should return empty string for empty input', ()
 
 Verifies the helper returns empty string for empty input
 
-\hypertarget{toc197}{}
+\hypertarget{toc198}{}
 \subsubsection{Test clean hash}
 
 \begin{lstlisting}
@@ -1829,7 +1838,7 @@ test('should not modify clean hash', ()
 
 Verifies the helper returns unchanged input when no special characters
 
-\hypertarget{toc198}{}
+\hypertarget{toc199}{}
 \subsubsection{Test suite for hash getter function}
 
 \begin{lstlisting}
@@ -1839,7 +1848,7 @@ describe('saltos.hash.get', ()
 Contains tests for retrieving the current window hash
 with proper formatting
 
-\hypertarget{toc199}{}
+\hypertarget{toc200}{}
 \subsubsection{Test getting current hash}
 
 \begin{lstlisting}
@@ -1848,7 +1857,7 @@ test('should return current hash without #', ()
 
 Verifies the function returns hash without \# prefix
 
-\hypertarget{toc200}{}
+\hypertarget{toc201}{}
 \subsubsection{Test getting empty hash}
 
 \begin{lstlisting}
@@ -1857,7 +1866,7 @@ test('should return empty string when no hash', ()
 
 Verifies the function returns empty string when no hash exists
 
-\hypertarget{toc201}{}
+\hypertarget{toc202}{}
 \subsubsection{Test getting hash with leading /}
 
 \begin{lstlisting}
@@ -1866,7 +1875,7 @@ test('should remove leading /', ()
 
 Verifies the function removes leading / from the hash
 
-\hypertarget{toc202}{}
+\hypertarget{toc203}{}
 \subsubsection{Test suite for hash setter function}
 
 \begin{lstlisting}
@@ -1876,7 +1885,7 @@ describe('saltos.hash.set', ()
 Contains tests for replacing the current hash
 using history.replaceState
 
-\hypertarget{toc203}{}
+\hypertarget{toc204}{}
 \subsubsection{Test setting new hash}
 
 \begin{lstlisting}
@@ -1886,7 +1895,7 @@ test('should set new hash with proper format', ()
 Verifies the function updates hash with proper format
 and uses replaceState
 
-\hypertarget{toc204}{}
+\hypertarget{toc205}{}
 \subsubsection{Test setting same hash}
 
 \begin{lstlisting}
@@ -1895,7 +1904,7 @@ test('should not set same hash', ()
 
 Verifies the function doesn't update history when hash doesn't change
 
-\hypertarget{toc205}{}
+\hypertarget{toc206}{}
 \subsubsection{Test setting hash with \#}
 
 \begin{lstlisting}
@@ -1904,7 +1913,7 @@ test('should handle hash with #', ()
 
 Verifies the function properly handles input containing \#
 
-\hypertarget{toc206}{}
+\hypertarget{toc207}{}
 \subsubsection{Test setting hash with /}
 
 \begin{lstlisting}
@@ -1913,7 +1922,7 @@ test('should handle hash with /', ()
 
 Verifies the function properly handles input containing /
 
-\hypertarget{toc207}{}
+\hypertarget{toc208}{}
 \subsubsection{Test setting empty hash}
 
 \begin{lstlisting}
@@ -1922,7 +1931,7 @@ test('should handle empty hash', ()
 
 Verifies the function properly handles empty hash input
 
-\hypertarget{toc208}{}
+\hypertarget{toc209}{}
 \subsubsection{Test suite for hash adder function}
 
 \begin{lstlisting}
@@ -1932,7 +1941,7 @@ describe('saltos.hash.add', ()
 Contains tests for adding new hash entries
 using history.pushState
 
-\hypertarget{toc209}{}
+\hypertarget{toc210}{}
 \subsubsection{Test adding new hash}
 
 \begin{lstlisting}
@@ -1942,7 +1951,7 @@ test('should add new hash with proper format', ()
 Verifies the function updates hash with proper format
 and uses pushState
 
-\hypertarget{toc210}{}
+\hypertarget{toc211}{}
 \subsubsection{Test adding same hash}
 
 \begin{lstlisting}
@@ -1951,7 +1960,7 @@ test('should not add same hash', ()
 
 Verifies the function doesn't update history when hash doesn't change
 
-\hypertarget{toc211}{}
+\hypertarget{toc212}{}
 \subsubsection{Test adding hash with \#}
 
 \begin{lstlisting}
@@ -1960,7 +1969,7 @@ test('should handle hash with #', ()
 
 Verifies the function properly handles input containing \#
 
-\hypertarget{toc212}{}
+\hypertarget{toc213}{}
 \subsubsection{Test adding hash with /}
 
 \begin{lstlisting}
@@ -1969,7 +1978,7 @@ test('should handle hash with /', ()
 
 Verifies the function properly handles input containing /
 
-\hypertarget{toc213}{}
+\hypertarget{toc214}{}
 \subsubsection{Test adding empty hash}
 
 \begin{lstlisting}
@@ -1978,7 +1987,7 @@ test('should handle empty hash', ()
 
 Verifies the function properly handles empty hash input
 
-\hypertarget{toc214}{}
+\hypertarget{toc215}{}
 \subsubsection{Test suite for URL hash extraction}
 
 \begin{lstlisting}
@@ -1987,7 +1996,7 @@ describe('saltos.hash.url2hash', ()
 
 Contains tests for extracting hash fragments from URLs
 
-\hypertarget{toc215}{}
+\hypertarget{toc216}{}
 \subsubsection{Test extracting hash from URL}
 
 \begin{lstlisting}
@@ -1996,7 +2005,7 @@ test('should extract hash from URL', ()
 
 Verifies the function extracts hash fragment correctly
 
-\hypertarget{toc216}{}
+\hypertarget{toc217}{}
 \subsubsection{Test extracting hash with /}
 
 \begin{lstlisting}
@@ -2005,7 +2014,7 @@ test('should handle URL with / after #', ()
 
 Verifies the function handles hashes containing /
 
-\hypertarget{toc217}{}
+\hypertarget{toc218}{}
 \subsubsection{Test URL without hash}
 
 \begin{lstlisting}
@@ -2014,7 +2023,7 @@ test('should return empty string when no hash', ()
 
 Verifies the function returns empty string when no hash exists
 
-\hypertarget{toc218}{}
+\hypertarget{toc219}{}
 \subsubsection{Test suite for hash change events}
 
 \begin{lstlisting}
@@ -2023,7 +2032,7 @@ describe('saltos.hash.trigger', ()
 
 Contains tests for triggering hashchange events
 
-\hypertarget{toc219}{}
+\hypertarget{toc220}{}
 \subsubsection{Test triggering hash change}
 
 \begin{lstlisting}
@@ -2032,7 +2041,7 @@ test('should dispatch hashchange event', ()
 
 Verifies the function dispatches a hashchange event
 
-\hypertarget{toc220}{}
+\hypertarget{toc221}{}
 \subsection{Bootstrap unit tests}
 
 \begin{lstlisting}
@@ -2041,7 +2050,7 @@ test_invoices.js
 
 This file contains the bootstrap unit tests
 
-\hypertarget{toc221}{}
+\hypertarget{toc222}{}
 \subsubsection{Puppeteer setup}
 
 \begin{lstlisting}
@@ -2050,7 +2059,7 @@ const puppeteer = require('puppeteer');
 
 This lines contain the needed setup for run puppeteer and take screenshots
 
-\hypertarget{toc222}{}
+\hypertarget{toc223}{}
 \subsubsection{Global variables}
 
 \begin{lstlisting}
@@ -2059,7 +2068,7 @@ let browser;
 
 This variables contains the browser and page links
 
-\hypertarget{toc223}{}
+\hypertarget{toc224}{}
 \subsubsection{Before All}
 
 \begin{lstlisting}
@@ -2070,7 +2079,7 @@ This function contains all code executed before all tests, in this case the
 features provided by this function includes the launch of the browser, set
 the screen size and start the javascript coverage
 
-\hypertarget{toc224}{}
+\hypertarget{toc225}{}
 \subsubsection{After All}
 
 \begin{lstlisting}
@@ -2081,7 +2090,7 @@ This function contains all code executed after all tests, in this case the
 features provided by this function include the stop of the javsacript coverage
 recording, the save feature to the desired storage path and the browser close
 
-\hypertarget{toc225}{}
+\hypertarget{toc226}{}
 \subsubsection{Workflow variables}
 
 \begin{lstlisting}
@@ -2091,7 +2100,7 @@ let testFailed = false;
 This variables allow to control the workflow of the test, the main idea is to
 skip all tests when one test fails
 
-\hypertarget{toc226}{}
+\hypertarget{toc227}{}
 \subsubsection{Before Each}
 
 \begin{lstlisting}
@@ -2101,7 +2110,7 @@ beforeEach(()
 This function contains all code executed before each test, in this case the
 features provided by this function includes the control of the workflow
 
-\hypertarget{toc227}{}
+\hypertarget{toc228}{}
 \subsubsection{After Each}
 
 \begin{lstlisting}
@@ -2111,7 +2120,7 @@ afterEach(()
 This function contains all code executed after each test, in this case the
 features provided by this function includes the control of the workflow
 
-\hypertarget{toc228}{}
+\hypertarget{toc229}{}
 \subsubsection{App Invoices}
 
 \begin{lstlisting}
@@ -2122,7 +2131,7 @@ This test is intended to validate the correctness of the invoices application
 by execute the list, checkbox, create, view and edit features and validate with
 the expected screenshot
 
-\hypertarget{toc229}{}
+\hypertarget{toc230}{}
 \subsubsection{Action List}
 
 \begin{lstlisting}
@@ -2131,7 +2140,7 @@ test('Action List', async ()
 
 This part of the test tries to load the list screen
 
-\hypertarget{toc230}{}
+\hypertarget{toc231}{}
 \subsubsection{Action List}
 
 \begin{lstlisting}
@@ -2141,7 +2150,7 @@ test('Action Checkbox', async ()
 This part of the test tries to validate the correctness of the checkbox
 feature
 
-\hypertarget{toc231}{}
+\hypertarget{toc232}{}
 \subsubsection{Action Create}
 
 \begin{lstlisting}
@@ -2150,7 +2159,7 @@ test('Action Create', async ()
 
 This part of the test tries to load the create screen
 
-\hypertarget{toc232}{}
+\hypertarget{toc233}{}
 \subsubsection{Action View}
 
 \begin{lstlisting}
@@ -2159,7 +2168,7 @@ test('Action View', async ()
 
 This part of the test tries to load the view screen
 
-\hypertarget{toc233}{}
+\hypertarget{toc234}{}
 \subsubsection{Action Edit}
 
 \begin{lstlisting}
@@ -2168,7 +2177,7 @@ test('Action Edit', async ()
 
 This part of the test tries to load the edit screen
 
-\hypertarget{toc234}{}
+\hypertarget{toc235}{}
 \subsection{Proxy unit tests}
 
 \begin{lstlisting}
@@ -2177,28 +2186,28 @@ test_proxy.js
 
 This file contains the proxy unit tests
 
-\hypertarget{toc235}{}
+\hypertarget{toc236}{}
 \subsubsection{berofeEach used in this test}
 
 \begin{lstlisting}
 beforeEach(()
 \end{lstlisting}
 
-\hypertarget{toc236}{}
+\hypertarget{toc237}{}
 \subsubsection{afterEach used in this test}
 
 \begin{lstlisting}
 afterEach(()
 \end{lstlisting}
 
-\hypertarget{toc237}{}
+\hypertarget{toc238}{}
 \subsubsection{Load the needed environment of the proxy part}
 
 \begin{lstlisting}
 Object.assign(global, myrequire(
 \end{lstlisting}
 
-\hypertarget{toc238}{}
+\hypertarget{toc239}{}
 \subsubsection{md5}
 
 \begin{lstlisting}
@@ -2207,7 +2216,7 @@ test('md5', ()
 
 This function performs the test of the md5 function
 
-\hypertarget{toc239}{}
+\hypertarget{toc240}{}
 \subsubsection{human\_size}
 
 \begin{lstlisting}
@@ -2216,7 +2225,7 @@ test('human_size', ()
 
 This function performs the test of the human\_size function
 
-\hypertarget{toc240}{}
+\hypertarget{toc241}{}
 \subsection{Push unit tests}
 
 \begin{lstlisting}
@@ -2226,14 +2235,14 @@ test_push.js
 This file contains unit tests for the push notification functionality
 and favicon status updates in the SaltOS framework.
 
-\hypertarget{toc241}{}
+\hypertarget{toc242}{}
 \subsubsection{Load all needed files of the project}
 
 \begin{lstlisting}
 const files = `app,bootstrap,core,gettext,push,storage,token`.split(',');
 \end{lstlisting}
 
-\hypertarget{toc242}{}
+\hypertarget{toc243}{}
 \subsubsection{Reset mocks before each test}
 
 \begin{lstlisting}
@@ -2242,7 +2251,7 @@ beforeEach(()
 
 Ensures all Jest mocks are reset before each test case runs
 
-\hypertarget{toc243}{}
+\hypertarget{toc244}{}
 \subsubsection{Restore mocks after each test}
 
 \begin{lstlisting}
@@ -2252,7 +2261,7 @@ afterEach(()
 Ensures all Jest mocks are restored to their original implementations
 after each test case completes
 
-\hypertarget{toc244}{}
+\hypertarget{toc245}{}
 \subsubsection{Test suite for saltos.push.fn functionality}
 
 \begin{lstlisting}
@@ -2262,7 +2271,7 @@ describe('saltos.push.fn', ()
 Contains tests for the push notification system's main function,
 including various execution conditions and response handling
 
-\hypertarget{toc245}{}
+\hypertarget{toc246}{}
 \subsubsection{Setup before each test in this suite}
 
 \begin{lstlisting}
@@ -2271,7 +2280,7 @@ beforeEach(()
 
 Initializes mock implementations and resets push notification state
 
-\hypertarget{toc246}{}
+\hypertarget{toc247}{}
 \subsubsection{Test push function when already executing}
 
 \begin{lstlisting}
@@ -2281,7 +2290,7 @@ test('should return early if executing is true', ()
 Verifies that the push function exits early when a push operation
 is already in progress
 
-\hypertarget{toc247}{}
+\hypertarget{toc248}{}
 \subsubsection{Test push function without token}
 
 \begin{lstlisting}
@@ -2291,7 +2300,7 @@ test('should return early if token is not available', ()
 Verifies that the push function exits early when no authentication
 token is available
 
-\hypertarget{toc248}{}
+\hypertarget{toc249}{}
 \subsubsection{Test push function when offline}
 
 \begin{lstlisting}
@@ -2301,7 +2310,7 @@ test('should return early if navigator is offline', ()
 Verifies that the push function exits early when the browser
 is offline
 
-\hypertarget{toc249}{}
+\hypertarget{toc250}{}
 \subsubsection{Test push function with positive count}
 
 \begin{lstlisting}
@@ -2311,7 +2320,7 @@ test('should return early if count is greater than or equal to 0', ()
 Verifies that the push function exits early when the countdown
 counter hasn't reached zero
 
-\hypertarget{toc250}{}
+\hypertarget{toc251}{}
 \subsubsection{Test push function with successful response}
 
 \begin{lstlisting}
@@ -2321,7 +2330,7 @@ test('should call ajax and handle success response', ()
 Verifies that the push function makes an AJAX call and properly
 handles a successful response
 
-\hypertarget{toc251}{}
+\hypertarget{toc252}{}
 \subsubsection{Test push function with error response}
 
 \begin{lstlisting}
@@ -2331,7 +2340,7 @@ test('should handle error response', ()
 Verifies that the push function properly handles an error response
 from the server
 
-\hypertarget{toc252}{}
+\hypertarget{toc253}{}
 \subsubsection{Test suite for saltos.favicon.fn functionality}
 
 \begin{lstlisting}
@@ -2341,7 +2350,7 @@ describe('saltos.favicon.fn', ()
 Contains tests for the favicon status update functionality,
 including visibility state handling
 
-\hypertarget{toc253}{}
+\hypertarget{toc254}{}
 \subsubsection{Test favicon function activation}
 
 \begin{lstlisting}
@@ -2351,7 +2360,7 @@ test('should start interval if bool is true and executing is false', ()
 Verifies that the favicon update interval starts when
 the function is activated
 
-\hypertarget{toc254}{}
+\hypertarget{toc255}{}
 \subsubsection{Test favicon function deactivation}
 
 \begin{lstlisting}
@@ -2361,7 +2370,7 @@ test('should clear interval if bool is false and executing is true', ()
 Verifies that the favicon update interval stops when
 the function is deactivated
 
-\hypertarget{toc255}{}
+\hypertarget{toc256}{}
 \subsection{Storage unit tests}
 
 \begin{lstlisting}
@@ -2370,28 +2379,28 @@ test_storage.js
 
 This file contains the storage unit tests
 
-\hypertarget{toc256}{}
+\hypertarget{toc257}{}
 \subsubsection{Load all needed files of the project}
 
 \begin{lstlisting}
 const files = `core,storage`.split(',');
 \end{lstlisting}
 
-\hypertarget{toc257}{}
+\hypertarget{toc258}{}
 \subsubsection{berofeEach used in this test}
 
 \begin{lstlisting}
 beforeEach(()
 \end{lstlisting}
 
-\hypertarget{toc258}{}
+\hypertarget{toc259}{}
 \subsubsection{afterEach used in this test}
 
 \begin{lstlisting}
 afterEach(()
 \end{lstlisting}
 
-\hypertarget{toc259}{}
+\hypertarget{toc260}{}
 \subsubsection{saltos.storage}
 
 \begin{lstlisting}
@@ -2400,7 +2409,7 @@ test('saltos.storage', ()
 
 This function performs the test of the storage functions
 
-\hypertarget{toc260}{}
+\hypertarget{toc261}{}
 \subsection{Bootstrap unit tests}
 
 \begin{lstlisting}
@@ -2409,7 +2418,7 @@ test_tester.js
 
 This file contains the bootstrap unit tests
 
-\hypertarget{toc261}{}
+\hypertarget{toc262}{}
 \subsubsection{Puppeteer setup}
 
 \begin{lstlisting}
@@ -2418,7 +2427,7 @@ const puppeteer = require('puppeteer');
 
 This lines contain the needed setup for run puppeteer and take screenshots
 
-\hypertarget{toc262}{}
+\hypertarget{toc263}{}
 \subsubsection{Global variables}
 
 \begin{lstlisting}
@@ -2427,7 +2436,7 @@ let browser;
 
 This variables contains the browser and page links
 
-\hypertarget{toc263}{}
+\hypertarget{toc264}{}
 \subsubsection{Before All}
 
 \begin{lstlisting}
@@ -2438,7 +2447,7 @@ This function contains all code executed before all tests, in this case the
 features provided by this function includes the launch of the browser, set
 the screen size and start the javascript coverage
 
-\hypertarget{toc264}{}
+\hypertarget{toc265}{}
 \subsubsection{After All}
 
 \begin{lstlisting}
@@ -2449,7 +2458,7 @@ This function contains all code executed after all tests, in this case the
 features provided by this function include the stop of the javsacript coverage
 recording, the save feature to the desired storage path and the browser close
 
-\hypertarget{toc265}{}
+\hypertarget{toc266}{}
 \subsubsection{Workflow variables}
 
 \begin{lstlisting}
@@ -2459,7 +2468,7 @@ let testFailed = false;
 This variables allow to control the workflow of the test, the main idea is to
 skip all tests when one test fails
 
-\hypertarget{toc266}{}
+\hypertarget{toc267}{}
 \subsubsection{Before Each}
 
 \begin{lstlisting}
@@ -2469,7 +2478,7 @@ beforeEach(()
 This function contains all code executed before each test, in this case the
 features provided by this function includes the control of the workflow
 
-\hypertarget{toc267}{}
+\hypertarget{toc268}{}
 \subsubsection{After Each}
 
 \begin{lstlisting}
@@ -2479,7 +2488,7 @@ afterEach(()
 This function contains all code executed after each test, in this case the
 features provided by this function includes the control of the workflow
 
-\hypertarget{toc268}{}
+\hypertarget{toc269}{}
 \subsubsection{App Tester}
 
 \begin{lstlisting}
@@ -2490,7 +2499,7 @@ This test is intended to validate the correctness of the tester application
 by execute the init, disabled, enabled, all bs\_themes and all css\_themes and
 validate with the expected screenshot
 
-\hypertarget{toc269}{}
+\hypertarget{toc270}{}
 \subsubsection{Action Init}
 
 \begin{lstlisting}
@@ -2500,7 +2509,7 @@ test('Action Init', async ()
 This part of the test tries to initialize the tester screen by provide a
 valid credentials and loads the tester application
 
-\hypertarget{toc270}{}
+\hypertarget{toc271}{}
 \subsubsection{Action Disabled}
 
 \begin{lstlisting}
@@ -2509,7 +2518,7 @@ test('Action Disabled', async ()
 
 This part of the test tries to disable all widgets
 
-\hypertarget{toc271}{}
+\hypertarget{toc272}{}
 \subsubsection{Action Enabled}
 
 \begin{lstlisting}
@@ -2518,14 +2527,14 @@ test('Action Enabled', async ()
 
 This part of the test tries to enable all widgets
 
-\hypertarget{toc272}{}
+\hypertarget{toc273}{}
 \subsubsection{List of bs\_themes}
 
 \begin{lstlisting}
 const bs_themes = ['light', 'dark', 'auto'];
 \end{lstlisting}
 
-\hypertarget{toc273}{}
+\hypertarget{toc274}{}
 \subsubsection{Action Bs Theme}
 
 \begin{lstlisting}
@@ -2534,14 +2543,14 @@ test.each(bs_themes)('Action Bs Theme %s', async theme
 
 This part of the test tries to set the differents bs\_themes
 
-\hypertarget{toc274}{}
+\hypertarget{toc275}{}
 \subsubsection{List of css\_themes}
 
 \begin{lstlisting}
 const css_themes = ['default', 'cerulean', 'cyborg', 'darkly', 'flatly', 'journal', 'litera', 'lumen',
 \end{lstlisting}
 
-\hypertarget{toc275}{}
+\hypertarget{toc276}{}
 \subsubsection{Action Css Theme}
 
 \begin{lstlisting}
@@ -2550,7 +2559,7 @@ test.each(css_themes)('Action Css Theme %s', async theme
 
 This part of the test tries to set the differents css\_themes
 
-\hypertarget{toc276}{}
+\hypertarget{toc277}{}
 \subsection{Token unit tests}
 
 \begin{lstlisting}
@@ -2559,28 +2568,28 @@ test_token.js
 
 This file contains the token unit tests
 
-\hypertarget{toc277}{}
+\hypertarget{toc278}{}
 \subsubsection{Load all needed files of the project}
 
 \begin{lstlisting}
 const files = `core,storage,token`.split(',');
 \end{lstlisting}
 
-\hypertarget{toc278}{}
+\hypertarget{toc279}{}
 \subsubsection{berofeEach used in this test}
 
 \begin{lstlisting}
 beforeEach(()
 \end{lstlisting}
 
-\hypertarget{toc279}{}
+\hypertarget{toc280}{}
 \subsubsection{afterEach used in this test}
 
 \begin{lstlisting}
 afterEach(()
 \end{lstlisting}
 
-\hypertarget{toc280}{}
+\hypertarget{toc281}{}
 \subsubsection{saltos.token}
 
 \begin{lstlisting}
@@ -2589,7 +2598,7 @@ test('saltos.token', ()
 
 This function performs the test of the token functions
 
-\hypertarget{toc281}{}
+\hypertarget{toc282}{}
 \subsection{Window unit tests}
 
 \begin{lstlisting}
@@ -2599,14 +2608,14 @@ test_window.js
 This file contains unit tests for window management functionality
 including window opening/closing and cross-tab communication
 
-\hypertarget{toc282}{}
+\hypertarget{toc283}{}
 \subsubsection{Load all needed files of the project}
 
 \begin{lstlisting}
 const files = `core,storage,window`.split(',');
 \end{lstlisting}
 
-\hypertarget{toc283}{}
+\hypertarget{toc284}{}
 \subsubsection{Reset mocks before each test}
 
 \begin{lstlisting}
@@ -2615,7 +2624,7 @@ beforeEach(()
 
 Ensures all Jest mocks are reset before each test case runs
 
-\hypertarget{toc284}{}
+\hypertarget{toc285}{}
 \subsubsection{Restore mocks after each test}
 
 \begin{lstlisting}
@@ -2625,7 +2634,7 @@ afterEach(()
 Ensures all Jest mocks are restored to their original implementations
 after each test case completes
 
-\hypertarget{toc285}{}
+\hypertarget{toc286}{}
 \subsubsection{Test suite for window open/close functionality}
 
 \begin{lstlisting}
@@ -2635,7 +2644,7 @@ describe('saltos.window.open/close', ()
 Contains tests for opening new windows with different URL types
 and closing the current window
 
-\hypertarget{toc286}{}
+\hypertarget{toc287}{}
 \subsubsection{Setup before each test in this suite}
 
 \begin{lstlisting}
@@ -2644,7 +2653,7 @@ beforeEach(()
 
 Mocks window.open and window.close functions
 
-\hypertarget{toc287}{}
+\hypertarget{toc288}{}
 \subsubsection{Test opening app URLs}
 
 \begin{lstlisting}
@@ -2654,7 +2663,7 @@ test('should call window.open with the app prefix', ()
 Verifies that app URLs are properly prefixed with .\#/
 when opening new windows
 
-\hypertarget{toc288}{}
+\hypertarget{toc289}{}
 \subsubsection{Test opening HTTP URLs}
 
 \begin{lstlisting}
@@ -2664,7 +2673,7 @@ test('should call window.open with the http prefix', ()
 Verifies that HTTP URLs are passed through unchanged
 when opening new windows
 
-\hypertarget{toc289}{}
+\hypertarget{toc290}{}
 \subsubsection{Test opening HTTPS URLs}
 
 \begin{lstlisting}
@@ -2674,7 +2683,7 @@ test('should call window.open with the https prefix', ()
 Verifies that HTTPS URLs are passed through unchanged
 when opening new windows
 
-\hypertarget{toc290}{}
+\hypertarget{toc291}{}
 \subsubsection{Test unsupported URL protocols}
 
 \begin{lstlisting}
@@ -2684,7 +2693,7 @@ test('should throw an error when call window.open with non supported protocol', 
 Verifies that attempting to open URLs with unsupported protocols
 throws an error
 
-\hypertarget{toc291}{}
+\hypertarget{toc292}{}
 \subsubsection{Test window closing}
 
 \begin{lstlisting}
@@ -2693,7 +2702,7 @@ test('should call window.close', ()
 
 Verifies that the close function properly calls window.close
 
-\hypertarget{toc292}{}
+\hypertarget{toc293}{}
 \subsubsection{Test suite for window event listeners}
 
 \begin{lstlisting}
@@ -2703,7 +2712,7 @@ describe('saltos.window.listeners', ()
 Contains tests for cross-tab communication functionality
 including setting listeners and sending events between tabs
 
-\hypertarget{toc293}{}
+\hypertarget{toc294}{}
 \subsubsection{Test setting event listeners}
 
 \begin{lstlisting}
@@ -2712,7 +2721,7 @@ test('set_listener should add a listener for a specific event', ()
 
 Verifies that listeners can be registered for specific events
 
-\hypertarget{toc294}{}
+\hypertarget{toc295}{}
 \subsubsection{Test removing event listeners}
 
 \begin{lstlisting}
@@ -2721,7 +2730,7 @@ test('unset_listener should remove a listener for a specific event', ()
 
 Verifies that listeners can be removed for specific events
 
-\hypertarget{toc295}{}
+\hypertarget{toc296}{}
 \subsubsection{Test sending events to current tab}
 
 \begin{lstlisting}
@@ -2731,7 +2740,7 @@ test('send should trigger the listener in the same tab when scope is "me"', ()
 Verifies that events with "me" scope only trigger callbacks
 in the current tab
 
-\hypertarget{toc296}{}
+\hypertarget{toc297}{}
 \subsubsection{Test sending events to other tabs}
 
 \begin{lstlisting}
@@ -2741,7 +2750,7 @@ test('send should trigger the listener in other tabs when scope is "other"', ()
 Verifies that events with "other" scope trigger callbacks
 in other tabs through localStorage events
 
-\hypertarget{toc297}{}
+\hypertarget{toc298}{}
 \subsubsection{Test sending events to all tabs}
 
 \begin{lstlisting}
@@ -2751,7 +2760,7 @@ test('send should trigger the listener in all tabs when scope is "all"', ()
 Verifies that events with "all" scope trigger callbacks
 in all tabs including the current one
 
-\hypertarget{toc298}{}
+\hypertarget{toc299}{}
 \subsubsection{Test sessionStorage event filtering}
 
 \begin{lstlisting}
@@ -2761,7 +2770,7 @@ test('storage event listener should not trigger if the event is not from localSt
 Verifies that events from sessionStorage don't trigger
 the cross-tab communication callbacks
 
-\hypertarget{toc299}{}
+\hypertarget{toc300}{}
 \subsubsection{Test event key filtering}
 
 \begin{lstlisting}
@@ -2771,7 +2780,7 @@ test('storage event listener should not trigger if the key does not match', ()
 Verifies that events with incorrect keys don't trigger
 the cross-tab communication callbacks
 
-\hypertarget{toc300}{}
+\hypertarget{toc301}{}
 \subsubsection{Test unregistered event filtering}
 
 \begin{lstlisting}

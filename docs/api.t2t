@@ -1,5 +1,5 @@
 Api Documentation
-SaltOS 4.0 r1947
+SaltOS 4.0 r1952
 April 2025
 
 
@@ -976,6 +976,33 @@ words ignoring accents
 - @input   => the input array
 - @pattern => the search pattern
 - @invert  => default to false to search, true to invert the selection
+
+
++++Convert a multidimensional associative matrix into a purely indexed matrix.+++
+
+```
+function matrix_values($matrix)
+```
+
+This function recursively transforms a 2D associative array (matrix)
+into a fully numeric-indexed matrix by applying `array_values()` at both
+levels: the rows and the matrix itself.
+
+For example, it converts:
+    [
+        'row1' => ['a' => 1, 'b' => 2],
+        'row2' => ['x' => 3, 'y' => 4]
+    ]
+Into:
+    [
+        [1, 2],
+        [3, 4]
+    ]
+
+- @matrix => A 2D associative array
+
+
+Return a 2D numeric-indexed array
 
 
 ++Compatibility helper module++
@@ -7355,6 +7382,31 @@ This function allow to create the minimal user and group information to do SaltO
 usable by the admin user, only do things if the keys tables of the array are void,
 too is able to maintain the integrity of the tbl_{users,groups}_apps_perms tables
 by removing the unused registers, usefull when you modify the tbl_apps_perms rows
+
+
++++Load and initialize sample data for all apps in the given directory.+++
+
+```
+function __setup_helper($dir)
+```
+
+This function is used during the setup or development phase to populate
+the database with sample data stored in `.sql.gz` files under
+`apps/<dir>/sample/sql/`. For each file:
+
+- It infers the corresponding table and app.
+- If the table is empty, it loads the data from the SQL file.
+- It then generates control/version/index/log metadata for each inserted record.
+- It ensures that subtable and main table mappings are respected.
+
+
+The function returns timing information and the number of records processed
+per app, which can be used for diagnostics or logging.
+
+- @dir => The directory under `apps/` (e.g., "crm", "sales", ...)
+
+
+Return an associative array with total execution time and per-app counts
 
 
 ++Send file to trash++

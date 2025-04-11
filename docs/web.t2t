@@ -1,5 +1,5 @@
 Web Client Documentation
-SaltOS 4.0 r1947
+SaltOS 4.0 r1952
 April 2025
 
 
@@ -536,7 +536,7 @@ widgets, the types that can be called are the follow:
 - @container   => id, class, style
 - @row         => id, class, style
 - @col         => id, class, style
-- @text        => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, OE, OC
+- @text        => id, class, PL, value, DS, RO, RQ, AF, AK, datalist, tooltip, label, color, OE, OC
 - @hidden      => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, color, OE, OC
 - @integer     => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, OE, OC
 - @float       => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, OE, OC
@@ -704,6 +704,7 @@ that for the input object of type text
 - @tooltip     => this parameter raise the title flag
 - @accesskey   => the key used as accesskey parameter
 - @label       => this parameter is used as text for the label
+- @datalist    => array with options for the datalist, used as autocomplete for the text input
 - @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
 - @onenter     => the function executed when enter key is pressed
 - @onchange    => the function executed when onchange event is detected
@@ -728,9 +729,12 @@ that for the input object of type text
 - @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
 - @accesskey   => the key used as accesskey parameter
-- @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+- @color       => the color of the widget (primary, secondary, success, danger, warning,
+                info, none)
 - @onenter     => the function executed when enter key is pressed
 - @onchange    => the function executed when onchange event is detected
+- @data        => this widget can store data in the data attribute, usefull to store
+                an array or object with data
 
 
 Notes:
@@ -1138,7 +1142,9 @@ Notes:
 This widget is created joinin 2 selects and 2 buttons, the user must get the value
 using the hidden input that is builded using the original id passed by argument.
 
-TODO: detected a bug with this widget in chrome in mobile browsers
+Warning:
+
+Detected a bug with this widget in chrome in mobile browsers
 
 
 +++Checkbox constructor helper+++
@@ -1399,6 +1405,11 @@ This widget can receive the following arguments:
 - @colWidths      => can be an array with the widths of the headers cols
 - @label          => this parameter is used as text for the label
 - @color          => the color of the widget (primary, secondary, success, danger, warning, info, none)
+- @afterChange    => the afterChange function that receives one argument (changes), a 2D array containing
+                   information about each of the edited cells [[row, prop, oldVal, newVal], ...],
+                   you can do something like changes.forEach(([row, prop, oldValue, newValue])
+- @autoWrapCol    => used as autoWrapCol in the handsontable widget
+- @autoWrapRow    => used as autoWrapRow in the handsontable widget
 
 
 Notes:
@@ -2977,12 +2988,28 @@ expected result
 +++Is Number+++
 
 ```
-saltos.core.is_number = str
+saltos.core.is_number = arg
 ```
 
 This function checks that the str contains a valid number and is finite
 
-str => the string to validate
+- @arg => the argument to validate
+
+
++++Checks whether the given string represents a valid JavaScript function expression.+++
+
+```
+saltos.core.is_function = arg
+```
+
+This includes both arrow functions (e.g. "x => x * 2") and traditional function expressions
+(e.g. "function(x) { return x * 2; }"). The string is evaluated using `eval`, so it must be
+syntactically correct and wrapped properly if necessary.
+
+- @arg => The argument to evaluate.
+
+
+Returns true if the string is a valid function, false otherwise.
 
 
 ++Driver module++
@@ -4161,21 +4188,68 @@ Output is designed for `console_log(...)`, not direct logging.
 Returns the formatted message and styling for `console.log(...)`
 
 
++++Timeout configuration+++
+
+```
+const timeout_max = 30000;
+```
+
+These values define the adaptive timeout logic used by the proxy:
+
+- `timeout_max`: the default timeout value (30s), used when the proxy starts
+  or after recovery from a previous failure.
+
+
+- `timeout_min`: the minimum timeout (1s), applied immediately after a network
+  failure to avoid cascading long waits during degraded connectivity.
+
+
+- `timeout`: the current timeout value in use. It is reset to `timeout_max`
+  when the Service Worker restarts, or kept as `timeout_min` between requests
+  while the SW remains active after detecting a failure.
+
+
+This mechanism helps the system respond quickly to unreachable hosts,
+and gracefully recover when the network is restored.
+
+
 +++Proxy function+++
 
 ```
 const proxy = async request
 ```
 
-This function receives a request to do a fetch or try to use a cached result
-if a network error occurs, if no response is available, a json error is returned
-to the application layer
+This function receives a request to perform a fetch or try to use a cached
+result if a network error occurs. If no response is available at all,
+a JSON error is returned to the application layer.
 
-This function can perform actions like fetch, cache, queue or error, in each
-case, tries to execute each part using the order defined by the proxy header
-that can be added from the layer application ajax call
+It supports different request resolution strategies: 'network', 'cache',
+'queue', or 'error'. The processing order can be controlled from the
+application layer by setting the `x-proxy-order` request header.
 
-- @request => the request that must to be processed
+This proxy implements an adaptive timeout mechanism to improve performance
+and responsiveness in degraded network conditions:
+
+- Initial network timeout is set to 30 seconds.
+- If a fetch fails due to network timeout or hang, the timeout is immediately
+  reduced to 1 second to prevent long cascades of delayed requests.
+- If the Service Worker goes inactive (e.g., tab closed or app unused),
+  the timeout resets back to 30 seconds on reactivation.
+- The system does not disable the browser’s own HTTP cache:
+  if a request is served from memory/disk cache, it is treated as valid.
+- No persistent storage is used; the timeout decays and recovers naturally
+  through the Service Worker lifecycle.
+
+
+This behavior works like a lightweight "quantum" scheduler: when one request
+reveals the host is unreachable, the system becomes more aggressive and shortens
+the timeout window for subsequent requests. This avoids interface rendering delays
+when multiple network-dependent fetches are needed.
+
+- @request => the incoming request to be processed.
+
+
+Returns an object with type, response, duration, and size.
 
 
 +++Queue open+++

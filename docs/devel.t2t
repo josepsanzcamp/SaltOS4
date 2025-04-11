@@ -1,5 +1,5 @@
 Devel Documentation
-SaltOS 4.0 r1948
+SaltOS 4.0 r1952
 April 2025
 
 
@@ -731,7 +731,7 @@ This file contains the follow important nodes:
 - `<edit id="cache">`: Defines a call to app/customers/edit/cache that returns the interface of a creation screen
 - `<edit id="update">`: Defines a call to app/customers/update that allows updating a record and returns the status
 - `<delete>`: Defines a call to app/customers/delete that allows deleting a record and returns the status
-- `<action id="setup">`: Defines a call to app/customers/setup that allows to execute the setup for this application
+- `<action id="xxx">`: Defines a call to app/customers/xxx that allows to execute the xxx action for this application
 
 
 ++Available Layouts Type1 To Type5++

@@ -27,7 +27,7 @@
 
 
 \title{Applications Documentation}
-\author{SaltOS 4.0 r1947}
+\author{SaltOS 4.0 r1952}
 \begin{document}
 \date{April 2025}
 \maketitle
@@ -574,11 +574,99 @@ saltos.dashboard_widgets.init = arg
 This method sets up the interactive elements of the dashboard, including assigning style classes
 and configuring drag-and-drop functionality between different containers.
 
-
 \hypertarget{toc44}{}
-\section{Emails}
+\subsection{Dashboard and navbar generation logic.}
+
+\begin{lstlisting}
+apps/dashboard/php/dashboard.php
+\end{lstlisting}
+
+This file contains helper functions used to build the SaltOS dashboard and navbar
+dynamically based on the applications configured in the system and the permissions
+of the current user.
+
+Functions included:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] \_\_dashboard\_helper(): Generates the full dashboard widget layout (alerts, buttons, separators)
+\item[\color{myblue}$\bullet$] \_\_dashboard\_config(): Applies user-specific configuration to customize the dashboard layout
+\item[\color{myblue}$\bullet$] \_\_navbar\_helper(): Builds the application menu structure for the top navigation bar
+\end{compactitem}
+
+These functions are used internally by the SaltOS UI rendering engine to generate
+the initial layout and navigation menus seen by each user on login.
 
 \hypertarget{toc45}{}
+\subsubsection{Build the default dashboard layout with groups and application buttons.}
+
+\begin{lstlisting}
+function __dashboard_helper()
+\end{lstlisting}
+
+This function retrieves all active applications from `tbl\_apps`,
+groups them by `group`, filters them by user permissions (menu access),
+and then formats them into a widget-based structure suitable for rendering
+on the dashboard, including alerts, buttons, and separators.
+
+Each group of apps is preceded by an alert (group title and description),
+followed by buttons for each app, and a horizontal rule (`$<$hr$>$`) at the end.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @return array An array of widgets (alerts, buttons, hr) to render the dashboard
+\end{compactitem}
+
+\hypertarget{toc46}{}
+\subsubsection{Build a personalized dashboard layout based on user config.}
+
+\begin{lstlisting}
+function __dashboard_config()
+\end{lstlisting}
+
+This function loads the full list of dashboard items using `\_\_dashboard\_helper()`
+and then tries to fetch the widget configuration saved by the current user
+under the path `app/dashboard/widgets/default`.
+
+If configuration is found, it reconstructs the dashboard by preserving only
+the items selected by the user, in the specified order. Otherwise, it returns
+the default layout.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @return array The personalized or default dashboard widget list
+\end{compactitem}
+
+\hypertarget{toc47}{}
+\subsubsection{Build the application menu for the navbar.}
+
+\begin{lstlisting}
+function __navbar_helper()
+\end{lstlisting}
+
+This function generates the main application menu for the navbar by:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Fetching all active apps grouped by `group`
+\item[\color{myblue}$\bullet$] Filtering them by user permissions
+\item[\color{myblue}$\bullet$] Mapping the group metadata from `tbl\_apps\_groups`
+\item[\color{myblue}$\bullet$] Creating a linear structure of `$<$item$>$` elements including:
+  \begin{compactitem}
+  \item[\color{myblue}$\bullet$] Group labels (disabled items)
+  \item[\color{myblue}$\bullet$] App entries with onclick handlers
+  \item[\color{myblue}$\bullet$] A divider after each group
+  \end{compactitem}
+\end{compactitem}
+
+The result is an array of menu items that represents the full application
+navigation tree grouped visually in the UI.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @return array An array of navbar `$<$item$>$` definitions
+\end{compactitem}
+
+
+\hypertarget{toc48}{}
+\section{Emails}
+
+\hypertarget{toc49}{}
 \subsection{Email application}
 
 \begin{lstlisting}
@@ -588,7 +676,7 @@ apps/emails/js/driver.js
 This application implements the typical features associated with email functionality,
 including templates and initialization processes for handling email-related tasks.
 
-\hypertarget{toc46}{}
+\hypertarget{toc50}{}
 \subsubsection{Driver emails object}
 
 \begin{lstlisting}
@@ -598,7 +686,7 @@ saltos.driver.__types.emails = {};
 This object stores the functions and properties used by the email driver,
 providing the necessary methods for managing email operations.
 
-\hypertarget{toc47}{}
+\hypertarget{toc51}{}
 \subsubsection{Create email template}
 
 \begin{lstlisting}
@@ -609,7 +697,7 @@ This function generates a template for the email driver, configuring specific
 attributes and layout modifications. It sets the 'type' attribute to 'emails'
 and adjusts the layout of the corresponding element for proper display.
 
-\hypertarget{toc48}{}
+\hypertarget{toc52}{}
 \subsubsection{Initialization, open, and close handlers for emails}
 
 \begin{lstlisting}
@@ -619,7 +707,7 @@ saltos.driver.__types.emails.init = saltos.driver.__types.type5.init; // Inherit
 These methods inherit their implementations from the 'type5' driver, allowing
 reuse of core functionality for initializing, opening, and closing email resources.
 
-\hypertarget{toc49}{}
+\hypertarget{toc53}{}
 \subsection{Email application}
 
 \begin{lstlisting}
@@ -631,7 +719,7 @@ such as initialization, server actions, email deletion, sending, setting states,
 handling signatures, generating and downloading PDFs, viewing email sources, replying
 and forwarding.
 
-\hypertarget{toc50}{}
+\hypertarget{toc54}{}
 \subsubsection{Main object}
 
 \begin{lstlisting}
@@ -640,7 +728,7 @@ saltos.emails = {};
 
 This object contains all SaltOS code related to email operations.
 
-\hypertarget{toc51}{}
+\hypertarget{toc55}{}
 \subsubsection{Initialize the email application}
 
 \begin{lstlisting}
@@ -654,7 +742,7 @@ in the email application. It manages UI updates, visibility behaviors, and email
 \item[\color{myblue}$\bullet$] @param \{string\} arg Specifies the type of view or action to initialize.
 \end{compactitem}
 
-\hypertarget{toc52}{}
+\hypertarget{toc56}{}
 \subsubsection{Perform server-related actions for emails}
 
 \begin{lstlisting}
@@ -663,7 +751,7 @@ saltos.emails.server = ()
 
 This method triggers server-side actions for emails and displays the responses in toasts.
 
-\hypertarget{toc53}{}
+\hypertarget{toc57}{}
 \subsubsection{Delete selected emails}
 
 \begin{lstlisting}
@@ -672,7 +760,7 @@ saltos.emails.delete1 = ()
 
 This method deletes multiple emails selected by the user, after showing a confirmation modal.
 
-\hypertarget{toc54}{}
+\hypertarget{toc58}{}
 \subsubsection{Delete a single email}
 
 \begin{lstlisting}
@@ -681,7 +769,7 @@ saltos.emails.delete2 = ()
 
 This method deletes the currently viewed email after showing a confirmation modal.
 
-\hypertarget{toc55}{}
+\hypertarget{toc59}{}
 \subsubsection{Send an email}
 
 \begin{lstlisting}
@@ -691,7 +779,7 @@ saltos.emails.send = ()
 This method validates the required fields and sends the email data to the server.
 It handles responses and clears unsaved data on success.
 
-\hypertarget{toc56}{}
+\hypertarget{toc60}{}
 \subsubsection{Set email state}
 
 \begin{lstlisting}
@@ -705,7 +793,7 @@ to the server, and the UI is refreshed afterward.
 \item[\color{myblue}$\bullet$] @param \{string\} what Specifies the state to set for the email.
 \end{compactitem}
 
-\hypertarget{toc57}{}
+\hypertarget{toc61}{}
 \subsubsection{Add signature to email}
 
 \begin{lstlisting}
@@ -715,7 +803,7 @@ saltos.emails.signature = ()
 This function applies the email signature based on the selected account and its related data.
 The signature is retrieved from the server and updated in the email form.
 
-\hypertarget{toc58}{}
+\hypertarget{toc62}{}
 \subsubsection{View selected emails in PDF format}
 
 \begin{lstlisting}
@@ -725,7 +813,7 @@ saltos.emails.viewpdf1 = ()
 This function opens a PDF view for all selected emails in the list.
 If no emails are selected, a modal prompts the user to select emails first.
 
-\hypertarget{toc59}{}
+\hypertarget{toc63}{}
 \subsubsection{Download selected emails as PDF}
 
 \begin{lstlisting}
@@ -735,7 +823,7 @@ saltos.emails.download1 = ()
 This function downloads all selected emails in the list as a PDF file.
 If no emails are selected, a modal prompts the user to select emails first.
 
-\hypertarget{toc60}{}
+\hypertarget{toc64}{}
 \subsubsection{View email source}
 
 \begin{lstlisting}
@@ -744,7 +832,7 @@ saltos.emails.source = ()
 
 This function opens the raw source of the selected email for viewing in the driver.
 
-\hypertarget{toc61}{}
+\hypertarget{toc65}{}
 \subsubsection{View an email in PDF format}
 
 \begin{lstlisting}
@@ -753,7 +841,7 @@ saltos.emails.viewpdf2 = ()
 
 This function opens a PDF view for the currently selected email.
 
-\hypertarget{toc62}{}
+\hypertarget{toc66}{}
 \subsubsection{Download an email as PDF}
 
 \begin{lstlisting}
@@ -762,7 +850,7 @@ saltos.emails.download2 = ()
 
 This function downloads the currently selected email in PDF format.
 
-\hypertarget{toc63}{}
+\hypertarget{toc67}{}
 \subsubsection{Reply to an email}
 
 \begin{lstlisting}
@@ -771,7 +859,7 @@ saltos.emails.reply = ()
 
 This function opens the reply form for the currently selected email.
 
-\hypertarget{toc64}{}
+\hypertarget{toc68}{}
 \subsubsection{Reply to all recipients of an email}
 
 \begin{lstlisting}
@@ -780,7 +868,7 @@ saltos.emails.replyall = ()
 
 This function opens the reply-all form for the currently selected email, including all recipients.
 
-\hypertarget{toc65}{}
+\hypertarget{toc69}{}
 \subsubsection{Forward an email}
 
 \begin{lstlisting}
@@ -789,7 +877,7 @@ saltos.emails.forward = ()
 
 This function opens the forward form for the currently selected email.
 
-\hypertarget{toc66}{}
+\hypertarget{toc70}{}
 \subsection{Email Query Builder}
 
 \begin{lstlisting}
@@ -799,7 +887,7 @@ apps/emails/php/filter.php
 This function builds an SQL WHERE query for filtering emails based on various criteria
 such as account, fields, search terms, dates, and specific email states.
 
-\hypertarget{toc67}{}
+\hypertarget{toc71}{}
 \subsubsection{Generate WHERE query for emails}
 
 \begin{lstlisting}
@@ -816,7 +904,7 @@ dates, and flags indicating specific states (e.g., new emails, waiting emails, s
 
 Returns the dynamically constructed SQL WHERE clause.
 
-\hypertarget{toc68}{}
+\hypertarget{toc72}{}
 \subsection{Get email library}
 
 \begin{lstlisting}
@@ -825,7 +913,7 @@ apps/emails/php/getmail.php
 
 This library provides the necesary functions to download, parse and manage emails.
 
-\hypertarget{toc69}{}
+\hypertarget{toc73}{}
 \subsubsection{Requires section}
 
 \begin{lstlisting}
@@ -834,7 +922,7 @@ require_once 'apps/emails/lib/mimeparser/mime_parser.php';
 
 This requires loads the external libraries needed to run this library.
 
-\hypertarget{toc70}{}
+\hypertarget{toc74}{}
 \subsubsection{Defines section}
 
 \begin{lstlisting}
@@ -843,7 +931,7 @@ This requires loads the external libraries needed to run this library.
 
 This defines allow to define some useful standards to do html pages and more.
 
-\hypertarget{toc71}{}
+\hypertarget{toc75}{}
 \subsubsection{Remove all body}
 
 \begin{lstlisting}
@@ -856,7 +944,7 @@ This function removes the body entry in the array, it is only for debug purposes
 \item[\color{myblue}$\bullet$] @aarray =$>$ The array that you want to process
 \end{compactitem}
 
-\hypertarget{toc72}{}
+\hypertarget{toc76}{}
 \subsubsection{Process message}
 
 \begin{lstlisting}
@@ -871,7 +959,7 @@ allow the node to be processed.
 \item[\color{myblue}$\bullet$] @type =$>$ type, can be message, html or plain
 \end{compactitem}
 
-\hypertarget{toc73}{}
+\hypertarget{toc77}{}
 \subsubsection{Process plain html}
 
 \begin{lstlisting}
@@ -886,7 +974,7 @@ allow the node to be processed.
 \item[\color{myblue}$\bullet$] @type =$>$ type, can be message, html or plain
 \end{compactitem}
 
-\hypertarget{toc74}{}
+\hypertarget{toc78}{}
 \subsubsection{Process file}
 
 \begin{lstlisting}
@@ -901,7 +989,7 @@ allow the node to be processed.
 \item[\color{myblue}$\bullet$] @type =$>$ type, can be message, html or plain
 \end{compactitem}
 
-\hypertarget{toc75}{}
+\hypertarget{toc79}{}
 \subsubsection{Check permissions}
 
 \begin{lstlisting}
@@ -915,7 +1003,7 @@ message identified by the id argument
 \item[\color{myblue}$\bullet$] @id =$>$ id of the email
 \end{compactitem}
 
-\hypertarget{toc76}{}
+\hypertarget{toc80}{}
 \subsubsection{Get GZ File}
 
 \begin{lstlisting}
@@ -928,7 +1016,7 @@ This function returns the file that contains the email
 \item[\color{myblue}$\bullet$] @id =$>$ id of the email
 \end{compactitem}
 
-\hypertarget{toc77}{}
+\hypertarget{toc81}{}
 \subsubsection{Get source}
 
 \begin{lstlisting}
@@ -945,7 +1033,7 @@ Notes:
 
 This function returns the email source without the base64 attachments
 
-\hypertarget{toc78}{}
+\hypertarget{toc82}{}
 \subsubsection{Mime decode protected}
 
 \begin{lstlisting}
@@ -959,7 +1047,7 @@ using the mime\_parser\_class to do it, and returns the decoded array.
 \item[\color{myblue}$\bullet$] @input =$>$ the RFC822 string that contains the message
 \end{compactitem}
 
-\hypertarget{toc79}{}
+\hypertarget{toc83}{}
 \subsubsection{Get mime}
 
 \begin{lstlisting}
@@ -974,7 +1062,7 @@ file to improve the performance for repeated executions.
 \item[\color{myblue}$\bullet$] @id =$>$ id of the email
 \end{compactitem}
 
-\hypertarget{toc80}{}
+\hypertarget{toc84}{}
 \subsubsection{Get Node}
 
 \begin{lstlisting}
@@ -988,7 +1076,7 @@ This function returns the node using a xpath notation
 \item[\color{myblue}$\bullet$] @array =$>$ the decoded message in an array format
 \end{compactitem}
 
-\hypertarget{toc81}{}
+\hypertarget{toc85}{}
 \subsubsection{Get type}
 
 \begin{lstlisting}
@@ -1002,7 +1090,7 @@ the follow formats: html, plain, messsage, alternative, multipart or other.
 \item[\color{myblue}$\bullet$] @array =$>$ the decoded message in an array format
 \end{compactitem}
 
-\hypertarget{toc82}{}
+\hypertarget{toc86}{}
 \subsubsection{Get disposition}
 
 \begin{lstlisting}
@@ -1016,7 +1104,7 @@ it into the follow formats: attachment, inline or other.
 \item[\color{myblue}$\bullet$] @array =$>$ the decoded message in an array format
 \end{compactitem}
 
-\hypertarget{toc83}{}
+\hypertarget{toc87}{}
 \subsubsection{Get files}
 
 \begin{lstlisting}
@@ -1030,7 +1118,7 @@ This function returns an array with the attachment files of the message
 \item[\color{myblue}$\bullet$] @level =$>$ this parameter is internally used to detect recursion
 \end{compactitem}
 
-\hypertarget{toc84}{}
+\hypertarget{toc88}{}
 \subsubsection{Get info}
 
 \begin{lstlisting}
@@ -1043,7 +1131,7 @@ Returns all information of the decoded message in a structured format
 \item[\color{myblue}$\bullet$] @array =$>$ the decoded message in an array format
 \end{compactitem}
 
-\hypertarget{toc85}{}
+\hypertarget{toc89}{}
 \subsubsection{Fix string}
 
 \begin{lstlisting}
@@ -1057,7 +1145,7 @@ of the decoded message.
 \item[\color{myblue}$\bullet$] @arg =$>$ the string that must to be checked and fixed if needed
 \end{compactitem}
 
-\hypertarget{toc86}{}
+\hypertarget{toc90}{}
 \subsubsection{Get text body}
 
 \begin{lstlisting}
@@ -1071,7 +1159,7 @@ This function returns all text body concatenated as an unique string
 \item[\color{myblue}$\bullet$] @level =$>$ this parameter is internally used to detect recursion
 \end{compactitem}
 
-\hypertarget{toc87}{}
+\hypertarget{toc91}{}
 \subsubsection{Get full body}
 
 \begin{lstlisting}
@@ -1084,7 +1172,7 @@ This function returns all body and attachments information as an array
 \item[\color{myblue}$\bullet$] @array =$>$ the decoded message in an array format
 \end{compactitem}
 
-\hypertarget{toc88}{}
+\hypertarget{toc92}{}
 \subsubsection{Get cid}
 
 \begin{lstlisting}
@@ -1098,7 +1186,7 @@ This function returns the requested attachment indentified by the hash argument
 \item[\color{myblue}$\bullet$] @hash  =$>$ the hash of the content requested
 \end{compactitem}
 
-\hypertarget{toc89}{}
+\hypertarget{toc93}{}
 \subsubsection{Insert}
 
 \begin{lstlisting}
@@ -1120,7 +1208,7 @@ This function do the insert in the app\_emails table, and
 \item[\color{myblue}$\bullet$] @state\_error   =$>$ the string that contains the error (if exists an error)
 \end{compactitem}
 
-\hypertarget{toc90}{}
+\hypertarget{toc94}{}
 \subsubsection{Update}
 
 \begin{lstlisting}
@@ -1136,7 +1224,7 @@ register identified by the id argument.
 \item[\color{myblue}$\bullet$] @id    =$>$ id of the register to do the update
 \end{compactitem}
 
-\hypertarget{toc91}{}
+\hypertarget{toc95}{}
 \subsubsection{Add bcc}
 
 \begin{lstlisting}
@@ -1152,7 +1240,7 @@ if the current execution is the sender of the message.
 \item[\color{myblue}$\bullet$] @bcc =$>$ an array with the addresses of the emails
 \end{compactitem}
 
-\hypertarget{toc92}{}
+\hypertarget{toc96}{}
 \subsubsection{Gzfile size}
 
 \begin{lstlisting}
@@ -1166,7 +1254,7 @@ and allow to know the file size of the file after a gzip descompression.
 \item[\color{myblue}$\bullet$] @filename =$>$ the gzip filename that you want to know the size
 \end{compactitem}
 
-\hypertarget{toc93}{}
+\hypertarget{toc97}{}
 \subsubsection{Get email body}
 
 \begin{lstlisting}
@@ -1180,7 +1268,7 @@ intended to be rendered in an iframe, for example
 \item[\color{myblue}$\bullet$] @id =$>$ id of the email
 \end{compactitem}
 
-\hypertarget{toc94}{}
+\hypertarget{toc98}{}
 \subsubsection{Generate formatted email header information}
 
 \begin{lstlisting}
@@ -1199,7 +1287,7 @@ and readable format. HTML encoding is applied to ensure safe display within a we
 
 Returns a formatted HTML string with the email header information.
 
-\hypertarget{toc95}{}
+\hypertarget{toc99}{}
 \subsubsection{Extract and format the body of an email}
 
 \begin{lstlisting}
@@ -1220,7 +1308,7 @@ ensuring compatibility and security.
 
 Returns the formatted email body, including plain text, HTML, and inline attachments.
 
-\hypertarget{toc96}{}
+\hypertarget{toc100}{}
 \subsubsection{Get email source}
 
 \begin{lstlisting}
@@ -1234,7 +1322,7 @@ intended to be rendered in an iframe, for example
 \item[\color{myblue}$\bullet$] @id =$>$ id of the email
 \end{compactitem}
 
-\hypertarget{toc97}{}
+\hypertarget{toc101}{}
 \subsubsection{Get email files}
 
 \begin{lstlisting}
@@ -1248,7 +1336,7 @@ intended to be rendered in an table, for example
 \item[\color{myblue}$\bullet$] @id =$>$ id of the email
 \end{compactitem}
 
-\hypertarget{toc98}{}
+\hypertarget{toc102}{}
 \subsubsection{Get cid}
 
 \begin{lstlisting}
@@ -1262,7 +1350,7 @@ This function returns the requested attachment indentified by the cid argument
 \item[\color{myblue}$\bullet$] @cid =$>$ the cid of the content requested
 \end{compactitem}
 
-\hypertarget{toc99}{}
+\hypertarget{toc103}{}
 \subsubsection{Is outbox}
 
 \begin{lstlisting}
@@ -1276,7 +1364,7 @@ Returns the field of the email identified by the id argument
 \item[\color{myblue}$\bullet$] @id    =$>$ id of the email
 \end{compactitem}
 
-\hypertarget{toc100}{}
+\hypertarget{toc104}{}
 \subsubsection{Server}
 
 \begin{lstlisting}
@@ -1285,7 +1373,7 @@ function getmail_server()
 
 This function implements the old getmail action of the old saltos.
 
-\hypertarget{toc101}{}
+\hypertarget{toc105}{}
 \subsubsection{Delete}
 
 \begin{lstlisting}
@@ -1298,7 +1386,7 @@ This function implements the old delete action of the old saltos.
 \item[\color{myblue}$\bullet$] @ids =$>$ array with the emails id
 \end{compactitem}
 
-\hypertarget{toc102}{}
+\hypertarget{toc106}{}
 \subsubsection{Get viewpdf}
 
 \begin{lstlisting}
@@ -1313,7 +1401,7 @@ in a pdf format for the viewpdf widget
 \item[\color{myblue}$\bullet$] @cid =$>$ the cid of the content requested
 \end{compactitem}
 
-\hypertarget{toc103}{}
+\hypertarget{toc107}{}
 \subsubsection{Get download}
 
 \begin{lstlisting}
@@ -1328,7 +1416,7 @@ in an array format for the download feature
 \item[\color{myblue}$\bullet$] @cid =$>$ the cid of the content requested
 \end{compactitem}
 
-\hypertarget{toc104}{}
+\hypertarget{toc108}{}
 \subsubsection{Update email states}
 
 \begin{lstlisting}
@@ -1347,7 +1435,7 @@ number of records to be modified and updates the database accordingly.
 
 Returns a response message indicating the number of emails modified.
 
-\hypertarget{toc105}{}
+\hypertarget{toc109}{}
 \subsubsection{Generate PDF from emails}
 
 \begin{lstlisting}
@@ -1366,7 +1454,7 @@ accessing the emails and manages caching for performance optimization.
 Returns metadata of the generated PDF file, including its name, type, and
 base64-encoded data.
 
-\hypertarget{toc106}{}
+\hypertarget{toc110}{}
 \subsubsection{Generate iframe content with secure policies}
 
 \begin{lstlisting}
@@ -1385,7 +1473,7 @@ within the iframe.
 
 Return a complete HTML document string suitable for `srcdoc` use in an iframe.
 
-\hypertarget{toc107}{}
+\hypertarget{toc111}{}
 \subsection{Html helper module}
 
 \begin{lstlisting}
@@ -1394,7 +1482,7 @@ apps/emails/php/html.php
 
 This file contain useful html helper functions
 
-\hypertarget{toc108}{}
+\hypertarget{toc112}{}
 \subsubsection{Defines section}
 
 \begin{lstlisting}
@@ -1403,7 +1491,7 @@ define('__GIF_IMAGE__', 'data:image/gif;base64,R0lGODlhCgABAIABAOns7////ywAAAAAC
 
 This defines allow to define some useful needed resources by this file.
 
-\hypertarget{toc109}{}
+\hypertarget{toc113}{}
 \subsubsection{Remove Script Tag}
 
 \begin{lstlisting}
@@ -1416,7 +1504,7 @@ This function tries to remove all $<$script$>$ tags of the string
 \item[\color{myblue}$\bullet$] @temp =$>$ the string that you want to process
 \end{compactitem}
 
-\hypertarget{toc110}{}
+\hypertarget{toc114}{}
 \subsubsection{Remove Style Tag}
 
 \begin{lstlisting}
@@ -1429,7 +1517,7 @@ This function tries to remove all $<$style$>$ tags of the string
 \item[\color{myblue}$\bullet$] @temp =$>$ the string that you want to process
 \end{compactitem}
 
-\hypertarget{toc111}{}
+\hypertarget{toc115}{}
 \subsubsection{Remove Comment Tag}
 
 \begin{lstlisting}
@@ -1442,7 +1530,7 @@ This function tries to remove all $<$!-- --$>$ tags of the string
 \item[\color{myblue}$\bullet$] @temp =$>$ the string that you want to process
 \end{compactitem}
 
-\hypertarget{toc112}{}
+\hypertarget{toc116}{}
 \subsubsection{Remove Meta Tag}
 
 \begin{lstlisting}
@@ -1455,7 +1543,7 @@ This function tries to remove all $<$meta $>$ tags of the string
 \item[\color{myblue}$\bullet$] @temp =$>$ the string that you want to process
 \end{compactitem}
 
-\hypertarget{toc113}{}
+\hypertarget{toc117}{}
 \subsubsection{Remove Link Tag}
 
 \begin{lstlisting}
@@ -1468,7 +1556,7 @@ This function tries to remove all $<$link $>$ tags of the string
 \item[\color{myblue}$\bullet$] @temp =$>$ the string that you want to process
 \end{compactitem}
 
-\hypertarget{toc114}{}
+\hypertarget{toc118}{}
 \subsubsection{Inline Img Tag}
 
 \begin{lstlisting}
@@ -1481,7 +1569,7 @@ This function tries to convert all imgs to an inline imgs
 \item[\color{myblue}$\bullet$] @temp =$>$ the string that you want to process
 \end{compactitem}
 
-\hypertarget{toc115}{}
+\hypertarget{toc119}{}
 \subsubsection{Inline Img Style}
 
 \begin{lstlisting}
@@ -1494,7 +1582,7 @@ This function tries to convert all imgs to an inline imgs
 \item[\color{myblue}$\bullet$] @temp =$>$ the string that you want to process
 \end{compactitem}
 
-\hypertarget{toc116}{}
+\hypertarget{toc120}{}
 \subsubsection{Inline Img Background}
 
 \begin{lstlisting}
@@ -1507,7 +1595,7 @@ This function tries to convert all imgs to an inline imgs
 \item[\color{myblue}$\bullet$] @temp =$>$ the string that you want to process
 \end{compactitem}
 
-\hypertarget{toc117}{}
+\hypertarget{toc121}{}
 \subsubsection{Inline Image Helper}
 
 \begin{lstlisting}
@@ -1523,7 +1611,7 @@ where necessary. It also manages caching and handles errors gracefully.
 
 Returns the inline image data or a placeholder GIF in case of errors.
 
-\hypertarget{toc118}{}
+\hypertarget{toc122}{}
 \subsubsection{Extract Inline Images from Tags}
 
 \begin{lstlisting}
@@ -1539,7 +1627,7 @@ attributes with `cid` references for email compatibility.
 
 Returns the modified HTML content and an array of image files.
 
-\hypertarget{toc119}{}
+\hypertarget{toc123}{}
 \subsubsection{Extract Inline Images from Styles}
 
 \begin{lstlisting}
@@ -1555,7 +1643,7 @@ with `cid` references for email compatibility.
 
 Returns the modified HTML content and an array of image files.
 
-\hypertarget{toc120}{}
+\hypertarget{toc124}{}
 \subsubsection{Extract Inline Images from Backgrounds}
 
 \begin{lstlisting}
@@ -1571,7 +1659,7 @@ with `cid` references for email compatibility.
 
 Returns the modified HTML content and an array of image files.
 
-\hypertarget{toc121}{}
+\hypertarget{toc125}{}
 \subsubsection{Fix Image Tags}
 
 \begin{lstlisting}
@@ -1587,7 +1675,7 @@ with a placeholder image (`\underline{GIF\_IMAGE}`), ensuring compatibility and 
 
 Returns the updated HTML content with fixed image tags.
 
-\hypertarget{toc122}{}
+\hypertarget{toc126}{}
 \subsubsection{Fix Image Styles}
 
 \begin{lstlisting}
@@ -1603,7 +1691,7 @@ within `url()` properties with a placeholder image (`\underline{GIF\_IMAGE}`).
 
 Returns the updated HTML content with fixed image styles.
 
-\hypertarget{toc123}{}
+\hypertarget{toc127}{}
 \subsubsection{Fix Image Backgrounds}
 
 \begin{lstlisting}
@@ -1619,7 +1707,7 @@ with a placeholder image (`\underline{GIF\_IMAGE}`).
 
 Returns the updated HTML content with fixed image backgrounds.
 
-\hypertarget{toc124}{}
+\hypertarget{toc128}{}
 \subsubsection{Fix Base64-Encoded Files}
 
 \begin{lstlisting}
@@ -1640,7 +1728,7 @@ Notes:
 We are using `\{48\}` to match base64 data of 48 bytes, which decodes into a 36-byte string
 that matches the MD5 hash style used in cached files (32 bytes plus 4-byte `.b64` extension).
 
-\hypertarget{toc125}{}
+\hypertarget{toc129}{}
 \subsection{Make indexing action}
 
 \begin{lstlisting}
@@ -1650,7 +1738,7 @@ apps/emails/php/indexing.php
 This fie contains useful functions related to the indexing action that internally uses the
 mroonga engine to search in the fulltext string generated by this action
 
-\hypertarget{toc126}{}
+\hypertarget{toc130}{}
 \subsection{Send email library}
 
 \begin{lstlisting}
@@ -1659,7 +1747,7 @@ apps/emails/php/sendmail.php
 
 This library provides the necesary functions to send emails.
 
-\hypertarget{toc127}{}
+\hypertarget{toc131}{}
 \subsubsection{Used libraries}
 
 \begin{lstlisting}
@@ -1668,7 +1756,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 This use loads the external libraries needed to run this library.
 
-\hypertarget{toc128}{}
+\hypertarget{toc132}{}
 \subsubsection{Sendmail}
 
 \begin{lstlisting}
@@ -1689,7 +1777,7 @@ Notes:
 
 This function must return the last\_id if success, and a string if error
 
-\hypertarget{toc129}{}
+\hypertarget{toc133}{}
 \subsubsection{Debugoutput helper}
 
 \begin{lstlisting}
@@ -1706,7 +1794,7 @@ of this function will accomplish the neested callback arguments
 \item[\color{myblue}$\bullet$] @level =$>$ unused in this function
 \end{compactitem}
 
-\hypertarget{toc130}{}
+\hypertarget{toc134}{}
 \subsubsection{Parser}
 
 \begin{lstlisting}
@@ -1721,7 +1809,7 @@ for the addr and the second is for the name.
 \item[\color{myblue}$\bullet$] @oldaddr =$>$ the string that must to be processed
 \end{compactitem}
 
-\hypertarget{toc131}{}
+\hypertarget{toc135}{}
 \subsubsection{Message Id}
 
 \begin{lstlisting}
@@ -1737,7 +1825,7 @@ value and checks that is unique in the system to prevent concurrence.
 \item[\color{myblue}$\bullet$] @from       =$>$ the from used to compute the crc32
 \end{compactitem}
 
-\hypertarget{toc132}{}
+\hypertarget{toc136}{}
 \subsubsection{Eml saver}
 
 \begin{lstlisting}
@@ -1751,7 +1839,7 @@ This function is intended to save the RFC822 message into the eml gzfile
 \item[\color{myblue}$\bullet$] @messageid =$>$ the message id computed previously
 \end{compactitem}
 
-\hypertarget{toc133}{}
+\hypertarget{toc137}{}
 \subsubsection{Obj saver}
 
 \begin{lstlisting}
@@ -1765,7 +1853,7 @@ This function is intended to save the PHPMailer object into the obj file
 \item[\color{myblue}$\bullet$] @messageid =$>$ the message id computed previously
 \end{compactitem}
 
-\hypertarget{toc134}{}
+\hypertarget{toc138}{}
 \subsubsection{Prepare email for sending}
 
 \begin{lstlisting}
@@ -1784,7 +1872,7 @@ the email's metadata to ensure compatibility with the given action.
 
 Return the prepared email parameters, including sender, recipients, subject, body, state, and attachments.
 
-\hypertarget{toc135}{}
+\hypertarget{toc139}{}
 \subsubsection{Perform email sending action}
 
 \begin{lstlisting}
@@ -1804,7 +1892,7 @@ as `reply`, `replyall`, and `forward`.
 
 Returns the status and message of the email action.
 
-\hypertarget{toc136}{}
+\hypertarget{toc140}{}
 \subsubsection{Send queued emails from the server}
 
 \begin{lstlisting}
@@ -1819,7 +1907,7 @@ and manages errors during the sending process. The function is intended for use 
 \item[\color{myblue}$\bullet$] @return array Returns an array of messages detailing the sending result, including errors and successes.
 \end{compactitem}
 
-\hypertarget{toc137}{}
+\hypertarget{toc141}{}
 \subsubsection{Retrieve email attachments}
 
 \begin{lstlisting}
@@ -1837,7 +1925,7 @@ locally if not already uploaded. Finally, it retrieves a list of attachments fro
 
 Returns a list of attachments with metadata including ID, app, name, size, type, and hash.
 
-\hypertarget{toc138}{}
+\hypertarget{toc142}{}
 \subsubsection{Update email signature, CC, and encryption state}
 
 \begin{lstlisting}
@@ -1854,20 +1942,20 @@ and replaces the encryption state (`state\_crt`) based on the selected account.
 Return the updated email body, CC list, and encryption state.
 
 
-\hypertarget{toc139}{}
-\section{Invoices}
+\hypertarget{toc143}{}
+\section{Sales}
 
-\hypertarget{toc140}{}
+\hypertarget{toc144}{}
 \subsection{Invoices application}
 
 \begin{lstlisting}
-apps/invoices/js/invoices.js
+apps/sales/js/invoices.js
 \end{lstlisting}
 
 This application provides core functionalities for managing invoices, including creating,
 editing, viewing, and exporting invoices in PDF format.
 
-\hypertarget{toc141}{}
+\hypertarget{toc145}{}
 \subsubsection{Main object}
 
 \begin{lstlisting}
@@ -1876,7 +1964,7 @@ saltos.invoices = {};
 
 This object contains all SaltOS code related to invoice operations.
 
-\hypertarget{toc142}{}
+\hypertarget{toc146}{}
 \subsubsection{Initialize the invoices application}
 
 \begin{lstlisting}
@@ -1890,41 +1978,151 @@ It updates UI elements and attaches appropriate event listeners.
 \item[\color{myblue}$\bullet$] @arg =$>$ Specifies the type of operation to initialize.
 \end{compactitem}
 
-\hypertarget{toc143}{}
-\subsubsection{Compute total invoice amount}
+\hypertarget{toc147}{}
+\subsubsection{Calculate the dynamic width for each column in the "concepts" table.}
 
 \begin{lstlisting}
-saltos.invoices.compute_total = ()
+saltos.invoices.colWidths_concepts = index
 \end{lstlisting}
 
-This method calculates the subtotal for each invoice item and the grand total for all items.
-It handles discounts, rounds values to two decimal places, and updates the total fields.
-
-\hypertarget{toc144}{}
-\subsubsection{Add a new item to the invoice}
-
-\begin{lstlisting}
-saltos.invoices.add_item = ()
-\end{lstlisting}
-
-This method creates a new invoice item and initializes its layout and event listeners.
-It ensures consistent behavior for the form fields and recomputes the totals after addition.
-
-\hypertarget{toc145}{}
-\subsubsection{Remove an item from the invoice}
-
-\begin{lstlisting}
-saltos.invoices.remove_item = (obj)
-\end{lstlisting}
-
-This method deletes an invoice item or marks it with a negative value if it is hidden.
-It updates the invoice totals after removal.
+This function returns the width for each column. For the first column (index 0),
+it dynamically calculates the remaining space based on the container width minus
+a fixed width (500px) reserved for other columns. For all other columns, it returns 100px.
 
 \begin{compactitem}
-\item[\color{myblue}$\bullet$] @obj =$>$ Reference to the item to remove.
+\item[\color{myblue}$\bullet$] @index =$>$ Column index
 \end{compactitem}
 
-\hypertarget{toc146}{}
+Returns the width in pixels
+
+\hypertarget{toc148}{}
+\subsubsection{Define cell configuration for each column in the "concepts" table.}
+
+\begin{lstlisting}
+saltos.invoices.cells_concepts = (row, column, prop)
+\end{lstlisting}
+
+This function provides per-column behavior:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Column 4: renders a dropdown with available tax values (from \#alltaxes).
+\item[\color{myblue}$\bullet$] Column 5: sets the cell as read-only (used for calculated values).
+\item[\color{myblue}$\bullet$] Other columns: no special config.
+\end{compactitem}
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @row    =$>$ Row index
+\item[\color{myblue}$\bullet$] @column =$>$ Column index
+\item[\color{myblue}$\bullet$] @prop   =$>$ Column property name
+\end{compactitem}
+
+Returns the configuration object
+
+\hypertarget{toc149}{}
+\subsubsection{Calculate the dynamic width for each column in the "taxes" table.}
+
+\begin{lstlisting}
+saltos.invoices.colWidths_taxes = index
+\end{lstlisting}
+
+The first column (index 0) fills the available space minus 200px reserved for other columns.
+All other columns get a fixed width of 100px.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @index =$>$ Column index
+\end{compactitem}
+
+Returns the width in pixels
+
+\hypertarget{toc150}{}
+\subsubsection{Define cell configuration for each column in the "taxes" table.}
+
+\begin{lstlisting}
+saltos.invoices.cells_taxes = (row, column, prop)
+\end{lstlisting}
+
+All cells in this table are read-only.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @row    =$>$ Row index
+\item[\color{myblue}$\bullet$] @column =$>$ Column index
+\item[\color{myblue}$\bullet$] @prop   =$>$ Column property name
+\end{compactitem}
+
+Returns the configuration object
+
+\hypertarget{toc151}{}
+\subsubsection{Calculate equal column widths for the "totals" table.}
+
+\begin{lstlisting}
+saltos.invoices.colWidths_totals = index
+\end{lstlisting}
+
+The table is divided into 3 equal columns, based on the container width.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @index =$>$ Column index
+\end{compactitem}
+
+Returns the width in pixels
+
+\hypertarget{toc152}{}
+\subsubsection{Define cell configuration for the "totals" table.}
+
+\begin{lstlisting}
+saltos.invoices.cells_totals = (row, column, prop)
+\end{lstlisting}
+
+All cells in this table are read-only.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @row    =$>$ Row index
+\item[\color{myblue}$\bullet$] @column =$>$ Column index
+\item[\color{myblue}$\bullet$] @prop   =$>$ Column property name
+\end{compactitem}
+
+Returns the configuration object
+
+\hypertarget{toc153}{}
+\subsubsection{Handle and recalculate invoice line totals and tax breakdowns after user edits.}
+
+\begin{lstlisting}
+saltos.invoices.afterChange_concepts = (changes, source)
+\end{lstlisting}
+
+This function is triggered after the user modifies any cell in the "concepts" matrix
+(invoice lines). It performs the following operations:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Ignores changes triggered by internal actions (non-`edit` sources).
+\item[\color{myblue}$\bullet$] Validates and normalizes quantity, price, and discount values:
+    \begin{compactitem}
+    \item[\color{myblue}$\bullet$] Ensures `line[1]`, `line[2]`, `line[3]` (qty, price, discount) are numeric.
+    \item[\color{myblue}$\bullet$] Defaults discount to 0 if empty but qty and price are valid.
+    \end{compactitem}
+\item[\color{myblue}$\bullet$] Calculates the line total as: `qty × price × (1 - discount\%)`, rounded to 2 decimals.
+\item[\color{myblue}$\bullet$] Updates the concepts grid to reflect computed values.
+\item[\color{myblue}$\bullet$] Recomputes the taxes matrix:
+    \begin{compactitem}
+    \item[\color{myblue}$\bullet$] Aggregates taxable bases per tax value (`line[4]`).
+    \item[\color{myblue}$\bullet$] Computes tax amount for each group: `base × (tax\% / 100)`.
+    \end{compactitem}
+\item[\color{myblue}$\bullet$] Rounds all tax results to 2 decimals and updates the taxes grid.
+\item[\color{myblue}$\bullet$] Computes the totals matrix:
+    \begin{compactitem}
+    \item[\color{myblue}$\bullet$] `subtotal` = sum of all taxable bases
+    \item[\color{myblue}$\bullet$] `tax` = sum of all tax amounts
+    \item[\color{myblue}$\bullet$] `total` = subtotal + tax
+    \item[\color{myblue}$\bullet$] Results are rounded and shown in the totals grid.
+    \end{compactitem}
+\end{compactitem}
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @changes =$>$ Array of cell changes from the spreadsheet component
+\item[\color{myblue}$\bullet$] @source  =$>$ Source of the change event (only `'edit'` triggers processing)
+\end{compactitem}
+
+\hypertarget{toc154}{}
 \subsubsection{View selected invoices in PDF format}
 
 \begin{lstlisting}
@@ -1934,7 +2132,7 @@ saltos.invoices.viewpdf = ()
 This method opens a PDF viewer to display the selected invoices.
 If no invoices are selected, it prompts the user to select invoices first.
 
-\hypertarget{toc147}{}
+\hypertarget{toc155}{}
 \subsubsection{Download selected invoices as PDF}
 
 \begin{lstlisting}
@@ -1945,10 +2143,10 @@ This method downloads the selected invoices in PDF format.
 If no invoices are selected, it prompts the user to select invoices first.
 
 
-\hypertarget{toc148}{}
+\hypertarget{toc156}{}
 \section{Tester}
 
-\hypertarget{toc149}{}
+\hypertarget{toc157}{}
 \subsection{Tester application}
 
 \begin{lstlisting}
@@ -1958,7 +2156,7 @@ apps/tester/js/tester.js
 This application implements the typical features associated with a tester,
 showcasing functionalities such as modals, toasts, and offcanvas elements.
 
-\hypertarget{toc150}{}
+\hypertarget{toc158}{}
 \subsubsection{Tester object}
 
 \begin{lstlisting}
@@ -1968,7 +2166,7 @@ saltos.tester = {};
 This object stores all the functions used by the Tester application,
 providing the necessary methods for interaction and testing features.
 
-\hypertarget{toc151}{}
+\hypertarget{toc159}{}
 \subsubsection{Campo 8: Alert functionality}
 
 \begin{lstlisting}
@@ -1977,7 +2175,7 @@ saltos.tester.campo8 = ()
 
 This function triggers a simple alert box when called, showcasing a button-click behavior.
 
-\hypertarget{toc152}{}
+\hypertarget{toc160}{}
 \subsubsection{Campo 9: Modal functionality}
 
 \begin{lstlisting}
@@ -1992,7 +2190,7 @@ This function displays a Bootstrap modal with a title, body, and footer. The mod
 \item[\color{myblue}$\bullet$] Footer buttons to accept or cancel actions, with corresponding console logs.
 \end{compactitem}
 
-\hypertarget{toc153}{}
+\hypertarget{toc161}{}
 \subsubsection{Campo 10: Offcanvas functionality}
 
 \begin{lstlisting}
@@ -2007,7 +2205,7 @@ The body includes:
 \item[\color{myblue}$\bullet$] A dropdown menu for additional options.
 \end{compactitem}
 
-\hypertarget{toc154}{}
+\hypertarget{toc162}{}
 \subsubsection{Campo 11: Toast functionality}
 
 \begin{lstlisting}
@@ -2021,7 +2219,7 @@ This function displays a Bootstrap toast notification with customizable attribut
 \item[\color{myblue}$\bullet$] Body content with dynamic timestamp information.
 \end{compactitem}
 
-\hypertarget{toc155}{}
+\hypertarget{toc163}{}
 \subsubsection{Campo 22: Open statistics page}
 
 \begin{lstlisting}
@@ -2031,10 +2229,10 @@ saltos.tester.campo23 = ()
 This function opens the SaltOS statistics page in a new browser tab or window.
 
 
-\hypertarget{toc156}{}
+\hypertarget{toc164}{}
 \section{Users}
 
-\hypertarget{toc157}{}
+\hypertarget{toc165}{}
 \subsection{Login application}
 
 \begin{lstlisting}
@@ -2043,7 +2241,7 @@ apps/users/js/login.js
 
 This application implements the tipical features associated to login
 
-\hypertarget{toc158}{}
+\hypertarget{toc166}{}
 \subsubsection{Main object}
 
 \begin{lstlisting}
@@ -2052,7 +2250,7 @@ saltos.login = {};
 
 This object contains all SaltOS code
 
-\hypertarget{toc159}{}
+\hypertarget{toc167}{}
 \subsubsection{Authenticate login function}
 
 \begin{lstlisting}
@@ -2062,7 +2260,7 @@ saltos.login.authenticate = async ()
 This function tries to authenticate the user using the user and pass fields of the form, to do
 it uses the authenticate function that send data to the authtoken action
 
-\hypertarget{toc160}{}
+\hypertarget{toc168}{}
 \subsection{Days functions}
 
 \begin{lstlisting}
@@ -2071,7 +2269,7 @@ apps/users/php/days.php
 
 This file contain all functions needed by the days feature
 
-\hypertarget{toc161}{}
+\hypertarget{toc169}{}
 \subsubsection{Days to bin}
 
 \begin{lstlisting}
@@ -2087,7 +2285,7 @@ selection 64,32,16,8,4 is returned like from monday to friday (1111100)
 \item[\color{myblue}$\bullet$] @days =$>$ the string containing the days in power of two separated by comma
 \end{compactitem}
 
-\hypertarget{toc162}{}
+\hypertarget{toc170}{}
 \subsubsection{Bin to days}
 
 \begin{lstlisting}
@@ -2102,7 +2300,7 @@ decimal like 64,32,16,8,4.
 \item[\color{myblue}$\bullet$] @days =$>$ the string containing the days in binary format
 \end{compactitem}
 
-\hypertarget{toc163}{}
+\hypertarget{toc171}{}
 \subsubsection{Fix for days}
 
 \begin{lstlisting}
@@ -2119,7 +2317,7 @@ to translate this string into a decimal string like 64,32,16,8,4.
          an entry called days.
 \end{compactitem}
 
-\hypertarget{toc164}{}
+\hypertarget{toc172}{}
 \subsection{Groups functions}
 
 \begin{lstlisting}
@@ -2128,7 +2326,7 @@ apps/users/php/groups.php
 
 This file contain all functions needed by the groups app
 
-\hypertarget{toc165}{}
+\hypertarget{toc173}{}
 \subsubsection{Insert group action}
 
 \begin{lstlisting}
@@ -2142,7 +2340,7 @@ the groups app and only requires the data.
 \item[\color{myblue}$\bullet$] @data =$>$ the array with all data used to create the new group
 \end{compactitem}
 
-\hypertarget{toc166}{}
+\hypertarget{toc174}{}
 \subsubsection{Update group action}
 
 \begin{lstlisting}
@@ -2157,7 +2355,7 @@ the groups app and requires the group\_id and data.
 \item[\color{myblue}$\bullet$] @data     =$>$ the array with all data used to update the group
 \end{compactitem}
 
-\hypertarget{toc167}{}
+\hypertarget{toc175}{}
 \subsubsection{Delete group action}
 
 \begin{lstlisting}
@@ -2171,7 +2369,7 @@ the groups app and only requires the group\_id.
 \item[\color{myblue}$\bullet$] @group\_id =$>$ the group\_id desired to be deleted
 \end{compactitem}
 
-\hypertarget{toc168}{}
+\hypertarget{toc176}{}
 \subsection{Matrix functions}
 
 \begin{lstlisting}
@@ -2181,7 +2379,7 @@ apps/users/php/matrix.php
 This file contains all the functions required by the Excel widget for handling
 permissions and applications in a matrix structure.
 
-\hypertarget{toc169}{}
+\hypertarget{toc177}{}
 \subsubsection{Create matrix data}
 
 \begin{lstlisting}
@@ -2191,7 +2389,7 @@ function make_matrix_data($perms, $apps, $main, $user)
 This function generates a matrix of permissions and applications, associating each
 application with its respective permissions and their assigned values ("Allow", "Deny", or "").
 
-\hypertarget{toc170}{}
+\hypertarget{toc178}{}
 \subsubsection{Create matrix cells}
 
 \begin{lstlisting}
@@ -2201,7 +2399,7 @@ function make_matrix_cell($perms, $apps, $main, $user)
 This function generates matrix cells with additional attributes such as column and row indices,
 and dropdown options for editing cell values. Read-only attributes are applied to specific cells.
 
-\hypertarget{toc171}{}
+\hypertarget{toc179}{}
 \subsubsection{Unmake matrix data}
 
 \begin{lstlisting}
@@ -2211,7 +2409,7 @@ function unmake_matrix_data($perms, $apps, $main, $json)
 This function reverses the matrix data into a more manageable format by applying
 permission and application mappings while validating data consistency.
 
-\hypertarget{toc172}{}
+\hypertarget{toc180}{}
 \subsubsection{Generate matrix permissions}
 
 \begin{lstlisting}
@@ -2221,7 +2419,7 @@ function make_matrix_perms($table, $field, $id)
 This function generates the complete matrix data and metadata for use in
 the Excel widget, including column headers, row headers, data values, and cell details.
 
-\hypertarget{toc173}{}
+\hypertarget{toc181}{}
 \subsection{Users functions}
 
 \begin{lstlisting}
@@ -2230,7 +2428,7 @@ apps/users/php/users.php
 
 This file contain all functions needed by the users app
 
-\hypertarget{toc174}{}
+\hypertarget{toc182}{}
 \subsubsection{Insert user action}
 
 \begin{lstlisting}
@@ -2244,7 +2442,7 @@ the users app and only requires the data.
 \item[\color{myblue}$\bullet$] @data =$>$ the array with all data used to create the new user
 \end{compactitem}
 
-\hypertarget{toc175}{}
+\hypertarget{toc183}{}
 \subsubsection{Update user action}
 
 \begin{lstlisting}
@@ -2259,7 +2457,7 @@ the users app and requires the user\_id and data.
 \item[\color{myblue}$\bullet$] @data    =$>$ the array with all data used to update the user
 \end{compactitem}
 
-\hypertarget{toc176}{}
+\hypertarget{toc184}{}
 \subsubsection{Delete user action}
 
 \begin{lstlisting}

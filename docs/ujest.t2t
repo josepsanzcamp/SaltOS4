@@ -1,5 +1,5 @@
 Jest Test Documentation
-SaltOS 4.0 r1947
+SaltOS 4.0 r1952
 April 2025
 
 
@@ -902,6 +902,15 @@ test('saltos.core.is_number', ()
 ```
 
 This function performs the test of the is_number function
+
+
++++saltos.core.is_function+++
+
+```
+test('saltos.core.is_function', ()
+```
+
+This function performs the test of the is_function function
 
 
 +++Core Module Tests+++

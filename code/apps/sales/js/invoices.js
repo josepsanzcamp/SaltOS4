@@ -53,9 +53,15 @@ saltos.invoices.init = arg => {
 };
 
 /**
- * TODO
+ * Calculate the dynamic width for each column in the "concepts" table.
  *
- * TODO
+ * This function returns the width for each column. For the first column (index 0),
+ * it dynamically calculates the remaining space based on the container width minus
+ * a fixed width (500px) reserved for other columns. For all other columns, it returns 100px.
+ *
+ * @index => Column index
+ *
+ * Returns the width in pixels
  */
 saltos.invoices.colWidths_concepts = index => {
     if (index == 0) {
@@ -66,9 +72,18 @@ saltos.invoices.colWidths_concepts = index => {
 };
 
 /**
- * TODO
+ * Define cell configuration for each column in the "concepts" table.
  *
- * TODO
+ * This function provides per-column behavior:
+ * - Column 4: renders a dropdown with available tax values (from #alltaxes).
+ * - Column 5: sets the cell as read-only (used for calculated values).
+ * - Other columns: no special config.
+ *
+ * @row    => Row index
+ * @column => Column index
+ * @prop   => Column property name
+ *
+ * Returns the configuration object
  */
 saltos.invoices.cells_concepts = (row, column, prop) => {
     if (column == 4) {
@@ -86,9 +101,14 @@ saltos.invoices.cells_concepts = (row, column, prop) => {
 };
 
 /**
- * TODO
+ * Calculate the dynamic width for each column in the "taxes" table.
  *
- * TODO
+ * The first column (index 0) fills the available space minus 200px reserved for other columns.
+ * All other columns get a fixed width of 100px.
+ *
+ * @index => Column index
+ *
+ * Returns the width in pixels
  */
 saltos.invoices.colWidths_taxes = index => {
     if (index == 0) {
@@ -99,9 +119,15 @@ saltos.invoices.colWidths_taxes = index => {
 };
 
 /**
- * TODO
+ * Define cell configuration for each column in the "taxes" table.
  *
- * TODO
+ * All cells in this table are read-only.
+ *
+ * @row    => Row index
+ * @column => Column index
+ * @prop   => Column property name
+ *
+ * Returns the configuration object
  */
 saltos.invoices.cells_taxes = (row, column, prop) => {
     return {
@@ -110,9 +136,13 @@ saltos.invoices.cells_taxes = (row, column, prop) => {
 };
 
 /**
- * TODO
+ * Calculate equal column widths for the "totals" table.
  *
- * TODO
+ * The table is divided into 3 equal columns, based on the container width.
+ *
+ * @index => Column index
+ *
+ * Returns the width in pixels
  */
 saltos.invoices.colWidths_totals = index => {
     const width = document.getElementById('taxes').parentElement.offsetWidth - 2;
@@ -120,9 +150,15 @@ saltos.invoices.colWidths_totals = index => {
 };
 
 /**
- * TODO
+ * Define cell configuration for the "totals" table.
  *
- * TODO
+ * All cells in this table are read-only.
+ *
+ * @row    => Row index
+ * @column => Column index
+ * @prop   => Column property name
+ *
+ * Returns the configuration object
  */
 saltos.invoices.cells_totals = (row, column, prop) => {
     return {
@@ -131,9 +167,29 @@ saltos.invoices.cells_totals = (row, column, prop) => {
 };
 
 /**
- * TODO
+ * Handle and recalculate invoice line totals and tax breakdowns after user edits.
  *
- * TODO
+ * This function is triggered after the user modifies any cell in the "concepts" matrix
+ * (invoice lines). It performs the following operations:
+ *
+ * - Ignores changes triggered by internal actions (non-`edit` sources).
+ * - Validates and normalizes quantity, price, and discount values:
+ *     - Ensures `line[1]`, `line[2]`, `line[3]` (qty, price, discount) are numeric.
+ *     - Defaults discount to 0 if empty but qty and price are valid.
+ * - Calculates the line total as: `qty × price × (1 - discount%)`, rounded to 2 decimals.
+ * - Updates the concepts grid to reflect computed values.
+ * - Recomputes the taxes matrix:
+ *     - Aggregates taxable bases per tax value (`line[4]`).
+ *     - Computes tax amount for each group: `base × (tax% / 100)`.
+ * - Rounds all tax results to 2 decimals and updates the taxes grid.
+ * - Computes the totals matrix:
+ *     - `subtotal` = sum of all taxable bases
+ *     - `tax` = sum of all tax amounts
+ *     - `total` = subtotal + tax
+ *     - Results are rounded and shown in the totals grid.
+ *
+ * @changes => Array of cell changes from the spreadsheet component
+ * @source  => Source of the change event (only `'edit'` triggers processing)
  */
 saltos.invoices.afterChange_concepts = (changes, source) => {
     console.log(source);
