@@ -42,25 +42,6 @@ that maintain the database using as reference this file
 <root>
     <tables>
         <!--
-        Tables that dbschema will ignore, intended to allow the coexistence between
-        our tables and tables used by other purposes in the same database
-        -->
-        <table name="tbl_one" ignore="true"/>
-        <table name="tbl_two" ignore="true"/>
-        <table name="tbl_three" ignore="true"/>
-        <table name="tbl_four" ignore="true"/>
-        <table name="tbl_five" ignore="true"/>
-
-        <!--
-        This table is for debug purposes only!!!
-        -->
-        <table name="tbl_one">
-            <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-            </fields>
-        </table>
-
-        <!--
         This table allow to store pairs of key val, and allow too to associate it to
         a specific user
         -->

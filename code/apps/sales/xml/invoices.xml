@@ -209,10 +209,10 @@
             SELECT * FROM '.app2table(get_data('rest/1')).' WHERE id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')),
             [intval(get_data('rest/3'))])),
         ['concepts' => matrix_values(execute_query_array('SELECT description, quantity, price, discount, tax_value, total
-            FROM '.app2table(get_data('rest/1')).'_lines WHERE invoice_id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')),
+            FROM '.app2table(get_data('rest/1')).'_lines WHERE invoice_id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')).' ORDER BY id ASC',
             [intval(get_data('rest/3'))]))],
         ['taxes' => matrix_values(execute_query_array('SELECT tax_name, base, tax
-            FROM '.app2table(get_data('rest/1')).'_taxes WHERE invoice_id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')),
+            FROM '.app2table(get_data('rest/1')).'_taxes WHERE invoice_id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')).' ORDER BY id ASC',
             [intval(get_data('rest/3'))]))],
         ['totals' => matrix_values(execute_query_array('SELECT subtotal, tax, total
             FROM '.app2table(get_data('rest/1')).' WHERE id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')),
@@ -249,6 +249,7 @@
     <create id="insert">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <json require="apps/sales/php/invoices.php" eval="true">set_data('json',unmake_matrix_data(get_data('json'), 0))</json>
         <output require="php/lib/actions.php" eval="true">insert(get_data('rest/1'), get_data('json'))</output>
     </create>
 
@@ -338,6 +339,7 @@
     <edit id="update">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/4'))</check>
+        <json require="apps/sales/php/invoices.php" eval="true">set_data('json',unmake_matrix_data(get_data('json'), intval(get_data('rest/4'))))</json>
         <output require="php/lib/actions.php" eval="true">update(get_data('rest/1'), intval(get_data('rest/4')), get_data('json'))</output>
     </edit>
 

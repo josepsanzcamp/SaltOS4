@@ -49,7 +49,17 @@ saltos.invoices = {};
  * @arg => Specifies the type of operation to initialize.
  */
 saltos.invoices.init = arg => {
-    // Nothing to do at the moment
+    if (['edit'].includes(arg)) {
+        // Remove the original data to force that get_data get this fields
+        for (const i in saltos.backup.__forms) {
+            for (const j in saltos.backup.__forms[i].fields) {
+                const k = saltos.backup.__forms[i].fields[j];
+                if (['concepts', 'taxes', 'totals'].includes(k.id)) {
+                    k.data = [];
+                }
+            }
+        }
+    }
 };
 
 /**
@@ -192,7 +202,7 @@ saltos.invoices.cells_totals = (row, column, prop) => {
  * @source  => Source of the change event (only `'edit'` triggers processing)
  */
 saltos.invoices.afterChange_concepts = (changes, source) => {
-    if (source != 'edit') {
+    if (source == 'loadData') {
         return;
     }
 
@@ -200,28 +210,27 @@ saltos.invoices.afterChange_concepts = (changes, source) => {
     const concepts = document.getElementById('concepts').data;
     for (const i in concepts) {
         const line = concepts[i];
-        let ok = true;
-        for (let j = 1; j <= 3; j++) {
-            if (!saltos.core.is_number(line[j])) {
-                // This case detect when discount (pos 3) is void but
-                // quantity (pos 1) and price (pos 2) have valid data
-                if (j == 3 && ok) {
-                    line[3] = 0;
-                    continue;
-                }
-                // here, non valid data was detected
-                ok = false;
-                continue;
-            }
-            // here, it tries to normalice the number
-            line[j] = parseFloat(line[j]);
+        // Prepare quantity
+        if (!saltos.core.is_number(line[1])) {
+            line[5] = null;
+            continue;
         }
-        if (ok) {
-            // Computes the total for this line
-            line[5] = line[1] * line[2] * (1 - line[3] / 100);
-            // Round using two decimals
-            line[5] = Math.round(line[5] * 100) / 100;
+        line[1] = parseFloat(line[1]);
+        // Prepare price
+        if (!saltos.core.is_number(line[2])) {
+            line[5] = null;
+            continue;
         }
+        line[2] = parseFloat(line[2]);
+        // Prepare discount
+        if (!saltos.core.is_number(line[3])) {
+            line[3] = 0;
+        }
+        line[3] = parseFloat(line[3]);
+        // Computes the total for this line
+        line[5] = line[1] * line[2] * (1 - line[3] / 100);
+        // Round using two decimals
+        line[5] = Math.round(line[5] * 100) / 100;
     }
 
     // This trigger a concepts refresh
@@ -238,6 +247,9 @@ saltos.invoices.afterChange_concepts = (changes, source) => {
             continue;
         }
         const base = line[5];
+        if (!saltos.core.is_number(base)) {
+            continue;
+        }
         if (!(tax in taxes)) {
             const temp = alltaxes.find(row => row.value == tax);
             if (!temp) {
@@ -280,6 +292,7 @@ saltos.invoices.afterChange_concepts = (changes, source) => {
     } else {
         document.getElementById('totals').set([[null, null, null]]);
     }
+
 };
 
 /**

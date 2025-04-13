@@ -372,43 +372,8 @@ saltos.app.get_data = full => {
             }
         }
     }
-    // This thick allow to add the id field of the template used
-    data = saltos.app.__get_data_ids_helper(data);
     // This trick allow to do more pretty the structure of some composed fields
     data = saltos.app.__get_data_parser_helper(data);
-    return data;
-};
-
-/**
- * Get data ids helper
- *
- * This function allow to retrieve the needed ids in the fields used as template
- *
- * @data => the contents of the object with data
- *
- * Notes:
- *
- * The main idea of this function is to add the id fields if it is needed, for example
- * if some field of the template is modified and their value contains a different value
- * that void.
- */
-saltos.app.__get_data_ids_helper = data => {
-    for (const key in data) {
-        let id = key.split('.');
-        if (id.length == 3 && id[2] != 'id') {
-            id[2] = 'id';
-            id = id.join('.');
-            if (!(id in data)) {
-                const obj = document.getElementById(id);
-                if (obj) {
-                    const val = obj.value;
-                    if (val != '') {
-                        data[id] = val;
-                    }
-                }
-            }
-        }
-    }
     return data;
 };
 

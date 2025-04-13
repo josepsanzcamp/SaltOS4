@@ -63,30 +63,24 @@ saltos.backup.__forms = {};
 saltos.backup.save = key => {
     saltos.backup.__forms[key] = {};
     saltos.backup.__forms[key].fields = saltos.form.__form.fields;
-    saltos.backup.__forms[key].templates = saltos.form.__form.templates;
 };
 
 /**
  * Restore feature
  *
  * This action performs the restoration action using the specified key, if the
- * key is not found, then empty fields and templates are used for the restoration
+ * key is not found, then empty fields are used for the restoration
  *
  * @key => the key selector that you want to use.
  */
 saltos.backup.restore = key => {
     saltos.form.__form.fields = [];
-    saltos.form.__form.templates = {};
     key = saltos.backup.__selector_helper(key);
     for (const i in key) {
         saltos.form.__form.fields = [
             ...saltos.form.__form.fields,
             ...saltos.backup.__forms[key[i]].fields
         ];
-        saltos.form.__form.templates = {
-            ...saltos.form.__form.templates,
-            ...saltos.backup.__forms[key[i]].templates
-        };
     }
     return key.length > 0;
 };

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ -  ____        _ _    ___  ____    _  _    ___
+ - / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ - \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ -  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ - |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ -
+ - SaltOS: Framework to develop Rich Internet Applications
+ - Copyright (C) 2007-2025 by Josep Sanz Campderrós
+ - More information in https://www.saltos.org or info@saltos.org
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU General Public License as published by
+ - the Free Software Foundation, either version 3 of the License, or
+ - (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ - GNU General Public License for more details.
+ -
+ - You should have received a copy of the GNU General Public License
+ - along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<root>
+    <constructor>"P","mm","A4"</constructor>
+    <margins>67,10,52,10</margins>
+    <foreach>
+        <query>"
+            SELECT *,
+                CONCAT('id_factura=',id) filtro,
+                '142.6' logo_left,
+                '10' logo_top,
+                '57.4' logo_width,
+                '10.74' logo_height,
+                'img/logo_saltos.png' logo_file,
+                '#666666' color_line,
+                '#2780e3' color_text1,
+                '#666666' color_text2,
+                'Invoice' water_facturas_text,
+                '40' water_facturas_posx,
+                '210' water_facturas_posy,
+                '145' water_facturas_size,
+                '60' water_facturas_angle,
+                'Albarán' water_albaranes_text,
+                '40' water_albaranes_posx,
+                '210' water_albaranes_posy,
+                '145' water_albaranes_size,
+                '60' water_albaranes_angle,
+                '€' accounting_currency,
+                '5' zero_padding_digits
+            FROM app_invoices a
+            WHERE id IN ({$row["id"]})
+            ORDER BY id ASC"</query>
+        <!-- TEMPLATE -->
+        <header>
+            <!-- LOGO -->
+            <margins>0,0,0,0</margins>
+            <image>$row["logo_left"],$row["logo_top"],$row["logo_width"],$row["logo_height"],$row["logo_file"]</image>
+            <!-- PONER MARCA DE AGUA -->
+            <font>"normal","B",$row["is_closed"] ? $row["water_facturas_size"] : $row["water_albaranes_size"],"#eeeeee"</font>
+            <text>$row["is_closed"] ? $row["water_facturas_posx"] : $row["water_albaranes_posx"],
+                $row["is_closed"] ? $row["water_facturas_posy"] : $row["water_albaranes_posy"],
+                $row["is_closed"] ? $row["water_facturas_text"] : $row["water_albaranes_text"],
+                $row["is_closed"] ? $row["water_facturas_angle"] : $row["water_albaranes_angle"]</text>
+            <!-- PONER CAJA FACTURA -->
+            <color>$row["color_line"],"#000000"</color>
+            <eval>!$row["is_closed"]</eval>
+                <rect>150,25,50,20,"D",0.15</rect>
+                <font>"normal","B",8,$row["color_text1"]</font>
+                <text>151,26,T("Delivery note")</text>
+                <line>150,31,50,0</line>
+                <font>"normal","",8,$row["color_text2"]</font>
+                <text>151,32,T("Delivery note number").": ".$row["num2"]</text>
+                <text>151,36,T("Invoice date").": ".$row["fecha"]</text>
+                <text>151,40,T("Payment method").": ".$row["formapago"]</text>
+            <eval>$row["is_closed"]</eval>
+                <rect>150,25,50,24,"D",0.15</rect>
+                <font>"normal","B",8,$row["color_text1"]</font>
+                <text>151,26,T("Invoice")</text>
+                <line>150,31,50,0</line>
+                <font>"normal","",8,$row["color_text2"]</font>
+                <text>151,36,T("Delivery note number").": ".$row["num"]</text>
+                <text>151,32,T("Invoice number").": ".$row["num2"]</text>
+                <text>151,40,T("Invoice date").": ".$row["fecha"]</text>
+                <text>151,44,T("Payment method").": ".$row["formapago"]</text>
+            <eval>true</eval>
+            <!-- PONER CAJA CLIENTE -->
+            <rect>10,13,90,36,"D",0.15</rect>
+            <font>"normal","B",8,$row["color_text1"]</font>
+            <text>11,14,T("Customer details")</text>
+            <line>10,19,90,0</line>
+            <font>"normal","",8,$row["color_text2"]</font>
+            <text>11,20,T("Name").": ".$row["nombre"]</text>
+            <text>11,24,T("C.I.F.").": ".$row["cif"]</text>
+            <text>11,28,T("Address").": ".$row["direccion"]</text>
+            <text>11,32,T("Country").": ".$row["nombre_pais"]</text>
+            <text>11,36,T("Province").": ".$row["nombre_provincia"]</text>
+            <text>11,40,T("Town").": ".$row["nombre_poblacion"]</text>
+            <text>11,44,T("Postal code").": ".$row["nombre_codpostal"]</text>
+            <!-- PONER CAJA CONCEPTOS -->
+            <rect>10,60,190,185,"D",0.15</rect>
+            <font>"normal","B",8,$row["color_text1"]</font>
+            <textarea>10,61,130,4,"C",T("Concept")</textarea>
+            <textarea>140,61,15,4,"C",T("Units")</textarea>
+            <textarea>155,61,15,4,"C",T("Price")</textarea>
+            <textarea>170,61,15,4,"C",T("Disc.")</textarea>
+            <textarea>185,61,15,4,"C",T("Total")</textarea>
+            <line>10,66,190,0</line>
+            <line>140,60,0,185</line>
+            <line>155,60,0,185</line>
+            <line>170,60,0,185</line>
+            <line>185,60,0,185</line>
+            <margins>67,10,52,10</margins>
+            <setxy>10,67</setxy>
+        </header>
+        <footer>
+            <margins>0,0,0,0</margins>
+            <!-- PONER PIE DE PAGINA -->
+            <font>"normal","",6,$row["color_text2"]</font>
+            <textarea>10,280,190,4,"C",$row["factura_pie1"]</textarea>
+            <textarea>10,283,190,4,"C",$row["factura_pie2"]</textarea>
+            <pageno>10,283,190,4,"R",T("Page %s of %s")</pageno>
+            <margins>67,10,52,10</margins>
+        </footer>
+        <!-- BEGIN -->
+        <newpage></newpage>
+        <!-- PONER LOS CONCEPTOS -->
+        <font>"normal","",8,$row["color_text2"]</font>
+        <setxy>10,67</setxy>
+        <foreach>
+            <query>"SELECT *,
+                '".$row["color_line"]."' color_line,
+                ROUND(unidades * precio * (100.0 - descuento) / 100.0, 2) total
+                FROM app_invoices_concepts
+                WHERE {$row["filtro"]}
+                ORDER BY id ASC"</query>
+            <getxy>"x","y"</getxy>
+            <checky>4</checky>
+            <getxy>"x","y"</getxy>
+            <textarea>140,$row["y"],15,4,"R",$row["unidades"]</textarea>
+            <textarea>155,$row["y"],15,4,"R",$row["precio"]</textarea>
+            <textarea>170,$row["y"],15,4,"R",$row["descuento"]</textarea>
+            <textarea>185,$row["y"],15,4,"R",$row["total"]</textarea>
+            <textarea>10,$row["y"],130,4,"L",$row["concepto"]</textarea>
+            <getxy>"x","y"</getxy>
+            <color>$row["color_line"],"#000000"</color>
+            <line>10,$row["y"]+1,190,0,0.15</line>
+            <setxy>10,$row["y"]+2</setxy>
+        </foreach>
+        <margins>0,0,0,0</margins>
+        <color>$row["color_line"],"#000000"</color>
+        <!-- PONER CAJA FINAL IVA + IRPF -->
+        <eval>$row["factura_iva_bool"] AND $row["factura_irpf_bool"]</eval>
+            <rect>150,254,50,24,"D",0.15</rect>
+            <line>150,260,50,0</line>
+            <line>150,266,50,0</line>
+            <line>150,271,50,0</line>
+            <line>185,254,0,24</line>
+            <font>"normal","B",8,$row["color_text1"]</font>
+            <textarea>150,255,35,4,"R",T("Taxable amount")." (".$row["accounting_currency"].")"</textarea>
+            <textarea>150,261,35,4,"R",$row["accounting_iva_name"]." (".$row["iva"]."%)"</textarea>
+            <textarea>150,267,35,4,"R",$row["accounting_irpf_name"]." (".$row["irpf"]."%)"</textarea>
+            <textarea>150,273,35,4,"R",T("Total to be paid")." (".$row["accounting_currency"].")"</textarea>
+            <font>"normal","",8,$row["color_text2"]</font>
+            <textarea>185,255,15,4,"R",$row["base"]</textarea>
+            <textarea>185,261,15,4,"R",$row["iva2"]</textarea>
+            <textarea>185,267,15,4,"R",$row["irpf2"]</textarea>
+            <textarea>185,273,15,4,"R",$row["total"]</textarea>
+        <!-- PONER CAJA FINAL IVA + NOT IRPF-->
+        <eval>$row["factura_iva_bool"] AND !$row["factura_irpf_bool"]</eval>
+            <rect>130,254,50,18,"D",0.15</rect>
+            <line>130,260,50,0</line>
+            <line>130,266,50,0</line>
+            <line>165,254,0,18</line>
+            <font>"normal","B",8,$row["color_text1"]</font>
+            <textarea>130,255,35,4,"R",T("Taxable amount")." (".$row["accounting_currency"].")"</textarea>
+            <textarea>130,261,35,4,"R",$row["accounting_iva_name"]." (".$row["iva"]."%)"</textarea>
+            <textarea>130,267,35,4,"R",T("Total to be paid")." (".$row["accounting_currency"].")"</textarea>
+            <font>"normal","",8,$row["color_text2"]</font>
+            <textarea>165,255,15,4,"R",$row["base"]</textarea>
+            <textarea>165,261,15,4,"R",$row["iva2"]</textarea>
+            <textarea>165,267,15,4,"R",$row["total"]</textarea>
+        <!-- PONER CAJA FINAL NOT IVA + IRPF-->
+        <eval>!$row["factura_iva_bool"] AND $row["factura_irpf_bool"]</eval>
+            <rect>130,254,50,18,"D",0.15</rect>
+            <line>130,260,50,0</line>
+            <line>130,266,50,0</line>
+            <line>165,254,0,18</line>
+            <font>"normal","B",8,$row["color_text1"]</font>
+            <textarea>130,255,35,4,"R",T("Taxable amount")." (".$row["accounting_currency"].")"</textarea>
+            <textarea>130,261,35,4,"R",$row["accounting_irpf_name"]." (".$row["irpf"]."%)"</textarea>
+            <textarea>130,267,35,4,"R",T("Total to be paid")." (".$row["accounting_currency"].")"</textarea>
+            <font>"normal","",8,$row["color_text2"]</font>
+            <textarea>165,255,15,4,"R",$row["base"]</textarea>
+            <textarea>165,261,15,4,"R",$row["irpf2"]</textarea>
+            <textarea>165,267,15,4,"R",$row["total"]</textarea>
+        <!-- PONER CAJA FINAL NOT IVA + NOT IRPF-->
+        <eval>!$row["factura_iva_bool"] AND !$row["factura_irpf_bool"]</eval>
+            <rect>130,254,50,12,"D",0.15</rect>
+            <line>130,260,50,0</line>
+            <line>165,254,0,12</line>
+            <font>"normal","B",8,$row["color_text1"]</font>
+            <textarea>130,255,35,4,"R",T("Taxable amount")." (".$row["accounting_currency"].")"</textarea>
+            <textarea>130,261,35,4,"R",T("Total to be paid")." (".$row["accounting_currency"].")"</textarea>
+            <font>"normal","",8,$row["color_text2"]</font>
+            <textarea>165,255,15,4,"R",$row["base"]</textarea>
+            <textarea>165,261,15,4,"R",$row["total"]</textarea>
+        <!-- MONTAR CAJA DE NOTAS -->
+        <eval>$row["notas"]</eval>
+            <font>"normal","B",8,$row["color_text1"]</font>
+            <text>10,255,T("Notes")</text>
+            <line>10,260,130,0</line>
+            <font>"normal","",8,$row["color_text2"]</font>
+            <textarea>10,261,130,4,"L",$row["notas"]</textarea>
+            <getxy>"x","y"</getxy>
+            <rect>10,254,130,$row["y"]-254+1,"D",0.15</rect>
+        <!-- MONTAR CAJA DE VENCIMIENTOS -->
+        <eval>$row["vencimientos"]</eval>
+            <font>"normal","B",8,$row["color_text1"]</font>
+            <text>10,255,$row["vencimientos"] ? T("Invoices due dates") : T("Delivery note due dates")</text>
+            <font>"normal","",8,$row["color_text2"]</font>
+            <setxy>10,259</setxy>
+            <foreach>
+                <query>"SELECT *,
+                    (SELECT cerrado FROM app_invoices WHERE id=id_factura) cerrado,
+                    '#666666' color_line,
+                    '#2780e3' color_text1,
+                    '#666666' color_text2,
+                    '€' accounting_currency
+                    FROM app_invoices_expirations
+                    WHERE {$row["filtro"]}
+                    ORDER BY fecha DESC"</query>
+                <getxy>"x","y"</getxy>
+                <color>$row["color_line"],"#000000"</color>
+                <line>10,$row["y"]+1,60,0,0.15</line>
+                <setxy>10,$row["y"]+2</setxy>
+                <getxy>"x","y"</getxy>
+                <checky>4</checky>
+                <getxy>"x","y"</getxy>
+                <textarea>10,$row["y"],20,4,"C",$row["fecha"]</textarea>
+                <textarea>30,$row["y"],20,4,"C",$row["percent"]."%"</textarea>
+                <textarea>50,$row["y"],20,4,"C",$row["importe"].$row["accounting_currency"]</textarea>
+            </foreach>
+            <getxy>"x","y"</getxy>
+            <rect>10,254,60,$row["y"]-254+1,"D",0.15</rect>
+            <line>30,260,0,$row["y"]-260+1,0.15</line>
+            <line>50,260,0,$row["y"]-260+1,0.15</line>
+        <eval>true</eval>
+    </foreach>
+    <eval>strpos($row["id"],",")===false</eval>
+    <output>encode_bad_chars(execute_query("SELECT
+        CASE num WHEN '' THEN
+            CONCAT('".T('Delivery note')."',' ',id,' ',nombre)
+        ELSE
+            CONCAT('".T('Invoice')."',' ',num,' ',nombre)
+        END subject
+        FROM app_invoices
+        WHERE id IN ({$row['id']})")).'.pdf'</output>
+    <eval>true</eval>
+    <output>encode_bad_chars(T('Invoices')).'.pdf'</output>
+</root>

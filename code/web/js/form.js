@@ -47,7 +47,6 @@ saltos.form = {};
  */
 saltos.form.__form = {
     fields: [],
-    templates: {},
     loading: 0,
     timer: null,
 };
@@ -62,24 +61,6 @@ saltos.form.__form = {
 saltos.form.data = (data, sync = true) => {
     // Check that data is found
     if (data === null) {
-        return;
-    }
-    // Check for attr template_id
-    if ('#attr' in data && 'template_id' in data['#attr']) {
-        const template_id = data['#attr'].template_id;
-        if (!Array.isArray(data.value)) {
-            throw new Error(`Data for template ${template_id} is not an array of rows`);
-        }
-        for (const key in data.value) {
-            const val = data.value[key];
-            if (parseInt(key, 10)) {
-                const temp1 = saltos.form.__layout_template_helper(template_id, key);
-                const temp2 = saltos.form.layout(temp1, 'div');
-                const temp3 = document.getElementById(template_id + '.' + (key - 1));
-                temp3.after(temp2);
-            }
-            saltos.form.data(saltos.form.__data_template_helper(template_id, val, key));
-        }
         return;
     }
     // Check for the correctness of the data
@@ -136,48 +117,6 @@ saltos.form.data = (data, sync = true) => {
 };
 
 /**
- * Data template helper
- *
- * This function allow to convert the data object that contains the values for the fields idenfidied
- * by the keys of the associative array into a data object with the keys ready to be used by the
- * fields of a template, this fields are of the follow structure: TEMPLATE_ID#ID#INDEX
- *
- * @template_id => the template identity used in the spec
- * @data        => the object that contains the data associated to the row
- * @index       => the index used in all fields of the template
- */
-saltos.form.__data_template_helper = (template_id, data, index) => {
-    for (const key in data) {
-        const val = data[key];
-        delete data[key];
-        data[template_id + '.' + index + '.' + key] = val;
-    }
-    return data;
-};
-
-/**
- * Layout template helper
- *
- * This function returns the template identified by the template_id for the specified index, ready
- * to be used by the saltos.form.layout function.
- *
- * @template_id => the template identity used in the spec
- * @index       => the index used in all fields of the template
- */
-saltos.form.__layout_template_helper = (template_id, index) => {
-    const template = saltos.core.copy_object(saltos.form.__form.templates[template_id]);
-    template['#attr'].id = template_id + '.' + index;
-    for (const key in template.value) {
-        const val = template.value[key];
-        if ('id' in val['#attr']) {
-            const id = val['#attr'].id;
-            val['#attr'].id = template_id + '.' + index + '.' + id;
-        }
-    }
-    return template;
-};
-
-/**
  * Form layout helper
  *
  * This function process the layout command, its able to process nodes as container, row, col and div
@@ -202,7 +141,6 @@ saltos.form.__layout_template_helper = (template_id, index) => {
 saltos.form.layout = (layout, extra) => {
     if (extra === undefined) {
         saltos.form.__form.fields = [];
-        saltos.form.__form.templates = {};
     }
     // This code fix a problem when layout contains the append element
     let append = '';
@@ -222,10 +160,6 @@ saltos.form.layout = (layout, extra) => {
             throw new Error(`Layout append ${append} not found`);
         }
     }
-    // This code fix a problem when layout contains the content of a template
-    if (saltos.core.is_attr_value(layout)) {
-        layout = {[layout['#attr'].type]: layout};
-    }
     // Continue
     let arr = [];
     for (let key in layout) {
@@ -240,17 +174,6 @@ saltos.form.layout = (layout, extra) => {
         if (!('type' in attr)) {
             attr.type = key;
         }
-        // Check for template_id attr
-        if ('template_id' in attr) {
-            // Store it in the templates container
-            const template_id = attr.template_id;
-            delete val['#attr'].template_id;
-            saltos.form.__form.templates[template_id] = val;
-            // Modify the id of the first elements to convert it to the format TEMPLATE_ID#ID#0
-            // Note: the follow line returns a copy of the object!!!
-            val = saltos.form.__layout_template_helper(template_id, 0);
-        }
-        // Continue with original idea of use an entire specified layout
         if (
             ['container', 'col', 'row'].includes(key) &&
             'auto' in attr && saltos.core.eval_bool(attr.auto)
@@ -307,7 +230,7 @@ saltos.form.layout = (layout, extra) => {
     // Defaut feature that add the div to the body's document
     let obj = null;
     if (append != '') {
-        // Do a backup of the fields and templates using the append key
+        // Do a backup of the fields using the append key
         saltos.backup.save(append);
         // Continue
         obj = document.getElementById(append);
