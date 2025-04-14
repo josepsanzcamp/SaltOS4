@@ -121,8 +121,10 @@ final class test_users extends TestCase
 
         $result1 = make_matrix_perms('tbl_users_apps_perms', 'user_id', 1);
 
+        // @phpstan-ignore arguments.count
         $this->assertSame(unmake_matrix_data([], [], [], null), null);
 
+        // @phpstan-ignore arguments.count
         $result2 = unmake_matrix_data(
             execute_query_array('SELECT id FROM tbl_perms WHERE active = 1 ORDER BY id ASC'),
             execute_query_array('SELECT id FROM tbl_apps WHERE active = 1 ORDER BY id ASC'),
@@ -255,6 +257,7 @@ final class test_users extends TestCase
     {
         $result1 = make_matrix_perms('tbl_groups_apps_perms', 'group_id', 1);
 
+        // @phpstan-ignore arguments.count
         $result2 = unmake_matrix_data(
             execute_query_array('SELECT id FROM tbl_perms WHERE active = 1 ORDER BY id ASC'),
             execute_query_array('SELECT id FROM tbl_apps WHERE active = 1 ORDER BY id ASC'),

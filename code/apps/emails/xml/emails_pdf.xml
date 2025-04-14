@@ -49,57 +49,37 @@
                 FROM app_emails_files
                 WHERE reg_id=a.id
             ) files,
-            '142.6' logo_left,
-            '10' logo_top,
-            '57.4' logo_width,
-            '10.74' logo_height,
-            'img/logo_saltos.png' logo_file,
             '#666666' color_line,
             '#2780e3' color_text1,
-            '#666666' color_text2,
-            'Confidencial' water_correo_text,
-            '40' water_correo_posx,
-            '220' water_correo_posy,
-            '100' water_correo_size,
-            '60' water_correo_angle
+            '#666666' color_text2
             FROM app_emails a
             LEFT JOIN app_emails_accounts uc ON a.account_id=uc.id
             WHERE a.id IN ({$row['id']})
             ORDER BY a.id ASC"</query>
-        <!-- TEMPLATE -->
+        <!-- template -->
         <header>
-            <!-- LOGO -->
-            <margins>0,0,0,0</margins>
-            <image>$row['logo_left'],$row['logo_top'],$row['logo_width'],$row['logo_height'],$row['logo_file']</image>
-            <!-- PONER MARCA DE AGUA -->
-            <font>'normal','B',$row['water_correo_size'],'#eeeeee'</font>
-            <text>$row['water_correo_posx'],$row['water_correo_posy'],$row['water_correo_text'],$row['water_correo_angle']</text>
-            <margins>25,10,10,10</margins>
-            <setxy>10,25</setxy>
+            <margins>10,10,10,10</margins>
+            <setxy>10,10</setxy>
         </header>
         <footer>
             <margins>0,0,0,0</margins>
-            <!-- PONER PIE DE PAGINA -->
+            <!-- put the page number in the footer -->
             <font>'normal','',6,$row['color_text2']</font>
             <pageno>10,283,190,4,'R',T('Page %s of %s')</pageno>
-            <margins>25,10,10,10</margins>
+            <margins>10,10,10,10</margins>
         </footer>
-        <!-- BEGIN -->
+        <!-- begin -->
         <newpage></newpage>
         <color>$row['color_line'],'#000000'</color>
-        <!-- DATOS CORREO -->
-        <setxy>10,25</setxy>
+        <!-- email header -->
+        <setxy>10,10</setxy>
         <getxy>'x','y'</getxy>
         <font>'normal','B',8,$row['color_text1']</font>
         <textarea>10,$row['y'],25,4,'R',T('from')</textarea>
         <font>'mono','',8,$row['color_text2']</font>
         <textarea>35,$row['y'],165,4,'L',$row['from']</textarea>
         <getxy>'x','y'</getxy>
-        <setxy>$row['x'],$row['y']+2</setxy>
-        <getxy>'x','y'</getxy>
-        <line>10,$row['y'],190,0</line>
-        <getxy>'x','y'</getxy>
-        <setxy>$row['x'],$row['y']+2</setxy>
+        <setxy>$row['x'],$row['y']+1</setxy>
         <getxy>'x','y'</getxy>
         <font>'normal','B',8,$row['color_text1']</font>
         <textarea>10,$row['y'],25,4,'R',T('to')</textarea>
@@ -107,11 +87,7 @@
         <textarea>35,$row['y'],165,4,'L',$row['to']</textarea>
         <eval>$row['cc']</eval>
             <getxy>'x','y'</getxy>
-            <setxy>$row['x'],$row['y']+2</setxy>
-            <getxy>'x','y'</getxy>
-            <line>10,$row['y'],190,0</line>
-            <getxy>'x','y'</getxy>
-            <setxy>$row['x'],$row['y']+2</setxy>
+            <setxy>$row['x'],$row['y']+1</setxy>
             <getxy>'x','y'</getxy>
             <font>'normal','B',8,$row['color_text1']</font>
             <textarea>10,$row['y'],25,4,'R',T('CC')</textarea>
@@ -119,11 +95,7 @@
             <textarea>35,$row['y'],165,4,'L',$row['cc']</textarea>
         <eval>$row['bcc']</eval>
             <getxy>'x','y'</getxy>
-            <setxy>$row['x'],$row['y']+2</setxy>
-            <getxy>'x','y'</getxy>
-            <line>10,$row['y'],190,0</line>
-            <getxy>'x','y'</getxy>
-            <setxy>$row['x'],$row['y']+2</setxy>
+            <setxy>$row['x'],$row['y']+1</setxy>
             <getxy>'x','y'</getxy>
             <font>'normal','B',8,$row['color_text1']</font>
             <textarea>10,$row['y'],25,4,'R',T('BCC')</textarea>
@@ -131,22 +103,14 @@
             <textarea>35,$row['y'],165,4,'L',$row['bcc']</textarea>
         <eval>true</eval>
         <getxy>'x','y'</getxy>
-        <setxy>$row['x'],$row['y']+2</setxy>
-        <getxy>'x','y'</getxy>
-        <line>10,$row['y'],190,0</line>
-        <getxy>'x','y'</getxy>
-        <setxy>$row['x'],$row['y']+2</setxy>
+        <setxy>$row['x'],$row['y']+1</setxy>
         <getxy>'x','y'</getxy>
         <font>'normal','B',8,$row['color_text1']</font>
         <textarea>10,$row['y'],25,4,'R',T('datetime')</textarea>
         <font>'mono','',8,$row['color_text2']</font>
         <textarea>35,$row['y'],165,4,'L',$row['datetime']</textarea>
         <getxy>'x','y'</getxy>
-        <setxy>$row['x'],$row['y']+2</setxy>
-        <getxy>'x','y'</getxy>
-        <line>10,$row['y'],190,0</line>
-        <getxy>'x','y'</getxy>
-        <setxy>$row['x'],$row['y']+2</setxy>
+        <setxy>$row['x'],$row['y']+1</setxy>
         <getxy>'x','y'</getxy>
         <font>'normal','B',8,$row['color_text1']</font>
         <textarea>10,$row['y'],25,4,'R',T('subject')</textarea>
@@ -154,17 +118,14 @@
         <textarea>35,$row['y'],165,4,'L',$row['subject']</textarea>
         <eval>$row['files']</eval>
             <getxy>'x','y'</getxy>
-            <setxy>$row['x'],$row['y']+2</setxy>
-            <getxy>'x','y'</getxy>
-            <line>10,$row['y'],190,0</line>
-            <getxy>'x','y'</getxy>
-            <setxy>$row['x'],$row['y']+2</setxy>
+            <setxy>$row['x'],$row['y']+1</setxy>
             <getxy>'x','y'</getxy>
             <font>'normal','B',8,$row['color_text1']</font>
             <textarea>10,$row['y'],25,4,'R',T('attachments')</textarea>
             <font>'mono','',8,$row['color_text2']</font>
             <textarea>35,$row['y'],165,4,'L',$row['files']</textarea>
         <eval>true</eval>
+        <!-- email body -->
         <getxy>'x','y'</getxy>
         <setxy>$row['x'],$row['y']+2</setxy>
         <getxy>'x','y'</getxy>
@@ -178,12 +139,9 @@
         <textarea>35,$row['y'],165,4,'L',trim($row['body'])</textarea>
     </foreach>
     <eval>strpos($row['id'],',')===false</eval>
-    <output>encode_bad_chars(execute_query("SELECT CONCAT(
-            '".T('Email')."',' ',id,' ',
-            CASE WHEN subject='' THEN '".T('sinsubject')."' ELSE subject END
-        ) subject
-        FROM app_emails
-        WHERE id IN ({$row['id']})")).'.pdf'</output>
+    <output>encode_bad_chars(execute_query("SELECT CONCAT('".T('Email')."',' ',id,' ',
+        CASE WHEN subject='' THEN '".T('sinsubject')."' ELSE subject END) subject
+        FROM app_emails WHERE id IN ({$row['id']})")).'.pdf'</output>
     <eval>true</eval>
     <output>encode_bad_chars(T('Emails')).'.pdf'</output>
 </root>

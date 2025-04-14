@@ -28,15 +28,24 @@
 declare(strict_types=1);
 
 /**
- * TODO
+ * Reverses the process of `make_matrix_data()` for the `invoices` app.
  *
- * TODO
+ * This function takes a previously generated matrix-style array of invoice data
+ * (grouped as concepts, taxes, and totals), compares it with the current values
+ * in the database, and builds a minimal diff-like array that includes only
+ * the fields that have changed, been removed, or added.
  */
 
 /**
- * TODO
+ * unmake_matrix_data
  *
- * TODO
+ * Reverse the matrix-encoded invoice data to a diff-style data array.
+ *
+ * @json       => The matrix-encoded invoice data (from make_matrix_data)
+ * @invoice_id => The invoice ID used to retrieve the original data
+ *
+ * Return a diff array representing only the differences between the provided
+ * data and the current state of the database.
  */
 function unmake_matrix_data($json, $invoice_id)
 {
@@ -97,6 +106,7 @@ function unmake_matrix_data($json, $invoice_id)
         ];
         if (!$concept_id) {
             unset($row['id']);
+            // @phpstan-ignore booleanNot.alwaysTrue
             if (!$product_id) {
                 unset($row['product_id']);
             }
@@ -265,8 +275,89 @@ function unmake_matrix_data($json, $invoice_id)
         }
     }
 
-    //~ print_r($json);
-    //~ die();
+    return $json;
+}
+
+/**
+ * Generates or completes proforma and final invoice metadata.
+ *
+ * This function ensures that the given invoice JSON structure has appropriate values for:
+ * - `proforma_code` and `proforma_date` (if not provided or if it's a new invoice)
+ * - `invoice_code` and `invoice_date` (if the invoice is being closed)
+ * - `is_closed` (based on database if not explicitly set)
+ * - `paid_date` (if the invoice is marked as paid)
+ * - `due_date` (if the invoice is marked as closed)
+ *
+ * Rules:
+ * - If no `invoice_id` is given or `proforma_code` is not defined, a new proforma number is generated.
+ * - If the invoice is being closed (`is_closed` is true), a new invoice number is generated.
+ * - If `is_closed` is not defined in the JSON, it's looked up in the database for the given invoice ID.
+ * - If `is_paid` is true and no `paid_date` is set, the current date is assigned.
+ * - If the invoice is closed and no `due_date` is set, the current date is assigned.
+ *
+ * @json       => Invoice data to process and complete.
+ * @invoice_id => ID of the invoice, used to retrieve current status from DB.
+ *
+ * Return the updated JSON with appropriate codes and dates filled in.
+ */
+function set_proforma_invoice($json, $invoice_id)
+{
+    // Set proforma_code and proforma_date
+    if (!$invoice_id || !isset($json['proforma_code']) || !$json['proforma_code']) {
+        $query = 'SELECT MAX(proforma_code) FROM app_invoices';
+        $last = execute_query($query);
+        if ($last) {
+            $last = explode('-', $last);
+            $last = array_reverse($last);
+            $last = intval($last[0]);
+        } else {
+            $last = 0;
+        }
+        $next = $last + 1;
+        $year = date('Y');
+        $json['proforma_code'] = "PF$year-$next";
+        $json['proforma_date'] = current_date();
+    }
+
+    // Set invoice_code and invoice_date
+    if (isset($json['is_closed']) && $json['is_closed']) {
+        $query = 'SELECT MAX(invoice_code) FROM app_invoices';
+        $last = execute_query($query);
+        if ($last) {
+            $last = explode('-', $last);
+            $last = array_reverse($last);
+            $last = intval($last[0]);
+        } else {
+            $last = 0;
+        }
+        $next = $last + 1;
+        $year = date('Y');
+        $json['invoice_code'] = "F$year-$next";
+        $json['invoice_date'] = current_date();
+    }
+
+    // Set is_closed to true if already closed in DB
+    if (!isset($json['is_closed']) || !$json['is_closed']) {
+        $query = 'SELECT is_closed FROM app_invoices WHERE id = ?';
+        $is_closed = execute_query($query, [$invoice_id]);
+        if ($is_closed) {
+            $json['is_closed'] = 1;
+        }
+    }
+
+    // Set the paid_date if needed
+    if (isset($json['is_paid']) && $json['is_paid']) {
+        if (!isset($json['paid_date']) || !$json['paid_date']) {
+            $json['paid_date'] = current_date();
+        }
+    }
+
+    // Set the due_date if needed
+    if (isset($json['is_closed']) && $json['is_closed']) {
+        if (!isset($json['due_date']) || !$json['due_date']) {
+            $json['due_date'] = current_date();
+        }
+    }
 
     return $json;
 }

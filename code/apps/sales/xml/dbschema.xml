@@ -30,8 +30,10 @@
         <table name="app_invoices">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-                <field name="code" type="VARCHAR(255)"/>
-                <field name="date" type="DATE"/>
+                <field name="proforma_code" type="VARCHAR(255)"/>
+                <field name="proforma_date" type="DATE"/>
+                <field name="invoice_code" type="VARCHAR(255)"/>
+                <field name="invoice_date" type="DATE"/>
                 <field name="customer_id" type="INT(11)" fkey="app_customers"/>
                 <field name="customer_name" type="VARCHAR(255)"/>
                 <field name="customer_address" type="TEXT"/>
@@ -44,8 +46,9 @@
                 <field name="tax" type="FLOAT"/>
                 <field name="total" type="FLOAT"/>
                 <field name="status_id" type="INT(11)" fkey="app_types"/>
-                <field name="paid" type="FLOAT"/>
                 <field name="due_date" type="DATE"/>
+                <field name="paid" type="FLOAT"/>
+                <field name="paid_date" type="DATE"/>
                 <field name="is_closed" type="INT(11)"/>
                 <field name="is_paid" type="INT(11)"/>
             </fields>

@@ -1805,7 +1805,7 @@ function getmail_pdf($ids)
     // Check if the required command is available
     if (!check_commands('wkhtmltopdf')) {
         require_once 'php/lib/pdf.php';
-        return pdf('apps/emails/xml/pdf.xml', ['id' => check_ids($ids)]);
+        return pdf('apps/emails/xml/emails_pdf.xml', ['id' => check_ids($ids)]);
     }
 
     // Use caching to avoid redundant operations

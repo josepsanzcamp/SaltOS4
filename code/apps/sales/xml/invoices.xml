@@ -109,7 +109,9 @@
         ]</temp>
         <data require="php/lib/log.php" eval="true">merge_data_actions(
             make_log_bypass(get_data('rest/1'), get_data('rest/2'), execute_query_array("
-                SELECT id, customer_name, customer_code, code, date, total,
+                SELECT id, customer_name, customer_code, total,
+                IF(is_closed, invoice_code, proforma_code) code,
+                IF(is_closed, invoice_date, proforma_date) date,
                 IF(is_closed, 'check-lg text-success', 'x-lg text-danger') is_closed,
                 IF(is_paid, 'check-lg text-success', 'x-lg text-danger') is_paid
                 FROM ".app2table(get_data('rest/1')).'
@@ -146,9 +148,14 @@
     <!-- Form part -->
     <_form>
         <switch id="is_closed" label="Closed" col_class="col-md-3 mb-3"/>
-        <text id="code" label="Invoice" col_class="col-md-3 mb-3"/>
-        <date id="date" label="Date" col_class="col-md-3 mb-3"/>
+        <div col_class="col-3"/>
         <switch id="is_paid" label="Paid" col_class="col-md-3 mb-3"/>
+        <div col_class="col-3"/>
+
+        <text id="proforma_code" label="Proforma" col_class="col-md-3 mb-3" disabled="true"/>
+        <date id="proforma_date" label="Date" col_class="col-md-3 mb-3" disabled="true"/>
+        <text id="invoice_code" label="Invoice" col_class="col-md-3 mb-3" disabled="true"/>
+        <date id="invoice_date" label="Date" col_class="col-md-3 mb-3" disabled="true"/>
 
         <text id="customer_name" label="Customer" col_class="col-md-3 mb-3" required="true"/>
         <text id="customer_address" label="Address" col_class="col-md-9 mb-3" required="true"/>
@@ -157,16 +164,6 @@
         <text id="customer_zip" label="Zip" col_class="col-md-3 mb-3" required="true"/>
         <text id="customer_country" label="Country" col_class="col-md-3 mb-3" required="true"/>
         <text id="customer_code" label="CIF" col_class="col-md-3 mb-3" required="true"/>
-
-        <select id="status_id" label="Status" col_class="col-md-3 mb-3">
-            <rows eval="true">execute_query_array("
-                    SELECT '' label, '0' value UNION
-                    SELECT name label, id value FROM app_types")</rows>
-        </select>
-
-        <date id="due_date" label="Due date" col_class="col-md-3 mb-3"/>
-        <float id="paid" label="Paid" col_class="col-md-3 mb-3"/>
-        <date id="paid_date" label="Paid date" col_class="col-md-3 mb-3"/>
 
         <textarea id="description" label="Description" height="5em" col_class="col-md-12 mb-3"/>
 
@@ -202,6 +199,17 @@
             <numrows>1</numrows>
             <cells>saltos.invoices.cells_totals</cells>
         </excel>
+
+        <select id="status_id" label="Status" col_class="col-md-3 mb-3">
+            <rows eval="true">execute_query_array("
+                    SELECT '' label, '0' value UNION
+                    SELECT name label, id value FROM app_types")</rows>
+        </select>
+
+        <date id="due_date" label="Due date" col_class="col-md-3 mb-3"/>
+        <float id="paid" label="Paid" col_class="col-md-3 mb-3"/>
+        <date id="paid_date" label="Paid date" col_class="col-md-3 mb-3"/>
+
     </_form>
 
     <_data require="php/lib/log.php" eval="true">array_merge(
@@ -250,6 +258,7 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <json require="apps/sales/php/invoices.php" eval="true">set_data('json',unmake_matrix_data(get_data('json'), 0))</json>
+        <code require="apps/sales/php/invoices.php" eval="true">set_data('json',set_proforma_invoice(get_data('json'), 0))</code>
         <output require="php/lib/actions.php" eval="true">insert(get_data('rest/1'), get_data('json'))</output>
     </create>
 
@@ -340,6 +349,7 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/4'))</check>
         <json require="apps/sales/php/invoices.php" eval="true">set_data('json',unmake_matrix_data(get_data('json'), intval(get_data('rest/4'))))</json>
+        <code require="apps/sales/php/invoices.php" eval="true">set_data('json',set_proforma_invoice(get_data('json'), intval(get_data('rest/4'))))</code>
         <output require="php/lib/actions.php" eval="true">update(get_data('rest/1'), intval(get_data('rest/4')), get_data('json'))</output>
     </edit>
 

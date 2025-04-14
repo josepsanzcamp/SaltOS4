@@ -6,10 +6,12 @@ parameters:
         - ../code/api/php
         - ../code/api/lib
         - ../utest
+        - ../code/apps/certs/php
         - ../code/apps/common/php
+        - ../code/apps/dashboard/php
         - ../code/apps/emails/php
         - ../code/apps/emails/lib
+        - ../code/apps/sales/php
         - ../code/apps/users/php
-        - ../code/apps/certs/php
     ignoreErrors:
         - identifier: requireOnce.fileNotFound
