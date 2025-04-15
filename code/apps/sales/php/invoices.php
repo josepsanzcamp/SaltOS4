@@ -31,7 +31,7 @@ declare(strict_types=1);
  * Reverses the process of `make_matrix_data()` for the `invoices` app.
  *
  * This function takes a previously generated matrix-style array of invoice data
- * (grouped as concepts, taxes, and totals), compares it with the current values
+ * (grouped as lines, taxes, and totals), compares it with the current values
  * in the database, and builds a minimal diff-like array that includes only
  * the fields that have changed, been removed, or added.
  */
@@ -49,16 +49,16 @@ declare(strict_types=1);
  */
 function unmake_matrix_data($json, $invoice_id)
 {
-    $concepts = $json['concepts'] ?? [];
+    $lines = $json['lines'] ?? [];
     $taxes = $json['taxes'] ?? [];
     $totals = $json['totals'] ?? [];
-    unset($json['concepts']);
+    unset($json['lines']);
     unset($json['taxes']);
     unset($json['totals']);
 
-    // Concepts array
+    // Lines array
     $query = 'SELECT * FROM app_invoices_lines WHERE invoice_id = ? ORDER BY id ASC';
-    $concepts_array = execute_query_array($query, [$invoice_id]);
+    $lines_array = execute_query_array($query, [$invoice_id]);
 
     // Taxes master
     $query = 'SELECT id, name, value FROM app_taxes WHERE active=1';
@@ -75,11 +75,11 @@ function unmake_matrix_data($json, $invoice_id)
     $totals_array = execute_query_array($query, [$invoice_id]);
 
     // Concepts box
-    $count = count($concepts);
-    foreach ($concepts as $key => $val) {
+    $count = count($lines);
+    foreach ($lines as $key => $val) {
         $concept_id = 0;
-        if (isset($concepts_array[$key])) {
-            $concept_id = $concepts_array[$key]['id'];
+        if (isset($lines_array[$key])) {
+            $concept_id = $lines_array[$key]['id'];
         }
         $tax_id = 0;
         if (isset($taxes_master_by_value[$val[4]])) {
@@ -88,7 +88,7 @@ function unmake_matrix_data($json, $invoice_id)
         $product_id = 0;
         if (!strlen(implode('', $val))) {
             if (!$concept_id) {
-                unset($concepts[$key]);
+                unset($lines[$key]);
                 continue;
             }
             $concept_id *= -1;
@@ -132,28 +132,28 @@ function unmake_matrix_data($json, $invoice_id)
                 unset($row['total']);
             }
         } else {
-            if ($concepts_array[$key]['product_id'] == $product_id) {
+            if ($lines_array[$key]['product_id'] == $product_id) {
                 unset($row['product_id']);
             }
-            if ($concepts_array[$key]['description'] == $val[0]) {
+            if ($lines_array[$key]['description'] == $val[0]) {
                 unset($row['description']);
             }
-            if ($concepts_array[$key]['quantity'] == $val[1]) {
+            if ($lines_array[$key]['quantity'] == $val[1]) {
                 unset($row['quantity']);
             }
-            if ($concepts_array[$key]['price'] == $val[2]) {
+            if ($lines_array[$key]['price'] == $val[2]) {
                 unset($row['price']);
             }
-            if ($concepts_array[$key]['discount'] == $val[3]) {
+            if ($lines_array[$key]['discount'] == $val[3]) {
                 unset($row['discount']);
             }
-            if ($concepts_array[$key]['tax_id'] == $tax_id) {
+            if ($lines_array[$key]['tax_id'] == $tax_id) {
                 unset($row['tax_id']);
             }
-            if ($concepts_array[$key]['tax_value'] == $val[4]) {
+            if ($lines_array[$key]['tax_value'] == $val[4]) {
                 unset($row['tax_value']);
             }
-            if ($concepts_array[$key]['total'] == $val[5]) {
+            if ($lines_array[$key]['total'] == $val[5]) {
                 unset($row['total']);
             }
             if (count($row) == 1) {
@@ -161,19 +161,19 @@ function unmake_matrix_data($json, $invoice_id)
             }
         }
         if (count($row)) {
-            $concepts[$key] = $row;
+            $lines[$key] = $row;
         } else {
-            unset($concepts[$key]);
+            unset($lines[$key]);
         }
     }
-    $concepts_array = array_slice($concepts_array, $count);
-    foreach ($concepts_array as $key => $val) {
-        $concepts[] = [
+    $lines_array = array_slice($lines_array, $count);
+    foreach ($lines_array as $key => $val) {
+        $lines[] = [
             'id' => $val['id'] * -1,
         ];
     }
-    if (count($concepts)) {
-        $json['concepts'] = $concepts;
+    if (count($lines)) {
+        $json['lines'] = $lines;
     }
 
     // Taxes box

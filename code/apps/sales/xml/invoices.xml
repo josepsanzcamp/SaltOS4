@@ -157,8 +157,8 @@
         <text id="invoice_code" label="Invoice" col_class="col-md-3 mb-3" disabled="true"/>
         <date id="invoice_date" label="Date" col_class="col-md-3 mb-3" disabled="true"/>
 
-        <text id="customer_name" label="Customer" col_class="col-md-3 mb-3" required="true"/>
-        <text id="customer_address" label="Address" col_class="col-md-9 mb-3" required="true"/>
+        <text id="customer_name" label="Customer" col_class="col-md-6 mb-3" required="true"/>
+        <text id="customer_address" label="Address" col_class="col-md-6 mb-3" required="true"/>
 
         <text id="customer_city" label="City" col_class="col-md-3 mb-3" required="true"/>
         <text id="customer_zip" label="Zip" col_class="col-md-3 mb-3" required="true"/>
@@ -167,15 +167,15 @@
 
         <textarea id="description" label="Description" height="5em" col_class="col-md-12 mb-3"/>
 
-        <excel id="concepts" label="Concepts" col_class="col-md-12 mb-3" required="true">
+        <excel id="lines" label="Concepts" col_class="col-md-12 mb-3" required="true">
             <colHeaders eval="true">['Description', 'Quantity', 'Price', 'Discount', 'Tax', 'Total']</colHeaders>
             <rowHeaders eval="true">null</rowHeaders>
-            <colWidths>saltos.invoices.colWidths_concepts</colWidths>
+            <colWidths>saltos.invoices.colWidths_lines</colWidths>
             <numcols>6</numcols>
             <numrows>5</numrows>
             <minSpareRows>1</minSpareRows>
-            <cells>saltos.invoices.cells_concepts</cells>
-            <afterChange>saltos.invoices.afterChange_concepts</afterChange>
+            <cells>saltos.invoices.cells_lines</cells>
+            <afterChange>saltos.invoices.afterChange_lines</afterChange>
             <autoWrapRow>true</autoWrapRow>
         </excel>
 
@@ -216,7 +216,7 @@
         make_log_bypass(get_data('rest/1'), get_data('rest/2'), execute_query('
             SELECT * FROM '.app2table(get_data('rest/1')).' WHERE id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')),
             [intval(get_data('rest/3'))])),
-        ['concepts' => matrix_values(execute_query_array('SELECT description, quantity, price, discount, tax_value, total
+        ['lines' => matrix_values(execute_query_array('SELECT description, quantity, price, discount, tax_value, total
             FROM '.app2table(get_data('rest/1')).'_lines WHERE invoice_id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')).' ORDER BY id ASC',
             [intval(get_data('rest/3'))]))],
         ['taxes' => matrix_values(execute_query_array('SELECT tax_name, base, tax

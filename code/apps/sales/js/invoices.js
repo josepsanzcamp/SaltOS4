@@ -54,7 +54,7 @@ saltos.invoices.init = arg => {
         for (const i in saltos.backup.__forms) {
             for (const j in saltos.backup.__forms[i].fields) {
                 const k = saltos.backup.__forms[i].fields[j];
-                if (['concepts', 'taxes', 'totals'].includes(k.id)) {
+                if (['lines', 'taxes', 'totals'].includes(k.id)) {
                     k.data = [];
                 }
             }
@@ -63,7 +63,7 @@ saltos.invoices.init = arg => {
 };
 
 /**
- * Calculate the dynamic width for each column in the "concepts" table.
+ * Calculate the dynamic width for each column in the "lines" table.
  *
  * This function returns the width for each column. For the first column (index 0),
  * it dynamically calculates the remaining space based on the container width minus
@@ -73,16 +73,16 @@ saltos.invoices.init = arg => {
  *
  * Returns the width in pixels
  */
-saltos.invoices.colWidths_concepts = index => {
+saltos.invoices.colWidths_lines = index => {
     if (index == 0) {
-        const width = document.getElementById('concepts').parentElement.offsetWidth - 2;
+        const width = document.getElementById('lines').parentElement.offsetWidth - 2;
         return Math.floor(width - 500);
     }
     return 100;
 };
 
 /**
- * Define cell configuration for each column in the "concepts" table.
+ * Define cell configuration for each column in the "lines" table.
  *
  * This function provides per-column behavior:
  * - Column 4: renders a dropdown with available tax values (from #alltaxes).
@@ -95,7 +95,7 @@ saltos.invoices.colWidths_concepts = index => {
  *
  * Returns the configuration object
  */
-saltos.invoices.cells_concepts = (row, column, prop) => {
+saltos.invoices.cells_lines = (row, column, prop) => {
     if (column == 4) {
         return {
             type: 'dropdown',
@@ -179,7 +179,7 @@ saltos.invoices.cells_totals = (row, column, prop) => {
 /**
  * Handle and recalculate invoice line totals and tax breakdowns after user edits.
  *
- * This function is triggered after the user modifies any cell in the "concepts" matrix
+ * This function is triggered after the user modifies any cell in the "lines" matrix
  * (invoice lines). It performs the following operations:
  *
  * - Ignores changes triggered by internal actions (non-`edit` sources).
@@ -187,7 +187,7 @@ saltos.invoices.cells_totals = (row, column, prop) => {
  *     - Ensures `line[1]`, `line[2]`, `line[3]` (qty, price, discount) are numeric.
  *     - Defaults discount to 0 if empty but qty and price are valid.
  * - Calculates the line total as: `qty × price × (1 - discount%)`, rounded to 2 decimals.
- * - Updates the concepts grid to reflect computed values.
+ * - Updates the lines grid to reflect computed values.
  * - Recomputes the taxes matrix:
  *     - Aggregates taxable bases per tax value (`line[4]`).
  *     - Computes tax amount for each group: `base × (tax% / 100)`.
@@ -201,15 +201,15 @@ saltos.invoices.cells_totals = (row, column, prop) => {
  * @changes => Array of cell changes from the spreadsheet component
  * @source  => Source of the change event (only `'edit'` triggers processing)
  */
-saltos.invoices.afterChange_concepts = (changes, source) => {
+saltos.invoices.afterChange_lines = (changes, source) => {
     if (source == 'loadData') {
         return;
     }
 
-    // Check, validate and compute the concepts matrix
-    const concepts = document.getElementById('concepts').data;
-    for (const i in concepts) {
-        const line = concepts[i];
+    // Check, validate and compute the lines matrix
+    const lines = document.getElementById('lines').data;
+    for (const i in lines) {
+        const line = lines[i];
         // Prepare quantity
         if (!saltos.core.is_number(line[1])) {
             line[5] = null;
@@ -233,15 +233,15 @@ saltos.invoices.afterChange_concepts = (changes, source) => {
         line[5] = Math.round(line[5] * 100) / 100;
     }
 
-    // This trigger a concepts refresh
-    document.getElementById('concepts').excel.updateSettings({});
+    // This trigger a lines refresh
+    document.getElementById('lines').excel.updateSettings({});
 
     // Compute the taxes matrix
     const taxes = {};
     const alltaxes = document.getElementById('alltaxes').data;
     // Create the taxes structure by tax and compute all bases
-    for (const i in concepts) {
-        const line = concepts[i];
+    for (const i in lines) {
+        const line = lines[i];
         const tax = line[4];
         if (!saltos.core.is_number(tax)) {
             continue;

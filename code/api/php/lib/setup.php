@@ -192,13 +192,21 @@ function __setup_helper($dir)
             $query = file_get_contents("compress.zlib://$file");
             db_query($query);
 
+            // Increment the total item
+            $count = execute_query("SELECT COUNT(*) FROM $table");
+            $total[$app] += $count;
+        }
+    }
+
+    foreach ($total as $app => $num) {
+        if ($num) {
+            $table = app2table($app);
             // Add the needed control, version, index and log
             $ids = execute_query_array("SELECT id FROM $table");
             foreach ($ids as $id) {
                 make_control($app, $id);
                 make_version($app, $id);
                 make_index($app, $id);
-                $total[$app]++;
             }
             make_log($app, 'setup', $ids);
         }
