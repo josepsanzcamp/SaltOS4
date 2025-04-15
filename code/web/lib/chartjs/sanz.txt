@@ -5,6 +5,6 @@
 #wget https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js
 #wget https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js
 
-wget https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.js
+wget https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.js
 cat chart.umd.js | grep -v sourceMappingURL > chart.umd.min.js
 rm -f chart.umd.js
