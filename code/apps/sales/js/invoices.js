@@ -302,7 +302,7 @@ saltos.invoices.afterChange_lines = (changes, source) => {
  * If no invoices are selected, it prompts the user to select invoices first.
  */
 saltos.invoices.viewpdf = () => {
-    let ids = saltos.app.checkbox_ids(document.getElementById('table'));
+    let ids = saltos.app.checkbox_ids(document.getElementById('list'));
     if (!ids.length) {
         saltos.app.modal(
             'Select invoices',
@@ -324,7 +324,7 @@ saltos.invoices.viewpdf = () => {
  * If no invoices are selected, it prompts the user to select invoices first.
  */
 saltos.invoices.download = () => {
-    let ids = saltos.app.checkbox_ids(document.getElementById('table'));
+    let ids = saltos.app.checkbox_ids(document.getElementById('list'));
     if (!ids.length) {
         saltos.app.modal(
             'Select invoices',

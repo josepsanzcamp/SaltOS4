@@ -26,9 +26,6 @@
 -->
 
 <root>
-    <groups>
-        <group code="core" name="Core" description="System tools"/>
-    </groups>
     <apps>
         <app id="27" active="1" group="core"
             code="certs" name="Certificates" description="Certificates manager"

@@ -30,32 +30,38 @@
         <table name="app_customers">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-                <field name="code" type="VARCHAR(255)"/>
+                <field name="active" type="INT(11)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="address" type="VARCHAR(255)"/>
                 <field name="city" type="VARCHAR(255)"/>
                 <field name="zip" type="VARCHAR(255)"/>
                 <field name="country" type="VARCHAR(255)"/>
+                <field name="code" type="VARCHAR(255)"/>
                 <field name="email" type="VARCHAR(255)"/>
                 <field name="phone" type="VARCHAR(255)"/>
                 <field name="website" type="VARCHAR(255)"/>
                 <field name="notes" type="TEXT"/>
-                <field name="created_at" type="DATE"/>
                 <field name="type_id" type="INT(11)"/>
             </fields>
         </table>
         <table name="app_leads">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="active" type="INT(11)"/>
                 <field name="name" type="VARCHAR(255)"/>
+                <field name="address" type="VARCHAR(255)"/>
+                <field name="city" type="VARCHAR(255)"/>
+                <field name="zip" type="VARCHAR(255)"/>
+                <field name="country" type="VARCHAR(255)"/>
+                <field name="code" type="VARCHAR(255)"/>
                 <field name="email" type="VARCHAR(255)"/>
                 <field name="phone" type="VARCHAR(255)"/>
-                <field name="company" type="TEXT"/>
+                <field name="website" type="VARCHAR(255)"/>
+                <field name="notes" type="TEXT"/>
+                <field name="contact" type="TEXT"/>
                 <field name="source" type="VARCHAR(255)"/>
                 <field name="status_id" type="INT(11)"/>
                 <field name="assigned_to" type="VARCHAR(255)"/>
-                <field name="notes" type="TEXT"/>
-                <field name="created_at" type="DATE"/>
             </fields>
         </table>
         <table name="app_meetings">

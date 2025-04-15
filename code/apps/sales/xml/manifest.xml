@@ -50,5 +50,10 @@
             table="app_workorders" field="date"
             has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1" has_log="1"
             perms="*"/>
+        <app id="62" active="1" group="sales"
+            code="payment_methods" name="Payment methods" description="Payment methods management"
+            table="app_payment_methods" field="name"
+            has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1" has_log="1"
+            perms="*"/>
     </apps>
 </root>

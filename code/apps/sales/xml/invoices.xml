@@ -200,15 +200,22 @@
             <cells>saltos.invoices.cells_totals</cells>
         </excel>
 
-        <select id="status_id" label="Status" col_class="col-md-3 mb-3">
+        <select id="payment_method_id" label="Payment method" col_class="col-md-3 mb-3">
             <rows eval="true">execute_query_array("
                     SELECT '' label, '0' value UNION
-                    SELECT name label, id value FROM app_types")</rows>
+                    SELECT name label, id value FROM app_payment_methods
+                    WHERE active = 1")</rows>
         </select>
 
         <date id="due_date" label="Due date" col_class="col-md-3 mb-3"/>
         <float id="paid" label="Paid" col_class="col-md-3 mb-3"/>
         <date id="paid_date" label="Paid date" col_class="col-md-3 mb-3"/>
+
+        <select id="status_id" label="Status" col_class="col-md-3 mb-3">
+            <rows eval="true">execute_query_array("
+                    SELECT '' label, '0' value UNION
+                    SELECT name label, id value FROM app_types")</rows>
+        </select>
 
     </_form>
 

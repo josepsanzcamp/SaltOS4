@@ -45,10 +45,11 @@
                 <field name="subtotal" type="FLOAT"/>
                 <field name="tax" type="FLOAT"/>
                 <field name="total" type="FLOAT"/>
-                <field name="status_id" type="INT(11)" fkey="app_types"/>
+                <field name="payment_method_id" type="INT(11)" fkey="app_payment_methods"/>
                 <field name="due_date" type="DATE"/>
                 <field name="paid" type="FLOAT"/>
                 <field name="paid_date" type="DATE"/>
+                <field name="status_id" type="INT(11)" fkey="app_types"/>
                 <field name="is_closed" type="INT(11)"/>
                 <field name="is_paid" type="INT(11)"/>
             </fields>
@@ -78,6 +79,15 @@
                 <field name="tax" type="FLOAT"/>
             </fields>
         </table>
+        <table name="app_payment_methods">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="name" type="VARCHAR(255)"/>
+                <field name="description" type="TEXT"/>
+                <field name="active" type="INT(11)"/>
+                <field name="default" type="INT(11)"/>
+            </fields>
+        </table>
         <table name="app_products">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
@@ -94,6 +104,7 @@
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                 <field name="name" type="VARCHAR(255)"/>
+                <field name="description" type="TEXT"/>
                 <field name="value" type="FLOAT"/>
                 <field name="active" type="INT(11)"/>
                 <field name="default" type="INT(11)"/>

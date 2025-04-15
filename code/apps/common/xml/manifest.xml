@@ -26,6 +26,9 @@
 -->
 
 <root>
+    <groups>
+        <group code="core" name="Core" description="System tools"/>
+    </groups>
     <apps>
         <app id="21" active="1" group="core"
             code="pushlog" name="Push log" description="Push log application"

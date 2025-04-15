@@ -227,7 +227,6 @@ setupmysql:
 	user=admin php code/api/index.php setup/certs
 	user=admin php code/api/index.php setup/crm
 	user=admin php code/api/index.php setup/hr
-	user=admin php code/api/index.php setup/operations
 	user=admin php code/api/index.php setup/purchases
 	user=admin php code/api/index.php setup/sales
 
@@ -239,7 +238,6 @@ setupsqlite:
 	user=admin php code/api/index.php setup/certs
 	user=admin php code/api/index.php setup/crm
 	user=admin php code/api/index.php setup/hr
-	user=admin php code/api/index.php setup/operations
 	user=admin php code/api/index.php setup/purchases
 	user=admin php code/api/index.php setup/sales
 	rm -f code/data/files/config.xml

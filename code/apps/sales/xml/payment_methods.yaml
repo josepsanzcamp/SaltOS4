@@ -31,7 +31,6 @@ list:
     # [id, type, label]
     - [name, text, Name]
     - [description, text, Description]
-    - [value, text, Value]
     - [active, boolean, Active]
     - [default, boolean, Default]
 form:
@@ -40,7 +39,6 @@ form:
     - [default, switch, Default]
     - [name, text, Name]
     - [description, textarea, Description]
-    - [value, float, Value]
 attr:
     # field:
     #     attr: value

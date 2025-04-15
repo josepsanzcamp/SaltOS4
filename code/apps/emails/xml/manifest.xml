@@ -27,7 +27,7 @@
 
 <root>
     <apps>
-        <app id="13" active="1" group="hr"
+        <app id="13" active="1" group="core"
             code="emails" name="Emails" description="Emails app client"
             table="app_emails" field="CONCAT(IF(is_outbox, `to`, `from`),' - ',subject)"
             subtables="app_emails_address(email_id)"

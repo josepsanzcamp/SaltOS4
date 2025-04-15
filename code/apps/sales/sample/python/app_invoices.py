@@ -61,6 +61,8 @@ for i in range(n_invoices):
     invoice_date = fake.date_between(start_date=proforma_date, end_date='today') if is_closed else None
     due_date = invoice_date + timedelta(days=random.choice([15, 30, 45])) if is_closed else None
     paid_date = fake.date_between(start_date=invoice_date, end_date='today') if is_paid and invoice_date else None
+    payment_method_id = random.randint(1, 12)
+    status_id = random.randint(1, 5)
 
     customer_name = escape_sql_text(fake.company())
     customer_address = escape_sql_text(fake.address().replace("\n", ", "))
@@ -112,9 +114,9 @@ for i in range(n_invoices):
         f"{safe_sql_date(invoice_date)},"
         f"{customer_id},'{customer_name}','{customer_address}','{customer_city}',"
         f"'{customer_zip}','{customer_country}','{customer_code}',"
-        f"'{description}',{subtotal},{total_tax},{total},1,"
-        f"{safe_sql_date(due_date)},{paid},{safe_sql_date(paid_date)},"
-        f"{is_closed},{is_paid})"
+        f"'{description}',{subtotal},{total_tax},{total},"
+        f"{payment_method_id},{safe_sql_date(due_date)},{paid},{safe_sql_date(paid_date)},"
+        f"{status_id},{is_closed},{is_paid})"
     )
     invoice_id_seq += 1
 

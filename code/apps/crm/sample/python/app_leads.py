@@ -6,19 +6,25 @@ from pathlib import Path
 def generate_app_leads_sql_gz():
     path = Path("app_leads.sql.gz")
     fake = Faker()
-    sql = "INSERT INTO `app_leads` (`id`, `name`, `email`, `phone`, `company`, `source`, `status_id`, `assigned_to`, `notes`, `created_at`) VALUES\n"
+    sql = "INSERT INTO `app_leads` (`id`, `active`, `name`, `address`, `city`, `zip`, `country`, `code`, `email`, `phone`, `website`, `notes`, `contact`, `source`, `status_id`, `assigned_to`) VALUES\n"
     rows = []
     for i in range(1, 101):
-        name = fake.name().replace("'", "''")
-        email = fake.email()
+        active = random.randint(0, 1)
+        name = fake.company().replace("'", "''")
+        address = fake.street_address().replace("'", "''")
+        city = fake.city()
+        zip_code = fake.postcode()
+        country = fake.country().replace("'", "''")
+        code = f"LEAD-{i:04d}"
+        email = fake.company_email()
         phone = fake.phone_number()
-        company = fake.company().replace("'", "''")
+        website = f"https://{fake.domain_name()}"
+        notes = fake.sentence(nb_words=10).replace("'", "''")
+        contact = fake.name().replace("'", "''")
         source = fake.random_element(elements=("Web", "Referral", "Event", "Email", "Phone")).replace("'", "''")
         status = random.randint(1, 4)
         assigned_to = random.randint(1, 5)
-        notes = fake.sentence(nb_words=10).replace("'", "''")
-        created_at = fake.date_between(start_date='-1y', end_date='today').isoformat()
-        row = f"({i}, '{name}', '{email}', '{phone}', '{company}', '{source}', {status}, {assigned_to}, '{notes}', '{created_at}')"
+        row = f"({i}, {active}, '{name}', '{address}', '{city}', '{zip_code}', '{country}', '{code}', '{email}', '{phone}', '{website}', '{notes}', '{contact}', '{source}', {status}, {assigned_to})"
         rows.append(row)
     sql += ",\n".join(rows) + ";"
     with gzip.open(path, "wt", encoding="utf-8") as f:
