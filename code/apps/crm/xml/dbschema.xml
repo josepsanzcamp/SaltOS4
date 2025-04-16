@@ -67,12 +67,16 @@
         <table name="app_meetings">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-                <field name="date" type="DATE"/>
+                <field name="start_time" type="DATETIME"/>
+                <field name="end_time" type="DATETIME"/>
                 <field name="title" type="VARCHAR(255)"/>
-                <field name="participants_ids" type="TEXT"/>
-                <field name="related_to" type="INT(11)"/>
-                <field name="content" type="TEXT"/>
-                <field name="created_by" type="INT(11)"/>
+                <field name="location" type="VARCHAR(255)"/>
+                <field name="participants" type="TEXT"/>
+                <field name="agenda" type="TEXT"/>
+                <field name="topics_approved" type="TEXT"/>
+                <field name="topics_rejected" type="TEXT"/>
+                <field name="topics_pending" type="TEXT"/>
+                <field name="customer_id" type="INT(11)"/>
             </fields>
         </table>
         <table name="app_quotes">

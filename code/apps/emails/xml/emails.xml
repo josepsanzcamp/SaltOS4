@@ -61,8 +61,8 @@
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
                 <dropdown label="PDF" icon="filetype-pdf" tooltip="PDF options">
                     <menu>
-                        <button label="View" tooltip="To see the email" icon="search" onclick="saltos.emails.viewpdf1()"/>
-                        <button label="Download" tooltip="To download the email" icon="save" onclick="saltos.emails.download1()"/>
+                        <button label="View" tooltip="To see the email" icon="search" onclick="saltos.common.viewpdf_checkbox()"/>
+                        <button label="Download" tooltip="To download the email" icon="save" onclick="saltos.common.download_checkbox()"/>
                     </menu>
                 </dropdown>
                 <button onclick="saltos.emails.server()" label="Send/Receive" tooltip="To send and receive emails" icon="envelope"/>
@@ -383,8 +383,8 @@
                 <button onclick="saltos.emails.source()" label="Source" tooltip="To see the source of this email" icon="file-text"/>
                 <dropdown label="PDF" icon="filetype-pdf" tooltip="PDF options">
                     <menu>
-                        <button onclick="saltos.emails.viewpdf2()" label="View" tooltip="To see the email" icon="search"/>
-                        <button onclick="saltos.emails.download2()" label="Download" tooltip="To download the email" icon="save"/>
+                        <button onclick="saltos.common.viewpdf()" label="View" tooltip="To see the email" icon="search"/>
+                        <button onclick="saltos.common.download()" label="Download" tooltip="To download the email" icon="save"/>
                     </menu>
                 </dropdown>
                 <dropdown label="Mark" icon="bookmark" tooltip="Mark options">

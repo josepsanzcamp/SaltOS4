@@ -29,27 +29,51 @@ screen: type5
 col_class: col-md-6 mb-3
 list:
     # [id, type, label]
-    - [date, text, Date]
     - [title, text, Title]
-    - [participants_ids, text, Participants]
+    - [location, text, Location]
+    - [start_time, text, Start Time]
+    - [customer_id, select, Customer]
 form:
     # [id, type, label]
-    - [date, date, Date]
     - [title, text, Title]
-    - [participants_ids, multiselect, Participants]
-    - [related_to, select, Related]
-    - [content, textarea, Content]
-    - [created_by, select, Created By]
+    - [location, text, Location]
+    - [start_time, datetime, Start Time]
+    - [end_time, datetime, End Time]
+    - [customer_id, select, Related Customer]
+    - [participants, textarea, Participants]
+    - [agenda, textarea, Agenda]
+    - [topics_approved, textarea, Topics Approved]
+    - [topics_rejected, textarea, Topics Rejected]
+    - [topics_pending, textarea, Topics Pending]
 select:
     # [id, table, optional field]
-    - [participants_ids, tbl_users]
-    - [related_to, app_customers]
-    - [created_by, tbl_users]
+    - [customer_id, app_customers]
 attr:
     # field:
     #     attr: value
+    start_time:
+        required: true
+        col_class: col-md-4 mb-3
+    end_time:
+        col_class: col-md-4 mb-3
+    customer_id:
+        col_class: col-md-4 mb-3
     title:
         required: true
-    content:
+    participants:
         col_class: col-md-12 mb-3
-        height: 10em
+        height: 5em
+        required: true
+    agenda:
+        col_class: col-md-12 mb-3
+        height: 5em
+        required: true
+    topics_approved:
+        col_class: col-md-12 mb-3
+        height: 5em
+    topics_rejected:
+        col_class: col-md-12 mb-3
+        height: 5em
+    topics_pending:
+        col_class: col-md-12 mb-3
+        height: 5em

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ -  ____        _ _    ___  ____    _  _    ___
+ - / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ - \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ -  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ - |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ -
+ - SaltOS: Framework to develop Rich Internet Applications
+ - Copyright (C) 2007-2025 by Josep Sanz Campderrós
+ - More information in https://www.saltos.org or info@saltos.org
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU General Public License as published by
+ - the Free Software Foundation, either version 3 of the License, or
+ - (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ - GNU General Public License for more details.
+ -
+ - You should have received a copy of the GNU General Public License
+ - along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<root>
+    <constructor>"P","mm","A4"</constructor>
+    <margins>10,10,10,10</margins>
+
+    <foreach>
+        <query>"SELECT *,
+            (SELECT name FROM app_customers b WHERE b.id=a.customer_id) customer,
+            '#2780e3' color_text1,
+            '#666666' color_text2,
+            '#cccccc' color_line
+            FROM app_meetings a
+            WHERE id IN ({$row['id']})
+            ORDER BY id ASC"</query>
+
+        <header>
+            <margins>10,10,10,10</margins>
+        </header>
+
+        <footer>
+            <margins>0,0,0,0</margins>
+            <font>"normal","",6,$row['color_text2']</font>
+            <pageno>10,283,190,4,"R",T("Page %s of %s")</pageno>
+            <margins>10,10,10,10</margins>
+        </footer>
+
+        <newpage></newpage>
+        <setxy>10,10</setxy>
+        <getxy>"x","y"</getxy>
+
+        <font>"normal","B",14,$row['color_text1']</font>
+        <textarea>10,$row['y'],190,4,'L',T('Meeting Report')</textarea>
+
+        <getxy>"x","y"</getxy>
+        <setxy>10,$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <checky>4</checky>
+        <getxy>"x","y"</getxy>
+
+        <line>10,$row['y'],190,0</line>
+
+        <getxy>"x","y"</getxy>
+        <setxy>10,$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <checky>4</checky>
+        <getxy>"x","y"</getxy>
+
+        <font>"normal","B",10,$row['color_text1']</font>
+        <textarea>10,$row['y'],30,4,'R',T("Title")</textarea>
+        <font>"normal","",10,$row['color_text2']</font>
+        <textarea>40,$row['y'],160,4,'L',$row['title']</textarea>
+
+        <getxy>"x","y"</getxy>
+        <setxy>10,$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <checky>4</checky>
+        <getxy>"x","y"</getxy>
+
+        <font>"normal","B",10,$row['color_text1']</font>
+        <textarea>10,$row['y'],30,4,'R',T("Location")</textarea>
+        <font>"normal","",10,$row['color_text2']</font>
+        <textarea>40,$row['y'],60,4,'L',$row['location']</textarea>
+
+        <font>"normal","B",10,$row['color_text1']</font>
+        <textarea>100,$row['y'],30,4,'R',T("Customer")</textarea>
+        <font>"normal","",10,$row['color_text2']</font>
+        <textarea>130,$row['y'],60,4,'L',$row['customer']</textarea>
+
+        <getxy>"x","y"</getxy>
+        <setxy>10,$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <checky>4</checky>
+        <getxy>"x","y"</getxy>
+
+        <font>"normal","B",10,$row['color_text1']</font>
+        <textarea>10,$row['y'],30,4,'R',T("Start Time")</textarea>
+        <font>"normal","",10,$row['color_text2']</font>
+        <textarea>40,$row['y'],60,4,'L',$row['start_time']</textarea>
+
+        <font>"normal","B",10,$row['color_text1']</font>
+        <textarea>100,$row['y'],30,4,'R',T("End Time")</textarea>
+        <font>"normal","",10,$row['color_text2']</font>
+        <textarea>130,$row['y'],60,4,'L',$row['end_time']</textarea>
+
+        <getxy>"x","y"</getxy>
+        <setxy>10,$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <checky>4</checky>
+        <getxy>"x","y"</getxy>
+
+        <font>"normal","B",10,$row['color_text1']</font>
+        <textarea>10,$row['y'],30,4,'R',T("Participants")</textarea>
+        <font>"normal","",10,$row['color_text2']</font>
+        <textarea>40,$row['y'],160,4,'L',$row['participants']</textarea>
+
+        <getxy>"x","y"</getxy>
+        <setxy>10,$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <checky>4</checky>
+        <getxy>"x","y"</getxy>
+
+        <line>10,$row['y'],190,0</line>
+
+        <getxy>"x","y"</getxy>
+        <setxy>10,$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <checky>4</checky>
+        <getxy>"x","y"</getxy>
+
+        <font>"normal","B",10,$row['color_text1']</font>
+        <textarea>10,$row['y'],30,4,'R',T("Agenda")</textarea>
+        <font>"normal","",10,$row['color_text2']</font>
+        <textarea>40,$row['y'],160,4,'L',$row['agenda']</textarea>
+
+        <getxy>"x","y"</getxy>
+        <setxy>10,$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <checky>4</checky>
+        <getxy>"x","y"</getxy>
+
+        <line>10,$row['y'],190,0</line>
+
+        <getxy>"x","y"</getxy>
+        <setxy>10,$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <checky>4</checky>
+        <getxy>"x","y"</getxy>
+
+        <font>"normal","B",10,$row['color_text1']</font>
+        <textarea>10,$row['y'],30,4,'R',T("Approved Topics")</textarea>
+        <font>"normal","",10,$row['color_text2']</font>
+        <textarea>40,$row['y'],160,4,'L',$row['topics_approved']</textarea>
+
+        <getxy>"x","y"</getxy>
+        <setxy>10,$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <checky>4</checky>
+        <getxy>"x","y"</getxy>
+
+        <line>10,$row['y'],190,0</line>
+
+        <getxy>"x","y"</getxy>
+        <setxy>10,$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <checky>4</checky>
+        <getxy>"x","y"</getxy>
+
+        <font>"normal","B",10,$row['color_text1']</font>
+        <textarea>10,$row['y'],30,4,'R',T("Rejected Topics")</textarea>
+        <font>"normal","",10,$row['color_text2']</font>
+        <textarea>40,$row['y'],160,4,'L',$row['topics_rejected']</textarea>
+
+        <getxy>"x","y"</getxy>
+        <setxy>10,$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <checky>4</checky>
+        <getxy>"x","y"</getxy>
+
+        <line>10,$row['y'],190,0</line>
+
+        <getxy>"x","y"</getxy>
+        <setxy>10,$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <checky>4</checky>
+        <getxy>"x","y"</getxy>
+
+        <font>"normal","B",10,$row['color_text1']</font>
+        <textarea>10,$row['y'],30,4,'R',T("Pending Topics")</textarea>
+        <font>"normal","",10,$row['color_text2']</font>
+        <textarea>40,$row['y'],160,4,'L',$row['topics_pending']</textarea>
+
+    </foreach>
+
+    <eval>strpos($row["id"],",")===false</eval>
+    <output>encode_bad_chars(execute_query("SELECT CONCAT('".T('Meeting')."',' ',title) FROM app_meetings WHERE id={$row['id']}")).'.pdf'</output>
+    <eval>true</eval>
+    <output>encode_bad_chars(T('Meetings')).'.pdf'</output>
+</root>

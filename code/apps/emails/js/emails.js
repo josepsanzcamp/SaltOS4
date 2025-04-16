@@ -380,50 +380,6 @@ saltos.emails.signature = () => {
 };
 
 /**
- * View selected emails in PDF format
- *
- * This function opens a PDF view for all selected emails in the list.
- * If no emails are selected, a modal prompts the user to select emails first.
- */
-saltos.emails.viewpdf1 = () => {
-    let ids = saltos.app.checkbox_ids(document.getElementById('list'));
-    if (!ids.length) {
-        saltos.app.modal(
-            'Select emails',
-            'You must select the desired emails that you want see in the PDF file',
-            {
-                color: 'danger',
-            },
-        );
-        return;
-    }
-    ids = ids.join(',');
-    saltos.driver.open('app/emails/view/viewpdf/' + ids);
-};
-
-/**
- * Download selected emails as PDF
- *
- * This function downloads all selected emails in the list as a PDF file.
- * If no emails are selected, a modal prompts the user to select emails first.
- */
-saltos.emails.download1 = () => {
-    let ids = saltos.app.checkbox_ids(document.getElementById('list'));
-    if (!ids.length) {
-        saltos.app.modal(
-            'Select emails',
-            'You must select the desired emails that you want download in the PDF file',
-            {
-                color: 'danger',
-            },
-        );
-        return;
-    }
-    ids = ids.join(',');
-    saltos.common.download('app/emails/view/download/' + ids);
-};
-
-/**
  * View email source
  *
  * This function opens the raw source of the selected email for viewing in the driver.
@@ -431,26 +387,6 @@ saltos.emails.download1 = () => {
 saltos.emails.source = () => {
     const id = saltos.hash.get().split('/').at(3);
     saltos.driver.open(`app/emails/view/source/${id}`);
-};
-
-/**
- * View an email in PDF format
- *
- * This function opens a PDF view for the currently selected email.
- */
-saltos.emails.viewpdf2 = () => {
-    const id = saltos.hash.get().split('/').at(3);
-    saltos.driver.open(`app/emails/view/viewpdf/${id}`);
-};
-
-/**
- * Download an email as PDF
- *
- * This function downloads the currently selected email in PDF format.
- */
-saltos.emails.download2 = () => {
-    const id = saltos.hash.get().split('/').at(3);
-    saltos.common.download(`app/emails/view/download/${id}`);
 };
 
 /**

@@ -595,3 +595,25 @@ function __pdf_all2pdf($input)
     $buffer = $pdf->Output('output.pdf', 'S');
     return $buffer;
 }
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function detect_pdf_file($app)
+{
+    $dir = detect_app_folder($app);
+    $pdf = "apps/$dir/xml/{$app}_pdf.xml";
+    return $pdf;
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function exists_pdf_file($app)
+{
+    return file_exists(detect_pdf_file($app));
+}

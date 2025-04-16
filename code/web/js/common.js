@@ -209,10 +209,13 @@ saltos.common.create = () => {
  *
  * This function open the viewpdf widget
  */
-saltos.common.viewpdf = () => {
-    const app = saltos.hash.get().split('/').at(1);
-    const id = saltos.hash.get().split('/').at(3);
-    saltos.driver.open(`app/${app}/view/viewpdf/${id}`);
+saltos.common.viewpdf = file => {
+    if (file === undefined) {
+        const app = saltos.hash.get().split('/').at(1);
+        const id = saltos.hash.get().split('/').at(3);
+        file = `app/${app}/view/viewpdf/${id}`;
+    }
+    saltos.driver.open(file);
 };
 
 /**
@@ -252,4 +255,50 @@ saltos.common.allfiles = () => {
  */
 saltos.common.allnotes = () => {
     saltos.common.__remove_helper('allnotes');
+};
+
+/**
+ * View selected registers in PDF format
+ *
+ * This method opens a PDF viewer to display the selected registers.
+ * If no registers are selected, it prompts the user to select registers first.
+ */
+saltos.common.viewpdf_checkbox = () => {
+    const app = saltos.hash.get().split('/').at(1);
+    let ids = saltos.app.checkbox_ids(document.getElementById('list'));
+    if (!ids.length) {
+        saltos.app.modal(
+            'Select registers',
+            'You must select the desired registers that you want see in the PDF file',
+            {
+                color: 'danger',
+            },
+        );
+        return;
+    }
+    ids = ids.join(',');
+    saltos.common.viewpdf(`app/${app}/view/viewpdf/${ids}`);
+};
+
+/**
+ * Download selected registers as PDF
+ *
+ * This method downloads the selected registers in PDF format.
+ * If no registers are selected, it prompts the user to select registers first.
+ */
+saltos.common.download_checkbox = () => {
+    const app = saltos.hash.get().split('/').at(1);
+    let ids = saltos.app.checkbox_ids(document.getElementById('list'));
+    if (!ids.length) {
+        saltos.app.modal(
+            'Select registers',
+            'You must select the desired registers that you want download in the PDF file',
+            {
+                color: 'danger',
+            },
+        );
+        return;
+    }
+    ids = ids.join(',');
+    saltos.common.download(`app/${app}/view/download/${ids}`);
 };

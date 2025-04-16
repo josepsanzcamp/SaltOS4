@@ -54,11 +54,18 @@
                 <hidden id="page" value="0"/>
                 <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+shift+f" onenter="document.getElementById('search_extra').value=this.value;saltos.driver.search()" autofocus="true" onchange="document.getElementById('search_extra').value=this.value"/>
                 <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
+                <dropdown label="PDF" icon="filetype-pdf" tooltip="PDF options" require="php/lib/pdf.php" ifeval="exists_pdf_file(get_data('rest/1'))">
+                    <menu>
+                        <button label="View" tooltip="To see the invoice" icon="search" onclick="saltos.common.viewpdf_checkbox()"/>
+                        <button label="Download" tooltip="To download the invoice" icon="save" onclick="saltos.common.download_checkbox()"/>
+                    </menu>
+                </dropdown>
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
             </row>
             <div eval="true">xmlfile2array('apps/common/xml/filter.xml')['div']</div>
             <row auto="true" col_class="col-md-12 my-3">
                 <table id="list" nodata="Loading..." dropdown="false">
+                    <checkbox require="php/lib/pdf.php" eval="true">exists_pdf_file(get_data('rest/1'))</checkbox>
                     <header>TODO</header>
                     <actions>
                         <view icon="search" tooltip="View" onclick="saltos.driver.open"/>
@@ -189,6 +196,12 @@
                     <menu>
                         <button onclick="saltos.common.version()" label="History" tooltip="To see the history of the changes" icon="file-text" ifeval="app2version(get_data('rest/1'))"/>
                         <button onclick="saltos.common.log()" label="Log" tooltip="To see the history of the changes" icon="file-text" ifeval="app2log(get_data('rest/1'))"/>
+                    </menu>
+                </dropdown>
+                <dropdown label="PDF" icon="filetype-pdf" tooltip="PDF options" require="php/lib/pdf.php" ifeval="exists_pdf_file(get_data('rest/1'))">
+                    <menu>
+                        <button onclick="saltos.common.viewpdf()" label="View" tooltip="To see the invoice" icon="search"/>
+                        <button onclick="saltos.common.download()" label="Download" tooltip="To download the invoice" icon="save"/>
                     </menu>
                 </dropdown>
                 <div col_class="col"/>

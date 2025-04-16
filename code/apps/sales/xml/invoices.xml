@@ -61,8 +61,8 @@
                 <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
                 <dropdown label="PDF" icon="filetype-pdf" tooltip="PDF options">
                     <menu>
-                        <button label="View" tooltip="To see the invoice" icon="search" onclick="saltos.invoices.viewpdf()"/>
-                        <button label="Download" tooltip="To download the invoice" icon="save" onclick="saltos.invoices.download()"/>
+                        <button label="View" tooltip="To see the invoice" icon="search" onclick="saltos.common.viewpdf_checkbox()"/>
+                        <button label="Download" tooltip="To download the invoice" icon="save" onclick="saltos.common.download_checkbox()"/>
                     </menu>
                 </dropdown>
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>

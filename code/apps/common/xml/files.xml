@@ -72,14 +72,14 @@
         <temp require="php/lib/log.php" eval="true">make_log(get_data('rest/1'), get_data('rest/3'), get_data('rest/4'), get_data('rest/5'))</temp>
         <cache eval="true">'app/'.get_data('rest/1').'/main'</cache>
         <title append="modal" ifeval="get_data('rest/5')" require="php/lib/files.php" eval="true">files_cid(get_data('rest/1'), intval(get_data('rest/4')), intval(get_data('rest/5')))['name']</title>
-        <title append="modal" ifeval="!get_data('rest/5')" require="php/lib/pdf.php" eval="true">pdf(str_replace('.xml', '_pdf.xml', detect_app_file(get_data('rest/1'))), [
+        <title append="modal" ifeval="!get_data('rest/5')" require="php/lib/pdf.php" eval="true">pdf(detect_pdf_file(get_data('rest/1')), [
             'id' => check_ids(get_data('rest/4')),
         ])['name']</title>
         <layout append="three,two,one">
             <row auto="true" col_class="col-12 mb-3">
                 <pdfjs>
                     <srcdoc ifeval="get_data('rest/5')" require="php/lib/files.php" eval="true">files_viewpdf(get_data('rest/1'), intval(get_data('rest/4')), intval(get_data('rest/5')))</srcdoc>
-                    <srcdoc ifeval="!get_data('rest/5')" require="php/lib/pdf.php" eval="true">pdf(str_replace('.xml', '_pdf.xml', detect_app_file(get_data('rest/1'))), [
+                    <srcdoc ifeval="!get_data('rest/5')" require="php/lib/pdf.php" eval="true">pdf(detect_pdf_file(get_data('rest/1')), [
                         'id' => check_ids(get_data('rest/4')),
                     ])['data']</srcdoc>
                 </pdfjs>
@@ -103,7 +103,7 @@
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/4'))</check>
         <temp require="php/lib/log.php" eval="true">make_log(get_data('rest/1'), get_data('rest/3'), get_data('rest/4'), get_data('rest/5'))</temp>
         <output ifeval="get_data('rest/5')" require="php/lib/files.php" eval="true">files_download(get_data('rest/1'), intval(get_data('rest/4')), intval(get_data('rest/5')))</output>
-        <output ifeval="!get_data('rest/5')" require="php/lib/pdf.php" eval="true">pdf(str_replace('.xml', '_pdf.xml', detect_app_file(get_data('rest/1'))), [
+        <output ifeval="!get_data('rest/5')" require="php/lib/pdf.php" eval="true">pdf(detect_pdf_file(get_data('rest/1')), [
             'id' => check_ids(get_data('rest/4')),
         ])</output>
     </view>
