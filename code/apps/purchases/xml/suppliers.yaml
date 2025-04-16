@@ -31,21 +31,23 @@ dropdown: true
 list:
     # [id, type, label]
     - [name, text, Name]
-    - [email, text, Email]
-    - [phone, text, Phone]
+    - [code, text, CIF]
+    - [city, text, City]
+    - [country, text, Country]
+    - [active, boolean, Active]
 form:
     # [id, type, label]
+    - [active, switch, Active]
     - [name, text, Name]
-    - [email, text, Email]
-    - [phone, text, Phone]
     - [address, text, Address]
     - [city, text, City]
     - [zip, text, ZIP]
     - [country, text, Country]
-    - [tax_id, text, Tax ID]
+    - [code, text, CIF]
+    - [email, text, Email]
+    - [phone, text, Phone]
     - [website, text, Website]
     - [notes, textarea, Notes]
-    - [created_at, date, Created]
     - [type_id, select, Type]
 select:
     # [id, table, optional field]
@@ -58,3 +60,21 @@ attr:
     notes:
         col_class: col-md-12 mb-3
         height: 5em
+    city:
+        col_class: col-md-3 mb-3
+    zip:
+        col_class: col-md-3 mb-3
+    country:
+        col_class: col-md-3 mb-3
+    code:
+        col_class: col-md-3 mb-3
+    active:
+        col_class: col-md-12 mb-3
+    email:
+        col_class: col-md-4 mb-3
+    phone:
+        col_class: col-md-4 mb-3
+    website:
+        col_class: col-md-4 mb-3
+    type_id:
+        col_class: col-md-3 mb-3

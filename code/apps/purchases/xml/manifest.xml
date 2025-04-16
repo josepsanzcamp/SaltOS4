@@ -37,7 +37,7 @@
             perms="*"/>
         <app id="57" active="1" group="purchases"
             code="purchase" name="Purchase" description="Purchase management"
-            table="app_purchase" field="date"
+            table="app_purchase" field="invoice_code"
             has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1" has_log="1"
             perms="*"/>
     </apps>

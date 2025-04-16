@@ -228,12 +228,10 @@ function make_app_file($data)
                 $fields[] = $fixed;
                 break;
             case 'boolean':
-                $fields[] = "CASE $fixed
-                    WHEN 1 THEN 'check-lg text-success' ELSE 'x-lg text-danger' END $fixed";
+                $fields[] = "IF($fixed != 0, 'check-lg text-success', 'x-lg text-danger') $fixed";
                 break;
             case 'hastext':
-                $fields[] = "CASE $fixed
-                    WHEN '' THEN 'x-lg text-danger' ELSE 'check-lg text-success' END $fixed";
+                $fields[] = "IF($fixed != '', 'check-lg text-success', 'x-lg text-danger') $fixed";
                 break;
             case 'select':
                 $field2 = $data['select'][$id]['field'];

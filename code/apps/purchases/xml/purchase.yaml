@@ -30,21 +30,22 @@ col_class: col-md-6 mb-3
 dropdown: true
 list:
     # [id, type, label]
-    - [date, text, Date]
+    - [order_date, text, Order date]
     - [supplier_id, select, Supplier]
-    - [code, text, Code]
+    - [invoice_code, text, Invoice]
+    - [paid, boolean, Paid]
 form:
     # [id, type, label]
-    - [date, date, Date]
+    - [order_date, date, Order date]
     - [supplier_id, select, Supplier]
-    - [code, text, Code]
     - [description, textarea, Description]
     - [subtotal, float, Subtotal]
     - [tax, float, Tax]
     - [total, float, Total]
-    - [paid, float, Paid]
     - [status_id, select, Status]
+    - [invoice_code, text, Invoice Code]
     - [invoice_date, date, Invoice Date]
+    - [paid, float, Paid]
     - [paid_date, date, Paid Date]
     - [notes, textarea, Notes]
 select:
@@ -54,8 +55,14 @@ select:
 attr:
     # field:
     #     attr: value
-    code:
+    order_date:
         required: true
+        col_class: col-md-3 mb-3
+    supplier_id:
+        required: true
+        col_class: col-md-6 mb-3
+    invoice_code:
+        col_class: col-md-3 mb-3
     description:
         required: true
         col_class: col-md-12 mb-3
@@ -63,3 +70,17 @@ attr:
     notes:
         col_class: col-md-12 mb-3
         height: 5em
+    subtotal:
+        col_class: col-md-3 mb-3
+    tax:
+        col_class: col-md-3 mb-3
+    total:
+        col_class: col-md-3 mb-3
+    paid:
+        col_class: col-md-3 mb-3
+    status_id:
+        col_class: col-md-3 mb-3
+    invoice_date:
+        col_class: col-md-3 mb-3
+    paid_date:
+        col_class: col-md-3 mb-3
