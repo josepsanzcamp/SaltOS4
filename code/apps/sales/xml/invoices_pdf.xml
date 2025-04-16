@@ -50,8 +50,6 @@
                 '210' water_albaranes_posy,
                 '145' water_albaranes_size,
                 '60' water_albaranes_angle,
-                '€' accounting_currency,
-                '5' zero_padding_digits,
                 (SELECT name FROM app_payment_methods b WHERE b.id = a.payment_method_id) payment_method
             FROM app_invoices a
             WHERE id IN ({$row["id"]})
@@ -86,8 +84,8 @@
                 <font>"normal","",8,$row["color_text2"]</font>
                 <text>141,32,T("Invoice code").": ".$row["invoice_code"]</text>
                 <text>141,36,T("Invoice date").": ".$row["invoice_date"]</text>
-                <text>141,40,T("Payment method").": ".$row["payment_method"]</text>
-                <text>141,44,T("Proforma code").": ".$row["proforma_code"]</text>
+                <text>141,40,T("Proforma code").": ".$row["proforma_code"]</text>
+                <text>141,44,T("Payment method").": ".$row["payment_method"]</text>
             <eval>true</eval>
             <!-- PONER CAJA CLIENTE -->
             <rect>10,10,110,32,"D",0.15</rect>
@@ -161,8 +159,7 @@
             <query>"SELECT *,
                 '#666666' color_line,
                 '#2780e3' color_text1,
-                '#666666' color_text2,
-                '€' accounting_currency
+                '#666666' color_text2
                 FROM app_invoices_taxes
                 WHERE {$row["filtro"]}
                 ORDER BY id ASC"</query>
