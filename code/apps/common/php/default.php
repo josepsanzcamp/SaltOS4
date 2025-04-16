@@ -78,16 +78,24 @@ function make_app_file($data)
     if (!isset($screen)) {
         show_php_error(['phperror' => 'main/screen node not found']);
     }
-    if ($screen != 'TO' . 'DO') {
-        show_php_error(['phperror' => 'main/screen TO' . 'DO not found']);
+    if ($screen != 'TODO') {
+        show_php_error(['phperror' => 'main/screen TODO not found']);
+    }
+
+    $dropdown = &$array['list#1']['value']['layout']['value']['row#1']['value']['table']['#attr']['dropdown'];
+    if (!isset($dropdown)) {
+        show_php_error(['phperror' => 'list/dropdown attr not found']);
+    }
+    if ($dropdown != 'TODO') {
+        show_php_error(['phperror' => 'list/dropdown TODO not found']);
     }
 
     $header = &$array['list#1']['value']['layout']['value']['row#1']['value']['table']['value']['header'];
     if (!isset($header)) {
         show_php_error(['phperror' => 'list/header node not found']);
     }
-    if ($header != 'TO' . 'DO') {
-        show_php_error(['phperror' => 'list/header TO' . 'DO not found']);
+    if ($header != 'TODO') {
+        show_php_error(['phperror' => 'list/header TODO not found']);
     }
 
     $actions = &$array['list#1']['value']['layout']['value']['row#1']['value']['table']['value']['actions'];
@@ -102,16 +110,16 @@ function make_app_file($data)
     if (!isset($list)) {
         show_php_error(['phperror' => 'list/data node not found']);
     }
-    if (!strpos($list, 'TO' . 'DO')) {
-        show_php_error(['phperror' => 'list/data TO' . 'DO not found']);
+    if (!strpos($list, 'TODO')) {
+        show_php_error(['phperror' => 'list/data TODO not found']);
     }
 
     $form = &$array['_form'];
     if (!isset($form)) {
         show_php_error(['phperror' => 'form node not found']);
     }
-    if ($form != 'TO' . 'DO') {
-        show_php_error(['phperror' => 'form TO' . 'DO not found']);
+    if ($form != 'TODO') {
+        show_php_error(['phperror' => 'form TODO not found']);
     }
 
     $col_class = [
@@ -123,8 +131,8 @@ function make_app_file($data)
         if (!isset($col_class[$key])) {
             show_php_error(['phperror' => "$key col_class not found"]);
         }
-        if ($col_class[$key] != 'TO' . 'DO') {
-            show_php_error(['phperror' => "$key col_class TO" . 'DO not found']);
+        if ($col_class[$key] != 'TODO') {
+            show_php_error(['phperror' => "$key col_class TODO not found"]);
         }
     }
 
@@ -188,6 +196,24 @@ function make_app_file($data)
         }
     }
 
+    // set the dropdown attr to true or false string
+    if ($data['dropdown'] === null || $data['dropdown'] === 'auto') {
+        $dropdown = count($actions) == 1 ? 'false' : 'true';
+    } elseif ($data['dropdown'] === true) {
+        $dropdown = 'true';
+    } elseif ($data['dropdown'] === false) {
+        $dropdown = 'false';
+    } else {
+        show_php_error(['phperror' => 'unknown dropdown value']);
+    }
+
+    // remove labels in actions if needed
+    if ($dropdown == 'false') {
+        foreach ($actions as $key => $action) {
+            unset($actions[$key]['#attr']['label']);
+        }
+    }
+
     // set the select fields list
     $query = $list;
     $fields = [];
@@ -218,7 +244,7 @@ function make_app_file($data)
         }
     }
     $fields = implode(', ', $fields);
-    $query = str_replace('TO' . 'DO', $fields, $query);
+    $query = str_replace('TODO', $fields, $query);
     $list = $query;
 
     // set the form fields

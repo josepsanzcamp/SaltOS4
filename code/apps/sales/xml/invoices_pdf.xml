@@ -40,66 +40,66 @@
                 '#666666' color_line,
                 '#2780e3' color_text1,
                 '#666666' color_text2,
-                'Invoice' water_facturas_text,
-                '40' water_facturas_posx,
-                '210' water_facturas_posy,
-                '145' water_facturas_size,
-                '60' water_facturas_angle,
-                'Proforma' water_albaranes_text,
-                '40' water_albaranes_posx,
-                '210' water_albaranes_posy,
-                '145' water_albaranes_size,
-                '60' water_albaranes_angle,
+                'Invoice' water_invoices_text,
+                '40' water_invoices_posx,
+                '210' water_invoices_posy,
+                '145' water_invoices_size,
+                '60' water_invoices_angle,
+                'Proforma' water_proforma_text,
+                '40' water_proforma_posx,
+                '210' water_proforma_posy,
+                '145' water_proforma_size,
+                '60' water_proforma_angle,
                 (SELECT name FROM app_payment_methods b WHERE b.id = a.payment_method_id) payment_method
             FROM app_invoices a
             WHERE id IN ({$row["id"]})
             ORDER BY id ASC"</query>
-        <!-- TEMPLATE -->
+        <!-- template -->
         <header>
-            <!-- LOGO -->
+            <!-- logo -->
             <margins>0,0,0,0</margins>
             <image>$row["logo_left"],$row["logo_top"],$row["logo_width"],$row["logo_height"],$row["logo_file"]</image>
-            <!-- PONER MARCA DE AGUA -->
-            <font>"normal","B",$row["is_closed"] ? $row["water_facturas_size"] : $row["water_albaranes_size"],"#eeeeee"</font>
-            <text>$row["is_closed"] ? $row["water_facturas_posx"] : $row["water_albaranes_posx"],
-                $row["is_closed"] ? $row["water_facturas_posy"] : $row["water_albaranes_posy"],
-                $row["is_closed"] ? $row["water_facturas_text"] : $row["water_albaranes_text"],
-                $row["is_closed"] ? $row["water_facturas_angle"] : $row["water_albaranes_angle"]</text>
-            <!-- PONER CAJA FACTURA -->
+            <!-- add watermark -->
+            <font>"normal","B",$row["is_closed"] ? $row["water_invoices_size"] : $row["water_proforma_size"],"#eeeeee"</font>
+            <text>$row["is_closed"] ? $row["water_invoices_posx"] : $row["water_proforma_posx"],
+                $row["is_closed"] ? $row["water_invoices_posy"] : $row["water_proforma_posy"],
+                $row["is_closed"] ? $row["water_invoices_text"] : $row["water_proforma_text"],
+                $row["is_closed"] ? $row["water_invoices_angle"] : $row["water_proforma_angle"]</text>
+            <!-- add invoice box -->
             <color>$row["color_line"],"#000000"</color>
             <eval>!$row["is_closed"]</eval>
-                <rect>140,25,60,20,"D",0.15</rect>
+                <rect>140,30,60,20,"D",0.15</rect>
                 <font>"normal","B",8,$row["color_text1"]</font>
-                <text>141,26,T("Proforma")</text>
-                <line>140,31,60,0</line>
+                <text>141,31,T("Proforma")</text>
+                <line>140,36,60,0</line>
                 <font>"normal","",8,$row["color_text2"]</font>
-                <text>141,32,T("Proforma code").": ".$row["proforma_code"]</text>
-                <text>141,36,T("Proforma date").": ".$row["proforma_date"]</text>
-                <text>141,40,T("Payment method").": ".$row["payment_method"]</text>
+                <text>141,37,T("Proforma code").": ".$row["proforma_code"]</text>
+                <text>141,41,T("Proforma date").": ".$row["proforma_date"]</text>
+                <text>141,45,T("Payment method").": ".$row["payment_method"]</text>
             <eval>$row["is_closed"]</eval>
-                <rect>140,25,60,24,"D",0.15</rect>
+                <rect>140,26,60,24,"D",0.15</rect>
                 <font>"normal","B",8,$row["color_text1"]</font>
-                <text>141,26,T("Invoice")</text>
-                <line>140,31,60,0</line>
+                <text>141,27,T("Invoice")</text>
+                <line>140,32,60,0</line>
                 <font>"normal","",8,$row["color_text2"]</font>
-                <text>141,32,T("Invoice code").": ".$row["invoice_code"]</text>
-                <text>141,36,T("Invoice date").": ".$row["invoice_date"]</text>
-                <text>141,40,T("Proforma code").": ".$row["proforma_code"]</text>
-                <text>141,44,T("Payment method").": ".$row["payment_method"]</text>
+                <text>141,33,T("Invoice code").": ".$row["invoice_code"]</text>
+                <text>141,37,T("Invoice date").": ".$row["invoice_date"]</text>
+                <text>141,41,T("Proforma code").": ".$row["proforma_code"]</text>
+                <text>141,45,T("Payment method").": ".$row["payment_method"]</text>
             <eval>true</eval>
-            <!-- PONER CAJA CLIENTE -->
-            <rect>10,10,110,32,"D",0.15</rect>
+            <!-- add customer box -->
+            <rect>10,18,110,32,"D",0.15</rect>
             <font>"normal","B",8,$row["color_text1"]</font>
-            <text>11,11,T("Customer details")</text>
-            <line>10,16,110,0</line>
+            <text>11,19,T("Customer details")</text>
+            <line>10,24,110,0</line>
             <font>"normal","",8,$row["color_text2"]</font>
-            <text>11,17,T("Name").": ".$row["customer_name"]</text>
-            <text>11,21,T("C.I.F.").": ".$row["customer_code"]</text>
-            <text>11,25,T("Address").": ".$row["customer_address"]</text>
-            <text>11,29,T("Country").": ".$row["customer_country"]</text>
-            <text>11,33,T("City").": ".$row["customer_city"]</text>
-            <text>11,37,T("Postal code").": ".$row["customer_zip"]</text>
-            <!-- PONER CAJA CONCEPTOS -->
+            <text>11,25,T("Name").": ".$row["customer_name"]</text>
+            <text>11,29,T("C.I.F.").": ".$row["customer_code"]</text>
+            <text>11,33,T("Address").": ".$row["customer_address"]</text>
+            <text>11,37,T("Country").": ".$row["customer_country"]</text>
+            <text>11,41,T("City").": ".$row["customer_city"]</text>
+            <text>11,45,T("Postal code").": ".$row["customer_zip"]</text>
+            <!-- add items box -->
             <rect>10,60,190,180,"D",0.15</rect>
             <font>"normal","B",8,$row["color_text1"]</font>
             <textarea>10,61,130,4,"C",T("Description")</textarea>
@@ -117,14 +117,14 @@
         </header>
         <footer>
             <margins>0,0,0,0</margins>
-            <!-- PONER PIE DE PAGINA -->
+            <!-- add footer -->
             <font>"normal","",6,$row["color_text2"]</font>
             <pageno>10,283,190,4,"R",T("Page %s of %s")</pageno>
             <margins>67,10,52,10</margins>
         </footer>
-        <!-- BEGIN -->
+        <!-- begin -->
         <newpage></newpage>
-        <!-- PONER LOS CONCEPTOS -->
+        <!-- add item rows -->
         <font>"normal","",8,$row["color_text2"]</font>
         <setxy>10,67</setxy>
         <foreach>
@@ -148,7 +148,7 @@
         </foreach>
         <margins>0,0,0,0</margins>
         <color>$row["color_line"],"#000000"</color>
-        <!-- MONTAR CAJA DE TAXES -->
+        <!-- build tax box -->
         <font>"normal","B",8,$row["color_text1"]</font>
         <textarea>10,251,40,4,'C',T('Tax')</textarea>
         <textarea>50,251,20,4,'C',T('Base')</textarea>
@@ -178,7 +178,7 @@
         <rect>10,250,80,$row["y"]-250+1,"D",0.15</rect>
         <line>50,250,0,$row["y"]-250+1,0.15</line>
         <line>70,250,0,$row["y"]-250+1,0.15</line>
-        <!-- PONER CAJA SUBTOTAL + TAX + TOTAL -->
+        <!-- add subtotal + tax + total box -->
         <rect>140,250,60,12,"D",0.15</rect>
         <line>140,256,60,0</line>
         <line>160,250,0,12</line>
@@ -191,14 +191,14 @@
         <textarea>140,257,20,4,"R",$row["subtotal"]</textarea>
         <textarea>160,257,20,4,"R",$row["tax"]</textarea>
         <textarea>180,257,20,4,"R",$row["total"]</textarea>
-        <!-- MONTAR CAJA DE NOTAS -->
+        <!-- build notes box -->
         <font>"normal","",8,$row["color_text2"]</font>
         <textarea>100,269,100,4,"L",$row["description"]</textarea>
         <!--<rect>100,268,100,6,"D",0.15</rect>-->
     </foreach>
     <eval>strpos($row["id"],",")===false</eval>
     <output>encode_bad_chars(execute_query("SELECT
-        IF(is_closed, CONCAT('".T('Delivery note')."',' ',proforma_code,' ',customer_name), CONCAT('".T('Invoice')."',' ',invoice_code,' ',customer_name)) subject
+        IF(is_closed, CONCAT('".T('Proforma')."',' ',proforma_code,' ',customer_name), CONCAT('".T('Invoice')."',' ',invoice_code,' ',customer_name)) subject
         FROM app_invoices
         WHERE id IN ({$row['id']})")).'.pdf'</output>
     <eval>true</eval>

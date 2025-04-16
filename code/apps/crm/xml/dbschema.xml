@@ -82,16 +82,47 @@
         <table name="app_quotes">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="code" type="VARCHAR(255)"/>
                 <field name="date" type="DATE"/>
-                <field name="customer_id" type="INT(11)"/>
-                <field name="title" type="VARCHAR(255)"/>
+                <field name="customer_id" type="INT(11)" fkey="app_customers"/>
+                <field name="customer_name" type="VARCHAR(255)"/>
+                <field name="customer_address" type="TEXT"/>
+                <field name="customer_city" type="VARCHAR(255)"/>
+                <field name="customer_zip" type="VARCHAR(255)"/>
+                <field name="customer_country" type="VARCHAR(255)"/>
+                <field name="customer_code" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
                 <field name="subtotal" type="FLOAT"/>
                 <field name="tax" type="FLOAT"/>
                 <field name="total" type="FLOAT"/>
-                <field name="status_id" type="INT(11)"/>
+                <field name="payment_method_id" type="INT(11)" fkey="app_payment_methods"/>
                 <field name="valid_until" type="DATE"/>
-                <field name="created_by" type="VARCHAR(255)"/>
+                <field name="status_id" type="INT(11)" fkey="app_types"/>
+            </fields>
+        </table>
+        <table name="app_quotes_lines">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="quote_id" type="INT(11)" fkey="app_quotes"/>
+                <field name="product_id" type="INT(11)" fkey="app_products"/>
+                <field name="description" type="VARCHAR(255)"/>
+                <field name="quantity" type="FLOAT"/>
+                <field name="price" type="FLOAT"/>
+                <field name="discount" type="FLOAT"/>
+                <field name="tax_id" type="INT(11)" fkey="app_taxes"/>
+                <field name="tax_value" type="FLOAT"/>
+                <field name="total" type="FLOAT"/>
+            </fields>
+        </table>
+        <table name="app_quotes_taxes">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="quote_id" type="INT(11)" fkey="app_quotes"/>
+                <field name="tax_id" type="INT(11)" fkey="app_taxes"/>
+                <field name="tax_name" type="VARCHAR(255)"/>
+                <field name="tax_value" type="FLOAT"/>
+                <field name="base" type="FLOAT"/>
+                <field name="tax" type="FLOAT"/>
             </fields>
         </table>
     </tables>

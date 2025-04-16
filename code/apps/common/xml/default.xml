@@ -64,13 +64,13 @@
             </row>
             <div eval="true">xmlfile2array('apps/common/xml/filter.xml')['div']</div>
             <row auto="true" col_class="col-md-12 my-3">
-                <table id="list" nodata="Loading..." dropdown="false">
+                <table id="list" nodata="Loading..." dropdown="TODO">
                     <checkbox require="php/lib/pdf.php" eval="true">exists_pdf_file(get_data('rest/1'))</checkbox>
                     <header>TODO</header>
                     <actions>
-                        <view icon="search" tooltip="View" onclick="saltos.driver.open"/>
-                        <edit icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
-                        <delete icon="trash" color="danger" tooltip="Delete" onclick="saltos.driver.delete"/>
+                        <view label="View" icon="search" tooltip="To view the register" onclick="saltos.driver.open"/>
+                        <edit label="Edit" icon="pencil" tooltip="To edit the register" onclick="saltos.driver.open"/>
+                        <delete label="Delete" icon="trash" color="danger" tooltip="To delete the register" onclick="saltos.driver.delete"/>
                     </actions>
                 </table>
             </row>

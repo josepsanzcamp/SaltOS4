@@ -27,6 +27,7 @@ template: apps/common/xml/default.xml
 indent: true
 screen: type5
 col_class: col-md-12 mb-3
+dropdown: false
 list:
     # [id, type, label]
     - [name, text, Name]
