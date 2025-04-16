@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ -  ____        _ _    ___  ____    _  _    ___
+ - / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ - \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ -  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ - |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ -
+ - SaltOS: Framework to develop Rich Internet Applications
+ - Copyright (C) 2007-2025 by Josep Sanz Campderrós
+ - More information in https://www.saltos.org or info@saltos.org
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU General Public License as published by
+ - the Free Software Foundation, either version 3 of the License, or
+ - (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ - GNU General Public License for more details.
+ -
+ - You should have received a copy of the GNU General Public License
+ - along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<!-- source: apps/sales/xml/quotes.yaml -->
+
+<root>
+    <main>
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <screen>type5</screen>
+        <gettext eval="true">T()</gettext>
+        <navbar eval="true">xmlfile2array('apps/common/xml/navbar.xml')['navbar']</navbar>
+        <javascript>
+            <file eval="true">file_with_hash(file_with_min('apps/crm/js/quotes.js'))</file>
+        </javascript>
+    </main>
+
+    <!-- List part -->
+    <list default="true">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <cache eval="true">'app/' . get_data('rest/1') . '/list/cache'</cache>
+    </list>
+
+    <list id="cache">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <cache eval="true">'app/' . get_data('rest/1') . '/main'</cache>
+        <title eval="true">T('List') . ' - ' . T(app2name(get_data('rest/1')))</title>
+        <layout append="one">
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <button onclick="saltos.common.filter()" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
+                <button onclick="saltos.common.create()" label="New" tooltip="To create a new register" icon="plus-lg" color="success" ifeval="check_user(get_data('rest/1'), 'create')"/>
+                <div col_class="col"/>
+                <hidden id="page" value="0"/>
+                <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+shift+f" onenter="document.getElementById('search_extra').value=this.value;saltos.driver.search()" autofocus="true" onchange="document.getElementById('search_extra').value=this.value"/>
+                <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
+                <dropdown label="PDF" icon="filetype-pdf" tooltip="PDF options">
+                    <menu>
+                        <button label="View" tooltip="To see the quote" icon="search" onclick="saltos.common.viewpdf_checkbox()"/>
+                        <button label="Download" tooltip="To download the quote" icon="save" onclick="saltos.common.download_checkbox()"/>
+                    </menu>
+                </dropdown>
+                <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
+            </row>
+            <div eval="true">xmlfile2array('apps/common/xml/filter.xml')['div']</div>
+            <row auto="true" col_class="col-md-12 my-3">
+                <table id="list" nodata="Loading..." checkbox="true">
+                    <header>
+                        <customer_name label="Customer"/>
+                        <customer_code label="CIF"/>
+                        <code label="Quote"/>
+                        <date label="Date"/>
+                        <total label="Total"/>
+                    </header>
+                    <actions>
+                        <view label="View" icon="search" tooltip="To view the register" onclick="saltos.driver.open"/>
+                        <edit label="Edit" icon="pencil" tooltip="To edit the register" onclick="saltos.driver.open"/>
+                        <delete label="Delete" icon="trash" color="danger" tooltip="To delete the register" onclick="saltos.driver.delete"/>
+                    </actions>
+                </table>
+            </row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button id="more" onclick="saltos.driver.more()" label="Load more" tooltip="To load more registers to the list" icon="plus-lg"/>
+            </row>
+        </layout>
+        <javascript>
+            <inline>saltos.driver.init('list')</inline>
+        </javascript>
+    </list>
+
+    <list id="data">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <temp eval="true">[
+            set_config('app/'.get_data('rest/1').'/filter/last', json_encode(get_data('json'), JSON_FORCE_OBJECT), current_user()),
+            set_data('json/search', strval(get_data('json/search'))),
+            set_data('json/page', intval(get_data('json/page'))),
+            set_data('json/order', 'id DESC'),
+            set_data('json/limit', 25),
+            set_data('json/offset', intval(get_data('json/page') * get_data('json/limit'))),
+        ]</temp>
+        <data require="php/lib/log.php" eval="true">merge_data_actions(
+            make_log_bypass(get_data('rest/1'), get_data('rest/2'), execute_query_array("
+                SELECT id, customer_name, customer_code, total, code, date
+                FROM ".app2table(get_data('rest/1')).'
+                WHERE 1 = 1
+                AND '.make_fulltext_query(get_data('json/search'), get_data('rest/1')).'
+                AND '.check_sql(get_data('rest/1'), 'list').'
+                ORDER BY '.get_data('json/order').'
+                LIMIT '.get_data('json/offset').','.get_data('json/limit'))),
+            xpath_search_first_value('list[id=data]/actions', xmlfile2array(detect_app_file(get_data('rest/1'))))
+        )</data>
+        <actions ifeval="false">
+            <view action="view">
+                <app eval="true">get_data('rest/1')</app>
+            </view>
+            <edit action="edit">
+                <app eval="true">get_data('rest/1')</app>
+            </edit>
+            <delete action="delete">
+                <app eval="true">get_data('rest/1')</app>
+            </delete>
+        </actions>
+        <temp ifeval="!get_data('json/page')" eval="true">set_data('json/total', execute_query('
+            SELECT COUNT(*) total
+            FROM '.app2table(get_data('rest/1')).'
+            WHERE 1 = 1
+            AND '.make_fulltext_query(get_data('json/search'), get_data('rest/1')).'
+            AND '.check_sql(get_data('rest/1'), 'list')))</temp>
+        <nodata ifeval="!get_data('json/page') &amp;&amp; !get_data('json/total')">Data not found</nodata>
+        <footer ifeval="!get_data('json/page')" eval="true">get_data('json/total') ? 'Total: ' . get_data('json/total') : ''</footer>
+    </list>
+
+    <list id="filter" eval="true">xmlfile2array('apps/common/xml/filter.xml')['list']</list>
+
+    <!-- Form part -->
+    <_form>
+        <text id="code" label="Quote" col_class="col-md-3 mb-3" disabled="true"/>
+        <date id="date" label="Date" col_class="col-md-3 mb-3" disabled="true"/>
+        <div col_class="col-6"/>
+
+        <text id="customer_name" label="Customer" col_class="col-md-6 mb-3" required="true"/>
+        <text id="customer_address" label="Address" col_class="col-md-6 mb-3" required="true"/>
+
+        <text id="customer_city" label="City" col_class="col-md-3 mb-3" required="true"/>
+        <text id="customer_zip" label="Zip" col_class="col-md-3 mb-3" required="true"/>
+        <text id="customer_country" label="Country" col_class="col-md-3 mb-3" required="true"/>
+        <text id="customer_code" label="CIF" col_class="col-md-3 mb-3" required="true"/>
+
+        <textarea id="description" label="Notes" height="5em" col_class="col-md-12 mb-3"/>
+
+        <excel id="lines" label="Concepts" col_class="col-md-12 mb-3" required="true">
+            <colHeaders eval="true">['Description', 'Quantity', 'Price', 'Discount', 'Tax', 'Total']</colHeaders>
+            <rowHeaders eval="true">null</rowHeaders>
+            <colWidths>saltos.quotes.colWidths_lines</colWidths>
+            <numcols>6</numcols>
+            <numrows>5</numrows>
+            <minSpareRows>1</minSpareRows>
+            <cells>saltos.quotes.cells_lines</cells>
+            <afterChange>saltos.quotes.afterChange_lines</afterChange>
+            <autoWrapRow>true</autoWrapRow>
+        </excel>
+
+        <excel id="taxes" label="Taxes" col_class="col-md-6 mb-3">
+            <colHeaders eval="true">['Tax', 'Base', 'Total']</colHeaders>
+            <rowHeaders eval="true">null</rowHeaders>
+            <colWidths>saltos.quotes.colWidths_taxes</colWidths>
+            <numcols>3</numcols>
+            <numrows>1</numrows>
+            <cells>saltos.quotes.cells_taxes</cells>
+        </excel>
+        <hidden id="alltaxes">
+            <data eval="true">execute_query_array("SELECT name, value FROM app_taxes WHERE active=1")</data>
+        </hidden>
+
+        <excel id="totals" label="Totals" col_class="col-md-6 mb-3">
+            <colHeaders eval="true">['Subtotal', 'Tax', 'Total']</colHeaders>
+            <rowHeaders eval="true">null</rowHeaders>
+            <colWidths>saltos.quotes.colWidths_totals</colWidths>
+            <numcols>3</numcols>
+            <numrows>1</numrows>
+            <cells>saltos.quotes.cells_totals</cells>
+        </excel>
+
+        <select id="payment_method_id" label="Payment method" col_class="col-md-3 mb-3">
+            <rows eval="true">execute_query_array("
+                    SELECT '' label, '0' value UNION
+                    SELECT name label, id value FROM app_payment_methods
+                    WHERE active = 1")</rows>
+        </select>
+
+        <date id="valid_until" label="Valid until" col_class="col-md-3 mb-3"/>
+
+        <select id="status_id" label="Status" col_class="col-md-3 mb-3">
+            <rows eval="true">execute_query_array("
+                    SELECT '' label, '0' value UNION
+                    SELECT name label, id value FROM app_types")</rows>
+        </select>
+
+    </_form>
+
+    <_data require="php/lib/log.php" eval="true">array_merge(
+        make_log_bypass(get_data('rest/1'), get_data('rest/2'), execute_query('
+            SELECT * FROM '.app2table(get_data('rest/1')).' WHERE id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')),
+            [intval(get_data('rest/3'))])),
+        ['lines' => matrix_values(execute_query_array('SELECT description, quantity, price, discount, tax_value, total
+            FROM '.app2table(get_data('rest/1')).'_lines WHERE quote_id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')).' ORDER BY id ASC',
+            [intval(get_data('rest/3'))]))],
+        ['taxes' => matrix_values(execute_query_array('SELECT tax_name, base, tax
+            FROM '.app2table(get_data('rest/1')).'_taxes WHERE quote_id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')).' ORDER BY id ASC',
+            [intval(get_data('rest/3'))]))],
+        ['totals' => matrix_values(execute_query_array('SELECT subtotal, tax, total
+            FROM '.app2table(get_data('rest/1')).' WHERE id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')),
+            [intval(get_data('rest/3'))]))],
+    )</_data>
+
+    <create>
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <cache eval="true">'app/' . get_data('rest/1') . '/create/cache'</cache>
+    </create>
+
+    <create id="cache">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <cache eval="true">'app/' . get_data('rest/1') . '/main'</cache>
+        <title eval="true">T('New') . ' - ' . T(app2name(get_data('rest/1')))</title>
+        <layout append="two,one">
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_form']</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button onclick="saltos.driver.insert()" label="Create" tooltip="To create the new register" icon="check-lg" color="success"/>
+                <button onclick="saltos.driver.cancel()" label="Cancel" tooltip="To cancel the new register creation" icon="x-lg" autoclose="true" color="danger"/>
+            </row>
+        </layout>
+        <javascript>
+            <inline>saltos.quotes.init('create')</inline>
+            <inline>saltos.driver.init('create')</inline>
+        </javascript>
+    </create>
+
+    <create id="insert">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <json require="apps/crm/php/quotes.php" eval="true">set_data('json',unmake_matrix_data(get_data('json'), 0))</json>
+        <code require="apps/crm/php/quotes.php" eval="true">set_data('json',set_quote(get_data('json'), 0))</code>
+        <output require="php/lib/actions.php" eval="true">insert(get_data('rest/1'), get_data('json'))</output>
+    </create>
+
+    <view>
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))</check>
+        <cache eval="true">'app/' . get_data('rest/1') . '/view/cache'</cache>
+        <data eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_data']</data>
+        <data><allfiles eval="true">xmlfile2array('apps/common/xml/files.xml')['_data']</allfiles></data>
+        <data><allnotes eval="true">xmlfile2array('apps/common/xml/notes.xml')['_data']</allnotes></data>
+        <javascript>
+            <inline>saltos.quotes.init('view')</inline>
+            <inline>saltos.driver.init('view')</inline>
+            <inline>saltos.common.allfiles()</inline>
+            <inline>saltos.common.allnotes()</inline>
+        </javascript>
+    </view>
+
+    <view id="cache">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <cache eval="true">'app/' . get_data('rest/1') . '/main'</cache>
+        <title eval="true">T('Detail') . ' - ' . T(app2name(get_data('rest/1')))</title>
+        <layout append="two,one">
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_form']</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <dropdown label="Info" icon="file-text" tooltip="Information of this register" ifeval="check_user(get_data('rest/1'), 'info')">
+                    <menu>
+                        <button onclick="saltos.common.version()" label="History" tooltip="To see the history of the changes" icon="file-text" ifeval="app2version(get_data('rest/1'))"/>
+                        <button onclick="saltos.common.log()" label="Log" tooltip="To see the history of the changes" icon="file-text" ifeval="app2log(get_data('rest/1'))"/>
+                    </menu>
+                </dropdown>
+                <dropdown label="PDF" icon="filetype-pdf" tooltip="PDF options">
+                    <menu>
+                        <button onclick="saltos.common.viewpdf()" label="View" tooltip="To see the quote" icon="search"/>
+                        <button onclick="saltos.common.download()" label="Download" tooltip="To download the quote" icon="save"/>
+                    </menu>
+                </dropdown>
+                <div col_class="col"/>
+                <button onclick="saltos.common.edit()" label="Edit" tooltip="To edit this register" icon="pencil" ifeval="check_user(get_data('rest/1'), 'edit')"/>
+                <button onclick="saltos.driver.delete()" color="danger" label="Delete" tooltip="To delete this register" icon="trash" ifeval="check_user(get_data('rest/1'), 'delete')"/>
+                <button onclick="saltos.driver.close()" label="Close" tooltip="To close the detail of this register" icon="x-lg" autoclose="true"/>
+                <button onclick="saltos.driver.close(true)" col_class="d-none" accesskey="escape"/>
+            </row>
+        </layout>
+    </view>
+
+    <view id="viewpdf" eval="true">xpath_search_first('view[id=viewpdf]', xmlfile2array('apps/common/xml/files.xml'))</view>
+    <view id="download" eval="true">xpath_search_first('view[id=download]', xmlfile2array('apps/common/xml/files.xml'))</view>
+    <view id="version" eval="true">xpath_search_first('view[id=version]', xmlfile2array('apps/common/xml/version.xml'))</view>
+    <view id="log" eval="true">xpath_search_first('view[id=log]', xmlfile2array('apps/common/xml/log.xml'))</view>
+
+    <edit>
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))</check>
+        <cache eval="true">'app/' . get_data('rest/1') . '/edit/cache'</cache>
+        <data eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_data']</data>
+        <data><allfiles eval="true">xmlfile2array('apps/common/xml/files.xml')['_data']</allfiles></data>
+        <data><allnotes eval="true">xmlfile2array('apps/common/xml/notes.xml')['_data']</allnotes></data>
+        <javascript>
+            <inline>saltos.quotes.init('edit')</inline>
+            <inline>saltos.driver.init('edit')</inline>
+            <inline>saltos.common.allfiles()</inline>
+            <inline>saltos.common.allnotes()</inline>
+        </javascript>
+    </edit>
+
+    <edit id="cache">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <cache eval="true">'app/' . get_data('rest/1') . '/main'</cache>
+        <title eval="true">T('Modify') . ' - ' . T(app2name(get_data('rest/1')))</title>
+        <layout append="two,one">
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_form']</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button onclick="saltos.driver.update()" label="Save" tooltip="To save the changes of this register" icon="check-lg" color="success"/>
+                <button onclick="saltos.driver.cancel()" label="Cancel" tooltip="To cancel the register modification" icon="x-lg" autoclose="true" color="danger"/>
+            </row>
+        </layout>
+    </edit>
+
+    <edit id="update">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/4'))</check>
+        <json require="apps/crm/php/quotes.php" eval="true">set_data('json',unmake_matrix_data(get_data('json'), intval(get_data('rest/4'))))</json>
+        <code require="apps/crm/php/quotes.php" eval="true">set_data('json',set_quote(get_data('json'), intval(get_data('rest/4'))))</code>
+        <output require="php/lib/actions.php" eval="true">update(get_data('rest/1'), intval(get_data('rest/4')), get_data('json'))</output>
+    </edit>
+
+    <delete>
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))</check>
+        <output require="php/lib/actions.php" eval="true">delete(get_data('rest/1'), intval(get_data('rest/3')))</output>
+    </delete>
+</root>

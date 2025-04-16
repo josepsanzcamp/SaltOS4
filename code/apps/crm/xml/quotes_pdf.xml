@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ -  ____        _ _    ___  ____    _  _    ___
+ - / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ - \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ -  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ - |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ -
+ - SaltOS: Framework to develop Rich Internet Applications
+ - Copyright (C) 2007-2025 by Josep Sanz Campderrós
+ - More information in https://www.saltos.org or info@saltos.org
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU General Public License as published by
+ - the Free Software Foundation, either version 3 of the License, or
+ - (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ - GNU General Public License for more details.
+ -
+ - You should have received a copy of the GNU General Public License
+ - along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<root>
+    <constructor>"P","mm","A4"</constructor>
+    <margins>67,10,52,10</margins>
+    <foreach>
+        <query>"
+            SELECT *,
+                CONCAT('quote_id=',id) filtro,
+                '142.6' logo_left,
+                '10' logo_top,
+                '57.4' logo_width,
+                '10.74' logo_height,
+                'img/logo_saltos.png' logo_file,
+                '#666666' color_line,
+                '#2780e3' color_text1,
+                '#666666' color_text2,
+                'Quote' water_quotes_text,
+                '40' water_quotes_posx,
+                '210' water_quotes_posy,
+                '145' water_quotes_size,
+                '60' water_quotes_angle,
+                (SELECT name FROM app_payment_methods b WHERE b.id = a.payment_method_id) payment_method
+            FROM app_quotes a
+            WHERE id IN ({$row["id"]})
+            ORDER BY id ASC"</query>
+        <!-- template -->
+        <header>
+            <!-- logo -->
+            <margins>0,0,0,0</margins>
+            <image>$row["logo_left"],$row["logo_top"],$row["logo_width"],$row["logo_height"],$row["logo_file"]</image>
+            <!-- add watermark -->
+            <font>"normal","B",$row["water_quotes_size"],"#eeeeee"</font>
+            <text>$row["water_quotes_posx"],
+                $row["water_quotes_posy"],
+                $row["water_quotes_text"],
+                $row["water_quotes_angle"]</text>
+            <!-- add quote box -->
+            <color>$row["color_line"],"#000000"</color>
+            <rect>140,30,60,20,"D",0.15</rect>
+            <font>"normal","B",8,$row["color_text1"]</font>
+            <text>141,31,T("Quote")</text>
+            <line>140,36,60,0</line>
+            <font>"normal","",8,$row["color_text2"]</font>
+            <text>141,37,T("Quote code").": ".$row["code"]</text>
+            <text>141,41,T("Quote date").": ".$row["date"]</text>
+            <text>141,45,T("Payment method").": ".$row["payment_method"]</text>
+            <!-- add customer box -->
+            <rect>10,18,110,32,"D",0.15</rect>
+            <font>"normal","B",8,$row["color_text1"]</font>
+            <text>11,19,T("Customer details")</text>
+            <line>10,24,110,0</line>
+            <font>"normal","",8,$row["color_text2"]</font>
+            <text>11,25,T("Name").": ".$row["customer_name"]</text>
+            <text>11,29,T("C.I.F.").": ".$row["customer_code"]</text>
+            <text>11,33,T("Address").": ".$row["customer_address"]</text>
+            <text>11,37,T("Country").": ".$row["customer_country"]</text>
+            <text>11,41,T("City").": ".$row["customer_city"]</text>
+            <text>11,45,T("Postal code").": ".$row["customer_zip"]</text>
+            <!-- add items box -->
+            <rect>10,60,190,180,"D",0.15</rect>
+            <font>"normal","B",8,$row["color_text1"]</font>
+            <textarea>10,61,130,4,"C",T("Description")</textarea>
+            <textarea>140,61,15,4,"C",T("Quantity")</textarea>
+            <textarea>155,61,15,4,"C",T("Price")</textarea>
+            <textarea>170,61,15,4,"C",T("Discount")</textarea>
+            <textarea>185,61,15,4,"C",T("Total")</textarea>
+            <line>10,66,190,0</line>
+            <line>140,60,0,180</line>
+            <line>155,60,0,180</line>
+            <line>170,60,0,180</line>
+            <line>185,60,0,180</line>
+            <margins>67,10,57,10</margins>
+            <setxy>10,67</setxy>
+        </header>
+        <footer>
+            <margins>0,0,0,0</margins>
+            <!-- add footer -->
+            <font>"normal","",6,$row["color_text2"]</font>
+            <pageno>10,283,190,4,"R",T("Page %s of %s")</pageno>
+            <margins>67,10,52,10</margins>
+        </footer>
+        <!-- begin -->
+        <newpage></newpage>
+        <!-- add item rows -->
+        <font>"normal","",8,$row["color_text2"]</font>
+        <setxy>10,67</setxy>
+        <foreach>
+            <query>"SELECT *,
+                '#666666' color_line
+                FROM app_quotes_lines
+                WHERE {$row["filtro"]}
+                ORDER BY id ASC"</query>
+            <getxy>"x","y"</getxy>
+            <checky>4</checky>
+            <getxy>"x","y"</getxy>
+            <textarea>140,$row["y"],15,4,"R",$row["quantity"]</textarea>
+            <textarea>155,$row["y"],15,4,"R",$row["price"]</textarea>
+            <textarea>170,$row["y"],15,4,"R",$row["discount"]</textarea>
+            <textarea>185,$row["y"],15,4,"R",$row["total"]</textarea>
+            <textarea>10,$row["y"],130,4,"L",$row["description"]</textarea>
+            <getxy>"x","y"</getxy>
+            <color>$row["color_line"],"#000000"</color>
+            <line>10,$row["y"]+1,190,0,0.15</line>
+            <setxy>10,$row["y"]+2</setxy>
+        </foreach>
+        <margins>0,0,0,0</margins>
+        <color>$row["color_line"],"#000000"</color>
+        <!-- build tax box -->
+        <font>"normal","B",8,$row["color_text1"]</font>
+        <textarea>10,251,40,4,'C',T('Tax')</textarea>
+        <textarea>50,251,20,4,'C',T('Base')</textarea>
+        <textarea>70,251,20,4,'C',T('Total')</textarea>
+        <font>"normal","",8,$row["color_text2"]</font>
+        <setxy>10,255</setxy>
+        <foreach>
+            <query>"SELECT *,
+                '#666666' color_line,
+                '#2780e3' color_text1,
+                '#666666' color_text2
+                FROM app_quotes_taxes
+                WHERE {$row["filtro"]}
+                ORDER BY id ASC"</query>
+            <getxy>"x","y"</getxy>
+            <color>$row["color_line"],"#000000"</color>
+            <line>10,$row["y"]+1,80,0,0.15</line>
+            <setxy>10,$row["y"]+2</setxy>
+            <getxy>"x","y"</getxy>
+            <checky>4</checky>
+            <getxy>"x","y"</getxy>
+            <textarea>10,$row["y"],40,4,"L",$row["tax_name"]</textarea>
+            <textarea>50,$row["y"],20,4,"R",$row["base"]</textarea>
+            <textarea>70,$row["y"],20,4,"R",$row["tax"]</textarea>
+        </foreach>
+        <getxy>"x","y"</getxy>
+        <rect>10,250,80,$row["y"]-250+1,"D",0.15</rect>
+        <line>50,250,0,$row["y"]-250+1,0.15</line>
+        <line>70,250,0,$row["y"]-250+1,0.15</line>
+        <!-- add subtotal + tax + total box -->
+        <rect>140,250,60,12,"D",0.15</rect>
+        <line>140,256,60,0</line>
+        <line>160,250,0,12</line>
+        <line>180,250,0,12</line>
+        <font>"normal","B",8,$row["color_text1"]</font>
+        <textarea>140,251,20,4,"C",T("Base")</textarea>
+        <textarea>160,251,20,4,"C",T("Tax")</textarea>
+        <textarea>180,251,20,4,"C",T("Total")</textarea>
+        <font>"normal","",8,$row["color_text2"]</font>
+        <textarea>140,257,20,4,"R",$row["subtotal"]</textarea>
+        <textarea>160,257,20,4,"R",$row["tax"]</textarea>
+        <textarea>180,257,20,4,"R",$row["total"]</textarea>
+        <!-- build notes box -->
+        <font>"normal","",8,$row["color_text2"]</font>
+        <textarea>100,269,100,4,"L",$row["description"]</textarea>
+        <!--<rect>100,268,100,6,"D",0.15</rect>-->
+    </foreach>
+    <eval>strpos($row["id"],",")===false</eval>
+    <output>encode_bad_chars(execute_query("SELECT
+        CONCAT('".T('Quote')."',' ',code,' ',customer_name) subject
+        FROM app_quotes
+        WHERE id IN ({$row['id']})")).'.pdf'</output>
+    <eval>true</eval>
+    <output>encode_bad_chars(T('Quotes')).'.pdf'</output>
+</root>

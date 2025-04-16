@@ -1,31 +1,118 @@
-import gzip
+import os
 import random
+import gzip
+from datetime import timedelta
 from faker import Faker
-from pathlib import Path
-from datetime import date as dt_date
 
-def generate_app_quotes_sql_gz():
-    path = Path("app_quotes.sql.gz")
-    fake = Faker()
-    sql = "INSERT INTO `app_quotes` (`id`, `date`, `customer_id`, `title`, `description`, `subtotal`, `tax`, `total`, `status_id`, `valid_until`, `created_by`) VALUES\n"
-    rows = []
-    for i in range(1, 101):
-        date_obj = fake.date_between(start_date='-6M', end_date='today')
-        date_str = date_obj.isoformat()
-        customer_id = random.randint(1, 100)
-        title = fake.catch_phrase().replace("'", "''")
-        description = fake.text(max_nb_chars=100).replace("'", "''")
-        subtotal = round(random.uniform(100, 3000), 2)
-        tax = round(subtotal * 0.21, 2)
-        total = round(subtotal + tax, 2)
-        status = random.randint(1, 4)
-        valid_until = fake.date_between(start_date=date_obj, end_date='+30d').isoformat()
-        created_by = random.randint(1, 5)
-        row = f"({i}, '{date_str}', {customer_id}, '{title}', '{description}', {subtotal}, {tax}, {total}, {status}, '{valid_until}', {created_by})"
-        rows.append(row)
-    sql += ",\n".join(rows) + ";"
+fake = Faker()
+random.seed(42)
+Faker.seed(42)
+
+# --- Definición de impuestos ---
+taxes = [
+    {"id": 1, "name": "IVA 21%", "value": 21.00},
+    {"id": 2, "name": "IVA 10%", "value": 10.00},
+    {"id": 3, "name": "IVA 4%",  "value": 4.00},
+    {"id": 4, "name": "Exempt / Not subject", "value": 0.00},
+]
+
+# --- Parámetros iniciales ---
+n_quotes = 100
+quote_rows = []
+line_rows = []
+tax_rows = []
+
+quote_id_seq = 1
+line_id_seq = 1
+tax_id_seq = 1
+
+# --- Funciones auxiliares ---
+def gen_quote_code(prefix, year, number):
+    return f"{prefix}{year}-{number:04d}"
+
+def escape_sql_text(text):
+    return text.replace("'", "''")
+
+def safe_sql_str(s):
+    return f"'{escape_sql_text(s)}'" if s else "''"
+
+def safe_sql_date(d):
+    return f"'{d.strftime('%Y-%m-%d')}'" if d else "'0000-00-00'"
+
+def random_discount():
+    return random.choices([0, 5, 10, 15, 20, 25], weights=[70, 10, 8, 6, 4, 2])[0]
+
+def save_sql_gz(table_name, values, output_dir="."):
+    sql = f"INSERT INTO app_{table_name} VALUES\n" + ",\n".join(values) + ";\n"
+    path = os.path.join(output_dir, f"app_{table_name}.sql.gz")
     with gzip.open(path, "wt", encoding="utf-8") as f:
         f.write(sql)
     return path
 
-generate_app_quotes_sql_gz()
+# --- Generador de datos ---
+for i in range(n_quotes):
+    year = 2025
+
+    code = gen_quote_code("Q", year, i + 1)
+    date = fake.date_between(start_date='-60d', end_date='today')
+    valid_until = date + timedelta(days=random.choice([15, 30, 45]))
+    payment_method_id = random.randint(1, 12)
+    status_id = random.randint(1, 5)
+
+    customer_name = escape_sql_text(fake.company())
+    customer_address = escape_sql_text(fake.address().replace("\n", ", "))
+    customer_city = escape_sql_text(fake.city())
+    customer_zip = escape_sql_text(fake.postcode())
+    customer_country = escape_sql_text(fake.country())
+    customer_code = escape_sql_text(fake.bothify(text="CUST-####"))
+    customer_id = random.randint(1, 50)
+    description = escape_sql_text(fake.paragraph())
+
+    n_lines = int(random.random() ** 2 * 49) + 1
+    subtotal = 0
+    tax_buckets = {}
+
+    for _ in range(n_lines):
+        quantity = round(random.uniform(1, 10), 2)
+        price = round(random.uniform(10, 200), 2)
+        discount = random_discount()
+        tax = random.choice(taxes)
+        base_total = round(quantity * price * (1 - discount / 100), 2)
+
+        line_rows.append(f"({line_id_seq},{quote_id_seq},0,"
+                         f"{safe_sql_str(fake.bs())},{quantity},{price},{discount},"
+                         f"{tax['id']},{tax['value']},{base_total})")
+        line_id_seq += 1
+        subtotal += base_total
+
+        if tax['id'] not in tax_buckets:
+            tax_buckets[tax['id']] = {"tax_name": tax["name"], "tax_value": tax["value"], "base": 0.0}
+        tax_buckets[tax['id']]["base"] += base_total
+
+    total_tax = 0.0
+    for tax_id, data in tax_buckets.items():
+        base = round(data["base"], 2)
+        tax_amount = round(base * data["tax_value"] / 100, 2)
+        total_tax += tax_amount
+        tax_rows.append(f"({tax_id_seq},{quote_id_seq},{tax_id},'{escape_sql_text(data['tax_name'])}',"
+                        f"{data['tax_value']},{base},{tax_amount})")
+        tax_id_seq += 1
+
+    total = round(subtotal + total_tax, 2)
+
+    quote_rows.append(
+        f"({quote_id_seq},"
+        f"'{code}',"
+        f"{safe_sql_date(date)},"
+        f"{customer_id},'{customer_name}','{customer_address}','{customer_city}',"
+        f"'{customer_zip}','{customer_country}','{customer_code}',"
+        f"'{description}',{subtotal},{total_tax},{total},"
+        f"{payment_method_id},{safe_sql_date(valid_until)},"
+        f"{status_id})"
+    )
+    quote_id_seq += 1
+
+# --- Guardar ficheros ---
+save_sql_gz("quotes", quote_rows)
+save_sql_gz("quotes_lines", line_rows)
+save_sql_gz("quotes_taxes", tax_rows)
