@@ -45,7 +45,7 @@
                 '210' water_facturas_posy,
                 '145' water_facturas_size,
                 '60' water_facturas_angle,
-                'Albarán' water_albaranes_text,
+                'Proforma' water_albaranes_text,
                 '40' water_albaranes_posx,
                 '210' water_albaranes_posy,
                 '145' water_albaranes_size,
@@ -70,61 +70,57 @@
             <!-- PONER CAJA FACTURA -->
             <color>$row["color_line"],"#000000"</color>
             <eval>!$row["is_closed"]</eval>
-                <rect>150,25,50,20,"D",0.15</rect>
+                <rect>140,25,60,20,"D",0.15</rect>
                 <font>"normal","B",8,$row["color_text1"]</font>
-                <text>151,26,T("Delivery note")</text>
-                <line>150,31,50,0</line>
+                <text>141,26,T("Proforma")</text>
+                <line>140,31,60,0</line>
                 <font>"normal","",8,$row["color_text2"]</font>
-                <text>151,32,T("Proforma code").": ".$row["proforma_code"]</text>
-                <text>151,36,T("Proforma date").": ".$row["proforma_date"]</text>
-                <text>151,40,T("Payment method").": ".$row["payment_method"]</text>
+                <text>141,32,T("Proforma code").": ".$row["proforma_code"]</text>
+                <text>141,36,T("Proforma date").": ".$row["proforma_date"]</text>
+                <text>141,40,T("Payment method").": ".$row["payment_method"]</text>
             <eval>$row["is_closed"]</eval>
-                <rect>150,25,50,24,"D",0.15</rect>
+                <rect>140,25,60,24,"D",0.15</rect>
                 <font>"normal","B",8,$row["color_text1"]</font>
-                <text>151,26,T("Invoice")</text>
-                <line>150,31,50,0</line>
+                <text>141,26,T("Invoice")</text>
+                <line>140,31,60,0</line>
                 <font>"normal","",8,$row["color_text2"]</font>
-                <text>151,36,T("Proforma code").": ".$row["proforma_code"]</text>
-                <text>151,32,T("Invoice code").": ".$row["invoice_code"]</text>
-                <text>151,40,T("Invoice date").": ".$row["invoice_date"]</text>
-                <text>151,44,T("Payment method").": ".$row["payment_method"]</text>
+                <text>141,32,T("Invoice code").": ".$row["invoice_code"]</text>
+                <text>141,36,T("Invoice date").": ".$row["invoice_date"]</text>
+                <text>141,40,T("Payment method").": ".$row["payment_method"]</text>
+                <text>141,44,T("Proforma code").": ".$row["proforma_code"]</text>
             <eval>true</eval>
             <!-- PONER CAJA CLIENTE -->
-            <rect>10,13,90,36,"D",0.15</rect>
+            <rect>10,10,110,32,"D",0.15</rect>
             <font>"normal","B",8,$row["color_text1"]</font>
-            <text>11,14,T("Customer details")</text>
-            <line>10,19,90,0</line>
+            <text>11,11,T("Customer details")</text>
+            <line>10,16,110,0</line>
             <font>"normal","",8,$row["color_text2"]</font>
-            <text>11,20,T("Name").": ".$row["customer_name"]</text>
-            <text>11,24,T("C.I.F.").": ".$row["customer_code"]</text>
-            <text>11,28,T("Address").": ".$row["customer_address"]</text>
-            <text>11,32,T("Country").": ".$row["customer_country"]</text>
-            <text>11,40,T("City").": ".$row["customer_city"]</text>
-            <text>11,44,T("Postal code").": ".$row["customer_zip"]</text>
+            <text>11,17,T("Name").": ".$row["customer_name"]</text>
+            <text>11,21,T("C.I.F.").": ".$row["customer_code"]</text>
+            <text>11,25,T("Address").": ".$row["customer_address"]</text>
+            <text>11,29,T("Country").": ".$row["customer_country"]</text>
+            <text>11,33,T("City").": ".$row["customer_city"]</text>
+            <text>11,37,T("Postal code").": ".$row["customer_zip"]</text>
             <!-- PONER CAJA CONCEPTOS -->
-            <rect>10,60,190,185,"D",0.15</rect>
+            <rect>10,60,190,180,"D",0.15</rect>
             <font>"normal","B",8,$row["color_text1"]</font>
-            <textarea>10,61,130,4,"C",T("Concept")</textarea>
-            <textarea>140,61,15,4,"C",T("Units")</textarea>
+            <textarea>10,61,130,4,"C",T("Description")</textarea>
+            <textarea>140,61,15,4,"C",T("Quantity")</textarea>
             <textarea>155,61,15,4,"C",T("Price")</textarea>
-            <textarea>170,61,15,4,"C",T("Disc.")</textarea>
+            <textarea>170,61,15,4,"C",T("Discount")</textarea>
             <textarea>185,61,15,4,"C",T("Total")</textarea>
             <line>10,66,190,0</line>
-            <line>140,60,0,185</line>
-            <line>155,60,0,185</line>
-            <line>170,60,0,185</line>
-            <line>185,60,0,185</line>
-            <margins>67,10,52,10</margins>
+            <line>140,60,0,180</line>
+            <line>155,60,0,180</line>
+            <line>170,60,0,180</line>
+            <line>185,60,0,180</line>
+            <margins>67,10,57,10</margins>
             <setxy>10,67</setxy>
         </header>
         <footer>
             <margins>0,0,0,0</margins>
             <!-- PONER PIE DE PAGINA -->
             <font>"normal","",6,$row["color_text2"]</font>
-<!--
-            <textarea>10,280,190,4,"C",$row["factura_pie1"]</textarea>
-            <textarea>10,283,190,4,"C",$row["factura_pie2"]</textarea>
--->
             <pageno>10,283,190,4,"R",T("Page %s of %s")</pageno>
             <margins>67,10,52,10</margins>
         </footer>
@@ -154,113 +150,54 @@
         </foreach>
         <margins>0,0,0,0</margins>
         <color>$row["color_line"],"#000000"</color>
-        <!-- PONER CAJA FINAL IVA + IRPF -->
-<!--
-        <eval>$row["factura_iva_bool"] AND $row["factura_irpf_bool"]</eval>
-            <rect>150,254,50,24,"D",0.15</rect>
-            <line>150,260,50,0</line>
-            <line>150,266,50,0</line>
-            <line>150,271,50,0</line>
-            <line>185,254,0,24</line>
-            <font>"normal","B",8,$row["color_text1"]</font>
-            <textarea>150,255,35,4,"R",T("Taxable amount")." (".$row["accounting_currency"].")"</textarea>
-            <textarea>150,261,35,4,"R",$row["accounting_iva_name"]." (".$row["iva"]."%)"</textarea>
-            <textarea>150,267,35,4,"R",$row["accounting_irpf_name"]." (".$row["irpf"]."%)"</textarea>
-            <textarea>150,273,35,4,"R",T("Total to be paid")." (".$row["accounting_currency"].")"</textarea>
-            <font>"normal","",8,$row["color_text2"]</font>
-            <textarea>185,255,15,4,"R",$row["base"]</textarea>
-            <textarea>185,261,15,4,"R",$row["iva2"]</textarea>
-            <textarea>185,267,15,4,"R",$row["irpf2"]</textarea>
-            <textarea>185,273,15,4,"R",$row["total"]</textarea>
--->
-        <!-- PONER CAJA FINAL IVA + NOT IRPF-->
-<!--
-        <eval>$row["factura_iva_bool"] AND !$row["factura_irpf_bool"]</eval>
-            <rect>130,254,50,18,"D",0.15</rect>
-            <line>130,260,50,0</line>
-            <line>130,266,50,0</line>
-            <line>165,254,0,18</line>
-            <font>"normal","B",8,$row["color_text1"]</font>
-            <textarea>130,255,35,4,"R",T("Taxable amount")." (".$row["accounting_currency"].")"</textarea>
-            <textarea>130,261,35,4,"R",$row["accounting_iva_name"]." (".$row["iva"]."%)"</textarea>
-            <textarea>130,267,35,4,"R",T("Total to be paid")." (".$row["accounting_currency"].")"</textarea>
-            <font>"normal","",8,$row["color_text2"]</font>
-            <textarea>165,255,15,4,"R",$row["base"]</textarea>
-            <textarea>165,261,15,4,"R",$row["iva2"]</textarea>
-            <textarea>165,267,15,4,"R",$row["total"]</textarea>
--->
-        <!-- PONER CAJA FINAL NOT IVA + IRPF-->
-<!--
-        <eval>!$row["factura_iva_bool"] AND $row["factura_irpf_bool"]</eval>
-            <rect>130,254,50,18,"D",0.15</rect>
-            <line>130,260,50,0</line>
-            <line>130,266,50,0</line>
-            <line>165,254,0,18</line>
-            <font>"normal","B",8,$row["color_text1"]</font>
-            <textarea>130,255,35,4,"R",T("Taxable amount")." (".$row["accounting_currency"].")"</textarea>
-            <textarea>130,261,35,4,"R",$row["accounting_irpf_name"]." (".$row["irpf"]."%)"</textarea>
-            <textarea>130,267,35,4,"R",T("Total to be paid")." (".$row["accounting_currency"].")"</textarea>
-            <font>"normal","",8,$row["color_text2"]</font>
-            <textarea>165,255,15,4,"R",$row["base"]</textarea>
-            <textarea>165,261,15,4,"R",$row["irpf2"]</textarea>
-            <textarea>165,267,15,4,"R",$row["total"]</textarea>
--->
-        <!-- PONER CAJA FINAL NOT IVA + NOT IRPF-->
-<!--
-        <eval>!$row["factura_iva_bool"] AND !$row["factura_irpf_bool"]</eval>
-            <rect>130,254,50,12,"D",0.15</rect>
-            <line>130,260,50,0</line>
-            <line>165,254,0,12</line>
-            <font>"normal","B",8,$row["color_text1"]</font>
-            <textarea>130,255,35,4,"R",T("Taxable amount")." (".$row["accounting_currency"].")"</textarea>
-            <textarea>130,261,35,4,"R",T("Total to be paid")." (".$row["accounting_currency"].")"</textarea>
-            <font>"normal","",8,$row["color_text2"]</font>
-            <textarea>165,255,15,4,"R",$row["base"]</textarea>
-            <textarea>165,261,15,4,"R",$row["total"]</textarea>
--->
+        <!-- MONTAR CAJA DE TAXES -->
+        <font>"normal","B",8,$row["color_text1"]</font>
+        <textarea>10,251,40,4,'C',T('Tax')</textarea>
+        <textarea>50,251,20,4,'C',T('Base')</textarea>
+        <textarea>70,251,20,4,'C',T('Total')</textarea>
+        <font>"normal","",8,$row["color_text2"]</font>
+        <setxy>10,255</setxy>
+        <foreach>
+            <query>"SELECT *,
+                '#666666' color_line,
+                '#2780e3' color_text1,
+                '#666666' color_text2,
+                '€' accounting_currency
+                FROM app_invoices_taxes
+                WHERE {$row["filtro"]}
+                ORDER BY id ASC"</query>
+            <getxy>"x","y"</getxy>
+            <color>$row["color_line"],"#000000"</color>
+            <line>10,$row["y"]+1,80,0,0.15</line>
+            <setxy>10,$row["y"]+2</setxy>
+            <getxy>"x","y"</getxy>
+            <checky>4</checky>
+            <getxy>"x","y"</getxy>
+            <textarea>10,$row["y"],40,4,"L",$row["tax_name"]</textarea>
+            <textarea>50,$row["y"],20,4,"R",$row["base"]</textarea>
+            <textarea>70,$row["y"],20,4,"R",$row["tax"]</textarea>
+        </foreach>
+        <getxy>"x","y"</getxy>
+        <rect>10,250,80,$row["y"]-250+1,"D",0.15</rect>
+        <line>50,250,0,$row["y"]-250+1,0.15</line>
+        <line>70,250,0,$row["y"]-250+1,0.15</line>
+        <!-- PONER CAJA SUBTOTAL + TAX + TOTAL -->
+        <rect>140,250,60,12,"D",0.15</rect>
+        <line>140,256,60,0</line>
+        <line>160,250,0,12</line>
+        <line>180,250,0,12</line>
+        <font>"normal","B",8,$row["color_text1"]</font>
+        <textarea>140,251,20,4,"C",T("Base")</textarea>
+        <textarea>160,251,20,4,"C",T("Tax")</textarea>
+        <textarea>180,251,20,4,"C",T("Total")</textarea>
+        <font>"normal","",8,$row["color_text2"]</font>
+        <textarea>140,257,20,4,"R",$row["subtotal"]</textarea>
+        <textarea>160,257,20,4,"R",$row["tax"]</textarea>
+        <textarea>180,257,20,4,"R",$row["total"]</textarea>
         <!-- MONTAR CAJA DE NOTAS -->
-        <eval>$row["description"]</eval>
-            <font>"normal","B",8,$row["color_text1"]</font>
-            <text>10,255,T("Notes")</text>
-            <line>10,260,130,0</line>
-            <font>"normal","",8,$row["color_text2"]</font>
-            <textarea>10,261,130,4,"L",$row["description"]</textarea>
-            <getxy>"x","y"</getxy>
-            <rect>10,254,130,$row["y"]-254+1,"D",0.15</rect>
-        <!-- MONTAR CAJA DE VENCIMIENTOS -->
-<!--
-        <eval>$row["vencimientos"]</eval>
-            <font>"normal","B",8,$row["color_text1"]</font>
-            <text>10,255,$row["vencimientos"] ? T("Invoices due dates") : T("Delivery note due dates")</text>
-            <font>"normal","",8,$row["color_text2"]</font>
-            <setxy>10,259</setxy>
-            <foreach>
-                <query>"SELECT *,
-                    (SELECT cerrado FROM app_invoices WHERE id=id_factura) cerrado,
-                    '#666666' color_line,
-                    '#2780e3' color_text1,
-                    '#666666' color_text2,
-                    '€' accounting_currency
-                    FROM app_invoices_expirations
-                    WHERE {$row["filtro"]}
-                    ORDER BY fecha DESC"</query>
-                <getxy>"x","y"</getxy>
-                <color>$row["color_line"],"#000000"</color>
-                <line>10,$row["y"]+1,60,0,0.15</line>
-                <setxy>10,$row["y"]+2</setxy>
-                <getxy>"x","y"</getxy>
-                <checky>4</checky>
-                <getxy>"x","y"</getxy>
-                <textarea>10,$row["y"],20,4,"C",$row["fecha"]</textarea>
-                <textarea>30,$row["y"],20,4,"C",$row["percent"]."%"</textarea>
-                <textarea>50,$row["y"],20,4,"C",$row["importe"].$row["accounting_currency"]</textarea>
-            </foreach>
-            <getxy>"x","y"</getxy>
-            <rect>10,254,60,$row["y"]-254+1,"D",0.15</rect>
-            <line>30,260,0,$row["y"]-260+1,0.15</line>
-            <line>50,260,0,$row["y"]-260+1,0.15</line>
--->
-        <eval>true</eval>
+        <font>"normal","",8,$row["color_text2"]</font>
+        <textarea>100,269,100,4,"L",$row["description"]</textarea>
+        <!--<rect>100,268,100,6,"D",0.15</rect>-->
     </foreach>
     <eval>strpos($row["id"],",")===false</eval>
     <output>encode_bad_chars(execute_query("SELECT

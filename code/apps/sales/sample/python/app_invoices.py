@@ -13,7 +13,7 @@ taxes = [
     {"id": 1, "name": "IVA 21%", "value": 21.00},
     {"id": 2, "name": "IVA 10%", "value": 10.00},
     {"id": 3, "name": "IVA 4%",  "value": 4.00},
-    {"id": 4, "name": "Exento / No sujeto", "value": 0.00},
+    {"id": 4, "name": "Exempt / Not subject", "value": 0.00},
 ]
 
 # --- Parámetros iniciales ---
@@ -71,9 +71,9 @@ for i in range(n_invoices):
     customer_country = escape_sql_text(fake.country())
     customer_code = escape_sql_text(fake.bothify(text="CUST-####"))
     customer_id = random.randint(1, 50)
-    description = escape_sql_text(fake.sentence())
+    description = escape_sql_text(fake.paragraph())
 
-    n_lines = random.randint(2, 6)
+    n_lines = int(random.random() ** 2 * 49) + 1
     subtotal = 0
     tax_buckets = {}
 
