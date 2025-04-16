@@ -180,7 +180,7 @@ function make_app_file($data)
                 break;
             case 'boolean':
             case 'hastext':
-                $xml[] = "<$id label=\"$label\" type=\"icon\"/>";
+                $xml[] = "<$id label=\"$label\" type=\"icon\" align=\"center\"/>";
                 break;
             default:
                 show_php_error(['phperror' => "$type not found"]);
