@@ -98,7 +98,7 @@
         <data require="php/lib/log.php" eval="true">merge_data_actions(
             make_log_bypass(get_data('rest/1'), get_data('rest/2'), execute_query_array("
                 SELECT id, TODO
-                FROM ".app2table(get_data('rest/1')).'
+                FROM ".app2table(get_data('rest/1')).' a
                 WHERE 1 = 1
                 AND '.make_fulltext_query(get_data('json/search'), get_data('rest/1')).'
                 AND '.check_sql(get_data('rest/1'), 'list').'

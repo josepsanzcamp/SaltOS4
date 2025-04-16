@@ -31,20 +31,28 @@ dropdown: true
 list:
     # [id, type, label]
     - [name, text, Name]
-    - [email, text, Email]
-    - [phone, text, Phone]
+    - [department_id, select, Department]
+    - [job_title, text, Job Title]
+    - [active, boolean, Active]
 form:
     # [id, type, label]
+    - [active, switch, Active]
     - [name, text, Name]
-    - [email, text, Email]
-    - [phone, text, Phone]
     - [department_id, select, Department]
     - [job_title, text, Job Title]
     - [start_date, date, Start]
     - [end_date, date, End]
+
+    - [address, text, Address]
+    - [city, text, City]
+    - [zip, text, ZIP]
+    - [country, text, Country]
+    - [code, text, NIF]
+    - [email, text, Email]
+    - [phone, text, Phone]
     - [type_id, select, Type]
-    - [notes, textarea, Notes]
     - [user_id, select, User]
+    - [notes, textarea, Notes]
 select:
     # [id, table, optional field]
     - [department_id, app_departments]
@@ -53,8 +61,35 @@ select:
 attr:
     # field:
     #     attr: value
+    active:
+        col_class: col-md-12 mb-3
     name:
         required: true
+        col_class: col-md-4 mb-3
+    department_id:
+        col_class: col-md-4 mb-3
+    job_title:
+        col_class: col-md-4 mb-3
+    city:
+        col_class: col-md-3 mb-3
+    zip:
+        col_class: col-md-3 mb-3
+    country:
+        col_class: col-md-3 mb-3
+    code:
+        col_class: col-md-3 mb-3
+    email:
+        col_class: col-md-4 mb-3
+    phone:
+        col_class: col-md-4 mb-3
+    start_date:
+        col_class: col-md-3 mb-3
+    end_date:
+        col_class: col-md-3 mb-3
+    type_id:
+        col_class: col-md-2 mb-3
+    user_id:
+        col_class: col-md-2 mb-3
     notes:
         col_class: col-md-12 mb-3
-        height: 10em
+        height: 5em

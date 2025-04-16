@@ -33,8 +33,10 @@ list:
     - [name, text, Name]
     - [code, text, Code]
     - [parent_id, select, Parent]
+    - [active, boolean, Active]
 form:
     # [id, type, label]
+    - [active, switch, Active]
     - [name, text, Name]
     - [code, text, Code]
     - [parent_id, select, Parent]
@@ -45,10 +47,16 @@ select:
 attr:
     # field:
     #     attr: value
+    active:
+        col_class: col-md-12 mb-3
     name:
         required: true
+        col_class: col-md-4 mb-3
     code:
         required: true
+        col_class: col-md-4 mb-3
+    parent_id:
+        col_class: col-md-4 mb-3
     notes:
         col_class: col-md-12 mb-3
-        height: 10em
+        height: 5em

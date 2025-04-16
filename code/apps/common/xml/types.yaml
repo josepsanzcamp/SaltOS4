@@ -47,4 +47,4 @@ attr:
         col_class: col-md-6 mb-3
     description:
         required: true
-        height: 10em
+        height: 5em

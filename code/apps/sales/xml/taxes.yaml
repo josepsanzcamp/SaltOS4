@@ -40,8 +40,8 @@ form:
     - [active, switch, Active]
     - [default, switch, Default]
     - [name, text, Name]
-    - [description, textarea, Description]
     - [value, float, Value]
+    - [description, textarea, Description]
 attr:
     # field:
     #     attr: value

@@ -30,7 +30,13 @@
         <table name="app_employees">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="active" type="INT(11)"/>
                 <field name="name" type="VARCHAR(255)"/>
+                <field name="address" type="VARCHAR(255)"/>
+                <field name="city" type="VARCHAR(255)"/>
+                <field name="zip" type="VARCHAR(255)"/>
+                <field name="country" type="VARCHAR(255)"/>
+                <field name="code" type="VARCHAR(255)"/>
                 <field name="email" type="VARCHAR(255)"/>
                 <field name="phone" type="VARCHAR(255)"/>
                 <field name="department_id" type="INT(11)"/>
@@ -45,6 +51,7 @@
         <table name="app_departments">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="active" type="INT(11)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="parent_id" type="INT(11)"/>

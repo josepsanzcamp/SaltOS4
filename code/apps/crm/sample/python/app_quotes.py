@@ -49,6 +49,13 @@ def save_sql_gz(table_name, values, output_dir="."):
         f.write(sql)
     return path
 
+def generar_cif():
+    letras = "ABCDEFGHJNPQRSUVW"
+    letra = random.choice(letras)
+    numero = random.randint(1000000, 9999999)
+    digito = random.randint(0, 9)
+    return f"{letra}{numero}{digito}"
+
 # --- Generador de datos ---
 for i in range(n_quotes):
     year = 2025
@@ -64,7 +71,7 @@ for i in range(n_quotes):
     customer_city = escape_sql_text(fake.city())
     customer_zip = escape_sql_text(fake.postcode())
     customer_country = escape_sql_text(fake.country())
-    customer_code = escape_sql_text(fake.bothify(text="CUST-####"))
+    customer_code = generar_cif()
     customer_id = random.randint(1, 50)
     description = escape_sql_text(fake.paragraph())
 

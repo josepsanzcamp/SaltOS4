@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ -  ____        _ _    ___  ____    _  _    ___
+ - / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ - \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ -  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ - |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ -
+ - SaltOS: Framework to develop Rich Internet Applications
+ - Copyright (C) 2007-2025 by Josep Sanz Campderrós
+ - More information in https://www.saltos.org or info@saltos.org
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU General Public License as published by
+ - the Free Software Foundation, either version 3 of the License, or
+ - (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ - GNU General Public License for more details.
+ -
+ - You should have received a copy of the GNU General Public License
+ - along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<root>
+    <constructor>"L","mm","A5"</constructor>
+    <margins>10,10,10,10</margins>
+
+    <foreach>
+        <query>"SELECT *,
+            (SELECT name FROM app_employees b WHERE b.id=a.worker_id) worker,
+            (SELECT name FROM app_customers c WHERE c.id=a.client_id) client,
+            (SELECT IF(is_closed, invoice_code, proforma_code) FROM app_invoices d WHERE d.id=a.invoice_id) invoice,
+            '#2780e3' color_text1,
+            '#666666' color_text2,
+            '#cccccc' color_line
+            FROM app_workorders a
+            WHERE id IN ({$row['id']})
+            ORDER BY id ASC"</query>
+
+        <header>
+            <margins>10,10,10,10</margins>
+        </header>
+
+        <footer>
+            <margins>0,0,0,0</margins>
+            <font>"normal","",6,$row['color_text2']</font>
+            <pageno>10,135,190,4,"R",T("Page %s of %s")</pageno>
+            <margins>10,10,10,10</margins>
+        </footer>
+
+        <newpage></newpage>
+        <setxy>10,10</setxy>
+        <getxy>"x","y"</getxy>
+
+        <font>"normal","B",14,$row['color_text1']</font>
+        <textarea>10,$row['y'],190,4,'L',T('Workorder Report')</textarea>
+
+        <getxy>"x","y"</getxy>
+        <setxy>10,$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <checky>4</checky>
+        <getxy>"x","y"</getxy>
+
+        <line>10,$row['y'],190,0</line>
+
+        <getxy>"x","y"</getxy>
+        <setxy>10,$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <checky>4</checky>
+        <getxy>"x","y"</getxy>
+
+        <font>"normal","B",10,$row['color_text1']</font>
+        <textarea>10,$row['y'],30,4,'R',T("Date")</textarea>
+        <font>"normal","",10,$row['color_text2']</font>
+        <textarea>40,$row['y'],60,4,'L',$row['date']</textarea>
+
+        <font>"normal","B",10,$row['color_text1']</font>
+        <textarea>100,$row['y'],30,4,'R',T("Id")</textarea>
+        <font>"normal","",10,$row['color_text2']</font>
+        <textarea>130,$row['y'],60,4,'L',$row['id']</textarea>
+
+        <getxy>"x","y"</getxy>
+        <setxy>10,$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <checky>4</checky>
+        <getxy>"x","y"</getxy>
+
+        <font>"normal","B",10,$row['color_text1']</font>
+        <textarea>10,$row['y'],30,4,'R',T("Worker")</textarea>
+        <font>"normal","",10,$row['color_text2']</font>
+        <textarea>40,$row['y'],60,4,'L',$row['worker']</textarea>
+
+        <font>"normal","B",10,$row['color_text1']</font>
+        <textarea>100,$row['y'],30,4,'R',T("Client")</textarea>
+        <font>"normal","",10,$row['color_text2']</font>
+        <textarea>130,$row['y'],60,4,'L',$row['client']</textarea>
+
+        <getxy>"x","y"</getxy>
+        <setxy>10,$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <checky>4</checky>
+        <getxy>"x","y"</getxy>
+
+        <line>10,$row['y'],190,0</line>
+
+        <getxy>"x","y"</getxy>
+        <setxy>10,$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <checky>4</checky>
+        <getxy>"x","y"</getxy>
+
+
+        <font>"normal","B",10,$row['color_text1']</font>
+        <textarea>10,$row['y'],30,4,'R',T("Description")</textarea>
+        <font>"normal","",10,$row['color_text2']</font>
+        <textarea>40,$row['y'],160,4,'L',$row['description']</textarea>
+
+        <getxy>"x","y"</getxy>
+        <setxy>10,$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <checky>4</checky>
+        <getxy>"x","y"</getxy>
+
+        <line>10,$row['y'],190,0</line>
+
+        <getxy>"x","y"</getxy>
+        <setxy>10,$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <checky>4</checky>
+        <getxy>"x","y"</getxy>
+
+        <font>"normal","B",10,$row['color_text1']</font>
+        <textarea>10,$row['y'],30,4,'R',T("Hours")</textarea>
+        <font>"normal","",10,$row['color_text2']</font>
+        <textarea>40,$row['y'],60,4,'L',$row['hours']</textarea>
+
+        <font>"normal","B",10,$row['color_text1']</font>
+        <textarea>100,$row['y'],30,4,'R',T("Price")</textarea>
+        <font>"normal","",10,$row['color_text2']</font>
+        <textarea>130,$row['y'],60,4,'L',$row['price']</textarea>
+
+        <getxy>"x","y"</getxy>
+        <setxy>10,$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <checky>4</checky>
+        <getxy>"x","y"</getxy>
+
+        <font>"normal","B",10,$row['color_text1']</font>
+        <textarea>10,$row['y'],30,4,'R',T("Total")</textarea>
+        <font>"normal","",10,$row['color_text2']</font>
+        <textarea>40,$row['y'],60,4,'L',$row['total']</textarea>
+
+        <font>"normal","B",10,$row['color_text1']</font>
+        <textarea>100,$row['y'],30,4,'R',T("Invoice")</textarea>
+        <font>"normal","",10,$row['color_text2']</font>
+        <textarea>130,$row['y'],60,4,'L',$row['invoice']</textarea>
+
+    </foreach>
+
+    <eval>strpos($row["id"],",")===false</eval>
+    <output>encode_bad_chars(execute_query("SELECT CONCAT('".T('Workorder')."',' ',id) FROM app_workorders WHERE id={$row['id']}")).'.pdf'</output>
+    <eval>true</eval>
+    <output>encode_bad_chars(T('Workorders')).'.pdf'</output>
+</root>

@@ -49,13 +49,20 @@ def save_sql_gz(table_name, values, output_dir="."):
         f.write(sql)
     return path
 
+def generar_cif():
+    letras = "ABCDEFGHJNPQRSUVW"
+    letra = random.choice(letras)
+    numero = random.randint(1000000, 9999999)
+    digito = random.randint(0, 9)
+    return f"{letra}{numero}{digito}"
+
 # --- Generador de datos ---
 for i in range(n_invoices):
     year = 2025
     is_closed = random.choice([0, 1])
     is_paid = random.choice([0, 1]) if is_closed else 0
 
-    proforma_code = gen_invoice_code("PF", year, i + 1)
+    proforma_code = gen_invoice_code("P", year, i + 1)
     proforma_date = fake.date_between(start_date='-60d', end_date='today')
     invoice_code = gen_invoice_code("F", year, i + 1) if is_closed else ""
     invoice_date = fake.date_between(start_date=proforma_date, end_date='today') if is_closed else None
@@ -69,7 +76,7 @@ for i in range(n_invoices):
     customer_city = escape_sql_text(fake.city())
     customer_zip = escape_sql_text(fake.postcode())
     customer_country = escape_sql_text(fake.country())
-    customer_code = escape_sql_text(fake.bothify(text="CUST-####"))
+    customer_code = generar_cif()
     customer_id = random.randint(1, 50)
     description = escape_sql_text(fake.paragraph())
 

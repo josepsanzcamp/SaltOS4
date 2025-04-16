@@ -59,7 +59,7 @@ attr:
     description:
         required: true
         col_class: col-md-12 mb-3
-        height: 10em
+        height: 5em
     notes:
         col_class: col-md-12 mb-3
-        height: 10em
+        height: 5em

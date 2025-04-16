@@ -98,6 +98,18 @@
                 <field name="tax_id" type="INT(11)" fkey="app_taxes"/>
                 <field name="type_id" type="INT(11)" fkey="app_types"/>
                 <field name="active" type="INT(11)"/>
+                <field name="unit" type="VARCHAR(50)"/>
+                <field name="cost" type="FLOAT"/>
+                <field name="margin" type="FLOAT"/>
+                <field name="barcode" type="VARCHAR(50)"/>
+                <field name="category_id" type="INT(11)" fkey="app_types"/>
+                <field name="brand" type="VARCHAR(100)"/>
+                <field name="model" type="VARCHAR(100)"/>
+                <field name="stock" type="FLOAT"/>
+                <field name="stock_min" type="FLOAT"/>
+                <field name="stock_max" type="FLOAT"/>
+                <field name="location" type="VARCHAR(100)"/>
+                <field name="image_url" type="VARCHAR(255)"/>
             </fields>
         </table>
         <table name="app_taxes">

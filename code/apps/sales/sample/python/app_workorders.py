@@ -12,7 +12,14 @@ def generate_app_workorders_sql_gz():
         date = fake.date_between(start_date='-6M', end_date='today').isoformat()
         worker_id = random.randint(1, 50)
         client_id = random.randint(1, 100)
-        description = fake.sentence(nb_words=8).replace("'", "''")
+
+        def fake_paragraphs(min_paragraphs=1, max_paragraphs=4):
+            return "\n\n".join(
+                fake.paragraph().replace("'", "''")
+                for _ in range(random.randint(min_paragraphs, max_paragraphs))
+            )
+
+        description = fake_paragraphs()
         hours = round(random.uniform(1, 8), 2)
         price = round(random.uniform(20, 100), 2)
         total = round(hours * price, 2)

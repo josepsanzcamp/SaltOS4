@@ -38,14 +38,27 @@ form:
     - [active, switch, Active]
     - [name, text, Name]
     - [code, text, Code]
-    - [description, textarea, Description]
-    - [price, float, Price]
-    - [tax_id, select, Tax]
     - [type_id, select, Type]
+    - [price, float, Price]
+    - [cost, float, Cost]
+    - [margin, float, Margin]
+    - [tax_id, select, Tax]
+    - [description, textarea, Description]
+    - [category_id, select, Category]
+    - [unit, text, Measure unit]
+    - [brand, text, Brand]
+    - [model, text, Model]
+    - [barcode, text, Barcode]
+    - [stock, float, Stock]
+    - [stock_min, float, Min stock]
+    - [stock_max, float, Max stock]
+    - [location, text, Location]
+    - [image_url, text, Image Url]
 select:
     # [id, table, optional field]
     - [tax_id, app_taxes]
     - [type_id, app_types]
+    - [category_id, app_types]
 attr:
     # field:
     #     attr: value
@@ -55,7 +68,34 @@ attr:
         required: true
     code:
         required: true
+        col_class: col-md-3 mb-3
+    price:
+        col_class: col-md-3 mb-3
+    tax_id:
+        col_class: col-md-3 mb-3
+    type_id:
+        col_class: col-md-3 mb-3
     description:
         required: true
         col_class: col-md-12 mb-3
-        height: 10em
+        height: 5em
+    unit:
+        col_class: col-md-3 mb-3
+    cost:
+        col_class: col-md-3 mb-3
+    margin:
+        col_class: col-md-3 mb-3
+    barcode:
+        col_class: col-md-3 mb-3
+    category_id:
+        col_class: col-md-3 mb-3
+    brand:
+        col_class: col-md-3 mb-3
+    model:
+        col_class: col-md-3 mb-3
+    stock:
+        col_class: col-md-3 mb-3
+    stock_min:
+        col_class: col-md-3 mb-3
+    stock_max:
+        col_class: col-md-3 mb-3

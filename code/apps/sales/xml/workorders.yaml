@@ -45,13 +45,28 @@ form:
     - [invoice_id, select, Invoice]
 select:
     # [id, table, optional field]
-    - [worker_id, tbl_users]
+    - [worker_id, app_employees]
     - [client_id, app_customers]
     - [invoice_id, app_invoices]
 attr:
     # field:
     #     attr: value
+    date:
+        col_class: col-md-3 mb-3
+    worker_id:
+        col_class: col-md-4 mb-3
+    client_id:
+        col_class: col-md-4 mb-3
     description:
         required: true
         col_class: col-md-12 mb-3
-        height: 10em
+        height: 5em
+    hours:
+        required: true
+        col_class: col-md-3 mb-3
+    price:
+        col_class: col-md-3 mb-3
+    total:
+        col_class: col-md-3 mb-3
+    invoice_id:
+        col_class: col-md-3 mb-3

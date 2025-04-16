@@ -217,6 +217,7 @@ function make_app_file($data)
     // set the select fields list
     $query = $list;
     $fields = [];
+    $alias = 'b'; // first alias used for select, to prevent field collisions
     foreach ($data['list'] as $field) {
         $id = $field['id'];
         $type = $field['type'];
@@ -237,7 +238,9 @@ function make_app_file($data)
             case 'select':
                 $field2 = $data['select'][$id]['field'];
                 $table2 = $data['select'][$id]['table'];
-                $fields[] = "IFNULL((SELECT $field2 FROM $table2 WHERE $table2.id = $fixed), '') $fixed";
+                $fields[] = "IFNULL((SELECT $field2
+                    FROM $table2 $alias WHERE $alias.id = a.$fixed), '') $fixed";
+                $alias++; // compute the next alias, to prevent field collisions
                 break;
             default:
                 show_php_error(['phperror' => "$type not found"]);
