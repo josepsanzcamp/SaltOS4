@@ -201,13 +201,13 @@ final class test_apps extends TestCase
             rmdir('apps/nada2');
         }
 
-        $file = detect_app_file('types');
+        $file = detect_app_file('customers_types');
         file_put_contents($file, '<root></root>');
 
         $file2 = 'data/logs/phperror.log';
         $this->assertFileDoesNotExist($file2);
 
-        $json = test_web_helper('app/types', '', $json2['token'], '');
+        $json = test_web_helper('app/customers_types', '', $json2['token'], '');
         $this->assertArrayHasKey('error', $json);
         $this->assertSame($json['error']['text'], 'Internal error');
 
@@ -217,7 +217,7 @@ final class test_apps extends TestCase
 
         file_put_contents($file, '<root><nada3></nada3><nada4></nada4></root>');
 
-        $json = test_web_helper('app/types', '', $json2['token'], '');
+        $json = test_web_helper('app/customers_types', '', $json2['token'], '');
         $this->assertArrayHasKey('error', $json);
         $this->assertSame($json['error']['text'], 'Action not found');
 
