@@ -133,6 +133,7 @@ final class test_pdf extends TestCase
             defined('K_TCPDF_THROW_EXCEPTION_ERROR'),
             'K_TCPDF_THROW_EXCEPTION_ERROR not found'
         );
+        // @phpstan-ignore method.impossibleType
         $this->assertTrue(
             K_TCPDF_THROW_EXCEPTION_ERROR,
             'tcpdf_config.php contains K_TCPDF_THROW_EXCEPTION_ERROR as false instead of true'

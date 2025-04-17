@@ -261,18 +261,24 @@ final class test_user extends TestCase
 
         set_data('server/lang', 'en_US');
         $geoip = get_geoip_string($remote_addr);
-        $this->assertContains($geoip, [', ,  using IP  and network of ',
-            'Madrid, Madrid, Spain using IP 79.116.196.1 and network of Digi Spain Telecom S.l.']);
+        $this->assertContains($geoip, [
+            ', ,  using IP  and network of ',
+            'Madrid, Madrid, Spain using IP 79.116.196.1 and network of Digi Spain Telecom S.l.',
+        ]);
 
         set_data('server/lang', 'es_ES');
         $geoip = get_geoip_string($remote_addr);
-        $this->assertContains($geoip, [', ,  using IP  and network of ',
-            'Madrid, Madrid, Spain usando la IP 79.116.196.1 y la red de Digi Spain Telecom S.l.']);
+        $this->assertContains($geoip, [
+            ', ,  using IP  and network of ',
+            'Madrid, Madrid, Spain usando la IP 79.116.196.1 y la red de Digi Spain Telecom S.l.',
+        ]);
 
         set_data('server/lang', 'ca_ES');
         $geoip = get_geoip_string($remote_addr);
-        $this->assertContains($geoip, [', ,  using IP  and network of ',
-            'Madrid, Madrid, Spain fent servir la IP 79.116.196.1 y la xarxa de Digi Spain Telecom S.l.']);
+        $this->assertContains($geoip, [
+            ', ,  using IP  and network of ',
+            'Madrid, Madrid, Spain fent servir la IP 79.116.196.1 y la xarxa de Digi Spain Telecom S.l.',
+        ]);
 
         set_data('server/lang', null);
     }
