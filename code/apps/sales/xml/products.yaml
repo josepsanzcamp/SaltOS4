@@ -57,8 +57,8 @@ form:
 select:
     # [id, table, optional field]
     - [tax_id, app_taxes]
-    - [type_id, app_types]
-    - [category_id, app_types]
+    - [type_id, app_products_types]
+    - [category_id, app_products_categories]
 attr:
     # field:
     #     attr: value
@@ -66,6 +66,7 @@ attr:
         col_class: col-md-12 mb-3
     name:
         required: true
+        autofocus: true
     code:
         required: true
         col_class: col-md-3 mb-3

@@ -51,12 +51,13 @@ form:
 select:
     # [id, table, optional field]
     - [supplier_id, app_suppliers]
-    - [status_id, app_types]
+    - [status_id, app_purchase_status]
 attr:
     # field:
     #     attr: value
     order_date:
         required: true
+        autofocus: true
         col_class: col-md-3 mb-3
     supplier_id:
         required: true

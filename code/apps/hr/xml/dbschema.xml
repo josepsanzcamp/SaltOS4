@@ -39,13 +39,21 @@
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="email" type="VARCHAR(255)"/>
                 <field name="phone" type="VARCHAR(255)"/>
-                <field name="department_id" type="INT(11)"/>
+                <field name="department_id" type="INT(11)" fkey="app_departments"/>
                 <field name="job_title" type="VARCHAR(255)"/>
                 <field name="start_date" type="DATE"/>
                 <field name="end_date" type="DATE"/>
-                <field name="type_id" type="INT(11)"/>
+                <field name="type_id" type="INT(11)" fkey="app_employees_types"/>
                 <field name="notes" type="TEXT"/>
-                <field name="user_id" type="INT(11)"/>
+                <field name="user_id" type="INT(11)" fkey="tbl_users"/>
+            </fields>
+        </table>
+        <table name="app_employees_types">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="active" type="INT(11)"/>
+                <field name="name" type="VARCHAR(255)"/>
+                <field name="description" type="TEXT"/>
             </fields>
         </table>
         <table name="app_departments">
@@ -54,7 +62,7 @@
                 <field name="active" type="INT(11)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="code" type="VARCHAR(255)"/>
-                <field name="parent_id" type="INT(11)"/>
+                <field name="parent_id" type="INT(11)" fkey="app_departments"/>
                 <field name="notes" type="TEXT"/>
             </fields>
         </table>

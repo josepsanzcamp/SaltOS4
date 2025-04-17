@@ -41,24 +41,40 @@
                 <field name="phone" type="VARCHAR(255)"/>
                 <field name="website" type="VARCHAR(255)"/>
                 <field name="notes" type="TEXT"/>
-                <field name="type_id" type="INT(11)"/>
+                <field name="type_id" type="INT(11)" fkey="app_suppliers_types"/>
+            </fields>
+        </table>
+        <table name="app_suppliers_types">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="active" type="INT(11)"/>
+                <field name="name" type="VARCHAR(255)"/>
+                <field name="description" type="TEXT"/>
             </fields>
         </table>
         <table name="app_purchase">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                 <field name="order_date" type="DATE"/>
-                <field name="supplier_id" type="INT(11)"/>
+                <field name="supplier_id" type="INT(11)" fkey="app_suppliers"/>
                 <field name="invoice_code" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
                 <field name="subtotal" type="FLOAT"/>
                 <field name="tax" type="FLOAT"/>
                 <field name="total" type="FLOAT"/>
                 <field name="paid" type="FLOAT"/>
-                <field name="status_id" type="INT(11)"/>
+                <field name="status_id" type="INT(11)" fkey="app_purchase_status"/>
                 <field name="invoice_date" type="DATE"/>
                 <field name="paid_date" type="DATE"/>
                 <field name="notes" type="TEXT"/>
+            </fields>
+        </table>
+        <table name="app_purchase_status">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="active" type="INT(11)"/>
+                <field name="name" type="VARCHAR(255)"/>
+                <field name="description" type="TEXT"/>
             </fields>
         </table>
     </tables>

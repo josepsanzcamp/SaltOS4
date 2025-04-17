@@ -21,13 +21,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-app: types
+app: products_types
 require: apps/common/php/default.php
 template: apps/common/xml/default.xml
 indent: true
 screen: type5
-col_class: col-md-12 mb-3
-dropdown: false
+col_class: col-md-6 mb-3
+dropdown: true
 list:
     # [id, type, label]
     - [name, text, Name]
@@ -41,10 +41,11 @@ form:
 attr:
     # field:
     #     attr: value
+    active:
+        col_class: col-md-12 mb-3
     name:
         required: true
         autofocus: true
-        col_class: col-md-6 mb-3
     description:
-        required: true
+        col_class: col-md-12 mb-3
         height: 5em

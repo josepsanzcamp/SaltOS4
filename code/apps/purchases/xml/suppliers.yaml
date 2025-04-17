@@ -51,12 +51,13 @@ form:
     - [type_id, select, Type]
 select:
     # [id, table, optional field]
-    - [type_id, app_types]
+    - [type_id, app_suppliers_types]
 attr:
     # field:
     #     attr: value
     name:
         required: true
+        autofocus: true
     notes:
         col_class: col-md-12 mb-3
         height: 5em

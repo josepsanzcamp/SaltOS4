@@ -61,6 +61,7 @@ attr:
         col_class: col-md-4 mb-3
     title:
         required: true
+        autofocus: true
     participants:
         col_class: col-md-12 mb-3
         height: 5em

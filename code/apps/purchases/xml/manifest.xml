@@ -40,5 +40,15 @@
             table="app_purchase" field="invoice_code"
             has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1" has_log="1"
             perms="*"/>
+        <app id="70" active="1" group="purchases"
+            code="suppliers_types" name="Supplier Types" description="Types of suppliers"
+            table="app_suppliers_types" field="name"
+            has_index="1" has_control="1" has_version="1" has_files="0" has_notes="0" has_log="0"
+            perms="*"/>
+        <app id="71" active="1" group="purchases"
+            code="purchase_status" name="Purchase Status" description="Status values for purchases"
+            table="app_purchase_status" field="name"
+            has_index="1" has_control="1" has_version="1" has_files="0" has_notes="0" has_log="0"
+            perms="*"/>
     </apps>
 </root>

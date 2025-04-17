@@ -145,7 +145,7 @@
         <date id="date" label="Date" col_class="col-md-3 mb-3" disabled="true"/>
         <div col_class="col-6"/>
 
-        <text id="customer_name" label="Customer" col_class="col-md-6 mb-3" required="true"/>
+        <text id="customer_name" label="Customer" col_class="col-md-6 mb-3" required="true" autofocus="true"/>
         <text id="customer_address" label="Address" col_class="col-md-6 mb-3" required="true"/>
 
         <text id="customer_city" label="City" col_class="col-md-3 mb-3" required="true"/>
@@ -200,7 +200,7 @@
         <select id="status_id" label="Status" col_class="col-md-3 mb-3">
             <rows eval="true">execute_query_array("
                     SELECT '' label, '0' value UNION
-                    SELECT name label, id value FROM app_types")</rows>
+                    SELECT name label, id value FROM app_quotes_status")</rows>
         </select>
 
     </_form>

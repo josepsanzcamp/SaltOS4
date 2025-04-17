@@ -55,5 +55,20 @@
             table="app_payment_methods" field="name"
             has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1" has_log="1"
             perms="*"/>
+        <app id="66" active="1" group="sales"
+            code="invoices_status" name="Invoice Status" description="Status values for invoices"
+            table="app_invoices_status" field="name"
+            has_index="1" has_control="1" has_version="1" has_files="0" has_notes="0" has_log="0"
+            perms="*"/>
+        <app id="67" active="1" group="sales"
+            code="products_types" name="Product Types" description="Types of products"
+            table="app_products_types" field="name"
+            has_index="1" has_control="1" has_version="1" has_files="0" has_notes="0" has_log="0"
+            perms="*"/>
+        <app id="68" active="1" group="sales"
+            code="products_categories" name="Product Categories" description="Categories of products"
+            table="app_products_categories" field="name"
+            has_index="1" has_control="1" has_version="1" has_files="0" has_notes="0" has_log="0"
+            perms="*"/>
     </apps>
 </root>

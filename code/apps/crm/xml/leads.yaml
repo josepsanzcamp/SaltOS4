@@ -54,13 +54,14 @@ form:
     - [assigned_to, select, Assigned To]
 select:
     # [id, table, optional field]
-    - [status_id, app_types]
+    - [status_id, app_leads_status]
     - [assigned_to, app_employees]
 attr:
     # field:
     #     attr: value
     name:
         required: true
+        autofocus: true
     notes:
         col_class: col-md-12 mb-3
         height: 5em

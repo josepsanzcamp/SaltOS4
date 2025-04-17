@@ -21,7 +21,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-app: taxes
+app: products_categories
 require: apps/common/php/default.php
 template: apps/common/xml/default.xml
 indent: true
@@ -33,16 +33,16 @@ list:
     - [name, text, Name]
     - [description, text, Description]
     - [active, boolean, Active]
-    - [default, boolean, Default]
 form:
     # [id, type, label]
     - [active, switch, Active]
-    - [default, switch, Default]
     - [name, text, Name]
     - [description, textarea, Description]
 attr:
     # field:
     #     attr: value
+    active:
+        col_class: col-md-12 mb-3
     name:
         required: true
         autofocus: true

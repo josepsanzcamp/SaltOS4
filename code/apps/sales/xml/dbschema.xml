@@ -49,7 +49,7 @@
                 <field name="due_date" type="DATE"/>
                 <field name="paid" type="FLOAT"/>
                 <field name="paid_date" type="DATE"/>
-                <field name="status_id" type="INT(11)" fkey="app_types"/>
+                <field name="status_id" type="INT(11)" fkey="app_invoices_status"/>
                 <field name="is_closed" type="INT(11)"/>
                 <field name="is_paid" type="INT(11)"/>
             </fields>
@@ -79,6 +79,14 @@
                 <field name="tax" type="FLOAT"/>
             </fields>
         </table>
+        <table name="app_invoices_status">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="active" type="INT(11)"/>
+                <field name="name" type="VARCHAR(255)"/>
+                <field name="description" type="TEXT"/>
+            </fields>
+        </table>
         <table name="app_payment_methods">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
@@ -96,13 +104,13 @@
                 <field name="description" type="TEXT"/>
                 <field name="price" type="FLOAT"/>
                 <field name="tax_id" type="INT(11)" fkey="app_taxes"/>
-                <field name="type_id" type="INT(11)" fkey="app_types"/>
+                <field name="type_id" type="INT(11)" fkey="app_products_types"/>
                 <field name="active" type="INT(11)"/>
                 <field name="unit" type="VARCHAR(50)"/>
                 <field name="cost" type="FLOAT"/>
                 <field name="margin" type="FLOAT"/>
                 <field name="barcode" type="VARCHAR(50)"/>
-                <field name="category_id" type="INT(11)" fkey="app_types"/>
+                <field name="category_id" type="INT(11)" fkey="app_products_categories"/>
                 <field name="brand" type="VARCHAR(100)"/>
                 <field name="model" type="VARCHAR(100)"/>
                 <field name="stock" type="FLOAT"/>
@@ -110,6 +118,22 @@
                 <field name="stock_max" type="FLOAT"/>
                 <field name="location" type="VARCHAR(100)"/>
                 <field name="image_url" type="VARCHAR(255)"/>
+            </fields>
+        </table>
+        <table name="app_products_types">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="active" type="INT(11)"/>
+                <field name="name" type="VARCHAR(255)"/>
+                <field name="description" type="TEXT"/>
+            </fields>
+        </table>
+        <table name="app_products_categories">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="active" type="INT(11)"/>
+                <field name="name" type="VARCHAR(255)"/>
+                <field name="description" type="TEXT"/>
             </fields>
         </table>
         <table name="app_taxes">

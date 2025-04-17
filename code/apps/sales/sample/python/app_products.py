@@ -19,7 +19,7 @@ def generate_app_products_sql_gz():
         margin = round(random.uniform(5, 40), 2)  # en porcentaje
         barcode = f"{random.randint(1000000000000, 9999999999999)}"
 
-        category_id = random.randint(1, 5)  # se asume que hay 5 categorías en app_types
+        category_id = random.randint(1, 5)
         brand = fake.company().replace("'", "''")
         model = fake.bothify(text="MOD-####-??").upper()
 

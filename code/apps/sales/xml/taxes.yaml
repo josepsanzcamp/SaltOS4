@@ -47,6 +47,7 @@ attr:
     #     attr: value
     name:
         required: true
+        autofocus: true
     description:
         col_class: col-md-12 mb-3
         height: 5em

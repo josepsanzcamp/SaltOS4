@@ -53,6 +53,7 @@ attr:
     #     attr: value
     date:
         col_class: col-md-3 mb-3
+        autofocus: true
     worker_id:
         col_class: col-md-4 mb-3
     client_id:

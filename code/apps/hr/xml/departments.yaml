@@ -51,6 +51,7 @@ attr:
         col_class: col-md-12 mb-3
     name:
         required: true
+        autofocus: true
         col_class: col-md-4 mb-3
     code:
         required: true
