@@ -75,10 +75,10 @@ final class test_pdf extends TestCase
         set_data('rest/0', 'app');
         set_data('rest/1', 'invoices');
 
-        $pdf = pdf('apps/invoices/xml/pdf.xml', [
+        $pdf = pdf('apps/sales/xml/invoices_pdf.xml', [
             'id' => $invoice_id,
         ]);
-        $pdf = pdf('apps/invoices/xml/pdf.xml', [
+        $pdf = pdf('apps/sales/xml/invoices_pdf.xml', [
             'id' => $invoice_id,
         ]);
         $this->assertTrue(is_array($pdf));
@@ -92,10 +92,10 @@ final class test_pdf extends TestCase
         set_data('rest/0', 'app');
         set_data('rest/1', 'emails');
 
-        $pdf = pdf('apps/emails/xml/pdf.xml', [
+        $pdf = pdf('apps/emails/xml/emails_pdf.xml', [
             'id' => $email_id,
         ]);
-        $pdf = pdf('apps/emails/xml/pdf.xml', [
+        $pdf = pdf('apps/emails/xml/emails_pdf.xml', [
             'id' => $email_id,
         ]);
         $this->assertTrue(is_array($pdf));

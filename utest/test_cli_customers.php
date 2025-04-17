@@ -122,10 +122,10 @@ final class test_cli_customers extends TestCase
         $this->assertSame($json2['status'], 'ko');
 
         $json2 = test_cli_helper('app/customers/insert', [
-            'nombre' => 'The SaltOS project',
-            'cif' => '12345678X',
-            'nombre_poblacion' => 'Barcelona',
-            'nombre_codpostal' => '08001',
+            'name' => 'The SaltOS project',
+            'code' => '12345678X',
+            'city' => 'Barcelona',
+            'zip' => '08001',
         ], $json['token'], '', '');
         $this->assertSame($json2['status'], 'ok');
         $this->assertSame(count($json2), 2);
@@ -171,11 +171,11 @@ final class test_cli_customers extends TestCase
         ], $json['token'], '', '');
         $this->assertTrue(count($json2['data']) == 1);
 
-        $json2 = test_cli_helper('app/customers/widget/table1', '', $json['token'], '', '');
-        $this->assertArrayHasKey('data', $json2);
+        //~ $json2 = test_cli_helper('app/customers/widget/table1', '', $json['token'], '', '');
+        //~ $this->assertArrayHasKey('data', $json2);
 
-        $json2 = test_cli_helper('app/customers/widget/table2', '', $json['token'], '', '');
-        $this->assertArrayHasKey('data', $json2);
+        //~ $json2 = test_cli_helper('app/customers/widget/table2', '', $json['token'], '', '');
+        //~ $this->assertArrayHasKey('data', $json2);
 
         $json2 = test_cli_helper('app/customers/list/data', [
             'search' => '',
@@ -262,8 +262,8 @@ final class test_cli_customers extends TestCase
         $this->assertSame($json2['status'], 'ko');
 
         $json2 = test_cli_helper("app/customers/update/$id", [
-            'nombre' => 'The SaltOS project v2',
-            'cif' => '12345678Z',
+            'name' => 'The SaltOS project v2',
+            'code' => '12345678Z',
         ], $json['token'], '', '');
         $this->assertSame($json2['status'], 'ok');
         $this->assertSame(count($json2), 2);

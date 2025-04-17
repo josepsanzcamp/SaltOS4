@@ -49,6 +49,17 @@ declare(strict_types=1);
  */
 function unmake_matrix_data($json, $invoice_id)
 {
+    if (!count($json)) {
+        return $json;
+    }
+
+    $checks = ['lines', 'taxes', 'totals'];
+    foreach ($checks as $check) {
+        if (!isset($json[$check]) || !check_real_matrix($json[$check])) {
+            return $json;
+        }
+    }
+
     $lines = $json['lines'] ?? [];
     $taxes = $json['taxes'] ?? [];
     $totals = $json['totals'] ?? [];
@@ -302,6 +313,10 @@ function unmake_matrix_data($json, $invoice_id)
  */
 function set_proforma_invoice($json, $invoice_id)
 {
+    if (!count($json)) {
+        return $json;
+    }
+
     // Set proforma_code and proforma_date
     if (!$invoice_id || !isset($json['proforma_code']) || !$json['proforma_code']) {
         $query = 'SELECT MAX(proforma_code) FROM app_invoices';
@@ -349,6 +364,15 @@ function set_proforma_invoice($json, $invoice_id)
     if (isset($json['is_paid']) && $json['is_paid']) {
         if (!isset($json['paid_date']) || !$json['paid_date']) {
             $json['paid_date'] = current_date();
+        }
+        if (!isset($json['paid']) || !$json['paid']) {
+            if (isset($json['total']) && $json['total']) {
+                $json['paid'] = $json['total'];
+            } else {
+                $query = 'SELECT total FROM app_invoices WHERE id = ?';
+                $total = execute_query($query, [$invoice_id]);
+                $json['paid'] = $total;
+            }
         }
     }
 

@@ -72,11 +72,9 @@ final class test_customers extends TestCase
     public function test_customers(): void
     {
         $array = [
-            'nombre' => 'Asd Qwerty',
-            'nombre1' => 'Asd',
-            'nombre2' => 'Qwerty',
-            'nombre_poblacion' => 'Barcelona',
-            'nombre_codpostal' => '08001',
+            'name' => 'Asd Qwerty',
+            'city' => 'Barcelona',
+            'zip' => '08001',
         ];
         $query = make_insert_query('app_customers', $array);
         db_query($query);
@@ -95,8 +93,7 @@ final class test_customers extends TestCase
         $this->assertSame(-3, get_version('customers', $id, 2));
 
         $array = [
-            'nombre1' => 'ASD',
-            'nombre2' => 'QWERTY',
+            'name' => 'ASD QWERTY',
         ];
         $query = make_update_query('app_customers', $array, [
             'id' => $id,
@@ -113,7 +110,7 @@ final class test_customers extends TestCase
         $this->assertSame(-3, get_version('customers', $id, 3));
 
         $array = [
-            'cif' => '123456789',
+            'code' => '123456789',
         ];
         $query = make_update_query('app_customers', $array, [
             'id' => $id,

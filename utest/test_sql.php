@@ -69,35 +69,35 @@ final class test_sql extends TestCase
     {
         // Default insert
         $query = make_insert_query('app_customers', [
-            'nombre' => 'The SaltOS project',
-            'cif' => '12345678X',
-            'nombre_poblacion' => 'Barcelona',
-            'nombre_codpostal' => '08001',
+            'name' => 'The SaltOS project',
+            'code' => '12345678X',
+            'city' => 'Barcelona',
+            'zip' => '08001',
         ]);
-        $this->assertSame($query, 'INSERT INTO app_customers(nombre,cif,nombre_poblacion,nombre_codpostal) ' .
-            "VALUES('The SaltOS project','12345678X','Barcelona','08001')");
+        $this->assertSame($query, 'INSERT INTO app_customers(name,city,zip,code) ' .
+            "VALUES('The SaltOS project','Barcelona','08001','12345678X')");
 
         // Default update
         $query = make_update_query('app_customers', [
-            'nombre' => 'The SaltOS project',
-            'cif' => '12345678X',
-            'nombre_poblacion' => 'Barcelona',
-            'nombre_codpostal' => '08001',
+            'name' => 'The SaltOS project',
+            'code' => '12345678X',
+            'city' => 'Barcelona',
+            'zip' => '08001',
         ], [
             'id' => 1,
         ]);
-        $this->assertSame($query, "UPDATE app_customers SET nombre='The SaltOS project',cif='12345678X'," .
-            "nombre_poblacion='Barcelona',nombre_codpostal='08001' WHERE (id='1')");
+        $this->assertSame($query, "UPDATE app_customers SET name='The SaltOS project'," .
+            "city='Barcelona',zip='08001',code='12345678X' WHERE (id='1')");
 
         // Testing normal behavior
         $query = make_where_query('app_customers', [
-            'nombre' => 'The SaltOS project',
-            'cif' => '12345678X',
-            'nombre_poblacion' => 'Barcelona',
-            'nombre_codpostal' => '08001',
+            'name' => 'The SaltOS project',
+            'code' => '12345678X',
+            'city' => 'Barcelona',
+            'zip' => '08001',
         ]);
-        $this->assertSame($query, "(nombre='The SaltOS project' AND cif='12345678X' AND " .
-            "nombre_poblacion='Barcelona' AND nombre_codpostal='08001')");
+        $this->assertSame($query, "(name='The SaltOS project' AND " .
+            "city='Barcelona' AND zip='08001' AND code='12345678X')");
 
         // Testing the parse_query feature
         $query = parse_query('/*MYSQL mysql *//*SQLITE sqlite *//* other */');

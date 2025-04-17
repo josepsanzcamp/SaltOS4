@@ -68,10 +68,12 @@ final class test_common extends TestCase
      */
     public function test_common(): void
     {
-        $json = test_cli_helper('app/customers/update/100', ['nombre' => ''], '', '', 'admin');
+        $name = execute_query('SELECT name FROM app_customers WHERE id=100');
+
+        $json = test_cli_helper('app/customers/update/100', ['name' => ''], '', '', 'admin');
         $this->assertSame($json['status'], 'ok');
 
-        $json = test_cli_helper('app/customers/update/100', ['nombre' => 'Lucía Díaz'], '', '', 'admin');
+        $json = test_cli_helper('app/customers/update/100', ['name' => $name], '', '', 'admin');
         $this->assertSame($json['status'], 'ok');
 
         $json = test_cli_helper('app/customers/view/version/100', [], '', '', 'admin');

@@ -694,3 +694,33 @@ function matrix_values($matrix)
     $matrix = array_values($matrix);
     return $matrix;
 }
+
+/**
+ * Check Real Matrix helper
+ *
+ * This function checks that the argument is a matrix, to do this, checks
+ * that the argument is an array, that all keys are numeric and that all
+ * entries of the main array is another array, and for each another array,
+ * checks that the keys are numeric and that all values are non arrays
+ *
+ * @array => the array to check
+ */
+function check_real_matrix($array)
+{
+    foreach ($array as $key => $val) {
+        if (!is_numeric($key)) {
+            return false;
+        } elseif (!is_array($val)) {
+            return false;
+        } else {
+            foreach ($val as $key2 => $val2) {
+                if (!is_numeric($key2)) {
+                    return false;
+                } elseif (is_array($val2)) {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}

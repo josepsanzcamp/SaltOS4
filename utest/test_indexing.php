@@ -81,9 +81,9 @@ final class test_indexing extends TestCase
 
         __make_index_helper('app_invoices');
         __make_index_helper('app_invoices');
-        __make_index_helper('app_invoices_concepts');
-        __make_index_helper('app_invoices_concepts', 1);
-        __make_index_helper('app_invoices_concepts', -1);
+        __make_index_helper('app_invoices_lines');
+        __make_index_helper('app_invoices_lines', 1);
+        __make_index_helper('app_invoices_lines', -1);
 
         $json = test_cli_helper('indexing', [], '', '', '');
         $this->assertCount(2, $json);

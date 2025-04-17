@@ -220,5 +220,14 @@ final class test_array extends TestCase
         $input = [];
         $expected = [];
         $this->assertEquals($expected, matrix_values($input));
+
+        $array = [['a', 'b', 'c'], ['d', 'e', 'f']];
+        $this->assertSame(check_real_matrix($array), true);
+
+        $array = ['a'];
+        $this->assertSame(check_real_matrix($array), false);
+
+        $array = [[['a']]];
+        $this->assertSame(check_real_matrix($array), false);
     }
 }

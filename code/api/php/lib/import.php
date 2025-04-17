@@ -482,36 +482,6 @@ function __import_json2array($file)
 }
 
 /**
- * Check Real Matrix helper
- *
- * This function checks that the argument is a matrix, to do this, checks
- * that the argument is an array, that all keys are numeric and that all
- * entries of the main array is another array, and for each another array,
- * checks that the keys are numeric and that all values are non arrays
- *
- * @array => the array to check
- */
-function __import_check_real_matrix($array)
-{
-    foreach ($array as $key => $val) {
-        if (!is_numeric($key)) {
-            return false;
-        } elseif (!is_array($val)) {
-            return false;
-        } else {
-            foreach ($val as $key2 => $val2) {
-                if (!is_numeric($key2)) {
-                    return false;
-                } elseif (is_array($val2)) {
-                    return false;
-                }
-            }
-        }
-    }
-    return true;
-}
-
-/**
  * Remove Void helper
  *
  * This function is able to remove an entire row or column if it is void
@@ -527,7 +497,7 @@ function __import_removevoid($array)
     if (!count($array)) {
         return $array;
     }
-    if (!__import_check_real_matrix($array)) {
+    if (!check_real_matrix($array)) {
         return $array;
     }
     // Continue
@@ -585,7 +555,7 @@ function __import_array2tree($array, $nodes, $nohead, $noletter)
     if (!count($array)) {
         return $array;
     }
-    if (!__import_check_real_matrix($array)) {
+    if (!check_real_matrix($array)) {
         return $array;
     }
     // Continue

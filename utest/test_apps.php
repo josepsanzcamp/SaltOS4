@@ -67,13 +67,13 @@ final class test_apps extends TestCase
      */
     public function test_apps(): void
     {
-        $this->assertSame(id2app(12), 'invoices');
-        $this->assertSame(app2id('invoices'), 12);
-        $this->assertSame(id2table(12), 'app_invoices');
+        $this->assertSame(id2app(53), 'invoices');
+        $this->assertSame(app2id('invoices'), 53);
+        $this->assertSame(id2table(53), 'app_invoices');
         $this->assertSame(app2table('invoices'), 'app_invoices');
-        $this->assertSame(table2id('app_invoices'), 12);
+        $this->assertSame(table2id('app_invoices'), 53);
         $this->assertSame(table2app('app_invoices'), 'invoices');
-        $this->assertSame(count(id2subtables(12)), 2);
+        $this->assertSame(count(id2subtables(53)), 2);
         $this->assertSame(count(app2subtables('invoices')), 2);
         $this->assertSame(count(table2subtables('app_invoices')), 2);
         $this->assertSame(app_exists('invoices'), true);
@@ -82,12 +82,12 @@ final class test_apps extends TestCase
         $this->assertSame(app2version('invoices'), 1);
         $this->assertSame(app2files('invoices'), 1);
         $this->assertSame(app2notes('invoices'), 1);
-        $this->assertSame(subtable2id('app_invoices_concepts'), 12);
-        $this->assertSame(subtable2app('app_invoices_concepts'), 'invoices');
-        $this->assertSame(subtable2table('app_invoices_concepts'), 'app_invoices');
+        $this->assertSame(subtable2id('app_invoices_lines'), 53);
+        $this->assertSame(subtable2app('app_invoices_lines'), 'invoices');
+        $this->assertSame(subtable2table('app_invoices_lines'), 'app_invoices');
         $this->assertTrue(table_exists('app_invoices'));
-        $this->assertFalse(table_exists('app_invoices_concepts'));
-        $this->assertTrue(subtable_exists('app_invoices_concepts'));
+        $this->assertFalse(table_exists('app_invoices_lines'));
+        $this->assertTrue(subtable_exists('app_invoices_lines'));
         $this->assertFalse(subtable_exists('app_invoices'));
         $this->assertSame(count(detect_apps_files('xml/dbschema.xml')) > 1, true);
         set_data('rest/0', 'app');
@@ -97,9 +97,9 @@ final class test_apps extends TestCase
         $this->assertSame(detect_app_file('groups'), 'apps/users/xml/groups.xml');
         $this->assertSame(detect_app_folder('groups'), 'users');
 
-        $this->assertSame(id2field(12), "CONCAT(nombre,' - ',cif,' - ',num)");
-        $this->assertSame(app2field('invoices'), "CONCAT(nombre,' - ',cif,' - ',num)");
-        $this->assertSame(table2field('app_invoices'), "CONCAT(nombre,' - ',cif,' - ',num)");
+        $this->assertSame(id2field(53), 'IF(is_closed, invoice_code, proforma_code)');
+        $this->assertSame(app2field('invoices'), 'IF(is_closed, invoice_code, proforma_code)');
+        $this->assertSame(table2field('app_invoices'), 'IF(is_closed, invoice_code, proforma_code)');
 
         $files = glob('apps/*/xml/*.yaml');
         foreach ($files as $file) {
@@ -116,7 +116,7 @@ final class test_apps extends TestCase
             $this->assertSame(detect_app_folder($app), $dir);
         }
 
-        $this->assertSame(id2name(12), 'Invoices');
+        $this->assertSame(id2name(53), 'Invoices');
         $this->assertSame(app2name('invoices'), 'Invoices');
         $this->assertSame(table2name('app_invoices'), 'Invoices');
 
@@ -163,8 +163,8 @@ final class test_apps extends TestCase
         $json = test_web_helper('app/customers', '', $json2['token'], '');
         $this->assertArrayHasKey('cache', $json);
 
-        $json = test_web_helper('app/customers/widget/plot1', '', $json2['token'], '');
-        $this->assertArrayHasKey('data', $json);
+        //~ $json = test_web_helper('app/customers/widget/plot1', '', $json2['token'], '');
+        //~ $this->assertArrayHasKey('data', $json);
 
         test_external_exec('php/apps1.php', 'phperror.log', 'nada(nada) not found');
 

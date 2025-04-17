@@ -71,8 +71,8 @@ final class test_invoices extends TestCase
     public function test_invoices(): void
     {
         $array = [
-            'nombre' => 'Asd Qwerty',
-            'num' => '',
+            'customer_name' => 'Asd Qwerty',
+            'proforma_code' => '',
         ];
         $query = make_insert_query('app_invoices', $array);
         db_query($query);
@@ -83,21 +83,21 @@ final class test_invoices extends TestCase
         $this->assertSame(-3, del_version('invoices', $id));
 
         $array = [
-            'id_factura' => $id,
-            'concepto' => 'Clock',
-            'unidades' => '1',
-            'precio' => '99.99',
+            'invoice_id' => $id,
+            'description' => 'Clock',
+            'quantity' => '1',
+            'price' => '99.99',
         ];
-        $query = make_insert_query('app_invoices_concepts', $array);
+        $query = make_insert_query('app_invoices_lines', $array);
         db_query($query);
 
         $array = [
-            'id_factura' => $id,
-            'concepto' => 'Belt',
-            'unidades' => '1',
-            'precio' => '19.99',
+            'invoice_id' => $id,
+            'description' => 'Belt',
+            'quantity' => '1',
+            'price' => '19.99',
         ];
-        $query = make_insert_query('app_invoices_concepts', $array);
+        $query = make_insert_query('app_invoices_lines', $array);
         db_query($query);
 
         $this->assertSame(make_control('invoices', $id), 1);
@@ -109,34 +109,34 @@ final class test_invoices extends TestCase
         $this->assertSame(-3, get_version('invoices', $id, 2));
 
         $array = [
-            'nombre' => 'ASD QWERTY',
-            'num' => '',
+            'customer_name' => 'ASD QWERTY',
+            'proforma_code' => '',
         ];
         $query = make_update_query('app_invoices', $array, [
             'id' => $id,
         ]);
         db_query($query);
 
-        $id2 = execute_query('SELECT MAX(id) FROM app_invoices_concepts');
+        $id2 = execute_query('SELECT MAX(id) FROM app_invoices_lines');
 
         $array = [
-            'id_factura' => $id,
-            'concepto' => 'Belt',
-            'unidades' => '1',
-            'precio' => '29.99',
+            'invoice_id' => $id,
+            'description' => 'Belt',
+            'quantity' => '1',
+            'price' => '29.99',
         ];
-        $query = make_update_query('app_invoices_concepts', $array, [
+        $query = make_update_query('app_invoices_lines', $array, [
             'id' => $id2,
         ]);
         db_query($query);
 
         $array = [
-            'id_factura' => $id,
-            'concepto' => 'Tools',
-            'unidades' => '1',
-            'precio' => '9.99',
+            'invoice_id' => $id,
+            'description' => 'Tools',
+            'quantity' => '1',
+            'price' => '9.99',
         ];
-        $query = make_insert_query('app_invoices_concepts', $array);
+        $query = make_insert_query('app_invoices_lines', $array);
         db_query($query);
 
         $this->assertSame(make_control('invoices', $id), -4);
@@ -149,17 +149,17 @@ final class test_invoices extends TestCase
         $this->assertSame(-3, get_version('invoices', $id, 3));
 
         $array = [
-            'nombre' => 'Asd Qwerty',
-            'num' => '123456789',
+            'customer_name' => 'Asd Qwerty',
+            'proforma_code' => '123456789',
         ];
         $query = make_update_query('app_invoices', $array, [
             'id' => $id,
         ]);
         db_query($query);
 
-        $id3 = execute_query("SELECT MIN(id) FROM app_invoices_concepts WHERE id_factura=$id");
+        $id3 = execute_query("SELECT MIN(id) FROM app_invoices_lines WHERE invoice_id=$id");
 
-        $query = "DELETE FROM app_invoices_concepts WHERE id=$id3";
+        $query = "DELETE FROM app_invoices_lines WHERE id=$id3";
         db_query($query);
 
         $this->assertSame(make_control('invoices', $id), -4);
@@ -175,7 +175,7 @@ final class test_invoices extends TestCase
         $query = "DELETE FROM app_invoices WHERE id=$id";
         db_query($query);
 
-        $query = "DELETE FROM app_invoices_concepts WHERE id_factura=$id";
+        $query = "DELETE FROM app_invoices_lines WHERE invoice_id=$id";
         db_query($query);
 
         $this->assertSame(make_control('invoices', $id), 2);

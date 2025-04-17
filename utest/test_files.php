@@ -108,10 +108,10 @@ final class test_files extends TestCase
 
         // Create a customer with a note and a file uploaded previously
         $json = test_cli_helper('app/customers/insert', [
-            'nombre' => 'The SaltOS project',
-            'cif' => '12345678X',
-            'nombre_poblacion' => 'Barcelona',
-            'nombre_codpostal' => '08001',
+            'name' => 'The SaltOS project',
+            'code' => '12345678X',
+            'city' => 'Barcelona',
+            'zip' => '08001',
             'addnotes' => 'Test note number one',
             'addfiles' => [$file1],
         ], '', '', 'admin');
@@ -151,8 +151,8 @@ final class test_files extends TestCase
 
         // Modify the customer to remove the note and file and add a new note and file
         $json = test_cli_helper("app/customers/update/$reg_id", [
-            'nombre' => 'The SaltOS project v2',
-            'cif' => '12345678Z',
+            'name' => 'The SaltOS project v2',
+            'code' => '12345678Z',
             'addnotes' => 'Test note number two',
             'addfiles' => [$file2],
             'delnotes' => "$note_id, a, 0",

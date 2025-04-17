@@ -332,15 +332,6 @@ final class test_import extends TestCase
      */
     public function test_import_helper(): void
     {
-        $array = [['a', 'b', 'c'], ['d', 'e', 'f']];
-        $this->assertSame(__import_check_real_matrix($array), true);
-
-        $array = ['a'];
-        $this->assertSame(__import_check_real_matrix($array), false);
-
-        $array = [[['a']]];
-        $this->assertSame(__import_check_real_matrix($array), false);
-
         //~ $array = "";
         //~ $this->assertSame(__import_removevoid($array), "");
 

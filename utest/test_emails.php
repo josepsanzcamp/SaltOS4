@@ -93,10 +93,10 @@ final class test_emails extends TestCase
             'date3' => 'today',
         ], '', '', 'admin');
         $json = test_cli_helper('app/emails/list/data', [], '', '', 'admin');
-        $json = test_cli_helper('app/emails/view/49', [], '', '', 'admin');
-        $json = test_cli_helper('app/emails/view/files/49', [], '', '', 'admin');
-        $json = test_cli_helper('app/emails/view/body/49', [], '', '', 'admin');
-        $json = test_cli_helper('app/emails/view/body/49/true', [], '', '', 'admin');
+        $json = test_cli_helper('app/emails/view/42', [], '', '', 'admin');
+        $json = test_cli_helper('app/emails/view/files/42', [], '', '', 'admin');
+        $json = test_cli_helper('app/emails/view/body/42', [], '', '', 'admin');
+        $json = test_cli_helper('app/emails/view/body/42/true', [], '', '', 'admin');
 
         $files = glob('data/cache/*.eml');
         foreach ($files as $file) {
@@ -106,10 +106,10 @@ final class test_emails extends TestCase
         $decoded = __getmail_getmime(-1);
         $this->assertSame($decoded, '');
 
-        $decoded = __getmail_getmime(49);
+        $decoded = __getmail_getmime(42);
         $this->assertIsArray($decoded);
 
-        $decoded = __getmail_getmime(49);
+        $decoded = __getmail_getmime(42);
         $this->assertIsArray($decoded);
 
         $result = __getmail_removebody(__getmail_getnode('0', $decoded));
@@ -131,6 +131,8 @@ final class test_emails extends TestCase
         $hash = $result[$key]['chash'];
 
         $result = __getmail_getcid(__getmail_getnode('0', $decoded), $hash);
+//~ print_r($result);
+//~ die();
         $this->assertIsArray($result);
         $this->assertSame($result['chash'], $hash);
 
@@ -154,22 +156,22 @@ final class test_emails extends TestCase
 
         set_data('server/user', 'admin');
 
-        $result = getmail_body(49);
+        $result = getmail_body(42);
         $this->assertIsString($result);
 
-        $result = getmail_body(49, true);
+        $result = getmail_body(42, true);
         $this->assertIsString($result);
 
-        $result = getmail_source(49);
+        $result = getmail_source(42);
         $this->assertIsString($result);
 
-        $result = getmail_files(49);
+        $result = getmail_files(42);
         $this->assertIsArray($result);
 
-        $result = getmail_cid(49, $hash);
+        $result = getmail_cid(42, $hash);
         $this->assertIsArray($result);
 
-        $result = getmail_field('is_outbox', 49);
+        $result = getmail_field('is_outbox', 42);
         $this->assertIsInt($result);
 
         $files = glob('data/cache/*.pdf');
@@ -177,23 +179,23 @@ final class test_emails extends TestCase
             unlink($file);
         }
 
-        $result = getmail_viewpdf(49, $hash);
+        $result = getmail_viewpdf(42, $hash);
         $this->assertIsString($result);
 
         // This trick is for execute the __pdf_all2pdf inside getmail_viewpdf
-        $cache1 = get_cache_file([49, $hash], 'jpg');
+        $cache1 = get_cache_file([42, $hash], 'jpg');
         unlink($cache1);
         $output = get_cache_file($cache1, '.pdf');
         file_put_contents($output, '');
-        $cache2 = get_cache_file([49, $hash], 'pdf');
+        $cache2 = get_cache_file([42, $hash], 'pdf');
         unlink($cache2);
-        $result = getmail_viewpdf(49, $hash);
+        $result = getmail_viewpdf(42, $hash);
         $this->assertIsString($result);
         unlink($cache1);
         unlink($output);
         unlink($cache2);
 
-        $result = getmail_download(49, $hash);
+        $result = getmail_download(42, $hash);
         $this->assertIsArray($result);
 
         set_data('rest/0', 'app');
@@ -203,22 +205,22 @@ final class test_emails extends TestCase
         $result = getmail_setter($maxid + 1, 'new=0');
         $this->assertSame($result, T('Permission denied'));
 
-        $result = getmail_setter('49', 'new=1');
+        $result = getmail_setter('42', 'new=1');
         $this->assertSame($result, sprintf(T('%d email(s) modified successfully'), 1));
 
-        $result = getmail_setter('49', 'new=0');
+        $result = getmail_setter('42', 'new=0');
         $this->assertSame($result, sprintf(T('%d email(s) modified successfully'), 1));
 
-        $result = getmail_setter('49', 'wait=1');
+        $result = getmail_setter('42', 'wait=1');
         $this->assertSame($result, sprintf(T('%d email(s) modified successfully'), 1));
 
-        $result = getmail_setter('49', 'wait=0');
+        $result = getmail_setter('42', 'wait=0');
         $this->assertSame($result, sprintf(T('%d email(s) modified successfully'), 1));
 
-        $result = getmail_setter('49', 'spam=1');
+        $result = getmail_setter('42', 'spam=1');
         $this->assertSame($result, sprintf(T('%d email(s) modified successfully'), 1));
 
-        $result = getmail_setter('49', 'spam=0');
+        $result = getmail_setter('42', 'spam=0');
         $this->assertSame($result, sprintf(T('%d email(s) modified successfully'), 1));
 
         $files = glob('data/cache/*.html');
@@ -226,18 +228,18 @@ final class test_emails extends TestCase
             unlink($file);
         }
 
-        $result = getmail_pdf(49);
+        $result = getmail_pdf(42);
         $this->assertIsArray($result);
 
-        $result = getmail_pdf(49);
+        $result = getmail_pdf(42);
         $this->assertIsArray($result);
 
-        $result = getmail_pdf('49,50');
+        $result = getmail_pdf('42,43');
         $this->assertIsArray($result);
 
         $cache = get_cache_file('which wkhtmltopdf', '.out');
         $this->assertNotFalse(file_put_contents($cache, ''));
-        $result = getmail_pdf('49,50');
+        $result = getmail_pdf('42,43');
         $this->assertIsArray($result);
         $this->assertTrue(unlink($cache));
 

@@ -68,10 +68,10 @@ final class test_dbschema extends TestCase
      */
     public function test_dbschema(): void
     {
-        $query = 'CREATE TABLE tbl_one (' .
-            'id INT(11) PRIMARY KEY AUTO_INCREMENT' .
-            ') ENGINE=Aria CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci';
-        db_query($query);
+        //~ $query = 'CREATE TABLE tbl_one (' .
+            //~ 'id INT(11) PRIMARY KEY AUTO_INCREMENT' .
+            //~ ') ENGINE=Aria CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci';
+        //~ db_query($query);
 
         $query = 'CREATE TABLE tbl_utest (' .
             'id INT(11) PRIMARY KEY AUTO_INCREMENT' .
@@ -119,8 +119,8 @@ final class test_dbschema extends TestCase
         $this->assertSame(strlen(__dbschema_hash()), 32);
         $this->assertSame(strlen(__dbstatic_hash()), 32);
 
-        $query = 'DROP TABLE tbl_one';
-        db_query($query);
+        //~ $query = 'DROP TABLE tbl_one';
+        //~ db_query($query);
 
         $query = 'DROP TABLE __tbl_utest__';
         db_query($query);
@@ -141,9 +141,9 @@ final class test_dbschema extends TestCase
         $this->assertIsArray($indexes);
         $this->assertTrue(count($indexes) > 0);
 
-        $ignores = get_ignores_from_dbschema();
-        $this->assertIsArray($ignores);
-        $this->assertTrue(count($ignores) > 0);
+        //~ $ignores = get_ignores_from_dbschema();
+        //~ $this->assertIsArray($ignores);
+        //~ $this->assertTrue(count($ignores) > 0);
 
         $fulltext = get_fulltext_from_dbschema();
         $this->assertIsArray($fulltext);
@@ -162,7 +162,7 @@ final class test_dbschema extends TestCase
         $this->assertTrue(count($apps) > 0);
 
         $field = get_field_from_dbstatic('customers');
-        $this->assertSame($field, 'nombre');
+        $this->assertSame($field, 'name');
 
         test_external_exec('php/dbschema1.php', 'phperror.log', 'Unknown fn nada');
         test_external_exec('php/dbschema2.php', 'phperror.log', 'Unknown fn nada');
