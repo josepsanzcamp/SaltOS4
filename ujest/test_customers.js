@@ -208,7 +208,7 @@ describe('App Customers', () => {
         await page.$$eval('#one button', buttons => buttons[1].click()); // this trigger the create action
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForSelector('#nombre', timeout);
+        await page.waitForSelector('#name', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -228,7 +228,7 @@ describe('App Customers', () => {
     test('Action Cancel', async () => {
         await page.$$eval('#two button', buttons => buttons[buttons.length - 1].click()); // cancel button
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForFunction(() => !document.querySelector('#nombre'), timeout);
+        await page.waitForFunction(() => !document.querySelector('#name'), timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -251,7 +251,7 @@ describe('App Customers', () => {
         await page.$$eval('#list button', buttons => buttons[1].click()); // this trigger the view action
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForSelector('#nombre', timeout);
+        await page.waitForSelector('#name', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -271,7 +271,7 @@ describe('App Customers', () => {
     test('Action Close', async () => {
         await page.$$eval('#two button', buttons => buttons[buttons.length - 2].click());
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForFunction(() => !document.querySelector('#nombre'), timeout);
+        await page.waitForFunction(() => !document.querySelector('#name'), timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -294,7 +294,7 @@ describe('App Customers', () => {
         await page.$$eval('#list button', buttons => buttons[2].click()); // this trigger the edit action
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForSelector('#nombre', timeout);
+        await page.waitForSelector('#name', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -314,7 +314,7 @@ describe('App Customers', () => {
     test('Action Go Back', async () => {
         await page.goBack();
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForFunction(() => !document.querySelector('#nombre'), timeout);
+        await page.waitForFunction(() => !document.querySelector('#name'), timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -335,7 +335,7 @@ describe('App Customers', () => {
         await page.goto('https://127.0.0.1/saltos/code4/#/app/customers/create');
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForSelector('#nombre', timeout);
+        await page.waitForSelector('#name', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -344,14 +344,14 @@ describe('App Customers', () => {
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
-        await page.$eval('#nombre', el => el.value = 'Josep Sanz');
-        await page.$eval('#cif', el => el.value = '12345678X');
-        await page.$eval('#nombre_poblacion', el => el.value = 'Barcelona');
-        await page.$eval('#nombre_codpostal', el => el.value = '08001');
+        await page.$eval('#name', el => el.value = 'Josep Sanz');
+        await page.$eval('#code', el => el.value = '12345678X');
+        await page.$eval('#city', el => el.value = 'Barcelona');
+        await page.$eval('#zip', el => el.value = '08001');
         await page.$$eval('#two button', buttons => buttons[buttons.length - 2].click()); // create button
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForFunction(() => !document.querySelector('#nombre'), timeout);
+        await page.waitForFunction(() => !document.querySelector('#name'), timeout);
 
         const screenshot2 = await page.screenshot({encoding: 'base64'});
         expect(screenshot2).toMatchImageSnapshot({
@@ -373,7 +373,7 @@ describe('App Customers', () => {
         await page.goto('https://127.0.0.1/saltos/code4/#/app/customers/edit/' + id);
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForSelector('#nombre', timeout);
+        await page.waitForSelector('#name', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -382,14 +382,14 @@ describe('App Customers', () => {
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
-        await page.$eval('#nombre', el => el.value = 'Josep Sanz');
-        await page.$eval('#cif', el => el.value = '12345678Y');
-        await page.$eval('#nombre_poblacion', el => el.value = 'Barcelona');
-        await page.$eval('#nombre_codpostal', el => el.value = '08002');
+        await page.$eval('#name', el => el.value = 'Josep Sanz');
+        await page.$eval('#code', el => el.value = '12345678Y');
+        await page.$eval('#city', el => el.value = 'Barcelona');
+        await page.$eval('#zip', el => el.value = '08002');
         await page.$$eval('#two button', buttons => buttons[buttons.length - 2].click()); // update button
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForFunction(() => !document.querySelector('#nombre'), timeout);
+        await page.waitForFunction(() => !document.querySelector('#name'), timeout);
 
         const screenshot2 = await page.screenshot({encoding: 'base64'});
         expect(screenshot2).toMatchImageSnapshot({

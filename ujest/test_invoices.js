@@ -227,7 +227,7 @@ describe('App Invoices', () => {
         await page.$$eval('#one button', buttons => buttons[1].click()); // this trigger the create action
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForSelector('#nombre', timeout);
+        await page.waitForSelector('#customer_name', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -250,7 +250,7 @@ describe('App Invoices', () => {
         await page.$$eval('#list button', buttons => buttons[1].click()); // this trigger the view action
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForSelector('#nombre', timeout);
+        await page.waitForSelector('#customer_name', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -273,7 +273,7 @@ describe('App Invoices', () => {
         await page.$$eval('#list button', buttons => buttons[2].click()); // this trigger the edit action
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForSelector('#nombre', timeout);
+        await page.waitForSelector('#customer_name', timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
