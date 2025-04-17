@@ -1,5 +1,5 @@
 Web Client Documentation
-SaltOS 4.0 r1952
+SaltOS 4.0 r1976
 April 2025
 
 
@@ -147,24 +147,6 @@ function can retrieve all fields or only the fields that contains differences be
 original data and the current data.
 
 - @full => boolean to indicate if you want the entire form or only the differences
-
-
-+++Get data ids helper+++
-
-```
-saltos.app.__get_data_ids_helper = data
-```
-
-This function allow to retrieve the needed ids in the fields used as template
-
-- @data => the contents of the object with data
-
-
-Notes:
-
-The main idea of this function is to add the id fields if it is needed, for example
-if some field of the template is modified and their value contains a different value
-that void.
 
 
 +++Get data parse helper+++
@@ -388,7 +370,7 @@ saltos.backup.restore = key
 ```
 
 This action performs the restoration action using the specified key, if the
-key is not found, then empty fields and templates are used for the restoration
+key is not found, then empty fields are used for the restoration
 
 - @key => the key selector that you want to use.
 
@@ -2498,7 +2480,7 @@ This function open the create screen
 +++Viewpdf common helper+++
 
 ```
-saltos.common.viewpdf = ()
+saltos.common.viewpdf = file
 ```
 
 This function open the viewpdf widget
@@ -2532,6 +2514,26 @@ saltos.common.allnotes = ()
 ```
 
 This function remove the allnotes table if it is void
+
+
++++View selected registers in PDF format+++
+
+```
+saltos.common.viewpdf_checkbox = ()
+```
+
+This method opens a PDF viewer to display the selected registers.
+If no registers are selected, it prompts the user to select registers first.
+
+
++++Download selected registers as PDF+++
+
+```
+saltos.common.download_checkbox = ()
+```
+
+This method downloads the selected registers in PDF format.
+If no registers are selected, it prompts the user to select registers first.
 
 
 ++Core helper module++
@@ -3617,34 +3619,6 @@ saltos.form.data = (data, sync = true)
 This function sets the values of the request to the objects placed in the document, too as bonus
 extra, it tries to search the field spec in the array to update the value of the field spec to
 allow that the get_data can differ between the original data and the modified data.
-
-
-+++Data template helper+++
-
-```
-saltos.form.__data_template_helper = (template_id, data, index)
-```
-
-This function allow to convert the data object that contains the values for the fields idenfidied
-by the keys of the associative array into a data object with the keys ready to be used by the
-fields of a template, this fields are of the follow structure: TEMPLATE_ID#ID#INDEX
-
-- @template_id => the template identity used in the spec
-- @data        => the object that contains the data associated to the row
-- @index       => the index used in all fields of the template
-
-
-+++Layout template helper+++
-
-```
-saltos.form.__layout_template_helper = (template_id, index)
-```
-
-This function returns the template identified by the template_id for the specified index, ready
-to be used by the saltos.form.layout function.
-
-- @template_id => the template identity used in the spec
-- @index       => the index used in all fields of the template
 
 
 +++Form layout helper+++

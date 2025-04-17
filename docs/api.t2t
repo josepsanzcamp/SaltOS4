@@ -1,5 +1,5 @@
 Api Documentation
-SaltOS 4.0 r1952
+SaltOS 4.0 r1976
 April 2025
 
 
@@ -1003,6 +1003,20 @@ Into:
 
 
 Return a 2D numeric-indexed array
+
+
++++Check Real Matrix helper+++
+
+```
+function check_real_matrix($array)
+```
+
+This function checks that the argument is a matrix, to do this, checks
+that the argument is an array, that all keys are numeric and that all
+entries of the main array is another array, and for each another array,
+checks that the keys are numeric and that all values are non arrays
+
+- @array => the array to check
 
 
 ++Compatibility helper module++
@@ -6581,20 +6595,6 @@ This fuction can convert an excel file into a tree structure
 - @file => local filename used to load the data
 
 
-+++Check Real Matrix helper+++
-
-```
-function __import_check_real_matrix($array)
-```
-
-This function checks that the argument is a matrix, to do this, checks
-that the argument is an array, that all keys are numeric and that all
-entries of the main array is another array, and for each another array,
-checks that the keys are numeric and that all values are non arrays
-
-- @array => the array to check
-
-
 +++Remove Void helper+++
 
 ```
@@ -7205,6 +7205,43 @@ function __pdf_all2pdf($input)
 
 
 Returns PDF content as string
+
+
++++Build the expected PDF template file path for the given app.+++
+
+```
+function detect_pdf_file($app)
+```
+
+Given an application ID, this function resolves the folder name
+using `detect_app_folder($app)` and returns the full relative path
+to its associated PDF XML definition file, expected at:
+
+    apps/<folder>/xml/<app>_pdf.xml
+
+This path is used to define the PDF layout when exporting records
+from the app.
+
+- @app => The application code (e.g., 'invoices', 'quotes')
+
+
+Return the relative path to the PDF XML file
+
+
++++Check if the PDF layout file exists for the given app.+++
+
+```
+function exists_pdf_file($app)
+```
+
+This function uses `detect_pdf_file()` to resolve the expected
+path of the XML file used to generate PDF output for a given app,
+and returns whether the file actually exists.
+
+- @app => The application code (e.g., 'invoices', 'quotes')
+
+
+Return true if the PDF file exists, false otherwise
 
 
 ++Push utils helper module++

@@ -1,5 +1,5 @@
 Applications Documentation
-SaltOS 4.0 r1952
+SaltOS 4.0 r1976
 April 2025
 
 
@@ -449,6 +449,215 @@ This function processes log data and generates headers and formatting informatio
 for integration into the Excel widget.
 
 
++Crm+
+
+++Quotes application++
+
+```
+apps/crm/js/quotes.js
+```
+
+This application provides core functionalities for managing quotes, including creating,
+editing, viewing, and exporting quotes in PDF format.
+
+
++++Main object+++
+
+```
+saltos.quotes = {};
+```
+
+This object contains all SaltOS code related to quote operations.
+
+
++++Initialize the quotes application+++
+
+```
+saltos.quotes.init = arg
+```
+
+This method handles initialization tasks based on the type of operation (`view`, `create`, or `edit`).
+It updates UI elements and attaches appropriate event listeners.
+
+- @arg => Specifies the type of operation to initialize.
+
+
++++Calculate the dynamic width for each column in the "lines" table.+++
+
+```
+saltos.quotes.colWidths_lines = index
+```
+
+This function returns the width for each column. For the first column (index 0),
+it dynamically calculates the remaining space based on the container width minus
+a fixed width (500px) reserved for other columns. For all other columns, it returns 100px.
+
+- @index => Column index
+
+
+Returns the width in pixels
+
+
++++Define cell configuration for each column in the "lines" table.+++
+
+```
+saltos.quotes.cells_lines = (row, column, prop)
+```
+
+This function provides per-column behavior:
+- Column 4: renders a dropdown with available tax values (from #alltaxes).
+- Column 5: sets the cell as read-only (used for calculated values).
+- Other columns: no special config.
+
+
+- @row    => Row index
+- @column => Column index
+- @prop   => Column property name
+
+
+Returns the configuration object
+
+
++++Calculate the dynamic width for each column in the "taxes" table.+++
+
+```
+saltos.quotes.colWidths_taxes = index
+```
+
+The first column (index 0) fills the available space minus 200px reserved for other columns.
+All other columns get a fixed width of 100px.
+
+- @index => Column index
+
+
+Returns the width in pixels
+
+
++++Define cell configuration for each column in the "taxes" table.+++
+
+```
+saltos.quotes.cells_taxes = (row, column, prop)
+```
+
+All cells in this table are read-only.
+
+- @row    => Row index
+- @column => Column index
+- @prop   => Column property name
+
+
+Returns the configuration object
+
+
++++Calculate equal column widths for the "totals" table.+++
+
+```
+saltos.quotes.colWidths_totals = index
+```
+
+The table is divided into 3 equal columns, based on the container width.
+
+- @index => Column index
+
+
+Returns the width in pixels
+
+
++++Define cell configuration for the "totals" table.+++
+
+```
+saltos.quotes.cells_totals = (row, column, prop)
+```
+
+All cells in this table are read-only.
+
+- @row    => Row index
+- @column => Column index
+- @prop   => Column property name
+
+
+Returns the configuration object
+
+
++++Handle and recalculate quote line totals and tax breakdowns after user edits.+++
+
+```
+saltos.quotes.afterChange_lines = (changes, source)
+```
+
+This function is triggered after the user modifies any cell in the "lines" matrix
+(quote lines). It performs the following operations:
+
+- Ignores changes triggered by internal actions (non-`edit` sources).
+- Validates and normalizes quantity, price, and discount values:
+    - Ensures `line[1]`, `line[2]`, `line[3]` (qty, price, discount) are numeric.
+    - Defaults discount to 0 if empty but qty and price are valid.
+- Calculates the line total as: `qty × price × (1 - discount%)`, rounded to 2 decimals.
+- Updates the lines grid to reflect computed values.
+- Recomputes the taxes matrix:
+    - Aggregates taxable bases per tax value (`line[4]`).
+    - Computes tax amount for each group: `base × (tax% / 100)`.
+- Rounds all tax results to 2 decimals and updates the taxes grid.
+- Computes the totals matrix:
+    - `subtotal` = sum of all taxable bases
+    - `tax` = sum of all tax amounts
+    - `total` = subtotal + tax
+    - Results are rounded and shown in the totals grid.
+
+
+- @changes => Array of cell changes from the spreadsheet component
+- @source  => Source of the change event (only `'edit'` triggers processing)
+
+
+++Reverses the process of `make_matrix_data()` for the `quotes` app.++
+
+```
+apps/crm/php/quotes.php
+```
+
+This function takes a previously generated matrix-style array of quote data
+(grouped as lines, taxes, and totals), compares it with the current values
+in the database, and builds a minimal diff-like array that includes only
+the fields that have changed, been removed, or added.
+
+
++++unmake_matrix_data+++
+
+```
+function unmake_matrix_data($json, $quote_id)
+```
+
+Reverse the matrix-encoded quote data to a diff-style data array.
+
+- @json     => The matrix-encoded quote data (from make_matrix_data)
+- @quote_id => The quote ID used to retrieve the original data
+
+
+Return a diff array representing only the differences between the provided
+data and the current state of the database.
+
+
++++Generates or completes quote and final quote metadata.+++
+
+```
+function set_quote($json, $quote_id)
+```
+
+This function ensures that the given quote JSON structure has appropriate values for:
+- `code`, `date` and `valid_until` (if not provided or if it's a new quote)
+
+
+Rules:
+- If no `quote_id` is given or `code` is not defined, a new code number is generated.
+
+
+- @json     => Quote data to process and complete.
+- @quote_id => ID of the quote, used to retrieve current status from DB.
+
+
+Return the updated JSON with appropriate codes and dates filled in.
+
+
 +Dashboard+
 
 ++Dashboard application++
@@ -720,26 +929,6 @@ This function applies the email signature based on the selected account and its 
 The signature is retrieved from the server and updated in the email form.
 
 
-+++View selected emails in PDF format+++
-
-```
-saltos.emails.viewpdf1 = ()
-```
-
-This function opens a PDF view for all selected emails in the list.
-If no emails are selected, a modal prompts the user to select emails first.
-
-
-+++Download selected emails as PDF+++
-
-```
-saltos.emails.download1 = ()
-```
-
-This function downloads all selected emails in the list as a PDF file.
-If no emails are selected, a modal prompts the user to select emails first.
-
-
 +++View email source+++
 
 ```
@@ -747,24 +936,6 @@ saltos.emails.source = ()
 ```
 
 This function opens the raw source of the selected email for viewing in the driver.
-
-
-+++View an email in PDF format+++
-
-```
-saltos.emails.viewpdf2 = ()
-```
-
-This function opens a PDF view for the currently selected email.
-
-
-+++Download an email as PDF+++
-
-```
-saltos.emails.download2 = ()
-```
-
-This function downloads the currently selected email in PDF format.
 
 
 +++Reply to an email+++
@@ -1786,10 +1957,10 @@ It updates UI elements and attaches appropriate event listeners.
 - @arg => Specifies the type of operation to initialize.
 
 
-+++Calculate the dynamic width for each column in the "concepts" table.+++
++++Calculate the dynamic width for each column in the "lines" table.+++
 
 ```
-saltos.invoices.colWidths_concepts = index
+saltos.invoices.colWidths_lines = index
 ```
 
 This function returns the width for each column. For the first column (index 0),
@@ -1802,10 +1973,10 @@ a fixed width (500px) reserved for other columns. For all other columns, it retu
 Returns the width in pixels
 
 
-+++Define cell configuration for each column in the "concepts" table.+++
++++Define cell configuration for each column in the "lines" table.+++
 
 ```
-saltos.invoices.cells_concepts = (row, column, prop)
+saltos.invoices.cells_lines = (row, column, prop)
 ```
 
 This function provides per-column behavior:
@@ -1886,10 +2057,10 @@ Returns the configuration object
 +++Handle and recalculate invoice line totals and tax breakdowns after user edits.+++
 
 ```
-saltos.invoices.afterChange_concepts = (changes, source)
+saltos.invoices.afterChange_lines = (changes, source)
 ```
 
-This function is triggered after the user modifies any cell in the "concepts" matrix
+This function is triggered after the user modifies any cell in the "lines" matrix
 (invoice lines). It performs the following operations:
 
 - Ignores changes triggered by internal actions (non-`edit` sources).
@@ -1897,7 +2068,7 @@ This function is triggered after the user modifies any cell in the "concepts" ma
     - Ensures `line[1]`, `line[2]`, `line[3]` (qty, price, discount) are numeric.
     - Defaults discount to 0 if empty but qty and price are valid.
 - Calculates the line total as: `qty × price × (1 - discount%)`, rounded to 2 decimals.
-- Updates the concepts grid to reflect computed values.
+- Updates the lines grid to reflect computed values.
 - Recomputes the taxes matrix:
     - Aggregates taxable bases per tax value (`line[4]`).
     - Computes tax amount for each group: `base × (tax% / 100)`.
@@ -1913,24 +2084,61 @@ This function is triggered after the user modifies any cell in the "concepts" ma
 - @source  => Source of the change event (only `'edit'` triggers processing)
 
 
-+++View selected invoices in PDF format+++
+++Reverses the process of `make_matrix_data()` for the `invoices` app.++
 
 ```
-saltos.invoices.viewpdf = ()
+apps/sales/php/invoices.php
 ```
 
-This method opens a PDF viewer to display the selected invoices.
-If no invoices are selected, it prompts the user to select invoices first.
+This function takes a previously generated matrix-style array of invoice data
+(grouped as lines, taxes, and totals), compares it with the current values
+in the database, and builds a minimal diff-like array that includes only
+the fields that have changed, been removed, or added.
 
 
-+++Download selected invoices as PDF+++
++++unmake_matrix_data+++
 
 ```
-saltos.invoices.download = ()
+function unmake_matrix_data($json, $invoice_id)
 ```
 
-This method downloads the selected invoices in PDF format.
-If no invoices are selected, it prompts the user to select invoices first.
+Reverse the matrix-encoded invoice data to a diff-style data array.
+
+- @json       => The matrix-encoded invoice data (from make_matrix_data)
+- @invoice_id => The invoice ID used to retrieve the original data
+
+
+Return a diff array representing only the differences between the provided
+data and the current state of the database.
+
+
++++Generates or completes proforma and final invoice metadata.+++
+
+```
+function set_proforma_invoice($json, $invoice_id)
+```
+
+This function ensures that the given invoice JSON structure has appropriate values for:
+- `proforma_code` and `proforma_date` (if not provided or if it's a new invoice)
+- `invoice_code` and `invoice_date` (if the invoice is being closed)
+- `is_closed` (based on database if not explicitly set)
+- `paid_date` (if the invoice is marked as paid)
+- `due_date` (if the invoice is marked as closed)
+
+
+Rules:
+- If no `invoice_id` is given or `proforma_code` is not defined, a new proforma number is generated.
+- If the invoice is being closed (`is_closed` is true), a new invoice number is generated.
+- If `is_closed` is not defined in the JSON, it's looked up in the database for the given invoice ID.
+- If `is_paid` is true and no `paid_date` is set, the current date is assigned.
+- If the invoice is closed and no `due_date` is set, the current date is assigned.
+
+
+- @json       => Invoice data to process and complete.
+- @invoice_id => ID of the invoice, used to retrieve current status from DB.
+
+
+Return the updated JSON with appropriate codes and dates filled in.
 
 
 +Tester+

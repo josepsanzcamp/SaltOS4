@@ -25,7 +25,7 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <header>
 <hgroup>
 <h1>Applications Documentation</h1>
-<h2>SaltOS 4.0 r1952</h2>
+<h2>SaltOS 4.0 r1976</h2>
 <h3>April 2025</h3>
 </hgroup>
 </header>
@@ -125,339 +125,369 @@ pre{background-color:#e6e6e6;padding:5px 3px}
     </li>
     </ul>
   </li>
-  <li><a href="#toc37">3. Dashboard</a>
+  <li><a href="#toc37">3. Crm</a>
     <ul>
-    <li><a href="#toc38">3.1. Dashboard application</a>
+    <li><a href="#toc38">3.1. Quotes application</a>
       <ul>
       <li><a href="#toc39">3.1.1. Main object</a>
       </li>
-      <li><a href="#toc40">3.1.2. Initialization of dashboard</a>
+      <li><a href="#toc40">3.1.2. Initialize the quotes application</a>
+      </li>
+      <li><a href="#toc41">3.1.3. Calculate the dynamic width for each column in the "lines" table.</a>
+      </li>
+      <li><a href="#toc42">3.1.4. Define cell configuration for each column in the "lines" table.</a>
+      </li>
+      <li><a href="#toc43">3.1.5. Calculate the dynamic width for each column in the "taxes" table.</a>
+      </li>
+      <li><a href="#toc44">3.1.6. Define cell configuration for each column in the "taxes" table.</a>
+      </li>
+      <li><a href="#toc45">3.1.7. Calculate equal column widths for the "totals" table.</a>
+      </li>
+      <li><a href="#toc46">3.1.8. Define cell configuration for the "totals" table.</a>
+      </li>
+      <li><a href="#toc47">3.1.9. Handle and recalculate quote line totals and tax breakdowns after user edits.</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc41">3.2. Dashboard widgets application</a>
+    <li><a href="#toc48">3.2. Reverses the process of `make_matrix_data()` for the `quotes` app.</a>
       <ul>
-      <li><a href="#toc42">3.2.1. Main object</a>
+      <li><a href="#toc49">3.2.1. unmake_matrix_data</a>
       </li>
-      <li><a href="#toc43">3.2.2. Initialization of dashboard widgets</a>
-      </li>
-      </ul>
-    </li>
-    <li><a href="#toc44">3.3. Dashboard and navbar generation logic.</a>
-      <ul>
-      <li><a href="#toc45">3.3.1. Build the default dashboard layout with groups and application buttons.</a>
-      </li>
-      <li><a href="#toc46">3.3.2. Build a personalized dashboard layout based on user config.</a>
-      </li>
-      <li><a href="#toc47">3.3.3. Build the application menu for the navbar.</a>
-      </li>
-      </ul>
-    </li>
-    </ul>
-  </li>
-  <li><a href="#toc48">4. Emails</a>
-    <ul>
-    <li><a href="#toc49">4.1. Email application</a>
-      <ul>
-      <li><a href="#toc50">4.1.1. Driver emails object</a>
-      </li>
-      <li><a href="#toc51">4.1.2. Create email template</a>
-      </li>
-      <li><a href="#toc52">4.1.3. Initialization, open, and close handlers for emails</a>
-      </li>
-      </ul>
-    </li>
-    <li><a href="#toc53">4.2. Email application</a>
-      <ul>
-      <li><a href="#toc54">4.2.1. Main object</a>
-      </li>
-      <li><a href="#toc55">4.2.2. Initialize the email application</a>
-      </li>
-      <li><a href="#toc56">4.2.3. Perform server-related actions for emails</a>
-      </li>
-      <li><a href="#toc57">4.2.4. Delete selected emails</a>
-      </li>
-      <li><a href="#toc58">4.2.5. Delete a single email</a>
-      </li>
-      <li><a href="#toc59">4.2.6. Send an email</a>
-      </li>
-      <li><a href="#toc60">4.2.7. Set email state</a>
-      </li>
-      <li><a href="#toc61">4.2.8. Add signature to email</a>
-      </li>
-      <li><a href="#toc62">4.2.9. View selected emails in PDF format</a>
-      </li>
-      <li><a href="#toc63">4.2.10. Download selected emails as PDF</a>
-      </li>
-      <li><a href="#toc64">4.2.11. View email source</a>
-      </li>
-      <li><a href="#toc65">4.2.12. View an email in PDF format</a>
-      </li>
-      <li><a href="#toc66">4.2.13. Download an email as PDF</a>
-      </li>
-      <li><a href="#toc67">4.2.14. Reply to an email</a>
-      </li>
-      <li><a href="#toc68">4.2.15. Reply to all recipients of an email</a>
-      </li>
-      <li><a href="#toc69">4.2.16. Forward an email</a>
-      </li>
-      </ul>
-    </li>
-    <li><a href="#toc70">4.3. Email Query Builder</a>
-      <ul>
-      <li><a href="#toc71">4.3.1. Generate WHERE query for emails</a>
-      </li>
-      </ul>
-    </li>
-    <li><a href="#toc72">4.4. Get email library</a>
-      <ul>
-      <li><a href="#toc73">4.4.1. Requires section</a>
-      </li>
-      <li><a href="#toc74">4.4.2. Defines section</a>
-      </li>
-      <li><a href="#toc75">4.4.3. Remove all body</a>
-      </li>
-      <li><a href="#toc76">4.4.4. Process message</a>
-      </li>
-      <li><a href="#toc77">4.4.5. Process plain html</a>
-      </li>
-      <li><a href="#toc78">4.4.6. Process file</a>
-      </li>
-      <li><a href="#toc79">4.4.7. Check permissions</a>
-      </li>
-      <li><a href="#toc80">4.4.8. Get GZ File</a>
-      </li>
-      <li><a href="#toc81">4.4.9. Get source</a>
-      </li>
-      <li><a href="#toc82">4.4.10. Mime decode protected</a>
-      </li>
-      <li><a href="#toc83">4.4.11. Get mime</a>
-      </li>
-      <li><a href="#toc84">4.4.12. Get Node</a>
-      </li>
-      <li><a href="#toc85">4.4.13. Get type</a>
-      </li>
-      <li><a href="#toc86">4.4.14. Get disposition</a>
-      </li>
-      <li><a href="#toc87">4.4.15. Get files</a>
-      </li>
-      <li><a href="#toc88">4.4.16. Get info</a>
-      </li>
-      <li><a href="#toc89">4.4.17. Fix string</a>
-      </li>
-      <li><a href="#toc90">4.4.18. Get text body</a>
-      </li>
-      <li><a href="#toc91">4.4.19. Get full body</a>
-      </li>
-      <li><a href="#toc92">4.4.20. Get cid</a>
-      </li>
-      <li><a href="#toc93">4.4.21. Insert</a>
-      </li>
-      <li><a href="#toc94">4.4.22. Update</a>
-      </li>
-      <li><a href="#toc95">4.4.23. Add bcc</a>
-      </li>
-      <li><a href="#toc96">4.4.24. Gzfile size</a>
-      </li>
-      <li><a href="#toc97">4.4.25. Get email body</a>
-      </li>
-      <li><a href="#toc98">4.4.26. Generate formatted email header information</a>
-      </li>
-      <li><a href="#toc99">4.4.27. Extract and format the body of an email</a>
-      </li>
-      <li><a href="#toc100">4.4.28. Get email source</a>
-      </li>
-      <li><a href="#toc101">4.4.29. Get email files</a>
-      </li>
-      <li><a href="#toc102">4.4.30. Get cid</a>
-      </li>
-      <li><a href="#toc103">4.4.31. Is outbox</a>
-      </li>
-      <li><a href="#toc104">4.4.32. Server</a>
-      </li>
-      <li><a href="#toc105">4.4.33. Delete</a>
-      </li>
-      <li><a href="#toc106">4.4.34. Get viewpdf</a>
-      </li>
-      <li><a href="#toc107">4.4.35. Get download</a>
-      </li>
-      <li><a href="#toc108">4.4.36. Update email states</a>
-      </li>
-      <li><a href="#toc109">4.4.37. Generate PDF from emails</a>
-      </li>
-      <li><a href="#toc110">4.4.38. Generate iframe content with secure policies</a>
-      </li>
-      </ul>
-    </li>
-    <li><a href="#toc111">4.5. Html helper module</a>
-      <ul>
-      <li><a href="#toc112">4.5.1. Defines section</a>
-      </li>
-      <li><a href="#toc113">4.5.2. Remove Script Tag</a>
-      </li>
-      <li><a href="#toc114">4.5.3. Remove Style Tag</a>
-      </li>
-      <li><a href="#toc115">4.5.4. Remove Comment Tag</a>
-      </li>
-      <li><a href="#toc116">4.5.5. Remove Meta Tag</a>
-      </li>
-      <li><a href="#toc117">4.5.6. Remove Link Tag</a>
-      </li>
-      <li><a href="#toc118">4.5.7. Inline Img Tag</a>
-      </li>
-      <li><a href="#toc119">4.5.8. Inline Img Style</a>
-      </li>
-      <li><a href="#toc120">4.5.9. Inline Img Background</a>
-      </li>
-      <li><a href="#toc121">4.5.10. Inline Image Helper</a>
-      </li>
-      <li><a href="#toc122">4.5.11. Extract Inline Images from Tags</a>
-      </li>
-      <li><a href="#toc123">4.5.12. Extract Inline Images from Styles</a>
-      </li>
-      <li><a href="#toc124">4.5.13. Extract Inline Images from Backgrounds</a>
-      </li>
-      <li><a href="#toc125">4.5.14. Fix Image Tags</a>
-      </li>
-      <li><a href="#toc126">4.5.15. Fix Image Styles</a>
-      </li>
-      <li><a href="#toc127">4.5.16. Fix Image Backgrounds</a>
-      </li>
-      <li><a href="#toc128">4.5.17. Fix Base64-Encoded Files</a>
-      </li>
-      </ul>
-    </li>
-    <li><a href="#toc129">4.6. Make indexing action</a>
-    </li>
-    <li><a href="#toc130">4.7. Send email library</a>
-      <ul>
-      <li><a href="#toc131">4.7.1. Used libraries</a>
-      </li>
-      <li><a href="#toc132">4.7.2. Sendmail</a>
-      </li>
-      <li><a href="#toc133">4.7.3. Debugoutput helper</a>
-      </li>
-      <li><a href="#toc134">4.7.4. Parser</a>
-      </li>
-      <li><a href="#toc135">4.7.5. Message Id</a>
-      </li>
-      <li><a href="#toc136">4.7.6. Eml saver</a>
-      </li>
-      <li><a href="#toc137">4.7.7. Obj saver</a>
-      </li>
-      <li><a href="#toc138">4.7.8. Prepare email for sending</a>
-      </li>
-      <li><a href="#toc139">4.7.9. Perform email sending action</a>
-      </li>
-      <li><a href="#toc140">4.7.10. Send queued emails from the server</a>
-      </li>
-      <li><a href="#toc141">4.7.11. Retrieve email attachments</a>
-      </li>
-      <li><a href="#toc142">4.7.12. Update email signature, CC, and encryption state</a>
+      <li><a href="#toc50">3.2.2. Generates or completes quote and final quote metadata.</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc143">5. Sales</a>
+  <li><a href="#toc51">4. Dashboard</a>
     <ul>
-    <li><a href="#toc144">5.1. Invoices application</a>
+    <li><a href="#toc52">4.1. Dashboard application</a>
       <ul>
-      <li><a href="#toc145">5.1.1. Main object</a>
+      <li><a href="#toc53">4.1.1. Main object</a>
       </li>
-      <li><a href="#toc146">5.1.2. Initialize the invoices application</a>
+      <li><a href="#toc54">4.1.2. Initialization of dashboard</a>
       </li>
-      <li><a href="#toc147">5.1.3. Calculate the dynamic width for each column in the "concepts" table.</a>
+      </ul>
+    </li>
+    <li><a href="#toc55">4.2. Dashboard widgets application</a>
+      <ul>
+      <li><a href="#toc56">4.2.1. Main object</a>
       </li>
-      <li><a href="#toc148">5.1.4. Define cell configuration for each column in the "concepts" table.</a>
+      <li><a href="#toc57">4.2.2. Initialization of dashboard widgets</a>
       </li>
-      <li><a href="#toc149">5.1.5. Calculate the dynamic width for each column in the "taxes" table.</a>
+      </ul>
+    </li>
+    <li><a href="#toc58">4.3. Dashboard and navbar generation logic.</a>
+      <ul>
+      <li><a href="#toc59">4.3.1. Build the default dashboard layout with groups and application buttons.</a>
       </li>
-      <li><a href="#toc150">5.1.6. Define cell configuration for each column in the "taxes" table.</a>
+      <li><a href="#toc60">4.3.2. Build a personalized dashboard layout based on user config.</a>
       </li>
-      <li><a href="#toc151">5.1.7. Calculate equal column widths for the "totals" table.</a>
-      </li>
-      <li><a href="#toc152">5.1.8. Define cell configuration for the "totals" table.</a>
-      </li>
-      <li><a href="#toc153">5.1.9. Handle and recalculate invoice line totals and tax breakdowns after user edits.</a>
-      </li>
-      <li><a href="#toc154">5.1.10. View selected invoices in PDF format</a>
-      </li>
-      <li><a href="#toc155">5.1.11. Download selected invoices as PDF</a>
+      <li><a href="#toc61">4.3.3. Build the application menu for the navbar.</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc156">6. Tester</a>
+  <li><a href="#toc62">5. Emails</a>
     <ul>
-    <li><a href="#toc157">6.1. Tester application</a>
+    <li><a href="#toc63">5.1. Email application</a>
       <ul>
-      <li><a href="#toc158">6.1.1. Tester object</a>
+      <li><a href="#toc64">5.1.1. Driver emails object</a>
       </li>
-      <li><a href="#toc159">6.1.2. Campo 8: Alert functionality</a>
+      <li><a href="#toc65">5.1.2. Create email template</a>
       </li>
-      <li><a href="#toc160">6.1.3. Campo 9: Modal functionality</a>
+      <li><a href="#toc66">5.1.3. Initialization, open, and close handlers for emails</a>
       </li>
-      <li><a href="#toc161">6.1.4. Campo 10: Offcanvas functionality</a>
+      </ul>
+    </li>
+    <li><a href="#toc67">5.2. Email application</a>
+      <ul>
+      <li><a href="#toc68">5.2.1. Main object</a>
       </li>
-      <li><a href="#toc162">6.1.5. Campo 11: Toast functionality</a>
+      <li><a href="#toc69">5.2.2. Initialize the email application</a>
       </li>
-      <li><a href="#toc163">6.1.6. Campo 22: Open statistics page</a>
+      <li><a href="#toc70">5.2.3. Perform server-related actions for emails</a>
+      </li>
+      <li><a href="#toc71">5.2.4. Delete selected emails</a>
+      </li>
+      <li><a href="#toc72">5.2.5. Delete a single email</a>
+      </li>
+      <li><a href="#toc73">5.2.6. Send an email</a>
+      </li>
+      <li><a href="#toc74">5.2.7. Set email state</a>
+      </li>
+      <li><a href="#toc75">5.2.8. Add signature to email</a>
+      </li>
+      <li><a href="#toc76">5.2.9. View email source</a>
+      </li>
+      <li><a href="#toc77">5.2.10. Reply to an email</a>
+      </li>
+      <li><a href="#toc78">5.2.11. Reply to all recipients of an email</a>
+      </li>
+      <li><a href="#toc79">5.2.12. Forward an email</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc80">5.3. Email Query Builder</a>
+      <ul>
+      <li><a href="#toc81">5.3.1. Generate WHERE query for emails</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc82">5.4. Get email library</a>
+      <ul>
+      <li><a href="#toc83">5.4.1. Requires section</a>
+      </li>
+      <li><a href="#toc84">5.4.2. Defines section</a>
+      </li>
+      <li><a href="#toc85">5.4.3. Remove all body</a>
+      </li>
+      <li><a href="#toc86">5.4.4. Process message</a>
+      </li>
+      <li><a href="#toc87">5.4.5. Process plain html</a>
+      </li>
+      <li><a href="#toc88">5.4.6. Process file</a>
+      </li>
+      <li><a href="#toc89">5.4.7. Check permissions</a>
+      </li>
+      <li><a href="#toc90">5.4.8. Get GZ File</a>
+      </li>
+      <li><a href="#toc91">5.4.9. Get source</a>
+      </li>
+      <li><a href="#toc92">5.4.10. Mime decode protected</a>
+      </li>
+      <li><a href="#toc93">5.4.11. Get mime</a>
+      </li>
+      <li><a href="#toc94">5.4.12. Get Node</a>
+      </li>
+      <li><a href="#toc95">5.4.13. Get type</a>
+      </li>
+      <li><a href="#toc96">5.4.14. Get disposition</a>
+      </li>
+      <li><a href="#toc97">5.4.15. Get files</a>
+      </li>
+      <li><a href="#toc98">5.4.16. Get info</a>
+      </li>
+      <li><a href="#toc99">5.4.17. Fix string</a>
+      </li>
+      <li><a href="#toc100">5.4.18. Get text body</a>
+      </li>
+      <li><a href="#toc101">5.4.19. Get full body</a>
+      </li>
+      <li><a href="#toc102">5.4.20. Get cid</a>
+      </li>
+      <li><a href="#toc103">5.4.21. Insert</a>
+      </li>
+      <li><a href="#toc104">5.4.22. Update</a>
+      </li>
+      <li><a href="#toc105">5.4.23. Add bcc</a>
+      </li>
+      <li><a href="#toc106">5.4.24. Gzfile size</a>
+      </li>
+      <li><a href="#toc107">5.4.25. Get email body</a>
+      </li>
+      <li><a href="#toc108">5.4.26. Generate formatted email header information</a>
+      </li>
+      <li><a href="#toc109">5.4.27. Extract and format the body of an email</a>
+      </li>
+      <li><a href="#toc110">5.4.28. Get email source</a>
+      </li>
+      <li><a href="#toc111">5.4.29. Get email files</a>
+      </li>
+      <li><a href="#toc112">5.4.30. Get cid</a>
+      </li>
+      <li><a href="#toc113">5.4.31. Is outbox</a>
+      </li>
+      <li><a href="#toc114">5.4.32. Server</a>
+      </li>
+      <li><a href="#toc115">5.4.33. Delete</a>
+      </li>
+      <li><a href="#toc116">5.4.34. Get viewpdf</a>
+      </li>
+      <li><a href="#toc117">5.4.35. Get download</a>
+      </li>
+      <li><a href="#toc118">5.4.36. Update email states</a>
+      </li>
+      <li><a href="#toc119">5.4.37. Generate PDF from emails</a>
+      </li>
+      <li><a href="#toc120">5.4.38. Generate iframe content with secure policies</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc121">5.5. Html helper module</a>
+      <ul>
+      <li><a href="#toc122">5.5.1. Defines section</a>
+      </li>
+      <li><a href="#toc123">5.5.2. Remove Script Tag</a>
+      </li>
+      <li><a href="#toc124">5.5.3. Remove Style Tag</a>
+      </li>
+      <li><a href="#toc125">5.5.4. Remove Comment Tag</a>
+      </li>
+      <li><a href="#toc126">5.5.5. Remove Meta Tag</a>
+      </li>
+      <li><a href="#toc127">5.5.6. Remove Link Tag</a>
+      </li>
+      <li><a href="#toc128">5.5.7. Inline Img Tag</a>
+      </li>
+      <li><a href="#toc129">5.5.8. Inline Img Style</a>
+      </li>
+      <li><a href="#toc130">5.5.9. Inline Img Background</a>
+      </li>
+      <li><a href="#toc131">5.5.10. Inline Image Helper</a>
+      </li>
+      <li><a href="#toc132">5.5.11. Extract Inline Images from Tags</a>
+      </li>
+      <li><a href="#toc133">5.5.12. Extract Inline Images from Styles</a>
+      </li>
+      <li><a href="#toc134">5.5.13. Extract Inline Images from Backgrounds</a>
+      </li>
+      <li><a href="#toc135">5.5.14. Fix Image Tags</a>
+      </li>
+      <li><a href="#toc136">5.5.15. Fix Image Styles</a>
+      </li>
+      <li><a href="#toc137">5.5.16. Fix Image Backgrounds</a>
+      </li>
+      <li><a href="#toc138">5.5.17. Fix Base64-Encoded Files</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc139">5.6. Make indexing action</a>
+    </li>
+    <li><a href="#toc140">5.7. Send email library</a>
+      <ul>
+      <li><a href="#toc141">5.7.1. Used libraries</a>
+      </li>
+      <li><a href="#toc142">5.7.2. Sendmail</a>
+      </li>
+      <li><a href="#toc143">5.7.3. Debugoutput helper</a>
+      </li>
+      <li><a href="#toc144">5.7.4. Parser</a>
+      </li>
+      <li><a href="#toc145">5.7.5. Message Id</a>
+      </li>
+      <li><a href="#toc146">5.7.6. Eml saver</a>
+      </li>
+      <li><a href="#toc147">5.7.7. Obj saver</a>
+      </li>
+      <li><a href="#toc148">5.7.8. Prepare email for sending</a>
+      </li>
+      <li><a href="#toc149">5.7.9. Perform email sending action</a>
+      </li>
+      <li><a href="#toc150">5.7.10. Send queued emails from the server</a>
+      </li>
+      <li><a href="#toc151">5.7.11. Retrieve email attachments</a>
+      </li>
+      <li><a href="#toc152">5.7.12. Update email signature, CC, and encryption state</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc164">7. Users</a>
+  <li><a href="#toc153">6. Sales</a>
     <ul>
-    <li><a href="#toc165">7.1. Login application</a>
+    <li><a href="#toc154">6.1. Invoices application</a>
       <ul>
-      <li><a href="#toc166">7.1.1. Main object</a>
+      <li><a href="#toc155">6.1.1. Main object</a>
       </li>
-      <li><a href="#toc167">7.1.2. Authenticate login function</a>
+      <li><a href="#toc156">6.1.2. Initialize the invoices application</a>
+      </li>
+      <li><a href="#toc157">6.1.3. Calculate the dynamic width for each column in the "lines" table.</a>
+      </li>
+      <li><a href="#toc158">6.1.4. Define cell configuration for each column in the "lines" table.</a>
+      </li>
+      <li><a href="#toc159">6.1.5. Calculate the dynamic width for each column in the "taxes" table.</a>
+      </li>
+      <li><a href="#toc160">6.1.6. Define cell configuration for each column in the "taxes" table.</a>
+      </li>
+      <li><a href="#toc161">6.1.7. Calculate equal column widths for the "totals" table.</a>
+      </li>
+      <li><a href="#toc162">6.1.8. Define cell configuration for the "totals" table.</a>
+      </li>
+      <li><a href="#toc163">6.1.9. Handle and recalculate invoice line totals and tax breakdowns after user edits.</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc168">7.2. Days functions</a>
+    <li><a href="#toc164">6.2. Reverses the process of `make_matrix_data()` for the `invoices` app.</a>
       <ul>
-      <li><a href="#toc169">7.2.1. Days to bin</a>
+      <li><a href="#toc165">6.2.1. unmake_matrix_data</a>
       </li>
-      <li><a href="#toc170">7.2.2. Bin to days</a>
-      </li>
-      <li><a href="#toc171">7.2.3. Fix for days</a>
+      <li><a href="#toc166">6.2.2. Generates or completes proforma and final invoice metadata.</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc172">7.3. Groups functions</a>
+    </ul>
+  </li>
+  <li><a href="#toc167">7. Tester</a>
+    <ul>
+    <li><a href="#toc168">7.1. Tester application</a>
       <ul>
-      <li><a href="#toc173">7.3.1. Insert group action</a>
+      <li><a href="#toc169">7.1.1. Tester object</a>
       </li>
-      <li><a href="#toc174">7.3.2. Update group action</a>
+      <li><a href="#toc170">7.1.2. Campo 8: Alert functionality</a>
       </li>
-      <li><a href="#toc175">7.3.3. Delete group action</a>
+      <li><a href="#toc171">7.1.3. Campo 9: Modal functionality</a>
+      </li>
+      <li><a href="#toc172">7.1.4. Campo 10: Offcanvas functionality</a>
+      </li>
+      <li><a href="#toc173">7.1.5. Campo 11: Toast functionality</a>
+      </li>
+      <li><a href="#toc174">7.1.6. Campo 22: Open statistics page</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc176">7.4. Matrix functions</a>
+    </ul>
+  </li>
+  <li><a href="#toc175">8. Users</a>
+    <ul>
+    <li><a href="#toc176">8.1. Login application</a>
       <ul>
-      <li><a href="#toc177">7.4.1. Create matrix data</a>
+      <li><a href="#toc177">8.1.1. Main object</a>
       </li>
-      <li><a href="#toc178">7.4.2. Create matrix cells</a>
-      </li>
-      <li><a href="#toc179">7.4.3. Unmake matrix data</a>
-      </li>
-      <li><a href="#toc180">7.4.4. Generate matrix permissions</a>
+      <li><a href="#toc178">8.1.2. Authenticate login function</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc181">7.5. Users functions</a>
+    <li><a href="#toc179">8.2. Days functions</a>
       <ul>
-      <li><a href="#toc182">7.5.1. Insert user action</a>
+      <li><a href="#toc180">8.2.1. Days to bin</a>
       </li>
-      <li><a href="#toc183">7.5.2. Update user action</a>
+      <li><a href="#toc181">8.2.2. Bin to days</a>
       </li>
-      <li><a href="#toc184">7.5.3. Delete user action</a>
+      <li><a href="#toc182">8.2.3. Fix for days</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc183">8.3. Groups functions</a>
+      <ul>
+      <li><a href="#toc184">8.3.1. Insert group action</a>
+      </li>
+      <li><a href="#toc185">8.3.2. Update group action</a>
+      </li>
+      <li><a href="#toc186">8.3.3. Delete group action</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc187">8.4. Matrix functions</a>
+      <ul>
+      <li><a href="#toc188">8.4.1. Create matrix data</a>
+      </li>
+      <li><a href="#toc189">8.4.2. Create matrix cells</a>
+      </li>
+      <li><a href="#toc190">8.4.3. Unmake matrix data</a>
+      </li>
+      <li><a href="#toc191">8.4.4. Generate matrix permissions</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc192">8.5. Users functions</a>
+      <ul>
+      <li><a href="#toc193">8.5.1. Insert user action</a>
+      </li>
+      <li><a href="#toc194">8.5.2. Update user action</a>
+      </li>
+      <li><a href="#toc195">8.5.3. Delete user action</a>
       </li>
       </ul>
     </li>
@@ -1108,10 +1138,342 @@ for integration into the Excel widget.
 </section>
 </section>
 <section id="toc37">
-<h1>3. Dashboard</h1>
+<h1>3. Crm</h1>
 
 <section id="toc38">
-<h2>3.1. Dashboard application</h2>
+<h2>3.1. Quotes application</h2>
+
+<pre>
+apps/crm/js/quotes.js
+</pre>
+
+<p>
+This application provides core functionalities for managing quotes, including creating,
+editing, viewing, and exporting quotes in PDF format.
+</p>
+
+<section id="toc39">
+<h3>3.1.1. Main object</h3>
+
+<pre>
+saltos.quotes = {};
+</pre>
+
+<p>
+This object contains all SaltOS code related to quote operations.
+</p>
+
+</section>
+<section id="toc40">
+<h3>3.1.2. Initialize the quotes application</h3>
+
+<pre>
+saltos.quotes.init = arg
+</pre>
+
+<p>
+This method handles initialization tasks based on the type of operation (`view`, `create`, or `edit`).
+It updates UI elements and attaches appropriate event listeners.
+</p>
+
+<ul>
+<li>@arg =&gt; Specifies the type of operation to initialize.
+</li>
+</ul>
+
+</section>
+<section id="toc41">
+<h3>3.1.3. Calculate the dynamic width for each column in the "lines" table.</h3>
+
+<pre>
+saltos.quotes.colWidths_lines = index
+</pre>
+
+<p>
+This function returns the width for each column. For the first column (index 0),
+it dynamically calculates the remaining space based on the container width minus
+a fixed width (500px) reserved for other columns. For all other columns, it returns 100px.
+</p>
+
+<ul>
+<li>@index =&gt; Column index
+</li>
+</ul>
+
+<p>
+Returns the width in pixels
+</p>
+
+</section>
+<section id="toc42">
+<h3>3.1.4. Define cell configuration for each column in the "lines" table.</h3>
+
+<pre>
+saltos.quotes.cells_lines = (row, column, prop)
+</pre>
+
+<p>
+This function provides per-column behavior:
+</p>
+
+<ul>
+<li>Column 4: renders a dropdown with available tax values (from #alltaxes).
+</li>
+<li>Column 5: sets the cell as read-only (used for calculated values).
+</li>
+<li>Other columns: no special config.
+</li>
+</ul>
+
+<ul>
+<li>@row    =&gt; Row index
+</li>
+<li>@column =&gt; Column index
+</li>
+<li>@prop   =&gt; Column property name
+</li>
+</ul>
+
+<p>
+Returns the configuration object
+</p>
+
+</section>
+<section id="toc43">
+<h3>3.1.5. Calculate the dynamic width for each column in the "taxes" table.</h3>
+
+<pre>
+saltos.quotes.colWidths_taxes = index
+</pre>
+
+<p>
+The first column (index 0) fills the available space minus 200px reserved for other columns.
+All other columns get a fixed width of 100px.
+</p>
+
+<ul>
+<li>@index =&gt; Column index
+</li>
+</ul>
+
+<p>
+Returns the width in pixels
+</p>
+
+</section>
+<section id="toc44">
+<h3>3.1.6. Define cell configuration for each column in the "taxes" table.</h3>
+
+<pre>
+saltos.quotes.cells_taxes = (row, column, prop)
+</pre>
+
+<p>
+All cells in this table are read-only.
+</p>
+
+<ul>
+<li>@row    =&gt; Row index
+</li>
+<li>@column =&gt; Column index
+</li>
+<li>@prop   =&gt; Column property name
+</li>
+</ul>
+
+<p>
+Returns the configuration object
+</p>
+
+</section>
+<section id="toc45">
+<h3>3.1.7. Calculate equal column widths for the "totals" table.</h3>
+
+<pre>
+saltos.quotes.colWidths_totals = index
+</pre>
+
+<p>
+The table is divided into 3 equal columns, based on the container width.
+</p>
+
+<ul>
+<li>@index =&gt; Column index
+</li>
+</ul>
+
+<p>
+Returns the width in pixels
+</p>
+
+</section>
+<section id="toc46">
+<h3>3.1.8. Define cell configuration for the "totals" table.</h3>
+
+<pre>
+saltos.quotes.cells_totals = (row, column, prop)
+</pre>
+
+<p>
+All cells in this table are read-only.
+</p>
+
+<ul>
+<li>@row    =&gt; Row index
+</li>
+<li>@column =&gt; Column index
+</li>
+<li>@prop   =&gt; Column property name
+</li>
+</ul>
+
+<p>
+Returns the configuration object
+</p>
+
+</section>
+<section id="toc47">
+<h3>3.1.9. Handle and recalculate quote line totals and tax breakdowns after user edits.</h3>
+
+<pre>
+saltos.quotes.afterChange_lines = (changes, source)
+</pre>
+
+<p>
+This function is triggered after the user modifies any cell in the "lines" matrix
+(quote lines). It performs the following operations:
+</p>
+
+<ul>
+<li>Ignores changes triggered by internal actions (non-`edit` sources).
+</li>
+<li>Validates and normalizes quantity, price, and discount values:
+    <ul>
+    <li>Ensures `line[1]`, `line[2]`, `line[3]` (qty, price, discount) are numeric.
+    </li>
+    <li>Defaults discount to 0 if empty but qty and price are valid.
+    </li>
+    </ul>
+</li>
+<li>Calculates the line total as: `qty × price × (1 - discount%)`, rounded to 2 decimals.
+</li>
+<li>Updates the lines grid to reflect computed values.
+</li>
+<li>Recomputes the taxes matrix:
+    <ul>
+    <li>Aggregates taxable bases per tax value (`line[4]`).
+    </li>
+    <li>Computes tax amount for each group: `base × (tax% / 100)`.
+    </li>
+    </ul>
+</li>
+<li>Rounds all tax results to 2 decimals and updates the taxes grid.
+</li>
+<li>Computes the totals matrix:
+    <ul>
+    <li>`subtotal` = sum of all taxable bases
+    </li>
+    <li>`tax` = sum of all tax amounts
+    </li>
+    <li>`total` = subtotal + tax
+    </li>
+    <li>Results are rounded and shown in the totals grid.
+    </li>
+    </ul>
+</li>
+</ul>
+
+<ul>
+<li>@changes =&gt; Array of cell changes from the spreadsheet component
+</li>
+<li>@source  =&gt; Source of the change event (only `'edit'` triggers processing)
+</li>
+</ul>
+
+</section>
+</section>
+<section id="toc48">
+<h2>3.2. Reverses the process of `make_matrix_data()` for the `quotes` app.</h2>
+
+<pre>
+apps/crm/php/quotes.php
+</pre>
+
+<p>
+This function takes a previously generated matrix-style array of quote data
+(grouped as lines, taxes, and totals), compares it with the current values
+in the database, and builds a minimal diff-like array that includes only
+the fields that have changed, been removed, or added.
+</p>
+
+<section id="toc49">
+<h3>3.2.1. unmake_matrix_data</h3>
+
+<pre>
+function unmake_matrix_data($json, $quote_id)
+</pre>
+
+<p>
+Reverse the matrix-encoded quote data to a diff-style data array.
+</p>
+
+<ul>
+<li>@json     =&gt; The matrix-encoded quote data (from make_matrix_data)
+</li>
+<li>@quote_id =&gt; The quote ID used to retrieve the original data
+</li>
+</ul>
+
+<p>
+Return a diff array representing only the differences between the provided
+data and the current state of the database.
+</p>
+
+</section>
+<section id="toc50">
+<h3>3.2.2. Generates or completes quote and final quote metadata.</h3>
+
+<pre>
+function set_quote($json, $quote_id)
+</pre>
+
+<p>
+This function ensures that the given quote JSON structure has appropriate values for:
+</p>
+
+<ul>
+<li>`code`, `date` and `valid_until` (if not provided or if it's a new quote)
+</li>
+</ul>
+
+<p>
+Rules:
+</p>
+
+<ul>
+<li>If no `quote_id` is given or `code` is not defined, a new code number is generated.
+</li>
+</ul>
+
+<ul>
+<li>@json     =&gt; Quote data to process and complete.
+</li>
+<li>@quote_id =&gt; ID of the quote, used to retrieve current status from DB.
+</li>
+</ul>
+
+<p>
+Return the updated JSON with appropriate codes and dates filled in.
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc51">
+<h1>4. Dashboard</h1>
+
+<section id="toc52">
+<h2>4.1. Dashboard application</h2>
 
 <pre>
 apps/dashboard/js/dashboard.js
@@ -1122,8 +1484,8 @@ This module implements the typical features associated with a dashboard,
 allowing dynamic interaction with various elements and functionalities.
 </p>
 
-<section id="toc39">
-<h3>3.1.1. Main object</h3>
+<section id="toc53">
+<h3>4.1.1. Main object</h3>
 
 <pre>
 saltos.dashboard = {};
@@ -1134,8 +1496,8 @@ Contains all the logic and code for the SaltOS framework related to the dashboar
 </p>
 
 </section>
-<section id="toc40">
-<h3>3.1.2. Initialization of dashboard</h3>
+<section id="toc54">
+<h3>4.1.2. Initialization of dashboard</h3>
 
 <pre>
 saltos.dashboard.init = arg
@@ -1148,8 +1510,8 @@ the dashboard widgets based on user-defined or default configurations.
 
 </section>
 </section>
-<section id="toc41">
-<h2>3.2. Dashboard widgets application</h2>
+<section id="toc55">
+<h2>4.2. Dashboard widgets application</h2>
 
 <pre>
 apps/dashboard/js/dashboard_widgets.js
@@ -1160,8 +1522,8 @@ This module implements the typical features associated with a widget dashboard,
 allowing interaction and customization of elements in a dynamic environment.
 </p>
 
-<section id="toc42">
-<h3>3.2.1. Main object</h3>
+<section id="toc56">
+<h3>4.2.1. Main object</h3>
 
 <pre>
 saltos.dashboard_widgets = {};
@@ -1172,8 +1534,8 @@ Contains all the logic and code for the SaltOS framework related to the dashboar
 </p>
 
 </section>
-<section id="toc43">
-<h3>3.2.2. Initialization of dashboard widgets</h3>
+<section id="toc57">
+<h3>4.2.2. Initialization of dashboard widgets</h3>
 
 <pre>
 saltos.dashboard_widgets.init = arg
@@ -1186,8 +1548,8 @@ and configuring drag-and-drop functionality between different containers.
 
 </section>
 </section>
-<section id="toc44">
-<h2>3.3. Dashboard and navbar generation logic.</h2>
+<section id="toc58">
+<h2>4.3. Dashboard and navbar generation logic.</h2>
 
 <pre>
 apps/dashboard/php/dashboard.php
@@ -1216,8 +1578,8 @@ These functions are used internally by the SaltOS UI rendering engine to generat
 the initial layout and navigation menus seen by each user on login.
 </p>
 
-<section id="toc45">
-<h3>3.3.1. Build the default dashboard layout with groups and application buttons.</h3>
+<section id="toc59">
+<h3>4.3.1. Build the default dashboard layout with groups and application buttons.</h3>
 
 <pre>
 function __dashboard_helper()
@@ -1240,8 +1602,8 @@ followed by buttons for each app, and a horizontal rule (`&lt;hr&gt;`) at the en
 </ul>
 
 </section>
-<section id="toc46">
-<h3>3.3.2. Build a personalized dashboard layout based on user config.</h3>
+<section id="toc60">
+<h3>4.3.2. Build a personalized dashboard layout based on user config.</h3>
 
 <pre>
 function __dashboard_config()
@@ -1264,8 +1626,8 @@ the default layout.
 </ul>
 
 </section>
-<section id="toc47">
-<h3>3.3.3. Build the application menu for the navbar.</h3>
+<section id="toc61">
+<h3>4.3.3. Build the application menu for the navbar.</h3>
 
 <pre>
 function __navbar_helper()
@@ -1307,11 +1669,11 @@ navigation tree grouped visually in the UI.
 </section>
 </section>
 </section>
-<section id="toc48">
-<h1>4. Emails</h1>
+<section id="toc62">
+<h1>5. Emails</h1>
 
-<section id="toc49">
-<h2>4.1. Email application</h2>
+<section id="toc63">
+<h2>5.1. Email application</h2>
 
 <pre>
 apps/emails/js/driver.js
@@ -1322,8 +1684,8 @@ This application implements the typical features associated with email functiona
 including templates and initialization processes for handling email-related tasks.
 </p>
 
-<section id="toc50">
-<h3>4.1.1. Driver emails object</h3>
+<section id="toc64">
+<h3>5.1.1. Driver emails object</h3>
 
 <pre>
 saltos.driver.__types.emails = {};
@@ -1335,8 +1697,8 @@ providing the necessary methods for managing email operations.
 </p>
 
 </section>
-<section id="toc51">
-<h3>4.1.2. Create email template</h3>
+<section id="toc65">
+<h3>5.1.2. Create email template</h3>
 
 <pre>
 saltos.driver.__types.emails.template = arg
@@ -1349,8 +1711,8 @@ and adjusts the layout of the corresponding element for proper display.
 </p>
 
 </section>
-<section id="toc52">
-<h3>4.1.3. Initialization, open, and close handlers for emails</h3>
+<section id="toc66">
+<h3>5.1.3. Initialization, open, and close handlers for emails</h3>
 
 <pre>
 saltos.driver.__types.emails.init = saltos.driver.__types.type5.init; // Inherits initialization from type5
@@ -1363,8 +1725,8 @@ reuse of core functionality for initializing, opening, and closing email resourc
 
 </section>
 </section>
-<section id="toc53">
-<h2>4.2. Email application</h2>
+<section id="toc67">
+<h2>5.2. Email application</h2>
 
 <pre>
 apps/emails/js/emails.js
@@ -1377,8 +1739,8 @@ handling signatures, generating and downloading PDFs, viewing email sources, rep
 and forwarding.
 </p>
 
-<section id="toc54">
-<h3>4.2.1. Main object</h3>
+<section id="toc68">
+<h3>5.2.1. Main object</h3>
 
 <pre>
 saltos.emails = {};
@@ -1389,8 +1751,8 @@ This object contains all SaltOS code related to email operations.
 </p>
 
 </section>
-<section id="toc55">
-<h3>4.2.2. Initialize the email application</h3>
+<section id="toc69">
+<h3>5.2.2. Initialize the email application</h3>
 
 <pre>
 saltos.emails.init = arg
@@ -1407,8 +1769,8 @@ in the email application. It manages UI updates, visibility behaviors, and email
 </ul>
 
 </section>
-<section id="toc56">
-<h3>4.2.3. Perform server-related actions for emails</h3>
+<section id="toc70">
+<h3>5.2.3. Perform server-related actions for emails</h3>
 
 <pre>
 saltos.emails.server = ()
@@ -1419,8 +1781,8 @@ This method triggers server-side actions for emails and displays the responses i
 </p>
 
 </section>
-<section id="toc57">
-<h3>4.2.4. Delete selected emails</h3>
+<section id="toc71">
+<h3>5.2.4. Delete selected emails</h3>
 
 <pre>
 saltos.emails.delete1 = ()
@@ -1431,8 +1793,8 @@ This method deletes multiple emails selected by the user, after showing a confir
 </p>
 
 </section>
-<section id="toc58">
-<h3>4.2.5. Delete a single email</h3>
+<section id="toc72">
+<h3>5.2.5. Delete a single email</h3>
 
 <pre>
 saltos.emails.delete2 = ()
@@ -1443,8 +1805,8 @@ This method deletes the currently viewed email after showing a confirmation moda
 </p>
 
 </section>
-<section id="toc59">
-<h3>4.2.6. Send an email</h3>
+<section id="toc73">
+<h3>5.2.6. Send an email</h3>
 
 <pre>
 saltos.emails.send = ()
@@ -1456,8 +1818,8 @@ It handles responses and clears unsaved data on success.
 </p>
 
 </section>
-<section id="toc60">
-<h3>4.2.7. Set email state</h3>
+<section id="toc74">
+<h3>5.2.7. Set email state</h3>
 
 <pre>
 saltos.emails.setter = what
@@ -1474,8 +1836,8 @@ to the server, and the UI is refreshed afterward.
 </ul>
 
 </section>
-<section id="toc61">
-<h3>4.2.8. Add signature to email</h3>
+<section id="toc75">
+<h3>5.2.8. Add signature to email</h3>
 
 <pre>
 saltos.emails.signature = ()
@@ -1487,34 +1849,8 @@ The signature is retrieved from the server and updated in the email form.
 </p>
 
 </section>
-<section id="toc62">
-<h3>4.2.9. View selected emails in PDF format</h3>
-
-<pre>
-saltos.emails.viewpdf1 = ()
-</pre>
-
-<p>
-This function opens a PDF view for all selected emails in the list.
-If no emails are selected, a modal prompts the user to select emails first.
-</p>
-
-</section>
-<section id="toc63">
-<h3>4.2.10. Download selected emails as PDF</h3>
-
-<pre>
-saltos.emails.download1 = ()
-</pre>
-
-<p>
-This function downloads all selected emails in the list as a PDF file.
-If no emails are selected, a modal prompts the user to select emails first.
-</p>
-
-</section>
-<section id="toc64">
-<h3>4.2.11. View email source</h3>
+<section id="toc76">
+<h3>5.2.9. View email source</h3>
 
 <pre>
 saltos.emails.source = ()
@@ -1525,32 +1861,8 @@ This function opens the raw source of the selected email for viewing in the driv
 </p>
 
 </section>
-<section id="toc65">
-<h3>4.2.12. View an email in PDF format</h3>
-
-<pre>
-saltos.emails.viewpdf2 = ()
-</pre>
-
-<p>
-This function opens a PDF view for the currently selected email.
-</p>
-
-</section>
-<section id="toc66">
-<h3>4.2.13. Download an email as PDF</h3>
-
-<pre>
-saltos.emails.download2 = ()
-</pre>
-
-<p>
-This function downloads the currently selected email in PDF format.
-</p>
-
-</section>
-<section id="toc67">
-<h3>4.2.14. Reply to an email</h3>
+<section id="toc77">
+<h3>5.2.10. Reply to an email</h3>
 
 <pre>
 saltos.emails.reply = ()
@@ -1561,8 +1873,8 @@ This function opens the reply form for the currently selected email.
 </p>
 
 </section>
-<section id="toc68">
-<h3>4.2.15. Reply to all recipients of an email</h3>
+<section id="toc78">
+<h3>5.2.11. Reply to all recipients of an email</h3>
 
 <pre>
 saltos.emails.replyall = ()
@@ -1573,8 +1885,8 @@ This function opens the reply-all form for the currently selected email, includi
 </p>
 
 </section>
-<section id="toc69">
-<h3>4.2.16. Forward an email</h3>
+<section id="toc79">
+<h3>5.2.12. Forward an email</h3>
 
 <pre>
 saltos.emails.forward = ()
@@ -1586,8 +1898,8 @@ This function opens the forward form for the currently selected email.
 
 </section>
 </section>
-<section id="toc70">
-<h2>4.3. Email Query Builder</h2>
+<section id="toc80">
+<h2>5.3. Email Query Builder</h2>
 
 <pre>
 apps/emails/php/filter.php
@@ -1598,8 +1910,8 @@ This function builds an SQL WHERE query for filtering emails based on various cr
 such as account, fields, search terms, dates, and specific email states.
 </p>
 
-<section id="toc71">
-<h3>4.3.1. Generate WHERE query for emails</h3>
+<section id="toc81">
+<h3>5.3.1. Generate WHERE query for emails</h3>
 
 <pre>
 function make_where_query_emails($json)
@@ -1622,8 +1934,8 @@ Returns the dynamically constructed SQL WHERE clause.
 
 </section>
 </section>
-<section id="toc72">
-<h2>4.4. Get email library</h2>
+<section id="toc82">
+<h2>5.4. Get email library</h2>
 
 <pre>
 apps/emails/php/getmail.php
@@ -1633,8 +1945,8 @@ apps/emails/php/getmail.php
 This library provides the necesary functions to download, parse and manage emails.
 </p>
 
-<section id="toc73">
-<h3>4.4.1. Requires section</h3>
+<section id="toc83">
+<h3>5.4.1. Requires section</h3>
 
 <pre>
 require_once 'apps/emails/lib/mimeparser/mime_parser.php';
@@ -1645,8 +1957,8 @@ This requires loads the external libraries needed to run this library.
 </p>
 
 </section>
-<section id="toc74">
-<h3>4.4.2. Defines section</h3>
+<section id="toc84">
+<h3>5.4.2. Defines section</h3>
 
 <pre>
 // phpcs:disable Generic.Files.LineLength
@@ -1657,8 +1969,8 @@ This defines allow to define some useful standards to do html pages and more.
 </p>
 
 </section>
-<section id="toc75">
-<h3>4.4.3. Remove all body</h3>
+<section id="toc85">
+<h3>5.4.3. Remove all body</h3>
 
 <pre>
 function __getmail_removebody($array)
@@ -1674,8 +1986,8 @@ This function removes the body entry in the array, it is only for debug purposes
 </ul>
 
 </section>
-<section id="toc76">
-<h3>4.4.4. Process message</h3>
+<section id="toc86">
+<h3>5.4.4. Process message</h3>
 
 <pre>
 function __getmail_processmessage($disp, $type)
@@ -1694,8 +2006,8 @@ allow the node to be processed.
 </ul>
 
 </section>
-<section id="toc77">
-<h3>4.4.5. Process plain html</h3>
+<section id="toc87">
+<h3>5.4.5. Process plain html</h3>
 
 <pre>
 function __getmail_processplainhtml($disp, $type)
@@ -1714,8 +2026,8 @@ allow the node to be processed.
 </ul>
 
 </section>
-<section id="toc78">
-<h3>4.4.6. Process file</h3>
+<section id="toc88">
+<h3>5.4.6. Process file</h3>
 
 <pre>
 function __getmail_processfile($disp, $type)
@@ -1734,8 +2046,8 @@ allow the node to be processed.
 </ul>
 
 </section>
-<section id="toc79">
-<h3>4.4.7. Check permissions</h3>
+<section id="toc89">
+<h3>5.4.7. Check permissions</h3>
 
 <pre>
 function __getmail_checkperm($id)
@@ -1752,8 +2064,8 @@ message identified by the id argument
 </ul>
 
 </section>
-<section id="toc80">
-<h3>4.4.8. Get GZ File</h3>
+<section id="toc90">
+<h3>5.4.8. Get GZ File</h3>
 
 <pre>
 function __getmail_gzfile($id)
@@ -1769,8 +2081,8 @@ This function returns the file that contains the email
 </ul>
 
 </section>
-<section id="toc81">
-<h3>4.4.9. Get source</h3>
+<section id="toc91">
+<h3>5.4.9. Get source</h3>
 
 <pre>
 function __getmail_getsource($id)
@@ -1793,8 +2105,8 @@ This function returns the email source without the base64 attachments
 </p>
 
 </section>
-<section id="toc82">
-<h3>4.4.10. Mime decode protected</h3>
+<section id="toc92">
+<h3>5.4.10. Mime decode protected</h3>
 
 <pre>
 function __getmail_mime_decode_protected($input)
@@ -1811,8 +2123,8 @@ using the mime_parser_class to do it, and returns the decoded array.
 </ul>
 
 </section>
-<section id="toc83">
-<h3>4.4.11. Get mime</h3>
+<section id="toc93">
+<h3>5.4.11. Get mime</h3>
 
 <pre>
 function __getmail_getmime($id)
@@ -1830,8 +2142,8 @@ file to improve the performance for repeated executions.
 </ul>
 
 </section>
-<section id="toc84">
-<h3>4.4.12. Get Node</h3>
+<section id="toc94">
+<h3>5.4.12. Get Node</h3>
 
 <pre>
 function __getmail_getnode($path, $array)
@@ -1849,8 +2161,8 @@ This function returns the node using a xpath notation
 </ul>
 
 </section>
-<section id="toc85">
-<h3>4.4.13. Get type</h3>
+<section id="toc95">
+<h3>5.4.13. Get type</h3>
 
 <pre>
 function __getmail_gettype($array)
@@ -1867,8 +2179,8 @@ the follow formats: html, plain, messsage, alternative, multipart or other.
 </ul>
 
 </section>
-<section id="toc86">
-<h3>4.4.14. Get disposition</h3>
+<section id="toc96">
+<h3>5.4.14. Get disposition</h3>
 
 <pre>
 function __getmail_getdisposition($array)
@@ -1885,8 +2197,8 @@ it into the follow formats: attachment, inline or other.
 </ul>
 
 </section>
-<section id="toc87">
-<h3>4.4.15. Get files</h3>
+<section id="toc97">
+<h3>5.4.15. Get files</h3>
 
 <pre>
 function __getmail_getfiles($array, $level = 0)
@@ -1904,8 +2216,8 @@ This function returns an array with the attachment files of the message
 </ul>
 
 </section>
-<section id="toc88">
-<h3>4.4.16. Get info</h3>
+<section id="toc98">
+<h3>5.4.16. Get info</h3>
 
 <pre>
 function __getmail_getinfo($array)
@@ -1921,8 +2233,8 @@ Returns all information of the decoded message in a structured format
 </ul>
 
 </section>
-<section id="toc89">
-<h3>4.4.17. Fix string</h3>
+<section id="toc99">
+<h3>5.4.17. Fix string</h3>
 
 <pre>
 function __getmail_fixstring($arg)
@@ -1939,8 +2251,8 @@ of the decoded message.
 </ul>
 
 </section>
-<section id="toc90">
-<h3>4.4.18. Get text body</h3>
+<section id="toc100">
+<h3>5.4.18. Get text body</h3>
 
 <pre>
 function __getmail_gettextbody($array, $level = 0)
@@ -1958,8 +2270,8 @@ This function returns all text body concatenated as an unique string
 </ul>
 
 </section>
-<section id="toc91">
-<h3>4.4.19. Get full body</h3>
+<section id="toc101">
+<h3>5.4.19. Get full body</h3>
 
 <pre>
 function __getmail_getfullbody($array)
@@ -1975,8 +2287,8 @@ This function returns all body and attachments information as an array
 </ul>
 
 </section>
-<section id="toc92">
-<h3>4.4.20. Get cid</h3>
+<section id="toc102">
+<h3>5.4.20. Get cid</h3>
 
 <pre>
 function __getmail_getcid($array, $hash)
@@ -1994,8 +2306,8 @@ This function returns the requested attachment indentified by the hash argument
 </ul>
 
 </section>
-<section id="toc93">
-<h3>4.4.21. Insert</h3>
+<section id="toc103">
+<h3>5.4.21. Insert</h3>
 
 <pre>
 function __getmail_insert(
@@ -2029,8 +2341,8 @@ This function do the insert in the app_emails table, and
 </ul>
 
 </section>
-<section id="toc94">
-<h3>4.4.22. Update</h3>
+<section id="toc104">
+<h3>5.4.22. Update</h3>
 
 <pre>
 function __getmail_update($field, $value, $id)
@@ -2051,8 +2363,8 @@ register identified by the id argument.
 </ul>
 
 </section>
-<section id="toc95">
-<h3>4.4.23. Add bcc</h3>
+<section id="toc105">
+<h3>5.4.23. Add bcc</h3>
 
 <pre>
 function __getmail_add_bcc($id, $bcc)
@@ -2072,8 +2384,8 @@ if the current execution is the sender of the message.
 </ul>
 
 </section>
-<section id="toc96">
-<h3>4.4.24. Gzfile size</h3>
+<section id="toc106">
+<h3>5.4.24. Gzfile size</h3>
 
 <pre>
 function gzfilesize($filename)
@@ -2090,8 +2402,8 @@ and allow to know the file size of the file after a gzip descompression.
 </ul>
 
 </section>
-<section id="toc97">
-<h3>4.4.25. Get email body</h3>
+<section id="toc107">
+<h3>5.4.25. Get email body</h3>
 
 <pre>
 function getmail_body($id, $images = false)
@@ -2108,8 +2420,8 @@ intended to be rendered in an iframe, for example
 </ul>
 
 </section>
-<section id="toc98">
-<h3>4.4.26. Generate formatted email header information</h3>
+<section id="toc108">
+<h3>5.4.26. Generate formatted email header information</h3>
 
 <pre>
 function __getmail_head_helper($decoded, $email_id)
@@ -2134,8 +2446,8 @@ Returns a formatted HTML string with the email header information.
 </p>
 
 </section>
-<section id="toc99">
-<h3>4.4.27. Extract and format the body of an email</h3>
+<section id="toc109">
+<h3>5.4.27. Extract and format the body of an email</h3>
 
 <pre>
 function __getmail_body_helper($decoded, $images = false)
@@ -2162,8 +2474,8 @@ Returns the formatted email body, including plain text, HTML, and inline attachm
 </p>
 
 </section>
-<section id="toc100">
-<h3>4.4.28. Get email source</h3>
+<section id="toc110">
+<h3>5.4.28. Get email source</h3>
 
 <pre>
 function getmail_source($id)
@@ -2180,8 +2492,8 @@ intended to be rendered in an iframe, for example
 </ul>
 
 </section>
-<section id="toc101">
-<h3>4.4.29. Get email files</h3>
+<section id="toc111">
+<h3>5.4.29. Get email files</h3>
 
 <pre>
 function getmail_files($id)
@@ -2198,8 +2510,8 @@ intended to be rendered in an table, for example
 </ul>
 
 </section>
-<section id="toc102">
-<h3>4.4.30. Get cid</h3>
+<section id="toc112">
+<h3>5.4.30. Get cid</h3>
 
 <pre>
 function getmail_cid($id, $cid)
@@ -2217,8 +2529,8 @@ This function returns the requested attachment indentified by the cid argument
 </ul>
 
 </section>
-<section id="toc103">
-<h3>4.4.31. Is outbox</h3>
+<section id="toc113">
+<h3>5.4.31. Is outbox</h3>
 
 <pre>
 function getmail_field($field, $id)
@@ -2236,8 +2548,8 @@ Returns the field of the email identified by the id argument
 </ul>
 
 </section>
-<section id="toc104">
-<h3>4.4.32. Server</h3>
+<section id="toc114">
+<h3>5.4.32. Server</h3>
 
 <pre>
 function getmail_server()
@@ -2248,8 +2560,8 @@ This function implements the old getmail action of the old saltos.
 </p>
 
 </section>
-<section id="toc105">
-<h3>4.4.33. Delete</h3>
+<section id="toc115">
+<h3>5.4.33. Delete</h3>
 
 <pre>
 function getmail_delete($ids)
@@ -2265,8 +2577,8 @@ This function implements the old delete action of the old saltos.
 </ul>
 
 </section>
-<section id="toc106">
-<h3>4.4.34. Get viewpdf</h3>
+<section id="toc116">
+<h3>5.4.34. Get viewpdf</h3>
 
 <pre>
 function getmail_viewpdf($id, $cid)
@@ -2285,8 +2597,8 @@ in a pdf format for the viewpdf widget
 </ul>
 
 </section>
-<section id="toc107">
-<h3>4.4.35. Get download</h3>
+<section id="toc117">
+<h3>5.4.35. Get download</h3>
 
 <pre>
 function getmail_download($id, $cid)
@@ -2305,8 +2617,8 @@ in an array format for the download feature
 </ul>
 
 </section>
-<section id="toc108">
-<h3>4.4.36. Update email states</h3>
+<section id="toc118">
+<h3>5.4.36. Update email states</h3>
 
 <pre>
 function getmail_setter($ids, $what)
@@ -2331,8 +2643,8 @@ Returns a response message indicating the number of emails modified.
 </p>
 
 </section>
-<section id="toc109">
-<h3>4.4.37. Generate PDF from emails</h3>
+<section id="toc119">
+<h3>5.4.37. Generate PDF from emails</h3>
 
 <pre>
 function getmail_pdf($ids)
@@ -2356,8 +2668,8 @@ base64-encoded data.
 </p>
 
 </section>
-<section id="toc110">
-<h3>4.4.38. Generate iframe content with secure policies</h3>
+<section id="toc120">
+<h3>5.4.38. Generate iframe content with secure policies</h3>
 
 <pre>
 function __iframe_srcdoc_helper($html)
@@ -2382,8 +2694,8 @@ Return a complete HTML document string suitable for `srcdoc` use in an iframe.
 
 </section>
 </section>
-<section id="toc111">
-<h2>4.5. Html helper module</h2>
+<section id="toc121">
+<h2>5.5. Html helper module</h2>
 
 <pre>
 apps/emails/php/html.php
@@ -2393,8 +2705,8 @@ apps/emails/php/html.php
 This file contain useful html helper functions
 </p>
 
-<section id="toc112">
-<h3>4.5.1. Defines section</h3>
+<section id="toc122">
+<h3>5.5.1. Defines section</h3>
 
 <pre>
 define('__GIF_IMAGE__', 'data:image/gif;base64,R0lGODlhCgABAIABAOns7////ywAAAAACgABAAACA4SPBQA7');
@@ -2405,8 +2717,8 @@ This defines allow to define some useful needed resources by this file.
 </p>
 
 </section>
-<section id="toc113">
-<h3>4.5.2. Remove Script Tag</h3>
+<section id="toc123">
+<h3>5.5.2. Remove Script Tag</h3>
 
 <pre>
 function remove_script_tag($html)
@@ -2422,8 +2734,8 @@ This function tries to remove all &lt;script&gt; tags of the string
 </ul>
 
 </section>
-<section id="toc114">
-<h3>4.5.3. Remove Style Tag</h3>
+<section id="toc124">
+<h3>5.5.3. Remove Style Tag</h3>
 
 <pre>
 function remove_style_tag($html)
@@ -2439,8 +2751,8 @@ This function tries to remove all &lt;style&gt; tags of the string
 </ul>
 
 </section>
-<section id="toc115">
-<h3>4.5.4. Remove Comment Tag</h3>
+<section id="toc125">
+<h3>5.5.4. Remove Comment Tag</h3>
 
 <pre>
 function remove_comment_tag($html)
@@ -2456,8 +2768,8 @@ This function tries to remove all &lt;!-- --&gt; tags of the string
 </ul>
 
 </section>
-<section id="toc116">
-<h3>4.5.5. Remove Meta Tag</h3>
+<section id="toc126">
+<h3>5.5.5. Remove Meta Tag</h3>
 
 <pre>
 function remove_meta_tag($html)
@@ -2473,8 +2785,8 @@ This function tries to remove all &lt;meta &gt; tags of the string
 </ul>
 
 </section>
-<section id="toc117">
-<h3>4.5.6. Remove Link Tag</h3>
+<section id="toc127">
+<h3>5.5.6. Remove Link Tag</h3>
 
 <pre>
 function remove_link_tag($html)
@@ -2490,8 +2802,8 @@ This function tries to remove all &lt;link &gt; tags of the string
 </ul>
 
 </section>
-<section id="toc118">
-<h3>4.5.7. Inline Img Tag</h3>
+<section id="toc128">
+<h3>5.5.7. Inline Img Tag</h3>
 
 <pre>
 function inline_img_tag($html)
@@ -2507,8 +2819,8 @@ This function tries to convert all imgs to an inline imgs
 </ul>
 
 </section>
-<section id="toc119">
-<h3>4.5.8. Inline Img Style</h3>
+<section id="toc129">
+<h3>5.5.8. Inline Img Style</h3>
 
 <pre>
 function inline_img_style($html)
@@ -2524,8 +2836,8 @@ This function tries to convert all imgs to an inline imgs
 </ul>
 
 </section>
-<section id="toc120">
-<h3>4.5.9. Inline Img Background</h3>
+<section id="toc130">
+<h3>5.5.9. Inline Img Background</h3>
 
 <pre>
 function inline_img_background($html)
@@ -2541,8 +2853,8 @@ This function tries to convert all imgs to an inline imgs
 </ul>
 
 </section>
-<section id="toc121">
-<h3>4.5.10. Inline Image Helper</h3>
+<section id="toc131">
+<h3>5.5.10. Inline Image Helper</h3>
 
 <pre>
 function __inline_img_helper($src)
@@ -2563,8 +2875,8 @@ Returns the inline image data or a placeholder GIF in case of errors.
 </p>
 
 </section>
-<section id="toc122">
-<h3>4.5.11. Extract Inline Images from Tags</h3>
+<section id="toc132">
+<h3>5.5.11. Extract Inline Images from Tags</h3>
 
 <pre>
 function extract_img_tag($html)
@@ -2585,8 +2897,8 @@ Returns the modified HTML content and an array of image files.
 </p>
 
 </section>
-<section id="toc123">
-<h3>4.5.12. Extract Inline Images from Styles</h3>
+<section id="toc133">
+<h3>5.5.12. Extract Inline Images from Styles</h3>
 
 <pre>
 function extract_img_style($html)
@@ -2607,8 +2919,8 @@ Returns the modified HTML content and an array of image files.
 </p>
 
 </section>
-<section id="toc124">
-<h3>4.5.13. Extract Inline Images from Backgrounds</h3>
+<section id="toc134">
+<h3>5.5.13. Extract Inline Images from Backgrounds</h3>
 
 <pre>
 function extract_img_background($html)
@@ -2629,8 +2941,8 @@ Returns the modified HTML content and an array of image files.
 </p>
 
 </section>
-<section id="toc125">
-<h3>4.5.14. Fix Image Tags</h3>
+<section id="toc135">
+<h3>5.5.14. Fix Image Tags</h3>
 
 <pre>
 function fix_img_tag($html)
@@ -2651,8 +2963,8 @@ Returns the updated HTML content with fixed image tags.
 </p>
 
 </section>
-<section id="toc126">
-<h3>4.5.15. Fix Image Styles</h3>
+<section id="toc136">
+<h3>5.5.15. Fix Image Styles</h3>
 
 <pre>
 function fix_img_style($html)
@@ -2673,8 +2985,8 @@ Returns the updated HTML content with fixed image styles.
 </p>
 
 </section>
-<section id="toc127">
-<h3>4.5.16. Fix Image Backgrounds</h3>
+<section id="toc137">
+<h3>5.5.16. Fix Image Backgrounds</h3>
 
 <pre>
 function fix_img_background($html)
@@ -2695,8 +3007,8 @@ Returns the updated HTML content with fixed image backgrounds.
 </p>
 
 </section>
-<section id="toc128">
-<h3>4.5.17. Fix Base64-Encoded Files</h3>
+<section id="toc138">
+<h3>5.5.17. Fix Base64-Encoded Files</h3>
 
 <pre>
 function fix_file_b64($html)
@@ -2725,8 +3037,8 @@ that matches the MD5 hash style used in cached files (32 bytes plus 4-byte `.b64
 
 </section>
 </section>
-<section id="toc129">
-<h2>4.6. Make indexing action</h2>
+<section id="toc139">
+<h2>5.6. Make indexing action</h2>
 
 <pre>
 apps/emails/php/indexing.php
@@ -2738,8 +3050,8 @@ mroonga engine to search in the fulltext string generated by this action
 </p>
 
 </section>
-<section id="toc130">
-<h2>4.7. Send email library</h2>
+<section id="toc140">
+<h2>5.7. Send email library</h2>
 
 <pre>
 apps/emails/php/sendmail.php
@@ -2749,8 +3061,8 @@ apps/emails/php/sendmail.php
 This library provides the necesary functions to send emails.
 </p>
 
-<section id="toc131">
-<h3>4.7.1. Used libraries</h3>
+<section id="toc141">
+<h3>5.7.1. Used libraries</h3>
 
 <pre>
 use PHPMailer\PHPMailer\PHPMailer;
@@ -2761,8 +3073,8 @@ This use loads the external libraries needed to run this library.
 </p>
 
 </section>
-<section id="toc132">
-<h3>4.7.2. Sendmail</h3>
+<section id="toc142">
+<h3>5.7.2. Sendmail</h3>
 
 <pre>
 function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
@@ -2788,8 +3100,8 @@ This function must return the last_id if success, and a string if error
 </p>
 
 </section>
-<section id="toc133">
-<h3>4.7.3. Debugoutput helper</h3>
+<section id="toc143">
+<h3>5.7.3. Debugoutput helper</h3>
 
 <pre>
 function __sendmail_debugoutput_helper($str, $level)
@@ -2810,8 +3122,8 @@ of this function will accomplish the neested callback arguments
 </ul>
 
 </section>
-<section id="toc134">
-<h3>4.7.4. Parser</h3>
+<section id="toc144">
+<h3>5.7.4. Parser</h3>
 
 <pre>
 function __sendmail_parser($oldaddr)
@@ -2829,8 +3141,8 @@ for the addr and the second is for the name.
 </ul>
 
 </section>
-<section id="toc135">
-<h3>4.7.5. Message Id</h3>
+<section id="toc145">
+<h3>5.7.5. Message Id</h3>
 
 <pre>
 function __sendmail_messageid($account_id, $from)
@@ -2850,8 +3162,8 @@ value and checks that is unique in the system to prevent concurrence.
 </ul>
 
 </section>
-<section id="toc136">
-<h3>4.7.6. Eml saver</h3>
+<section id="toc146">
+<h3>5.7.6. Eml saver</h3>
 
 <pre>
 function __sendmail_emlsaver($message, $messageid)
@@ -2869,8 +3181,8 @@ This function is intended to save the RFC822 message into the eml gzfile
 </ul>
 
 </section>
-<section id="toc137">
-<h3>4.7.7. Obj saver</h3>
+<section id="toc147">
+<h3>5.7.7. Obj saver</h3>
 
 <pre>
 function __sendmail_objsaver($mail, $messageid)
@@ -2888,8 +3200,8 @@ This function is intended to save the PHPMailer object into the obj file
 </ul>
 
 </section>
-<section id="toc138">
-<h3>4.7.8. Prepare email for sending</h3>
+<section id="toc148">
+<h3>5.7.8. Prepare email for sending</h3>
 
 <pre>
 function sendmail_prepare($action, $email_id)
@@ -2914,8 +3226,8 @@ Return the prepared email parameters, including sender, recipients, subject, bod
 </p>
 
 </section>
-<section id="toc139">
-<h3>4.7.9. Perform email sending action</h3>
+<section id="toc149">
+<h3>5.7.9. Perform email sending action</h3>
 
 <pre>
 function sendmail_action($json, $action, $email_id)
@@ -2942,8 +3254,8 @@ Returns the status and message of the email action.
 </p>
 
 </section>
-<section id="toc140">
-<h3>4.7.10. Send queued emails from the server</h3>
+<section id="toc150">
+<h3>5.7.10. Send queued emails from the server</h3>
 
 <pre>
 function sendmail_server()
@@ -2961,8 +3273,8 @@ and manages errors during the sending process. The function is intended for use 
 </ul>
 
 </section>
-<section id="toc141">
-<h3>4.7.11. Retrieve email attachments</h3>
+<section id="toc151">
+<h3>5.7.11. Retrieve email attachments</h3>
 
 <pre>
 function sendmail_files($action, $email_id)
@@ -2986,8 +3298,8 @@ Returns a list of attachments with metadata including ID, app, name, size, type,
 </p>
 
 </section>
-<section id="toc142">
-<h3>4.7.12. Update email signature, CC, and encryption state</h3>
+<section id="toc152">
+<h3>5.7.12. Update email signature, CC, and encryption state</h3>
 
 <pre>
 function sendmail_signature($json)
@@ -3010,11 +3322,11 @@ Return the updated email body, CC list, and encryption state.
 </section>
 </section>
 </section>
-<section id="toc143">
-<h1>5. Sales</h1>
+<section id="toc153">
+<h1>6. Sales</h1>
 
-<section id="toc144">
-<h2>5.1. Invoices application</h2>
+<section id="toc154">
+<h2>6.1. Invoices application</h2>
 
 <pre>
 apps/sales/js/invoices.js
@@ -3025,8 +3337,8 @@ This application provides core functionalities for managing invoices, including 
 editing, viewing, and exporting invoices in PDF format.
 </p>
 
-<section id="toc145">
-<h3>5.1.1. Main object</h3>
+<section id="toc155">
+<h3>6.1.1. Main object</h3>
 
 <pre>
 saltos.invoices = {};
@@ -3037,8 +3349,8 @@ This object contains all SaltOS code related to invoice operations.
 </p>
 
 </section>
-<section id="toc146">
-<h3>5.1.2. Initialize the invoices application</h3>
+<section id="toc156">
+<h3>6.1.2. Initialize the invoices application</h3>
 
 <pre>
 saltos.invoices.init = arg
@@ -3055,11 +3367,11 @@ It updates UI elements and attaches appropriate event listeners.
 </ul>
 
 </section>
-<section id="toc147">
-<h3>5.1.3. Calculate the dynamic width for each column in the "concepts" table.</h3>
+<section id="toc157">
+<h3>6.1.3. Calculate the dynamic width for each column in the "lines" table.</h3>
 
 <pre>
-saltos.invoices.colWidths_concepts = index
+saltos.invoices.colWidths_lines = index
 </pre>
 
 <p>
@@ -3078,11 +3390,11 @@ Returns the width in pixels
 </p>
 
 </section>
-<section id="toc148">
-<h3>5.1.4. Define cell configuration for each column in the "concepts" table.</h3>
+<section id="toc158">
+<h3>6.1.4. Define cell configuration for each column in the "lines" table.</h3>
 
 <pre>
-saltos.invoices.cells_concepts = (row, column, prop)
+saltos.invoices.cells_lines = (row, column, prop)
 </pre>
 
 <p>
@@ -3112,8 +3424,8 @@ Returns the configuration object
 </p>
 
 </section>
-<section id="toc149">
-<h3>5.1.5. Calculate the dynamic width for each column in the "taxes" table.</h3>
+<section id="toc159">
+<h3>6.1.5. Calculate the dynamic width for each column in the "taxes" table.</h3>
 
 <pre>
 saltos.invoices.colWidths_taxes = index
@@ -3134,8 +3446,8 @@ Returns the width in pixels
 </p>
 
 </section>
-<section id="toc150">
-<h3>5.1.6. Define cell configuration for each column in the "taxes" table.</h3>
+<section id="toc160">
+<h3>6.1.6. Define cell configuration for each column in the "taxes" table.</h3>
 
 <pre>
 saltos.invoices.cells_taxes = (row, column, prop)
@@ -3159,8 +3471,8 @@ Returns the configuration object
 </p>
 
 </section>
-<section id="toc151">
-<h3>5.1.7. Calculate equal column widths for the "totals" table.</h3>
+<section id="toc161">
+<h3>6.1.7. Calculate equal column widths for the "totals" table.</h3>
 
 <pre>
 saltos.invoices.colWidths_totals = index
@@ -3180,8 +3492,8 @@ Returns the width in pixels
 </p>
 
 </section>
-<section id="toc152">
-<h3>5.1.8. Define cell configuration for the "totals" table.</h3>
+<section id="toc162">
+<h3>6.1.8. Define cell configuration for the "totals" table.</h3>
 
 <pre>
 saltos.invoices.cells_totals = (row, column, prop)
@@ -3205,15 +3517,15 @@ Returns the configuration object
 </p>
 
 </section>
-<section id="toc153">
-<h3>5.1.9. Handle and recalculate invoice line totals and tax breakdowns after user edits.</h3>
+<section id="toc163">
+<h3>6.1.9. Handle and recalculate invoice line totals and tax breakdowns after user edits.</h3>
 
 <pre>
-saltos.invoices.afterChange_concepts = (changes, source)
+saltos.invoices.afterChange_lines = (changes, source)
 </pre>
 
 <p>
-This function is triggered after the user modifies any cell in the "concepts" matrix
+This function is triggered after the user modifies any cell in the "lines" matrix
 (invoice lines). It performs the following operations:
 </p>
 
@@ -3230,7 +3542,7 @@ This function is triggered after the user modifies any cell in the "concepts" ma
 </li>
 <li>Calculates the line total as: `qty × price × (1 - discount%)`, rounded to 2 decimals.
 </li>
-<li>Updates the concepts grid to reflect computed values.
+<li>Updates the lines grid to reflect computed values.
 </li>
 <li>Recomputes the taxes matrix:
     <ul>
@@ -3264,39 +3576,105 @@ This function is triggered after the user modifies any cell in the "concepts" ma
 </ul>
 
 </section>
-<section id="toc154">
-<h3>5.1.10. View selected invoices in PDF format</h3>
+</section>
+<section id="toc164">
+<h2>6.2. Reverses the process of `make_matrix_data()` for the `invoices` app.</h2>
 
 <pre>
-saltos.invoices.viewpdf = ()
+apps/sales/php/invoices.php
 </pre>
 
 <p>
-This method opens a PDF viewer to display the selected invoices.
-If no invoices are selected, it prompts the user to select invoices first.
+This function takes a previously generated matrix-style array of invoice data
+(grouped as lines, taxes, and totals), compares it with the current values
+in the database, and builds a minimal diff-like array that includes only
+the fields that have changed, been removed, or added.
 </p>
 
-</section>
-<section id="toc155">
-<h3>5.1.11. Download selected invoices as PDF</h3>
+<section id="toc165">
+<h3>6.2.1. unmake_matrix_data</h3>
 
 <pre>
-saltos.invoices.download = ()
+function unmake_matrix_data($json, $invoice_id)
 </pre>
 
 <p>
-This method downloads the selected invoices in PDF format.
-If no invoices are selected, it prompts the user to select invoices first.
+Reverse the matrix-encoded invoice data to a diff-style data array.
+</p>
+
+<ul>
+<li>@json       =&gt; The matrix-encoded invoice data (from make_matrix_data)
+</li>
+<li>@invoice_id =&gt; The invoice ID used to retrieve the original data
+</li>
+</ul>
+
+<p>
+Return a diff array representing only the differences between the provided
+data and the current state of the database.
+</p>
+
+</section>
+<section id="toc166">
+<h3>6.2.2. Generates or completes proforma and final invoice metadata.</h3>
+
+<pre>
+function set_proforma_invoice($json, $invoice_id)
+</pre>
+
+<p>
+This function ensures that the given invoice JSON structure has appropriate values for:
+</p>
+
+<ul>
+<li>`proforma_code` and `proforma_date` (if not provided or if it's a new invoice)
+</li>
+<li>`invoice_code` and `invoice_date` (if the invoice is being closed)
+</li>
+<li>`is_closed` (based on database if not explicitly set)
+</li>
+<li>`paid_date` (if the invoice is marked as paid)
+</li>
+<li>`due_date` (if the invoice is marked as closed)
+</li>
+</ul>
+
+<p>
+Rules:
+</p>
+
+<ul>
+<li>If no `invoice_id` is given or `proforma_code` is not defined, a new proforma number is generated.
+</li>
+<li>If the invoice is being closed (`is_closed` is true), a new invoice number is generated.
+</li>
+<li>If `is_closed` is not defined in the JSON, it's looked up in the database for the given invoice ID.
+</li>
+<li>If `is_paid` is true and no `paid_date` is set, the current date is assigned.
+</li>
+<li>If the invoice is closed and no `due_date` is set, the current date is assigned.
+</li>
+</ul>
+
+<ul>
+<li>@json       =&gt; Invoice data to process and complete.
+</li>
+<li>@invoice_id =&gt; ID of the invoice, used to retrieve current status from DB.
+</li>
+</ul>
+
+<p>
+Return the updated JSON with appropriate codes and dates filled in.
 </p>
 
 </section>
 </section>
 </section>
-<section id="toc156">
-<h1>6. Tester</h1>
+<section id="toc167">
+<h1>7. Tester</h1>
 
-<section id="toc157">
-<h2>6.1. Tester application</h2>
+<section id="toc168">
+<h2>7.1. Tester application</h2>
 
 <pre>
 apps/tester/js/tester.js
@@ -3307,8 +3685,8 @@ This application implements the typical features associated with a tester,
 showcasing functionalities such as modals, toasts, and offcanvas elements.
 </p>
 
-<section id="toc158">
-<h3>6.1.1. Tester object</h3>
+<section id="toc169">
+<h3>7.1.1. Tester object</h3>
 
 <pre>
 saltos.tester = {};
@@ -3320,8 +3698,8 @@ providing the necessary methods for interaction and testing features.
 </p>
 
 </section>
-<section id="toc159">
-<h3>6.1.2. Campo 8: Alert functionality</h3>
+<section id="toc170">
+<h3>7.1.2. Campo 8: Alert functionality</h3>
 
 <pre>
 saltos.tester.campo8 = ()
@@ -3332,8 +3710,8 @@ This function triggers a simple alert box when called, showcasing a button-click
 </p>
 
 </section>
-<section id="toc160">
-<h3>6.1.3. Campo 9: Modal functionality</h3>
+<section id="toc171">
+<h3>7.1.3. Campo 9: Modal functionality</h3>
 
 <pre>
 saltos.tester.campo9 = ()
@@ -3353,8 +3731,8 @@ This function displays a Bootstrap modal with a title, body, and footer. The mod
 </ul>
 
 </section>
-<section id="toc161">
-<h3>6.1.4. Campo 10: Offcanvas functionality</h3>
+<section id="toc172">
+<h3>7.1.4. Campo 10: Offcanvas functionality</h3>
 
 <pre>
 saltos.tester.campo10 = ()
@@ -3373,8 +3751,8 @@ The body includes:
 </ul>
 
 </section>
-<section id="toc162">
-<h3>6.1.5. Campo 11: Toast functionality</h3>
+<section id="toc173">
+<h3>7.1.5. Campo 11: Toast functionality</h3>
 
 <pre>
 saltos.tester.campo11 = ()
@@ -3392,8 +3770,8 @@ This function displays a Bootstrap toast notification with customizable attribut
 </ul>
 
 </section>
-<section id="toc163">
-<h3>6.1.6. Campo 22: Open statistics page</h3>
+<section id="toc174">
+<h3>7.1.6. Campo 22: Open statistics page</h3>
 
 <pre>
 saltos.tester.campo23 = ()
@@ -3406,11 +3784,11 @@ This function opens the SaltOS statistics page in a new browser tab or window.
 </section>
 </section>
 </section>
-<section id="toc164">
-<h1>7. Users</h1>
+<section id="toc175">
+<h1>8. Users</h1>
 
-<section id="toc165">
-<h2>7.1. Login application</h2>
+<section id="toc176">
+<h2>8.1. Login application</h2>
 
 <pre>
 apps/users/js/login.js
@@ -3420,8 +3798,8 @@ apps/users/js/login.js
 This application implements the tipical features associated to login
 </p>
 
-<section id="toc166">
-<h3>7.1.1. Main object</h3>
+<section id="toc177">
+<h3>8.1.1. Main object</h3>
 
 <pre>
 saltos.login = {};
@@ -3432,8 +3810,8 @@ This object contains all SaltOS code
 </p>
 
 </section>
-<section id="toc167">
-<h3>7.1.2. Authenticate login function</h3>
+<section id="toc178">
+<h3>8.1.2. Authenticate login function</h3>
 
 <pre>
 saltos.login.authenticate = async ()
@@ -3446,8 +3824,8 @@ it uses the authenticate function that send data to the authtoken action
 
 </section>
 </section>
-<section id="toc168">
-<h2>7.2. Days functions</h2>
+<section id="toc179">
+<h2>8.2. Days functions</h2>
 
 <pre>
 apps/users/php/days.php
@@ -3457,8 +3835,8 @@ apps/users/php/days.php
 This file contain all functions needed by the days feature
 </p>
 
-<section id="toc169">
-<h3>7.2.1. Days to bin</h3>
+<section id="toc180">
+<h3>8.2.1. Days to bin</h3>
 
 <pre>
 function days2bin($days)
@@ -3477,8 +3855,8 @@ selection 64,32,16,8,4 is returned like from monday to friday (1111100)
 </ul>
 
 </section>
-<section id="toc170">
-<h3>7.2.2. Bin to days</h3>
+<section id="toc181">
+<h3>8.2.2. Bin to days</h3>
 
 <pre>
 function bin2days($days)
@@ -3496,8 +3874,8 @@ decimal like 64,32,16,8,4.
 </ul>
 
 </section>
-<section id="toc171">
-<h3>7.2.3. Fix for days</h3>
+<section id="toc182">
+<h3>8.2.3. Fix for days</h3>
 
 <pre>
 function fix4days($data)
@@ -3518,8 +3896,8 @@ to translate this string into a decimal string like 64,32,16,8,4.
 
 </section>
 </section>
-<section id="toc172">
-<h2>7.3. Groups functions</h2>
+<section id="toc183">
+<h2>8.3. Groups functions</h2>
 
 <pre>
 apps/users/php/groups.php
@@ -3529,8 +3907,8 @@ apps/users/php/groups.php
 This file contain all functions needed by the groups app
 </p>
 
-<section id="toc173">
-<h3>7.3.1. Insert group action</h3>
+<section id="toc184">
+<h3>8.3.1. Insert group action</h3>
 
 <pre>
 function insert_group($data)
@@ -3547,8 +3925,8 @@ the groups app and only requires the data.
 </ul>
 
 </section>
-<section id="toc174">
-<h3>7.3.2. Update group action</h3>
+<section id="toc185">
+<h3>8.3.2. Update group action</h3>
 
 <pre>
 function update_group($group_id, $data)
@@ -3567,8 +3945,8 @@ the groups app and requires the group_id and data.
 </ul>
 
 </section>
-<section id="toc175">
-<h3>7.3.3. Delete group action</h3>
+<section id="toc186">
+<h3>8.3.3. Delete group action</h3>
 
 <pre>
 function delete_group($group_id)
@@ -3586,8 +3964,8 @@ the groups app and only requires the group_id.
 
 </section>
 </section>
-<section id="toc176">
-<h2>7.4. Matrix functions</h2>
+<section id="toc187">
+<h2>8.4. Matrix functions</h2>
 
 <pre>
 apps/users/php/matrix.php
@@ -3598,8 +3976,8 @@ This file contains all the functions required by the Excel widget for handling
 permissions and applications in a matrix structure.
 </p>
 
-<section id="toc177">
-<h3>7.4.1. Create matrix data</h3>
+<section id="toc188">
+<h3>8.4.1. Create matrix data</h3>
 
 <pre>
 function make_matrix_data($perms, $apps, $main, $user)
@@ -3611,8 +3989,8 @@ application with its respective permissions and their assigned values ("Allow", 
 </p>
 
 </section>
-<section id="toc178">
-<h3>7.4.2. Create matrix cells</h3>
+<section id="toc189">
+<h3>8.4.2. Create matrix cells</h3>
 
 <pre>
 function make_matrix_cell($perms, $apps, $main, $user)
@@ -3624,8 +4002,8 @@ and dropdown options for editing cell values. Read-only attributes are applied t
 </p>
 
 </section>
-<section id="toc179">
-<h3>7.4.3. Unmake matrix data</h3>
+<section id="toc190">
+<h3>8.4.3. Unmake matrix data</h3>
 
 <pre>
 function unmake_matrix_data($perms, $apps, $main, $json)
@@ -3637,8 +4015,8 @@ permission and application mappings while validating data consistency.
 </p>
 
 </section>
-<section id="toc180">
-<h3>7.4.4. Generate matrix permissions</h3>
+<section id="toc191">
+<h3>8.4.4. Generate matrix permissions</h3>
 
 <pre>
 function make_matrix_perms($table, $field, $id)
@@ -3651,8 +4029,8 @@ the Excel widget, including column headers, row headers, data values, and cell d
 
 </section>
 </section>
-<section id="toc181">
-<h2>7.5. Users functions</h2>
+<section id="toc192">
+<h2>8.5. Users functions</h2>
 
 <pre>
 apps/users/php/users.php
@@ -3662,8 +4040,8 @@ apps/users/php/users.php
 This file contain all functions needed by the users app
 </p>
 
-<section id="toc182">
-<h3>7.5.1. Insert user action</h3>
+<section id="toc193">
+<h3>8.5.1. Insert user action</h3>
 
 <pre>
 function insert_user($data)
@@ -3680,8 +4058,8 @@ the users app and only requires the data.
 </ul>
 
 </section>
-<section id="toc183">
-<h3>7.5.2. Update user action</h3>
+<section id="toc194">
+<h3>8.5.2. Update user action</h3>
 
 <pre>
 function update_user($user_id, $data)
@@ -3700,8 +4078,8 @@ the users app and requires the user_id and data.
 </ul>
 
 </section>
-<section id="toc184">
-<h3>7.5.3. Delete user action</h3>
+<section id="toc195">
+<h3>8.5.3. Delete user action</h3>
 
 <pre>
 function delete_user($user_id)
