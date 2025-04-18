@@ -140,6 +140,9 @@ that maintain the database using as reference this file
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
+                <field name="color" type="VARCHAR(100)"/>
+                <field name="position" type="INT(11)"/>
+                <field name="opacity" type="VARCHAR(100)"/>
                 <field name="table" type="VARCHAR(255)"/>
                 <field name="subtables" type="VARCHAR(255)"/>
                 <field name="field" type="VARCHAR(255)"/>
@@ -157,6 +160,8 @@ that maintain the database using as reference this file
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
+                <field name="color" type="VARCHAR(100)"/>
+                <field name="position" type="INT(11)"/>
             </fields>
         </table>
         <table name="tbl_perms">

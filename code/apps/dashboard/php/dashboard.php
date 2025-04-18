@@ -59,8 +59,8 @@ declare(strict_types=1);
 function __dashboard_helper()
 {
     // Create the groups apps list
-    $query = 'SELECT code, `group`, name, description
-        FROM tbl_apps WHERE active = 1 ORDER BY `group`,name ASC';
+    $query = 'SELECT code, `group`, name, description, color, opacity
+        FROM tbl_apps WHERE active = 1 ORDER BY position DESC,name ASC';
     $rows = execute_query_array($query);
     $groups = [];
     foreach ($rows as $row) {
@@ -75,9 +75,19 @@ function __dashboard_helper()
     }
 
     // Prepare the mapping
-    $query = 'SELECT code, name, description FROM tbl_apps_groups';
+    $query = 'SELECT code, name, description, color
+        FROM tbl_apps_groups ORDER BY position DESC, name ASC';
     $rows = execute_query_array($query);
     $mapping = array_combine(array_column($rows, 'code'), $rows);
+
+    // Sort the groups using the mapping order
+    $temp = [];
+    foreach ($mapping as $key => $val) {
+        if (isset($groups[$key])) {
+            $temp[$key] = $groups[$key];
+        }
+    }
+    $groups = $temp;
 
     // Create the lineal apps list
     $items = [];
@@ -86,21 +96,26 @@ function __dashboard_helper()
             show_php_error(['phperror' => "group $group not found"]);
         }
         // Add the alert
-        $xml = '<alert id="group/{$code}" title="{$name}" text="{$description}" col_class="col-12 mb-3"/>';
+        $xml = '<alert id="group/{$code}" title="{$name}" text="{$description}"
+            col_class="col-12 mb-3" color="{$color}"/>';
         $xml = str_replace_assoc([
             '{$code}' => $mapping[$group]['code'],
             '{$name}' => $mapping[$group]['name'],
             '{$description}' => str_replace('&', '&amp;', $mapping[$group]['description']),
+            '{$color}' => $mapping[$group]['color'],
         ], $xml);
         $array = xml2array($xml);
         set_array($items, 'alert', $array['alert']);
         foreach ($rows as $row) {
             $xml = '<button id="app/{$code}" onclick="saltos.window.open(\'app/{$code}\')"
-                class="fs-1 w-100 h-100" label="{$name}" tooltip="{$description}"/>';
+                class="w-100 h-100 fs-1 opacity-{$opacity}" label="{$name}"
+                tooltip="{$description}" color="{$color}"/>';
             $xml = str_replace_assoc([
                 '{$code}' => $row['code'],
                 '{$name}' => $row['name'],
                 '{$description}' => $row['description'],
+                '{$color}' => $row['color'],
+                '{$opacity}' => $row['opacity'],
             ], $xml);
             $array = xml2array($xml);
             set_array($items, 'button', $array['button']);
@@ -172,8 +187,8 @@ function __dashboard_config()
 function __navbar_helper()
 {
     // Create the groups apps list
-    $query = 'SELECT code, `group`, name, description
-        FROM tbl_apps WHERE active = 1 ORDER BY `group`,name ASC';
+    $query = 'SELECT code, `group`, name, description, color, opacity
+        FROM tbl_apps WHERE active = 1 ORDER BY position DESC,name ASC';
     $rows = execute_query_array($query);
     $groups = [];
     foreach ($rows as $row) {
@@ -188,9 +203,19 @@ function __navbar_helper()
     }
 
     // Prepare the mapping
-    $query = 'SELECT code, name, description FROM tbl_apps_groups';
+    $query = 'SELECT code, name, description, color
+        FROM tbl_apps_groups ORDER BY position DESC, name ASC';
     $rows = execute_query_array($query);
     $mapping = array_combine(array_column($rows, 'code'), $rows);
+
+    // Sort the groups using the mapping order
+    $temp = [];
+    foreach ($mapping as $key => $val) {
+        if (isset($groups[$key])) {
+            $temp[$key] = $groups[$key];
+        }
+    }
+    $groups = $temp;
 
     // Create the lineal apps list
     $items = [];

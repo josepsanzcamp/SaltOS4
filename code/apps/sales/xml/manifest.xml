@@ -27,45 +27,45 @@
 
 <root>
     <groups>
-        <group code="sales" name="Sales" description="Sales &amp; Billing Management"/>
+        <group code="sales" name="Sales" description="Sales &amp; Billing Management" color="info" position="3"/>
     </groups>
     <apps>
-        <app id="53" active="1" group="sales"
+        <app id="53" active="1" group="sales" color="info" position="1"
             code="invoices" name="Invoices" description="Invoices management"
             table="app_invoices" field="IF(is_closed, invoice_code, proforma_code)" subtables="lines:app_invoices_lines(invoice_id),taxes:app_invoices_taxes(invoice_id)"
             has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1" has_log="1"
             perms="*"/>
-        <app id="54" active="1" group="sales"
+        <app id="54" active="1" group="sales" color="info" position="1"
             code="products" name="Products" description="Products management"
             table="app_products" field="name"
             has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1" has_log="1"
             perms="*"/>
-        <app id="55" active="1" group="sales"
+        <app id="55" active="1" group="sales" color="secondary" opacity="50"
             code="taxes" name="Taxes" description="Taxes management"
             table="app_taxes" field="name"
             has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1" has_log="1"
             perms="*"/>
-        <app id="60" active="1" group="sales"
+        <app id="60" active="1" group="sales" color="info" position="1"
             code="workorders" name="Workorders" description="Workorders management"
             table="app_workorders" field="date"
             has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1" has_log="1"
             perms="*"/>
-        <app id="62" active="1" group="sales"
+        <app id="62" active="1" group="sales" color="secondary" opacity="50"
             code="payment_methods" name="Payment methods" description="Payment methods management"
             table="app_payment_methods" field="name"
             has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1" has_log="1"
             perms="*"/>
-        <app id="66" active="1" group="sales"
+        <app id="66" active="1" group="sales" color="secondary" opacity="50"
             code="invoices_status" name="Invoice Status" description="Status values for invoices"
             table="app_invoices_status" field="name"
             has_index="1" has_control="1" has_version="1" has_files="0" has_notes="0" has_log="0"
             perms="*"/>
-        <app id="67" active="1" group="sales"
+        <app id="67" active="1" group="sales" color="secondary" opacity="50"
             code="products_types" name="Product Types" description="Types of products"
             table="app_products_types" field="name"
             has_index="1" has_control="1" has_version="1" has_files="0" has_notes="0" has_log="0"
             perms="*"/>
-        <app id="68" active="1" group="sales"
+        <app id="68" active="1" group="sales" color="secondary" opacity="50"
             code="products_categories" name="Product Categories" description="Categories of products"
             table="app_products_categories" field="name"
             has_index="1" has_control="1" has_version="1" has_files="0" has_notes="0" has_log="0"

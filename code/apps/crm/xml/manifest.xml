@@ -27,40 +27,40 @@
 
 <root>
     <groups>
-        <group code="crm" name="CRM" description="Customer Relationship Management"/>
+        <group code="crm" name="CRM" description="Customer Relationship Management" color="success" position="4"/>
     </groups>
     <apps>
-        <app id="50" active="1" group="crm"
+        <app id="50" active="1" group="crm" color="success" position="1"
             code="customers" name="Customers" description="Customers management"
             table="app_customers" field="name"
             has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1" has_log="1"
             perms="*"/>
-        <app id="51" active="1" group="crm"
+        <app id="51" active="1" group="crm" color="success" position="1"
             code="leads" name="Leads" description="Leads management"
             table="app_leads" field="name"
             has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1" has_log="1"
             perms="*"/>
-        <app id="61" active="1" group="crm"
+        <app id="61" active="1" group="crm" color="success" position="1"
             code="meetings" name="Meetings" description="Meetings management"
             table="app_meetings" field="title"
             has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1" has_log="1"
             perms="*"/>
-        <app id="52" active="1" group="crm"
+        <app id="52" active="1" group="crm" color="success" position="1"
             code="quotes" name="Quotes" description="Quotes management"
             table="app_quotes" field="code" subtables="lines:app_quotes_lines(quote_id),taxes:app_quotes_taxes(quote_id)"
             has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1" has_log="1"
             perms="*"/>
-        <app id="63" active="1" group="crm"
+        <app id="63" active="1" group="crm" color="secondary" opacity="50"
             code="customers_types" name="Customer Types" description="Types of customers"
             table="app_customers_types" field="name"
             has_index="1" has_control="1" has_version="1" has_files="0" has_notes="0" has_log="0"
             perms="*"/>
-        <app id="64" active="1" group="crm"
+        <app id="64" active="1" group="crm" color="secondary" opacity="50"
             code="leads_status" name="Lead Status" description="Status values for leads"
             table="app_leads_status" field="name"
             has_index="1" has_control="1" has_version="1" has_files="0" has_notes="0" has_log="0"
             perms="*"/>
-        <app id="65" active="1" group="crm"
+        <app id="65" active="1" group="crm" color="secondary" opacity="50"
             code="quotes_status" name="Quote Status" description="Status values for quotes"
             table="app_quotes_status" field="name"
             has_index="1" has_control="1" has_version="1" has_files="0" has_notes="0" has_log="0"
