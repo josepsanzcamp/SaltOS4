@@ -158,12 +158,13 @@
         <date id="invoice_date" label="Date" col_class="col-md-3 mb-3" disabled="true"/>
 
         <text id="customer_name" label="Customer" col_class="col-md-6 mb-3" required="true" autofocus="true"/>
-        <text id="customer_address" label="Address" col_class="col-md-6 mb-3" required="true"/>
+        <text id="customer_code" label="CIF" col_class="col-md-3 mb-3" required="true"/>
 
+        <text id="customer_address" label="Address" col_class="col-md-6 mb-3" required="true"/>
         <text id="customer_city" label="City" col_class="col-md-3 mb-3" required="true"/>
+        <text id="customer_province" label="Province / State" col_class="col-md-3 mb-3" required="true"/>
         <text id="customer_zip" label="Zip" col_class="col-md-3 mb-3" required="true"/>
         <text id="customer_country" label="Country" col_class="col-md-3 mb-3" required="true"/>
-        <text id="customer_code" label="CIF" col_class="col-md-3 mb-3" required="true"/>
 
         <textarea id="description" label="Notes" height="5em" col_class="col-md-12 mb-3"/>
 

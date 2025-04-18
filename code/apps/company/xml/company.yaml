@@ -21,7 +21,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-app: purchase_status
+app: company
 require: apps/common/php/default.php
 template: apps/common/xml/default.xml
 indent: true
@@ -31,20 +31,61 @@ dropdown: false
 list:
     # [id, type, label]
     - [name, text, Name]
-    - [description, text, Description]
+    - [code, text, CIF]
+    - [city, text, City]
+    - [country, text, Country]
     - [active, boolean, Active]
 form:
     # [id, type, label]
     - [active, switch, Active]
     - newline
     - [name, text, Name]
-    - [description, textarea, Description]
+    - [code, text, Code]
+    - newline
+    - [address, text, Address]
+    - [city, text, City]
+    - [province, text, Province / State]
+    - [zip, text, ZIP]
+    - [country, text, Country]
+    - newline
+    - [phone, text, Phone]
+    - [email, text, Email]
+    - [website, text, Website]
+    - [iban, text, IBAN]
+    - [swift, text, SWIFT/BIC]
+    - [fiscal_regime, text, Fiscal Regime]
+    - [activity_code, text, Activity Code]
+    - [notes, textarea, Additional Notes]
 attr:
     # field:
     #     attr: value
     name:
         required: true
         autofocus: true
-    description:
+    notes:
         col_class: col-md-12 mb-3
         height: 5em
+    city:
+        col_class: col-md-3 mb-3
+    province:
+        col_class: col-md-3 mb-3
+    zip:
+        col_class: col-md-3 mb-3
+    country:
+        col_class: col-md-3 mb-3
+    code:
+        col_class: col-md-3 mb-3
+    email:
+        col_class: col-md-4 mb-3
+    phone:
+        col_class: col-md-4 mb-3
+    website:
+        col_class: col-md-4 mb-3
+    iban:
+        col_class: col-md-4 mb-3
+    swift:
+        col_class: col-md-3 mb-3
+    fiscal_regime:
+        col_class: col-md-3 mb-3
+    activity_code:
+        col_class: col-md-2 mb-3

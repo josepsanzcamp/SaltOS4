@@ -222,8 +222,9 @@ setupclean:
 
 setupmysql:
 	php code/api/index.php setup
-	user=admin php code/api/index.php setup/emails
 	user=admin php code/api/index.php setup/certs
+	user=admin php code/api/index.php setup/company
+	user=admin php code/api/index.php setup/emails
 	user=admin php code/api/index.php setup/crm
 	user=admin php code/api/index.php setup/hr
 	user=admin php code/api/index.php setup/purchases
@@ -232,8 +233,9 @@ setupmysql:
 setupsqlite:
 	echo '<root><db><type>pdo_sqlite</type></db></root>' > code/data/files/config.xml
 	php code/api/index.php setup
-	user=admin php code/api/index.php setup/emails
 	user=admin php code/api/index.php setup/certs
+	user=admin php code/api/index.php setup/company
+	user=admin php code/api/index.php setup/emails
 	user=admin php code/api/index.php setup/crm
 	user=admin php code/api/index.php setup/hr
 	user=admin php code/api/index.php setup/purchases

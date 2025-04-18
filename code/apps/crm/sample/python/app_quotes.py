@@ -66,9 +66,19 @@ for i in range(n_quotes):
     payment_method_id = random.randint(1, 12)
     status_id = random.randint(1, 5)
 
+    company_id = 1
+    company_name = 'SaltOS Solutions SL'
+    company_code = 'B12345678'
+    company_address = 'Calle Ficticia 123, 3ºA'
+    company_city = 'Barcelona'
+    company_province = 'Barcelona'
+    company_zip = '08001'
+    company_country = 'Spain'
+
     customer_name = escape_sql_text(fake.company())
     customer_address = escape_sql_text(fake.address().replace("\n", ", "))
     customer_city = escape_sql_text(fake.city())
+    customer_province = fake.state()
     customer_zip = escape_sql_text(fake.postcode())
     customer_country = escape_sql_text(fake.country())
     customer_code = generar_cif()
@@ -111,8 +121,10 @@ for i in range(n_quotes):
         f"({quote_id_seq},"
         f"'{code}',"
         f"{safe_sql_date(date)},"
+        f"{company_id},'{company_name}','{company_address}','{company_city}',"
+        f"'{company_province}','{company_zip}','{company_country}','{company_code}',"
         f"{customer_id},'{customer_name}','{customer_address}','{customer_city}',"
-        f"'{customer_zip}','{customer_country}','{customer_code}',"
+        f"'{customer_province}','{customer_zip}','{customer_country}','{customer_code}',"
         f"'{description}',{subtotal},{total_tax},{total},"
         f"{payment_method_id},{safe_sql_date(valid_until)},"
         f"{status_id})"

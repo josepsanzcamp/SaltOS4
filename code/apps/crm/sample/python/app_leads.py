@@ -13,13 +13,14 @@ def generar_cif():
 def generate_app_leads_sql_gz():
     path = Path("app_leads.sql.gz")
     fake = Faker()
-    sql = "INSERT INTO `app_leads` (`id`, `active`, `name`, `address`, `city`, `zip`, `country`, `code`, `email`, `phone`, `website`, `notes`, `contact`, `source`, `status_id`, `assigned_to`) VALUES\n"
+    sql = "INSERT INTO `app_leads` (`id`, `active`, `name`, `address`, `city`, `province`, `zip`, `country`, `code`, `email`, `phone`, `website`, `notes`, `contact`, `source`, `status_id`, `assigned_to`) VALUES\n"
     rows = []
     for i in range(1, 101):
         active = random.randint(0, 1)
         name = fake.company().replace("'", "''")
         address = fake.street_address().replace("'", "''")
         city = fake.city()
+        province = fake.state()
         zip_code = fake.postcode()
         country = fake.country().replace("'", "''")
         code = generar_cif()
@@ -31,7 +32,7 @@ def generate_app_leads_sql_gz():
         source = fake.random_element(elements=("Web", "Referral", "Event", "Email", "Phone")).replace("'", "''")
         status = random.randint(1, 4)
         assigned_to = random.randint(1, 5)
-        row = f"({i}, {active}, '{name}', '{address}', '{city}', '{zip_code}', '{country}', '{code}', '{email}', '{phone}', '{website}', '{notes}', '{contact}', '{source}', {status}, {assigned_to})"
+        row = f"({i}, {active}, '{name}', '{address}', '{city}', '{province}', '{zip_code}', '{country}', '{code}', '{email}', '{phone}', '{website}', '{notes}', '{contact}', '{source}', {status}, {assigned_to})"
         rows.append(row)
     sql += ",\n".join(rows) + ";"
     with gzip.open(path, "wt", encoding="utf-8") as f:

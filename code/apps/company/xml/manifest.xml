@@ -27,8 +27,10 @@
 
 <root>
     <apps>
-        <app id="27" active="1" group="core" position="1"
-            code="certs" name="Certificates" description="Certificates manager"
-            perms="main,menu,create,help,listall,viewall,deleteall"/>
+        <app id="73" active="1" group="core" position="1"
+            code="company" name="Company Info" description="Your own company information"
+            table="app_company" field="name"
+            has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1" has_log="1"
+            perms="*"/>
     </apps>
 </root>

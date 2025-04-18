@@ -38,7 +38,7 @@ This file allow to define the database needed by this application
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                 <field name="account_id" type="INT(11)" fkey="app_emails_accounts"/>
-                <field name="uidl" type="VARCHAR(250)"/>
+                <field name="uidl" type="VARCHAR(255)"/>
                 <field name="datetime" type="DATETIME"/>
                 <field name="size" type="INT(11)"/>
                 <field name="subject" type="TEXT"/>
@@ -78,7 +78,7 @@ This file allow to define the database needed by this application
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                 <field name="account_id" type="INT(11)" fkey="tbl_emails_accounts"/>
-                <field name="uidl" type="VARCHAR(250)"/>
+                <field name="uidl" type="VARCHAR(255)"/>
                 <field name="datetime" type="DATETIME"/>
             </fields>
         </table>

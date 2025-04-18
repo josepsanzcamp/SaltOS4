@@ -37,22 +37,26 @@ list:
 form:
     # [id, type, label]
     - [active, switch, Active]
+    - newline
     - [name, text, Name]
+    - [code, text, NIF]
+    - newline
     - [department_id, select, Department]
     - [job_title, text, Job Title]
     - [start_date, date, Start]
     - [end_date, date, End]
-
+    - newline
     - [address, text, Address]
     - [city, text, City]
+    - [province, text, Province / State]
     - [zip, text, ZIP]
     - [country, text, Country]
-    - [code, text, NIF]
+    - newline
     - [email, text, Email]
     - [phone, text, Phone]
+    - [notes, textarea, Notes]
     - [type_id, select, Type]
     - [user_id, select, User]
-    - [notes, textarea, Notes]
 select:
     # [id, table, optional field]
     - [department_id, app_departments]
@@ -61,17 +65,16 @@ select:
 attr:
     # field:
     #     attr: value
-    active:
-        col_class: col-md-12 mb-3
     name:
         required: true
         autofocus: true
-        col_class: col-md-4 mb-3
     department_id:
-        col_class: col-md-4 mb-3
+        col_class: col-md-3 mb-3
     job_title:
-        col_class: col-md-4 mb-3
+        col_class: col-md-3 mb-3
     city:
+        col_class: col-md-3 mb-3
+    province:
         col_class: col-md-3 mb-3
     zip:
         col_class: col-md-3 mb-3
@@ -88,9 +91,9 @@ attr:
     end_date:
         col_class: col-md-3 mb-3
     type_id:
-        col_class: col-md-2 mb-3
+        col_class: col-md-3 mb-3
     user_id:
-        col_class: col-md-2 mb-3
+        col_class: col-md-3 mb-3
     notes:
         col_class: col-md-12 mb-3
         height: 5em

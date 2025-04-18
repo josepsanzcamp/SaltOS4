@@ -27,43 +27,24 @@
 
 <root>
     <tables>
-        <table name="app_employees">
+        <table name="app_company">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                 <field name="active" type="INT(11)"/>
                 <field name="name" type="VARCHAR(255)"/>
+                <field name="code" type="VARCHAR(255)"/>
                 <field name="address" type="VARCHAR(255)"/>
                 <field name="city" type="VARCHAR(255)"/>
                 <field name="province" type="VARCHAR(255)"/>
                 <field name="zip" type="VARCHAR(255)"/>
                 <field name="country" type="VARCHAR(255)"/>
-                <field name="code" type="VARCHAR(255)"/>
-                <field name="email" type="VARCHAR(255)"/>
                 <field name="phone" type="VARCHAR(255)"/>
-                <field name="department_id" type="INT(11)" fkey="app_departments"/>
-                <field name="job_title" type="VARCHAR(255)"/>
-                <field name="start_date" type="DATE"/>
-                <field name="end_date" type="DATE"/>
-                <field name="type_id" type="INT(11)" fkey="app_employees_types"/>
-                <field name="notes" type="TEXT"/>
-                <field name="user_id" type="INT(11)" fkey="tbl_users"/>
-            </fields>
-        </table>
-        <table name="app_employees_types">
-            <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-                <field name="active" type="INT(11)"/>
-                <field name="name" type="VARCHAR(255)"/>
-                <field name="description" type="TEXT"/>
-            </fields>
-        </table>
-        <table name="app_departments">
-            <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-                <field name="active" type="INT(11)"/>
-                <field name="name" type="VARCHAR(255)"/>
-                <field name="code" type="VARCHAR(255)"/>
-                <field name="parent_id" type="INT(11)" fkey="app_departments"/>
+                <field name="email" type="VARCHAR(255)"/>
+                <field name="website" type="VARCHAR(255)"/>
+                <field name="iban" type="VARCHAR(255)"/>
+                <field name="swift" type="VARCHAR(255)"/>
+                <field name="fiscal_regime" type="VARCHAR(255)"/>
+                <field name="activity_code" type="VARCHAR(255)"/>
                 <field name="notes" type="TEXT"/>
             </fields>
         </table>

@@ -49,6 +49,17 @@ declare(strict_types=1);
  */
 function unmake_matrix_data($json, $quote_id)
 {
+    if (!count($json)) {
+        return $json;
+    }
+
+    $checks = ['lines', 'taxes', 'totals'];
+    foreach ($checks as $check) {
+        if (!isset($json[$check]) || !check_real_matrix($json[$check])) {
+            return $json;
+        }
+    }
+
     $lines = $json['lines'] ?? [];
     $taxes = $json['taxes'] ?? [];
     $totals = $json['totals'] ?? [];
@@ -294,6 +305,10 @@ function unmake_matrix_data($json, $quote_id)
  */
 function set_quote($json, $quote_id)
 {
+    if (!count($json)) {
+        return $json;
+    }
+
     // Set code and date
     if (!$quote_id || !isset($json['code']) || !$json['code']) {
         $query = 'SELECT MAX(code) FROM app_quotes';
@@ -314,6 +329,22 @@ function set_quote($json, $quote_id)
     // Set the valid_until if needed
     if (!isset($json['due_date']) || !$json['due_date']) {
         $json['valid_until'] = current_date();
+    }
+
+    // Set the company
+    $query = 'SELECT * FROM app_quotes WHERE id = ?';
+    $quote = execute_query($query, [$quote_id]);
+    $query = 'SELECT * FROM app_company WHERE id = ?';
+    $company = execute_query($query, [1]);
+    $fields = [
+        'company_id', 'company_name', 'company_code', 'company_address',
+        'company_city', 'company_province', 'company_zip', 'company_country',
+    ];
+    foreach ($fields as $field) {
+        $real = str_replace('company_', '', $field);
+        if (($quote[$field] ?? '') != $company[$real]) {
+            $json[$field] = $company[$real];
+        }
     }
 
     return $json;

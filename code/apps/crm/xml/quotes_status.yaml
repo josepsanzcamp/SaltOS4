@@ -27,7 +27,7 @@ template: apps/common/xml/default.xml
 indent: true
 screen: type5
 col_class: col-md-6 mb-3
-dropdown: true
+dropdown: false
 list:
     # [id, type, label]
     - [name, text, Name]
@@ -36,13 +36,12 @@ list:
 form:
     # [id, type, label]
     - [active, switch, Active]
+    - newline
     - [name, text, Name]
     - [description, textarea, Description]
 attr:
     # field:
     #     attr: value
-    active:
-        col_class: col-md-12 mb-3
     name:
         required: true
         autofocus: true

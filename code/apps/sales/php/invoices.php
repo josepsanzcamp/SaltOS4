@@ -383,5 +383,21 @@ function set_proforma_invoice($json, $invoice_id)
         }
     }
 
+    // Set the company
+    $query = 'SELECT * FROM app_invoices WHERE id = ?';
+    $invoice = execute_query($query, [$invoice_id]);
+    $query = 'SELECT * FROM app_company WHERE id = ?';
+    $company = execute_query($query, [1]);
+    $fields = [
+        'company_id', 'company_name', 'company_code', 'company_address',
+        'company_city', 'company_province', 'company_zip', 'company_country',
+    ];
+    foreach ($fields as $field) {
+        $real = str_replace('company_', '', $field);
+        if (($invoice[$field] ?? '') != $company[$real]) {
+            $json[$field] = $company[$real];
+        }
+    }
+
     return $json;
 }

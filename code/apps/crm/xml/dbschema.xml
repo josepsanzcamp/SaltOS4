@@ -34,6 +34,7 @@
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="address" type="VARCHAR(255)"/>
                 <field name="city" type="VARCHAR(255)"/>
+                <field name="province" type="VARCHAR(255)"/>
                 <field name="zip" type="VARCHAR(255)"/>
                 <field name="country" type="VARCHAR(255)"/>
                 <field name="code" type="VARCHAR(255)"/>
@@ -59,6 +60,7 @@
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="address" type="VARCHAR(255)"/>
                 <field name="city" type="VARCHAR(255)"/>
+                <field name="province" type="VARCHAR(255)"/>
                 <field name="zip" type="VARCHAR(255)"/>
                 <field name="country" type="VARCHAR(255)"/>
                 <field name="code" type="VARCHAR(255)"/>
@@ -100,10 +102,19 @@
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="date" type="DATE"/>
+                <field name="company_id" type="INT(11)" fkey="app_company"/>
+                <field name="company_name" type="VARCHAR(255)"/>
+                <field name="company_address" type="TEXT"/>
+                <field name="company_city" type="VARCHAR(255)"/>
+                <field name="company_province" type="VARCHAR(255)"/>
+                <field name="company_zip" type="VARCHAR(255)"/>
+                <field name="company_country" type="VARCHAR(255)"/>
+                <field name="company_code" type="VARCHAR(255)"/>
                 <field name="customer_id" type="INT(11)" fkey="app_customers"/>
                 <field name="customer_name" type="VARCHAR(255)"/>
                 <field name="customer_address" type="TEXT"/>
                 <field name="customer_city" type="VARCHAR(255)"/>
+                <field name="customer_province" type="VARCHAR(255)"/>
                 <field name="customer_zip" type="VARCHAR(255)"/>
                 <field name="customer_country" type="VARCHAR(255)"/>
                 <field name="customer_code" type="VARCHAR(255)"/>

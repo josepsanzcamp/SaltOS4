@@ -37,6 +37,7 @@ list:
 form:
     # [id, type, label]
     - [active, switch, Active]
+    - newline
     - [user_id, select, User]
     - [created_at, datetime, Created]
     - [updated_at, datetime, Updated]
@@ -50,7 +51,5 @@ select:
 attr:
     # field:
     #     attr: value
-    active:
-        col_class: col-md-12 mb-3
     user_agent:
         col_class: col-md-12 mb-3

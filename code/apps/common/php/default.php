@@ -150,7 +150,11 @@ function make_app_file($data)
     $views = ['list', 'form'];
     foreach ($views as $view) {
         foreach ($data[$view] as $key => $val) {
-            $data[$view][$key] = array_combine($keys, $val);
+            if (is_array($val)) {
+                $data[$view][$key] = array_combine($keys, $val);
+            } else {
+                $data[$view][$key] = ['type' => $val];
+            }
         }
     }
 
@@ -251,9 +255,9 @@ function make_app_file($data)
     // set the form fields
     $xml = [];
     foreach ($data['form'] as $field) {
-        $id = $field['id'];
+        $id = $field['id'] ?? '';
         $type = $field['type'];
-        $label = $field['label'];
+        $label = $field['label'] ?? '';
         $attr = $data['attr'][$id] ?? [];
         foreach ($attr as $key => $val) {
             $attr[$key] = "$key=\"$val\"";
@@ -290,6 +294,9 @@ function make_app_file($data)
                 $xml[] = "<rows eval=\"true\">execute_query_array(\"
                     SELECT $field2 label, id value FROM $table2\")</rows>";
                 $xml[] = '</multiselect>';
+                break;
+            case 'newline':
+                $xml[] = "<div col_class='col-12'/>";
                 break;
             default:
                 show_php_error(['phperror' => "$type not found"]);

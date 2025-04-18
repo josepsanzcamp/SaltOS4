@@ -38,12 +38,15 @@ list:
 form:
     # [id, type, label]
     - [active, switch, Active]
+    - newline
     - [name, text, Name]
+    - [code, text, CIF]
     - [address, text, Address]
     - [city, text, City]
+    - [province, text, Province / State]
     - [zip, text, ZIP]
     - [country, text, Country]
-    - [code, text, CIF]
+    - newline
     - [email, text, Email]
     - [phone, text, Phone]
     - [website, text, Website]
@@ -63,14 +66,14 @@ attr:
         height: 5em
     city:
         col_class: col-md-3 mb-3
+    province:
+        col_class: col-md-3 mb-3
     zip:
         col_class: col-md-3 mb-3
     country:
         col_class: col-md-3 mb-3
     code:
         col_class: col-md-3 mb-3
-    active:
-        col_class: col-md-12 mb-3
     email:
         col_class: col-md-4 mb-3
     phone:

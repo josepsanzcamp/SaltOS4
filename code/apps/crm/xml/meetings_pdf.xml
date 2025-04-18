@@ -153,7 +153,7 @@
         <getxy>"x","y"</getxy>
 
         <font>"normal","B",10,$row['color_text1']</font>
-        <textarea>10,$row['y'],30,4,'R',T("Approved Topics")</textarea>
+        <textarea>10,$row['y'],30,4,'R',T("Approved")</textarea>
         <font>"normal","",10,$row['color_text2']</font>
         <textarea>40,$row['y'],160,4,'L',$row['topics_approved']</textarea>
 
@@ -172,7 +172,7 @@
         <getxy>"x","y"</getxy>
 
         <font>"normal","B",10,$row['color_text1']</font>
-        <textarea>10,$row['y'],30,4,'R',T("Rejected Topics")</textarea>
+        <textarea>10,$row['y'],30,4,'R',T("Rejected")</textarea>
         <font>"normal","",10,$row['color_text2']</font>
         <textarea>40,$row['y'],160,4,'L',$row['topics_rejected']</textarea>
 
@@ -191,7 +191,7 @@
         <getxy>"x","y"</getxy>
 
         <font>"normal","B",10,$row['color_text1']</font>
-        <textarea>10,$row['y'],30,4,'R',T("Pending Topics")</textarea>
+        <textarea>10,$row['y'],30,4,'R',T("Pending")</textarea>
         <font>"normal","",10,$row['color_text2']</font>
         <textarea>40,$row['y'],160,4,'L',$row['topics_pending']</textarea>
 

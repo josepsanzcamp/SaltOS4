@@ -34,6 +34,7 @@
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="address" type="VARCHAR(255)"/>
                 <field name="city" type="VARCHAR(255)"/>
+                <field name="province" type="VARCHAR(255)"/>
                 <field name="zip" type="VARCHAR(255)"/>
                 <field name="country" type="VARCHAR(255)"/>
                 <field name="code" type="VARCHAR(255)"/>

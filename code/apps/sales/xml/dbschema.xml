@@ -34,10 +34,19 @@
                 <field name="proforma_date" type="DATE"/>
                 <field name="invoice_code" type="VARCHAR(255)"/>
                 <field name="invoice_date" type="DATE"/>
+                <field name="company_id" type="INT(11)" fkey="app_company"/>
+                <field name="company_name" type="VARCHAR(255)"/>
+                <field name="company_address" type="TEXT"/>
+                <field name="company_city" type="VARCHAR(255)"/>
+                <field name="company_province" type="VARCHAR(255)"/>
+                <field name="company_zip" type="VARCHAR(255)"/>
+                <field name="company_country" type="VARCHAR(255)"/>
+                <field name="company_code" type="VARCHAR(255)"/>
                 <field name="customer_id" type="INT(11)" fkey="app_customers"/>
                 <field name="customer_name" type="VARCHAR(255)"/>
                 <field name="customer_address" type="TEXT"/>
                 <field name="customer_city" type="VARCHAR(255)"/>
+                <field name="customer_province" type="VARCHAR(255)"/>
                 <field name="customer_zip" type="VARCHAR(255)"/>
                 <field name="customer_country" type="VARCHAR(255)"/>
                 <field name="customer_code" type="VARCHAR(255)"/>
@@ -106,17 +115,17 @@
                 <field name="tax_id" type="INT(11)" fkey="app_taxes"/>
                 <field name="type_id" type="INT(11)" fkey="app_products_types"/>
                 <field name="active" type="INT(11)"/>
-                <field name="unit" type="VARCHAR(50)"/>
+                <field name="unit" type="VARCHAR(255)"/>
                 <field name="cost" type="FLOAT"/>
                 <field name="margin" type="FLOAT"/>
-                <field name="barcode" type="VARCHAR(50)"/>
+                <field name="barcode" type="VARCHAR(255)"/>
                 <field name="category_id" type="INT(11)" fkey="app_products_categories"/>
-                <field name="brand" type="VARCHAR(100)"/>
-                <field name="model" type="VARCHAR(100)"/>
+                <field name="brand" type="VARCHAR(255)"/>
+                <field name="model" type="VARCHAR(255)"/>
                 <field name="stock" type="FLOAT"/>
                 <field name="stock_min" type="FLOAT"/>
                 <field name="stock_max" type="FLOAT"/>
-                <field name="location" type="VARCHAR(100)"/>
+                <field name="location" type="VARCHAR(255)"/>
                 <field name="image_url" type="VARCHAR(255)"/>
             </fields>
         </table>

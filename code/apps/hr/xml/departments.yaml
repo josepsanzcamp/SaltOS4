@@ -37,6 +37,7 @@ list:
 form:
     # [id, type, label]
     - [active, switch, Active]
+    - newline
     - [name, text, Name]
     - [code, text, Code]
     - [parent_id, select, Parent]
@@ -47,8 +48,6 @@ select:
 attr:
     # field:
     #     attr: value
-    active:
-        col_class: col-md-12 mb-3
     name:
         required: true
         autofocus: true
