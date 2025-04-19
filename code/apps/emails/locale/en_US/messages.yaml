@@ -1,0 +1,151 @@
+#  ____        _ _    ___  ____    _  _    ___
+# / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+# \___ \ / _` | | __| | | \___ \  | || |_| | | |
+#  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+# |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+#
+# SaltOS: Framework to develop Rich Internet Applications
+# Copyright (C) 2007-2025 by Josep Sanz Campderrós
+# More information in https://www.saltos.org or info@saltos.org
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+new_email: New email
+to_send_a_new_email: To send a new email
+detail_of_the_email: Detail of the email
+email_s_list: Email(s) list
+the_s_s_wrote: 'On %s, %s wrote:'
+email_sent_successfully: Email sent successfully
+d_email_s_sended: '%d email(s) sent'
+d_email_s_modified_successfully: '%d email(s) successfully modified'
+d_email_s_deleted: '%d email(s) deleted'
+d_email_s_received: '%d email(s) received'
+there_has_been_the_following_error_s_s: 'There has been the following error: %s (%s)'
+source_of_the_email: Source of the email
+from: From
+to: To
+cc: CC
+bcc: BCC
+datetime: Datetime
+subject: Subject
+body: Message
+request_confirmation_of_receipt: Request confirmation of receipt
+prioriry: Priority
+sensitivity: Sensitivity
+send_receive: Send/Receive
+to_send_and_receive_emails: To send and receive emails
+to_delete_the_selected_emails: To delete the selected emails
+send: Send
+normal: Normal
+low: Low
+high: High
+personal: Personal
+private: Private
+confidential: Confidential
+attachments: Attachments
+view_attachment: View attachment
+download_attachment: Download attachment
+reply: Reply
+to_reply_this_email: To reply to this email
+reply_all: Reply all
+to_reply_all_this_email: To reply all to this email
+forward: Forward
+to_forward_this_email: To forward this email
+to_delete_this_email: To delete this email
+to_close_this_email: To close this email
+source: Source
+to_see_the_source_of_this_email: To see the source of this email
+to_mark_this_email_as_new: To mark this email as new
+wait: Wait
+to_mark_this_email_as_wait: To mark this email as pending
+spam: SPAM
+to_mark_this_email_as_spam: To mark this email as SPAM
+no_new: No new
+to_unmark_this_email_as_new: To unmark this email as new
+no_wait: No pending
+to_unmark_this_email_as_wait: To unmark this email as pending
+no_spam: No SPAM
+to_unmark_this_email_as_spam: To unmark this email as SPAM
+to_manage_emails_accounts: To manage email accounts
+emails_accounts_list: Emails accounts list
+new_email_account: New email
+to_create_a_new_email_account: To create a new email account
+signature: Signature
+host: Host
+port: Port
+extra: Extra
+disabled: Disabled
+privated: Privated
+default: Default
+add_me_to_cc: Add me to CC
+confirm_reading_to: Confirm reading to
+more_emails_accounts: See more emails
+to_see_more_emails_accounts_in_the_list: To see more emails accounts in the list
+to_create_the_new_email_account: To create the new email account
+to_cancel_the_new_email_account: To cancel the new email account
+to_modify_this_email_account: To modify this email account
+to_delete_this_email_account: To delete this email account
+to_save_the_email_account_changes: To save the email account changes
+to_cancel_the_email_account_modification: To cancel the email account modification
+to_send_the_email: To send the email
+to_cancel_the_email: To cancel the email
+see_more_emails: See more emails
+to_load_more_emails_in_the_list: To load more emails in the list
+delete_emails: Delete emails
+do_you_want_to_delete_the_selected_emails: Do you want to delete the selected emails?
+select_emails: Select emails
+you_must_select_the_desired_emails_to_be_deleted: You must select the desired emails to be deleted
+to_open_this_content_in_a_new_window: To open this content in a new window
+main_configuration: Main configuration
+pop3_server_configuration: Incoming server configuration
+smtp_server_configuration: Outgoing server configuration
+extra_configuration: Extra configuration
+search_form: Search form
+all_accounts: '[All accounts]'
+search_in_fields: Search in fields
+all_fields: '[All fields]'
+only_address: Only address
+only_subject: Only subject
+only_message: Only message
+common_dates: Common dates
+all_dates: '[All dates]'
+today: Today
+yesterday: Yesterday
+last_week: Last week
+last_month: Last month
+only_new: Only new
+only_wait: Only pending
+only_spam: Only SPAM
+hide_spam: Hide SPAM
+with_files: With attachments
+without_files: Without attachments
+only_inbox: Only inbox
+only_outbox: Only outbox
+you_must_select_the_desired_emails_that_you_want_see_in_the_pdf_file: You must select the desired emails that you want to see in the PDF file
+you_must_select_the_desired_emails_that_you_want_download_in_the_pdf_file: You must select the desired emails that you want to download in the PDF file
+mark: Mark
+close_this_screen: Close this window
+do_you_want_to_close_this_screen: Do you want to close this window?
+to_see_the_email: To see the email
+to_download_the_email: To download the email
+without_subject: Without subject
+until_date: Until date
+mark_options: Mark options
+error: Error
+sent: Sent
+to_close_this_search_form: To close this search form
+from_date: From date
+to_close_this_list: To close this list
+emails_app_client: Emails app client
+emails_accounts_app: Emails accounts app
