@@ -1,5 +1,5 @@
 Devel Documentation
-SaltOS 4.0 r1952
+SaltOS 4.0 r1981
 April 2025
 
 
@@ -937,12 +937,54 @@ These targets trigger internal maintenance operations in SaltOS4, such as garbag
 - `make cron`: Executes scheduled tasks (cron)
 
 
++++checklangs+++
+
+This rule runs the `scripts/langs.py` script to analyze missing or shared translation keys across apps.
+
+To run the tool, use:
+
+```
+make langs lang=ca_ES
+```
+
+This will:
+
+- Analyze all `manifest.xml`, `.xml`, `.yaml`, and `.js` files in each app group
+- Check for missing translation keys in the given language
+- Detect if a missing key exists in another app group, which may suggest promoting it to the global translation file
+
+
+The `checklangs.py` script supports the following options:
+
+- `lang`: **(required)** the language to check (e.g. `ca_ES`)
+- `--filter=missing|present`:
+   - `missing`: show only missing keys (default if combined with `--csv`)
+   - `present`: show only keys that are already translated
+- `--group=<group>`: restrict analysis to a specific group (e.g. `crm`, `emails`)
+- `--csv=<file.csv>`: output the results to the given CSV file
+
+
+Examples:
+
+Run a full scan of all apps and export results:
+
+```
+make langs lang=ca_ES
+```
+
+Run manually and restrict to a single group:
+
+```
+python scripts/checklangs.py ca_ES --group=crm --filter=missing --csv=missing_crm.csv
+```
+
 ++Script Directory Overview++
 
 This section describes the purpose of each script and configuration file in the `scripts/` directory.
 
 All descriptions below are based on the actual content of each file.
 
+- `checklangs.py`: Scans XML/YAML/JS files for translation keys and detects missing or duplicated strings across apps.
 - `checklibs.php`: Validates the current versions of required libraries by parsing `checklibs.txt`, performing curl requests, and comparing base64-encoded version strings. Updates the file if needed.
 - `checklibs.txt`: Contains a list of required libraries, with their URLs and expected version tags encoded in base64.
 - `debug.php`: Generates a debug-friendly version of the frontend using `debug.php`.

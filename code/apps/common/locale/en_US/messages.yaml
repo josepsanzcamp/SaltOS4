@@ -20,3 +20,12 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+language: Language
+color_mode: Color mode
+theme_style: Color scheme
+old_password: Old password
+new_password: New password
+retype_password: Retype password
+to_open_this_help_in_an_external_window: To open this help in an external window
+to_close_this_help: To close this help

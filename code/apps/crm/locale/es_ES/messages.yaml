@@ -1,0 +1,102 @@
+#  ____        _ _    ___  ____    _  _    ___
+# / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+# \___ \ / _` | | __| | | \___ \  | || |_| | | |
+#  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+# |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+#
+# SaltOS: Framework to develop Rich Internet Applications
+# Copyright (C) 2007-2025 by Josep Sanz Campderrós
+# More information in https://www.saltos.org or info@saltos.org
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+start_time: Hora de inicio
+agenda: Agenda
+pending: Pendiente
+customer: Cliente
+meeting_report: Informe de reunión
+approved: Aprobado
+location: Ubicación
+meeting: Reunión
+participants: Participantes
+rejected: Rechazado
+end_time: Hora de finalización
+title: Título
+meetings: Reuniones
+lead_status: Estado de la oportunidad
+leads: Oportunidades
+customers_management: Gestión de clientes
+meetings_management: Gestión de reuniones
+types_of_customers: Tipos de clientes
+quote_status: Estado del presupuesto
+leads_management: Gestión de oportunidades
+customer_relationship_management: Gestión de relaciones con clientes
+status_values_for_quotes: Valores de estado para presupuestos
+quotes_management: Gestión de presupuestos
+status_values_for_leads: Valores de estado para oportunidades
+crm: CRM
+quotes: Presupuestos
+customer_types: Tipos de clientes
+pdf: PDF
+quote: Presupuesto
+info: Información
+to_create_a_new_register: Crear un nuevo registro
+totals: Totales
+to_edit_this_register: Editar este registro
+to_download_the_quote: Descargar el presupuesto
+to_delete_the_register: Eliminar el registro
+to_save_the_changes_of_this_register: Guardar los cambios de este registro
+to_close_the_detail_of_this_register: Cerrar el detalle de este registro
+notes: Notas
+to_see_the_quote: Ver el presupuesto
+load_more: Cargar más
+zip: Código postal
+to_cancel_the_register_modification: Cancelar la modificación del registro
+cif: CIF
+to_view_the_register: Ver el registro
+total: Total
+taxes: Impuestos
+status: Estado
+to_edit_the_register: Editar el registro
+city: Ciudad
+payment_method: Método de pago
+to_load_more_registers_to_the_list: Cargar más registros en la lista
+to_cancel_the_new_register_creation: Cancelar la creación del nuevo registro
+log: Registro
+country: País
+date: Fecha
+valid_until: Válido hasta
+address: Dirección
+concepts: Conceptos
+to_create_the_new_register: Crear el nuevo registro
+province_state: Provincia / Estado
+to_delete_this_register: Eliminar este registro
+discount: Descuento
+tax: Impuesto
+quantity: Cantidad
+c_i_f: C.I.F.
+price: Precio
+company_details: Datos de la empresa
+customer_details: Datos del cliente
+base: Base
+phone: Teléfono
+website: Sitio web
+type: Tipo
+contact: Contacto
+assigned_to: Asignado a
+source: Origen
+topics_rejected: Temas rechazados
+topics_pending: Temas pendientes
+topics_approved: Temas aprobados
+related_customer: Cliente relacionado

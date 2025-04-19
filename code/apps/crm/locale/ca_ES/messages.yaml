@@ -1,0 +1,102 @@
+#  ____        _ _    ___  ____    _  _    ___
+# / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+# \___ \ / _` | | __| | | \___ \  | || |_| | | |
+#  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+# |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+#
+# SaltOS: Framework to develop Rich Internet Applications
+# Copyright (C) 2007-2025 by Josep Sanz Campderrós
+# More information in https://www.saltos.org or info@saltos.org
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+start_time: Hora d'inici
+agenda: Agenda
+pending: Pendent
+customer: Client
+meeting_report: Informe de reunió
+approved: Aprovat
+location: Ubicació
+meeting: Reunió
+participants: Participants
+rejected: Rebutjat
+end_time: Hora de finalització
+title: Títol
+meetings: Reunions
+lead_status: Estat de la oportunitat
+leads: Oportunitats
+customers_management: Gestió de clients
+meetings_management: Gestió de reunions
+types_of_customers: Tipus de clients
+quote_status: Estat del pressupost
+leads_management: Gestió d'oportunitats
+customer_relationship_management: Gestió de relació amb el client
+status_values_for_quotes: Valors d'estat per a pressupostos
+quotes_management: Gestió de pressupostos
+status_values_for_leads: Valors d'estat per a oportunitats
+crm: CRM
+quotes: Pressupostos
+customer_types: Tipus de clients
+pdf: PDF
+quote: Pressupost
+info: Informació
+to_create_a_new_register: Crear un nou registre
+totals: Totals
+to_edit_this_register: Editar aquest registre
+to_download_the_quote: Descarregar el pressupost
+to_delete_the_register: Eliminar el registre
+to_save_the_changes_of_this_register: Desar els canvis d'aquest registre
+to_close_the_detail_of_this_register: Tancar el detall d'aquest registre
+notes: Notes
+to_see_the_quote: Veure el pressupost
+load_more: Carregar més
+zip: Codi postal
+to_cancel_the_register_modification: Cancel·lar la modificació del registre
+cif: CIF
+to_view_the_register: Veure el registre
+total: Total
+taxes: Impostos
+status: Estat
+to_edit_the_register: Editar el registre
+city: Ciutat
+payment_method: Mètode de pagament
+to_load_more_registers_to_the_list: Carregar més registres a la llista
+to_cancel_the_new_register_creation: Cancel·lar la creació del nou registre
+log: Registre
+country: País
+date: Data
+valid_until: Vàlid fins
+address: Adreça
+concepts: Conceptes
+to_create_the_new_register: Crear el nou registre
+province_state: Província / Estat
+to_delete_this_register: Eliminar aquest registre
+discount: Descompte
+tax: Impost
+quantity: Quantitat
+c_i_f: C.I.F.
+price: Preu
+company_details: Dades de l'empresa
+customer_details: Dades del client
+base: Base
+phone: Telèfon
+website: Lloc web
+type: Tipus
+contact: Contacte
+assigned_to: Assignat a
+source: Origen
+topics_rejected: Temes rebutjats
+topics_pending: Temes pendents
+topics_approved: Temes aprovats
+related_customer: Client relacionat

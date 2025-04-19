@@ -20,3 +20,132 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+new_email: Nuevo correo
+to_send_a_new_email: Para enviar un nuevo correo
+detail_of_the_email: Detalle del correo
+email_s_list: Lista de correos
+the_s_s_wrote: 'El %s, %s escribió:'
+email_sent_successfully: Correo enviado correctamente
+d_email_s_sended: '%d correo/s enviado/s'
+d_email_s_modified_successfully: '%d correo/s modificado/s correctamente'
+d_email_s_deleted: '%d correo/s eliminado/s'
+d_email_s_received: '%d correo/s recibido/s'
+there_has_been_the_following_error_s_s: 'Se ha producido el siguiente error: %s (%s)'
+source_of_the_email: Fuente del correo
+from: De
+to: Para
+cc: CC
+bcc: CCO
+datetime: Fecha y hora
+subject: Asunto
+body: Mensaje
+request_confirmation_of_receipt: Solicitar confirmación de recepción
+prioriry: Prioridad
+sensitivity: Sensibilidad
+send_receive: Enviar/Recibir
+to_send_and_receive_emails: Para enviar y recibir correos
+to_delete_the_selected_emails: Para eliminar los correos seleccionados
+send: Enviar
+normal: Normal
+low: Baja
+high: Alta
+personal: Personal
+private: Privado
+confidential: Confidencial
+attachments: Adjuntos
+view_attachment: Ver adjunto
+download_attachment: Descargar adjunto
+reply: Responder
+to_reply_this_email: Para responder a este correo
+reply_all: Responder a todos
+to_reply_all_this_email: Para responder a todos a este correo
+forward: Reenviar
+to_forward_this_email: Para reenviar este correo
+to_delete_this_email: Para eliminar este correo
+to_close_this_email: Para cerrar este correo
+source: Fuente
+to_see_the_source_of_this_email: Para ver la fuente de este correo
+to_mark_this_email_as_new: Para marcar este correo como nuevo
+wait: Pendiente
+to_mark_this_email_as_wait: Para marcar este correo como pendiente
+spam: SPAM
+to_mark_this_email_as_spam: Para marcar este correo como SPAM
+no_new: No nuevo
+to_unmark_this_email_as_new: Para desmarcar este correo como nuevo
+no_wait: No pendiente
+to_unmark_this_email_as_wait: Para desmarcar este correo como pendiente
+no_spam: No SPAM
+to_unmark_this_email_as_spam: Para desmarcar este correo como SPAM
+to_manage_emails_accounts: Para gestionar las cuentas de correo
+emails_accounts_list: Lista de cuentas de correo
+new_email_account: Nueva cuenta de correo
+to_create_a_new_email_account: Para crear una nueva cuenta de correo
+signature: Firma
+host: Servidor
+port: Puerto
+extra: Extra
+disabled: Desactivado
+privated: Privado
+default: Por defecto
+add_me_to_cc: Añadirme en CC
+confirm_reading_to: Confirmación de lectura
+more_emails_accounts: Ver más correos
+to_see_more_emails_accounts_in_the_list: Para ver más cuentas de correo en la lista
+to_create_the_new_email_account: Para crear la nueva cuenta de correo
+to_cancel_the_new_email_account: Para cancelar la nueva cuenta de correo
+to_modify_this_email_account: Para modificar esta cuenta de correo
+to_delete_this_email_account: Para eliminar esta cuenta de correo
+to_save_the_email_account_changes: Para guardar los cambios de esta cuenta de correo
+to_cancel_the_email_account_modification: Para cancelar la modificación de esta cuenta de correo
+to_send_the_email: Para enviar el correo
+to_cancel_the_email: Para cancelar el correo
+see_more_emails: Ver más correos
+to_load_more_emails_in_the_list: Para cargar más correos en la lista
+delete_emails: Eliminar correos
+do_you_want_to_delete_the_selected_emails: ¿Deseas eliminar los correos seleccionados?
+select_emails: Selecciona correos
+you_must_select_the_desired_emails_to_be_deleted: Debes seleccionar los correos que deseas eliminar
+to_open_this_content_in_a_new_window: Para abrir este contenido en una ventana nueva
+main_configuration: Configuración principal
+pop3_server_configuration: Configuración del servidor entrante
+smtp_server_configuration: Configuración del servidor saliente
+extra_configuration: Configuración adicional
+search_form: Formulario de búsqueda
+all_accounts: '[Todas las cuentas]'
+search_in_fields: Buscar en los campos
+all_fields: '[Todos los campos]'
+only_address: Solo direcciones
+only_subject: Solo asunto
+only_message: Solo mensaje
+common_dates: Fechas típicas
+all_dates: '[Todas las fechas]'
+today: Hoy
+yesterday: Ayer
+last_week: Última semana
+last_month: Último mes
+only_new: Solo nuevos
+only_wait: Solo pendientes
+only_spam: Solo SPAM
+hide_spam: Ocultar SPAM
+with_files: Con adjuntos
+without_files: Sin adjuntos
+only_inbox: Solo entrada
+only_outbox: Solo salida
+you_must_select_the_desired_emails_that_you_want_see_in_the_pdf_file: Debes seleccionar los correos que deseas ver en el archivo PDF
+you_must_select_the_desired_emails_that_you_want_download_in_the_pdf_file: Debes seleccionar los correos que deseas descargar en el archivo PDF
+mark: Marcar
+close_this_screen: Cerrar esta ventana
+do_you_want_to_close_this_screen: ¿Deseas cerrar esta ventana?
+to_see_the_email: Para ver el correo electrónico
+to_download_the_email: Para descargar el correo electrónico
+without_subject: Sin asunto
+until_date: Hasta la fecha
+mark_options: Marcar opciones
+error: Error
+sent: Enviado
+to_close_this_search_form: Para cerrar este formulario de búsqueda
+from_date: Fecha de inicio
+to_close_this_list: Para cerrar esta lista
+emails_app_client: Aplicación cliente de correo
+emails_accounts_app: Aplicación cuentas de correo

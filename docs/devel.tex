@@ -27,7 +27,7 @@
 
 
 \title{Devel Documentation}
-\author{SaltOS 4.0 r1952}
+\author{SaltOS 4.0 r1981}
 \begin{document}
 \date{April 2025}
 \maketitle
@@ -1128,6 +1128,52 @@ These targets trigger internal maintenance operations in SaltOS4, such as garbag
 \end{compactitem}
 
 \hypertarget{toc67}{}
+\subsubsection{checklangs}
+
+This rule runs the `scripts/langs.py` script to analyze missing or shared translation keys across apps.
+
+To run the tool, use:
+
+\begin{lstlisting}
+make langs lang=ca_ES
+\end{lstlisting}
+
+This will:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Analyze all `manifest.xml`, `.xml`, `.yaml`, and `.js` files in each app group
+\item[\color{myblue}$\bullet$] Check for missing translation keys in the given language
+\item[\color{myblue}$\bullet$] Detect if a missing key exists in another app group, which may suggest promoting it to the global translation file
+\end{compactitem}
+
+The `checklangs.py` script supports the following options:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] `lang`: \textbf{(required)} the language to check (e.g. `ca\_ES`)
+\item[\color{myblue}$\bullet$] `--filter=missing$|$present`:
+   \begin{compactitem}
+   \item[\color{myblue}$\bullet$] `missing`: show only missing keys (default if combined with `--csv`)
+   \item[\color{myblue}$\bullet$] `present`: show only keys that are already translated
+   \end{compactitem}
+\item[\color{myblue}$\bullet$] `--group=$<$group$>$`: restrict analysis to a specific group (e.g. `crm`, `emails`)
+\item[\color{myblue}$\bullet$] `--csv=$<$file.csv$>$`: output the results to the given CSV file
+\end{compactitem}
+
+Examples:
+
+Run a full scan of all apps and export results:
+
+\begin{lstlisting}
+make langs lang=ca_ES
+\end{lstlisting}
+
+Run manually and restrict to a single group:
+
+\begin{lstlisting}
+python scripts/checklangs.py ca_ES --group=crm --filter=missing --csv=missing_crm.csv
+\end{lstlisting}
+
+\hypertarget{toc68}{}
 \subsection{Script Directory Overview}
 
 This section describes the purpose of each script and configuration file in the `scripts/` directory.
@@ -1135,6 +1181,7 @@ This section describes the purpose of each script and configuration file in the 
 All descriptions below are based on the actual content of each file.
 
 \begin{itemize}
+\item[\color{myblue}$\bullet$] `checklangs.py`: Scans XML/YAML/JS files for translation keys and detects missing or duplicated strings across apps.
 \item[\color{myblue}$\bullet$] `checklibs.php`: Validates the current versions of required libraries by parsing `checklibs.txt`, performing curl requests, and comparing base64-encoded version strings. Updates the file if needed.
 \item[\color{myblue}$\bullet$] `checklibs.txt`: Contains a list of required libraries, with their URLs and expected version tags encoded in base64.
 \item[\color{myblue}$\bullet$] `debug.php`: Generates a debug-friendly version of the frontend using `debug.php`.

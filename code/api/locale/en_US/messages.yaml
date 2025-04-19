@@ -1,0 +1,99 @@
+#  ____        _ _    ___  ____    _  _    ___
+# / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+# \___ \ / _` | | __| | | \___ \  | || |_| | | |
+#  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+# |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+#
+# SaltOS: Framework to develop Rich Internet Applications
+# Copyright (C) 2007-2025 by Josep Sanz Campderrós
+# More information in https://www.saltos.org or info@saltos.org
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+close: Close
+to_close_this_window: To close this window
+cancel: Cancel
+response: Response
+there_is_no_more_data: There is no more data
+permission_denied: Permission denied
+unknown_request: Unknown request
+warning: Warning
+required_fields_not_found: Required fields not found
+search: Search
+to_search_in_all_contents: To search in all contents
+reset: Reset
+to_reset_the_search_filter: To reset the search filter
+delete_this_register: Delete this register?
+do_you_want_to_delete_this_register: Do you want to delete this register?
+"yes": "Yes"
+"no": "No"
+profile: Profile
+logout: Logout
+help: Help
+filename: Filename
+size: Size
+dashboard: Dashboard
+applications: Applications
+user: User
+name: Name
+enabled: Enabled
+password: Password
+days: Days
+create: Create
+edit: Edit
+save: Save
+no_changes_detected: No changes detected
+description: Description
+active: Active
+delete: Delete
+code: Code
+data_used_by_others_apps: This register is being used in other applications
+internal_table: internal table
+internal_tables: internal tables
+emails: Emails
+emails_accounts: Emails accounts
+customers: Customers
+invoices: Invoices
+types: Types
+tester: Tester
+users: Users
+groups: Groups
+customers#1: Customers
+invoices#1: Invoices
+types#1: Types
+tester#1: Tester
+open: Open
+data_not_found: Data not found
+load: Load
+update: Update
+rename: Rename
+old_filters: Saved filters
+manage_filters: Manage filters
+new_filter_name: New filter name
+filters_not_found: No filters found
+view: View
+download: Download
+navigator_is_online: The browser is online
+navigator_is_offline: The browser is offline
+browser_browser_platform_platform_and_a_device_type_device_type: browser $browser, platform $platform and device type $device_type
+city_region_country_using_ip_ip_and_network_of_isp: $city, $region, $country using IP $ip and network of $isp
+a_connection_has_been_detected_from_geoip_on_a_browser: A connection has been detected from $geoip using $browser.
+to_see_the_history_of_the_changes: To see the history of the changes
+information_of_this_register: Information of this register
+read: Read
+history: History
+show_and_hide_the_search_form: Show and hide the search form
+email: Email
+pdf_options: PDF options
+new: New

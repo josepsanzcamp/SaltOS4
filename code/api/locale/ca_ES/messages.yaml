@@ -36,7 +36,7 @@ reset: Netejar
 to_reset_the_search_filter: Per netejar el filtre
 delete_this_register: Esborra aquest registre???
 do_you_want_to_delete_this_register: Vols esborrar aquest registre???
-"yes": Si
+"yes": "Si"
 "no": "No"
 profile: Perfil
 logout: Sortir
@@ -89,3 +89,11 @@ navigator_is_offline: El navegador està fora de línia
 browser_browser_platform_platform_and_a_device_type_device_type: navegador $browser, plataforma $platform y dispositiu tipus $device_type
 city_region_country_using_ip_ip_and_network_of_isp: $city, $region, $country fent servir la IP $ip y la xarxa de $isp
 a_connection_has_been_detected_from_geoip_on_a_browser: S'ha detectat una connexió des de $geoip amb $browser.
+to_see_the_history_of_the_changes: Per veure l'historial dels canvis
+information_of_this_register: Informació d'aquest registre
+read: Llegir
+history: Historial
+show_and_hide_the_search_form: Mostrar i amagar el formulari de cerca
+email: Correu
+pdf_options: Opcions de PDF
+new: Nou

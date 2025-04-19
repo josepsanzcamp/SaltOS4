@@ -37,7 +37,7 @@
                 ELSE CONCAT(uc.email_name,' &lt;',uc.email_from,'&gt;')
                 END
             END `to`,
-            CASE WHEN subject='' THEN '".T('sinsubject')."' ELSE subject END subject,
+            CASE WHEN subject='' THEN '".T('Without subject')."' ELSE subject END subject,
             (SELECT REPLACE(GROUP_CONCAT(CONCAT(name,' (',
                 CASE
                     WHEN size&gt;=1073741824 THEN CONCAT(ROUND(size/1073741824.0,2),' Gbytes')
@@ -140,7 +140,7 @@
     </foreach>
     <eval>strpos($row['id'],',')===false</eval>
     <output>encode_bad_chars(execute_query("SELECT CONCAT('".T('Email')."',' ',id,' ',
-        CASE WHEN subject='' THEN '".T('sinsubject')."' ELSE subject END) subject
+        CASE WHEN subject='' THEN '".T('Without subject')."' ELSE subject END) subject
         FROM app_emails WHERE id IN ({$row['id']})")).'.pdf'</output>
     <eval>true</eval>
     <output>encode_bad_chars(T('Emails')).'.pdf'</output>

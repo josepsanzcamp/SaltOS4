@@ -53,7 +53,6 @@ high: Alta
 personal: Personal
 private: Privat
 confidential: Confidencial
-no_subject: (Sense assumpte)
 attachments: Adjunts
 view_attachment: Veure adjunt
 download_attachment: Descarregar adjunt
@@ -67,7 +66,6 @@ to_delete_this_email: Per esborrar aquest correu
 to_close_this_email: Per tancar aquest correu
 source: Font
 to_see_the_source_of_this_email: Per veure la font d'aquest correu
-new: Nou
 to_mark_this_email_as_new: Per marcar aquest correu com a nou
 wait: Pendent
 to_mark_this_email_as_wait: Per marcar aquest correu com a pendent
@@ -104,8 +102,8 @@ to_send_the_email: Per enviar el correu
 to_cancel_the_email: Per cancel·lar el correu
 see_more_emails: Veure mes correus
 to_load_more_emails_in_the_list: Per carregar mes correus al llistat
-delete_emails: Esborrar correus???
-do_you_want_to_delete_the_selected_emails: Voleu esborrar els correus seleccionats???
+delete_emails: Esborrar correus?
+do_you_want_to_delete_the_selected_emails: Voleu esborrar els correus seleccionats?
 select_emails: Seleccioneu correus
 you_must_select_the_desired_emails_to_be_deleted: Heu de seleccionar els correus que voleu suprimir
 to_open_this_content_in_a_new_window: Per obrir aquest contingut en una finestra nova
@@ -134,12 +132,20 @@ with_files: Amb adjunts
 without_files: Sense adjunts
 only_inbox: Només entrant
 only_outbox: Només sortint
-show_and_hide_the_search_form: Mostrar i amagar el formulari de cerca
 you_must_select_the_desired_emails_that_you_want_see_in_the_pdf_file: Heu de seleccionar els correus desitjats que voleu veure al fitxer PDF
 you_must_select_the_desired_emails_that_you_want_download_in_the_pdf_file: Heu de seleccionar els correus desitjats que voleu descarregar al fitxer PDF
 mark: Marcar
-close_this_screen: Tancar la finestra???
-do_you_want_to_close_this_screen: Voleu tancar aquesta finestra???
+close_this_screen: Tancar la finestra?
+do_you_want_to_close_this_screen: Voleu tancar aquesta finestra?
 to_see_the_email: Per veure el correu electrònic
 to_download_the_email: Per descarregar el correu electrònic
-email: Correu
+without_subject: Sense assumpte
+until_date: Fins la data
+mark_options: Marca les opcions
+error: Error
+sent: Enviat
+to_close_this_search_form: Per tancar aquest formulari de cerca
+from_date: Data d'inici
+to_close_this_list: Per tancar aquesta llista
+emails_app_client: Aplicació client de correu
+emails_accounts_app: Aplicació comptes de correu

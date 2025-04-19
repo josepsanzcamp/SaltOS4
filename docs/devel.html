@@ -25,7 +25,7 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <header>
 <hgroup>
 <h1>Devel Documentation</h1>
-<h2>SaltOS 4.0 r1952</h2>
+<h2>SaltOS 4.0 r1981</h2>
 <h3>April 2025</h3>
 </hgroup>
 </header>
@@ -190,8 +190,12 @@ pre{background-color:#e6e6e6;padding:5px 3px}
     <li><a href="#toc65">5.7. System Setup</a>
     </li>
     <li><a href="#toc66">5.8. System Actions</a>
+      <ul>
+      <li><a href="#toc67">5.8.1. checklangs</a>
+      </li>
+      </ul>
     </li>
-    <li><a href="#toc67">5.9. Script Directory Overview</a>
+    <li><a href="#toc68">5.9. Script Directory Overview</a>
     </li>
     </ul>
   </li>
@@ -1919,8 +1923,76 @@ These targets trigger internal maintenance operations in SaltOS4, such as garbag
 </li>
 </ul>
 
-</section>
 <section id="toc67">
+<h3>5.8.1. checklangs</h3>
+
+<p>
+This rule runs the `scripts/langs.py` script to analyze missing or shared translation keys across apps.
+</p>
+<p>
+To run the tool, use:
+</p>
+
+<pre>
+make langs lang=ca_ES
+</pre>
+
+<p>
+This will:
+</p>
+
+<ul>
+<li>Analyze all `manifest.xml`, `.xml`, `.yaml`, and `.js` files in each app group
+</li>
+<li>Check for missing translation keys in the given language
+</li>
+<li>Detect if a missing key exists in another app group, which may suggest promoting it to the global translation file
+</li>
+</ul>
+
+<p>
+The `checklangs.py` script supports the following options:
+</p>
+
+<ul>
+<li>`lang`: <strong>(required)</strong> the language to check (e.g. `ca_ES`)
+</li>
+<li>`--filter=missing|present`:
+   <ul>
+   <li>`missing`: show only missing keys (default if combined with `--csv`)
+   </li>
+   <li>`present`: show only keys that are already translated
+   </li>
+   </ul>
+</li>
+<li>`--group=&lt;group&gt;`: restrict analysis to a specific group (e.g. `crm`, `emails`)
+</li>
+<li>`--csv=&lt;file.csv&gt;`: output the results to the given CSV file
+</li>
+</ul>
+
+<p>
+Examples:
+</p>
+<p>
+Run a full scan of all apps and export results:
+</p>
+
+<pre>
+make langs lang=ca_ES
+</pre>
+
+<p>
+Run manually and restrict to a single group:
+</p>
+
+<pre>
+python scripts/checklangs.py ca_ES --group=crm --filter=missing --csv=missing_crm.csv
+</pre>
+
+</section>
+</section>
+<section id="toc68">
 <h2>5.9. Script Directory Overview</h2>
 
 <p>
@@ -1931,6 +2003,8 @@ All descriptions below are based on the actual content of each file.
 </p>
 
 <ul>
+<li>`checklangs.py`: Scans XML/YAML/JS files for translation keys and detects missing or duplicated strings across apps.
+</li>
 <li>`checklibs.php`: Validates the current versions of required libraries by parsing `checklibs.txt`, performing curl requests, and comparing base64-encoded version strings. Updates the file if needed.
 </li>
 <li>`checklibs.txt`: Contains a list of required libraries, with their URLs and expected version tags encoded in base64.

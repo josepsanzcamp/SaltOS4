@@ -29,6 +29,7 @@
     <profile>
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <gettext eval="true">T()</gettext>
         <title append="offcanvas">Profile</title>
         <layout append="right">
             <row auto="true" col_class="col-md-12 mb-3">

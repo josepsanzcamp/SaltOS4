@@ -246,3 +246,11 @@ setupinstall: setupclean setupmysql setupsqlite
 
 cron:
 	php code/api/index.php cron
+
+langs:
+	@if [ -z "$(lang)" ]; then \
+		echo "Missing 'lang' parameter."; \
+		echo "Usage: make langs lang=ca_ES"; \
+		exit 1; \
+	fi
+	python scripts/checklangs.py $(lang)

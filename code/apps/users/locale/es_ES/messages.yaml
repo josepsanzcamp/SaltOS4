@@ -23,5 +23,55 @@
 
 please_login: Iniciar sesión
 username: Usuario
-password: Clave
+password: Contraseña
 language: Idioma
+login: Acceso
+access_denied: Acceso denegado
+incorrect_user_or_password_try_again: Usuario o contraseña incorrectos, inténtalo de nuevo
+monday: Lunes
+tuesday: Martes
+wednesday: Miércoles
+thursday: Jueves
+friday: Viernes
+saturday: Sábado
+sunday: Domingo
+created_at: Creado en
+expires_at: Expira en
+passwords_history: Historial de contraseñas
+new_password_differs: La nueva contraseña es diferente
+new_password_strength_error: La nueva contraseña es demasiado débil
+new_password: Nueva contraseña
+retype_password: Repite la nueva contraseña
+group: Grupo
+start: Hora de inicio
+end: Hora de finalización
+groups: Grupos
+new_user: Nuevo usuario
+to_create_a_new_user: Para crear un nuevo usuario
+to_create_the_new_user: Para crear el nuevo usuario
+to_cancel_the_new_user: Para cancelar el nuevo usuario
+more_users: Más usuarios
+to_see_more_users_in_the_list: Para cargar más usuarios en la lista
+to_modify_this_user: Para modificar este usuario
+to_delete_this_user: Para eliminar este usuario
+to_save_the_user_changes: Para guardar los cambios del usuario
+to_cancel_the_user_modification: Para cancelar la modificación del usuario
+users: Usuarios
+new_group: Nuevo grupo
+to_create_a_new_group: Para crear un nuevo grupo
+to_create_the_new_group: Para crear el nuevo grupo
+to_cancel_the_new_group: Para cancelar el nuevo grupo
+more_groups: Más grupos
+to_see_more_groups_in_the_list: Para cargar más grupos en la lista
+to_modify_this_group: Para modificar este grupo
+to_delete_this_group: Para eliminar este grupo
+to_save_the_group_changes: Para guardar los cambios del grupo
+to_cancel_the_group_modification: Para cancelar la modificación del grupo
+newpass_not_found_or_void: Debes introducir la nueva contraseña
+renewpass_not_found_or_void: Debes repetir la nueva contraseña
+applications_and_permissions: Aplicaciones y permisos
+do_you_must_enter_the_new_passwords: Debes introducir las nuevas contraseñas
+login_used_by_other_user: Nombre de usuario usado por otro usuario
+name_used_by_other_user: Nombre usado por otro usuario
+code_used_by_other_group: Código usado por otro grupo
+name_used_by_other_group: Nombre usado por otro grupo

@@ -368,7 +368,7 @@
                 <text id="state_error" label="Error" color="danger"/>
                 <text id="subject" label="Subject"/>
                 <iframe id="body" label="Body" height="10em" srcdoc="Loading..."/>
-                <table id="files" label="Adjunts" col_class="col-12 mb-3" dropdown="false">
+                <table id="files" label="Attachments" col_class="col-12 mb-3" dropdown="false">
                     <header>
                         <name>Filename</name>
                         <size>Size</size>

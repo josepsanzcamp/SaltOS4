@@ -1,0 +1,77 @@
+#  ____        _ _    ___  ____    _  _    ___
+# / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+# \___ \ / _` | | __| | | \___ \  | || |_| | | |
+#  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+# |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+#
+# SaltOS: Framework to develop Rich Internet Applications
+# Copyright (C) 2007-2025 by Josep Sanz Campderrós
+# More information in https://www.saltos.org or info@saltos.org
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+please_login: Please login
+username: Username
+password: Password
+language: Language
+login: Login
+access_denied: Access denied
+incorrect_user_or_password_try_again: Incorrect username or password, please try again
+monday: Monday
+tuesday: Tuesday
+wednesday: Wednesday
+thursday: Thursday
+friday: Friday
+saturday: Saturday
+sunday: Sunday
+created_at: Created at
+expires_at: Expires at
+passwords_history: Password history
+new_password_differs: New password is different
+new_password_strength_error: New password is too weak
+new_password: New password
+retype_password: Retype new password
+group: Group
+start: Start time
+end: End time
+groups: Groups
+new_user: New user
+to_create_a_new_user: To create a new user
+to_create_the_new_user: To create the new user
+to_cancel_the_new_user: To cancel the new user
+more_users: More users
+to_see_more_users_in_the_list: To load more users in the list
+to_modify_this_user: To modify this user
+to_delete_this_user: To delete this user
+to_save_the_user_changes: To save the user changes
+to_cancel_the_user_modification: To cancel the user modification
+users: Users
+new_group: New group
+to_create_a_new_group: To create a new group
+to_create_the_new_group: To create the new group
+to_cancel_the_new_group: To cancel the new group
+more_groups: More groups
+to_see_more_groups_in_the_list: To load more groups in the list
+to_modify_this_group: To modify this group
+to_delete_this_group: To delete this group
+to_save_the_group_changes: To save the group changes
+to_cancel_the_group_modification: To cancel the group modification
+newpass_not_found_or_void: You must enter the new password
+renewpass_not_found_or_void: You must enter the password confirmation
+applications_and_permissions: Applications and permissions
+do_you_must_enter_the_new_passwords: You must enter the new passwords
+login_used_by_other_user: Login used by another user
+name_used_by_other_user: Name used by another user
+code_used_by_other_group: Code used by another group
+name_used_by_other_group: Name used by another group

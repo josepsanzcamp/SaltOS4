@@ -22,7 +22,78 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 close: Cerrar
+to_close_this_window: Para cerrar esta ventana
 cancel: Cancelar
+response: Respuesta
+there_is_no_more_data: No hay más datos
+permission_denied: Permiso denegado
+unknown_request: Petición desconocida
+warning: Advertencia
+required_fields_not_found: No se han encontrado campos obligatorios
+search: Buscar
+to_search_in_all_contents: Para buscar en todos los contenidos
+reset: Limpiar
+to_reset_the_search_filter: Para limpiar el filtro de búsqueda
+delete_this_register: ¿Eliminar este registro?
+do_you_want_to_delete_this_register: ¿Deseas eliminar este registro?
+"yes": "Sí"
+"no": "No"
+profile: Perfil
+logout: Salir
+help: Ayuda
+filename: Nombre del fichero
+size: Tamaño
+dashboard: Panel
+applications: Aplicaciones
+user: Usuario
+name: Nombre
+enabled: Activado
+password: Contraseña
+days: Días
+create: Crear
+edit: Modificar
+save: Guardar
+no_changes_detected: No se detectaron cambios
+description: Descripción
+active: Activo
+delete: Eliminar
+code: Código
+data_used_by_others_apps: Este registro está siendo utilizado en otras aplicaciones
+internal_table: tabla interna
+internal_tables: tablas internas
+emails: Correos
+emails_accounts: Cuentas de correo
+customers: Clientes
+invoices: Facturas
+types: Tipos
+tester: Tester
+users: Usuarios
+groups: Grupos
+customers#1: Clientes
+invoices#1: Facturas
+types#1: Tipos
+tester#1: Tester
+open: Abrir
+data_not_found: Datos no encontrados
+load: Cargar
+update: Actualizar
+rename: Renombrar
+old_filters: Filtros guardados
+manage_filters: Gestión de filtros
+new_filter_name: Nombre del nuevo filtro
+filters_not_found: No se encontró ningún filtro
+view: Ver
+download: Descargar
+navigator_is_online: El navegador está en línea
+navigator_is_offline: El navegador está fuera de línea
 browser_browser_platform_platform_and_a_device_type_device_type: navegador $browser, plataforma $platform y dispositivo tipo $device_type
 city_region_country_using_ip_ip_and_network_of_isp: $city, $region, $country usando la IP $ip y la red de $isp
 a_connection_has_been_detected_from_geoip_on_a_browser: Se ha detectado una conexión desde $geoip con $browser.
+to_see_the_history_of_the_changes: Para ver el historial de cambios
+information_of_this_register: Información de este registro
+read: Leer
+history: Historial
+show_and_hide_the_search_form: Mostrar y ocultar el formulario de búsqueda
+email: Correo
+pdf_options: Opciones de PDF
+new: Nuevo
