@@ -32,12 +32,12 @@ rejected: Rebutjat
 end_time: Hora de finalització
 title: Títol
 meetings: Reunions
-lead_status: Estat de la oportunitat
+lead_status: Estat oportunitat
 leads: Oportunitats
 customers_management: Gestió de clients
 meetings_management: Gestió de reunions
 types_of_customers: Tipus de clients
-quote_status: Estat del pressupost
+quote_status: Estat pressupost
 leads_management: Gestió d'oportunitats
 customer_relationship_management: Gestió de relació amb el client
 status_values_for_quotes: Valors d'estat per a pressupostos
@@ -45,7 +45,7 @@ quotes_management: Gestió de pressupostos
 status_values_for_leads: Valors d'estat per a oportunitats
 crm: CRM
 quotes: Pressupostos
-customer_types: Tipus de clients
+customer_types: Tipus clients
 quote: Pressupost
 to_download_the_quote: Descarregar el pressupost
 to_see_the_quote: Veure el pressupost
@@ -57,3 +57,19 @@ topics_rejected: Temes rebutjats
 topics_pending: Temes pendents
 topics_approved: Temes aprovats
 related_customer: Client relacionat
+customers: Clients
+cif: CIF
+customer: Client
+c_i_f: C.I.F.
+company_details: Dades de l'empresa
+customer_details: Dades del client
+concepts: Conceptes
+taxes: Impostos
+totals: Totals
+total: Total
+payment_method: Mètode de pagament
+price: Preu
+tax: Impost
+discount: Descompte
+base: Base
+quantity: Quantitat

@@ -43,6 +43,7 @@ declare(strict_types=1);
  * to do more open as the GNU gettext
  *
  * @text => The text that you want to translate
+ * @app  => Optional, to force gettext to use an specific app instead of current_app
  *
  * Notes:
  *
@@ -54,7 +55,7 @@ declare(strict_types=1);
  * dictionary intended to populate the clients gettext module and contains the
  * app, the lang and the locales for the app and lang.
  */
-function T($text = '')
+function T($text = '', $app = '')
 {
     static $cache = [];
     $lang = current_lang();
@@ -67,7 +68,9 @@ function T($text = '')
             }
         }
     }
-    $app = current_app();
+    if (!$app) {
+        $app = current_app();
+    }
     if ($app && !isset($cache[$app][$lang])) {
         $dir = detect_app_folder($app);
         $file = "apps/$dir/locale/$lang/messages.yaml";

@@ -86,7 +86,7 @@
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button label="Download" tooltip="To download the email" icon="save">
+                <button label="Download" tooltip="To download the pdf" icon="save">
                     <onclick ifeval="get_data('rest/5')" eval="true">"saltos.common.download('app/".get_data('rest/1').'/view/download/'.intval(get_data('rest/4')).'/'.intval(get_data('rest/5'))."')"</onclick>
                     <onclick ifeval="!get_data('rest/5')" eval="true">"saltos.common.download('app/".get_data('rest/1').'/view/download/'.check_ids(get_data('rest/4'))."')"</onclick>
                 </button>

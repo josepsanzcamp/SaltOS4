@@ -29,3 +29,57 @@ new_password: New password
 retype_password: Retype password
 to_open_this_help_in_an_external_window: To open this help in an external window
 to_close_this_help: To close this help
+update_the_password: Update the password
+to_download_the_pdf: To download the pdf
+to_see_the_pdf: To see the pdf
+files_log_application: Files log application
+widgets_application: Widgets application
+upload_log: Upload log
+tokens_log: Tokens log
+cron_log: Cron log
+files_log: Files log
+config_log: Config log
+tokens_log_application: Tokens log application
+push_log_application: Push log application
+push_log: Push log
+cron_log_application: Cron log application
+trash_log_application: Trash log application
+trash_log: Trash log
+upload_log_application: Upload log application
+widgets: Widgets
+config_log_application: Config log application
+data: Data
+new_note: New note
+delete_note: Delete note
+to_rename_the_selected_filter_with_the_new_name: To rename the selected filter with the new name
+to_create_a_new_filter: To create a new filter
+to_delete_the_selected_filter: To delete the selected filter
+to_update_the_selected_filter: To update the selected filter
+to_load_the_selected_filter: To load the selected filter
+download_file: Download file
+delete_file: Delete file
+files: Files
+view_file: View file
+new_files: New files
+hash: Hash
+file: File
+app: App
+old_id: Old ID
+uniq_id: Uniq ID
+reg_id: Reg ID
+message: Message
+timestamp: Timestamp
+key: Key
+user_agent: User Agent
+token: Token
+created: Created
+remote_addres: Remote Address
+updated: Updated
+expires: Expires
+stdout: STDOUT
+command: Command
+pid: PID
+stderr: STDERR
+stop: Stop
+out: Out
+err: Err

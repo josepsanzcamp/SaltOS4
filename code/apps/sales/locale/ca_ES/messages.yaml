@@ -26,18 +26,18 @@ client: Client
 hours: Hores
 workorder: Ordre de treball
 worker: Treballador
-workorders: Ordres de treball
+workorders: Ordres treball
 workorder_report: Informe d'ordre de treball
-payment_methods: Mètodes de pagament
+payment_methods: Mètodes pagament
 categories_of_products: Categories de productes
 types_of_products: Tipus de productes
 status_values_for_invoices: Valors d'estat per a factures
-invoice_status: Estat de la factura
+invoice_status: Estat factura
 products: Productes
-product_types: Tipus de productes
+product_types: Tipus productes
 taxes_management: Gestió d'impostos
 products_management: Gestió de productes
-product_categories: Categories de productes
+product_categories: Categories productes
 sales_billing_management: Gestió de vendes i facturació
 payment_methods_management: Gestió dels mètodes de pagament
 invoices_management: Gestió de factures
@@ -48,7 +48,6 @@ to_see_the_invoice: Per veure la factura
 closed: Tancada
 to_download_the_invoice: Per descarregar la factura
 due_date: Data de venciment
-value: Valor
 measure_unit: Unitat de mesura
 brand: Marca
 stock: Estoc
@@ -60,3 +59,23 @@ image_url: URL de la imatge
 category: Categoria
 barcode: Codi de barres
 max_stock: Estoc màxim
+cif: CIF
+customer: Client
+c_i_f: C.I.F.
+company_details: Dades de l'empresa
+customer_details: Dades del client
+concepts: Conceptes
+invoices: Factures
+types: Tipus
+taxes: Impostos
+totals: Totals
+price: Preu
+discount: Descompte
+payment_method: Mètode de pagament
+base: Base
+quantity: Quantitat
+invoice: Factura
+paid_date: Data de pagament
+paid: Pagada
+tax: Impost
+total: Total

@@ -48,7 +48,6 @@ to_see_the_invoice: To see the invoice
 closed: Closed
 to_download_the_invoice: To download the invoice
 due_date: Due date
-value: Value
 measure_unit: Measure unit
 brand: Brand
 stock: Stock
@@ -60,3 +59,23 @@ image_url: Image Url
 category: Category
 barcode: Barcode
 max_stock: Max stock
+cif: CIF
+customer: Customer
+c_i_f: C.I.F.
+company_details: Company details
+customer_details: Customer details
+concepts: Concepts
+invoices: Invoices
+types: Types
+taxes: Taxes
+totals: Totals
+price: Price
+discount: Discount
+payment_method: Payment method
+base: Base
+quantity: Quantity
+invoice: Invoice
+paid_date: Paid date
+paid: Paid
+tax: Tax
+total: Total

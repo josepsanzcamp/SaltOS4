@@ -73,3 +73,6 @@ login_used_by_other_user: Nombre de usuario usado por otro usuario
 name_used_by_other_user: Nombre usado por otro usuario
 code_used_by_other_group: Código usado por otro grupo
 name_used_by_other_group: Nombre usado por otro grupo
+users_management: Gestión de usuarios
+groups_management: Gestión de grupos
+login_screen: Pantalla de inicio de sesión

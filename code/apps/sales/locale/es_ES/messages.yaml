@@ -26,18 +26,18 @@ client: Cliente
 hours: Horas
 workorder: Orden de trabajo
 worker: Trabajador
-workorders: Órdenes de trabajo
+workorders: Órdenes trabajo
 workorder_report: Informe de orden de trabajo
-payment_methods: Métodos de pago
+payment_methods: Métodos pago
 categories_of_products: Categorías de productos
 types_of_products: Tipos de productos
 status_values_for_invoices: Valores de estado para facturas
-invoice_status: Estado de la factura
+invoice_status: Estado factura
 products: Productos
-product_types: Tipos de productos
+product_types: Tipos productos
 taxes_management: Gestión de impuestos
 products_management: Gestión de productos
-product_categories: Categorías de productos
+product_categories: Categorías productos
 sales_billing_management: Gestión de ventas y facturación
 payment_methods_management: Gestión de métodos de pago
 invoices_management: Gestión de facturas
@@ -48,7 +48,6 @@ to_see_the_invoice: Para ver la factura
 closed: Cerrada
 to_download_the_invoice: Para descargar la factura
 due_date: Fecha de vencimiento
-value: Valor
 measure_unit: Unidad de medida
 brand: Marca
 stock: Stock
@@ -60,3 +59,23 @@ image_url: URL de la imagen
 category: Categoría
 barcode: Código de barras
 max_stock: Stock máximo
+cif: CIF
+customer: Cliente
+c_i_f: C.I.F.
+company_details: Datos de la empresa
+customer_details: Datos del cliente
+concepts: Conceptos
+invoices: Facturas
+types: Tipos
+taxes: Impuestos
+totals: Totales
+price: Precio
+discount: Descuento
+payment_method: Método de pago
+base: Base
+quantity: Cantidad
+invoice: Factura
+paid_date: Fecha de pago
+paid: Pagada
+tax: Impuesto
+total: Total

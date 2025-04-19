@@ -37,7 +37,6 @@ from: De
 to: Per
 cc: CC
 bcc: BCC
-datetime: Data i hora
 subject: Assumpte
 body: Missatge
 request_confirmation_of_receipt: Sol·licitar confirmació de recepció
@@ -110,7 +109,6 @@ main_configuration: Configuració principal
 pop3_server_configuration: Configuració servidor entrant
 smtp_server_configuration: Configuració servidor sortint
 extra_configuration: Configuració adicional
-search_form: Formulari de cerca
 all_accounts: '[Tots els comptes]'
 search_in_fields: Cercar als camps
 all_fields: '[Tots els camps]'
@@ -134,17 +132,20 @@ only_outbox: Només sortint
 you_must_select_the_desired_emails_that_you_want_see_in_the_pdf_file: Heu de seleccionar els correus desitjats que voleu veure al fitxer PDF
 you_must_select_the_desired_emails_that_you_want_download_in_the_pdf_file: Heu de seleccionar els correus desitjats que voleu descarregar al fitxer PDF
 mark: Marcar
-close_this_screen: Tancar la finestra?
 do_you_want_to_close_this_screen: Voleu tancar aquesta finestra?
 to_see_the_email: Per veure el correu electrònic
-to_download_the_email: Per descarregar el correu electrònic
 without_subject: Sense assumpte
 until_date: Fins la data
 mark_options: Marca les opcions
 error: Error
 sent: Enviat
-to_close_this_search_form: Per tancar aquest formulari de cerca
 from_date: Data d'inici
-to_close_this_list: Per tancar aquesta llista
 emails_app_client: Aplicació client de correu
 emails_accounts_app: Aplicació comptes de correu
+uidl: UIDL
+tls: TLS
+ssl: SSL
+password: Contrasenya
+emails: Correus
+emails_accounts: Comptes de correu
+to_download_the_email: Per descarregar el correu electrònic

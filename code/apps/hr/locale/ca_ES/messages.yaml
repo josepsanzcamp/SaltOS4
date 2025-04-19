@@ -22,7 +22,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 hr: RRHH
-employee_types: Tipus de treballadors
+employee_types: Tipus treballadors
 departments: Departaments
 types_of_employees: Tipus de treballadors
 employees_management: Gestió de treballadors

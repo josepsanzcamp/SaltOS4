@@ -25,7 +25,7 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <header>
 <hgroup>
 <h1>Devel Documentation</h1>
-<h2>SaltOS 4.0 r1981</h2>
+<h2>SaltOS 4.0 r1984</h2>
 <h3>April 2025</h3>
 </hgroup>
 </header>
@@ -190,12 +190,10 @@ pre{background-color:#e6e6e6;padding:5px 3px}
     <li><a href="#toc65">5.7. System Setup</a>
     </li>
     <li><a href="#toc66">5.8. System Actions</a>
-      <ul>
-      <li><a href="#toc67">5.8.1. checklangs</a>
-      </li>
-      </ul>
     </li>
-    <li><a href="#toc68">5.9. Script Directory Overview</a>
+    <li><a href="#toc67">5.9. System langs</a>
+    </li>
+    <li><a href="#toc68">5.10. Script Directory Overview</a>
     </li>
     </ul>
   </li>
@@ -1923,18 +1921,19 @@ These targets trigger internal maintenance operations in SaltOS4, such as garbag
 </li>
 </ul>
 
+</section>
 <section id="toc67">
-<h3>5.8.1. checklangs</h3>
+<h2>5.9. System langs</h2>
 
 <p>
-This rule runs the `scripts/langs.py` script to analyze missing or shared translation keys across apps.
+This rule runs the `scripts/checklangs.py` script to validate the integrity of all translation files across languages and groups.
 </p>
 <p>
-To run the tool, use:
+To run the integrity check, use:
 </p>
 
 <pre>
-make langs lang=ca_ES
+make langs
 </pre>
 
 <p>
@@ -1942,32 +1941,38 @@ This will:
 </p>
 
 <ul>
-<li>Analyze all `manifest.xml`, `.xml`, `.yaml`, and `.js` files in each app group
+<li>Analyze all `manifest.xml`, `.xml`, `.yaml`, and `.js` files in every app group
 </li>
-<li>Check for missing translation keys in the given language
+<li>Load all `messages.yaml` files from `api/locale/` and `apps/&lt;group&gt;/locale/`
 </li>
-<li>Detect if a missing key exists in another app group, which may suggest promoting it to the global translation file
+<li>Detect duplicate translation keys:
+   <ul>
+   <li>Within the same file
+   </li>
+   <li>Between the global and any app group
+   </li>
+   <li>Between two groups (only with `--strict`)
+   </li>
+   </ul>
+</li>
+<li>Report any overlapping definitions that may need cleanup
 </li>
 </ul>
 
 <p>
-The `checklangs.py` script supports the following options:
+To perform additional per-language analysis manually, you can call the script with options:
 </p>
 
 <ul>
-<li>`lang`: <strong>(required)</strong> the language to check (e.g. `ca_ES`)
+<li>`--lang=&lt;lang&gt;`: language to check (e.g. `ca_ES`)
 </li>
-<li>`--filter=missing|present`:
-   <ul>
-   <li>`missing`: show only missing keys (default if combined with `--csv`)
-   </li>
-   <li>`present`: show only keys that are already translated
-   </li>
-   </ul>
+<li>`--filter=missing|present|missing_but_in_other_group`
 </li>
-<li>`--group=&lt;group&gt;`: restrict analysis to a specific group (e.g. `crm`, `emails`)
+<li>`--group=&lt;group&gt;`: restrict to a specific app group
 </li>
-<li>`--csv=&lt;file.csv&gt;`: output the results to the given CSV file
+<li>`--csv=&lt;file.csv&gt;`: export results to a CSV file
+</li>
+<li>`--strict`: detect duplicate keys across app groups
 </li>
 </ul>
 
@@ -1975,25 +1980,32 @@ The `checklangs.py` script supports the following options:
 Examples:
 </p>
 <p>
-Run a full scan of all apps and export results:
+Validate global integrity across all languages:
 </p>
 
 <pre>
-make langs lang=ca_ES
+make langs
 </pre>
 
 <p>
-Run manually and restrict to a single group:
+Run language-specific analysis manually:
 </p>
 
 <pre>
-python scripts/checklangs.py ca_ES --group=crm --filter=missing --csv=missing_crm.csv
+python scripts/checklangs.py --lang ca_ES --group=crm --filter=missing
+</pre>
+
+<p>
+Strict duplicate detection between groups:
+</p>
+
+<pre>
+python scripts/checklangs.py --strict
 </pre>
 
 </section>
-</section>
 <section id="toc68">
-<h2>5.9. Script Directory Overview</h2>
+<h2>5.10. Script Directory Overview</h2>
 
 <p>
 This section describes the purpose of each script and configuration file in the `scripts/` directory.

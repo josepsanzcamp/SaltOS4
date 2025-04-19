@@ -32,12 +32,12 @@ rejected: Rechazado
 end_time: Hora de finalización
 title: Título
 meetings: Reuniones
-lead_status: Estado de la oportunidad
+lead_status: Estado oportunidad
 leads: Oportunidades
 customers_management: Gestión de clientes
 meetings_management: Gestión de reuniones
 types_of_customers: Tipos de clientes
-quote_status: Estado del presupuesto
+quote_status: Estado presupuesto
 leads_management: Gestión de oportunidades
 customer_relationship_management: Gestión de relaciones con clientes
 status_values_for_quotes: Valores de estado para presupuestos
@@ -45,7 +45,7 @@ quotes_management: Gestión de presupuestos
 status_values_for_leads: Valores de estado para oportunidades
 crm: CRM
 quotes: Presupuestos
-customer_types: Tipos de clientes
+customer_types: Tipos clientes
 quote: Presupuesto
 to_download_the_quote: Descargar el presupuesto
 to_see_the_quote: Ver el presupuesto
@@ -57,3 +57,19 @@ topics_rejected: Temas rechazados
 topics_pending: Temas pendientes
 topics_approved: Temas aprobados
 related_customer: Cliente relacionado
+customers: Clientes
+cif: CIF
+customer: Cliente
+c_i_f: C.I.F.
+company_details: Datos de la empresa
+customer_details: Datos del cliente
+concepts: Conceptos
+taxes: Impuestos
+totals: Totales
+total: Total
+payment_method: Método de pago
+price: Precio
+tax: Impuesto
+discount: Descuento
+base: Base
+quantity: Cantidad

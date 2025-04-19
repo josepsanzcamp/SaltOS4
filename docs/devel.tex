@@ -27,7 +27,7 @@
 
 
 \title{Devel Documentation}
-\author{SaltOS 4.0 r1981}
+\author{SaltOS 4.0 r1984}
 \begin{document}
 \date{April 2025}
 \maketitle
@@ -1128,49 +1128,58 @@ These targets trigger internal maintenance operations in SaltOS4, such as garbag
 \end{compactitem}
 
 \hypertarget{toc67}{}
-\subsubsection{checklangs}
+\subsection{System langs}
 
-This rule runs the `scripts/langs.py` script to analyze missing or shared translation keys across apps.
+This rule runs the `scripts/checklangs.py` script to validate the integrity of all translation files across languages and groups.
 
-To run the tool, use:
+To run the integrity check, use:
 
 \begin{lstlisting}
-make langs lang=ca_ES
+make langs
 \end{lstlisting}
 
 This will:
 
 \begin{compactitem}
-\item[\color{myblue}$\bullet$] Analyze all `manifest.xml`, `.xml`, `.yaml`, and `.js` files in each app group
-\item[\color{myblue}$\bullet$] Check for missing translation keys in the given language
-\item[\color{myblue}$\bullet$] Detect if a missing key exists in another app group, which may suggest promoting it to the global translation file
+\item[\color{myblue}$\bullet$] Analyze all `manifest.xml`, `.xml`, `.yaml`, and `.js` files in every app group
+\item[\color{myblue}$\bullet$] Load all `messages.yaml` files from `api/locale/` and `apps/$<$group$>$/locale/`
+\item[\color{myblue}$\bullet$] Detect duplicate translation keys:
+   \begin{compactitem}
+   \item[\color{myblue}$\bullet$] Within the same file
+   \item[\color{myblue}$\bullet$] Between the global and any app group
+   \item[\color{myblue}$\bullet$] Between two groups (only with `--strict`)
+   \end{compactitem}
+\item[\color{myblue}$\bullet$] Report any overlapping definitions that may need cleanup
 \end{compactitem}
 
-The `checklangs.py` script supports the following options:
+To perform additional per-language analysis manually, you can call the script with options:
 
 \begin{compactitem}
-\item[\color{myblue}$\bullet$] `lang`: \textbf{(required)} the language to check (e.g. `ca\_ES`)
-\item[\color{myblue}$\bullet$] `--filter=missing$|$present`:
-   \begin{compactitem}
-   \item[\color{myblue}$\bullet$] `missing`: show only missing keys (default if combined with `--csv`)
-   \item[\color{myblue}$\bullet$] `present`: show only keys that are already translated
-   \end{compactitem}
-\item[\color{myblue}$\bullet$] `--group=$<$group$>$`: restrict analysis to a specific group (e.g. `crm`, `emails`)
-\item[\color{myblue}$\bullet$] `--csv=$<$file.csv$>$`: output the results to the given CSV file
+\item[\color{myblue}$\bullet$] `--lang=$<$lang$>$`: language to check (e.g. `ca\_ES`)
+\item[\color{myblue}$\bullet$] `--filter=missing$|$present$|$missing\_but\_in\_other\_group`
+\item[\color{myblue}$\bullet$] `--group=$<$group$>$`: restrict to a specific app group
+\item[\color{myblue}$\bullet$] `--csv=$<$file.csv$>$`: export results to a CSV file
+\item[\color{myblue}$\bullet$] `--strict`: detect duplicate keys across app groups
 \end{compactitem}
 
 Examples:
 
-Run a full scan of all apps and export results:
+Validate global integrity across all languages:
 
 \begin{lstlisting}
-make langs lang=ca_ES
+make langs
 \end{lstlisting}
 
-Run manually and restrict to a single group:
+Run language-specific analysis manually:
 
 \begin{lstlisting}
-python scripts/checklangs.py ca_ES --group=crm --filter=missing --csv=missing_crm.csv
+python scripts/checklangs.py --lang ca_ES --group=crm --filter=missing
+\end{lstlisting}
+
+Strict duplicate detection between groups:
+
+\begin{lstlisting}
+python scripts/checklangs.py --strict
 \end{lstlisting}
 
 \hypertarget{toc68}{}

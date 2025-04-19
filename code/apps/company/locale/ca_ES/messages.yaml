@@ -21,10 +21,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-company_info: Informació de l'empresa
+company_info: Empresa
 your_own_company_information: Informació de la teva pròpia empresa
 iban: IBAN
 additional_notes: Notes addicionals
 activity_code: Codi d'activitat
 swift_bic: SWIFT/BIC
 fiscal_regime: Règim fiscal
+cif: CIF

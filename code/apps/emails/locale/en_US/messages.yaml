@@ -37,7 +37,6 @@ from: From
 to: To
 cc: CC
 bcc: BCC
-datetime: Datetime
 subject: Subject
 body: Message
 request_confirmation_of_receipt: Request confirmation of receipt
@@ -110,7 +109,6 @@ main_configuration: Main configuration
 pop3_server_configuration: Incoming server configuration
 smtp_server_configuration: Outgoing server configuration
 extra_configuration: Extra configuration
-search_form: Search form
 all_accounts: '[All accounts]'
 search_in_fields: Search in fields
 all_fields: '[All fields]'
@@ -134,17 +132,20 @@ only_outbox: Only outbox
 you_must_select_the_desired_emails_that_you_want_see_in_the_pdf_file: You must select the desired emails that you want to see in the PDF file
 you_must_select_the_desired_emails_that_you_want_download_in_the_pdf_file: You must select the desired emails that you want to download in the PDF file
 mark: Mark
-close_this_screen: Close this window
 do_you_want_to_close_this_screen: Do you want to close this window?
 to_see_the_email: To see the email
-to_download_the_email: To download the email
 without_subject: Without subject
 until_date: Until date
 mark_options: Mark options
 error: Error
 sent: Sent
-to_close_this_search_form: To close this search form
 from_date: From date
-to_close_this_list: To close this list
 emails_app_client: Emails app client
 emails_accounts_app: Emails accounts app
+uidl: UIDL
+tls: TLS
+ssl: SSL
+password: Password
+emails: Emails
+emails_accounts: Emails accounts
+to_download_the_email: To download the email

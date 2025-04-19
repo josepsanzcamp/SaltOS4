@@ -73,3 +73,6 @@ login_used_by_other_user: Login used by another user
 name_used_by_other_user: Name used by another user
 code_used_by_other_group: Code used by another group
 name_used_by_other_group: Name used by another group
+users_management: Users management
+groups_management: Groups management
+login_screen: Login screen

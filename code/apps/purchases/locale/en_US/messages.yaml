@@ -36,3 +36,9 @@ order_date: Order date
 subtotal: Subtotal
 invoice_date: Invoice Date
 invoice_code: Invoice Code
+cif: CIF
+invoice: Invoice
+paid_date: Paid date
+paid: Paid
+tax: Tax
+total: Total

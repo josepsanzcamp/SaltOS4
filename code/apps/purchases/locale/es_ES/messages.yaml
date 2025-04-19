@@ -23,12 +23,12 @@
 
 suppliers_management: Gestión de proveedores
 purchases: Compras
-supplier_types: Tipos de proveedores
+supplier_types: Tipos proveedores
 status_values_for_purchases: Valores de estado para compras
 suppliers: Proveedores
 purchase: Compra
 types_of_suppliers: Tipos de proveedores
-purchase_status: Estado de la compra
+purchase_status: Estado compra
 purchase_management: Gestión de compras
 supplier_purchase_management: Gestión de proveedores y compras
 supplier: Proveedor
@@ -36,3 +36,9 @@ order_date: Fecha del pedido
 subtotal: Subtotal
 invoice_date: Fecha de la factura
 invoice_code: Código de la factura
+cif: CIF
+invoice: Factura
+paid_date: Fecha de pago
+paid: Pagada
+tax: Impuesto
+total: Total

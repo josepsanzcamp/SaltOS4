@@ -29,3 +29,57 @@ new_password: Nova contrasenya
 retype_password: Repeteixi contrasenya
 to_open_this_help_in_an_external_window: Per obrir aquesta ajuda en una finestra nova
 to_close_this_help: Per tancar aquesta ajuda
+update_the_password: Actualitzar la contrasenya
+to_download_the_pdf: Descarregar el PDF
+to_see_the_pdf: Veure el PDF
+files_log_application: Aplicació registre de fitxers
+widgets_application: Aplicació de ginys
+upload_log: Upload log
+tokens_log: Tokens log
+cron_log: Cron log
+files_log: Files log
+config_log: Configuració
+tokens_log_application: Aplicació registre de tokens
+push_log_application: Aplicació registre de push
+push_log: Push log
+cron_log_application: Aplicació registre del cron
+trash_log_application: Aplicació registre de paperera
+trash_log: Trash log
+upload_log_application: Aplicació registre de pujades
+widgets: Ginys
+config_log_application: Aplicació registre de configuració
+data: Dades
+new_note: Nova nota
+delete_note: Esborrar nota
+to_rename_the_selected_filter_with_the_new_name: Reanomenar el filtre seleccionat amb el nou nom
+to_create_a_new_filter: Crear un nou filtre
+to_delete_the_selected_filter: Esborrar el filtre seleccionat
+to_update_the_selected_filter: Actualitzar el filtre seleccionat
+to_load_the_selected_filter: Carregar el filtre seleccionat
+download_file: Descarregar fitxer
+delete_file: Esborrar fitxer
+files: Fitxers
+view_file: Veure fitxer
+new_files: Nous fitxers
+hash: Hash
+file: Fitxer
+app: Aplicació
+old_id: ID antic
+uniq_id: ID únic
+reg_id: ID registre
+message: Missatge
+timestamp: Marca temporal
+key: Clau
+user_agent: Agent d'usuari
+token: Testimoni
+created: Creat
+remote_addres: Adreça remota
+updated: Actualitzat
+expires: Expira
+stdout: STDOUT
+command: Comanda
+pid: PID
+stderr: STDERR
+stop: Aturar
+out: Sortida
+err: Error

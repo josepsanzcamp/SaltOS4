@@ -22,7 +22,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 hr: RRHH
-employee_types: Tipos de empleados
+employee_types: Tipos empleados
 departments: Departamentos
 types_of_employees: Tipos de empleados
 employees_management: Gestión de empleados

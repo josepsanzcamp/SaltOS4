@@ -29,3 +29,57 @@ new_password: Nueva contraseña
 retype_password: Repite la contraseña
 to_open_this_help_in_an_external_window: Para abrir esta ayuda en una ventana externa
 to_close_this_help: Para cerrar esta ayuda
+update_the_password: Actualizar la contraseña
+to_download_the_pdf: Descargar el PDF
+to_see_the_pdf: Ver el PDF
+files_log_application: Aplicación de registro de archivos
+widgets_application: Aplicación de widgets
+upload_log: Upload log
+tokens_log: Tokens log
+cron_log: Cron log
+files_log: Files log
+config_log: Configuración
+tokens_log_application: Aplicación de registro de tokens
+push_log_application: Aplicación de registro push
+push_log: Push log
+cron_log_application: Aplicación de registro de cron
+trash_log_application: Aplicación de registro de papelera
+trash_log: Trash log
+upload_log_application: Aplicación de registro de subidas
+widgets: Widgets
+config_log_application: Aplicación de registro de configuración
+data: Datos
+new_note: Nueva nota
+delete_note: Eliminar nota
+to_rename_the_selected_filter_with_the_new_name: Renombrar el filtro seleccionado con el nuevo nombre
+to_create_a_new_filter: Crear un nuevo filtro
+to_delete_the_selected_filter: Eliminar el filtro seleccionado
+to_update_the_selected_filter: Actualizar el filtro seleccionado
+to_load_the_selected_filter: Cargar el filtro seleccionado
+download_file: Descargar archivo
+delete_file: Eliminar archivo
+files: Archivos
+view_file: Ver archivo
+new_files: Nuevos archivos
+hash: Hash
+file: Archivo
+app: Aplicación
+old_id: ID antiguo
+uniq_id: ID único
+reg_id: ID de registro
+message: Mensaje
+timestamp: Marca de tiempo
+key: Clave
+user_agent: Agente de usuario
+token: Token
+created: Creado
+remote_addres: Dirección remota
+updated: Actualizado
+expires: Expira
+stdout: STDOUT
+command: Comando
+pid: PID
+stderr: STDERR
+stop: Detener
+out: Salida
+err: Error

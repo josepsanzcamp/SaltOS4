@@ -100,8 +100,8 @@ function __dashboard_helper()
             col_class="col-12 mb-3" color="{$color}"/>';
         $xml = str_replace_assoc([
             '{$code}' => $mapping[$group]['code'],
-            '{$name}' => $mapping[$group]['name'],
-            '{$description}' => str_replace('&', '&amp;', $mapping[$group]['description']),
+            '{$name}' => T($mapping[$group]['name'], $rows[0]['code']),
+            '{$description}' => str_replace('&', '&amp;', T($mapping[$group]['description'], $rows[0]['code'])),
             '{$color}' => $mapping[$group]['color'],
         ], $xml);
         $array = xml2array($xml);
@@ -112,8 +112,8 @@ function __dashboard_helper()
                 tooltip="{$description}" color="{$color}"/>';
             $xml = str_replace_assoc([
                 '{$code}' => $row['code'],
-                '{$name}' => $row['name'],
-                '{$description}' => $row['description'],
+                '{$name}' => T($row['name'], $row['code']),
+                '{$description}' => T($row['description'], $row['code']),
                 '{$color}' => $row['color'],
                 '{$opacity}' => $row['opacity'],
             ], $xml);
@@ -227,7 +227,7 @@ function __navbar_helper()
         $xml = '<item label="{$name}" disabled="true"/>';
         $xml = str_replace_assoc([
             '{$code}' => $mapping[$group]['code'],
-            '{$name}' => $mapping[$group]['name'],
+            '{$name}' => T($mapping[$group]['name'], $rows[0]['code']),
         ], $xml);
         $array = xml2array($xml);
         set_array($items, 'item', $array['item']);
@@ -236,7 +236,7 @@ function __navbar_helper()
             $xml = '<item label="{$name}" onclick="saltos.window.open(\'app/{$code}\')"/>';
             $xml = str_replace_assoc([
                 '{$code}' => $row['code'],
-                '{$name}' => $row['name'],
+                '{$name}' => T($row['name'], $row['code']),
             ], $xml);
             $array = xml2array($xml);
             set_array($items, 'item', $array['item']);

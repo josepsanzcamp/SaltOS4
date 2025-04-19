@@ -23,12 +23,12 @@
 
 suppliers_management: Gestió de proveïdors
 purchases: Compres
-supplier_types: Tipus de proveïdors
+supplier_types: Tipus proveïdors
 status_values_for_purchases: Valors d'estat per a compres
 suppliers: Proveïdors
 purchase: Compra
 types_of_suppliers: Tipus de proveïdors
-purchase_status: Estat de la compra
+purchase_status: Estat compra
 purchase_management: Gestió de compres
 supplier_purchase_management: Gestió de proveïdors i compres
 supplier: Proveïdor
@@ -36,3 +36,9 @@ order_date: Data de la comanda
 subtotal: Subtotal
 invoice_date: Data de la factura
 invoice_code: Codi de la factura
+cif: CIF
+invoice: Factura
+paid_date: Data de pagament
+paid: Pagada
+tax: Impost
+total: Total

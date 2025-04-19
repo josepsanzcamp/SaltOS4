@@ -37,7 +37,6 @@ from: De
 to: Para
 cc: CC
 bcc: CCO
-datetime: Fecha y hora
 subject: Asunto
 body: Mensaje
 request_confirmation_of_receipt: Solicitar confirmación de recepción
@@ -110,7 +109,6 @@ main_configuration: Configuración principal
 pop3_server_configuration: Configuración del servidor entrante
 smtp_server_configuration: Configuración del servidor saliente
 extra_configuration: Configuración adicional
-search_form: Formulario de búsqueda
 all_accounts: '[Todas las cuentas]'
 search_in_fields: Buscar en los campos
 all_fields: '[Todos los campos]'
@@ -134,17 +132,20 @@ only_outbox: Solo salida
 you_must_select_the_desired_emails_that_you_want_see_in_the_pdf_file: Debes seleccionar los correos que deseas ver en el archivo PDF
 you_must_select_the_desired_emails_that_you_want_download_in_the_pdf_file: Debes seleccionar los correos que deseas descargar en el archivo PDF
 mark: Marcar
-close_this_screen: Cerrar esta ventana
 do_you_want_to_close_this_screen: ¿Deseas cerrar esta ventana?
 to_see_the_email: Para ver el correo electrónico
-to_download_the_email: Para descargar el correo electrónico
 without_subject: Sin asunto
 until_date: Hasta la fecha
 mark_options: Marcar opciones
 error: Error
 sent: Enviado
-to_close_this_search_form: Para cerrar este formulario de búsqueda
 from_date: Fecha de inicio
-to_close_this_list: Para cerrar esta lista
 emails_app_client: Aplicación cliente de correo
 emails_accounts_app: Aplicación cuentas de correo
+uidl: UIDL
+tls: TLS
+ssl: SSL
+password: Contraseña
+emails: Correos
+emails_accounts: Cuentas de correo
+to_download_the_email: Para descargar el correo electrónico
