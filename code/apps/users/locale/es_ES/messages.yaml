@@ -43,8 +43,6 @@ new_password_strength_error: La nueva contraseña es demasiado débil
 new_password: Nueva contraseña
 retype_password: Repite la nueva contraseña
 group: Grupo
-start: Hora de inicio
-end: Hora de finalización
 groups: Grupos
 new_user: Nuevo usuario
 to_create_a_new_user: Para crear un nuevo usuario

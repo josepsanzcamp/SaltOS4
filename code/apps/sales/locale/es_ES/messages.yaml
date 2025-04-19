@@ -1,0 +1,62 @@
+#  ____        _ _    ___  ____    _  _    ___
+# / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+# \___ \ / _` | | __| | | \___ \  | || |_| | | |
+#  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+# |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+#
+# SaltOS: Framework to develop Rich Internet Applications
+# Copyright (C) 2007-2025 by Josep Sanz Campderrós
+# More information in https://www.saltos.org or info@saltos.org
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+id: Identificador
+client: Cliente
+hours: Horas
+workorder: Orden de trabajo
+worker: Trabajador
+workorders: Órdenes de trabajo
+workorder_report: Informe de orden de trabajo
+payment_methods: Métodos de pago
+categories_of_products: Categorías de productos
+types_of_products: Tipos de productos
+status_values_for_invoices: Valores de estado para facturas
+invoice_status: Estado de la factura
+products: Productos
+product_types: Tipos de productos
+taxes_management: Gestión de impuestos
+products_management: Gestión de productos
+product_categories: Categorías de productos
+sales_billing_management: Gestión de ventas y facturación
+payment_methods_management: Gestión de métodos de pago
+invoices_management: Gestión de facturas
+sales: Ventas
+workorders_management: Gestión de órdenes de trabajo
+proforma: Proforma
+to_see_the_invoice: Para ver la factura
+closed: Cerrada
+to_download_the_invoice: Para descargar la factura
+due_date: Fecha de vencimiento
+value: Valor
+measure_unit: Unidad de medida
+brand: Marca
+stock: Stock
+cost: Coste
+margin: Margen
+model: Modelo
+min_stock: Stock mínimo
+image_url: URL de la imagen
+category: Categoría
+barcode: Código de barras
+max_stock: Stock máximo

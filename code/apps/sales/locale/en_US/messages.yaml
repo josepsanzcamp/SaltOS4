@@ -21,39 +21,42 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-start_time: Start Time
-agenda: Agenda
-pending: Pending
-meeting_report: Meeting Report
-approved: Approved
-meeting: Meeting
-participants: Participants
-rejected: Rejected
-end_time: End Time
-title: Title
-meetings: Meetings
-lead_status: Lead Status
-leads: Leads
-customers_management: Customers management
-meetings_management: Meetings management
-types_of_customers: Types of customers
-quote_status: Quote Status
-leads_management: Leads management
-customer_relationship_management: Customer Relationship Management
-status_values_for_quotes: Status values for quotes
-quotes_management: Quotes management
-status_values_for_leads: Status values for leads
-crm: CRM
-quotes: Quotes
-customer_types: Customer Types
-quote: Quote
-to_download_the_quote: To download the quote
-to_see_the_quote: To see the quote
-valid_until: Valid until
-contact: Contact
-assigned_to: Assigned To
-source: Source
-topics_rejected: Topics Rejected
-topics_pending: Topics Pending
-topics_approved: Topics Approved
-related_customer: Related Customer
+id: Id
+client: Client
+hours: Hours
+workorder: Workorder
+worker: Worker
+workorders: Workorders
+workorder_report: Workorder Report
+payment_methods: Payment methods
+categories_of_products: Categories of products
+types_of_products: Types of products
+status_values_for_invoices: Status values for invoices
+invoice_status: Invoice Status
+products: Products
+product_types: Product Types
+taxes_management: Taxes management
+products_management: Products management
+product_categories: Product Categories
+sales_billing_management: Sales & Billing Management
+payment_methods_management: Payment methods management
+invoices_management: Invoices management
+sales: Sales
+workorders_management: Workorders management
+proforma: Proforma
+to_see_the_invoice: To see the invoice
+closed: Closed
+to_download_the_invoice: To download the invoice
+due_date: Due date
+value: Value
+measure_unit: Measure unit
+brand: Brand
+stock: Stock
+cost: Cost
+margin: Margin
+model: Model
+min_stock: Min stock
+image_url: Image Url
+category: Category
+barcode: Barcode
+max_stock: Max stock

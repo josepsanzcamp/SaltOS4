@@ -21,39 +21,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-start_time: Start Time
-agenda: Agenda
-pending: Pending
-meeting_report: Meeting Report
-approved: Approved
-meeting: Meeting
-participants: Participants
-rejected: Rejected
-end_time: End Time
-title: Title
-meetings: Meetings
-lead_status: Lead Status
-leads: Leads
-customers_management: Customers management
-meetings_management: Meetings management
-types_of_customers: Types of customers
-quote_status: Quote Status
-leads_management: Leads management
-customer_relationship_management: Customer Relationship Management
-status_values_for_quotes: Status values for quotes
-quotes_management: Quotes management
-status_values_for_leads: Status values for leads
-crm: CRM
-quotes: Quotes
-customer_types: Customer Types
-quote: Quote
-to_download_the_quote: To download the quote
-to_see_the_quote: To see the quote
-valid_until: Valid until
-contact: Contact
-assigned_to: Assigned To
-source: Source
-topics_rejected: Topics Rejected
-topics_pending: Topics Pending
-topics_approved: Topics Approved
-related_customer: Related Customer
+dashboard_widgets: Widgets del panel
+dashboard_app: Aplicación del panel
+dashboard_widgets_configuration_app: Aplicación de configuración de widgets del panel
+to_configure_the_dashboard_widgets: Para configurar los widgets del panel

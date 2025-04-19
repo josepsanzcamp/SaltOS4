@@ -87,7 +87,6 @@ port: Port
 extra: Extra
 disabled: Desactivat
 privated: Privat
-default: Per defecte
 add_me_to_cc: Afegeix-me a CC
 confirm_reading_to: Confirmació de lectura
 more_emails_accounts: Veure mes correus

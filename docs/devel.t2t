@@ -1000,6 +1000,7 @@ All descriptions below are based on the actual content of each file.
 - `makepdf.php`: Converts a `.t2t` documentation file into a `.pdf` using LaTeX.
 - `md5sum.php`: Generates an MD5 checksum of one or more files.
 - `migrate_v3_to_v4.php`: Migrates a SaltOS system from version 3 to version 4, adapting data and file structure.
+- `movelangs.py`: Moves selected translation keys from a group-specific messages.yaml to the global one without altering file structure.
 - `phpcs.xml`: Configuration file for PHP_CodeSniffer to enforce PHP coding standards.
 - `phpstan.neon`: Configuration file for PHPStan, specifying analysis rules and paths for static code analysis.
 - `phpunit.xml`: Configuration file for PHPUnit, specifying test directories, filters, and bootstrap files.

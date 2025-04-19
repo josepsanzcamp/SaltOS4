@@ -97,3 +97,52 @@ show_and_hide_the_search_form: Mostrar y ocultar el formulario de búsqueda
 email: Correo
 pdf_options: Opciones de PDF
 new: Nuevo
+default: Por defecto
+tax: Impuesto
+type: Tipo
+customer: Cliente
+location: Ubicación
+pdf: PDF
+info: Información
+to_create_a_new_register: Crear un nuevo registro
+totals: Totales
+to_edit_this_register: Editar este registro
+to_delete_the_register: Eliminar el registro
+to_save_the_changes_of_this_register: Guardar los cambios de este registro
+to_close_the_detail_of_this_register: Cerrar el detalle de este registro
+notes: Notas
+load_more: Cargar más
+zip: Código postal
+to_cancel_the_register_modification: Cancelar la modificación del registro
+cif: CIF
+to_view_the_register: Ver el registro
+total: Total
+taxes: Impuestos
+status: Estado
+to_edit_the_register: Editar el registro
+city: Ciudad
+payment_method: Método de pago
+to_load_more_registers_to_the_list: Cargar más registros en la lista
+to_cancel_the_new_register_creation: Cancelar la creación del nuevo registro
+log: Registro
+country: País
+date: Fecha
+address: Dirección
+concepts: Conceptos
+to_create_the_new_register: Crear el nuevo registro
+province_state: Provincia / Estado
+to_delete_this_register: Eliminar este registro
+discount: Descuento
+quantity: Cantidad
+c_i_f: C.I.F.
+price: Precio
+company_details: Datos de la empresa
+customer_details: Datos del cliente
+base: Base
+phone: Teléfono
+start: Hora de inicio
+end: Hora de finalización
+website: Sitio web
+invoice: Factura
+paid_date: Fecha de pago
+paid: Pagada

@@ -1,0 +1,62 @@
+#  ____        _ _    ___  ____    _  _    ___
+# / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+# \___ \ / _` | | __| | | \___ \  | || |_| | | |
+#  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+# |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+#
+# SaltOS: Framework to develop Rich Internet Applications
+# Copyright (C) 2007-2025 by Josep Sanz Campderrós
+# More information in https://www.saltos.org or info@saltos.org
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+id: Identificador
+client: Client
+hours: Hores
+workorder: Ordre de treball
+worker: Treballador
+workorders: Ordres de treball
+workorder_report: Informe d'ordre de treball
+payment_methods: Mètodes de pagament
+categories_of_products: Categories de productes
+types_of_products: Tipus de productes
+status_values_for_invoices: Valors d'estat per a factures
+invoice_status: Estat de la factura
+products: Productes
+product_types: Tipus de productes
+taxes_management: Gestió d'impostos
+products_management: Gestió de productes
+product_categories: Categories de productes
+sales_billing_management: Gestió de vendes i facturació
+payment_methods_management: Gestió dels mètodes de pagament
+invoices_management: Gestió de factures
+sales: Vendes
+workorders_management: Gestió d'ordres de treball
+proforma: Proforma
+to_see_the_invoice: Per veure la factura
+closed: Tancada
+to_download_the_invoice: Per descarregar la factura
+due_date: Data de venciment
+value: Valor
+measure_unit: Unitat de mesura
+brand: Marca
+stock: Estoc
+cost: Cost
+margin: Marge
+model: Model
+min_stock: Estoc mínim
+image_url: URL de la imatge
+category: Categoria
+barcode: Codi de barres
+max_stock: Estoc màxim

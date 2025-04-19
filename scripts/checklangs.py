@@ -21,7 +21,7 @@ API_LOCALE_PATH = os.path.join(ROOT, "code", "api", "locale")
 import argparse
 parser = argparse.ArgumentParser(description="Check missing translations")
 parser.add_argument("lang", help="Idioma, por ejemplo ca_ES")
-parser.add_argument("--filter", choices=["missing", "present"], help="Filtrar solo claves faltantes o presentes")
+parser.add_argument("--filter", choices=["missing", "present", "missing_but_in_other_group"], help="Filtrar solo claves faltantes, presentes o compartidas desde otro grupo")
 parser.add_argument("--group", help="Analizar solo un grupo de apps (crm, emails, sales, etc)")
 parser.add_argument("--csv", help="Ruta del archivo CSV de salida")
 args = parser.parse_args()
@@ -197,7 +197,9 @@ for group in os.listdir(APPS_PATH):
                 key = text_to_key(text)
                 missing = key not in combined_messages
                 found_elsewhere = any(key in m for g, m in other_groups_messages.items()) if missing else False
-                if (FILTER == "missing" and not missing) or (FILTER == "present" and missing):
+                if ((FILTER == "missing" and not missing) or
+                    (FILTER == "present" and missing) or
+                    (FILTER == "missing_but_in_other_group" and (not missing or not found_elsewhere))):
                     continue
                 status = "missing" if missing else "present"
                 if missing and found_elsewhere:
@@ -212,7 +214,9 @@ for group in os.listdir(APPS_PATH):
                 key = text_to_key(text)
                 missing = key not in combined_messages
                 found_elsewhere = any(key in m for g, m in other_groups_messages.items()) if missing else False
-                if (FILTER == "missing" and not missing) or (FILTER == "present" and missing):
+                if ((FILTER == "missing" and not missing) or
+                    (FILTER == "present" and missing) or
+                    (FILTER == "missing_but_in_other_group" and (not missing or not found_elsewhere))):
                     continue
                 status = "missing" if missing else "present"
                 if missing and found_elsewhere:
@@ -230,7 +234,9 @@ for group in os.listdir(APPS_PATH):
                 key = text_to_key(text)
                 missing = key not in combined_messages
                 found_elsewhere = any(key in m for g, m in other_groups_messages.items()) if missing else False
-                if (FILTER == "missing" and not missing) or (FILTER == "present" and missing):
+                if ((FILTER == "missing" and not missing) or
+                    (FILTER == "present" and missing) or
+                    (FILTER == "missing_but_in_other_group" and (not missing or not found_elsewhere))):
                     continue
                 status = "missing" if missing else "present"
                 if missing and found_elsewhere:

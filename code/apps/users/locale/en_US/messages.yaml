@@ -43,8 +43,6 @@ new_password_strength_error: New password is too weak
 new_password: New password
 retype_password: Retype new password
 group: Group
-start: Start time
-end: End time
 groups: Groups
 new_user: New user
 to_create_a_new_user: To create a new user

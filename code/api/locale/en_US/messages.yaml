@@ -97,3 +97,52 @@ show_and_hide_the_search_form: Show and hide the search form
 email: Email
 pdf_options: PDF options
 new: New
+default: Default
+tax: Tax
+type: Type
+customer: Customer
+location: Location
+pdf: PDF
+info: Info
+to_create_a_new_register: To create a new register
+totals: Totals
+to_edit_this_register: To edit this register
+to_delete_the_register: To delete the register
+to_save_the_changes_of_this_register: To save the changes of this registe
+to_close_the_detail_of_this_register: To close the detail of this registe
+notes: Notes
+load_more: Load more
+zip: Zip
+to_cancel_the_register_modification: To cancel the register modification
+cif: CIF
+to_view_the_register: To view the register
+total: Total
+taxes: Taxes
+status: Status
+to_edit_the_register: Edit the register
+city: City
+payment_method: Payment method
+to_load_more_registers_to_the_list: To load more registers to the list
+to_cancel_the_new_register_creation: To cancel the new register creation
+log: Log
+country: Country
+date: Date
+address: Address
+concepts: Concepts
+to_create_the_new_register: To create the new register
+province_state: Province / State
+to_delete_this_register: To delete this register
+discount: Discount
+quantity: Quantity
+c_i_f: C.I.F.
+price: Price
+company_details: Company details
+customer_details: Customer details
+base: Base
+phone: Phone
+start: Start time
+end: End time
+website: Website
+invoice: Invoice
+paid_date: Paid date
+paid: Paid

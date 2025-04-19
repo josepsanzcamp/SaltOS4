@@ -43,8 +43,6 @@ new_password_strength_error: La nova contrasenya és massa senzilla
 new_password: Nova clau
 retype_password: Torni a entrar la nova clau
 group: Grup
-start: Hora inici
-end: Hora final
 groups: Grups
 new_user: Nou usuari
 to_create_a_new_user: Per crear un nou usuari

@@ -97,3 +97,52 @@ show_and_hide_the_search_form: Mostrar i amagar el formulari de cerca
 email: Correu
 pdf_options: Opcions de PDF
 new: Nou
+default: Per defecte
+tax: Impost
+type: Tipus
+customer: Client
+location: Ubicació
+pdf: PDF
+info: Informació
+to_create_a_new_register: Crear un nou registre
+totals: Totals
+to_edit_this_register: Editar aquest registre
+to_delete_the_register: Eliminar el registre
+to_save_the_changes_of_this_register: Desar els canvis d'aquest registre
+to_close_the_detail_of_this_register: Tancar el detall d'aquest registre
+notes: Notes
+load_more: Carregar més
+zip: Codi postal
+to_cancel_the_register_modification: Cancel·lar la modificació del registre
+cif: CIF
+to_view_the_register: Veure el registre
+total: Total
+taxes: Impostos
+status: Estat
+to_edit_the_register: Editar el registre
+city: Ciutat
+payment_method: Mètode de pagament
+to_load_more_registers_to_the_list: Carregar més registres a la llista
+to_cancel_the_new_register_creation: Cancel·lar la creació del nou registre
+log: Registre
+country: País
+date: Data
+address: Adreça
+concepts: Conceptes
+to_create_the_new_register: Crear el nou registre
+province_state: Província / Estat
+to_delete_this_register: Eliminar aquest registre
+discount: Descompte
+quantity: Quantitat
+c_i_f: C.I.F.
+price: Preu
+company_details: Dades de l'empresa
+customer_details: Dades del client
+base: Base
+phone: Telèfon
+start: Hora inici
+end: Hora final
+website: Lloc web
+invoice: Factura
+paid_date: Data de pagament
+paid: Pagada

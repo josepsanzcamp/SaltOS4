@@ -24,10 +24,8 @@
 start_time: Hora d'inici
 agenda: Agenda
 pending: Pendent
-customer: Client
 meeting_report: Informe de reunió
 approved: Aprovat
-location: Ubicació
 meeting: Reunió
 participants: Participants
 rejected: Rebutjat
@@ -48,51 +46,10 @@ status_values_for_leads: Valors d'estat per a oportunitats
 crm: CRM
 quotes: Pressupostos
 customer_types: Tipus de clients
-pdf: PDF
 quote: Pressupost
-info: Informació
-to_create_a_new_register: Crear un nou registre
-totals: Totals
-to_edit_this_register: Editar aquest registre
 to_download_the_quote: Descarregar el pressupost
-to_delete_the_register: Eliminar el registre
-to_save_the_changes_of_this_register: Desar els canvis d'aquest registre
-to_close_the_detail_of_this_register: Tancar el detall d'aquest registre
-notes: Notes
 to_see_the_quote: Veure el pressupost
-load_more: Carregar més
-zip: Codi postal
-to_cancel_the_register_modification: Cancel·lar la modificació del registre
-cif: CIF
-to_view_the_register: Veure el registre
-total: Total
-taxes: Impostos
-status: Estat
-to_edit_the_register: Editar el registre
-city: Ciutat
-payment_method: Mètode de pagament
-to_load_more_registers_to_the_list: Carregar més registres a la llista
-to_cancel_the_new_register_creation: Cancel·lar la creació del nou registre
-log: Registre
-country: País
-date: Data
 valid_until: Vàlid fins
-address: Adreça
-concepts: Conceptes
-to_create_the_new_register: Crear el nou registre
-province_state: Província / Estat
-to_delete_this_register: Eliminar aquest registre
-discount: Descompte
-tax: Impost
-quantity: Quantitat
-c_i_f: C.I.F.
-price: Preu
-company_details: Dades de l'empresa
-customer_details: Dades del client
-base: Base
-phone: Telèfon
-website: Lloc web
-type: Tipus
 contact: Contacte
 assigned_to: Assignat a
 source: Origen
