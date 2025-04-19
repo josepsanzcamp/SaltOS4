@@ -76,3 +76,10 @@ name_used_by_other_group: Name used by another group
 users_management: Users management
 groups_management: Groups management
 login_screen: Login screen
+modify_this_group: Modify this group
+detail_of_the_group: Detail of the group
+groups_list: Groups list
+login_form: Login form
+users_list: Users list
+detail_of_the_user: Detail of the user
+modify_this_user: Modify this user

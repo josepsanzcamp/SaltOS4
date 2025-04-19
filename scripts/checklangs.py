@@ -175,6 +175,11 @@ def extract_keys_xml(node):
     if 'menu' in node.attrib:
         for m in re.finditer(r'"label"\s*:\s*"(.*?)"', node.attrib['menu']):
             keys.add(("menu.label", m.group(1)))
+    # También detectar contenido textual en nodos como <title>Texto</title> sin eval=...
+    if node.tag in TRANSLATABLE_ATTRS and node.text and 'eval' not in node.attrib:
+        text = node.text.strip()
+        if text and not re.search(r'\bT\((\"|\').*?\1\)', text):
+            keys.add((node.tag, text))
     return keys
 
 def extract_keys_pdf(xml_path):

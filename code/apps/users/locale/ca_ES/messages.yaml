@@ -76,3 +76,10 @@ name_used_by_other_group: Nom utilitzat per un altre grup
 users_management: Gestió d'usuaris
 groups_management: Gestió de grups
 login_screen: Pantalla d'inici de sessió
+modify_this_group: Modificar aquest grup
+detail_of_the_group: Detall del grup
+groups_list: Llistat de grups
+login_form: Formulari d'inici de sessió
+users_list: Llistat d'usuaris
+detail_of_the_user: Detall de l'usuari
+modify_this_user: Modificar aquest usuari

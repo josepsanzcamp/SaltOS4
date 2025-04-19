@@ -249,3 +249,6 @@ cron:
 
 langs:
 	python scripts/checklangs.py
+	for i in certs common company crm dashboard emails hr purchases sales users; do \
+		python scripts/checklangs.py --lang en_US --group $$i --filter missing --csv translations_$$i.csv; \
+	done

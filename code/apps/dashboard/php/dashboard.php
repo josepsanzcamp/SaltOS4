@@ -101,7 +101,8 @@ function __dashboard_helper()
         $xml = str_replace_assoc([
             '{$code}' => $mapping[$group]['code'],
             '{$name}' => T($mapping[$group]['name'], $rows[0]['code']),
-            '{$description}' => str_replace('&', '&amp;', T($mapping[$group]['description'], $rows[0]['code'])),
+            '{$description}' =>
+                str_replace('&', '&amp;', T($mapping[$group]['description'], $rows[0]['code'])),
             '{$color}' => $mapping[$group]['color'],
         ], $xml);
         $array = xml2array($xml);
