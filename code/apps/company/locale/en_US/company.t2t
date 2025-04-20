@@ -1,16 +1,16 @@
 
 
 
-+Company+
+=Company=
 
-++Description++
+==Description==
 
 The Company application stores the identification and contact details of the organization using SaltOS4.
 This data is used across the system to personalize documents (quotes, invoices, emails, etc.) and define the legal and fiscal identity of the company.
 
 It typically includes the company's name, tax code, address, logo, and preferred language.
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -24,7 +24,7 @@ The following fields are displayed in the list view:
 - Active: Indicates whether the profile is in use (usually only one is active).
 
 
-++Form view++
+==Form view==
 
 This view is used to define or edit the company profile.
 
@@ -46,7 +46,7 @@ The form includes the following fields:
 - Active: Enables the profile as the default company identity.
 
 
-++Delete++
+==Delete==
 
 The company profile cannot be deleted if it's the only active one in the system.
 

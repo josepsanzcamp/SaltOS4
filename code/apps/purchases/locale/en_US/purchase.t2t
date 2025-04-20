@@ -1,15 +1,15 @@
 
 
 
-+Purchases+
+=Purchases=
 
-++Description++
+==Description==
 
 The Purchase application is used to register and track purchases made from suppliers.
 Each purchase record includes invoice details, total amount, purchase date, and associated notes or attachments.
 This module ensures traceability of expenses and is linked to the Suppliers module to maintain consistency.
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -24,7 +24,7 @@ The following fields are displayed in the list view:
 - Active: Indicates whether the record is active in the system.
 
 
-++Form view++
+==Form view==
 
 This view is used for creating, editing or viewing a purchase record.
 
@@ -46,7 +46,7 @@ The form includes the following fields:
 - Active: Toggles whether the record is in use or archived.
 
 
-++Delete++
+==Delete==
 
 Purchase records can be deleted only if they are not linked to accounting records or processes.
 A confirmation dialog will appear before proceeding.

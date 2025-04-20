@@ -1,16 +1,16 @@
 
 
 
-+Leads+
+=Leads=
 
-++Description++
+==Description==
 
 The Leads application is used to register and track potential customers before they become actual clients.
 It allows you to collect key information about each lead, such as contact details, origin, and current status in the sales process.
 This module helps organize the pre-sales activity, enabling sales teams to follow up effectively, qualify opportunities,
 and convert leads into customers when appropriate.
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -25,7 +25,7 @@ The following fields are displayed in the list view:
 - Active: Indicates if the lead is currently active in the system.
 
 
-++Form view++
+==Form view==
 
 This view is used for creating, editing or viewing a lead.
 
@@ -49,7 +49,7 @@ The form includes the following fields:
 - Active: Whether the lead is visible and in use.
 
 
-++Delete++
+==Delete==
 
 Records can be deleted from the list view via the delete action.
 A confirmation prompt will appear before the operation is executed.

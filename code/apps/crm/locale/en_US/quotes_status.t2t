@@ -1,16 +1,16 @@
 
 
 
-+Quotes Status+
+=Quotes Status=
 
-++Description++
+==Description==
 
 The Quotes Status application is used to define the different states that a sales quote can have during its lifecycle.
 These statuses help sales teams track progress, filter records, and identify which quotes are active, accepted, rejected, or archived.
 
 Examples of common statuses include "Draft", "Sent", "Accepted", and "Declined".
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -21,7 +21,7 @@ The following fields are displayed in the list view:
 - Active: Indicates whether the status is selectable in the Quotes module.
 
 
-++Form view++
+==Form view==
 
 This view is used to create, view or edit quote status entries.
 
@@ -34,7 +34,7 @@ The form includes the following fields:
 - Active: Toggles the visibility of this status in dropdowns.
 
 
-++Delete++
+==Delete==
 
 Quote statuses can be deleted only if they are not currently in use.
 

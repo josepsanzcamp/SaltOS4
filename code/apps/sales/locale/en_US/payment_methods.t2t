@@ -1,15 +1,15 @@
 
 
 
-+Payment Methods+
+=Payment Methods=
 
-++Description++
+==Description==
 
 The Payment Methods application is used to define and manage the types of payments accepted by the organization.
 These methods are later used in invoices to indicate how the customer will pay (e.g., bank transfer, credit card, cash).
 This module ensures consistency and traceability across the billing process.
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -20,7 +20,7 @@ The following fields are displayed in the list view:
 - Active: Indicates whether the method is currently available for selection in invoices.
 
 
-++Form view++
+==Form view==
 
 This view is used to create, view or edit payment method records.
 
@@ -38,7 +38,7 @@ The form includes the following fields:
 - Active: Defines whether this method is available for use in documents.
 
 
-++Delete++
+==Delete==
 
 Payment methods can be deleted if not used in invoices.
 

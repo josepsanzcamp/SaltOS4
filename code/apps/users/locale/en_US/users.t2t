@@ -1,15 +1,15 @@
 
 
 
-+Users+
+=Users=
 
-++Description++
+==Description==
 
 The Users application is used to manage the accounts that have access to the SaltOS4 system.
 Each user is assigned credentials, roles, and permissions, and can optionally be linked to an employee profile.
 This module is essential for access control, personalization, and audit tracking.
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -22,7 +22,7 @@ The following fields are displayed in the list view:
 - Active: Indicates whether the user can log into the system.
 
 
-++Form view++
+==Form view==
 
 This view is used to create, view or edit user accounts.
 
@@ -45,7 +45,7 @@ The form includes the following fields:
 - Active: Enables or disables the user account.
 
 
-++Delete++
+==Delete==
 
 User accounts can be deleted if they have not logged in or are not linked to any activity log.
 

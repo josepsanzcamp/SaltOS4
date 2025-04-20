@@ -1,15 +1,15 @@
 
 
 
-+Files Log+
+=Files Log=
 
-++Description++
+==Description==
 
 The Files Log application records all file access events within SaltOS4.
 It tracks when files are viewed, downloaded, or otherwise accessed by users, including associated metadata.
 This module provides a complete audit trail for document activity, supporting traceability and data governance policies.
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -23,7 +23,7 @@ The following fields are displayed in the list view:
 - Context: Application or record the file is linked to.
 
 
-++View entry++
+==View entry==
 
 This view shows detailed information about a file access event.
 
@@ -41,7 +41,7 @@ It includes:
 - IP Address: Source of the request.
 
 
-++Delete++
+==Delete==
 
 Files log entries are usually not deleted manually.
 

@@ -1,16 +1,16 @@
 
 
 
-+Invoices Status+
+=Invoices Status=
 
-++Description++
+==Description==
 
 The Invoices Status application allows you to define the different states that an invoice can go through during its lifecycle.
 These statuses help distinguish between draft, issued, paid, or cancelled invoices, enabling better financial tracking and reporting.
 
 Common statuses may include "Draft", "Pending", "Paid", or "Cancelled".
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -21,7 +21,7 @@ The following fields are displayed in the list view:
 - Active: Indicates whether this status is currently in use.
 
 
-++Form view++
+==Form view==
 
 This view is used to create, view or edit invoice status entries.
 
@@ -34,7 +34,7 @@ The form includes the following fields:
 - Active: Allows enabling or disabling the status.
 
 
-++Delete++
+==Delete==
 
 Statuses can only be deleted if no invoice is assigned to them.
 

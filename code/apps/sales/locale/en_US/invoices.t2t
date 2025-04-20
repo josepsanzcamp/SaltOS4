@@ -1,9 +1,9 @@
 
 
 
-+Invoices+
+=Invoices=
 
-++Description++
+==Description==
 
 The Invoices application is used to issue and manage customer billing records.
 Each invoice contains product or service lines, quantities, unit prices, taxes, and discounts.
@@ -11,7 +11,7 @@ This module supports both pro forma and finalized invoices, tracks payment statu
 and integrates with the Customers, Products, and Taxes modules.
 It also provides traceability for due dates, payment dates, and links to related documents.
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -26,7 +26,7 @@ The following fields are displayed in the list view:
 - Due Date: Date by which the payment is expected.
 
 
-++Form view++
+==Form view==
 
 This view is used for creating, editing or viewing an invoice.
 
@@ -54,7 +54,7 @@ The form includes the following fields:
 
 Invoices also include line items (product, quantity, price, discount, tax) and a breakdown of applied taxes.
 
-++Delete++
+==Delete==
 
 Invoices can only be deleted if they are in draft status.
 A confirmation prompt is shown before the operation.

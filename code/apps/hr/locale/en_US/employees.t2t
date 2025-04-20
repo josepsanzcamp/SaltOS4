@@ -1,15 +1,15 @@
 
 
 
-+Employees+
+=Employees=
 
-++Description++
+==Description==
 
 The Employees application is used to register and manage the personnel working in the organization.
 It stores personal and professional data including name, contact information, position, department, and system user link.
 This module is typically used in HR workflows to organize staff and optionally associate them with users of the system.
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -23,7 +23,7 @@ The following fields are displayed in the list view:
 - Active: Indicates if the employee is currently active.
 
 
-++Form view++
+==Form view==
 
 This view is used to create, view or edit employee records.
 
@@ -50,7 +50,7 @@ The form includes the following fields:
 - Active: Determines whether the profile is enabled or archived.
 
 
-++Delete++
+==Delete==
 
 Employees can be deleted if not linked to system users or historical records.
 

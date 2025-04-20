@@ -1,15 +1,15 @@
 
 
 
-+Products+
+=Products=
 
-++Description++
+==Description==
 
 The Products application manages the catalog of goods and services offered by the organization.
 It stores essential details like reference code, price, stock levels, tax rates, and classification.
 Products can be linked to quotes, invoices, and purchases, making this module fundamental to sales and inventory workflows.
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -24,7 +24,7 @@ The following fields are displayed in the list view:
 - Category: Group or family the product belongs to.
 
 
-++Form view++
+==Form view==
 
 This view is used for creating, editing or viewing a product entry.
 
@@ -51,7 +51,7 @@ The form includes the following fields:
 - Active: Whether this product is enabled for use.
 
 
-++Delete++
+==Delete==
 
 Products can be deleted from the list view if they are not referenced in active documents.
 A confirmation prompt will appear before deletion.

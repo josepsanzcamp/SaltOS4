@@ -1,16 +1,16 @@
 
 
 
-+Quotes+
+=Quotes=
 
-++Description++
+==Description==
 
 The Quotes application is used to create and manage commercial proposals sent to customers.
 Each quote contains line items with products or services, pricing, taxes, and conditions.
 This module is tightly integrated with Customers and Products, and allows for tracking the status of each quote
 (e.g., Draft, Sent, Accepted). When a quote is accepted, it can be converted into an invoice.
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -23,7 +23,7 @@ The following fields are displayed in the list view:
 - Total: Total amount of the quote including taxes.
 
 
-++Form view++
+==Form view==
 
 This view is used for creating, editing or viewing a quote.
 
@@ -50,7 +50,7 @@ The form includes the following fields:
 
 Quote lines are also included as a subtable, where each line contains product, quantity, price, tax, and discount.
 
-++Delete++
+==Delete==
 
 Quotes can be deleted from the list view if they are not yet accepted.
 A confirmation prompt will appear before deletion.

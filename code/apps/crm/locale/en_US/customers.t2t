@@ -1,16 +1,16 @@
 
 
 
-+Customers+
+=Customers=
 
-++Description++
+==Description==
 
 The Customers application allows you to manage your client base within SaltOS4.
 It centralizes all information related to customers, such as identification, contact details,
 tax code, address, and classification. It also serves as a hub to link customers with other
 modules like quotes, invoices, meetings, and emails.
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -25,7 +25,7 @@ The following fields are displayed in the list view:
 - Active: Indicates if the customer is active in the system.
 
 
-++Form view++
+==Form view==
 
 This view is used for creating, editing or viewing a customer record.
 
@@ -51,7 +51,7 @@ The form includes the following fields:
 - Notes: Internal notes related to the customer.
 
 
-++Delete++
+==Delete==
 
 Records can be deleted from the list view via the delete action.
 A confirmation prompt will appear before the operation is executed.

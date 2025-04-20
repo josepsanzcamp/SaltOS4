@@ -1,15 +1,15 @@
 
 
 
-+Cron Log+
+=Cron Log=
 
-++Description++
+==Description==
 
 The Cron Log application stores the execution history of scheduled tasks (cron jobs) within SaltOS4.
 It allows administrators to monitor background processes such as email retrieval, data imports, backups, or custom jobs.
 This module is essential for troubleshooting and verifying that scheduled operations are running correctly.
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -22,7 +22,7 @@ The following fields are displayed in the list view:
 - Message: Summary or output of the task, including any errors or important logs.
 
 
-++View entry++
+==View entry==
 
 This view displays the full result of a single cron job execution.
 
@@ -38,7 +38,7 @@ It includes:
 - Triggered By: Optional source of execution (manual, system, API).
 
 
-++Delete++
+==Delete==
 
 Cron log entries are not meant to be deleted regularly.
 

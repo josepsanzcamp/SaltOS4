@@ -1,15 +1,15 @@
 
 
 
-+Meetings+
+=Meetings=
 
-++Description++
+==Description==
 
 The Meetings application allows you to schedule, organize, and track meetings with leads, customers, or internal staff.
 It supports planning both face-to-face and online meetings, storing relevant details such as date, time, participants, notes, and status.
 This module is essential for keeping a history of client interactions, improving follow-up, and maintaining team coordination.
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -24,7 +24,7 @@ The following fields are displayed in the list view:
 - Assigned To: Person responsible for attending or organizing the meeting.
 
 
-++Form view++
+==Form view==
 
 This view is used for creating, editing or viewing a meeting entry.
 
@@ -49,7 +49,7 @@ The form includes the following fields:
 - Files: Attachments such as reports, presentations, or confirmations.
 
 
-++Delete++
+==Delete==
 
 Meetings can be deleted from the list view if created in error or no longer relevant.
 

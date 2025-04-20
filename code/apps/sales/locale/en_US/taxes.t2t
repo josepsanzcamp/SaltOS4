@@ -1,15 +1,15 @@
 
 
 
-+Taxes+
+=Taxes=
 
-++Description++
+==Description==
 
 The Taxes application is used to define and manage tax rates applied to products, quotes, and invoices.
 It serves as a central repository of tax types such as VAT, sales tax, or exemptions.
 Each record includes the name, rate, and status, ensuring consistent tax application across the entire ERP system.
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -20,7 +20,7 @@ The following fields are displayed in the list view:
 - Active: Indicates if the tax is currently available for selection.
 
 
-++Form view++
+==Form view==
 
 This view is used to create, view or edit tax entries.
 
@@ -38,7 +38,7 @@ The form includes the following fields:
 - Active: Allows enabling or disabling the tax for use in the system.
 
 
-++Delete++
+==Delete==
 
 Taxes can only be deleted if they are not used in any invoice or product.
 

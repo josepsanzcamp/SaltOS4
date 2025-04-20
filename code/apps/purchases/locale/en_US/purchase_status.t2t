@@ -1,16 +1,16 @@
 
 
 
-+Purchase Status+
+=Purchase Status=
 
-++Description++
+==Description==
 
 The Purchase Status application defines the stages a purchase record can go through.
 It allows categorizing purchases according to their state, such as "Draft", "Ordered", "Received", or "Cancelled".
 
 These statuses help in tracking the progress of procurement processes and improve clarity in the Purchase module.
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -21,7 +21,7 @@ The following fields are displayed in the list view:
 - Active: Indicates if the status is currently selectable.
 
 
-++Form view++
+==Form view==
 
 This view is used to create, view or edit purchase status entries.
 
@@ -34,7 +34,7 @@ The form includes the following fields:
 - Active: Controls availability in the status dropdown.
 
 
-++Delete++
+==Delete==
 
 Statuses can only be deleted if no purchases are currently using them.
 

@@ -1,16 +1,16 @@
 
 
 
-+Employee Types+
+=Employee Types=
 
-++Description++
+==Description==
 
 The Employee Types application allows you to classify employees according to their role, contract, or internal categorization.
 This helps structure the HR database and supports filtering, reporting, or access control.
 
 Common types include "Full-time", "Part-time", "Contractor", "Intern", etc.
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -21,7 +21,7 @@ The following fields are displayed in the list view:
 - Active: Indicates whether the type is currently usable.
 
 
-++Form view++
+==Form view==
 
 This view is used to create, view or edit employee type entries.
 
@@ -34,7 +34,7 @@ The form includes the following fields:
 - Active: Controls if the type is selectable.
 
 
-++Delete++
+==Delete==
 
 Employee types can only be deleted if they are not assigned to any employee.
 

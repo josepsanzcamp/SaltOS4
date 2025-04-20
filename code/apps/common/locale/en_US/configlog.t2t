@@ -1,15 +1,15 @@
 
 
 
-+Config Log+
+=Config Log=
 
-++Description++
+==Description==
 
 The Config Log application provides a trace of all configuration changes made within SaltOS4.
 It is used to monitor modifications to system parameters, app settings, or internal preferences.
 This module is essential for administrators who want to audit changes and ensure consistent system behavior over time.
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -22,7 +22,7 @@ The following fields are displayed in the list view:
 - Detail: Description or summary of the change.
 
 
-++View entry++
+==View entry==
 
 This view displays the full details of a single configuration change record.
 
@@ -40,7 +40,7 @@ It includes:
 - Context: Technical information or internal path related to the configuration.
 
 
-++Delete++
+==Delete==
 
 Entries in the config log cannot be deleted under normal circumstances.
 

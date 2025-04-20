@@ -1,15 +1,15 @@
 
 
 
-+Upload Log+
+=Upload Log=
 
-++Description++
+==Description==
 
 The Upload Log application registers all file uploads made through SaltOS4, whether manual or automated.
 It helps track the origin, user, and context of each uploaded file, and is useful for auditing, debugging,
 and verifying that uploads are being processed correctly.
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -23,7 +23,7 @@ The following fields are displayed in the list view:
 - Path: Internal or relative storage location.
 
 
-++View entry++
+==View entry==
 
 This view shows full details of a single uploaded file log entry.
 
@@ -40,7 +40,7 @@ It includes:
 - Context: Optional reference to the module or entity related to the upload.
 
 
-++Delete++
+==Delete==
 
 Upload log entries are normally preserved for historical traceability.
 

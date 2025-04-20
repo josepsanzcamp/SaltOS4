@@ -1,15 +1,15 @@
 
 
 
-+Suppliers+
+=Suppliers=
 
-++Description++
+==Description==
 
 The Suppliers application is used to manage the list of vendors or external providers the organization works with.
 It stores essential information such as identification, contact details, tax code, and classification.
 This module is linked to purchase workflows, allowing you to associate suppliers with purchases and maintain full traceability.
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -24,7 +24,7 @@ The following fields are displayed in the list view:
 - Active: Indicates if the supplier is active and visible in the system.
 
 
-++Form view++
+==Form view==
 
 This view is used for creating, editing or viewing supplier records.
 
@@ -50,7 +50,7 @@ The form includes the following fields:
 - Active: Controls whether the supplier is enabled or archived.
 
 
-++Delete++
+==Delete==
 
 Supplier records can be deleted if not referenced in purchases or documents.
 A confirmation dialog appears before deletion.

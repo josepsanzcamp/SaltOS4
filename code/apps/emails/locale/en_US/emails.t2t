@@ -1,9 +1,9 @@
 
 
 
-+Emails+
+=Emails=
 
-++Description++
+==Description==
 
 The Emails application is used to receive, view, and reply to emails from configured accounts within SaltOS4.
 It acts as a simplified integrated email client that supports reading messages from POP3 or IMAP,
@@ -13,7 +13,7 @@ Each message is presented as a visual card in the list view, showing key fields 
 date, and a preview of the body. Emails can be viewed in detail, replied to, or deleted. This app is
 closely integrated with the Emails Accounts module and is essential for managing inbound communication.
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -29,7 +29,7 @@ Each entry typically displays:
 
 The interface also includes filters and a search form to filter by sender, subject, account, and date.
 
-++View message++
+==View message==
 
 This view shows the full content of an email message, including header metadata and attachments.
 
@@ -46,7 +46,7 @@ The following information is typically displayed:
 - Attachments: List of downloadable files.
 
 
-++Reply / Compose++
+==Reply / Compose==
 
 Users can reply to an existing message or compose a new email using a simplified form.
 
@@ -62,7 +62,7 @@ The reply form includes:
 - Attachments: Optional files to attach.
 
 
-++Delete++
+==Delete==
 
 Emails can be deleted from the list view using the delete icon or action.
 

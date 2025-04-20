@@ -1,16 +1,16 @@
 
 
 
-+Product Categories+
+=Product Categories=
 
-++Description++
+==Description==
 
 The Product Categories application is used to group products into families or collections for easier classification.
 Categories are helpful for filtering, reporting, organizing catalogs, and applying common business rules.
 
 Typical categories might include "Hardware", "Software", "Services", or "Accessories".
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -21,7 +21,7 @@ The following fields are displayed in the list view:
 - Active: Indicates whether this category can be assigned to products.
 
 
-++Form view++
+==Form view==
 
 This view is used to create, view or edit product category records.
 
@@ -34,7 +34,7 @@ The form includes the following fields:
 - Active: Enables or disables the category for selection.
 
 
-++Delete++
+==Delete==
 
 Categories can only be deleted if they are not assigned to any product.
 

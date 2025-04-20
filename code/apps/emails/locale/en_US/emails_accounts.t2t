@@ -1,15 +1,15 @@
 
 
 
-+Emails Accounts+
+=Emails Accounts=
 
-++Description++
+==Description==
 
 The Emails Accounts application is used to configure and manage the email accounts connected to SaltOS4.
 Each account can be used to send and receive emails via SMTP, IMAP or POP3 protocols.
 This module allows integration with external email providers and supports authentication, folders, and synchronization options.
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -23,7 +23,7 @@ The following fields are displayed in the list view:
 - Active: Indicates whether the account is enabled for use.
 
 
-++Form view++
+==Form view==
 
 This view is used to create, view or edit an email account.
 
@@ -52,7 +52,7 @@ The form includes the following fields:
 - Active: Enables or disables the account.
 
 
-++Delete++
+==Delete==
 
 Accounts can be deleted if they are not in use or connected to recent email activity.
 

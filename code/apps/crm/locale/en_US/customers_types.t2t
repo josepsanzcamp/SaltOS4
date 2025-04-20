@@ -1,15 +1,15 @@
 
 
 
-+Customer Types+
+=Customer Types=
 
-++Description++
+==Description==
 
 The Customer Types application allows you to define categories or segments for classifying customers.
 These types are used in the Customers module to group and organize clients according to their profile, purpose, or treatment.
 Examples may include "Individual", "Company", "VIP", or "Distributor".
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -20,7 +20,7 @@ The following fields are displayed in the list view:
 - Active: Indicates whether the type is available for selection.
 
 
-++Form view++
+==Form view==
 
 This view is used to create, view or edit customer type entries.
 
@@ -33,7 +33,7 @@ The form includes the following fields:
 - Active: Enables or disables the type for use in the Customers app.
 
 
-++Delete++
+==Delete==
 
 Customer types can be deleted only if they are not assigned to any customer.
 

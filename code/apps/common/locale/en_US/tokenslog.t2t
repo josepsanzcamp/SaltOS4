@@ -1,15 +1,15 @@
 
 
 
-+Tokens Log+
+=Tokens Log=
 
-++Description++
+==Description==
 
 The Tokens Log application tracks the usage of authentication tokens across the system.
 These tokens are typically used in API calls, automated scripts, or temporary login sessions.
 This module allows administrators to monitor access to the system and detect potential misuse or unauthorized attempts.
 
-++List view++
+==List view==
 
 [Insert screenshot of the list view here]
 
@@ -22,7 +22,7 @@ The following fields are displayed in the list view:
 - IP Address: Origin of the access attempt.
 
 
-++View entry++
+==View entry==
 
 This view displays all information related to a specific token access.
 
@@ -39,7 +39,7 @@ It includes:
 - App/Endpoint: Optional context of the API or function accessed.
 
 
-++Delete++
+==Delete==
 
 Token log entries are not meant to be deleted manually.
 
