@@ -11,7 +11,7 @@ This module is key for auditability and helps identify accidental deletions or u
 
 ==List view==
 
-[Insert screenshot of the list view here]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-trashlog-list-en-us-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -25,8 +25,6 @@ The following fields are displayed in the list view:
 ==View entry==
 
 This view displays all recorded information about a deleted item.
-
-[Insert screenshot of the view entry here]
 
 It includes:
 

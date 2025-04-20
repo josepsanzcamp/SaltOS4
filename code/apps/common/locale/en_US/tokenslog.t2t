@@ -11,7 +11,7 @@ This module allows administrators to monitor access to the system and detect pot
 
 ==List view==
 
-[Insert screenshot of the list view here]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-list-en-us-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -26,7 +26,7 @@ The following fields are displayed in the list view:
 
 This view displays all information related to a specific token access.
 
-[Insert screenshot of the view entry here]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-view-1-en-us-1-snap.png]
 
 It includes:
 

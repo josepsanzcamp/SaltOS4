@@ -13,7 +13,7 @@ It is especially useful for managing certificates for custom domains, internal s
 
 ==List view==
 
-[Insert screenshot of the list view here]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-certs-certs-list-en-us-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -28,7 +28,13 @@ The following fields are displayed in the list view:
 
 This view is used to add, review, or update certificate information.
 
-[Insert screenshot of the form view here]
+In **create** mode, the form is empty and ready to enter new data.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-certs-certs-create-en-us-1-snap.png]
+
+In **view** mode, the fields are filled with the selected record and cannot be edited.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-certs-certs-view-ab-877-d-2027-f-7-c-71-d-9935999-cce-1-b-802-b-en-us-1-snap.png]
 
 The form includes the following fields:
 

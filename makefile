@@ -124,6 +124,9 @@ ifneq (,$(findstring devel,$(file)))
 	php scripts/makepdf.php docs/devel.t2t
 	php scripts/makehtml.php docs/devel.t2t
 endif
+ifneq (,$(findstring locale,$(file)))
+	php scripts/makedoc.php
+endif
 endif
 
 check:

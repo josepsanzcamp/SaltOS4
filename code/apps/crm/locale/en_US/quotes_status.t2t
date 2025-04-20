@@ -12,7 +12,7 @@ Examples of common statuses include "Draft", "Sent", "Accepted", and "Declined".
 
 ==List view==
 
-[Insert screenshot of the list view here]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-list-en-us-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -25,7 +25,17 @@ The following fields are displayed in the list view:
 
 This view is used to create, view or edit quote status entries.
 
-[Insert screenshot of the form view here]
+In **create** mode, the form is empty and allows you to build a new quote.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-create-en-us-1-snap.png]
+
+In **view** mode, it displays a finalized quote without editing capabilities.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-view-10-en-us-1-snap.png]
+
+In **edit** mode, it shows a draft quote ready for modification.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-edit-10-en-us-1-snap.png]
 
 The form includes the following fields:
 

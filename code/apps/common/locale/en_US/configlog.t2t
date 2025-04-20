@@ -11,7 +11,7 @@ This module is essential for administrators who want to audit changes and ensure
 
 ==List view==
 
-[Insert screenshot of the list view here]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-list-en-us-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -26,7 +26,17 @@ The following fields are displayed in the list view:
 
 This view displays the full details of a single configuration change record.
 
-[Insert screenshot of the view entry here]
+In **create** mode, the form is empty and ready to enter new data.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-create-en-us-1-snap.png]
+
+In **view** mode, the fields are filled with the selected record and cannot be edited.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-view-10-en-us-1-snap.png]
+
+In **edit** mode, the form is pre-filled and allows modifications.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-edit-10-en-us-1-snap.png]
 
 It includes:
 

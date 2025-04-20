@@ -11,7 +11,7 @@ This module is linked to purchase workflows, allowing you to associate suppliers
 
 ==List view==
 
-[Insert screenshot of the list view here]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-list-en-us-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -28,12 +28,17 @@ The following fields are displayed in the list view:
 
 This view is used for creating, editing or viewing supplier records.
 
-- In **create** mode, the form is blank to add a new supplier.
-- In **view** mode, the fields are shown in read-only mode.
-- In **edit** mode, supplier data can be updated.
+In **create** mode, the form is blank to add a new supplier.
 
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-create-en-us-1-snap.png]
 
-[Insert screenshot of the form view here]
+In **view** mode, the fields are shown in read-only mode.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-view-100-en-us-1-snap.png]
+
+In **edit** mode, supplier data can be updated.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-edit-100-en-us-1-snap.png]
 
 The form includes the following fields:
 

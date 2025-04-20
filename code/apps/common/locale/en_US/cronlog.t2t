@@ -11,7 +11,7 @@ This module is essential for troubleshooting and verifying that scheduled operat
 
 ==List view==
 
-[Insert screenshot of the list view here]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-cronlog-list-en-us-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -25,8 +25,6 @@ The following fields are displayed in the list view:
 ==View entry==
 
 This view displays the full result of a single cron job execution.
-
-[Insert screenshot of the view entry here]
 
 It includes:
 

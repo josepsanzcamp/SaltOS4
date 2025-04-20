@@ -12,7 +12,7 @@ Common types include "Full-time", "Part-time", "Contractor", "Intern", etc.
 
 ==List view==
 
-[Insert screenshot of the list view here]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-list-en-us-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -25,7 +25,17 @@ The following fields are displayed in the list view:
 
 This view is used to create, view or edit employee type entries.
 
-[Insert screenshot of the form view here]
+In **create** mode, a new tax rule can be defined.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-create-en-us-1-snap.png]
+
+In **view** mode, tax details are visible but not editable.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-view-10-en-us-1-snap.png]
+
+In **edit** mode, existing values can be updated.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-edit-10-en-us-1-snap.png]
 
 The form includes the following fields:
 

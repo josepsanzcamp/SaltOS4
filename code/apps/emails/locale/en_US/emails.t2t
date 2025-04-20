@@ -15,7 +15,7 @@ closely integrated with the Emails Accounts module and is essential for managing
 
 ==List view==
 
-[Insert screenshot of the list view here]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-en-us-1-snap.png]
 
 The list view shows incoming emails as clickable buttons or cards.
 Each entry typically displays:
@@ -33,7 +33,7 @@ The interface also includes filters and a search form to filter by sender, subje
 
 This view shows the full content of an email message, including header metadata and attachments.
 
-[Insert screenshot of the email view screen here]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-100-en-us-1-snap.png]
 
 The following information is typically displayed:
 
@@ -50,7 +50,7 @@ The following information is typically displayed:
 
 Users can reply to an existing message or compose a new email using a simplified form.
 
-[Insert screenshot of the reply/compose view here]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-create-en-us-1-snap.png]
 
 The reply form includes:
 

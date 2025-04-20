@@ -11,7 +11,7 @@ and verifying that uploads are being processed correctly.
 
 ==List view==
 
-[Insert screenshot of the list view here]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-uploadlog-list-en-us-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -26,8 +26,6 @@ The following fields are displayed in the list view:
 ==View entry==
 
 This view shows full details of a single uploaded file log entry.
-
-[Insert screenshot of the view entry here]
 
 It includes:
 

@@ -11,7 +11,7 @@ Each record includes the name, rate, and status, ensuring consistent tax applica
 
 ==List view==
 
-[Insert screenshot of the list view here]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-list-en-us-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -24,12 +24,17 @@ The following fields are displayed in the list view:
 
 This view is used to create, view or edit tax entries.
 
-- In **create** mode, a new tax rule can be defined.
-- In **view** mode, tax details are visible but not editable.
-- In **edit** mode, existing values can be updated.
+In **create** mode, a new tax rule can be defined.
 
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-create-en-us-1-snap.png]
 
-[Insert screenshot of the form view here]
+In **view** mode, tax details are visible but not editable.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-view-1-en-us-1-snap.png]
+
+In **edit** mode, existing values can be updated.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-edit-1-en-us-1-snap.png]
 
 The form includes the following fields:
 

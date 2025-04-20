@@ -11,7 +11,7 @@ Examples may include "Individual", "Company", "VIP", or "Distributor".
 
 ==List view==
 
-[Insert screenshot of the list view here]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-list-en-us-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -24,7 +24,17 @@ The following fields are displayed in the list view:
 
 This view is used to create, view or edit customer type entries.
 
-[Insert screenshot of the form view here]
+In **create** mode, the form is empty and ready to enter new data.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-create-en-us-1-snap.png]
+
+In **view** mode, the fields are filled with the selected record and cannot be edited.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-view-10-en-us-1-snap.png]
+
+In **edit** mode, the form is pre-filled and allows modifications.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-edit-10-en-us-1-snap.png]
 
 The form includes the following fields:
 

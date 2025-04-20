@@ -12,7 +12,7 @@ It typically includes the company's name, tax code, address, logo, and preferred
 
 ==List view==
 
-[Insert screenshot of the list view here]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-list-en-us-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -28,7 +28,17 @@ The following fields are displayed in the list view:
 
 This view is used to define or edit the company profile.
 
-[Insert screenshot of the form view here]
+In **create** mode, the form is empty and ready to enter new data.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-create-en-us-1-snap.png]
+
+In **view** mode, the fields are filled with the selected record and cannot be edited.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-view-1-en-us-1-snap.png]
+
+In **edit** mode, the form is pre-filled and allows modifications.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-edit-1-en-us-1-snap.png]
 
 The form includes the following fields:
 

@@ -11,7 +11,7 @@ This module provides a complete audit trail for document activity, supporting tr
 
 ==List view==
 
-[Insert screenshot of the list view here]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-fileslog-list-en-us-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -26,8 +26,6 @@ The following fields are displayed in the list view:
 ==View entry==
 
 This view shows detailed information about a file access event.
-
-[Insert screenshot of the view entry here]
 
 It includes:
 
