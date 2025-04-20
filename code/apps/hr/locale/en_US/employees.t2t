@@ -1,0 +1,57 @@
+
+
+
++Employees+
+
+++Description++
+
+The Employees application is used to register and manage the personnel working in the organization.
+It stores personal and professional data including name, contact information, position, department, and system user link.
+This module is typically used in HR workflows to organize staff and optionally associate them with users of the system.
+
+++List view++
+
+[Insert screenshot of the list view here]
+
+The following fields are displayed in the list view:
+
+- Name: Full name of the employee.
+- Email: Main contact email address.
+- Phone: Contact phone number.
+- Department: Department the employee belongs to.
+- Position: Job title or role within the organization.
+- Active: Indicates if the employee is currently active.
+
+
+++Form view++
+
+This view is used to create, view or edit employee records.
+
+- In **create** mode, a new employee profile is added.
+- In **view** mode, the profile is shown in read-only format.
+- In **edit** mode, the profile can be updated.
+
+
+[Insert screenshot of the form view here]
+
+The form includes the following fields:
+
+- Name: Full name of the staff member.
+- Email: Personal or work email address.
+- Phone: Contact number for communication.
+- Address: Residential or work address.
+- City: City where the employee resides.
+- ZIP: Postal code of the address.
+- Country: Country of residence or work.
+- Position: Role or job title of the employee.
+- Department: Associated department within the organization.
+- User: (Optional) System user linked to this employee profile.
+- Notes: Internal notes or additional information.
+- Active: Determines whether the profile is enabled or archived.
+
+
+++Delete++
+
+Employees can be deleted if not linked to system users or historical records.
+
+If in use, the profile must be deactivated instead of deleted.

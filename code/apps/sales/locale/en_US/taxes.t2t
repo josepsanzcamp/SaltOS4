@@ -1,0 +1,45 @@
+
+
+
++Taxes+
+
+++Description++
+
+The Taxes application is used to define and manage tax rates applied to products, quotes, and invoices.
+It serves as a central repository of tax types such as VAT, sales tax, or exemptions.
+Each record includes the name, rate, and status, ensuring consistent tax application across the entire ERP system.
+
+++List view++
+
+[Insert screenshot of the list view here]
+
+The following fields are displayed in the list view:
+
+- Name: Descriptive label of the tax (e.g., VAT 21%, Exempt).
+- Value: Tax percentage rate to be applied.
+- Active: Indicates if the tax is currently available for selection.
+
+
+++Form view++
+
+This view is used to create, view or edit tax entries.
+
+- In **create** mode, a new tax rule can be defined.
+- In **view** mode, tax details are visible but not editable.
+- In **edit** mode, existing values can be updated.
+
+
+[Insert screenshot of the form view here]
+
+The form includes the following fields:
+
+- Name: Tax name shown in product and invoice forms.
+- Value: Numeric percentage of the tax (e.g., 21 for 21%).
+- Active: Allows enabling or disabling the tax for use in the system.
+
+
+++Delete++
+
+Taxes can only be deleted if they are not used in any invoice or product.
+
+If a tax is in use, it must be deactivated instead to preserve system integrity.

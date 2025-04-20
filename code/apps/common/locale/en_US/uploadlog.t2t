@@ -1,0 +1,47 @@
+
+
+
++Upload Log+
+
+++Description++
+
+The Upload Log application registers all file uploads made through SaltOS4, whether manual or automated.
+It helps track the origin, user, and context of each uploaded file, and is useful for auditing, debugging,
+and verifying that uploads are being processed correctly.
+
+++List view++
+
+[Insert screenshot of the list view here]
+
+The following fields are displayed in the list view:
+
+- Datetime: When the file was uploaded.
+- User: Who performed the upload.
+- Filename: Name of the uploaded file.
+- Size: File size, usually in bytes or kilobytes.
+- Type: File MIME type or extension.
+- Path: Internal or relative storage location.
+
+
+++View entry++
+
+This view shows full details of a single uploaded file log entry.
+
+[Insert screenshot of the view entry here]
+
+It includes:
+
+- Datetime: Upload timestamp.
+- User: The system user who initiated the upload.
+- Filename: Original name of the uploaded file.
+- Size: File size at the time of upload.
+- Type: Detected or declared MIME type.
+- Path: Where the file was stored in the filesystem.
+- Context: Optional reference to the module or entity related to the upload.
+
+
+++Delete++
+
+Upload log entries are normally preserved for historical traceability.
+
+If needed, old entries may be deleted manually or through automatic maintenance routines.

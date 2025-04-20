@@ -1,0 +1,46 @@
+
+
+
++Groups+
+
+++Description++
+
+The Groups application is used to define roles or user categories within SaltOS4.
+Each group aggregates permissions that determine what its members can see or do in the system.
+Groups simplify the administration of access control by allowing permission management at the group level instead of per user.
+
+++List view++
+
+[Insert screenshot of the list view here]
+
+The following fields are displayed in the list view:
+
+- Name: The name of the group (e.g., Admin, Sales, Support).
+- Description: Explanation of the group’s purpose or scope.
+- Active: Indicates whether the group is available for use.
+
+
+++Form view++
+
+This view is used to create, view or edit user groups.
+
+- In **create** mode, a new group is defined.
+- In **view** mode, the group details and assigned permissions are shown.
+- In **edit** mode, you can update the group’s name, description, and permission set.
+
+
+[Insert screenshot of the form view here]
+
+The form includes the following fields:
+
+- Name: Group name as it appears in the system.
+- Description: Notes about the purpose or responsibilities of this group.
+- Active: Enables or disables the group.
+- Permissions: Set of actions this group is allowed to perform across apps.
+
+
+++Delete++
+
+Groups can be deleted only if no users are assigned to them.
+
+If the group is in use, it is recommended to disable it to preserve historical access information.

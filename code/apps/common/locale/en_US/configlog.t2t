@@ -1,0 +1,47 @@
+
+
+
++Config Log+
+
+++Description++
+
+The Config Log application provides a trace of all configuration changes made within SaltOS4.
+It is used to monitor modifications to system parameters, app settings, or internal preferences.
+This module is essential for administrators who want to audit changes and ensure consistent system behavior over time.
+
+++List view++
+
+[Insert screenshot of the list view here]
+
+The following fields are displayed in the list view:
+
+- Datetime: Timestamp of when the configuration change occurred.
+- User: System user who made the change.
+- Action: Type of action performed (e.g., create, update, delete).
+- Object: Target element that was changed (e.g., setting, app config).
+- Detail: Description or summary of the change.
+
+
+++View entry++
+
+This view displays the full details of a single configuration change record.
+
+[Insert screenshot of the view entry here]
+
+It includes:
+
+- Datetime: Exact date and time of the action.
+- User: Name or ID of the user who performed the action.
+- IP Address: Origin of the connection when the change was made.
+- Object: Affected configuration element.
+- Action: Nature of the operation (insert, update, delete).
+- Previous Value: Value before the change (if available).
+- New Value: Value after the change (if applicable).
+- Context: Technical information or internal path related to the configuration.
+
+
+++Delete++
+
+Entries in the config log cannot be deleted under normal circumstances.
+
+This log is designed to ensure full traceability and auditability of administrative actions.

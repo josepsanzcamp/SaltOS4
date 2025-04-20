@@ -1,0 +1,45 @@
+
+
+
++Push Log+
+
+++Description++
+
+The Push Log application records all push notifications triggered by the system.
+These notifications are typically sent to users to alert them about actions, updates, or system events in real time.
+This module allows administrators to monitor the flow of notifications and diagnose potential issues in the delivery process.
+
+++List view++
+
+[Insert screenshot of the list view here]
+
+The following fields are displayed in the list view:
+
+- Datetime: Timestamp of when the push notification was sent.
+- Type: Category of the notification (e.g., info, warning, error).
+- Message: Content or summary of the push message.
+- Target: Destination user, channel, or group the notification was sent to.
+- Status: Indicates whether the delivery was successful or failed.
+
+
+++View entry++
+
+This view shows full details of a single push notification.
+
+[Insert screenshot of the view entry here]
+
+It includes:
+
+- Datetime: Exact time the push event was triggered.
+- Type: Nature of the push (e.g., background alert, user-facing message).
+- Message: Full content of the notification.
+- Target: User or endpoint to which the message was addressed.
+- Status: Delivery result (sent, failed, pending).
+- Metadata: Any technical details logged during processing (headers, tokens, etc.).
+
+
+++Delete++
+
+Push log entries are generally not deleted and are kept for audit purposes.
+
+In specific maintenance scenarios, old records may be purged, but this requires explicit permissions.

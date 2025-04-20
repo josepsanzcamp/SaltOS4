@@ -1,0 +1,40 @@
+
+
+
++Leads Status+
+
+++Description++
+
+The Leads Status application defines the possible stages or states of a lead during the qualification process.
+These statuses are used in the Leads module to track the sales funnel and organize follow-up efforts.
+Typical statuses might include "New", "Contacted", "Qualified", or "Rejected".
+
+++List view++
+
+[Insert screenshot of the list view here]
+
+The following fields are displayed in the list view:
+
+- Name: The label of the lead status (e.g., Contacted, Qualified).
+- Description: Explanation or criteria for using this status.
+- Active: Indicates if the status is currently available for selection.
+
+
+++Form view++
+
+This view is used to create, view or edit lead status records.
+
+[Insert screenshot of the form view here]
+
+The form includes the following fields:
+
+- Name: Title of the status as shown in the Leads app.
+- Description: Internal guidance for when to use this status.
+- Active: Controls whether the status appears in dropdowns.
+
+
+++Delete++
+
+Lead statuses can only be deleted if no leads are currently assigned to them.
+
+Otherwise, the status should be marked as inactive.

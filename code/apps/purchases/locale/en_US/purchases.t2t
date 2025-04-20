@@ -1,0 +1,54 @@
+
+
+
++Purchases+
+
+++Description++
+
+The Purchase application is used to register and track purchases made from suppliers.
+Each purchase record includes invoice details, total amount, purchase date, and associated notes or attachments.
+This module ensures traceability of expenses and is linked to the Suppliers module to maintain consistency.
+
+++List view++
+
+[Insert screenshot of the list view here]
+
+The following fields are displayed in the list view:
+
+- Supplier: Name of the supplier from whom the purchase was made.
+- CIF: Tax code of the supplier at the time of purchase.
+- Invoice: Reference number of the supplier's invoice.
+- Date: Date the purchase invoice was issued.
+- Total: Total amount of the purchase including taxes.
+- Notes: Summary or internal note associated with the purchase.
+- Active: Indicates whether the record is active in the system.
+
+
+++Form view++
+
+This view is used for creating, editing or viewing a purchase record.
+
+- In **create** mode, the form is used to enter a new purchase linked to a supplier.
+- In **view** mode, it shows the details of the recorded purchase, in read-only mode.
+- In **edit** mode, the information can be updated if necessary.
+
+
+[Insert screenshot of the form view here]
+
+The form includes the following fields:
+
+- Supplier: Linked supplier selected from the supplier list.
+- CIF: Fiscal ID copied from the supplier at the time of purchase.
+- Invoice: Supplier invoice number or reference.
+- Date: Invoice issue date.
+- Notes: Internal notes about the purchase (optional).
+- Total: Total amount of the purchase invoice.
+- Active: Toggles whether the record is in use or archived.
+
+
+++Delete++
+
+Purchase records can be deleted only if they are not linked to accounting records or processes.
+A confirmation dialog will appear before proceeding.
+
+Once registered and finalized, deletion is restricted based on system permissions and traceability.

@@ -1,0 +1,59 @@
+
+
+
++Products+
+
+++Description++
+
+The Products application manages the catalog of goods and services offered by the organization.
+It stores essential details like reference code, price, stock levels, tax rates, and classification.
+Products can be linked to quotes, invoices, and purchases, making this module fundamental to sales and inventory workflows.
+
+++List view++
+
+[Insert screenshot of the list view here]
+
+The following fields are displayed in the list view:
+
+- Name: Descriptive name of the product or service.
+- Reference: Internal code used to identify the product.
+- Price: Selling price per unit, excluding tax and discounts.
+- Stock: Current quantity available in inventory.
+- Active: Indicates whether the product is currently offered.
+- Type: Classification of the product (e.g., good, service).
+- Category: Group or family the product belongs to.
+
+
+++Form view++
+
+This view is used for creating, editing or viewing a product entry.
+
+- In **create** mode, the form is empty for entering a new product.
+- In **view** mode, all fields are read-only and show detailed information.
+- In **edit** mode, the product data can be updated or corrected.
+
+
+[Insert screenshot of the form view here]
+
+The form includes the following fields:
+
+- Name: Full descriptive name of the product or service.
+- Reference: Internal identifier used in quotes and invoices.
+- Price: Standard sale price per unit.
+- Cost: Internal cost used for margin calculation.
+- Stock: Quantity currently in inventory.
+- Location: Physical or logical storage location.
+- Type: Used to categorize the product for management or reporting.
+- Category: Product family or group it belongs to.
+- Tax: Default tax rate applied to this product.
+- Image: Optional visual representation.
+- Description: Additional details or specifications.
+- Active: Whether this product is enabled for use.
+
+
+++Delete++
+
+Products can be deleted from the list view if they are not referenced in active documents.
+A confirmation prompt will appear before deletion.
+
+Products linked to invoices, quotes or purchases are protected from deletion.

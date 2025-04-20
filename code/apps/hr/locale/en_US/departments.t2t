@@ -1,0 +1,43 @@
+
+
+
++Departments+
+
+++Description++
+
+The Departments application is used to define the organizational structure of the company by grouping employees into departments.
+It supports hierarchies, allowing a department to belong to a parent department, and helps organize users and permissions accordingly.
+
+Examples of departments include "Sales", "IT", "HR", or "Logistics".
+
+++List view++
+
+[Insert screenshot of the list view here]
+
+The following fields are displayed in the list view:
+
+- Name: Name of the department.
+- Description: Purpose or internal notes about the department.
+- Parent: Parent department, if the structure is hierarchical.
+- Active: Indicates if the department is currently active.
+
+
+++Form view++
+
+This view is used to create, view or edit departments.
+
+[Insert screenshot of the form view here]
+
+The form includes the following fields:
+
+- Name: Label for the department.
+- Description: Optional text describing its role or function.
+- Parent: Higher-level department, if applicable.
+- Active: Enables or disables the department.
+
+
+++Delete++
+
+Departments can only be deleted if no employees are currently assigned to them.
+
+If in use, deactivation is recommended instead.

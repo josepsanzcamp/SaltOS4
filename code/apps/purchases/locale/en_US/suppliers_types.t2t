@@ -1,0 +1,41 @@
+
+
+
++Supplier Types+
+
+++Description++
+
+The Supplier Types application is used to classify suppliers by category, industry, or relationship.
+This classification helps filter and organize suppliers, and may be used for segmentation or reporting purposes.
+
+Examples of types include "Distributor", "Manufacturer", "Service Provider", etc.
+
+++List view++
+
+[Insert screenshot of the list view here]
+
+The following fields are displayed in the list view:
+
+- Name: Name of the supplier type.
+- Description: Optional clarification or internal note.
+- Active: Indicates whether the type can be assigned to suppliers.
+
+
+++Form view++
+
+This view is used to create, view or edit supplier type entries.
+
+[Insert screenshot of the form view here]
+
+The form includes the following fields:
+
+- Name: Descriptive label for the type.
+- Description: Additional information or context.
+- Active: Enables or disables the type for selection.
+
+
+++Delete++
+
+Supplier types can only be deleted if not currently assigned to any supplier.
+
+If in use, they should be disabled instead of removed.

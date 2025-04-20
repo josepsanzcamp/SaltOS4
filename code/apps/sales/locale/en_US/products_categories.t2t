@@ -1,0 +1,41 @@
+
+
+
++Product Types+
+
+++Description++
+
+The Product Types application is used to classify products and services based on their nature or behavior.
+This classification helps distinguish between physical goods, services, subscriptions, or other internal categories used for reporting or automation.
+
+Examples of types include "Product", "Service", "Subscription", or "Bundle".
+
+++List view++
+
+[Insert screenshot of the list view here]
+
+The following fields are displayed in the list view:
+
+- Name: Label of the product type.
+- Description: Optional description to clarify the purpose of the type.
+- Active: Indicates whether the type is available when creating products.
+
+
+++Form view++
+
+This view is used to create, view or edit product type records.
+
+[Insert screenshot of the form view here]
+
+The form includes the following fields:
+
+- Name: Name shown in the type selection when creating a product.
+- Description: Notes about the type’s intended use.
+- Active: Controls availability in product forms.
+
+
+++Delete++
+
+Types can be deleted only if they are not linked to any product.
+
+Otherwise, deactivation is the recommended action.

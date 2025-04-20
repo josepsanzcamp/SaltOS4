@@ -1,0 +1,57 @@
+
+
+
++Leads+
+
+++Description++
+
+The Leads application is used to register and track potential customers before they become actual clients.
+It allows you to collect key information about each lead, such as contact details, origin, and current status in the sales process.
+This module helps organize the pre-sales activity, enabling sales teams to follow up effectively, qualify opportunities,
+and convert leads into customers when appropriate.
+
+++List view++
+
+[Insert screenshot of the list view here]
+
+The following fields are displayed in the list view:
+
+- Name: Full name or company name of the lead.
+- Email: Main email address for contacting the lead.
+- Phone: Primary contact phone number.
+- Status: Current state of the lead (e.g., New, Contacted, Qualified).
+- Type: Classification of the lead by business profile or interest.
+- Assigned To: User responsible for following up the lead.
+- Active: Indicates if the lead is currently active in the system.
+
+
+++Form view++
+
+This view is used for creating, editing or viewing a lead.
+
+- In **create** mode, the form is empty and ready to enter new data.
+- In **view** mode, the fields are filled with the selected record and cannot be edited.
+- In **edit** mode, the form is pre-filled and allows modifications.
+
+
+[Insert screenshot of the form view here]
+
+The form includes the following fields:
+
+- Name: Full name or company name of the lead.
+- Email: Main email address to contact the lead.
+- Phone: Primary contact number.
+- Status: Current state of the lead in the sales funnel.
+- Type: Segment or classification of the lead.
+- Assigned To: User responsible for managing this lead.
+- Source: Origin of the lead (e.g., website, trade show, referral).
+- Notes: Internal comments or observations about the lead.
+- Active: Whether the lead is visible and in use.
+
+
+++Delete++
+
+Records can be deleted from the list view via the delete action.
+A confirmation prompt will appear before the operation is executed.
+
+This action is irreversible and requires appropriate permissions.

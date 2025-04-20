@@ -1,0 +1,59 @@
+
+
+
++Emails Accounts+
+
+++Description++
+
+The Emails Accounts application is used to configure and manage the email accounts connected to SaltOS4.
+Each account can be used to send and receive emails via SMTP, IMAP or POP3 protocols.
+This module allows integration with external email providers and supports authentication, folders, and synchronization options.
+
+++List view++
+
+[Insert screenshot of the list view here]
+
+The following fields are displayed in the list view:
+
+- Name: Descriptive name of the account for internal reference.
+- Email: Email address configured for the account.
+- Type: Protocol used (e.g., IMAP, POP3).
+- Server: Incoming server hostname.
+- Port: Network port used for incoming mail.
+- Active: Indicates whether the account is enabled for use.
+
+
+++Form view++
+
+This view is used to create, view or edit an email account.
+
+- In **create** mode, a new account is configured from scratch.
+- In **view** mode, account settings are shown without allowing changes.
+- In **edit** mode, the configuration can be updated or corrected.
+
+
+[Insert screenshot of the form view here]
+
+The form includes the following fields:
+
+- Name: Internal label for the account.
+- Email: Actual email address being configured.
+- Type: Protocol for incoming messages (IMAP or POP3).
+- Username: Login credential for server authentication.
+- Password: Secret key used to access the account.
+- Incoming Server: Hostname of the email provider's incoming server.
+- Incoming Port: Port used to retrieve messages.
+- Use SSL: Whether to use a secure connection for incoming emails.
+- Outgoing Server (SMTP): Server used to send messages.
+- Outgoing Port: Port used to deliver messages.
+- SMTP Username: Credential for sending mail (if different).
+- SMTP Password: Authentication password for sending (if needed).
+- Signature: Default email signature attached to outgoing messages.
+- Active: Enables or disables the account.
+
+
+++Delete++
+
+Accounts can be deleted if they are not in use or connected to recent email activity.
+
+Disabling is preferred when preserving configuration for future use or audit.

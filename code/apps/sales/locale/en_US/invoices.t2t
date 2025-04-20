@@ -1,0 +1,62 @@
+
+
+
++Invoices+
+
+++Description++
+
+The Invoices application is used to issue and manage customer billing records.
+Each invoice contains product or service lines, quantities, unit prices, taxes, and discounts.
+This module supports both pro forma and finalized invoices, tracks payment status,
+and integrates with the Customers, Products, and Taxes modules.
+It also provides traceability for due dates, payment dates, and links to related documents.
+
+++List view++
+
+[Insert screenshot of the list view here]
+
+The following fields are displayed in the list view:
+
+- Customer: Name of the customer billed in the invoice.
+- CIF: Customer’s tax identification code.
+- Invoice: Unique internal reference of the invoice.
+- Date: Date the invoice was issued.
+- Total: Final amount including taxes and discounts.
+- Paid: Indicates whether the invoice has been paid.
+- Due Date: Date by which the payment is expected.
+
+
+++Form view++
+
+This view is used for creating, editing or viewing an invoice.
+
+- In **create** mode, the form is empty and allows the user to generate a new invoice, including pro forma invoices.
+- In **view** mode, it shows a finalized invoice in read-only mode.
+- In **edit** mode, it allows modifying a draft invoice or correcting information before finalization.
+
+
+[Insert screenshot of the form view here]
+
+The form includes the following fields:
+
+- Customer: Selected client for this invoice.
+- CIF: Tax ID of the customer at the time of invoicing.
+- Invoice: Internal reference number (auto-generated or manual).
+- Date: Official date of invoice emission.
+- Status: Indicates whether the invoice is draft, closed, or cancelled.
+- Payment Terms: Conditions agreed with the customer.
+- Due Date: Deadline for the invoice payment.
+- Paid: Marks the invoice as fully paid.
+- Paid Date: Date on which payment was received.
+- Notes: Internal notes or extra conditions.
+- Total: Total invoice amount based on line items and taxes.
+
+
+Invoices also include line items (product, quantity, price, discount, tax) and a breakdown of applied taxes.
+
+++Delete++
+
+Invoices can only be deleted if they are in draft status.
+A confirmation prompt is shown before the operation.
+
+Once an invoice is finalized and/or linked to a payment, deletion is restricted.

@@ -1,0 +1,59 @@
+
+
+
++Customers+
+
+++Description++
+
+The Customers application allows you to manage your client base within SaltOS4.
+It centralizes all information related to customers, such as identification, contact details,
+tax code, address, and classification. It also serves as a hub to link customers with other
+modules like quotes, invoices, meetings, and emails.
+
+++List view++
+
+[Insert screenshot of the list view here]
+
+The following fields are displayed in the list view:
+
+- Name: Full name or business name of the customer.
+- CIF: Customer's tax identification code (NIF, CIF, VAT, etc.).
+- Country: Country where the customer is legally registered or operates.
+- Email: Main email address for communication.
+- Phone: Primary contact phone number.
+- Type: Category the customer belongs to (e.g., regular, VIP).
+- Active: Indicates if the customer is active in the system.
+
+
+++Form view++
+
+This view is used for creating, editing or viewing a customer record.
+
+- In **create** mode, the form is empty and ready to enter new data.
+- In **view** mode, the fields are filled with the selected record and cannot be edited.
+- In **edit** mode, the form is pre-filled and allows modifications.
+
+
+[Insert screenshot of the form view here]
+
+The form includes the following fields:
+
+- Name: Full name or business name of the customer.
+- CIF: Customer's tax identification code.
+- Address: Main physical or billing address.
+- City: City or locality of the customer.
+- ZIP: Postal code corresponding to the address.
+- Country: Country of registration.
+- Phone: Contact number.
+- Email: Email for notifications or invoices.
+- Type: Customer category or classification.
+- Active: Enables or disables the customer visibility.
+- Notes: Internal notes related to the customer.
+
+
+++Delete++
+
+Records can be deleted from the list view via the delete action.
+A confirmation prompt will appear before the operation is executed.
+
+This action is irreversible and requires specific permissions.

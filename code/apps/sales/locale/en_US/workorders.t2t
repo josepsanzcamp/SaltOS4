@@ -1,0 +1,56 @@
+
+
+
++Workorders+
+
+++Description++
+
+The Workorders application is used to register, plan, and track work tasks or service jobs requested by customers.
+Each work order includes information about the requester, the service required, status, dates, assigned staff,
+and associated notes or attachments. This module is essential for managing operational activities,
+such as technical support, installations, or field services.
+
+++List view++
+
+[Insert screenshot of the list view here]
+
+The following fields are displayed in the list view:
+
+- Code: Internal reference number of the work order.
+- Date: The creation date of the work order.
+- Customer: The customer who requested the service.
+- Assigned To: The employee or technician responsible for the task.
+- Status: Current state of the work order (e.g., Open, In Progress, Closed).
+- Description: Short description of the task or service required.
+
+
+++Form view++
+
+This view is used to create, edit, or view a work order.
+
+- In **create** mode, the form allows registering a new task to be performed.
+- In **view** mode, the information is shown as read-only.
+- In **edit** mode, the data can be updated based on progress or feedback.
+
+
+[Insert screenshot of the form view here]
+
+The form includes the following fields:
+
+- Code: Internal identifier for the work order.
+- Date: Date when the request was received or scheduled.
+- Customer: Linked customer requesting the service.
+- Assigned To: Selected employee or technician responsible for the task.
+- Status: Status of the job (e.g., Open, Assigned, In Progress, Completed).
+- Type: Category or classification of the work order.
+- Description: Short explanation of the service or task.
+- Notes: Internal observations or customer-specific instructions.
+- Files: Attachments such as documents or images related to the job.
+
+
+++Delete++
+
+Workorders can be deleted only if they are not linked to completed services or logged actions.
+
+A confirmation prompt is displayed before deletion.
+Deactivation is preferred if you want to retain history without exposing the record.

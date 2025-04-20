@@ -1,0 +1,46 @@
+
+
+
++Tokens Log+
+
+++Description++
+
+The Tokens Log application tracks the usage of authentication tokens across the system.
+These tokens are typically used in API calls, automated scripts, or temporary login sessions.
+This module allows administrators to monitor access to the system and detect potential misuse or unauthorized attempts.
+
+++List view++
+
+[Insert screenshot of the list view here]
+
+The following fields are displayed in the list view:
+
+- Datetime: When the token was used.
+- User: The user associated with the token.
+- Token ID: Identifier or fingerprint of the token.
+- Action: Operation performed using the token (e.g., login, request).
+- IP Address: Origin of the access attempt.
+
+
+++View entry++
+
+This view displays all information related to a specific token access.
+
+[Insert screenshot of the view entry here]
+
+It includes:
+
+- Datetime: Timestamp of token usage.
+- User: Owner of the token.
+- Token: Full token or masked fingerprint.
+- Action: Description of what the token was used for.
+- IP Address: Source IP from which the token was used.
+- User-Agent: Browser or client string (if available).
+- App/Endpoint: Optional context of the API or function accessed.
+
+
+++Delete++
+
+Token log entries are not meant to be deleted manually.
+
+They form part of the system’s audit and access control history, and are subject to automatic cleanup if configured.

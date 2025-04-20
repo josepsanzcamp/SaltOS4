@@ -1,0 +1,58 @@
+
+
+
++Quotes+
+
+++Description++
+
+The Quotes application is used to create and manage commercial proposals sent to customers.
+Each quote contains line items with products or services, pricing, taxes, and conditions.
+This module is tightly integrated with Customers and Products, and allows for tracking the status of each quote
+(e.g., Draft, Sent, Accepted). When a quote is accepted, it can be converted into an invoice.
+
+++List view++
+
+[Insert screenshot of the list view here]
+
+The following fields are displayed in the list view:
+
+- Customer: Name of the customer to whom the quote is addressed.
+- CIF: Tax identification code of the customer.
+- Quote: Internal reference code of the quote.
+- Date: Date the quote was issued.
+- Total: Total amount of the quote including taxes.
+
+
+++Form view++
+
+This view is used for creating, editing or viewing a quote.
+
+- In **create** mode, the form is empty and allows you to build a new quote.
+- In **view** mode, it displays a finalized quote without editing capabilities.
+- In **edit** mode, it shows a draft quote ready for modification.
+
+
+[Insert screenshot of the form view here]
+
+The form includes the following fields:
+
+- Customer: Selected client to whom the quote is addressed.
+- CIF: Tax identification number of the customer.
+- Quote: Internal reference number for the quote.
+- Date: Emission date of the quote.
+- Status: Current state of the quote (Draft, Sent, Accepted).
+- Valid Until: Expiration date for the offer.
+- Payment Terms: Conditions agreed for future payment if accepted.
+- Delivery Date: Expected delivery date for the goods or services.
+- Notes: Internal comments or specific conditions related to this quote.
+- Total: Automatically calculated amount based on lines and taxes.
+
+
+Quote lines are also included as a subtable, where each line contains product, quantity, price, tax, and discount.
+
+++Delete++
+
+Quotes can be deleted from the list view if they are not yet accepted.
+A confirmation prompt will appear before deletion.
+
+This action is irreversible and subject to user permissions.

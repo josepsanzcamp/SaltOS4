@@ -23,9 +23,16 @@ if (!file_exists($outdir)) {
 }
 chdir($outdir);
 
+// Is locale???
+$is_locale = strpos($outdir, '/locale/') !== false;
+
 // PDF Section
 $file = str_replace('.t2t', '', $outfile);
-ob_passthru("txt2tags --toc -t tex -i ${file}.t2t -o ${file}.tex");
+$toc = '--toc';
+if ($is_locale) {
+    $toc = '';
+}
+ob_passthru("txt2tags $toc -t tex -i ${file}.t2t -o ${file}.tex");
 $buffer = file_get_contents("${file}.tex");
 $buffer = explode("\n", $buffer);
 $buffer0 = array_slice($buffer, 0, 5);
@@ -64,6 +71,10 @@ $buffer2 = str_replace("\\begin{verbatim}", "\\begin{lstlisting}", $buffer2);
 $buffer2 = str_replace("\\end{verbatim}", "\\end{lstlisting}", $buffer2);
 $buffer2 = str_replace("\t", str_repeat(' ', 4), $buffer2);
 $buffer2 = str_replace('\\item', "\\item[\\color{myblue}\$\\bullet\$]", $buffer2);
+if ($is_locale) {
+    $buffer2 = str_replace('\\maketitle', '', $buffer2);
+    $buffer2 = str_replace('\\clearpage', '', $buffer2);
+}
 $buffer = array_merge($buffer0, $buffer1, $buffer2);
 $buffer = implode("\n", $buffer);
 // FIX FOR THE IMAGE POSITION
@@ -81,9 +92,12 @@ while ($pos !== false) {
 // CONTINUE
 file_put_contents("${file}.tex", $buffer);
 for ($i = 0; $i < 3; $i++) {
-    ob_passthru("pdflatex ${file}.tex");
+    ob_passthru("pdflatex -interaction batchmode ${file}.tex");
 }
 $exts = ['aux', 'log', 'out', 'toc'];
+if ($is_locale) {
+    $exts[] = 'tex';
+}
 foreach ($exts as $ext) {
     unlink("${file}.${ext}");
 }

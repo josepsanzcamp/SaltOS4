@@ -1,0 +1,40 @@
+
+
+
++Customer Types+
+
+++Description++
+
+The Customer Types application allows you to define categories or segments for classifying customers.
+These types are used in the Customers module to group and organize clients according to their profile, purpose, or treatment.
+Examples may include "Individual", "Company", "VIP", or "Distributor".
+
+++List view++
+
+[Insert screenshot of the list view here]
+
+The following fields are displayed in the list view:
+
+- Name: The label of the customer type (e.g., Company, VIP).
+- Description: Additional explanation of the type’s purpose or scope.
+- Active: Indicates whether the type is available for selection.
+
+
+++Form view++
+
+This view is used to create, view or edit customer type entries.
+
+[Insert screenshot of the form view here]
+
+The form includes the following fields:
+
+- Name: Title of the customer type.
+- Description: Optional note describing how or when to use this type.
+- Active: Enables or disables the type for use in the Customers app.
+
+
+++Delete++
+
+Customer types can be deleted only if they are not assigned to any customer.
+
+If in use, they should be deactivated instead to preserve consistency.

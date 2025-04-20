@@ -1,0 +1,53 @@
+
+
+
++Company+
+
+++Description++
+
+The Company application stores the identification and contact details of the organization using SaltOS4.
+This data is used across the system to personalize documents (quotes, invoices, emails, etc.) and define the legal and fiscal identity of the company.
+
+It typically includes the company's name, tax code, address, logo, and preferred language.
+
+++List view++
+
+[Insert screenshot of the list view here]
+
+The following fields are displayed in the list view:
+
+- Name: Registered name of the company.
+- Code: Tax identification code (e.g., VAT, CIF, NIF).
+- Country: Country where the company is based.
+- Email: Main contact or support address.
+- Phone: Company phone number.
+- Active: Indicates whether the profile is in use (usually only one is active).
+
+
+++Form view++
+
+This view is used to define or edit the company profile.
+
+[Insert screenshot of the form view here]
+
+The form includes the following fields:
+
+- Name: Legal or commercial name of the organization.
+- Code: Fiscal code of the company (e.g., NIF, VAT).
+- Address: Registered business address.
+- City: City of the main office.
+- ZIP: Postal code for correspondence.
+- Country: Country of operation or registration.
+- Phone: Primary contact number.
+- Email: General contact or support email.
+- Language: Default language used for documents and UI.
+- Logo: Image representing the company, used in PDF and web headers.
+- Notes: Optional internal observations.
+- Active: Enables the profile as the default company identity.
+
+
+++Delete++
+
+The company profile cannot be deleted if it's the only active one in the system.
+
+Only deactivation is allowed in most configurations.

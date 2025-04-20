@@ -1,0 +1,46 @@
+
+
+
++Trash Log+
+
+++Description++
+
+The Trash Log application records all deletions performed in the system, acting as a recycle bin for SaltOS4.
+It allows administrators and advanced users to inspect what data has been removed, when, by whom, and from where.
+This module is key for auditability and helps identify accidental deletions or unauthorized actions.
+
+++List view++
+
+[Insert screenshot of the list view here]
+
+The following fields are displayed in the list view:
+
+- Datetime: When the deletion occurred.
+- User: Who deleted the record.
+- Table: Database table from which the record was removed.
+- Record ID: Identifier of the deleted entry.
+- Summary: Textual representation of the deleted content.
+
+
+++View entry++
+
+This view displays all recorded information about a deleted item.
+
+[Insert screenshot of the view entry here]
+
+It includes:
+
+- Datetime: Exact timestamp of the deletion.
+- User: Account that triggered the deletion.
+- Table: Technical name of the table affected.
+- Record ID: Primary key of the deleted entry.
+- Summary: Main data content or description of the record.
+- Source: App or context where the deletion was performed.
+- IP Address: Origin of the deletion action (if tracked).
+
+
+++Delete++
+
+Trash log entries cannot be deleted directly from the interface.
+
+SaltOS4 retains them for accountability and legal traceability unless automatic pruning is configured.

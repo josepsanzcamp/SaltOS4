@@ -1,0 +1,69 @@
+
+
+
++Emails+
+
+++Description++
+
+The Emails application is used to receive, view, and reply to emails from configured accounts within SaltOS4.
+It acts as a simplified integrated email client that supports reading messages from POP3 or IMAP,
+viewing metadata and content, and replying using internal or external SMTP servers.
+
+Each message is presented as a visual card in the list view, showing key fields such as sender, subject,
+date, and a preview of the body. Emails can be viewed in detail, replied to, or deleted. This app is
+closely integrated with the Emails Accounts module and is essential for managing inbound communication.
+
+++List view++
+
+[Insert screenshot of the list view here]
+
+The list view shows incoming emails as clickable buttons or cards.
+Each entry typically displays:
+
+- From / To: Depending on whether the message was received or sent.
+- Subject: The subject line of the email.
+- Snippet: A short preview of the body content.
+- Datetime: When the message was received or sent.
+- Attachments: An indicator showing if files are attached.
+
+
+The interface also includes filters and a search form to filter by sender, subject, account, and date.
+
+++View message++
+
+This view shows the full content of an email message, including header metadata and attachments.
+
+[Insert screenshot of the email view screen here]
+
+The following information is typically displayed:
+
+- From: Sender's email address.
+- To / CC / BCC: Recipients of the message.
+- Subject: The subject line.
+- Datetime: The exact timestamp of the message.
+- UIDL: Internal identifier from the mail server.
+- Body: Full content of the message.
+- Attachments: List of downloadable files.
+
+
+++Reply / Compose++
+
+Users can reply to an existing message or compose a new email using a simplified form.
+
+[Insert screenshot of the reply/compose view here]
+
+The reply form includes:
+
+- From: Email account used to send the message.
+- To: Main recipient(s) of the email.
+- CC / BCC: Optional carbon/blind copies.
+- Subject: Subject of the message (pre-filled when replying).
+- Body: Message content (rich text or plain).
+- Attachments: Optional files to attach.
+
+
+++Delete++
+
+Emails can be deleted from the list view using the delete icon or action.
+
+Messages are usually deleted locally or flagged for deletion, depending on the server configuration.
