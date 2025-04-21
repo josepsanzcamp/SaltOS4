@@ -1,0 +1,52 @@
+
+
+
+=Certificats=
+
+==Descripció==
+
+L'aplicació de Certificats s'utilitza per gestionar i controlar els certificats SSL/TLS emmagatzemats o monitoritzats pel sistema.
+
+Aquest mòdul permet als administradors registrar certificats, desar metadades, monitorar dates de caducitat
+i garantir que la infraestructura de seguretat estigui actualitzada.
+
+És especialment útil per gestionar certificats de dominis personalitzats, serveis interns o integracions externes.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-certs-certs-list-ca-es-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Àlies de certificat disponibles: Llista d'àlies de certificats ja emmagatzemats i disponibles al sistema. No és una taula basada en base de dades, sinó una visualització directa dels certificats carregats.
+
+
+==Form view==
+
+Aquesta vista s'utilitza per afegir, revisar o actualitzar la informació d'un certificat.
+
+En **mode creació**, el formulari està buit i llest per introduir noves dades.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-certs-certs-create-ca-es-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Fitxer de certificat (.p12, .pfx): Camp per pujar un o més certificats en format PKCS#12. És obligatori per importar certificats al sistema.
+- Contrasenya del fitxer: Contrasenya per desencriptar el fitxer de certificat pujat. Aquest camp és obligatori i no s'autocompleta per motius de seguretat.
+
+
+En **mode vista**, els camps estan omplerts amb el registre seleccionat i no es poden editar.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-certs-certs-view-ab-877-d-2027-f-7-c-71-d-9935999-cce-1-b-802-b-ca-es-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Nom: Nom visible o àlies del certificat.
+- Informació: Detalls tècnics del certificat, incloent emissor, caducitat i subjecte. Mostrat en un camp de text només de lectura.
+
+
+==Eliminar==
+
+Els certificats poden ser eliminats si ja no són rellevants.
+
+Tanmateix, es recomana conservar els certificats caducats per a finalitats d'auditoria.

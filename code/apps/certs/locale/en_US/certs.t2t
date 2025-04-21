@@ -6,6 +6,7 @@
 ==Description==
 
 The Certificates application is used to manage and track SSL/TLS certificates stored or monitored by the system.
+
 This module allows administrators to register certificates, store metadata, monitor expiration dates,
 and ensure that security infrastructure remains up-to-date.
 
