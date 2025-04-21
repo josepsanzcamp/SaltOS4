@@ -1,0 +1,2302 @@
+\documentclass[a4paper]{article}
+\usepackage{graphicx}
+\usepackage{paralist} % needed for compact lists
+\usepackage[normalem]{ulem} % needed by strike
+\usepackage[urlcolor=myblue,colorlinks=true,linkcolor=myblue]{hyperref}
+\usepackage[english]{babel}
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage{eurosym}
+\usepackage{sans}
+\usepackage{fullpage}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{sectsty}
+\allsectionsfont{\color{myblue}}
+\definecolor{myblue}{RGB}{39,128,227}
+\setlength{\parindent}{0mm}
+\setlength{\parskip}{3mm}
+\setlength{\plparsep}{2.5mm}
+\def\htmladdnormallink#1#2{\href{#2}{#1}}
+\definecolor{mygrey}{rgb}{0.9,0.9,0.9}
+\usepackage{courier}
+\lstset{basicstyle=\ttfamily,backgroundcolor=\color{mygrey},breaklines=true}
+\usepackage{tocloft}
+\setlength{\cftsubsubsecnumwidth}{13mm}
+\setlength\cftparskip{3mm}
+
+
+\title{User Manual (es\_ES)}
+\author{SaltOS 4.0 r1995}
+\begin{document}
+\date{April 2025}
+\maketitle
+\clearpage
+
+\tableofcontents
+\clearpage
+
+
+\hypertarget{toc1}{}
+\section{Certificados}
+
+\hypertarget{toc2}{}
+\subsection{Descripción}
+
+La aplicación de Certificados se utiliza para gestionar y controlar los certificados SSL/TLS almacenados o monitorizados por el sistema.
+
+Este módulo permite a los administradores registrar certificados, almacenar metadatos, monitorizar fechas de expiración
+y garantizar que la infraestructura de seguridad se mantenga actualizada.
+
+Es especialmente útil para gestionar certificados de dominios personalizados, servicios internos o integraciones externas.
+
+\hypertarget{toc3}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-certs-certs-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Alias de certificado disponibles: Lista de alias de certificados ya almacenados y disponibles en el sistema. No es una tabla basada en base de datos, sino una visualización directa de los certificados cargados.
+\end{compactitem}
+
+\hypertarget{toc4}{}
+\subsection{Vista de formulario}
+
+Esta vista se utiliza para añadir, revisar o actualizar la información de un certificado.
+
+En \textbf{modo creación}, el formulario está vacío y listo para introducir nuevos datos.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-certs-certs-create-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Archivo de certificado (.p12, .pfx): Campo de subida utilizado para cargar uno o más certificados en formato PKCS\#12. Es obligatorio para importar certificados al sistema.
+\item[\color{myblue}$\bullet$] Contraseña del archivo: Contraseña utilizada para descifrar el archivo de certificado cargado. Este campo es obligatorio y no se autocompleta por razones de seguridad.
+\end{compactitem}
+
+En \textbf{modo vista}, los campos están rellenos con el registro seleccionado y no se pueden editar.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-certs-certs-view-ab-877-d-2027-f-7-c-71-d-9935999-cce-1-b-802-b-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Nombre: Nombre visible o alias del certificado.
+\item[\color{myblue}$\bullet$] Información: Detalles técnicos del certificado, incluyendo emisor, expiración y sujeto. Mostrado en un área de texto de solo lectura.
+\end{compactitem}
+
+\hypertarget{toc5}{}
+\subsection{Eliminar}
+
+Los certificados pueden eliminarse si ya no son relevantes.
+
+Sin embargo, se recomienda conservar las entradas expiradas con fines de auditoría.
+
+
+\hypertarget{toc6}{}
+\section{Registro de configuración}
+
+\hypertarget{toc7}{}
+\subsection{Descripción}
+
+La aplicación de registro de configuración proporciona una trazabilidad de todos los cambios de configuración realizados en SaltOS4.
+Se utiliza para supervisar modificaciones en parámetros del sistema, configuraciones de aplicaciones o preferencias internas.
+Este módulo es esencial para los administradores que desean auditar cambios y garantizar un comportamiento consistente del sistema a lo largo del tiempo.
+
+\hypertarget{toc8}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-common-configlog-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Usuario: Usuario que realizó el cambio de configuración.
+\item[\color{myblue}$\bullet$] Clave: Clave de configuración que fue modificada.
+\end{compactitem}
+
+\hypertarget{toc9}{}
+\subsection{Vista de registro}
+
+Esta vista muestra los detalles completos de un registro de cambio de configuración.
+
+En el modo \textbf{crear}, el formulario está vacío y listo para introducir nuevos datos.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-common-configlog-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, los campos están rellenos con la información del registro seleccionado y no pueden editarse.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-common-configlog-view-10-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, el formulario se muestra con los datos existentes y permite modificaciones.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-common-configlog-edit-10-es-es-1-snap.png}\end{center}
+
+Incluye:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Usuario: Usuario que realizó el cambio de configuración.
+\item[\color{myblue}$\bullet$] Clave: Clave de configuración modificada.
+\item[\color{myblue}$\bullet$] Valor: Nuevo valor asignado a la clave de configuración.
+\end{compactitem}
+
+\hypertarget{toc10}{}
+\subsection{Eliminación}
+
+Las entradas del registro de configuración no pueden eliminarse en condiciones normales.
+
+Este registro está diseñado para garantizar la trazabilidad total y la auditabilidad de las acciones administrativas.
+
+
+\hypertarget{toc11}{}
+\section{Registro de cron}
+
+\hypertarget{toc12}{}
+\subsection{Descripción}
+
+La aplicación de registro de cron almacena el historial de ejecución de tareas programadas (cron jobs) dentro de SaltOS4.
+Permite a los administradores supervisar procesos en segundo plano como la recogida de correos, importaciones de datos, copias de seguridad o tareas personalizadas.
+Este módulo es esencial para la detección de errores y para verificar que las operaciones programadas se estén ejecutando correctamente.
+
+\hypertarget{toc13}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-common-cronlog-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Comando: Comando o script ejecutado por el sistema de cron.
+\item[\color{myblue}$\bullet$] Inicio: Hora de inicio de la ejecución de la tarea programada.
+\item[\color{myblue}$\bullet$] Salida: Vista previa del resultado de salida estándar.
+\item[\color{myblue}$\bullet$] Error: Vista previa del resultado de salida de error (si lo hay).
+\end{compactitem}
+
+\hypertarget{toc14}{}
+\subsection{Vista de registro}
+
+Esta vista muestra el resultado completo de una ejecución de tarea cron individual.
+
+Incluye:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Comando: Comando o script ejecutado por cron.
+\item[\color{myblue}$\bullet$] PID: Identificador de proceso asignado a la tarea.
+\item[\color{myblue}$\bullet$] Inicio: Hora de inicio de la tarea.
+\item[\color{myblue}$\bullet$] Fin: Hora en que terminó la ejecución.
+\item[\color{myblue}$\bullet$] STDOUT: Salida estándar generada durante la ejecución.
+\item[\color{myblue}$\bullet$] STDERR: Salida de error generada durante la ejecución (si existe).
+\end{compactitem}
+
+\hypertarget{toc15}{}
+\subsection{Eliminación}
+
+Las entradas del registro de cron no están pensadas para ser eliminadas con regularidad.
+
+Se puede configurar una limpieza automática o una purga manual para eliminar entradas antiguas.
+
+
+\hypertarget{toc16}{}
+\section{Registro de archivos}
+
+\hypertarget{toc17}{}
+\subsection{Descripción}
+
+La aplicación de registro de archivos registra todos los eventos de acceso a archivos dentro de SaltOS4.
+Rastrea cuándo los archivos son visualizados, descargados o accedidos por los usuarios, incluyendo los metadatos asociados.
+Este módulo proporciona una trazabilidad completa de la actividad documental, respaldando políticas de gobernanza y seguridad de datos.
+
+\hypertarget{toc18}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-common-fileslog-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Nombre: Nombre del archivo accedido o gestionado dentro del sistema.
+\item[\color{myblue}$\bullet$] Tipo: Formato o clasificación del archivo (ej: PDF, imagen, texto).
+\item[\color{myblue}$\bullet$] Tamaño: Tamaño del archivo en bytes.
+\end{compactitem}
+
+\hypertarget{toc19}{}
+\subsection{Vista del registro}
+
+Esta vista muestra información detallada sobre un evento de acceso a archivo.
+
+Incluye:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Nombre: Nombre del archivo accedido o gestionado dentro del sistema.
+\item[\color{myblue}$\bullet$] Tipo: Formato o clasificación del archivo (ej: PDF, imagen, texto).
+\item[\color{myblue}$\bullet$] Tamaño: Tamaño del archivo en bytes.
+\item[\color{myblue}$\bullet$] Datos: Contenido interno, metadatos o estructura serializada que representa el acceso o acción sobre el archivo.
+\end{compactitem}
+
+\hypertarget{toc20}{}
+\subsection{Eliminación}
+
+Las entradas del registro de archivos generalmente no se eliminan de forma manual.
+
+Se conservan por motivos de auditoría y control de seguridad, y pueden depurarse automáticamente según la configuración del sistema.
+
+
+\hypertarget{toc21}{}
+\section{Registro de notificaciones push}
+
+\hypertarget{toc22}{}
+\subsection{Descripción}
+
+La aplicación de registro de notificaciones push almacena todas las notificaciones enviadas por el sistema.
+Estas notificaciones se utilizan normalmente para alertar a los usuarios sobre acciones, actualizaciones o eventos del sistema en tiempo real.
+Este módulo permite a los administradores monitorizar el flujo de notificaciones y diagnosticar posibles problemas en el proceso de entrega.
+
+\hypertarget{toc23}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-common-pushlog-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Usuario: Usuario que generó o recibió la notificación push.
+\item[\color{myblue}$\bullet$] Fecha y hora: Momento en que se registró la notificación.
+\item[\color{myblue}$\bullet$] Tipo: Categoría del mensaje push (ej: información, advertencia, error).
+\end{compactitem}
+
+\hypertarget{toc24}{}
+\subsection{Vista de registro}
+
+Esta vista muestra los detalles completos de una única notificación push.
+
+Incluye:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Usuario: Usuario que generó o recibió la notificación.
+\item[\color{myblue}$\bullet$] Fecha y hora: Fecha y hora en que se registró la notificación.
+\item[\color{myblue}$\bullet$] Tipo: Categoría del mensaje push (ej: información, advertencia, error).
+\item[\color{myblue}$\bullet$] Mensaje: Contenido o resumen del mensaje enviado.
+\item[\color{myblue}$\bullet$] Marca temporal: Timestamp interno del sistema al registrar el evento.
+\end{compactitem}
+
+\hypertarget{toc25}{}
+\subsection{Eliminación}
+
+Las entradas del registro de notificaciones push normalmente no se eliminan y se conservan para fines de auditoría.
+
+En escenarios de mantenimiento específicos, los registros antiguos pueden ser depurados, pero esto requiere permisos explícitos.
+
+
+\hypertarget{toc26}{}
+\section{Registro de tokens}
+
+\hypertarget{toc27}{}
+\subsection{Descripción}
+
+La aplicación de registro de tokens hace seguimiento del uso de los tokens de autenticación en todo el sistema.
+Estos tokens se utilizan normalmente en llamadas a la API, scripts automatizados o sesiones de acceso temporal.
+Este módulo permite a los administradores monitorizar el acceso al sistema y detectar posibles usos indebidos o intentos no autorizados.
+
+\hypertarget{toc28}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Usuario: Usuario asociado al token.
+\item[\color{myblue}$\bullet$] Creado: Fecha y hora en que se creó el token.
+\item[\color{myblue}$\bullet$] Token: Cadena de token utilizada para autenticación o acceso.
+\item[\color{myblue}$\bullet$] Activo: Indica si el token es actualmente válido y utilizable.
+\end{compactitem}
+
+\hypertarget{toc29}{}
+\subsection{Vista de registro}
+
+Esta vista muestra toda la información relacionada con un acceso mediante token.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-view-1-es-es-1-snap.png}\end{center}
+
+Incluye:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Activo: Indica si el token es actualmente válido y utilizable.
+\item[\color{myblue}$\bullet$] Usuario: Usuario asociado al token.
+\item[\color{myblue}$\bullet$] Creado: Fecha y hora en que se creó el token.
+\item[\color{myblue}$\bullet$] Actualizado: Fecha y hora de la última modificación del estado del token.
+\item[\color{myblue}$\bullet$] Dirección IP: Dirección desde la cual se utilizó o generó el token.
+\item[\color{myblue}$\bullet$] User Agent: Navegador o cliente usado para generar o acceder al token.
+\item[\color{myblue}$\bullet$] Token: Cadena usada para autenticación o acceso.
+\item[\color{myblue}$\bullet$] Expira: Fecha y hora de expiración del token, tras la cual deja de ser válido.
+\end{compactitem}
+
+\hypertarget{toc30}{}
+\subsection{Eliminación}
+
+Las entradas del registro de tokens no están pensadas para ser eliminadas manualmente.
+
+Forman parte del historial de auditoría y control de accesos del sistema, y pueden eliminarse automáticamente si está configurado.
+
+
+\hypertarget{toc31}{}
+\section{Registro de papelera}
+
+\hypertarget{toc32}{}
+\subsection{Descripción}
+
+La aplicación de registro de papelera almacena todas las eliminaciones realizadas en el sistema, actuando como una papelera de reciclaje para SaltOS4.
+Permite a administradores y usuarios avanzados inspeccionar qué datos han sido eliminados, cuándo, por quién y desde dónde.
+Este módulo es clave para la trazabilidad y ayuda a identificar eliminaciones accidentales o acciones no autorizadas.
+
+\hypertarget{toc33}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-common-trashlog-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Usuario: Usuario que realizó la eliminación.
+\item[\color{myblue}$\bullet$] Fecha y hora: Momento exacto en que se eliminó el registro.
+\item[\color{myblue}$\bullet$] Nombre: Nombre descriptivo del registro o archivo eliminado.
+\end{compactitem}
+
+\hypertarget{toc34}{}
+\subsection{Vista de registro}
+
+Esta vista muestra toda la información registrada sobre un elemento eliminado.
+
+Incluye:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] ID antiguo: Identificador original del registro antes de su eliminación.
+\item[\color{myblue}$\bullet$] Usuario: Usuario que realizó la eliminación.
+\item[\color{myblue}$\bullet$] Fecha y hora: Momento exacto en que se eliminó.
+\item[\color{myblue}$\bullet$] ID de registro: Identificador interno asignado al registro eliminado.
+\item[\color{myblue}$\bullet$] Aplicación: Aplicación o módulo desde donde se eliminó el registro.
+\item[\color{myblue}$\bullet$] ID único: Identificador único en todo el sistema del elemento eliminado.
+\item[\color{myblue}$\bullet$] Nombre: Nombre descriptivo del registro o archivo eliminado.
+\item[\color{myblue}$\bullet$] Tamaño: Tamaño del archivo en bytes, si el elemento era un archivo.
+\item[\color{myblue}$\bullet$] Tipo: Tipo MIME o clasificación del elemento eliminado.
+\item[\color{myblue}$\bullet$] Archivo: Nombre o ruta original del archivo eliminado.
+\item[\color{myblue}$\bullet$] Hash: Suma de verificación utilizada para validar el contenido eliminado.
+\end{compactitem}
+
+\hypertarget{toc35}{}
+\subsection{Eliminación}
+
+Las entradas del registro de papelera no pueden eliminarse directamente desde la interfaz.
+
+SaltOS4 las conserva para fines de responsabilidad y trazabilidad legal, a menos que se configure una depuración automática.
+
+
+\hypertarget{toc36}{}
+\section{Registro de subidas}
+
+\hypertarget{toc37}{}
+\subsection{Descripción}
+
+La aplicación de registro de subidas registra todos los archivos cargados a través de SaltOS4, ya sea de forma manual o automatizada.
+Ayuda a rastrear el origen, el usuario y el contexto de cada carga, y resulta útil para auditorías, depuración y para verificar que las subidas se procesan correctamente.
+
+\hypertarget{toc38}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-common-uploadlog-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Usuario: Usuario que subió el archivo.
+\item[\color{myblue}$\bullet$] Fecha y hora: Momento en que el archivo fue subido al sistema.
+\item[\color{myblue}$\bullet$] Aplicación: Módulo o aplicación desde la cual se activó la subida.
+\item[\color{myblue}$\bullet$] Nombre: Nombre original del archivo proporcionado por el usuario.
+\end{compactitem}
+
+\hypertarget{toc39}{}
+\subsection{Vista de registro}
+
+Esta vista muestra los detalles completos de una entrada del registro de subidas.
+
+Incluye:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Usuario: Usuario que subió el archivo.
+\item[\color{myblue}$\bullet$] Fecha y hora: Momento en que el archivo fue subido al sistema.
+\item[\color{myblue}$\bullet$] ID único: Identificador único interno asignado a la entrada de subida.
+\item[\color{myblue}$\bullet$] Aplicación: Módulo o aplicación desde donde se originó la subida.
+\item[\color{myblue}$\bullet$] Nombre: Nombre original del archivo proporcionado por el usuario.
+\item[\color{myblue}$\bullet$] Tamaño: Tamaño del archivo subido en bytes.
+\item[\color{myblue}$\bullet$] Tipo: Tipo MIME o formato del archivo.
+\item[\color{myblue}$\bullet$] Archivo: Nombre del archivo almacenado utilizado internamente por el sistema.
+\item[\color{myblue}$\bullet$] Hash: Suma de verificación (ej: MD5 o SHA) para validar la integridad o detectar duplicados.
+\end{compactitem}
+
+\hypertarget{toc40}{}
+\subsection{Eliminación}
+
+Las entradas del registro de subidas normalmente se conservan con fines de trazabilidad histórica.
+
+Si es necesario, se pueden eliminar entradas antiguas manualmente o mediante tareas de mantenimiento automático.
+
+
+\hypertarget{toc41}{}
+\section{Empresa}
+
+\hypertarget{toc42}{}
+\subsection{Descripción}
+
+La aplicación de empresa almacena los datos de identificación y contacto de la organización que utiliza SaltOS4.
+Esta información se utiliza en todo el sistema para personalizar documentos (presupuestos, facturas, correos, etc.) y definir la identidad legal y fiscal de la empresa.
+
+Normalmente incluye el nombre de la empresa, su código fiscal, dirección, logotipo e idioma preferido.
+
+\hypertarget{toc43}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-company-company-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Nombre: Nombre oficial de la empresa u organización.
+\item[\color{myblue}$\bullet$] CIF: Código de identificación fiscal (NIF, CIF, IVA, etc.) de la empresa.
+\item[\color{myblue}$\bullet$] Ciudad: Ciudad donde se encuentra la empresa.
+\item[\color{myblue}$\bullet$] País: País donde la empresa está legalmente registrada o donde opera.
+\item[\color{myblue}$\bullet$] Activa: Indica si este perfil de empresa está activo en el sistema.
+\end{compactitem}
+
+\hypertarget{toc44}{}
+\subsection{Vista de formulario}
+
+Esta vista se utiliza para definir o editar el perfil de la empresa.
+
+En el modo \textbf{crear}, el formulario está vacío y listo para ingresar los datos.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-company-company-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, los campos se muestran rellenos pero no se pueden editar.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-company-company-view-1-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, el formulario está precargado y permite realizar modificaciones.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-company-company-edit-1-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Activa: Indica si este perfil de empresa está activo en el sistema.
+\item[\color{myblue}$\bullet$] Nombre: Nombre oficial de la empresa u organización.
+\item[\color{myblue}$\bullet$] Código: Código fiscal (NIF, CIF, IVA, etc.) de la empresa.
+\item[\color{myblue}$\bullet$] Dirección: Dirección oficial o postal de la empresa.
+\item[\color{myblue}$\bullet$] Ciudad: Ciudad donde se encuentra la empresa.
+\item[\color{myblue}$\bullet$] Provincia / Estado: Provincia, estado o región donde tiene sede la empresa.
+\item[\color{myblue}$\bullet$] Código postal: Código postal de la dirección registrada.
+\item[\color{myblue}$\bullet$] País: País donde la empresa está registrada u opera.
+\item[\color{myblue}$\bullet$] Teléfono: Número de teléfono principal de contacto.
+\item[\color{myblue}$\bullet$] Correo electrónico: Dirección de correo electrónico utilizada para contacto administrativo o legal.
+\item[\color{myblue}$\bullet$] Sitio web: Página web pública de la empresa.
+\item[\color{myblue}$\bullet$] IBAN: Número de cuenta bancaria internacional para transferencias.
+\item[\color{myblue}$\bullet$] SWIFT/BIC: Código SWIFT/BIC que identifica el banco de la empresa en transferencias internacionales.
+\item[\color{myblue}$\bullet$] Régimen fiscal: Régimen tributario bajo el cual opera la empresa (ej: general, simplificado, pymes).
+\item[\color{myblue}$\bullet$] Código de actividad: Código de clasificación económica (ej: CNAE, NACE).
+\item[\color{myblue}$\bullet$] Notas adicionales: Observaciones internas o información adicional sobre la empresa.
+\end{compactitem}
+
+\hypertarget{toc45}{}
+\subsection{Eliminación}
+
+El perfil de empresa no puede eliminarse si es el único activo en el sistema.
+
+En la mayoría de configuraciones, solo se permite su desactivación.
+
+
+\hypertarget{toc46}{}
+\section{Clientes}
+
+\hypertarget{toc47}{}
+\subsection{Descripción}
+
+La aplicación de clientes te permite gestionar tu base de clientes dentro de SaltOS4.
+Centraliza toda la información relacionada con los clientes: identificación, datos de contacto,
+código fiscal, dirección y clasificación. También actúa como núcleo para enlazar los clientes con otros
+módulos como presupuestos, facturas, reuniones y correos.
+
+\hypertarget{toc48}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-customers-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Nombre: Nombre completo o razón social del cliente.
+\item[\color{myblue}$\bullet$] CIF: Código de identificación fiscal del cliente (NIF, CIF, IVA, etc.).
+\item[\color{myblue}$\bullet$] Ciudad: Ciudad o localidad del cliente.
+\item[\color{myblue}$\bullet$] País: País donde el cliente está registrado o realiza su actividad.
+\item[\color{myblue}$\bullet$] Activo: Indica si el cliente está activo en el sistema.
+\end{compactitem}
+
+\hypertarget{toc49}{}
+\subsection{Vista de formulario}
+
+Esta vista se utiliza para crear, editar o consultar una ficha de cliente.
+
+En el modo \textbf{crear}, el formulario está vacío y preparado para introducir nuevos datos.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-customers-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, los campos están llenos con la ficha seleccionada y no se pueden editar.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-customers-view-100-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, el formulario está prellenado y permite modificaciones.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-customers-edit-100-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Activo: Activa o desactiva la visibilidad del cliente.
+\item[\color{myblue}$\bullet$] Nombre: Nombre completo o razón social del cliente.
+\item[\color{myblue}$\bullet$] CIF: Código de identificación fiscal del cliente.
+\item[\color{myblue}$\bullet$] Dirección: Dirección física principal o de facturación.
+\item[\color{myblue}$\bullet$] Ciudad: Ciudad o localidad del cliente.
+\item[\color{myblue}$\bullet$] Provincia / Estado: Provincia o estado del cliente.
+\item[\color{myblue}$\bullet$] Código postal: Código postal correspondiente a la dirección.
+\item[\color{myblue}$\bullet$] País: País de registro.
+\item[\color{myblue}$\bullet$] Correo electrónico: Dirección para notificaciones o facturas.
+\item[\color{myblue}$\bullet$] Teléfono: Número de contacto principal.
+\item[\color{myblue}$\bullet$] Web: Sitio web del cliente.
+\item[\color{myblue}$\bullet$] Notas: Anotaciones internas relacionadas con el cliente.
+\item[\color{myblue}$\bullet$] Tipo: Categoría a la que pertenece el cliente (ej: habitual, VIP).
+\item[\color{myblue}$\bullet$] Archivos: Documentos o imágenes relacionados con el cliente.
+\item[\color{myblue}$\bullet$] Notas: Observaciones internas o instrucciones específicas del cliente.
+\end{compactitem}
+
+\hypertarget{toc50}{}
+\subsection{Eliminación}
+
+Los registros pueden eliminarse desde la vista de lista mediante la acción de eliminación.
+Aparecerá un mensaje de confirmación antes de ejecutar la operación.
+
+Esta acción es irreversible y requiere permisos específicos.
+
+
+\hypertarget{toc51}{}
+\section{Tipos de clientes}
+
+\hypertarget{toc52}{}
+\subsection{Descripción}
+
+Este módulo permite definir distintos tipos de clientes según criterios comerciales, legales u operativos.
+Clasificar a los clientes ayuda a personalizar la atención, filtrar los datos y aplicar políticas específicas según su categoría.
+
+\hypertarget{toc53}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Nombre: Nombre del tipo de cliente.
+\item[\color{myblue}$\bullet$] Descripción: Información adicional sobre el tipo.
+\item[\color{myblue}$\bullet$] Activo: Indica si el tipo está disponible para ser asignado.
+\end{compactitem}
+
+\hypertarget{toc54}{}
+\subsection{Vista de formulario}
+
+Esta vista permite gestionar los tipos de cliente.
+
+En el modo \textbf{crear}, se puede agregar un nuevo tipo.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, los datos se muestran sin posibilidad de edición.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-view-10-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, se pueden modificar los datos existentes.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-edit-10-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Activo: Indica si el tipo está activo.
+\item[\color{myblue}$\bullet$] Nombre: Nombre que identifica el tipo.
+\item[\color{myblue}$\bullet$] Descripción: Explicación o detalle interno del tipo.
+\end{compactitem}
+
+\hypertarget{toc55}{}
+\subsection{Eliminación}
+
+Los tipos de cliente solo pueden eliminarse si no hay ningún cliente asociado a ellos.
+El sistema pedirá confirmación antes de completar la eliminación.
+
+Esta acción no se puede deshacer.
+
+
+\hypertarget{toc56}{}
+\section{Clientes potenciales}
+
+\hypertarget{toc57}{}
+\subsection{Descripción}
+
+La aplicación de leads se utiliza para registrar y hacer seguimiento de clientes potenciales antes de que se conviertan en clientes reales.
+Permite recopilar información clave de cada lead, como los datos de contacto, el origen y el estado actual en el proceso de ventas.
+Este módulo ayuda a organizar la actividad previa a la venta, permitiendo a los equipos comerciales hacer seguimiento efectivo, calificar oportunidades
+y convertir leads en clientes cuando corresponda.
+
+\hypertarget{toc58}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-leads-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Título: El título o asunto de la reunión, resumiendo su propósito.
+\item[\color{myblue}$\bullet$] Ubicación: Lugar donde se realiza la reunión, o enlace si es virtual.
+\item[\color{myblue}$\bullet$] Hora de inicio: Fecha y hora programadas de inicio.
+\item[\color{myblue}$\bullet$] Cliente: Cliente asociado a la reunión, si corresponde.
+\end{compactitem}
+
+\hypertarget{toc59}{}
+\subsection{Vista de formulario}
+
+Esta vista se utiliza para crear, editar o consultar un lead.
+
+En el modo \textbf{crear}, el formulario está vacío y listo para introducir nuevos datos.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-leads-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, los campos se muestran con la información seleccionada y no se pueden editar.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-leads-view-100-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, el formulario está prellenado y permite realizar modificaciones.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-leads-edit-100-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Título: El título o asunto de la reunión, resumiendo su propósito.
+\item[\color{myblue}$\bullet$] Ubicación: Lugar donde se realiza la reunión, o enlace si es virtual.
+\item[\color{myblue}$\bullet$] Hora de inicio: Fecha y hora programadas de inicio.
+\item[\color{myblue}$\bullet$] Hora de finalización: Fecha y hora previstas de finalización.
+\item[\color{myblue}$\bullet$] Cliente relacionado: Cliente vinculado a la reunión, si corresponde.
+\item[\color{myblue}$\bullet$] Participantes: Lista de usuarios o contactos externos invitados a la reunión.
+\item[\color{myblue}$\bullet$] Agenda: Temas o puntos que se tratarán durante la reunión.
+\item[\color{myblue}$\bullet$] Temas aprobados: Puntos tratados en la reunión que fueron aprobados.
+\item[\color{myblue}$\bullet$] Temas rechazados: Puntos que no fueron aprobados o que se pospusieron.
+\item[\color{myblue}$\bullet$] Temas pendientes: Puntos que requieren acciones o decisiones posteriores.
+\end{compactitem}
+
+\hypertarget{toc60}{}
+\subsection{Eliminación}
+
+Los registros pueden eliminarse desde la vista de lista mediante la acción de eliminación.
+Aparecerá un mensaje de confirmación antes de ejecutar la operación.
+
+Esta acción es irreversible y requiere permisos adecuados.
+
+
+\hypertarget{toc61}{}
+\section{Estados de los leads}
+
+\hypertarget{toc62}{}
+\subsection{Descripción}
+
+Este módulo permite definir los distintos estados por los que puede pasar un cliente potencial dentro del proceso comercial.
+Los estados ayudan a realizar seguimiento de los leads según su nivel de interés, calificación o decisión final (activo, perdido, convertido, etc.).
+
+\hypertarget{toc63}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Nombre: Nombre del estado.
+\item[\color{myblue}$\bullet$] Descripción: Información descriptiva del estado.
+\item[\color{myblue}$\bullet$] Activo: Indica si el estado está disponible para su uso.
+\end{compactitem}
+
+\hypertarget{toc64}{}
+\subsection{Vista de formulario}
+
+Esta vista permite gestionar los estados de los leads.
+
+En el modo \textbf{crear}, puedes añadir un nuevo estado.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, se muestra la información del estado.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-view-10-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, es posible modificar los valores existentes.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-edit-10-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Activo: Estado activo o inactivo.
+\item[\color{myblue}$\bullet$] Nombre: Título o nombre del estado.
+\item[\color{myblue}$\bullet$] Descripción: Explicación sobre el uso o significado del estado.
+\end{compactitem}
+
+\hypertarget{toc65}{}
+\subsection{Eliminación}
+
+Los estados solo pueden eliminarse si no están asignados a ningún lead.
+El sistema mostrará una confirmación antes de continuar.
+
+Esta acción no se puede deshacer.
+
+
+\hypertarget{toc66}{}
+\section{Reuniones}
+
+\hypertarget{toc67}{}
+\subsection{Descripción}
+
+La aplicación de reuniones permite programar, gestionar y hacer seguimiento de encuentros internos o con clientes dentro de SaltOS4.
+Incluye información clave como la ubicación, los participantes, la agenda y los temas aprobados, rechazados o pendientes.
+Este módulo facilita la colaboración y asegura la trazabilidad de las decisiones tomadas durante las reuniones.
+
+\hypertarget{toc68}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Título: Título o asunto de la reunión.
+\item[\color{myblue}$\bullet$] Ubicación: Lugar físico o enlace virtual donde se realiza la reunión.
+\item[\color{myblue}$\bullet$] Hora de inicio: Fecha y hora programadas de inicio.
+\item[\color{myblue}$\bullet$] Cliente: Cliente asociado a la reunión.
+\end{compactitem}
+
+\hypertarget{toc69}{}
+\subsection{Vista de formulario}
+
+Esta vista se utiliza para crear, editar o consultar una reunión.
+
+En el modo \textbf{crear}, el formulario está vacío y listo para registrar una nueva reunión.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, los campos son de solo lectura y muestran los detalles de la reunión.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-100-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, los campos pueden modificarse para actualizar la información de la reunión.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-edit-100-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Título: Nombre o asunto de la reunión.
+\item[\color{myblue}$\bullet$] Ubicación: Lugar físico o virtual donde se celebrará.
+\item[\color{myblue}$\bullet$] Hora de inicio: Fecha y hora de inicio.
+\item[\color{myblue}$\bullet$] Hora de finalización: Fecha y hora de finalización.
+\item[\color{myblue}$\bullet$] Cliente relacionado: Cliente vinculado a la reunión.
+\item[\color{myblue}$\bullet$] Participantes: Usuarios o contactos invitados.
+\item[\color{myblue}$\bullet$] Agenda: Lista de puntos a tratar.
+\item[\color{myblue}$\bullet$] Temas aprobados: Puntos que han sido aprobados.
+\item[\color{myblue}$\bullet$] Temas rechazados: Puntos que no fueron aprobados.
+\item[\color{myblue}$\bullet$] Temas pendientes: Puntos que requieren revisión o aprobación futura.
+\end{compactitem}
+
+\hypertarget{toc70}{}
+\subsection{Eliminación}
+
+Las reuniones pueden eliminarse desde la vista de lista mediante la acción correspondiente.
+Antes de eliminar, el sistema solicitará confirmación.
+
+Esta acción no se puede deshacer y puede requerir permisos específicos.
+
+
+\hypertarget{toc71}{}
+\section{Presupuestos}
+
+\hypertarget{toc72}{}
+\subsection{Descripción}
+
+La aplicación de presupuestos permite generar ofertas comerciales para clientes potenciales o existentes.
+Incluye campos para definir los datos del cliente, condiciones de pago, líneas de conceptos, impuestos y total.
+Estos presupuestos pueden convertirse fácilmente en facturas una vez sean aceptados por el cliente.
+
+\hypertarget{toc73}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Cliente: Nombre del cliente destinatario del presupuesto.
+\item[\color{myblue}$\bullet$] CIF: Código de identificación fiscal del cliente.
+\item[\color{myblue}$\bullet$] Presupuesto: Código o número del presupuesto.
+\item[\color{myblue}$\bullet$] Fecha: Fecha de emisión del presupuesto.
+\item[\color{myblue}$\bullet$] Total: Importe total con impuestos incluidos.
+\end{compactitem}
+
+\hypertarget{toc74}{}
+\subsection{Vista de formulario}
+
+Esta vista se utiliza para crear, editar o consultar un presupuesto.
+
+En el modo \textbf{crear}, el formulario está vacío y listo para introducir un nuevo presupuesto.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, los campos son de solo lectura y muestran el detalle del presupuesto.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-100-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, se pueden modificar los datos existentes del presupuesto.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-edit-100-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Presupuesto: Código del presupuesto.
+\item[\color{myblue}$\bullet$] Fecha: Fecha de emisión.
+\item[\color{myblue}$\bullet$] Cliente: Nombre o razón social del cliente.
+\item[\color{myblue}$\bullet$] CIF: Código fiscal del cliente.
+\item[\color{myblue}$\bullet$] Dirección: Dirección de facturación.
+\item[\color{myblue}$\bullet$] Ciudad: Localidad.
+\item[\color{myblue}$\bullet$] Provincia / Estado: Provincia o región.
+\item[\color{myblue}$\bullet$] Código postal: Código postal del cliente.
+\item[\color{myblue}$\bullet$] País: País de residencia o registro.
+\item[\color{myblue}$\bullet$] Notas: Observaciones internas o condiciones especiales.
+\item[\color{myblue}$\bullet$] Conceptos: Líneas detalladas con cantidades e importes.
+\item[\color{myblue}$\bullet$] Impuestos: Impuestos aplicables.
+\item[\color{myblue}$\bullet$] Totales: Resumen de importe, impuestos y total.
+\item[\color{myblue}$\bullet$] Método de pago: Forma de cobro prevista.
+\item[\color{myblue}$\bullet$] Válido hasta: Fecha de validez del presupuesto.
+\item[\color{myblue}$\bullet$] Estado: Estado actual del presupuesto (pendiente, aceptado, rechazado, etc.).
+\end{compactitem}
+
+\hypertarget{toc75}{}
+\subsection{Eliminación}
+
+Los presupuestos pueden eliminarse desde la vista de lista siempre que no estén vinculados a facturas.
+El sistema pedirá confirmación antes de completar la acción.
+
+Esta acción no se puede deshacer y puede requerir permisos especiales.
+
+
+\hypertarget{toc76}{}
+\section{Estados de los presupuestos}
+
+\hypertarget{toc77}{}
+\subsection{Descripción}
+
+Este módulo permite definir los diferentes estados por los que puede pasar un presupuesto durante su ciclo de vida.
+Pueden utilizarse para indicar si un presupuesto está pendiente, aceptado, rechazado o en revisión.
+Los estados ayudan a hacer seguimiento de los presupuestos y a organizar el proceso comercial.
+
+\hypertarget{toc78}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Nombre: Nombre del estado.
+\item[\color{myblue}$\bullet$] Descripción: Explicación o uso del estado.
+\item[\color{myblue}$\bullet$] Activo: Indica si el estado está activo y se puede asignar.
+\end{compactitem}
+
+\hypertarget{toc79}{}
+\subsection{Vista de formulario}
+
+Esta vista permite crear, editar o consultar un estado de presupuesto.
+
+En el modo \textbf{crear}, se puede definir un nuevo estado.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, se muestran los detalles del estado sin posibilidad de edición.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-view-10-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, se pueden modificar los valores existentes.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-edit-10-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Activo: Permite activar o desactivar el estado.
+\item[\color{myblue}$\bullet$] Nombre: Nombre corto o título del estado.
+\item[\color{myblue}$\bullet$] Descripción: Texto descriptivo sobre el uso del estado.
+\end{compactitem}
+
+\hypertarget{toc80}{}
+\subsection{Eliminación}
+
+Los estados pueden eliminarse si no están en uso.
+Antes de eliminar uno, el sistema pedirá confirmación.
+
+Esta acción no se puede deshacer.
+
+
+\hypertarget{toc81}{}
+\section{Panel de control (Dashboard)}
+
+\hypertarget{toc82}{}
+\subsection{Descripción}
+
+El panel de control o \textbf{dashboard} es la pantalla inicial de SaltOS4, donde se pueden mostrar accesos rápidos, separadores, widgets, gráficos y otros elementos visuales.
+No se trata de una aplicación clásica con formularios o registros, sino de una vista dinámica y personalizable pensada para ofrecer una visión general rápida y acceso directo a funcionalidades frecuentes.
+
+Esta vista centraliza acciones comunes y muestra información relevante de forma resumida.
+
+\hypertarget{toc83}{}
+\subsection{Vista principal}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-es-es-1-snap.png}\end{center}
+
+El dashboard puede incluir:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Botones de acceso rápido a aplicaciones o acciones frecuentes
+\item[\color{myblue}$\bullet$] Títulos que agrupan secciones
+\item[\color{myblue}$\bullet$] Separadores visuales para organizar la información
+\item[\color{myblue}$\bullet$] Widgets que muestran contenido en tiempo real (ej: calendario, correos, gráficos)
+\end{compactitem}
+
+\hypertarget{toc84}{}
+\subsection{Configuración del dashboard}
+
+En la \textbf{parte superior derecha de la pantalla}, hay un botón con un icono de engranaje que abre la aplicación de configuración del dashboard.
+
+Desde allí se pueden personalizar los elementos mostrados:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Seleccionar el dashboard activo
+\item[\color{myblue}$\bullet$] Añadir o quitar \textbf{botones}
+\item[\color{myblue}$\bullet$] Crear \textbf{títulos} y \textbf{separadores} visuales
+\item[\color{myblue}$\bullet$] Agrupar elementos en bloques
+\item[\color{myblue}$\bullet$] Incluir \textbf{widgets} disponibles (ej: estadísticas, recordatorios, correos)
+\end{compactitem}
+
+Esta configuración es específica para cada usuario y se guarda automáticamente.
+
+
+\hypertarget{toc85}{}
+\section{Configuración del dashboard}
+
+\hypertarget{toc86}{}
+\subsection{Descripción}
+
+Esta aplicación permite configurar el contenido que se muestra en el \textbf{dashboard} de SaltOS4.
+No se trata de una aplicación con registros clásicos, sino de una interfaz visual centrada en el usuario donde se pueden personalizar accesos rápidos, secciones y widgets que aparecen en el panel de control.
+
+Cada usuario puede tener su propio dashboard personalizado, y esta herramienta es su gestor visual.
+
+\hypertarget{toc87}{}
+\subsection{Vista de configuración}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-widgets-es-es-1-snap.png}\end{center}
+
+La pantalla muestra una vista en forma de lienzo donde los elementos del dashboard pueden organizarse de forma dinámica y visual.
+
+Los tipos de elementos que pueden añadirse incluyen:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] \textbf{Botones}: Enlaces rápidos a aplicaciones o funcionalidades.
+\item[\color{myblue}$\bullet$] \textbf{Separadores}: Líneas o espacios para estructurar visualmente el dashboard.
+\item[\color{myblue}$\bullet$] \textbf{Títulos}: Textos destacados para agrupar secciones.
+\item[\color{myblue}$\bullet$] \textbf{Widgets}: Componentes dinámicos como calendario, correo electrónico, gráficos, estadísticas, etc.
+\end{compactitem}
+
+También es posible agrupar elementos, ordenarlos mediante arrastrar y soltar, y reorganizar grupos o columnas.
+
+\hypertarget{toc88}{}
+\subsection{Funcionalidades}
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Añadir o eliminar elementos
+\item[\color{myblue}$\bullet$] Reordenar mediante arrastrar y soltar
+\item[\color{myblue}$\bullet$] Editar títulos y textos de sección
+\item[\color{myblue}$\bullet$] Seleccionar qué widgets mostrar
+\item[\color{myblue}$\bullet$] Organizar elementos en varias columnas o bloques
+\end{compactitem}
+
+Los cambios se guardan automáticamente y afectan solo al dashboard del usuario activo.
+
+\hypertarget{toc89}{}
+\subsection{Uso avanzado}
+
+Este módulo es ideal para:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Crear paneles específicos por perfil (comercial, técnico, administración…)
+\item[\color{myblue}$\bullet$] Mostrar solo herramientas y datos consultados con frecuencia
+\item[\color{myblue}$\bullet$] Mejorar la eficiencia y claridad visual de la pantalla de inicio
+\end{compactitem}
+
+
+\hypertarget{toc90}{}
+\section{Correos electrónicos}
+
+\hypertarget{toc91}{}
+\subsection{Descripción}
+
+La aplicación de correos electrónicos se utiliza para recibir, consultar y responder correos desde las cuentas configuradas en SaltOS4.
+Actúa como un cliente de correo integrado simplificado que permite leer mensajes mediante POP3 o IMAP,
+ver metadatos y contenido, y responder utilizando servidores SMTP internos o externos.
+
+Cada mensaje se muestra como una tarjeta visual en la vista de lista, con campos clave como remitente, asunto,
+fecha y un fragmento del cuerpo. Los correos pueden visualizarse en detalle, responderse o eliminarse. Esta aplicación
+está estrechamente integrada con el módulo de Cuentas de correo electrónico y es esencial para gestionar la comunicación entrante.
+
+\hypertarget{toc92}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-es-es-1-snap.png}\end{center}
+
+La vista de lista muestra los correos entrantes como botones o tarjetas clicables.
+Cada entrada muestra normalmente:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Encabezado: Resumen visual que representa el mensaje en la interfaz.
+\item[\color{myblue}$\bullet$] Fecha y hora: Momento en que se recibió o envió el mensaje.
+\item[\color{myblue}$\bullet$] Asunto: Título o línea de asunto del correo.
+\item[\color{myblue}$\bullet$] Fragmento: Vista previa extraída del inicio del cuerpo del mensaje.
+\item[\color{myblue}$\bullet$] Adjuntos: Lista de archivos adjuntos, con opción de descarga.
+\end{compactitem}
+
+La interfaz también incluye filtros y un formulario de búsqueda por remitente, asunto, cuenta y fecha.
+
+\hypertarget{toc93}{}
+\subsection{Vista del mensaje}
+
+Esta vista muestra el contenido completo del mensaje, incluyendo metadatos y archivos adjuntos.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-100-es-es-1-snap.png}\end{center}
+
+La información mostrada incluye:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] De: Dirección del remitente.
+\item[\color{myblue}$\bullet$] Para: Destinatarios principales.
+\item[\color{myblue}$\bullet$] CC: Destinatarios con copia visible.
+\item[\color{myblue}$\bullet$] CCO: Destinatarios con copia oculta.
+\item[\color{myblue}$\bullet$] Fecha y hora: Momento en que se envió o recibió el mensaje.
+\item[\color{myblue}$\bullet$] UIDL: Identificador único del servidor para sincronización.
+\item[\color{myblue}$\bullet$] Prioridad: Nivel de importancia (Baja, Normal, Alta).
+\item[\color{myblue}$\bullet$] Sensibilidad: Nivel de confidencialidad: Normal, Personal, Privado o Confidencial.
+\item[\color{myblue}$\bullet$] Enviado: Confirma que el correo fue enviado con éxito.
+\item[\color{myblue}$\bullet$] Nuevo: Indica si el mensaje es nuevo o no leído.
+\item[\color{myblue}$\bullet$] Respuesta: Indica si se ha respondido el mensaje.
+\item[\color{myblue}$\bullet$] Reenviado: Indica si el mensaje fue reenviado.
+\item[\color{myblue}$\bullet$] Espera: Marcador de seguimiento o espera de respuesta.
+\item[\color{myblue}$\bullet$] SPAM: Indica si se clasificó como correo no deseado.
+\item[\color{myblue}$\bullet$] Solicitar confirmación de lectura: Muestra si se pidió acuse de recibo.
+\item[\color{myblue}$\bullet$] Error: Muestra un error si falló el envío.
+\item[\color{myblue}$\bullet$] Asunto: Línea de asunto del mensaje.
+\item[\color{myblue}$\bullet$] Cuerpo: Contenido principal del mensaje, en visor embebido.
+\item[\color{myblue}$\bullet$] Adjuntos: Archivos adjuntos del mensaje.
+\end{compactitem}
+
+\hypertarget{toc94}{}
+\subsection{Responder / Redactar}
+
+Los usuarios pueden responder a un mensaje existente o redactar uno nuevo desde un formulario simplificado.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-emails-emails-create-es-es-1-snap.png}\end{center}
+
+El formulario de respuesta o redacción incluye:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Desde: Cuenta de correo usada como remitente.
+\item[\color{myblue}$\bullet$] Para: Destinatarios principales.
+\item[\color{myblue}$\bullet$] CC: Destinatarios con copia visible.
+\item[\color{myblue}$\bullet$] CCO: Destinatarios con copia oculta.
+\item[\color{myblue}$\bullet$] Solicitar confirmación de lectura: Opción para solicitar acuse de recibo.
+\item[\color{myblue}$\bullet$] Prioridad: Nivel de importancia: Baja, Normal o Alta.
+\item[\color{myblue}$\bullet$] Sensibilidad: Nivel de confidencialidad: Normal, Personal, Privado o Confidencial.
+\item[\color{myblue}$\bullet$] Asunto: Título o asunto del mensaje.
+\item[\color{myblue}$\bullet$] Cuerpo: Texto enriquecido redactado en el mensaje.
+\item[\color{myblue}$\bullet$] Adjuntos: Archivos seleccionados para enviar junto al mensaje.
+\end{compactitem}
+
+\hypertarget{toc95}{}
+\subsection{Eliminación}
+
+Los correos pueden eliminarse desde la vista de lista mediante el icono o acción correspondiente.
+
+Los mensajes se eliminan localmente o se marcan para eliminación, según la configuración del servidor.
+
+
+\hypertarget{toc96}{}
+\section{Cuentas de correo electrónico}
+
+\hypertarget{toc97}{}
+\subsection{Descripción}
+
+La aplicación de cuentas de correo electrónico se utiliza para configurar y gestionar las cuentas vinculadas a SaltOS4.
+Cada cuenta puede utilizarse para enviar y recibir correos mediante protocolos SMTP, IMAP o POP3.
+Este módulo permite la integración con proveedores externos y admite autenticación, carpetas y opciones de sincronización.
+
+\hypertarget{toc98}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Usuario: Persona que es propietaria o utiliza esta cuenta de correo.
+\item[\color{myblue}$\bullet$] Nombre: Etiqueta descriptiva para identificar la cuenta dentro del sistema.
+\item[\color{myblue}$\bullet$] Correo electrónico: Dirección de correo configurada para esta cuenta.
+\item[\color{myblue}$\bullet$] Activo: Indica si la cuenta está habilitada y se sincroniza.
+\end{compactitem}
+
+\hypertarget{toc99}{}
+\subsection{Vista de formulario}
+
+Esta vista se utiliza para crear, ver o editar una cuenta de correo.
+
+En el modo \textbf{crear}, se configura una cuenta nueva desde cero.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, se muestran los datos de la cuenta pero no se pueden modificar.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-view-1-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, se pueden corregir o actualizar los parámetros.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-edit-1-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Usuario: Persona propietaria de la cuenta.
+\item[\color{myblue}$\bullet$] Nombre: Nombre visible o etiqueta para identificar la cuenta.
+\item[\color{myblue}$\bullet$] Correo electrónico: Dirección asociada a la cuenta.
+\item[\color{myblue}$\bullet$] Firma: Texto o firma HTML añadida automáticamente a los mensajes salientes.
+\item[\color{myblue}$\bullet$] Servidor POP3: Nombre del servidor para recibir correos.
+\item[\color{myblue}$\bullet$] Puerto POP3: Puerto usado para conectarse (ej: 110, 995).
+\item[\color{myblue}$\bullet$] Opciones POP3: Ajustes adicionales (TLS, etc.).
+\item[\color{myblue}$\bullet$] Usuario POP3: Usuario para autenticar la cuenta POP3.
+\item[\color{myblue}$\bullet$] Contraseña POP3: Clave de la cuenta POP3.
+\item[\color{myblue}$\bullet$] Borrar: Si se deben eliminar los mensajes tras descargarlos.
+\item[\color{myblue}$\bullet$] Días: Número de días que los correos permanecen en el servidor.
+\item[\color{myblue}$\bullet$] Servidor SMTP: Nombre del servidor para enviar correos.
+\item[\color{myblue}$\bullet$] Puerto SMTP: Puerto usado para enviar (ej: 25, 465, 587).
+\item[\color{myblue}$\bullet$] Cifrado SMTP: Tipo de conexión: ninguno, SSL o TLS.
+\item[\color{myblue}$\bullet$] Usuario SMTP: Usuario para autenticarse en SMTP.
+\item[\color{myblue}$\bullet$] Contraseña SMTP: Clave de la cuenta SMTP.
+\item[\color{myblue}$\bullet$] Inactivo: Marca la cuenta como deshabilitada (no se sincroniza).
+\item[\color{myblue}$\bullet$] Privado: Restringe el acceso solo al propietario.
+\item[\color{myblue}$\bullet$] Por defecto: Marca esta cuenta como remitente por defecto.
+\item[\color{myblue}$\bullet$] Añadirme al CC: Añade automáticamente al remitente como copia.
+\item[\color{myblue}$\bullet$] Solicitar confirmación de lectura: Activa acuse de recibo en cada envío.
+\end{compactitem}
+
+\hypertarget{toc100}{}
+\subsection{Eliminación}
+
+Las cuentas pueden eliminarse si no están activas ni vinculadas a actividad reciente.
+
+Se recomienda desactivarlas si se desea conservar la configuración para uso futuro o auditoría.
+
+
+\hypertarget{toc101}{}
+\section{Departamentos}
+
+\hypertarget{toc102}{}
+\subsection{Descripción}
+
+La aplicación de departamentos se utiliza para definir la estructura organizativa de la empresa agrupando empleados en departamentos.
+Admite jerarquías, permitiendo que un departamento pertenezca a uno superior, y ayuda a organizar usuarios y permisos en consecuencia.
+
+Ejemplos de departamentos pueden incluir "Ventas", "Informática", "RRHH" o "Logística".
+
+\hypertarget{toc103}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-hr-departments-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Nombre: Nombre del departamento o unidad organizativa.
+\item[\color{myblue}$\bullet$] Código: Identificador único o código de referencia del departamento.
+\item[\color{myblue}$\bullet$] Padre: Departamento superior, si forma parte de una jerarquía.
+\item[\color{myblue}$\bullet$] Activo: Indica si este departamento está actualmente en uso.
+\end{compactitem}
+
+\hypertarget{toc104}{}
+\subsection{Vista de formulario}
+
+Esta vista se utiliza para crear, ver o editar departamentos.
+
+En el modo \textbf{crear}, se puede definir un nuevo departamento.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-hr-departments-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, los detalles del departamento son visibles pero no editables.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-hr-departments-view-100-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, los valores existentes pueden actualizarse.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-hr-departments-edit-100-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Activo: Indica si este departamento está en uso.
+\item[\color{myblue}$\bullet$] Nombre: Nombre del departamento o unidad organizativa.
+\item[\color{myblue}$\bullet$] Código: Identificador único o código de referencia del departamento.
+\item[\color{myblue}$\bullet$] Padre: Departamento superior, si forma parte de una jerarquía.
+\item[\color{myblue}$\bullet$] Notas: Detalles adicionales sobre la estructura, responsabilidad o propósito del departamento.
+\end{compactitem}
+
+\hypertarget{toc105}{}
+\subsection{Eliminación}
+
+Los departamentos solo pueden eliminarse si no hay empleados asignados actualmente.
+
+Si están en uso, se recomienda desactivarlos en lugar de eliminarlos.
+
+
+\hypertarget{toc106}{}
+\section{Empleados}
+
+\hypertarget{toc107}{}
+\subsection{Descripción}
+
+La aplicación de empleados se utiliza para registrar y gestionar el personal que trabaja en la organización.
+Almacena datos personales y profesionales incluyendo nombre, información de contacto, puesto, departamento y el vínculo con el usuario del sistema.
+Este módulo se utiliza normalmente en flujos de trabajo de RRHH para organizar al personal y, opcionalmente, asociarlo a usuarios del sistema.
+
+\hypertarget{toc108}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-hr-employees-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Nombre: Nombre completo del empleado.
+\item[\color{myblue}$\bullet$] Departamento: Departamento al que pertenece.
+\item[\color{myblue}$\bullet$] Cargo: Título oficial del puesto ocupado por el empleado.
+\item[\color{myblue}$\bullet$] Activo: Indica si el empleado está actualmente activo.
+\end{compactitem}
+
+\hypertarget{toc109}{}
+\subsection{Vista de formulario}
+
+Esta vista se utiliza para crear, consultar o editar fichas de empleados.
+
+En el modo \textbf{crear}, se añade un nuevo perfil de empleado.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-hr-employees-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, el perfil se muestra en formato solo lectura.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-hr-employees-view-100-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, se puede actualizar el perfil del empleado.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-hr-employees-edit-100-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Activo: Indica si el empleado está actualmente activo.
+\item[\color{myblue}$\bullet$] Nombre: Nombre completo del empleado.
+\item[\color{myblue}$\bullet$] NIF: Número de identificación fiscal del empleado para fines legales o fiscales.
+\item[\color{myblue}$\bullet$] Departamento: Departamento al que pertenece el empleado.
+\item[\color{myblue}$\bullet$] Cargo: Título oficial del puesto que ocupa.
+\item[\color{myblue}$\bullet$] Inicio: Fecha de inicio del empleo o contrato.
+\item[\color{myblue}$\bullet$] Fin: Fecha de finalización del empleo o contrato (si aplica).
+\item[\color{myblue}$\bullet$] Dirección: Dirección postal del empleado.
+\item[\color{myblue}$\bullet$] Ciudad: Ciudad de residencia.
+\item[\color{myblue}$\bullet$] Provincia / Estado: Provincia o región administrativa de residencia.
+\item[\color{myblue}$\bullet$] Código postal: Código postal.
+\item[\color{myblue}$\bullet$] País: País de residencia.
+\item[\color{myblue}$\bullet$] Correo electrónico: Correo electrónico de contacto principal.
+\item[\color{myblue}$\bullet$] Teléfono: Teléfono de contacto principal.
+\item[\color{myblue}$\bullet$] Notas: Observaciones adicionales o anotaciones del área de RRHH.
+\item[\color{myblue}$\bullet$] Tipo: Tipo o categoría del empleado (ej. jornada completa, externo).
+\item[\color{myblue}$\bullet$] Usuario: Cuenta de usuario del sistema asociada al empleado.
+\end{compactitem}
+
+\hypertarget{toc110}{}
+\subsection{Eliminación}
+
+Los empleados pueden eliminarse si no están vinculados a usuarios del sistema o a registros históricos.
+
+En caso contrario, debe desactivarse el perfil en lugar de eliminarlo.
+
+
+\hypertarget{toc111}{}
+\section{Tipos de empleado}
+
+\hypertarget{toc112}{}
+\subsection{Descripción}
+
+La aplicación de tipos de empleado permite clasificar a los trabajadores según su rol, tipo de contrato o categoría interna.
+Esto ayuda a estructurar la base de datos de RRHH y facilita el filtrado, los informes y el control de acceso.
+
+Algunos tipos comunes incluyen "Jornada completa", "Media jornada", "Autónomo", "Prácticas", etc.
+
+\hypertarget{toc113}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Nombre: Título del tipo de empleado.
+\item[\color{myblue}$\bullet$] Descripción: Explicación sobre la finalidad del tipo.
+\item[\color{myblue}$\bullet$] Activo: Indica si el tipo está actualmente disponible.
+\end{compactitem}
+
+\hypertarget{toc114}{}
+\subsection{Vista de formulario}
+
+Esta vista se utiliza para crear, ver o editar tipos de empleado.
+
+En el modo \textbf{crear}, se puede definir un nuevo tipo de empleado.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, los detalles son visibles pero no editables.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-view-10-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, se pueden actualizar los valores existentes.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-edit-10-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Activo: Controla si el tipo se puede seleccionar.
+\item[\color{myblue}$\bullet$] Nombre: Nombre que aparece en el desplegable de tipos del formulario de empleado.
+\item[\color{myblue}$\bullet$] Descripción: Notas sobre el uso previsto de este tipo.
+\end{compactitem}
+
+\hypertarget{toc115}{}
+\subsection{Eliminación}
+
+Los tipos de empleado solo pueden eliminarse si no están asignados a ningún empleado.
+
+En caso contrario, se recomienda desactivarlos.
+
+
+\hypertarget{toc116}{}
+\section{Compra}
+
+\hypertarget{toc117}{}
+\subsection{Descripción}
+
+La aplicación de compras se utiliza para registrar y hacer seguimiento de las compras realizadas a proveedores.
+Cada registro de compra incluye detalles de la factura, importe total, fecha de compra y notas o archivos adjuntos.
+Este módulo garantiza la trazabilidad de los gastos y está vinculado al módulo de Proveedores para mantener la coherencia.
+
+\hypertarget{toc118}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Fecha de pedido: Fecha en que se registró la orden de compra en el sistema.
+\item[\color{myblue}$\bullet$] Proveedor: Vendedor o entidad a quien se le adquirió el bien o servicio.
+\item[\color{myblue}$\bullet$] Factura: Número o referencia de la factura emitida por el proveedor.
+\item[\color{myblue}$\bullet$] Pagado: Indica si la compra ha sido totalmente abonada.
+\end{compactitem}
+
+\hypertarget{toc119}{}
+\subsection{Vista de formulario}
+
+Esta vista se utiliza para crear, editar o consultar un registro de compra.
+
+En el modo \textbf{crear}, el formulario se utiliza para registrar una nueva compra vinculada a un proveedor.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, muestra los detalles de la compra en modo solo lectura.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-view-100-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, puede actualizarse la información si es necesario.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-edit-100-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Fecha de pedido: Fecha en que se registró la orden en el sistema.
+\item[\color{myblue}$\bullet$] Proveedor: Persona o entidad a quien se realizó la compra.
+\item[\color{myblue}$\bullet$] Descripción: Breve explicación o resumen del contenido de la compra.
+\item[\color{myblue}$\bullet$] Subtotal: Importe antes de impuestos y descuentos.
+\item[\color{myblue}$\bullet$] Impuesto: Valor total de los impuestos aplicados a la compra.
+\item[\color{myblue}$\bullet$] Total: Importe final de la compra, con impuestos y descuentos incluidos.
+\item[\color{myblue}$\bullet$] Estado: Estado actual de la compra (ej: borrador, ordenado, recibido).
+\item[\color{myblue}$\bullet$] Número de factura: Número o referencia de la factura emitida por el proveedor.
+\item[\color{myblue}$\bullet$] Fecha de factura: Fecha oficial de la factura del proveedor.
+\item[\color{myblue}$\bullet$] Pagado: Indica si la compra ha sido completamente pagada.
+\item[\color{myblue}$\bullet$] Fecha de pago: Fecha en que se realizó el pago al proveedor.
+\item[\color{myblue}$\bullet$] Notas: Observaciones internas o información administrativa relevante.
+\end{compactitem}
+
+\hypertarget{toc120}{}
+\subsection{Eliminación}
+
+Los registros de compra solo pueden eliminarse si no están vinculados a procesos contables o registros asociados.
+Aparecerá un diálogo de confirmación antes de continuar.
+
+Una vez registradas y finalizadas, la eliminación puede estar restringida según permisos del sistema y trazabilidad.
+
+
+\hypertarget{toc121}{}
+\section{Estados de compra}
+
+\hypertarget{toc122}{}
+\subsection{Descripción}
+
+La aplicación de estados de compra define las etapas por las que puede pasar un registro de compra.
+Permite categorizar las compras según su estado, como "Borrador", "Ordenado", "Recibido" o "Cancelado".
+
+Estos estados ayudan a seguir el progreso del proceso de compras y mejoran la claridad en el módulo de Compras.
+
+\hypertarget{toc123}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Nombre: Nombre del estado (ej: Recibido, Cancelado).
+\item[\color{myblue}$\bullet$] Descripción: Aclara cómo o cuándo se utiliza este estado.
+\item[\color{myblue}$\bullet$] Activo: Indica si el estado está actualmente disponible para su selección.
+\end{compactitem}
+
+\hypertarget{toc124}{}
+\subsection{Vista de formulario}
+
+Esta vista se utiliza para crear, ver o editar entradas de estados de compra.
+
+En el modo \textbf{crear}, el formulario se utiliza para ingresar un nuevo estado.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, muestra los detalles del estado en modo solo lectura.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-view-10-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, la información puede actualizarse si es necesario.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-edit-10-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Activo: Controla la disponibilidad del estado en el desplegable.
+\item[\color{myblue}$\bullet$] Nombre: Etiqueta del estado tal como aparece en el formulario de compra.
+\item[\color{myblue}$\bullet$] Descripción: Notas internas sobre su caso de uso.
+\end{compactitem}
+
+\hypertarget{toc125}{}
+\subsection{Eliminación}
+
+Los estados solo pueden eliminarse si no hay compras que los estén utilizando actualmente.
+
+En la mayoría de los casos, se recomienda desactivarlos.
+
+
+\hypertarget{toc126}{}
+\section{Proveedores}
+
+\hypertarget{toc127}{}
+\subsection{Descripción}
+
+La aplicación de proveedores se utiliza para gestionar la lista de vendedores o proveedores externos con los que trabaja la organización.
+Almacena información esencial como identificación, datos de contacto, código fiscal y clasificación.
+Este módulo está vinculado a los flujos de compra, permitiendo asociar proveedores a compras y mantener trazabilidad completa.
+
+\hypertarget{toc128}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Nombre: Nombre o razón social del proveedor.
+\item[\color{myblue}$\bullet$] CIF: Código de identificación fiscal del proveedor (ej: NIF, CIF, IVA).
+\item[\color{myblue}$\bullet$] Ciudad: Ciudad asociada a la dirección del proveedor.
+\item[\color{myblue}$\bullet$] País: País donde el proveedor está ubicado o registrado.
+\item[\color{myblue}$\bullet$] Activo: Indica si el proveedor está actualmente activo en el sistema.
+\end{compactitem}
+
+\hypertarget{toc129}{}
+\subsection{Vista de formulario}
+
+Esta vista se utiliza para crear, editar o consultar registros de proveedores.
+
+En el modo \textbf{crear}, el formulario está vacío para añadir un nuevo proveedor.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, los campos se muestran en modo solo lectura.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-view-100-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, se pueden actualizar los datos del proveedor.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-edit-100-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Activo: Indica si el proveedor está activo actualmente en el sistema.
+\item[\color{myblue}$\bullet$] Nombre: Nombre o razón social del proveedor.
+\item[\color{myblue}$\bullet$] CIF: Código de identificación fiscal del proveedor (ej: NIF, CIF, IVA).
+\item[\color{myblue}$\bullet$] Dirección: Calle o dirección de facturación del proveedor.
+\item[\color{myblue}$\bullet$] Ciudad: Ciudad asociada a la dirección.
+\item[\color{myblue}$\bullet$] Provincia / Estado: Provincia o región administrativa.
+\item[\color{myblue}$\bullet$] Código postal: Código postal del proveedor.
+\item[\color{myblue}$\bullet$] País: País donde está ubicado o registrado.
+\item[\color{myblue}$\bullet$] Correo electrónico: Dirección de correo de contacto principal.
+\item[\color{myblue}$\bullet$] Teléfono: Número de contacto principal.
+\item[\color{myblue}$\bullet$] Sitio web: Página web o enlace asociado al proveedor.
+\item[\color{myblue}$\bullet$] Notas: Información adicional u observaciones internas sobre el proveedor.
+\item[\color{myblue}$\bullet$] Tipo: Categoría o clasificación del proveedor.
+\end{compactitem}
+
+\hypertarget{toc130}{}
+\subsection{Eliminación}
+
+Los registros de proveedor pueden eliminarse si no están referenciados en compras ni documentos.
+
+Aparecerá un diálogo de confirmación antes de eliminar.
+
+Si el proveedor está vinculado a compras o registros financieros, no podrá eliminarse.
+
+
+\hypertarget{toc131}{}
+\section{Tipos de proveedor}
+
+\hypertarget{toc132}{}
+\subsection{Descripción}
+
+La aplicación de tipos de proveedor se utiliza para clasificar a los proveedores por categoría, sector o tipo de relación.
+Esta clasificación ayuda a filtrar y organizar a los proveedores, y puede utilizarse para segmentación o fines de informe.
+
+Ejemplos de tipos incluyen "Distribuidor", "Fabricante", "Prestador de servicios", etc.
+
+\hypertarget{toc133}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Nombre: Nombre del tipo de proveedor.
+\item[\color{myblue}$\bullet$] Descripción: Aclaración opcional o nota interna.
+\item[\color{myblue}$\bullet$] Activo: Indica si el tipo se puede asignar a proveedores.
+\end{compactitem}
+
+\hypertarget{toc134}{}
+\subsection{Vista de formulario}
+
+Esta vista se utiliza para crear, ver o editar tipos de proveedor.
+
+En el modo \textbf{crear}, se puede definir un nuevo tipo.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, los detalles del tipo son visibles pero no editables.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-view-10-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, los valores existentes pueden actualizarse.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-edit-10-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Activo: Habilita o deshabilita la selección del tipo.
+\item[\color{myblue}$\bullet$] Nombre: Etiqueta descriptiva del tipo.
+\item[\color{myblue}$\bullet$] Descripción: Información o contexto adicional.
+\end{compactitem}
+
+\hypertarget{toc135}{}
+\subsection{Eliminación}
+
+Los tipos de proveedor solo pueden eliminarse si no están asignados actualmente a ningún proveedor.
+
+Si están en uso, deben desactivarse en lugar de eliminarse.
+
+
+\hypertarget{toc136}{}
+\section{Facturas}
+
+\hypertarget{toc137}{}
+\subsection{Descripción}
+
+La aplicación de facturas permite gestionar las facturas emitidas a clientes dentro de SaltOS4.
+Incluye información del cliente, fecha, estado de pago, líneas de detalle, impuestos y total.
+También gestiona proformas, vencimientos y registro de pagos.
+
+\hypertarget{toc138}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Cliente: Nombre del cliente facturado.
+\item[\color{myblue}$\bullet$] CIF: Código fiscal del cliente.
+\item[\color{myblue}$\bullet$] Factura: Código o número de la factura.
+\item[\color{myblue}$\bullet$] Fecha: Fecha de emisión.
+\item[\color{myblue}$\bullet$] Total: Importe total con impuestos.
+\item[\color{myblue}$\bullet$] Cerrada: Indica si la factura ha sido cerrada.
+\item[\color{myblue}$\bullet$] Pagada: Indica si la factura ha sido cobrada.
+\end{compactitem}
+
+\hypertarget{toc139}{}
+\subsection{Vista de formulario}
+
+Esta vista se utiliza para crear, consultar o editar una factura.
+
+En el modo \textbf{crear}, el formulario permite generar una nueva factura o proforma.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, se muestran todos los detalles sin posibilidad de edición.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-100-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, se pueden modificar los datos de la factura.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-edit-100-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Cerrada: Indica si la factura está finalizada.
+\item[\color{myblue}$\bullet$] Pagada: Estado de cobro de la factura.
+\item[\color{myblue}$\bullet$] Proforma: Número o referencia de la proforma.
+\item[\color{myblue}$\bullet$] Fecha: Fecha de emisión de la factura.
+\item[\color{myblue}$\bullet$] Factura: Número final asignado al cerrarse.
+\item[\color{myblue}$\bullet$] Cliente: Datos congelados del cliente al momento de emisión.
+\item[\color{myblue}$\bullet$] CIF: Código fiscal del cliente.
+\item[\color{myblue}$\bullet$] Dirección: Dirección del cliente.
+\item[\color{myblue}$\bullet$] Ciudad: Localidad.
+\item[\color{myblue}$\bullet$] Provincia / Estado: Región administrativa.
+\item[\color{myblue}$\bullet$] Código postal: Código postal.
+\item[\color{myblue}$\bullet$] País: País de residencia o registro.
+\item[\color{myblue}$\bullet$] Notas: Observaciones internas o condiciones.
+\item[\color{myblue}$\bullet$] Conceptos: Líneas de detalle de la factura.
+\item[\color{myblue}$\bullet$] Impuestos: Impuestos aplicados por línea.
+\item[\color{myblue}$\bullet$] Totales: Neto, impuestos y total final.
+\item[\color{myblue}$\bullet$] Método de pago: Forma de cobro acordada.
+\item[\color{myblue}$\bullet$] Fecha de vencimiento: Fecha límite para el cobro.
+\item[\color{myblue}$\bullet$] Importe pagado: Cantidad recibida.
+\item[\color{myblue}$\bullet$] Fecha de pago: Fecha en que se registró el pago.
+\item[\color{myblue}$\bullet$] Estado: Estado de la factura (pendiente, parcialmente pagada, etc.).
+\end{compactitem}
+
+Las facturas también incluyen líneas de detalle (producto, cantidad, precio, descuento, impuesto) y un desglose de los impuestos aplicados.
+
+\hypertarget{toc140}{}
+\subsection{Eliminación}
+
+Las facturas solo pueden eliminarse si no están cerradas ni pagadas.
+El sistema mostrará una advertencia de confirmación antes de proceder.
+
+Esta acción no se puede deshacer.
+
+
+\hypertarget{toc141}{}
+\section{Estados de las facturas}
+
+\hypertarget{toc142}{}
+\subsection{Descripción}
+
+Este módulo permite definir los distintos estados que puede tener una factura durante su ciclo de vida.
+Puede incluir estados como pendiente, parcialmente pagada, pagada, anulada, etc.
+Estos estados se utilizan para hacer seguimiento del cobro y clasificar las facturas según su situación actual.
+
+\hypertarget{toc143}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Nombre: Nombre del estado.
+\item[\color{myblue}$\bullet$] Descripción: Explicación o uso del estado.
+\item[\color{myblue}$\bullet$] Activo: Indica si el estado está disponible para su uso.
+\end{compactitem}
+
+\hypertarget{toc144}{}
+\subsection{Vista de formulario}
+
+Esta vista permite crear, editar o consultar estados de factura.
+
+En el modo \textbf{crear}, puedes agregar un nuevo estado.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, solo se muestran los detalles.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-view-10-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, puedes modificar el contenido.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-edit-10-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Activo: Indica si el estado está activo.
+\item[\color{myblue}$\bullet$] Nombre: Título o nombre identificador.
+\item[\color{myblue}$\bullet$] Descripción: Información sobre el uso o significado del estado.
+\end{compactitem}
+
+\hypertarget{toc145}{}
+\subsection{Eliminación}
+
+Los estados solo pueden eliminarse si no están asignados a ninguna factura.
+El sistema solicitará confirmación antes de continuar.
+
+Esta acción no se puede deshacer.
+
+
+\hypertarget{toc146}{}
+\section{Métodos de pago}
+
+\hypertarget{toc147}{}
+\subsection{Descripción}
+
+La aplicación de métodos de pago se utiliza para definir y gestionar los tipos de pago aceptados por la organización.
+Estos métodos se usan posteriormente en las facturas para indicar cómo pagará el cliente (por ejemplo, transferencia bancaria, tarjeta, efectivo).
+Este módulo garantiza coherencia y trazabilidad en todo el proceso de facturación.
+
+\hypertarget{toc148}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Nombre: Nombre del método de pago (por ejemplo, Efectivo, Transferencia bancaria, Tarjeta de crédito).
+\item[\color{myblue}$\bullet$] Descripción: Detalles adicionales o aclaraciones sobre cómo se utiliza este método.
+\item[\color{myblue}$\bullet$] Activo: Indica si este método está disponible actualmente.
+\item[\color{myblue}$\bullet$] Por defecto: Especifica si este es el método por defecto al crear nuevos registros.
+\end{compactitem}
+
+\hypertarget{toc149}{}
+\subsection{Vista de formulario}
+
+Esta vista se utiliza para crear, consultar o editar métodos de pago.
+
+En el modo \textbf{crear}, se añade un nuevo método de pago.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, los campos se muestran en modo solo lectura.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-view-10-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, los detalles pueden modificarse.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-edit-10-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Activo: Indica si este método está disponible actualmente.
+\item[\color{myblue}$\bullet$] Por defecto: Especifica si es el método por defecto al crear nuevos registros.
+\item[\color{myblue}$\bullet$] Nombre: Nombre del método de pago (por ejemplo, Efectivo, Transferencia bancaria, Tarjeta de crédito).
+\item[\color{myblue}$\bullet$] Descripción: Detalles adicionales o aclaraciones sobre el uso del método.
+\end{compactitem}
+
+\hypertarget{toc150}{}
+\subsection{Eliminación}
+
+Los métodos de pago pueden eliminarse si no están usados en ninguna factura.
+
+Si ya están referenciados, deben marcarse como inactivos en lugar de eliminarse.
+
+
+\hypertarget{toc151}{}
+\section{Productos}
+
+\hypertarget{toc152}{}
+\subsection{Descripción}
+
+La aplicación de productos gestiona el catálogo de bienes y servicios ofrecidos por la organización.
+Almacena detalles esenciales como el código de referencia, el precio, el nivel de stock, los impuestos y la clasificación.
+Los productos pueden vincularse a presupuestos, facturas y compras, siendo este módulo clave para las ventas y la gestión de inventario.
+
+\hypertarget{toc153}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-products-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Nombre: El nombre completo del producto o servicio, tal como aparecerá en listados y documentos.
+\item[\color{myblue}$\bullet$] Código: Código interno del producto utilizado para identificarlo de forma única.
+\item[\color{myblue}$\bullet$] Descripción: Explicación detallada o especificaciones del producto.
+\end{compactitem}
+
+\hypertarget{toc154}{}
+\subsection{Vista de formulario}
+
+Esta vista se utiliza para crear, editar o consultar un registro de producto.
+
+En el modo \textbf{crear}, el formulario está vacío para introducir un nuevo producto.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-products-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, todos los campos son de solo lectura y muestran información detallada.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-products-view-100-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, pueden actualizarse o corregirse los datos del producto.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-products-edit-100-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Activo: Indica si el producto está disponible para transacciones.
+\item[\color{myblue}$\bullet$] Nombre: El nombre completo del producto o servicio, tal como aparecerá en listados y documentos.
+\item[\color{myblue}$\bullet$] Código: Código interno del producto utilizado para identificarlo de forma única.
+\item[\color{myblue}$\bullet$] Tipo: Clasificación del producto, como artículo, servicio o suscripción.
+\item[\color{myblue}$\bullet$] Precio: Precio de venta por unidad, sin impuestos ni descuentos.
+\item[\color{myblue}$\bullet$] Coste: Coste interno de compra o fabricación, usado para calcular márgenes.
+\item[\color{myblue}$\bullet$] Margen: Margen de beneficio calculado a partir del precio y el coste.
+\item[\color{myblue}$\bullet$] Impuesto: Tasa impositiva por defecto aplicada en ventas.
+\item[\color{myblue}$\bullet$] Descripción: Explicación detallada o especificaciones del producto.
+\item[\color{myblue}$\bullet$] Categoría: Familia o grupo del producto, para clasificación o filtrado.
+\item[\color{myblue}$\bullet$] Unidad de medida: Unidad de medida (p. ej., unidad, kg, hora).
+\item[\color{myblue}$\bullet$] Marca: Nombre de la marca o fabricante del producto.
+\item[\color{myblue}$\bullet$] Modelo: Número o variante del modelo del producto.
+\item[\color{myblue}$\bullet$] Código de barras: Asociado al producto para escaneo o etiquetado.
+\item[\color{myblue}$\bullet$] Stock: Nivel actual de stock disponible.
+\item[\color{myblue}$\bullet$] Stock mínimo: Umbral mínimo para alertas de reposición.
+\item[\color{myblue}$\bullet$] Stock máximo: Límite máximo permitido de stock.
+\item[\color{myblue}$\bullet$] Ubicación: Localización física o lógica del producto.
+\item[\color{myblue}$\bullet$] URL de imagen: Enlace o ruta hacia una imagen del producto.
+\end{compactitem}
+
+\hypertarget{toc155}{}
+\subsection{Eliminación}
+
+Los productos pueden eliminarse desde la vista de lista si no están referenciados en documentos activos.
+Aparecerá un mensaje de confirmación antes de eliminar.
+
+Los productos vinculados a facturas, presupuestos o compras están protegidos contra la eliminación.
+
+
+\hypertarget{toc156}{}
+\section{Categorías de productos}
+
+\hypertarget{toc157}{}
+\subsection{Descripción}
+
+La aplicación de categorías de productos se utiliza para clasificar productos y servicios según su naturaleza o comportamiento.
+Esta clasificación ayuda a distinguir entre bienes físicos, servicios, suscripciones u otras categorías internas utilizadas en informes o automatizaciones.
+
+Ejemplos de categorías incluyen "Producto", "Servicio", "Suscripción" o "Paquete".
+
+\hypertarget{toc158}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Nombre: Etiqueta de la categoría.
+\item[\color{myblue}$\bullet$] Descripción: Descripción opcional para aclarar el propósito de la categoría.
+\item[\color{myblue}$\bullet$] Activo: Indica si la categoría está disponible al crear productos.
+\end{compactitem}
+
+\hypertarget{toc159}{}
+\subsection{Vista de formulario}
+
+Esta vista se utiliza para crear, consultar o editar registros de categorías de producto.
+
+En el modo \textbf{crear}, se puede definir una nueva categoría.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, los detalles de la categoría se muestran pero no se pueden editar.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-view-10-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, se pueden actualizar los valores existentes.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-edit-10-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Activo: Controla si se puede elegir en formularios de producto.
+\item[\color{myblue}$\bullet$] Nombre: Nombre que aparece en el selector de tipo al crear un producto.
+\item[\color{myblue}$\bullet$] Descripción: Notas sobre el uso previsto de la categoría.
+\end{compactitem}
+
+\hypertarget{toc160}{}
+\subsection{Eliminación}
+
+Las categorías solo pueden eliminarse si no están vinculadas a ningún producto.
+
+En caso contrario, se recomienda desactivarlas.
+
+
+\hypertarget{toc161}{}
+\section{Tipos de producto}
+
+\hypertarget{toc162}{}
+\subsection{Descripción}
+
+La aplicación de tipos de producto se utiliza para agrupar productos en familias o colecciones para facilitar su clasificación.
+Los tipos son útiles para filtrar, generar informes, organizar catálogos y aplicar reglas comerciales comunes.
+
+Algunos tipos habituales pueden incluir "Hardware", "Software", "Servicios" o "Accesorios".
+
+\hypertarget{toc163}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Nombre: Nombre del tipo.
+\item[\color{myblue}$\bullet$] Descripción: Descripción de los productos que incluye este tipo.
+\item[\color{myblue}$\bullet$] Activo: Indica si este tipo se puede asignar a productos.
+\end{compactitem}
+
+\hypertarget{toc164}{}
+\subsection{Vista de formulario}
+
+Esta vista se utiliza para crear, consultar o editar registros de tipos de producto.
+
+En el modo \textbf{crear}, se puede definir un nuevo tipo.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, los detalles se muestran pero no se pueden editar.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-view-10-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, se pueden actualizar los valores existentes.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-edit-10-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Activo: Activa o desactiva la selección del tipo.
+\item[\color{myblue}$\bullet$] Nombre: Etiqueta del tipo tal como aparece en el formulario de producto.
+\item[\color{myblue}$\bullet$] Descripción: Notas o aclaraciones opcionales sobre este tipo.
+\end{compactitem}
+
+\hypertarget{toc165}{}
+\subsection{Eliminación}
+
+Los tipos solo pueden eliminarse si no están asignados a ningún producto.
+
+En caso contrario, deben desactivarse.
+
+
+\hypertarget{toc166}{}
+\section{Impuestos}
+
+\hypertarget{toc167}{}
+\subsection{Descripción}
+
+La aplicación de impuestos se utiliza para definir y gestionar los tipos impositivos aplicados a productos, presupuestos y facturas.
+Funciona como repositorio central de tipos como IVA, impuesto sobre ventas o exenciones.
+Cada registro incluye el nombre, el porcentaje y el estado, asegurando una aplicación coherente en todo el sistema ERP.
+
+\hypertarget{toc168}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Nombre: Nombre o etiqueta usada para identificar el impuesto (ej: IVA 21\%).
+\item[\color{myblue}$\bullet$] Descripción: Explicación opcional o detalles adicionales sobre la norma fiscal o contexto de uso.
+\item[\color{myblue}$\bullet$] Valor: Porcentaje del impuesto a aplicar (ej: 21 para 21\%).
+\item[\color{myblue}$\bullet$] Activo: Indica si este impuesto está disponible para ser seleccionado en documentos.
+\item[\color{myblue}$\bullet$] Por defecto: Indica si este impuesto se selecciona automáticamente al crear nuevos documentos.
+\end{compactitem}
+
+\hypertarget{toc169}{}
+\subsection{Vista de formulario}
+
+Esta vista se utiliza para crear, ver o editar tipos de impuesto.
+
+En el modo \textbf{crear}, se puede definir una nueva regla de impuesto.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, los detalles del impuesto son visibles pero no editables.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-view-1-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, los valores existentes pueden actualizarse.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-edit-1-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Activo: Indica si este impuesto está disponible para ser seleccionado en documentos.
+\item[\color{myblue}$\bullet$] Por defecto: Indica si este impuesto se selecciona automáticamente al crear nuevos documentos.
+\item[\color{myblue}$\bullet$] Nombre: Nombre o etiqueta usada para identificar el impuesto (ej: IVA 21\%).
+\item[\color{myblue}$\bullet$] Valor: Porcentaje del impuesto a aplicar (ej: 21 para 21\%).
+\item[\color{myblue}$\bullet$] Descripción: Explicación opcional o detalles adicionales sobre la norma fiscal o contexto de uso.
+\end{compactitem}
+
+\hypertarget{toc170}{}
+\subsection{Eliminación}
+
+Los impuestos solo pueden eliminarse si no están usados en ninguna factura ni producto.
+
+Si un impuesto está en uso, debe desactivarse en su lugar para preservar la integridad del sistema.
+
+
+\hypertarget{toc171}{}
+\section{Órdenes de trabajo}
+
+\hypertarget{toc172}{}
+\subsection{Descripción}
+
+La aplicación de órdenes de trabajo se utiliza para registrar, planificar y hacer seguimiento de tareas o servicios solicitados por clientes.
+Cada orden incluye información sobre el solicitante, el servicio requerido, estado, fechas, personal asignado,
+y notas o archivos adjuntos asociados. Este módulo es esencial para gestionar actividades operativas,
+como soporte técnico, instalaciones o servicios de campo.
+
+\hypertarget{toc173}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Fecha: Fecha en que se creó o programó la orden.
+\item[\color{myblue}$\bullet$] Técnico: Empleado o técnico asignado para realizar la tarea.
+\item[\color{myblue}$\bullet$] Cliente: Cliente que solicitó el servicio o tarea.
+\end{compactitem}
+
+\hypertarget{toc174}{}
+\subsection{Vista de formulario}
+
+Esta vista se utiliza para crear, editar o consultar una orden de trabajo.
+
+En el modo \textbf{crear}, el formulario permite registrar una nueva tarea a realizar.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, la información se muestra como solo lectura.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-100-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, los datos pueden actualizarse según el progreso o retroalimentación.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-edit-100-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Fecha: Fecha en que se creó o programó la orden.
+\item[\color{myblue}$\bullet$] Técnico: Empleado o técnico asignado.
+\item[\color{myblue}$\bullet$] Cliente: Cliente que solicitó el trabajo o servicio.
+\item[\color{myblue}$\bullet$] Descripción: Detalles sobre la naturaleza u objetivo del trabajo a realizar.
+\item[\color{myblue}$\bullet$] Horas: Número estimado o real de horas asignadas.
+\item[\color{myblue}$\bullet$] Precio: Tarifa por hora o precio fijo acordado.
+\item[\color{myblue}$\bullet$] Total: Importe final calculado en base al precio y las horas.
+\item[\color{myblue}$\bullet$] Factura: Número o referencia de la factura asociada al trabajo realizado.
+\end{compactitem}
+
+\hypertarget{toc175}{}
+\subsection{Eliminación}
+
+Las órdenes de trabajo solo pueden eliminarse si no están vinculadas a servicios completados o acciones registradas.
+
+Se mostrará un aviso de confirmación antes de eliminar.
+Se recomienda desactivarlas si se desea conservar el historial sin mantenerlas visibles.
+
+
+\hypertarget{toc176}{}
+\section{Grupos}
+
+\hypertarget{toc177}{}
+\subsection{Descripción}
+
+La aplicación de grupos se utiliza para definir roles o categorías de usuarios dentro de SaltOS4.
+Cada grupo agrupa permisos que determinan qué pueden ver o hacer sus miembros en el sistema.
+Los grupos simplifican la administración del control de acceso al permitir gestionar los permisos a nivel de grupo en lugar de usuario por usuario.
+
+\hypertarget{toc178}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-users-groups-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Código: Identificador interno o código de referencia del grupo.
+\item[\color{myblue}$\bullet$] Nombre: Nombre o título usado para identificar el grupo.
+\item[\color{myblue}$\bullet$] Descripción: Explicación de la finalidad o alcance del grupo.
+\item[\color{myblue}$\bullet$] Activo: Indica si este grupo está habilitado para su uso.
+\end{compactitem}
+
+\hypertarget{toc179}{}
+\subsection{Vista de formulario}
+
+Esta vista se utiliza para crear, ver o editar grupos de usuarios.
+
+En el modo \textbf{crear}, se define un nuevo grupo.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-users-groups-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, se muestran los detalles del grupo y los permisos asignados.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-users-groups-view-1-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, se puede actualizar el nombre, la descripción y la matriz de permisos.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-users-groups-edit-1-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Activo: Indica si el grupo está habilitado para su uso.
+\item[\color{myblue}$\bullet$] Código: Identificador interno o referencia del grupo.
+\item[\color{myblue}$\bullet$] Nombre: Título o nombre que identifica al grupo.
+\item[\color{myblue}$\bullet$] Descripción: Explicación de su propósito o alcance funcional.
+\item[\color{myblue}$\bullet$] Usuarios: Lista de usuarios asignados a este grupo.
+\item[\color{myblue}$\bullet$] Aplicaciones y permisos: Matriz de accesos y operaciones permitidas a este grupo.
+\end{compactitem}
+
+\hypertarget{toc180}{}
+\subsection{Eliminación}
+
+Los grupos solo pueden eliminarse si no tienen usuarios asignados.
+
+Si el grupo está en uso, se recomienda desactivarlo para conservar el historial de accesos.
+
+
+\hypertarget{toc181}{}
+\section{Usuarios}
+
+\hypertarget{toc182}{}
+\subsection{Descripción}
+
+La aplicación de usuarios se utiliza para gestionar las cuentas que tienen acceso al sistema SaltOS4.
+Cada usuario tiene asignadas credenciales, roles y permisos, y puede estar vinculado opcionalmente a un perfil de empleado.
+Este módulo es esencial para el control de acceso, la personalización y la trazabilidad mediante auditoría.
+
+\hypertarget{toc183}{}
+\subsection{Vista de lista}
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-users-users-list-es-es-1-snap.png}\end{center}
+
+Los siguientes campos se muestran en la vista de lista:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Usuario: Nombre de usuario único utilizado para acceder al sistema.
+\item[\color{myblue}$\bullet$] Nombre: Nombre completo del usuario, usado para identificación y visualización.
+\item[\color{myblue}$\bullet$] Descripción: Comentarios internos o notas sobre el perfil del usuario.
+\item[\color{myblue}$\bullet$] Grupo: Grupo o rol asignado para control de permisos.
+\item[\color{myblue}$\bullet$] Activo: Indica si la cuenta está actualmente habilitada.
+\end{compactitem}
+
+\hypertarget{toc184}{}
+\subsection{Vista de formulario}
+
+Esta vista se utiliza para crear, ver o editar cuentas de usuario.
+
+En el modo \textbf{crear}, el formulario permite registrar un nuevo usuario con credenciales de acceso.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-users-users-create-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{visualización}, los datos del usuario se muestran sin opción de edición.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-users-users-view-1-es-es-1-snap.png}\end{center}
+
+En el modo \textbf{edición}, se puede actualizar la información o restablecer credenciales.
+
+\begin{center}\includegraphics[width=1\textwidth]{../ujest/snaps/test-screenshots-js-screenshots-users-users-edit-1-es-es-1-snap.png}\end{center}
+
+El formulario incluye los siguientes campos:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] Activo: Indica si la cuenta de usuario está actualmente habilitada.
+\item[\color{myblue}$\bullet$] Usuario: Nombre único de acceso al sistema.
+\item[\color{myblue}$\bullet$] Grupo: Grupo o rol que define los permisos base.
+\item[\color{myblue}$\bullet$] Nombre: Nombre completo del usuario.
+\item[\color{myblue}$\bullet$] Nueva contraseña: Clave de acceso nueva (para restablecimiento o cambio).
+\item[\color{myblue}$\bullet$] Repetir contraseña: Confirmación de la nueva contraseña.
+\item[\color{myblue}$\bullet$] Descripción: Notas internas sobre el perfil del usuario.
+\item[\color{myblue}$\bullet$] Inicio: Fecha desde la cual la cuenta es válida.
+\item[\color{myblue}$\bullet$] Fin: Fecha de expiración tras la cual no se permite el acceso.
+\item[\color{myblue}$\bullet$] Días: Días de la semana en los que se permite acceso.
+\item[\color{myblue}$\bullet$] Grupos: Grupos adicionales asociados al usuario.
+\item[\color{myblue}$\bullet$] Aplicaciones y permisos: Matriz detallada de accesos y acciones permitidas.
+\item[\color{myblue}$\bullet$] Historial de contraseñas: Lista de contraseñas anteriores para control y seguridad.
+\end{compactitem}
+
+\hypertarget{toc185}{}
+\subsection{Eliminación}
+
+Las cuentas de usuario pueden eliminarse si no han iniciado sesión y no están vinculadas a registros de actividad.
+
+En caso contrario, se recomienda desactivarlas en lugar de eliminarlas para mantener trazabilidad.
+
+% LaTeX2e code generated by txt2tags 3.4 (http://txt2tags.org)
+% cmdline: txt2tags --toc -t tex -i user_es_es.t2t -o user_es_es.tex
+\end{document}

@@ -1,0 +1,3966 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>User Manual (ca\_ES)</title>
+<meta name="generator" content="http://txt2tags.org">
+<style>
+body{background-color:#fff;color:#000;}
+hr{background-color:#000;border:0;color:#000;}
+hr.heavy{height:5px;}
+hr.light{height:1px;}
+img{border:0;display:block;}
+img.right{margin:0 0 0 auto;}
+img.center{border:0;margin:0 auto;}
+table th,table td{padding:4px;}
+.center,header{text-align:center;}
+table.center {margin-left:auto; margin-right:auto;}
+.right{text-align:right;}
+.left{text-align:left;}
+.tableborder,.tableborder td,.tableborder th{border:1px solid #000;}
+.underline{text-decoration:underline;}
+pre{background-color:#e6e6e6;padding:5px 3px}
+</style>
+</head>
+<body>
+<header>
+<hgroup>
+<h1>User Manual (ca\_ES)</h1>
+<h2>SaltOS 4.0 r1995</h2>
+<h3>April 2025</h3>
+</hgroup>
+</header>
+<article>
+
+<nav>
+<div class="body" id="body">
+
+  <ul>
+  <li><a href="#toc1">1. Certificats</a>
+    <ul>
+    <li><a href="#toc2">1.1. Descripció</a>
+    </li>
+    <li><a href="#toc3">1.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc4">1.3. Form view</a>
+    </li>
+    <li><a href="#toc5">1.4. Eliminar</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc6">2. Registre de configuració</a>
+    <ul>
+    <li><a href="#toc7">2.1. Descripció</a>
+    </li>
+    <li><a href="#toc8">2.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc9">2.3. Vista de registre</a>
+    </li>
+    <li><a href="#toc10">2.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc11">3. Registre de cron</a>
+    <ul>
+    <li><a href="#toc12">3.1. Descripció</a>
+    </li>
+    <li><a href="#toc13">3.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc14">3.3. Vista de registre</a>
+    </li>
+    <li><a href="#toc15">3.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc16">4. Registre de fitxers</a>
+    <ul>
+    <li><a href="#toc17">4.1. Descripció</a>
+    </li>
+    <li><a href="#toc18">4.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc19">4.3. Vista del registre</a>
+    </li>
+    <li><a href="#toc20">4.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc21">5. Registre de notificacions push</a>
+    <ul>
+    <li><a href="#toc22">5.1. Descripció</a>
+    </li>
+    <li><a href="#toc23">5.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc24">5.3. Vista de registre</a>
+    </li>
+    <li><a href="#toc25">5.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc26">6. Registre de tokens</a>
+    <ul>
+    <li><a href="#toc27">6.1. Descripció</a>
+    </li>
+    <li><a href="#toc28">6.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc29">6.3. Vista de registre</a>
+    </li>
+    <li><a href="#toc30">6.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc31">7. Registre de paperera</a>
+    <ul>
+    <li><a href="#toc32">7.1. Descripció</a>
+    </li>
+    <li><a href="#toc33">7.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc34">7.3. Vista de registre</a>
+    </li>
+    <li><a href="#toc35">7.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc36">8. Registre de pujades</a>
+    <ul>
+    <li><a href="#toc37">8.1. Descripció</a>
+    </li>
+    <li><a href="#toc38">8.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc39">8.3. Vista de registre</a>
+    </li>
+    <li><a href="#toc40">8.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc41">9. Empresa</a>
+    <ul>
+    <li><a href="#toc42">9.1. Descripció</a>
+    </li>
+    <li><a href="#toc43">9.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc44">9.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc45">9.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc46">10. Clients</a>
+    <ul>
+    <li><a href="#toc47">10.1. Descripció</a>
+    </li>
+    <li><a href="#toc48">10.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc49">10.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc50">10.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc51">11. Tipus de clients</a>
+    <ul>
+    <li><a href="#toc52">11.1. Descripció</a>
+    </li>
+    <li><a href="#toc53">11.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc54">11.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc55">11.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc56">12. Interessats</a>
+    <ul>
+    <li><a href="#toc57">12.1. Descripció</a>
+    </li>
+    <li><a href="#toc58">12.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc59">12.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc60">12.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc61">13. Estats dels interessats</a>
+    <ul>
+    <li><a href="#toc62">13.1. Descripció</a>
+    </li>
+    <li><a href="#toc63">13.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc64">13.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc65">13.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc66">14. Reunions</a>
+    <ul>
+    <li><a href="#toc67">14.1. Descripció</a>
+    </li>
+    <li><a href="#toc68">14.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc69">14.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc70">14.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc71">15. Pressupostos</a>
+    <ul>
+    <li><a href="#toc72">15.1. Descripció</a>
+    </li>
+    <li><a href="#toc73">15.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc74">15.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc75">15.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc76">16. Estats dels pressupostos</a>
+    <ul>
+    <li><a href="#toc77">16.1. Descripció</a>
+    </li>
+    <li><a href="#toc78">16.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc79">16.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc80">16.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc81">17. Tauler de control (Dashboard)</a>
+    <ul>
+    <li><a href="#toc82">17.1. Descripció</a>
+    </li>
+    <li><a href="#toc83">17.2. Vista principal</a>
+    </li>
+    <li><a href="#toc84">17.3. Configuració del dashboard</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc85">18. Configuració del dashboard</a>
+    <ul>
+    <li><a href="#toc86">18.1. Descripció</a>
+    </li>
+    <li><a href="#toc87">18.2. Vista de configuració</a>
+    </li>
+    <li><a href="#toc88">18.3. Funcionalitats</a>
+    </li>
+    <li><a href="#toc89">18.4. Ús avançat</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc90">19. Correus electrònics</a>
+    <ul>
+    <li><a href="#toc91">19.1. Descripció</a>
+    </li>
+    <li><a href="#toc92">19.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc93">19.3. Visualització del missatge</a>
+    </li>
+    <li><a href="#toc94">19.4. Respondre / Redactar</a>
+    </li>
+    <li><a href="#toc95">19.5. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc96">20. Comptes de correu electrònic</a>
+    <ul>
+    <li><a href="#toc97">20.1. Descripció</a>
+    </li>
+    <li><a href="#toc98">20.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc99">20.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc100">20.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc101">21. Departaments</a>
+    <ul>
+    <li><a href="#toc102">21.1. Descripció</a>
+    </li>
+    <li><a href="#toc103">21.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc104">21.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc105">21.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc106">22. Empleats</a>
+    <ul>
+    <li><a href="#toc107">22.1. Descripció</a>
+    </li>
+    <li><a href="#toc108">22.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc109">22.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc110">22.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc111">23. Tipus d'empleat</a>
+    <ul>
+    <li><a href="#toc112">23.1. Descripció</a>
+    </li>
+    <li><a href="#toc113">23.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc114">23.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc115">23.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc116">24. Compra</a>
+    <ul>
+    <li><a href="#toc117">24.1. Descripció</a>
+    </li>
+    <li><a href="#toc118">24.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc119">24.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc120">24.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc121">25. Estats de compra</a>
+    <ul>
+    <li><a href="#toc122">25.1. Descripció</a>
+    </li>
+    <li><a href="#toc123">25.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc124">25.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc125">25.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc126">26. Proveïdors</a>
+    <ul>
+    <li><a href="#toc127">26.1. Descripció</a>
+    </li>
+    <li><a href="#toc128">26.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc129">26.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc130">26.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc131">27. Tipus de proveïdor</a>
+    <ul>
+    <li><a href="#toc132">27.1. Descripció</a>
+    </li>
+    <li><a href="#toc133">27.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc134">27.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc135">27.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc136">28. Factures</a>
+    <ul>
+    <li><a href="#toc137">28.1. Descripció</a>
+    </li>
+    <li><a href="#toc138">28.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc139">28.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc140">28.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc141">29. Estats de les factures</a>
+    <ul>
+    <li><a href="#toc142">29.1. Descripció</a>
+    </li>
+    <li><a href="#toc143">29.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc144">29.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc145">29.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc146">30. Mètodes de pagament</a>
+    <ul>
+    <li><a href="#toc147">30.1. Descripció</a>
+    </li>
+    <li><a href="#toc148">30.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc149">30.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc150">30.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc151">31. Productes</a>
+    <ul>
+    <li><a href="#toc152">31.1. Descripció</a>
+    </li>
+    <li><a href="#toc153">31.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc154">31.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc155">31.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc156">32. Categories de productes</a>
+    <ul>
+    <li><a href="#toc157">32.1. Descripció</a>
+    </li>
+    <li><a href="#toc158">32.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc159">32.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc160">32.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc161">33. Tipus de producte</a>
+    <ul>
+    <li><a href="#toc162">33.1. Descripció</a>
+    </li>
+    <li><a href="#toc163">33.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc164">33.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc165">33.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc166">34. Impostos</a>
+    <ul>
+    <li><a href="#toc167">34.1. Descripció</a>
+    </li>
+    <li><a href="#toc168">34.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc169">34.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc170">34.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc171">35. Ordres de treball</a>
+    <ul>
+    <li><a href="#toc172">35.1. Descripció</a>
+    </li>
+    <li><a href="#toc173">35.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc174">35.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc175">35.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc176">36. Grups</a>
+    <ul>
+    <li><a href="#toc177">36.1. Descripció</a>
+    </li>
+    <li><a href="#toc178">36.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc179">36.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc180">36.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc181">37. Usuaris</a>
+    <ul>
+    <li><a href="#toc182">37.1. Descripció</a>
+    </li>
+    <li><a href="#toc183">37.2. Vista de llista</a>
+    </li>
+    <li><a href="#toc184">37.3. Vista de formulari</a>
+    </li>
+    <li><a href="#toc185">37.4. Eliminació</a>
+    </li>
+    </ul>
+  </li>
+  </ul>
+
+</div>
+</nav>
+<div class="body" id="body">
+
+<section id="toc1">
+<h1>1. Certificats</h1>
+
+<section id="toc2">
+<h2>1.1. Descripció</h2>
+
+<p>
+L'aplicació de Certificats s'utilitza per gestionar i controlar els certificats SSL/TLS emmagatzemats o monitoritzats pel sistema.
+</p>
+<p>
+Aquest mòdul permet als administradors registrar certificats, desar metadades, monitorar dates de caducitat
+i garantir que la infraestructura de seguretat estigui actualitzada.
+</p>
+<p>
+És especialment útil per gestionar certificats de dominis personalitzats, serveis interns o integracions externes.
+</p>
+
+</section>
+<section id="toc3">
+<h2>1.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-certs-certs-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Àlies de certificat disponibles: Llista d'àlies de certificats ja emmagatzemats i disponibles al sistema. No és una taula basada en base de dades, sinó una visualització directa dels certificats carregats.
+</li>
+</ul>
+
+</section>
+<section id="toc4">
+<h2>1.3. Form view</h2>
+
+<p>
+Aquesta vista s'utilitza per afegir, revisar o actualitzar la informació d'un certificat.
+</p>
+<p>
+En <strong>mode creació</strong>, el formulari està buit i llest per introduir noves dades.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-certs-certs-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Fitxer de certificat (.p12, .pfx): Camp per pujar un o més certificats en format PKCS#12. És obligatori per importar certificats al sistema.
+</li>
+<li>Contrasenya del fitxer: Contrasenya per desencriptar el fitxer de certificat pujat. Aquest camp és obligatori i no s'autocompleta per motius de seguretat.
+</li>
+</ul>
+
+<p>
+En <strong>mode vista</strong>, els camps estan omplerts amb el registre seleccionat i no es poden editar.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-certs-certs-view-ab-877-d-2027-f-7-c-71-d-9935999-cce-1-b-802-b-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Nom: Nom visible o àlies del certificat.
+</li>
+<li>Informació: Detalls tècnics del certificat, incloent emissor, caducitat i subjecte. Mostrat en un camp de text només de lectura.
+</li>
+</ul>
+
+</section>
+<section id="toc5">
+<h2>1.4. Eliminar</h2>
+
+<p>
+Els certificats poden ser eliminats si ja no són rellevants.
+</p>
+<p>
+Tanmateix, es recomana conservar els certificats caducats per a finalitats d'auditoria.
+</p>
+
+</section>
+</section>
+<section id="toc6">
+<h1>2. Registre de configuració</h1>
+
+<section id="toc7">
+<h2>2.1. Descripció</h2>
+
+<p>
+L'aplicació de registre de configuració proporciona una traçabilitat de tots els canvis de configuració realitzats dins de SaltOS4.
+S'utilitza per monitoritzar modificacions en paràmetres del sistema, configuracions d'aplicacions o preferències internes.
+Aquest mòdul és essencial per a administradors que volen auditar canvis i assegurar un comportament consistent del sistema al llarg del temps.
+</p>
+
+</section>
+<section id="toc8">
+<h2>2.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-configlog-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Usuari: Usuari que va realitzar el canvi de configuració.
+</li>
+<li>Clau: Clau de configuració que ha estat modificada.
+</li>
+</ul>
+
+</section>
+<section id="toc9">
+<h2>2.3. Vista de registre</h2>
+
+<p>
+Aquesta vista mostra els detalls complets d'un registre de canvi de configuració.
+</p>
+<p>
+En el mode <strong>crear</strong>, el formulari està buit i llest per introduir noves dades.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-configlog-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, els camps es mostren amb la informació del registre seleccionat i no es poden editar.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-configlog-view-10-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, el formulari està preomplert i permet modificacions.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-configlog-edit-10-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Inclou:
+</p>
+
+<ul>
+<li>Usuari: Usuari que ha fet el canvi de configuració.
+</li>
+<li>Clau: Clau de configuració modificada.
+</li>
+<li>Valor: Nou valor assignat a la clau de configuració.
+</li>
+</ul>
+
+</section>
+<section id="toc10">
+<h2>2.4. Eliminació</h2>
+
+<p>
+Les entrades del registre de configuració no es poden eliminar en circumstàncies normals.
+</p>
+<p>
+Aquest registre està dissenyat per garantir la traçabilitat completa i l'auditoria de les accions administratives.
+</p>
+
+</section>
+</section>
+<section id="toc11">
+<h1>3. Registre de cron</h1>
+
+<section id="toc12">
+<h2>3.1. Descripció</h2>
+
+<p>
+L'aplicació de registre de cron emmagatzema l'historial d'execució de les tasques programades (cron jobs) dins de SaltOS4.
+Permet als administradors monitorar processos en segon pla com la recepció de correus, importacions de dades, còpies de seguretat o tasques personalitzades.
+Aquest mòdul és essencial per diagnosticar errors i verificar que les operacions programades s'executen correctament.
+</p>
+
+</section>
+<section id="toc13">
+<h2>3.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-cronlog-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Comanda: Ordre o script executat pel sistema de cron.
+</li>
+<li>Inici: Hora d'inici de l'execució de la tasca programada.
+</li>
+<li>Sortida: Vista prèvia del resultat de la sortida estàndard.
+</li>
+<li>Error: Vista prèvia de la sortida d'error (si n'hi ha).
+</li>
+</ul>
+
+</section>
+<section id="toc14">
+<h2>3.3. Vista de registre</h2>
+
+<p>
+Aquesta vista mostra el resultat complet d'una execució individual d'una tasca cron.
+</p>
+<p>
+Inclou:
+</p>
+
+<ul>
+<li>Comanda: Ordre o script que s'ha executat.
+</li>
+<li>PID: Identificador de procés assignat a l'execució cron.
+</li>
+<li>Inici: Hora en què s'ha iniciat la tasca.
+</li>
+<li>Final: Hora en què la tasca ha acabat.
+</li>
+<li>STDOUT: Sortida estàndard generada durant l'execució.
+</li>
+<li>STDERR: Sortida d'error generada durant l'execució (si n'hi ha).
+</li>
+</ul>
+
+</section>
+<section id="toc15">
+<h2>3.4. Eliminació</h2>
+
+<p>
+Els registres de cron no estan pensats per ser eliminats regularment.
+</p>
+<p>
+Es pot configurar una neteja automàtica o purga manual per eliminar entrades antigues.
+</p>
+
+</section>
+</section>
+<section id="toc16">
+<h1>4. Registre de fitxers</h1>
+
+<section id="toc17">
+<h2>4.1. Descripció</h2>
+
+<p>
+L'aplicació de registre de fitxers registra tots els esdeveniments d'accés a fitxers dins de SaltOS4.
+Traça quan els fitxers són visualitzats, descarregats o accedits per usuaris, incloent metadades associades.
+Aquest mòdul proporciona una traçabilitat completa de l'activitat documental, donant suport a polítiques de governança i seguretat de les dades.
+</p>
+
+</section>
+<section id="toc18">
+<h2>4.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-fileslog-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Nom: Nom del fitxer accedit o gestionat dins del sistema.
+</li>
+<li>Tipus: Format o classificació del fitxer (ex: PDF, imatge, text).
+</li>
+<li>Mida: Mida del fitxer en bytes.
+</li>
+</ul>
+
+</section>
+<section id="toc19">
+<h2>4.3. Vista del registre</h2>
+
+<p>
+Aquesta vista mostra informació detallada sobre un esdeveniment d'accés a fitxer.
+</p>
+<p>
+Inclou:
+</p>
+
+<ul>
+<li>Nom: Nom del fitxer accedit o gestionat dins del sistema.
+</li>
+<li>Tipus: Format o classificació del fitxer (ex: PDF, imatge, text).
+</li>
+<li>Mida: Mida del fitxer en bytes.
+</li>
+<li>Dades: Contingut intern, metadades o estructura serialitzada que representa l'accés o acció sobre el fitxer.
+</li>
+</ul>
+
+</section>
+<section id="toc20">
+<h2>4.4. Eliminació</h2>
+
+<p>
+Les entrades del registre de fitxers normalment no es poden eliminar de forma manual.
+</p>
+<p>
+Es conserven per motius d'auditoria i control de seguretat, i poden ser depurades automàticament segons la configuració del sistema.
+</p>
+
+</section>
+</section>
+<section id="toc21">
+<h1>5. Registre de notificacions push</h1>
+
+<section id="toc22">
+<h2>5.1. Descripció</h2>
+
+<p>
+L'aplicació de registre de notificacions push emmagatzema totes les notificacions enviades pel sistema.
+Aquestes notificacions normalment s'utilitzen per alertar els usuaris sobre accions, actualitzacions o esdeveniments del sistema en temps real.
+Aquest mòdul permet als administradors monitorar el flux de notificacions i diagnosticar possibles problemes en el lliurament.
+</p>
+
+</section>
+<section id="toc23">
+<h2>5.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-pushlog-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Usuari: Usuari que ha generat o rebut la notificació push.
+</li>
+<li>Data i hora: Data i hora en què s'ha registrat la notificació.
+</li>
+<li>Tipus: Categoria del missatge push (ex: informació, avís, error).
+</li>
+</ul>
+
+</section>
+<section id="toc24">
+<h2>5.3. Vista de registre</h2>
+
+<p>
+Aquesta vista mostra els detalls complets d'una única notificació push.
+</p>
+<p>
+Inclou:
+</p>
+
+<ul>
+<li>Usuari: Usuari que ha generat o rebut la notificació.
+</li>
+<li>Data i hora: Data i hora en què s'ha registrat la notificació.
+</li>
+<li>Tipus: Categoria del missatge push (ex: informació, avís, error).
+</li>
+<li>Missatge: Contingut o resum del missatge enviat.
+</li>
+<li>Marca temporal: Timestamp intern del sistema en el moment del registre.
+</li>
+</ul>
+
+</section>
+<section id="toc25">
+<h2>5.4. Eliminació</h2>
+
+<p>
+Les entrades del registre de notificacions push normalment no s'eliminen i es conserven per finalitats d'auditoria.
+</p>
+<p>
+En escenaris de manteniment específics, es poden purgar registres antics, però això requereix permisos explícits.
+</p>
+
+</section>
+</section>
+<section id="toc26">
+<h1>6. Registre de tokens</h1>
+
+<section id="toc27">
+<h2>6.1. Descripció</h2>
+
+<p>
+L'aplicació de registre de tokens fa el seguiment de l'ús dels tokens d'autenticació a través del sistema.
+Aquests tokens s'utilitzen habitualment en crides a l'API, scripts automatitzats o sessions d'accés temporal.
+Aquest mòdul permet als administradors monitorar l'accés al sistema i detectar usos indeguts o intents no autoritzats.
+</p>
+
+</section>
+<section id="toc28">
+<h2>6.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Usuari: Usuari associat al token.
+</li>
+<li>Creat: Data i hora de creació del token.
+</li>
+<li>Token: Cadena de token utilitzada per autenticar-se o accedir.
+</li>
+<li>Actiu: Indica si el token és vàlid i usable actualment.
+</li>
+</ul>
+
+</section>
+<section id="toc29">
+<h2>6.3. Vista de registre</h2>
+
+<p>
+Aquesta vista mostra tota la informació relacionada amb un accés concret mitjançant token.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-view-1-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Inclou:
+</p>
+
+<ul>
+<li>Actiu: Indica si el token és vàlid i usable actualment.
+</li>
+<li>Usuari: Usuari associat al token.
+</li>
+<li>Creat: Data i hora de creació del token.
+</li>
+<li>Actualitzat: Data i hora de l'última modificació de l'estat del token.
+</li>
+<li>Adreça IP: Adreça des d'on s'ha utilitzat o creat el token.
+</li>
+<li>User Agent: Navegador o client des del qual s'ha generat o accedit al token.
+</li>
+<li>Token: Cadena de token utilitzada per autenticar-se o accedir.
+</li>
+<li>Caducitat: Data i hora en què el token deixa de ser vàlid.
+</li>
+</ul>
+
+</section>
+<section id="toc30">
+<h2>6.4. Eliminació</h2>
+
+<p>
+Les entrades del registre de tokens no estan pensades per ser eliminades manualment.
+</p>
+<p>
+Formen part de l'historial d'auditoria i control d'accés del sistema, i poden ser eliminades automàticament si així està configurat.
+</p>
+
+</section>
+</section>
+<section id="toc31">
+<h1>7. Registre de paperera</h1>
+
+<section id="toc32">
+<h2>7.1. Descripció</h2>
+
+<p>
+L'aplicació de registre de paperera emmagatzema totes les eliminacions realitzades al sistema, actuant com una paperera de reciclatge per a SaltOS4.
+Permet a administradors i usuaris avançats inspeccionar quines dades han estat eliminades, quan, per qui i des d'on.
+Aquest mòdul és clau per a la traçabilitat i ajuda a identificar eliminacions accidentals o accions no autoritzades.
+</p>
+
+</section>
+<section id="toc33">
+<h2>7.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-trashlog-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Usuari: Usuari que ha realitzat l'eliminació.
+</li>
+<li>Data i hora: Moment exacte en què s'ha eliminat el registre.
+</li>
+<li>Nom: Nom descriptiu del registre o fitxer eliminat.
+</li>
+</ul>
+
+</section>
+<section id="toc34">
+<h2>7.3. Vista de registre</h2>
+
+<p>
+Aquesta vista mostra tota la informació registrada sobre un element eliminat.
+</p>
+<p>
+Inclou:
+</p>
+
+<ul>
+<li>ID antic: Identificador original del registre abans de l'eliminació.
+</li>
+<li>Usuari: Usuari que ha realitzat l'eliminació.
+</li>
+<li>Data i hora: Moment exacte de l'eliminació.
+</li>
+<li>ID de registre: Identificador intern assignat al registre eliminat.
+</li>
+<li>Aplicació: Aplicació o mòdul des del qual s'ha eliminat el registre.
+</li>
+<li>ID únic: Identificador únic a nivell de sistema de l'element eliminat.
+</li>
+<li>Nom: Nom descriptiu del registre o fitxer eliminat.
+</li>
+<li>Mida: Mida del fitxer en bytes, si era un fitxer.
+</li>
+<li>Tipus: Tipus MIME o classificació de l'element eliminat.
+</li>
+<li>Fitxer: Nom o ruta original del fitxer eliminat.
+</li>
+<li>Hash: Suma de verificació utilitzada per validar el contingut eliminat.
+</li>
+</ul>
+
+</section>
+<section id="toc35">
+<h2>7.4. Eliminació</h2>
+
+<p>
+Les entrades del registre de paperera no es poden eliminar directament des de la interfície.
+</p>
+<p>
+SaltOS4 les conserva per responsabilitat i traçabilitat legal, tret que s'hagi configurat una depuració automàtica.
+</p>
+
+</section>
+</section>
+<section id="toc36">
+<h1>8. Registre de pujades</h1>
+
+<section id="toc37">
+<h2>8.1. Descripció</h2>
+
+<p>
+L'aplicació de registre de pujades registra tots els fitxers pujats a través de SaltOS4, ja sigui de manera manual o automatitzada.
+Ajuda a traçar l'origen, l'usuari i el context de cada pujada, i és útil per a auditories, depuració i per verificar que les pujades es processen correctament.
+</p>
+
+</section>
+<section id="toc38">
+<h2>8.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-uploadlog-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Usuari: Usuari que ha pujat el fitxer.
+</li>
+<li>Data i hora: Moment en què el fitxer ha estat pujat al sistema.
+</li>
+<li>Aplicació: Mòdul o aplicació des d'on s'ha activat la pujada.
+</li>
+<li>Nom: Nom original del fitxer tal com l'ha proporcionat l'usuari.
+</li>
+</ul>
+
+</section>
+<section id="toc39">
+<h2>8.3. Vista de registre</h2>
+
+<p>
+Aquesta vista mostra els detalls complets d'una entrada del registre de pujada.
+</p>
+<p>
+Inclou:
+</p>
+
+<ul>
+<li>Usuari: Usuari que ha pujat el fitxer.
+</li>
+<li>Data i hora: Moment en què el fitxer ha estat pujat al sistema.
+</li>
+<li>ID únic: Identificador únic intern assignat a l'entrada de pujada.
+</li>
+<li>Aplicació: Mòdul o aplicació des d'on s'ha activat la pujada.
+</li>
+<li>Nom: Nom original del fitxer tal com l'ha proporcionat l'usuari.
+</li>
+<li>Mida: Mida del fitxer pujat, en bytes.
+</li>
+<li>Tipus: Tipus MIME o format del fitxer pujat.
+</li>
+<li>Fitxer: Nom del fitxer emmagatzemat utilitzat pel sistema.
+</li>
+<li>Hash: Suma de verificació (ex: MD5 o SHA) per validar la integritat o detectar duplicats.
+</li>
+</ul>
+
+</section>
+<section id="toc40">
+<h2>8.4. Eliminació</h2>
+
+<p>
+Les entrades del registre de pujades normalment es conserven per a finalitats de traçabilitat històrica.
+</p>
+<p>
+Si cal, es poden eliminar entrades antigues manualment o mitjançant tasques de manteniment automàtic.
+</p>
+
+</section>
+</section>
+<section id="toc41">
+<h1>9. Empresa</h1>
+
+<section id="toc42">
+<h2>9.1. Descripció</h2>
+
+<p>
+L'aplicació d'empresa emmagatzema les dades d'identificació i contacte de l'organització que utilitza SaltOS4.
+Aquesta informació s'utilitza arreu del sistema per personalitzar documents (pressupostos, factures, correus, etc.) i definir la identitat legal i fiscal de l'empresa.
+</p>
+<p>
+Normalment inclou el nom, el codi fiscal, l'adreça, el logotip i l'idioma preferit de l'empresa.
+</p>
+
+</section>
+<section id="toc43">
+<h2>9.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-company-company-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Nom: Nom oficial de l'empresa o organització.
+</li>
+<li>CIF: Codi d'identificació fiscal (NIF, CIF, IVA, etc.) de l'empresa.
+</li>
+<li>Ciutat: Ciutat on es troba l'empresa.
+</li>
+<li>País: País on està registrada o opera legalment l'empresa.
+</li>
+<li>Activa: Indica si aquest perfil d'empresa està actiu al sistema.
+</li>
+</ul>
+
+</section>
+<section id="toc44">
+<h2>9.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista s'utilitza per definir o editar el perfil de l'empresa.
+</p>
+<p>
+En el mode <strong>crear</strong>, el formulari està buit i preparat per introduir noves dades.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-company-company-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, els camps es mostren omplerts però no editables.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-company-company-view-1-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, el formulari es mostra preomplert i permet modificacions.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-company-company-edit-1-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Activa: Indica si aquest perfil d'empresa està actiu al sistema.
+</li>
+<li>Nom: Nom oficial de l'empresa o organització.
+</li>
+<li>Codi: Codi fiscal (NIF, CIF, IVA, etc.) de l'empresa.
+</li>
+<li>Adreça: Adreça oficial o de correspondència de l'empresa.
+</li>
+<li>Ciutat: Ciutat on es troba l'empresa.
+</li>
+<li>Província / Estat: Província, estat o regió on té seu l'empresa.
+</li>
+<li>Codi postal: Codi postal de l'adreça registrada.
+</li>
+<li>País: País on està registrada o opera l'empresa.
+</li>
+<li>Telèfon: Número de telèfon principal de contacte.
+</li>
+<li>Correu electrònic: Adreça de correu principal per a tràmits administratius o legals.
+</li>
+<li>Lloc web: Pàgina web pública de l'empresa.
+</li>
+<li>IBAN: Número de compte bancari internacional per a transferències.
+</li>
+<li>SWIFT/BIC: Codi SWIFT/BIC que identifica el banc de l'empresa en transferències internacionals.
+</li>
+<li>Règim fiscal: Règim tributari sota el qual opera l'empresa (ex: general, simplificat, pimes).
+</li>
+<li>Codi d'activitat: Codi de classificació de l'activitat econòmica (ex: CNAE, NACE).
+</li>
+<li>Notes addicionals: Observacions internes o informació complementària sobre l'empresa.
+</li>
+</ul>
+
+</section>
+<section id="toc45">
+<h2>9.4. Eliminació</h2>
+
+<p>
+El perfil de l'empresa no es pot eliminar si és l'únic actiu al sistema.
+</p>
+<p>
+Només es permet la desactivació en la majoria de configuracions.
+</p>
+
+</section>
+</section>
+<section id="toc46">
+<h1>10. Clients</h1>
+
+<section id="toc47">
+<h2>10.1. Descripció</h2>
+
+<p>
+L'aplicació de clients et permet gestionar la teva base de clients dins de SaltOS4.
+Centralitza tota la informació relacionada amb els clients: identificació, dades de contacte,
+codi fiscal, adreça i classificació. També serveix de nucli per enllaçar els clients amb altres
+mòduls com pressupostos, factures, reunions i correus.
+</p>
+
+</section>
+<section id="toc48">
+<h2>10.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-customers-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Nom: Nom complet o raó social del client.
+</li>
+<li>CIF: Codi d'identificació fiscal del client (NIF, CIF, IVA, etc.).
+</li>
+<li>Ciutat: Ciutat o localitat del client.
+</li>
+<li>País: País on està registrat o opera el client.
+</li>
+<li>Actiu: Indica si el client està actiu al sistema.
+</li>
+</ul>
+
+</section>
+<section id="toc49">
+<h2>10.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista s'utilitza per crear, editar o consultar una fitxa de client.
+</p>
+<p>
+En el mode <strong>crear</strong>, el formulari està buit i preparat per introduir dades noves.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-customers-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, els camps estan plens amb la fitxa seleccionada i no es poden editar.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-customers-view-100-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, el formulari està preomplert i permet modificacions.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-customers-edit-100-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Actiu: Activa o desactiva la visibilitat del client.
+</li>
+<li>Nom: Nom complet o raó social del client.
+</li>
+<li>CIF: Codi d'identificació fiscal del client.
+</li>
+<li>Adreça: Adreça física principal o de facturació.
+</li>
+<li>Ciutat: Ciutat o localitat del client.
+</li>
+<li>Província / Estat: Província o estat del client.
+</li>
+<li>Codi postal: Codi postal corresponent a l'adreça.
+</li>
+<li>País: País de registre.
+</li>
+<li>Correu electrònic: Adreça per notificacions o factures.
+</li>
+<li>Telèfon: Número de contacte principal.
+</li>
+<li>Web: Lloc web del client.
+</li>
+<li>Notes: Anotacions internes relacionades amb el client.
+</li>
+<li>Tipus: Categoria a la qual pertany el client (ex: habitual, VIP).
+</li>
+<li>Fitxers: Documents o imatges relacionats amb el client.
+</li>
+<li>Notes: Observacions internes o instruccions específiques del client.
+</li>
+</ul>
+
+</section>
+<section id="toc50">
+<h2>10.4. Eliminació</h2>
+
+<p>
+Els registres es poden eliminar des de la vista de llista amb l'acció d'eliminació.
+Apareixerà un missatge de confirmació abans d'executar l'operació.
+</p>
+<p>
+Aquesta acció és irreversible i requereix permisos específics.
+</p>
+
+</section>
+</section>
+<section id="toc51">
+<h1>11. Tipus de clients</h1>
+
+<section id="toc52">
+<h2>11.1. Descripció</h2>
+
+<p>
+Aquest mòdul permet definir diferents tipus de clients segons criteris comercials, legals o operatius.
+Classificar els clients ajuda a personalitzar l’atenció, filtrar les dades i aplicar polítiques específiques segons el tipus.
+</p>
+
+</section>
+<section id="toc53">
+<h2>11.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Nom: Nom del tipus de client.
+</li>
+<li>Descripció: Informació addicional sobre el tipus.
+</li>
+<li>Actiu: Indica si el tipus està disponible per ser assignat.
+</li>
+</ul>
+
+</section>
+<section id="toc54">
+<h2>11.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista permet gestionar els tipus de client.
+</p>
+<p>
+En el mode <strong>crear</strong>, es pot afegir un nou tipus.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, només es mostren les dades sense possibilitat d’edició.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-view-10-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, es poden modificar les dades existents.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-edit-10-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Actiu: Indica si el tipus està actiu.
+</li>
+<li>Nom: Nom que identifica el tipus.
+</li>
+<li>Descripció: Explicació o detall intern del tipus.
+</li>
+</ul>
+
+</section>
+<section id="toc55">
+<h2>11.4. Eliminació</h2>
+
+<p>
+Els tipus de clients només es poden eliminar si no tenen cap client associat.
+El sistema sol·licitarà confirmació abans de completar l’eliminació.
+</p>
+<p>
+Aquesta acció no es pot desfer.
+</p>
+
+</section>
+</section>
+<section id="toc56">
+<h1>12. Interessats</h1>
+
+<section id="toc57">
+<h2>12.1. Descripció</h2>
+
+<p>
+L'aplicació d'interessats s'utilitza per registrar i fer seguiment de clients potencials abans que esdevinguin clients reals.
+Permet recollir informació clau de cada interessat, com les dades de contacte, l'origen i l'estat actual en el procés comercial.
+Aquest mòdul ajuda a organitzar l'activitat prèvia a la venda, permetent als equips comercials fer seguiment efectiu, qualificar oportunitats
+i convertir interessats en clients quan sigui oportú.
+</p>
+
+</section>
+<section id="toc58">
+<h2>12.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-leads-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Títol: Títol o assumpte de la reunió, resumint-ne l'objectiu.
+</li>
+<li>Ubicació: Lloc on es fa la reunió, o enllaç si és virtual.
+</li>
+<li>Hora d'inici: Data i hora programades d'inici.
+</li>
+<li>Client: Client associat a la reunió, si escau.
+</li>
+</ul>
+
+</section>
+<section id="toc59">
+<h2>12.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista s'utilitza per crear, editar o consultar un interessat.
+</p>
+<p>
+En el mode <strong>crear</strong>, el formulari està buit i preparat per introduir dades noves.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-leads-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, els camps es mostren amb la informació seleccionada i no es poden editar.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-leads-view-100-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, el formulari està preomplert i permet fer modificacions.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-leads-edit-100-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Títol: Títol o assumpte de la reunió, resumint-ne l'objectiu.
+</li>
+<li>Ubicació: Lloc on es fa la reunió, o enllaç si és virtual.
+</li>
+<li>Hora d'inici: Data i hora programades d'inici.
+</li>
+<li>Hora de finalització: Data i hora previstes de finalització.
+</li>
+<li>Client relacionat: Client vinculat a la reunió, si escau.
+</li>
+<li>Participants: Llista d'usuaris o contactes externs convidats a la reunió.
+</li>
+<li>Ordre del dia: Temes o punts que es volen tractar durant la reunió.
+</li>
+<li>Temes aprovats: Punts discutits a la reunió que van ser aprovats.
+</li>
+<li>Temes rebutjats: Punts que no es van aprovar o que es van ajornar.
+</li>
+<li>Temes pendents: Punts que requereixen accions o decisions posteriors.
+</li>
+</ul>
+
+</section>
+<section id="toc60">
+<h2>12.4. Eliminació</h2>
+
+<p>
+Els registres es poden eliminar des de la vista de llista mitjançant l'acció d'eliminació.
+Apareixerà un missatge de confirmació abans d'executar l'operació.
+</p>
+<p>
+Aquesta acció és irreversible i requereix permisos adequats.
+</p>
+
+</section>
+</section>
+<section id="toc61">
+<h1>13. Estats dels interessats</h1>
+
+<section id="toc62">
+<h2>13.1. Descripció</h2>
+
+<p>
+Aquest mòdul permet definir els diferents estats pels quals pot passar un client potencial dins del procés comercial.
+Els estats ajuden a fer seguiment dels leads segons el seu grau d'interès, qualificació o decisió final (actiu, perdut, convertit, etc.).
+</p>
+
+</section>
+<section id="toc63">
+<h2>13.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Nom: Nom de l'estat.
+</li>
+<li>Descripció: Informació descriptiva de l'estat.
+</li>
+<li>Actiu: Indica si l'estat es pot utilitzar.
+</li>
+</ul>
+
+</section>
+<section id="toc64">
+<h2>13.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista permet gestionar els estats dels interessats.
+</p>
+<p>
+En el mode <strong>crear</strong>, pots afegir un estat nou.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, es mostra la informació de l'estat.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-view-10-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, es poden modificar els valors.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-edit-10-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Actiu: Estat actiu o inactiu.
+</li>
+<li>Nom: Títol o nom de l'estat.
+</li>
+<li>Descripció: Explicació de l'ús o significat de l'estat.
+</li>
+</ul>
+
+</section>
+<section id="toc65">
+<h2>13.4. Eliminació</h2>
+
+<p>
+Els estats només es poden eliminar si no estan assignats a cap interessat.
+El sistema mostrarà una confirmació abans de continuar.
+</p>
+<p>
+Aquesta acció no es pot desfer.
+</p>
+
+</section>
+</section>
+<section id="toc66">
+<h1>14. Reunions</h1>
+
+<section id="toc67">
+<h2>14.1. Descripció</h2>
+
+<p>
+L'aplicació de reunions permet programar, gestionar i fer seguiment de trobades internes o amb clients dins de SaltOS4.
+Inclou informació clau com la ubicació, els participants, l'ordre del dia i els temes aprovats, rebutjats o pendents.
+Aquest mòdul afavoreix la col·laboració i garanteix la traçabilitat de les decisions preses durant les reunions.
+</p>
+
+</section>
+<section id="toc68">
+<h2>14.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Títol: Títol o assumpte de la reunió.
+</li>
+<li>Ubicació: Lloc físic o enllaç virtual on es realitza la reunió.
+</li>
+<li>Hora d'inici: Data i hora programades d'inici.
+</li>
+<li>Client: Client associat a la reunió.
+</li>
+</ul>
+
+</section>
+<section id="toc69">
+<h2>14.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista s'utilitza per crear, editar o consultar una reunió.
+</p>
+<p>
+En el mode <strong>crear</strong>, el formulari està buit i preparat per introduir una nova reunió.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, els camps són només de lectura i mostren els detalls de la reunió.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-100-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, es poden modificar els detalls de la reunió.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-edit-100-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Títol: Nom o assumpte de la reunió.
+</li>
+<li>Ubicació: Lloc físic o virtual on es durà a terme.
+</li>
+<li>Hora d'inici: Data i hora d'inici.
+</li>
+<li>Hora de finalització: Data i hora de fi.
+</li>
+<li>Client relacionat: Client vinculat a la reunió.
+</li>
+<li>Participants: Usuaris o contactes convidats.
+</li>
+<li>Ordre del dia: Llista de punts a tractar.
+</li>
+<li>Temes aprovats: Punts que han estat aprovats.
+</li>
+<li>Temes rebutjats: Punts que no han estat aprovats.
+</li>
+<li>Temes pendents: Punts que necessiten revisió o aprovació futura.
+</li>
+</ul>
+
+</section>
+<section id="toc70">
+<h2>14.4. Eliminació</h2>
+
+<p>
+Les reunions es poden eliminar des de la vista de llista mitjançant l'acció corresponent.
+Abans d'eliminar, el sistema sol·licitarà confirmació.
+</p>
+<p>
+Aquesta acció no es pot desfer i pot requerir permisos específics.
+</p>
+
+</section>
+</section>
+<section id="toc71">
+<h1>15. Pressupostos</h1>
+
+<section id="toc72">
+<h2>15.1. Descripció</h2>
+
+<p>
+L'aplicació de pressupostos permet generar ofertes comercials per a clients potencials o existents.
+Inclou camps per definir les dades del client, condicions de pagament, línies de concepte, impostos i total.
+Aquests pressupostos poden convertir-se fàcilment en factures un cop acceptats pel client.
+</p>
+
+</section>
+<section id="toc73">
+<h2>15.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Client: Nom del client destinatari del pressupost.
+</li>
+<li>CIF: Codi d'identificació fiscal del client.
+</li>
+<li>Pressupost: Codi o número del pressupost.
+</li>
+<li>Data: Data d'emissió del pressupost.
+</li>
+<li>Total: Import total amb impostos inclosos.
+</li>
+</ul>
+
+</section>
+<section id="toc74">
+<h2>15.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista s'utilitza per crear, editar o consultar un pressupost.
+</p>
+<p>
+En el mode <strong>crear</strong>, el formulari està buit i preparat per introduir un nou pressupost.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, els camps són només de lectura i mostren el detall del pressupost.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-100-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, es poden modificar les dades existents del pressupost.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-edit-100-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Pressupost: Codi del pressupost.
+</li>
+<li>Data: Data d'emissió.
+</li>
+<li>Client: Nom o raó social del client.
+</li>
+<li>CIF: Codi fiscal del client.
+</li>
+<li>Adreça: Adreça de facturació.
+</li>
+<li>Ciutat: Localitat.
+</li>
+<li>Província / Estat: Província o regió.
+</li>
+<li>Codi postal: Codi postal del client.
+</li>
+<li>País: País de residència o registre.
+</li>
+<li>Notes: Observacions internes o condicions especials.
+</li>
+<li>Conceptes: Línies de detall amb quantitats i imports.
+</li>
+<li>Impostos: Impostos aplicables.
+</li>
+<li>Totals: Resum d'import, impostos i total.
+</li>
+<li>Mètode de pagament: Forma de cobrament prevista.
+</li>
+<li>Vàlid fins: Data de validesa del pressupost.
+</li>
+<li>Estat: Estat actual del pressupost (pendent, acceptat, rebutjat, etc.).
+</li>
+</ul>
+
+</section>
+<section id="toc75">
+<h2>15.4. Eliminació</h2>
+
+<p>
+Els pressupostos es poden eliminar des de la vista de llista sempre que no estiguin enllaçats a factures.
+El sistema demanarà confirmació abans de completar l'acció.
+</p>
+<p>
+Aquesta acció no es pot desfer i pot requerir permisos especials.
+</p>
+
+</section>
+</section>
+<section id="toc76">
+<h1>16. Estats dels pressupostos</h1>
+
+<section id="toc77">
+<h2>16.1. Descripció</h2>
+
+<p>
+Aquest mòdul permet definir els diferents estats pels quals pot passar un pressupost durant el seu cicle de vida.
+Es poden utilitzar per marcar si un pressupost està pendent, acceptat, rebutjat o en espera de revisió.
+Els estats ajuden a fer seguiment dels pressupostos i a organitzar el procés comercial.
+</p>
+
+</section>
+<section id="toc78">
+<h2>16.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Nom: Nom de l'estat.
+</li>
+<li>Descripció: Explicació o ús de l'estat.
+</li>
+<li>Actiu: Indica si l'estat està actiu i es pot assignar.
+</li>
+</ul>
+
+</section>
+<section id="toc79">
+<h2>16.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista permet crear, editar o consultar un estat de pressupost.
+</p>
+<p>
+En el mode <strong>crear</strong>, es pot definir un nou estat.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, es mostra el detall de l'estat sense possibilitat d'edició.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-view-10-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, es poden modificar els valors existents.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-edit-10-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Actiu: Permet activar o desactivar l'estat.
+</li>
+<li>Nom: Nom curt o títol de l'estat.
+</li>
+<li>Descripció: Text descriptiu sobre l'ús de l'estat.
+</li>
+</ul>
+
+</section>
+<section id="toc80">
+<h2>16.4. Eliminació</h2>
+
+<p>
+Els estats es poden eliminar si no estan en ús.
+Abans d'eliminar-ne un, el sistema sol·licita confirmació.
+</p>
+<p>
+Aquesta acció no es pot desfer.
+</p>
+
+</section>
+</section>
+<section id="toc81">
+<h1>17. Tauler de control (Dashboard)</h1>
+
+<section id="toc82">
+<h2>17.1. Descripció</h2>
+
+<p>
+El tauler de control o <strong>dashboard</strong> és la pantalla inicial de SaltOS4, on es poden mostrar enllaços ràpids, separadors, widgets, gràfics i altres elements visuals.
+No es tracta d'una aplicació clàssica amb formularis o registres, sinó d'una vista dinàmica i personalitzable pensada per oferir una panoràmica ràpida i accés directe a funcionalitats habituals.
+</p>
+<p>
+Aquesta vista centralitza accions freqüents i mostra informació rellevant de forma resumida.
+</p>
+
+</section>
+<section id="toc83">
+<h2>17.2. Vista principal</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El dashboard pot incloure:
+</p>
+
+<ul>
+<li>Botons d'accés ràpid a aplicacions o accions habituals
+</li>
+<li>Titulars que agrupen seccions
+</li>
+<li>Separadors visuals per ordenar la informació
+</li>
+<li>Widgets que mostren contingut en viu (ex: calendari, emails, gràfics)
+</li>
+</ul>
+
+</section>
+<section id="toc84">
+<h2>17.3. Configuració del dashboard</h2>
+
+<p>
+A la <strong>part superior dreta de la pantalla</strong>, hi ha un botó amb icona d'engranatge que obre l'aplicació de configuració del dashboard.
+</p>
+<p>
+Des d'allà es poden personalitzar els elements mostrats:
+</p>
+
+<ul>
+<li>Escollir el dashboard actiu
+</li>
+<li>Afegir o treure <strong>botons</strong>
+</li>
+<li>Crear <strong>titulars</strong> i <strong>separadors</strong> visuals
+</li>
+<li>Agrupar elements en blocs
+</li>
+<li>Incorporar <strong>widgets</strong> disponibles (ex: estadístiques, recordatoris, correus)
+</li>
+</ul>
+
+<p>
+Aquesta configuració és específica per a cada usuari i es desa automàticament.
+</p>
+
+</section>
+</section>
+<section id="toc85">
+<h1>18. Configuració del dashboard</h1>
+
+<section id="toc86">
+<h2>18.1. Descripció</h2>
+
+<p>
+Aquesta aplicació permet configurar el contingut que es mostra al <strong>dashboard</strong> de SaltOS4.
+No es tracta d’una aplicació amb registres clàssics, sinó d’una interfície visual orientada a l’usuari on es poden personalitzar les accions ràpides, seccions i widgets que apareixen al tauler de control.
+</p>
+<p>
+Cada usuari pot tenir el seu propi dashboard personalitzat, i aquesta eina n'és el gestor visual.
+</p>
+
+</section>
+<section id="toc87">
+<h2>18.2. Vista de configuració</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-widgets-ca-es-1-snap.png" alt="">
+</p>
+<p>
+La pantalla mostra una vista en forma de canvas on es poden configurar els elements del dashboard de forma dinàmica i visual.
+</p>
+<p>
+Els tipus d’elements que es poden afegir inclouen:
+</p>
+
+<ul>
+<li><strong>Botons</strong>: Enllaços ràpids a aplicacions o funcionalitats.
+</li>
+<li><strong>Separadors</strong>: Línies o espais que ajuden a estructurar visualment el dashboard.
+</li>
+<li><strong>Titulars</strong>: Textos destacats que permeten agrupar seccions.
+</li>
+<li><strong>Widgets</strong>: Components dinàmics com ara calendari, correu electrònic, gràfics, estadístiques, etc.
+</li>
+</ul>
+
+<p>
+A més, es poden fer agrupacions per mostrar elements dins d’un mateix bloc, ordenar-los per arrossegar, i canviar l’ordre dels grups o columnes.
+</p>
+
+</section>
+<section id="toc88">
+<h2>18.3. Funcionalitats</h2>
+
+<ul>
+<li>Afegir o eliminar elements
+</li>
+<li>Reordenar mitjançant arrossegament
+</li>
+<li>Editar titulars i textos de secció
+</li>
+<li>Triar quins widgets es volen mostrar
+</li>
+<li>Organitzar els elements en múltiples columnes o files
+</li>
+</ul>
+
+<p>
+Els canvis es desen automàticament i afecten únicament al dashboard de l’usuari actiu.
+</p>
+
+</section>
+<section id="toc89">
+<h2>18.4. Ús avançat</h2>
+
+<p>
+Aquest mòdul és ideal per:
+</p>
+
+<ul>
+<li>Crear taulers específics per a rols (comercial, tècnic, administració...)
+</li>
+<li>Afegir només les eines i dades que es consulten amb freqüència
+</li>
+<li>Millorar l’eficiència i la claredat visual de l’inici del sistema
+</li>
+</ul>
+
+</section>
+</section>
+<section id="toc90">
+<h1>19. Correus electrònics</h1>
+
+<section id="toc91">
+<h2>19.1. Descripció</h2>
+
+<p>
+L'aplicació de correus electrònics s'utilitza per rebre, consultar i respondre correus des dels comptes configurats dins de SaltOS4.
+Actua com un client de correu integrat simplificat, compatible amb la lectura de missatges via POP3 o IMAP,
+visualització de metadades i contingut, i resposta mitjançant servidors SMTP interns o externs.
+</p>
+<p>
+Cada missatge es mostra com una targeta visual a la vista de llista, amb camps clau com remitent, assumpte,
+data i un fragment del cos. Els correus es poden visualitzar en detall, respondre o eliminar. Aquesta aplicació
+està estretament integrada amb el mòdul de Comptes de correu electrònic i és essencial per a la gestió de comunicacions entrants.
+</p>
+
+</section>
+<section id="toc92">
+<h2>19.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+La vista de llista mostra els correus entrants com a botons o targetes clicables.
+Cada entrada mostra habitualment:
+</p>
+
+<ul>
+<li>Capçalera: Resum visual utilitzat per representar el missatge a la interfície.
+</li>
+<li>Data i hora: Data i hora de recepció o enviament del missatge.
+</li>
+<li>Assumpte: Títol o línia d'assumpte del correu electrònic.
+</li>
+<li>Fragment: Avanç extractat de l'inici del cos del missatge.
+</li>
+<li>Adjunts: Llista d'arxius adjunts amb opció de descàrrega.
+</li>
+</ul>
+
+<p>
+La interfície també inclou filtres i un formulari de cerca per remitent, assumpte, compte i data.
+</p>
+
+</section>
+<section id="toc93">
+<h2>19.3. Visualització del missatge</h2>
+
+<p>
+Aquesta vista mostra el contingut complet del correu, incloent metadades de la capçalera i adjunts.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-100-ca-es-1-snap.png" alt="">
+</p>
+<p>
+La informació mostrada inclou:
+</p>
+
+<ul>
+<li>De: Adreça del remitent.
+</li>
+<li>A: Destinataris principals.
+</li>
+<li>CC: Còpia visible a altres destinataris.
+</li>
+<li>CCO: Còpia oculta per a altres destinataris.
+</li>
+<li>Data i hora: Marca temporal d'enviament o recepció.
+</li>
+<li>UIDL: Identificador únic al servidor, útil per a sincronització.
+</li>
+<li>Prioritat: Nivell d'importància establert pel remitent (Baixa, Normal, Alta).
+</li>
+<li>Sensibilitat: Marca si és Normal, Personal, Privat o Confidencial.
+</li>
+<li>Enviat: Indica si s'ha enviat correctament.
+</li>
+<li>Nou: Marca si el correu és nou o no llegit.
+</li>
+<li>Resposta: Marca si s'ha respost.
+</li>
+<li>Reenviat: Marca si s'ha reenviat.
+</li>
+<li>Espera: Indicador de seguiment o pendent de resposta.
+</li>
+<li>SPAM: Marca si ha estat classificat com a correu brossa.
+</li>
+<li>Confirmació de lectura: Indica si es va sol·licitar confirmació de lectura.
+</li>
+<li>Error: Mostra un missatge d'error si l'enviament ha fallat.
+</li>
+<li>Assumpte: Línia d'assumpte del missatge.
+</li>
+<li>Cos: Contingut principal del correu, mostrat dins d'un visor.
+</li>
+<li>Adjunts: Arxius adjunts al missatge.
+</li>
+</ul>
+
+</section>
+<section id="toc94">
+<h2>19.4. Respondre / Redactar</h2>
+
+<p>
+Els usuaris poden respondre un missatge existent o redactar-ne un de nou mitjançant un formulari simplificat.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-emails-emails-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou:
+</p>
+
+<ul>
+<li>Des de: Compte de correu remitent.
+</li>
+<li>A: Destinataris principals.
+</li>
+<li>CC: Destinataris amb còpia visible.
+</li>
+<li>CCO: Destinataris amb còpia oculta.
+</li>
+<li>Confirmació de lectura: Opció per sol·licitar notificació de lectura.
+</li>
+<li>Prioritat: Nivell d'importància (Baixa, Normal, Alta).
+</li>
+<li>Sensibilitat: Confidencialitat: Normal, Personal, Privat o Confidencial.
+</li>
+<li>Assumpte: Títol del missatge.
+</li>
+<li>Cos: Contingut en text enriquit.
+</li>
+<li>Adjunts: Fitxers que s'inclouran amb el correu.
+</li>
+</ul>
+
+</section>
+<section id="toc95">
+<h2>19.5. Eliminació</h2>
+
+<p>
+Els correus es poden eliminar des de la vista de llista mitjançant la icona o acció corresponent.
+</p>
+<p>
+Els missatges s’eliminen localment o es marquen per eliminar, segons la configuració del servidor.
+</p>
+
+</section>
+</section>
+<section id="toc96">
+<h1>20. Comptes de correu electrònic</h1>
+
+<section id="toc97">
+<h2>20.1. Descripció</h2>
+
+<p>
+L'aplicació de comptes de correu electrònic s'utilitza per configurar i gestionar els comptes de correu vinculats a SaltOS4.
+Cada compte es pot utilitzar per enviar i rebre correus mitjançant protocols SMTP, IMAP o POP3.
+Aquest mòdul permet integrar proveïdors externs i admet autenticació, carpetes i opcions de sincronització.
+</p>
+
+</section>
+<section id="toc98">
+<h2>20.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Usuari: Persona que és propietària o utilitza aquest compte de correu.
+</li>
+<li>Nom: Etiqueta descriptiva per identificar el compte dins del sistema.
+</li>
+<li>Correu electrònic: Adreça de correu configurada per a aquest compte.
+</li>
+<li>Actiu: Indica si el compte està habilitat i es sincronitza.
+</li>
+</ul>
+
+</section>
+<section id="toc99">
+<h2>20.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista s'utilitza per crear, consultar o editar un compte de correu.
+</p>
+<p>
+En el mode <strong>crear</strong>, es configura un compte nou des de zero.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, es mostren les dades del compte però no es poden modificar.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-view-1-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, es poden corregir o actualitzar els paràmetres.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-edit-1-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Usuari: Persona propietària del compte.
+</li>
+<li>Nom: Nom visible o etiqueta per identificar el compte.
+</li>
+<li>Correu electrònic: Adreça de correu electrònic associada al compte.
+</li>
+<li>Signatura: Text o HTML afegit automàticament als correus sortints.
+</li>
+<li>Servidor POP3: Nom del servidor de recepció.
+</li>
+<li>Port POP3: Port utilitzat per connectar amb el servidor (ex: 110, 995).
+</li>
+<li>Opcions POP3: Configuració addicional (TLS, etc.).
+</li>
+<li>Usuari POP3: Nom d'usuari per autenticar-se.
+</li>
+<li>Contrasenya POP3: Contrasenya del compte.
+</li>
+<li>Esborrar: Si cal eliminar els correus del servidor després de descarregar-los.
+</li>
+<li>Dies: Nombre de dies que es conserven els correus al servidor.
+</li>
+<li>Servidor SMTP: Nom del servidor per enviar correus.
+</li>
+<li>Port SMTP: Port per enviar (ex: 25, 465, 587).
+</li>
+<li>Xifrat SMTP: Tipus de connexió (cap, SSL o TLS).
+</li>
+<li>Usuari SMTP: Nom d'usuari per autenticar-se a l'SMTP.
+</li>
+<li>Contrasenya SMTP: Clau d'accés del compte SMTP.
+</li>
+<li>Inactiu: Indica si el compte no està actiu (no es sincronitza).
+</li>
+<li>Privat: Limita l'accés al propietari del compte.
+</li>
+<li>Per defecte: Marca aquest compte com el remitent per defecte.
+</li>
+<li>Afegir-me al CC: Afegeix automàticament l'usuari com a còpia.
+</li>
+<li>Confirmació de lectura: Afegeix sol·licitud de confirmació en cada correu.
+</li>
+</ul>
+
+</section>
+<section id="toc100">
+<h2>20.4. Eliminació</h2>
+
+<p>
+Els comptes es poden eliminar si no estan actius ni vinculats a activitat recent.
+</p>
+<p>
+Es recomana desactivar-los si cal conservar la configuració per a ús futur o auditories.
+</p>
+
+</section>
+</section>
+<section id="toc101">
+<h1>21. Departaments</h1>
+
+<section id="toc102">
+<h2>21.1. Descripció</h2>
+
+<p>
+L'aplicació de departaments s'utilitza per definir l'estructura organitzativa de l'empresa agrupant els empleats en departaments.
+Admet jerarquies, permetent que un departament formi part d'un departament pare, i ajuda a organitzar usuaris i permisos en conseqüència.
+</p>
+<p>
+Exemples de departaments poden ser "Vendes", "Informàtica", "RRHH" o "Logística".
+</p>
+
+</section>
+<section id="toc103">
+<h2>21.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-departments-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Nom: Nom del departament o unitat organitzativa.
+</li>
+<li>Codi: Identificador únic o codi de referència del departament.
+</li>
+<li>Pare: Departament pare, si forma part d'una jerarquia.
+</li>
+<li>Actiu: Indica si aquest departament està actualment en ús.
+</li>
+</ul>
+
+</section>
+<section id="toc104">
+<h2>21.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista s'utilitza per crear, consultar o editar departaments.
+</p>
+<p>
+En el mode <strong>crear</strong>, es pot definir un nou departament.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-departments-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, els detalls del departament són visibles però no editables.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-departments-view-100-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, es poden actualitzar els valors existents.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-departments-edit-100-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Actiu: Indica si aquest departament està en ús.
+</li>
+<li>Nom: Nom del departament o unitat organitzativa.
+</li>
+<li>Codi: Identificador únic o codi de referència del departament.
+</li>
+<li>Pare: Departament pare, si aquest n'és part d'una jerarquia.
+</li>
+<li>Notes: Detalls addicionals sobre l'estructura, responsabilitat o propòsit del departament.
+</li>
+</ul>
+
+</section>
+<section id="toc105">
+<h2>21.4. Eliminació</h2>
+
+<p>
+Els departaments només es poden eliminar si no hi ha empleats assignats actualment.
+</p>
+<p>
+Si estan en ús, es recomana desactivar-los en lloc d'eliminar-los.
+</p>
+
+</section>
+</section>
+<section id="toc106">
+<h1>22. Empleats</h1>
+
+<section id="toc107">
+<h2>22.1. Descripció</h2>
+
+<p>
+L'aplicació d'empleats s'utilitza per registrar i gestionar el personal que treballa a l'organització.
+Emmagatzema dades personals i professionals, incloent nom, informació de contacte, càrrec, departament i l'enllaç amb l'usuari del sistema.
+Aquest mòdul s'utilitza habitualment en processos de RRHH per organitzar el personal i, opcionalment, associar-lo a usuaris del sistema.
+</p>
+
+</section>
+<section id="toc108">
+<h2>22.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-employees-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Nom: Nom complet de l'empleat.
+</li>
+<li>Departament: Departament al qual pertany.
+</li>
+<li>Càrrec: Títol oficial del lloc de treball o posició ocupada.
+</li>
+<li>Actiu: Indica si l'empleat està actualment actiu.
+</li>
+</ul>
+
+</section>
+<section id="toc109">
+<h2>22.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista s'utilitza per crear, consultar o editar fitxes d'empleats.
+</p>
+<p>
+En el mode <strong>crear</strong>, s'afegeix un nou perfil d'empleat.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-employees-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, es mostra el perfil en format només lectura.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-employees-view-100-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, es pot actualitzar la fitxa de l'empleat.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-employees-edit-100-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Actiu: Indica si l'empleat està actualment actiu.
+</li>
+<li>Nom: Nom complet de l'empleat.
+</li>
+<li>NIF: Número d'identificació fiscal de l'empleat per a finalitats legals o fiscals.
+</li>
+<li>Departament: Departament al qual pertany l'empleat.
+</li>
+<li>Càrrec: Títol oficial del lloc o posició que ocupa.
+</li>
+<li>Inici: Data d'inici de la relació laboral o del contracte.
+</li>
+<li>Fi: Data de finalització de la relació laboral (si escau).
+</li>
+<li>Adreça: Adreça postal de l'empleat.
+</li>
+<li>Ciutat: Ciutat de residència.
+</li>
+<li>Província / Estat: Província o regió administrativa.
+</li>
+<li>Codi postal: Codi postal de residència.
+</li>
+<li>País: País de residència.
+</li>
+<li>Correu electrònic: Correu electrònic principal de contacte.
+</li>
+<li>Telèfon: Telèfon principal de contacte.
+</li>
+<li>Notes: Observacions addicionals o anotacions relacionades amb RRHH.
+</li>
+<li>Tipus: Tipus o categoria de treballador (ex: jornada completa, subcontractat).
+</li>
+<li>Usuari: Compte d'usuari del sistema associat a l'empleat.
+</li>
+</ul>
+
+</section>
+<section id="toc110">
+<h2>22.4. Eliminació</h2>
+
+<p>
+Els empleats es poden eliminar si no estan vinculats a usuaris del sistema ni a registres històrics.
+</p>
+<p>
+En cas contrari, cal desactivar el perfil en lloc d'eliminar-lo.
+</p>
+
+</section>
+</section>
+<section id="toc111">
+<h1>23. Tipus d'empleat</h1>
+
+<section id="toc112">
+<h2>23.1. Descripció</h2>
+
+<p>
+L'aplicació de tipus d'empleat permet classificar els treballadors segons el seu rol, contracte o categoria interna.
+Això ajuda a estructurar la base de dades de RRHH i facilita el filtratge, la generació d'informes o el control d'accés.
+</p>
+<p>
+Alguns tipus habituals inclouen "Jornada completa", "Temps parcial", "Autònom", "Pràctiques", etc.
+</p>
+
+</section>
+<section id="toc113">
+<h2>23.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Nom: Títol del tipus d'empleat.
+</li>
+<li>Descripció: Explicació sobre la finalitat del tipus.
+</li>
+<li>Actiu: Indica si el tipus es pot utilitzar actualment.
+</li>
+</ul>
+
+</section>
+<section id="toc114">
+<h2>23.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista s'utilitza per crear, consultar o editar tipus d'empleat.
+</p>
+<p>
+En el mode <strong>crear</strong>, es pot definir un nou tipus d'empleat.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, els detalls del tipus són visibles però no editables.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-view-10-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, es poden actualitzar els valors existents.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-edit-10-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Actiu: Controla si es pot seleccionar aquest tipus.
+</li>
+<li>Nom: Nom que es mostra al desplegable de tipus al formulari d'empleat.
+</li>
+<li>Descripció: Notes sobre l'ús previst d'aquest tipus.
+</li>
+</ul>
+
+</section>
+<section id="toc115">
+<h2>23.4. Eliminació</h2>
+
+<p>
+Els tipus d'empleat només es poden eliminar si no estan assignats a cap empleat.
+</p>
+<p>
+En cas contrari, es recomana desactivar-los.
+</p>
+
+</section>
+</section>
+<section id="toc116">
+<h1>24. Compra</h1>
+
+<section id="toc117">
+<h2>24.1. Descripció</h2>
+
+<p>
+L'aplicació de compres s'utilitza per registrar i fer seguiment de les compres realitzades a proveïdors.
+Cada registre de compra inclou dades de la factura, import total, data de compra i anotacions o fitxers associats.
+Aquest mòdul garanteix la traçabilitat de les despeses i està vinculat al mòdul de Proveïdors per mantenir la coherència.
+</p>
+
+</section>
+<section id="toc118">
+<h2>24.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Data de comanda: Data en què es va registrar la comanda de compra al sistema.
+</li>
+<li>Proveïdor: Proveïdor o venedor a qui es va adquirir el bé o servei.
+</li>
+<li>Factura: Número o referència de la factura emesa pel proveïdor.
+</li>
+<li>Pagat: Indica si la compra ha estat totalment abonada.
+</li>
+</ul>
+
+</section>
+<section id="toc119">
+<h2>24.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista s'utilitza per crear, editar o consultar un registre de compra.
+</p>
+<p>
+En el mode <strong>crear</strong>, el formulari serveix per introduir una nova compra vinculada a un proveïdor.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, es mostren els detalls de la compra registrada en mode només lectura.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-view-100-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, es pot actualitzar la informació si cal.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-edit-100-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Data de comanda: Data en què es va registrar la comanda al sistema.
+</li>
+<li>Proveïdor: Persona o entitat a qui es va fer la compra.
+</li>
+<li>Descripció: Explicació breu o resum del contingut de la compra.
+</li>
+<li>Subtotal: Import abans d'impostos i descomptes.
+</li>
+<li>Impost: Valor total dels impostos aplicats a la compra.
+</li>
+<li>Total: Import final de la compra, amb impostos i descomptes inclosos.
+</li>
+<li>Estat: Estat actual de la compra (ex: esborrany, encomanada, rebuda).
+</li>
+<li>Número de factura: Número o referència de la factura emesa pel proveïdor.
+</li>
+<li>Data de factura: Data oficial de la factura del proveïdor.
+</li>
+<li>Pagat: Indica si la compra ha estat completament pagada.
+</li>
+<li>Data de pagament: Data en què es va realitzar el pagament al proveïdor.
+</li>
+<li>Notes: Observacions internes o informació administrativa rellevant.
+</li>
+</ul>
+
+</section>
+<section id="toc120">
+<h2>24.4. Eliminació</h2>
+
+<p>
+Els registres de compra només es poden eliminar si no estan vinculats a processos comptables o registres associats.
+Abans de continuar es mostrarà un diàleg de confirmació.
+</p>
+<p>
+Un cop registrades i finalitzades, l'eliminació pot estar restringida segons permisos i polítiques de traçabilitat.
+</p>
+
+</section>
+</section>
+<section id="toc121">
+<h1>25. Estats de compra</h1>
+
+<section id="toc122">
+<h2>25.1. Descripció</h2>
+
+<p>
+L'aplicació d'estats de compra defineix les etapes per les quals pot passar un registre de compra.
+Permet categoritzar les compres segons el seu estat, com ara "Esborrany", "Encomanada", "Rebuda" o "Cancel·lada".
+</p>
+<p>
+Aquests estats ajuden a fer seguiment del procés de compres i milloren la claredat dins el mòdul de Compres.
+</p>
+
+</section>
+<section id="toc123">
+<h2>25.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Nom: Nom de l'estat (ex: Rebuda, Cancel·lada).
+</li>
+<li>Descripció: Aclareix com o quan s'utilitza aquest estat.
+</li>
+<li>Actiu: Indica si l'estat es pot seleccionar actualment.
+</li>
+</ul>
+
+</section>
+<section id="toc124">
+<h2>25.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista s'utilitza per crear, consultar o editar estats de compra.
+</p>
+<p>
+En el mode <strong>crear</strong>, el formulari serveix per introduir un nou estat.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, es mostren els detalls de l'estat en mode només lectura.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-view-10-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, es pot actualitzar la informació si cal.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-edit-10-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Actiu: Controla la disponibilitat de l'estat al desplegable.
+</li>
+<li>Nom: Etiqueta de l'estat tal com apareix al formulari de compra.
+</li>
+<li>Descripció: Notes internes sobre el seu ús o aplicació.
+</li>
+</ul>
+
+</section>
+<section id="toc125">
+<h2>25.4. Eliminació</h2>
+
+<p>
+Els estats només es poden eliminar si no hi ha compres que els estiguin utilitzant actualment.
+</p>
+<p>
+En la majoria de casos, es prefereix desactivar-los.
+</p>
+
+</section>
+</section>
+<section id="toc126">
+<h1>26. Proveïdors</h1>
+
+<section id="toc127">
+<h2>26.1. Descripció</h2>
+
+<p>
+L'aplicació de proveïdors s'utilitza per gestionar la llista de venedors o proveïdors externs amb qui col·labora l'organització.
+Emmagatzema informació essencial com la identificació, dades de contacte, codi fiscal i classificació.
+Aquest mòdul està vinculat als processos de compra, permetent associar proveïdors a compres i mantenir la traçabilitat completa.
+</p>
+
+</section>
+<section id="toc128">
+<h2>26.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Nom: Nom o raó social del proveïdor.
+</li>
+<li>CIF: Codi d'identificació fiscal (ex: NIF, CIF, IVA).
+</li>
+<li>Ciutat: Ciutat associada a l'adreça del proveïdor.
+</li>
+<li>País: País on està ubicat o registrat el proveïdor.
+</li>
+<li>Actiu: Indica si el proveïdor està actualment actiu en el sistema.
+</li>
+</ul>
+
+</section>
+<section id="toc129">
+<h2>26.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista s'utilitza per crear, editar o consultar registres de proveïdors.
+</p>
+<p>
+En el mode <strong>crear</strong>, el formulari està buit per afegir un nou proveïdor.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, els camps es mostren en mode només lectura.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-view-100-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, es poden actualitzar les dades del proveïdor.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-edit-100-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Actiu: Indica si el proveïdor està actiu actualment al sistema.
+</li>
+<li>Nom: Nom o raó social del proveïdor.
+</li>
+<li>CIF: Codi d'identificació fiscal (ex: NIF, CIF, IVA).
+</li>
+<li>Adreça: Carrer o adreça de facturació del proveïdor.
+</li>
+<li>Ciutat: Ciutat associada a l'adreça.
+</li>
+<li>Província / Estat: Província o regió administrativa.
+</li>
+<li>Codi postal: Codi postal del proveïdor.
+</li>
+<li>País: País on està ubicat o registrat.
+</li>
+<li>Correu electrònic: Adreça electrònica de contacte principal.
+</li>
+<li>Telèfon: Número de contacte principal.
+</li>
+<li>Lloc web: Web o enllaç associat al proveïdor.
+</li>
+<li>Notes: Informació addicional o observacions internes sobre el proveïdor.
+</li>
+<li>Tipus: Categoria o classificació del proveïdor.
+</li>
+</ul>
+
+</section>
+<section id="toc130">
+<h2>26.4. Eliminació</h2>
+
+<p>
+Els registres de proveïdor poden eliminar-se si no estan referenciats en compres ni documents.
+</p>
+<p>
+S'apareixerà un diàleg de confirmació abans de l'eliminació.
+</p>
+<p>
+Si el proveïdor està vinculat a compres o registres financers, no es podrà eliminar.
+</p>
+
+</section>
+</section>
+<section id="toc131">
+<h1>27. Tipus de proveïdor</h1>
+
+<section id="toc132">
+<h2>27.1. Descripció</h2>
+
+<p>
+L'aplicació de tipus de proveïdor s'utilitza per classificar els proveïdors per categoria, sector o tipus de relació.
+Aquesta classificació ajuda a filtrar i organitzar els proveïdors, i pot utilitzar-se per segmentació o informes.
+</p>
+<p>
+Exemples de tipus inclouen "Distribuïdor", "Fabricant", "Prestador de serveis", etc.
+</p>
+
+</section>
+<section id="toc133">
+<h2>27.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Nom: Nom del tipus de proveïdor.
+</li>
+<li>Descripció: Aclariment opcional o nota interna.
+</li>
+<li>Actiu: Indica si el tipus es pot assignar a proveïdors.
+</li>
+</ul>
+
+</section>
+<section id="toc134">
+<h2>27.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista s'utilitza per crear, consultar o editar tipus de proveïdor.
+</p>
+<p>
+En el mode <strong>crear</strong>, es pot definir un nou tipus.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, els detalls del tipus són visibles però no editables.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-view-10-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, es poden actualitzar els valors existents.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-edit-10-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Actiu: Habilita o deshabilita la selecció del tipus.
+</li>
+<li>Nom: Etiqueta descriptiva del tipus.
+</li>
+<li>Descripció: Informació o context addicional.
+</li>
+</ul>
+
+</section>
+<section id="toc135">
+<h2>27.4. Eliminació</h2>
+
+<p>
+Els tipus de proveïdor només es poden eliminar si no estan assignats actualment a cap proveïdor.
+</p>
+<p>
+Si estan en ús, s'han de desactivar en lloc d'eliminar-los.
+</p>
+
+</section>
+</section>
+<section id="toc136">
+<h1>28. Factures</h1>
+
+<section id="toc137">
+<h2>28.1. Descripció</h2>
+
+<p>
+L'aplicació de factures permet gestionar les factures emeses als clients dins de SaltOS4.
+Inclou informació sobre el client, data, estat de pagament, línies de detall, impostos i total.
+També gestiona proformes, venciments i registre de cobraments.
+</p>
+
+</section>
+<section id="toc138">
+<h2>28.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Client: Nom del client facturat.
+</li>
+<li>CIF: Codi fiscal del client.
+</li>
+<li>Factura: Codi o número de la factura.
+</li>
+<li>Data: Data d'emissió.
+</li>
+<li>Total: Import total amb impostos.
+</li>
+<li>Tancada: Indica si la factura ha estat tancada.
+</li>
+<li>Pagada: Indica si la factura ha estat cobrada.
+</li>
+</ul>
+
+</section>
+<section id="toc139">
+<h2>28.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista s'utilitza per crear, consultar o editar una factura.
+</p>
+<p>
+En el mode <strong>crear</strong>, el formulari permet generar una nova factura o proforma.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, es mostren tots els detalls sense opció d'edició.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-100-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, es poden modificar les dades de la factura.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-edit-100-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Tancada: Indica si la factura està finalitzada.
+</li>
+<li>Pagada: Estat de cobrament de la factura.
+</li>
+<li>Proforma: Número o referència de la proforma.
+</li>
+<li>Data: Data de la factura.
+</li>
+<li>Factura: Número final assignat un cop tancada.
+</li>
+<li>Client: Dades congelades del client en el moment d'emissió.
+</li>
+<li>CIF: Codi fiscal del client.
+</li>
+<li>Adreça: Adreça del client.
+</li>
+<li>Ciutat: Localitat.
+</li>
+<li>Província / Estat: Regió administrativa.
+</li>
+<li>Codi postal: Codi postal.
+</li>
+<li>País: País de residència o registre.
+</li>
+<li>Notes: Observacions internes o condicions.
+</li>
+<li>Conceptes: Línies de detall de la factura.
+</li>
+<li>Impostos: Impostos aplicats a cada línia.
+</li>
+<li>Totals: Import net, impostos i total final.
+</li>
+<li>Mètode de pagament: Forma de cobrament pactada.
+</li>
+<li>Data de venciment: Data límit per al cobrament.
+</li>
+<li>Import pagat: Quantitat rebuda.
+</li>
+<li>Data de cobrament: Data en què es va registrar el pagament.
+</li>
+<li>Estat: Estat de la factura (pendent, pagada parcialment, etc.).
+</li>
+</ul>
+
+<p>
+Les factures també inclouen línies de detall (producte, quantitat, preu, descompte, impost) i un desglossament dels impostos aplicats.
+</p>
+
+</section>
+<section id="toc140">
+<h2>28.4. Eliminació</h2>
+
+<p>
+Les factures només poden eliminar-se si no estan tancades ni pagades.
+El sistema mostrarà un avís de confirmació abans de procedir.
+</p>
+<p>
+Aquesta acció és irreversible.
+</p>
+
+</section>
+</section>
+<section id="toc141">
+<h1>29. Estats de les factures</h1>
+
+<section id="toc142">
+<h2>29.1. Descripció</h2>
+
+<p>
+Aquest mòdul permet definir els diferents estats que pot tenir una factura en el seu cicle de vida.
+Pot incloure estats com pendent, pagada parcialment, pagada, anul·lada, etc.
+Aquests estats s’utilitzen per fer seguiment del cobrament i per classificar les factures segons el seu estat actual.
+</p>
+
+</section>
+<section id="toc143">
+<h2>29.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Nom: Nom de l'estat.
+</li>
+<li>Descripció: Explicació o ús de l'estat.
+</li>
+<li>Actiu: Indica si es pot utilitzar l'estat.
+</li>
+</ul>
+
+</section>
+<section id="toc144">
+<h2>29.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista permet crear, editar o consultar estats de factura.
+</p>
+<p>
+En el mode <strong>crear</strong>, pots afegir un nou estat.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, només es mostren els detalls.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-view-10-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, pots modificar el contingut.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-edit-10-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Actiu: Indica si l'estat està actiu.
+</li>
+<li>Nom: Títol o nom identificador.
+</li>
+<li>Descripció: Informació sobre l'ús o significat de l'estat.
+</li>
+</ul>
+
+</section>
+<section id="toc145">
+<h2>29.4. Eliminació</h2>
+
+<p>
+Els estats només es poden eliminar si no estan assignats a cap factura.
+El sistema demanarà confirmació abans de procedir.
+</p>
+<p>
+Aquesta acció és irreversible.
+</p>
+
+</section>
+</section>
+<section id="toc146">
+<h1>30. Mètodes de pagament</h1>
+
+<section id="toc147">
+<h2>30.1. Descripció</h2>
+
+<p>
+L'aplicació de mètodes de pagament s'utilitza per definir i gestionar els tipus de pagament acceptats per l'organització.
+Aquests mètodes s'utilitzen posteriorment a les factures per indicar com pagarà el client (p. ex., transferència bancària, targeta, efectiu).
+Aquest mòdul garanteix la coherència i la traçabilitat en tot el procés de facturació.
+</p>
+
+</section>
+<section id="toc148">
+<h2>30.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Nom: Nom del mètode de pagament (p. ex., Efectiu, Transferència bancària, Targeta de crèdit).
+</li>
+<li>Descripció: Detalls addicionals o aclariments sobre com s'utilitza aquest mètode.
+</li>
+<li>Actiu: Indica si aquest mètode està actualment disponible.
+</li>
+<li>Per defecte: Especifica si és el mètode assignat per defecte en crear nous registres.
+</li>
+</ul>
+
+</section>
+<section id="toc149">
+<h2>30.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista s'utilitza per crear, consultar o editar mètodes de pagament.
+</p>
+<p>
+En el mode <strong>crear</strong>, s'afegeix un nou mètode de pagament.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, els camps es mostren en mode només lectura.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-view-10-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, es poden modificar els detalls.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-edit-10-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Actiu: Indica si aquest mètode està actualment disponible.
+</li>
+<li>Per defecte: Especifica si és el mètode per defecte en crear registres nous.
+</li>
+<li>Nom: Nom del mètode de pagament (p. ex., Efectiu, Transferència bancària, Targeta de crèdit).
+</li>
+<li>Descripció: Detalls addicionals o aclariments sobre l'ús del mètode.
+</li>
+</ul>
+
+</section>
+<section id="toc150">
+<h2>30.4. Eliminació</h2>
+
+<p>
+Els mètodes de pagament es poden eliminar si no s'utilitzen en cap factura.
+</p>
+<p>
+Si ja s'han referenciat, cal marcar-los com a inactius en lloc d'eliminar-los.
+</p>
+
+</section>
+</section>
+<section id="toc151">
+<h1>31. Productes</h1>
+
+<section id="toc152">
+<h2>31.1. Descripció</h2>
+
+<p>
+L'aplicació de productes gestiona el catàleg de béns i serveis oferts per l'organització.
+Emmagatzema detalls essencials com el codi de referència, el preu, el nivell d'estoc, els impostos i la classificació.
+Els productes es poden vincular a pressupostos, factures i compres, fent d'aquest mòdul una peça clau per a les vendes i la gestió d'inventari.
+</p>
+
+</section>
+<section id="toc153">
+<h2>31.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Nom: El nom complet del producte o servei, tal com apareixerà als llistats i documents.
+</li>
+<li>Codi: Codi intern del producte utilitzat per identificar-lo de manera única.
+</li>
+<li>Descripció: Explicació detallada o especificacions del producte.
+</li>
+</ul>
+
+</section>
+<section id="toc154">
+<h2>31.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista s'utilitza per crear, editar o consultar una entrada de producte.
+</p>
+<p>
+En el mode <strong>crear</strong>, el formulari està buit per introduir un nou producte.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, tots els camps són només de lectura i mostren informació detallada.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-view-100-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, es poden actualitzar o corregir les dades del producte.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-edit-100-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Actiu: Indica si el producte està disponible per a transaccions.
+</li>
+<li>Nom: El nom complet del producte o servei, tal com apareixerà als llistats i documents.
+</li>
+<li>Codi: Codi intern del producte utilitzat per identificar-lo de manera única.
+</li>
+<li>Tipus: La classificació del producte, com ara article, servei o subscripció.
+</li>
+<li>Preu: El preu de venda per unitat, sense impostos ni descomptes.
+</li>
+<li>Cost: El cost intern de compra o fabricació, utilitzat per calcular marges.
+</li>
+<li>Marge: Marge de benefici calculat a partir del preu i el cost.
+</li>
+<li>Impost: Tipus impositiu per defecte aplicat en vendes.
+</li>
+<li>Descripció: Explicació detallada o especificacions del producte.
+</li>
+<li>Categoria: Família o grup del producte, per classificació o filtratge.
+</li>
+<li>Unitat de mesura: Unitat de mesura (p. ex., unitat, kg, hora).
+</li>
+<li>Marca: Nom de la marca o fabricant del producte.
+</li>
+<li>Model: Número o variant del model del producte.
+</li>
+<li>Codi de barres: Associat al producte per escaneig o etiquetatge.
+</li>
+<li>Estoc: Nivell actual d'estoc disponible.
+</li>
+<li>Estoc mínim: Llindar mínim d'estoc per avisos de reposició.
+</li>
+<li>Estoc màxim: Límit màxim permès d'estoc.
+</li>
+<li>Ubicació: Localització física o lògica del producte.
+</li>
+<li>URL d'imatge: Enllaç o ruta cap a una imatge del producte.
+</li>
+</ul>
+
+</section>
+<section id="toc155">
+<h2>31.4. Eliminació</h2>
+
+<p>
+Els productes es poden eliminar des de la vista de llista si no estan referenciats en documents actius.
+Apareixerà un missatge de confirmació abans d'eliminar.
+</p>
+<p>
+Els productes vinculats a factures, pressupostos o compres estan protegits contra l'eliminació.
+</p>
+
+</section>
+</section>
+<section id="toc156">
+<h1>32. Categories de productes</h1>
+
+<section id="toc157">
+<h2>32.1. Descripció</h2>
+
+<p>
+L'aplicació de categories de productes s'utilitza per classificar productes i serveis segons la seva naturalesa o comportament.
+Aquesta classificació ajuda a distingir entre béns físics, serveis, subscripcions o altres categories internes utilitzades en informes o automatitzacions.
+</p>
+<p>
+Exemples de categories poden incloure "Producte", "Servei", "Subscripció" o "Paquet".
+</p>
+
+</section>
+<section id="toc158">
+<h2>32.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Nom: Etiqueta de la categoria.
+</li>
+<li>Descripció: Descripció opcional per aclarir l’ús de la categoria.
+</li>
+<li>Actiu: Indica si la categoria està disponible en crear productes.
+</li>
+</ul>
+
+</section>
+<section id="toc159">
+<h2>32.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista s'utilitza per crear, consultar o editar registres de categoria de producte.
+</p>
+<p>
+En el mode <strong>crear</strong>, es pot definir una nova categoria.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, els detalls de la categoria es mostren però no es poden editar.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-view-10-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, es poden actualitzar els valors existents.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-edit-10-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Actiu: Controla si es pot triar en formularis de producte.
+</li>
+<li>Nom: Nom que es mostra al selector de tipus en crear un producte.
+</li>
+<li>Descripció: Notes sobre l’ús previst de la categoria.
+</li>
+</ul>
+
+</section>
+<section id="toc160">
+<h2>32.4. Eliminació</h2>
+
+<p>
+Les categories només es poden eliminar si no estan vinculades a cap producte.
+</p>
+<p>
+En cas contrari, es recomana desactivar-les.
+</p>
+
+</section>
+</section>
+<section id="toc161">
+<h1>33. Tipus de producte</h1>
+
+<section id="toc162">
+<h2>33.1. Descripció</h2>
+
+<p>
+L'aplicació de tipus de producte s'utilitza per agrupar productes en famílies o col·leccions per facilitar-ne la classificació.
+Els tipus són útils per filtrar, generar informes, organitzar catàlegs i aplicar regles comercials comunes.
+</p>
+<p>
+Alguns tipus habituals poden incloure "Maquinari", "Programari", "Serveis" o "Accessoris".
+</p>
+
+</section>
+<section id="toc163">
+<h2>33.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Nom: Nom del tipus.
+</li>
+<li>Descripció: Descripció dels productes inclosos en aquest tipus.
+</li>
+<li>Actiu: Indica si aquest tipus es pot assignar a productes.
+</li>
+</ul>
+
+</section>
+<section id="toc164">
+<h2>33.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista s'utilitza per crear, consultar o editar registres de tipus de producte.
+</p>
+<p>
+En el mode <strong>crear</strong>, es pot definir un nou tipus.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, es mostren els detalls però no es poden editar.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-view-10-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, es poden actualitzar els valors existents.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-edit-10-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Actiu: Activa o desactiva la selecció del tipus.
+</li>
+<li>Nom: Etiqueta del tipus tal com apareix al formulari de producte.
+</li>
+<li>Descripció: Notes o aclariments opcionals sobre aquest tipus.
+</li>
+</ul>
+
+</section>
+<section id="toc165">
+<h2>33.4. Eliminació</h2>
+
+<p>
+Els tipus només es poden eliminar si no estan assignats a cap producte.
+</p>
+<p>
+En cas contrari, s'han de desactivar.
+</p>
+
+</section>
+</section>
+<section id="toc166">
+<h1>34. Impostos</h1>
+
+<section id="toc167">
+<h2>34.1. Descripció</h2>
+
+<p>
+L'aplicació d'impostos s'utilitza per definir i gestionar els tipus impositius aplicats a productes, pressupostos i factures.
+Serveix com a repositori central d'impostos com l'IVA, l'impost sobre vendes o exempcions.
+Cada registre inclou el nom, el percentatge i l'estat, garantint una aplicació coherent dels impostos a tot el sistema ERP.
+</p>
+
+</section>
+<section id="toc168">
+<h2>34.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Nom: Nom o etiqueta utilitzada per identificar l'impost (ex: IVA 21%).
+</li>
+<li>Descripció: Explicació opcional o detalls addicionals sobre la norma fiscal o el seu ús.
+</li>
+<li>Valor: Percentatge de l'impost a aplicar (ex: 21 per al 21%).
+</li>
+<li>Actiu: Indica si aquest impost està disponible per ser seleccionat en documents.
+</li>
+<li>Per defecte: Indica si aquest impost se selecciona automàticament en crear documents nous.
+</li>
+</ul>
+
+</section>
+<section id="toc169">
+<h2>34.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista s'utilitza per crear, consultar o editar impostos.
+</p>
+<p>
+En el mode <strong>crear</strong>, es pot definir una nova norma fiscal.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, es mostren els detalls fiscals però no es poden editar.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-view-1-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, es poden actualitzar els valors existents.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-edit-1-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Actiu: Indica si aquest impost està disponible per ser seleccionat en documents.
+</li>
+<li>Per defecte: Indica si aquest impost es selecciona automàticament en crear documents nous.
+</li>
+<li>Nom: Nom o etiqueta utilitzada per identificar l'impost (ex: IVA 21%).
+</li>
+<li>Valor: Percentatge de l'impost a aplicar (ex: 21 per al 21%).
+</li>
+<li>Descripció: Explicació opcional o detalls addicionals sobre la norma fiscal o el seu ús.
+</li>
+</ul>
+
+</section>
+<section id="toc170">
+<h2>34.4. Eliminació</h2>
+
+<p>
+Els impostos només es poden eliminar si no s'utilitzen en cap factura ni producte.
+</p>
+<p>
+Si un impost està en ús, s'ha de desactivar per preservar la integritat del sistema.
+</p>
+
+</section>
+</section>
+<section id="toc171">
+<h1>35. Ordres de treball</h1>
+
+<section id="toc172">
+<h2>35.1. Descripció</h2>
+
+<p>
+L'aplicació d'ordres de treball s'utilitza per registrar, planificar i fer seguiment de tasques o serveis sol·licitats per clients.
+Cada ordre de treball inclou informació sobre el client, el servei requerit, l'estat, les dates, el personal assignat,
+i notes o fitxers adjunts associats. Aquest mòdul és essencial per gestionar activitats operatives com suport tècnic, instal·lacions o serveis de camp.
+</p>
+
+</section>
+<section id="toc173">
+<h2>35.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Data: Data en què es va crear o programar l'ordre.
+</li>
+<li>Tècnic: Treballador o tècnic assignat per fer la tasca.
+</li>
+<li>Client: Client que ha sol·licitat el servei o encàrrec.
+</li>
+</ul>
+
+</section>
+<section id="toc174">
+<h2>35.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista s'utilitza per crear, editar o consultar una ordre de treball.
+</p>
+<p>
+En el mode <strong>crear</strong>, el formulari permet registrar una nova tasca a realitzar.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, la informació es mostra en mode només de lectura.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-100-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, es poden actualitzar les dades segons l'evolució o el retorn.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-edit-100-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Data: Data de creació o programació de l'ordre.
+</li>
+<li>Tècnic: Treballador o tècnic assignat.
+</li>
+<li>Client: Client que ha sol·licitat la feina o servei.
+</li>
+<li>Descripció: Detalls sobre la naturalesa o objectiu de la tasca.
+</li>
+<li>Hores: Nombre estimat o real d'hores assignades.
+</li>
+<li>Preu: Tarifació per hora o preu tancat acordat.
+</li>
+<li>Total: Import final calculat a partir de preu i hores.
+</li>
+<li>Factura: Número o referència de la factura associada.
+</li>
+</ul>
+
+</section>
+<section id="toc175">
+<h2>35.4. Eliminació</h2>
+
+<p>
+Les ordres de treball només es poden eliminar si no estan enllaçades a serveis finalitzats o accions registrades.
+</p>
+<p>
+Abans de l'eliminació es mostra un avís de confirmació.
+És preferible desactivar-les si es vol conservar-ne l'historial sense mostrar-les activament.
+</p>
+
+</section>
+</section>
+<section id="toc176">
+<h1>36. Grups</h1>
+
+<section id="toc177">
+<h2>36.1. Descripció</h2>
+
+<p>
+L'aplicació de grups s'utilitza per definir rols o categories d'usuaris dins de SaltOS4.
+Cada grup agrupa permisos que determinen què poden veure o fer els seus membres dins del sistema.
+Els grups simplifiquen l'administració del control d'accés permetent gestionar permisos a nivell de grup en lloc d'individualment.
+</p>
+
+</section>
+<section id="toc178">
+<h2>36.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-users-groups-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Codi: Identificador intern o codi de referència del grup.
+</li>
+<li>Nom: Nom o títol que identifica el grup.
+</li>
+<li>Descripció: Explicació de la funció o abast del grup.
+</li>
+<li>Actiu: Indica si aquest grup està habilitat per al seu ús.
+</li>
+</ul>
+
+</section>
+<section id="toc179">
+<h2>36.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista s'utilitza per crear, consultar o editar grups d'usuaris.
+</p>
+<p>
+En el mode <strong>crear</strong>, es defineix un nou grup.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-users-groups-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, es mostren els detalls del grup i els permisos assignats.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-users-groups-view-1-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, es poden actualitzar el nom, la descripció i el conjunt de permisos.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-users-groups-edit-1-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Actiu: Indica si aquest grup està habilitat per al seu ús.
+</li>
+<li>Codi: Identificador intern o codi de referència.
+</li>
+<li>Nom: Títol o nom identificador del grup.
+</li>
+<li>Descripció: Explicació de l'ús previst o abast funcional.
+</li>
+<li>Usuaris: Llista d'usuaris assignats al grup.
+</li>
+<li>Aplicacions i permisos: Matriu d'accés i operacions permeses per a aquest grup.
+</li>
+</ul>
+
+</section>
+<section id="toc180">
+<h2>36.4. Eliminació</h2>
+
+<p>
+Els grups només es poden eliminar si no hi ha cap usuari assignat.
+</p>
+<p>
+Si el grup està en ús, es recomana desactivar-lo per preservar la informació històrica d'accés.
+</p>
+
+</section>
+</section>
+<section id="toc181">
+<h1>37. Usuaris</h1>
+
+<section id="toc182">
+<h2>37.1. Descripció</h2>
+
+<p>
+L'aplicació d'usuaris s'utilitza per gestionar els comptes que tenen accés al sistema SaltOS4.
+Cada usuari té assignades credencials, rols i permisos, i pot opcionalment estar vinculat a un perfil d'empleat.
+Aquest mòdul és essencial per al control d'accés, la personalització i el registre d'auditories.
+</p>
+
+</section>
+<section id="toc183">
+<h2>37.2. Vista de llista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-users-users-list-ca-es-1-snap.png" alt="">
+</p>
+<p>
+Els següents camps es mostren a la vista de llista:
+</p>
+
+<ul>
+<li>Usuari: Nom d'usuari únic utilitzat per accedir al sistema.
+</li>
+<li>Nom: Nom complet de l'usuari, usat per identificació i visualització.
+</li>
+<li>Descripció: Comentaris interns o notes sobre el perfil de l'usuari.
+</li>
+<li>Grup: Grup o rol assignat per al control de permisos.
+</li>
+<li>Actiu: Indica si el compte està actualment habilitat.
+</li>
+</ul>
+
+</section>
+<section id="toc184">
+<h2>37.3. Vista de formulari</h2>
+
+<p>
+Aquesta vista s'utilitza per crear, consultar o editar comptes d'usuari.
+</p>
+<p>
+En el mode <strong>crear</strong>, el formulari permet registrar un usuari nou amb credencials d'accés.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-users-users-create-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>visualització</strong>, es mostren les dades del compte sense possibilitat d'edició.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-users-users-view-1-ca-es-1-snap.png" alt="">
+</p>
+<p>
+En el mode <strong>edició</strong>, es poden actualitzar les dades o restablir les credencials.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-users-users-edit-1-ca-es-1-snap.png" alt="">
+</p>
+<p>
+El formulari inclou els següents camps:
+</p>
+
+<ul>
+<li>Actiu: Indica si el compte està actualment habilitat.
+</li>
+<li>Usuari: Nom d'usuari únic per accedir al sistema.
+</li>
+<li>Grup: Grup o rol assignat per definir permisos.
+</li>
+<li>Nom: Nom complet de l'usuari.
+</li>
+<li>Nova contrasenya: Nova clau d'accés (per canvi o restabliment).
+</li>
+<li>Repetir contrasenya: Confirmació de la nova clau per evitar errors.
+</li>
+<li>Descripció: Notes internes sobre el perfil d'usuari.
+</li>
+<li>Inici: Data d'activació del compte.
+</li>
+<li>Fi: Data de caducitat després de la qual no es pot accedir.
+</li>
+<li>Dies: Dies de la setmana en què l'usuari pot accedir.
+</li>
+<li>Grups: Grups addicionals o rols associats a aquest usuari.
+</li>
+<li>Aplicacions i permisos: Matriu detallada d'accés a mòduls i accions permeses.
+</li>
+<li>Historial de contrasenyes: Llista de contrasenyes utilitzades anteriorment per a control i seguretat.
+</li>
+</ul>
+
+</section>
+<section id="toc185">
+<h2>37.4. Eliminació</h2>
+
+<p>
+Els comptes d'usuari es poden eliminar si no han iniciat sessió ni estan vinculats a cap registre d'activitat.
+</p>
+<p>
+En cas contrari, es recomana desactivar-los per a finalitats d'auditoria.
+</p>
+</section>
+</section>
+</div>
+
+<!-- html code generated by txt2tags 3.4 (http://txt2tags.org) -->
+<!-- cmdline: txt2tags -\-toc -t html -i user_ca_es.t2t -o user_ca_es.html -->
+</article></body></html>

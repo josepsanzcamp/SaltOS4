@@ -10,7 +10,7 @@ Els estats ajuden a fer seguiment dels leads segons el seu grau d'interès, qual
 
 ==Vista de llista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads_status-list-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-list-ca-es-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -25,15 +25,15 @@ Aquesta vista permet gestionar els estats dels interessats.
 
 En el mode **crear**, pots afegir un estat nou.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads_status-create-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-create-ca-es-1-snap.png]
 
 En el mode **visualització**, es mostra la informació de l'estat.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads_status-view-100-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-view-10-ca-es-1-snap.png]
 
 En el mode **edició**, es poden modificar els valors.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads_status-edit-100-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-edit-10-ca-es-1-snap.png]
 
 El formulari inclou els següents camps:
 

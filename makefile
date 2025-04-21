@@ -91,7 +91,7 @@ endif
 
 docs:
 ifeq ($(file),)
-	$(MAKE) docs file=api,web,apps,utest,ujest,devel
+	$(MAKE) docs file=api,web,apps,utest,ujest,devel,locale,user
 else
 ifneq (,$(findstring api,$(file)))
 	php scripts/maket2t.php docs/api.t2t code/api/php
@@ -125,7 +125,10 @@ ifneq (,$(findstring devel,$(file)))
 	php scripts/makehtml.php docs/devel.t2t
 endif
 ifneq (,$(findstring locale,$(file)))
-	php scripts/makedoc.php
+	php scripts/makelocale.php
+endif
+ifneq (,$(findstring user,$(file)))
+	php scripts/makeuser.php
 endif
 endif
 

@@ -1,0 +1,3974 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>User Manual (en\_US)</title>
+<meta name="generator" content="http://txt2tags.org">
+<style>
+body{background-color:#fff;color:#000;}
+hr{background-color:#000;border:0;color:#000;}
+hr.heavy{height:5px;}
+hr.light{height:1px;}
+img{border:0;display:block;}
+img.right{margin:0 0 0 auto;}
+img.center{border:0;margin:0 auto;}
+table th,table td{padding:4px;}
+.center,header{text-align:center;}
+table.center {margin-left:auto; margin-right:auto;}
+.right{text-align:right;}
+.left{text-align:left;}
+.tableborder,.tableborder td,.tableborder th{border:1px solid #000;}
+.underline{text-decoration:underline;}
+pre{background-color:#e6e6e6;padding:5px 3px}
+</style>
+</head>
+<body>
+<header>
+<hgroup>
+<h1>User Manual (en\_US)</h1>
+<h2>SaltOS 4.0 r1995</h2>
+<h3>April 2025</h3>
+</hgroup>
+</header>
+<article>
+
+<nav>
+<div class="body" id="body">
+
+  <ul>
+  <li><a href="#toc1">1. Certificates</a>
+    <ul>
+    <li><a href="#toc2">1.1. Description</a>
+    </li>
+    <li><a href="#toc3">1.2. List view</a>
+    </li>
+    <li><a href="#toc4">1.3. Form view</a>
+    </li>
+    <li><a href="#toc5">1.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc6">2. Config Log</a>
+    <ul>
+    <li><a href="#toc7">2.1. Description</a>
+    </li>
+    <li><a href="#toc8">2.2. List view</a>
+    </li>
+    <li><a href="#toc9">2.3. View entry</a>
+    </li>
+    <li><a href="#toc10">2.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc11">3. Cron Log</a>
+    <ul>
+    <li><a href="#toc12">3.1. Description</a>
+    </li>
+    <li><a href="#toc13">3.2. List view</a>
+    </li>
+    <li><a href="#toc14">3.3. View entry</a>
+    </li>
+    <li><a href="#toc15">3.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc16">4. Files Log</a>
+    <ul>
+    <li><a href="#toc17">4.1. Description</a>
+    </li>
+    <li><a href="#toc18">4.2. List view</a>
+    </li>
+    <li><a href="#toc19">4.3. View entry</a>
+    </li>
+    <li><a href="#toc20">4.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc21">5. Push Log</a>
+    <ul>
+    <li><a href="#toc22">5.1. Description</a>
+    </li>
+    <li><a href="#toc23">5.2. List view</a>
+    </li>
+    <li><a href="#toc24">5.3. View entry</a>
+    </li>
+    <li><a href="#toc25">5.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc26">6. Tokens Log</a>
+    <ul>
+    <li><a href="#toc27">6.1. Description</a>
+    </li>
+    <li><a href="#toc28">6.2. List view</a>
+    </li>
+    <li><a href="#toc29">6.3. View entry</a>
+    </li>
+    <li><a href="#toc30">6.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc31">7. Trash Log</a>
+    <ul>
+    <li><a href="#toc32">7.1. Description</a>
+    </li>
+    <li><a href="#toc33">7.2. List view</a>
+    </li>
+    <li><a href="#toc34">7.3. View entry</a>
+    </li>
+    <li><a href="#toc35">7.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc36">8. Upload Log</a>
+    <ul>
+    <li><a href="#toc37">8.1. Description</a>
+    </li>
+    <li><a href="#toc38">8.2. List view</a>
+    </li>
+    <li><a href="#toc39">8.3. View entry</a>
+    </li>
+    <li><a href="#toc40">8.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc41">9. Company</a>
+    <ul>
+    <li><a href="#toc42">9.1. Description</a>
+    </li>
+    <li><a href="#toc43">9.2. List view</a>
+    </li>
+    <li><a href="#toc44">9.3. Form view</a>
+    </li>
+    <li><a href="#toc45">9.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc46">10. Customers</a>
+    <ul>
+    <li><a href="#toc47">10.1. Description</a>
+    </li>
+    <li><a href="#toc48">10.2. List view</a>
+    </li>
+    <li><a href="#toc49">10.3. Form view</a>
+    </li>
+    <li><a href="#toc50">10.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc51">11. Customer Types</a>
+    <ul>
+    <li><a href="#toc52">11.1. Description</a>
+    </li>
+    <li><a href="#toc53">11.2. List view</a>
+    </li>
+    <li><a href="#toc54">11.3. Form view</a>
+    </li>
+    <li><a href="#toc55">11.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc56">12. Leads</a>
+    <ul>
+    <li><a href="#toc57">12.1. Description</a>
+    </li>
+    <li><a href="#toc58">12.2. List view</a>
+    </li>
+    <li><a href="#toc59">12.3. Form view</a>
+    </li>
+    <li><a href="#toc60">12.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc61">13. Leads Status</a>
+    <ul>
+    <li><a href="#toc62">13.1. Description</a>
+    </li>
+    <li><a href="#toc63">13.2. List view</a>
+    </li>
+    <li><a href="#toc64">13.3. Form view</a>
+    </li>
+    <li><a href="#toc65">13.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc66">14. Meetings</a>
+    <ul>
+    <li><a href="#toc67">14.1. Description</a>
+    </li>
+    <li><a href="#toc68">14.2. List view</a>
+    </li>
+    <li><a href="#toc69">14.3. Form view</a>
+    </li>
+    <li><a href="#toc70">14.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc71">15. Quotes</a>
+    <ul>
+    <li><a href="#toc72">15.1. Description</a>
+    </li>
+    <li><a href="#toc73">15.2. List view</a>
+    </li>
+    <li><a href="#toc74">15.3. Form view</a>
+    </li>
+    <li><a href="#toc75">15.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc76">16. Quotes Status</a>
+    <ul>
+    <li><a href="#toc77">16.1. Description</a>
+    </li>
+    <li><a href="#toc78">16.2. List view</a>
+    </li>
+    <li><a href="#toc79">16.3. Form view</a>
+    </li>
+    <li><a href="#toc80">16.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc81">17. Dashboard</a>
+    <ul>
+    <li><a href="#toc82">17.1. Description</a>
+    </li>
+    <li><a href="#toc83">17.2. Main view</a>
+    </li>
+    <li><a href="#toc84">17.3. Dashboard configuration</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc85">18. Dashboard configuration</a>
+    <ul>
+    <li><a href="#toc86">18.1. Description</a>
+    </li>
+    <li><a href="#toc87">18.2. Configuration view</a>
+    </li>
+    <li><a href="#toc88">18.3. Features</a>
+    </li>
+    <li><a href="#toc89">18.4. Advanced usage</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc90">19. Emails</a>
+    <ul>
+    <li><a href="#toc91">19.1. Description</a>
+    </li>
+    <li><a href="#toc92">19.2. List view</a>
+    </li>
+    <li><a href="#toc93">19.3. View message</a>
+    </li>
+    <li><a href="#toc94">19.4. Reply / Compose</a>
+    </li>
+    <li><a href="#toc95">19.5. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc96">20. Emails Accounts</a>
+    <ul>
+    <li><a href="#toc97">20.1. Description</a>
+    </li>
+    <li><a href="#toc98">20.2. List view</a>
+    </li>
+    <li><a href="#toc99">20.3. Form view</a>
+    </li>
+    <li><a href="#toc100">20.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc101">21. Departments</a>
+    <ul>
+    <li><a href="#toc102">21.1. Description</a>
+    </li>
+    <li><a href="#toc103">21.2. List view</a>
+    </li>
+    <li><a href="#toc104">21.3. Form view</a>
+    </li>
+    <li><a href="#toc105">21.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc106">22. Employees</a>
+    <ul>
+    <li><a href="#toc107">22.1. Description</a>
+    </li>
+    <li><a href="#toc108">22.2. List view</a>
+    </li>
+    <li><a href="#toc109">22.3. Form view</a>
+    </li>
+    <li><a href="#toc110">22.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc111">23. Employee Types</a>
+    <ul>
+    <li><a href="#toc112">23.1. Description</a>
+    </li>
+    <li><a href="#toc113">23.2. List view</a>
+    </li>
+    <li><a href="#toc114">23.3. Form view</a>
+    </li>
+    <li><a href="#toc115">23.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc116">24. Purchase</a>
+    <ul>
+    <li><a href="#toc117">24.1. Description</a>
+    </li>
+    <li><a href="#toc118">24.2. List view</a>
+    </li>
+    <li><a href="#toc119">24.3. Form view</a>
+    </li>
+    <li><a href="#toc120">24.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc121">25. Purchase Status</a>
+    <ul>
+    <li><a href="#toc122">25.1. Description</a>
+    </li>
+    <li><a href="#toc123">25.2. List view</a>
+    </li>
+    <li><a href="#toc124">25.3. Form view</a>
+    </li>
+    <li><a href="#toc125">25.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc126">26. Suppliers</a>
+    <ul>
+    <li><a href="#toc127">26.1. Description</a>
+    </li>
+    <li><a href="#toc128">26.2. List view</a>
+    </li>
+    <li><a href="#toc129">26.3. Form view</a>
+    </li>
+    <li><a href="#toc130">26.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc131">27. Supplier Types</a>
+    <ul>
+    <li><a href="#toc132">27.1. Description</a>
+    </li>
+    <li><a href="#toc133">27.2. List view</a>
+    </li>
+    <li><a href="#toc134">27.3. Form view</a>
+    </li>
+    <li><a href="#toc135">27.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc136">28. Invoices</a>
+    <ul>
+    <li><a href="#toc137">28.1. Description</a>
+    </li>
+    <li><a href="#toc138">28.2. List view</a>
+    </li>
+    <li><a href="#toc139">28.3. Form view</a>
+    </li>
+    <li><a href="#toc140">28.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc141">29. Invoices Status</a>
+    <ul>
+    <li><a href="#toc142">29.1. Description</a>
+    </li>
+    <li><a href="#toc143">29.2. List view</a>
+    </li>
+    <li><a href="#toc144">29.3. Form view</a>
+    </li>
+    <li><a href="#toc145">29.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc146">30. Payment Methods</a>
+    <ul>
+    <li><a href="#toc147">30.1. Description</a>
+    </li>
+    <li><a href="#toc148">30.2. List view</a>
+    </li>
+    <li><a href="#toc149">30.3. Form view</a>
+    </li>
+    <li><a href="#toc150">30.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc151">31. Products</a>
+    <ul>
+    <li><a href="#toc152">31.1. Description</a>
+    </li>
+    <li><a href="#toc153">31.2. List view</a>
+    </li>
+    <li><a href="#toc154">31.3. Form view</a>
+    </li>
+    <li><a href="#toc155">31.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc156">32. Product Categories</a>
+    <ul>
+    <li><a href="#toc157">32.1. Description</a>
+    </li>
+    <li><a href="#toc158">32.2. List view</a>
+    </li>
+    <li><a href="#toc159">32.3. Form view</a>
+    </li>
+    <li><a href="#toc160">32.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc161">33. Product Types</a>
+    <ul>
+    <li><a href="#toc162">33.1. Description</a>
+    </li>
+    <li><a href="#toc163">33.2. List view</a>
+    </li>
+    <li><a href="#toc164">33.3. Form view</a>
+    </li>
+    <li><a href="#toc165">33.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc166">34. Taxes</a>
+    <ul>
+    <li><a href="#toc167">34.1. Description</a>
+    </li>
+    <li><a href="#toc168">34.2. List view</a>
+    </li>
+    <li><a href="#toc169">34.3. Form view</a>
+    </li>
+    <li><a href="#toc170">34.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc171">35. Workorders</a>
+    <ul>
+    <li><a href="#toc172">35.1. Description</a>
+    </li>
+    <li><a href="#toc173">35.2. List view</a>
+    </li>
+    <li><a href="#toc174">35.3. Form view</a>
+    </li>
+    <li><a href="#toc175">35.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc176">36. Groups</a>
+    <ul>
+    <li><a href="#toc177">36.1. Description</a>
+    </li>
+    <li><a href="#toc178">36.2. List view</a>
+    </li>
+    <li><a href="#toc179">36.3. Form view</a>
+    </li>
+    <li><a href="#toc180">36.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc181">37. Users</a>
+    <ul>
+    <li><a href="#toc182">37.1. Description</a>
+    </li>
+    <li><a href="#toc183">37.2. List view</a>
+    </li>
+    <li><a href="#toc184">37.3. Form view</a>
+    </li>
+    <li><a href="#toc185">37.4. Delete</a>
+    </li>
+    </ul>
+  </li>
+  </ul>
+
+</div>
+</nav>
+<div class="body" id="body">
+
+<section id="toc1">
+<h1>1. Certificates</h1>
+
+<section id="toc2">
+<h2>1.1. Description</h2>
+
+<p>
+The Certificates application is used to manage and track SSL/TLS certificates stored or monitored by the system.
+</p>
+<p>
+This module allows administrators to register certificates, store metadata, monitor expiration dates,
+and ensure that security infrastructure remains up-to-date.
+</p>
+<p>
+It is especially useful for managing certificates for custom domains, internal services, or external integrations.
+</p>
+
+</section>
+<section id="toc3">
+<h2>1.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-certs-certs-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Certificate nicknames available:: List of certificate aliases already stored and available in the system. It is not a database-driven table, but a visual display of loaded certificates.
+</li>
+</ul>
+
+</section>
+<section id="toc4">
+<h2>1.3. Form view</h2>
+
+<p>
+This view is used to add, review, or update certificate information.
+</p>
+<p>
+In <strong>create</strong> mode, the form is empty and ready to enter new data.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-certs-certs-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Certificate file (.p12, .pfx): File input used to upload one or more certificates in PKCS#12 format. Required to import certificates into the system.
+</li>
+<li>Password file: Password used to decrypt the uploaded certificate file. This field is required and not autofilled for security reasons.
+</li>
+</ul>
+
+<p>
+In <strong>view</strong> mode, the fields are filled with the selected record and cannot be edited.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-certs-certs-view-ab-877-d-2027-f-7-c-71-d-9935999-cce-1-b-802-b-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Name: Display name or alias of the certificate.
+</li>
+<li>Info: Technical details of the certificate, including issuer, expiration, and subject. Displayed in a read-only text area.
+</li>
+</ul>
+
+</section>
+<section id="toc5">
+<h2>1.4. Delete</h2>
+
+<p>
+Certificates can be deleted if no longer relevant.
+</p>
+<p>
+However, it is recommended to retain expired entries for audit purposes.
+</p>
+
+</section>
+</section>
+<section id="toc6">
+<h1>2. Config Log</h1>
+
+<section id="toc7">
+<h2>2.1. Description</h2>
+
+<p>
+The Config Log application provides a trace of all configuration changes made within SaltOS4.
+It is used to monitor modifications to system parameters, app settings, or internal preferences.
+This module is essential for administrators who want to audit changes and ensure consistent system behavior over time.
+</p>
+
+</section>
+<section id="toc8">
+<h2>2.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-configlog-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>User: User who made the configuration change.
+</li>
+<li>Key: Configuration key that was modified.
+</li>
+</ul>
+
+</section>
+<section id="toc9">
+<h2>2.3. View entry</h2>
+
+<p>
+This view displays the full details of a single configuration change record.
+</p>
+<p>
+In <strong>create</strong> mode, the form is empty and ready to enter new data.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-configlog-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, the fields are filled with the selected record and cannot be edited.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-configlog-view-10-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, the form is pre-filled and allows modifications.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-configlog-edit-10-en-us-1-snap.png" alt="">
+</p>
+<p>
+It includes:
+</p>
+
+<ul>
+<li>User: User who made the configuration change.
+</li>
+<li>Key: Configuration key that was modified.
+</li>
+<li>Value: New value assigned to the configuration key.
+</li>
+</ul>
+
+</section>
+<section id="toc10">
+<h2>2.4. Delete</h2>
+
+<p>
+Entries in the config log cannot be deleted under normal circumstances.
+</p>
+<p>
+This log is designed to ensure full traceability and auditability of administrative actions.
+</p>
+
+</section>
+</section>
+<section id="toc11">
+<h1>3. Cron Log</h1>
+
+<section id="toc12">
+<h2>3.1. Description</h2>
+
+<p>
+The Cron Log application stores the execution history of scheduled tasks (cron jobs) within SaltOS4.
+It allows administrators to monitor background processes such as email retrieval, data imports, backups, or custom jobs.
+This module is essential for troubleshooting and verifying that scheduled operations are running correctly.
+</p>
+
+</section>
+<section id="toc13">
+<h2>3.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-cronlog-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Command: Command or script executed by the cron system.
+</li>
+<li>Start: Start time of the scheduled task execution.
+</li>
+<li>Out: Short version or preview of the standard output.
+</li>
+<li>Err: Short version or preview of the error output.
+</li>
+</ul>
+
+</section>
+<section id="toc14">
+<h2>3.3. View entry</h2>
+
+<p>
+This view displays the full result of a single cron job execution.
+</p>
+<p>
+It includes:
+</p>
+
+<ul>
+<li>Command: Command or script executed by the cron system.
+</li>
+<li>PID: Process ID assigned to the running cron task.
+</li>
+<li>Start: Start time of the scheduled task execution.
+</li>
+<li>Stop: Time when the task finished running.
+</li>
+<li>STDOUT: Standard output generated by the task during execution.
+</li>
+<li>STDERR: Standard error output generated by the task.
+</li>
+</ul>
+
+</section>
+<section id="toc15">
+<h2>3.4. Delete</h2>
+
+<p>
+Cron log entries are not meant to be deleted regularly.
+</p>
+<p>
+Automatic cleanup or manual purge may be configured to remove older entries.
+</p>
+
+</section>
+</section>
+<section id="toc16">
+<h1>4. Files Log</h1>
+
+<section id="toc17">
+<h2>4.1. Description</h2>
+
+<p>
+The Files Log application records all file access events within SaltOS4.
+It tracks when files are viewed, downloaded, or otherwise accessed by users, including associated metadata.
+This module provides a complete audit trail for document activity, supporting traceability and data governance policies.
+</p>
+
+</section>
+<section id="toc18">
+<h2>4.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-fileslog-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Name: Name of the accessed or managed file within the system.
+</li>
+<li>Type: File format or classification (e.g., PDF, image, text).
+</li>
+<li>Size: Size of the file in bytes.
+</li>
+</ul>
+
+</section>
+<section id="toc19">
+<h2>4.3. View entry</h2>
+
+<p>
+This view shows detailed information about a file access event.
+</p>
+<p>
+It includes:
+</p>
+
+<ul>
+<li>Name: Name of the accessed or managed file within the system.
+</li>
+<li>Type: File format or classification (e.g., PDF, image, text).
+</li>
+<li>Size: Size of the file in bytes.
+</li>
+<li>Data: Internal content, metadata or serialized structure representing the file access or action.
+</li>
+</ul>
+
+</section>
+<section id="toc20">
+<h2>4.4. Delete</h2>
+
+<p>
+Files log entries are usually not deleted manually.
+</p>
+<p>
+They are retained for accountability and security monitoring, and may be purged automatically based on system settings.
+</p>
+
+</section>
+</section>
+<section id="toc21">
+<h1>5. Push Log</h1>
+
+<section id="toc22">
+<h2>5.1. Description</h2>
+
+<p>
+The Push Log application records all push notifications triggered by the system.
+These notifications are typically sent to users to alert them about actions, updates, or system events in real time.
+This module allows administrators to monitor the flow of notifications and diagnose potential issues in the delivery process.
+</p>
+
+</section>
+<section id="toc23">
+<h2>5.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-pushlog-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>User: User who triggered or received the push notification.
+</li>
+<li>Datetime: Date and time when the push notification was recorded.
+</li>
+<li>Type: Category of the push message (e.g., info, warning, error).
+</li>
+</ul>
+
+</section>
+<section id="toc24">
+<h2>5.3. View entry</h2>
+
+<p>
+This view shows full details of a single push notification.
+</p>
+<p>
+It includes:
+</p>
+
+<ul>
+<li>User: User who triggered or received the push notification.
+</li>
+<li>Datetime: Date and time when the push notification was recorded.
+</li>
+<li>Type: Category of the push message (e.g., info, warning, error).
+</li>
+<li>Message: Content or summary of the push message sent.
+</li>
+<li>Timestamp: Internal system timestamp when the event was logged.
+</li>
+</ul>
+
+</section>
+<section id="toc25">
+<h2>5.4. Delete</h2>
+
+<p>
+Push log entries are generally not deleted and are kept for audit purposes.
+</p>
+<p>
+In specific maintenance scenarios, old records may be purged, but this requires explicit permissions.
+</p>
+
+</section>
+</section>
+<section id="toc26">
+<h1>6. Tokens Log</h1>
+
+<section id="toc27">
+<h2>6.1. Description</h2>
+
+<p>
+The Tokens Log application tracks the usage of authentication tokens across the system.
+These tokens are typically used in API calls, automated scripts, or temporary login sessions.
+This module allows administrators to monitor access to the system and detect potential misuse or unauthorized attempts.
+</p>
+
+</section>
+<section id="toc28">
+<h2>6.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>User: User associated with the token.
+</li>
+<li>Created: Date and time when the token was created.
+</li>
+<li>Token: The token string used for authentication or access.
+</li>
+<li>Active: Indicates whether the token is currently valid and usable.
+</li>
+</ul>
+
+</section>
+<section id="toc29">
+<h2>6.3. View entry</h2>
+
+<p>
+This view displays all information related to a specific token access.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-view-1-en-us-1-snap.png" alt="">
+</p>
+<p>
+It includes:
+</p>
+
+<ul>
+<li>Active: Indicates whether the token is currently valid and usable.
+</li>
+<li>User: User associated with the token.
+</li>
+<li>Created: Date and time when the token was created.
+</li>
+<li>Updated: Date and time of the last update to the token's state.
+</li>
+<li>Remote Addres: IP address from which the token was used or created.
+</li>
+<li>User Agent: Browser or client used when the token was generated or accessed.
+</li>
+<li>Token: The token string used for authentication or access.
+</li>
+<li>Expires: Expiration date and time of the token, after which it is no longer valid.
+</li>
+</ul>
+
+</section>
+<section id="toc30">
+<h2>6.4. Delete</h2>
+
+<p>
+Token log entries are not meant to be deleted manually.
+</p>
+<p>
+They form part of the system’s audit and access control history, and are subject to automatic cleanup if configured.
+</p>
+
+</section>
+</section>
+<section id="toc31">
+<h1>7. Trash Log</h1>
+
+<section id="toc32">
+<h2>7.1. Description</h2>
+
+<p>
+The Trash Log application records all deletions performed in the system, acting as a recycle bin for SaltOS4.
+It allows administrators and advanced users to inspect what data has been removed, when, by whom, and from where.
+This module is key for auditability and helps identify accidental deletions or unauthorized actions.
+</p>
+
+</section>
+<section id="toc33">
+<h2>7.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-trashlog-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>User: User who performed the deletion.
+</li>
+<li>Datetime: Exact date and time when the record was deleted.
+</li>
+<li>Name: Descriptive name of the deleted record or file.
+</li>
+</ul>
+
+</section>
+<section id="toc34">
+<h2>7.3. View entry</h2>
+
+<p>
+This view displays all recorded information about a deleted item.
+</p>
+<p>
+It includes:
+</p>
+
+<ul>
+<li>Old ID: Original identifier of the record before deletion.
+</li>
+<li>User: User who performed the deletion.
+</li>
+<li>Datetime: Exact date and time when the record was deleted.
+</li>
+<li>Reg ID: Internal registry ID assigned to the deleted record.
+</li>
+<li>App: Application or module from which the record was removed.
+</li>
+<li>Uniq ID: System-wide unique identifier for the deleted item.
+</li>
+<li>Name: Descriptive name of the deleted record or file.
+</li>
+<li>Size: File size in bytes, if the deleted item was a file.
+</li>
+<li>Type: MIME type or classification of the deleted file or record.
+</li>
+<li>File: Original filename or path of the deleted file.
+</li>
+<li>Hash: Checksum used to verify the content of the deleted item.
+</li>
+</ul>
+
+</section>
+<section id="toc35">
+<h2>7.4. Delete</h2>
+
+<p>
+Trash log entries cannot be deleted directly from the interface.
+</p>
+<p>
+SaltOS4 retains them for accountability and legal traceability unless automatic pruning is configured.
+</p>
+
+</section>
+</section>
+<section id="toc36">
+<h1>8. Upload Log</h1>
+
+<section id="toc37">
+<h2>8.1. Description</h2>
+
+<p>
+The Upload Log application registers all file uploads made through SaltOS4, whether manual or automated.
+It helps track the origin, user, and context of each uploaded file, and is useful for auditing, debugging,
+and verifying that uploads are being processed correctly.
+</p>
+
+</section>
+<section id="toc38">
+<h2>8.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-uploadlog-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>User: User who uploaded the file.
+</li>
+<li>Datetime: Timestamp when the file was uploaded to the system.
+</li>
+<li>App: Module or application from which the upload was triggered.
+</li>
+<li>Name: Original filename as provided by the user.
+</li>
+</ul>
+
+</section>
+<section id="toc39">
+<h2>8.3. View entry</h2>
+
+<p>
+This view shows full details of a single uploaded file log entry.
+</p>
+<p>
+It includes:
+</p>
+
+<ul>
+<li>User: User who uploaded the file.
+</li>
+<li>Datetime: Timestamp when the file was uploaded to the system.
+</li>
+<li>Uniq ID: Unique identifier internally assigned to the upload entry.
+</li>
+<li>App: Module or application from which the upload was triggered.
+</li>
+<li>Name: Original filename as provided by the user.
+</li>
+<li>Size: Size of the uploaded file in bytes.
+</li>
+<li>Type: MIME type or format of the uploaded file.
+</li>
+<li>File: Stored filename used by the system to manage the file internally.
+</li>
+<li>Hash: Checksum (e.g., MD5 or SHA) to verify file integrity or detect duplicates.
+</li>
+</ul>
+
+</section>
+<section id="toc40">
+<h2>8.4. Delete</h2>
+
+<p>
+Upload log entries are normally preserved for historical traceability.
+</p>
+<p>
+If needed, old entries may be deleted manually or through automatic maintenance routines.
+</p>
+
+</section>
+</section>
+<section id="toc41">
+<h1>9. Company</h1>
+
+<section id="toc42">
+<h2>9.1. Description</h2>
+
+<p>
+The Company application stores the identification and contact details of the organization using SaltOS4.
+This data is used across the system to personalize documents (quotes, invoices, emails, etc.) and define the legal and fiscal identity of the company.
+</p>
+<p>
+It typically includes the company's name, tax code, address, logo, and preferred language.
+</p>
+
+</section>
+<section id="toc43">
+<h2>9.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-company-company-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Name: Official name of the company or organization.
+</li>
+<li>CIF: Tax identification number (NIF, CIF, VAT, etc.) of the company.
+</li>
+<li>City: City where the company is located.
+</li>
+<li>Country: Country where the company is legally registered or operates.
+</li>
+<li>Active: Indicates whether this company profile is active in the system.
+</li>
+</ul>
+
+</section>
+<section id="toc44">
+<h2>9.3. Form view</h2>
+
+<p>
+This view is used to define or edit the company profile.
+</p>
+<p>
+In <strong>create</strong> mode, the form is empty and ready to enter new data.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-company-company-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, the fields are filled with the selected record and cannot be edited.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-company-company-view-1-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, the form is pre-filled and allows modifications.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-company-company-edit-1-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Active: Indicates whether this company profile is active in the system.
+</li>
+<li>Name: Official name of the company or organization.
+</li>
+<li>Code: Tax identification number (NIF, CIF, VAT, etc.) of the company.
+</li>
+<li>Address: Official street or mailing address of the company.
+</li>
+<li>City: City where the company is located.
+</li>
+<li>Province / State: Province, state, or region where the company is based.
+</li>
+<li>ZIP: Postal code of the company’s registered address.
+</li>
+<li>Country: Country where the company is legally registered or operates.
+</li>
+<li>Phone: Main phone number for company inquiries.
+</li>
+<li>Email: Primary email address used for administrative or legal contact.
+</li>
+<li>Website: The public website or landing page of the company.
+</li>
+<li>IBAN: International Bank Account Number used for wire transfers.
+</li>
+<li>SWIFT/BIC: SWIFT/BIC code identifying the bank of the company for international transfers.
+</li>
+<li>Fiscal Regime: Tax regime under which the company operates (e.g., general, simplified, small business).
+</li>
+<li>Activity Code: Economic activity classification code (e.g., CNAE, NACE).
+</li>
+<li>Additional Notes: Internal remarks or additional information about the company.
+</li>
+</ul>
+
+</section>
+<section id="toc45">
+<h2>9.4. Delete</h2>
+
+<p>
+The company profile cannot be deleted if it's the only active one in the system.
+</p>
+<p>
+Only deactivation is allowed in most configurations.
+</p>
+
+</section>
+</section>
+<section id="toc46">
+<h1>10. Customers</h1>
+
+<section id="toc47">
+<h2>10.1. Description</h2>
+
+<p>
+The Customers application allows you to manage your client base within SaltOS4.
+It centralizes all information related to customers, such as identification, contact details,
+tax code, address, and classification. It also serves as a hub to link customers with other
+modules like quotes, invoices, meetings, and emails.
+</p>
+
+</section>
+<section id="toc48">
+<h2>10.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-customers-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Name: Full name or business name of the customer.
+</li>
+<li>CIF: Customer's tax identification code (NIF, CIF, VAT, etc.).
+</li>
+<li>City: City or locality of the customer.
+</li>
+<li>Country: Country where the customer is legally registered or operates.
+</li>
+<li>Active: Indicates if the customer is active in the system.
+</li>
+</ul>
+
+</section>
+<section id="toc49">
+<h2>10.3. Form view</h2>
+
+<p>
+This view is used for creating, editing or viewing a customer record.
+</p>
+<p>
+In <strong>create</strong> mode, the form is empty and ready to enter new data.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-customers-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, the fields are filled with the selected record and cannot be edited.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-customers-view-100-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, the form is pre-filled and allows modifications.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-customers-edit-100-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Active: Enables or disables the customer visibility.
+</li>
+<li>Name: Full name or business name of the customer.
+</li>
+<li>CIF: Customer's tax identification code.
+</li>
+<li>Address: Main physical or billing address.
+</li>
+<li>City: City or locality of the customer.
+</li>
+<li>Province / State: Province or state of the customer.
+</li>
+<li>ZIP: Postal code corresponding to the address.
+</li>
+<li>Country: Country of registration.
+</li>
+<li>Email: Email for notifications or invoices.
+</li>
+<li>Phone: Primary contact phone number.
+</li>
+<li>Website: Website of the customer
+</li>
+<li>Notes: Internal notes related to the customer.
+</li>
+<li>Type: Category the customer belongs to (e.g., regular, VIP).
+</li>
+<li>Files: Attachments such as documents or images related to the job.
+</li>
+<li>Notes: Internal observations or customer-specific instructions.
+</li>
+</ul>
+
+</section>
+<section id="toc50">
+<h2>10.4. Delete</h2>
+
+<p>
+Records can be deleted from the list view via the delete action.
+A confirmation prompt will appear before the operation is executed.
+</p>
+<p>
+This action is irreversible and requires specific permissions.
+</p>
+
+</section>
+</section>
+<section id="toc51">
+<h1>11. Customer Types</h1>
+
+<section id="toc52">
+<h2>11.1. Description</h2>
+
+<p>
+The Customer Types application allows you to define categories or segments for classifying customers.
+These types are used in the Customers module to group and organize clients according to their profile, purpose, or treatment.
+Examples may include "Individual", "Company", "VIP", or "Distributor".
+</p>
+
+</section>
+<section id="toc53">
+<h2>11.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Name: The label of the customer type (e.g., Company, VIP).
+</li>
+<li>Description: Additional explanation of the type’s purpose or scope.
+</li>
+<li>Active: Indicates whether the type is available for selection.
+</li>
+</ul>
+
+</section>
+<section id="toc54">
+<h2>11.3. Form view</h2>
+
+<p>
+This view is used to create, view or edit customer type entries.
+</p>
+<p>
+In <strong>create</strong> mode, the form is empty and ready to enter new data.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, the fields are filled with the selected record and cannot be edited.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-view-10-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, the form is pre-filled and allows modifications.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-edit-10-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Active: Enables or disables the type for use in the Customers app.
+</li>
+<li>Name: Title of the customer type.
+</li>
+<li>Description: Optional note describing how or when to use this type.
+</li>
+</ul>
+
+</section>
+<section id="toc55">
+<h2>11.4. Delete</h2>
+
+<p>
+Customer types can be deleted only if they are not assigned to any customer.
+</p>
+<p>
+If in use, they should be deactivated instead to preserve consistency.
+</p>
+
+</section>
+</section>
+<section id="toc56">
+<h1>12. Leads</h1>
+
+<section id="toc57">
+<h2>12.1. Description</h2>
+
+<p>
+The Leads application is used to register and track potential customers before they become actual clients.
+It allows you to collect key information about each lead, such as contact details, origin, and current status in the sales process.
+This module helps organize the pre-sales activity, enabling sales teams to follow up effectively, qualify opportunities,
+and convert leads into customers when appropriate.
+</p>
+
+</section>
+<section id="toc58">
+<h2>12.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-leads-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Title: The title or subject of the meeting, summarizing its purpose.
+</li>
+<li>Location: The place where the meeting is held, or the online platform link if virtual.
+</li>
+<li>Start Time: Scheduled starting date and time of the meeting.
+</li>
+<li>Customer: Customer associated with the meeting, if applicable.
+</li>
+</ul>
+
+</section>
+<section id="toc59">
+<h2>12.3. Form view</h2>
+
+<p>
+This view is used for creating, editing or viewing a lead.
+</p>
+<p>
+In <strong>create</strong> mode, the form is empty and ready to enter new data.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-leads-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, the fields are filled with the selected record and cannot be edited.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-leads-view-100-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, the form is pre-filled and allows modifications.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-leads-edit-100-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Title: The title or subject of the meeting, summarizing its purpose.
+</li>
+<li>Location: The place where the meeting is held, or the online platform link if virtual.
+</li>
+<li>Start Time: Scheduled starting date and time of the meeting.
+</li>
+<li>End Time: Planned ending date and time of the meeting.
+</li>
+<li>Related Customer: Customer associated with the meeting, if applicable.
+</li>
+<li>Participants: List of users or external contacts invited to the meeting.
+</li>
+<li>Agenda: The topics or plan intended to be covered during the meeting.
+</li>
+<li>Topics Approved: Items discussed in the meeting that were approved.
+</li>
+<li>Topics Rejected: Items discussed that were not approved or postponed.
+</li>
+<li>Topics Pending: Items discussed that require further action or decision.
+</li>
+</ul>
+
+</section>
+<section id="toc60">
+<h2>12.4. Delete</h2>
+
+<p>
+Records can be deleted from the list view via the delete action.
+A confirmation prompt will appear before the operation is executed.
+</p>
+<p>
+This action is irreversible and requires appropriate permissions.
+</p>
+
+</section>
+</section>
+<section id="toc61">
+<h1>13. Leads Status</h1>
+
+<section id="toc62">
+<h2>13.1. Description</h2>
+
+<p>
+The Leads Status application defines the possible stages or states of a lead during the qualification process.
+These statuses are used in the Leads module to track the sales funnel and organize follow-up efforts.
+Typical statuses might include "New", "Contacted", "Qualified", or "Rejected".
+</p>
+
+</section>
+<section id="toc63">
+<h2>13.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Name: The label of the lead status (e.g., Contacted, Qualified).
+</li>
+<li>Description: Explanation or criteria for using this status.
+</li>
+<li>Active: Indicates if the status is currently available for selection.
+</li>
+</ul>
+
+</section>
+<section id="toc64">
+<h2>13.3. Form view</h2>
+
+<p>
+This view is used to create, view or edit lead status records.
+</p>
+<p>
+In <strong>create</strong> mode, the form is empty and ready to enter new data.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, the fields are filled with the selected record and cannot be edited.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-view-10-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, the form is pre-filled and allows modifications.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-edit-10-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Active: Controls whether the status appears in dropdowns.
+</li>
+<li>Name: Title of the status as shown in the Leads app.
+</li>
+<li>Description: Internal guidance for when to use this status.
+</li>
+</ul>
+
+</section>
+<section id="toc65">
+<h2>13.4. Delete</h2>
+
+<p>
+Lead statuses can only be deleted if no leads are currently assigned to them.
+</p>
+<p>
+Otherwise, the status should be marked as inactive.
+</p>
+
+</section>
+</section>
+<section id="toc66">
+<h1>14. Meetings</h1>
+
+<section id="toc67">
+<h2>14.1. Description</h2>
+
+<p>
+The Meetings application allows you to schedule, organize, and track meetings with leads, customers, or internal staff.
+It supports planning both face-to-face and online meetings, storing relevant details such as date, time, participants, notes, and status.
+This module is essential for keeping a history of client interactions, improving follow-up, and maintaining team coordination.
+</p>
+
+</section>
+<section id="toc68">
+<h2>14.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Title: The title or subject of the meeting, summarizing its purpose.
+</li>
+<li>Location: The place where the meeting is held, or the online platform link if virtual.
+</li>
+<li>Start Time: Scheduled starting date and time of the meeting.
+</li>
+<li>Customer: Customer associated with the meeting, if applicable.
+</li>
+</ul>
+
+</section>
+<section id="toc69">
+<h2>14.3. Form view</h2>
+
+<p>
+This view is used for creating, editing or viewing a meeting entry.
+</p>
+<p>
+In <strong>create</strong> mode, a new meeting is scheduled.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, details are shown read-only for reference or audit.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-100-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, the meeting details can be modified if needed.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-edit-100-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Title: The title or subject of the meeting, summarizing its purpose.
+</li>
+<li>Location: The place where the meeting is held, or the online platform link if virtual.
+</li>
+<li>Start Time: Scheduled starting date and time of the meeting.
+</li>
+<li>End Time: Planned ending date and time of the meeting.
+</li>
+<li>Related Customer: Customer associated with the meeting, if applicable.
+</li>
+<li>Participants: List of users or external contacts invited to the meeting.
+</li>
+<li>Agenda: The topics or plan intended to be covered during the meeting.
+</li>
+<li>Topics Approved: Items discussed in the meeting that were approved.
+</li>
+<li>Topics Rejected: Items discussed that were not approved or postponed.
+</li>
+<li>Topics Pending: Items discussed that require further action or decision.
+</li>
+</ul>
+
+</section>
+<section id="toc70">
+<h2>14.4. Delete</h2>
+
+<p>
+Meetings can be deleted from the list view if created in error or no longer relevant.
+</p>
+<p>
+Records are usually kept for historical traceability unless explicit removal is needed.
+</p>
+
+</section>
+</section>
+<section id="toc71">
+<h1>15. Quotes</h1>
+
+<section id="toc72">
+<h2>15.1. Description</h2>
+
+<p>
+The Quotes application is used to create and manage commercial proposals sent to customers.
+Each quote contains line items with products or services, pricing, taxes, and conditions.
+This module is tightly integrated with Customers and Products, and allows for tracking the status of each quote
+(e.g., Draft, Sent, Accepted). When a quote is accepted, it can be converted into an invoice.
+</p>
+
+</section>
+<section id="toc73">
+<h2>15.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Customer: The client to whom the quote is addressed.
+</li>
+<li>CIF: The customer's tax identification code (e.g., VAT, CIF, NIF).
+</li>
+<li>Quote: The internal reference or code used to identify the quote.
+</li>
+<li>Date: The official date the quote was created or issued.
+</li>
+<li>Total: The total monetary value of the quote, including all taxes and discounts.
+</li>
+</ul>
+
+</section>
+<section id="toc74">
+<h2>15.3. Form view</h2>
+
+<p>
+This view is used for creating, editing or viewing a quote.
+</p>
+<p>
+In <strong>create</strong> mode, the form is empty and allows you to build a new quote.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, it displays a finalized quote without editing capabilities.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-100-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, it shows a draft quote ready for modification.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-edit-100-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Quote: The internal reference or code used to identify the quote.
+</li>
+<li>Date: The official date the quote was created or issued.
+</li>
+<li>Customer: The client to whom the quote is addressed.
+</li>
+<li>CIF: The customer's tax identification code (e.g., VAT, CIF, NIF).
+</li>
+<li>Address: The customer's address at the time of issuing the quote.
+</li>
+<li>City: The city associated with the customer in the quote.
+</li>
+<li>Province / State: The region or state linked to the customer's location.
+</li>
+<li>Zip: The postal code of the customer's address.
+</li>
+<li>Country: The customer's country of residence or business.
+</li>
+<li>Notes: Additional internal notes or observations attached to the quote.
+</li>
+<li>Concepts: The list of products or services included in the quote.
+</li>
+<li>Taxes: Breakdown of applicable taxes for the quoted items.
+</li>
+<li>Totals: Subtotal, taxes, and final amount displayed in a structured summary.
+</li>
+<li>Payment method: The selected method for payment if the quote is accepted.
+</li>
+<li>Valid until: The expiration date until which the quote remains valid.
+</li>
+<li>Status: The current lifecycle state of the quote (e.g., draft, sent, accepted).
+</li>
+</ul>
+
+<p>
+Quote lines are also included as a subtable, where each line contains product, quantity, price, tax, and discount.
+</p>
+
+</section>
+<section id="toc75">
+<h2>15.4. Delete</h2>
+
+<p>
+Quotes can be deleted from the list view if they are not yet accepted.
+A confirmation prompt will appear before deletion.
+</p>
+<p>
+This action is irreversible and subject to user permissions.
+</p>
+
+</section>
+</section>
+<section id="toc76">
+<h1>16. Quotes Status</h1>
+
+<section id="toc77">
+<h2>16.1. Description</h2>
+
+<p>
+The Quotes Status application is used to define the different states that a sales quote can have during its lifecycle.
+These statuses help sales teams track progress, filter records, and identify which quotes are active, accepted, rejected, or archived.
+</p>
+<p>
+Examples of common statuses include "Draft", "Sent", "Accepted", and "Declined".
+</p>
+
+</section>
+<section id="toc78">
+<h2>16.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Name: Label of the status (e.g., Draft, Accepted).
+</li>
+<li>Description: Explanation of when this status is applied.
+</li>
+<li>Active: Indicates whether the status is selectable in the Quotes module.
+</li>
+</ul>
+
+</section>
+<section id="toc79">
+<h2>16.3. Form view</h2>
+
+<p>
+This view is used to create, view or edit quote status entries.
+</p>
+<p>
+In <strong>create</strong> mode, the form is empty and allows you to build a new quote.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, it displays a finalized quote without editing capabilities.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-view-10-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, it shows a draft quote ready for modification.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-edit-10-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Active: Toggles the visibility of this status in dropdowns.
+</li>
+<li>Name: Name of the status as it appears in the interface.
+</li>
+<li>Description: Optional explanation for internal reference.
+</li>
+</ul>
+
+</section>
+<section id="toc80">
+<h2>16.4. Delete</h2>
+
+<p>
+Quote statuses can be deleted only if they are not currently in use.
+</p>
+<p>
+Deactivation is preferred to preserve consistency in historical records.
+</p>
+
+</section>
+</section>
+<section id="toc81">
+<h1>17. Dashboard</h1>
+
+<section id="toc82">
+<h2>17.1. Description</h2>
+
+<p>
+The <strong>dashboard</strong> is the main landing screen in SaltOS4, where users can display quick access buttons, separators, widgets, charts, and other visual elements.
+It is not a traditional app with forms or records, but rather a dynamic, customizable view designed to provide an overview and fast access to frequent actions.
+</p>
+<p>
+This screen centralizes commonly used tools and relevant system information.
+</p>
+
+</section>
+<section id="toc83">
+<h2>17.2. Main view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-en-us-1-snap.png" alt="">
+</p>
+<p>
+The dashboard can include:
+</p>
+
+<ul>
+<li>Quick access <strong>buttons</strong> to apps or actions
+</li>
+<li><strong>Titles</strong> grouping sections of content
+</li>
+<li><strong>Separators</strong> to visually organize the layout
+</li>
+<li><strong>Widgets</strong> displaying live content (e.g., calendar, email, statistics)
+</li>
+</ul>
+
+</section>
+<section id="toc84">
+<h2>17.3. Dashboard configuration</h2>
+
+<p>
+In the <strong>top right corner</strong>, there is a gear icon that opens the <strong>dashboard configuration app</strong>.
+</p>
+<p>
+From there, users can customize their dashboard:
+</p>
+
+<ul>
+<li>Select the active dashboard
+</li>
+<li>Add or remove <strong>buttons</strong>
+</li>
+<li>Create <strong>titles</strong> and <strong>visual separators</strong>
+</li>
+<li>Group elements together in logical blocks
+</li>
+<li>Include any available <strong>widgets</strong> (e.g., mail, analytics, alerts)
+</li>
+</ul>
+
+<p>
+This configuration is user-specific and saved automatically.
+</p>
+
+</section>
+</section>
+<section id="toc85">
+<h1>18. Dashboard configuration</h1>
+
+<section id="toc86">
+<h2>18.1. Description</h2>
+
+<p>
+This application allows users to configure the content shown on the <strong>SaltOS4 dashboard</strong>.
+It is not a traditional app with records, but a visual, user-focused interface for customizing quick access buttons, sections, and widgets that appear on the home dashboard.
+</p>
+<p>
+Each user can have their own personalized dashboard, and this tool is its visual editor.
+</p>
+
+</section>
+<section id="toc87">
+<h2>18.2. Configuration view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-widgets-en-us-1-snap.png" alt="">
+</p>
+<p>
+The screen displays a canvas-style layout where dashboard elements can be added, arranged, and grouped visually.
+</p>
+<p>
+Available elements include:
+</p>
+
+<ul>
+<li><strong>Buttons</strong>: Quick access links to apps or features.
+</li>
+<li><strong>Separators</strong>: Visual lines or spaces to structure the layout.
+</li>
+<li><strong>Titles</strong>: Headers to organize sections of the dashboard.
+</li>
+<li><strong>Widgets</strong>: Dynamic components such as calendar, email, charts, stats, etc.
+</li>
+</ul>
+
+<p>
+Elements can be grouped, reordered via drag and drop, and arranged into multiple blocks or columns.
+</p>
+
+</section>
+<section id="toc88">
+<h2>18.3. Features</h2>
+
+<ul>
+<li>Add or remove dashboard elements
+</li>
+<li>Reorder using drag and drop
+</li>
+<li>Edit section titles and labels
+</li>
+<li>Choose which widgets to display
+</li>
+<li>Organize layout in multiple columns or groups
+</li>
+</ul>
+
+<p>
+Changes are saved automatically and apply only to the active user’s dashboard.
+</p>
+
+</section>
+<section id="toc89">
+<h2>18.4. Advanced usage</h2>
+
+<p>
+This module is ideal for:
+</p>
+
+<ul>
+<li>Creating role-specific dashboards (e.g., sales, tech, admin)
+</li>
+<li>Displaying only frequently used tools and information
+</li>
+<li>Improving clarity and efficiency on the SaltOS4 start screen
+</li>
+</ul>
+
+</section>
+</section>
+<section id="toc90">
+<h1>19. Emails</h1>
+
+<section id="toc91">
+<h2>19.1. Description</h2>
+
+<p>
+The Emails application is used to receive, view, and reply to emails from configured accounts within SaltOS4.
+It acts as a simplified integrated email client that supports reading messages from POP3 or IMAP,
+viewing metadata and content, and replying using internal or external SMTP servers.
+</p>
+<p>
+Each message is presented as a visual card in the list view, showing key fields such as sender, subject,
+date, and a preview of the body. Emails can be viewed in detail, replied to, or deleted. This app is
+closely integrated with the Emails Accounts module and is essential for managing inbound communication.
+</p>
+
+</section>
+<section id="toc92">
+<h2>19.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The list view shows incoming emails as clickable buttons or cards.
+Each entry typically displays:
+</p>
+
+<ul>
+<li>Header: The visual summary used in the interface to represent the email message.
+</li>
+<li>Datetime: The date and time the message was received or sent.
+</li>
+<li>Subject: The title or subject line of the email message.
+</li>
+<li>Snippet: A short preview extracted from the beginning of the email body.
+</li>
+<li>Attachments: List of files attached to the message, with download options.
+</li>
+</ul>
+
+<p>
+The interface also includes filters and a search form to filter by sender, subject, account, and date.
+</p>
+
+</section>
+<section id="toc93">
+<h2>19.3. View message</h2>
+
+<p>
+This view shows the full content of an email message, including header metadata and attachments.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-100-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following information is typically displayed:
+</p>
+
+<ul>
+<li>From: Sender's email address displayed in the message header.
+</li>
+<li>To: List of recipients who received the message.
+</li>
+<li>CC: Additional recipients who received a visible copy of the email.
+</li>
+<li>BCC: Recipients who received a hidden copy of the email.
+</li>
+<li>Datetime: Timestamp indicating when the email was sent or received.
+</li>
+<li>UIDL: Server-side unique identifier used for synchronization.
+</li>
+<li>Priority: Importance level set by the sender (Low, Normal, or High).
+</li>
+<li>Sensitivity: Indicates whether the message is Normal, Personal, Private, or Confidential.
+</li>
+<li>Sent: Confirms that the email was successfully sent.
+</li>
+<li>New: Marks whether the email is unread or newly received.
+</li>
+<li>Reply: Indicates if the message was replied to.
+</li>
+<li>Forward: Indicates if the message was forwarded to another recipient.
+</li>
+<li>Wait: Flag used to track follow-up or pending response.
+</li>
+<li>SPAM: Marks whether the email is classified as spam.
+</li>
+<li>Request confirmation of receipt: Shows whether a read receipt was requested for the message.
+</li>
+<li>Error: Displays an error message if the delivery failed.
+</li>
+<li>Subject: The subject line of the email.
+</li>
+<li>Body: The main content or body of the email, displayed in an embedded viewer.
+</li>
+<li>Adjunts: List of files attached to the email message.
+</li>
+</ul>
+
+</section>
+<section id="toc94">
+<h2>19.4. Reply / Compose</h2>
+
+<p>
+Users can reply to an existing message or compose a new email using a simplified form.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-emails-emails-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+The reply and compose form includes:
+</p>
+
+<ul>
+<li>From: Email account used as the sender for this message.
+</li>
+<li>To: Primary recipient(s) of the email message.
+</li>
+<li>CC: Recipients to receive a carbon copy (CC) of the message.
+</li>
+<li>BCC: Recipients to receive a blind carbon copy (BCC), not visible to others.
+</li>
+<li>Request confirmation of receipt: Option to request a read receipt confirmation from the recipient.
+</li>
+<li>Priority: Importance level assigned to the email: Low, Normal, or High.
+</li>
+<li>Sensitivity: Confidentiality level: Normal, Personal, Private, or Confidential.
+</li>
+<li>Subject: Subject line of the message, describing its purpose.
+</li>
+<li>Body: Rich-text content written in the email message.
+</li>
+<li>Attachments: Files selected to be included along with the message.
+</li>
+</ul>
+
+</section>
+<section id="toc95">
+<h2>19.5. Delete</h2>
+
+<p>
+Emails can be deleted from the list view using the delete icon or action.
+</p>
+<p>
+Messages are usually deleted locally or flagged for deletion, depending on the server configuration.
+</p>
+
+</section>
+</section>
+<section id="toc96">
+<h1>20. Emails Accounts</h1>
+
+<section id="toc97">
+<h2>20.1. Description</h2>
+
+<p>
+The Emails Accounts application is used to configure and manage the email accounts connected to SaltOS4.
+Each account can be used to send and receive emails via SMTP, IMAP or POP3 protocols.
+This module allows integration with external email providers and supports authentication, folders, and synchronization options.
+</p>
+
+</section>
+<section id="toc98">
+<h2>20.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>User: User who owns or uses this email account.
+</li>
+<li>Name: Descriptive label used to identify the email account within the system.
+</li>
+<li>Email: The email address configured for this account.
+</li>
+<li>Enabled: Marks the account as active; synchronization will occur.
+</li>
+</ul>
+
+</section>
+<section id="toc99">
+<h2>20.3. Form view</h2>
+
+<p>
+This view is used to create, view or edit an email account.
+</p>
+<p>
+In <strong>create</strong> mode, a new account is configured from scratch.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, account settings are shown without allowing changes.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-view-1-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, the configuration can be updated or corrected.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-edit-1-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>User: User who owns or uses this email account.
+</li>
+<li>Name: Display name or label used to identify the account.
+</li>
+<li>Email: Actual email address configured for this account.
+</li>
+<li>Signature: Text or HTML signature added automatically to outgoing messages.
+</li>
+<li>Host: POP3 server hostname used to receive emails.
+</li>
+<li>Port: Network port used to connect to the POP3 server (e.g., 110, 995).
+</li>
+<li>Extra: Additional POP3 connection settings, such as TLS.
+</li>
+<li>User: Username for POP3 authentication.
+</li>
+<li>Password: Password for the POP3 account.
+</li>
+<li>Delete: Whether messages are deleted from the server after download.
+</li>
+<li>Days: Number of days to keep messages on the server.
+</li>
+<li>Host: SMTP server hostname used to send emails.
+</li>
+<li>Port: Network port used for SMTP communication (e.g., 25, 465, 587).
+</li>
+<li>Extra: SMTP encryption method: none, SSL, or TLS.
+</li>
+<li>User: Username for SMTP authentication.
+</li>
+<li>Password: Password for the SMTP server account.
+</li>
+<li>Disabled: Marks the account as inactive; no synchronization will occur.
+</li>
+<li>Privated: Restricts access to the account to its owner only.
+</li>
+<li>Default: Sets this account as the default for sending emails.
+</li>
+<li>Add me to CC: Automatically includes the sender in the CC field.
+</li>
+<li>Confirm reading to: Sends a read receipt request with each email.
+</li>
+</ul>
+
+</section>
+<section id="toc100">
+<h2>20.4. Delete</h2>
+
+<p>
+Accounts can be deleted if they are not in use or connected to recent email activity.
+</p>
+<p>
+Disabling is preferred when preserving configuration for future use or audit.
+</p>
+
+</section>
+</section>
+<section id="toc101">
+<h1>21. Departments</h1>
+
+<section id="toc102">
+<h2>21.1. Description</h2>
+
+<p>
+The Departments application is used to define the organizational structure of the company by grouping employees into departments.
+It supports hierarchies, allowing a department to belong to a parent department, and helps organize users and permissions accordingly.
+</p>
+<p>
+Examples of departments include "Sales", "IT", "HR", or "Logistics".
+</p>
+
+</section>
+<section id="toc103">
+<h2>21.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-departments-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Name: Name of the department or organizational unit.
+</li>
+<li>Code: Unique identifier or reference code for the department.
+</li>
+<li>Parent: Parent department, if this one is part of a hierarchy.
+</li>
+<li>Active: Indicates whether this department is currently in use.
+</li>
+</ul>
+
+</section>
+<section id="toc104">
+<h2>21.3. Form view</h2>
+
+<p>
+This view is used to create, view or edit departments.
+</p>
+<p>
+In <strong>create</strong> mode, a new tax rule can be defined.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-departments-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, tax details are visible but not editable.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-departments-view-100-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, existing values can be updated.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-departments-edit-100-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Active: Indicates whether this department is currently in use.
+</li>
+<li>Name: Name of the department or organizational unit.
+</li>
+<li>Code: Unique identifier or reference code for the department.
+</li>
+<li>Parent: Parent department, if this one is part of a hierarchy.
+</li>
+<li>Notes: Additional details about the department's structure, responsibility or purpose.
+</li>
+</ul>
+
+</section>
+<section id="toc105">
+<h2>21.4. Delete</h2>
+
+<p>
+Departments can only be deleted if no employees are currently assigned to them.
+</p>
+<p>
+If in use, deactivation is recommended instead.
+</p>
+
+</section>
+</section>
+<section id="toc106">
+<h1>22. Employees</h1>
+
+<section id="toc107">
+<h2>22.1. Description</h2>
+
+<p>
+The Employees application is used to register and manage the personnel working in the organization.
+It stores personal and professional data including name, contact information, position, department, and system user link.
+This module is typically used in HR workflows to organize staff and optionally associate them with users of the system.
+</p>
+
+</section>
+<section id="toc108">
+<h2>22.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-employees-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Name: Full name of the employee.
+</li>
+<li>Department: Department the employee belongs to.
+</li>
+<li>Job Title: Official job title or position held by the employee.
+</li>
+<li>Active: Indicates whether the employee is currently active.
+</li>
+</ul>
+
+</section>
+<section id="toc109">
+<h2>22.3. Form view</h2>
+
+<p>
+This view is used to create, view or edit employee records.
+</p>
+<p>
+In <strong>create</strong> mode, a new employee profile is added.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-employees-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, the profile is shown in read-only format.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-employees-view-100-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, the profile can be updated.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-employees-edit-100-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Active: Indicates whether the employee is currently active.
+</li>
+<li>Name: Full name of the employee.
+</li>
+<li>NIF: Employee's national identification number used for legal or fiscal purposes.
+</li>
+<li>Department: Department the employee belongs to.
+</li>
+<li>Job Title: Official job title or position held by the employee.
+</li>
+<li>Start: Start date of employment or contract.
+</li>
+<li>End: End date of employment or contract (if applicable).
+</li>
+<li>Address: Postal address of the employee.
+</li>
+<li>City: City of residence.
+</li>
+<li>Province / State: Province or administrative region of residence.
+</li>
+<li>ZIP: Postal code.
+</li>
+<li>Country: Country of residence.
+</li>
+<li>Email: Primary contact email of the employee.
+</li>
+<li>Phone: Main contact phone number.
+</li>
+<li>Notes: Additional remarks or HR-related observations about the employee.
+</li>
+<li>Type: Type or category of employee (e.g., full-time, contractor).
+</li>
+<li>User: System user account linked to the employee.
+</li>
+</ul>
+
+</section>
+<section id="toc110">
+<h2>22.4. Delete</h2>
+
+<p>
+Employees can be deleted if not linked to system users or historical records.
+</p>
+<p>
+If in use, the profile must be deactivated instead of deleted.
+</p>
+
+</section>
+</section>
+<section id="toc111">
+<h1>23. Employee Types</h1>
+
+<section id="toc112">
+<h2>23.1. Description</h2>
+
+<p>
+The Employee Types application allows you to classify employees according to their role, contract, or internal categorization.
+This helps structure the HR database and supports filtering, reporting, or access control.
+</p>
+<p>
+Common types include "Full-time", "Part-time", "Contractor", "Intern", etc.
+</p>
+
+</section>
+<section id="toc113">
+<h2>23.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Name: Title of the employee type.
+</li>
+<li>Description: Explanation of the type’s purpose.
+</li>
+<li>Active: Indicates whether the type is currently usable.
+</li>
+</ul>
+
+</section>
+<section id="toc114">
+<h2>23.3. Form view</h2>
+
+<p>
+This view is used to create, view or edit employee type entries.
+</p>
+<p>
+In <strong>create</strong> mode, a new tax rule can be defined.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, tax details are visible but not editable.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-view-10-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, existing values can be updated.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-edit-10-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Active: Controls if the type is selectable.
+</li>
+<li>Name: Name shown in the type dropdown in employee forms.
+</li>
+<li>Description: Notes about the type’s intended usage.
+</li>
+</ul>
+
+</section>
+<section id="toc115">
+<h2>23.4. Delete</h2>
+
+<p>
+Employee types can only be deleted if they are not assigned to any employee.
+</p>
+<p>
+Otherwise, it is recommended to disable them.
+</p>
+
+</section>
+</section>
+<section id="toc116">
+<h1>24. Purchase</h1>
+
+<section id="toc117">
+<h2>24.1. Description</h2>
+
+<p>
+The Purchase application is used to register and track purchases made from suppliers.
+Each purchase record includes invoice details, total amount, purchase date, and associated notes or attachments.
+This module ensures traceability of expenses and is linked to the Suppliers module to maintain consistency.
+</p>
+
+</section>
+<section id="toc118">
+<h2>24.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Order date: The date when the purchase order was registered in the system.
+</li>
+<li>Supplier: The vendor or provider from whom goods or services were acquired.
+</li>
+<li>Invoice: The invoice number or reference issued by the supplier.
+</li>
+<li>Paid: Indicates whether the purchase has been fully paid.
+</li>
+</ul>
+
+</section>
+<section id="toc119">
+<h2>24.3. Form view</h2>
+
+<p>
+This view is used for creating, editing or viewing a purchase record.
+</p>
+<p>
+In <strong>create</strong> mode, the form is used to enter a new purchase linked to a supplier.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, it shows the details of the recorded purchase, in read-only mode.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-view-100-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, the information can be updated if necessary.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-edit-100-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Order date: The date when the purchase order was registered in the system.
+</li>
+<li>Supplier: The vendor or provider from whom goods or services were acquired.
+</li>
+<li>Description: A short explanation or summary of the purchase content.
+</li>
+<li>Subtotal: The total amount before taxes and discounts.
+</li>
+<li>Tax: The total value of taxes applied to the purchase.
+</li>
+<li>Total: The final total of the purchase, including taxes and discounts.
+</li>
+<li>Status: The current status of the purchase (e.g., draft, ordered, received).
+</li>
+<li>Invoice Code: The invoice number or reference issued by the supplier.
+</li>
+<li>Invoice Date: The official date of the supplier’s invoice.
+</li>
+<li>Paid: Indicates whether the purchase has been fully paid.
+</li>
+<li>Paid Date: The date when the payment was made to the supplier.
+</li>
+<li>Notes: Internal observations or relevant administrative information.
+</li>
+</ul>
+
+</section>
+<section id="toc120">
+<h2>24.4. Delete</h2>
+
+<p>
+Purchase records can be deleted only if they are not linked to accounting records or processes.
+A confirmation dialog will appear before proceeding.
+</p>
+<p>
+Once registered and finalized, deletion is restricted based on system permissions and traceability.
+</p>
+
+</section>
+</section>
+<section id="toc121">
+<h1>25. Purchase Status</h1>
+
+<section id="toc122">
+<h2>25.1. Description</h2>
+
+<p>
+The Purchase Status application defines the stages a purchase record can go through.
+It allows categorizing purchases according to their state, such as "Draft", "Ordered", "Received", or "Cancelled".
+</p>
+<p>
+These statuses help in tracking the progress of procurement processes and improve clarity in the Purchase module.
+</p>
+
+</section>
+<section id="toc123">
+<h2>25.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Name: Name of the status (e.g., Received, Cancelled).
+</li>
+<li>Description: Clarifies how or when this status is used.
+</li>
+<li>Active: Indicates if the status is currently selectable.
+</li>
+</ul>
+
+</section>
+<section id="toc124">
+<h2>25.3. Form view</h2>
+
+<p>
+This view is used to create, view or edit purchase status entries.
+</p>
+<p>
+In <strong>create</strong> mode, the form is used to enter a new purchase linked to a supplier.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, it shows the details of the recorded purchase, in read-only mode.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-view-10-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, the information can be updated if necessary.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-edit-10-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Active: Controls availability in the status dropdown.
+</li>
+<li>Name: Status label as it appears in the purchase form.
+</li>
+<li>Description: Internal notes about its use case.
+</li>
+</ul>
+
+</section>
+<section id="toc125">
+<h2>25.4. Delete</h2>
+
+<p>
+Statuses can only be deleted if no purchases are currently using them.
+</p>
+<p>
+In most cases, deactivation is preferred.
+</p>
+
+</section>
+</section>
+<section id="toc126">
+<h1>26. Suppliers</h1>
+
+<section id="toc127">
+<h2>26.1. Description</h2>
+
+<p>
+The Suppliers application is used to manage the list of vendors or external providers the organization works with.
+It stores essential information such as identification, contact details, tax code, and classification.
+This module is linked to purchase workflows, allowing you to associate suppliers with purchases and maintain full traceability.
+</p>
+
+</section>
+<section id="toc128">
+<h2>26.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Name: Name or legal entity of the supplier.
+</li>
+<li>CIF: Tax identification code of the supplier (e.g., VAT, NIF, CIF).
+</li>
+<li>City: City associated with the supplier's address.
+</li>
+<li>Country: Country where the supplier is located or registered.
+</li>
+<li>Active: Indicates whether the supplier is currently active in the system.
+</li>
+</ul>
+
+</section>
+<section id="toc129">
+<h2>26.3. Form view</h2>
+
+<p>
+This view is used for creating, editing or viewing supplier records.
+</p>
+<p>
+In <strong>create</strong> mode, the form is blank to add a new supplier.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, the fields are shown in read-only mode.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-view-100-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, supplier data can be updated.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-edit-100-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Active: Indicates whether the supplier is currently active in the system.
+</li>
+<li>Name: Name or legal entity of the supplier.
+</li>
+<li>CIF: Tax identification code of the supplier (e.g., VAT, NIF, CIF).
+</li>
+<li>Address: Street or billing address of the supplier.
+</li>
+<li>City: City associated with the supplier's address.
+</li>
+<li>Province / State: Province or region linked to the supplier's address.
+</li>
+<li>ZIP: Postal code of the supplier's address.
+</li>
+<li>Country: Country where the supplier is located or registered.
+</li>
+<li>Email: Primary contact email address for the supplier.
+</li>
+<li>Phone: Main contact number for the supplier.
+</li>
+<li>Website: Website or external link associated with the supplier.
+</li>
+<li>Notes: Additional internal information or remarks about the supplier.
+</li>
+<li>Type: Category or classification of the supplier.
+</li>
+</ul>
+
+</section>
+<section id="toc130">
+<h2>26.4. Delete</h2>
+
+<p>
+Supplier records can be deleted if not referenced in purchases or documents.
+A confirmation dialog appears before deletion.
+</p>
+<p>
+Once linked to purchases or financial records, the supplier becomes protected from removal.
+</p>
+
+</section>
+</section>
+<section id="toc131">
+<h1>27. Supplier Types</h1>
+
+<section id="toc132">
+<h2>27.1. Description</h2>
+
+<p>
+The Supplier Types application is used to classify suppliers by category, industry, or relationship.
+This classification helps filter and organize suppliers, and may be used for segmentation or reporting purposes.
+</p>
+<p>
+Examples of types include "Distributor", "Manufacturer", "Service Provider", etc.
+</p>
+
+</section>
+<section id="toc133">
+<h2>27.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Name: Name of the supplier type.
+</li>
+<li>Description: Optional clarification or internal note.
+</li>
+<li>Active: Indicates whether the type can be assigned to suppliers.
+</li>
+</ul>
+
+</section>
+<section id="toc134">
+<h2>27.3. Form view</h2>
+
+<p>
+This view is used to create, view or edit supplier type entries.
+</p>
+<p>
+In <strong>create</strong> mode, a new tax rule can be defined.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, tax details are visible but not editable.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-view-10-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, existing values can be updated.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-edit-10-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Active: Enables or disables the type for selection.
+</li>
+<li>Name: Descriptive label for the type.
+</li>
+<li>Description: Additional information or context.
+</li>
+</ul>
+
+</section>
+<section id="toc135">
+<h2>27.4. Delete</h2>
+
+<p>
+Supplier types can only be deleted if not currently assigned to any supplier.
+</p>
+<p>
+If in use, they should be disabled instead of removed.
+</p>
+
+</section>
+</section>
+<section id="toc136">
+<h1>28. Invoices</h1>
+
+<section id="toc137">
+<h2>28.1. Description</h2>
+
+<p>
+The Invoices application is used to issue and manage customer billing records.
+Each invoice contains product or service lines, quantities, unit prices, taxes, and discounts.
+This module supports both pro forma and finalized invoices, tracks payment status,
+and integrates with the Customers, Products, and Taxes modules.
+It also provides traceability for due dates, payment dates, and links to related documents.
+</p>
+
+</section>
+<section id="toc138">
+<h2>28.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Customer: The client who receives the invoice and is responsible for payment.
+</li>
+<li>CIF: The fiscal identification code of the customer at the time of invoicing.
+</li>
+<li>Invoice: The internal reference or invoice number assigned to the document.
+</li>
+<li>Date: The official issue date of the invoice.
+</li>
+<li>Total: The total amount due, including taxes and discounts.
+</li>
+<li>Closed: Indicates whether the invoice has been finalized and is no longer editable.
+</li>
+<li>Paid: Indicates whether the invoice has been marked as paid.
+</li>
+</ul>
+
+</section>
+<section id="toc139">
+<h2>28.3. Form view</h2>
+
+<p>
+This view is used for creating, editing or viewing an invoice.
+</p>
+<p>
+In <strong>create</strong> mode, the form is empty and allows the user to generate a new invoice, including pro forma invoices.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, it shows a finalized invoice in read-only mode.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-100-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, it allows modifying a draft invoice or correcting information before finalization.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-edit-100-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Closed: Indicates whether the invoice has been finalized and is no longer editable.
+</li>
+<li>Paid: Indicates whether the invoice has been marked as paid.
+</li>
+<li>Proforma: Reference or marker indicating the invoice originated from a pro forma.
+</li>
+<li>Date: The official issue date of the invoice.
+</li>
+<li>Invoice: The internal reference or invoice number assigned to the document.
+</li>
+<li>Customer: The client who receives the invoice and is responsible for payment.
+</li>
+<li>CIF: The fiscal identification code of the customer at the time of invoicing.
+</li>
+<li>Address: The customer's address used for invoicing purposes.
+</li>
+<li>City: City corresponding to the customer's invoicing address.
+</li>
+<li>Province / State: Province or state in the billing address.
+</li>
+<li>Zip: Postal code in the billing address.
+</li>
+<li>Country: Country included in the customer's billing information.
+</li>
+<li>Notes: Internal comments or conditions attached to the invoice.
+</li>
+<li>Concepts: List of items or services included in the invoice.
+</li>
+<li>Taxes: Breakdown of taxes applied to the invoice.
+</li>
+<li>Totals: Final financial summary: subtotal, tax, and grand total.
+</li>
+<li>Payment method: The method of payment selected for the invoice.
+</li>
+<li>Due date: The date by which the invoice should be paid.
+</li>
+<li>Amount paid: Amount received.
+</li>
+<li>Paid date: The date on which the payment was received.
+</li>
+<li>Status: Current status of the invoice (e.g., draft, closed, cancelled).
+</li>
+</ul>
+
+<p>
+Invoices also include line items (product, quantity, price, discount, tax) and a breakdown of applied taxes.
+</p>
+
+</section>
+<section id="toc140">
+<h2>28.4. Delete</h2>
+
+<p>
+Invoices can only be deleted if they are in draft status.
+A confirmation prompt is shown before the operation.
+</p>
+<p>
+Once an invoice is finalized and/or linked to a payment, deletion is restricted.
+</p>
+
+</section>
+</section>
+<section id="toc141">
+<h1>29. Invoices Status</h1>
+
+<section id="toc142">
+<h2>29.1. Description</h2>
+
+<p>
+The Invoices Status application allows you to define the different states that an invoice can go through during its lifecycle.
+These statuses help distinguish between draft, issued, paid, or cancelled invoices, enabling better financial tracking and reporting.
+</p>
+<p>
+Common statuses may include "Draft", "Pending", "Paid", or "Cancelled".
+</p>
+
+</section>
+<section id="toc143">
+<h2>29.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Name: The name of the invoice status (e.g., Paid, Cancelled).
+</li>
+<li>Description: Explanation of the status usage or meaning.
+</li>
+<li>Active: Indicates whether this status is currently in use.
+</li>
+</ul>
+
+</section>
+<section id="toc144">
+<h2>29.3. Form view</h2>
+
+<p>
+This view is used to create, view or edit invoice status entries.
+</p>
+<p>
+In <strong>create</strong> mode, a new tax rule can be defined.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, tax details are visible but not editable.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-view-10-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, existing values can be updated.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-edit-10-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Active: Allows enabling or disabling the status.
+</li>
+<li>Name: Label of the status.
+</li>
+<li>Description: Optional clarification on when to use this status.
+</li>
+</ul>
+
+</section>
+<section id="toc145">
+<h2>29.4. Delete</h2>
+
+<p>
+Statuses can only be deleted if no invoice is assigned to them.
+</p>
+<p>
+Deactivation is preferred when in use, to preserve consistency across records.
+</p>
+
+</section>
+</section>
+<section id="toc146">
+<h1>30. Payment Methods</h1>
+
+<section id="toc147">
+<h2>30.1. Description</h2>
+
+<p>
+The Payment Methods application is used to define and manage the types of payments accepted by the organization.
+These methods are later used in invoices to indicate how the customer will pay (e.g., bank transfer, credit card, cash).
+This module ensures consistency and traceability across the billing process.
+</p>
+
+</section>
+<section id="toc148">
+<h2>30.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Name: Name of the payment method (e.g., Cash, Bank Transfer, Credit Card).
+</li>
+<li>Description: Additional details or clarification about how the payment method is used.
+</li>
+<li>Active: Indicates whether this payment method is currently available.
+</li>
+<li>Default: Specifies if this is the default payment method when creating new records.
+</li>
+</ul>
+
+</section>
+<section id="toc149">
+<h2>30.3. Form view</h2>
+
+<p>
+This view is used to create, view or edit payment method records.
+</p>
+<p>
+In <strong>create</strong> mode, a new payment method is added.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, fields are shown in read-only mode.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-view-10-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, the details can be modified.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-edit-10-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Active: Indicates whether this payment method is currently available.
+</li>
+<li>Default: Specifies if this is the default payment method when creating new records.
+</li>
+<li>Name: Name of the payment method (e.g., Cash, Bank Transfer, Credit Card).
+</li>
+<li>Description: Additional details or clarification about how the payment method is used.
+</li>
+</ul>
+
+</section>
+<section id="toc150">
+<h2>30.4. Delete</h2>
+
+<p>
+Payment methods can be deleted if not used in invoices.
+</p>
+<p>
+If already referenced, they should be marked as inactive instead of deleted.
+</p>
+
+</section>
+</section>
+<section id="toc151">
+<h1>31. Products</h1>
+
+<section id="toc152">
+<h2>31.1. Description</h2>
+
+<p>
+The Products application manages the catalog of goods and services offered by the organization.
+It stores essential details like reference code, price, stock levels, tax rates, and classification.
+Products can be linked to quotes, invoices, and purchases, making this module fundamental to sales and inventory workflows.
+</p>
+
+</section>
+<section id="toc153">
+<h2>31.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Name: The full name of the product or service, as it will appear in listings and documents.
+</li>
+<li>Code: Internal product code used to uniquely identify the item.
+</li>
+<li>Description: Detailed explanation or specifications of the product.
+</li>
+</ul>
+
+</section>
+<section id="toc154">
+<h2>31.3. Form view</h2>
+
+<p>
+This view is used for creating, editing or viewing a product entry.
+</p>
+<p>
+In <strong>create</strong> mode, the form is empty for entering a new product.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, all fields are read-only and show detailed information.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-view-100-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, the product data can be updated or corrected.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-edit-100-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Active: Indicates whether the product is available for use in transactions.
+</li>
+<li>Name: The full name of the product or service, as it will appear in listings and documents.
+</li>
+<li>Code: Internal product code used to uniquely identify the item.
+</li>
+<li>Type: The classification of the product, such as item, service, or subscription.
+</li>
+<li>Price: The selling price per unit, excluding taxes or discounts.
+</li>
+<li>Cost: The internal purchase or manufacturing cost, used to calculate margins.
+</li>
+<li>Margin: Calculated profit margin based on price and cost.
+</li>
+<li>Tax: Default tax rate applied when the product is used in sales.
+</li>
+<li>Description: Detailed explanation or specifications of the product.
+</li>
+<li>Category: Product family or group, used for classification or filtering.
+</li>
+<li>Measure unit: Unit of measurement (e.g., unit, kg, hour).
+</li>
+<li>Brand: Brand name or manufacturer of the product.
+</li>
+<li>Model: Model number or variant of the product.
+</li>
+<li>Barcode: Barcode associated with the product, used for scanning or labeling.
+</li>
+<li>Stock: Current stock level available in the inventory.
+</li>
+<li>Min stock: Minimum stock threshold for restocking alerts.
+</li>
+<li>Max stock: Maximum stock level allowed in storage.
+</li>
+<li>Location: Physical or logical storage location of the product.
+</li>
+<li>Image Url: Link or path to an image representing the product.
+</li>
+</ul>
+
+</section>
+<section id="toc155">
+<h2>31.4. Delete</h2>
+
+<p>
+Products can be deleted from the list view if they are not referenced in active documents.
+A confirmation prompt will appear before deletion.
+</p>
+<p>
+Products linked to invoices, quotes or purchases are protected from deletion.
+</p>
+
+</section>
+</section>
+<section id="toc156">
+<h1>32. Product Categories</h1>
+
+<section id="toc157">
+<h2>32.1. Description</h2>
+
+<p>
+The Product Categories application is used to group products into families or collections for easier classification.
+Categories are helpful for filtering, reporting, organizing catalogs, and applying common business rules.
+</p>
+<p>
+Typical categories might include "Hardware", "Software", "Services", or "Accessories".
+</p>
+
+</section>
+<section id="toc158">
+<h2>32.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Name: Name of the category.
+</li>
+<li>Description: Description of what products the category includes.
+</li>
+<li>Active: Indicates whether this category can be assigned to products.
+</li>
+</ul>
+
+</section>
+<section id="toc159">
+<h2>32.3. Form view</h2>
+
+<p>
+This view is used to create, view or edit product category records.
+</p>
+<p>
+In <strong>create</strong> mode, a new tax rule can be defined.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, tax details are visible but not editable.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-view-10-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, existing values can be updated.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-edit-10-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Active: Enables or disables the category for selection.
+</li>
+<li>Name: Label of the category as shown in the product form.
+</li>
+<li>Description: Optional clarification or notes about this category.
+</li>
+</ul>
+
+</section>
+<section id="toc160">
+<h2>32.4. Delete</h2>
+
+<p>
+Categories can only be deleted if they are not assigned to any product.
+</p>
+<p>
+When in use, they should be disabled instead.
+</p>
+
+</section>
+</section>
+<section id="toc161">
+<h1>33. Product Types</h1>
+
+<section id="toc162">
+<h2>33.1. Description</h2>
+
+<p>
+The Product Types application is used to classify products and services based on their nature or behavior.
+This classification helps distinguish between physical goods, services, subscriptions, or other internal categories used for reporting or automation.
+</p>
+<p>
+Examples of types include "Product", "Service", "Subscription", or "Bundle".
+</p>
+
+</section>
+<section id="toc163">
+<h2>33.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Name: Label of the product type.
+</li>
+<li>Description: Optional description to clarify the purpose of the type.
+</li>
+<li>Active: Indicates whether the type is available when creating products.
+</li>
+</ul>
+
+</section>
+<section id="toc164">
+<h2>33.3. Form view</h2>
+
+<p>
+This view is used to create, view or edit product type records.
+</p>
+<p>
+In <strong>create</strong> mode, a new tax rule can be defined.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, tax details are visible but not editable.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-view-10-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, existing values can be updated.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-edit-10-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Active: Controls availability in product forms.
+</li>
+<li>Name: Name shown in the type selection when creating a product.
+</li>
+<li>Description: Notes about the type’s intended use.
+</li>
+</ul>
+
+</section>
+<section id="toc165">
+<h2>33.4. Delete</h2>
+
+<p>
+Types can be deleted only if they are not linked to any product.
+</p>
+<p>
+Otherwise, deactivation is the recommended action.
+</p>
+
+</section>
+</section>
+<section id="toc166">
+<h1>34. Taxes</h1>
+
+<section id="toc167">
+<h2>34.1. Description</h2>
+
+<p>
+The Taxes application is used to define and manage tax rates applied to products, quotes, and invoices.
+It serves as a central repository of tax types such as VAT, sales tax, or exemptions.
+Each record includes the name, rate, and status, ensuring consistent tax application across the entire ERP system.
+</p>
+
+</section>
+<section id="toc168">
+<h2>34.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Name: Name or label used to identify the tax (e.g., VAT 21%).
+</li>
+<li>Description: Optional explanation or additional details about the tax rule or context of use.
+</li>
+<li>Value: Percentage value of the tax to be applied (e.g., 21 for 21%).
+</li>
+<li>Active: Indicates whether this tax is available for selection in documents.
+</li>
+<li>Default: Indicates whether this tax is selected automatically when creating new documents.
+</li>
+</ul>
+
+</section>
+<section id="toc169">
+<h2>34.3. Form view</h2>
+
+<p>
+This view is used to create, view or edit tax entries.
+</p>
+<p>
+In <strong>create</strong> mode, a new tax rule can be defined.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, tax details are visible but not editable.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-view-1-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, existing values can be updated.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-edit-1-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Active: Indicates whether this tax is available for selection in documents.
+</li>
+<li>Default: Indicates whether this tax is selected automatically when creating new documents.
+</li>
+<li>Name: Name or label used to identify the tax (e.g., VAT 21%).
+</li>
+<li>Value: Percentage value of the tax to be applied (e.g., 21 for 21%).
+</li>
+<li>Description: Optional explanation or additional details about the tax rule or context of use.
+</li>
+</ul>
+
+</section>
+<section id="toc170">
+<h2>34.4. Delete</h2>
+
+<p>
+Taxes can only be deleted if they are not used in any invoice or product.
+</p>
+<p>
+If a tax is in use, it must be deactivated instead to preserve system integrity.
+</p>
+
+</section>
+</section>
+<section id="toc171">
+<h1>35. Workorders</h1>
+
+<section id="toc172">
+<h2>35.1. Description</h2>
+
+<p>
+The Workorders application is used to register, plan, and track work tasks or service jobs requested by customers.
+Each work order includes information about the requester, the service required, status, dates, assigned staff,
+and associated notes or attachments. This module is essential for managing operational activities,
+such as technical support, installations, or field services.
+</p>
+
+</section>
+<section id="toc173">
+<h2>35.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Date: The date when the work order was created or scheduled.
+</li>
+<li>Worker: The employee or technician assigned to carry out the task.
+</li>
+<li>Client: The customer who requested the service or task.
+</li>
+</ul>
+
+</section>
+<section id="toc174">
+<h2>35.3. Form view</h2>
+
+<p>
+This view is used to create, edit, or view a work order.
+</p>
+<p>
+In <strong>create</strong> mode, the form allows registering a new task to be performed.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, the information is shown as read-only.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-100-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, the data can be updated based on progress or feedback.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-edit-100-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Date: The date when the work order was created or scheduled.
+</li>
+<li>Worker: The employee or technician assigned to carry out the task.
+</li>
+<li>Client: The customer who requested the service or task.
+</li>
+<li>Description: Details about the nature or objective of the work to be done.
+</li>
+<li>Hours: Estimated or actual number of hours allocated to the task.
+</li>
+<li>Price: Hourly rate or fixed price agreed for the work.
+</li>
+<li>Total: Final amount calculated based on price and hours.
+</li>
+<li>Invoice: Invoice number or reference associated with the completed work.
+</li>
+</ul>
+
+</section>
+<section id="toc175">
+<h2>35.4. Delete</h2>
+
+<p>
+Workorders can be deleted only if they are not linked to completed services or logged actions.
+</p>
+<p>
+A confirmation prompt is displayed before deletion.
+Deactivation is preferred if you want to retain history without exposing the record.
+</p>
+
+</section>
+</section>
+<section id="toc176">
+<h1>36. Groups</h1>
+
+<section id="toc177">
+<h2>36.1. Description</h2>
+
+<p>
+The Groups application is used to define roles or user categories within SaltOS4.
+Each group aggregates permissions that determine what its members can see or do in the system.
+Groups simplify the administration of access control by allowing permission management at the group level instead of per user.
+</p>
+
+</section>
+<section id="toc178">
+<h2>36.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-users-groups-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Code: Internal identifier or reference code of the group.
+</li>
+<li>Name: Name or title used to identify the group.
+</li>
+<li>Description: Explanation of the purpose or scope of the group.
+</li>
+<li>Active: Indicates whether this group is enabled for use.
+</li>
+</ul>
+
+</section>
+<section id="toc179">
+<h2>36.3. Form view</h2>
+
+<p>
+This view is used to create, view or edit user groups.
+</p>
+<p>
+In <strong>create</strong> mode, a new group is defined.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-users-groups-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, the group details and assigned permissions are shown.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-users-groups-view-1-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, you can update the group’s name, description, and permission set.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-users-groups-edit-1-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Active: Indicates whether this group is enabled for use.
+</li>
+<li>Code: Internal identifier or reference code of the group.
+</li>
+<li>Name: Name or title used to identify the group.
+</li>
+<li>Description: Explanation of the purpose or scope of the group.
+</li>
+<li>Users: List of users assigned to this group.
+</li>
+<li>Applications and permissions: Matrix of allowed apps and operations granted to this group.
+</li>
+</ul>
+
+</section>
+<section id="toc180">
+<h2>36.4. Delete</h2>
+
+<p>
+Groups can be deleted only if no users are assigned to them.
+</p>
+<p>
+If the group is in use, it is recommended to disable it to preserve historical access information.
+</p>
+
+</section>
+</section>
+<section id="toc181">
+<h1>37. Users</h1>
+
+<section id="toc182">
+<h2>37.1. Description</h2>
+
+<p>
+The Users application is used to manage the accounts that have access to the SaltOS4 system.
+Each user is assigned credentials, roles, and permissions, and can optionally be linked to an employee profile.
+This module is essential for access control, personalization, and audit tracking.
+</p>
+
+</section>
+<section id="toc183">
+<h2>37.2. List view</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-users-users-list-en-us-1-snap.png" alt="">
+</p>
+<p>
+The following fields are displayed in the list view:
+</p>
+
+<ul>
+<li>Username: Unique login name used to access the system.
+</li>
+<li>Name: Full name of the user, used for display and identification.
+</li>
+<li>Description: Internal comments or notes about the user profile.
+</li>
+<li>Group: User group or role assigned for permission control.
+</li>
+<li>Active: Indicates whether the user account is currently enabled.
+</li>
+</ul>
+
+</section>
+<section id="toc184">
+<h2>37.3. Form view</h2>
+
+<p>
+This view is used to create, view or edit user accounts.
+</p>
+<p>
+In <strong>create</strong> mode, the form is used to register a new user with login credentials.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-users-users-create-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>view</strong> mode, the account details are shown without edit capability.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-users-users-view-1-en-us-1-snap.png" alt="">
+</p>
+<p>
+In <strong>edit</strong> mode, you can update user information or reset credentials.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-users-users-edit-1-en-us-1-snap.png" alt="">
+</p>
+<p>
+The form includes the following fields:
+</p>
+
+<ul>
+<li>Active: Indicates whether the user account is currently enabled.
+</li>
+<li>Username: Unique login name used to access the system.
+</li>
+<li>Group: User group or role assigned for permission control.
+</li>
+<li>Name: Full name of the user, used for display and identification.
+</li>
+<li>New password: New password to assign to the user (for resets or changes).
+</li>
+<li>Retype password: Confirmation of the new password to avoid typos.
+</li>
+<li>Description: Internal comments or notes about the user profile.
+</li>
+<li>Start: Start date from which the user account is valid.
+</li>
+<li>End: Expiration date after which the user cannot log in.
+</li>
+<li>Days: Days of the week on which the user is allowed to access the system.
+</li>
+<li>Groups: Additional groups or roles associated with this user.
+</li>
+<li>Applications and permissions: Detailed matrix of app access and specific actions allowed for the user.
+</li>
+<li>Passwords history: List of previously used passwords for audit and reuse prevention.
+</li>
+</ul>
+
+</section>
+<section id="toc185">
+<h2>37.4. Delete</h2>
+
+<p>
+User accounts can be deleted if they have not logged in or are not linked to any activity log.
+</p>
+<p>
+Otherwise, it is recommended to disable them instead of deletion for audit purposes.
+</p>
+</section>
+</section>
+</div>
+
+<!-- html code generated by txt2tags 3.4 (http://txt2tags.org) -->
+<!-- cmdline: txt2tags -\-toc -t html -i user_en_us.t2t -o user_en_us.html -->
+</article></body></html>

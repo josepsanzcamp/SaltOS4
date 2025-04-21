@@ -10,7 +10,7 @@ Classificar els clients ajuda a personalitzar l’atenció, filtrar les dades i 
 
 ==Vista de llista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers_types-list-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-list-ca-es-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -25,15 +25,15 @@ Aquesta vista permet gestionar els tipus de client.
 
 En el mode **crear**, es pot afegir un nou tipus.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers_types-create-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-create-ca-es-1-snap.png]
 
 En el mode **visualització**, només es mostren les dades sense possibilitat d’edició.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers_types-view-100-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-view-10-ca-es-1-snap.png]
 
 En el mode **edició**, es poden modificar les dades existents.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers_types-edit-100-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-edit-10-ca-es-1-snap.png]
 
 El formulari inclou els següents camps:
 

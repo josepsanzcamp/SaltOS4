@@ -11,7 +11,7 @@ Aquests estats s’utilitzen per fer seguiment del cobrament i per classificar l
 
 ==Vista de llista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices_status-list-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-list-ca-es-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -26,15 +26,15 @@ Aquesta vista permet crear, editar o consultar estats de factura.
 
 En el mode **crear**, pots afegir un nou estat.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices_status-create-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-create-ca-es-1-snap.png]
 
 En el mode **visualització**, només es mostren els detalls.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices_status-view-100-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-view-10-ca-es-1-snap.png]
 
 En el mode **edició**, pots modificar el contingut.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices_status-edit-100-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-edit-10-ca-es-1-snap.png]
 
 El formulari inclou els següents camps:
 

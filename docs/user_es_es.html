@@ -1,0 +1,3967 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>User Manual (es\_ES)</title>
+<meta name="generator" content="http://txt2tags.org">
+<style>
+body{background-color:#fff;color:#000;}
+hr{background-color:#000;border:0;color:#000;}
+hr.heavy{height:5px;}
+hr.light{height:1px;}
+img{border:0;display:block;}
+img.right{margin:0 0 0 auto;}
+img.center{border:0;margin:0 auto;}
+table th,table td{padding:4px;}
+.center,header{text-align:center;}
+table.center {margin-left:auto; margin-right:auto;}
+.right{text-align:right;}
+.left{text-align:left;}
+.tableborder,.tableborder td,.tableborder th{border:1px solid #000;}
+.underline{text-decoration:underline;}
+pre{background-color:#e6e6e6;padding:5px 3px}
+</style>
+</head>
+<body>
+<header>
+<hgroup>
+<h1>User Manual (es\_ES)</h1>
+<h2>SaltOS 4.0 r1995</h2>
+<h3>April 2025</h3>
+</hgroup>
+</header>
+<article>
+
+<nav>
+<div class="body" id="body">
+
+  <ul>
+  <li><a href="#toc1">1. Certificados</a>
+    <ul>
+    <li><a href="#toc2">1.1. Descripción</a>
+    </li>
+    <li><a href="#toc3">1.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc4">1.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc5">1.4. Eliminar</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc6">2. Registro de configuración</a>
+    <ul>
+    <li><a href="#toc7">2.1. Descripción</a>
+    </li>
+    <li><a href="#toc8">2.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc9">2.3. Vista de registro</a>
+    </li>
+    <li><a href="#toc10">2.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc11">3. Registro de cron</a>
+    <ul>
+    <li><a href="#toc12">3.1. Descripción</a>
+    </li>
+    <li><a href="#toc13">3.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc14">3.3. Vista de registro</a>
+    </li>
+    <li><a href="#toc15">3.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc16">4. Registro de archivos</a>
+    <ul>
+    <li><a href="#toc17">4.1. Descripción</a>
+    </li>
+    <li><a href="#toc18">4.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc19">4.3. Vista del registro</a>
+    </li>
+    <li><a href="#toc20">4.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc21">5. Registro de notificaciones push</a>
+    <ul>
+    <li><a href="#toc22">5.1. Descripción</a>
+    </li>
+    <li><a href="#toc23">5.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc24">5.3. Vista de registro</a>
+    </li>
+    <li><a href="#toc25">5.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc26">6. Registro de tokens</a>
+    <ul>
+    <li><a href="#toc27">6.1. Descripción</a>
+    </li>
+    <li><a href="#toc28">6.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc29">6.3. Vista de registro</a>
+    </li>
+    <li><a href="#toc30">6.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc31">7. Registro de papelera</a>
+    <ul>
+    <li><a href="#toc32">7.1. Descripción</a>
+    </li>
+    <li><a href="#toc33">7.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc34">7.3. Vista de registro</a>
+    </li>
+    <li><a href="#toc35">7.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc36">8. Registro de subidas</a>
+    <ul>
+    <li><a href="#toc37">8.1. Descripción</a>
+    </li>
+    <li><a href="#toc38">8.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc39">8.3. Vista de registro</a>
+    </li>
+    <li><a href="#toc40">8.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc41">9. Empresa</a>
+    <ul>
+    <li><a href="#toc42">9.1. Descripción</a>
+    </li>
+    <li><a href="#toc43">9.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc44">9.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc45">9.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc46">10. Clientes</a>
+    <ul>
+    <li><a href="#toc47">10.1. Descripción</a>
+    </li>
+    <li><a href="#toc48">10.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc49">10.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc50">10.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc51">11. Tipos de clientes</a>
+    <ul>
+    <li><a href="#toc52">11.1. Descripción</a>
+    </li>
+    <li><a href="#toc53">11.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc54">11.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc55">11.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc56">12. Clientes potenciales</a>
+    <ul>
+    <li><a href="#toc57">12.1. Descripción</a>
+    </li>
+    <li><a href="#toc58">12.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc59">12.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc60">12.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc61">13. Estados de los leads</a>
+    <ul>
+    <li><a href="#toc62">13.1. Descripción</a>
+    </li>
+    <li><a href="#toc63">13.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc64">13.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc65">13.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc66">14. Reuniones</a>
+    <ul>
+    <li><a href="#toc67">14.1. Descripción</a>
+    </li>
+    <li><a href="#toc68">14.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc69">14.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc70">14.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc71">15. Presupuestos</a>
+    <ul>
+    <li><a href="#toc72">15.1. Descripción</a>
+    </li>
+    <li><a href="#toc73">15.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc74">15.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc75">15.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc76">16. Estados de los presupuestos</a>
+    <ul>
+    <li><a href="#toc77">16.1. Descripción</a>
+    </li>
+    <li><a href="#toc78">16.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc79">16.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc80">16.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc81">17. Panel de control (Dashboard)</a>
+    <ul>
+    <li><a href="#toc82">17.1. Descripción</a>
+    </li>
+    <li><a href="#toc83">17.2. Vista principal</a>
+    </li>
+    <li><a href="#toc84">17.3. Configuración del dashboard</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc85">18. Configuración del dashboard</a>
+    <ul>
+    <li><a href="#toc86">18.1. Descripción</a>
+    </li>
+    <li><a href="#toc87">18.2. Vista de configuración</a>
+    </li>
+    <li><a href="#toc88">18.3. Funcionalidades</a>
+    </li>
+    <li><a href="#toc89">18.4. Uso avanzado</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc90">19. Correos electrónicos</a>
+    <ul>
+    <li><a href="#toc91">19.1. Descripción</a>
+    </li>
+    <li><a href="#toc92">19.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc93">19.3. Vista del mensaje</a>
+    </li>
+    <li><a href="#toc94">19.4. Responder / Redactar</a>
+    </li>
+    <li><a href="#toc95">19.5. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc96">20. Cuentas de correo electrónico</a>
+    <ul>
+    <li><a href="#toc97">20.1. Descripción</a>
+    </li>
+    <li><a href="#toc98">20.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc99">20.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc100">20.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc101">21. Departamentos</a>
+    <ul>
+    <li><a href="#toc102">21.1. Descripción</a>
+    </li>
+    <li><a href="#toc103">21.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc104">21.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc105">21.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc106">22. Empleados</a>
+    <ul>
+    <li><a href="#toc107">22.1. Descripción</a>
+    </li>
+    <li><a href="#toc108">22.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc109">22.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc110">22.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc111">23. Tipos de empleado</a>
+    <ul>
+    <li><a href="#toc112">23.1. Descripción</a>
+    </li>
+    <li><a href="#toc113">23.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc114">23.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc115">23.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc116">24. Compra</a>
+    <ul>
+    <li><a href="#toc117">24.1. Descripción</a>
+    </li>
+    <li><a href="#toc118">24.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc119">24.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc120">24.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc121">25. Estados de compra</a>
+    <ul>
+    <li><a href="#toc122">25.1. Descripción</a>
+    </li>
+    <li><a href="#toc123">25.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc124">25.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc125">25.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc126">26. Proveedores</a>
+    <ul>
+    <li><a href="#toc127">26.1. Descripción</a>
+    </li>
+    <li><a href="#toc128">26.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc129">26.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc130">26.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc131">27. Tipos de proveedor</a>
+    <ul>
+    <li><a href="#toc132">27.1. Descripción</a>
+    </li>
+    <li><a href="#toc133">27.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc134">27.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc135">27.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc136">28. Facturas</a>
+    <ul>
+    <li><a href="#toc137">28.1. Descripción</a>
+    </li>
+    <li><a href="#toc138">28.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc139">28.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc140">28.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc141">29. Estados de las facturas</a>
+    <ul>
+    <li><a href="#toc142">29.1. Descripción</a>
+    </li>
+    <li><a href="#toc143">29.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc144">29.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc145">29.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc146">30. Métodos de pago</a>
+    <ul>
+    <li><a href="#toc147">30.1. Descripción</a>
+    </li>
+    <li><a href="#toc148">30.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc149">30.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc150">30.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc151">31. Productos</a>
+    <ul>
+    <li><a href="#toc152">31.1. Descripción</a>
+    </li>
+    <li><a href="#toc153">31.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc154">31.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc155">31.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc156">32. Categorías de productos</a>
+    <ul>
+    <li><a href="#toc157">32.1. Descripción</a>
+    </li>
+    <li><a href="#toc158">32.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc159">32.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc160">32.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc161">33. Tipos de producto</a>
+    <ul>
+    <li><a href="#toc162">33.1. Descripción</a>
+    </li>
+    <li><a href="#toc163">33.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc164">33.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc165">33.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc166">34. Impuestos</a>
+    <ul>
+    <li><a href="#toc167">34.1. Descripción</a>
+    </li>
+    <li><a href="#toc168">34.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc169">34.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc170">34.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc171">35. Órdenes de trabajo</a>
+    <ul>
+    <li><a href="#toc172">35.1. Descripción</a>
+    </li>
+    <li><a href="#toc173">35.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc174">35.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc175">35.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc176">36. Grupos</a>
+    <ul>
+    <li><a href="#toc177">36.1. Descripción</a>
+    </li>
+    <li><a href="#toc178">36.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc179">36.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc180">36.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc181">37. Usuarios</a>
+    <ul>
+    <li><a href="#toc182">37.1. Descripción</a>
+    </li>
+    <li><a href="#toc183">37.2. Vista de lista</a>
+    </li>
+    <li><a href="#toc184">37.3. Vista de formulario</a>
+    </li>
+    <li><a href="#toc185">37.4. Eliminación</a>
+    </li>
+    </ul>
+  </li>
+  </ul>
+
+</div>
+</nav>
+<div class="body" id="body">
+
+<section id="toc1">
+<h1>1. Certificados</h1>
+
+<section id="toc2">
+<h2>1.1. Descripción</h2>
+
+<p>
+La aplicación de Certificados se utiliza para gestionar y controlar los certificados SSL/TLS almacenados o monitorizados por el sistema.
+</p>
+<p>
+Este módulo permite a los administradores registrar certificados, almacenar metadatos, monitorizar fechas de expiración
+y garantizar que la infraestructura de seguridad se mantenga actualizada.
+</p>
+<p>
+Es especialmente útil para gestionar certificados de dominios personalizados, servicios internos o integraciones externas.
+</p>
+
+</section>
+<section id="toc3">
+<h2>1.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-certs-certs-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Alias de certificado disponibles: Lista de alias de certificados ya almacenados y disponibles en el sistema. No es una tabla basada en base de datos, sino una visualización directa de los certificados cargados.
+</li>
+</ul>
+
+</section>
+<section id="toc4">
+<h2>1.3. Vista de formulario</h2>
+
+<p>
+Esta vista se utiliza para añadir, revisar o actualizar la información de un certificado.
+</p>
+<p>
+En <strong>modo creación</strong>, el formulario está vacío y listo para introducir nuevos datos.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-certs-certs-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Archivo de certificado (.p12, .pfx): Campo de subida utilizado para cargar uno o más certificados en formato PKCS#12. Es obligatorio para importar certificados al sistema.
+</li>
+<li>Contraseña del archivo: Contraseña utilizada para descifrar el archivo de certificado cargado. Este campo es obligatorio y no se autocompleta por razones de seguridad.
+</li>
+</ul>
+
+<p>
+En <strong>modo vista</strong>, los campos están rellenos con el registro seleccionado y no se pueden editar.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-certs-certs-view-ab-877-d-2027-f-7-c-71-d-9935999-cce-1-b-802-b-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Nombre: Nombre visible o alias del certificado.
+</li>
+<li>Información: Detalles técnicos del certificado, incluyendo emisor, expiración y sujeto. Mostrado en un área de texto de solo lectura.
+</li>
+</ul>
+
+</section>
+<section id="toc5">
+<h2>1.4. Eliminar</h2>
+
+<p>
+Los certificados pueden eliminarse si ya no son relevantes.
+</p>
+<p>
+Sin embargo, se recomienda conservar las entradas expiradas con fines de auditoría.
+</p>
+
+</section>
+</section>
+<section id="toc6">
+<h1>2. Registro de configuración</h1>
+
+<section id="toc7">
+<h2>2.1. Descripción</h2>
+
+<p>
+La aplicación de registro de configuración proporciona una trazabilidad de todos los cambios de configuración realizados en SaltOS4.
+Se utiliza para supervisar modificaciones en parámetros del sistema, configuraciones de aplicaciones o preferencias internas.
+Este módulo es esencial para los administradores que desean auditar cambios y garantizar un comportamiento consistente del sistema a lo largo del tiempo.
+</p>
+
+</section>
+<section id="toc8">
+<h2>2.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-configlog-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Usuario: Usuario que realizó el cambio de configuración.
+</li>
+<li>Clave: Clave de configuración que fue modificada.
+</li>
+</ul>
+
+</section>
+<section id="toc9">
+<h2>2.3. Vista de registro</h2>
+
+<p>
+Esta vista muestra los detalles completos de un registro de cambio de configuración.
+</p>
+<p>
+En el modo <strong>crear</strong>, el formulario está vacío y listo para introducir nuevos datos.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-configlog-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, los campos están rellenos con la información del registro seleccionado y no pueden editarse.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-configlog-view-10-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, el formulario se muestra con los datos existentes y permite modificaciones.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-configlog-edit-10-es-es-1-snap.png" alt="">
+</p>
+<p>
+Incluye:
+</p>
+
+<ul>
+<li>Usuario: Usuario que realizó el cambio de configuración.
+</li>
+<li>Clave: Clave de configuración modificada.
+</li>
+<li>Valor: Nuevo valor asignado a la clave de configuración.
+</li>
+</ul>
+
+</section>
+<section id="toc10">
+<h2>2.4. Eliminación</h2>
+
+<p>
+Las entradas del registro de configuración no pueden eliminarse en condiciones normales.
+</p>
+<p>
+Este registro está diseñado para garantizar la trazabilidad total y la auditabilidad de las acciones administrativas.
+</p>
+
+</section>
+</section>
+<section id="toc11">
+<h1>3. Registro de cron</h1>
+
+<section id="toc12">
+<h2>3.1. Descripción</h2>
+
+<p>
+La aplicación de registro de cron almacena el historial de ejecución de tareas programadas (cron jobs) dentro de SaltOS4.
+Permite a los administradores supervisar procesos en segundo plano como la recogida de correos, importaciones de datos, copias de seguridad o tareas personalizadas.
+Este módulo es esencial para la detección de errores y para verificar que las operaciones programadas se estén ejecutando correctamente.
+</p>
+
+</section>
+<section id="toc13">
+<h2>3.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-cronlog-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Comando: Comando o script ejecutado por el sistema de cron.
+</li>
+<li>Inicio: Hora de inicio de la ejecución de la tarea programada.
+</li>
+<li>Salida: Vista previa del resultado de salida estándar.
+</li>
+<li>Error: Vista previa del resultado de salida de error (si lo hay).
+</li>
+</ul>
+
+</section>
+<section id="toc14">
+<h2>3.3. Vista de registro</h2>
+
+<p>
+Esta vista muestra el resultado completo de una ejecución de tarea cron individual.
+</p>
+<p>
+Incluye:
+</p>
+
+<ul>
+<li>Comando: Comando o script ejecutado por cron.
+</li>
+<li>PID: Identificador de proceso asignado a la tarea.
+</li>
+<li>Inicio: Hora de inicio de la tarea.
+</li>
+<li>Fin: Hora en que terminó la ejecución.
+</li>
+<li>STDOUT: Salida estándar generada durante la ejecución.
+</li>
+<li>STDERR: Salida de error generada durante la ejecución (si existe).
+</li>
+</ul>
+
+</section>
+<section id="toc15">
+<h2>3.4. Eliminación</h2>
+
+<p>
+Las entradas del registro de cron no están pensadas para ser eliminadas con regularidad.
+</p>
+<p>
+Se puede configurar una limpieza automática o una purga manual para eliminar entradas antiguas.
+</p>
+
+</section>
+</section>
+<section id="toc16">
+<h1>4. Registro de archivos</h1>
+
+<section id="toc17">
+<h2>4.1. Descripción</h2>
+
+<p>
+La aplicación de registro de archivos registra todos los eventos de acceso a archivos dentro de SaltOS4.
+Rastrea cuándo los archivos son visualizados, descargados o accedidos por los usuarios, incluyendo los metadatos asociados.
+Este módulo proporciona una trazabilidad completa de la actividad documental, respaldando políticas de gobernanza y seguridad de datos.
+</p>
+
+</section>
+<section id="toc18">
+<h2>4.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-fileslog-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Nombre: Nombre del archivo accedido o gestionado dentro del sistema.
+</li>
+<li>Tipo: Formato o clasificación del archivo (ej: PDF, imagen, texto).
+</li>
+<li>Tamaño: Tamaño del archivo en bytes.
+</li>
+</ul>
+
+</section>
+<section id="toc19">
+<h2>4.3. Vista del registro</h2>
+
+<p>
+Esta vista muestra información detallada sobre un evento de acceso a archivo.
+</p>
+<p>
+Incluye:
+</p>
+
+<ul>
+<li>Nombre: Nombre del archivo accedido o gestionado dentro del sistema.
+</li>
+<li>Tipo: Formato o clasificación del archivo (ej: PDF, imagen, texto).
+</li>
+<li>Tamaño: Tamaño del archivo en bytes.
+</li>
+<li>Datos: Contenido interno, metadatos o estructura serializada que representa el acceso o acción sobre el archivo.
+</li>
+</ul>
+
+</section>
+<section id="toc20">
+<h2>4.4. Eliminación</h2>
+
+<p>
+Las entradas del registro de archivos generalmente no se eliminan de forma manual.
+</p>
+<p>
+Se conservan por motivos de auditoría y control de seguridad, y pueden depurarse automáticamente según la configuración del sistema.
+</p>
+
+</section>
+</section>
+<section id="toc21">
+<h1>5. Registro de notificaciones push</h1>
+
+<section id="toc22">
+<h2>5.1. Descripción</h2>
+
+<p>
+La aplicación de registro de notificaciones push almacena todas las notificaciones enviadas por el sistema.
+Estas notificaciones se utilizan normalmente para alertar a los usuarios sobre acciones, actualizaciones o eventos del sistema en tiempo real.
+Este módulo permite a los administradores monitorizar el flujo de notificaciones y diagnosticar posibles problemas en el proceso de entrega.
+</p>
+
+</section>
+<section id="toc23">
+<h2>5.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-pushlog-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Usuario: Usuario que generó o recibió la notificación push.
+</li>
+<li>Fecha y hora: Momento en que se registró la notificación.
+</li>
+<li>Tipo: Categoría del mensaje push (ej: información, advertencia, error).
+</li>
+</ul>
+
+</section>
+<section id="toc24">
+<h2>5.3. Vista de registro</h2>
+
+<p>
+Esta vista muestra los detalles completos de una única notificación push.
+</p>
+<p>
+Incluye:
+</p>
+
+<ul>
+<li>Usuario: Usuario que generó o recibió la notificación.
+</li>
+<li>Fecha y hora: Fecha y hora en que se registró la notificación.
+</li>
+<li>Tipo: Categoría del mensaje push (ej: información, advertencia, error).
+</li>
+<li>Mensaje: Contenido o resumen del mensaje enviado.
+</li>
+<li>Marca temporal: Timestamp interno del sistema al registrar el evento.
+</li>
+</ul>
+
+</section>
+<section id="toc25">
+<h2>5.4. Eliminación</h2>
+
+<p>
+Las entradas del registro de notificaciones push normalmente no se eliminan y se conservan para fines de auditoría.
+</p>
+<p>
+En escenarios de mantenimiento específicos, los registros antiguos pueden ser depurados, pero esto requiere permisos explícitos.
+</p>
+
+</section>
+</section>
+<section id="toc26">
+<h1>6. Registro de tokens</h1>
+
+<section id="toc27">
+<h2>6.1. Descripción</h2>
+
+<p>
+La aplicación de registro de tokens hace seguimiento del uso de los tokens de autenticación en todo el sistema.
+Estos tokens se utilizan normalmente en llamadas a la API, scripts automatizados o sesiones de acceso temporal.
+Este módulo permite a los administradores monitorizar el acceso al sistema y detectar posibles usos indebidos o intentos no autorizados.
+</p>
+
+</section>
+<section id="toc28">
+<h2>6.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Usuario: Usuario asociado al token.
+</li>
+<li>Creado: Fecha y hora en que se creó el token.
+</li>
+<li>Token: Cadena de token utilizada para autenticación o acceso.
+</li>
+<li>Activo: Indica si el token es actualmente válido y utilizable.
+</li>
+</ul>
+
+</section>
+<section id="toc29">
+<h2>6.3. Vista de registro</h2>
+
+<p>
+Esta vista muestra toda la información relacionada con un acceso mediante token.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-view-1-es-es-1-snap.png" alt="">
+</p>
+<p>
+Incluye:
+</p>
+
+<ul>
+<li>Activo: Indica si el token es actualmente válido y utilizable.
+</li>
+<li>Usuario: Usuario asociado al token.
+</li>
+<li>Creado: Fecha y hora en que se creó el token.
+</li>
+<li>Actualizado: Fecha y hora de la última modificación del estado del token.
+</li>
+<li>Dirección IP: Dirección desde la cual se utilizó o generó el token.
+</li>
+<li>User Agent: Navegador o cliente usado para generar o acceder al token.
+</li>
+<li>Token: Cadena usada para autenticación o acceso.
+</li>
+<li>Expira: Fecha y hora de expiración del token, tras la cual deja de ser válido.
+</li>
+</ul>
+
+</section>
+<section id="toc30">
+<h2>6.4. Eliminación</h2>
+
+<p>
+Las entradas del registro de tokens no están pensadas para ser eliminadas manualmente.
+</p>
+<p>
+Forman parte del historial de auditoría y control de accesos del sistema, y pueden eliminarse automáticamente si está configurado.
+</p>
+
+</section>
+</section>
+<section id="toc31">
+<h1>7. Registro de papelera</h1>
+
+<section id="toc32">
+<h2>7.1. Descripción</h2>
+
+<p>
+La aplicación de registro de papelera almacena todas las eliminaciones realizadas en el sistema, actuando como una papelera de reciclaje para SaltOS4.
+Permite a administradores y usuarios avanzados inspeccionar qué datos han sido eliminados, cuándo, por quién y desde dónde.
+Este módulo es clave para la trazabilidad y ayuda a identificar eliminaciones accidentales o acciones no autorizadas.
+</p>
+
+</section>
+<section id="toc33">
+<h2>7.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-trashlog-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Usuario: Usuario que realizó la eliminación.
+</li>
+<li>Fecha y hora: Momento exacto en que se eliminó el registro.
+</li>
+<li>Nombre: Nombre descriptivo del registro o archivo eliminado.
+</li>
+</ul>
+
+</section>
+<section id="toc34">
+<h2>7.3. Vista de registro</h2>
+
+<p>
+Esta vista muestra toda la información registrada sobre un elemento eliminado.
+</p>
+<p>
+Incluye:
+</p>
+
+<ul>
+<li>ID antiguo: Identificador original del registro antes de su eliminación.
+</li>
+<li>Usuario: Usuario que realizó la eliminación.
+</li>
+<li>Fecha y hora: Momento exacto en que se eliminó.
+</li>
+<li>ID de registro: Identificador interno asignado al registro eliminado.
+</li>
+<li>Aplicación: Aplicación o módulo desde donde se eliminó el registro.
+</li>
+<li>ID único: Identificador único en todo el sistema del elemento eliminado.
+</li>
+<li>Nombre: Nombre descriptivo del registro o archivo eliminado.
+</li>
+<li>Tamaño: Tamaño del archivo en bytes, si el elemento era un archivo.
+</li>
+<li>Tipo: Tipo MIME o clasificación del elemento eliminado.
+</li>
+<li>Archivo: Nombre o ruta original del archivo eliminado.
+</li>
+<li>Hash: Suma de verificación utilizada para validar el contenido eliminado.
+</li>
+</ul>
+
+</section>
+<section id="toc35">
+<h2>7.4. Eliminación</h2>
+
+<p>
+Las entradas del registro de papelera no pueden eliminarse directamente desde la interfaz.
+</p>
+<p>
+SaltOS4 las conserva para fines de responsabilidad y trazabilidad legal, a menos que se configure una depuración automática.
+</p>
+
+</section>
+</section>
+<section id="toc36">
+<h1>8. Registro de subidas</h1>
+
+<section id="toc37">
+<h2>8.1. Descripción</h2>
+
+<p>
+La aplicación de registro de subidas registra todos los archivos cargados a través de SaltOS4, ya sea de forma manual o automatizada.
+Ayuda a rastrear el origen, el usuario y el contexto de cada carga, y resulta útil para auditorías, depuración y para verificar que las subidas se procesan correctamente.
+</p>
+
+</section>
+<section id="toc38">
+<h2>8.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-common-uploadlog-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Usuario: Usuario que subió el archivo.
+</li>
+<li>Fecha y hora: Momento en que el archivo fue subido al sistema.
+</li>
+<li>Aplicación: Módulo o aplicación desde la cual se activó la subida.
+</li>
+<li>Nombre: Nombre original del archivo proporcionado por el usuario.
+</li>
+</ul>
+
+</section>
+<section id="toc39">
+<h2>8.3. Vista de registro</h2>
+
+<p>
+Esta vista muestra los detalles completos de una entrada del registro de subidas.
+</p>
+<p>
+Incluye:
+</p>
+
+<ul>
+<li>Usuario: Usuario que subió el archivo.
+</li>
+<li>Fecha y hora: Momento en que el archivo fue subido al sistema.
+</li>
+<li>ID único: Identificador único interno asignado a la entrada de subida.
+</li>
+<li>Aplicación: Módulo o aplicación desde donde se originó la subida.
+</li>
+<li>Nombre: Nombre original del archivo proporcionado por el usuario.
+</li>
+<li>Tamaño: Tamaño del archivo subido en bytes.
+</li>
+<li>Tipo: Tipo MIME o formato del archivo.
+</li>
+<li>Archivo: Nombre del archivo almacenado utilizado internamente por el sistema.
+</li>
+<li>Hash: Suma de verificación (ej: MD5 o SHA) para validar la integridad o detectar duplicados.
+</li>
+</ul>
+
+</section>
+<section id="toc40">
+<h2>8.4. Eliminación</h2>
+
+<p>
+Las entradas del registro de subidas normalmente se conservan con fines de trazabilidad histórica.
+</p>
+<p>
+Si es necesario, se pueden eliminar entradas antiguas manualmente o mediante tareas de mantenimiento automático.
+</p>
+
+</section>
+</section>
+<section id="toc41">
+<h1>9. Empresa</h1>
+
+<section id="toc42">
+<h2>9.1. Descripción</h2>
+
+<p>
+La aplicación de empresa almacena los datos de identificación y contacto de la organización que utiliza SaltOS4.
+Esta información se utiliza en todo el sistema para personalizar documentos (presupuestos, facturas, correos, etc.) y definir la identidad legal y fiscal de la empresa.
+</p>
+<p>
+Normalmente incluye el nombre de la empresa, su código fiscal, dirección, logotipo e idioma preferido.
+</p>
+
+</section>
+<section id="toc43">
+<h2>9.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-company-company-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Nombre: Nombre oficial de la empresa u organización.
+</li>
+<li>CIF: Código de identificación fiscal (NIF, CIF, IVA, etc.) de la empresa.
+</li>
+<li>Ciudad: Ciudad donde se encuentra la empresa.
+</li>
+<li>País: País donde la empresa está legalmente registrada o donde opera.
+</li>
+<li>Activa: Indica si este perfil de empresa está activo en el sistema.
+</li>
+</ul>
+
+</section>
+<section id="toc44">
+<h2>9.3. Vista de formulario</h2>
+
+<p>
+Esta vista se utiliza para definir o editar el perfil de la empresa.
+</p>
+<p>
+En el modo <strong>crear</strong>, el formulario está vacío y listo para ingresar los datos.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-company-company-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, los campos se muestran rellenos pero no se pueden editar.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-company-company-view-1-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, el formulario está precargado y permite realizar modificaciones.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-company-company-edit-1-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Activa: Indica si este perfil de empresa está activo en el sistema.
+</li>
+<li>Nombre: Nombre oficial de la empresa u organización.
+</li>
+<li>Código: Código fiscal (NIF, CIF, IVA, etc.) de la empresa.
+</li>
+<li>Dirección: Dirección oficial o postal de la empresa.
+</li>
+<li>Ciudad: Ciudad donde se encuentra la empresa.
+</li>
+<li>Provincia / Estado: Provincia, estado o región donde tiene sede la empresa.
+</li>
+<li>Código postal: Código postal de la dirección registrada.
+</li>
+<li>País: País donde la empresa está registrada u opera.
+</li>
+<li>Teléfono: Número de teléfono principal de contacto.
+</li>
+<li>Correo electrónico: Dirección de correo electrónico utilizada para contacto administrativo o legal.
+</li>
+<li>Sitio web: Página web pública de la empresa.
+</li>
+<li>IBAN: Número de cuenta bancaria internacional para transferencias.
+</li>
+<li>SWIFT/BIC: Código SWIFT/BIC que identifica el banco de la empresa en transferencias internacionales.
+</li>
+<li>Régimen fiscal: Régimen tributario bajo el cual opera la empresa (ej: general, simplificado, pymes).
+</li>
+<li>Código de actividad: Código de clasificación económica (ej: CNAE, NACE).
+</li>
+<li>Notas adicionales: Observaciones internas o información adicional sobre la empresa.
+</li>
+</ul>
+
+</section>
+<section id="toc45">
+<h2>9.4. Eliminación</h2>
+
+<p>
+El perfil de empresa no puede eliminarse si es el único activo en el sistema.
+</p>
+<p>
+En la mayoría de configuraciones, solo se permite su desactivación.
+</p>
+
+</section>
+</section>
+<section id="toc46">
+<h1>10. Clientes</h1>
+
+<section id="toc47">
+<h2>10.1. Descripción</h2>
+
+<p>
+La aplicación de clientes te permite gestionar tu base de clientes dentro de SaltOS4.
+Centraliza toda la información relacionada con los clientes: identificación, datos de contacto,
+código fiscal, dirección y clasificación. También actúa como núcleo para enlazar los clientes con otros
+módulos como presupuestos, facturas, reuniones y correos.
+</p>
+
+</section>
+<section id="toc48">
+<h2>10.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-customers-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Nombre: Nombre completo o razón social del cliente.
+</li>
+<li>CIF: Código de identificación fiscal del cliente (NIF, CIF, IVA, etc.).
+</li>
+<li>Ciudad: Ciudad o localidad del cliente.
+</li>
+<li>País: País donde el cliente está registrado o realiza su actividad.
+</li>
+<li>Activo: Indica si el cliente está activo en el sistema.
+</li>
+</ul>
+
+</section>
+<section id="toc49">
+<h2>10.3. Vista de formulario</h2>
+
+<p>
+Esta vista se utiliza para crear, editar o consultar una ficha de cliente.
+</p>
+<p>
+En el modo <strong>crear</strong>, el formulario está vacío y preparado para introducir nuevos datos.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-customers-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, los campos están llenos con la ficha seleccionada y no se pueden editar.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-customers-view-100-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, el formulario está prellenado y permite modificaciones.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-customers-edit-100-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Activo: Activa o desactiva la visibilidad del cliente.
+</li>
+<li>Nombre: Nombre completo o razón social del cliente.
+</li>
+<li>CIF: Código de identificación fiscal del cliente.
+</li>
+<li>Dirección: Dirección física principal o de facturación.
+</li>
+<li>Ciudad: Ciudad o localidad del cliente.
+</li>
+<li>Provincia / Estado: Provincia o estado del cliente.
+</li>
+<li>Código postal: Código postal correspondiente a la dirección.
+</li>
+<li>País: País de registro.
+</li>
+<li>Correo electrónico: Dirección para notificaciones o facturas.
+</li>
+<li>Teléfono: Número de contacto principal.
+</li>
+<li>Web: Sitio web del cliente.
+</li>
+<li>Notas: Anotaciones internas relacionadas con el cliente.
+</li>
+<li>Tipo: Categoría a la que pertenece el cliente (ej: habitual, VIP).
+</li>
+<li>Archivos: Documentos o imágenes relacionados con el cliente.
+</li>
+<li>Notas: Observaciones internas o instrucciones específicas del cliente.
+</li>
+</ul>
+
+</section>
+<section id="toc50">
+<h2>10.4. Eliminación</h2>
+
+<p>
+Los registros pueden eliminarse desde la vista de lista mediante la acción de eliminación.
+Aparecerá un mensaje de confirmación antes de ejecutar la operación.
+</p>
+<p>
+Esta acción es irreversible y requiere permisos específicos.
+</p>
+
+</section>
+</section>
+<section id="toc51">
+<h1>11. Tipos de clientes</h1>
+
+<section id="toc52">
+<h2>11.1. Descripción</h2>
+
+<p>
+Este módulo permite definir distintos tipos de clientes según criterios comerciales, legales u operativos.
+Clasificar a los clientes ayuda a personalizar la atención, filtrar los datos y aplicar políticas específicas según su categoría.
+</p>
+
+</section>
+<section id="toc53">
+<h2>11.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Nombre: Nombre del tipo de cliente.
+</li>
+<li>Descripción: Información adicional sobre el tipo.
+</li>
+<li>Activo: Indica si el tipo está disponible para ser asignado.
+</li>
+</ul>
+
+</section>
+<section id="toc54">
+<h2>11.3. Vista de formulario</h2>
+
+<p>
+Esta vista permite gestionar los tipos de cliente.
+</p>
+<p>
+En el modo <strong>crear</strong>, se puede agregar un nuevo tipo.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, los datos se muestran sin posibilidad de edición.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-view-10-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, se pueden modificar los datos existentes.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-edit-10-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Activo: Indica si el tipo está activo.
+</li>
+<li>Nombre: Nombre que identifica el tipo.
+</li>
+<li>Descripción: Explicación o detalle interno del tipo.
+</li>
+</ul>
+
+</section>
+<section id="toc55">
+<h2>11.4. Eliminación</h2>
+
+<p>
+Los tipos de cliente solo pueden eliminarse si no hay ningún cliente asociado a ellos.
+El sistema pedirá confirmación antes de completar la eliminación.
+</p>
+<p>
+Esta acción no se puede deshacer.
+</p>
+
+</section>
+</section>
+<section id="toc56">
+<h1>12. Clientes potenciales</h1>
+
+<section id="toc57">
+<h2>12.1. Descripción</h2>
+
+<p>
+La aplicación de leads se utiliza para registrar y hacer seguimiento de clientes potenciales antes de que se conviertan en clientes reales.
+Permite recopilar información clave de cada lead, como los datos de contacto, el origen y el estado actual en el proceso de ventas.
+Este módulo ayuda a organizar la actividad previa a la venta, permitiendo a los equipos comerciales hacer seguimiento efectivo, calificar oportunidades
+y convertir leads en clientes cuando corresponda.
+</p>
+
+</section>
+<section id="toc58">
+<h2>12.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-leads-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Título: El título o asunto de la reunión, resumiendo su propósito.
+</li>
+<li>Ubicación: Lugar donde se realiza la reunión, o enlace si es virtual.
+</li>
+<li>Hora de inicio: Fecha y hora programadas de inicio.
+</li>
+<li>Cliente: Cliente asociado a la reunión, si corresponde.
+</li>
+</ul>
+
+</section>
+<section id="toc59">
+<h2>12.3. Vista de formulario</h2>
+
+<p>
+Esta vista se utiliza para crear, editar o consultar un lead.
+</p>
+<p>
+En el modo <strong>crear</strong>, el formulario está vacío y listo para introducir nuevos datos.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-leads-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, los campos se muestran con la información seleccionada y no se pueden editar.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-leads-view-100-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, el formulario está prellenado y permite realizar modificaciones.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-leads-edit-100-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Título: El título o asunto de la reunión, resumiendo su propósito.
+</li>
+<li>Ubicación: Lugar donde se realiza la reunión, o enlace si es virtual.
+</li>
+<li>Hora de inicio: Fecha y hora programadas de inicio.
+</li>
+<li>Hora de finalización: Fecha y hora previstas de finalización.
+</li>
+<li>Cliente relacionado: Cliente vinculado a la reunión, si corresponde.
+</li>
+<li>Participantes: Lista de usuarios o contactos externos invitados a la reunión.
+</li>
+<li>Agenda: Temas o puntos que se tratarán durante la reunión.
+</li>
+<li>Temas aprobados: Puntos tratados en la reunión que fueron aprobados.
+</li>
+<li>Temas rechazados: Puntos que no fueron aprobados o que se pospusieron.
+</li>
+<li>Temas pendientes: Puntos que requieren acciones o decisiones posteriores.
+</li>
+</ul>
+
+</section>
+<section id="toc60">
+<h2>12.4. Eliminación</h2>
+
+<p>
+Los registros pueden eliminarse desde la vista de lista mediante la acción de eliminación.
+Aparecerá un mensaje de confirmación antes de ejecutar la operación.
+</p>
+<p>
+Esta acción es irreversible y requiere permisos adecuados.
+</p>
+
+</section>
+</section>
+<section id="toc61">
+<h1>13. Estados de los leads</h1>
+
+<section id="toc62">
+<h2>13.1. Descripción</h2>
+
+<p>
+Este módulo permite definir los distintos estados por los que puede pasar un cliente potencial dentro del proceso comercial.
+Los estados ayudan a realizar seguimiento de los leads según su nivel de interés, calificación o decisión final (activo, perdido, convertido, etc.).
+</p>
+
+</section>
+<section id="toc63">
+<h2>13.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Nombre: Nombre del estado.
+</li>
+<li>Descripción: Información descriptiva del estado.
+</li>
+<li>Activo: Indica si el estado está disponible para su uso.
+</li>
+</ul>
+
+</section>
+<section id="toc64">
+<h2>13.3. Vista de formulario</h2>
+
+<p>
+Esta vista permite gestionar los estados de los leads.
+</p>
+<p>
+En el modo <strong>crear</strong>, puedes añadir un nuevo estado.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, se muestra la información del estado.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-view-10-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, es posible modificar los valores existentes.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-edit-10-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Activo: Estado activo o inactivo.
+</li>
+<li>Nombre: Título o nombre del estado.
+</li>
+<li>Descripción: Explicación sobre el uso o significado del estado.
+</li>
+</ul>
+
+</section>
+<section id="toc65">
+<h2>13.4. Eliminación</h2>
+
+<p>
+Los estados solo pueden eliminarse si no están asignados a ningún lead.
+El sistema mostrará una confirmación antes de continuar.
+</p>
+<p>
+Esta acción no se puede deshacer.
+</p>
+
+</section>
+</section>
+<section id="toc66">
+<h1>14. Reuniones</h1>
+
+<section id="toc67">
+<h2>14.1. Descripción</h2>
+
+<p>
+La aplicación de reuniones permite programar, gestionar y hacer seguimiento de encuentros internos o con clientes dentro de SaltOS4.
+Incluye información clave como la ubicación, los participantes, la agenda y los temas aprobados, rechazados o pendientes.
+Este módulo facilita la colaboración y asegura la trazabilidad de las decisiones tomadas durante las reuniones.
+</p>
+
+</section>
+<section id="toc68">
+<h2>14.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Título: Título o asunto de la reunión.
+</li>
+<li>Ubicación: Lugar físico o enlace virtual donde se realiza la reunión.
+</li>
+<li>Hora de inicio: Fecha y hora programadas de inicio.
+</li>
+<li>Cliente: Cliente asociado a la reunión.
+</li>
+</ul>
+
+</section>
+<section id="toc69">
+<h2>14.3. Vista de formulario</h2>
+
+<p>
+Esta vista se utiliza para crear, editar o consultar una reunión.
+</p>
+<p>
+En el modo <strong>crear</strong>, el formulario está vacío y listo para registrar una nueva reunión.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, los campos son de solo lectura y muestran los detalles de la reunión.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-100-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, los campos pueden modificarse para actualizar la información de la reunión.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-edit-100-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Título: Nombre o asunto de la reunión.
+</li>
+<li>Ubicación: Lugar físico o virtual donde se celebrará.
+</li>
+<li>Hora de inicio: Fecha y hora de inicio.
+</li>
+<li>Hora de finalización: Fecha y hora de finalización.
+</li>
+<li>Cliente relacionado: Cliente vinculado a la reunión.
+</li>
+<li>Participantes: Usuarios o contactos invitados.
+</li>
+<li>Agenda: Lista de puntos a tratar.
+</li>
+<li>Temas aprobados: Puntos que han sido aprobados.
+</li>
+<li>Temas rechazados: Puntos que no fueron aprobados.
+</li>
+<li>Temas pendientes: Puntos que requieren revisión o aprobación futura.
+</li>
+</ul>
+
+</section>
+<section id="toc70">
+<h2>14.4. Eliminación</h2>
+
+<p>
+Las reuniones pueden eliminarse desde la vista de lista mediante la acción correspondiente.
+Antes de eliminar, el sistema solicitará confirmación.
+</p>
+<p>
+Esta acción no se puede deshacer y puede requerir permisos específicos.
+</p>
+
+</section>
+</section>
+<section id="toc71">
+<h1>15. Presupuestos</h1>
+
+<section id="toc72">
+<h2>15.1. Descripción</h2>
+
+<p>
+La aplicación de presupuestos permite generar ofertas comerciales para clientes potenciales o existentes.
+Incluye campos para definir los datos del cliente, condiciones de pago, líneas de conceptos, impuestos y total.
+Estos presupuestos pueden convertirse fácilmente en facturas una vez sean aceptados por el cliente.
+</p>
+
+</section>
+<section id="toc73">
+<h2>15.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Cliente: Nombre del cliente destinatario del presupuesto.
+</li>
+<li>CIF: Código de identificación fiscal del cliente.
+</li>
+<li>Presupuesto: Código o número del presupuesto.
+</li>
+<li>Fecha: Fecha de emisión del presupuesto.
+</li>
+<li>Total: Importe total con impuestos incluidos.
+</li>
+</ul>
+
+</section>
+<section id="toc74">
+<h2>15.3. Vista de formulario</h2>
+
+<p>
+Esta vista se utiliza para crear, editar o consultar un presupuesto.
+</p>
+<p>
+En el modo <strong>crear</strong>, el formulario está vacío y listo para introducir un nuevo presupuesto.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, los campos son de solo lectura y muestran el detalle del presupuesto.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-100-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, se pueden modificar los datos existentes del presupuesto.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-edit-100-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Presupuesto: Código del presupuesto.
+</li>
+<li>Fecha: Fecha de emisión.
+</li>
+<li>Cliente: Nombre o razón social del cliente.
+</li>
+<li>CIF: Código fiscal del cliente.
+</li>
+<li>Dirección: Dirección de facturación.
+</li>
+<li>Ciudad: Localidad.
+</li>
+<li>Provincia / Estado: Provincia o región.
+</li>
+<li>Código postal: Código postal del cliente.
+</li>
+<li>País: País de residencia o registro.
+</li>
+<li>Notas: Observaciones internas o condiciones especiales.
+</li>
+<li>Conceptos: Líneas detalladas con cantidades e importes.
+</li>
+<li>Impuestos: Impuestos aplicables.
+</li>
+<li>Totales: Resumen de importe, impuestos y total.
+</li>
+<li>Método de pago: Forma de cobro prevista.
+</li>
+<li>Válido hasta: Fecha de validez del presupuesto.
+</li>
+<li>Estado: Estado actual del presupuesto (pendiente, aceptado, rechazado, etc.).
+</li>
+</ul>
+
+</section>
+<section id="toc75">
+<h2>15.4. Eliminación</h2>
+
+<p>
+Los presupuestos pueden eliminarse desde la vista de lista siempre que no estén vinculados a facturas.
+El sistema pedirá confirmación antes de completar la acción.
+</p>
+<p>
+Esta acción no se puede deshacer y puede requerir permisos especiales.
+</p>
+
+</section>
+</section>
+<section id="toc76">
+<h1>16. Estados de los presupuestos</h1>
+
+<section id="toc77">
+<h2>16.1. Descripción</h2>
+
+<p>
+Este módulo permite definir los diferentes estados por los que puede pasar un presupuesto durante su ciclo de vida.
+Pueden utilizarse para indicar si un presupuesto está pendiente, aceptado, rechazado o en revisión.
+Los estados ayudan a hacer seguimiento de los presupuestos y a organizar el proceso comercial.
+</p>
+
+</section>
+<section id="toc78">
+<h2>16.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Nombre: Nombre del estado.
+</li>
+<li>Descripción: Explicación o uso del estado.
+</li>
+<li>Activo: Indica si el estado está activo y se puede asignar.
+</li>
+</ul>
+
+</section>
+<section id="toc79">
+<h2>16.3. Vista de formulario</h2>
+
+<p>
+Esta vista permite crear, editar o consultar un estado de presupuesto.
+</p>
+<p>
+En el modo <strong>crear</strong>, se puede definir un nuevo estado.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, se muestran los detalles del estado sin posibilidad de edición.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-view-10-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, se pueden modificar los valores existentes.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-edit-10-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Activo: Permite activar o desactivar el estado.
+</li>
+<li>Nombre: Nombre corto o título del estado.
+</li>
+<li>Descripción: Texto descriptivo sobre el uso del estado.
+</li>
+</ul>
+
+</section>
+<section id="toc80">
+<h2>16.4. Eliminación</h2>
+
+<p>
+Los estados pueden eliminarse si no están en uso.
+Antes de eliminar uno, el sistema pedirá confirmación.
+</p>
+<p>
+Esta acción no se puede deshacer.
+</p>
+
+</section>
+</section>
+<section id="toc81">
+<h1>17. Panel de control (Dashboard)</h1>
+
+<section id="toc82">
+<h2>17.1. Descripción</h2>
+
+<p>
+El panel de control o <strong>dashboard</strong> es la pantalla inicial de SaltOS4, donde se pueden mostrar accesos rápidos, separadores, widgets, gráficos y otros elementos visuales.
+No se trata de una aplicación clásica con formularios o registros, sino de una vista dinámica y personalizable pensada para ofrecer una visión general rápida y acceso directo a funcionalidades frecuentes.
+</p>
+<p>
+Esta vista centraliza acciones comunes y muestra información relevante de forma resumida.
+</p>
+
+</section>
+<section id="toc83">
+<h2>17.2. Vista principal</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-es-es-1-snap.png" alt="">
+</p>
+<p>
+El dashboard puede incluir:
+</p>
+
+<ul>
+<li>Botones de acceso rápido a aplicaciones o acciones frecuentes
+</li>
+<li>Títulos que agrupan secciones
+</li>
+<li>Separadores visuales para organizar la información
+</li>
+<li>Widgets que muestran contenido en tiempo real (ej: calendario, correos, gráficos)
+</li>
+</ul>
+
+</section>
+<section id="toc84">
+<h2>17.3. Configuración del dashboard</h2>
+
+<p>
+En la <strong>parte superior derecha de la pantalla</strong>, hay un botón con un icono de engranaje que abre la aplicación de configuración del dashboard.
+</p>
+<p>
+Desde allí se pueden personalizar los elementos mostrados:
+</p>
+
+<ul>
+<li>Seleccionar el dashboard activo
+</li>
+<li>Añadir o quitar <strong>botones</strong>
+</li>
+<li>Crear <strong>títulos</strong> y <strong>separadores</strong> visuales
+</li>
+<li>Agrupar elementos en bloques
+</li>
+<li>Incluir <strong>widgets</strong> disponibles (ej: estadísticas, recordatorios, correos)
+</li>
+</ul>
+
+<p>
+Esta configuración es específica para cada usuario y se guarda automáticamente.
+</p>
+
+</section>
+</section>
+<section id="toc85">
+<h1>18. Configuración del dashboard</h1>
+
+<section id="toc86">
+<h2>18.1. Descripción</h2>
+
+<p>
+Esta aplicación permite configurar el contenido que se muestra en el <strong>dashboard</strong> de SaltOS4.
+No se trata de una aplicación con registros clásicos, sino de una interfaz visual centrada en el usuario donde se pueden personalizar accesos rápidos, secciones y widgets que aparecen en el panel de control.
+</p>
+<p>
+Cada usuario puede tener su propio dashboard personalizado, y esta herramienta es su gestor visual.
+</p>
+
+</section>
+<section id="toc87">
+<h2>18.2. Vista de configuración</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-widgets-es-es-1-snap.png" alt="">
+</p>
+<p>
+La pantalla muestra una vista en forma de lienzo donde los elementos del dashboard pueden organizarse de forma dinámica y visual.
+</p>
+<p>
+Los tipos de elementos que pueden añadirse incluyen:
+</p>
+
+<ul>
+<li><strong>Botones</strong>: Enlaces rápidos a aplicaciones o funcionalidades.
+</li>
+<li><strong>Separadores</strong>: Líneas o espacios para estructurar visualmente el dashboard.
+</li>
+<li><strong>Títulos</strong>: Textos destacados para agrupar secciones.
+</li>
+<li><strong>Widgets</strong>: Componentes dinámicos como calendario, correo electrónico, gráficos, estadísticas, etc.
+</li>
+</ul>
+
+<p>
+También es posible agrupar elementos, ordenarlos mediante arrastrar y soltar, y reorganizar grupos o columnas.
+</p>
+
+</section>
+<section id="toc88">
+<h2>18.3. Funcionalidades</h2>
+
+<ul>
+<li>Añadir o eliminar elementos
+</li>
+<li>Reordenar mediante arrastrar y soltar
+</li>
+<li>Editar títulos y textos de sección
+</li>
+<li>Seleccionar qué widgets mostrar
+</li>
+<li>Organizar elementos en varias columnas o bloques
+</li>
+</ul>
+
+<p>
+Los cambios se guardan automáticamente y afectan solo al dashboard del usuario activo.
+</p>
+
+</section>
+<section id="toc89">
+<h2>18.4. Uso avanzado</h2>
+
+<p>
+Este módulo es ideal para:
+</p>
+
+<ul>
+<li>Crear paneles específicos por perfil (comercial, técnico, administración…)
+</li>
+<li>Mostrar solo herramientas y datos consultados con frecuencia
+</li>
+<li>Mejorar la eficiencia y claridad visual de la pantalla de inicio
+</li>
+</ul>
+
+</section>
+</section>
+<section id="toc90">
+<h1>19. Correos electrónicos</h1>
+
+<section id="toc91">
+<h2>19.1. Descripción</h2>
+
+<p>
+La aplicación de correos electrónicos se utiliza para recibir, consultar y responder correos desde las cuentas configuradas en SaltOS4.
+Actúa como un cliente de correo integrado simplificado que permite leer mensajes mediante POP3 o IMAP,
+ver metadatos y contenido, y responder utilizando servidores SMTP internos o externos.
+</p>
+<p>
+Cada mensaje se muestra como una tarjeta visual en la vista de lista, con campos clave como remitente, asunto,
+fecha y un fragmento del cuerpo. Los correos pueden visualizarse en detalle, responderse o eliminarse. Esta aplicación
+está estrechamente integrada con el módulo de Cuentas de correo electrónico y es esencial para gestionar la comunicación entrante.
+</p>
+
+</section>
+<section id="toc92">
+<h2>19.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+La vista de lista muestra los correos entrantes como botones o tarjetas clicables.
+Cada entrada muestra normalmente:
+</p>
+
+<ul>
+<li>Encabezado: Resumen visual que representa el mensaje en la interfaz.
+</li>
+<li>Fecha y hora: Momento en que se recibió o envió el mensaje.
+</li>
+<li>Asunto: Título o línea de asunto del correo.
+</li>
+<li>Fragmento: Vista previa extraída del inicio del cuerpo del mensaje.
+</li>
+<li>Adjuntos: Lista de archivos adjuntos, con opción de descarga.
+</li>
+</ul>
+
+<p>
+La interfaz también incluye filtros y un formulario de búsqueda por remitente, asunto, cuenta y fecha.
+</p>
+
+</section>
+<section id="toc93">
+<h2>19.3. Vista del mensaje</h2>
+
+<p>
+Esta vista muestra el contenido completo del mensaje, incluyendo metadatos y archivos adjuntos.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-100-es-es-1-snap.png" alt="">
+</p>
+<p>
+La información mostrada incluye:
+</p>
+
+<ul>
+<li>De: Dirección del remitente.
+</li>
+<li>Para: Destinatarios principales.
+</li>
+<li>CC: Destinatarios con copia visible.
+</li>
+<li>CCO: Destinatarios con copia oculta.
+</li>
+<li>Fecha y hora: Momento en que se envió o recibió el mensaje.
+</li>
+<li>UIDL: Identificador único del servidor para sincronización.
+</li>
+<li>Prioridad: Nivel de importancia (Baja, Normal, Alta).
+</li>
+<li>Sensibilidad: Nivel de confidencialidad: Normal, Personal, Privado o Confidencial.
+</li>
+<li>Enviado: Confirma que el correo fue enviado con éxito.
+</li>
+<li>Nuevo: Indica si el mensaje es nuevo o no leído.
+</li>
+<li>Respuesta: Indica si se ha respondido el mensaje.
+</li>
+<li>Reenviado: Indica si el mensaje fue reenviado.
+</li>
+<li>Espera: Marcador de seguimiento o espera de respuesta.
+</li>
+<li>SPAM: Indica si se clasificó como correo no deseado.
+</li>
+<li>Solicitar confirmación de lectura: Muestra si se pidió acuse de recibo.
+</li>
+<li>Error: Muestra un error si falló el envío.
+</li>
+<li>Asunto: Línea de asunto del mensaje.
+</li>
+<li>Cuerpo: Contenido principal del mensaje, en visor embebido.
+</li>
+<li>Adjuntos: Archivos adjuntos del mensaje.
+</li>
+</ul>
+
+</section>
+<section id="toc94">
+<h2>19.4. Responder / Redactar</h2>
+
+<p>
+Los usuarios pueden responder a un mensaje existente o redactar uno nuevo desde un formulario simplificado.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-emails-emails-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario de respuesta o redacción incluye:
+</p>
+
+<ul>
+<li>Desde: Cuenta de correo usada como remitente.
+</li>
+<li>Para: Destinatarios principales.
+</li>
+<li>CC: Destinatarios con copia visible.
+</li>
+<li>CCO: Destinatarios con copia oculta.
+</li>
+<li>Solicitar confirmación de lectura: Opción para solicitar acuse de recibo.
+</li>
+<li>Prioridad: Nivel de importancia: Baja, Normal o Alta.
+</li>
+<li>Sensibilidad: Nivel de confidencialidad: Normal, Personal, Privado o Confidencial.
+</li>
+<li>Asunto: Título o asunto del mensaje.
+</li>
+<li>Cuerpo: Texto enriquecido redactado en el mensaje.
+</li>
+<li>Adjuntos: Archivos seleccionados para enviar junto al mensaje.
+</li>
+</ul>
+
+</section>
+<section id="toc95">
+<h2>19.5. Eliminación</h2>
+
+<p>
+Los correos pueden eliminarse desde la vista de lista mediante el icono o acción correspondiente.
+</p>
+<p>
+Los mensajes se eliminan localmente o se marcan para eliminación, según la configuración del servidor.
+</p>
+
+</section>
+</section>
+<section id="toc96">
+<h1>20. Cuentas de correo electrónico</h1>
+
+<section id="toc97">
+<h2>20.1. Descripción</h2>
+
+<p>
+La aplicación de cuentas de correo electrónico se utiliza para configurar y gestionar las cuentas vinculadas a SaltOS4.
+Cada cuenta puede utilizarse para enviar y recibir correos mediante protocolos SMTP, IMAP o POP3.
+Este módulo permite la integración con proveedores externos y admite autenticación, carpetas y opciones de sincronización.
+</p>
+
+</section>
+<section id="toc98">
+<h2>20.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Usuario: Persona que es propietaria o utiliza esta cuenta de correo.
+</li>
+<li>Nombre: Etiqueta descriptiva para identificar la cuenta dentro del sistema.
+</li>
+<li>Correo electrónico: Dirección de correo configurada para esta cuenta.
+</li>
+<li>Activo: Indica si la cuenta está habilitada y se sincroniza.
+</li>
+</ul>
+
+</section>
+<section id="toc99">
+<h2>20.3. Vista de formulario</h2>
+
+<p>
+Esta vista se utiliza para crear, ver o editar una cuenta de correo.
+</p>
+<p>
+En el modo <strong>crear</strong>, se configura una cuenta nueva desde cero.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, se muestran los datos de la cuenta pero no se pueden modificar.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-view-1-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, se pueden corregir o actualizar los parámetros.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-edit-1-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Usuario: Persona propietaria de la cuenta.
+</li>
+<li>Nombre: Nombre visible o etiqueta para identificar la cuenta.
+</li>
+<li>Correo electrónico: Dirección asociada a la cuenta.
+</li>
+<li>Firma: Texto o firma HTML añadida automáticamente a los mensajes salientes.
+</li>
+<li>Servidor POP3: Nombre del servidor para recibir correos.
+</li>
+<li>Puerto POP3: Puerto usado para conectarse (ej: 110, 995).
+</li>
+<li>Opciones POP3: Ajustes adicionales (TLS, etc.).
+</li>
+<li>Usuario POP3: Usuario para autenticar la cuenta POP3.
+</li>
+<li>Contraseña POP3: Clave de la cuenta POP3.
+</li>
+<li>Borrar: Si se deben eliminar los mensajes tras descargarlos.
+</li>
+<li>Días: Número de días que los correos permanecen en el servidor.
+</li>
+<li>Servidor SMTP: Nombre del servidor para enviar correos.
+</li>
+<li>Puerto SMTP: Puerto usado para enviar (ej: 25, 465, 587).
+</li>
+<li>Cifrado SMTP: Tipo de conexión: ninguno, SSL o TLS.
+</li>
+<li>Usuario SMTP: Usuario para autenticarse en SMTP.
+</li>
+<li>Contraseña SMTP: Clave de la cuenta SMTP.
+</li>
+<li>Inactivo: Marca la cuenta como deshabilitada (no se sincroniza).
+</li>
+<li>Privado: Restringe el acceso solo al propietario.
+</li>
+<li>Por defecto: Marca esta cuenta como remitente por defecto.
+</li>
+<li>Añadirme al CC: Añade automáticamente al remitente como copia.
+</li>
+<li>Solicitar confirmación de lectura: Activa acuse de recibo en cada envío.
+</li>
+</ul>
+
+</section>
+<section id="toc100">
+<h2>20.4. Eliminación</h2>
+
+<p>
+Las cuentas pueden eliminarse si no están activas ni vinculadas a actividad reciente.
+</p>
+<p>
+Se recomienda desactivarlas si se desea conservar la configuración para uso futuro o auditoría.
+</p>
+
+</section>
+</section>
+<section id="toc101">
+<h1>21. Departamentos</h1>
+
+<section id="toc102">
+<h2>21.1. Descripción</h2>
+
+<p>
+La aplicación de departamentos se utiliza para definir la estructura organizativa de la empresa agrupando empleados en departamentos.
+Admite jerarquías, permitiendo que un departamento pertenezca a uno superior, y ayuda a organizar usuarios y permisos en consecuencia.
+</p>
+<p>
+Ejemplos de departamentos pueden incluir "Ventas", "Informática", "RRHH" o "Logística".
+</p>
+
+</section>
+<section id="toc103">
+<h2>21.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-departments-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Nombre: Nombre del departamento o unidad organizativa.
+</li>
+<li>Código: Identificador único o código de referencia del departamento.
+</li>
+<li>Padre: Departamento superior, si forma parte de una jerarquía.
+</li>
+<li>Activo: Indica si este departamento está actualmente en uso.
+</li>
+</ul>
+
+</section>
+<section id="toc104">
+<h2>21.3. Vista de formulario</h2>
+
+<p>
+Esta vista se utiliza para crear, ver o editar departamentos.
+</p>
+<p>
+En el modo <strong>crear</strong>, se puede definir un nuevo departamento.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-departments-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, los detalles del departamento son visibles pero no editables.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-departments-view-100-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, los valores existentes pueden actualizarse.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-departments-edit-100-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Activo: Indica si este departamento está en uso.
+</li>
+<li>Nombre: Nombre del departamento o unidad organizativa.
+</li>
+<li>Código: Identificador único o código de referencia del departamento.
+</li>
+<li>Padre: Departamento superior, si forma parte de una jerarquía.
+</li>
+<li>Notas: Detalles adicionales sobre la estructura, responsabilidad o propósito del departamento.
+</li>
+</ul>
+
+</section>
+<section id="toc105">
+<h2>21.4. Eliminación</h2>
+
+<p>
+Los departamentos solo pueden eliminarse si no hay empleados asignados actualmente.
+</p>
+<p>
+Si están en uso, se recomienda desactivarlos en lugar de eliminarlos.
+</p>
+
+</section>
+</section>
+<section id="toc106">
+<h1>22. Empleados</h1>
+
+<section id="toc107">
+<h2>22.1. Descripción</h2>
+
+<p>
+La aplicación de empleados se utiliza para registrar y gestionar el personal que trabaja en la organización.
+Almacena datos personales y profesionales incluyendo nombre, información de contacto, puesto, departamento y el vínculo con el usuario del sistema.
+Este módulo se utiliza normalmente en flujos de trabajo de RRHH para organizar al personal y, opcionalmente, asociarlo a usuarios del sistema.
+</p>
+
+</section>
+<section id="toc108">
+<h2>22.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-employees-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Nombre: Nombre completo del empleado.
+</li>
+<li>Departamento: Departamento al que pertenece.
+</li>
+<li>Cargo: Título oficial del puesto ocupado por el empleado.
+</li>
+<li>Activo: Indica si el empleado está actualmente activo.
+</li>
+</ul>
+
+</section>
+<section id="toc109">
+<h2>22.3. Vista de formulario</h2>
+
+<p>
+Esta vista se utiliza para crear, consultar o editar fichas de empleados.
+</p>
+<p>
+En el modo <strong>crear</strong>, se añade un nuevo perfil de empleado.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-employees-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, el perfil se muestra en formato solo lectura.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-employees-view-100-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, se puede actualizar el perfil del empleado.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-employees-edit-100-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Activo: Indica si el empleado está actualmente activo.
+</li>
+<li>Nombre: Nombre completo del empleado.
+</li>
+<li>NIF: Número de identificación fiscal del empleado para fines legales o fiscales.
+</li>
+<li>Departamento: Departamento al que pertenece el empleado.
+</li>
+<li>Cargo: Título oficial del puesto que ocupa.
+</li>
+<li>Inicio: Fecha de inicio del empleo o contrato.
+</li>
+<li>Fin: Fecha de finalización del empleo o contrato (si aplica).
+</li>
+<li>Dirección: Dirección postal del empleado.
+</li>
+<li>Ciudad: Ciudad de residencia.
+</li>
+<li>Provincia / Estado: Provincia o región administrativa de residencia.
+</li>
+<li>Código postal: Código postal.
+</li>
+<li>País: País de residencia.
+</li>
+<li>Correo electrónico: Correo electrónico de contacto principal.
+</li>
+<li>Teléfono: Teléfono de contacto principal.
+</li>
+<li>Notas: Observaciones adicionales o anotaciones del área de RRHH.
+</li>
+<li>Tipo: Tipo o categoría del empleado (ej. jornada completa, externo).
+</li>
+<li>Usuario: Cuenta de usuario del sistema asociada al empleado.
+</li>
+</ul>
+
+</section>
+<section id="toc110">
+<h2>22.4. Eliminación</h2>
+
+<p>
+Los empleados pueden eliminarse si no están vinculados a usuarios del sistema o a registros históricos.
+</p>
+<p>
+En caso contrario, debe desactivarse el perfil en lugar de eliminarlo.
+</p>
+
+</section>
+</section>
+<section id="toc111">
+<h1>23. Tipos de empleado</h1>
+
+<section id="toc112">
+<h2>23.1. Descripción</h2>
+
+<p>
+La aplicación de tipos de empleado permite clasificar a los trabajadores según su rol, tipo de contrato o categoría interna.
+Esto ayuda a estructurar la base de datos de RRHH y facilita el filtrado, los informes y el control de acceso.
+</p>
+<p>
+Algunos tipos comunes incluyen "Jornada completa", "Media jornada", "Autónomo", "Prácticas", etc.
+</p>
+
+</section>
+<section id="toc113">
+<h2>23.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Nombre: Título del tipo de empleado.
+</li>
+<li>Descripción: Explicación sobre la finalidad del tipo.
+</li>
+<li>Activo: Indica si el tipo está actualmente disponible.
+</li>
+</ul>
+
+</section>
+<section id="toc114">
+<h2>23.3. Vista de formulario</h2>
+
+<p>
+Esta vista se utiliza para crear, ver o editar tipos de empleado.
+</p>
+<p>
+En el modo <strong>crear</strong>, se puede definir un nuevo tipo de empleado.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, los detalles son visibles pero no editables.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-view-10-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, se pueden actualizar los valores existentes.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-edit-10-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Activo: Controla si el tipo se puede seleccionar.
+</li>
+<li>Nombre: Nombre que aparece en el desplegable de tipos del formulario de empleado.
+</li>
+<li>Descripción: Notas sobre el uso previsto de este tipo.
+</li>
+</ul>
+
+</section>
+<section id="toc115">
+<h2>23.4. Eliminación</h2>
+
+<p>
+Los tipos de empleado solo pueden eliminarse si no están asignados a ningún empleado.
+</p>
+<p>
+En caso contrario, se recomienda desactivarlos.
+</p>
+
+</section>
+</section>
+<section id="toc116">
+<h1>24. Compra</h1>
+
+<section id="toc117">
+<h2>24.1. Descripción</h2>
+
+<p>
+La aplicación de compras se utiliza para registrar y hacer seguimiento de las compras realizadas a proveedores.
+Cada registro de compra incluye detalles de la factura, importe total, fecha de compra y notas o archivos adjuntos.
+Este módulo garantiza la trazabilidad de los gastos y está vinculado al módulo de Proveedores para mantener la coherencia.
+</p>
+
+</section>
+<section id="toc118">
+<h2>24.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Fecha de pedido: Fecha en que se registró la orden de compra en el sistema.
+</li>
+<li>Proveedor: Vendedor o entidad a quien se le adquirió el bien o servicio.
+</li>
+<li>Factura: Número o referencia de la factura emitida por el proveedor.
+</li>
+<li>Pagado: Indica si la compra ha sido totalmente abonada.
+</li>
+</ul>
+
+</section>
+<section id="toc119">
+<h2>24.3. Vista de formulario</h2>
+
+<p>
+Esta vista se utiliza para crear, editar o consultar un registro de compra.
+</p>
+<p>
+En el modo <strong>crear</strong>, el formulario se utiliza para registrar una nueva compra vinculada a un proveedor.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, muestra los detalles de la compra en modo solo lectura.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-view-100-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, puede actualizarse la información si es necesario.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-edit-100-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Fecha de pedido: Fecha en que se registró la orden en el sistema.
+</li>
+<li>Proveedor: Persona o entidad a quien se realizó la compra.
+</li>
+<li>Descripción: Breve explicación o resumen del contenido de la compra.
+</li>
+<li>Subtotal: Importe antes de impuestos y descuentos.
+</li>
+<li>Impuesto: Valor total de los impuestos aplicados a la compra.
+</li>
+<li>Total: Importe final de la compra, con impuestos y descuentos incluidos.
+</li>
+<li>Estado: Estado actual de la compra (ej: borrador, ordenado, recibido).
+</li>
+<li>Número de factura: Número o referencia de la factura emitida por el proveedor.
+</li>
+<li>Fecha de factura: Fecha oficial de la factura del proveedor.
+</li>
+<li>Pagado: Indica si la compra ha sido completamente pagada.
+</li>
+<li>Fecha de pago: Fecha en que se realizó el pago al proveedor.
+</li>
+<li>Notas: Observaciones internas o información administrativa relevante.
+</li>
+</ul>
+
+</section>
+<section id="toc120">
+<h2>24.4. Eliminación</h2>
+
+<p>
+Los registros de compra solo pueden eliminarse si no están vinculados a procesos contables o registros asociados.
+Aparecerá un diálogo de confirmación antes de continuar.
+</p>
+<p>
+Una vez registradas y finalizadas, la eliminación puede estar restringida según permisos del sistema y trazabilidad.
+</p>
+
+</section>
+</section>
+<section id="toc121">
+<h1>25. Estados de compra</h1>
+
+<section id="toc122">
+<h2>25.1. Descripción</h2>
+
+<p>
+La aplicación de estados de compra define las etapas por las que puede pasar un registro de compra.
+Permite categorizar las compras según su estado, como "Borrador", "Ordenado", "Recibido" o "Cancelado".
+</p>
+<p>
+Estos estados ayudan a seguir el progreso del proceso de compras y mejoran la claridad en el módulo de Compras.
+</p>
+
+</section>
+<section id="toc123">
+<h2>25.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Nombre: Nombre del estado (ej: Recibido, Cancelado).
+</li>
+<li>Descripción: Aclara cómo o cuándo se utiliza este estado.
+</li>
+<li>Activo: Indica si el estado está actualmente disponible para su selección.
+</li>
+</ul>
+
+</section>
+<section id="toc124">
+<h2>25.3. Vista de formulario</h2>
+
+<p>
+Esta vista se utiliza para crear, ver o editar entradas de estados de compra.
+</p>
+<p>
+En el modo <strong>crear</strong>, el formulario se utiliza para ingresar un nuevo estado.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, muestra los detalles del estado en modo solo lectura.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-view-10-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, la información puede actualizarse si es necesario.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-edit-10-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Activo: Controla la disponibilidad del estado en el desplegable.
+</li>
+<li>Nombre: Etiqueta del estado tal como aparece en el formulario de compra.
+</li>
+<li>Descripción: Notas internas sobre su caso de uso.
+</li>
+</ul>
+
+</section>
+<section id="toc125">
+<h2>25.4. Eliminación</h2>
+
+<p>
+Los estados solo pueden eliminarse si no hay compras que los estén utilizando actualmente.
+</p>
+<p>
+En la mayoría de los casos, se recomienda desactivarlos.
+</p>
+
+</section>
+</section>
+<section id="toc126">
+<h1>26. Proveedores</h1>
+
+<section id="toc127">
+<h2>26.1. Descripción</h2>
+
+<p>
+La aplicación de proveedores se utiliza para gestionar la lista de vendedores o proveedores externos con los que trabaja la organización.
+Almacena información esencial como identificación, datos de contacto, código fiscal y clasificación.
+Este módulo está vinculado a los flujos de compra, permitiendo asociar proveedores a compras y mantener trazabilidad completa.
+</p>
+
+</section>
+<section id="toc128">
+<h2>26.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Nombre: Nombre o razón social del proveedor.
+</li>
+<li>CIF: Código de identificación fiscal del proveedor (ej: NIF, CIF, IVA).
+</li>
+<li>Ciudad: Ciudad asociada a la dirección del proveedor.
+</li>
+<li>País: País donde el proveedor está ubicado o registrado.
+</li>
+<li>Activo: Indica si el proveedor está actualmente activo en el sistema.
+</li>
+</ul>
+
+</section>
+<section id="toc129">
+<h2>26.3. Vista de formulario</h2>
+
+<p>
+Esta vista se utiliza para crear, editar o consultar registros de proveedores.
+</p>
+<p>
+En el modo <strong>crear</strong>, el formulario está vacío para añadir un nuevo proveedor.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, los campos se muestran en modo solo lectura.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-view-100-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, se pueden actualizar los datos del proveedor.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-edit-100-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Activo: Indica si el proveedor está activo actualmente en el sistema.
+</li>
+<li>Nombre: Nombre o razón social del proveedor.
+</li>
+<li>CIF: Código de identificación fiscal del proveedor (ej: NIF, CIF, IVA).
+</li>
+<li>Dirección: Calle o dirección de facturación del proveedor.
+</li>
+<li>Ciudad: Ciudad asociada a la dirección.
+</li>
+<li>Provincia / Estado: Provincia o región administrativa.
+</li>
+<li>Código postal: Código postal del proveedor.
+</li>
+<li>País: País donde está ubicado o registrado.
+</li>
+<li>Correo electrónico: Dirección de correo de contacto principal.
+</li>
+<li>Teléfono: Número de contacto principal.
+</li>
+<li>Sitio web: Página web o enlace asociado al proveedor.
+</li>
+<li>Notas: Información adicional u observaciones internas sobre el proveedor.
+</li>
+<li>Tipo: Categoría o clasificación del proveedor.
+</li>
+</ul>
+
+</section>
+<section id="toc130">
+<h2>26.4. Eliminación</h2>
+
+<p>
+Los registros de proveedor pueden eliminarse si no están referenciados en compras ni documentos.
+</p>
+<p>
+Aparecerá un diálogo de confirmación antes de eliminar.
+</p>
+<p>
+Si el proveedor está vinculado a compras o registros financieros, no podrá eliminarse.
+</p>
+
+</section>
+</section>
+<section id="toc131">
+<h1>27. Tipos de proveedor</h1>
+
+<section id="toc132">
+<h2>27.1. Descripción</h2>
+
+<p>
+La aplicación de tipos de proveedor se utiliza para clasificar a los proveedores por categoría, sector o tipo de relación.
+Esta clasificación ayuda a filtrar y organizar a los proveedores, y puede utilizarse para segmentación o fines de informe.
+</p>
+<p>
+Ejemplos de tipos incluyen "Distribuidor", "Fabricante", "Prestador de servicios", etc.
+</p>
+
+</section>
+<section id="toc133">
+<h2>27.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Nombre: Nombre del tipo de proveedor.
+</li>
+<li>Descripción: Aclaración opcional o nota interna.
+</li>
+<li>Activo: Indica si el tipo se puede asignar a proveedores.
+</li>
+</ul>
+
+</section>
+<section id="toc134">
+<h2>27.3. Vista de formulario</h2>
+
+<p>
+Esta vista se utiliza para crear, ver o editar tipos de proveedor.
+</p>
+<p>
+En el modo <strong>crear</strong>, se puede definir un nuevo tipo.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, los detalles del tipo son visibles pero no editables.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-view-10-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, los valores existentes pueden actualizarse.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-edit-10-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Activo: Habilita o deshabilita la selección del tipo.
+</li>
+<li>Nombre: Etiqueta descriptiva del tipo.
+</li>
+<li>Descripción: Información o contexto adicional.
+</li>
+</ul>
+
+</section>
+<section id="toc135">
+<h2>27.4. Eliminación</h2>
+
+<p>
+Los tipos de proveedor solo pueden eliminarse si no están asignados actualmente a ningún proveedor.
+</p>
+<p>
+Si están en uso, deben desactivarse en lugar de eliminarse.
+</p>
+
+</section>
+</section>
+<section id="toc136">
+<h1>28. Facturas</h1>
+
+<section id="toc137">
+<h2>28.1. Descripción</h2>
+
+<p>
+La aplicación de facturas permite gestionar las facturas emitidas a clientes dentro de SaltOS4.
+Incluye información del cliente, fecha, estado de pago, líneas de detalle, impuestos y total.
+También gestiona proformas, vencimientos y registro de pagos.
+</p>
+
+</section>
+<section id="toc138">
+<h2>28.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Cliente: Nombre del cliente facturado.
+</li>
+<li>CIF: Código fiscal del cliente.
+</li>
+<li>Factura: Código o número de la factura.
+</li>
+<li>Fecha: Fecha de emisión.
+</li>
+<li>Total: Importe total con impuestos.
+</li>
+<li>Cerrada: Indica si la factura ha sido cerrada.
+</li>
+<li>Pagada: Indica si la factura ha sido cobrada.
+</li>
+</ul>
+
+</section>
+<section id="toc139">
+<h2>28.3. Vista de formulario</h2>
+
+<p>
+Esta vista se utiliza para crear, consultar o editar una factura.
+</p>
+<p>
+En el modo <strong>crear</strong>, el formulario permite generar una nueva factura o proforma.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, se muestran todos los detalles sin posibilidad de edición.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-100-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, se pueden modificar los datos de la factura.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-edit-100-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Cerrada: Indica si la factura está finalizada.
+</li>
+<li>Pagada: Estado de cobro de la factura.
+</li>
+<li>Proforma: Número o referencia de la proforma.
+</li>
+<li>Fecha: Fecha de emisión de la factura.
+</li>
+<li>Factura: Número final asignado al cerrarse.
+</li>
+<li>Cliente: Datos congelados del cliente al momento de emisión.
+</li>
+<li>CIF: Código fiscal del cliente.
+</li>
+<li>Dirección: Dirección del cliente.
+</li>
+<li>Ciudad: Localidad.
+</li>
+<li>Provincia / Estado: Región administrativa.
+</li>
+<li>Código postal: Código postal.
+</li>
+<li>País: País de residencia o registro.
+</li>
+<li>Notas: Observaciones internas o condiciones.
+</li>
+<li>Conceptos: Líneas de detalle de la factura.
+</li>
+<li>Impuestos: Impuestos aplicados por línea.
+</li>
+<li>Totales: Neto, impuestos y total final.
+</li>
+<li>Método de pago: Forma de cobro acordada.
+</li>
+<li>Fecha de vencimiento: Fecha límite para el cobro.
+</li>
+<li>Importe pagado: Cantidad recibida.
+</li>
+<li>Fecha de pago: Fecha en que se registró el pago.
+</li>
+<li>Estado: Estado de la factura (pendiente, parcialmente pagada, etc.).
+</li>
+</ul>
+
+<p>
+Las facturas también incluyen líneas de detalle (producto, cantidad, precio, descuento, impuesto) y un desglose de los impuestos aplicados.
+</p>
+
+</section>
+<section id="toc140">
+<h2>28.4. Eliminación</h2>
+
+<p>
+Las facturas solo pueden eliminarse si no están cerradas ni pagadas.
+El sistema mostrará una advertencia de confirmación antes de proceder.
+</p>
+<p>
+Esta acción no se puede deshacer.
+</p>
+
+</section>
+</section>
+<section id="toc141">
+<h1>29. Estados de las facturas</h1>
+
+<section id="toc142">
+<h2>29.1. Descripción</h2>
+
+<p>
+Este módulo permite definir los distintos estados que puede tener una factura durante su ciclo de vida.
+Puede incluir estados como pendiente, parcialmente pagada, pagada, anulada, etc.
+Estos estados se utilizan para hacer seguimiento del cobro y clasificar las facturas según su situación actual.
+</p>
+
+</section>
+<section id="toc143">
+<h2>29.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Nombre: Nombre del estado.
+</li>
+<li>Descripción: Explicación o uso del estado.
+</li>
+<li>Activo: Indica si el estado está disponible para su uso.
+</li>
+</ul>
+
+</section>
+<section id="toc144">
+<h2>29.3. Vista de formulario</h2>
+
+<p>
+Esta vista permite crear, editar o consultar estados de factura.
+</p>
+<p>
+En el modo <strong>crear</strong>, puedes agregar un nuevo estado.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, solo se muestran los detalles.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-view-10-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, puedes modificar el contenido.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-edit-10-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Activo: Indica si el estado está activo.
+</li>
+<li>Nombre: Título o nombre identificador.
+</li>
+<li>Descripción: Información sobre el uso o significado del estado.
+</li>
+</ul>
+
+</section>
+<section id="toc145">
+<h2>29.4. Eliminación</h2>
+
+<p>
+Los estados solo pueden eliminarse si no están asignados a ninguna factura.
+El sistema solicitará confirmación antes de continuar.
+</p>
+<p>
+Esta acción no se puede deshacer.
+</p>
+
+</section>
+</section>
+<section id="toc146">
+<h1>30. Métodos de pago</h1>
+
+<section id="toc147">
+<h2>30.1. Descripción</h2>
+
+<p>
+La aplicación de métodos de pago se utiliza para definir y gestionar los tipos de pago aceptados por la organización.
+Estos métodos se usan posteriormente en las facturas para indicar cómo pagará el cliente (por ejemplo, transferencia bancaria, tarjeta, efectivo).
+Este módulo garantiza coherencia y trazabilidad en todo el proceso de facturación.
+</p>
+
+</section>
+<section id="toc148">
+<h2>30.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Nombre: Nombre del método de pago (por ejemplo, Efectivo, Transferencia bancaria, Tarjeta de crédito).
+</li>
+<li>Descripción: Detalles adicionales o aclaraciones sobre cómo se utiliza este método.
+</li>
+<li>Activo: Indica si este método está disponible actualmente.
+</li>
+<li>Por defecto: Especifica si este es el método por defecto al crear nuevos registros.
+</li>
+</ul>
+
+</section>
+<section id="toc149">
+<h2>30.3. Vista de formulario</h2>
+
+<p>
+Esta vista se utiliza para crear, consultar o editar métodos de pago.
+</p>
+<p>
+En el modo <strong>crear</strong>, se añade un nuevo método de pago.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, los campos se muestran en modo solo lectura.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-view-10-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, los detalles pueden modificarse.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-edit-10-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Activo: Indica si este método está disponible actualmente.
+</li>
+<li>Por defecto: Especifica si es el método por defecto al crear nuevos registros.
+</li>
+<li>Nombre: Nombre del método de pago (por ejemplo, Efectivo, Transferencia bancaria, Tarjeta de crédito).
+</li>
+<li>Descripción: Detalles adicionales o aclaraciones sobre el uso del método.
+</li>
+</ul>
+
+</section>
+<section id="toc150">
+<h2>30.4. Eliminación</h2>
+
+<p>
+Los métodos de pago pueden eliminarse si no están usados en ninguna factura.
+</p>
+<p>
+Si ya están referenciados, deben marcarse como inactivos en lugar de eliminarse.
+</p>
+
+</section>
+</section>
+<section id="toc151">
+<h1>31. Productos</h1>
+
+<section id="toc152">
+<h2>31.1. Descripción</h2>
+
+<p>
+La aplicación de productos gestiona el catálogo de bienes y servicios ofrecidos por la organización.
+Almacena detalles esenciales como el código de referencia, el precio, el nivel de stock, los impuestos y la clasificación.
+Los productos pueden vincularse a presupuestos, facturas y compras, siendo este módulo clave para las ventas y la gestión de inventario.
+</p>
+
+</section>
+<section id="toc153">
+<h2>31.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Nombre: El nombre completo del producto o servicio, tal como aparecerá en listados y documentos.
+</li>
+<li>Código: Código interno del producto utilizado para identificarlo de forma única.
+</li>
+<li>Descripción: Explicación detallada o especificaciones del producto.
+</li>
+</ul>
+
+</section>
+<section id="toc154">
+<h2>31.3. Vista de formulario</h2>
+
+<p>
+Esta vista se utiliza para crear, editar o consultar un registro de producto.
+</p>
+<p>
+En el modo <strong>crear</strong>, el formulario está vacío para introducir un nuevo producto.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, todos los campos son de solo lectura y muestran información detallada.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-view-100-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, pueden actualizarse o corregirse los datos del producto.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-edit-100-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Activo: Indica si el producto está disponible para transacciones.
+</li>
+<li>Nombre: El nombre completo del producto o servicio, tal como aparecerá en listados y documentos.
+</li>
+<li>Código: Código interno del producto utilizado para identificarlo de forma única.
+</li>
+<li>Tipo: Clasificación del producto, como artículo, servicio o suscripción.
+</li>
+<li>Precio: Precio de venta por unidad, sin impuestos ni descuentos.
+</li>
+<li>Coste: Coste interno de compra o fabricación, usado para calcular márgenes.
+</li>
+<li>Margen: Margen de beneficio calculado a partir del precio y el coste.
+</li>
+<li>Impuesto: Tasa impositiva por defecto aplicada en ventas.
+</li>
+<li>Descripción: Explicación detallada o especificaciones del producto.
+</li>
+<li>Categoría: Familia o grupo del producto, para clasificación o filtrado.
+</li>
+<li>Unidad de medida: Unidad de medida (p. ej., unidad, kg, hora).
+</li>
+<li>Marca: Nombre de la marca o fabricante del producto.
+</li>
+<li>Modelo: Número o variante del modelo del producto.
+</li>
+<li>Código de barras: Asociado al producto para escaneo o etiquetado.
+</li>
+<li>Stock: Nivel actual de stock disponible.
+</li>
+<li>Stock mínimo: Umbral mínimo para alertas de reposición.
+</li>
+<li>Stock máximo: Límite máximo permitido de stock.
+</li>
+<li>Ubicación: Localización física o lógica del producto.
+</li>
+<li>URL de imagen: Enlace o ruta hacia una imagen del producto.
+</li>
+</ul>
+
+</section>
+<section id="toc155">
+<h2>31.4. Eliminación</h2>
+
+<p>
+Los productos pueden eliminarse desde la vista de lista si no están referenciados en documentos activos.
+Aparecerá un mensaje de confirmación antes de eliminar.
+</p>
+<p>
+Los productos vinculados a facturas, presupuestos o compras están protegidos contra la eliminación.
+</p>
+
+</section>
+</section>
+<section id="toc156">
+<h1>32. Categorías de productos</h1>
+
+<section id="toc157">
+<h2>32.1. Descripción</h2>
+
+<p>
+La aplicación de categorías de productos se utiliza para clasificar productos y servicios según su naturaleza o comportamiento.
+Esta clasificación ayuda a distinguir entre bienes físicos, servicios, suscripciones u otras categorías internas utilizadas en informes o automatizaciones.
+</p>
+<p>
+Ejemplos de categorías incluyen "Producto", "Servicio", "Suscripción" o "Paquete".
+</p>
+
+</section>
+<section id="toc158">
+<h2>32.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Nombre: Etiqueta de la categoría.
+</li>
+<li>Descripción: Descripción opcional para aclarar el propósito de la categoría.
+</li>
+<li>Activo: Indica si la categoría está disponible al crear productos.
+</li>
+</ul>
+
+</section>
+<section id="toc159">
+<h2>32.3. Vista de formulario</h2>
+
+<p>
+Esta vista se utiliza para crear, consultar o editar registros de categorías de producto.
+</p>
+<p>
+En el modo <strong>crear</strong>, se puede definir una nueva categoría.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, los detalles de la categoría se muestran pero no se pueden editar.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-view-10-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, se pueden actualizar los valores existentes.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-edit-10-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Activo: Controla si se puede elegir en formularios de producto.
+</li>
+<li>Nombre: Nombre que aparece en el selector de tipo al crear un producto.
+</li>
+<li>Descripción: Notas sobre el uso previsto de la categoría.
+</li>
+</ul>
+
+</section>
+<section id="toc160">
+<h2>32.4. Eliminación</h2>
+
+<p>
+Las categorías solo pueden eliminarse si no están vinculadas a ningún producto.
+</p>
+<p>
+En caso contrario, se recomienda desactivarlas.
+</p>
+
+</section>
+</section>
+<section id="toc161">
+<h1>33. Tipos de producto</h1>
+
+<section id="toc162">
+<h2>33.1. Descripción</h2>
+
+<p>
+La aplicación de tipos de producto se utiliza para agrupar productos en familias o colecciones para facilitar su clasificación.
+Los tipos son útiles para filtrar, generar informes, organizar catálogos y aplicar reglas comerciales comunes.
+</p>
+<p>
+Algunos tipos habituales pueden incluir "Hardware", "Software", "Servicios" o "Accesorios".
+</p>
+
+</section>
+<section id="toc163">
+<h2>33.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Nombre: Nombre del tipo.
+</li>
+<li>Descripción: Descripción de los productos que incluye este tipo.
+</li>
+<li>Activo: Indica si este tipo se puede asignar a productos.
+</li>
+</ul>
+
+</section>
+<section id="toc164">
+<h2>33.3. Vista de formulario</h2>
+
+<p>
+Esta vista se utiliza para crear, consultar o editar registros de tipos de producto.
+</p>
+<p>
+En el modo <strong>crear</strong>, se puede definir un nuevo tipo.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, los detalles se muestran pero no se pueden editar.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-view-10-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, se pueden actualizar los valores existentes.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-edit-10-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Activo: Activa o desactiva la selección del tipo.
+</li>
+<li>Nombre: Etiqueta del tipo tal como aparece en el formulario de producto.
+</li>
+<li>Descripción: Notas o aclaraciones opcionales sobre este tipo.
+</li>
+</ul>
+
+</section>
+<section id="toc165">
+<h2>33.4. Eliminación</h2>
+
+<p>
+Los tipos solo pueden eliminarse si no están asignados a ningún producto.
+</p>
+<p>
+En caso contrario, deben desactivarse.
+</p>
+
+</section>
+</section>
+<section id="toc166">
+<h1>34. Impuestos</h1>
+
+<section id="toc167">
+<h2>34.1. Descripción</h2>
+
+<p>
+La aplicación de impuestos se utiliza para definir y gestionar los tipos impositivos aplicados a productos, presupuestos y facturas.
+Funciona como repositorio central de tipos como IVA, impuesto sobre ventas o exenciones.
+Cada registro incluye el nombre, el porcentaje y el estado, asegurando una aplicación coherente en todo el sistema ERP.
+</p>
+
+</section>
+<section id="toc168">
+<h2>34.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Nombre: Nombre o etiqueta usada para identificar el impuesto (ej: IVA 21%).
+</li>
+<li>Descripción: Explicación opcional o detalles adicionales sobre la norma fiscal o contexto de uso.
+</li>
+<li>Valor: Porcentaje del impuesto a aplicar (ej: 21 para 21%).
+</li>
+<li>Activo: Indica si este impuesto está disponible para ser seleccionado en documentos.
+</li>
+<li>Por defecto: Indica si este impuesto se selecciona automáticamente al crear nuevos documentos.
+</li>
+</ul>
+
+</section>
+<section id="toc169">
+<h2>34.3. Vista de formulario</h2>
+
+<p>
+Esta vista se utiliza para crear, ver o editar tipos de impuesto.
+</p>
+<p>
+En el modo <strong>crear</strong>, se puede definir una nueva regla de impuesto.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, los detalles del impuesto son visibles pero no editables.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-view-1-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, los valores existentes pueden actualizarse.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-edit-1-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Activo: Indica si este impuesto está disponible para ser seleccionado en documentos.
+</li>
+<li>Por defecto: Indica si este impuesto se selecciona automáticamente al crear nuevos documentos.
+</li>
+<li>Nombre: Nombre o etiqueta usada para identificar el impuesto (ej: IVA 21%).
+</li>
+<li>Valor: Porcentaje del impuesto a aplicar (ej: 21 para 21%).
+</li>
+<li>Descripción: Explicación opcional o detalles adicionales sobre la norma fiscal o contexto de uso.
+</li>
+</ul>
+
+</section>
+<section id="toc170">
+<h2>34.4. Eliminación</h2>
+
+<p>
+Los impuestos solo pueden eliminarse si no están usados en ninguna factura ni producto.
+</p>
+<p>
+Si un impuesto está en uso, debe desactivarse en su lugar para preservar la integridad del sistema.
+</p>
+
+</section>
+</section>
+<section id="toc171">
+<h1>35. Órdenes de trabajo</h1>
+
+<section id="toc172">
+<h2>35.1. Descripción</h2>
+
+<p>
+La aplicación de órdenes de trabajo se utiliza para registrar, planificar y hacer seguimiento de tareas o servicios solicitados por clientes.
+Cada orden incluye información sobre el solicitante, el servicio requerido, estado, fechas, personal asignado,
+y notas o archivos adjuntos asociados. Este módulo es esencial para gestionar actividades operativas,
+como soporte técnico, instalaciones o servicios de campo.
+</p>
+
+</section>
+<section id="toc173">
+<h2>35.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Fecha: Fecha en que se creó o programó la orden.
+</li>
+<li>Técnico: Empleado o técnico asignado para realizar la tarea.
+</li>
+<li>Cliente: Cliente que solicitó el servicio o tarea.
+</li>
+</ul>
+
+</section>
+<section id="toc174">
+<h2>35.3. Vista de formulario</h2>
+
+<p>
+Esta vista se utiliza para crear, editar o consultar una orden de trabajo.
+</p>
+<p>
+En el modo <strong>crear</strong>, el formulario permite registrar una nueva tarea a realizar.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, la información se muestra como solo lectura.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-100-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, los datos pueden actualizarse según el progreso o retroalimentación.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-edit-100-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Fecha: Fecha en que se creó o programó la orden.
+</li>
+<li>Técnico: Empleado o técnico asignado.
+</li>
+<li>Cliente: Cliente que solicitó el trabajo o servicio.
+</li>
+<li>Descripción: Detalles sobre la naturaleza u objetivo del trabajo a realizar.
+</li>
+<li>Horas: Número estimado o real de horas asignadas.
+</li>
+<li>Precio: Tarifa por hora o precio fijo acordado.
+</li>
+<li>Total: Importe final calculado en base al precio y las horas.
+</li>
+<li>Factura: Número o referencia de la factura asociada al trabajo realizado.
+</li>
+</ul>
+
+</section>
+<section id="toc175">
+<h2>35.4. Eliminación</h2>
+
+<p>
+Las órdenes de trabajo solo pueden eliminarse si no están vinculadas a servicios completados o acciones registradas.
+</p>
+<p>
+Se mostrará un aviso de confirmación antes de eliminar.
+Se recomienda desactivarlas si se desea conservar el historial sin mantenerlas visibles.
+</p>
+
+</section>
+</section>
+<section id="toc176">
+<h1>36. Grupos</h1>
+
+<section id="toc177">
+<h2>36.1. Descripción</h2>
+
+<p>
+La aplicación de grupos se utiliza para definir roles o categorías de usuarios dentro de SaltOS4.
+Cada grupo agrupa permisos que determinan qué pueden ver o hacer sus miembros en el sistema.
+Los grupos simplifican la administración del control de acceso al permitir gestionar los permisos a nivel de grupo en lugar de usuario por usuario.
+</p>
+
+</section>
+<section id="toc178">
+<h2>36.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-users-groups-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Código: Identificador interno o código de referencia del grupo.
+</li>
+<li>Nombre: Nombre o título usado para identificar el grupo.
+</li>
+<li>Descripción: Explicación de la finalidad o alcance del grupo.
+</li>
+<li>Activo: Indica si este grupo está habilitado para su uso.
+</li>
+</ul>
+
+</section>
+<section id="toc179">
+<h2>36.3. Vista de formulario</h2>
+
+<p>
+Esta vista se utiliza para crear, ver o editar grupos de usuarios.
+</p>
+<p>
+En el modo <strong>crear</strong>, se define un nuevo grupo.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-users-groups-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, se muestran los detalles del grupo y los permisos asignados.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-users-groups-view-1-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, se puede actualizar el nombre, la descripción y la matriz de permisos.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-users-groups-edit-1-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Activo: Indica si el grupo está habilitado para su uso.
+</li>
+<li>Código: Identificador interno o referencia del grupo.
+</li>
+<li>Nombre: Título o nombre que identifica al grupo.
+</li>
+<li>Descripción: Explicación de su propósito o alcance funcional.
+</li>
+<li>Usuarios: Lista de usuarios asignados a este grupo.
+</li>
+<li>Aplicaciones y permisos: Matriz de accesos y operaciones permitidas a este grupo.
+</li>
+</ul>
+
+</section>
+<section id="toc180">
+<h2>36.4. Eliminación</h2>
+
+<p>
+Los grupos solo pueden eliminarse si no tienen usuarios asignados.
+</p>
+<p>
+Si el grupo está en uso, se recomienda desactivarlo para conservar el historial de accesos.
+</p>
+
+</section>
+</section>
+<section id="toc181">
+<h1>37. Usuarios</h1>
+
+<section id="toc182">
+<h2>37.1. Descripción</h2>
+
+<p>
+La aplicación de usuarios se utiliza para gestionar las cuentas que tienen acceso al sistema SaltOS4.
+Cada usuario tiene asignadas credenciales, roles y permisos, y puede estar vinculado opcionalmente a un perfil de empleado.
+Este módulo es esencial para el control de acceso, la personalización y la trazabilidad mediante auditoría.
+</p>
+
+</section>
+<section id="toc183">
+<h2>37.2. Vista de lista</h2>
+
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-users-users-list-es-es-1-snap.png" alt="">
+</p>
+<p>
+Los siguientes campos se muestran en la vista de lista:
+</p>
+
+<ul>
+<li>Usuario: Nombre de usuario único utilizado para acceder al sistema.
+</li>
+<li>Nombre: Nombre completo del usuario, usado para identificación y visualización.
+</li>
+<li>Descripción: Comentarios internos o notas sobre el perfil del usuario.
+</li>
+<li>Grupo: Grupo o rol asignado para control de permisos.
+</li>
+<li>Activo: Indica si la cuenta está actualmente habilitada.
+</li>
+</ul>
+
+</section>
+<section id="toc184">
+<h2>37.3. Vista de formulario</h2>
+
+<p>
+Esta vista se utiliza para crear, ver o editar cuentas de usuario.
+</p>
+<p>
+En el modo <strong>crear</strong>, el formulario permite registrar un nuevo usuario con credenciales de acceso.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-users-users-create-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>visualización</strong>, los datos del usuario se muestran sin opción de edición.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-users-users-view-1-es-es-1-snap.png" alt="">
+</p>
+<p>
+En el modo <strong>edición</strong>, se puede actualizar la información o restablecer credenciales.
+</p>
+<p>
+<img class="center" src="../ujest/snaps/test-screenshots-js-screenshots-users-users-edit-1-es-es-1-snap.png" alt="">
+</p>
+<p>
+El formulario incluye los siguientes campos:
+</p>
+
+<ul>
+<li>Activo: Indica si la cuenta de usuario está actualmente habilitada.
+</li>
+<li>Usuario: Nombre único de acceso al sistema.
+</li>
+<li>Grupo: Grupo o rol que define los permisos base.
+</li>
+<li>Nombre: Nombre completo del usuario.
+</li>
+<li>Nueva contraseña: Clave de acceso nueva (para restablecimiento o cambio).
+</li>
+<li>Repetir contraseña: Confirmación de la nueva contraseña.
+</li>
+<li>Descripción: Notas internas sobre el perfil del usuario.
+</li>
+<li>Inicio: Fecha desde la cual la cuenta es válida.
+</li>
+<li>Fin: Fecha de expiración tras la cual no se permite el acceso.
+</li>
+<li>Días: Días de la semana en los que se permite acceso.
+</li>
+<li>Grupos: Grupos adicionales asociados al usuario.
+</li>
+<li>Aplicaciones y permisos: Matriz detallada de accesos y acciones permitidas.
+</li>
+<li>Historial de contraseñas: Lista de contraseñas anteriores para control y seguridad.
+</li>
+</ul>
+
+</section>
+<section id="toc185">
+<h2>37.4. Eliminación</h2>
+
+<p>
+Las cuentas de usuario pueden eliminarse si no han iniciado sesión y no están vinculadas a registros de actividad.
+</p>
+<p>
+En caso contrario, se recomienda desactivarlas en lugar de eliminarlas para mantener trazabilidad.
+</p>
+</section>
+</section>
+</div>
+
+<!-- html code generated by txt2tags 3.4 (http://txt2tags.org) -->
+<!-- cmdline: txt2tags -\-toc -t html -i user_es_es.t2t -o user_es_es.html -->
+</article></body></html>
