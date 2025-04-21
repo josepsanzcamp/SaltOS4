@@ -16,12 +16,9 @@ such as technical support, installations, or field services.
 
 The following fields are displayed in the list view:
 
-- Code: Internal reference number of the work order.
-- Date: The creation date of the work order.
-- Customer: The customer who requested the service.
-- Assigned To: The employee or technician responsible for the task.
-- Status: Current state of the work order (e.g., Open, In Progress, Closed).
-- Description: Short description of the task or service required.
+- Date: The date when the work order was created or scheduled.
+- Worker: The employee or technician assigned to carry out the task.
+- Client: The customer who requested the service or task.
 
 
 ==Form view==
@@ -42,15 +39,14 @@ In **edit** mode, the data can be updated based on progress or feedback.
 
 The form includes the following fields:
 
-- Code: Internal identifier for the work order.
-- Date: Date when the request was received or scheduled.
-- Customer: Linked customer requesting the service.
-- Assigned To: Selected employee or technician responsible for the task.
-- Status: Status of the job (e.g., Open, Assigned, In Progress, Completed).
-- Type: Category or classification of the work order.
-- Description: Short explanation of the service or task.
-- Notes: Internal observations or customer-specific instructions.
-- Files: Attachments such as documents or images related to the job.
+- Date: The date when the work order was created or scheduled.
+- Worker: The employee or technician assigned to carry out the task.
+- Client: The customer who requested the service or task.
+- Description: Details about the nature or objective of the work to be done.
+- Hours: Estimated or actual number of hours allocated to the task.
+- Price: Hourly rate or fixed price agreed for the work.
+- Total: Final amount calculated based on price and hours.
+- Invoice: Invoice number or reference associated with the completed work.
 
 
 ==Delete==

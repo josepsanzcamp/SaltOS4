@@ -15,13 +15,11 @@ This module is linked to purchase workflows, allowing you to associate suppliers
 
 The following fields are displayed in the list view:
 
-- Name: Full name or business name of the supplier.
-- CIF: Tax identification number of the supplier.
-- Country: Country where the supplier is based or registered.
-- Email: Primary contact email address.
-- Phone: Main contact number for communication.
-- Type: Classification of the supplier (e.g., hardware, services).
-- Active: Indicates if the supplier is active and visible in the system.
+- Name: Name or legal entity of the supplier.
+- CIF: Tax identification code of the supplier (e.g., VAT, NIF, CIF).
+- City: City associated with the supplier's address.
+- Country: Country where the supplier is located or registered.
+- Active: Indicates whether the supplier is currently active in the system.
 
 
 ==Form view==
@@ -42,17 +40,19 @@ In **edit** mode, supplier data can be updated.
 
 The form includes the following fields:
 
-- Name: Full legal or commercial name of the supplier.
-- CIF: Supplier’s tax identification code (e.g., NIF, VAT).
-- Address: Main business or billing address.
-- City: City where the supplier is located.
-- ZIP: Postal code for the address.
-- Country: Country of registration.
-- Phone: Contact number for follow-up or orders.
-- Email: Email address for communication or purchase notifications.
-- Type: Supplier classification by service or category.
-- Notes: Internal remarks or annotations.
-- Active: Controls whether the supplier is enabled or archived.
+- Active: Indicates whether the supplier is currently active in the system.
+- Name: Name or legal entity of the supplier.
+- CIF: Tax identification code of the supplier (e.g., VAT, NIF, CIF).
+- Address: Street or billing address of the supplier.
+- City: City associated with the supplier's address.
+- Province / State: Province or region linked to the supplier's address.
+- ZIP: Postal code of the supplier's address.
+- Country: Country where the supplier is located or registered.
+- Email: Primary contact email address for the supplier.
+- Phone: Main contact number for the supplier.
+- Website: Website or external link associated with the supplier.
+- Notes: Additional internal information or remarks about the supplier.
+- Type: Category or classification of the supplier.
 
 
 ==Delete==

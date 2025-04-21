@@ -16,13 +16,10 @@ and convert leads into customers when appropriate.
 
 The following fields are displayed in the list view:
 
-- Name: Full name or company name of the lead.
-- Email: Main email address for contacting the lead.
-- Phone: Primary contact phone number.
-- Status: Current state of the lead (e.g., New, Contacted, Qualified).
-- Type: Classification of the lead by business profile or interest.
-- Assigned To: User responsible for following up the lead.
-- Active: Indicates if the lead is currently active in the system.
+- Title: The title or subject of the meeting, summarizing its purpose.
+- Location: The place where the meeting is held, or the online platform link if virtual.
+- Start Time: Scheduled starting date and time of the meeting.
+- Customer: Customer associated with the meeting, if applicable.
 
 
 ==Form view==
@@ -43,15 +40,16 @@ In **edit** mode, the form is pre-filled and allows modifications.
 
 The form includes the following fields:
 
-- Name: Full name or company name of the lead.
-- Email: Main email address to contact the lead.
-- Phone: Primary contact number.
-- Status: Current state of the lead in the sales funnel.
-- Type: Segment or classification of the lead.
-- Assigned To: User responsible for managing this lead.
-- Source: Origin of the lead (e.g., website, trade show, referral).
-- Notes: Internal comments or observations about the lead.
-- Active: Whether the lead is visible and in use.
+- Title: The title or subject of the meeting, summarizing its purpose.
+- Location: The place where the meeting is held, or the online platform link if virtual.
+- Start Time: Scheduled starting date and time of the meeting.
+- End Time: Planned ending date and time of the meeting.
+- Related Customer: Customer associated with the meeting, if applicable.
+- Participants: List of users or external contacts invited to the meeting.
+- Agenda: The topics or plan intended to be covered during the meeting.
+- Topics Approved: Items discussed in the meeting that were approved.
+- Topics Rejected: Items discussed that were not approved or postponed.
+- Topics Pending: Items discussed that require further action or decision.
 
 
 ==Delete==

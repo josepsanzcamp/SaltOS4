@@ -15,11 +15,10 @@ This module allows administrators to monitor access to the system and detect pot
 
 The following fields are displayed in the list view:
 
-- Datetime: When the token was used.
-- User: The user associated with the token.
-- Token ID: Identifier or fingerprint of the token.
-- Action: Operation performed using the token (e.g., login, request).
-- IP Address: Origin of the access attempt.
+- User: User associated with the token.
+- Created: Date and time when the token was created.
+- Token: The token string used for authentication or access.
+- Active: Indicates whether the token is currently valid and usable.
 
 
 ==View entry==
@@ -30,13 +29,14 @@ This view displays all information related to a specific token access.
 
 It includes:
 
-- Datetime: Timestamp of token usage.
-- User: Owner of the token.
-- Token: Full token or masked fingerprint.
-- Action: Description of what the token was used for.
-- IP Address: Source IP from which the token was used.
-- User-Agent: Browser or client string (if available).
-- App/Endpoint: Optional context of the API or function accessed.
+- Active: Indicates whether the token is currently valid and usable.
+- User: User associated with the token.
+- Created: Date and time when the token was created.
+- Updated: Date and time of the last update to the token's state.
+- Remote Addres: IP address from which the token was used or created.
+- User Agent: Browser or client used when the token was generated or accessed.
+- Token: The token string used for authentication or access.
+- Expires: Expiration date and time of the token, after which it is no longer valid.
 
 
 ==Delete==

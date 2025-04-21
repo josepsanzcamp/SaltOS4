@@ -232,7 +232,7 @@
                 <tags id="cc" label="CC" separator=";" datalist="app/emails/create/emails"/>
                 <tags id="bcc" label="BCC" separator=";" datalist="app/emails/create/emails"/>
                 <switch id="state_crt" label="Request confirmation of receipt" col_class="col-sm-12 col-md-4 col-lg-6 mb-3"/>
-                <select id="priority" label="Prioriry" value="0" col_class="col-sm-6 col-md-4 col-lg-3 mb-3">
+                <select id="priority" label="Priority" value="0" col_class="col-sm-6 col-md-4 col-lg-3 mb-3">
                     <rows eval="true">[
                         ['label' => T('Low'), 'value' => -1],
                         ['label' => T('Normal'), 'value' => 0],
@@ -343,7 +343,7 @@
                 <text id="bcc" label="BCC"/>
                 <datetime id="datetime" label="Datetime" col_class="col-sm-6 col-md-4 col-lg-3 mb-3"/>
                 <text id="uidl" label="UIDL" col_class="col-sm-6 col-md-4 col-lg-3 mb-3"/>
-                <select id="priority" label="Prioriry" col_class="col-sm-6 col-md-2 col-lg-3 mb-3">
+                <select id="priority" label="Priority" col_class="col-sm-6 col-md-2 col-lg-3 mb-3">
                     <rows eval="true">[
                         ["label"=>"Low","value"=>-1],
                         ["label"=>"Normal","value"=>0],

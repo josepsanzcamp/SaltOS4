@@ -15,13 +15,10 @@ This module is essential for keeping a history of client interactions, improving
 
 The following fields are displayed in the list view:
 
-- Date: Scheduled date of the meeting.
-- Time: Scheduled time for the meeting.
-- Subject: Title or topic of the meeting.
-- Customer: Participant or client associated with the meeting.
-- Type: Classification of the meeting (e.g., call, on-site visit, video conference).
-- Status: Current state of the meeting (e.g., Planned, Completed, Cancelled).
-- Assigned To: Person responsible for attending or organizing the meeting.
+- Title: The title or subject of the meeting, summarizing its purpose.
+- Location: The place where the meeting is held, or the online platform link if virtual.
+- Start Time: Scheduled starting date and time of the meeting.
+- Customer: Customer associated with the meeting, if applicable.
 
 
 ==Form view==
@@ -42,16 +39,16 @@ In **edit** mode, the meeting details can be modified if needed.
 
 The form includes the following fields:
 
-- Date: Day the meeting is planned to occur.
-- Time: Scheduled time (optional if the meeting is full-day).
-- Subject: Brief title or summary of the meeting.
-- Customer: Linked participant or external contact.
-- Type: Meeting format or category.
-- Status: Progress state of the meeting (e.g., Confirmed, Done).
-- Assigned To: Internal user or employee leading the meeting.
-- Location: Physical address or virtual link for the meeting.
-- Notes: Additional observations or meeting agenda.
-- Files: Attachments such as reports, presentations, or confirmations.
+- Title: The title or subject of the meeting, summarizing its purpose.
+- Location: The place where the meeting is held, or the online platform link if virtual.
+- Start Time: Scheduled starting date and time of the meeting.
+- End Time: Planned ending date and time of the meeting.
+- Related Customer: Customer associated with the meeting, if applicable.
+- Participants: List of users or external contacts invited to the meeting.
+- Agenda: The topics or plan intended to be covered during the meeting.
+- Topics Approved: Items discussed in the meeting that were approved.
+- Topics Rejected: Items discussed that were not approved or postponed.
+- Topics Pending: Items discussed that require further action or decision.
 
 
 ==Delete==

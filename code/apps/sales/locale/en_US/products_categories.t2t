@@ -39,9 +39,9 @@ In **edit** mode, existing values can be updated.
 
 The form includes the following fields:
 
+- Active: Controls availability in product forms.
 - Name: Name shown in the type selection when creating a product.
 - Description: Notes about the type’s intended use.
-- Active: Controls availability in product forms.
 
 
 ==Delete==

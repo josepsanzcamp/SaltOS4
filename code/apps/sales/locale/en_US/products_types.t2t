@@ -39,9 +39,9 @@ In **edit** mode, existing values can be updated.
 
 The form includes the following fields:
 
+- Active: Enables or disables the category for selection.
 - Name: Label of the category as shown in the product form.
 - Description: Optional clarification or notes about this category.
-- Active: Enables or disables the category for selection.
 
 
 ==Delete==

@@ -15,12 +15,10 @@ This module allows integration with external email providers and supports authen
 
 The following fields are displayed in the list view:
 
-- Name: Descriptive name of the account for internal reference.
-- Email: Email address configured for the account.
-- Type: Protocol used (e.g., IMAP, POP3).
-- Server: Incoming server hostname.
-- Port: Network port used for incoming mail.
-- Active: Indicates whether the account is enabled for use.
+- User: User who owns or uses this email account.
+- Name: Descriptive label used to identify the email account within the system.
+- Email: The email address configured for this account.
+- Enabled: Marks the account as active; synchronization will occur.
 
 
 ==Form view==
@@ -41,20 +39,27 @@ In **edit** mode, the configuration can be updated or corrected.
 
 The form includes the following fields:
 
-- Name: Internal label for the account.
-- Email: Actual email address being configured.
-- Type: Protocol for incoming messages (IMAP or POP3).
-- Username: Login credential for server authentication.
-- Password: Secret key used to access the account.
-- Incoming Server: Hostname of the email provider's incoming server.
-- Incoming Port: Port used to retrieve messages.
-- Use SSL: Whether to use a secure connection for incoming emails.
-- Outgoing Server (SMTP): Server used to send messages.
-- Outgoing Port: Port used to deliver messages.
-- SMTP Username: Credential for sending mail (if different).
-- SMTP Password: Authentication password for sending (if needed).
-- Signature: Default email signature attached to outgoing messages.
-- Active: Enables or disables the account.
+- User: User who owns or uses this email account.
+- Name: Display name or label used to identify the account.
+- Email: Actual email address configured for this account.
+- Signature: Text or HTML signature added automatically to outgoing messages.
+- Host: POP3 server hostname used to receive emails.
+- Port: Network port used to connect to the POP3 server (e.g., 110, 995).
+- Extra: Additional POP3 connection settings, such as TLS.
+- User: Username for POP3 authentication.
+- Password: Password for the POP3 account.
+- Delete: Whether messages are deleted from the server after download.
+- Days: Number of days to keep messages on the server.
+- Host: SMTP server hostname used to send emails.
+- Port: Network port used for SMTP communication (e.g., 25, 465, 587).
+- Extra: SMTP encryption method: none, SSL, or TLS.
+- User: Username for SMTP authentication.
+- Password: Password for the SMTP server account.
+- Disabled: Marks the account as inactive; no synchronization will occur.
+- Privated: Restricts access to the account to its owner only.
+- Default: Sets this account as the default for sending emails.
+- Add me to CC: Automatically includes the sender in the CC field.
+- Confirm reading to: Sends a read receipt request with each email.
 
 
 ==Delete==

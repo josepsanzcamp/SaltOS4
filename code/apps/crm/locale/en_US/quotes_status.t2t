@@ -39,9 +39,9 @@ In **edit** mode, it shows a draft quote ready for modification.
 
 The form includes the following fields:
 
+- Active: Toggles the visibility of this status in dropdowns.
 - Name: Name of the status as it appears in the interface.
 - Description: Optional explanation for internal reference.
-- Active: Toggles the visibility of this status in dropdowns.
 
 
 ==Delete==

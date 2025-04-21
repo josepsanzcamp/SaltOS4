@@ -15,12 +15,9 @@ This module provides a complete audit trail for document activity, supporting tr
 
 The following fields are displayed in the list view:
 
-- Datetime: When the file was accessed.
-- User: Who accessed the file.
-- File: Name of the accessed file.
-- Action: Type of access performed (e.g., view, download).
-- Path: Internal or external file path.
-- Context: Application or record the file is linked to.
+- Name: Name of the accessed or managed file within the system.
+- Type: File format or classification (e.g., PDF, image, text).
+- Size: Size of the file in bytes.
 
 
 ==View entry==
@@ -29,14 +26,10 @@ This view shows detailed information about a file access event.
 
 It includes:
 
-- Datetime: Timestamp of access.
-- User: The system user who triggered the access.
-- File: Original filename or document identifier.
-- Action: View, download, or other file operation.
-- Path: Where the file is stored or served from.
-- App: Module or context in which the file was accessed.
-- Record: Related entity (e.g., customer, invoice) linked to the file.
-- IP Address: Source of the request.
+- Name: Name of the accessed or managed file within the system.
+- Type: File format or classification (e.g., PDF, image, text).
+- Size: Size of the file in bytes.
+- Data: Internal content, metadata or serialized structure representing the file access or action.
 
 
 ==Delete==

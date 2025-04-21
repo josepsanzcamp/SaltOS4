@@ -16,11 +16,11 @@ This module is tightly integrated with Customers and Products, and allows for tr
 
 The following fields are displayed in the list view:
 
-- Customer: Name of the customer to whom the quote is addressed.
-- CIF: Tax identification code of the customer.
-- Quote: Internal reference code of the quote.
-- Date: Date the quote was issued.
-- Total: Total amount of the quote including taxes.
+- Customer: The client to whom the quote is addressed.
+- CIF: The customer's tax identification code (e.g., VAT, CIF, NIF).
+- Quote: The internal reference or code used to identify the quote.
+- Date: The official date the quote was created or issued.
+- Total: The total monetary value of the quote, including all taxes and discounts.
 
 
 ==Form view==
@@ -41,16 +41,22 @@ In **edit** mode, it shows a draft quote ready for modification.
 
 The form includes the following fields:
 
-- Customer: Selected client to whom the quote is addressed.
-- CIF: Tax identification number of the customer.
-- Quote: Internal reference number for the quote.
-- Date: Emission date of the quote.
-- Status: Current state of the quote (Draft, Sent, Accepted).
-- Valid Until: Expiration date for the offer.
-- Payment Terms: Conditions agreed for future payment if accepted.
-- Delivery Date: Expected delivery date for the goods or services.
-- Notes: Internal comments or specific conditions related to this quote.
-- Total: Automatically calculated amount based on lines and taxes.
+- Quote: The internal reference or code used to identify the quote.
+- Date: The official date the quote was created or issued.
+- Customer: The client to whom the quote is addressed.
+- CIF: The customer's tax identification code (e.g., VAT, CIF, NIF).
+- Address: The customer's address at the time of issuing the quote.
+- City: The city associated with the customer in the quote.
+- Province / State: The region or state linked to the customer's location.
+- Zip: The postal code of the customer's address.
+- Country: The customer's country of residence or business.
+- Notes: Additional internal notes or observations attached to the quote.
+- Concepts: The list of products or services included in the quote.
+- Taxes: Breakdown of applicable taxes for the quoted items.
+- Totals: Subtotal, taxes, and final amount displayed in a structured summary.
+- Payment method: The selected method for payment if the quote is accepted.
+- Valid until: The expiration date until which the quote remains valid.
+- Status: The current lifecycle state of the quote (e.g., draft, sent, accepted).
 
 
 Quote lines are also included as a subtable, where each line contains product, quantity, price, tax, and discount.

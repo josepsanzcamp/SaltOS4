@@ -39,9 +39,9 @@ In **edit** mode, existing values can be updated.
 
 The form includes the following fields:
 
+- Active: Allows enabling or disabling the status.
 - Name: Label of the status.
 - Description: Optional clarification on when to use this status.
-- Active: Allows enabling or disabling the status.
 
 
 ==Delete==

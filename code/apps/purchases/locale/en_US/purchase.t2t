@@ -1,7 +1,7 @@
 
 
 
-=Purchases=
+=Purchase=
 
 ==Description==
 
@@ -15,13 +15,10 @@ This module ensures traceability of expenses and is linked to the Suppliers modu
 
 The following fields are displayed in the list view:
 
-- Supplier: Name of the supplier from whom the purchase was made.
-- CIF: Tax code of the supplier at the time of purchase.
-- Invoice: Reference number of the supplier's invoice.
-- Date: Date the purchase invoice was issued.
-- Total: Total amount of the purchase including taxes.
-- Notes: Summary or internal note associated with the purchase.
-- Active: Indicates whether the record is active in the system.
+- Order date: The date when the purchase order was registered in the system.
+- Supplier: The vendor or provider from whom goods or services were acquired.
+- Invoice: The invoice number or reference issued by the supplier.
+- Paid: Indicates whether the purchase has been fully paid.
 
 
 ==Form view==
@@ -42,13 +39,18 @@ In **edit** mode, the information can be updated if necessary.
 
 The form includes the following fields:
 
-- Supplier: Linked supplier selected from the supplier list.
-- CIF: Fiscal ID copied from the supplier at the time of purchase.
-- Invoice: Supplier invoice number or reference.
-- Date: Invoice issue date.
-- Notes: Internal notes about the purchase (optional).
-- Total: Total amount of the purchase invoice.
-- Active: Toggles whether the record is in use or archived.
+- Order date: The date when the purchase order was registered in the system.
+- Supplier: The vendor or provider from whom goods or services were acquired.
+- Description: A short explanation or summary of the purchase content.
+- Subtotal: The total amount before taxes and discounts.
+- Tax: The total value of taxes applied to the purchase.
+- Total: The final total of the purchase, including taxes and discounts.
+- Status: The current status of the purchase (e.g., draft, ordered, received).
+- Invoice Code: The invoice number or reference issued by the supplier.
+- Invoice Date: The official date of the supplier’s invoice.
+- Paid: Indicates whether the purchase has been fully paid.
+- Paid Date: The date when the payment was made to the supplier.
+- Notes: Internal observations or relevant administrative information.
 
 
 ==Delete==

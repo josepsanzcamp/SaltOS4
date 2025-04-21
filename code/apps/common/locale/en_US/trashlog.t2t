@@ -15,11 +15,9 @@ This module is key for auditability and helps identify accidental deletions or u
 
 The following fields are displayed in the list view:
 
-- Datetime: When the deletion occurred.
-- User: Who deleted the record.
-- Table: Database table from which the record was removed.
-- Record ID: Identifier of the deleted entry.
-- Summary: Textual representation of the deleted content.
+- User: User who performed the deletion.
+- Datetime: Exact date and time when the record was deleted.
+- Name: Descriptive name of the deleted record or file.
 
 
 ==View entry==
@@ -28,13 +26,17 @@ This view displays all recorded information about a deleted item.
 
 It includes:
 
-- Datetime: Exact timestamp of the deletion.
-- User: Account that triggered the deletion.
-- Table: Technical name of the table affected.
-- Record ID: Primary key of the deleted entry.
-- Summary: Main data content or description of the record.
-- Source: App or context where the deletion was performed.
-- IP Address: Origin of the deletion action (if tracked).
+- Old ID: Original identifier of the record before deletion.
+- User: User who performed the deletion.
+- Datetime: Exact date and time when the record was deleted.
+- Reg ID: Internal registry ID assigned to the deleted record.
+- App: Application or module from which the record was removed.
+- Uniq ID: System-wide unique identifier for the deleted item.
+- Name: Descriptive name of the deleted record or file.
+- Size: File size in bytes, if the deleted item was a file.
+- Type: MIME type or classification of the deleted file or record.
+- File: Original filename or path of the deleted file.
+- Hash: Checksum used to verify the content of the deleted item.
 
 
 ==Delete==

@@ -38,9 +38,9 @@ In **edit** mode, the form is pre-filled and allows modifications.
 
 The form includes the following fields:
 
+- Active: Enables or disables the type for use in the Customers app.
 - Name: Title of the customer type.
 - Description: Optional note describing how or when to use this type.
-- Active: Enables or disables the type for use in the Customers app.
 
 
 ==Delete==

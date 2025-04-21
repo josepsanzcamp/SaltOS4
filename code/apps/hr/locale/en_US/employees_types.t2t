@@ -39,9 +39,9 @@ In **edit** mode, existing values can be updated.
 
 The form includes the following fields:
 
+- Active: Controls if the type is selectable.
 - Name: Name shown in the type dropdown in employee forms.
 - Description: Notes about the type’s intended usage.
-- Active: Controls if the type is selectable.
 
 
 ==Delete==

@@ -15,11 +15,9 @@ This module allows administrators to monitor the flow of notifications and diagn
 
 The following fields are displayed in the list view:
 
-- Datetime: Timestamp of when the push notification was sent.
-- Type: Category of the notification (e.g., info, warning, error).
-- Message: Content or summary of the push message.
-- Target: Destination user, channel, or group the notification was sent to.
-- Status: Indicates whether the delivery was successful or failed.
+- User: User who triggered or received the push notification.
+- Datetime: Date and time when the push notification was recorded.
+- Type: Category of the push message (e.g., info, warning, error).
 
 
 ==View entry==
@@ -28,12 +26,11 @@ This view shows full details of a single push notification.
 
 It includes:
 
-- Datetime: Exact time the push event was triggered.
-- Type: Nature of the push (e.g., background alert, user-facing message).
-- Message: Full content of the notification.
-- Target: User or endpoint to which the message was addressed.
-- Status: Delivery result (sent, failed, pending).
-- Metadata: Any technical details logged during processing (headers, tokens, etc.).
+- User: User who triggered or received the push notification.
+- Datetime: Date and time when the push notification was recorded.
+- Type: Category of the push message (e.g., info, warning, error).
+- Message: Content or summary of the push message sent.
+- Timestamp: Internal system timestamp when the event was logged.
 
 
 ==Delete==

@@ -15,13 +15,9 @@ Products can be linked to quotes, invoices, and purchases, making this module fu
 
 The following fields are displayed in the list view:
 
-- Name: Descriptive name of the product or service.
-- Reference: Internal code used to identify the product.
-- Price: Selling price per unit, excluding tax and discounts.
-- Stock: Current quantity available in inventory.
-- Active: Indicates whether the product is currently offered.
-- Type: Classification of the product (e.g., good, service).
-- Category: Group or family the product belongs to.
+- Name: The full name of the product or service, as it will appear in listings and documents.
+- Code: Internal product code used to uniquely identify the item.
+- Description: Detailed explanation or specifications of the product.
 
 
 ==Form view==
@@ -42,18 +38,25 @@ In **edit** mode, the product data can be updated or corrected.
 
 The form includes the following fields:
 
-- Name: Full descriptive name of the product or service.
-- Reference: Internal identifier used in quotes and invoices.
-- Price: Standard sale price per unit.
-- Cost: Internal cost used for margin calculation.
-- Stock: Quantity currently in inventory.
-- Location: Physical or logical storage location.
-- Type: Used to categorize the product for management or reporting.
-- Category: Product family or group it belongs to.
-- Tax: Default tax rate applied to this product.
-- Image: Optional visual representation.
-- Description: Additional details or specifications.
-- Active: Whether this product is enabled for use.
+- Active: Indicates whether the product is available for use in transactions.
+- Name: The full name of the product or service, as it will appear in listings and documents.
+- Code: Internal product code used to uniquely identify the item.
+- Type: The classification of the product, such as item, service, or subscription.
+- Price: The selling price per unit, excluding taxes or discounts.
+- Cost: The internal purchase or manufacturing cost, used to calculate margins.
+- Margin: Calculated profit margin based on price and cost.
+- Tax: Default tax rate applied when the product is used in sales.
+- Description: Detailed explanation or specifications of the product.
+- Category: Product family or group, used for classification or filtering.
+- Measure unit: Unit of measurement (e.g., unit, kg, hour).
+- Brand: Brand name or manufacturer of the product.
+- Model: Model number or variant of the product.
+- Barcode: Barcode associated with the product, used for scanning or labeling.
+- Stock: Current stock level available in the inventory.
+- Min stock: Minimum stock threshold for restocking alerts.
+- Max stock: Maximum stock level allowed in storage.
+- Location: Physical or logical storage location of the product.
+- Image Url: Link or path to an image representing the product.
 
 
 ==Delete==

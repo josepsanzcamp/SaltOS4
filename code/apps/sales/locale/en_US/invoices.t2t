@@ -17,13 +17,13 @@ It also provides traceability for due dates, payment dates, and links to related
 
 The following fields are displayed in the list view:
 
-- Customer: Name of the customer billed in the invoice.
-- CIF: Customer’s tax identification code.
-- Invoice: Unique internal reference of the invoice.
-- Date: Date the invoice was issued.
-- Total: Final amount including taxes and discounts.
-- Paid: Indicates whether the invoice has been paid.
-- Due Date: Date by which the payment is expected.
+- Customer: The client who receives the invoice and is responsible for payment.
+- CIF: The fiscal identification code of the customer at the time of invoicing.
+- Invoice: The internal reference or invoice number assigned to the document.
+- Date: The official issue date of the invoice.
+- Total: The total amount due, including taxes and discounts.
+- Closed: Indicates whether the invoice has been finalized and is no longer editable.
+- Paid: Indicates whether the invoice has been marked as paid.
 
 
 ==Form view==
@@ -44,17 +44,26 @@ In **edit** mode, it allows modifying a draft invoice or correcting information 
 
 The form includes the following fields:
 
-- Customer: Selected client for this invoice.
-- CIF: Tax ID of the customer at the time of invoicing.
-- Invoice: Internal reference number (auto-generated or manual).
-- Date: Official date of invoice emission.
-- Status: Indicates whether the invoice is draft, closed, or cancelled.
-- Payment Terms: Conditions agreed with the customer.
-- Due Date: Deadline for the invoice payment.
-- Paid: Marks the invoice as fully paid.
-- Paid Date: Date on which payment was received.
-- Notes: Internal notes or extra conditions.
-- Total: Total invoice amount based on line items and taxes.
+- Closed: Indicates whether the invoice has been finalized and is no longer editable.
+- Paid: Indicates whether the invoice has been marked as paid.
+- Proforma: Reference or marker indicating the invoice originated from a pro forma.
+- Date: The official issue date of the invoice.
+- Invoice: The internal reference or invoice number assigned to the document.
+- Customer: The client who receives the invoice and is responsible for payment.
+- CIF: The fiscal identification code of the customer at the time of invoicing.
+- Address: The customer's address used for invoicing purposes.
+- City: City corresponding to the customer's invoicing address.
+- Province / State: Province or state in the billing address.
+- Zip: Postal code in the billing address.
+- Country: Country included in the customer's billing information.
+- Notes: Internal comments or conditions attached to the invoice.
+- Concepts: List of items or services included in the invoice.
+- Taxes: Breakdown of taxes applied to the invoice.
+- Totals: Final financial summary: subtotal, tax, and grand total.
+- Payment method: The method of payment selected for the invoice.
+- Due date: The date by which the invoice should be paid.
+- Paid date: The date on which the payment was received.
+- Status: Current status of the invoice (e.g., draft, closed, cancelled).
 
 
 Invoices also include line items (product, quantity, price, discount, tax) and a breakdown of applied taxes.

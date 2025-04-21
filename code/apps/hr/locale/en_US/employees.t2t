@@ -16,11 +16,9 @@ This module is typically used in HR workflows to organize staff and optionally a
 The following fields are displayed in the list view:
 
 - Name: Full name of the employee.
-- Email: Main contact email address.
-- Phone: Contact phone number.
 - Department: Department the employee belongs to.
-- Position: Job title or role within the organization.
-- Active: Indicates if the employee is currently active.
+- Job Title: Official job title or position held by the employee.
+- Active: Indicates whether the employee is currently active.
 
 
 ==Form view==
@@ -41,18 +39,23 @@ In **edit** mode, the profile can be updated.
 
 The form includes the following fields:
 
-- Name: Full name of the staff member.
-- Email: Personal or work email address.
-- Phone: Contact number for communication.
-- Address: Residential or work address.
-- City: City where the employee resides.
-- ZIP: Postal code of the address.
-- Country: Country of residence or work.
-- Position: Role or job title of the employee.
-- Department: Associated department within the organization.
-- User: (Optional) System user linked to this employee profile.
-- Notes: Internal notes or additional information.
-- Active: Determines whether the profile is enabled or archived.
+- Active: Indicates whether the employee is currently active.
+- Name: Full name of the employee.
+- NIF: Employee's national identification number used for legal or fiscal purposes.
+- Department: Department the employee belongs to.
+- Job Title: Official job title or position held by the employee.
+- Start: Start date of employment or contract.
+- End: End date of employment or contract (if applicable).
+- Address: Postal address of the employee.
+- City: City of residence.
+- Province / State: Province or administrative region of residence.
+- ZIP: Postal code.
+- Country: Country of residence.
+- Email: Primary contact email of the employee.
+- Phone: Main contact phone number.
+- Notes: Additional remarks or HR-related observations about the employee.
+- Type: Type or category of employee (e.g., full-time, contractor).
+- User: System user account linked to the employee.
 
 
 ==Delete==

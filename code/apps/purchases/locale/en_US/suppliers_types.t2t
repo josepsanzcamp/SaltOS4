@@ -39,9 +39,9 @@ In **edit** mode, existing values can be updated.
 
 The form includes the following fields:
 
+- Active: Enables or disables the type for selection.
 - Name: Descriptive label for the type.
 - Description: Additional information or context.
-- Active: Enables or disables the type for selection.
 
 
 ==Delete==

@@ -15,12 +15,10 @@ and verifying that uploads are being processed correctly.
 
 The following fields are displayed in the list view:
 
-- Datetime: When the file was uploaded.
-- User: Who performed the upload.
-- Filename: Name of the uploaded file.
-- Size: File size, usually in bytes or kilobytes.
-- Type: File MIME type or extension.
-- Path: Internal or relative storage location.
+- User: User who uploaded the file.
+- Datetime: Timestamp when the file was uploaded to the system.
+- App: Module or application from which the upload was triggered.
+- Name: Original filename as provided by the user.
 
 
 ==View entry==
@@ -29,13 +27,15 @@ This view shows full details of a single uploaded file log entry.
 
 It includes:
 
-- Datetime: Upload timestamp.
-- User: The system user who initiated the upload.
-- Filename: Original name of the uploaded file.
-- Size: File size at the time of upload.
-- Type: Detected or declared MIME type.
-- Path: Where the file was stored in the filesystem.
-- Context: Optional reference to the module or entity related to the upload.
+- User: User who uploaded the file.
+- Datetime: Timestamp when the file was uploaded to the system.
+- Uniq ID: Unique identifier internally assigned to the upload entry.
+- App: Module or application from which the upload was triggered.
+- Name: Original filename as provided by the user.
+- Size: Size of the uploaded file in bytes.
+- Type: MIME type or format of the uploaded file.
+- File: Stored filename used by the system to manage the file internally.
+- Hash: Checksum (e.g., MD5 or SHA) to verify file integrity or detect duplicates.
 
 
 ==Delete==

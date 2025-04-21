@@ -15,11 +15,8 @@ This module is essential for administrators who want to audit changes and ensure
 
 The following fields are displayed in the list view:
 
-- Datetime: Timestamp of when the configuration change occurred.
-- User: System user who made the change.
-- Action: Type of action performed (e.g., create, update, delete).
-- Object: Target element that was changed (e.g., setting, app config).
-- Detail: Description or summary of the change.
+- User: User who made the configuration change.
+- Key: Configuration key that was modified.
 
 
 ==View entry==
@@ -40,14 +37,9 @@ In **edit** mode, the form is pre-filled and allows modifications.
 
 It includes:
 
-- Datetime: Exact date and time of the action.
-- User: Name or ID of the user who performed the action.
-- IP Address: Origin of the connection when the change was made.
-- Object: Affected configuration element.
-- Action: Nature of the operation (insert, update, delete).
-- Previous Value: Value before the change (if available).
-- New Value: Value after the change (if applicable).
-- Context: Technical information or internal path related to the configuration.
+- User: User who made the configuration change.
+- Key: Configuration key that was modified.
+- Value: New value assigned to the configuration key.
 
 
 ==Delete==

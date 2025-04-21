@@ -15,9 +15,11 @@ Each record includes the name, rate, and status, ensuring consistent tax applica
 
 The following fields are displayed in the list view:
 
-- Name: Descriptive label of the tax (e.g., VAT 21%, Exempt).
-- Value: Tax percentage rate to be applied.
-- Active: Indicates if the tax is currently available for selection.
+- Name: Name or label used to identify the tax (e.g., VAT 21%).
+- Description: Optional explanation or additional details about the tax rule or context of use.
+- Value: Percentage value of the tax to be applied (e.g., 21 for 21%).
+- Active: Indicates whether this tax is available for selection in documents.
+- Default: Indicates whether this tax is selected automatically when creating new documents.
 
 
 ==Form view==
@@ -38,9 +40,11 @@ In **edit** mode, existing values can be updated.
 
 The form includes the following fields:
 
-- Name: Tax name shown in product and invoice forms.
-- Value: Numeric percentage of the tax (e.g., 21 for 21%).
-- Active: Allows enabling or disabling the tax for use in the system.
+- Active: Indicates whether this tax is available for selection in documents.
+- Default: Indicates whether this tax is selected automatically when creating new documents.
+- Name: Name or label used to identify the tax (e.g., VAT 21%).
+- Value: Percentage value of the tax to be applied (e.g., 21 for 21%).
+- Description: Optional explanation or additional details about the tax rule or context of use.
 
 
 ==Delete==

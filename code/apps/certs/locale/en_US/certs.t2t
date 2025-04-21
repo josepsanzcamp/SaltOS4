@@ -17,11 +17,7 @@ It is especially useful for managing certificates for custom domains, internal s
 
 The following fields are displayed in the list view:
 
-- Domain: Domain or hostname the certificate applies to.
-- Type: Certificate authority or format (e.g., Let's Encrypt, Self-signed).
-- Expiration: Date the certificate will expire.
-- Status: Current state (Valid, Expiring Soon, Expired).
-- Notes: Internal notes about the certificate.
+- Certificate nicknames available:: List of certificate aliases already stored and available in the system. It is not a database-driven table, but a visual display of loaded certificates.
 
 
 ==Form view==
@@ -32,19 +28,20 @@ In **create** mode, the form is empty and ready to enter new data.
 
 [../../../../../ujest/snaps/test-screenshots-js-screenshots-certs-certs-create-en-us-1-snap.png]
 
+The form includes the following fields:
+
+- Certificate file (.p12, .pfx): File input used to upload one or more certificates in PKCS#12 format. Required to import certificates into the system.
+- Password file: Password used to decrypt the uploaded certificate file. This field is required and not autofilled for security reasons.
+
+
 In **view** mode, the fields are filled with the selected record and cannot be edited.
 
 [../../../../../ujest/snaps/test-screenshots-js-screenshots-certs-certs-view-ab-877-d-2027-f-7-c-71-d-9935999-cce-1-b-802-b-en-us-1-snap.png]
 
 The form includes the following fields:
 
-- Domain: FQDN or hostname secured by the certificate.
-- Type: Source or authority that issued the certificate.
-- Expiration: Date on which the certificate will expire.
-- Status: Optional status (may be auto-calculated).
-- Certificate: Full certificate content (PEM, CRT, etc.).
-- Notes: Remarks about usage or renewal schedule.
-- Active: Indicates whether the certificate is currently monitored.
+- Name: Display name or alias of the certificate.
+- Info: Technical details of the certificate, including issuer, expiration, and subject. Displayed in a read-only text area.
 
 
 ==Delete==

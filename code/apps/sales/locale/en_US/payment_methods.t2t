@@ -15,9 +15,10 @@ This module ensures consistency and traceability across the billing process.
 
 The following fields are displayed in the list view:
 
-- Name: The label of the payment method (e.g., Cash, Credit Card, Bank Transfer).
-- Description: Additional details or remarks about this payment method.
-- Active: Indicates whether the method is currently available for selection in invoices.
+- Name: Name of the payment method (e.g., Cash, Bank Transfer, Credit Card).
+- Description: Additional details or clarification about how the payment method is used.
+- Active: Indicates whether this payment method is currently available.
+- Default: Specifies if this is the default payment method when creating new records.
 
 
 ==Form view==
@@ -38,9 +39,10 @@ In **edit** mode, the details can be modified.
 
 The form includes the following fields:
 
-- Name: Descriptive name for the payment method.
-- Description: Optional notes or specifications.
-- Active: Defines whether this method is available for use in documents.
+- Active: Indicates whether this payment method is currently available.
+- Default: Specifies if this is the default payment method when creating new records.
+- Name: Name of the payment method (e.g., Cash, Bank Transfer, Credit Card).
+- Description: Additional details or clarification about how the payment method is used.
 
 
 ==Delete==

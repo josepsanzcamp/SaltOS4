@@ -38,9 +38,9 @@ In **edit** mode, the form is pre-filled and allows modifications.
 
 The form includes the following fields:
 
+- Active: Controls whether the status appears in dropdowns.
 - Name: Title of the status as shown in the Leads app.
 - Description: Internal guidance for when to use this status.
-- Active: Controls whether the status appears in dropdowns.
 
 
 ==Delete==

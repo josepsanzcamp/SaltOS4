@@ -20,11 +20,11 @@ closely integrated with the Emails Accounts module and is essential for managing
 The list view shows incoming emails as clickable buttons or cards.
 Each entry typically displays:
 
-- From / To: Depending on whether the message was received or sent.
-- Subject: The subject line of the email.
-- Snippet: A short preview of the body content.
-- Datetime: When the message was received or sent.
-- Attachments: An indicator showing if files are attached.
+- Header: The visual summary used in the interface to represent the email message.
+- Datetime: The date and time the message was received or sent.
+- Subject: The title or subject line of the email message.
+- Snippet: A short preview extracted from the beginning of the email body.
+- Attachments: List of files attached to the message, with download options.
 
 
 The interface also includes filters and a search form to filter by sender, subject, account, and date.
@@ -37,13 +37,25 @@ This view shows the full content of an email message, including header metadata 
 
 The following information is typically displayed:
 
-- From: Sender's email address.
-- To / CC / BCC: Recipients of the message.
-- Subject: The subject line.
-- Datetime: The exact timestamp of the message.
-- UIDL: Internal identifier from the mail server.
-- Body: Full content of the message.
-- Attachments: List of downloadable files.
+- From: Sender's email address displayed in the message header.
+- To: List of recipients who received the message.
+- CC: Additional recipients who received a visible copy of the email.
+- BCC: Recipients who received a hidden copy of the email.
+- Datetime: Timestamp indicating when the email was sent or received.
+- UIDL: Server-side unique identifier used for synchronization.
+- Priority: Importance level set by the sender (Low, Normal, or High).
+- Sensitivity: Indicates whether the message is Normal, Personal, Private, or Confidential.
+- Sent: Confirms that the email was successfully sent.
+- New: Marks whether the email is unread or newly received.
+- Reply: Indicates if the message was replied to.
+- Forward: Indicates if the message was forwarded to another recipient.
+- Wait: Flag used to track follow-up or pending response.
+- SPAM: Marks whether the email is classified as spam.
+- Request confirmation of receipt: Shows whether a read receipt was requested for the message.
+- Error: Displays an error message if the delivery failed.
+- Subject: The subject line of the email.
+- Body: The main content or body of the email, displayed in an embedded viewer.
+- Adjunts: List of files attached to the email message.
 
 
 ==Reply / Compose==
@@ -52,14 +64,18 @@ Users can reply to an existing message or compose a new email using a simplified
 
 [../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-create-en-us-1-snap.png]
 
-The reply form includes:
+The reply and compose form includes:
 
-- From: Email account used to send the message.
-- To: Main recipient(s) of the email.
-- CC / BCC: Optional carbon/blind copies.
-- Subject: Subject of the message (pre-filled when replying).
-- Body: Message content (rich text or plain).
-- Attachments: Optional files to attach.
+- From: Email account used as the sender for this message.
+- To: Primary recipient(s) of the email message.
+- CC: Recipients to receive a carbon copy (CC) of the message.
+- BCC: Recipients to receive a blind carbon copy (BCC), not visible to others.
+- Request confirmation of receipt: Option to request a read receipt confirmation from the recipient.
+- Priority: Importance level assigned to the email: Low, Normal, or High.
+- Sensitivity: Confidentiality level: Normal, Personal, Private, or Confidential.
+- Subject: Subject line of the message, describing its purpose.
+- Body: Rich-text content written in the email message.
+- Attachments: Files selected to be included along with the message.
 
 
 ==Delete==

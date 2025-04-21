@@ -15,11 +15,11 @@ This module is essential for access control, personalization, and audit tracking
 
 The following fields are displayed in the list view:
 
-- Username: The unique login identifier for the user.
-- Name: Full name associated with the user account.
-- Email: Contact email address for notifications and password recovery.
-- Group: User group the account belongs to (used for permissions).
-- Active: Indicates whether the user can log into the system.
+- Username: Unique login name used to access the system.
+- Name: Full name of the user, used for display and identification.
+- Description: Internal comments or notes about the user profile.
+- Group: User group or role assigned for permission control.
+- Active: Indicates whether the user account is currently enabled.
 
 
 ==Form view==
@@ -40,14 +40,19 @@ In **edit** mode, you can update user information or reset credentials.
 
 The form includes the following fields:
 
-- Username: Unique identifier used for login.
-- Password: Secret credential used for authentication (visible only when setting or resetting).
-- Name: Full name of the user.
-- Email: Email address associated with the account.
-- Group: Group that defines the user's role and permission set.
-- Employee: (Optional) Link to an employee profile.
-- Notes: Internal comments or additional context.
-- Active: Enables or disables the user account.
+- Active: Indicates whether the user account is currently enabled.
+- Username: Unique login name used to access the system.
+- Group: User group or role assigned for permission control.
+- Name: Full name of the user, used for display and identification.
+- New password: New password to assign to the user (for resets or changes).
+- Retype password: Confirmation of the new password to avoid typos.
+- Description: Internal comments or notes about the user profile.
+- Start: Start date from which the user account is valid.
+- End: Expiration date after which the user cannot log in.
+- Days: Days of the week on which the user is allowed to access the system.
+- Groups: Additional groups or roles associated with this user.
+- Applications and permissions: Detailed matrix of app access and specific actions allowed for the user.
+- Passwords history: List of previously used passwords for audit and reuse prevention.
 
 
 ==Delete==

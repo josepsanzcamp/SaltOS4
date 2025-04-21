@@ -39,9 +39,9 @@ In **edit** mode, the information can be updated if necessary.
 
 The form includes the following fields:
 
+- Active: Controls availability in the status dropdown.
 - Name: Status label as it appears in the purchase form.
 - Description: Internal notes about its use case.
-- Active: Controls availability in the status dropdown.
 
 
 ==Delete==

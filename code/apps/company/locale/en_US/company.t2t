@@ -16,12 +16,11 @@ It typically includes the company's name, tax code, address, logo, and preferred
 
 The following fields are displayed in the list view:
 
-- Name: Registered name of the company.
-- Code: Tax identification code (e.g., VAT, CIF, NIF).
-- Country: Country where the company is based.
-- Email: Main contact or support address.
-- Phone: Company phone number.
-- Active: Indicates whether the profile is in use (usually only one is active).
+- Name: Official name of the company or organization.
+- CIF: Tax identification number (NIF, CIF, VAT, etc.) of the company.
+- City: City where the company is located.
+- Country: Country where the company is legally registered or operates.
+- Active: Indicates whether this company profile is active in the system.
 
 
 ==Form view==
@@ -42,18 +41,22 @@ In **edit** mode, the form is pre-filled and allows modifications.
 
 The form includes the following fields:
 
-- Name: Legal or commercial name of the organization.
-- Code: Fiscal code of the company (e.g., NIF, VAT).
-- Address: Registered business address.
-- City: City of the main office.
-- ZIP: Postal code for correspondence.
-- Country: Country of operation or registration.
-- Phone: Primary contact number.
-- Email: General contact or support email.
-- Language: Default language used for documents and UI.
-- Logo: Image representing the company, used in PDF and web headers.
-- Notes: Optional internal observations.
-- Active: Enables the profile as the default company identity.
+- Active: Indicates whether this company profile is active in the system.
+- Name: Official name of the company or organization.
+- Code: Tax identification number (NIF, CIF, VAT, etc.) of the company.
+- Address: Official street or mailing address of the company.
+- City: City where the company is located.
+- Province / State: Province, state, or region where the company is based.
+- ZIP: Postal code of the company’s registered address.
+- Country: Country where the company is legally registered or operates.
+- Phone: Main phone number for company inquiries.
+- Email: Primary email address used for administrative or legal contact.
+- Website: The public website or landing page of the company.
+- IBAN: International Bank Account Number used for wire transfers.
+- SWIFT/BIC: SWIFT/BIC code identifying the bank of the company for international transfers.
+- Fiscal Regime: Tax regime under which the company operates (e.g., general, simplified, small business).
+- Activity Code: Economic activity classification code (e.g., CNAE, NACE).
+- Additional Notes: Internal remarks or additional information about the company.
 
 
 ==Delete==

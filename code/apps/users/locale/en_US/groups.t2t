@@ -15,9 +15,10 @@ Groups simplify the administration of access control by allowing permission mana
 
 The following fields are displayed in the list view:
 
-- Name: The name of the group (e.g., Admin, Sales, Support).
-- Description: Explanation of the group’s purpose or scope.
-- Active: Indicates whether the group is available for use.
+- Code: Internal identifier or reference code of the group.
+- Name: Name or title used to identify the group.
+- Description: Explanation of the purpose or scope of the group.
+- Active: Indicates whether this group is enabled for use.
 
 
 ==Form view==
@@ -38,10 +39,12 @@ In **edit** mode, you can update the group’s name, description, and permission
 
 The form includes the following fields:
 
-- Name: Group name as it appears in the system.
-- Description: Notes about the purpose or responsibilities of this group.
-- Active: Enables or disables the group.
-- Permissions: Set of actions this group is allowed to perform across apps.
+- Active: Indicates whether this group is enabled for use.
+- Code: Internal identifier or reference code of the group.
+- Name: Name or title used to identify the group.
+- Description: Explanation of the purpose or scope of the group.
+- Users: List of users assigned to this group.
+- Applications and permissions: Matrix of allowed apps and operations granted to this group.
 
 
 ==Delete==

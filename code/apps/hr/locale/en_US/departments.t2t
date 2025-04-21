@@ -16,10 +16,10 @@ Examples of departments include "Sales", "IT", "HR", or "Logistics".
 
 The following fields are displayed in the list view:
 
-- Name: Name of the department.
-- Description: Purpose or internal notes about the department.
-- Parent: Parent department, if the structure is hierarchical.
-- Active: Indicates if the department is currently active.
+- Name: Name of the department or organizational unit.
+- Code: Unique identifier or reference code for the department.
+- Parent: Parent department, if this one is part of a hierarchy.
+- Active: Indicates whether this department is currently in use.
 
 
 ==Form view==
@@ -40,10 +40,11 @@ In **edit** mode, existing values can be updated.
 
 The form includes the following fields:
 
-- Name: Label for the department.
-- Description: Optional text describing its role or function.
-- Parent: Higher-level department, if applicable.
-- Active: Enables or disables the department.
+- Active: Indicates whether this department is currently in use.
+- Name: Name of the department or organizational unit.
+- Code: Unique identifier or reference code for the department.
+- Parent: Parent department, if this one is part of a hierarchy.
+- Notes: Additional details about the department's structure, responsibility or purpose.
 
 
 ==Delete==
