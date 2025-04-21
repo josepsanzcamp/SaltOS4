@@ -161,6 +161,9 @@ function __dashboard_config()
 
     $result = [];
     foreach ($config as $item) {
+        if (!isset($mapping[$item])) {
+            continue;
+        }
         $key = $mapping[$item];
         $val = $items[$key];
         set_array($result, $key, $val);
