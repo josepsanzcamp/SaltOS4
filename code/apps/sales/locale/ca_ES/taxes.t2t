@@ -11,7 +11,7 @@ Cada registre inclou el nom, el percentatge i l'estat, garantint una aplicació 
 
 ==Vista de llista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-list-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-list-ca-es-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -28,15 +28,15 @@ Aquesta vista s'utilitza per crear, consultar o editar impostos.
 
 En el mode **crear**, es pot definir una nova norma fiscal.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-create-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-create-ca-es-1-snap.png]
 
 En el mode **visualització**, es mostren els detalls fiscals però no es poden editar.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-view-1-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-view-1-ca-es-1-snap.png]
 
 En el mode **edició**, es poden actualitzar els valors existents.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-edit-1-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-edit-1-ca-es-1-snap.png]
 
 El formulari inclou els següents camps:
 

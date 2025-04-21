@@ -11,7 +11,7 @@ También gestiona proformas, vencimientos y registro de pagos.
 
 ==Vista de lista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-list-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-list-es-es-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -30,15 +30,15 @@ Esta vista se utiliza para crear, consultar o editar una factura.
 
 En el modo **crear**, el formulario permite generar una nueva factura o proforma.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-create-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-create-es-es-1-snap.png]
 
 En el modo **visualización**, se muestran todos los detalles sin posibilidad de edición.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-100-es-es-1-snap.png]
 
 En el modo **edición**, se pueden modificar los datos de la factura.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-edit-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-edit-100-es-es-1-snap.png]
 
 El formulario incluye los siguientes campos:
 

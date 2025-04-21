@@ -1,0 +1,51 @@
+
+
+
+=Tipus de proveïdor=
+
+==Descripció==
+
+L'aplicació de tipus de proveïdor s'utilitza per classificar els proveïdors per categoria, sector o tipus de relació.
+Aquesta classificació ajuda a filtrar i organitzar els proveïdors, i pot utilitzar-se per segmentació o informes.
+
+Exemples de tipus inclouen "Distribuïdor", "Fabricant", "Prestador de serveis", etc.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-list-ca-es-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Nom: Nom del tipus de proveïdor.
+- Descripció: Aclariment opcional o nota interna.
+- Actiu: Indica si el tipus es pot assignar a proveïdors.
+
+
+==Vista de formulari==
+
+Aquesta vista s'utilitza per crear, consultar o editar tipus de proveïdor.
+
+En el mode **crear**, es pot definir un nou tipus.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-create-ca-es-1-snap.png]
+
+En el mode **visualització**, els detalls del tipus són visibles però no editables.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-view-10-ca-es-1-snap.png]
+
+En el mode **edició**, es poden actualitzar els valors existents.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-edit-10-ca-es-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Actiu: Habilita o deshabilita la selecció del tipus.
+- Nom: Etiqueta descriptiva del tipus.
+- Descripció: Informació o context addicional.
+
+
+==Eliminació==
+
+Els tipus de proveïdor només es poden eliminar si no estan assignats actualment a cap proveïdor.
+
+Si estan en ús, s'han de desactivar en lloc d'eliminar-los.

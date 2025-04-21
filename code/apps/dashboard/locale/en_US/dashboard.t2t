@@ -1,0 +1,38 @@
+
+
+
+=Dashboard=
+
+==Description==
+
+The **dashboard** is the main landing screen in SaltOS4, where users can display quick access buttons, separators, widgets, charts, and other visual elements.
+It is not a traditional app with forms or records, but rather a dynamic, customizable view designed to provide an overview and fast access to frequent actions.
+
+This screen centralizes commonly used tools and relevant system information.
+
+==Main view==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-en-us-1-snap.png]
+
+The dashboard can include:
+
+- Quick access **buttons** to apps or actions
+- **Titles** grouping sections of content
+- **Separators** to visually organize the layout
+- **Widgets** displaying live content (e.g., calendar, email, statistics)
+
+
+==Dashboard configuration==
+
+In the **top right corner**, there is a gear icon that opens the **dashboard configuration app**.
+
+From there, users can customize their dashboard:
+
+- Select the active dashboard
+- Add or remove **buttons**
+- Create **titles** and **visual separators**
+- Group elements together in logical blocks
+- Include any available **widgets** (e.g., mail, analytics, alerts)
+
+
+This configuration is user-specific and saved automatically.

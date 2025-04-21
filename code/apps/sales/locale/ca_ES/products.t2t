@@ -1,0 +1,67 @@
+
+
+
+=Productes=
+
+==Descripció==
+
+L'aplicació de productes gestiona el catàleg de béns i serveis oferts per l'organització.
+Emmagatzema detalls essencials com el codi de referència, el preu, el nivell d'estoc, els impostos i la classificació.
+Els productes es poden vincular a pressupostos, factures i compres, fent d'aquest mòdul una peça clau per a les vendes i la gestió d'inventari.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-list-ca-es-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Nom: El nom complet del producte o servei, tal com apareixerà als llistats i documents.
+- Codi: Codi intern del producte utilitzat per identificar-lo de manera única.
+- Descripció: Explicació detallada o especificacions del producte.
+
+
+==Vista de formulari==
+
+Aquesta vista s'utilitza per crear, editar o consultar una entrada de producte.
+
+En el mode **crear**, el formulari està buit per introduir un nou producte.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-create-ca-es-1-snap.png]
+
+En el mode **visualització**, tots els camps són només de lectura i mostren informació detallada.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-view-100-ca-es-1-snap.png]
+
+En el mode **edició**, es poden actualitzar o corregir les dades del producte.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-edit-100-ca-es-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Actiu: Indica si el producte està disponible per a transaccions.
+- Nom: El nom complet del producte o servei, tal com apareixerà als llistats i documents.
+- Codi: Codi intern del producte utilitzat per identificar-lo de manera única.
+- Tipus: La classificació del producte, com ara article, servei o subscripció.
+- Preu: El preu de venda per unitat, sense impostos ni descomptes.
+- Cost: El cost intern de compra o fabricació, utilitzat per calcular marges.
+- Marge: Marge de benefici calculat a partir del preu i el cost.
+- Impost: Tipus impositiu per defecte aplicat en vendes.
+- Descripció: Explicació detallada o especificacions del producte.
+- Categoria: Família o grup del producte, per classificació o filtratge.
+- Unitat de mesura: Unitat de mesura (p. ex., unitat, kg, hora).
+- Marca: Nom de la marca o fabricant del producte.
+- Model: Número o variant del model del producte.
+- Codi de barres: Associat al producte per escaneig o etiquetatge.
+- Estoc: Nivell actual d'estoc disponible.
+- Estoc mínim: Llindar mínim d'estoc per avisos de reposició.
+- Estoc màxim: Límit màxim permès d'estoc.
+- Ubicació: Localització física o lògica del producte.
+- URL d'imatge: Enllaç o ruta cap a una imatge del producte.
+
+
+==Eliminació==
+
+Els productes es poden eliminar des de la vista de llista si no estan referenciats en documents actius.
+Apareixerà un missatge de confirmació abans d'eliminar.
+
+Els productes vinculats a factures, pressupostos o compres estan protegits contra l'eliminació.

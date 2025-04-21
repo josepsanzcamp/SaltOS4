@@ -11,7 +11,7 @@ Aquest mòdul afavoreix la col·laboració i garanteix la traçabilitat de les d
 
 ==Vista de llista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-list-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-list-ca-es-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -27,15 +27,15 @@ Aquesta vista s'utilitza per crear, editar o consultar una reunió.
 
 En el mode **crear**, el formulari està buit i preparat per introduir una nova reunió.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-create-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-create-ca-es-1-snap.png]
 
 En el mode **visualització**, els camps són només de lectura i mostren els detalls de la reunió.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-100-ca-es-1-snap.png]
 
 En el mode **edició**, es poden modificar els detalls de la reunió.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-edit-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-edit-100-ca-es-1-snap.png]
 
 El formulari inclou els següents camps:
 

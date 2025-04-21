@@ -1,0 +1,67 @@
+
+
+
+=Productos=
+
+==Descripción==
+
+La aplicación de productos gestiona el catálogo de bienes y servicios ofrecidos por la organización.
+Almacena detalles esenciales como el código de referencia, el precio, el nivel de stock, los impuestos y la clasificación.
+Los productos pueden vincularse a presupuestos, facturas y compras, siendo este módulo clave para las ventas y la gestión de inventario.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-list-es-es-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Nombre: El nombre completo del producto o servicio, tal como aparecerá en listados y documentos.
+- Código: Código interno del producto utilizado para identificarlo de forma única.
+- Descripción: Explicación detallada o especificaciones del producto.
+
+
+==Vista de formulario==
+
+Esta vista se utiliza para crear, editar o consultar un registro de producto.
+
+En el modo **crear**, el formulario está vacío para introducir un nuevo producto.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-create-es-es-1-snap.png]
+
+En el modo **visualización**, todos los campos son de solo lectura y muestran información detallada.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-view-100-es-es-1-snap.png]
+
+En el modo **edición**, pueden actualizarse o corregirse los datos del producto.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-edit-100-es-es-1-snap.png]
+
+El formulario incluye los siguientes campos:
+
+- Activo: Indica si el producto está disponible para transacciones.
+- Nombre: El nombre completo del producto o servicio, tal como aparecerá en listados y documentos.
+- Código: Código interno del producto utilizado para identificarlo de forma única.
+- Tipo: Clasificación del producto, como artículo, servicio o suscripción.
+- Precio: Precio de venta por unidad, sin impuestos ni descuentos.
+- Coste: Coste interno de compra o fabricación, usado para calcular márgenes.
+- Margen: Margen de beneficio calculado a partir del precio y el coste.
+- Impuesto: Tasa impositiva por defecto aplicada en ventas.
+- Descripción: Explicación detallada o especificaciones del producto.
+- Categoría: Familia o grupo del producto, para clasificación o filtrado.
+- Unidad de medida: Unidad de medida (p. ej., unidad, kg, hora).
+- Marca: Nombre de la marca o fabricante del producto.
+- Modelo: Número o variante del modelo del producto.
+- Código de barras: Asociado al producto para escaneo o etiquetado.
+- Stock: Nivel actual de stock disponible.
+- Stock mínimo: Umbral mínimo para alertas de reposición.
+- Stock máximo: Límite máximo permitido de stock.
+- Ubicación: Localización física o lógica del producto.
+- URL de imagen: Enlace o ruta hacia una imagen del producto.
+
+
+==Eliminación==
+
+Los productos pueden eliminarse desde la vista de lista si no están referenciados en documentos activos.
+Aparecerá un mensaje de confirmación antes de eliminar.
+
+Los productos vinculados a facturas, presupuestos o compras están protegidos contra la eliminación.

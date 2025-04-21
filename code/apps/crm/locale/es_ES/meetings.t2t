@@ -11,7 +11,7 @@ Este módulo facilita la colaboración y asegura la trazabilidad de las decision
 
 ==Vista de lista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-list-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-list-es-es-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -27,15 +27,15 @@ Esta vista se utiliza para crear, editar o consultar una reunión.
 
 En el modo **crear**, el formulario está vacío y listo para registrar una nueva reunión.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-create-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-create-es-es-1-snap.png]
 
 En el modo **visualización**, los campos son de solo lectura y muestran los detalles de la reunión.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-100-es-es-1-snap.png]
 
 En el modo **edición**, los campos pueden modificarse para actualizar la información de la reunión.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-edit-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-edit-100-es-es-1-snap.png]
 
 El formulario incluye los siguientes campos:
 

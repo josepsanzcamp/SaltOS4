@@ -1,0 +1,51 @@
+
+
+
+=Tipus de producte=
+
+==Descripció==
+
+L'aplicació de tipus de producte s'utilitza per agrupar productes en famílies o col·leccions per facilitar-ne la classificació.
+Els tipus són útils per filtrar, generar informes, organitzar catàlegs i aplicar regles comercials comunes.
+
+Alguns tipus habituals poden incloure "Maquinari", "Programari", "Serveis" o "Accessoris".
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-list-ca-es-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Nom: Nom del tipus.
+- Descripció: Descripció dels productes inclosos en aquest tipus.
+- Actiu: Indica si aquest tipus es pot assignar a productes.
+
+
+==Vista de formulari==
+
+Aquesta vista s'utilitza per crear, consultar o editar registres de tipus de producte.
+
+En el mode **crear**, es pot definir un nou tipus.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-create-ca-es-1-snap.png]
+
+En el mode **visualització**, es mostren els detalls però no es poden editar.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-view-10-ca-es-1-snap.png]
+
+En el mode **edició**, es poden actualitzar els valors existents.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-edit-10-ca-es-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Actiu: Activa o desactiva la selecció del tipus.
+- Nom: Etiqueta del tipus tal com apareix al formulari de producte.
+- Descripció: Notes o aclariments opcionals sobre aquest tipus.
+
+
+==Eliminació==
+
+Els tipus només es poden eliminar si no estan assignats a cap producte.
+
+En cas contrari, s'han de desactivar.

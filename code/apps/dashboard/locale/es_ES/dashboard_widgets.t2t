@@ -1,0 +1,47 @@
+
+
+
+=Configuración del dashboard=
+
+==Descripción==
+
+Esta aplicación permite configurar el contenido que se muestra en el **dashboard** de SaltOS4.
+No se trata de una aplicación con registros clásicos, sino de una interfaz visual centrada en el usuario donde se pueden personalizar accesos rápidos, secciones y widgets que aparecen en el panel de control.
+
+Cada usuario puede tener su propio dashboard personalizado, y esta herramienta es su gestor visual.
+
+==Vista de configuración==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-widgets-es-es-1-snap.png]
+
+La pantalla muestra una vista en forma de lienzo donde los elementos del dashboard pueden organizarse de forma dinámica y visual.
+
+Los tipos de elementos que pueden añadirse incluyen:
+
+- **Botones**: Enlaces rápidos a aplicaciones o funcionalidades.
+- **Separadores**: Líneas o espacios para estructurar visualmente el dashboard.
+- **Títulos**: Textos destacados para agrupar secciones.
+- **Widgets**: Componentes dinámicos como calendario, correo electrónico, gráficos, estadísticas, etc.
+
+
+También es posible agrupar elementos, ordenarlos mediante arrastrar y soltar, y reorganizar grupos o columnas.
+
+==Funcionalidades==
+
+- Añadir o eliminar elementos
+- Reordenar mediante arrastrar y soltar
+- Editar títulos y textos de sección
+- Seleccionar qué widgets mostrar
+- Organizar elementos en varias columnas o bloques
+
+
+Los cambios se guardan automáticamente y afectan solo al dashboard del usuario activo.
+
+==Uso avanzado==
+
+Este módulo es ideal para:
+
+- Crear paneles específicos por perfil (comercial, técnico, administración…)
+- Mostrar solo herramientas y datos consultados con frecuencia
+- Mejorar la eficiencia y claridad visual de la pantalla de inicio
+

@@ -1,0 +1,64 @@
+
+
+
+=Proveedores=
+
+==Descripción==
+
+La aplicación de proveedores se utiliza para gestionar la lista de vendedores o proveedores externos con los que trabaja la organización.
+Almacena información esencial como identificación, datos de contacto, código fiscal y clasificación.
+Este módulo está vinculado a los flujos de compra, permitiendo asociar proveedores a compras y mantener trazabilidad completa.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-list-es-es-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Nombre: Nombre o razón social del proveedor.
+- CIF: Código de identificación fiscal del proveedor (ej: NIF, CIF, IVA).
+- Ciudad: Ciudad asociada a la dirección del proveedor.
+- País: País donde el proveedor está ubicado o registrado.
+- Activo: Indica si el proveedor está actualmente activo en el sistema.
+
+
+==Vista de formulario==
+
+Esta vista se utiliza para crear, editar o consultar registros de proveedores.
+
+En el modo **crear**, el formulario está vacío para añadir un nuevo proveedor.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-create-es-es-1-snap.png]
+
+En el modo **visualización**, los campos se muestran en modo solo lectura.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-view-100-es-es-1-snap.png]
+
+En el modo **edición**, se pueden actualizar los datos del proveedor.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-edit-100-es-es-1-snap.png]
+
+El formulario incluye los siguientes campos:
+
+- Activo: Indica si el proveedor está activo actualmente en el sistema.
+- Nombre: Nombre o razón social del proveedor.
+- CIF: Código de identificación fiscal del proveedor (ej: NIF, CIF, IVA).
+- Dirección: Calle o dirección de facturación del proveedor.
+- Ciudad: Ciudad asociada a la dirección.
+- Provincia / Estado: Provincia o región administrativa.
+- Código postal: Código postal del proveedor.
+- País: País donde está ubicado o registrado.
+- Correo electrónico: Dirección de correo de contacto principal.
+- Teléfono: Número de contacto principal.
+- Sitio web: Página web o enlace asociado al proveedor.
+- Notas: Información adicional u observaciones internas sobre el proveedor.
+- Tipo: Categoría o clasificación del proveedor.
+
+
+==Eliminación==
+
+Los registros de proveedor pueden eliminarse si no están referenciados en compras ni documentos.
+
+Aparecerá un diálogo de confirmación antes de eliminar.
+
+Si el proveedor está vinculado a compras o registros financieros, no podrá eliminarse.

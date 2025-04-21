@@ -1,0 +1,38 @@
+
+
+
+=Tauler de control (Dashboard)=
+
+==Descripció==
+
+El tauler de control o **dashboard** és la pantalla inicial de SaltOS4, on es poden mostrar enllaços ràpids, separadors, widgets, gràfics i altres elements visuals.
+No es tracta d'una aplicació clàssica amb formularis o registres, sinó d'una vista dinàmica i personalitzable pensada per oferir una panoràmica ràpida i accés directe a funcionalitats habituals.
+
+Aquesta vista centralitza accions freqüents i mostra informació rellevant de forma resumida.
+
+==Vista principal==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-ca-es-1-snap.png]
+
+El dashboard pot incloure:
+
+- Botons d'accés ràpid a aplicacions o accions habituals
+- Titulars que agrupen seccions
+- Separadors visuals per ordenar la informació
+- Widgets que mostren contingut en viu (ex: calendari, emails, gràfics)
+
+
+==Configuració del dashboard==
+
+A la **part superior dreta de la pantalla**, hi ha un botó amb icona d'engranatge que obre l'aplicació de configuració del dashboard.
+
+Des d'allà es poden personalitzar els elements mostrats:
+
+- Escollir el dashboard actiu
+- Afegir o treure **botons**
+- Crear **titulars** i **separadors** visuals
+- Agrupar elements en blocs
+- Incorporar **widgets** disponibles (ex: estadístiques, recordatoris, correus)
+
+
+Aquesta configuració és específica per a cada usuari i es desa automàticament.

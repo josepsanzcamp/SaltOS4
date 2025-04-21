@@ -12,7 +12,7 @@ como soporte técnico, instalaciones o servicios de campo.
 
 ==Vista de lista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-list-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-list-es-es-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -27,15 +27,15 @@ Esta vista se utiliza para crear, editar o consultar una orden de trabajo.
 
 En el modo **crear**, el formulario permite registrar una nueva tarea a realizar.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-create-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-create-es-es-1-snap.png]
 
 En el modo **visualización**, la información se muestra como solo lectura.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-100-es-es-1-snap.png]
 
 En el modo **edición**, los datos pueden actualizarse según el progreso o retroalimentación.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-edit-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-edit-100-es-es-1-snap.png]
 
 El formulario incluye los siguientes campos:
 

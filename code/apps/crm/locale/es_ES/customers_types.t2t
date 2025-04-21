@@ -10,7 +10,7 @@ Clasificar a los clientes ayuda a personalizar la atención, filtrar los datos y
 
 ==Vista de lista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers_types-list-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers_types-list-es-es-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -25,15 +25,15 @@ Esta vista permite gestionar los tipos de cliente.
 
 En el modo **crear**, se puede agregar un nuevo tipo.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers_types-create-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers_types-create-es-es-1-snap.png]
 
 En el modo **visualización**, los datos se muestran sin posibilidad de edición.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers_types-view-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers_types-view-100-es-es-1-snap.png]
 
 En el modo **edición**, se pueden modificar los datos existentes.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers_types-edit-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers_types-edit-100-es-es-1-snap.png]
 
 El formulario incluye los siguientes campos:
 

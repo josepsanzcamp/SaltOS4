@@ -1,0 +1,69 @@
+
+
+
+=Cuentas de correo electrónico=
+
+==Descripción==
+
+La aplicación de cuentas de correo electrónico se utiliza para configurar y gestionar las cuentas vinculadas a SaltOS4.
+Cada cuenta puede utilizarse para enviar y recibir correos mediante protocolos SMTP, IMAP o POP3.
+Este módulo permite la integración con proveedores externos y admite autenticación, carpetas y opciones de sincronización.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-list-es-es-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Usuario: Persona que es propietaria o utiliza esta cuenta de correo.
+- Nombre: Etiqueta descriptiva para identificar la cuenta dentro del sistema.
+- Correo electrónico: Dirección de correo configurada para esta cuenta.
+- Activo: Indica si la cuenta está habilitada y se sincroniza.
+
+
+==Vista de formulario==
+
+Esta vista se utiliza para crear, ver o editar una cuenta de correo.
+
+En el modo **crear**, se configura una cuenta nueva desde cero.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-create-es-es-1-snap.png]
+
+En el modo **visualización**, se muestran los datos de la cuenta pero no se pueden modificar.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-view-1-es-es-1-snap.png]
+
+En el modo **edición**, se pueden corregir o actualizar los parámetros.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-edit-1-es-es-1-snap.png]
+
+El formulario incluye los siguientes campos:
+
+- Usuario: Persona propietaria de la cuenta.
+- Nombre: Nombre visible o etiqueta para identificar la cuenta.
+- Correo electrónico: Dirección asociada a la cuenta.
+- Firma: Texto o firma HTML añadida automáticamente a los mensajes salientes.
+- Servidor POP3: Nombre del servidor para recibir correos.
+- Puerto POP3: Puerto usado para conectarse (ej: 110, 995).
+- Opciones POP3: Ajustes adicionales (TLS, etc.).
+- Usuario POP3: Usuario para autenticar la cuenta POP3.
+- Contraseña POP3: Clave de la cuenta POP3.
+- Borrar: Si se deben eliminar los mensajes tras descargarlos.
+- Días: Número de días que los correos permanecen en el servidor.
+- Servidor SMTP: Nombre del servidor para enviar correos.
+- Puerto SMTP: Puerto usado para enviar (ej: 25, 465, 587).
+- Cifrado SMTP: Tipo de conexión: ninguno, SSL o TLS.
+- Usuario SMTP: Usuario para autenticarse en SMTP.
+- Contraseña SMTP: Clave de la cuenta SMTP.
+- Inactivo: Marca la cuenta como deshabilitada (no se sincroniza).
+- Privado: Restringe el acceso solo al propietario.
+- Por defecto: Marca esta cuenta como remitente por defecto.
+- Añadirme al CC: Añade automáticamente al remitente como copia.
+- Solicitar confirmación de lectura: Activa acuse de recibo en cada envío.
+
+
+==Eliminación==
+
+Las cuentas pueden eliminarse si no están activas ni vinculadas a actividad reciente.
+
+Se recomienda desactivarlas si se desea conservar la configuración para uso futuro o auditoría.

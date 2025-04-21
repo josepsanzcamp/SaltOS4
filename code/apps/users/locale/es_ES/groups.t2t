@@ -1,0 +1,54 @@
+
+
+
+=Grupos=
+
+==Descripción==
+
+La aplicación de grupos se utiliza para definir roles o categorías de usuarios dentro de SaltOS4.
+Cada grupo agrupa permisos que determinan qué pueden ver o hacer sus miembros en el sistema.
+Los grupos simplifican la administración del control de acceso al permitir gestionar los permisos a nivel de grupo en lugar de usuario por usuario.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-groups-list-es-es-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Código: Identificador interno o código de referencia del grupo.
+- Nombre: Nombre o título usado para identificar el grupo.
+- Descripción: Explicación de la finalidad o alcance del grupo.
+- Activo: Indica si este grupo está habilitado para su uso.
+
+
+==Vista de formulario==
+
+Esta vista se utiliza para crear, ver o editar grupos de usuarios.
+
+En el modo **crear**, se define un nuevo grupo.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-groups-create-es-es-1-snap.png]
+
+En el modo **visualización**, se muestran los detalles del grupo y los permisos asignados.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-groups-view-1-es-es-1-snap.png]
+
+En el modo **edición**, se puede actualizar el nombre, la descripción y la matriz de permisos.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-groups-edit-1-es-es-1-snap.png]
+
+El formulario incluye los siguientes campos:
+
+- Activo: Indica si el grupo está habilitado para su uso.
+- Código: Identificador interno o referencia del grupo.
+- Nombre: Título o nombre que identifica al grupo.
+- Descripción: Explicación de su propósito o alcance funcional.
+- Usuarios: Lista de usuarios asignados a este grupo.
+- Aplicaciones y permisos: Matriz de accesos y operaciones permitidas a este grupo.
+
+
+==Eliminación==
+
+Los grupos solo pueden eliminarse si no tienen usuarios asignados.
+
+Si el grupo está en uso, se recomienda desactivarlo para conservar el historial de accesos.

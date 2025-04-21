@@ -1,0 +1,39 @@
+
+
+
+=Registre de fitxers=
+
+==Descripció==
+
+L'aplicació de registre de fitxers registra tots els esdeveniments d'accés a fitxers dins de SaltOS4.
+Traça quan els fitxers són visualitzats, descarregats o accedits per usuaris, incloent metadades associades.
+Aquest mòdul proporciona una traçabilitat completa de l'activitat documental, donant suport a polítiques de governança i seguretat de les dades.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-fileslog-list-ca-es-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Nom: Nom del fitxer accedit o gestionat dins del sistema.
+- Tipus: Format o classificació del fitxer (ex: PDF, imatge, text).
+- Mida: Mida del fitxer en bytes.
+
+
+==Vista del registre==
+
+Aquesta vista mostra informació detallada sobre un esdeveniment d'accés a fitxer.
+
+Inclou:
+
+- Nom: Nom del fitxer accedit o gestionat dins del sistema.
+- Tipus: Format o classificació del fitxer (ex: PDF, imatge, text).
+- Mida: Mida del fitxer en bytes.
+- Dades: Contingut intern, metadades o estructura serialitzada que representa l'accés o acció sobre el fitxer.
+
+
+==Eliminació==
+
+Les entrades del registre de fitxers normalment no es poden eliminar de forma manual.
+
+Es conserven per motius d'auditoria i control de seguretat, i poden ser depurades automàticament segons la configuració del sistema.

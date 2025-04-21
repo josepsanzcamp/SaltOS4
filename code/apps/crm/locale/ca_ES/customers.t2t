@@ -12,7 +12,7 @@ mòduls com pressupostos, factures, reunions i correus.
 
 ==Vista de llista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers-list-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers-list-ca-es-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -29,15 +29,15 @@ Aquesta vista s'utilitza per crear, editar o consultar una fitxa de client.
 
 En el mode **crear**, el formulari està buit i preparat per introduir dades noves.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers-create-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers-create-ca-es-1-snap.png]
 
 En el mode **visualització**, els camps estan plens amb la fitxa seleccionada i no es poden editar.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers-view-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers-view-100-ca-es-1-snap.png]
 
 En el mode **edició**, el formulari està preomplert i permet modificacions.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers-edit-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers-edit-100-ca-es-1-snap.png]
 
 El formulari inclou els següents camps:
 

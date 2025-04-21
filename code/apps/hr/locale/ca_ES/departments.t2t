@@ -1,0 +1,54 @@
+
+
+
+=Departaments=
+
+==Descripció==
+
+L'aplicació de departaments s'utilitza per definir l'estructura organitzativa de l'empresa agrupant els empleats en departaments.
+Admet jerarquies, permetent que un departament formi part d'un departament pare, i ajuda a organitzar usuaris i permisos en conseqüència.
+
+Exemples de departaments poden ser "Vendes", "Informàtica", "RRHH" o "Logística".
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-departments-list-ca-es-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Nom: Nom del departament o unitat organitzativa.
+- Codi: Identificador únic o codi de referència del departament.
+- Pare: Departament pare, si forma part d'una jerarquia.
+- Actiu: Indica si aquest departament està actualment en ús.
+
+
+==Vista de formulari==
+
+Aquesta vista s'utilitza per crear, consultar o editar departaments.
+
+En el mode **crear**, es pot definir un nou departament.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-departments-create-ca-es-1-snap.png]
+
+En el mode **visualització**, els detalls del departament són visibles però no editables.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-departments-view-100-ca-es-1-snap.png]
+
+En el mode **edició**, es poden actualitzar els valors existents.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-departments-edit-100-ca-es-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Actiu: Indica si aquest departament està en ús.
+- Nom: Nom del departament o unitat organitzativa.
+- Codi: Identificador únic o codi de referència del departament.
+- Pare: Departament pare, si aquest n'és part d'una jerarquia.
+- Notes: Detalls addicionals sobre l'estructura, responsabilitat o propòsit del departament.
+
+
+==Eliminació==
+
+Els departaments només es poden eliminar si no hi ha empleats assignats actualment.
+
+Si estan en ús, es recomana desactivar-los en lloc d'eliminar-los.

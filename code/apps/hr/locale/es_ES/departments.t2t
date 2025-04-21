@@ -1,0 +1,54 @@
+
+
+
+=Departamentos=
+
+==Descripción==
+
+La aplicación de departamentos se utiliza para definir la estructura organizativa de la empresa agrupando empleados en departamentos.
+Admite jerarquías, permitiendo que un departamento pertenezca a uno superior, y ayuda a organizar usuarios y permisos en consecuencia.
+
+Ejemplos de departamentos pueden incluir "Ventas", "Informática", "RRHH" o "Logística".
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-departments-list-es-es-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Nombre: Nombre del departamento o unidad organizativa.
+- Código: Identificador único o código de referencia del departamento.
+- Padre: Departamento superior, si forma parte de una jerarquía.
+- Activo: Indica si este departamento está actualmente en uso.
+
+
+==Vista de formulario==
+
+Esta vista se utiliza para crear, ver o editar departamentos.
+
+En el modo **crear**, se puede definir un nuevo departamento.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-departments-create-es-es-1-snap.png]
+
+En el modo **visualización**, los detalles del departamento son visibles pero no editables.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-departments-view-100-es-es-1-snap.png]
+
+En el modo **edición**, los valores existentes pueden actualizarse.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-departments-edit-100-es-es-1-snap.png]
+
+El formulario incluye los siguientes campos:
+
+- Activo: Indica si este departamento está en uso.
+- Nombre: Nombre del departamento o unidad organizativa.
+- Código: Identificador único o código de referencia del departamento.
+- Padre: Departamento superior, si forma parte de una jerarquía.
+- Notas: Detalles adicionales sobre la estructura, responsabilidad o propósito del departamento.
+
+
+==Eliminación==
+
+Los departamentos solo pueden eliminarse si no hay empleados asignados actualmente.
+
+Si están en uso, se recomienda desactivarlos en lugar de eliminarlos.

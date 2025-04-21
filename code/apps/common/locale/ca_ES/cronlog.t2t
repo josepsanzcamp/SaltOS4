@@ -1,0 +1,42 @@
+
+
+
+=Registre de cron=
+
+==Descripció==
+
+L'aplicació de registre de cron emmagatzema l'historial d'execució de les tasques programades (cron jobs) dins de SaltOS4.
+Permet als administradors monitorar processos en segon pla com la recepció de correus, importacions de dades, còpies de seguretat o tasques personalitzades.
+Aquest mòdul és essencial per diagnosticar errors i verificar que les operacions programades s'executen correctament.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-cronlog-list-ca-es-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Comanda: Ordre o script executat pel sistema de cron.
+- Inici: Hora d'inici de l'execució de la tasca programada.
+- Sortida: Vista prèvia del resultat de la sortida estàndard.
+- Error: Vista prèvia de la sortida d'error (si n'hi ha).
+
+
+==Vista de registre==
+
+Aquesta vista mostra el resultat complet d'una execució individual d'una tasca cron.
+
+Inclou:
+
+- Comanda: Ordre o script que s'ha executat.
+- PID: Identificador de procés assignat a l'execució cron.
+- Inici: Hora en què s'ha iniciat la tasca.
+- Final: Hora en què la tasca ha acabat.
+- STDOUT: Sortida estàndard generada durant l'execució.
+- STDERR: Sortida d'error generada durant l'execució (si n'hi ha).
+
+
+==Eliminació==
+
+Els registres de cron no estan pensats per ser eliminats regularment.
+
+Es pot configurar una neteja automàtica o purga manual per eliminar entrades antigues.

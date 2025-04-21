@@ -1,0 +1,49 @@
+
+
+
+=Registre de configuració=
+
+==Descripció==
+
+L'aplicació de registre de configuració proporciona una traçabilitat de tots els canvis de configuració realitzats dins de SaltOS4.
+S'utilitza per monitoritzar modificacions en paràmetres del sistema, configuracions d'aplicacions o preferències internes.
+Aquest mòdul és essencial per a administradors que volen auditar canvis i assegurar un comportament consistent del sistema al llarg del temps.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-list-ca-es-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Usuari: Usuari que va realitzar el canvi de configuració.
+- Clau: Clau de configuració que ha estat modificada.
+
+
+==Vista de registre==
+
+Aquesta vista mostra els detalls complets d'un registre de canvi de configuració.
+
+En el mode **crear**, el formulari està buit i llest per introduir noves dades.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-create-ca-es-1-snap.png]
+
+En el mode **visualització**, els camps es mostren amb la informació del registre seleccionat i no es poden editar.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-view-10-ca-es-1-snap.png]
+
+En el mode **edició**, el formulari està preomplert i permet modificacions.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-edit-10-ca-es-1-snap.png]
+
+Inclou:
+
+- Usuari: Usuari que ha fet el canvi de configuració.
+- Clau: Clau de configuració modificada.
+- Valor: Nou valor assignat a la clau de configuració.
+
+
+==Eliminació==
+
+Les entrades del registre de configuració no es poden eliminar en circumstàncies normals.
+
+Aquest registre està dissenyat per garantir la traçabilitat completa i l'auditoria de les accions administratives.

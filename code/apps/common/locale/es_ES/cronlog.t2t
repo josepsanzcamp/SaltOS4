@@ -1,0 +1,42 @@
+
+
+
+=Registro de cron=
+
+==Descripción==
+
+La aplicación de registro de cron almacena el historial de ejecución de tareas programadas (cron jobs) dentro de SaltOS4.
+Permite a los administradores supervisar procesos en segundo plano como la recogida de correos, importaciones de datos, copias de seguridad o tareas personalizadas.
+Este módulo es esencial para la detección de errores y para verificar que las operaciones programadas se estén ejecutando correctamente.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-cronlog-list-es-es-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Comando: Comando o script ejecutado por el sistema de cron.
+- Inicio: Hora de inicio de la ejecución de la tarea programada.
+- Salida: Vista previa del resultado de salida estándar.
+- Error: Vista previa del resultado de salida de error (si lo hay).
+
+
+==Vista de registro==
+
+Esta vista muestra el resultado completo de una ejecución de tarea cron individual.
+
+Incluye:
+
+- Comando: Comando o script ejecutado por cron.
+- PID: Identificador de proceso asignado a la tarea.
+- Inicio: Hora de inicio de la tarea.
+- Fin: Hora en que terminó la ejecución.
+- STDOUT: Salida estándar generada durante la ejecución.
+- STDERR: Salida de error generada durante la ejecución (si existe).
+
+
+==Eliminación==
+
+Las entradas del registro de cron no están pensadas para ser eliminadas con regularidad.
+
+Se puede configurar una limpieza automática o una purga manual para eliminar entradas antiguas.

@@ -1,0 +1,46 @@
+
+
+
+=Registro de papelera=
+
+==Descripción==
+
+La aplicación de registro de papelera almacena todas las eliminaciones realizadas en el sistema, actuando como una papelera de reciclaje para SaltOS4.
+Permite a administradores y usuarios avanzados inspeccionar qué datos han sido eliminados, cuándo, por quién y desde dónde.
+Este módulo es clave para la trazabilidad y ayuda a identificar eliminaciones accidentales o acciones no autorizadas.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-trashlog-list-es-es-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Usuario: Usuario que realizó la eliminación.
+- Fecha y hora: Momento exacto en que se eliminó el registro.
+- Nombre: Nombre descriptivo del registro o archivo eliminado.
+
+
+==Vista de registro==
+
+Esta vista muestra toda la información registrada sobre un elemento eliminado.
+
+Incluye:
+
+- ID antiguo: Identificador original del registro antes de su eliminación.
+- Usuario: Usuario que realizó la eliminación.
+- Fecha y hora: Momento exacto en que se eliminó.
+- ID de registro: Identificador interno asignado al registro eliminado.
+- Aplicación: Aplicación o módulo desde donde se eliminó el registro.
+- ID único: Identificador único en todo el sistema del elemento eliminado.
+- Nombre: Nombre descriptivo del registro o archivo eliminado.
+- Tamaño: Tamaño del archivo en bytes, si el elemento era un archivo.
+- Tipo: Tipo MIME o clasificación del elemento eliminado.
+- Archivo: Nombre o ruta original del archivo eliminado.
+- Hash: Suma de verificación utilizada para validar el contenido eliminado.
+
+
+==Eliminación==
+
+Las entradas del registro de papelera no pueden eliminarse directamente desde la interfaz.
+
+SaltOS4 las conserva para fines de responsabilidad y trazabilidad legal, a menos que se configure una depuración automática.

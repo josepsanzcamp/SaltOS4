@@ -1,0 +1,38 @@
+
+
+
+=Panel de control (Dashboard)=
+
+==Descripción==
+
+El panel de control o **dashboard** es la pantalla inicial de SaltOS4, donde se pueden mostrar accesos rápidos, separadores, widgets, gráficos y otros elementos visuales.
+No se trata de una aplicación clásica con formularios o registros, sino de una vista dinámica y personalizable pensada para ofrecer una visión general rápida y acceso directo a funcionalidades frecuentes.
+
+Esta vista centraliza acciones comunes y muestra información relevante de forma resumida.
+
+==Vista principal==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-es-es-1-snap.png]
+
+El dashboard puede incluir:
+
+- Botones de acceso rápido a aplicaciones o acciones frecuentes
+- Títulos que agrupan secciones
+- Separadores visuales para organizar la información
+- Widgets que muestran contenido en tiempo real (ej: calendario, correos, gráficos)
+
+
+==Configuración del dashboard==
+
+En la **parte superior derecha de la pantalla**, hay un botón con un icono de engranaje que abre la aplicación de configuración del dashboard.
+
+Desde allí se pueden personalizar los elementos mostrados:
+
+- Seleccionar el dashboard activo
+- Añadir o quitar **botones**
+- Crear **títulos** y **separadores** visuales
+- Agrupar elementos en bloques
+- Incluir **widgets** disponibles (ej: estadísticas, recordatorios, correos)
+
+
+Esta configuración es específica para cada usuario y se guarda automáticamente.

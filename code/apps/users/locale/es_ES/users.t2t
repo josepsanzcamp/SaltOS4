@@ -1,0 +1,62 @@
+
+
+
+=Usuarios=
+
+==Descripción==
+
+La aplicación de usuarios se utiliza para gestionar las cuentas que tienen acceso al sistema SaltOS4.
+Cada usuario tiene asignadas credenciales, roles y permisos, y puede estar vinculado opcionalmente a un perfil de empleado.
+Este módulo es esencial para el control de acceso, la personalización y la trazabilidad mediante auditoría.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-list-es-es-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Usuario: Nombre de usuario único utilizado para acceder al sistema.
+- Nombre: Nombre completo del usuario, usado para identificación y visualización.
+- Descripción: Comentarios internos o notas sobre el perfil del usuario.
+- Grupo: Grupo o rol asignado para control de permisos.
+- Activo: Indica si la cuenta está actualmente habilitada.
+
+
+==Vista de formulario==
+
+Esta vista se utiliza para crear, ver o editar cuentas de usuario.
+
+En el modo **crear**, el formulario permite registrar un nuevo usuario con credenciales de acceso.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-create-es-es-1-snap.png]
+
+En el modo **visualización**, los datos del usuario se muestran sin opción de edición.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-view-1-es-es-1-snap.png]
+
+En el modo **edición**, se puede actualizar la información o restablecer credenciales.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-edit-1-es-es-1-snap.png]
+
+El formulario incluye los siguientes campos:
+
+- Activo: Indica si la cuenta de usuario está actualmente habilitada.
+- Usuario: Nombre único de acceso al sistema.
+- Grupo: Grupo o rol que define los permisos base.
+- Nombre: Nombre completo del usuario.
+- Nueva contraseña: Clave de acceso nueva (para restablecimiento o cambio).
+- Repetir contraseña: Confirmación de la nueva contraseña.
+- Descripción: Notas internas sobre el perfil del usuario.
+- Inicio: Fecha desde la cual la cuenta es válida.
+- Fin: Fecha de expiración tras la cual no se permite el acceso.
+- Días: Días de la semana en los que se permite acceso.
+- Grupos: Grupos adicionales asociados al usuario.
+- Aplicaciones y permisos: Matriz detallada de accesos y acciones permitidas.
+- Historial de contraseñas: Lista de contraseñas anteriores para control y seguridad.
+
+
+==Eliminación==
+
+Las cuentas de usuario pueden eliminarse si no han iniciado sesión y no están vinculadas a registros de actividad.
+
+En caso contrario, se recomienda desactivarlas en lugar de eliminarlas para mantener trazabilidad.

@@ -1,0 +1,54 @@
+
+
+
+=Grups=
+
+==Descripció==
+
+L'aplicació de grups s'utilitza per definir rols o categories d'usuaris dins de SaltOS4.
+Cada grup agrupa permisos que determinen què poden veure o fer els seus membres dins del sistema.
+Els grups simplifiquen l'administració del control d'accés permetent gestionar permisos a nivell de grup en lloc d'individualment.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-groups-list-ca-es-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Codi: Identificador intern o codi de referència del grup.
+- Nom: Nom o títol que identifica el grup.
+- Descripció: Explicació de la funció o abast del grup.
+- Actiu: Indica si aquest grup està habilitat per al seu ús.
+
+
+==Vista de formulari==
+
+Aquesta vista s'utilitza per crear, consultar o editar grups d'usuaris.
+
+En el mode **crear**, es defineix un nou grup.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-groups-create-ca-es-1-snap.png]
+
+En el mode **visualització**, es mostren els detalls del grup i els permisos assignats.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-groups-view-1-ca-es-1-snap.png]
+
+En el mode **edició**, es poden actualitzar el nom, la descripció i el conjunt de permisos.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-groups-edit-1-ca-es-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Actiu: Indica si aquest grup està habilitat per al seu ús.
+- Codi: Identificador intern o codi de referència.
+- Nom: Títol o nom identificador del grup.
+- Descripció: Explicació de l'ús previst o abast funcional.
+- Usuaris: Llista d'usuaris assignats al grup.
+- Aplicacions i permisos: Matriu d'accés i operacions permeses per a aquest grup.
+
+
+==Eliminació==
+
+Els grups només es poden eliminar si no hi ha cap usuari assignat.
+
+Si el grup està en ús, es recomana desactivar-lo per preservar la informació històrica d'accés.

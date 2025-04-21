@@ -11,7 +11,7 @@ Cada registro incluye el nombre, el porcentaje y el estado, asegurando una aplic
 
 ==Vista de lista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-list-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-list-es-es-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -28,15 +28,15 @@ Esta vista se utiliza para crear, ver o editar tipos de impuesto.
 
 En el modo **crear**, se puede definir una nueva regla de impuesto.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-create-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-create-es-es-1-snap.png]
 
 En el modo **visualización**, los detalles del impuesto son visibles pero no editables.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-view-1-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-view-1-es-es-1-snap.png]
 
 En el modo **edición**, los valores existentes pueden actualizarse.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-edit-1-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-edit-1-es-es-1-snap.png]
 
 El formulario incluye los siguientes campos:
 

@@ -12,7 +12,7 @@ i convertir interessats en clients quan sigui oportú.
 
 ==Vista de llista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-list-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-list-ca-es-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -28,15 +28,15 @@ Aquesta vista s'utilitza per crear, editar o consultar un interessat.
 
 En el mode **crear**, el formulari està buit i preparat per introduir dades noves.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-create-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-create-ca-es-1-snap.png]
 
 En el mode **visualització**, els camps es mostren amb la informació seleccionada i no es poden editar.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-view-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-view-100-ca-es-1-snap.png]
 
 En el mode **edició**, el formulari està preomplert i permet fer modificacions.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-edit-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-edit-100-ca-es-1-snap.png]
 
 El formulari inclou els següents camps:
 

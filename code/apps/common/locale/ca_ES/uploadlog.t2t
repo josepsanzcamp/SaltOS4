@@ -1,0 +1,44 @@
+
+
+
+=Registre de pujades=
+
+==Descripció==
+
+L'aplicació de registre de pujades registra tots els fitxers pujats a través de SaltOS4, ja sigui de manera manual o automatitzada.
+Ajuda a traçar l'origen, l'usuari i el context de cada pujada, i és útil per a auditories, depuració i per verificar que les pujades es processen correctament.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-uploadlog-list-ca-es-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Usuari: Usuari que ha pujat el fitxer.
+- Data i hora: Moment en què el fitxer ha estat pujat al sistema.
+- Aplicació: Mòdul o aplicació des d'on s'ha activat la pujada.
+- Nom: Nom original del fitxer tal com l'ha proporcionat l'usuari.
+
+
+==Vista de registre==
+
+Aquesta vista mostra els detalls complets d'una entrada del registre de pujada.
+
+Inclou:
+
+- Usuari: Usuari que ha pujat el fitxer.
+- Data i hora: Moment en què el fitxer ha estat pujat al sistema.
+- ID únic: Identificador únic intern assignat a l'entrada de pujada.
+- Aplicació: Mòdul o aplicació des d'on s'ha activat la pujada.
+- Nom: Nom original del fitxer tal com l'ha proporcionat l'usuari.
+- Mida: Mida del fitxer pujat, en bytes.
+- Tipus: Tipus MIME o format del fitxer pujat.
+- Fitxer: Nom del fitxer emmagatzemat utilitzat pel sistema.
+- Hash: Suma de verificació (ex: MD5 o SHA) per validar la integritat o detectar duplicats.
+
+
+==Eliminació==
+
+Les entrades del registre de pujades normalment es conserven per a finalitats de traçabilitat històrica.
+
+Si cal, es poden eliminar entrades antigues manualment o mitjançant tasques de manteniment automàtic.

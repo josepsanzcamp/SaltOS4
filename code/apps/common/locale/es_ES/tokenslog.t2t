@@ -1,0 +1,46 @@
+
+
+
+=Registro de tokens=
+
+==Descripción==
+
+La aplicación de registro de tokens hace seguimiento del uso de los tokens de autenticación en todo el sistema.
+Estos tokens se utilizan normalmente en llamadas a la API, scripts automatizados o sesiones de acceso temporal.
+Este módulo permite a los administradores monitorizar el acceso al sistema y detectar posibles usos indebidos o intentos no autorizados.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-list-es-es-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Usuario: Usuario asociado al token.
+- Creado: Fecha y hora en que se creó el token.
+- Token: Cadena de token utilizada para autenticación o acceso.
+- Activo: Indica si el token es actualmente válido y utilizable.
+
+
+==Vista de registro==
+
+Esta vista muestra toda la información relacionada con un acceso mediante token.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-view-1-es-es-1-snap.png]
+
+Incluye:
+
+- Activo: Indica si el token es actualmente válido y utilizable.
+- Usuario: Usuario asociado al token.
+- Creado: Fecha y hora en que se creó el token.
+- Actualizado: Fecha y hora de la última modificación del estado del token.
+- Dirección IP: Dirección desde la cual se utilizó o generó el token.
+- User Agent: Navegador o cliente usado para generar o acceder al token.
+- Token: Cadena usada para autenticación o acceso.
+- Expira: Fecha y hora de expiración del token, tras la cual deja de ser válido.
+
+
+==Eliminación==
+
+Las entradas del registro de tokens no están pensadas para ser eliminadas manualmente.
+
+Forman parte del historial de auditoría y control de accesos del sistema, y pueden eliminarse automáticamente si está configurado.

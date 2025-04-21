@@ -1,0 +1,61 @@
+
+
+
+=Compra=
+
+==Descripción==
+
+La aplicación de compras se utiliza para registrar y hacer seguimiento de las compras realizadas a proveedores.
+Cada registro de compra incluye detalles de la factura, importe total, fecha de compra y notas o archivos adjuntos.
+Este módulo garantiza la trazabilidad de los gastos y está vinculado al módulo de Proveedores para mantener la coherencia.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-list-es-es-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Fecha de pedido: Fecha en que se registró la orden de compra en el sistema.
+- Proveedor: Vendedor o entidad a quien se le adquirió el bien o servicio.
+- Factura: Número o referencia de la factura emitida por el proveedor.
+- Pagado: Indica si la compra ha sido totalmente abonada.
+
+
+==Vista de formulario==
+
+Esta vista se utiliza para crear, editar o consultar un registro de compra.
+
+En el modo **crear**, el formulario se utiliza para registrar una nueva compra vinculada a un proveedor.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-create-es-es-1-snap.png]
+
+En el modo **visualización**, muestra los detalles de la compra en modo solo lectura.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-view-100-es-es-1-snap.png]
+
+En el modo **edición**, puede actualizarse la información si es necesario.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-edit-100-es-es-1-snap.png]
+
+El formulario incluye los siguientes campos:
+
+- Fecha de pedido: Fecha en que se registró la orden en el sistema.
+- Proveedor: Persona o entidad a quien se realizó la compra.
+- Descripción: Breve explicación o resumen del contenido de la compra.
+- Subtotal: Importe antes de impuestos y descuentos.
+- Impuesto: Valor total de los impuestos aplicados a la compra.
+- Total: Importe final de la compra, con impuestos y descuentos incluidos.
+- Estado: Estado actual de la compra (ej: borrador, ordenado, recibido).
+- Número de factura: Número o referencia de la factura emitida por el proveedor.
+- Fecha de factura: Fecha oficial de la factura del proveedor.
+- Pagado: Indica si la compra ha sido completamente pagada.
+- Fecha de pago: Fecha en que se realizó el pago al proveedor.
+- Notas: Observaciones internas o información administrativa relevante.
+
+
+==Eliminación==
+
+Los registros de compra solo pueden eliminarse si no están vinculados a procesos contables o registros asociados.
+Aparecerá un diálogo de confirmación antes de continuar.
+
+Una vez registradas y finalizadas, la eliminación puede estar restringida según permisos del sistema y trazabilidad.

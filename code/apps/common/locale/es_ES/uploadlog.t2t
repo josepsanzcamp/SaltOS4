@@ -1,0 +1,44 @@
+
+
+
+=Registro de subidas=
+
+==Descripción==
+
+La aplicación de registro de subidas registra todos los archivos cargados a través de SaltOS4, ya sea de forma manual o automatizada.
+Ayuda a rastrear el origen, el usuario y el contexto de cada carga, y resulta útil para auditorías, depuración y para verificar que las subidas se procesan correctamente.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-uploadlog-list-es-es-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Usuario: Usuario que subió el archivo.
+- Fecha y hora: Momento en que el archivo fue subido al sistema.
+- Aplicación: Módulo o aplicación desde la cual se activó la subida.
+- Nombre: Nombre original del archivo proporcionado por el usuario.
+
+
+==Vista de registro==
+
+Esta vista muestra los detalles completos de una entrada del registro de subidas.
+
+Incluye:
+
+- Usuario: Usuario que subió el archivo.
+- Fecha y hora: Momento en que el archivo fue subido al sistema.
+- ID único: Identificador único interno asignado a la entrada de subida.
+- Aplicación: Módulo o aplicación desde donde se originó la subida.
+- Nombre: Nombre original del archivo proporcionado por el usuario.
+- Tamaño: Tamaño del archivo subido en bytes.
+- Tipo: Tipo MIME o formato del archivo.
+- Archivo: Nombre del archivo almacenado utilizado internamente por el sistema.
+- Hash: Suma de verificación (ej: MD5 o SHA) para validar la integridad o detectar duplicados.
+
+
+==Eliminación==
+
+Las entradas del registro de subidas normalmente se conservan con fines de trazabilidad histórica.
+
+Si es necesario, se pueden eliminar entradas antiguas manualmente o mediante tareas de mantenimiento automático.

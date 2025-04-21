@@ -1,0 +1,51 @@
+
+
+
+=Categories de productes=
+
+==Descripció==
+
+L'aplicació de categories de productes s'utilitza per classificar productes i serveis segons la seva naturalesa o comportament.
+Aquesta classificació ajuda a distingir entre béns físics, serveis, subscripcions o altres categories internes utilitzades en informes o automatitzacions.
+
+Exemples de categories poden incloure "Producte", "Servei", "Subscripció" o "Paquet".
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-list-ca-es-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Nom: Etiqueta de la categoria.
+- Descripció: Descripció opcional per aclarir l’ús de la categoria.
+- Actiu: Indica si la categoria està disponible en crear productes.
+
+
+==Vista de formulari==
+
+Aquesta vista s'utilitza per crear, consultar o editar registres de categoria de producte.
+
+En el mode **crear**, es pot definir una nova categoria.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-create-ca-es-1-snap.png]
+
+En el mode **visualització**, els detalls de la categoria es mostren però no es poden editar.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-view-10-ca-es-1-snap.png]
+
+En el mode **edició**, es poden actualitzar els valors existents.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-edit-10-ca-es-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Actiu: Controla si es pot triar en formularis de producte.
+- Nom: Nom que es mostra al selector de tipus en crear un producte.
+- Descripció: Notes sobre l’ús previst de la categoria.
+
+
+==Eliminació==
+
+Les categories només es poden eliminar si no estan vinculades a cap producte.
+
+En cas contrari, es recomana desactivar-les.

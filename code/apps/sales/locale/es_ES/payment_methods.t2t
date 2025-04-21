@@ -11,7 +11,7 @@ Este módulo garantiza coherencia y trazabilidad en todo el proceso de facturaci
 
 ==Vista de lista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-list-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-list-es-es-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -27,15 +27,15 @@ Esta vista se utiliza para crear, consultar o editar métodos de pago.
 
 En el modo **crear**, se añade un nuevo método de pago.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-create-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-create-es-es-1-snap.png]
 
 En el modo **visualización**, los campos se muestran en modo solo lectura.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-view-10-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-view-10-es-es-1-snap.png]
 
 En el modo **edición**, los detalles pueden modificarse.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-edit-10-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-edit-10-es-es-1-snap.png]
 
 El formulario incluye los siguientes campos:
 

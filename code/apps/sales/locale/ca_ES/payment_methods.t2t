@@ -11,7 +11,7 @@ Aquest mòdul garanteix la coherència i la traçabilitat en tot el procés de f
 
 ==Vista de llista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-list-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-list-ca-es-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -27,15 +27,15 @@ Aquesta vista s'utilitza per crear, consultar o editar mètodes de pagament.
 
 En el mode **crear**, s'afegeix un nou mètode de pagament.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-create-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-create-ca-es-1-snap.png]
 
 En el mode **visualització**, els camps es mostren en mode només lectura.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-view-10-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-view-10-ca-es-1-snap.png]
 
 En el mode **edició**, es poden modificar els detalls.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-edit-10-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-edit-10-ca-es-1-snap.png]
 
 El formulari inclou els següents camps:
 

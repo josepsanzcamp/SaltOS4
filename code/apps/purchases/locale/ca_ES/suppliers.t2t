@@ -1,0 +1,64 @@
+
+
+
+=Proveïdors=
+
+==Descripció==
+
+L'aplicació de proveïdors s'utilitza per gestionar la llista de venedors o proveïdors externs amb qui col·labora l'organització.
+Emmagatzema informació essencial com la identificació, dades de contacte, codi fiscal i classificació.
+Aquest mòdul està vinculat als processos de compra, permetent associar proveïdors a compres i mantenir la traçabilitat completa.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-list-ca-es-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Nom: Nom o raó social del proveïdor.
+- CIF: Codi d'identificació fiscal (ex: NIF, CIF, IVA).
+- Ciutat: Ciutat associada a l'adreça del proveïdor.
+- País: País on està ubicat o registrat el proveïdor.
+- Actiu: Indica si el proveïdor està actualment actiu en el sistema.
+
+
+==Vista de formulari==
+
+Aquesta vista s'utilitza per crear, editar o consultar registres de proveïdors.
+
+En el mode **crear**, el formulari està buit per afegir un nou proveïdor.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-create-ca-es-1-snap.png]
+
+En el mode **visualització**, els camps es mostren en mode només lectura.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-view-100-ca-es-1-snap.png]
+
+En el mode **edició**, es poden actualitzar les dades del proveïdor.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-edit-100-ca-es-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Actiu: Indica si el proveïdor està actiu actualment al sistema.
+- Nom: Nom o raó social del proveïdor.
+- CIF: Codi d'identificació fiscal (ex: NIF, CIF, IVA).
+- Adreça: Carrer o adreça de facturació del proveïdor.
+- Ciutat: Ciutat associada a l'adreça.
+- Província / Estat: Província o regió administrativa.
+- Codi postal: Codi postal del proveïdor.
+- País: País on està ubicat o registrat.
+- Correu electrònic: Adreça electrònica de contacte principal.
+- Telèfon: Número de contacte principal.
+- Lloc web: Web o enllaç associat al proveïdor.
+- Notes: Informació addicional o observacions internes sobre el proveïdor.
+- Tipus: Categoria o classificació del proveïdor.
+
+
+==Eliminació==
+
+Els registres de proveïdor poden eliminar-se si no estan referenciats en compres ni documents.
+
+S'apareixerà un diàleg de confirmació abans de l'eliminació.
+
+Si el proveïdor està vinculat a compres o registres financers, no es podrà eliminar.

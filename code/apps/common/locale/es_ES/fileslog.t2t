@@ -1,0 +1,39 @@
+
+
+
+=Registro de archivos=
+
+==Descripción==
+
+La aplicación de registro de archivos registra todos los eventos de acceso a archivos dentro de SaltOS4.
+Rastrea cuándo los archivos son visualizados, descargados o accedidos por los usuarios, incluyendo los metadatos asociados.
+Este módulo proporciona una trazabilidad completa de la actividad documental, respaldando políticas de gobernanza y seguridad de datos.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-fileslog-list-es-es-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Nombre: Nombre del archivo accedido o gestionado dentro del sistema.
+- Tipo: Formato o clasificación del archivo (ej: PDF, imagen, texto).
+- Tamaño: Tamaño del archivo en bytes.
+
+
+==Vista del registro==
+
+Esta vista muestra información detallada sobre un evento de acceso a archivo.
+
+Incluye:
+
+- Nombre: Nombre del archivo accedido o gestionado dentro del sistema.
+- Tipo: Formato o clasificación del archivo (ej: PDF, imagen, texto).
+- Tamaño: Tamaño del archivo en bytes.
+- Datos: Contenido interno, metadatos o estructura serializada que representa el acceso o acción sobre el archivo.
+
+
+==Eliminación==
+
+Las entradas del registro de archivos generalmente no se eliminan de forma manual.
+
+Se conservan por motivos de auditoría y control de seguridad, y pueden depurarse automáticamente según la configuración del sistema.

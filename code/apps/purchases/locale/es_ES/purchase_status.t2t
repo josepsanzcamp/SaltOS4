@@ -1,0 +1,51 @@
+
+
+
+=Estados de compra=
+
+==Descripción==
+
+La aplicación de estados de compra define las etapas por las que puede pasar un registro de compra.
+Permite categorizar las compras según su estado, como "Borrador", "Ordenado", "Recibido" o "Cancelado".
+
+Estos estados ayudan a seguir el progreso del proceso de compras y mejoran la claridad en el módulo de Compras.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-list-es-es-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Nombre: Nombre del estado (ej: Recibido, Cancelado).
+- Descripción: Aclara cómo o cuándo se utiliza este estado.
+- Activo: Indica si el estado está actualmente disponible para su selección.
+
+
+==Vista de formulario==
+
+Esta vista se utiliza para crear, ver o editar entradas de estados de compra.
+
+En el modo **crear**, el formulario se utiliza para ingresar un nuevo estado.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-create-es-es-1-snap.png]
+
+En el modo **visualización**, muestra los detalles del estado en modo solo lectura.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-view-10-es-es-1-snap.png]
+
+En el modo **edición**, la información puede actualizarse si es necesario.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-edit-10-es-es-1-snap.png]
+
+El formulario incluye los siguientes campos:
+
+- Activo: Controla la disponibilidad del estado en el desplegable.
+- Nombre: Etiqueta del estado tal como aparece en el formulario de compra.
+- Descripción: Notas internas sobre su caso de uso.
+
+
+==Eliminación==
+
+Los estados solo pueden eliminarse si no hay compras que los estén utilizando actualmente.
+
+En la mayoría de los casos, se recomienda desactivarlos.

@@ -1,0 +1,51 @@
+
+
+
+=Tipos de empleado=
+
+==Descripción==
+
+La aplicación de tipos de empleado permite clasificar a los trabajadores según su rol, tipo de contrato o categoría interna.
+Esto ayuda a estructurar la base de datos de RRHH y facilita el filtrado, los informes y el control de acceso.
+
+Algunos tipos comunes incluyen "Jornada completa", "Media jornada", "Autónomo", "Prácticas", etc.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-list-es-es-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Nombre: Título del tipo de empleado.
+- Descripción: Explicación sobre la finalidad del tipo.
+- Activo: Indica si el tipo está actualmente disponible.
+
+
+==Vista de formulario==
+
+Esta vista se utiliza para crear, ver o editar tipos de empleado.
+
+En el modo **crear**, se puede definir un nuevo tipo de empleado.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-create-es-es-1-snap.png]
+
+En el modo **visualización**, los detalles son visibles pero no editables.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-view-10-es-es-1-snap.png]
+
+En el modo **edición**, se pueden actualizar los valores existentes.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-edit-10-es-es-1-snap.png]
+
+El formulario incluye los siguientes campos:
+
+- Activo: Controla si el tipo se puede seleccionar.
+- Nombre: Nombre que aparece en el desplegable de tipos del formulario de empleado.
+- Descripción: Notas sobre el uso previsto de este tipo.
+
+
+==Eliminación==
+
+Los tipos de empleado solo pueden eliminarse si no están asignados a ningún empleado.
+
+En caso contrario, se recomienda desactivarlos.

@@ -1,0 +1,47 @@
+
+
+
+=Dashboard configuration=
+
+==Description==
+
+This application allows users to configure the content shown on the **SaltOS4 dashboard**.
+It is not a traditional app with records, but a visual, user-focused interface for customizing quick access buttons, sections, and widgets that appear on the home dashboard.
+
+Each user can have their own personalized dashboard, and this tool is its visual editor.
+
+==Configuration view==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-widgets-en-us-1-snap.png]
+
+The screen displays a canvas-style layout where dashboard elements can be added, arranged, and grouped visually.
+
+Available elements include:
+
+- **Buttons**: Quick access links to apps or features.
+- **Separators**: Visual lines or spaces to structure the layout.
+- **Titles**: Headers to organize sections of the dashboard.
+- **Widgets**: Dynamic components such as calendar, email, charts, stats, etc.
+
+
+Elements can be grouped, reordered via drag and drop, and arranged into multiple blocks or columns.
+
+==Features==
+
+- Add or remove dashboard elements
+- Reorder using drag and drop
+- Edit section titles and labels
+- Choose which widgets to display
+- Organize layout in multiple columns or groups
+
+
+Changes are saved automatically and apply only to the active user’s dashboard.
+
+==Advanced usage==
+
+This module is ideal for:
+
+- Creating role-specific dashboards (e.g., sales, tech, admin)
+- Displaying only frequently used tools and information
+- Improving clarity and efficiency on the SaltOS4 start screen
+

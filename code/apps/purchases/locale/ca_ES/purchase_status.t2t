@@ -1,0 +1,51 @@
+
+
+
+=Estats de compra=
+
+==Descripció==
+
+L'aplicació d'estats de compra defineix les etapes per les quals pot passar un registre de compra.
+Permet categoritzar les compres segons el seu estat, com ara "Esborrany", "Encomanada", "Rebuda" o "Cancel·lada".
+
+Aquests estats ajuden a fer seguiment del procés de compres i milloren la claredat dins el mòdul de Compres.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-list-ca-es-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Nom: Nom de l'estat (ex: Rebuda, Cancel·lada).
+- Descripció: Aclareix com o quan s'utilitza aquest estat.
+- Actiu: Indica si l'estat es pot seleccionar actualment.
+
+
+==Vista de formulari==
+
+Aquesta vista s'utilitza per crear, consultar o editar estats de compra.
+
+En el mode **crear**, el formulari serveix per introduir un nou estat.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-create-ca-es-1-snap.png]
+
+En el mode **visualització**, es mostren els detalls de l'estat en mode només lectura.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-view-10-ca-es-1-snap.png]
+
+En el mode **edició**, es pot actualitzar la informació si cal.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-edit-10-ca-es-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Actiu: Controla la disponibilitat de l'estat al desplegable.
+- Nom: Etiqueta de l'estat tal com apareix al formulari de compra.
+- Descripció: Notes internes sobre el seu ús o aplicació.
+
+
+==Eliminació==
+
+Els estats només es poden eliminar si no hi ha compres que els estiguin utilitzant actualment.
+
+En la majoria de casos, es prefereix desactivar-los.

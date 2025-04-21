@@ -1,0 +1,66 @@
+
+
+
+=Empresa=
+
+==Descripción==
+
+La aplicación de empresa almacena los datos de identificación y contacto de la organización que utiliza SaltOS4.
+Esta información se utiliza en todo el sistema para personalizar documentos (presupuestos, facturas, correos, etc.) y definir la identidad legal y fiscal de la empresa.
+
+Normalmente incluye el nombre de la empresa, su código fiscal, dirección, logotipo e idioma preferido.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-list-es-es-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Nombre: Nombre oficial de la empresa u organización.
+- CIF: Código de identificación fiscal (NIF, CIF, IVA, etc.) de la empresa.
+- Ciudad: Ciudad donde se encuentra la empresa.
+- País: País donde la empresa está legalmente registrada o donde opera.
+- Activa: Indica si este perfil de empresa está activo en el sistema.
+
+
+==Vista de formulario==
+
+Esta vista se utiliza para definir o editar el perfil de la empresa.
+
+En el modo **crear**, el formulario está vacío y listo para ingresar los datos.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-create-es-es-1-snap.png]
+
+En el modo **visualización**, los campos se muestran rellenos pero no se pueden editar.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-view-1-es-es-1-snap.png]
+
+En el modo **edición**, el formulario está precargado y permite realizar modificaciones.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-edit-1-es-es-1-snap.png]
+
+El formulario incluye los siguientes campos:
+
+- Activa: Indica si este perfil de empresa está activo en el sistema.
+- Nombre: Nombre oficial de la empresa u organización.
+- Código: Código fiscal (NIF, CIF, IVA, etc.) de la empresa.
+- Dirección: Dirección oficial o postal de la empresa.
+- Ciudad: Ciudad donde se encuentra la empresa.
+- Provincia / Estado: Provincia, estado o región donde tiene sede la empresa.
+- Código postal: Código postal de la dirección registrada.
+- País: País donde la empresa está registrada u opera.
+- Teléfono: Número de teléfono principal de contacto.
+- Correo electrónico: Dirección de correo electrónico utilizada para contacto administrativo o legal.
+- Sitio web: Página web pública de la empresa.
+- IBAN: Número de cuenta bancaria internacional para transferencias.
+- SWIFT/BIC: Código SWIFT/BIC que identifica el banco de la empresa en transferencias internacionales.
+- Régimen fiscal: Régimen tributario bajo el cual opera la empresa (ej: general, simplificado, pymes).
+- Código de actividad: Código de clasificación económica (ej: CNAE, NACE).
+- Notas adicionales: Observaciones internas o información adicional sobre la empresa.
+
+
+==Eliminación==
+
+El perfil de empresa no puede eliminarse si es el único activo en el sistema.
+
+En la mayoría de configuraciones, solo se permite su desactivación.

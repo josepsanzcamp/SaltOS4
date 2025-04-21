@@ -1,0 +1,46 @@
+
+
+
+=Registre de paperera=
+
+==Descripció==
+
+L'aplicació de registre de paperera emmagatzema totes les eliminacions realitzades al sistema, actuant com una paperera de reciclatge per a SaltOS4.
+Permet a administradors i usuaris avançats inspeccionar quines dades han estat eliminades, quan, per qui i des d'on.
+Aquest mòdul és clau per a la traçabilitat i ajuda a identificar eliminacions accidentals o accions no autoritzades.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-trashlog-list-ca-es-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Usuari: Usuari que ha realitzat l'eliminació.
+- Data i hora: Moment exacte en què s'ha eliminat el registre.
+- Nom: Nom descriptiu del registre o fitxer eliminat.
+
+
+==Vista de registre==
+
+Aquesta vista mostra tota la informació registrada sobre un element eliminat.
+
+Inclou:
+
+- ID antic: Identificador original del registre abans de l'eliminació.
+- Usuari: Usuari que ha realitzat l'eliminació.
+- Data i hora: Moment exacte de l'eliminació.
+- ID de registre: Identificador intern assignat al registre eliminat.
+- Aplicació: Aplicació o mòdul des del qual s'ha eliminat el registre.
+- ID únic: Identificador únic a nivell de sistema de l'element eliminat.
+- Nom: Nom descriptiu del registre o fitxer eliminat.
+- Mida: Mida del fitxer en bytes, si era un fitxer.
+- Tipus: Tipus MIME o classificació de l'element eliminat.
+- Fitxer: Nom o ruta original del fitxer eliminat.
+- Hash: Suma de verificació utilitzada per validar el contingut eliminat.
+
+
+==Eliminació==
+
+Les entrades del registre de paperera no es poden eliminar directament des de la interfície.
+
+SaltOS4 les conserva per responsabilitat i traçabilitat legal, tret que s'hagi configurat una depuració automàtica.

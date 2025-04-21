@@ -1,0 +1,85 @@
+
+
+
+=Correos electrónicos=
+
+==Descripción==
+
+La aplicación de correos electrónicos se utiliza para recibir, consultar y responder correos desde las cuentas configuradas en SaltOS4.
+Actúa como un cliente de correo integrado simplificado que permite leer mensajes mediante POP3 o IMAP,
+ver metadatos y contenido, y responder utilizando servidores SMTP internos o externos.
+
+Cada mensaje se muestra como una tarjeta visual en la vista de lista, con campos clave como remitente, asunto,
+fecha y un fragmento del cuerpo. Los correos pueden visualizarse en detalle, responderse o eliminarse. Esta aplicación
+está estrechamente integrada con el módulo de Cuentas de correo electrónico y es esencial para gestionar la comunicación entrante.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-es-es-1-snap.png]
+
+La vista de lista muestra los correos entrantes como botones o tarjetas clicables.
+Cada entrada muestra normalmente:
+
+- Encabezado: Resumen visual que representa el mensaje en la interfaz.
+- Fecha y hora: Momento en que se recibió o envió el mensaje.
+- Asunto: Título o línea de asunto del correo.
+- Fragmento: Vista previa extraída del inicio del cuerpo del mensaje.
+- Adjuntos: Lista de archivos adjuntos, con opción de descarga.
+
+
+La interfaz también incluye filtros y un formulario de búsqueda por remitente, asunto, cuenta y fecha.
+
+==Vista del mensaje==
+
+Esta vista muestra el contenido completo del mensaje, incluyendo metadatos y archivos adjuntos.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-100-es-es-1-snap.png]
+
+La información mostrada incluye:
+
+- De: Dirección del remitente.
+- Para: Destinatarios principales.
+- CC: Destinatarios con copia visible.
+- CCO: Destinatarios con copia oculta.
+- Fecha y hora: Momento en que se envió o recibió el mensaje.
+- UIDL: Identificador único del servidor para sincronización.
+- Prioridad: Nivel de importancia (Baja, Normal, Alta).
+- Sensibilidad: Nivel de confidencialidad: Normal, Personal, Privado o Confidencial.
+- Enviado: Confirma que el correo fue enviado con éxito.
+- Nuevo: Indica si el mensaje es nuevo o no leído.
+- Respuesta: Indica si se ha respondido el mensaje.
+- Reenviado: Indica si el mensaje fue reenviado.
+- Espera: Marcador de seguimiento o espera de respuesta.
+- SPAM: Indica si se clasificó como correo no deseado.
+- Solicitar confirmación de lectura: Muestra si se pidió acuse de recibo.
+- Error: Muestra un error si falló el envío.
+- Asunto: Línea de asunto del mensaje.
+- Cuerpo: Contenido principal del mensaje, en visor embebido.
+- Adjuntos: Archivos adjuntos del mensaje.
+
+
+==Responder / Redactar==
+
+Los usuarios pueden responder a un mensaje existente o redactar uno nuevo desde un formulario simplificado.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-create-es-es-1-snap.png]
+
+El formulario de respuesta o redacción incluye:
+
+- Desde: Cuenta de correo usada como remitente.
+- Para: Destinatarios principales.
+- CC: Destinatarios con copia visible.
+- CCO: Destinatarios con copia oculta.
+- Solicitar confirmación de lectura: Opción para solicitar acuse de recibo.
+- Prioridad: Nivel de importancia: Baja, Normal o Alta.
+- Sensibilidad: Nivel de confidencialidad: Normal, Personal, Privado o Confidencial.
+- Asunto: Título o asunto del mensaje.
+- Cuerpo: Texto enriquecido redactado en el mensaje.
+- Adjuntos: Archivos seleccionados para enviar junto al mensaje.
+
+
+==Eliminación==
+
+Los correos pueden eliminarse desde la vista de lista mediante el icono o acción correspondiente.
+
+Los mensajes se eliminan localmente o se marcan para eliminación, según la configuración del servidor.

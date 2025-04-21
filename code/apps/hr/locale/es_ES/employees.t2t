@@ -1,0 +1,65 @@
+
+
+
+=Empleados=
+
+==Descripción==
+
+La aplicación de empleados se utiliza para registrar y gestionar el personal que trabaja en la organización.
+Almacena datos personales y profesionales incluyendo nombre, información de contacto, puesto, departamento y el vínculo con el usuario del sistema.
+Este módulo se utiliza normalmente en flujos de trabajo de RRHH para organizar al personal y, opcionalmente, asociarlo a usuarios del sistema.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-employees-list-es-es-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Nombre: Nombre completo del empleado.
+- Departamento: Departamento al que pertenece.
+- Cargo: Título oficial del puesto ocupado por el empleado.
+- Activo: Indica si el empleado está actualmente activo.
+
+
+==Vista de formulario==
+
+Esta vista se utiliza para crear, consultar o editar fichas de empleados.
+
+En el modo **crear**, se añade un nuevo perfil de empleado.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-employees-create-es-es-1-snap.png]
+
+En el modo **visualización**, el perfil se muestra en formato solo lectura.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-employees-view-100-es-es-1-snap.png]
+
+En el modo **edición**, se puede actualizar el perfil del empleado.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-employees-edit-100-es-es-1-snap.png]
+
+El formulario incluye los siguientes campos:
+
+- Activo: Indica si el empleado está actualmente activo.
+- Nombre: Nombre completo del empleado.
+- NIF: Número de identificación fiscal del empleado para fines legales o fiscales.
+- Departamento: Departamento al que pertenece el empleado.
+- Cargo: Título oficial del puesto que ocupa.
+- Inicio: Fecha de inicio del empleo o contrato.
+- Fin: Fecha de finalización del empleo o contrato (si aplica).
+- Dirección: Dirección postal del empleado.
+- Ciudad: Ciudad de residencia.
+- Provincia / Estado: Provincia o región administrativa de residencia.
+- Código postal: Código postal.
+- País: País de residencia.
+- Correo electrónico: Correo electrónico de contacto principal.
+- Teléfono: Teléfono de contacto principal.
+- Notas: Observaciones adicionales o anotaciones del área de RRHH.
+- Tipo: Tipo o categoría del empleado (ej. jornada completa, externo).
+- Usuario: Cuenta de usuario del sistema asociada al empleado.
+
+
+==Eliminación==
+
+Los empleados pueden eliminarse si no están vinculados a usuarios del sistema o a registros históricos.
+
+En caso contrario, debe desactivarse el perfil en lugar de eliminarlo.

@@ -1,0 +1,51 @@
+
+
+
+=Tipos de proveedor=
+
+==Descripción==
+
+La aplicación de tipos de proveedor se utiliza para clasificar a los proveedores por categoría, sector o tipo de relación.
+Esta clasificación ayuda a filtrar y organizar a los proveedores, y puede utilizarse para segmentación o fines de informe.
+
+Ejemplos de tipos incluyen "Distribuidor", "Fabricante", "Prestador de servicios", etc.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-list-es-es-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Nombre: Nombre del tipo de proveedor.
+- Descripción: Aclaración opcional o nota interna.
+- Activo: Indica si el tipo se puede asignar a proveedores.
+
+
+==Vista de formulario==
+
+Esta vista se utiliza para crear, ver o editar tipos de proveedor.
+
+En el modo **crear**, se puede definir un nuevo tipo.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-create-es-es-1-snap.png]
+
+En el modo **visualización**, los detalles del tipo son visibles pero no editables.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-view-10-es-es-1-snap.png]
+
+En el modo **edición**, los valores existentes pueden actualizarse.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-edit-10-es-es-1-snap.png]
+
+El formulario incluye los siguientes campos:
+
+- Activo: Habilita o deshabilita la selección del tipo.
+- Nombre: Etiqueta descriptiva del tipo.
+- Descripción: Información o contexto adicional.
+
+
+==Eliminación==
+
+Los tipos de proveedor solo pueden eliminarse si no están asignados actualmente a ningún proveedor.
+
+Si están en uso, deben desactivarse en lugar de eliminarse.

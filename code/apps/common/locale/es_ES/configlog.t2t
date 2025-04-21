@@ -1,0 +1,49 @@
+
+
+
+=Registro de configuración=
+
+==Descripción==
+
+La aplicación de registro de configuración proporciona una trazabilidad de todos los cambios de configuración realizados en SaltOS4.
+Se utiliza para supervisar modificaciones en parámetros del sistema, configuraciones de aplicaciones o preferencias internas.
+Este módulo es esencial para los administradores que desean auditar cambios y garantizar un comportamiento consistente del sistema a lo largo del tiempo.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-list-es-es-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Usuario: Usuario que realizó el cambio de configuración.
+- Clave: Clave de configuración que fue modificada.
+
+
+==Vista de registro==
+
+Esta vista muestra los detalles completos de un registro de cambio de configuración.
+
+En el modo **crear**, el formulario está vacío y listo para introducir nuevos datos.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-create-es-es-1-snap.png]
+
+En el modo **visualización**, los campos están rellenos con la información del registro seleccionado y no pueden editarse.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-view-10-es-es-1-snap.png]
+
+En el modo **edición**, el formulario se muestra con los datos existentes y permite modificaciones.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-edit-10-es-es-1-snap.png]
+
+Incluye:
+
+- Usuario: Usuario que realizó el cambio de configuración.
+- Clave: Clave de configuración modificada.
+- Valor: Nuevo valor asignado a la clave de configuración.
+
+
+==Eliminación==
+
+Las entradas del registro de configuración no pueden eliminarse en condiciones normales.
+
+Este registro está diseñado para garantizar la trazabilidad total y la auditabilidad de las acciones administrativas.

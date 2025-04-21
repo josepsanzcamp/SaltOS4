@@ -1,0 +1,51 @@
+
+
+
+=Categorías de productos=
+
+==Descripción==
+
+La aplicación de categorías de productos se utiliza para clasificar productos y servicios según su naturaleza o comportamiento.
+Esta clasificación ayuda a distinguir entre bienes físicos, servicios, suscripciones u otras categorías internas utilizadas en informes o automatizaciones.
+
+Ejemplos de categorías incluyen "Producto", "Servicio", "Suscripción" o "Paquete".
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-list-es-es-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Nombre: Etiqueta de la categoría.
+- Descripción: Descripción opcional para aclarar el propósito de la categoría.
+- Activo: Indica si la categoría está disponible al crear productos.
+
+
+==Vista de formulario==
+
+Esta vista se utiliza para crear, consultar o editar registros de categorías de producto.
+
+En el modo **crear**, se puede definir una nueva categoría.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-create-es-es-1-snap.png]
+
+En el modo **visualización**, los detalles de la categoría se muestran pero no se pueden editar.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-view-10-es-es-1-snap.png]
+
+En el modo **edición**, se pueden actualizar los valores existentes.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-edit-10-es-es-1-snap.png]
+
+El formulario incluye los siguientes campos:
+
+- Activo: Controla si se puede elegir en formularios de producto.
+- Nombre: Nombre que aparece en el selector de tipo al crear un producto.
+- Descripción: Notas sobre el uso previsto de la categoría.
+
+
+==Eliminación==
+
+Las categorías solo pueden eliminarse si no están vinculadas a ningún producto.
+
+En caso contrario, se recomienda desactivarlas.

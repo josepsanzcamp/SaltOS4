@@ -1,0 +1,47 @@
+
+
+
+=Configuració del dashboard=
+
+==Descripció==
+
+Aquesta aplicació permet configurar el contingut que es mostra al **dashboard** de SaltOS4.
+No es tracta d’una aplicació amb registres clàssics, sinó d’una interfície visual orientada a l’usuari on es poden personalitzar les accions ràpides, seccions i widgets que apareixen al tauler de control.
+
+Cada usuari pot tenir el seu propi dashboard personalitzat, i aquesta eina n'és el gestor visual.
+
+==Vista de configuració==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-widgets-ca-es-1-snap.png]
+
+La pantalla mostra una vista en forma de canvas on es poden configurar els elements del dashboard de forma dinàmica i visual.
+
+Els tipus d’elements que es poden afegir inclouen:
+
+- **Botons**: Enllaços ràpids a aplicacions o funcionalitats.
+- **Separadors**: Línies o espais que ajuden a estructurar visualment el dashboard.
+- **Titulars**: Textos destacats que permeten agrupar seccions.
+- **Widgets**: Components dinàmics com ara calendari, correu electrònic, gràfics, estadístiques, etc.
+
+
+A més, es poden fer agrupacions per mostrar elements dins d’un mateix bloc, ordenar-los per arrossegar, i canviar l’ordre dels grups o columnes.
+
+==Funcionalitats==
+
+- Afegir o eliminar elements
+- Reordenar mitjançant arrossegament
+- Editar titulars i textos de secció
+- Triar quins widgets es volen mostrar
+- Organitzar els elements en múltiples columnes o files
+
+
+Els canvis es desen automàticament i afecten únicament al dashboard de l’usuari actiu.
+
+==Ús avançat==
+
+Aquest mòdul és ideal per:
+
+- Crear taulers específics per a rols (comercial, tècnic, administració...)
+- Afegir només les eines i dades que es consulten amb freqüència
+- Millorar l’eficiència i la claredat visual de l’inici del sistema
+

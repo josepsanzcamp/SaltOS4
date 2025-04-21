@@ -1,0 +1,62 @@
+
+
+
+=Usuaris=
+
+==Descripció==
+
+L'aplicació d'usuaris s'utilitza per gestionar els comptes que tenen accés al sistema SaltOS4.
+Cada usuari té assignades credencials, rols i permisos, i pot opcionalment estar vinculat a un perfil d'empleat.
+Aquest mòdul és essencial per al control d'accés, la personalització i el registre d'auditories.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-list-ca-es-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Usuari: Nom d'usuari únic utilitzat per accedir al sistema.
+- Nom: Nom complet de l'usuari, usat per identificació i visualització.
+- Descripció: Comentaris interns o notes sobre el perfil de l'usuari.
+- Grup: Grup o rol assignat per al control de permisos.
+- Actiu: Indica si el compte està actualment habilitat.
+
+
+==Vista de formulari==
+
+Aquesta vista s'utilitza per crear, consultar o editar comptes d'usuari.
+
+En el mode **crear**, el formulari permet registrar un usuari nou amb credencials d'accés.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-create-ca-es-1-snap.png]
+
+En el mode **visualització**, es mostren les dades del compte sense possibilitat d'edició.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-view-1-ca-es-1-snap.png]
+
+En el mode **edició**, es poden actualitzar les dades o restablir les credencials.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-edit-1-ca-es-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Actiu: Indica si el compte està actualment habilitat.
+- Usuari: Nom d'usuari únic per accedir al sistema.
+- Grup: Grup o rol assignat per definir permisos.
+- Nom: Nom complet de l'usuari.
+- Nova contrasenya: Nova clau d'accés (per canvi o restabliment).
+- Repetir contrasenya: Confirmació de la nova clau per evitar errors.
+- Descripció: Notes internes sobre el perfil d'usuari.
+- Inici: Data d'activació del compte.
+- Fi: Data de caducitat després de la qual no es pot accedir.
+- Dies: Dies de la setmana en què l'usuari pot accedir.
+- Grups: Grups addicionals o rols associats a aquest usuari.
+- Aplicacions i permisos: Matriu detallada d'accés a mòduls i accions permeses.
+- Historial de contrasenyes: Llista de contrasenyes utilitzades anteriorment per a control i seguretat.
+
+
+==Eliminació==
+
+Els comptes d'usuari es poden eliminar si no han iniciat sessió ni estan vinculats a cap registre d'activitat.
+
+En cas contrari, es recomana desactivar-los per a finalitats d'auditoria.

@@ -11,7 +11,7 @@ Los estados ayudan a hacer seguimiento de los presupuestos y a organizar el proc
 
 ==Vista de lista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes_status-list-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes_status-list-es-es-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -26,15 +26,15 @@ Esta vista permite crear, editar o consultar un estado de presupuesto.
 
 En el modo **crear**, se puede definir un nuevo estado.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes_status-create-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes_status-create-es-es-1-snap.png]
 
 En el modo **visualización**, se muestran los detalles del estado sin posibilidad de edición.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes_status-view-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes_status-view-100-es-es-1-snap.png]
 
 En el modo **edición**, se pueden modificar los valores existentes.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes_status-edit-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes_status-edit-100-es-es-1-snap.png]
 
 El formulario incluye los siguientes campos:
 

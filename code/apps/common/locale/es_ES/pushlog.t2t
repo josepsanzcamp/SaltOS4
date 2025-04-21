@@ -1,0 +1,40 @@
+
+
+
+=Registro de notificaciones push=
+
+==Descripción==
+
+La aplicación de registro de notificaciones push almacena todas las notificaciones enviadas por el sistema.
+Estas notificaciones se utilizan normalmente para alertar a los usuarios sobre acciones, actualizaciones o eventos del sistema en tiempo real.
+Este módulo permite a los administradores monitorizar el flujo de notificaciones y diagnosticar posibles problemas en el proceso de entrega.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-pushlog-list-es-es-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Usuario: Usuario que generó o recibió la notificación push.
+- Fecha y hora: Momento en que se registró la notificación.
+- Tipo: Categoría del mensaje push (ej: información, advertencia, error).
+
+
+==Vista de registro==
+
+Esta vista muestra los detalles completos de una única notificación push.
+
+Incluye:
+
+- Usuario: Usuario que generó o recibió la notificación.
+- Fecha y hora: Fecha y hora en que se registró la notificación.
+- Tipo: Categoría del mensaje push (ej: información, advertencia, error).
+- Mensaje: Contenido o resumen del mensaje enviado.
+- Marca temporal: Timestamp interno del sistema al registrar el evento.
+
+
+==Eliminación==
+
+Las entradas del registro de notificaciones push normalmente no se eliminan y se conservan para fines de auditoría.
+
+En escenarios de mantenimiento específicos, los registros antiguos pueden ser depurados, pero esto requiere permisos explícitos.

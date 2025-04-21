@@ -1,0 +1,85 @@
+
+
+
+=Correus electrònics=
+
+==Descripció==
+
+L'aplicació de correus electrònics s'utilitza per rebre, consultar i respondre correus des dels comptes configurats dins de SaltOS4.
+Actua com un client de correu integrat simplificat, compatible amb la lectura de missatges via POP3 o IMAP,
+visualització de metadades i contingut, i resposta mitjançant servidors SMTP interns o externs.
+
+Cada missatge es mostra com una targeta visual a la vista de llista, amb camps clau com remitent, assumpte,
+data i un fragment del cos. Els correus es poden visualitzar en detall, respondre o eliminar. Aquesta aplicació
+està estretament integrada amb el mòdul de Comptes de correu electrònic i és essencial per a la gestió de comunicacions entrants.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-ca-es-1-snap.png]
+
+La vista de llista mostra els correus entrants com a botons o targetes clicables.
+Cada entrada mostra habitualment:
+
+- Capçalera: Resum visual utilitzat per representar el missatge a la interfície.
+- Data i hora: Data i hora de recepció o enviament del missatge.
+- Assumpte: Títol o línia d'assumpte del correu electrònic.
+- Fragment: Avanç extractat de l'inici del cos del missatge.
+- Adjunts: Llista d'arxius adjunts amb opció de descàrrega.
+
+
+La interfície també inclou filtres i un formulari de cerca per remitent, assumpte, compte i data.
+
+==Visualització del missatge==
+
+Aquesta vista mostra el contingut complet del correu, incloent metadades de la capçalera i adjunts.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-100-ca-es-1-snap.png]
+
+La informació mostrada inclou:
+
+- De: Adreça del remitent.
+- A: Destinataris principals.
+- CC: Còpia visible a altres destinataris.
+- CCO: Còpia oculta per a altres destinataris.
+- Data i hora: Marca temporal d'enviament o recepció.
+- UIDL: Identificador únic al servidor, útil per a sincronització.
+- Prioritat: Nivell d'importància establert pel remitent (Baixa, Normal, Alta).
+- Sensibilitat: Marca si és Normal, Personal, Privat o Confidencial.
+- Enviat: Indica si s'ha enviat correctament.
+- Nou: Marca si el correu és nou o no llegit.
+- Resposta: Marca si s'ha respost.
+- Reenviat: Marca si s'ha reenviat.
+- Espera: Indicador de seguiment o pendent de resposta.
+- SPAM: Marca si ha estat classificat com a correu brossa.
+- Confirmació de lectura: Indica si es va sol·licitar confirmació de lectura.
+- Error: Mostra un missatge d'error si l'enviament ha fallat.
+- Assumpte: Línia d'assumpte del missatge.
+- Cos: Contingut principal del correu, mostrat dins d'un visor.
+- Adjunts: Arxius adjunts al missatge.
+
+
+==Respondre / Redactar==
+
+Els usuaris poden respondre un missatge existent o redactar-ne un de nou mitjançant un formulari simplificat.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-create-ca-es-1-snap.png]
+
+El formulari inclou:
+
+- Des de: Compte de correu remitent.
+- A: Destinataris principals.
+- CC: Destinataris amb còpia visible.
+- CCO: Destinataris amb còpia oculta.
+- Confirmació de lectura: Opció per sol·licitar notificació de lectura.
+- Prioritat: Nivell d'importància (Baixa, Normal, Alta).
+- Sensibilitat: Confidencialitat: Normal, Personal, Privat o Confidencial.
+- Assumpte: Títol del missatge.
+- Cos: Contingut en text enriquit.
+- Adjunts: Fitxers que s'inclouran amb el correu.
+
+
+==Eliminació==
+
+Els correus es poden eliminar des de la vista de llista mitjançant la icona o acció corresponent.
+
+Els missatges s’eliminen localment o es marquen per eliminar, segons la configuració del servidor.

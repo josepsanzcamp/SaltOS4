@@ -1,0 +1,69 @@
+
+
+
+=Comptes de correu electrònic=
+
+==Descripció==
+
+L'aplicació de comptes de correu electrònic s'utilitza per configurar i gestionar els comptes de correu vinculats a SaltOS4.
+Cada compte es pot utilitzar per enviar i rebre correus mitjançant protocols SMTP, IMAP o POP3.
+Aquest mòdul permet integrar proveïdors externs i admet autenticació, carpetes i opcions de sincronització.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-list-ca-es-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Usuari: Persona que és propietària o utilitza aquest compte de correu.
+- Nom: Etiqueta descriptiva per identificar el compte dins del sistema.
+- Correu electrònic: Adreça de correu configurada per a aquest compte.
+- Actiu: Indica si el compte està habilitat i es sincronitza.
+
+
+==Vista de formulari==
+
+Aquesta vista s'utilitza per crear, consultar o editar un compte de correu.
+
+En el mode **crear**, es configura un compte nou des de zero.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-create-ca-es-1-snap.png]
+
+En el mode **visualització**, es mostren les dades del compte però no es poden modificar.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-view-1-ca-es-1-snap.png]
+
+En el mode **edició**, es poden corregir o actualitzar els paràmetres.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-edit-1-ca-es-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Usuari: Persona propietària del compte.
+- Nom: Nom visible o etiqueta per identificar el compte.
+- Correu electrònic: Adreça de correu electrònic associada al compte.
+- Signatura: Text o HTML afegit automàticament als correus sortints.
+- Servidor POP3: Nom del servidor de recepció.
+- Port POP3: Port utilitzat per connectar amb el servidor (ex: 110, 995).
+- Opcions POP3: Configuració addicional (TLS, etc.).
+- Usuari POP3: Nom d'usuari per autenticar-se.
+- Contrasenya POP3: Contrasenya del compte.
+- Esborrar: Si cal eliminar els correus del servidor després de descarregar-los.
+- Dies: Nombre de dies que es conserven els correus al servidor.
+- Servidor SMTP: Nom del servidor per enviar correus.
+- Port SMTP: Port per enviar (ex: 25, 465, 587).
+- Xifrat SMTP: Tipus de connexió (cap, SSL o TLS).
+- Usuari SMTP: Nom d'usuari per autenticar-se a l'SMTP.
+- Contrasenya SMTP: Clau d'accés del compte SMTP.
+- Inactiu: Indica si el compte no està actiu (no es sincronitza).
+- Privat: Limita l'accés al propietari del compte.
+- Per defecte: Marca aquest compte com el remitent per defecte.
+- Afegir-me al CC: Afegeix automàticament l'usuari com a còpia.
+- Confirmació de lectura: Afegeix sol·licitud de confirmació en cada correu.
+
+
+==Eliminació==
+
+Els comptes es poden eliminar si no estan actius ni vinculats a activitat recent.
+
+Es recomana desactivar-los si cal conservar la configuració per a ús futur o auditories.

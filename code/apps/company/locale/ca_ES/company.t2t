@@ -1,0 +1,66 @@
+
+
+
+=Empresa=
+
+==Descripció==
+
+L'aplicació d'empresa emmagatzema les dades d'identificació i contacte de l'organització que utilitza SaltOS4.
+Aquesta informació s'utilitza arreu del sistema per personalitzar documents (pressupostos, factures, correus, etc.) i definir la identitat legal i fiscal de l'empresa.
+
+Normalment inclou el nom, el codi fiscal, l'adreça, el logotip i l'idioma preferit de l'empresa.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-list-ca-es-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Nom: Nom oficial de l'empresa o organització.
+- CIF: Codi d'identificació fiscal (NIF, CIF, IVA, etc.) de l'empresa.
+- Ciutat: Ciutat on es troba l'empresa.
+- País: País on està registrada o opera legalment l'empresa.
+- Activa: Indica si aquest perfil d'empresa està actiu al sistema.
+
+
+==Vista de formulari==
+
+Aquesta vista s'utilitza per definir o editar el perfil de l'empresa.
+
+En el mode **crear**, el formulari està buit i preparat per introduir noves dades.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-create-ca-es-1-snap.png]
+
+En el mode **visualització**, els camps es mostren omplerts però no editables.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-view-1-ca-es-1-snap.png]
+
+En el mode **edició**, el formulari es mostra preomplert i permet modificacions.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-edit-1-ca-es-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Activa: Indica si aquest perfil d'empresa està actiu al sistema.
+- Nom: Nom oficial de l'empresa o organització.
+- Codi: Codi fiscal (NIF, CIF, IVA, etc.) de l'empresa.
+- Adreça: Adreça oficial o de correspondència de l'empresa.
+- Ciutat: Ciutat on es troba l'empresa.
+- Província / Estat: Província, estat o regió on té seu l'empresa.
+- Codi postal: Codi postal de l'adreça registrada.
+- País: País on està registrada o opera l'empresa.
+- Telèfon: Número de telèfon principal de contacte.
+- Correu electrònic: Adreça de correu principal per a tràmits administratius o legals.
+- Lloc web: Pàgina web pública de l'empresa.
+- IBAN: Número de compte bancari internacional per a transferències.
+- SWIFT/BIC: Codi SWIFT/BIC que identifica el banc de l'empresa en transferències internacionals.
+- Règim fiscal: Règim tributari sota el qual opera l'empresa (ex: general, simplificat, pimes).
+- Codi d'activitat: Codi de classificació de l'activitat econòmica (ex: CNAE, NACE).
+- Notes addicionals: Observacions internes o informació complementària sobre l'empresa.
+
+
+==Eliminació==
+
+El perfil de l'empresa no es pot eliminar si és l'únic actiu al sistema.
+
+Només es permet la desactivació en la majoria de configuracions.

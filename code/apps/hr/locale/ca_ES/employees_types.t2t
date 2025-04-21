@@ -1,0 +1,51 @@
+
+
+
+=Tipus d'empleat=
+
+==Descripció==
+
+L'aplicació de tipus d'empleat permet classificar els treballadors segons el seu rol, contracte o categoria interna.
+Això ajuda a estructurar la base de dades de RRHH i facilita el filtratge, la generació d'informes o el control d'accés.
+
+Alguns tipus habituals inclouen "Jornada completa", "Temps parcial", "Autònom", "Pràctiques", etc.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-list-ca-es-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Nom: Títol del tipus d'empleat.
+- Descripció: Explicació sobre la finalitat del tipus.
+- Actiu: Indica si el tipus es pot utilitzar actualment.
+
+
+==Vista de formulari==
+
+Aquesta vista s'utilitza per crear, consultar o editar tipus d'empleat.
+
+En el mode **crear**, es pot definir un nou tipus d'empleat.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-create-ca-es-1-snap.png]
+
+En el mode **visualització**, els detalls del tipus són visibles però no editables.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-view-10-ca-es-1-snap.png]
+
+En el mode **edició**, es poden actualitzar els valors existents.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-edit-10-ca-es-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Actiu: Controla si es pot seleccionar aquest tipus.
+- Nom: Nom que es mostra al desplegable de tipus al formulari d'empleat.
+- Descripció: Notes sobre l'ús previst d'aquest tipus.
+
+
+==Eliminació==
+
+Els tipus d'empleat només es poden eliminar si no estan assignats a cap empleat.
+
+En cas contrari, es recomana desactivar-los.

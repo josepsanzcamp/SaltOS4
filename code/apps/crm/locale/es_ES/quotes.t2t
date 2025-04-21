@@ -11,7 +11,7 @@ Estos presupuestos pueden convertirse fácilmente en facturas una vez sean acept
 
 ==Vista de lista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-list-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-list-es-es-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -28,15 +28,15 @@ Esta vista se utiliza para crear, editar o consultar un presupuesto.
 
 En el modo **crear**, el formulario está vacío y listo para introducir un nuevo presupuesto.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-create-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-create-es-es-1-snap.png]
 
 En el modo **visualización**, los campos son de solo lectura y muestran el detalle del presupuesto.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-100-es-es-1-snap.png]
 
 En el modo **edición**, se pueden modificar los datos existentes del presupuesto.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-edit-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-edit-100-es-es-1-snap.png]
 
 El formulario incluye los siguientes campos:
 

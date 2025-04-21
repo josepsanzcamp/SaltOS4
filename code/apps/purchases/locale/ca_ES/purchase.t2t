@@ -1,0 +1,61 @@
+
+
+
+=Compra=
+
+==Descripció==
+
+L'aplicació de compres s'utilitza per registrar i fer seguiment de les compres realitzades a proveïdors.
+Cada registre de compra inclou dades de la factura, import total, data de compra i anotacions o fitxers associats.
+Aquest mòdul garanteix la traçabilitat de les despeses i està vinculat al mòdul de Proveïdors per mantenir la coherència.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-list-ca-es-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Data de comanda: Data en què es va registrar la comanda de compra al sistema.
+- Proveïdor: Proveïdor o venedor a qui es va adquirir el bé o servei.
+- Factura: Número o referència de la factura emesa pel proveïdor.
+- Pagat: Indica si la compra ha estat totalment abonada.
+
+
+==Vista de formulari==
+
+Aquesta vista s'utilitza per crear, editar o consultar un registre de compra.
+
+En el mode **crear**, el formulari serveix per introduir una nova compra vinculada a un proveïdor.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-create-ca-es-1-snap.png]
+
+En el mode **visualització**, es mostren els detalls de la compra registrada en mode només lectura.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-view-100-ca-es-1-snap.png]
+
+En el mode **edició**, es pot actualitzar la informació si cal.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-edit-100-ca-es-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Data de comanda: Data en què es va registrar la comanda al sistema.
+- Proveïdor: Persona o entitat a qui es va fer la compra.
+- Descripció: Explicació breu o resum del contingut de la compra.
+- Subtotal: Import abans d'impostos i descomptes.
+- Impost: Valor total dels impostos aplicats a la compra.
+- Total: Import final de la compra, amb impostos i descomptes inclosos.
+- Estat: Estat actual de la compra (ex: esborrany, encomanada, rebuda).
+- Número de factura: Número o referència de la factura emesa pel proveïdor.
+- Data de factura: Data oficial de la factura del proveïdor.
+- Pagat: Indica si la compra ha estat completament pagada.
+- Data de pagament: Data en què es va realitzar el pagament al proveïdor.
+- Notes: Observacions internes o informació administrativa rellevant.
+
+
+==Eliminació==
+
+Els registres de compra només es poden eliminar si no estan vinculats a processos comptables o registres associats.
+Abans de continuar es mostrarà un diàleg de confirmació.
+
+Un cop registrades i finalitzades, l'eliminació pot estar restringida segons permisos i polítiques de traçabilitat.

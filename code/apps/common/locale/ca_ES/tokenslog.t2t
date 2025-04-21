@@ -1,0 +1,46 @@
+
+
+
+=Registre de tokens=
+
+==Descripció==
+
+L'aplicació de registre de tokens fa el seguiment de l'ús dels tokens d'autenticació a través del sistema.
+Aquests tokens s'utilitzen habitualment en crides a l'API, scripts automatitzats o sessions d'accés temporal.
+Aquest mòdul permet als administradors monitorar l'accés al sistema i detectar usos indeguts o intents no autoritzats.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-list-ca-es-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Usuari: Usuari associat al token.
+- Creat: Data i hora de creació del token.
+- Token: Cadena de token utilitzada per autenticar-se o accedir.
+- Actiu: Indica si el token és vàlid i usable actualment.
+
+
+==Vista de registre==
+
+Aquesta vista mostra tota la informació relacionada amb un accés concret mitjançant token.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-view-1-ca-es-1-snap.png]
+
+Inclou:
+
+- Actiu: Indica si el token és vàlid i usable actualment.
+- Usuari: Usuari associat al token.
+- Creat: Data i hora de creació del token.
+- Actualitzat: Data i hora de l'última modificació de l'estat del token.
+- Adreça IP: Adreça des d'on s'ha utilitzat o creat el token.
+- User Agent: Navegador o client des del qual s'ha generat o accedit al token.
+- Token: Cadena de token utilitzada per autenticar-se o accedir.
+- Caducitat: Data i hora en què el token deixa de ser vàlid.
+
+
+==Eliminació==
+
+Les entrades del registre de tokens no estan pensades per ser eliminades manualment.
+
+Formen part de l'historial d'auditoria i control d'accés del sistema, i poden ser eliminades automàticament si així està configurat.

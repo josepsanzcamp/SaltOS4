@@ -1,0 +1,40 @@
+
+
+
+=Registre de notificacions push=
+
+==Descripció==
+
+L'aplicació de registre de notificacions push emmagatzema totes les notificacions enviades pel sistema.
+Aquestes notificacions normalment s'utilitzen per alertar els usuaris sobre accions, actualitzacions o esdeveniments del sistema en temps real.
+Aquest mòdul permet als administradors monitorar el flux de notificacions i diagnosticar possibles problemes en el lliurament.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-pushlog-list-ca-es-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Usuari: Usuari que ha generat o rebut la notificació push.
+- Data i hora: Data i hora en què s'ha registrat la notificació.
+- Tipus: Categoria del missatge push (ex: informació, avís, error).
+
+
+==Vista de registre==
+
+Aquesta vista mostra els detalls complets d'una única notificació push.
+
+Inclou:
+
+- Usuari: Usuari que ha generat o rebut la notificació.
+- Data i hora: Data i hora en què s'ha registrat la notificació.
+- Tipus: Categoria del missatge push (ex: informació, avís, error).
+- Missatge: Contingut o resum del missatge enviat.
+- Marca temporal: Timestamp intern del sistema en el moment del registre.
+
+
+==Eliminació==
+
+Les entrades del registre de notificacions push normalment no s'eliminen i es conserven per finalitats d'auditoria.
+
+En escenaris de manteniment específics, es poden purgar registres antics, però això requereix permisos explícits.
