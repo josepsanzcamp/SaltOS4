@@ -1,0 +1,75 @@
+
+
+
+=Facturas=
+
+==Descripción==
+
+La aplicación de facturas permite gestionar las facturas emitidas a clientes dentro de SaltOS4.
+Incluye información del cliente, fecha, estado de pago, líneas de detalle, impuestos y total.
+También gestiona proformas, vencimientos y registro de pagos.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-list-en-us-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Cliente: Nombre del cliente facturado.
+- CIF: Código fiscal del cliente.
+- Factura: Código o número de la factura.
+- Fecha: Fecha de emisión.
+- Total: Importe total con impuestos.
+- Cerrada: Indica si la factura ha sido cerrada.
+- Pagada: Indica si la factura ha sido cobrada.
+
+
+==Vista de formulario==
+
+Esta vista se utiliza para crear, consultar o editar una factura.
+
+En el modo **crear**, el formulario permite generar una nueva factura o proforma.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-create-en-us-1-snap.png]
+
+En el modo **visualización**, se muestran todos los detalles sin posibilidad de edición.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-100-en-us-1-snap.png]
+
+En el modo **edición**, se pueden modificar los datos de la factura.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-edit-100-en-us-1-snap.png]
+
+El formulario incluye los siguientes campos:
+
+- Cerrada: Indica si la factura está finalizada.
+- Pagada: Estado de cobro de la factura.
+- Proforma: Número o referencia de la proforma.
+- Fecha: Fecha de emisión de la factura.
+- Factura: Número final asignado al cerrarse.
+- Cliente: Datos congelados del cliente al momento de emisión.
+- CIF: Código fiscal del cliente.
+- Dirección: Dirección del cliente.
+- Ciudad: Localidad.
+- Provincia / Estado: Región administrativa.
+- Código postal: Código postal.
+- País: País de residencia o registro.
+- Notas: Observaciones internas o condiciones.
+- Conceptos: Líneas de detalle de la factura.
+- Impuestos: Impuestos aplicados por línea.
+- Totales: Neto, impuestos y total final.
+- Método de pago: Forma de cobro acordada.
+- Fecha de vencimiento: Fecha límite para el cobro.
+- Importe pagado: Cantidad recibida.
+- Fecha de pago: Fecha en que se registró el pago.
+- Estado: Estado de la factura (pendiente, parcialmente pagada, etc.).
+
+
+Las facturas también incluyen líneas de detalle (producto, cantidad, precio, descuento, impuesto) y un desglose de los impuestos aplicados.
+
+==Eliminación==
+
+Las facturas solo pueden eliminarse si no están cerradas ni pagadas.
+El sistema mostrará una advertencia de confirmación antes de proceder.
+
+Esta acción no se puede deshacer.

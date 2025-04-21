@@ -62,6 +62,7 @@ The form includes the following fields:
 - Totals: Final financial summary: subtotal, tax, and grand total.
 - Payment method: The method of payment selected for the invoice.
 - Due date: The date by which the invoice should be paid.
+- Amount paid: Amount received.
 - Paid date: The date on which the payment was received.
 - Status: Current status of the invoice (e.g., draft, closed, cancelled).
 

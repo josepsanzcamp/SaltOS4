@@ -1,0 +1,66 @@
+
+
+
+=Clientes=
+
+==Descripción==
+
+La aplicación de clientes te permite gestionar tu base de clientes dentro de SaltOS4.
+Centraliza toda la información relacionada con los clientes: identificación, datos de contacto,
+código fiscal, dirección y clasificación. También actúa como núcleo para enlazar los clientes con otros
+módulos como presupuestos, facturas, reuniones y correos.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers-list-en-us-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Nombre: Nombre completo o razón social del cliente.
+- CIF: Código de identificación fiscal del cliente (NIF, CIF, IVA, etc.).
+- Ciudad: Ciudad o localidad del cliente.
+- País: País donde el cliente está registrado o realiza su actividad.
+- Activo: Indica si el cliente está activo en el sistema.
+
+
+==Vista de formulario==
+
+Esta vista se utiliza para crear, editar o consultar una ficha de cliente.
+
+En el modo **crear**, el formulario está vacío y preparado para introducir nuevos datos.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers-create-en-us-1-snap.png]
+
+En el modo **visualización**, los campos están llenos con la ficha seleccionada y no se pueden editar.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers-view-100-en-us-1-snap.png]
+
+En el modo **edición**, el formulario está prellenado y permite modificaciones.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers-edit-100-en-us-1-snap.png]
+
+El formulario incluye los siguientes campos:
+
+- Activo: Activa o desactiva la visibilidad del cliente.
+- Nombre: Nombre completo o razón social del cliente.
+- CIF: Código de identificación fiscal del cliente.
+- Dirección: Dirección física principal o de facturación.
+- Ciudad: Ciudad o localidad del cliente.
+- Provincia / Estado: Provincia o estado del cliente.
+- Código postal: Código postal correspondiente a la dirección.
+- País: País de registro.
+- Correo electrónico: Dirección para notificaciones o facturas.
+- Teléfono: Número de contacto principal.
+- Web: Sitio web del cliente.
+- Notas: Anotaciones internas relacionadas con el cliente.
+- Tipo: Categoría a la que pertenece el cliente (ej: habitual, VIP).
+- Archivos: Documentos o imágenes relacionados con el cliente.
+- Notas: Observaciones internas o instrucciones específicas del cliente.
+
+
+==Eliminación==
+
+Los registros pueden eliminarse desde la vista de lista mediante la acción de eliminación.
+Aparecerá un mensaje de confirmación antes de ejecutar la operación.
+
+Esta acción es irreversible y requiere permisos específicos.

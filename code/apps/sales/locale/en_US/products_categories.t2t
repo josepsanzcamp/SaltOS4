@@ -1,14 +1,14 @@
 
 
 
-=Product Types=
+=Product Categories=
 
 ==Description==
 
-The Product Types application is used to classify products and services based on their nature or behavior.
-This classification helps distinguish between physical goods, services, subscriptions, or other internal categories used for reporting or automation.
+The Product Categories application is used to group products into families or collections for easier classification.
+Categories are helpful for filtering, reporting, organizing catalogs, and applying common business rules.
 
-Examples of types include "Product", "Service", "Subscription", or "Bundle".
+Typical categories might include "Hardware", "Software", "Services", or "Accessories".
 
 ==List view==
 
@@ -16,14 +16,14 @@ Examples of types include "Product", "Service", "Subscription", or "Bundle".
 
 The following fields are displayed in the list view:
 
-- Name: Label of the product type.
-- Description: Optional description to clarify the purpose of the type.
-- Active: Indicates whether the type is available when creating products.
+- Name: Name of the category.
+- Description: Description of what products the category includes.
+- Active: Indicates whether this category can be assigned to products.
 
 
 ==Form view==
 
-This view is used to create, view or edit product type records.
+This view is used to create, view or edit product category records.
 
 In **create** mode, a new tax rule can be defined.
 
@@ -39,13 +39,13 @@ In **edit** mode, existing values can be updated.
 
 The form includes the following fields:
 
-- Active: Controls availability in product forms.
-- Name: Name shown in the type selection when creating a product.
-- Description: Notes about the type’s intended use.
+- Active: Enables or disables the category for selection.
+- Name: Label of the category as shown in the product form.
+- Description: Optional clarification or notes about this category.
 
 
 ==Delete==
 
-Types can be deleted only if they are not linked to any product.
+Categories can only be deleted if they are not assigned to any product.
 
-Otherwise, deactivation is the recommended action.
+When in use, they should be disabled instead.

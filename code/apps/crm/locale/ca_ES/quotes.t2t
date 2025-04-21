@@ -1,0 +1,66 @@
+
+
+
+=Pressupostos=
+
+==Descripció==
+
+L'aplicació de pressupostos permet generar ofertes comercials per a clients potencials o existents.
+Inclou camps per definir les dades del client, condicions de pagament, línies de concepte, impostos i total.
+Aquests pressupostos poden convertir-se fàcilment en factures un cop acceptats pel client.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-list-en-us-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Client: Nom del client destinatari del pressupost.
+- CIF: Codi d'identificació fiscal del client.
+- Pressupost: Codi o número del pressupost.
+- Data: Data d'emissió del pressupost.
+- Total: Import total amb impostos inclosos.
+
+
+==Vista de formulari==
+
+Aquesta vista s'utilitza per crear, editar o consultar un pressupost.
+
+En el mode **crear**, el formulari està buit i preparat per introduir un nou pressupost.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-create-en-us-1-snap.png]
+
+En el mode **visualització**, els camps són només de lectura i mostren el detall del pressupost.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-100-en-us-1-snap.png]
+
+En el mode **edició**, es poden modificar les dades existents del pressupost.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-edit-100-en-us-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Pressupost: Codi del pressupost.
+- Data: Data d'emissió.
+- Client: Nom o raó social del client.
+- CIF: Codi fiscal del client.
+- Adreça: Adreça de facturació.
+- Ciutat: Localitat.
+- Província / Estat: Província o regió.
+- Codi postal: Codi postal del client.
+- País: País de residència o registre.
+- Notes: Observacions internes o condicions especials.
+- Conceptes: Línies de detall amb quantitats i imports.
+- Impostos: Impostos aplicables.
+- Totals: Resum d'import, impostos i total.
+- Mètode de pagament: Forma de cobrament prevista.
+- Vàlid fins: Data de validesa del pressupost.
+- Estat: Estat actual del pressupost (pendent, acceptat, rebutjat, etc.).
+
+
+==Eliminació==
+
+Els pressupostos es poden eliminar des de la vista de llista sempre que no estiguin enllaçats a factures.
+El sistema demanarà confirmació abans de completar l'acció.
+
+Aquesta acció no es pot desfer i pot requerir permisos especials.

@@ -1,0 +1,60 @@
+
+
+
+=Interessats=
+
+==Descripció==
+
+L'aplicació d'interessats s'utilitza per registrar i fer seguiment de clients potencials abans que esdevinguin clients reals.
+Permet recollir informació clau de cada interessat, com les dades de contacte, l'origen i l'estat actual en el procés comercial.
+Aquest mòdul ajuda a organitzar l'activitat prèvia a la venda, permetent als equips comercials fer seguiment efectiu, qualificar oportunitats
+i convertir interessats en clients quan sigui oportú.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-list-en-us-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Títol: Títol o assumpte de la reunió, resumint-ne l'objectiu.
+- Ubicació: Lloc on es fa la reunió, o enllaç si és virtual.
+- Hora d'inici: Data i hora programades d'inici.
+- Client: Client associat a la reunió, si escau.
+
+
+==Vista de formulari==
+
+Aquesta vista s'utilitza per crear, editar o consultar un interessat.
+
+En el mode **crear**, el formulari està buit i preparat per introduir dades noves.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-create-en-us-1-snap.png]
+
+En el mode **visualització**, els camps es mostren amb la informació seleccionada i no es poden editar.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-view-100-en-us-1-snap.png]
+
+En el mode **edició**, el formulari està preomplert i permet fer modificacions.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-edit-100-en-us-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Títol: Títol o assumpte de la reunió, resumint-ne l'objectiu.
+- Ubicació: Lloc on es fa la reunió, o enllaç si és virtual.
+- Hora d'inici: Data i hora programades d'inici.
+- Hora de finalització: Data i hora previstes de finalització.
+- Client relacionat: Client vinculat a la reunió, si escau.
+- Participants: Llista d'usuaris o contactes externs convidats a la reunió.
+- Ordre del dia: Temes o punts que es volen tractar durant la reunió.
+- Temes aprovats: Punts discutits a la reunió que van ser aprovats.
+- Temes rebutjats: Punts que no es van aprovar o que es van ajornar.
+- Temes pendents: Punts que requereixen accions o decisions posteriors.
+
+
+==Eliminació==
+
+Els registres es poden eliminar des de la vista de llista mitjançant l'acció d'eliminació.
+Apareixerà un missatge de confirmació abans d'executar l'operació.
+
+Aquesta acció és irreversible i requereix permisos adequats.

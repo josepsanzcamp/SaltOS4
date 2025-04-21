@@ -1,0 +1,59 @@
+
+
+
+=Reunions=
+
+==Descripció==
+
+L'aplicació de reunions permet programar, gestionar i fer seguiment de trobades internes o amb clients dins de SaltOS4.
+Inclou informació clau com la ubicació, els participants, l'ordre del dia i els temes aprovats, rebutjats o pendents.
+Aquest mòdul afavoreix la col·laboració i garanteix la traçabilitat de les decisions preses durant les reunions.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-list-en-us-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Títol: Títol o assumpte de la reunió.
+- Ubicació: Lloc físic o enllaç virtual on es realitza la reunió.
+- Hora d'inici: Data i hora programades d'inici.
+- Client: Client associat a la reunió.
+
+
+==Vista de formulari==
+
+Aquesta vista s'utilitza per crear, editar o consultar una reunió.
+
+En el mode **crear**, el formulari està buit i preparat per introduir una nova reunió.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-create-en-us-1-snap.png]
+
+En el mode **visualització**, els camps són només de lectura i mostren els detalls de la reunió.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-100-en-us-1-snap.png]
+
+En el mode **edició**, es poden modificar els detalls de la reunió.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-edit-100-en-us-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Títol: Nom o assumpte de la reunió.
+- Ubicació: Lloc físic o virtual on es durà a terme.
+- Hora d'inici: Data i hora d'inici.
+- Hora de finalització: Data i hora de fi.
+- Client relacionat: Client vinculat a la reunió.
+- Participants: Usuaris o contactes convidats.
+- Ordre del dia: Llista de punts a tractar.
+- Temes aprovats: Punts que han estat aprovats.
+- Temes rebutjats: Punts que no han estat aprovats.
+- Temes pendents: Punts que necessiten revisió o aprovació futura.
+
+
+==Eliminació==
+
+Les reunions es poden eliminar des de la vista de llista mitjançant l'acció corresponent.
+Abans d'eliminar, el sistema sol·licitarà confirmació.
+
+Aquesta acció no es pot desfer i pot requerir permisos específics.

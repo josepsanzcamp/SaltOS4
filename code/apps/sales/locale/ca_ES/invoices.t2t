@@ -1,0 +1,75 @@
+
+
+
+=Factures=
+
+==Descripció==
+
+L'aplicació de factures permet gestionar les factures emeses als clients dins de SaltOS4.
+Inclou informació sobre el client, data, estat de pagament, línies de detall, impostos i total.
+També gestiona proformes, venciments i registre de cobraments.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-list-en-us-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Client: Nom del client facturat.
+- CIF: Codi fiscal del client.
+- Factura: Codi o número de la factura.
+- Data: Data d'emissió.
+- Total: Import total amb impostos.
+- Tancada: Indica si la factura ha estat tancada.
+- Pagada: Indica si la factura ha estat cobrada.
+
+
+==Vista de formulari==
+
+Aquesta vista s'utilitza per crear, consultar o editar una factura.
+
+En el mode **crear**, el formulari permet generar una nova factura o proforma.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-create-en-us-1-snap.png]
+
+En el mode **visualització**, es mostren tots els detalls sense opció d'edició.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-100-en-us-1-snap.png]
+
+En el mode **edició**, es poden modificar les dades de la factura.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-edit-100-en-us-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Tancada: Indica si la factura està finalitzada.
+- Pagada: Estat de cobrament de la factura.
+- Proforma: Número o referència de la proforma.
+- Data: Data de la factura.
+- Factura: Número final assignat un cop tancada.
+- Client: Dades congelades del client en el moment d'emissió.
+- CIF: Codi fiscal del client.
+- Adreça: Adreça del client.
+- Ciutat: Localitat.
+- Província / Estat: Regió administrativa.
+- Codi postal: Codi postal.
+- País: País de residència o registre.
+- Notes: Observacions internes o condicions.
+- Conceptes: Línies de detall de la factura.
+- Impostos: Impostos aplicats a cada línia.
+- Totals: Import net, impostos i total final.
+- Mètode de pagament: Forma de cobrament pactada.
+- Data de venciment: Data límit per al cobrament.
+- Import pagat: Quantitat rebuda.
+- Data de cobrament: Data en què es va registrar el pagament.
+- Estat: Estat de la factura (pendent, pagada parcialment, etc.).
+
+
+Les factures també inclouen línies de detall (producte, quantitat, preu, descompte, impost) i un desglossament dels impostos aplicats.
+
+==Eliminació==
+
+Les factures només poden eliminar-se si no estan tancades ni pagades.
+El sistema mostrarà un avís de confirmació abans de procedir.
+
+Aquesta acció és irreversible.

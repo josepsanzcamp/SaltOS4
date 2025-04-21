@@ -1,0 +1,59 @@
+
+
+
+=Reuniones=
+
+==Descripción==
+
+La aplicación de reuniones permite programar, gestionar y hacer seguimiento de encuentros internos o con clientes dentro de SaltOS4.
+Incluye información clave como la ubicación, los participantes, la agenda y los temas aprobados, rechazados o pendientes.
+Este módulo facilita la colaboración y asegura la trazabilidad de las decisiones tomadas durante las reuniones.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-list-en-us-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Título: Título o asunto de la reunión.
+- Ubicación: Lugar físico o enlace virtual donde se realiza la reunión.
+- Hora de inicio: Fecha y hora programadas de inicio.
+- Cliente: Cliente asociado a la reunión.
+
+
+==Vista de formulario==
+
+Esta vista se utiliza para crear, editar o consultar una reunión.
+
+En el modo **crear**, el formulario está vacío y listo para registrar una nueva reunión.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-create-en-us-1-snap.png]
+
+En el modo **visualización**, los campos son de solo lectura y muestran los detalles de la reunión.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-100-en-us-1-snap.png]
+
+En el modo **edición**, los campos pueden modificarse para actualizar la información de la reunión.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-edit-100-en-us-1-snap.png]
+
+El formulario incluye los siguientes campos:
+
+- Título: Nombre o asunto de la reunión.
+- Ubicación: Lugar físico o virtual donde se celebrará.
+- Hora de inicio: Fecha y hora de inicio.
+- Hora de finalización: Fecha y hora de finalización.
+- Cliente relacionado: Cliente vinculado a la reunión.
+- Participantes: Usuarios o contactos invitados.
+- Agenda: Lista de puntos a tratar.
+- Temas aprobados: Puntos que han sido aprobados.
+- Temas rechazados: Puntos que no fueron aprobados.
+- Temas pendientes: Puntos que requieren revisión o aprobación futura.
+
+
+==Eliminación==
+
+Las reuniones pueden eliminarse desde la vista de lista mediante la acción correspondiente.
+Antes de eliminar, el sistema solicitará confirmación.
+
+Esta acción no se puede deshacer y puede requerir permisos específicos.

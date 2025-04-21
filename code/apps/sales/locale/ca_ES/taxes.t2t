@@ -1,0 +1,54 @@
+
+
+
+=Impostos=
+
+==Descripció==
+
+L'aplicació d'impostos s'utilitza per definir i gestionar els tipus impositius aplicats a productes, pressupostos i factures.
+Serveix com a repositori central d'impostos com l'IVA, l'impost sobre vendes o exempcions.
+Cada registre inclou el nom, el percentatge i l'estat, garantint una aplicació coherent dels impostos a tot el sistema ERP.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-list-en-us-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Nom: Nom o etiqueta utilitzada per identificar l'impost (ex: IVA 21%).
+- Descripció: Explicació opcional o detalls addicionals sobre la norma fiscal o el seu ús.
+- Valor: Percentatge de l'impost a aplicar (ex: 21 per al 21%).
+- Actiu: Indica si aquest impost està disponible per ser seleccionat en documents.
+- Per defecte: Indica si aquest impost se selecciona automàticament en crear documents nous.
+
+
+==Vista de formulari==
+
+Aquesta vista s'utilitza per crear, consultar o editar impostos.
+
+En el mode **crear**, es pot definir una nova norma fiscal.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-create-en-us-1-snap.png]
+
+En el mode **visualització**, es mostren els detalls fiscals però no es poden editar.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-view-1-en-us-1-snap.png]
+
+En el mode **edició**, es poden actualitzar els valors existents.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-edit-1-en-us-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Actiu: Indica si aquest impost està disponible per ser seleccionat en documents.
+- Per defecte: Indica si aquest impost es selecciona automàticament en crear documents nous.
+- Nom: Nom o etiqueta utilitzada per identificar l'impost (ex: IVA 21%).
+- Valor: Percentatge de l'impost a aplicar (ex: 21 per al 21%).
+- Descripció: Explicació opcional o detalls addicionals sobre la norma fiscal o el seu ús.
+
+
+==Eliminació==
+
+Els impostos només es poden eliminar si no s'utilitzen en cap factura ni producte.
+
+Si un impost està en ús, s'ha de desactivar per preservar la integritat del sistema.

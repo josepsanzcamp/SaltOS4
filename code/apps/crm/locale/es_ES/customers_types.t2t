@@ -1,0 +1,50 @@
+
+
+
+=Tipos de clientes=
+
+==Descripción==
+
+Este módulo permite definir distintos tipos de clientes según criterios comerciales, legales u operativos.
+Clasificar a los clientes ayuda a personalizar la atención, filtrar los datos y aplicar políticas específicas según su categoría.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers_types-list-en-us-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Nombre: Nombre del tipo de cliente.
+- Descripción: Información adicional sobre el tipo.
+- Activo: Indica si el tipo está disponible para ser asignado.
+
+
+==Vista de formulario==
+
+Esta vista permite gestionar los tipos de cliente.
+
+En el modo **crear**, se puede agregar un nuevo tipo.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers_types-create-en-us-1-snap.png]
+
+En el modo **visualización**, los datos se muestran sin posibilidad de edición.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers_types-view-100-en-us-1-snap.png]
+
+En el modo **edición**, se pueden modificar los datos existentes.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers_types-edit-100-en-us-1-snap.png]
+
+El formulario incluye los siguientes campos:
+
+- Activo: Indica si el tipo está activo.
+- Nombre: Nombre que identifica el tipo.
+- Descripción: Explicación o detalle interno del tipo.
+
+
+==Eliminación==
+
+Los tipos de cliente solo pueden eliminarse si no hay ningún cliente asociado a ellos.
+El sistema pedirá confirmación antes de completar la eliminación.
+
+Esta acción no se puede deshacer.

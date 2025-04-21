@@ -1,0 +1,66 @@
+
+
+
+=Clients=
+
+==Descripció==
+
+L'aplicació de clients et permet gestionar la teva base de clients dins de SaltOS4.
+Centralitza tota la informació relacionada amb els clients: identificació, dades de contacte,
+codi fiscal, adreça i classificació. També serveix de nucli per enllaçar els clients amb altres
+mòduls com pressupostos, factures, reunions i correus.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers-list-en-us-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Nom: Nom complet o raó social del client.
+- CIF: Codi d'identificació fiscal del client (NIF, CIF, IVA, etc.).
+- Ciutat: Ciutat o localitat del client.
+- País: País on està registrat o opera el client.
+- Actiu: Indica si el client està actiu al sistema.
+
+
+==Vista de formulari==
+
+Aquesta vista s'utilitza per crear, editar o consultar una fitxa de client.
+
+En el mode **crear**, el formulari està buit i preparat per introduir dades noves.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers-create-en-us-1-snap.png]
+
+En el mode **visualització**, els camps estan plens amb la fitxa seleccionada i no es poden editar.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers-view-100-en-us-1-snap.png]
+
+En el mode **edició**, el formulari està preomplert i permet modificacions.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers-edit-100-en-us-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Actiu: Activa o desactiva la visibilitat del client.
+- Nom: Nom complet o raó social del client.
+- CIF: Codi d'identificació fiscal del client.
+- Adreça: Adreça física principal o de facturació.
+- Ciutat: Ciutat o localitat del client.
+- Província / Estat: Província o estat del client.
+- Codi postal: Codi postal corresponent a l'adreça.
+- País: País de registre.
+- Correu electrònic: Adreça per notificacions o factures.
+- Telèfon: Número de contacte principal.
+- Web: Lloc web del client.
+- Notes: Anotacions internes relacionades amb el client.
+- Tipus: Categoria a la qual pertany el client (ex: habitual, VIP).
+- Fitxers: Documents o imatges relacionats amb el client.
+- Notes: Observacions internes o instruccions específiques del client.
+
+
+==Eliminació==
+
+Els registres es poden eliminar des de la vista de llista amb l'acció d'eliminació.
+Apareixerà un missatge de confirmació abans d'executar l'operació.
+
+Aquesta acció és irreversible i requereix permisos específics.

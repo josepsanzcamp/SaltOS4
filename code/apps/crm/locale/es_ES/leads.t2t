@@ -1,0 +1,60 @@
+
+
+
+=Clientes potenciales=
+
+==Descripción==
+
+La aplicación de leads se utiliza para registrar y hacer seguimiento de clientes potenciales antes de que se conviertan en clientes reales.
+Permite recopilar información clave de cada lead, como los datos de contacto, el origen y el estado actual en el proceso de ventas.
+Este módulo ayuda a organizar la actividad previa a la venta, permitiendo a los equipos comerciales hacer seguimiento efectivo, calificar oportunidades
+y convertir leads en clientes cuando corresponda.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-list-en-us-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Título: El título o asunto de la reunión, resumiendo su propósito.
+- Ubicación: Lugar donde se realiza la reunión, o enlace si es virtual.
+- Hora de inicio: Fecha y hora programadas de inicio.
+- Cliente: Cliente asociado a la reunión, si corresponde.
+
+
+==Vista de formulario==
+
+Esta vista se utiliza para crear, editar o consultar un lead.
+
+En el modo **crear**, el formulario está vacío y listo para introducir nuevos datos.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-create-en-us-1-snap.png]
+
+En el modo **visualización**, los campos se muestran con la información seleccionada y no se pueden editar.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-view-100-en-us-1-snap.png]
+
+En el modo **edición**, el formulario está prellenado y permite realizar modificaciones.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-edit-100-en-us-1-snap.png]
+
+El formulario incluye los siguientes campos:
+
+- Título: El título o asunto de la reunión, resumiendo su propósito.
+- Ubicación: Lugar donde se realiza la reunión, o enlace si es virtual.
+- Hora de inicio: Fecha y hora programadas de inicio.
+- Hora de finalización: Fecha y hora previstas de finalización.
+- Cliente relacionado: Cliente vinculado a la reunión, si corresponde.
+- Participantes: Lista de usuarios o contactos externos invitados a la reunión.
+- Agenda: Temas o puntos que se tratarán durante la reunión.
+- Temas aprobados: Puntos tratados en la reunión que fueron aprobados.
+- Temas rechazados: Puntos que no fueron aprobados o que se pospusieron.
+- Temas pendientes: Puntos que requieren acciones o decisiones posteriores.
+
+
+==Eliminación==
+
+Los registros pueden eliminarse desde la vista de lista mediante la acción de eliminación.
+Aparecerá un mensaje de confirmación antes de ejecutar la operación.
+
+Esta acción es irreversible y requiere permisos adecuados.

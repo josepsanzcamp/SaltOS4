@@ -1,0 +1,56 @@
+
+
+
+=Ordres de treball=
+
+==Descripció==
+
+L'aplicació d'ordres de treball s'utilitza per registrar, planificar i fer seguiment de tasques o serveis sol·licitats per clients.
+Cada ordre de treball inclou informació sobre el client, el servei requerit, l'estat, les dates, el personal assignat,
+i notes o fitxers adjunts associats. Aquest mòdul és essencial per gestionar activitats operatives com suport tècnic, instal·lacions o serveis de camp.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-list-en-us-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Data: Data en què es va crear o programar l'ordre.
+- Tècnic: Treballador o tècnic assignat per fer la tasca.
+- Client: Client que ha sol·licitat el servei o encàrrec.
+
+
+==Vista de formulari==
+
+Aquesta vista s'utilitza per crear, editar o consultar una ordre de treball.
+
+En el mode **crear**, el formulari permet registrar una nova tasca a realitzar.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-create-en-us-1-snap.png]
+
+En el mode **visualització**, la informació es mostra en mode només de lectura.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-100-en-us-1-snap.png]
+
+En el mode **edició**, es poden actualitzar les dades segons l'evolució o el retorn.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-edit-100-en-us-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Data: Data de creació o programació de l'ordre.
+- Tècnic: Treballador o tècnic assignat.
+- Client: Client que ha sol·licitat la feina o servei.
+- Descripció: Detalls sobre la naturalesa o objectiu de la tasca.
+- Hores: Nombre estimat o real d'hores assignades.
+- Preu: Tarifació per hora o preu tancat acordat.
+- Total: Import final calculat a partir de preu i hores.
+- Factura: Número o referència de la factura associada.
+
+
+==Eliminació==
+
+Les ordres de treball només es poden eliminar si no estan enllaçades a serveis finalitzats o accions registrades.
+
+Abans de l'eliminació es mostra un avís de confirmació.
+És preferible desactivar-les si es vol conservar-ne l'historial sense mostrar-les activament.

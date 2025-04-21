@@ -1,0 +1,51 @@
+
+
+
+=Estats de les factures=
+
+==Descripció==
+
+Aquest mòdul permet definir els diferents estats que pot tenir una factura en el seu cicle de vida.
+Pot incloure estats com pendent, pagada parcialment, pagada, anul·lada, etc.
+Aquests estats s’utilitzen per fer seguiment del cobrament i per classificar les factures segons el seu estat actual.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices_status-list-en-us-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Nom: Nom de l'estat.
+- Descripció: Explicació o ús de l'estat.
+- Actiu: Indica si es pot utilitzar l'estat.
+
+
+==Vista de formulari==
+
+Aquesta vista permet crear, editar o consultar estats de factura.
+
+En el mode **crear**, pots afegir un nou estat.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices_status-create-en-us-1-snap.png]
+
+En el mode **visualització**, només es mostren els detalls.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices_status-view-100-en-us-1-snap.png]
+
+En el mode **edició**, pots modificar el contingut.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices_status-edit-100-en-us-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Actiu: Indica si l'estat està actiu.
+- Nom: Títol o nom identificador.
+- Descripció: Informació sobre l'ús o significat de l'estat.
+
+
+==Eliminació==
+
+Els estats només es poden eliminar si no estan assignats a cap factura.
+El sistema demanarà confirmació abans de procedir.
+
+Aquesta acció és irreversible.

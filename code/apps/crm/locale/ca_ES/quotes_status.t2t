@@ -1,0 +1,51 @@
+
+
+
+=Estats dels pressupostos=
+
+==Descripció==
+
+Aquest mòdul permet definir els diferents estats pels quals pot passar un pressupost durant el seu cicle de vida.
+Es poden utilitzar per marcar si un pressupost està pendent, acceptat, rebutjat o en espera de revisió.
+Els estats ajuden a fer seguiment dels pressupostos i a organitzar el procés comercial.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes_status-list-en-us-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Nom: Nom de l'estat.
+- Descripció: Explicació o ús de l'estat.
+- Actiu: Indica si l'estat està actiu i es pot assignar.
+
+
+==Vista de formulari==
+
+Aquesta vista permet crear, editar o consultar un estat de pressupost.
+
+En el mode **crear**, es pot definir un nou estat.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes_status-create-en-us-1-snap.png]
+
+En el mode **visualització**, es mostra el detall de l'estat sense possibilitat d'edició.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes_status-view-100-en-us-1-snap.png]
+
+En el mode **edició**, es poden modificar els valors existents.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes_status-edit-100-en-us-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Actiu: Permet activar o desactivar l'estat.
+- Nom: Nom curt o títol de l'estat.
+- Descripció: Text descriptiu sobre l'ús de l'estat.
+
+
+==Eliminació==
+
+Els estats es poden eliminar si no estan en ús.
+Abans d'eliminar-ne un, el sistema sol·licita confirmació.
+
+Aquesta acció no es pot desfer.

@@ -1,14 +1,14 @@
 
 
 
-=Product Categories=
+=Product Types=
 
 ==Description==
 
-The Product Categories application is used to group products into families or collections for easier classification.
-Categories are helpful for filtering, reporting, organizing catalogs, and applying common business rules.
+The Product Types application is used to classify products and services based on their nature or behavior.
+This classification helps distinguish between physical goods, services, subscriptions, or other internal categories used for reporting or automation.
 
-Typical categories might include "Hardware", "Software", "Services", or "Accessories".
+Examples of types include "Product", "Service", "Subscription", or "Bundle".
 
 ==List view==
 
@@ -16,14 +16,14 @@ Typical categories might include "Hardware", "Software", "Services", or "Accesso
 
 The following fields are displayed in the list view:
 
-- Name: Name of the category.
-- Description: Description of what products the category includes.
-- Active: Indicates whether this category can be assigned to products.
+- Name: Label of the product type.
+- Description: Optional description to clarify the purpose of the type.
+- Active: Indicates whether the type is available when creating products.
 
 
 ==Form view==
 
-This view is used to create, view or edit product category records.
+This view is used to create, view or edit product type records.
 
 In **create** mode, a new tax rule can be defined.
 
@@ -39,13 +39,13 @@ In **edit** mode, existing values can be updated.
 
 The form includes the following fields:
 
-- Active: Enables or disables the category for selection.
-- Name: Label of the category as shown in the product form.
-- Description: Optional clarification or notes about this category.
+- Active: Controls availability in product forms.
+- Name: Name shown in the type selection when creating a product.
+- Description: Notes about the type’s intended use.
 
 
 ==Delete==
 
-Categories can only be deleted if they are not assigned to any product.
+Types can be deleted only if they are not linked to any product.
 
-When in use, they should be disabled instead.
+Otherwise, deactivation is the recommended action.

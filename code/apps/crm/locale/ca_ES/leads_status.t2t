@@ -1,0 +1,50 @@
+
+
+
+=Estats dels interessats=
+
+==Descripció==
+
+Aquest mòdul permet definir els diferents estats pels quals pot passar un client potencial dins del procés comercial.
+Els estats ajuden a fer seguiment dels leads segons el seu grau d'interès, qualificació o decisió final (actiu, perdut, convertit, etc.).
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads_status-list-en-us-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Nom: Nom de l'estat.
+- Descripció: Informació descriptiva de l'estat.
+- Actiu: Indica si l'estat es pot utilitzar.
+
+
+==Vista de formulari==
+
+Aquesta vista permet gestionar els estats dels interessats.
+
+En el mode **crear**, pots afegir un estat nou.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads_status-create-en-us-1-snap.png]
+
+En el mode **visualització**, es mostra la informació de l'estat.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads_status-view-100-en-us-1-snap.png]
+
+En el mode **edició**, es poden modificar els valors.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads_status-edit-100-en-us-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Actiu: Estat actiu o inactiu.
+- Nom: Títol o nom de l'estat.
+- Descripció: Explicació de l'ús o significat de l'estat.
+
+
+==Eliminació==
+
+Els estats només es poden eliminar si no estan assignats a cap interessat.
+El sistema mostrarà una confirmació abans de continuar.
+
+Aquesta acció no es pot desfer.

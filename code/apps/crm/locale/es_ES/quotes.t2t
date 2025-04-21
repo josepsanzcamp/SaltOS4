@@ -1,0 +1,66 @@
+
+
+
+=Presupuestos=
+
+==Descripción==
+
+La aplicación de presupuestos permite generar ofertas comerciales para clientes potenciales o existentes.
+Incluye campos para definir los datos del cliente, condiciones de pago, líneas de conceptos, impuestos y total.
+Estos presupuestos pueden convertirse fácilmente en facturas una vez sean aceptados por el cliente.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-list-en-us-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Cliente: Nombre del cliente destinatario del presupuesto.
+- CIF: Código de identificación fiscal del cliente.
+- Presupuesto: Código o número del presupuesto.
+- Fecha: Fecha de emisión del presupuesto.
+- Total: Importe total con impuestos incluidos.
+
+
+==Vista de formulario==
+
+Esta vista se utiliza para crear, editar o consultar un presupuesto.
+
+En el modo **crear**, el formulario está vacío y listo para introducir un nuevo presupuesto.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-create-en-us-1-snap.png]
+
+En el modo **visualización**, los campos son de solo lectura y muestran el detalle del presupuesto.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-100-en-us-1-snap.png]
+
+En el modo **edición**, se pueden modificar los datos existentes del presupuesto.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-edit-100-en-us-1-snap.png]
+
+El formulario incluye los siguientes campos:
+
+- Presupuesto: Código del presupuesto.
+- Fecha: Fecha de emisión.
+- Cliente: Nombre o razón social del cliente.
+- CIF: Código fiscal del cliente.
+- Dirección: Dirección de facturación.
+- Ciudad: Localidad.
+- Provincia / Estado: Provincia o región.
+- Código postal: Código postal del cliente.
+- País: País de residencia o registro.
+- Notas: Observaciones internas o condiciones especiales.
+- Conceptos: Líneas detalladas con cantidades e importes.
+- Impuestos: Impuestos aplicables.
+- Totales: Resumen de importe, impuestos y total.
+- Método de pago: Forma de cobro prevista.
+- Válido hasta: Fecha de validez del presupuesto.
+- Estado: Estado actual del presupuesto (pendiente, aceptado, rechazado, etc.).
+
+
+==Eliminación==
+
+Los presupuestos pueden eliminarse desde la vista de lista siempre que no estén vinculados a facturas.
+El sistema pedirá confirmación antes de completar la acción.
+
+Esta acción no se puede deshacer y puede requerir permisos especiales.

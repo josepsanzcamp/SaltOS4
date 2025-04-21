@@ -1,0 +1,50 @@
+
+
+
+=Tipus de clients=
+
+==Descripció==
+
+Aquest mòdul permet definir diferents tipus de clients segons criteris comercials, legals o operatius.
+Classificar els clients ajuda a personalitzar l’atenció, filtrar les dades i aplicar polítiques específiques segons el tipus.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers_types-list-en-us-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Nom: Nom del tipus de client.
+- Descripció: Informació addicional sobre el tipus.
+- Actiu: Indica si el tipus està disponible per ser assignat.
+
+
+==Vista de formulari==
+
+Aquesta vista permet gestionar els tipus de client.
+
+En el mode **crear**, es pot afegir un nou tipus.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers_types-create-en-us-1-snap.png]
+
+En el mode **visualització**, només es mostren les dades sense possibilitat d’edició.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers_types-view-100-en-us-1-snap.png]
+
+En el mode **edició**, es poden modificar les dades existents.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-customers_types-edit-100-en-us-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Actiu: Indica si el tipus està actiu.
+- Nom: Nom que identifica el tipus.
+- Descripció: Explicació o detall intern del tipus.
+
+
+==Eliminació==
+
+Els tipus de clients només es poden eliminar si no tenen cap client associat.
+El sistema sol·licitarà confirmació abans de completar l’eliminació.
+
+Aquesta acció no es pot desfer.

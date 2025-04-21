@@ -1,0 +1,52 @@
+
+
+
+=Métodos de pago=
+
+==Descripción==
+
+La aplicación de métodos de pago se utiliza para definir y gestionar los tipos de pago aceptados por la organización.
+Estos métodos se usan posteriormente en las facturas para indicar cómo pagará el cliente (por ejemplo, transferencia bancaria, tarjeta, efectivo).
+Este módulo garantiza coherencia y trazabilidad en todo el proceso de facturación.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-list-en-us-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Nombre: Nombre del método de pago (por ejemplo, Efectivo, Transferencia bancaria, Tarjeta de crédito).
+- Descripción: Detalles adicionales o aclaraciones sobre cómo se utiliza este método.
+- Activo: Indica si este método está disponible actualmente.
+- Por defecto: Especifica si este es el método por defecto al crear nuevos registros.
+
+
+==Vista de formulario==
+
+Esta vista se utiliza para crear, consultar o editar métodos de pago.
+
+En el modo **crear**, se añade un nuevo método de pago.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-create-en-us-1-snap.png]
+
+En el modo **visualización**, los campos se muestran en modo solo lectura.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-view-10-en-us-1-snap.png]
+
+En el modo **edición**, los detalles pueden modificarse.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-edit-10-en-us-1-snap.png]
+
+El formulario incluye los siguientes campos:
+
+- Activo: Indica si este método está disponible actualmente.
+- Por defecto: Especifica si es el método por defecto al crear nuevos registros.
+- Nombre: Nombre del método de pago (por ejemplo, Efectivo, Transferencia bancaria, Tarjeta de crédito).
+- Descripción: Detalles adicionales o aclaraciones sobre el uso del método.
+
+
+==Eliminación==
+
+Los métodos de pago pueden eliminarse si no están usados en ninguna factura.
+
+Si ya están referenciados, deben marcarse como inactivos en lugar de eliminarse.

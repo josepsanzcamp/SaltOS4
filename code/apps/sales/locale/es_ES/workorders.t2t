@@ -1,0 +1,57 @@
+
+
+
+=Órdenes de trabajo=
+
+==Descripción==
+
+La aplicación de órdenes de trabajo se utiliza para registrar, planificar y hacer seguimiento de tareas o servicios solicitados por clientes.
+Cada orden incluye información sobre el solicitante, el servicio requerido, estado, fechas, personal asignado,
+y notas o archivos adjuntos asociados. Este módulo es esencial para gestionar actividades operativas,
+como soporte técnico, instalaciones o servicios de campo.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-list-en-us-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Fecha: Fecha en que se creó o programó la orden.
+- Técnico: Empleado o técnico asignado para realizar la tarea.
+- Cliente: Cliente que solicitó el servicio o tarea.
+
+
+==Vista de formulario==
+
+Esta vista se utiliza para crear, editar o consultar una orden de trabajo.
+
+En el modo **crear**, el formulario permite registrar una nueva tarea a realizar.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-create-en-us-1-snap.png]
+
+En el modo **visualización**, la información se muestra como solo lectura.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-100-en-us-1-snap.png]
+
+En el modo **edición**, los datos pueden actualizarse según el progreso o retroalimentación.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-edit-100-en-us-1-snap.png]
+
+El formulario incluye los siguientes campos:
+
+- Fecha: Fecha en que se creó o programó la orden.
+- Técnico: Empleado o técnico asignado.
+- Cliente: Cliente que solicitó el trabajo o servicio.
+- Descripción: Detalles sobre la naturaleza u objetivo del trabajo a realizar.
+- Horas: Número estimado o real de horas asignadas.
+- Precio: Tarifa por hora o precio fijo acordado.
+- Total: Importe final calculado en base al precio y las horas.
+- Factura: Número o referencia de la factura asociada al trabajo realizado.
+
+
+==Eliminación==
+
+Las órdenes de trabajo solo pueden eliminarse si no están vinculadas a servicios completados o acciones registradas.
+
+Se mostrará un aviso de confirmación antes de eliminar.
+Se recomienda desactivarlas si se desea conservar el historial sin mantenerlas visibles.

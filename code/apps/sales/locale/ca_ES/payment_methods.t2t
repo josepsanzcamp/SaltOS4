@@ -1,0 +1,52 @@
+
+
+
+=Mètodes de pagament=
+
+==Descripció==
+
+L'aplicació de mètodes de pagament s'utilitza per definir i gestionar els tipus de pagament acceptats per l'organització.
+Aquests mètodes s'utilitzen posteriorment a les factures per indicar com pagarà el client (p. ex., transferència bancària, targeta, efectiu).
+Aquest mòdul garanteix la coherència i la traçabilitat en tot el procés de facturació.
+
+==Vista de llista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-list-en-us-1-snap.png]
+
+Els següents camps es mostren a la vista de llista:
+
+- Nom: Nom del mètode de pagament (p. ex., Efectiu, Transferència bancària, Targeta de crèdit).
+- Descripció: Detalls addicionals o aclariments sobre com s'utilitza aquest mètode.
+- Actiu: Indica si aquest mètode està actualment disponible.
+- Per defecte: Especifica si és el mètode assignat per defecte en crear nous registres.
+
+
+==Vista de formulari==
+
+Aquesta vista s'utilitza per crear, consultar o editar mètodes de pagament.
+
+En el mode **crear**, s'afegeix un nou mètode de pagament.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-create-en-us-1-snap.png]
+
+En el mode **visualització**, els camps es mostren en mode només lectura.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-view-10-en-us-1-snap.png]
+
+En el mode **edició**, es poden modificar els detalls.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-edit-10-en-us-1-snap.png]
+
+El formulari inclou els següents camps:
+
+- Actiu: Indica si aquest mètode està actualment disponible.
+- Per defecte: Especifica si és el mètode per defecte en crear registres nous.
+- Nom: Nom del mètode de pagament (p. ex., Efectiu, Transferència bancària, Targeta de crèdit).
+- Descripció: Detalls addicionals o aclariments sobre l'ús del mètode.
+
+
+==Eliminació==
+
+Els mètodes de pagament es poden eliminar si no s'utilitzen en cap factura.
+
+Si ja s'han referenciat, cal marcar-los com a inactius en lloc d'eliminar-los.

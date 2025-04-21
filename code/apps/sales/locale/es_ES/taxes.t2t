@@ -1,0 +1,54 @@
+
+
+
+=Impuestos=
+
+==Descripción==
+
+La aplicación de impuestos se utiliza para definir y gestionar los tipos impositivos aplicados a productos, presupuestos y facturas.
+Funciona como repositorio central de tipos como IVA, impuesto sobre ventas o exenciones.
+Cada registro incluye el nombre, el porcentaje y el estado, asegurando una aplicación coherente en todo el sistema ERP.
+
+==Vista de lista==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-list-en-us-1-snap.png]
+
+Los siguientes campos se muestran en la vista de lista:
+
+- Nombre: Nombre o etiqueta usada para identificar el impuesto (ej: IVA 21%).
+- Descripción: Explicación opcional o detalles adicionales sobre la norma fiscal o contexto de uso.
+- Valor: Porcentaje del impuesto a aplicar (ej: 21 para 21%).
+- Activo: Indica si este impuesto está disponible para ser seleccionado en documentos.
+- Por defecto: Indica si este impuesto se selecciona automáticamente al crear nuevos documentos.
+
+
+==Vista de formulario==
+
+Esta vista se utiliza para crear, ver o editar tipos de impuesto.
+
+En el modo **crear**, se puede definir una nueva regla de impuesto.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-create-en-us-1-snap.png]
+
+En el modo **visualización**, los detalles del impuesto son visibles pero no editables.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-view-1-en-us-1-snap.png]
+
+En el modo **edición**, los valores existentes pueden actualizarse.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-edit-1-en-us-1-snap.png]
+
+El formulario incluye los siguientes campos:
+
+- Activo: Indica si este impuesto está disponible para ser seleccionado en documentos.
+- Por defecto: Indica si este impuesto se selecciona automáticamente al crear nuevos documentos.
+- Nombre: Nombre o etiqueta usada para identificar el impuesto (ej: IVA 21%).
+- Valor: Porcentaje del impuesto a aplicar (ej: 21 para 21%).
+- Descripción: Explicación opcional o detalles adicionales sobre la norma fiscal o contexto de uso.
+
+
+==Eliminación==
+
+Los impuestos solo pueden eliminarse si no están usados en ninguna factura ni producto.
+
+Si un impuesto está en uso, debe desactivarse en su lugar para preservar la integridad del sistema.
