@@ -114,6 +114,9 @@ saltos.dashboard_widgets.init = arg => {
 
             for (const i in ids) {
                 let obj = document.getElementById(ids[i]);
+                if (!obj) {
+                    continue;
+                }
                 let parent = obj.parentElement;
                 while (parent && !parent.classList.contains('row')) {
                     obj = parent;
