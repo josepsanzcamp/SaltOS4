@@ -23,8 +23,17 @@ if (!file_exists($outdir)) {
 }
 chdir($outdir);
 
-// Is locale???
+// Locale part
 $is_locale = strpos($outdir, '/locale/') !== false;
+
+// Lang part
+$lang = 'english';
+if (strpos($outfile, '_ca_es') !== false) {
+    $lang = 'catalan';
+}
+if (strpos($outfile, '_es_es') !== false) {
+    $lang = 'spanish';
+}
 
 // PDF Section
 $file = str_replace('.t2t', '', $outfile);
@@ -43,15 +52,15 @@ $buffer0 = str_replace(
     $buffer0
 );
 $buffer1 = [
-    "\\usepackage[english]{babel}",
-    "\\usepackage{ucs}",
-    "\\usepackage[utf8x]{inputenc}",
-    "\\usepackage{eurosym}",
-    "\\usepackage{sans}",
-    "\\usepackage{fullpage}",
-    "\\usepackage{listings}",
-    "\\usepackage{xcolor}",
-    "\\usepackage{sectsty}",
+    "\\usepackage[$lang]{babel}",
+    '\\usepackage{ucs}',
+    '\\usepackage[utf8x]{inputenc}',
+    '\\usepackage{eurosym}',
+    '\\usepackage{sans}',
+    '\\usepackage{fullpage}',
+    '\\usepackage{listings}',
+    '\\usepackage{xcolor}',
+    '\\usepackage{sectsty}',
     '\\allsectionsfont{\\color{myblue}}',
     '\\definecolor{myblue}{RGB}{39,128,227}',
     '\\setlength{\\parindent}{0mm}',
@@ -59,9 +68,9 @@ $buffer1 = [
     '\\setlength{\\plparsep}{2.5mm}',
     '\\def\\htmladdnormallink#1#2{\\href{#2}{#1}}',
     '\\definecolor{mygrey}{rgb}{0.9,0.9,0.9}',
-    "\\usepackage{courier}",
-    "\\lstset{basicstyle=\\ttfamily,backgroundcolor=\\color{mygrey},breaklines=true}",
-    "\\usepackage{tocloft}",
+    '\\usepackage{courier}',
+    '\\lstset{basicstyle=\\ttfamily,backgroundcolor=\\color{mygrey},breaklines=true}',
+    '\\usepackage{tocloft}',
     '\\setlength{\\cftsubsubsecnumwidth}{13mm}',
     '\\setlength\\cftparskip{3mm}',
     '',
@@ -96,10 +105,7 @@ file_put_contents("${file}.tex", $buffer);
 for ($i = 0; $i < 3; $i++) {
     ob_passthru("pdflatex -interaction batchmode ${file}.tex");
 }
-$exts = ['aux', 'log', 'out', 'toc'];
-if ($is_locale) {
-    $exts[] = 'tex';
-}
+$exts = ['aux', 'log', 'out', 'toc', 'tex'];
 foreach ($exts as $ext) {
     unlink("${file}.${ext}");
 }

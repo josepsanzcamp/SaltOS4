@@ -1,433 +1,93 @@
-User Manual (en\_US)
-SaltOS 4.0 r1995
+User Manual
+SaltOS 4.0 r1997
 April 2025
 
 
 
 
 
-+Certificates+
++Dashboard+
 
 ++Description++
 
-The Certificates application is used to manage and track SSL/TLS certificates stored or monitored by the system.
+The **dashboard** is the main landing screen in SaltOS4, where users can display quick access buttons, separators, widgets, charts, and other visual elements.
+It is not a traditional app with forms or records, but rather a dynamic, customizable view designed to provide an overview and fast access to frequent actions.
 
-This module allows administrators to register certificates, store metadata, monitor expiration dates,
-and ensure that security infrastructure remains up-to-date.
+This screen centralizes commonly used tools and relevant system information.
 
-It is especially useful for managing certificates for custom domains, internal services, or external integrations.
+++Main view++
 
-++List view++
+[../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-en-us-1-snap.png]
 
-[../ujest/snaps/test-screenshots-js-screenshots-certs-certs-list-en-us-1-snap.png]
+The dashboard can include:
 
-The following fields are displayed in the list view:
-
-- Certificate nicknames available:: List of certificate aliases already stored and available in the system. It is not a database-driven table, but a visual display of loaded certificates.
-
-
-++Form view++
-
-This view is used to add, review, or update certificate information.
-
-In **create** mode, the form is empty and ready to enter new data.
-
-[../ujest/snaps/test-screenshots-js-screenshots-certs-certs-create-en-us-1-snap.png]
-
-The form includes the following fields:
-
-- Certificate file (.p12, .pfx): File input used to upload one or more certificates in PKCS#12 format. Required to import certificates into the system.
-- Password file: Password used to decrypt the uploaded certificate file. This field is required and not autofilled for security reasons.
+- Quick access **buttons** to apps or actions
+- **Titles** grouping sections of content
+- **Separators** to visually organize the layout
+- **Widgets** displaying live content (e.g., calendar, email, statistics)
 
 
-In **view** mode, the fields are filled with the selected record and cannot be edited.
+++Dashboard configuration++
 
-[../ujest/snaps/test-screenshots-js-screenshots-certs-certs-view-ab-877-d-2027-f-7-c-71-d-9935999-cce-1-b-802-b-en-us-1-snap.png]
+In the **top right corner**, there is a gear icon that opens the **dashboard configuration app**.
 
-The form includes the following fields:
+From there, users can customize their dashboard:
 
-- Name: Display name or alias of the certificate.
-- Info: Technical details of the certificate, including issuer, expiration, and subject. Displayed in a read-only text area.
+- Select the active dashboard
+- Add or remove **buttons**
+- Create **titles** and **visual separators**
+- Group elements together in logical blocks
+- Include any available **widgets** (e.g., mail, analytics, alerts)
 
 
-++Delete++
-
-Certificates can be deleted if no longer relevant.
-
-However, it is recommended to retain expired entries for audit purposes.
+This configuration is user-specific and saved automatically.
 
 
 
-+Config Log+
++Dashboard configuration+
 
 ++Description++
 
-The Config Log application provides a trace of all configuration changes made within SaltOS4.
-It is used to monitor modifications to system parameters, app settings, or internal preferences.
-This module is essential for administrators who want to audit changes and ensure consistent system behavior over time.
+This application allows users to configure the content shown on the **SaltOS4 dashboard**.
+It is not a traditional app with records, but a visual, user-focused interface for customizing quick access buttons, sections, and widgets that appear on the home dashboard.
 
-++List view++
+Each user can have their own personalized dashboard, and this tool is its visual editor.
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-list-en-us-1-snap.png]
+++Configuration view++
 
-The following fields are displayed in the list view:
+[../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-widgets-en-us-1-snap.png]
 
-- User: User who made the configuration change.
-- Key: Configuration key that was modified.
+The screen displays a canvas-style layout where dashboard elements can be added, arranged, and grouped visually.
 
+Available elements include:
 
-++View entry++
+- **Buttons**: Quick access links to apps or features.
+- **Separators**: Visual lines or spaces to structure the layout.
+- **Titles**: Headers to organize sections of the dashboard.
+- **Widgets**: Dynamic components such as calendar, email, charts, stats, etc.
 
-This view displays the full details of a single configuration change record.
 
-In **create** mode, the form is empty and ready to enter new data.
+Elements can be grouped, reordered via drag and drop, and arranged into multiple blocks or columns.
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-create-en-us-1-snap.png]
+++Features++
 
-In **view** mode, the fields are filled with the selected record and cannot be edited.
+- Add or remove dashboard elements
+- Reorder using drag and drop
+- Edit section titles and labels
+- Choose which widgets to display
+- Organize layout in multiple columns or groups
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-view-10-en-us-1-snap.png]
 
-In **edit** mode, the form is pre-filled and allows modifications.
+Changes are saved automatically and apply only to the active user’s dashboard.
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-edit-10-en-us-1-snap.png]
+++Advanced usage++
 
-It includes:
+This module is ideal for:
 
-- User: User who made the configuration change.
-- Key: Configuration key that was modified.
-- Value: New value assigned to the configuration key.
+- Creating role-specific dashboards (e.g., sales, tech, admin)
+- Displaying only frequently used tools and information
+- Improving clarity and efficiency on the SaltOS4 start screen
 
-
-++Delete++
-
-Entries in the config log cannot be deleted under normal circumstances.
-
-This log is designed to ensure full traceability and auditability of administrative actions.
-
-
-
-+Cron Log+
-
-++Description++
-
-The Cron Log application stores the execution history of scheduled tasks (cron jobs) within SaltOS4.
-It allows administrators to monitor background processes such as email retrieval, data imports, backups, or custom jobs.
-This module is essential for troubleshooting and verifying that scheduled operations are running correctly.
-
-++List view++
-
-[../ujest/snaps/test-screenshots-js-screenshots-common-cronlog-list-en-us-1-snap.png]
-
-The following fields are displayed in the list view:
-
-- Command: Command or script executed by the cron system.
-- Start: Start time of the scheduled task execution.
-- Out: Short version or preview of the standard output.
-- Err: Short version or preview of the error output.
-
-
-++View entry++
-
-This view displays the full result of a single cron job execution.
-
-It includes:
-
-- Command: Command or script executed by the cron system.
-- PID: Process ID assigned to the running cron task.
-- Start: Start time of the scheduled task execution.
-- Stop: Time when the task finished running.
-- STDOUT: Standard output generated by the task during execution.
-- STDERR: Standard error output generated by the task.
-
-
-++Delete++
-
-Cron log entries are not meant to be deleted regularly.
-
-Automatic cleanup or manual purge may be configured to remove older entries.
-
-
-
-+Files Log+
-
-++Description++
-
-The Files Log application records all file access events within SaltOS4.
-It tracks when files are viewed, downloaded, or otherwise accessed by users, including associated metadata.
-This module provides a complete audit trail for document activity, supporting traceability and data governance policies.
-
-++List view++
-
-[../ujest/snaps/test-screenshots-js-screenshots-common-fileslog-list-en-us-1-snap.png]
-
-The following fields are displayed in the list view:
-
-- Name: Name of the accessed or managed file within the system.
-- Type: File format or classification (e.g., PDF, image, text).
-- Size: Size of the file in bytes.
-
-
-++View entry++
-
-This view shows detailed information about a file access event.
-
-It includes:
-
-- Name: Name of the accessed or managed file within the system.
-- Type: File format or classification (e.g., PDF, image, text).
-- Size: Size of the file in bytes.
-- Data: Internal content, metadata or serialized structure representing the file access or action.
-
-
-++Delete++
-
-Files log entries are usually not deleted manually.
-
-They are retained for accountability and security monitoring, and may be purged automatically based on system settings.
-
-
-
-+Push Log+
-
-++Description++
-
-The Push Log application records all push notifications triggered by the system.
-These notifications are typically sent to users to alert them about actions, updates, or system events in real time.
-This module allows administrators to monitor the flow of notifications and diagnose potential issues in the delivery process.
-
-++List view++
-
-[../ujest/snaps/test-screenshots-js-screenshots-common-pushlog-list-en-us-1-snap.png]
-
-The following fields are displayed in the list view:
-
-- User: User who triggered or received the push notification.
-- Datetime: Date and time when the push notification was recorded.
-- Type: Category of the push message (e.g., info, warning, error).
-
-
-++View entry++
-
-This view shows full details of a single push notification.
-
-It includes:
-
-- User: User who triggered or received the push notification.
-- Datetime: Date and time when the push notification was recorded.
-- Type: Category of the push message (e.g., info, warning, error).
-- Message: Content or summary of the push message sent.
-- Timestamp: Internal system timestamp when the event was logged.
-
-
-++Delete++
-
-Push log entries are generally not deleted and are kept for audit purposes.
-
-In specific maintenance scenarios, old records may be purged, but this requires explicit permissions.
-
-
-
-+Tokens Log+
-
-++Description++
-
-The Tokens Log application tracks the usage of authentication tokens across the system.
-These tokens are typically used in API calls, automated scripts, or temporary login sessions.
-This module allows administrators to monitor access to the system and detect potential misuse or unauthorized attempts.
-
-++List view++
-
-[../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-list-en-us-1-snap.png]
-
-The following fields are displayed in the list view:
-
-- User: User associated with the token.
-- Created: Date and time when the token was created.
-- Token: The token string used for authentication or access.
-- Active: Indicates whether the token is currently valid and usable.
-
-
-++View entry++
-
-This view displays all information related to a specific token access.
-
-[../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-view-1-en-us-1-snap.png]
-
-It includes:
-
-- Active: Indicates whether the token is currently valid and usable.
-- User: User associated with the token.
-- Created: Date and time when the token was created.
-- Updated: Date and time of the last update to the token's state.
-- Remote Addres: IP address from which the token was used or created.
-- User Agent: Browser or client used when the token was generated or accessed.
-- Token: The token string used for authentication or access.
-- Expires: Expiration date and time of the token, after which it is no longer valid.
-
-
-++Delete++
-
-Token log entries are not meant to be deleted manually.
-
-They form part of the system’s audit and access control history, and are subject to automatic cleanup if configured.
-
-
-
-+Trash Log+
-
-++Description++
-
-The Trash Log application records all deletions performed in the system, acting as a recycle bin for SaltOS4.
-It allows administrators and advanced users to inspect what data has been removed, when, by whom, and from where.
-This module is key for auditability and helps identify accidental deletions or unauthorized actions.
-
-++List view++
-
-[../ujest/snaps/test-screenshots-js-screenshots-common-trashlog-list-en-us-1-snap.png]
-
-The following fields are displayed in the list view:
-
-- User: User who performed the deletion.
-- Datetime: Exact date and time when the record was deleted.
-- Name: Descriptive name of the deleted record or file.
-
-
-++View entry++
-
-This view displays all recorded information about a deleted item.
-
-It includes:
-
-- Old ID: Original identifier of the record before deletion.
-- User: User who performed the deletion.
-- Datetime: Exact date and time when the record was deleted.
-- Reg ID: Internal registry ID assigned to the deleted record.
-- App: Application or module from which the record was removed.
-- Uniq ID: System-wide unique identifier for the deleted item.
-- Name: Descriptive name of the deleted record or file.
-- Size: File size in bytes, if the deleted item was a file.
-- Type: MIME type or classification of the deleted file or record.
-- File: Original filename or path of the deleted file.
-- Hash: Checksum used to verify the content of the deleted item.
-
-
-++Delete++
-
-Trash log entries cannot be deleted directly from the interface.
-
-SaltOS4 retains them for accountability and legal traceability unless automatic pruning is configured.
-
-
-
-+Upload Log+
-
-++Description++
-
-The Upload Log application registers all file uploads made through SaltOS4, whether manual or automated.
-It helps track the origin, user, and context of each uploaded file, and is useful for auditing, debugging,
-and verifying that uploads are being processed correctly.
-
-++List view++
-
-[../ujest/snaps/test-screenshots-js-screenshots-common-uploadlog-list-en-us-1-snap.png]
-
-The following fields are displayed in the list view:
-
-- User: User who uploaded the file.
-- Datetime: Timestamp when the file was uploaded to the system.
-- App: Module or application from which the upload was triggered.
-- Name: Original filename as provided by the user.
-
-
-++View entry++
-
-This view shows full details of a single uploaded file log entry.
-
-It includes:
-
-- User: User who uploaded the file.
-- Datetime: Timestamp when the file was uploaded to the system.
-- Uniq ID: Unique identifier internally assigned to the upload entry.
-- App: Module or application from which the upload was triggered.
-- Name: Original filename as provided by the user.
-- Size: Size of the uploaded file in bytes.
-- Type: MIME type or format of the uploaded file.
-- File: Stored filename used by the system to manage the file internally.
-- Hash: Checksum (e.g., MD5 or SHA) to verify file integrity or detect duplicates.
-
-
-++Delete++
-
-Upload log entries are normally preserved for historical traceability.
-
-If needed, old entries may be deleted manually or through automatic maintenance routines.
-
-
-
-+Company+
-
-++Description++
-
-The Company application stores the identification and contact details of the organization using SaltOS4.
-This data is used across the system to personalize documents (quotes, invoices, emails, etc.) and define the legal and fiscal identity of the company.
-
-It typically includes the company's name, tax code, address, logo, and preferred language.
-
-++List view++
-
-[../ujest/snaps/test-screenshots-js-screenshots-company-company-list-en-us-1-snap.png]
-
-The following fields are displayed in the list view:
-
-- Name: Official name of the company or organization.
-- CIF: Tax identification number (NIF, CIF, VAT, etc.) of the company.
-- City: City where the company is located.
-- Country: Country where the company is legally registered or operates.
-- Active: Indicates whether this company profile is active in the system.
-
-
-++Form view++
-
-This view is used to define or edit the company profile.
-
-In **create** mode, the form is empty and ready to enter new data.
-
-[../ujest/snaps/test-screenshots-js-screenshots-company-company-create-en-us-1-snap.png]
-
-In **view** mode, the fields are filled with the selected record and cannot be edited.
-
-[../ujest/snaps/test-screenshots-js-screenshots-company-company-view-1-en-us-1-snap.png]
-
-In **edit** mode, the form is pre-filled and allows modifications.
-
-[../ujest/snaps/test-screenshots-js-screenshots-company-company-edit-1-en-us-1-snap.png]
-
-The form includes the following fields:
-
-- Active: Indicates whether this company profile is active in the system.
-- Name: Official name of the company or organization.
-- Code: Tax identification number (NIF, CIF, VAT, etc.) of the company.
-- Address: Official street or mailing address of the company.
-- City: City where the company is located.
-- Province / State: Province, state, or region where the company is based.
-- ZIP: Postal code of the company’s registered address.
-- Country: Country where the company is legally registered or operates.
-- Phone: Main phone number for company inquiries.
-- Email: Primary email address used for administrative or legal contact.
-- Website: The public website or landing page of the company.
-- IBAN: International Bank Account Number used for wire transfers.
-- SWIFT/BIC: SWIFT/BIC code identifying the bank of the company for international transfers.
-- Fiscal Regime: Tax regime under which the company operates (e.g., general, simplified, small business).
-- Activity Code: Economic activity classification code (e.g., CNAE, NACE).
-- Additional Notes: Internal remarks or additional information about the company.
-
-
-++Delete++
-
-The company profile cannot be deleted if it's the only active one in the system.
-
-Only deactivation is allowed in most configurations.
 
 
 
@@ -832,641 +492,6 @@ The form includes the following fields:
 Quote statuses can be deleted only if they are not currently in use.
 
 Deactivation is preferred to preserve consistency in historical records.
-
-
-
-+Dashboard+
-
-++Description++
-
-The **dashboard** is the main landing screen in SaltOS4, where users can display quick access buttons, separators, widgets, charts, and other visual elements.
-It is not a traditional app with forms or records, but rather a dynamic, customizable view designed to provide an overview and fast access to frequent actions.
-
-This screen centralizes commonly used tools and relevant system information.
-
-++Main view++
-
-[../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-en-us-1-snap.png]
-
-The dashboard can include:
-
-- Quick access **buttons** to apps or actions
-- **Titles** grouping sections of content
-- **Separators** to visually organize the layout
-- **Widgets** displaying live content (e.g., calendar, email, statistics)
-
-
-++Dashboard configuration++
-
-In the **top right corner**, there is a gear icon that opens the **dashboard configuration app**.
-
-From there, users can customize their dashboard:
-
-- Select the active dashboard
-- Add or remove **buttons**
-- Create **titles** and **visual separators**
-- Group elements together in logical blocks
-- Include any available **widgets** (e.g., mail, analytics, alerts)
-
-
-This configuration is user-specific and saved automatically.
-
-
-
-+Dashboard configuration+
-
-++Description++
-
-This application allows users to configure the content shown on the **SaltOS4 dashboard**.
-It is not a traditional app with records, but a visual, user-focused interface for customizing quick access buttons, sections, and widgets that appear on the home dashboard.
-
-Each user can have their own personalized dashboard, and this tool is its visual editor.
-
-++Configuration view++
-
-[../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-widgets-en-us-1-snap.png]
-
-The screen displays a canvas-style layout where dashboard elements can be added, arranged, and grouped visually.
-
-Available elements include:
-
-- **Buttons**: Quick access links to apps or features.
-- **Separators**: Visual lines or spaces to structure the layout.
-- **Titles**: Headers to organize sections of the dashboard.
-- **Widgets**: Dynamic components such as calendar, email, charts, stats, etc.
-
-
-Elements can be grouped, reordered via drag and drop, and arranged into multiple blocks or columns.
-
-++Features++
-
-- Add or remove dashboard elements
-- Reorder using drag and drop
-- Edit section titles and labels
-- Choose which widgets to display
-- Organize layout in multiple columns or groups
-
-
-Changes are saved automatically and apply only to the active user’s dashboard.
-
-++Advanced usage++
-
-This module is ideal for:
-
-- Creating role-specific dashboards (e.g., sales, tech, admin)
-- Displaying only frequently used tools and information
-- Improving clarity and efficiency on the SaltOS4 start screen
-
-
-
-
-+Emails+
-
-++Description++
-
-The Emails application is used to receive, view, and reply to emails from configured accounts within SaltOS4.
-It acts as a simplified integrated email client that supports reading messages from POP3 or IMAP,
-viewing metadata and content, and replying using internal or external SMTP servers.
-
-Each message is presented as a visual card in the list view, showing key fields such as sender, subject,
-date, and a preview of the body. Emails can be viewed in detail, replied to, or deleted. This app is
-closely integrated with the Emails Accounts module and is essential for managing inbound communication.
-
-++List view++
-
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-en-us-1-snap.png]
-
-The list view shows incoming emails as clickable buttons or cards.
-Each entry typically displays:
-
-- Header: The visual summary used in the interface to represent the email message.
-- Datetime: The date and time the message was received or sent.
-- Subject: The title or subject line of the email message.
-- Snippet: A short preview extracted from the beginning of the email body.
-- Attachments: List of files attached to the message, with download options.
-
-
-The interface also includes filters and a search form to filter by sender, subject, account, and date.
-
-++View message++
-
-This view shows the full content of an email message, including header metadata and attachments.
-
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-100-en-us-1-snap.png]
-
-The following information is typically displayed:
-
-- From: Sender's email address displayed in the message header.
-- To: List of recipients who received the message.
-- CC: Additional recipients who received a visible copy of the email.
-- BCC: Recipients who received a hidden copy of the email.
-- Datetime: Timestamp indicating when the email was sent or received.
-- UIDL: Server-side unique identifier used for synchronization.
-- Priority: Importance level set by the sender (Low, Normal, or High).
-- Sensitivity: Indicates whether the message is Normal, Personal, Private, or Confidential.
-- Sent: Confirms that the email was successfully sent.
-- New: Marks whether the email is unread or newly received.
-- Reply: Indicates if the message was replied to.
-- Forward: Indicates if the message was forwarded to another recipient.
-- Wait: Flag used to track follow-up or pending response.
-- SPAM: Marks whether the email is classified as spam.
-- Request confirmation of receipt: Shows whether a read receipt was requested for the message.
-- Error: Displays an error message if the delivery failed.
-- Subject: The subject line of the email.
-- Body: The main content or body of the email, displayed in an embedded viewer.
-- Adjunts: List of files attached to the email message.
-
-
-++Reply / Compose++
-
-Users can reply to an existing message or compose a new email using a simplified form.
-
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-create-en-us-1-snap.png]
-
-The reply and compose form includes:
-
-- From: Email account used as the sender for this message.
-- To: Primary recipient(s) of the email message.
-- CC: Recipients to receive a carbon copy (CC) of the message.
-- BCC: Recipients to receive a blind carbon copy (BCC), not visible to others.
-- Request confirmation of receipt: Option to request a read receipt confirmation from the recipient.
-- Priority: Importance level assigned to the email: Low, Normal, or High.
-- Sensitivity: Confidentiality level: Normal, Personal, Private, or Confidential.
-- Subject: Subject line of the message, describing its purpose.
-- Body: Rich-text content written in the email message.
-- Attachments: Files selected to be included along with the message.
-
-
-++Delete++
-
-Emails can be deleted from the list view using the delete icon or action.
-
-Messages are usually deleted locally or flagged for deletion, depending on the server configuration.
-
-
-
-+Emails Accounts+
-
-++Description++
-
-The Emails Accounts application is used to configure and manage the email accounts connected to SaltOS4.
-Each account can be used to send and receive emails via SMTP, IMAP or POP3 protocols.
-This module allows integration with external email providers and supports authentication, folders, and synchronization options.
-
-++List view++
-
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-list-en-us-1-snap.png]
-
-The following fields are displayed in the list view:
-
-- User: User who owns or uses this email account.
-- Name: Descriptive label used to identify the email account within the system.
-- Email: The email address configured for this account.
-- Enabled: Marks the account as active; synchronization will occur.
-
-
-++Form view++
-
-This view is used to create, view or edit an email account.
-
-In **create** mode, a new account is configured from scratch.
-
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-create-en-us-1-snap.png]
-
-In **view** mode, account settings are shown without allowing changes.
-
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-view-1-en-us-1-snap.png]
-
-In **edit** mode, the configuration can be updated or corrected.
-
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-edit-1-en-us-1-snap.png]
-
-The form includes the following fields:
-
-- User: User who owns or uses this email account.
-- Name: Display name or label used to identify the account.
-- Email: Actual email address configured for this account.
-- Signature: Text or HTML signature added automatically to outgoing messages.
-- Host: POP3 server hostname used to receive emails.
-- Port: Network port used to connect to the POP3 server (e.g., 110, 995).
-- Extra: Additional POP3 connection settings, such as TLS.
-- User: Username for POP3 authentication.
-- Password: Password for the POP3 account.
-- Delete: Whether messages are deleted from the server after download.
-- Days: Number of days to keep messages on the server.
-- Host: SMTP server hostname used to send emails.
-- Port: Network port used for SMTP communication (e.g., 25, 465, 587).
-- Extra: SMTP encryption method: none, SSL, or TLS.
-- User: Username for SMTP authentication.
-- Password: Password for the SMTP server account.
-- Disabled: Marks the account as inactive; no synchronization will occur.
-- Privated: Restricts access to the account to its owner only.
-- Default: Sets this account as the default for sending emails.
-- Add me to CC: Automatically includes the sender in the CC field.
-- Confirm reading to: Sends a read receipt request with each email.
-
-
-++Delete++
-
-Accounts can be deleted if they are not in use or connected to recent email activity.
-
-Disabling is preferred when preserving configuration for future use or audit.
-
-
-
-+Departments+
-
-++Description++
-
-The Departments application is used to define the organizational structure of the company by grouping employees into departments.
-It supports hierarchies, allowing a department to belong to a parent department, and helps organize users and permissions accordingly.
-
-Examples of departments include "Sales", "IT", "HR", or "Logistics".
-
-++List view++
-
-[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-list-en-us-1-snap.png]
-
-The following fields are displayed in the list view:
-
-- Name: Name of the department or organizational unit.
-- Code: Unique identifier or reference code for the department.
-- Parent: Parent department, if this one is part of a hierarchy.
-- Active: Indicates whether this department is currently in use.
-
-
-++Form view++
-
-This view is used to create, view or edit departments.
-
-In **create** mode, a new tax rule can be defined.
-
-[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-create-en-us-1-snap.png]
-
-In **view** mode, tax details are visible but not editable.
-
-[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-view-100-en-us-1-snap.png]
-
-In **edit** mode, existing values can be updated.
-
-[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-edit-100-en-us-1-snap.png]
-
-The form includes the following fields:
-
-- Active: Indicates whether this department is currently in use.
-- Name: Name of the department or organizational unit.
-- Code: Unique identifier or reference code for the department.
-- Parent: Parent department, if this one is part of a hierarchy.
-- Notes: Additional details about the department's structure, responsibility or purpose.
-
-
-++Delete++
-
-Departments can only be deleted if no employees are currently assigned to them.
-
-If in use, deactivation is recommended instead.
-
-
-
-+Employees+
-
-++Description++
-
-The Employees application is used to register and manage the personnel working in the organization.
-It stores personal and professional data including name, contact information, position, department, and system user link.
-This module is typically used in HR workflows to organize staff and optionally associate them with users of the system.
-
-++List view++
-
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-list-en-us-1-snap.png]
-
-The following fields are displayed in the list view:
-
-- Name: Full name of the employee.
-- Department: Department the employee belongs to.
-- Job Title: Official job title or position held by the employee.
-- Active: Indicates whether the employee is currently active.
-
-
-++Form view++
-
-This view is used to create, view or edit employee records.
-
-In **create** mode, a new employee profile is added.
-
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-create-en-us-1-snap.png]
-
-In **view** mode, the profile is shown in read-only format.
-
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-view-100-en-us-1-snap.png]
-
-In **edit** mode, the profile can be updated.
-
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-edit-100-en-us-1-snap.png]
-
-The form includes the following fields:
-
-- Active: Indicates whether the employee is currently active.
-- Name: Full name of the employee.
-- NIF: Employee's national identification number used for legal or fiscal purposes.
-- Department: Department the employee belongs to.
-- Job Title: Official job title or position held by the employee.
-- Start: Start date of employment or contract.
-- End: End date of employment or contract (if applicable).
-- Address: Postal address of the employee.
-- City: City of residence.
-- Province / State: Province or administrative region of residence.
-- ZIP: Postal code.
-- Country: Country of residence.
-- Email: Primary contact email of the employee.
-- Phone: Main contact phone number.
-- Notes: Additional remarks or HR-related observations about the employee.
-- Type: Type or category of employee (e.g., full-time, contractor).
-- User: System user account linked to the employee.
-
-
-++Delete++
-
-Employees can be deleted if not linked to system users or historical records.
-
-If in use, the profile must be deactivated instead of deleted.
-
-
-
-+Employee Types+
-
-++Description++
-
-The Employee Types application allows you to classify employees according to their role, contract, or internal categorization.
-This helps structure the HR database and supports filtering, reporting, or access control.
-
-Common types include "Full-time", "Part-time", "Contractor", "Intern", etc.
-
-++List view++
-
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-list-en-us-1-snap.png]
-
-The following fields are displayed in the list view:
-
-- Name: Title of the employee type.
-- Description: Explanation of the type’s purpose.
-- Active: Indicates whether the type is currently usable.
-
-
-++Form view++
-
-This view is used to create, view or edit employee type entries.
-
-In **create** mode, a new tax rule can be defined.
-
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-create-en-us-1-snap.png]
-
-In **view** mode, tax details are visible but not editable.
-
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-view-10-en-us-1-snap.png]
-
-In **edit** mode, existing values can be updated.
-
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-edit-10-en-us-1-snap.png]
-
-The form includes the following fields:
-
-- Active: Controls if the type is selectable.
-- Name: Name shown in the type dropdown in employee forms.
-- Description: Notes about the type’s intended usage.
-
-
-++Delete++
-
-Employee types can only be deleted if they are not assigned to any employee.
-
-Otherwise, it is recommended to disable them.
-
-
-
-+Purchase+
-
-++Description++
-
-The Purchase application is used to register and track purchases made from suppliers.
-Each purchase record includes invoice details, total amount, purchase date, and associated notes or attachments.
-This module ensures traceability of expenses and is linked to the Suppliers module to maintain consistency.
-
-++List view++
-
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-list-en-us-1-snap.png]
-
-The following fields are displayed in the list view:
-
-- Order date: The date when the purchase order was registered in the system.
-- Supplier: The vendor or provider from whom goods or services were acquired.
-- Invoice: The invoice number or reference issued by the supplier.
-- Paid: Indicates whether the purchase has been fully paid.
-
-
-++Form view++
-
-This view is used for creating, editing or viewing a purchase record.
-
-In **create** mode, the form is used to enter a new purchase linked to a supplier.
-
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-create-en-us-1-snap.png]
-
-In **view** mode, it shows the details of the recorded purchase, in read-only mode.
-
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-view-100-en-us-1-snap.png]
-
-In **edit** mode, the information can be updated if necessary.
-
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-edit-100-en-us-1-snap.png]
-
-The form includes the following fields:
-
-- Order date: The date when the purchase order was registered in the system.
-- Supplier: The vendor or provider from whom goods or services were acquired.
-- Description: A short explanation or summary of the purchase content.
-- Subtotal: The total amount before taxes and discounts.
-- Tax: The total value of taxes applied to the purchase.
-- Total: The final total of the purchase, including taxes and discounts.
-- Status: The current status of the purchase (e.g., draft, ordered, received).
-- Invoice Code: The invoice number or reference issued by the supplier.
-- Invoice Date: The official date of the supplier’s invoice.
-- Paid: Indicates whether the purchase has been fully paid.
-- Paid Date: The date when the payment was made to the supplier.
-- Notes: Internal observations or relevant administrative information.
-
-
-++Delete++
-
-Purchase records can be deleted only if they are not linked to accounting records or processes.
-A confirmation dialog will appear before proceeding.
-
-Once registered and finalized, deletion is restricted based on system permissions and traceability.
-
-
-
-+Purchase Status+
-
-++Description++
-
-The Purchase Status application defines the stages a purchase record can go through.
-It allows categorizing purchases according to their state, such as "Draft", "Ordered", "Received", or "Cancelled".
-
-These statuses help in tracking the progress of procurement processes and improve clarity in the Purchase module.
-
-++List view++
-
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-list-en-us-1-snap.png]
-
-The following fields are displayed in the list view:
-
-- Name: Name of the status (e.g., Received, Cancelled).
-- Description: Clarifies how or when this status is used.
-- Active: Indicates if the status is currently selectable.
-
-
-++Form view++
-
-This view is used to create, view or edit purchase status entries.
-
-In **create** mode, the form is used to enter a new purchase linked to a supplier.
-
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-create-en-us-1-snap.png]
-
-In **view** mode, it shows the details of the recorded purchase, in read-only mode.
-
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-view-10-en-us-1-snap.png]
-
-In **edit** mode, the information can be updated if necessary.
-
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-edit-10-en-us-1-snap.png]
-
-The form includes the following fields:
-
-- Active: Controls availability in the status dropdown.
-- Name: Status label as it appears in the purchase form.
-- Description: Internal notes about its use case.
-
-
-++Delete++
-
-Statuses can only be deleted if no purchases are currently using them.
-
-In most cases, deactivation is preferred.
-
-
-
-+Suppliers+
-
-++Description++
-
-The Suppliers application is used to manage the list of vendors or external providers the organization works with.
-It stores essential information such as identification, contact details, tax code, and classification.
-This module is linked to purchase workflows, allowing you to associate suppliers with purchases and maintain full traceability.
-
-++List view++
-
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-list-en-us-1-snap.png]
-
-The following fields are displayed in the list view:
-
-- Name: Name or legal entity of the supplier.
-- CIF: Tax identification code of the supplier (e.g., VAT, NIF, CIF).
-- City: City associated with the supplier's address.
-- Country: Country where the supplier is located or registered.
-- Active: Indicates whether the supplier is currently active in the system.
-
-
-++Form view++
-
-This view is used for creating, editing or viewing supplier records.
-
-In **create** mode, the form is blank to add a new supplier.
-
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-create-en-us-1-snap.png]
-
-In **view** mode, the fields are shown in read-only mode.
-
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-view-100-en-us-1-snap.png]
-
-In **edit** mode, supplier data can be updated.
-
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-edit-100-en-us-1-snap.png]
-
-The form includes the following fields:
-
-- Active: Indicates whether the supplier is currently active in the system.
-- Name: Name or legal entity of the supplier.
-- CIF: Tax identification code of the supplier (e.g., VAT, NIF, CIF).
-- Address: Street or billing address of the supplier.
-- City: City associated with the supplier's address.
-- Province / State: Province or region linked to the supplier's address.
-- ZIP: Postal code of the supplier's address.
-- Country: Country where the supplier is located or registered.
-- Email: Primary contact email address for the supplier.
-- Phone: Main contact number for the supplier.
-- Website: Website or external link associated with the supplier.
-- Notes: Additional internal information or remarks about the supplier.
-- Type: Category or classification of the supplier.
-
-
-++Delete++
-
-Supplier records can be deleted if not referenced in purchases or documents.
-A confirmation dialog appears before deletion.
-
-Once linked to purchases or financial records, the supplier becomes protected from removal.
-
-
-
-+Supplier Types+
-
-++Description++
-
-The Supplier Types application is used to classify suppliers by category, industry, or relationship.
-This classification helps filter and organize suppliers, and may be used for segmentation or reporting purposes.
-
-Examples of types include "Distributor", "Manufacturer", "Service Provider", etc.
-
-++List view++
-
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-list-en-us-1-snap.png]
-
-The following fields are displayed in the list view:
-
-- Name: Name of the supplier type.
-- Description: Optional clarification or internal note.
-- Active: Indicates whether the type can be assigned to suppliers.
-
-
-++Form view++
-
-This view is used to create, view or edit supplier type entries.
-
-In **create** mode, a new tax rule can be defined.
-
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-create-en-us-1-snap.png]
-
-In **view** mode, tax details are visible but not editable.
-
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-view-10-en-us-1-snap.png]
-
-In **edit** mode, existing values can be updated.
-
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-edit-10-en-us-1-snap.png]
-
-The form includes the following fields:
-
-- Active: Enables or disables the type for selection.
-- Name: Descriptive label for the type.
-- Description: Additional information or context.
-
-
-++Delete++
-
-Supplier types can only be deleted if not currently assigned to any supplier.
-
-If in use, they should be disabled instead of removed.
 
 
 
@@ -1930,6 +955,674 @@ Deactivation is preferred if you want to retain history without exposing the rec
 
 
 
++Purchase+
+
+++Description++
+
+The Purchase application is used to register and track purchases made from suppliers.
+Each purchase record includes invoice details, total amount, purchase date, and associated notes or attachments.
+This module ensures traceability of expenses and is linked to the Suppliers module to maintain consistency.
+
+++List view++
+
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-list-en-us-1-snap.png]
+
+The following fields are displayed in the list view:
+
+- Order date: The date when the purchase order was registered in the system.
+- Supplier: The vendor or provider from whom goods or services were acquired.
+- Invoice: The invoice number or reference issued by the supplier.
+- Paid: Indicates whether the purchase has been fully paid.
+
+
+++Form view++
+
+This view is used for creating, editing or viewing a purchase record.
+
+In **create** mode, the form is used to enter a new purchase linked to a supplier.
+
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-create-en-us-1-snap.png]
+
+In **view** mode, it shows the details of the recorded purchase, in read-only mode.
+
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-view-100-en-us-1-snap.png]
+
+In **edit** mode, the information can be updated if necessary.
+
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-edit-100-en-us-1-snap.png]
+
+The form includes the following fields:
+
+- Order date: The date when the purchase order was registered in the system.
+- Supplier: The vendor or provider from whom goods or services were acquired.
+- Description: A short explanation or summary of the purchase content.
+- Subtotal: The total amount before taxes and discounts.
+- Tax: The total value of taxes applied to the purchase.
+- Total: The final total of the purchase, including taxes and discounts.
+- Status: The current status of the purchase (e.g., draft, ordered, received).
+- Invoice Code: The invoice number or reference issued by the supplier.
+- Invoice Date: The official date of the supplier’s invoice.
+- Paid: Indicates whether the purchase has been fully paid.
+- Paid Date: The date when the payment was made to the supplier.
+- Notes: Internal observations or relevant administrative information.
+
+
+++Delete++
+
+Purchase records can be deleted only if they are not linked to accounting records or processes.
+A confirmation dialog will appear before proceeding.
+
+Once registered and finalized, deletion is restricted based on system permissions and traceability.
+
+
+
++Purchase Status+
+
+++Description++
+
+The Purchase Status application defines the stages a purchase record can go through.
+It allows categorizing purchases according to their state, such as "Draft", "Ordered", "Received", or "Cancelled".
+
+These statuses help in tracking the progress of procurement processes and improve clarity in the Purchase module.
+
+++List view++
+
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-list-en-us-1-snap.png]
+
+The following fields are displayed in the list view:
+
+- Name: Name of the status (e.g., Received, Cancelled).
+- Description: Clarifies how or when this status is used.
+- Active: Indicates if the status is currently selectable.
+
+
+++Form view++
+
+This view is used to create, view or edit purchase status entries.
+
+In **create** mode, the form is used to enter a new purchase linked to a supplier.
+
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-create-en-us-1-snap.png]
+
+In **view** mode, it shows the details of the recorded purchase, in read-only mode.
+
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-view-10-en-us-1-snap.png]
+
+In **edit** mode, the information can be updated if necessary.
+
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-edit-10-en-us-1-snap.png]
+
+The form includes the following fields:
+
+- Active: Controls availability in the status dropdown.
+- Name: Status label as it appears in the purchase form.
+- Description: Internal notes about its use case.
+
+
+++Delete++
+
+Statuses can only be deleted if no purchases are currently using them.
+
+In most cases, deactivation is preferred.
+
+
+
++Suppliers+
+
+++Description++
+
+The Suppliers application is used to manage the list of vendors or external providers the organization works with.
+It stores essential information such as identification, contact details, tax code, and classification.
+This module is linked to purchase workflows, allowing you to associate suppliers with purchases and maintain full traceability.
+
+++List view++
+
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-list-en-us-1-snap.png]
+
+The following fields are displayed in the list view:
+
+- Name: Name or legal entity of the supplier.
+- CIF: Tax identification code of the supplier (e.g., VAT, NIF, CIF).
+- City: City associated with the supplier's address.
+- Country: Country where the supplier is located or registered.
+- Active: Indicates whether the supplier is currently active in the system.
+
+
+++Form view++
+
+This view is used for creating, editing or viewing supplier records.
+
+In **create** mode, the form is blank to add a new supplier.
+
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-create-en-us-1-snap.png]
+
+In **view** mode, the fields are shown in read-only mode.
+
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-view-100-en-us-1-snap.png]
+
+In **edit** mode, supplier data can be updated.
+
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-edit-100-en-us-1-snap.png]
+
+The form includes the following fields:
+
+- Active: Indicates whether the supplier is currently active in the system.
+- Name: Name or legal entity of the supplier.
+- CIF: Tax identification code of the supplier (e.g., VAT, NIF, CIF).
+- Address: Street or billing address of the supplier.
+- City: City associated with the supplier's address.
+- Province / State: Province or region linked to the supplier's address.
+- ZIP: Postal code of the supplier's address.
+- Country: Country where the supplier is located or registered.
+- Email: Primary contact email address for the supplier.
+- Phone: Main contact number for the supplier.
+- Website: Website or external link associated with the supplier.
+- Notes: Additional internal information or remarks about the supplier.
+- Type: Category or classification of the supplier.
+
+
+++Delete++
+
+Supplier records can be deleted if not referenced in purchases or documents.
+A confirmation dialog appears before deletion.
+
+Once linked to purchases or financial records, the supplier becomes protected from removal.
+
+
+
++Supplier Types+
+
+++Description++
+
+The Supplier Types application is used to classify suppliers by category, industry, or relationship.
+This classification helps filter and organize suppliers, and may be used for segmentation or reporting purposes.
+
+Examples of types include "Distributor", "Manufacturer", "Service Provider", etc.
+
+++List view++
+
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-list-en-us-1-snap.png]
+
+The following fields are displayed in the list view:
+
+- Name: Name of the supplier type.
+- Description: Optional clarification or internal note.
+- Active: Indicates whether the type can be assigned to suppliers.
+
+
+++Form view++
+
+This view is used to create, view or edit supplier type entries.
+
+In **create** mode, a new tax rule can be defined.
+
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-create-en-us-1-snap.png]
+
+In **view** mode, tax details are visible but not editable.
+
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-view-10-en-us-1-snap.png]
+
+In **edit** mode, existing values can be updated.
+
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-edit-10-en-us-1-snap.png]
+
+The form includes the following fields:
+
+- Active: Enables or disables the type for selection.
+- Name: Descriptive label for the type.
+- Description: Additional information or context.
+
+
+++Delete++
+
+Supplier types can only be deleted if not currently assigned to any supplier.
+
+If in use, they should be disabled instead of removed.
+
+
+
++Departments+
+
+++Description++
+
+The Departments application is used to define the organizational structure of the company by grouping employees into departments.
+It supports hierarchies, allowing a department to belong to a parent department, and helps organize users and permissions accordingly.
+
+Examples of departments include "Sales", "IT", "HR", or "Logistics".
+
+++List view++
+
+[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-list-en-us-1-snap.png]
+
+The following fields are displayed in the list view:
+
+- Name: Name of the department or organizational unit.
+- Code: Unique identifier or reference code for the department.
+- Parent: Parent department, if this one is part of a hierarchy.
+- Active: Indicates whether this department is currently in use.
+
+
+++Form view++
+
+This view is used to create, view or edit departments.
+
+In **create** mode, a new tax rule can be defined.
+
+[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-create-en-us-1-snap.png]
+
+In **view** mode, tax details are visible but not editable.
+
+[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-view-100-en-us-1-snap.png]
+
+In **edit** mode, existing values can be updated.
+
+[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-edit-100-en-us-1-snap.png]
+
+The form includes the following fields:
+
+- Active: Indicates whether this department is currently in use.
+- Name: Name of the department or organizational unit.
+- Code: Unique identifier or reference code for the department.
+- Parent: Parent department, if this one is part of a hierarchy.
+- Notes: Additional details about the department's structure, responsibility or purpose.
+
+
+++Delete++
+
+Departments can only be deleted if no employees are currently assigned to them.
+
+If in use, deactivation is recommended instead.
+
+
+
++Employees+
+
+++Description++
+
+The Employees application is used to register and manage the personnel working in the organization.
+It stores personal and professional data including name, contact information, position, department, and system user link.
+This module is typically used in HR workflows to organize staff and optionally associate them with users of the system.
+
+++List view++
+
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-list-en-us-1-snap.png]
+
+The following fields are displayed in the list view:
+
+- Name: Full name of the employee.
+- Department: Department the employee belongs to.
+- Job Title: Official job title or position held by the employee.
+- Active: Indicates whether the employee is currently active.
+
+
+++Form view++
+
+This view is used to create, view or edit employee records.
+
+In **create** mode, a new employee profile is added.
+
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-create-en-us-1-snap.png]
+
+In **view** mode, the profile is shown in read-only format.
+
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-view-100-en-us-1-snap.png]
+
+In **edit** mode, the profile can be updated.
+
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-edit-100-en-us-1-snap.png]
+
+The form includes the following fields:
+
+- Active: Indicates whether the employee is currently active.
+- Name: Full name of the employee.
+- NIF: Employee's national identification number used for legal or fiscal purposes.
+- Department: Department the employee belongs to.
+- Job Title: Official job title or position held by the employee.
+- Start: Start date of employment or contract.
+- End: End date of employment or contract (if applicable).
+- Address: Postal address of the employee.
+- City: City of residence.
+- Province / State: Province or administrative region of residence.
+- ZIP: Postal code.
+- Country: Country of residence.
+- Email: Primary contact email of the employee.
+- Phone: Main contact phone number.
+- Notes: Additional remarks or HR-related observations about the employee.
+- Type: Type or category of employee (e.g., full-time, contractor).
+- User: System user account linked to the employee.
+
+
+++Delete++
+
+Employees can be deleted if not linked to system users or historical records.
+
+If in use, the profile must be deactivated instead of deleted.
+
+
+
++Employee Types+
+
+++Description++
+
+The Employee Types application allows you to classify employees according to their role, contract, or internal categorization.
+This helps structure the HR database and supports filtering, reporting, or access control.
+
+Common types include "Full-time", "Part-time", "Contractor", "Intern", etc.
+
+++List view++
+
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-list-en-us-1-snap.png]
+
+The following fields are displayed in the list view:
+
+- Name: Title of the employee type.
+- Description: Explanation of the type’s purpose.
+- Active: Indicates whether the type is currently usable.
+
+
+++Form view++
+
+This view is used to create, view or edit employee type entries.
+
+In **create** mode, a new tax rule can be defined.
+
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-create-en-us-1-snap.png]
+
+In **view** mode, tax details are visible but not editable.
+
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-view-10-en-us-1-snap.png]
+
+In **edit** mode, existing values can be updated.
+
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-edit-10-en-us-1-snap.png]
+
+The form includes the following fields:
+
+- Active: Controls if the type is selectable.
+- Name: Name shown in the type dropdown in employee forms.
+- Description: Notes about the type’s intended usage.
+
+
+++Delete++
+
+Employee types can only be deleted if they are not assigned to any employee.
+
+Otherwise, it is recommended to disable them.
+
+
+
++Certificates+
+
+++Description++
+
+The Certificates application is used to manage and track SSL/TLS certificates stored or monitored by the system.
+
+This module allows administrators to register certificates, store metadata, monitor expiration dates,
+and ensure that security infrastructure remains up-to-date.
+
+It is especially useful for managing certificates for custom domains, internal services, or external integrations.
+
+++List view++
+
+[../ujest/snaps/test-screenshots-js-screenshots-certs-certs-list-en-us-1-snap.png]
+
+The following fields are displayed in the list view:
+
+- Certificate nicknames available:: List of certificate aliases already stored and available in the system. It is not a database-driven table, but a visual display of loaded certificates.
+
+
+++Form view++
+
+This view is used to add, review, or update certificate information.
+
+In **create** mode, the form is empty and ready to enter new data.
+
+[../ujest/snaps/test-screenshots-js-screenshots-certs-certs-create-en-us-1-snap.png]
+
+The form includes the following fields:
+
+- Certificate file (.p12, .pfx): File input used to upload one or more certificates in PKCS#12 format. Required to import certificates into the system.
+- Password file: Password used to decrypt the uploaded certificate file. This field is required and not autofilled for security reasons.
+
+
+In **view** mode, the fields are filled with the selected record and cannot be edited.
+
+[../ujest/snaps/test-screenshots-js-screenshots-certs-certs-view-ab-877-d-2027-f-7-c-71-d-9935999-cce-1-b-802-b-en-us-1-snap.png]
+
+The form includes the following fields:
+
+- Name: Display name or alias of the certificate.
+- Info: Technical details of the certificate, including issuer, expiration, and subject. Displayed in a read-only text area.
+
+
+++Delete++
+
+Certificates can be deleted if no longer relevant.
+
+However, it is recommended to retain expired entries for audit purposes.
+
+
+
++Company+
+
+++Description++
+
+The Company application stores the identification and contact details of the organization using SaltOS4.
+This data is used across the system to personalize documents (quotes, invoices, emails, etc.) and define the legal and fiscal identity of the company.
+
+It typically includes the company's name, tax code, address, logo, and preferred language.
+
+++List view++
+
+[../ujest/snaps/test-screenshots-js-screenshots-company-company-list-en-us-1-snap.png]
+
+The following fields are displayed in the list view:
+
+- Name: Official name of the company or organization.
+- CIF: Tax identification number (NIF, CIF, VAT, etc.) of the company.
+- City: City where the company is located.
+- Country: Country where the company is legally registered or operates.
+- Active: Indicates whether this company profile is active in the system.
+
+
+++Form view++
+
+This view is used to define or edit the company profile.
+
+In **create** mode, the form is empty and ready to enter new data.
+
+[../ujest/snaps/test-screenshots-js-screenshots-company-company-create-en-us-1-snap.png]
+
+In **view** mode, the fields are filled with the selected record and cannot be edited.
+
+[../ujest/snaps/test-screenshots-js-screenshots-company-company-view-1-en-us-1-snap.png]
+
+In **edit** mode, the form is pre-filled and allows modifications.
+
+[../ujest/snaps/test-screenshots-js-screenshots-company-company-edit-1-en-us-1-snap.png]
+
+The form includes the following fields:
+
+- Active: Indicates whether this company profile is active in the system.
+- Name: Official name of the company or organization.
+- Code: Tax identification number (NIF, CIF, VAT, etc.) of the company.
+- Address: Official street or mailing address of the company.
+- City: City where the company is located.
+- Province / State: Province, state, or region where the company is based.
+- ZIP: Postal code of the company’s registered address.
+- Country: Country where the company is legally registered or operates.
+- Phone: Main phone number for company inquiries.
+- Email: Primary email address used for administrative or legal contact.
+- Website: The public website or landing page of the company.
+- IBAN: International Bank Account Number used for wire transfers.
+- SWIFT/BIC: SWIFT/BIC code identifying the bank of the company for international transfers.
+- Fiscal Regime: Tax regime under which the company operates (e.g., general, simplified, small business).
+- Activity Code: Economic activity classification code (e.g., CNAE, NACE).
+- Additional Notes: Internal remarks or additional information about the company.
+
+
+++Delete++
+
+The company profile cannot be deleted if it's the only active one in the system.
+
+Only deactivation is allowed in most configurations.
+
+
+
++Emails+
+
+++Description++
+
+The Emails application is used to receive, view, and reply to emails from configured accounts within SaltOS4.
+It acts as a simplified integrated email client that supports reading messages from POP3 or IMAP,
+viewing metadata and content, and replying using internal or external SMTP servers.
+
+Each message is presented as a visual card in the list view, showing key fields such as sender, subject,
+date, and a preview of the body. Emails can be viewed in detail, replied to, or deleted. This app is
+closely integrated with the Emails Accounts module and is essential for managing inbound communication.
+
+++List view++
+
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-en-us-1-snap.png]
+
+The list view shows incoming emails as clickable buttons or cards.
+Each entry typically displays:
+
+- Header: The visual summary used in the interface to represent the email message.
+- Datetime: The date and time the message was received or sent.
+- Subject: The title or subject line of the email message.
+- Snippet: A short preview extracted from the beginning of the email body.
+- Attachments: List of files attached to the message, with download options.
+
+
+The interface also includes filters and a search form to filter by sender, subject, account, and date.
+
+++View message++
+
+This view shows the full content of an email message, including header metadata and attachments.
+
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-100-en-us-1-snap.png]
+
+The following information is typically displayed:
+
+- From: Sender's email address displayed in the message header.
+- To: List of recipients who received the message.
+- CC: Additional recipients who received a visible copy of the email.
+- BCC: Recipients who received a hidden copy of the email.
+- Datetime: Timestamp indicating when the email was sent or received.
+- UIDL: Server-side unique identifier used for synchronization.
+- Priority: Importance level set by the sender (Low, Normal, or High).
+- Sensitivity: Indicates whether the message is Normal, Personal, Private, or Confidential.
+- Sent: Confirms that the email was successfully sent.
+- New: Marks whether the email is unread or newly received.
+- Reply: Indicates if the message was replied to.
+- Forward: Indicates if the message was forwarded to another recipient.
+- Wait: Flag used to track follow-up or pending response.
+- SPAM: Marks whether the email is classified as spam.
+- Request confirmation of receipt: Shows whether a read receipt was requested for the message.
+- Error: Displays an error message if the delivery failed.
+- Subject: The subject line of the email.
+- Body: The main content or body of the email, displayed in an embedded viewer.
+- Adjunts: List of files attached to the email message.
+
+
+++Reply / Compose++
+
+Users can reply to an existing message or compose a new email using a simplified form.
+
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-create-en-us-1-snap.png]
+
+The reply and compose form includes:
+
+- From: Email account used as the sender for this message.
+- To: Primary recipient(s) of the email message.
+- CC: Recipients to receive a carbon copy (CC) of the message.
+- BCC: Recipients to receive a blind carbon copy (BCC), not visible to others.
+- Request confirmation of receipt: Option to request a read receipt confirmation from the recipient.
+- Priority: Importance level assigned to the email: Low, Normal, or High.
+- Sensitivity: Confidentiality level: Normal, Personal, Private, or Confidential.
+- Subject: Subject line of the message, describing its purpose.
+- Body: Rich-text content written in the email message.
+- Attachments: Files selected to be included along with the message.
+
+
+++Delete++
+
+Emails can be deleted from the list view using the delete icon or action.
+
+Messages are usually deleted locally or flagged for deletion, depending on the server configuration.
+
+
+
++Emails Accounts+
+
+++Description++
+
+The Emails Accounts application is used to configure and manage the email accounts connected to SaltOS4.
+Each account can be used to send and receive emails via SMTP, IMAP or POP3 protocols.
+This module allows integration with external email providers and supports authentication, folders, and synchronization options.
+
+++List view++
+
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-list-en-us-1-snap.png]
+
+The following fields are displayed in the list view:
+
+- User: User who owns or uses this email account.
+- Name: Descriptive label used to identify the email account within the system.
+- Email: The email address configured for this account.
+- Enabled: Marks the account as active; synchronization will occur.
+
+
+++Form view++
+
+This view is used to create, view or edit an email account.
+
+In **create** mode, a new account is configured from scratch.
+
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-create-en-us-1-snap.png]
+
+In **view** mode, account settings are shown without allowing changes.
+
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-view-1-en-us-1-snap.png]
+
+In **edit** mode, the configuration can be updated or corrected.
+
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-edit-1-en-us-1-snap.png]
+
+The form includes the following fields:
+
+- User: User who owns or uses this email account.
+- Name: Display name or label used to identify the account.
+- Email: Actual email address configured for this account.
+- Signature: Text or HTML signature added automatically to outgoing messages.
+- Host: POP3 server hostname used to receive emails.
+- Port: Network port used to connect to the POP3 server (e.g., 110, 995).
+- Extra: Additional POP3 connection settings, such as TLS.
+- User: Username for POP3 authentication.
+- Password: Password for the POP3 account.
+- Delete: Whether messages are deleted from the server after download.
+- Days: Number of days to keep messages on the server.
+- Host: SMTP server hostname used to send emails.
+- Port: Network port used for SMTP communication (e.g., 25, 465, 587).
+- Extra: SMTP encryption method: none, SSL, or TLS.
+- User: Username for SMTP authentication.
+- Password: Password for the SMTP server account.
+- Disabled: Marks the account as inactive; no synchronization will occur.
+- Privated: Restricts access to the account to its owner only.
+- Default: Sets this account as the default for sending emails.
+- Add me to CC: Automatically includes the sender in the CC field.
+- Confirm reading to: Sends a read receipt request with each email.
+
+
+++Delete++
+
+Accounts can be deleted if they are not in use or connected to recent email activity.
+
+Disabling is preferred when preserving configuration for future use or audit.
+
+
+
 +Groups+
 
 ++Description++
@@ -2043,3 +1736,310 @@ The form includes the following fields:
 User accounts can be deleted if they have not logged in or are not linked to any activity log.
 
 Otherwise, it is recommended to disable them instead of deletion for audit purposes.
+
+
+
++Config Log+
+
+++Description++
+
+The Config Log application provides a trace of all configuration changes made within SaltOS4.
+It is used to monitor modifications to system parameters, app settings, or internal preferences.
+This module is essential for administrators who want to audit changes and ensure consistent system behavior over time.
+
+++List view++
+
+[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-list-en-us-1-snap.png]
+
+The following fields are displayed in the list view:
+
+- User: User who made the configuration change.
+- Key: Configuration key that was modified.
+
+
+++View entry++
+
+This view displays the full details of a single configuration change record.
+
+In **create** mode, the form is empty and ready to enter new data.
+
+[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-create-en-us-1-snap.png]
+
+In **view** mode, the fields are filled with the selected record and cannot be edited.
+
+[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-view-10-en-us-1-snap.png]
+
+In **edit** mode, the form is pre-filled and allows modifications.
+
+[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-edit-10-en-us-1-snap.png]
+
+It includes:
+
+- User: User who made the configuration change.
+- Key: Configuration key that was modified.
+- Value: New value assigned to the configuration key.
+
+
+++Delete++
+
+Entries in the config log cannot be deleted under normal circumstances.
+
+This log is designed to ensure full traceability and auditability of administrative actions.
+
+
+
++Cron Log+
+
+++Description++
+
+The Cron Log application stores the execution history of scheduled tasks (cron jobs) within SaltOS4.
+It allows administrators to monitor background processes such as email retrieval, data imports, backups, or custom jobs.
+This module is essential for troubleshooting and verifying that scheduled operations are running correctly.
+
+++List view++
+
+[../ujest/snaps/test-screenshots-js-screenshots-common-cronlog-list-en-us-1-snap.png]
+
+The following fields are displayed in the list view:
+
+- Command: Command or script executed by the cron system.
+- Start: Start time of the scheduled task execution.
+- Out: Short version or preview of the standard output.
+- Err: Short version or preview of the error output.
+
+
+++View entry++
+
+This view displays the full result of a single cron job execution.
+
+It includes:
+
+- Command: Command or script executed by the cron system.
+- PID: Process ID assigned to the running cron task.
+- Start: Start time of the scheduled task execution.
+- Stop: Time when the task finished running.
+- STDOUT: Standard output generated by the task during execution.
+- STDERR: Standard error output generated by the task.
+
+
+++Delete++
+
+Cron log entries are not meant to be deleted regularly.
+
+Automatic cleanup or manual purge may be configured to remove older entries.
+
+
+
++Files Log+
+
+++Description++
+
+The Files Log application records all file access events within SaltOS4.
+It tracks when files are viewed, downloaded, or otherwise accessed by users, including associated metadata.
+This module provides a complete audit trail for document activity, supporting traceability and data governance policies.
+
+++List view++
+
+[../ujest/snaps/test-screenshots-js-screenshots-common-fileslog-list-en-us-1-snap.png]
+
+The following fields are displayed in the list view:
+
+- Name: Name of the accessed or managed file within the system.
+- Type: File format or classification (e.g., PDF, image, text).
+- Size: Size of the file in bytes.
+
+
+++View entry++
+
+This view shows detailed information about a file access event.
+
+It includes:
+
+- Name: Name of the accessed or managed file within the system.
+- Type: File format or classification (e.g., PDF, image, text).
+- Size: Size of the file in bytes.
+- Data: Internal content, metadata or serialized structure representing the file access or action.
+
+
+++Delete++
+
+Files log entries are usually not deleted manually.
+
+They are retained for accountability and security monitoring, and may be purged automatically based on system settings.
+
+
+
++Push Log+
+
+++Description++
+
+The Push Log application records all push notifications triggered by the system.
+These notifications are typically sent to users to alert them about actions, updates, or system events in real time.
+This module allows administrators to monitor the flow of notifications and diagnose potential issues in the delivery process.
+
+++List view++
+
+[../ujest/snaps/test-screenshots-js-screenshots-common-pushlog-list-en-us-1-snap.png]
+
+The following fields are displayed in the list view:
+
+- User: User who triggered or received the push notification.
+- Datetime: Date and time when the push notification was recorded.
+- Type: Category of the push message (e.g., info, warning, error).
+
+
+++View entry++
+
+This view shows full details of a single push notification.
+
+It includes:
+
+- User: User who triggered or received the push notification.
+- Datetime: Date and time when the push notification was recorded.
+- Type: Category of the push message (e.g., info, warning, error).
+- Message: Content or summary of the push message sent.
+- Timestamp: Internal system timestamp when the event was logged.
+
+
+++Delete++
+
+Push log entries are generally not deleted and are kept for audit purposes.
+
+In specific maintenance scenarios, old records may be purged, but this requires explicit permissions.
+
+
+
++Tokens Log+
+
+++Description++
+
+The Tokens Log application tracks the usage of authentication tokens across the system.
+These tokens are typically used in API calls, automated scripts, or temporary login sessions.
+This module allows administrators to monitor access to the system and detect potential misuse or unauthorized attempts.
+
+++List view++
+
+[../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-list-en-us-1-snap.png]
+
+The following fields are displayed in the list view:
+
+- User: User associated with the token.
+- Created: Date and time when the token was created.
+- Token: The token string used for authentication or access.
+- Active: Indicates whether the token is currently valid and usable.
+
+
+++View entry++
+
+This view displays all information related to a specific token access.
+
+[../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-view-1-en-us-1-snap.png]
+
+It includes:
+
+- Active: Indicates whether the token is currently valid and usable.
+- User: User associated with the token.
+- Created: Date and time when the token was created.
+- Updated: Date and time of the last update to the token's state.
+- Remote Addres: IP address from which the token was used or created.
+- User Agent: Browser or client used when the token was generated or accessed.
+- Token: The token string used for authentication or access.
+- Expires: Expiration date and time of the token, after which it is no longer valid.
+
+
+++Delete++
+
+Token log entries are not meant to be deleted manually.
+
+They form part of the system’s audit and access control history, and are subject to automatic cleanup if configured.
+
+
+
++Trash Log+
+
+++Description++
+
+The Trash Log application records all deletions performed in the system, acting as a recycle bin for SaltOS4.
+It allows administrators and advanced users to inspect what data has been removed, when, by whom, and from where.
+This module is key for auditability and helps identify accidental deletions or unauthorized actions.
+
+++List view++
+
+[../ujest/snaps/test-screenshots-js-screenshots-common-trashlog-list-en-us-1-snap.png]
+
+The following fields are displayed in the list view:
+
+- User: User who performed the deletion.
+- Datetime: Exact date and time when the record was deleted.
+- Name: Descriptive name of the deleted record or file.
+
+
+++View entry++
+
+This view displays all recorded information about a deleted item.
+
+It includes:
+
+- Old ID: Original identifier of the record before deletion.
+- User: User who performed the deletion.
+- Datetime: Exact date and time when the record was deleted.
+- Reg ID: Internal registry ID assigned to the deleted record.
+- App: Application or module from which the record was removed.
+- Uniq ID: System-wide unique identifier for the deleted item.
+- Name: Descriptive name of the deleted record or file.
+- Size: File size in bytes, if the deleted item was a file.
+- Type: MIME type or classification of the deleted file or record.
+- File: Original filename or path of the deleted file.
+- Hash: Checksum used to verify the content of the deleted item.
+
+
+++Delete++
+
+Trash log entries cannot be deleted directly from the interface.
+
+SaltOS4 retains them for accountability and legal traceability unless automatic pruning is configured.
+
+
+
++Upload Log+
+
+++Description++
+
+The Upload Log application registers all file uploads made through SaltOS4, whether manual or automated.
+It helps track the origin, user, and context of each uploaded file, and is useful for auditing, debugging,
+and verifying that uploads are being processed correctly.
+
+++List view++
+
+[../ujest/snaps/test-screenshots-js-screenshots-common-uploadlog-list-en-us-1-snap.png]
+
+The following fields are displayed in the list view:
+
+- User: User who uploaded the file.
+- Datetime: Timestamp when the file was uploaded to the system.
+- App: Module or application from which the upload was triggered.
+- Name: Original filename as provided by the user.
+
+
+++View entry++
+
+This view shows full details of a single uploaded file log entry.
+
+It includes:
+
+- User: User who uploaded the file.
+- Datetime: Timestamp when the file was uploaded to the system.
+- Uniq ID: Unique identifier internally assigned to the upload entry.
+- App: Module or application from which the upload was triggered.
+- Name: Original filename as provided by the user.
+- Size: Size of the uploaded file in bytes.
+- Type: MIME type or format of the uploaded file.
+- File: Stored filename used by the system to manage the file internally.
+- Hash: Checksum (e.g., MD5 or SHA) to verify file integrity or detect duplicates.
+
+
+++Delete++
+
+Upload log entries are normally preserved for historical traceability.
+
+If needed, old entries may be deleted manually or through automatic maintenance routines.
