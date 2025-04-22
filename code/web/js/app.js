@@ -741,7 +741,7 @@ window.addEventListener('load', async event => {
     }
     // Lang part
     if (!saltos.gettext.get()) {
-        saltos.gettext.set(navigator.language || navigator.systemLanguage);
+        saltos.gettext.set(navigator.language);
     } else {
         saltos.gettext.set(saltos.gettext.get());
     }
