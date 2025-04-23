@@ -21,15 +21,15 @@ The new SaltOS 4 uses solid technoligies like PHP (from PHP 7.0 until the latest
 
 Currently the project provide the follow documentation:
 
-- [User Manual](https://github.com/josepsanzcamp/SaltOS4/blob/master/docs/user_en_us.pdf)
-- [Manual d'usuari](https://github.com/josepsanzcamp/SaltOS4/blob/master/docs/user_ca_es.pdf)
-- [Manual de usuario](https://github.com/josepsanzcamp/SaltOS4/blob/master/docs/user_es_es.pdf)
-- [Devel Documentation](https://github.com/josepsanzcamp/SaltOS4/blob/master/docs/devel.pdf)
-- [API Documentation](https://github.com/josepsanzcamp/SaltOS4/blob/master/docs/api.pdf)
-- [WEB Client Documentation](https://github.com/josepsanzcamp/SaltOS4/blob/master/docs/web.pdf)
-- [Applications Documentation](https://github.com/josepsanzcamp/SaltOS4/blob/master/docs/apps.pdf)
-- [PHPUnit Test Documentation](https://github.com/josepsanzcamp/SaltOS4/blob/master/docs/utest.pdf)
-- [Jest Test Documentation](https://github.com/josepsanzcamp/SaltOS4/blob/master/docs/ujest.pdf)
+- [User Manual](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/user_en_us.pdf)
+- [Manual d'usuari](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/user_ca_es.pdf)
+- [Manual de usuario](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/user_es_es.pdf)
+- [Devel Documentation](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/devel.pdf)
+- [API Documentation](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/api.pdf)
+- [WEB Client Documentation](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/web.pdf)
+- [Applications Documentation](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/apps.pdf)
+- [PHPUnit Test Documentation](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/utest.pdf)
+- [Jest Test Documentation](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/ujest.pdf)
 
 # License
 
