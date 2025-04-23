@@ -88,6 +88,40 @@ afterAll(async () => {
 });
 
 /**
+ * Workflow variables
+ *
+ * This variables allow to control the workflow of the test, the main idea is to
+ * skip all tests when one test fails
+ */
+let testFailed = false;
+let testFinish = false;
+
+/**
+ * Before Each
+ *
+ * This function contains all code executed before each test, in this case the
+ * features provided by this function includes the control of the workflow
+ */
+beforeEach(() => {
+    if (testFailed) {
+        throw new Error('A previous test failed, skipping execution');
+    }
+    testFinish = false;
+});
+
+/**
+ * After Each
+ *
+ * This function contains all code executed after each test, in this case the
+ * features provided by this function includes the control of the workflow
+ */
+afterEach(() => {
+    if (!testFinish) {
+        testFailed = true;
+    }
+});
+
+/**
  * App Customers
  *
  * This test is intended to validate the correctness of the customers application
@@ -120,14 +154,16 @@ describe('Screenshots', () => {
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#catalog', timeout);
+
+        testFinish = true;
     });
 
     const apps = {
         'crm': {
             'customers': ['list', 'create', 'view/100', 'edit/100'],
             'leads': ['list', 'create', 'view/100', 'edit/100'],
-            'meetings': ['list', 'create', 'view/100', 'edit/100'],
-            'quotes': ['list', 'create', 'view/100', 'edit/100'],
+            'meetings': ['list', 'create', 'view/100', 'edit/100', 'view/viewpdf/100'],
+            'quotes': ['list', 'create', 'view/100', 'edit/100', 'view/viewpdf/100'],
             'customers_types': ['list', 'create', 'view/10', 'edit/10'],
             'leads_status': ['list', 'create', 'view/10', 'edit/10'],
             'quotes_status': ['list', 'create', 'view/10', 'edit/10']
@@ -136,10 +172,10 @@ describe('Screenshots', () => {
             'company': ['list', 'create', 'view/1', 'edit/1']
         },
         'sales': {
-            'invoices': ['list', 'create', 'view/100', 'edit/100'],
+            'invoices': ['list', 'create', 'view/100', 'edit/100', 'view/viewpdf/100'],
             'products': ['list', 'create', 'view/100', 'edit/100'],
             'taxes': ['list', 'create', 'view/1', 'edit/1'],
-            'workorders': ['list', 'create', 'view/100', 'edit/100'],
+            'workorders': ['list', 'create', 'view/100', 'edit/100', 'view/viewpdf/100'],
             'payment_methods': ['list', 'create', 'view/10', 'edit/10'],
             'invoices_status': ['list', 'create', 'view/10', 'edit/10'],
             'products_types': ['list', 'create', 'view/10', 'edit/10'],
@@ -204,7 +240,7 @@ describe('Screenshots', () => {
     const path = require('path');
     const dir = path.join(__dirname, 'snaps');
     fs.readdirSync(dir).forEach(file => {
-        if (file.includes('tokenslog')) {
+        if (file.includes('tokenslog') || file.includes('configlog')) {
             const fullPath = path.join(dir, file);
             fs.unlinkSync(fullPath);
             //~ console.log('Deleted:', fullPath);
@@ -212,6 +248,7 @@ describe('Screenshots', () => {
     });
 
     test.each(allApps)('$group $app $action $lang', async (info) => {
+        await page.evaluate(() => { saltos.bootstrap.modal('close'); });
         await page.evaluate(() => { document.body.innerHTML = ''; });
         await page.evaluate(lang => { saltos.gettext.set(lang); }, info.lang);
         await page.evaluate(() => { saltos.app.__cache = {}; });
@@ -219,11 +256,20 @@ describe('Screenshots', () => {
         await page.goto(`https://127.0.0.1/saltos/code4/#/app/${info.app}/${info.action}`);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
 
+        if (info.app == 'emails' && info.action == 'create') {
+            await page.waitForFunction(id => document.getElementById(id).ckeditor, timeout, 'body');
+        }
+        if (info.action.includes('viewpdf')) {
+            await mypause(page, 500);
+        }
+
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
+
+        testFinish = true;
     });
 });

@@ -29,9 +29,9 @@
 'use strict';
 
 /**
- * Bootstrap unit tests
+ * Emails unit tests
  *
- * This file contains the bootstrap unit tests
+ * This file contains the emails unit tests
  */
 
 /**

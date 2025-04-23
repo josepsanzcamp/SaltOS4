@@ -29,9 +29,9 @@
 'use strict';
 
 /**
- * Bootstrap unit tests
+ * Invoices unit tests
  *
- * This file contains the bootstrap unit tests
+ * This file contains the invoices unit tests
  */
 
 /**
