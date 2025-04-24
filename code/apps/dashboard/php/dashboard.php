@@ -59,7 +59,7 @@ declare(strict_types=1);
 function __dashboard_helper()
 {
     // Create the groups apps list
-    $query = 'SELECT code, `group`, name, description, color, opacity
+    $query = 'SELECT code, `group`, name, description, color, opacity, fontsize
         FROM tbl_apps WHERE active = 1 ORDER BY position DESC,name ASC';
     $rows = execute_query_array($query);
     $groups = [];
@@ -109,7 +109,7 @@ function __dashboard_helper()
         set_array($items, 'alert', $array['alert']);
         foreach ($rows as $row) {
             $xml = '<button id="app/{$code}" onclick="saltos.window.open(\'app/{$code}\')"
-                class="w-100 h-100 fs-1 opacity-{$opacity}" label="{$name}"
+                class="w-100 h-100 fs-{$fontsize} opacity-{$opacity}" label="{$name}"
                 tooltip="{$description}" color="{$color}"/>';
             $xml = str_replace_assoc([
                 '{$code}' => $row['code'],
@@ -117,6 +117,7 @@ function __dashboard_helper()
                 '{$description}' => T($row['description'], $row['code']),
                 '{$color}' => $row['color'],
                 '{$opacity}' => $row['opacity'],
+                '{$fontsize}' => $row['fontsize'],
             ], $xml);
             $array = xml2array($xml);
             set_array($items, 'button', $array['button']);

@@ -30,13 +30,13 @@
         <app id="1" active="1"
             code="login" name="Login" description="Login screen"
             perms="main" allow="1" deny="0"/>
-        <app id="4" active="1" group="core" position="1"
+        <app id="4" active="1" group="core" position="1" fontsize="1"
             code="users" name="Users" description="Users management"
             table="tbl_users" field="CONCAT(name,' (',login,')')"
             subtables="tbl_users_apps_perms(user_id),tbl_users_passwords(user_id),tbl_users_tokens(user_id)"
             has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1" has_log="1"
             perms="*"/>
-        <app id="5" active="1" group="core" position="1"
+        <app id="5" active="1" group="core" position="1" fontsize="1"
             code="groups" name="Groups" description="Groups management"
             table="tbl_groups" field="CONCAT(name,' (',code,')')"
             subtables="tbl_groups_apps_perms(group_id)"

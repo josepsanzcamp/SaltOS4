@@ -30,22 +30,22 @@
         <group code="purchases" name ="Purchases" description="Supplier &amp; Purchase Management" color="warning" position="2"/>
     </groups>
     <apps>
-        <app id="56" active="1" group="purchases" position="1" color="warning"
+        <app id="56" active="1" group="purchases" position="1" color="warning" fontsize="1"
             code="suppliers" name="Suppliers" description="Suppliers management"
             table="app_suppliers" field="name"
             has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1" has_log="1"
             perms="*"/>
-        <app id="57" active="1" group="purchases" position="1" color="warning"
+        <app id="57" active="1" group="purchases" position="1" color="warning" fontsize="1"
             code="purchase" name="Purchase" description="Purchase management"
             table="app_purchase" field="invoice_code"
             has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1" has_log="1"
             perms="*"/>
-        <app id="70" active="1" group="purchases" color="secondary" opacity="50"
+        <app id="70" active="1" group="purchases" color="secondary" opacity="50" fontsize="3"
             code="suppliers_types" name="Supplier Types" description="Types of suppliers"
             table="app_suppliers_types" field="name"
             has_index="1" has_control="1" has_version="1" has_files="0" has_notes="0" has_log="0"
             perms="*"/>
-        <app id="71" active="1" group="purchases" color="secondary" opacity="50"
+        <app id="71" active="1" group="purchases" color="secondary" opacity="50" fontsize="3"
             code="purchase_status" name="Purchase Status" description="Status values for purchases"
             table="app_purchase_status" field="name"
             has_index="1" has_control="1" has_version="1" has_files="0" has_notes="0" has_log="0"

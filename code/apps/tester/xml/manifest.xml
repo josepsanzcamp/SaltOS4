@@ -27,7 +27,7 @@
 
 <root>
     <apps>
-        <app id="3" active="1" group="core" color="secondary" opacity="50"
+        <app id="3" active="1" group="core" color="secondary" opacity="50" fontsize="3"
             code="tester" name="Tester" description="Tester app"
             perms="main,menu" allow="1" deny="0"/>
     </apps>

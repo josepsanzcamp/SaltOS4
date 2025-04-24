@@ -49,9 +49,12 @@ saltos.dashboard_widgets = {};
 saltos.dashboard_widgets.init = arg => {
     setTimeout(() => {
         // Modify style classes to adjust font sizes
-        document.querySelectorAll('.fs-1').forEach(item => {
-            item.classList.replace('fs-1', 'fs-2');
-        });
+        for (let i = 4; i > 0; i--) {
+            const j = i + 2;
+            document.querySelectorAll(`.fs-${i}`).forEach(item => {
+                item.classList.replace(`fs-${i}`, `fs-${j}`);
+            });
+        }
         document.querySelectorAll('table').forEach(item => {
             item.classList.add('table-sm');
             item.classList.add('small');
@@ -90,7 +93,7 @@ saltos.dashboard_widgets.init = arg => {
                 ids.push(item.id);
             });
             saltos.app.ajax({
-                url: `app/dashboard_widgets/config`,
+                url: 'app/dashboard_widgets/config',
                 data: {
                     'name': 'default',
                     'val': JSON.stringify(ids),
@@ -104,7 +107,7 @@ saltos.dashboard_widgets.init = arg => {
 
     let sleep = 100;
     saltos.app.ajax({
-        url: `app/dashboard_widgets/config`,
+        url: 'app/dashboard_widgets/config',
         success: response => {
             const key = 'app/dashboard/widgets/default';
             let ids = [];

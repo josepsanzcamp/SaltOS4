@@ -30,34 +30,34 @@
         <group code="core" name="Core" description="System tools" color="primary"/>
     </groups>
     <apps>
-        <app id="21" active="1" group="core" color="secondary" opacity="50"
+        <app id="21" active="1" group="core" color="secondary" opacity="50" fontsize="3"
             code="pushlog" name="Push log" description="Push log application"
             table="tbl_push" field="CONCAT(datetime, ' ', type, ' ', message)"
             perms="main,menu,help,listall,viewall"/>
-        <app id="22" active="1" group="core" color="secondary" opacity="50"
+        <app id="22" active="1" group="core" color="secondary" opacity="50" fontsize="3"
             code="cronlog" name="Cron log" description="Cron log application"
             table="tbl_cron" field="id"
             perms="main,menu,help,listall,viewall"/>
-        <app id="23" active="1" group="core" color="secondary" opacity="50"
+        <app id="23" active="1" group="core" color="secondary" opacity="50" fontsize="3"
             code="uploadlog" name="Upload log" description="Upload log application"
             table="tbl_uploads" field="id"
             perms="main,menu,help,listall,viewall"/>
-        <app id="24" active="1" group="core" color="secondary" opacity="50"
+        <app id="24" active="1" group="core" color="secondary" opacity="50" fontsize="3"
             code="configlog" name="Config log" description="Config log application"
             table="tbl_config" field="id"
             perms="main,menu,create,help,listall,viewall,editall,deleteall"/>
-        <app id="25" active="1" group="core" color="secondary" opacity="50"
+        <app id="25" active="1" group="core" color="secondary" opacity="50" fontsize="3"
             code="trashlog" name="Trash log" description="Trash log application"
             table="tbl_trash" field="id"
             perms="main,menu,help,listall,viewall"/>
-        <app id="26" active="1" group="core" color="secondary" opacity="50"
+        <app id="26" active="1" group="core" color="secondary" opacity="50" fontsize="3"
             code="tokenslog" name="Tokens log" description="Tokens log application"
             table="tbl_users_tokens" field="id"
             perms="main,menu,help,listall,viewall"/>
-        <app id="7" active="1" group="core" color="secondary" opacity="50"
+        <app id="7" active="1" group="core" color="secondary" opacity="50" fontsize="3"
             code="widgets" name="Widgets" description="Widgets application"
             perms="widget" allow="1"/>
-        <app id="28" active="1" group="core" color="secondary" opacity="50"
+        <app id="28" active="1" group="core" color="secondary" opacity="50" fontsize="3"
             code="fileslog" name="Files log" description="Files log application"
             perms="main,menu,help,listall,viewall"/>
     </apps>
