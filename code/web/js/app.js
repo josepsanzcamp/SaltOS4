@@ -227,53 +227,6 @@ saltos.app.process_response = async response => {
 };
 
 /**
- * Source helper
- *
- * This function is intended to provide an asynchronous sources for a field, using the source attribute,
- * you can program an asynchronous ajax request to retrieve the data used to create the field.
- *
- * This function is used in the fields of type table, alert, card and chartjs, the call of this function
- * is private and is intended to be used as a helper from the builders of the previous types opening
- * another way to pass arguments.
- *
- * @id     => the id used to set the reference for to the object
- * @type   => the type used to set the type for to the object
- * @source => data source used to load asynchronously the contents of the table (header, data,
- *            footer and divider)
- * @height => the height used as style.height parameter
- * @label  => this parameter is used as text for the label
- *
- * Notes:
- *
- * At the end of the object replacement, the load event is triggered to the old object to notify
- * that the update was finished.
- */
-saltos.app.__source_helper = field => {
-    saltos.core.check_params(field, ['id', 'source', 'height', 'label']);
-    // Check for asynchronous load using the source param
-    saltos.app.ajax({
-        url: field.source,
-        success: response => {
-            field.source = '';
-            for (const key in response) {
-                field[key] = response[key];
-            }
-            const obj = document.getElementById(field.id);
-            obj.replaceWith(saltos.gettext.bootstrap.field(field));
-        },
-    });
-    // Create the placeholder object with label
-    const obj = saltos.gettext.bootstrap.field({
-        type: 'placeholder',
-        id: field.id,
-        height: field.height,
-        label: field.label,
-    });
-    field.label = ''; // Remove the label to prevent two labels
-    return obj;
-};
-
-/**
  * Get data
  *
  * This function retrieves the data of the fields in the current layout. to do this it uses

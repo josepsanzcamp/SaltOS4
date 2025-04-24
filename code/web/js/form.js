@@ -190,6 +190,9 @@ saltos.form.layout = (layout, extra) => {
                 obj.append(temp[i]);
             }
             arr.push(obj);
+        } else if (key == 'widget') {
+            const obj = saltos.form.__widget_helper(attr);
+            arr.push(obj);
         } else {
             if (typeof value == 'object') {
                 for (const key2 in value) {
@@ -200,17 +203,12 @@ saltos.form.layout = (layout, extra) => {
             } else if (!('value' in attr)) {
                 attr.value = value;
             }
-            saltos.core.check_params(attr, ['id', 'source']);
+            saltos.core.check_params(attr, ['id']);
             if (attr.id == '') {
                 attr.id = saltos.core.uniqid();
             }
             saltos.form.__form.fields.push(attr);
-            let obj = null;
-            if (attr.source != '') {
-                obj = saltos.app.__source_helper(attr);
-            } else {
-                obj = saltos.gettext.bootstrap.field(attr);
-            }
+            const obj = saltos.gettext.bootstrap.field(attr);
             arr.push(obj);
         }
     }
@@ -381,6 +379,62 @@ saltos.form.__layout_auto_helper.col = layout => {
         numcol++;
     }
     return layout;
+};
+
+/**
+ * Widget helper
+ *
+ * This function is intended to provide an asynchronous sources for a widget fields, using the source
+ * attribute, you can program an asynchronous ajax request to retrieve the data used to create the field.
+ *
+ * This function is used in the fields of type table, alert, card and chartjs, the call of this function
+ * is private and is intended to be used as a helper from the builders of the previous types opening
+ * another way to pass arguments.
+ *
+ * @id     => the id used to set the reference for to the object
+ * @source => data source used to load asynchronously the contents of the table (header, data,
+ *            footer and divider)
+ * @height => the height used as style.height parameter
+ * @label  => this parameter is used as text for the label
+ *
+ * Notes:
+ *
+ * At the end of the object replacement, the load event is triggered to the old object to notify
+ * that the update was finished.
+ */
+saltos.form.__widget_helper = field => {
+    saltos.core.check_params(field, ['id', 'source', 'height', 'label']);
+    // Check for asynchronous load using the source param
+    saltos.app.ajax({
+        url: field.source,
+        success: async response => {
+            for (let key in response) {
+                const val = response[key];
+                key = saltos.core.fix_key(key);
+                if (typeof saltos.form[key] != 'function') {
+                    throw new Error(`Response type ${key} not found`);
+                }
+                if (key == 'layout') {
+                    const obj = document.getElementById(field.id);
+                    obj.replaceWith(saltos.form.layout(val, 'div'));
+                } else {
+                    if (saltos.form[key].constructor.name == 'AsyncFunction') {
+                        await saltos.form[key](val);
+                    } else {
+                        saltos.form[key](val);
+                    }
+                }
+            }
+        },
+    });
+    // Create the placeholder object with label
+    const obj = saltos.gettext.bootstrap.field({
+        type: 'placeholder',
+        id: field.id,
+        height: field.height,
+        label: field.label,
+    });
+    return obj;
 };
 
 /**

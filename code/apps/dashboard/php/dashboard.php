@@ -58,8 +58,8 @@ declare(strict_types=1);
  */
 function __dashboard_helper()
 {
-    // Create the groups apps list
-    $query = 'SELECT code, `group`, name, description, color, opacity, fontsize
+    // Create the apps list by groups
+    $query = 'SELECT code, `group`, name, description, color, opacity, fontsize, widgets
         FROM tbl_apps WHERE active = 1 ORDER BY position DESC,name ASC';
     $rows = execute_query_array($query);
     $groups = [];
@@ -74,40 +74,53 @@ function __dashboard_helper()
         $groups[$group][] = $row;
     }
 
+    // Create the widgets list by group
+    $widgets = [];
+    foreach ($rows as $row) {
+        if (!$row['widgets']) {
+            continue;
+        }
+        if (!check_user($row['code'], 'widget')) {
+            continue;
+        }
+        $group = $row['group'];
+        if (!isset($widgets[$group])) {
+            $widgets[$group] = [];
+        }
+        $temp = explode(',', $row['widgets']);
+        foreach ($temp as $key => $val) {
+            $temp[$key] = [
+                'code' => $row['code'],
+                'widget' => $val,
+            ];
+        }
+        $widgets[$group] = array_merge($widgets[$group], $temp);
+    }
+
     // Prepare the mapping
     $query = 'SELECT code, name, description, color
         FROM tbl_apps_groups ORDER BY position DESC, name ASC';
     $rows = execute_query_array($query);
     $mapping = array_combine(array_column($rows, 'code'), $rows);
 
-    // Sort the groups using the mapping order
-    $temp = [];
-    foreach ($mapping as $key => $val) {
-        if (isset($groups[$key])) {
-            $temp[$key] = $groups[$key];
-        }
-    }
-    $groups = $temp;
-
     // Create the lineal apps list
     $items = [];
-    foreach ($groups as $group => $rows) {
-        if (!isset($mapping[$group])) {
-            show_php_error(['phperror' => "group $group not found"]);
-        }
+    foreach ($mapping as $group => $ginfo) {
         // Add the alert
         $xml = '<alert id="group/{$code}" title="{$name}" text="{$description}"
             col_class="col-12 mb-3" color="{$color}"/>';
         $xml = str_replace_assoc([
-            '{$code}' => $mapping[$group]['code'],
-            '{$name}' => T($mapping[$group]['name'], $rows[0]['code']),
+            '{$code}' => $ginfo['code'],
+            '{$name}' => T($ginfo['name'], $groups[$group][0]['code']),
             '{$description}' =>
-                str_replace('&', '&amp;', T($mapping[$group]['description'], $rows[0]['code'])),
-            '{$color}' => $mapping[$group]['color'],
+                str_replace('&', '&amp;', T($ginfo['description'], $groups[$group][0]['code'])),
+            '{$color}' => $ginfo['color'],
         ], $xml);
         $array = xml2array($xml);
         set_array($items, 'alert', $array['alert']);
-        foreach ($rows as $row) {
+
+        // Add the buttons
+        foreach ($groups[$group] as $row) {
             $xml = '<button id="app/{$code}" onclick="saltos.window.open(\'app/{$code}\')"
                 class="w-100 h-100 fs-{$fontsize} opacity-{$opacity}" label="{$name}"
                 tooltip="{$description}" color="{$color}"/>';
@@ -122,11 +135,32 @@ function __dashboard_helper()
             $array = xml2array($xml);
             set_array($items, 'button', $array['button']);
         }
+
         // Add the hr
         $xml = '<hr id="separator" col_class="col-12 clonable" class="mt-0 border-3"/>';
         $array = xml2array($xml);
         set_array($items, 'hr', $array['hr']);
+
+        // Add the widgets
+        if (isset($widgets[$group])) {
+            foreach ($widgets[$group] as $widget) {
+                $xml = '<widget id="widget/{$widget}" source="app/{$code}/widget/{$widget}"
+                    col_class="col-xl-6 col-md-12 mb-3"/>';
+                $xml = str_replace_assoc([
+                    '{$code}' => $widget['code'],
+                    '{$widget}' => $widget['widget'],
+                ], $xml);
+                $array = xml2array($xml);
+                set_array($items, 'widget', $array['widget']);
+            }
+
+            // Add the hr
+            $xml = '<hr id="separator" col_class="col-12 clonable" class="mt-0 border-3"/>';
+            $array = xml2array($xml);
+            set_array($items, 'hr', $array['hr']);
+        }
     }
+
     array_pop($items);
     return $items;
 }
@@ -213,31 +247,19 @@ function __navbar_helper()
     $rows = execute_query_array($query);
     $mapping = array_combine(array_column($rows, 'code'), $rows);
 
-    // Sort the groups using the mapping order
-    $temp = [];
-    foreach ($mapping as $key => $val) {
-        if (isset($groups[$key])) {
-            $temp[$key] = $groups[$key];
-        }
-    }
-    $groups = $temp;
-
     // Create the lineal apps list
     $items = [];
-    foreach ($groups as $group => $rows) {
-        if (!isset($mapping[$group])) {
-            show_php_error(['phperror' => "group $group not found"]);
-        }
+    foreach ($mapping as $group => $ginfo) {
         // Add the group name using an item disabled
         $xml = '<item label="{$name}" disabled="true"/>';
         $xml = str_replace_assoc([
-            '{$code}' => $mapping[$group]['code'],
-            '{$name}' => T($mapping[$group]['name'], $rows[0]['code']),
+            '{$code}' => $ginfo['code'],
+            '{$name}' => T($ginfo['name'], $groups[$group][0]['code']),
         ], $xml);
         $array = xml2array($xml);
         set_array($items, 'item', $array['item']);
         // Add all items of the group
-        foreach ($rows as $row) {
+        foreach ($groups[$group] as $row) {
             $xml = '<item label="{$name}" onclick="saltos.window.open(\'app/{$code}\')"/>';
             $xml = str_replace_assoc([
                 '{$code}' => $row['code'],

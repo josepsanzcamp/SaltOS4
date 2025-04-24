@@ -147,6 +147,7 @@ that maintain the database using as reference this file
                 <field name="table" type="VARCHAR(255)"/>
                 <field name="subtables" type="VARCHAR(255)"/>
                 <field name="field" type="VARCHAR(255)"/>
+                <field name="widgets" type="VARCHAR(255)"/>
                 <field name="has_index" type="INT(11)"/>
                 <field name="has_control" type="INT(11)"/>
                 <field name="has_version" type="INT(11)"/>

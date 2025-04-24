@@ -496,4 +496,63 @@
         <check eval="true">true</check>
         <output require="apps/emails/php/indexing.php"/>
     </action>
+
+    <!-- Widgets part -->
+    <widget id="last_5_emails">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <layout>
+            <list id="widget/last_5_emails" nodata="Data not found" onclick="true" truncate="true">
+                <data require="apps/emails/php/filter.php" eval="true">merge_data_actions(
+                    execute_query_array("
+                        SELECT id, IF(is_outbox, IF(`to` != '', `to`, '-'), IF(`from` != '', `from`, '-')) header,
+                            IF(DATE(datetime) = DATE('".current_date()."'), DATE_FORMAT(datetime,'%H:%i:%s'), DATE_FORMAT(datetime,'%d/%m/%y')) header_text,
+                            IF(subject!='', subject, '-') body,
+                            TRIM(CONCAT_WS(' ',
+                                CASE state_sent WHEN 1 THEN 'Sent' ELSE '' END,
+                                CASE state_error WHEN '' THEN '' ELSE 'Error' END,
+                                CASE WHEN is_outbox=1 AND state_sent=0 AND state_error='' THEN 'Unsent' ELSE '' END,
+                                CASE state_new WHEN 1 THEN 'New' ELSE '' END,
+                                CASE state_reply WHEN 1 THEN 'Reply' ELSE '' END,
+                                CASE state_forward WHEN 1 THEN 'Forward' ELSE '' END,
+                                CASE state_wait WHEN 1 THEN 'Wait' ELSE '' END,
+                                CASE state_spam WHEN 1 THEN 'Spam' ELSE '' END,
+                                CASE priority WHEN -1 THEN 'Low' WHEN 1 THEN 'High' ELSE '' END,
+                                CASE sensitivity WHEN 1 THEN 'Personal' WHEN 2 THEN 'Private' WHEN 3 THEN 'Confidential' ELSE '' END,
+                                CASE is_outbox+state_new+state_reply+state_forward+state_wait+state_spam+priority*10+sensitivity WHEN 0 THEN 'Read' ELSE '' END
+                            )) body_text,
+                            CASE WHEN state_error!='' THEN 'danger'
+                                WHEN state_spam=1 THEN 'danger'
+                                WHEN state_new=1 THEN 'success'
+                                WHEN state_wait=1 THEN 'primary'
+                                ELSE ''
+                            END body_color,
+                            SUBSTR(IF(body != '', body, '-'),1,250) footer,
+                            CASE WHEN files THEN files ELSE '' END footer_text,
+                            CASE WHEN files THEN 'paperclip' ELSE '' END footer_icon,
+                            CASE WHEN state_new=1 THEN 'fw-bold' ELSE '' END class
+                        FROM app_emails
+                        WHERE 1 = 1
+                        AND ".check_sql('emails', 'list').'
+                        ORDER BY id DESC
+                        LIMIT 5'),
+                    xpath_search_first_value('widget[id=last_5_emails]/layout/list/actions', xmlfile2array('apps/emails/xml/emails.xml'))
+                )</data>
+                <actions>
+                    <view onclick="saltos.driver.open" app="emails" action="view"/>
+                </actions>
+            </list>
+        </layout>
+        <javascript>
+            <inline>
+                saltos.window.set_listener('saltos.emails.update', event => {
+                    saltos.app.__source_helper({
+                        id: 'widget/emails',
+                        source: 'app/emails/widget/emails',
+                    });
+                    saltos.favicon.run();
+                });
+            </inline>
+        </javascript>
+    </widget>
 </root>

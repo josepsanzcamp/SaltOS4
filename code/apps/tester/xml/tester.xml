@@ -190,16 +190,16 @@
                 <hr col_class="col-12 clonable" class="mt-0 border-3"/>
 
                 <chartjs id="campo30" label="Campo 30 (chartjs)" tooltip="Tooltip 30 (chartjs)" mode="bar">
-                    <data eval="true">["labels"=>["Red","Blue","Yellow","Green","Purple","Orange"],"datasets"=>[["label"=>"First round","data"=>[8,5,3,5,2,3],"borderWidth"=>1],["label"=>"Second round","data"=>[7,6,4,6,9,6],"borderWidth"=>1],["label"=>"Third round","data"=>[6,7,6,7,5,4],"borderWidth"=>1]]]</data>
+                    <data eval="true">["labels"=>["Red","Blue","Yellow","Green","Purple","Orange"],"datasets"=>[["label"=>"First round","data"=>[8,5,3,5,2,3]],["label"=>"Second round","data"=>[7,6,4,6,9,6]],["label"=>"Third round","data"=>[6,7,6,7,5,4]]]]</data>
                 </chartjs>
                 <chartjs id="campo31" label="Campo 31 (chartjs)" tooltip="Tooltip 31 (chartjs)" mode="line">
-                    <data eval="true">["labels"=>["Red","Blue","Yellow","Green","Purple","Orange"],"datasets"=>[["label"=>"First round","data"=>[8,5,3,5,2,3],"borderWidth"=>1],["label"=>"Second round","data"=>[7,6,4,6,9,6],"borderWidth"=>1],["label"=>"Third round","data"=>[6,7,6,7,5,4],"borderWidth"=>1]]]</data>
+                    <data eval="true">["labels"=>["Red","Blue","Yellow","Green","Purple","Orange"],"datasets"=>[["label"=>"First round","data"=>[8,5,3,5,2,3]],["label"=>"Second round","data"=>[7,6,4,6,9,6]],["label"=>"Third round","data"=>[6,7,6,7,5,4]]]]</data>
                 </chartjs>
                 <chartjs id="campo32" label="Campo 32 (chartjs)" tooltip="Tooltip 32 (chartjs)" mode="pie">
-                    <data eval="true">["labels"=>["Red","Blue","Yellow","Green","Purple","Orange"],"datasets"=>[["label"=>"First round","data"=>[8,5,3,5,2,3],"borderWidth"=>1],["label"=>"Second round","data"=>[7,6,4,6,9,6],"borderWidth"=>1],["label"=>"Third round","data"=>[6,7,6,7,5,4],"borderWidth"=>1]]]</data>
+                    <data eval="true">["labels"=>["Red","Blue","Yellow","Green","Purple","Orange"],"datasets"=>[["label"=>"First round","data"=>[8,5,3,5,2,3]],["label"=>"Second round","data"=>[7,6,4,6,9,6]],["label"=>"Third round","data"=>[6,7,6,7,5,4]]]]</data>
                 </chartjs>
                 <chartjs id="campo33" label="Campo 33 (chartjs)" tooltip="Tooltip 33 (chartjs)" mode="doughnut">
-                    <data eval="true">["labels"=>["Red","Blue","Yellow","Green","Purple","Orange"],"datasets"=>[["label"=>"First round","data"=>[8,5,3,5,2,3],"borderWidth"=>1],["label"=>"Second round","data"=>[7,6,4,6,9,6],"borderWidth"=>1],["label"=>"Third round","data"=>[6,7,6,7,5,4],"borderWidth"=>1]]]</data>
+                    <data eval="true">["labels"=>["Red","Blue","Yellow","Green","Purple","Orange"],"datasets"=>[["label"=>"First round","data"=>[8,5,3,5,2,3]],["label"=>"Second round","data"=>[7,6,4,6,9,6]],["label"=>"Third round","data"=>[6,7,6,7,5,4]]]]</data>
                 </chartjs>
 
                 <hr col_class="col-12 clonable" class="mt-0 border-3"/>

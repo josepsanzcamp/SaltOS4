@@ -366,4 +366,153 @@
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))</check>
         <output require="php/lib/actions.php" eval="true">delete(get_data('rest/1'), intval(get_data('rest/3')))</output>
     </delete>
+
+    <!-- Widgets part -->
+    <widget id="last_7_invoices">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <layout>
+            <table id="invoices" nodata="Data not found">
+                <header>
+                    <customer_name label="Customer"/>
+                    <date label="Date"/>
+                    <total label="Total"/>
+                    <is_closed label="Closed" type="icon" align="center"/>
+                    <is_paid label="Paid" type="icon" align="center"/>
+                </header>
+                <actions>
+                    <view icon="search" tooltip="To view the register" onclick="saltos.driver.open"/>
+                </actions>
+                <data require="php/lib/log.php" eval="true">merge_data_actions(
+                    make_log_bypass(get_data('rest/1'), get_data('rest/2'), execute_query_array("
+                        SELECT id, customer_name, total,
+                        IF(is_closed, invoice_date, proforma_date) date,
+                        IF(is_closed, 'check-lg text-success', 'x-lg text-danger') is_closed,
+                        IF(is_paid, 'check-lg text-success', 'x-lg text-danger') is_paid
+                        FROM ".app2table(get_data('rest/1')).'
+                        WHERE 1 = 1
+                        AND '.check_sql(get_data('rest/1'), 'list').'
+                        ORDER BY id DESC
+                        LIMIT 7')),
+                    xpath_search_first_value('list[id=data]/actions', xmlfile2array(detect_app_file(get_data('rest/1'))))
+                )</data>
+            </table>
+        </layout>
+        <javascript>
+            <inline>
+                saltos.window.set_listener('saltos.invoices.update', event => {
+                    saltos.app.__source_helper({
+                        id: 'widget/invoices',
+                        source: 'app/invoices/widget/invoices',
+                    });
+                    saltos.favicon.run();
+                });
+            </inline>
+        </javascript>
+    </widget>
+
+    <widget id="invoice_total_by_day">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <layout>
+            <chartjs id="widget/invoice_total_by_day" mode="line">
+                <data require="apps/sales/php/chartjs.php" eval="true">compute_invoice_total_by_day()</data>
+            </chartjs>
+        </layout>
+        <javascript>
+            <inline>
+                saltos.window.set_listener('saltos.invoices.update', event => {
+                    saltos.app.__source_helper({
+                        id: 'widget/customers',
+                        source: 'app/invoices/widget/customers',
+                    });
+                    saltos.favicon.run();
+                });
+            </inline>
+        </javascript>
+    </widget>
+
+    <widget id="invoice_avg_by_day">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <layout>
+            <chartjs id="widget/invoice_avg_by_day" mode="line">
+                <data require="apps/sales/php/chartjs.php" eval="true">compute_invoice_avg_by_day()</data>
+            </chartjs>
+        </layout>
+        <javascript>
+            <inline>
+                saltos.window.set_listener('saltos.invoices.update', event => {
+                    saltos.app.__source_helper({
+                        id: 'widget/customers',
+                        source: 'app/invoices/widget/customers',
+                    });
+                    saltos.favicon.run();
+                });
+            </inline>
+        </javascript>
+    </widget>
+
+    <widget id="top5_customers_by_total">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <layout>
+            <chartjs id="widget/top5_customers_by_total" mode="bar">
+                <data require="apps/sales/php/chartjs.php" eval="true">compute_top5_customers_by_total()</data>
+            </chartjs>
+        </layout>
+        <javascript>
+            <inline>
+                saltos.window.set_listener('saltos.invoices.update', event => {
+                    saltos.app.__source_helper({
+                        id: 'widget/customers',
+                        source: 'app/invoices/widget/customers',
+                    });
+                    saltos.favicon.run();
+                });
+            </inline>
+        </javascript>
+    </widget>
+
+    <widget id="invoice_paid_vs_pending">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <layout>
+            <chartjs id="widget/invoice_paid_vs_pending" mode="bar">
+                <data require="apps/sales/php/chartjs.php" eval="true">compute_invoice_paid_vs_pending()</data>
+            </chartjs>
+        </layout>
+        <javascript>
+            <inline>
+                saltos.window.set_listener('saltos.invoices.update', event => {
+                    saltos.app.__source_helper({
+                        id: 'widget/customers',
+                        source: 'app/invoices/widget/customers',
+                    });
+                    saltos.favicon.run();
+                });
+            </inline>
+        </javascript>
+    </widget>
+
+    <widget id="invoice_avg_days_to_pay">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <layout>
+            <chartjs id="widget/invoice_avg_days_to_pay" mode="line">
+                <data require="apps/sales/php/chartjs.php" eval="true">compute_invoice_avg_days_to_pay()</data>
+            </chartjs>
+        </layout>
+        <javascript>
+            <inline>
+                saltos.window.set_listener('saltos.invoices.update', event => {
+                    saltos.app.__source_helper({
+                        id: 'widget/customers',
+                        source: 'app/invoices/widget/customers',
+                    });
+                    saltos.favicon.run();
+                });
+            </inline>
+        </javascript>
+    </widget>
 </root>
