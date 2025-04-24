@@ -1,5 +1,5 @@
 Api Documentation
-SaltOS 4.0 r1976
+SaltOS 4.0 r2006
 April 2025
 
 
@@ -2176,7 +2176,7 @@ system.
 +++Get Text function+++
 
 ```
-function T($text = '')
+function T($text = '', $app = '')
 ```
 
 This function replaces the gettext abreviation _() using the SaltOS gettext
@@ -2184,6 +2184,7 @@ feature, is based in the original system of the old SaltOS with improvements
 to do more open as the GNU gettext
 
 - @text => The text that you want to translate
+- @app  => Optional, to force gettext to use an specific app instead of current_app
 
 
 Notes:

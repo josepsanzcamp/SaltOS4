@@ -1,5 +1,5 @@
 Jest Test Documentation
-SaltOS 4.0 r1952
+SaltOS 4.0 r2006
 April 2025
 
 
@@ -963,13 +963,13 @@ This test checks that the `check_network` function accurately detects
 HTTP and HTTPS protocols by simulating network conditions.
 
 
-++Bootstrap unit tests++
+++Customers unit tests++
 
 ```
 test_customers.js
 ```
 
-This file contains the bootstrap unit tests
+This file contains the customers unit tests
 
 
 +++Puppeteer setup+++
@@ -1161,13 +1161,13 @@ test('Action Delete', async ()
 This part of the test tries to validate the correctness of the delete feature
 
 
-++Bootstrap unit tests++
+++Emails unit tests++
 
 ```
 test_emails.js
 ```
 
-This file contains the bootstrap unit tests
+This file contains the emails unit tests
 
 
 +++Puppeteer setup+++
@@ -2005,13 +2005,13 @@ test('should dispatch hashchange event', ()
 Verifies the function dispatches a hashchange event
 
 
-++Bootstrap unit tests++
+++Invoices unit tests++
 
 ```
 test_invoices.js
 ```
 
-This file contains the bootstrap unit tests
+This file contains the invoices unit tests
 
 
 +++Puppeteer setup+++
@@ -2334,6 +2334,105 @@ Verifies that the favicon update interval stops when
 the function is deactivated
 
 
+++Screenshots unit tests++
+
+```
+test_screenshots.js
+```
+
+This file contains the screenshots unit tests
+
+
++++Puppeteer setup+++
+
+```
+const puppeteer = require('puppeteer');
+```
+
+This lines contain the needed setup for run puppeteer and take screenshots
+
+
++++Global variables+++
+
+```
+let browser;
+```
+
+This variables contains the browser and page links
+
+
++++Before All+++
+
+```
+beforeAll(async ()
+```
+
+This function contains all code executed before all tests, in this case the
+features provided by this function includes the launch of the browser, set
+the screen size and start the javascript coverage
+
+
++++After All+++
+
+```
+afterAll(async ()
+```
+
+This function contains all code executed after all tests, in this case the
+features provided by this function include the stop of the javsacript coverage
+recording, the save feature to the desired storage path and the browser close
+
+
++++Workflow variables+++
+
+```
+let testFailed = false;
+```
+
+This variables allow to control the workflow of the test, the main idea is to
+skip all tests when one test fails
+
+
++++Before Each+++
+
+```
+beforeEach(()
+```
+
+This function contains all code executed before each test, in this case the
+features provided by this function includes the control of the workflow
+
+
++++After Each+++
+
+```
+afterEach(()
+```
+
+This function contains all code executed after each test, in this case the
+features provided by this function includes the control of the workflow
+
+
++++App Customers+++
+
+```
+describe('Screenshots', ()
+```
+
+This test is intended to validate the correctness of the customers application
+by execute the list, more, reset, create, cancel, view, close, edit, back,
+insert, update and delete features and validate with the expected screenshot
+
+
++++Action List+++
+
+```
+test('users login', async ()
+```
+
+This part of the test tries to load the list screen
+
+
 ++Storage unit tests++
 
 ```
@@ -2373,13 +2472,13 @@ test('saltos.storage', ()
 This function performs the test of the storage functions
 
 
-++Bootstrap unit tests++
+++Tester unit tests++
 
 ```
 test_tester.js
 ```
 
-This file contains the bootstrap unit tests
+This file contains the tester unit tests
 
 
 +++Puppeteer setup+++
