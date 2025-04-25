@@ -28,7 +28,7 @@ venobox|https://github.com/nicolafranchini/VenoBox/tags.atom|<title>|PHRpdGxlPjI
 vkbeautify|https://github.com/vkiryukhin/vkBeautify/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAxOC0wNi0yOFQwNTowMjoyNlo8L3VwZGF0ZWQ+
 
 mimeparser|https://www.phpclasses.org/browse/file/14670.html|<span title=|PHNwYW4gdGl0bGU9IjIwMjQtMTEtMDMgMDk6MDg6MDYiPg==
-phpmailer|https://github.com/PHPMailer/PHPMailer/tags.atom|<title>|PHRpdGxlPlBIUE1haWxlciA2LjkuMzwvdGl0bGU+
+phpmailer|https://github.com/PHPMailer/PHPMailer/tags.atom|<title>|PHRpdGxlPnY2LjEwLjA8L3RpdGxlPg==
 pop3|https://www.phpclasses.org/browse/file/3.html|<span title=|PHNwYW4gdGl0bGU9IjIwMjItMTAtMDQgMDA6NTg6NTMiPg==
 rfc822|https://www.phpclasses.org/browse/file/21704.html|<span title=|PHNwYW4gdGl0bGU9IjIwMTYtMDctMjIgMjA6NTk6MDUiPg==
 sortablejs|https://github.com/SortableJS/Sortable/tags.atom|<title>|PHRpdGxlPnYxLjE1LjY8L3RpdGxlPg==
