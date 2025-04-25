@@ -83,3 +83,17 @@ The reply and compose form includes:
 Emails can be deleted from the list view using the delete icon or action.
 
 Messages are usually deleted locally or flagged for deletion, depending on the server configuration.
+
+==PDF generation==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-viewpdf-100-en-us-1-snap.png]
+
+From the individual view of a record (view), the user can generate and download a PDF containing all relevant data of that entry.
+
+From the list view (list), it is possible to select multiple records using the checkboxes and generate a single PDF that includes all of them.
+
+==Widget on the dashboard==
+
+The email application (`emails`) publishes a widget on the main dashboard that displays a compact list with the 5 most recently received emails.
+
+This widget allows users to quickly review their most recent messages without entering the full application, improving visibility of recent activity and enabling direct access to each email.

@@ -73,3 +73,27 @@ Las facturas solo pueden eliminarse si no están cerradas ni pagadas.
 El sistema mostrará una advertencia de confirmación antes de proceder.
 
 Esta acción no se puede deshacer.
+
+==Generación de PDF==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-viewpdf-100-es-es-1-snap.png]
+
+Desde la vista individual de cada registro (view) se puede generar y descargar un PDF con los datos completos del registro.
+
+Desde la vista de listado (list), se pueden seleccionar múltiples registros mediante checkbox y generar un único documento PDF que los incluye todos.
+
+==Widgets en el dashboard==
+
+La aplicación de facturación (`invoices`) publica varios widgets en el panel principal (dashboard) para ofrecer una visión global y en tiempo real del estado de la facturación en el sistema.
+
+Los widgets disponibles son:
+
+- **Tabla `last_7_invoices`**: muestra las 7 últimas facturas emitidas, incluyendo información clave como el cliente, el importe total y el estado (pagada o pendiente).
+- **Gráfica `invoice_total_by_day`**: representa el importe total facturado por día, permitiendo detectar picos o tendencias en la actividad.
+- **Gráfica `invoice_avg_by_day`**: muestra el importe medio diario de las facturas emitidas, útil para evaluar la regularidad o estacionalidad.
+- **Gráfica `top5_customers_by_total`**: destaca los 5 clientes que más volumen de facturación han generado, facilitando la identificación de clientes clave.
+- **Gráfica `invoice_paid_vs_pending`**: compara el número de facturas pagadas frente a las pendientes, proporcionando una visión clara del flujo de cobros.
+- **Gráfica `invoice_avg_days_to_pay`**: indica el número medio de días que tardan los clientes en pagar las facturas, ayudando a evaluar la puntualidad de los pagos.
+
+
+Estos widgets ofrecen información visual útil para la toma de decisiones y permiten monitorizar de forma continua la evolución financiera del negocio.

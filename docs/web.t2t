@@ -1,5 +1,5 @@
 Web Client Documentation
-SaltOS 4.0 r2006
+SaltOS 4.0 r2009
 April 2025
 
 
@@ -106,33 +106,6 @@ saltos.app.process_response = async response
 ```
 
 This function process the responses received by the send request
-
-
-+++Source helper+++
-
-```
-saltos.app.__source_helper = field
-```
-
-This function is intended to provide an asynchronous sources for a field, using the source attribute,
-you can program an asynchronous ajax request to retrieve the data used to create the field.
-
-This function is used in the fields of type table, alert, card and chartjs, the call of this function
-is private and is intended to be used as a helper from the builders of the previous types opening
-another way to pass arguments.
-
-- @id     => the id used to set the reference for to the object
-- @type   => the type used to set the type for to the object
-- @source => data source used to load asynchronously the contents of the table (header, data,
-           footer and divider)
-- @height => the height used as style.height parameter
-- @label  => this parameter is used as text for the label
-
-
-Notes:
-
-At the end of the object replacement, the load event is triggered to the old object to notify
-that the update was finished.
 
 
 +++Get data+++
@@ -3708,6 +3681,32 @@ Notes:
 This function not allow to specify the id because in this functions, each object of the
 layout is embedded inside of a col object and is not suitable to put an id attribute
 to each col without repetitions.
+
+
++++Widget helper+++
+
+```
+saltos.form.__widget_helper = field
+```
+
+This function is intended to provide an asynchronous sources for a widget fields, using the source
+attribute, you can program an asynchronous ajax request to retrieve the data used to create the field.
+
+This function is used in the fields of type table, alert, card and chartjs, the call of this function
+is private and is intended to be used as a helper from the builders of the previous types opening
+another way to pass arguments.
+
+- @id     => the id used to set the reference for to the object
+- @source => data source used to load asynchronously the contents of the table (header, data,
+           footer and divider)
+- @height => the height used as style.height parameter
+- @label  => this parameter is used as text for the label
+
+
+Notes:
+
+At the end of the object replacement, the load event is triggered to the old object to notify
+that the update was finished.
 
 
 +++Style helper array+++

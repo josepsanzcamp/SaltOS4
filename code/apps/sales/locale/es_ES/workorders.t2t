@@ -55,3 +55,11 @@ Las órdenes de trabajo solo pueden eliminarse si no están vinculadas a servici
 
 Se mostrará un aviso de confirmación antes de eliminar.
 Se recomienda desactivarlas si se desea conservar el historial sin mantenerlas visibles.
+
+==Generación de PDF==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-viewpdf-100-es-es-1-snap.png]
+
+Desde la vista individual de cada registro (view) se puede generar y descargar un PDF con los datos completos del registro.
+
+Desde la vista de listado (list), se pueden seleccionar múltiples registros mediante checkbox y generar un único documento PDF que los incluye todos.

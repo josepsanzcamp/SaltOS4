@@ -1,5 +1,5 @@
 User Manual
-SaltOS 4.0 r2006
+SaltOS 4.0 r2009
 April 2025
 
 
@@ -373,6 +373,14 @@ Meetings can be deleted from the list view if created in error or no longer rele
 
 Records are usually kept for historical traceability unless explicit removal is needed.
 
+++PDF generation++
+
+[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-viewpdf-100-en-us-1-snap.png]
+
+From the individual view of a record (view), the user can generate and download a PDF containing all relevant data of that entry.
+
+From the list view (list), it is possible to select multiple records using the checkboxes and generate a single PDF that includes all of them.
+
 
 
 +Quotes+
@@ -441,6 +449,14 @@ Quotes can be deleted from the list view if they are not yet accepted.
 A confirmation prompt will appear before deletion.
 
 This action is irreversible and subject to user permissions.
+
+++PDF generation++
+
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-viewpdf-100-en-us-1-snap.png]
+
+From the individual view of a record (view), the user can generate and download a PDF containing all relevant data of that entry.
+
+From the list view (list), it is possible to select multiple records using the checkboxes and generate a single PDF that includes all of them.
 
 
 
@@ -569,6 +585,30 @@ Invoices can only be deleted if they are in draft status.
 A confirmation prompt is shown before the operation.
 
 Once an invoice is finalized and/or linked to a payment, deletion is restricted.
+
+++PDF generation++
+
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-viewpdf-100-en-us-1-snap.png]
+
+From the individual view of a record (view), the user can generate and download a PDF containing all relevant data of that entry.
+
+From the list view (list), it is possible to select multiple records using the checkboxes and generate a single PDF that includes all of them.
+
+++Widgets on the dashboard++
+
+The invoicing application (`invoices`) publishes several widgets on the main dashboard to provide a real-time overview of the system's billing status.
+
+The available widgets are:
+
+- **Table `last_7_invoices`**: shows the 7 most recent invoices, including key information such as customer, total amount, and payment status.
+- **Chart `invoice_total_by_day`**: displays the total amount invoiced per day, highlighting peaks and activity trends.
+- **Chart `invoice_avg_by_day`**: shows the average daily invoice amount, useful for evaluating consistency or seasonality.
+- **Chart `top5_customers_by_total`**: highlights the top 5 customers by billing volume, helping identify key accounts.
+- **Chart `invoice_paid_vs_pending`**: compares the number of paid vs. pending invoices, giving insight into payment flow.
+- **Chart `invoice_avg_days_to_pay`**: shows the average number of days customers take to pay their invoices, helping assess payment behavior.
+
+
+These widgets offer useful visual insights for decision-making and allow continuous monitoring of the business's financial evolution.
 
 
 
@@ -952,6 +992,14 @@ Workorders can be deleted only if they are not linked to completed services or l
 
 A confirmation prompt is displayed before deletion.
 Deactivation is preferred if you want to retain history without exposing the record.
+
+++PDF generation++
+
+[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-viewpdf-100-en-us-1-snap.png]
+
+From the individual view of a record (view), the user can generate and download a PDF containing all relevant data of that entry.
+
+From the list view (list), it is possible to select multiple records using the checkboxes and generate a single PDF that includes all of them.
 
 
 
@@ -1551,6 +1599,20 @@ The reply and compose form includes:
 Emails can be deleted from the list view using the delete icon or action.
 
 Messages are usually deleted locally or flagged for deletion, depending on the server configuration.
+
+++PDF generation++
+
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-viewpdf-100-en-us-1-snap.png]
+
+From the individual view of a record (view), the user can generate and download a PDF containing all relevant data of that entry.
+
+From the list view (list), it is possible to select multiple records using the checkboxes and generate a single PDF that includes all of them.
+
+++Widget on the dashboard++
+
+The email application (`emails`) publishes a widget on the main dashboard that displays a compact list with the 5 most recently received emails.
+
+This widget allows users to quickly review their most recent messages without entering the full application, improving visibility of recent activity and enabling direct access to each email.
 
 
 

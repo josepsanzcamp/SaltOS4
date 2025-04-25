@@ -83,3 +83,17 @@ El formulari inclou:
 Els correus es poden eliminar des de la vista de llista mitjançant la icona o acció corresponent.
 
 Els missatges s’eliminen localment o es marquen per eliminar, segons la configuració del servidor.
+
+==Generació de PDF==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-viewpdf-100-ca-es-1-snap.png]
+
+Des de la vista individual d’un registre (view), l’usuari pot generar i descarregar un PDF amb totes les dades rellevants d’aquest registre.
+
+Des de la vista de llista (list), és possible seleccionar diversos registres mitjançant les caselles de selecció i generar un únic PDF que els inclogui tots.
+
+==Giny al tauler==
+
+L'aplicació de correu electrònic (`emails`) publica un giny al tauler principal (dashboard) que mostra una llista compacta amb els 5 últims correus rebuts.
+
+Aquest giny permet a l'usuari consultar ràpidament els missatges més recents sense haver d'accedir a l'aplicació completa, millorant la visibilitat de l'activitat recent i facilitant l'accés directe a cada correu.

@@ -1,5 +1,5 @@
 Manual d'usuari
-SaltOS 4.0 r2006
+SaltOS 4.0 r2009
 April 2025
 
 
@@ -374,6 +374,14 @@ Abans d'eliminar, el sistema sol·licitarà confirmació.
 
 Aquesta acció no es pot desfer i pot requerir permisos específics.
 
+++Generació de PDF++
+
+[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-viewpdf-100-ca-es-1-snap.png]
+
+Des de la vista individual d’un registre (view), l’usuari pot generar i descarregar un PDF amb totes les dades rellevants d’aquest registre.
+
+Des de la vista de llista (list), és possible seleccionar diversos registres mitjançant les caselles de selecció i generar un únic PDF que els inclogui tots.
+
 
 
 +Pressupostos+
@@ -439,6 +447,14 @@ Els pressupostos es poden eliminar des de la vista de llista sempre que no estig
 El sistema demanarà confirmació abans de completar l'acció.
 
 Aquesta acció no es pot desfer i pot requerir permisos especials.
+
+++Generació de PDF++
+
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-viewpdf-100-ca-es-1-snap.png]
+
+Des de la vista individual d’un registre (view), l’usuari pot generar i descarregar un PDF amb totes les dades rellevants d’aquest registre.
+
+Des de la vista de llista (list), és possible seleccionar diversos registres mitjançant les caselles de selecció i generar un únic PDF que els inclogui tots.
 
 
 
@@ -565,6 +581,30 @@ Les factures només poden eliminar-se si no estan tancades ni pagades.
 El sistema mostrarà un avís de confirmació abans de procedir.
 
 Aquesta acció és irreversible.
+
+++Generació de PDF++
+
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-viewpdf-100-ca-es-1-snap.png]
+
+Des de la vista individual d’un registre (view), l’usuari pot generar i descarregar un PDF amb totes les dades rellevants d’aquest registre.
+
+Des de la vista de llista (list), és possible seleccionar diversos registres mitjançant les caselles de selecció i generar un únic PDF que els inclogui tots.
+
+++Ginys al tauler++
+
+L'aplicació de facturació (`invoices`) publica diversos ginys al tauler principal (dashboard) per oferir una visió global i en temps real de l'estat de la facturació al sistema.
+
+Els ginys disponibles són:
+
+- **Taula `last_7_invoices`**: mostra les 7 últimes factures emeses, incloent-hi informació clau com el client, l'import total i l'estat (pagada o pendent).
+- **Gràfic `invoice_total_by_day`**: representa l'import total facturat per dia, permetent detectar pics o tendències en l'activitat.
+- **Gràfic `invoice_avg_by_day`**: mostra l'import mitjà diari de les factures emeses, útil per avaluar la regularitat o estacionalitat.
+- **Gràfic `top5_customers_by_total`**: destaca els 5 clients amb més volum de facturació, facilitant la identificació dels clients clau.
+- **Gràfic `invoice_paid_vs_pending`**: compara el nombre de factures pagades respecte a les pendents, proporcionant una visió clara del flux de cobraments.
+- **Gràfic `invoice_avg_days_to_pay`**: indica el nombre mitjà de dies que triguen els clients a pagar, ajudant a avaluar la puntualitat dels pagaments.
+
+
+Aquests ginys ofereixen informació visual útil per a la presa de decisions i permeten monitorar contínuament l'evolució financera del negoci.
 
 
 
@@ -947,6 +987,14 @@ Les ordres de treball només es poden eliminar si no estan enllaçades a serveis
 
 Abans de l'eliminació es mostra un avís de confirmació.
 És preferible desactivar-les si es vol conservar-ne l'historial sense mostrar-les activament.
+
+++Generació de PDF++
+
+[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-viewpdf-100-ca-es-1-snap.png]
+
+Des de la vista individual d’un registre (view), l’usuari pot generar i descarregar un PDF amb totes les dades rellevants d’aquest registre.
+
+Des de la vista de llista (list), és possible seleccionar diversos registres mitjançant les caselles de selecció i generar un únic PDF que els inclogui tots.
 
 
 
@@ -1547,6 +1595,20 @@ El formulari inclou:
 Els correus es poden eliminar des de la vista de llista mitjançant la icona o acció corresponent.
 
 Els missatges s’eliminen localment o es marquen per eliminar, segons la configuració del servidor.
+
+++Generació de PDF++
+
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-viewpdf-100-ca-es-1-snap.png]
+
+Des de la vista individual d’un registre (view), l’usuari pot generar i descarregar un PDF amb totes les dades rellevants d’aquest registre.
+
+Des de la vista de llista (list), és possible seleccionar diversos registres mitjançant les caselles de selecció i generar un únic PDF que els inclogui tots.
+
+++Giny al tauler++
+
+L'aplicació de correu electrònic (`emails`) publica un giny al tauler principal (dashboard) que mostra una llista compacta amb els 5 últims correus rebuts.
+
+Aquest giny permet a l'usuari consultar ràpidament els missatges més recents sense haver d'accedir a l'aplicació completa, millorant la visibilitat de l'activitat recent i facilitant l'accés directe a cada correu.
 
 
 

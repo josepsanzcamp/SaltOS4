@@ -54,3 +54,11 @@ Les ordres de treball només es poden eliminar si no estan enllaçades a serveis
 
 Abans de l'eliminació es mostra un avís de confirmació.
 És preferible desactivar-les si es vol conservar-ne l'historial sense mostrar-les activament.
+
+==Generació de PDF==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-viewpdf-100-ca-es-1-snap.png]
+
+Des de la vista individual d’un registre (view), l’usuari pot generar i descarregar un PDF amb totes les dades rellevants d’aquest registre.
+
+Des de la vista de llista (list), és possible seleccionar diversos registres mitjançant les caselles de selecció i generar un únic PDF que els inclogui tots.

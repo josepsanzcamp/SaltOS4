@@ -67,3 +67,11 @@ Quotes can be deleted from the list view if they are not yet accepted.
 A confirmation prompt will appear before deletion.
 
 This action is irreversible and subject to user permissions.
+
+==PDF generation==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-viewpdf-100-en-us-1-snap.png]
+
+From the individual view of a record (view), the user can generate and download a PDF containing all relevant data of that entry.
+
+From the list view (list), it is possible to select multiple records using the checkboxes and generate a single PDF that includes all of them.

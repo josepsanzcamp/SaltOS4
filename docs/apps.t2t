@@ -1,5 +1,5 @@
 Applications Documentation
-SaltOS 4.0 r2006
+SaltOS 4.0 r2009
 April 2025
 
 
@@ -2082,6 +2082,90 @@ This function is triggered after the user modifies any cell in the "lines" matri
 
 - @changes => Array of cell changes from the spreadsheet component
 - @source  => Source of the change event (only `'edit'` triggers processing)
+
+
+++ChartJS widgets for invoices++
+
+```
+apps/sales/php/chartjs.php
+```
+
+This file contains helper functions that generate Chart.js-compatible
+datasets for visualizing invoice-related data within SaltOS4.
+
+Each function returns an associative array with 'labels' and 'datasets',
+directly usable by `<chartjs>` widgets in the XML layout system.
+
+The metrics provided include:
+- Daily total invoicing
+- Daily average invoice value
+- Top 5 customers by total invoiced
+- Count of paid vs unpaid invoices
+- Average number of days to get paid
+
+
+All functions rely on data from the `app_invoices` table and assume
+only closed invoices (`is_closed = 1`) are relevant.
+
+
++++compute_invoice_total_by_day+++
+
+```
+function compute_invoice_total_by_day()
+```
+
+Computes the total invoiced amount per day, for closed invoices.
+Useful for displaying the evolution of total income over time.
+
+Returns a Chart.js-compatible array with labels (dates) and a single dataset (total per day).
+
+
++++compute_invoice_avg_by_day+++
+
+```
+function compute_invoice_avg_by_day()
+```
+
+Computes the average invoice amount per day, considering only closed invoices.
+This helps analyze how invoice sizes vary over time.
+
+Returns a Chart.js-compatible array with labels (dates) and a single dataset (average amount).
+
+
++++compute_top5_customers_by_total+++
+
+```
+function compute_top5_customers_by_total()
+```
+
+Retrieves the top 5 customers based on total invoiced amount for closed invoices.
+Cuts customer names using `intelligence_cut()` for chart readability.
+
+Returns a Chart.js-compatible array: labels (customer names) and one dataset (total invoiced).
+
+
++++compute_invoice_paid_vs_pending+++
+
+```
+function compute_invoice_paid_vs_pending()
+```
+
+Counts how many closed invoices have been paid or are still unpaid.
+Produces a pie chart data structure separating "Paid" and "Unpaid".
+
+Returns a Chart.js-compatible array: labels (Paid/Unpaid) and one dataset (count of invoices).
+
+
++++compute_invoice_avg_days_to_pay+++
+
+```
+function compute_invoice_avg_days_to_pay()
+```
+
+Calculates the average number of days it takes to get paid, based on the difference
+between invoice and payment dates, grouped by payment day.
+
+Returns a Chart.js-compatible array: labels (payment dates) and one dataset (average days to pay).
 
 
 ++Reverses the process of `make_matrix_data()` for the `invoices` app.++

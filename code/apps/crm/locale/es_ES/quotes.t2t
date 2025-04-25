@@ -64,3 +64,11 @@ Los presupuestos pueden eliminarse desde la vista de lista siempre que no estén
 El sistema pedirá confirmación antes de completar la acción.
 
 Esta acción no se puede deshacer y puede requerir permisos especiales.
+
+==Generación de PDF==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-viewpdf-100-es-es-1-snap.png]
+
+Desde la vista individual de cada registro (view) se puede generar y descargar un PDF con los datos completos del registro.
+
+Desde la vista de listado (list), se pueden seleccionar múltiples registros mediante checkbox y generar un único documento PDF que los incluye todos.

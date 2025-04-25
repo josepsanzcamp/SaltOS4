@@ -83,3 +83,17 @@ El formulario de respuesta o redacción incluye:
 Los correos pueden eliminarse desde la vista de lista mediante el icono o acción correspondiente.
 
 Los mensajes se eliminan localmente o se marcan para eliminación, según la configuración del servidor.
+
+==Generación de PDF==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-viewpdf-100-es-es-1-snap.png]
+
+Desde la vista individual de un registro (view), el usuario puede generar y descargar un PDF con todos los datos relevantes de ese registro.
+
+Desde la vista de listado (list), es posible seleccionar varios registros mediante los checkboxes y generar un único PDF que los incluya todos.
+
+==Widget en el dashboard==
+
+La aplicación de correos electrónicos (`emails`) publica un widget en el panel principal (dashboard) que muestra una lista compacta con los 5 últimos correos electrónicos recibidos.
+
+Este widget permite al usuario consultar rápidamente los mensajes más recientes sin necesidad de acceder a la aplicación completa, mejorando la visibilidad de la actividad reciente y facilitando el acceso directo a cada correo.

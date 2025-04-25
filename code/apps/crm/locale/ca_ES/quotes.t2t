@@ -64,3 +64,11 @@ Els pressupostos es poden eliminar des de la vista de llista sempre que no estig
 El sistema demanarà confirmació abans de completar l'acció.
 
 Aquesta acció no es pot desfer i pot requerir permisos especials.
+
+==Generació de PDF==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-viewpdf-100-ca-es-1-snap.png]
+
+Des de la vista individual d’un registre (view), l’usuari pot generar i descarregar un PDF amb totes les dades rellevants d’aquest registre.
+
+Des de la vista de llista (list), és possible seleccionar diversos registres mitjançant les caselles de selecció i generar un únic PDF que els inclogui tots.

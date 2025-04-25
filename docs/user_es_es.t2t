@@ -1,5 +1,5 @@
 Manual de usuario
-SaltOS 4.0 r2006
+SaltOS 4.0 r2009
 April 2025
 
 
@@ -374,6 +374,14 @@ Antes de eliminar, el sistema solicitará confirmación.
 
 Esta acción no se puede deshacer y puede requerir permisos específicos.
 
+++Generación de PDF++
+
+[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-viewpdf-100-es-es-1-snap.png]
+
+Desde la vista individual de cada registro (view) se puede generar y descargar un PDF con los datos completos del registro.
+
+Desde la vista de listado (list), se pueden seleccionar múltiples registros mediante checkbox y generar un único documento PDF que los incluye todos.
+
 
 
 +Presupuestos+
@@ -439,6 +447,14 @@ Los presupuestos pueden eliminarse desde la vista de lista siempre que no estén
 El sistema pedirá confirmación antes de completar la acción.
 
 Esta acción no se puede deshacer y puede requerir permisos especiales.
+
+++Generación de PDF++
+
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-viewpdf-100-es-es-1-snap.png]
+
+Desde la vista individual de cada registro (view) se puede generar y descargar un PDF con los datos completos del registro.
+
+Desde la vista de listado (list), se pueden seleccionar múltiples registros mediante checkbox y generar un único documento PDF que los incluye todos.
 
 
 
@@ -565,6 +581,30 @@ Las facturas solo pueden eliminarse si no están cerradas ni pagadas.
 El sistema mostrará una advertencia de confirmación antes de proceder.
 
 Esta acción no se puede deshacer.
+
+++Generación de PDF++
+
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-viewpdf-100-es-es-1-snap.png]
+
+Desde la vista individual de cada registro (view) se puede generar y descargar un PDF con los datos completos del registro.
+
+Desde la vista de listado (list), se pueden seleccionar múltiples registros mediante checkbox y generar un único documento PDF que los incluye todos.
+
+++Widgets en el dashboard++
+
+La aplicación de facturación (`invoices`) publica varios widgets en el panel principal (dashboard) para ofrecer una visión global y en tiempo real del estado de la facturación en el sistema.
+
+Los widgets disponibles son:
+
+- **Tabla `last_7_invoices`**: muestra las 7 últimas facturas emitidas, incluyendo información clave como el cliente, el importe total y el estado (pagada o pendiente).
+- **Gráfica `invoice_total_by_day`**: representa el importe total facturado por día, permitiendo detectar picos o tendencias en la actividad.
+- **Gráfica `invoice_avg_by_day`**: muestra el importe medio diario de las facturas emitidas, útil para evaluar la regularidad o estacionalidad.
+- **Gráfica `top5_customers_by_total`**: destaca los 5 clientes que más volumen de facturación han generado, facilitando la identificación de clientes clave.
+- **Gráfica `invoice_paid_vs_pending`**: compara el número de facturas pagadas frente a las pendientes, proporcionando una visión clara del flujo de cobros.
+- **Gráfica `invoice_avg_days_to_pay`**: indica el número medio de días que tardan los clientes en pagar las facturas, ayudando a evaluar la puntualidad de los pagos.
+
+
+Estos widgets ofrecen información visual útil para la toma de decisiones y permiten monitorizar de forma continua la evolución financiera del negocio.
 
 
 
@@ -948,6 +988,14 @@ Las órdenes de trabajo solo pueden eliminarse si no están vinculadas a servici
 
 Se mostrará un aviso de confirmación antes de eliminar.
 Se recomienda desactivarlas si se desea conservar el historial sin mantenerlas visibles.
+
+++Generación de PDF++
+
+[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-viewpdf-100-es-es-1-snap.png]
+
+Desde la vista individual de cada registro (view) se puede generar y descargar un PDF con los datos completos del registro.
+
+Desde la vista de listado (list), se pueden seleccionar múltiples registros mediante checkbox y generar un único documento PDF que los incluye todos.
 
 
 
@@ -1548,6 +1596,20 @@ El formulario de respuesta o redacción incluye:
 Los correos pueden eliminarse desde la vista de lista mediante el icono o acción correspondiente.
 
 Los mensajes se eliminan localmente o se marcan para eliminación, según la configuración del servidor.
+
+++Generación de PDF++
+
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-viewpdf-100-es-es-1-snap.png]
+
+Desde la vista individual de un registro (view), el usuario puede generar y descargar un PDF con todos los datos relevantes de ese registro.
+
+Desde la vista de listado (list), es posible seleccionar varios registros mediante los checkboxes y generar un único PDF que los incluya todos.
+
+++Widget en el dashboard++
+
+La aplicación de correos electrónicos (`emails`) publica un widget en el panel principal (dashboard) que muestra una lista compacta con los 5 últimos correos electrónicos recibidos.
+
+Este widget permite al usuario consultar rápidamente los mensajes más recientes sin necesidad de acceder a la aplicación completa, mejorando la visibilidad de la actividad reciente y facilitando el acceso directo a cada correo.
 
 
 

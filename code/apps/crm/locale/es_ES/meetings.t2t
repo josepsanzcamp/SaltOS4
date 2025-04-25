@@ -57,3 +57,11 @@ Las reuniones pueden eliminarse desde la vista de lista mediante la acción corr
 Antes de eliminar, el sistema solicitará confirmación.
 
 Esta acción no se puede deshacer y puede requerir permisos específicos.
+
+==Generación de PDF==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-viewpdf-100-es-es-1-snap.png]
+
+Desde la vista individual de cada registro (view) se puede generar y descargar un PDF con los datos completos del registro.
+
+Desde la vista de listado (list), se pueden seleccionar múltiples registros mediante checkbox y generar un único documento PDF que los incluye todos.
