@@ -186,7 +186,7 @@ describe('Screenshots', () => {
             'dashboard_widgets': ['']
         },
         'emails': {
-            'emails': ['create', 'list', 'view/100'],
+            'emails': ['create', 'list', 'view/100', 'view/viewpdf/100'],
             'emails_accounts': ['create', 'list', 'edit/1', 'view/1']
         },
         'hr': {
