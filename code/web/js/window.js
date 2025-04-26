@@ -89,7 +89,11 @@ saltos.window.listeners = {};
  * @fn   => callback executed when event named is triggered
  */
 saltos.window.set_listener = (name, fn) => {
-    saltos.window.listeners[name] = fn;
+    if (!(name in saltos.window.listeners)) {
+        saltos.window.listeners[name] = {};
+    }
+    const id = md5(fn.toString());
+    saltos.window.listeners[name][id] = fn;
 };
 
 /**
@@ -98,9 +102,17 @@ saltos.window.set_listener = (name, fn) => {
  * This function removes a listener from the listeners object
  *
  * @name => the name of the event that you want to unsuscribe
+ * @fn   => callback executed when event named is triggered
  */
-saltos.window.unset_listener = (name) => {
-    delete saltos.window.listeners[name];
+saltos.window.unset_listener = (name, fn) => {
+    if (!(name in saltos.window.listeners)) {
+        return;
+    }
+    const id = md5(fn.toString());
+    delete saltos.window.listeners[name][id];
+    if (!Object.keys(saltos.window.listeners[name]).length) {
+        delete saltos.window.listeners[name];
+    }
 };
 
 /**
@@ -164,5 +176,7 @@ window.addEventListener('storage', event => {
     if (!(name in saltos.window.listeners)) {
         return;
     }
-    saltos.window.listeners[name](data);
+    for (const i in saltos.window.listeners[name]) {
+        saltos.window.listeners[name][i](data);
+    }
 });
