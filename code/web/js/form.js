@@ -582,6 +582,39 @@ saltos.form.title = title => {
         }
         throw new Error(`Unknown attr`);
     }
+
+    // Trick for the title in the navbar
+    const navbar = document.getElementById('navbar');
+    if (navbar) {
+        const obj = document.getElementById('title1');
+        if (!obj) {
+            const container = navbar.closest('.container-fluid');
+            const brand = container.querySelector('.navbar-brand');
+            const collapse = container.querySelector('.navbar-collapse');
+            const title1 = saltos.core.html(`
+                <div class="d-none d-xl-block position-absolute top-50 start-50 translate-middle">
+                    <span id="title1" class="text-white fw-bold">Título de la Página1</span>
+                </div>
+                <div class="d-block d-md-none">
+                    <span id="title3" class="text-white fw-bold">Título de la Página2</span>
+                </div>
+            `);
+            const title2 = saltos.core.html(`
+                <div class="d-none d-md-block d-xl-none">
+                    <span id="title2" class="text-white fw-bold">Título de la Página3</span>
+                </div>
+            `);
+            container.insertBefore(title1, brand.nextSibling);
+            collapse.insertBefore(title2, collapse.lastChild);
+        }
+        for (let i = 1; i <= 3; i++) {
+            const obj = document.getElementById(`title${i}`);
+            if (obj) {
+                obj.innerHTML = T(title);
+            }
+        }
+    }
+
     // Continue with default behaviour
     if ('about' in saltos.core) {
         document.title = T(title) + ' - ' + saltos.core.about;
