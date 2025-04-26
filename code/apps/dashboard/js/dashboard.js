@@ -47,6 +47,8 @@ saltos.dashboard = {};
  * the dashboard widgets based on user-defined or default configurations.
  */
 saltos.dashboard.init = arg => {
+    // Remove the pb-3 of the screen
+    document.getElementById('one').classList.remove('pb-3');
     // Sets a listener to update dashboard-related elements on event triggers
     saltos.window.set_listener('saltos.dashboard.update', event => {
         saltos.hash.trigger();
