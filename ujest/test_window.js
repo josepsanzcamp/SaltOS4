@@ -147,7 +147,8 @@ describe('saltos.window.listeners', () => {
     test('set_listener should add a listener for a specific event', () => {
         const mockCallback = jest.fn();
         saltos.window.set_listener('testEvent', mockCallback);
-        expect(saltos.window.listeners[`testEvent`]).toBe(mockCallback);
+        const id = md5(mockCallback.toString());
+        expect(saltos.window.listeners[`testEvent`][id]).toBe(mockCallback);
     });
 
     /**
@@ -156,7 +157,8 @@ describe('saltos.window.listeners', () => {
      * Verifies that listeners can be removed for specific events
      */
     test('unset_listener should remove a listener for a specific event', () => {
-        saltos.window.unset_listener('testEvent');
+        const mockCallback = jest.fn();
+        saltos.window.unset_listener('testEvent', mockCallback);
         expect(saltos.window.listeners[`testEvent`]).toBeUndefined();
     });
 
