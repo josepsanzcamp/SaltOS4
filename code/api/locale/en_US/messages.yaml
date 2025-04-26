@@ -73,9 +73,9 @@ view: View
 download: Download
 navigator_is_online: The browser is online
 navigator_is_offline: The browser is offline
-browser_browser_platform_platform_and_a_device_type_device_type: browser $browser, platform $platform and device type $device_type
+browser_browser_platform_platform_and_a_device_type_device_type: $browser browser, $platform platform, and a $device_type device type
 city_region_country_using_ip_ip_and_network_of_isp: $city, $region, $country using IP $ip and network of $isp
-a_connection_has_been_detected_from_geoip_on_a_browser: A connection has been detected from $geoip using $browser.
+a_connection_has_been_detected_from_geoip_on_a_browser: A connection has been detected from $geoip on a $browser.
 to_see_the_history_of_the_changes: To see the history of the changes
 information_of_this_register: Information of this register
 read: Read
