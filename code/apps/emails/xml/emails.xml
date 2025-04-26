@@ -546,9 +546,9 @@
         <javascript>
             <inline>
                 saltos.window.set_listener('saltos.emails.update', event => {
-                    saltos.app.__source_helper({
-                        id: 'widget/emails',
-                        source: 'app/emails/widget/emails',
+                    saltos.form.__widget_helper({
+                        id: 'widget/last_5_emails',
+                        source: 'app/emails/widget/last_5_emails',
                     });
                     saltos.favicon.run();
                 });

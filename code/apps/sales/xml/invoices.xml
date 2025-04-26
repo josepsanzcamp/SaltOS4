@@ -372,7 +372,7 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <layout>
-            <table id="invoices" nodata="Data not found">
+            <table id="widget/last_7_invoices" nodata="Data not found">
                 <header>
                     <customer_name label="Customer"/>
                     <date label="Date"/>
@@ -401,9 +401,9 @@
         <javascript>
             <inline>
                 saltos.window.set_listener('saltos.invoices.update', event => {
-                    saltos.app.__source_helper({
-                        id: 'widget/invoices',
-                        source: 'app/invoices/widget/invoices',
+                    saltos.form.__widget_helper({
+                        id: 'widget/last_7_invoices',
+                        source: 'app/invoices/widget/last_7_invoices',
                     });
                     saltos.favicon.run();
                 });
@@ -422,9 +422,9 @@
         <javascript>
             <inline>
                 saltos.window.set_listener('saltos.invoices.update', event => {
-                    saltos.app.__source_helper({
-                        id: 'widget/customers',
-                        source: 'app/invoices/widget/customers',
+                    saltos.form.__widget_helper({
+                        id: 'widget/invoice_total_by_day',
+                        source: 'app/invoices/widget/invoice_total_by_day',
                     });
                     saltos.favicon.run();
                 });
@@ -443,9 +443,9 @@
         <javascript>
             <inline>
                 saltos.window.set_listener('saltos.invoices.update', event => {
-                    saltos.app.__source_helper({
-                        id: 'widget/customers',
-                        source: 'app/invoices/widget/customers',
+                    saltos.form.__widget_helper({
+                        id: 'widget/invoice_avg_by_day',
+                        source: 'app/invoices/widget/invoice_avg_by_day',
                     });
                     saltos.favicon.run();
                 });
@@ -464,9 +464,9 @@
         <javascript>
             <inline>
                 saltos.window.set_listener('saltos.invoices.update', event => {
-                    saltos.app.__source_helper({
-                        id: 'widget/customers',
-                        source: 'app/invoices/widget/customers',
+                    saltos.form.__widget_helper({
+                        id: 'widget/top5_customers_by_total',
+                        source: 'app/invoices/widget/top5_customers_by_total',
                     });
                     saltos.favicon.run();
                 });
@@ -485,9 +485,9 @@
         <javascript>
             <inline>
                 saltos.window.set_listener('saltos.invoices.update', event => {
-                    saltos.app.__source_helper({
-                        id: 'widget/customers',
-                        source: 'app/invoices/widget/customers',
+                    saltos.form.__widget_helper({
+                        id: 'widget/invoice_paid_vs_pending',
+                        source: 'app/invoices/widget/invoice_paid_vs_pending',
                     });
                     saltos.favicon.run();
                 });
@@ -506,9 +506,9 @@
         <javascript>
             <inline>
                 saltos.window.set_listener('saltos.invoices.update', event => {
-                    saltos.app.__source_helper({
-                        id: 'widget/customers',
-                        source: 'app/invoices/widget/customers',
+                    saltos.form.__widget_helper({
+                        id: 'widget/invoice_avg_days_to_pay',
+                        source: 'app/invoices/widget/invoice_avg_days_to_pay',
                     });
                     saltos.favicon.run();
                 });
