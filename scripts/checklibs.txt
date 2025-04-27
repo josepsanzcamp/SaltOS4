@@ -21,7 +21,7 @@ jstree|https://github.com/vakata/jstree/commits/v.4.0.atom|<updated>|PHVwZGF0ZWQ
 locutus|https://github.com/locutusjs/locutus/tags.atom|<title>|PHRpdGxlPnYyLjAuMzI8L3RpdGxlPg==
 masonry|https://github.com/desandro/masonry/tags.atom|<title>|PHRpdGxlPnY0LjIuMiAtIGZsb2F0IHBvc2l0aW9uIHZhbHVlczwvdGl0bGU+
 md5|https://github.com/blueimp/JavaScript-MD5/tags.atom|<title>|PHRpdGxlPnYyLjE5LjA8L3RpdGxlPg==
-pdfjs|https://github.com/mozilla/pdf.js/tags.atom|<title>|PHRpdGxlPnY1LjEuOTE8L3RpdGxlPg==
+pdfjs|https://github.com/mozilla/pdf.js/tags.atom|<title>|PHRpdGxlPnY1LjIuMTMzPC90aXRsZT4=
 sourcemap|https://github.com/novocaine/sourcemapped-stacktrace/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAxOS0wOS0wMVQwODowNTo1Mlo8L3VwZGF0ZWQ+
 tomselect|https://github.com/orchidjs/tom-select/tags.atom|<title>|PHRpdGxlPnYyLjQuMzwvdGl0bGU+
 venobox|https://github.com/nicolafranchini/VenoBox/tags.atom|<title>|PHRpdGxlPjIuMS44PC90aXRsZT4=
@@ -47,7 +47,7 @@ node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjUtMDQtMjMsIF
 pcov|https://github.com/krakjoe/pcov/tags.atom|<title>|PHRpdGxlPnYxLjAuMTI8L3RpdGxlPg==
 php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjQuN1JDMTwvdGl0bGU+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|PHRpdGxlPjMuMTIuMiAtIDIwMjUtMDQtMTM8L3RpdGxlPg==
-phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjIuMS4xMjwvdGl0bGU+
+phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjIuMS4xMzwvdGl0bGU+
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|PHRpdGxlPlBIUFVuaXQgMTIuMS4zPC90aXRsZT4=
 uglifyjs|https://github.com/mishoo/UglifyJS/tags.atom|<title>|PHRpdGxlPnYzLjE5LjM8L3RpdGxlPg==
 wpcs|https://github.com/WordPress/WordPress-Coding-Standards/tags.atom|<title>|PHRpdGxlPjMuMS4wPC90aXRsZT4=
