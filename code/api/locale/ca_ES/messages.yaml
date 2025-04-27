@@ -125,3 +125,6 @@ core: Nucli
 system_tools: Eines del sistema
 history_of_changes: Historial de canvis
 access_log: Registre d'accés
+list: Llistat
+detail: Detall
+modify: Modificar

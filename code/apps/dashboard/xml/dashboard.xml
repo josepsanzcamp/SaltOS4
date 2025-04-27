@@ -30,9 +30,9 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <gettext eval="true">T()</gettext>
-        <title>Dashboard</title>
         <screen>type1</screen>
         <navbar eval="true">xmlfile2array('apps/common/xml/navbar.xml')['navbar']</navbar>
+        <title>Dashboard</title>
         <layout append="top">
             <row auto="true" row_class="row position-absolute end-0 me-0 mt-3">
                 <button onclick="saltos.window.open('app/dashboard_widgets')" tooltip="To configure the dashboard widgets" icon="gear"/>

@@ -593,15 +593,15 @@ saltos.form.title = title => {
             const collapse = container.querySelector('.navbar-collapse');
             const title1 = saltos.core.html(`
                 <div class="d-none d-xl-block position-absolute top-50 start-50 translate-middle">
-                    <span id="title1" class="text-white fw-bold">Título de la Página1</span>
+                    <span id="title1" class="text-white fw-bold fs-2"></span>
                 </div>
                 <div class="d-block d-md-none">
-                    <span id="title3" class="text-white fw-bold">Título de la Página2</span>
+                    <span id="title3" class="text-white fw-bold fs-4"></span>
                 </div>
             `);
             const title2 = saltos.core.html(`
                 <div class="d-none d-md-block d-xl-none">
-                    <span id="title2" class="text-white fw-bold">Título de la Página3</span>
+                    <span id="title2" class="text-white fw-bold fs-3"></span>
                 </div>
             `);
             container.insertBefore(title1, brand.nextSibling);

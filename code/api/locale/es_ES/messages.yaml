@@ -125,3 +125,6 @@ core: Núcleo
 system_tools: Herramientas del sistema
 history_of_changes: Historial de cambios
 access_log: Registro de acceso
+list: Listado
+detail: Detalle
+modify: Modificar

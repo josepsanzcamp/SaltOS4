@@ -34,7 +34,7 @@
 
         <navbar id="navbar" pos="sticky-top" brand.image="img/logo_saltos.png" brand.alt="SaltOS" brand.width="155" brand.height="29">
             <items>
-                <menu class="navbar-nav me-auto mb-2 mb-lg-0">
+                <menu class="navbar-nav me-auto">
                     <item label="Home" disabled="false" onclick="alert(1)"/>
                     <item label="Link" disabled="false" onclick="alert(2)"/>
                     <item label="Dropdown" disabled="false">
@@ -52,7 +52,7 @@
                     <text placeholder="Search" color="light" id="search"/>
                     <button onclick="alert(7)" color="light" class=" mx-1 text-nowrap" label="Search"/>
                 </form>
-                <menu class="navbar-nav mb-2 mb-lg-0">
+                <menu class="navbar-nav">
                     <item label="Themes" dropdown_menu_end="true">
                         <menu>
                             <item label="bootstrap" disabled="false" onclick="alert('bootstrap')"/>

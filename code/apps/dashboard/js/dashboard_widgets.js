@@ -48,14 +48,15 @@ saltos.dashboard_widgets = {};
  */
 saltos.dashboard_widgets.init = arg => {
     setTimeout(() => {
+        const catalog = document.getElementById('catalog');
         // Modify style classes to adjust font sizes
         for (let i = 4; i > 0; i--) {
             const j = i + 2;
-            document.querySelectorAll(`.fs-${i}`).forEach(item => {
+            catalog.querySelectorAll(`.fs-${i}`).forEach(item => {
                 item.classList.replace(`fs-${i}`, `fs-${j}`);
             });
         }
-        document.querySelectorAll('table').forEach(item => {
+        catalog.querySelectorAll('table').forEach(item => {
             item.classList.add('table-sm');
             item.classList.add('small');
         });

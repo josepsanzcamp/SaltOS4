@@ -30,9 +30,9 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <gettext eval="true">T()</gettext>
-        <title>Dashboard widgets configuration app</title>
         <screen>type2</screen>
         <navbar eval="true">xmlfile2array('apps/common/xml/navbar.xml')['navbar']</navbar>
+        <title>Dashboard widgets configuration app</title>
         <layout append="one">
             <row auto="true" id="catalog" col_class="col-xl-4 col-md-6 mb-3" row_class="row border border-3 border-dashed mx-0 pt-3"
                 require="apps/dashboard/php/dashboard.php" eval="true">__dashboard_helper()</row>
