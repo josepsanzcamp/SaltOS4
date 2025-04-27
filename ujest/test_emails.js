@@ -159,6 +159,8 @@ describe('App Emails', () => {
                     saltos.window.send('saltos.emails.update');
                 },
             });
+        });
+        await page.evaluate(() => {
             saltos.app.ajax({
                 url: 'app/emails/view/setter/96,97,98,99,100',
                 proxy: 'network',

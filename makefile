@@ -192,6 +192,11 @@ endif
 endif
 	php scripts/jest_coverage.php
 
+ujest_by_parts:
+	$(MAKE) ujest file=core,filter,gettext,hash,proxy,push,storage,token,window
+	$(MAKE) ujest file=apps,bootstrap,customers,emails,invoices,tester
+	$(MAKE) ujest file=screenshots
+
 cloc:
 	find scripts utest ujest code/api/{index.php,php,xml,locale} code/web/{js,htm} code/apps/*/{js,php,xml,locale,sample} > /tmp/cloc.include
 	find code/apps/*/js/*.min.* utest/files/* > /tmp/cloc.exclude

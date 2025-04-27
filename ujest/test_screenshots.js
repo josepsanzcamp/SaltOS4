@@ -186,8 +186,8 @@ describe('Screenshots', () => {
             'dashboard_widgets': ['']
         },
         'emails': {
-            'emails': ['create', 'list', 'view/100', 'view/viewpdf/100'],
-            'emails_accounts': ['create', 'list', 'edit/1', 'view/1']
+            'emails': ['list', 'create', 'view/100', 'view/viewpdf/100'],
+            'emails_accounts': ['list', 'create', 'edit/1', 'view/1']
         },
         'hr': {
             'employees': ['list', 'create', 'view/100', 'edit/100'],
@@ -202,7 +202,7 @@ describe('Screenshots', () => {
             'pushlog': ['list'],
             'cronlog': ['list'],
             'uploadlog': ['list'],
-            'configlog': ['create', 'list', 'view/10', 'edit/10'],
+            'configlog': ['list', 'create', 'view/10', 'edit/10'],
             'trashlog': ['list'],
             'tokenslog': ['list', 'view/1'],
             'fileslog': ['list']
@@ -214,7 +214,7 @@ describe('Screenshots', () => {
             'purchase_status': ['list', 'create', 'view/10', 'edit/10']
         },
         'certs': {
-            'certs': ['create', 'list', 'view/ab877d2027f7c71d9935999cce1b802b']
+            'certs': ['list', 'create', 'view/ab877d2027f7c71d9935999cce1b802b']
         }
     };
 
@@ -248,10 +248,21 @@ describe('Screenshots', () => {
     });
 
     test.each(allApps)('$group $app $action $lang', async (info) => {
-        await page.evaluate(() => { saltos.bootstrap.modal('close'); });
-        await page.evaluate(() => { document.body.innerHTML = ''; });
-        await page.evaluate(lang => { saltos.gettext.set(lang); }, info.lang);
-        await page.evaluate(() => { saltos.app.__cache = {}; });
+        if (['list', ''].includes(info.action)) {
+            await page.evaluate(() => { saltos.bootstrap.modal('close'); });
+            await page.evaluate(() => { document.body.innerHTML = ''; });
+            await page.evaluate(lang => { saltos.gettext.set(lang); }, info.lang);
+            await page.evaluate(() => { saltos.app.__cache = {}; });
+        }
+        if (['create', 'edit/100', 'edit/10', 'edit/1'].includes(info.action)) {
+            await page.evaluate(() => {
+                for (const i in localStorage) {
+                    if (i.includes('saltos.autosave')) {
+                        localStorage.removeItem(i);
+                    }
+                }
+            });
+        }
 
         await page.goto(`https://127.0.0.1/saltos/code4/#/app/${info.app}/${info.action}`);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
