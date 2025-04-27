@@ -99,3 +99,21 @@ function current_hash()
     }
     return $hash;
 }
+
+/**
+ * Validates an IP address.
+ *
+ * This function checks whether the provided string is a valid IPv4 or IPv6 address.
+ * If the IP address is valid, it returns it as-is; otherwise, it returns null.
+ *
+ * @ip => The IP address to validate.
+ *
+ * Return the valid IP address, or null if the input is not a valid IP address.
+ */
+function check_ip_addr($ip)
+{
+    if (!filter_var($ip, FILTER_VALIDATE_IP)) {
+        return null;
+    }
+    return $ip;
+}
