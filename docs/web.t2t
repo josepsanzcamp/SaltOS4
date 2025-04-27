@@ -1,5 +1,5 @@
 Web Client Documentation
-SaltOS 4.0 r2009
+SaltOS 4.0 r2018
 April 2025
 
 
@@ -4693,12 +4693,13 @@ This function allos to set a listener function to the named event
 +++Unset listener+++
 
 ```
-saltos.window.unset_listener = (name)
+saltos.window.unset_listener = (name, fn)
 ```
 
 This function removes a listener from the listeners object
 
 - @name => the name of the event that you want to unsuscribe
+- @fn   => callback executed when event named is triggered
 
 
 +++Send message+++

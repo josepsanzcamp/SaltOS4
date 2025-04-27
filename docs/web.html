@@ -25,7 +25,7 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <header>
 <hgroup>
 <h1>Web Client Documentation</h1>
-<h2>SaltOS 4.0 r2009</h2>
+<h2>SaltOS 4.0 r2018</h2>
 <h3>April 2025</h3>
 </hgroup>
 </header>
@@ -7788,7 +7788,7 @@ This function allos to set a listener function to the named event
 <h3>1.17.6. Unset listener</h3>
 
 <pre>
-saltos.window.unset_listener = (name)
+saltos.window.unset_listener = (name, fn)
 </pre>
 
 <p>
@@ -7797,6 +7797,8 @@ This function removes a listener from the listeners object
 
 <ul>
 <li>@name =&gt; the name of the event that you want to unsuscribe
+</li>
+<li>@fn   =&gt; callback executed when event named is triggered
 </li>
 </ul>
 
