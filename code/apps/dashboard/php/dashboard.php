@@ -102,6 +102,7 @@ function __dashboard_helper()
         FROM tbl_apps_groups ORDER BY position DESC, name ASC';
     $rows = execute_query_array($query);
     $mapping = array_combine(array_column($rows, 'code'), $rows);
+    $mapping = array_intersect_key($mapping, $groups);
 
     // Create the lineal apps list
     $items = [];
@@ -246,6 +247,7 @@ function __navbar_helper()
         FROM tbl_apps_groups ORDER BY position DESC, name ASC';
     $rows = execute_query_array($query);
     $mapping = array_combine(array_column($rows, 'code'), $rows);
+    $mapping = array_intersect_key($mapping, $groups);
 
     // Create the lineal apps list
     $items = [];
