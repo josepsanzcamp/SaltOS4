@@ -984,8 +984,7 @@ saltos.bootstrap.__field.iframe = field => {
         border = 'border-0';
     }
     let obj = saltos.core.html(`
-        <iframe id="${field.id}" frameborder="0"
-            class="form-control p-0 ${border} ${field.class}"></iframe>
+        <iframe id="${field.id}" frameborder="0" class="w-100 ${border} ${field.class}"></iframe>
     `);
     if (field.src) {
         obj.src = field.src;
@@ -5179,9 +5178,10 @@ saltos.bootstrap.set_bs_theme = theme => {
  * @theme => Can be default or one of the bootswatch themes
  */
 saltos.bootstrap.set_css_theme = theme => {
-    const themes = ['default', 'cerulean', 'cosmo', 'cyborg', 'darkly', 'flatly', 'journal', 'litera',
-        'lumen', 'lux', 'materia', 'minty', 'morph', 'pulse', 'quartz', 'sandstone', 'simplex',
-        'sketchy', 'slate', 'solar', 'spacelab', 'superhero', 'united', 'vapor', 'yeti', 'zephyr'];
+    const themes = ['default',
+        'brite', 'cerulean', 'cosmo', 'cyborg', 'darkly', 'flatly', 'journal', 'litera', 'lumen',
+        'lux', 'materia', 'minty', 'morph', 'pulse', 'quartz', 'sandstone', 'simplex', 'sketchy',
+        'slate', 'solar', 'spacelab', 'superhero', 'united', 'vapor', 'yeti', 'zephyr'];
     if (!themes.includes(theme)) {
         throw new Error(`css_theme ${theme} not found`);
     }

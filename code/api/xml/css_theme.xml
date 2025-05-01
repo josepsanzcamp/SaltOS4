@@ -28,6 +28,7 @@
 <root>
     <rows>
         <row label="Default" value="default"/>
+        <row label="Brite" value="brite"/>
         <row label="Cerulean" value="cerulean"/>
         <row label="Cosmo" value="cosmo"/>
         <row label="Cyborg" value="cyborg"/>
