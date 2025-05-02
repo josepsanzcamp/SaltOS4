@@ -973,6 +973,9 @@ saltos.bootstrap.__indent_helper = (str, mode) => {
  * embedded with a doctype with html, head and body, includes the default saltos font and
  * to provide a security layer, this function creates an iframe with a sandbox and add to
  * the srcdoc a meta to configure the CSP that must apply to the contents
+ *
+ * To fix some issues with the iframe that adds some space between the bottom of the iframe
+ * and the parent container, we must to add the d-block to convert it from inline to block
  */
 saltos.bootstrap.__field.iframe = field => {
     saltos.core.check_params(field, ['src', 'srcdoc', 'id', 'class', 'height', 'color']);
@@ -984,7 +987,7 @@ saltos.bootstrap.__field.iframe = field => {
         border = 'border-0';
     }
     let obj = saltos.core.html(`
-        <iframe id="${field.id}" frameborder="0" class="w-100 ${border} ${field.class}"></iframe>
+        <iframe id="${field.id}" frameborder="0" class="w-100 d-block ${border} ${field.class}"></iframe>
     `);
     if (field.src) {
         obj.src = field.src;
