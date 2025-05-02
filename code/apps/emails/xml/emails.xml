@@ -248,7 +248,7 @@
                     ]</rows>
                 </select>
                 <text id="subject" label="Subject" required="true"/>
-                <ckeditor id="body" label="Body" height="10em" required="true"/>
+                <ckeditor id="body" label="Body" height="5em" required="true"/>
                 <file id="files" label="Attachments" multiple="true"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -367,7 +367,7 @@
                 <switch id="state_crt" label="Request confirmation of receipt" col_class="col-sm-9 col-md-6 col-lg-6 mb-3"/>
                 <text id="state_error" label="Error" color="danger"/>
                 <text id="subject" label="Subject"/>
-                <iframe id="body" label="Body" height="10em" srcdoc="Loading..."/>
+                <iframe id="body" label="Body" height="5em" srcdoc="Loading..."/>
                 <table id="files" label="Attachments" col_class="col-12 mb-3" dropdown="false">
                     <header>
                         <name>Filename</name>

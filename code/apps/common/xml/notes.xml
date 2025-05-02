@@ -38,7 +38,7 @@
                 <delete icon="trash" tooltip="Delete note" onclick="saltos.common.delete"/>
             </actions>
         </table>
-        <textarea id="addnotes" label="New note" col_class="col-12 mb-3" require="php/lib/notes.php" ifeval="check_notes_new(get_data('rest/1'), get_data('rest/2'))"/>
+        <textarea id="addnotes" label="New note" height="5em" col_class="col-12 mb-3" require="php/lib/notes.php" ifeval="check_notes_new(get_data('rest/1'), get_data('rest/2'))"/>
     </_form>
 
     <_data>

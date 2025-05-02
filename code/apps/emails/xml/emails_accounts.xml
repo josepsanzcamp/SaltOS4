@@ -137,7 +137,7 @@
         <div col_class="col-12"/><!-- this act as break line -->
         <text id="email_name" label="Name" required="true"/>
         <text id="email_from" label="Email" required="true"/>
-        <ckeditor id="email_signature" label="Signature" height="10em" col_class="col-12 mb-3"/>
+        <ckeditor id="email_signature" label="Signature" height="5em" col_class="col-12 mb-3"/>
 
         <alert title="POP3 server configuration" col_class="col-12 mb-3"/>
         <text id="pop3_host" label="Host"/>

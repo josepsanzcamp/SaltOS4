@@ -140,7 +140,7 @@
         <password id="newpass" label="New password" autocomplete="false"/>
         <password id="renewpass" label="Retype password" autocomplete="false"/>
 
-        <textarea id="description" label="Description" required="true" height="10em" col_class="col-12 mb-3"/>
+        <textarea id="description" label="Description" required="true" height="5em" col_class="col-12 mb-3"/>
 
         <time id="start" label="Start" required="true"/>
         <time id="end" label="End" required="true"/>

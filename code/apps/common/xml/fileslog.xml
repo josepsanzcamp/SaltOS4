@@ -126,7 +126,7 @@
                 <text id="name" label="Name"/>
                 <text id="type" label="Type"/>
                 <text id="size" label="Size"/>
-                <textarea id="data" label="Data" height="10em" col_class="col-md-12 mb-3"/>
+                <textarea id="data" label="Data" height="5em" col_class="col-md-12 mb-3"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>

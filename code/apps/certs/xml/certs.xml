@@ -158,7 +158,7 @@
         <layout append="two,one">
             <row auto="true" col_class="col-md-6 mb-3">
                 <text id="name" label="Name"/>
-                <textarea id="info" label="Info" height="10em" col_class="col-md-12 mb-3"/>
+                <textarea id="info" label="Info" height="5em" col_class="col-md-12 mb-3"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
