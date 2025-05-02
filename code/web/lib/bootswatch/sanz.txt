@@ -1,5 +1,10 @@
 
-for i in brite cerulean cosmo cyborg darkly flatly journal litera lumen lux materia minty morph pulse quartz sandstone simplex sketchy slate solar spacelab superhero united vapor yeti zephyr; do
+# important note: this themes have been modified to:
+# - remove the @import of external fonts
+# - add or fixe some issues with the SaltOS4 UI
+
+themes=$(curl -s https://bootswatch.com/api/5.json | jq -r .themes[].name | tr '[:upper:]' '[:lower:]')
+for i in $themes; do
     wget -O $i.min.css https://cdn.jsdelivr.net/npm/bootswatch@5.3.5/dist/$i/bootstrap.min.css
     cat $i.min.css | grep -v sourceMappingURL > $i.min.css.new
     mv $i.min.css.new $i.min.css
