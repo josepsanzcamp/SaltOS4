@@ -1,6 +1,6 @@
 Devel Documentation
-SaltOS 4.0 r2018
-April 2025
+SaltOS 4.0 r2028
+May 2025
 
 
 
@@ -591,11 +591,96 @@ Both modes are based on the same HTML loader template found in `web/htm/index.ht
 Applications in SaltOS4 are modular, defined in folders under `apps/`.
 
 Each folder may contain:
+
 - `xml/manifest.xml`: declares the apps
 - `xml/*.xml` or `xml/*.yaml`: application definitions
 - `php/`, `js/`, `locale/`: optional logic and translations
 - `dbschema.xml`, `dbstatic.xml`: database structure and static content
 
+
+++Manifest Files++
+
+The `manifest.xml` file defines the metadata and registration details for each SaltOS4 application. It serves as a declaration file that the system reads to know how to display, categorize, and enable the app.
+
+Each `manifest.xml` typically lives in the `apps/<appname>/xml/` folder.
+
++++General Structure+++
+
+The manifest follows this structure:
+
+```
+<root>
+    <groups>
+        <group code="group_code" name="Group Name" description="Description" color="color" position="number"/>
+    </groups>
+    <apps>
+        <app id="number" active="1|0" group="group_code"
+             code="app_code" name="App Name" description="Description"
+             table="main_table" field="main_field"
+             subtables="subtable1:table(foreign_key),subtable2:table(foreign_key)"
+             has_index="1|0" has_control="1|0" has_version="1|0"
+             has_files="1|0" has_notes="1|0" has_log="1|0"
+             widgets="widget1,widget2"
+             perms="*" color="color" opacity="percent" fontsize="number"
+             allow="1" deny="0"/>
+    </apps>
+</root>
+```
+
++++Key Elements+++
+
+- **<group>**: Defines a functional group (like CRM, Sales, HR).
+    - `code`: unique identifier.
+    - `name`: displayed name.
+    - `description`: description shown in UI.
+    - `color`: Bootstrap color (e.g., primary, success).
+    - `position`: ordering in menus.
+- **<app>**: Defines an individual app.
+    - `id`: unique numeric ID.
+    - `active`: whether the app is active (`1`) or disabled (`0`).
+    - `group`: links the app to its parent group.
+    - `code`: internal code name (used in URLs, API, etc.).
+    - `name`: visible name in the UI.
+    - `description`: short explanation of the app.
+    - `table`: main database table used.
+    - `field`: representative field or computed string (used in lists, selects).
+    - `subtables`: related tables, in format `alias:table(foreign_key)`.
+    - `has_index`, `has_control`, `has_version`, `has_files`, `has_notes`, `has_log`: enable or disable specific system features.
+    - `widgets`: defines which dashboard widgets are linked.
+    - `perms`: permissions (can be a comma-separated list or `*` for all).
+    - `color`, `opacity`, `fontsize`, `position`: visual customization.
+    - `allow`, `deny`: additional access control flags.
+
+
++++Example+++
+
+```
+<root>
+    <groups>
+        <group code="sales" name="Sales" description="Sales & Billing Management" color="info" position="3"/>
+    </groups>
+    <apps>
+        <app id="53" active="1" group="sales" code="invoices" name="Invoices"
+             description="Invoices management" table="app_invoices"
+             field="IF(is_closed, invoice_code, proforma_code)"
+             subtables="lines:app_invoices_lines(invoice_id),taxes:app_invoices_taxes(invoice_id)"
+             has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1" has_log="1"
+             widgets="last_7_invoices,invoice_total_by_day"
+             perms="*"/>
+    </apps>
+</root>
+```
+
++++Usage Notes+++
+
+- The system reads all `manifest.xml` files on startup or when refreshing the app registry.
+- Disabling an app (`active="0"`) will hide it but preserve its data.
+- The `perms` attribute controls what actions are available (e.g., `main, create, edit, delete, view`) or can be set to `*` for full access.
+- Subtables help link detailed records like line items or attachments.
+- Visual attributes (`color`, `opacity`, `fontsize`) affect how the app appears in the UI but do not affect backend logic.
+
+
+This manifest system makes SaltOS4 highly modular and easy to extend.
 
 ++YAML-based Apps++
 
@@ -609,6 +694,8 @@ require: apps/common/php/default.php
 template: apps/common/xml/default.xml
 indent: true
 screen: type2
+col_class: col-md-6 mb-3
+dropdown: false
 list:
     # [id, type, label]
     - [user_id, select, User]
@@ -618,6 +705,7 @@ list:
 form:
     # [id, type, label]
     - [active, switch, Active]
+    - newline
     - [user_id, select, User]
     - [created_at, datetime, Created]
     - [updated_at, datetime, Updated]
@@ -628,6 +716,11 @@ form:
 select:
     # [id, table, optional field]
     - [user_id, tbl_users]
+attr:
+    # field:
+    #     attr: value
+    user_agent:
+        col_class: col-md-12 mb-3
 ```
 
 +++configlog.yaml+++
@@ -638,6 +731,8 @@ require: apps/common/php/default.php
 template: apps/common/xml/default.xml
 indent: true
 screen: type2
+col_class: col-md-6 mb-3
+dropdown: false
 list:
     # [id, type, label]
     - [user_id, select, User]
@@ -652,7 +747,7 @@ select:
     - [user_id, tbl_users]
 attr:
     # field:
-    #   attr: value
+    #     attr: value
     key:
         required: true
         autofocus: true
@@ -660,34 +755,43 @@ attr:
         required: true
         mode: json
         indent: true
+        col_class: col-md-12 mb-3
+        height: 5em
 ```
 
-+++types.yaml+++
++++taxes.yaml+++
 
 ```
-app: types
+app: taxes
 require: apps/common/php/default.php
 template: apps/common/xml/default.xml
 indent: true
 screen: type5
+col_class: col-md-6 mb-3
+dropdown: false
 list:
     # [id, type, label]
     - [name, text, Name]
     - [description, text, Description]
+    - [value, text, Value]
     - [active, boolean, Active]
+    - [default, boolean, Default]
 form:
     # [id, type, label]
     - [active, switch, Active]
+    - [default, switch, Default]
     - [name, text, Name]
+    - [value, float, Value]
     - [description, textarea, Description]
 attr:
     # field:
-    #   attr: value
+    #     attr: value
     name:
         required: true
         autofocus: true
     description:
-        required: true
+        col_class: col-md-12 mb-3
+        height: 5em
 ```
 
 These examples demonstrate the simplicity of defining apps in YAML.
@@ -696,19 +800,33 @@ These examples demonstrate the simplicity of defining apps in YAML.
 
 SaltOS4 also allows full custom apps defined in XML, often used for more complex business logic and interface customization.
 
-+++customers.xml+++
++++invoices.xml+++
 
 The following is a small example illustrating the structure of an application XML file:
 
 ```
 <main>
   <screen>type5</screen>
-  <title>Customers</title>
+  <title>Invoices</title>
   <navbar>
-    <item id="list" icon="list">List</item>
-    <item id="create" icon="plus">New</item>
+    .
+    .
+    .
   </navbar>
+  .
+  .
+  .
 </main>
+<list>
+  .
+  .
+  .
+</list>
+<form>
+  .
+  .
+  .
+</form>
 .
 .
 .
@@ -751,22 +869,95 @@ If an app is configured with type2, type3, type4 or type5 and the window.innerWi
 
 ++Data Model using dbschema.xml++
 
-Each application can define its own database schema through a dbschema.xml file. This file declares the required tables and fields. In addition, there is a central file (api/xml/dbschema.xml) that contains the shared tables used system-wide:
+Each application in SaltOS4 can define its own database schema through a `dbschema.xml` file located in the `xml/` folder. This file describes the required tables, fields, types, indexes, and relationships.
 
-- tbl_apps, tbl_perms, tbl_users_apps_perms, tbl_groups_apps_perms: permission control per user and group.
-- tbl_uploads: temporarily uploaded files not yet assigned to an app.
-- tbl_cron: execution log for scheduled tasks.
+There is also a central file (`api/xml/dbschema.xml`) that defines the **core system tables** used by SaltOS4, including:
+
+- tbl_apps, tbl_perms, tbl_users_apps_perms, tbl_groups_apps_perms: permissions per user and group.
+- tbl_uploads: temporary uploaded files.
+- tbl_cron: log of scheduled tasks.
 - tbl_push: push notifications.
-- tbl_trash: records of deleted files.
+- tbl_trash: deleted records.
 
 
-Examples of dbschema.xml in real apps:
++++Structure of dbschema.xml+++
 
-- apps/emails/xml/dbschema.xml: defines tables for emails, accounts, and addresses.
-- apps/customers/xml/dbschema.xml: structure for customers including fiscal and geographic data.
-- apps/invoices/xml/dbschema.xml: invoice headers, line items, and due dates.
-- apps/types/xml/dbschema.xml: generic system for type definitions.
+A typical `dbschema.xml` file includes:
 
+- `<table>`: Defines a database table.
+  - `name`: Table name.
+- `<fields>`: Contains `<field>` entries:
+  - `name`: Column name.
+  - `type`: SQL type (supports MySQL and SQLite variants).
+  - `pkey`: Marks the primary key if `true`.
+  - `fkey`: Defines a foreign key reference.
+- `<indexes>` (optional): Contains `<index>` entries listing:
+  - `fields`: Comma-separated list of fields in the index.
+
+
++++Example+++
+
+Example (trimmed here for brevity, see full XML files in repository):
+
+```
+<table name="app_taxes">
+    <fields>
+        <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+        <field name="name" type="VARCHAR(255)"/>
+        <field name="description" type="TEXT"/>
+        <field name="value" type="FLOAT"/>
+        <field name="active" type="INT(11)"/>
+        <field name="default" type="INT(11)"/>
+    </fields>
+</table>
+```
+
+A taxes table might include:
+
+- Primary key id (integer).
+- Fields like name (varchar), description (text), value (float), active (integer), and default (integer).
+- No special indexes beyond the primary key (unless defined explicitly).
+
+
++++Automatic Schema Management+++
+
+SaltOS4 automatically reads the `dbschema.xml` definitions and compares them against the live database. If it detects changes (new fields, indexes, tables), it applies the required SQL commands **automatically** to synchronize the schema.
+
+This means:
+
+- Developers do **not** need to write migration scripts.
+- Admins do **not** need external tools (like phpMyAdmin).
+- Schema updates happen transparently during deployment or app installation.
+
+
++++System-Wide and App-Specific Schemas+++
+
+- The **system-wide schema** (`api/xml/dbschema.xml`) defines shared tables.
+- Each **app-specific schema** (`apps/<app>/xml/dbschema.xml`) defines tables used only by that app.
+
+
+The system merges both to build the complete data model.
+
++++Benefits of dbschema.xml+++
+
+- Guarantees consistency across MySQL and SQLite setups.
+- Acts as the single source of truth for the data structure.
+- Enables automatic upgrades without manual SQL.
+- Simplifies building custom apps with tailored tables.
+- Prevents schema drift between environments.
+
+
++++Complement: dbstatic.xml+++
+
+SaltOS4 also uses a `dbstatic.xml` file to define **static data** (preloaded values) for:
+
+- Default permissions.
+- System users and groups.
+- Registered apps.
+- Essential relationships.
+
+
+Together, `dbschema.xml` and `dbstatic.xml` allow SaltOS4 to fully bootstrap a new installation, ensuring it is immediately usable after setup.
 
 ++Static Data using dbstatic.xml++
 
@@ -791,6 +982,135 @@ Each `<row>` inside `<table>` specifies a record to insert, using attributes lik
 
 This static data ensures consistent behavior across installations and is critical to bootstrapping the system correctly.
 
+++How to Add a New App++
+
+Adding a new app in SaltOS4 involves several steps that combine both backend and frontend configuration.
+
++++Create the App Folder+++
+
+Inside code/apps/, create a new folder with the app name, e.g. myapp/. This folder will contain:
+
+- php/: backend PHP logic (optional).
+- js/: frontend JavaScript logic (optional).
+- xml/: configuration files like manifest.xml and optionally dbschema.xml, dbstatic.xml.
+- locale/: translations (optional).
+
+
++++Define the Manifest+++
+
+Create xml/manifest.xml inside the app folder. This file declares the app to the system, specifying:
+
+- Unique id (check unused IDs in existing manifests).
+- code, name, description.
+- Associated group (like crm, sales, etc).
+- Main table, field, and optional subtables.
+- Flags like has_index, has_control, has_version, etc.
+- Required permissions (perms).
+
+
+Example:
+
+```
+<root>
+    <apps>
+        <app id="100" active="1" group="crm" code="new" name="New App" description="My new application" table="app_new" field="name" perms="main,menu,create,list,view,edit,delete"/>
+    </apps>
+</root>
+```
+
++++Define the Database Schema+++
+
+Create xml/dbschema.xml to declare the app's database tables. SaltOS4 will read and apply this schema automatically.
+
+Example for a simple table:
+
+```
+<root>
+    <tables>
+        <table name="app_myapp">
+            <fields>
+                <field name="id" type="INTEGER" pkey="true"/>
+                <field name="name" type="VARCHAR(255)"/>
+                <field name="description" type="TEXT"/>
+                <field name="active" type="INT(11)"/>
+            </fields>
+        </table>
+    </tables>
+</root>
+```
+
++++Define the Static Data (Optional)+++
+
+Use xml/dbstatic.xml if the app needs initial records (like predefined types or statuses).
+
++++Add the Application Definition+++
+
+For a YAML-based app, create a file like xml/myapp.yaml to define the screens, forms, and lists.
+
+Example:
+
+```
+app: myapp
+require: apps/common/php/default.php
+template: apps/common/xml/default.xml
+indent: true
+screen: type5
+col_class: col-md-6 mb-3
+dropdown: false
+list:
+    - [name, text, Name]
+    - [active, boolean, Active]
+form:
+    - [name, text, Name]
+    - [description, textarea, Description]
+    - [active, switch, Active]
+attr:
+    name:
+        required: true
+        autofocus: true
+    description:
+        required: true
+```
+
++++Ensure Symbolic Links+++
+
+SaltOS4 uses symbolic links to map directories:
+
+- In `api/`, link `apps` → `../code/apps` and `data` → `../code/data`.
+- In `web/`, link `api` → `../code/api` and `apps` → `../code/apps`.
+
+
+This allows the frontend and backend to access shared app resources consistently.
+
+Summary:
+
+- The backend (api/) accesses apps/ and data/ via local symlinks.
+- The frontend (web/) accesses the backend (api/) and apps/ via local symlinks.
+- This setup ensures both frontend and backend can reach the same app and data resources.
+
+
++++Run Database Setup+++
+
+Apply the new schema and static data:
+
+```
+make setup
+```
+
++++Assign Permissions+++
+
+Grant access to the new app for users or groups using the admin interface or database configuration.
+
++++Test the App+++
+
+Navigate to the app from the SaltOS4 interface and check that:
+
+- Lists and forms load correctly.
+- Data can be inserted, updated, and deleted.
+- Permissions are enforced.
+
+
+This structured process ensures the new app integrates smoothly with the SaltOS4 framework and follows its conventions.
 
 +Makefile Overview+
 
