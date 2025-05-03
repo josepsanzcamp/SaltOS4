@@ -1,6 +1,6 @@
 Web Client Documentation
-SaltOS 4.0 r2018
-April 2025
+SaltOS 4.0 r2031
+May 2025
 
 
 
@@ -1037,6 +1037,9 @@ This function allow to put contents in the srcdoc, as an extra feature, this con
 embedded with a doctype with html, head and body, includes the default saltos font and
 to provide a security layer, this function creates an iframe with a sandbox and add to
 the srcdoc a meta to configure the CSP that must apply to the contents
+
+To fix some issues with the iframe that adds some space between the bottom of the iframe
+and the parent container, we must to add the d-block to convert it from inline to block
 
 
 +++Select constructor helper+++
