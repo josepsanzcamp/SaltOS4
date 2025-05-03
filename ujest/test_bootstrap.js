@@ -131,6 +131,8 @@ describe('Bootstrap', () => {
         } else if (field.type == 'pdfjs') {
             await page.waitForFunction(() => { return typeof pdfjsLib == 'object'; }, timeout);
             await mypause(page, 500);
+        } else {
+            await mypause(page, 1);
         }
 
         const widget = await page.$('#widget');

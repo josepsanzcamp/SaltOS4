@@ -269,9 +269,11 @@ describe('Screenshots', () => {
 
         if (info.app == 'emails' && info.action == 'create') {
             await page.waitForFunction(id => document.getElementById(id).ckeditor, timeout, 'body');
-        }
-        if (info.action.includes('viewpdf')) {
+            await mypause(page, 1);
+        } else if (info.action.includes('viewpdf')) {
             await mypause(page, 500);
+        } else {
+            await mypause(page, 1);
         }
 
         const screenshot = await page.screenshot({encoding: 'base64'});
