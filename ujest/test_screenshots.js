@@ -135,7 +135,6 @@ describe('Screenshots', () => {
      * This part of the test tries to load the list screen
      */
     test('users login', async () => {
-        await page.evaluate(() => { document.body.innerHTML = ''; });
         await page.goto('https://127.0.0.1/saltos/code4/#/app/login');
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
@@ -249,10 +248,8 @@ describe('Screenshots', () => {
 
     test.each(allApps)('$group $app $action $lang', async (info) => {
         if (['list', ''].includes(info.action)) {
-            await page.evaluate(() => { saltos.bootstrap.modal('close'); });
-            await page.evaluate(() => { document.body.innerHTML = ''; });
             await page.evaluate(lang => { saltos.gettext.set(lang); }, info.lang);
-            await page.evaluate(() => { saltos.app.__cache = {}; });
+            await page.goto('about:blank');
         }
         if (['create', 'edit/100', 'edit/10', 'edit/1'].includes(info.action)) {
             await page.evaluate(() => {
@@ -271,6 +268,8 @@ describe('Screenshots', () => {
             await page.waitForFunction(id => document.getElementById(id).ckeditor, timeout, 'body');
             await mypause(page, 1);
         } else if (info.action.includes('viewpdf')) {
+            await mypause(page, 500);
+        } else if (info.app.includes('dashboard')) {
             await mypause(page, 500);
         } else {
             await mypause(page, 1);

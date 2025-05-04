@@ -135,7 +135,6 @@ describe('App Customers', () => {
      * This part of the test tries to load the list screen
      */
     test('Action List', async () => {
-        await page.evaluate(() => { document.body.innerHTML = ''; });
         await page.goto('https://127.0.0.1/saltos/code4/#/app/customers');
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);

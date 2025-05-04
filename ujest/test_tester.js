@@ -136,7 +136,6 @@ describe('App Tester', () => {
      * valid credentials and loads the tester application
      */
     test('Action Init', async () => {
-        await page.evaluate(() => { document.body.innerHTML = ''; });
         await page.goto('https://127.0.0.1/saltos/code4/#/app/tester');
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);

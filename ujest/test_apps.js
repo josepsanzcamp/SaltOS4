@@ -136,7 +136,6 @@ describe('App Login', () => {
      * correctly without issues
      */
     test('Action Login', async () => {
-        await page.evaluate(() => { document.body.innerHTML = ''; });
         await page.goto('https://127.0.0.1/saltos/code4');
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
