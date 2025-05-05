@@ -9,7 +9,7 @@ tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<title>|PHRpdGxlPjYuOS4zPC90
 yaml|https://github.com/symfony/yaml/tags.atom|<title>|PHRpdGxlPnY3LjMuMC1CRVRBMTwvdGl0bGU+
 
 autoheight|https://github.com/kamilkp/autoheight/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAxNi0wOC0wN1QyMzo0MToxMVo8L3VwZGF0ZWQ+
-bootstrap|https://github.com/twbs/bootstrap/tags.atom|<title>|PHRpdGxlPnY1LjMuNTwvdGl0bGU+
+bootstrap|https://github.com/twbs/bootstrap/tags.atom|<title>|PHRpdGxlPnY1LjMuNjwvdGl0bGU+
 bootswatch|https://github.com/thomaspark/bootswatch/tags.atom|<title>|PHRpdGxlPnY1LjMuNTwvdGl0bGU+
 chartjs|https://github.com/chartjs/Chart.js/tags.atom|<title>|PHRpdGxlPnY0LjQuOTwvdGl0bGU+
 ckeditor|https://github.com/ckeditor/ckeditor5/tags.atom|<title>|PHRpdGxlPnY0NS4wLjA8L3RpdGxlPg==
