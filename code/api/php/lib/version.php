@@ -237,6 +237,10 @@ function get_version($app, $reg_id, $ver_id = null)
     $version_old = 0;
     $result = [];
     foreach ($rows as $row) {
+        // This guarantees that the id fields are integers
+        $row['user_id'] = intval($row['user_id']);
+        $row['reg_id'] = intval($row['reg_id']);
+        $row['ver_id'] = intval($row['ver_id']);
         // Check the blockchain integrity
         $array = [
             'user_id' => $row['user_id'],
