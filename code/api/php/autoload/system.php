@@ -98,7 +98,7 @@ function check_directories()
     // DIRECTORIES CKECKS
     $dirs = array_merge(glob('data/*'), get_config('dirs'));
     foreach ($dirs as $dir) {
-        if (!file_exists($dir) || !is_dir($dir) || (fileperms($dir) & 0777) != 0777) {
+        if (!file_exists($dir) || !is_dir($dir) || !is_writable($dir)) {
             $dir = str_replace(getcwd() . '/', '', $dir);
             $result[$dir] = [
                 'error' => "$dir not writable",
