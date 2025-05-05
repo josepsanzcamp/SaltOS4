@@ -4,12 +4,12 @@
 
 $min-contrast-ratio:   1.5;
 
-$primary:   #ff8f00;  // ámbar intenso
-$secondary: #ff6f00;  // ámbar oscuro
+$primary:   #ff6f00;  // ámbar oscuro
+$secondary: #e65100;  // ámbar profundo
 
 $success:   #43a047;
 $danger:    #d32f2f;
-$warning:   #ffa000;  // amarillo intenso
+$warning:   #ffa000;
 $info:      #1976d2;
 
 @import "node_modules/bootstrap/scss/bootstrap";

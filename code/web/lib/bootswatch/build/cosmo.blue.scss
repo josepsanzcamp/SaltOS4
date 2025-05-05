@@ -4,7 +4,13 @@
 
 $min-contrast-ratio:   1.5;
 
-// Nothing to do here
+$primary:   #1e5bbf;  // azul oscuro intenso
+$secondary: #164a99;  // azul más profundo
+
+$success:   #43a047;
+$danger:    #d32f2f;
+$warning:   #fb8c00;
+$info:      #1976d2;
 
 @import "node_modules/bootstrap/scss/bootstrap";
 

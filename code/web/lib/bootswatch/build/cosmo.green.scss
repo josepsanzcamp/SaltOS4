@@ -4,13 +4,13 @@
 
 $min-contrast-ratio:   1.5;
 
-$primary:   #3fb618;   // green
-$secondary: #20c997;   // teal
+$primary:   #2e7d32;  // verde fuerte oscuro
+$secondary: #1b5e20;  // verde profundo
 
-$success:   #43a047;   // verde suave
+$success:   #43a047;
 $danger:    #d32f2f;
 $warning:   #fb8c00;
-$info:      #2196f3;
+$info:      #1976d2;
 
 @import "node_modules/bootstrap/scss/bootstrap";
 

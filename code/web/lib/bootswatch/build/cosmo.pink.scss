@@ -4,13 +4,13 @@
 
 $min-contrast-ratio:   1.5;
 
-$primary:   #e83e8c;   // pink
-$secondary: #ff0039;   // red
+$primary:   #c2185b;  // rosa oscuro
+$secondary: #ad1457;  // rosa profundo
 
-$success:   #66bb6a;   // verde más brillante
-$danger:    #c62828;   // rojo oscuro elegante
-$warning:   #ffb300;   // ámbar fuerte
-$info:      #26c6da;   // cyan claro
+$success:   #43a047;
+$danger:    #d32f2f;
+$warning:   #ffa000;
+$info:      #1976d2;
 
 @import "node_modules/bootstrap/scss/bootstrap";
 

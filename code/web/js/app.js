@@ -688,7 +688,7 @@ window.addEventListener('load', async event => {
         saltos.bootstrap.set_bs_theme(saltos.bootstrap.get_bs_theme());
     }
     if (!saltos.bootstrap.check_css_theme(saltos.bootstrap.get_css_theme())) {
-        saltos.bootstrap.set_css_theme('cosmo.blue');
+        saltos.bootstrap.set_css_theme('cosmo.indigo');
     } else {
         saltos.bootstrap.set_css_theme(saltos.bootstrap.get_css_theme());
     }

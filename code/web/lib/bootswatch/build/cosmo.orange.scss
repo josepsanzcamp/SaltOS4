@@ -4,13 +4,13 @@
 
 $min-contrast-ratio:   1.5;
 
-$primary:   #f0ad4e;   // orange
-$secondary: #ff7518;   // yellow
+$primary:   #e67e22;  // naranja oscuro
+$secondary: #ca6c1d;  // naranja profundo
 
-$success:   #4caf50;
+$success:   #43a047;
 $danger:    #d32f2f;
-$warning:   #ffa000;   // amarillo-naranja más equilibrado
-$info:      #2196f3;
+$warning:   #ffa000;
+$info:      #1976d2;
 
 @import "node_modules/bootstrap/scss/bootstrap";
 
