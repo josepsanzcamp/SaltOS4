@@ -772,7 +772,7 @@ function __prepare_helper_query($table, $array)
             $values[] = datetimeval($array[$name]);
         } elseif ($type2 == 'string') {
             $size2 = get_field_size($type);
-            $values[] = substr(strval($array[$name]), 0, $size2);
+            $values[] = mb_substr(strval($array[$name]), 0, $size2);
         } else {
             // @codeCoverageIgnoreStart
             show_php_error(['phperror' => "Unknown type '$type'"]);
