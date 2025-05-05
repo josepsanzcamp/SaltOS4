@@ -4,17 +4,17 @@
 
 $min-contrast-ratio:   1.5;
 
-$primary:   #506680;  // azul mate
-$secondary: #405060;  // azul gris oscuro
+$primary:   #506680;   // matte blue
+$secondary: #405060;   // dark blue-gray
 
-$success:   #43a047;
-$danger:    #d32f2f;
-$warning:   #fb8c00;
-$info:      #1976d2;
+$success:   #388e3c;   // darker green, less vivid
+$danger:    #d32f2f;   // Material red
+$warning:   #fb8c00;   // Material orange
+$info:      #1976d2;   // dark Material blue
 
 @import "node_modules/bootstrap/scss/bootstrap";
 
-// Tus overrides finales
+// Overrides by sanz
 .form-control, .form-control:focus,
 .form-select, .form-select:focus {
     border-top: none !important;

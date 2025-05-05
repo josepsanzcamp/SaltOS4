@@ -7,10 +7,10 @@ $min-contrast-ratio:   1.5;
 $primary:   #613d7c;   // purple
 $secondary: #6610f2;   // indigo
 
-$success:   #4caf50;   // verde Material
-$danger:    #d32f2f;   // rojo Material
-$warning:   #fb8c00;   // naranja Material
-$info:      #2196f3;   // azul Material
+$success:   #388e3c;   // darker green, less bright
+$danger:    #d32f2f;   // Material red
+$warning:   #fb8c00;   // Material orange
+$info:      #1976d2;   // dark Material blue
 
 @import "node_modules/bootstrap/scss/bootstrap";
 

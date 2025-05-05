@@ -4,13 +4,13 @@
 
 $min-contrast-ratio:   1.5;
 
-$primary:   #2e7d32;  // verde fuerte oscuro
-$secondary: #1b5e20;  // verde profundo
+$primary:   #2e7d32;   // strong dark green
+$secondary: #1b5e20;   // deep green
 
-$success:   #43a047;
-$danger:    #d32f2f;
-$warning:   #fb8c00;
-$info:      #1976d2;
+$success:   #388e3c;   // darker green, more distinct from primary
+$danger:    #d32f2f;   // Material red
+$warning:   #fb8c00;   // Material orange
+$info:      #1976d2;   // dark Material blue
 
 @import "node_modules/bootstrap/scss/bootstrap";
 

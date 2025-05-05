@@ -4,13 +4,13 @@
 
 $min-contrast-ratio:   1.5;
 
-$primary:   #9954bb;   // cyan
-$secondary: #2780e3;   // blue
+$primary:   #9954bb;   // intense lilac-cyan
+$secondary: #2780e3;   // vibrant blue
 
-$success:   #4caf50;
-$danger:    #d32f2f;
-$warning:   #ffa000;
-$info:      #039be5;   // azul cielo Material
+$success:   #388e3c;   // darker green
+$danger:    #d32f2f;   // Material red
+$warning:   #ffa000;   // intense yellow-orange
+$info:      #1976d2;   // dark Material blue
 
 @import "node_modules/bootstrap/scss/bootstrap";
 
