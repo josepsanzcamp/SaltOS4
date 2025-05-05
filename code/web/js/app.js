@@ -682,13 +682,13 @@ window.addEventListener('offline', event => {
  */
 window.addEventListener('load', async event => {
     // Theme part
-    if (!saltos.bootstrap.get_bs_theme()) {
+    if (!saltos.bootstrap.check_bs_theme(saltos.bootstrap.get_bs_theme())) {
         saltos.bootstrap.set_bs_theme('auto');
     } else {
         saltos.bootstrap.set_bs_theme(saltos.bootstrap.get_bs_theme());
     }
-    if (!saltos.bootstrap.get_css_theme()) {
-        saltos.bootstrap.set_css_theme('cosmo');
+    if (!saltos.bootstrap.check_css_theme(saltos.bootstrap.get_css_theme())) {
+        saltos.bootstrap.set_css_theme('cosmo.blue');
     } else {
         saltos.bootstrap.set_css_theme(saltos.bootstrap.get_css_theme());
     }

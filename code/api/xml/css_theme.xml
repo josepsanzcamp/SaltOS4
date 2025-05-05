@@ -27,32 +27,18 @@
 
 <root>
     <rows>
-        <row label="Default" value="default"/>
-        <row label="Brite" value="brite"/>
-        <row label="Cerulean" value="cerulean"/>
-        <row label="Cosmo" value="cosmo"/>
-        <!--<row label="Cyborg" value="cyborg"/>-->
-        <!--<row label="Darkly" value="darkly"/>-->
-        <row label="Flatly" value="flatly"/>
-        <row label="Journal" value="journal"/>
-        <row label="Litera" value="litera"/>
-        <row label="Lumen" value="lumen"/>
-        <!--<row label="Lux" value="lux"/>-->
-        <!--<row label="Materia" value="materia"/>-->
-        <row label="Minty" value="minty"/>
-        <!--<row label="Morph" value="morph"/>-->
-        <row label="Pulse" value="pulse"/>
-        <row label="Quartz" value="quartz"/>
-        <row label="Sandstone" value="sandstone"/>
-        <row label="Simplex" value="simplex"/>
-        <row label="Sketchy" value="sketchy"/>
-        <!--<row label="Slate" value="slate"/>-->
-        <row label="Solar" value="solar"/>
-        <row label="Spacelab" value="spacelab"/>
-        <row label="Superhero" value="superhero"/>
-        <row label="United" value="united"/>
-        <row label="Vapor" value="vapor"/>
-        <row label="Yeti" value="yeti"/>
-        <row label="Zephyr" value="zephyr"/>
+        <row label="Bootstrap default" value="default"/>
+        <row label="Cosmo blue" value="cosmo.blue"/>
+        <row label="Cosmo purple" value="cosmo.purple"/>
+        <row label="Cosmo orange" value="cosmo.orange"/>
+        <row label="Cosmo green" value="cosmo.green"/>
+        <row label="Cosmo cyan" value="cosmo.cyan"/>
+        <row label="Cosmo pink" value="cosmo.pink"/>
+        <row label="Cosmo gray" value="cosmo.gray"/>
+        <row label="Cosmo slate" value="cosmo.slate"/>
+        <row label="Cosmo crimson" value="cosmo.crimson"/>
+        <row label="Cosmo teal" value="cosmo.teal"/>
+        <row label="Cosmo amber" value="cosmo.amber"/>
+        <row label="Cosmo indigo" value="cosmo.indigo"/>
     </rows>
 </root>

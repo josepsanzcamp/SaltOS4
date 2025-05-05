@@ -1,13 +1,17 @@
 
-# important note: this themes have been modified to:
-# - remove the @import of external fonts
-# - add or fixe some issues with the SaltOS4 UI
+# we are creating colorized themes derived from cosmo
 
-themes=$(curl -s https://bootswatch.com/api/5.json | jq -r .themes[].name | tr '[:upper:]' '[:lower:]')
-for i in $themes; do
-    wget -O $i.min.css https://cdn.jsdelivr.net/npm/bootswatch@5.3.5/dist/$i/bootstrap.min.css
-    cat $i.min.css | grep -v sourceMappingURL > $i.min.css.new
-    mv $i.min.css.new $i.min.css
+cd build
+
+npm install bootstrap bootswatch
+
+rm -f ../cosmo.*.min.css
+
+for i in blue purple orange green cyan pink gray slate crimson teal amber indigo; do
+    sass cosmo.$i.scss ../cosmo.$i.min.css --style=compressed --no-source-map
 done
 
-php ../../../../scripts/make_bootswatch.php
+rm -rf node_modules
+rm -f package*.json
+
+cd ..

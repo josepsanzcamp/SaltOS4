@@ -1,0 +1,36 @@
+
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootswatch/dist/cosmo/variables";
+
+$min-contrast-ratio:   1.5;
+
+$primary:   #3fb618;   // green
+$secondary: #20c997;   // teal
+
+$success:   #43a047;   // verde suave
+$danger:    #d32f2f;
+$warning:   #fb8c00;
+$info:      #2196f3;
+
+@import "node_modules/bootstrap/scss/bootstrap";
+
+// Overrides by sanz
+.form-control, .form-control:focus,
+.form-select, .form-select:focus {
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-radius: 0 !important;
+    border-bottom-width: 2px !important;
+    background-color: var(--bs-tertiary-bg);
+}
+.form-control:focus,
+.form-select:focus {
+    box-shadow: inset 0 0 0 .25rem rgba(var(--bs-primary-rgb), .25) !important;
+}
+.ts-control {
+    border-radius: 0 !important;
+}
+.focus .ts-control {
+    box-shadow: inset 0 0 0 .25rem rgba(var(--bs-primary-rgb), .25) !important;
+}

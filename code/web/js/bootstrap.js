@@ -5144,6 +5144,18 @@ saltos.bootstrap.set_data_bs_theme = e => {
 };
 
 /**
+ * Check bs theme
+ *
+ * This function checks the bs theme
+ *
+ * @theme => Can be auto, light or dark
+ */
+saltos.bootstrap.check_bs_theme = theme => {
+    const themes = ['auto', 'light', 'dark'];
+    return themes.includes(theme);
+};
+
+/**
  * Set bs theme
  *
  * This function sets the bs theme
@@ -5151,8 +5163,7 @@ saltos.bootstrap.set_data_bs_theme = e => {
  * @theme => Can be auto, light or dark
  */
 saltos.bootstrap.set_bs_theme = theme => {
-    const themes = ['auto', 'light', 'dark'];
-    if (!themes.includes(theme)) {
+    if (!saltos.bootstrap.check_bs_theme(theme)) {
         throw new Error(`bs_theme ${theme} not found`);
     }
     saltos.bootstrap.window_match_media.removeEventListener(
@@ -5174,6 +5185,30 @@ saltos.bootstrap.set_bs_theme = theme => {
 };
 
 /**
+ * Get bs theme
+ *
+ * Retrieve the bs_theme stored in the localStorage
+ */
+saltos.bootstrap.get_bs_theme = () => {
+    return saltos.storage.getItem('saltos.bootstrap.bs_theme');
+};
+
+/**
+ * Check css theme
+ *
+ * This function checks the css theme
+ *
+ * @theme => Can be default or one of the bootswatch themes
+ */
+saltos.bootstrap.check_css_theme = theme => {
+    const themes = ['default',
+        'cosmo.blue', 'cosmo.purple', 'cosmo.orange', 'cosmo.green', 'cosmo.cyan', 'cosmo.pink',
+        'cosmo.gray', 'cosmo.slate', 'cosmo.crimson', 'cosmo.teal', 'cosmo.amber', 'cosmo.indigo',
+    ];
+    return themes.includes(theme);
+};
+
+/**
  * Set css theme
  *
  * This function sets the css theme
@@ -5181,11 +5216,7 @@ saltos.bootstrap.set_bs_theme = theme => {
  * @theme => Can be default or one of the bootswatch themes
  */
 saltos.bootstrap.set_css_theme = theme => {
-    const themes = ['default',
-        'brite', 'cerulean', 'cosmo', 'cyborg', 'darkly', 'flatly', 'journal', 'litera', 'lumen',
-        'lux', 'materia', 'minty', 'morph', 'pulse', 'quartz', 'sandstone', 'simplex', 'sketchy',
-        'slate', 'solar', 'spacelab', 'superhero', 'united', 'vapor', 'yeti', 'zephyr'];
-    if (!themes.includes(theme)) {
+    if (!saltos.bootstrap.check_css_theme(theme)) {
         throw new Error(`css_theme ${theme} not found`);
     }
     let file;
@@ -5203,15 +5234,6 @@ saltos.bootstrap.set_css_theme = theme => {
         }
     });
     saltos.storage.setItem('saltos.bootstrap.css_theme', theme);
-};
-
-/**
- * Get bs theme
- *
- * Retrieve the bs_theme stored in the localStorage
- */
-saltos.bootstrap.get_bs_theme = () => {
-    return saltos.storage.getItem('saltos.bootstrap.bs_theme');
 };
 
 /**
