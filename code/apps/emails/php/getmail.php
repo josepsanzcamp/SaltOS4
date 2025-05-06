@@ -1842,6 +1842,11 @@ function getmail_pdf($ids)
         $output = get_cache_file([__FUNCTION__, $id], '.pdf');
         if (!file_exists($output)) {
             ob_passthru("wkhtmltopdf $input $output 2>&1");
+            if (!file_exists($output)) {
+                // Some thing was wrong, falling back to old style
+                require_once 'php/lib/pdf.php';
+                return pdf('apps/emails/xml/emails_pdf.xml', ['id' => check_ids($ids)]);
+            }
             chmod_protected($output, 0666);
         }
         $pdfs[] = $output;
@@ -1852,6 +1857,11 @@ function getmail_pdf($ids)
         $input = implode(' ', $pdfs);
         $output = get_cache_file([__FUNCTION__, $ids], '.pdf');
         ob_passthru("pdfunite $input $output 2>&1");
+        if (!file_exists($output)) {
+            // Some thing was wrong, falling back to old style
+            require_once 'php/lib/pdf.php';
+            return pdf('apps/emails/xml/emails_pdf.xml', ['id' => check_ids($ids)]);
+        }
         chmod_protected($output, 0666);
     } else {
         $output = $pdfs[0];
