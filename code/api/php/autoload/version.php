@@ -36,22 +36,29 @@ declare(strict_types=1);
 /**
  * Get Name Version Revision
  *
- * This function returns a string with the SaltOS name, version, revision and
- * copyright if needed
- *
- * @full => boolean to specify if you want to add the copyright to the output
+ * This function returns a string with the SaltOS name, version and revision
  */
-function get_name_version_revision($full = false)
+function get_name_version_revision()
 {
-    $NAME = 'SaltOS';
-    $VERSION = '4.0';
-    $REVISION = svnversion();
-    $result = "$NAME v$VERSION r$REVISION";
-    if ($full) {
-        $COPYRIGHT = 'Copyright (C) 2007-2025 by Josep Sanz Campderrós';
-        $result .= ", $COPYRIGHT";
-    }
-    return $result;
+    return __name_version_revision('SaltOS', '4.0', svnversion());
+}
+
+/**
+ * Helper Name Version Revision
+ *
+ * This function returns a string of the form 'NAME vVERSION rREVISION'
+ *
+ * @name     => The string used as name
+ * @version  => The string used as version
+ * @revision => The string used as revision
+ *
+ * Notes:
+ *
+ * This function only tries to formalize the about string used in SaltOS
+ */
+function __name_version_revision($name, $version, $revision)
+{
+    return "$name v$version r$revision";
 }
 
 /**

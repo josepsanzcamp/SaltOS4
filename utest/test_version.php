@@ -60,8 +60,11 @@ final class test_version extends TestCase
      */
     public function test_version(): void
     {
-        $this->assertStringContainsString('SaltOS', get_name_version_revision(false));
-        $this->assertStringContainsString('Copyright', get_name_version_revision(true));
+        $temp = explode(' ', get_name_version_revision());
+        $this->assertCount(3, $temp);
+        $this->assertSame('SaltOS', $temp[0]);
+        $this->assertStringStartsWith('v', $temp[1]);
+        $this->assertStringStartsWith('r', $temp[2]);
 
         $this->assertSame(svnversion() > 0, true);
         $this->assertSame(svnversion(getenv('HOME')), 0);
