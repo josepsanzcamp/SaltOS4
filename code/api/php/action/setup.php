@@ -75,7 +75,9 @@ $output0 = check_system();
 $time1 = microtime(true);
 $output1 = check_directories();
 $time2 = microtime(true);
-$errors = array_filter(array_merge($output0, $output1), function ($x) {
+$output2 = check_composer();
+$time3 = microtime(true);
+$errors = array_filter(array_merge($output0, $output1, $output2), function ($x) {
     return isset($x['error']);
 });
 if (count($errors)) {
@@ -91,21 +93,26 @@ if (count($errors)) {
             'output' => $output1,
             'count' => count($output1),
         ],
+        'composer' => [
+            'time' => round($time3 - $time2, 6),
+            'output' => $output2,
+            'count' => count($output2),
+        ],
     ]);
 }
-$output2 = db_schema();
-$time3 = microtime(true);
-$output3 = db_static();
-$total3 = 0;
-foreach ($output3 as $key => $val) {
+$output3 = db_schema();
+$time4 = microtime(true);
+$output4 = db_static();
+$total4 = 0;
+foreach ($output4 as $key => $val) {
     $from = $val['from'];
     $to = $val['to'];
-    $output3[$key] = "from $from to $to";
-    $total3 += abs($to - $from);
+    $output4[$key] = "from $from to $to";
+    $total4 += abs($to - $from);
 }
-$time4 = microtime(true);
-$output4 = setup();
 $time5 = microtime(true);
+$output5 = setup();
+$time6 = microtime(true);
 
 semaphore_release('setup');
 output_handler_json([
@@ -119,23 +126,28 @@ output_handler_json([
         'output' => $output1,
         'count' => count($output1),
     ],
-    'db_schema' => [
+    'composer' => [
         'time' => round($time3 - $time2, 6),
-        'check' => $dbschema_check,
-        'hash' => $dbschema_hash,
         'output' => $output2,
         'count' => count($output2),
     ],
-    'db_static' => [
+    'db_schema' => [
         'time' => round($time4 - $time3, 6),
+        'check' => $dbschema_check,
+        'hash' => $dbschema_hash,
+        'output' => $output3,
+        'count' => count($output3),
+    ],
+    'db_static' => [
+        'time' => round($time5 - $time4, 6),
         'check' => $dbstatic_check,
         'hash' => $dbstatic_hash,
-        'output' => $output3,
-        'count' => $total3,
+        'output' => $output4,
+        'count' => $total4,
     ],
     'setup' => [
-        'time' => round($time5 - $time4, 6),
-        'output' => $output4,
-        'count' => array_sum($output4),
+        'time' => round($time6 - $time5, 6),
+        'output' => $output5,
+        'count' => array_sum($output5),
     ],
 ]);

@@ -129,3 +129,69 @@ function exec_check_system()
         // @codeCoverageIgnoreEnd
     }
 }
+
+/**
+ * Check Composer packages requirements
+ *
+ * Checks PHP version and PHP extension requirements defined in composer.lock files of local packages,
+ * including extension version constraints when available.
+ *
+ * This function scans all composer.lock files under lib directory and verifies if:
+ * - The current PHP version satisfies "require['php']" constraints.
+ * - The required PHP extensions (marked as "require['ext-xxx']") are loaded.
+ * - The extension versions (when specified and detectable) satisfy the given constraints.
+ *
+ * Requires the composer/semver library (loaded from lib/semver/vendor/autoload.php).
+ */
+function check_composer()
+{
+    require_once 'lib/semver/vendor/autoload.php';
+    $result = [];
+    $files = glob('lib/*/composer.lock');
+    foreach ($files as $file) {
+        $json = file_get_contents($file);
+        $array = json_decode($json, true);
+        if (!isset($array['packages'])) {
+            continue;
+        }
+        foreach ($array['packages'] as $package) {
+            if (!isset($package['require'])) {
+                continue;
+            }
+            $name = $package['name'];
+            foreach ($package['require'] as $key => $val) {
+                if ($key == 'php') {
+                    if (!Composer\Semver\Semver::satisfies(PHP_VERSION, $val)) {
+                        $result[] = [
+                            'error' => "$name requires $val",
+                            'details' => "Try to upgrade your php or downgrade the $name package",
+                        ];
+                    }
+                }
+                if (substr($key, 0, 4) == 'ext-') {
+                    $ext = substr($key, 4);
+                    if (!extension_loaded($ext)) {
+                        $result[] = [
+                            'error' => "$name requires extension $ext",
+                            'details' => "Try to install the $ext extension",
+                        ];
+                        continue;
+                    }
+                    if ($val == '*') {
+                        continue;
+                    }
+                    $ver = phpversion($ext);
+                    if ($ver !== false) {
+                        if (!Composer\Semver\Semver::satisfies($ver, $val)) {
+                            $result[] = [
+                                'error' => "$name requires $ext $val (current: $ver)",
+                                'details' => "Upgrade your $ext extension or downgrade the $name package",
+                            ];
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return $result;
+}
