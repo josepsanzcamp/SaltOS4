@@ -27,18 +27,29 @@
 
 <root>
     <rows>
-        <row label="Bootstrap default" value="default"/>
-        <row label="Cosmo blue" value="cosmo.blue"/>
-        <row label="Cosmo purple" value="cosmo.purple"/>
-        <row label="Cosmo orange" value="cosmo.orange"/>
-        <row label="Cosmo green" value="cosmo.green"/>
-        <row label="Cosmo cyan" value="cosmo.cyan"/>
-        <row label="Cosmo pink" value="cosmo.pink"/>
-        <row label="Cosmo gray" value="cosmo.gray"/>
-        <row label="Cosmo slate" value="cosmo.slate"/>
-        <row label="Cosmo crimson" value="cosmo.crimson"/>
-        <row label="Cosmo teal" value="cosmo.teal"/>
-        <row label="Cosmo amber" value="cosmo.amber"/>
-        <row label="Cosmo indigo" value="cosmo.indigo"/>
+        <row label="Bootstrap blue" value="bootstrap.blue"/>
+        <row label="Bootstrap purple" value="bootstrap.purple"/>
+        <row label="Bootstrap orange" value="bootstrap.orange"/>
+        <row label="Bootstrap green" value="bootstrap.green"/>
+        <row label="Bootstrap cyan" value="bootstrap.cyan"/>
+        <row label="Bootstrap pink" value="bootstrap.pink"/>
+        <row label="Bootstrap gray" value="bootstrap.gray"/>
+        <row label="Bootstrap slate" value="bootstrap.slate"/>
+        <row label="Bootstrap crimson" value="bootstrap.crimson"/>
+        <row label="Bootstrap teal" value="bootstrap.teal"/>
+        <row label="Bootstrap amber" value="bootstrap.amber"/>
+        <row label="Bootstrap indigo" value="bootstrap.indigo"/>
+        <row label="Bootswatch cosmo blue" value="bootswatch.cosmo.blue"/>
+        <row label="Bootswatch cosmo purple" value="bootswatch.cosmo.purple"/>
+        <row label="Bootswatch cosmo orange" value="bootswatch.cosmo.orange"/>
+        <row label="Bootswatch cosmo green" value="bootswatch.cosmo.green"/>
+        <row label="Bootswatch cosmo cyan" value="bootswatch.cosmo.cyan"/>
+        <row label="Bootswatch cosmo pink" value="bootswatch.cosmo.pink"/>
+        <row label="Bootswatch cosmo gray" value="bootswatch.cosmo.gray"/>
+        <row label="Bootswatch cosmo slate" value="bootswatch.cosmo.slate"/>
+        <row label="Bootswatch cosmo crimson" value="bootswatch.cosmo.crimson"/>
+        <row label="Bootswatch cosmo teal" value="bootswatch.cosmo.teal"/>
+        <row label="Bootswatch cosmo amber" value="bootswatch.cosmo.amber"/>
+        <row label="Bootswatch cosmo indigo" value="bootswatch.cosmo.indigo"/>
     </rows>
 </root>

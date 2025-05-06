@@ -1,0 +1,14 @@
+
+@import "node_modules/bootstrap/scss/functions";
+
+$min-contrast-ratio:   1.5;
+
+$primary:   #613d7c;   // purple
+$secondary: #6610f2;   // indigo
+
+$success:   #388e3c;   // darker green, less bright
+$danger:    #d32f2f;   // Material red
+$warning:   #fb8c00;   // Material orange
+$info:      #1976d2;   // dark Material blue
+
+@import "node_modules/bootstrap/scss/bootstrap";

@@ -5198,12 +5198,17 @@ saltos.bootstrap.get_bs_theme = () => {
  *
  * This function checks the css theme
  *
- * @theme => Can be default or one of the bootswatch themes
+ * @theme => Can be default or one of the themes
  */
 saltos.bootstrap.check_css_theme = theme => {
     const themes = ['default',
-        'cosmo.blue', 'cosmo.purple', 'cosmo.orange', 'cosmo.green', 'cosmo.cyan', 'cosmo.pink',
-        'cosmo.gray', 'cosmo.slate', 'cosmo.crimson', 'cosmo.teal', 'cosmo.amber', 'cosmo.indigo',
+        'bootswatch.cosmo.blue', 'bootswatch.cosmo.purple', 'bootswatch.cosmo.orange',
+        'bootswatch.cosmo.green', 'bootswatch.cosmo.cyan', 'bootswatch.cosmo.pink',
+        'bootswatch.cosmo.gray', 'bootswatch.cosmo.slate', 'bootswatch.cosmo.crimson',
+        'bootswatch.cosmo.teal', 'bootswatch.cosmo.amber', 'bootswatch.cosmo.indigo',
+        'bootstrap.blue', 'bootstrap.purple', 'bootstrap.orange', 'bootstrap.green',
+        'bootstrap.cyan', 'bootstrap.pink', 'bootstrap.gray', 'bootstrap.slate',
+        'bootstrap.crimson', 'bootstrap.teal', 'bootstrap.amber', 'bootstrap.indigo',
     ];
     return themes.includes(theme);
 };
@@ -5213,7 +5218,7 @@ saltos.bootstrap.check_css_theme = theme => {
  *
  * This function sets the css theme
  *
- * @theme => Can be default or one of the bootswatch themes
+ * @theme => Can be default or one of the themes
  */
 saltos.bootstrap.set_css_theme = theme => {
     if (!saltos.bootstrap.check_css_theme(theme)) {
@@ -5223,11 +5228,11 @@ saltos.bootstrap.set_css_theme = theme => {
     if (theme == 'default') {
         file = 'lib/bootstrap/bootstrap.min.css';
     } else {
-        file = `lib/bootswatch/${theme}.min.css`;
+        file = `lib/themes/${theme}.min.css`;
     }
     document.querySelectorAll('link[rel=stylesheet]').forEach(item => {
         const found1 = item.href.includes('bootstrap/bootstrap.min.css');
-        const found2 = item.href.includes('bootswatch/') && item.href.includes('.min.css');
+        const found2 = item.href.includes('themes/') && item.href.includes('.min.css');
         if (found1 || found2) {
             item.removeAttribute('integrity');
             item.href = item.href.replace(item.href, file);

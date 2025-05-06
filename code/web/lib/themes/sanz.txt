@@ -1,0 +1,23 @@
+
+# we are creating colorized themes derived from bootstrap and bootswatch.cosmo
+
+cd build
+
+npm install bootstrap bootswatch
+
+rm -f ../*.min.css
+
+for i in bootswatch.cosmo.blue bootswatch.cosmo.purple bootswatch.cosmo.orange \
+    bootswatch.cosmo.green bootswatch.cosmo.cyan bootswatch.cosmo.pink \
+    bootswatch.cosmo.gray bootswatch.cosmo.slate bootswatch.cosmo.crimson \
+    bootswatch.cosmo.teal bootswatch.cosmo.amber bootswatch.cosmo.indigo \
+    bootstrap.blue bootstrap.purple bootstrap.orange bootstrap.green \
+    bootstrap.cyan bootstrap.pink bootstrap.gray bootstrap.slate \
+    bootstrap.crimson bootstrap.teal bootstrap.amber bootstrap.indigo; do
+    sass $i.scss ../$i.min.css --style=compressed --no-source-map
+done
+
+rm -rf node_modules
+rm -f package*.json
+
+cd ..
