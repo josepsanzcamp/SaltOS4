@@ -11,7 +11,4 @@ $warning:   #fb8c00;   // warm Material orange
 $info:      #1976d2;   // strong Material blue
 
 // Import Bootstrap
-@import "node_modules/bootstrap/scss/bootstrap";
-
-// Import custom overrides
-@import "custom";
+@import "../node_modules/bootstrap/scss/bootstrap";

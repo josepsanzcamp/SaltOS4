@@ -11,7 +11,4 @@ $warning:   #ffa000;   // intense yellow-orange
 $info:      #1976d2;   // dark Material blue
 
 // Import Bootstrap
-@import "node_modules/bootstrap/scss/bootstrap";
-
-// Import custom overrides
-@import "custom";
+@import "../node_modules/bootstrap/scss/bootstrap";
