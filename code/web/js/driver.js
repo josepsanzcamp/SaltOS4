@@ -451,7 +451,7 @@ saltos.driver.delete = async arg => {
  */
 saltos.driver.placeholder = arg => {
     const obj = saltos.core.html(`
-        <div class="bg-primary-subtle h-100 driver-placeholder"></div>
+        <div class="form-control shadow bg-primary-subtle h-100 driver-placeholder"></div>
     `);
     obj.append(saltos.core.html(`
         <style>

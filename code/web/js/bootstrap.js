@@ -681,6 +681,9 @@ saltos.bootstrap.__field.ckeditor = field => {
             language: lang,
         }).then(editor => {
             element.ckeditor = editor;
+            element.nextElementSibling.classList.add('form-control');
+            element.nextElementSibling.classList.add('p-0');
+            element.nextElementSibling.classList.add('shadow');
             if (field.color != 'none') {
                 element.nextElementSibling.classList.add('border');
                 element.nextElementSibling.classList.add('border-' + field.color);
@@ -852,6 +855,9 @@ saltos.bootstrap.__field.codemirror = field => {
             indentUnit: 4,
         });
         element.codemirror = cm;
+        element.nextElementSibling.classList.add('form-control');
+        element.nextElementSibling.classList.add('p-0');
+        element.nextElementSibling.classList.add('shadow');
         if (field.color != 'none') {
             element.nextElementSibling.classList.add('border');
             element.nextElementSibling.classList.add('border-' + field.color);
@@ -982,12 +988,12 @@ saltos.bootstrap.__field.iframe = field => {
     if (!field.color) {
         field.color = 'primary';
     }
-    let border = `border border-${field.color}`;
+    let border = `form-control p-0 shadow border border-${field.color}`;
     if (field.color == 'none') {
         border = 'border-0';
     }
     let obj = saltos.core.html(`
-        <iframe id="${field.id}" frameborder="0" class="w-100 d-block ${border} ${field.class}"></iframe>
+        <iframe id="${field.id}" frameborder="0" class="${border} ${field.class}"></iframe>
     `);
     if (field.src) {
         obj.src = field.src;
@@ -1102,7 +1108,7 @@ saltos.bootstrap.__field.select = field => {
         border = 'border-0';
     }
     let obj = saltos.core.html(`
-        <select class="form-select ${border} ${field.class}" id="${field.id}"
+        <select class="form-select shadow ${border} ${field.class}" id="${field.id}"
             ${disabled} ${required} ${autofocus} ${multiple} ${size}
             data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}"></select>
     `);
@@ -1349,7 +1355,7 @@ saltos.bootstrap.__field.checkbox = field => {
     }
     const obj = saltos.core.html(`
         <div class="form-check ${field.class}">
-            <input class="form-check-input ${border} ${color}" type="checkbox" id="${field.id}"
+            <input class="form-check-input shadow ${border} ${color}" type="checkbox" id="${field.id}"
                 value="${value}" ${disabled} ${readonly} ${required} ${checked}
                 data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
             <label class="form-check-label" for="${field.id}"
@@ -1492,7 +1498,7 @@ saltos.bootstrap.__field.button = field => {
     }
     const obj = saltos.core.html(`
         <button type="button" id="${field.id}" ${disabled} ${autofocus} ${autoclose}
-            class="btn btn-${color} focus-ring focus-ring-${color} ${field.class} ${_class}"
+            class="btn btn-${color} focus-ring focus-ring-${color} shadow ${field.class} ${_class}"
             data-bs-accesskey="${field.accesskey}" ${collapse}
             data-bs-title="${field.tooltip}">${field.label}</button>
     `);
@@ -1982,13 +1988,15 @@ saltos.bootstrap.__field.image = field => {
     if (!field.color) {
         field.color = 'primary';
     }
-    let border = `border border-${field.color}`;
+    let border = `form-control p-0 shadow border border-${field.color}`;
     if (field.color == 'none') {
         border = 'border-0';
     }
     let obj = saltos.core.html(`
-        <img id="${field.id}" src="${field.value}" class="${border} ${field.class}" alt="${field.alt}"
-            data-bs-title="${field.tooltip}" width="${field.width}" height="${field.height}" />
+        <img id="${field.id}" src="${field.value}" alt="${field.alt}"
+            class="${border} ${field.class}"
+            width="${field.width}" height="${field.height}"
+            data-bs-title="${field.tooltip}" />
     `);
     if (field.tooltip != '') {
         saltos.bootstrap.__tooltip_helper(obj);
@@ -2054,7 +2062,7 @@ saltos.bootstrap.__field.excel = field => {
         height = '100%';
     }
     let obj = saltos.core.html(`
-        <div style="width: 100%; height: ${height}; overflow: auto">
+        <div class="form-control p-0 shadow" style="height: ${height}; overflow: auto">
             <div></div>
         </div>
     `);
@@ -2306,9 +2314,13 @@ saltos.bootstrap.__field.pdfjs = field => {
                             element.append(div);
                         }
                         canvas.style.width = '100%';
+                        canvas.classList.add('form-control');
+                        canvas.classList.add('p-0');
+                        canvas.classList.add('shadow');
                         canvas.classList.add('border');
                         canvas.classList.add('border-' + field.color);
                         if (num < pdf.numPages) {
+                            canvas.classList.add('mb-3');
                             render(num + 1);
                         }
                     });
@@ -2381,7 +2393,7 @@ saltos.bootstrap.__field.table = field => {
     // This creates a responsive table (a table inside a div with table-responsive class)
     // We are using the same div to put inside the overlodaded styles of the table
     let obj = saltos.core.html(`
-        <div id="${field.id}" class="table-responsive">
+        <div id="${field.id}" class="form-control p-0 border-0 shadow table-responsive">
             <table class="table table-striped table-hover border-${field.color} ${field.class} mb-0">
             </table>
         </div>
@@ -2590,7 +2602,7 @@ saltos.bootstrap.__field.table = field => {
                             <button class="btn border-0 dropdown-toggle" type="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                             </button>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu shadow">
                             </ul>
                         </div>
                     `));
@@ -2635,6 +2647,7 @@ saltos.bootstrap.__field.table = field => {
                     }
                     val2.color = 'none';
                     const button = saltos.bootstrap.__field.button(val2);
+                    button.classList.remove('shadow');
                     if (dropdown) {
                         button.classList.replace('btn', 'dropdown-item');
                         // This close all dropdowns when click an option inside a dropdown
@@ -2773,7 +2786,8 @@ saltos.bootstrap.__field.alert = field => {
         field.color = 'primary';
     }
     let obj = saltos.core.html(`
-        <div class="alert alert-${field.color} ${field.class} mb-0" role="alert" id="${field.id}"></div>
+        <div class="alert alert-${field.color} shadow ${field.class} mb-0" role="alert" id="${field.id}">
+        </div>
     `);
     if (field.title != '') {
         obj.append(saltos.core.html(`<h4>${field.title}</h4>`));
@@ -2834,7 +2848,7 @@ saltos.bootstrap.__field.card = field => {
     if (!field.color) {
         field.color = 'primary';
     }
-    let obj = saltos.core.html(`<div class="card border-${field.color}" id="${field.id}"></div>`);
+    let obj = saltos.core.html(`<div class="card border-${field.color} shadow" id="${field.id}"></div>`);
     if (field.image != '') {
         obj.append(saltos.core.html(`
             <img src="${field.image}" class="card-img-top" alt="${field.alt}" />
@@ -2889,7 +2903,7 @@ saltos.bootstrap.__field.card = field => {
  */
 saltos.bootstrap.__field.chartjs = field => {
     saltos.core.check_params(field, ['id', 'mode', 'data']);
-    let obj = saltos.core.html(`<div><canvas id="${field.id}"></canvas></div>`);
+    let obj = saltos.core.html(`<div><canvas id="${field.id}" class="shadow p-3"></canvas></div>`);
     for (const key in field.data.datasets) {
         field.data.datasets[key].borderWidth = 1;
     }
@@ -3351,7 +3365,7 @@ saltos.bootstrap.__field.gallery = field => {
             const img = saltos.core.html(`
                 <div class="${field.class} p-1">
                     <a href="${val.image}" class="venobox" data-gall="${field.id}" title="${val.title}">
-                        <img src="${val.image}" class="img-fluid img-thumbnail ${border} p-0" />
+                        <img src="${val.image}" class="img-fluid img-thumbnail ${border} p-0 shadow" />
                     </a>
                 </div>
             `);
@@ -3469,9 +3483,9 @@ saltos.bootstrap.__field.list = field => {
     // Continue
     let obj;
     if (saltos.core.eval_bool(field.onclick)) {
-        obj = saltos.core.html(`<div id="${field.id}" class="list-group ${field.class}"></div>`);
+        obj = saltos.core.html(`<div id="${field.id}" class="list-group shadow ${field.class}"></div>`);
     } else {
-        obj = saltos.core.html(`<ul id="${field.id}" class="list-group ${field.class}"></ul>`);
+        obj = saltos.core.html(`<ul id="${field.id}" class="list-group shadow ${field.class}"></ul>`);
     }
     for (const key in field.data) {
         const val = field.data[key];
@@ -3908,7 +3922,7 @@ saltos.bootstrap.__field.accordion = field => {
         field.flush = 'accordion-flush';
     }
     let obj = saltos.core.html(`
-        <div class="accordion ${field.flush}" id="${field.id}"></div>
+        <div class="accordion shadow ${field.flush}" id="${field.id}"></div>
     `);
     for (const key in field.items) {
         let val = field.items[key];
@@ -4113,7 +4127,7 @@ saltos.bootstrap.__field.dropdown = field => {
     let obj;
     if (!saltos.core.eval_bool(field.split)) {
         obj = saltos.core.html(`
-            <div class="btn-group ${field.class}" id="${field.id}">
+            <div class="btn-group shadow ${field.class}" id="${field.id}">
                 <button type="button" ${disabled}
                     class="btn btn-${color} ${_class} dropdown-toggle"
                     data-bs-toggle="dropdown" aria-expanded="false"
@@ -4124,7 +4138,7 @@ saltos.bootstrap.__field.dropdown = field => {
         `);
     } else {
         obj = saltos.core.html(`
-            <div class="btn-group ${field.class}" id="${field.id}">
+            <div class="btn-group shadow ${field.class}" id="${field.id}">
                 <button type="button" ${disabled}
                     class="btn btn-${color} ${_class}"
                     data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}">
@@ -4148,7 +4162,7 @@ saltos.bootstrap.__field.dropdown = field => {
     if (field.label && field.icon) {
         obj.querySelector('i').classList.add('me-1');
     }
-    obj.append(saltos.core.html(`<ul class="dropdown-menu"></ul>`));
+    obj.append(saltos.core.html(`<ul class="dropdown-menu shadow"></ul>`));
     // Add the dropdown items
     for (const key in field.menu) {
         const val = field.menu[key];
@@ -4247,7 +4261,7 @@ saltos.bootstrap.__text_helper = field => {
         border = 'border-0';
     }
     const obj = saltos.core.html(`
-        <input type="${field.type}" class="form-control ${border} ${field.class}"
+        <input type="${field.type}" class="form-control shadow ${border} ${field.class}"
             placeholder="${field.placeholder}" data-bs-accesskey="${field.accesskey}"
             ${disabled} ${readonly} ${required} ${autofocus} ${autosave}
             id="${field.id}" data-bs-title="${field.tooltip}" value="${field.value}" />
@@ -4320,7 +4334,7 @@ saltos.bootstrap.__textarea_helper = field => {
         border = 'border-0';
     }
     const obj = saltos.core.html(`
-        <textarea class="form-control ${border} ${field.class}"
+        <textarea class="form-control shadow ${border} ${field.class}"
             placeholder="${field.placeholder}" data-bs-accesskey="${field.accesskey}"
             ${disabled} ${readonly} ${required} ${autofocus} ${autosave}
             id="${field.id}" data-bs-title="${field.tooltip}">${field.value}</textarea>
@@ -4544,7 +4558,7 @@ saltos.bootstrap.menu = args => {
                         role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         ${val.label}
                     </button>
-                    <ul class="dropdown-menu ${dropdown_menu_end}">
+                    <ul class="dropdown-menu shadow ${dropdown_menu_end}">
                     </ul>
                 </li>
             `);
@@ -4644,7 +4658,7 @@ saltos.bootstrap.navbar = args => {
         args.color = 'primary';
     }
     const obj = saltos.core.html(`
-        <nav class="navbar navbar-expand-md navbar-dark bg-${args.color} ${args.pos} ${args.class}">
+        <nav class="navbar navbar-expand-md navbar-dark shadow-lg bg-${args.color} ${args.pos} ${args.class}">
             <div class="container-fluid">
                 <div class="navbar-brand ${args.brand.class}"></div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -4745,9 +4759,9 @@ saltos.bootstrap.modal = args => {
     }
     // Note: removed the fade class in the first div, the old class was "modal fade"
     const obj = saltos.core.html(`
-        <div class="modal" id="${args.id}" tabindex="-1" aria-labelledby="${args.id}_label"
-            aria-hidden="true" ${temp}>
-            <div class="modal-dialog ${args.class}">
+        <div class="modal" id="${args.id}" tabindex="-1"
+            aria-labelledby="${args.id}_label" aria-hidden="true" ${temp}>
+            <div class="modal-dialog shadow ${args.class}">
                 <div class="modal-content">
                     <div class="modal-header text-bg-${args.color}">
                         <h1 class="modal-title fs-5" id="${args.id}_label">${args.title}</h1>
