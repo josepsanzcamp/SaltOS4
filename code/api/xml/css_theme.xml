@@ -27,29 +27,18 @@
 
 <root>
     <rows>
-        <row label="Bootstrap blue" value="bootstrap.blue"/>
-        <row label="Bootstrap purple" value="bootstrap.purple"/>
-        <row label="Bootstrap orange" value="bootstrap.orange"/>
-        <row label="Bootstrap green" value="bootstrap.green"/>
-        <row label="Bootstrap cyan" value="bootstrap.cyan"/>
-        <row label="Bootstrap pink" value="bootstrap.pink"/>
-        <row label="Bootstrap gray" value="bootstrap.gray"/>
-        <row label="Bootstrap slate" value="bootstrap.slate"/>
-        <row label="Bootstrap crimson" value="bootstrap.crimson"/>
-        <row label="Bootstrap teal" value="bootstrap.teal"/>
-        <row label="Bootstrap amber" value="bootstrap.amber"/>
-        <row label="Bootstrap indigo" value="bootstrap.indigo"/>
-        <row label="Bootswatch cosmo blue" value="bootswatch.cosmo.blue"/>
-        <row label="Bootswatch cosmo purple" value="bootswatch.cosmo.purple"/>
-        <row label="Bootswatch cosmo orange" value="bootswatch.cosmo.orange"/>
-        <row label="Bootswatch cosmo green" value="bootswatch.cosmo.green"/>
-        <row label="Bootswatch cosmo cyan" value="bootswatch.cosmo.cyan"/>
-        <row label="Bootswatch cosmo pink" value="bootswatch.cosmo.pink"/>
-        <row label="Bootswatch cosmo gray" value="bootswatch.cosmo.gray"/>
-        <row label="Bootswatch cosmo slate" value="bootswatch.cosmo.slate"/>
-        <row label="Bootswatch cosmo crimson" value="bootswatch.cosmo.crimson"/>
-        <row label="Bootswatch cosmo teal" value="bootswatch.cosmo.teal"/>
-        <row label="Bootswatch cosmo amber" value="bootswatch.cosmo.amber"/>
-        <row label="Bootswatch cosmo indigo" value="bootswatch.cosmo.indigo"/>
+        <row label="Default" value="default"/>
+        <row label="Amber" value="amber"/>
+        <row label="Blue" value="blue"/>
+        <row label="Crimson" value="crimson"/>
+        <row label="Cyan" value="cyan"/>
+        <row label="Gray" value="gray"/>
+        <row label="Green" value="green"/>
+        <row label="Indigo" value="indigo"/>
+        <row label="Orange" value="orange"/>
+        <row label="Pink" value="pink"/>
+        <row label="Purple" value="purple"/>
+        <row label="Slate" value="slate"/>
+        <row label="Teal" value="teal"/>
     </rows>
 </root>

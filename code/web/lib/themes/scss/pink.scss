@@ -1,0 +1,17 @@
+
+// Assign palette colors to Bootstrap variables
+$min-contrast-ratio:   1.5;
+
+$primary:   #c2185b;   // dark pink
+$secondary: #ad1457;   // deep pink
+
+$success:   #388e3c;   // darker green, less vivid
+$danger:    #d32f2f;   // Material red
+$warning:   #ffa000;   // intense yellow-orange
+$info:      #1976d2;   // dark Material blue
+
+// Import Bootstrap
+@import "node_modules/bootstrap/scss/bootstrap";
+
+// Import custom overrides
+@import "custom";

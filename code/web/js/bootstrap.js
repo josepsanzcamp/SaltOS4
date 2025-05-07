@@ -1436,7 +1436,6 @@ saltos.bootstrap.__field.switch = field => {
     const obj = saltos.bootstrap.__field.checkbox(field);
     obj.classList.add('form-switch');
     obj.querySelector('input').setAttribute('role', 'switch');
-    obj.querySelector('input').classList.add('rounded-pill'); // to do more pretty with cosmo
     return obj;
 };
 
@@ -5202,13 +5201,8 @@ saltos.bootstrap.get_bs_theme = () => {
  */
 saltos.bootstrap.check_css_theme = theme => {
     const themes = ['default',
-        'bootswatch.cosmo.blue', 'bootswatch.cosmo.purple', 'bootswatch.cosmo.orange',
-        'bootswatch.cosmo.green', 'bootswatch.cosmo.cyan', 'bootswatch.cosmo.pink',
-        'bootswatch.cosmo.gray', 'bootswatch.cosmo.slate', 'bootswatch.cosmo.crimson',
-        'bootswatch.cosmo.teal', 'bootswatch.cosmo.amber', 'bootswatch.cosmo.indigo',
-        'bootstrap.blue', 'bootstrap.purple', 'bootstrap.orange', 'bootstrap.green',
-        'bootstrap.cyan', 'bootstrap.pink', 'bootstrap.gray', 'bootstrap.slate',
-        'bootstrap.crimson', 'bootstrap.teal', 'bootstrap.amber', 'bootstrap.indigo',
+        'blue', 'purple', 'orange', 'green', 'cyan', 'pink',
+        'gray', 'slate', 'crimson', 'teal', 'amber', 'indigo',
     ];
     return themes.includes(theme);
 };
@@ -5228,11 +5222,11 @@ saltos.bootstrap.set_css_theme = theme => {
     if (theme == 'default') {
         file = 'lib/bootstrap/bootstrap.min.css';
     } else {
-        file = `lib/themes/${theme}.min.css`;
+        file = `lib/themes/dist/bootstrap.${theme}.min.css`;
     }
     document.querySelectorAll('link[rel=stylesheet]').forEach(item => {
         const found1 = item.href.includes('bootstrap/bootstrap.min.css');
-        const found2 = item.href.includes('themes/') && item.href.includes('.min.css');
+        const found2 = item.href.includes('themes/dist/bootstrap.') && item.href.includes('.min.css');
         if (found1 || found2) {
             item.removeAttribute('integrity');
             item.href = item.href.replace(item.href, file);

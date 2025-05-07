@@ -40,12 +40,12 @@ cloc|https://github.com/AlDanial/cloc/tags.atom|<title>|PHRpdGxlPnYyLjA0PC90aXRs
 jest|https://github.com/jestjs/jest/tags.atom|<title>|PHRpdGxlPnYzMC4wLjAtYWxwaGEuNzwvdGl0bGU+
 jscs|https://github.com/jscs-dev/node-jscs/tags.atom|<title>|PHRpdGxlPjMuMC43PC90aXRsZT4=
 libreoffice|https://es.libreoffice.org/descarga/libreoffice/|type=deb|PG9wdGlvbiB2YWx1ZT0iL2Rlc2NhcmdhL2xpYnJlb2ZmaWNlLz90eXBlPWRlYi14ODZfNjQmdmVyc2lvbj0yNS4yLjMmbGFuZz1lcyI+
-mariadb|https://github.com/MariaDB/server/tags.atom|<title>|PHRpdGxlPk1hcmlhREIgQ29tbXVuaXR5IFNlcnZlciAxMS44LjE8L3RpdGxlPg==
+mariadb|https://github.com/MariaDB/server/tags.atom|<title>|PHRpdGxlPm1hcmlhZGItMTEuNC42PC90aXRsZT4=
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|PHRpdGxlPm1pbmlmeSB2MTQuMC4wPC90aXRsZT4=
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|PHRpdGxlPk1yb29uZ2EgMTUuMDcgLSAyMDI1LTA0LTIzPC90aXRsZT4=
-node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjUtMDQtMjMsIFZlcnNpb24gMjIuMTUuMCAmIzM5O0pvZCYjMzk7IChMVFMpLCBAVWxpc2VzR2FzY29uIHByZXBhcmVkIGJ5IEBSYWZhZWxHU1M8L3RpdGxlPg==
+node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjUtMDUtMDYsIFZlcnNpb24gMjQuMC4wIChDdXJyZW50KSwgQFJhZmFlbEdTUyBhbmQgQGp1YW5hcmJvbDwvdGl0bGU+
 pcov|https://github.com/krakjoe/pcov/tags.atom|<title>|PHRpdGxlPnYxLjAuMTI8L3RpdGxlPg==
-php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjQuN1JDMjwvdGl0bGU+
+php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjQuNzwvdGl0bGU+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|PHRpdGxlPjMuMTIuMiAtIDIwMjUtMDQtMTM8L3RpdGxlPg==
 phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjIuMS4xNDwvdGl0bGU+
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|PHRpdGxlPlBIUFVuaXQgMTIuMS40PC90aXRsZT4=
