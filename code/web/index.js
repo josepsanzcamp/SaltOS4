@@ -81,7 +81,7 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
             data-bs-title="${e.tooltip}">${e.label}</button>
     `);if(e.icon&&c.prepend(saltos.core.html(`<i class="bi bi-${e.icon}"></i>`)),e.label&&e.icon&&c.querySelector("i").classList.add("me-1"),""!=e.tooltip&&saltos.bootstrap.__tooltip_helper(c),saltos.bootstrap.__onclick_helper(c,e.onclick),c.set_disabled=e=>{e?(c.setAttribute("disabled",""),c.classList.add("opacity-25")):(c.removeAttribute("disabled"),c.classList.remove("opacity-25"))},saltos.core.eval_bool(e.addbr)){const i=saltos.core.html('<div><label class="form-label">&nbsp;</label><br/></div>');return i.append(c),i}return c},saltos.bootstrap.__field.password=e=>{saltos.core.check_params(e,["label","class","id","placeholder","value","disabled","onenter","onchange","readonly","required","autofocus","tooltip","accesskey","color"]),saltos.core.check_params(e,["autocomplete"],!0);let t="",o=(saltos.core.eval_bool(e.disabled)&&(t="disabled"),""),s=(saltos.core.eval_bool(e.readonly)&&(o="readonly"),""),a=(saltos.core.eval_bool(e.required)&&(s="required"),""),l=(saltos.core.eval_bool(e.autofocus)&&(a="autofocus"),e.color),r="border border-"+(l=e.color?l:"primary"),c=("none"==e.color&&(r="border-0"),"");saltos.core.eval_bool(e.autocomplete)||(c='autocomplete="new-password"');const i=saltos.core.html(`
         <div>
-            <div class="input-group">
+            <div class="input-group shadow">
                 <input type="password" class="form-control ${r} ${e.class}"
                     id="${e.id}" placeholder="${e.placeholder}" value="${e.value}"
                     ${t} ${o} ${s} ${a} ${c}
@@ -93,10 +93,10 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
         </div>
     `),n=i.querySelector("input"),d=i.querySelector("button");return""!=e.tooltip&&saltos.bootstrap.__tooltip_helper(n),""!=e.onenter&&saltos.bootstrap.__onenter_helper(n,e.onenter),""!=e.onchange&&saltos.bootstrap.__onchange_helper(n,e.onchange),n.set_disabled=e=>{e?(n.setAttribute("disabled",""),d.setAttribute("disabled",""),d.classList.add("opacity-25")):(n.removeAttribute("disabled"),d.removeAttribute("disabled"),d.classList.remove("opacity-25"))},d.addEventListener("click",e=>{switch(n.type){case"password":n.type="text",d.classList.replace("bi-eye-slash","bi-eye");break;case"text":n.type="password",d.classList.replace("bi-eye","bi-eye-slash")}}),i.prepend(saltos.bootstrap.__label_helper(e)),i},saltos.bootstrap.__field.file=t=>{saltos.core.check_params(t,["class","id","value","data","disabled","required","onchange","autofocus","multiple","tooltip","accesskey","color"]);let e="",o=(saltos.core.eval_bool(t.disabled)&&(e="disabled"),""),s=(saltos.core.eval_bool(t.required)&&(o="required"),""),a=(saltos.core.eval_bool(t.autofocus)&&(s="autofocus"),""),l=(saltos.core.eval_bool(t.multiple)&&(a="multiple"),t.color),r="border border-"+(l=t.color?l:"primary"),c="border-"+l;"none"==t.color&&(r="border-0",c="");const i=saltos.core.html(`
         <div>
-            <input type="file" class="form-control ${r} ${t.class}" id="${t.id}"
+            <input type="file" class="form-control shadow ${r} ${t.class}" id="${t.id}"
                 ${e} ${o} ${s} ${a}
                 data-bs-accesskey="${t.accesskey}" data-bs-title="${t.tooltip}" />
-            <div class="table-responsive">
+            <div class="form-control p-0 border-0 shadow table-responsive">
                 <table class="table table-striped table-hover ${c} d-none mb-0">
                     <tbody>
                     </tbody>

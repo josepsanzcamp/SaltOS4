@@ -1595,7 +1595,7 @@ saltos.bootstrap.__field.password = field => {
     }
     const obj = saltos.core.html(`
         <div>
-            <div class="input-group">
+            <div class="input-group shadow">
                 <input type="password" class="form-control ${border} ${field.class}"
                     id="${field.id}" placeholder="${field.placeholder}" value="${field.value}"
                     ${disabled} ${readonly} ${required} ${autofocus} ${autocomplete}
@@ -1708,10 +1708,10 @@ saltos.bootstrap.__field.file = field => {
     }
     const obj = saltos.core.html(`
         <div>
-            <input type="file" class="form-control ${border1} ${field.class}" id="${field.id}"
+            <input type="file" class="form-control shadow ${border1} ${field.class}" id="${field.id}"
                 ${disabled} ${required} ${autofocus} ${multiple}
                 data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
-            <div class="table-responsive">
+            <div class="form-control p-0 border-0 shadow table-responsive">
                 <table class="table table-striped table-hover ${border2} d-none mb-0">
                     <tbody>
                     </tbody>
