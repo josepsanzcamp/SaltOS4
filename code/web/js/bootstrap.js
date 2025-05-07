@@ -2903,7 +2903,7 @@ saltos.bootstrap.__field.card = field => {
  */
 saltos.bootstrap.__field.chartjs = field => {
     saltos.core.check_params(field, ['id', 'mode', 'data']);
-    let obj = saltos.core.html(`<div><canvas id="${field.id}" class="shadow p-3"></canvas></div>`);
+    let obj = saltos.core.html(`<div><canvas id="${field.id}" class="form-control shadow"></canvas></div>`);
     for (const key in field.data.datasets) {
         field.data.datasets[key].borderWidth = 1;
     }
@@ -3653,7 +3653,6 @@ saltos.bootstrap.__field.list = field => {
         </style>
     `));
     if (saltos.core.eval_bool(field.checkbox)) {
-        obj.classList.add('rounded-0');
         saltos.core.when_visible(obj, () => {
             obj.classList.add('position-relative');
             for (const key in field.data) {
