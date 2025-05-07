@@ -27,7 +27,7 @@
 
 <root>
     <apps>
-        <app id="27" active="1" group="core" position="1" fontsize="1"
+        <app id="27" active="1" group="core" color="primary" position="1" fontsize="1"
             code="certs" name="Certificates" description="Certificates manager"
             perms="main,menu,create,help,listall,viewall,deleteall"/>
     </apps>
