@@ -1,10 +1,10 @@
-$primary:   #fd7e14;
+$primary:   #000000;
 $secondary: #6c757d;
 $success:   #198754;
 $danger:    #dc3545;
 $warning:   #ef6c00;
 $info:      #0aa0d0;
 
-$min-contrast-ratio: 1.5;
+$min-contrast-ratio: 3;
 
 @import "../node_modules/bootstrap/scss/bootstrap";

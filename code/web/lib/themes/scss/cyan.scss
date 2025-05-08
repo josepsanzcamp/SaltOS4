@@ -1,14 +1,10 @@
+$primary:   #0dcaf0;
+$secondary: #6c757d;
+$success:   #198754;
+$danger:    #dc3545;
+$warning:   #ef6c00;
+$info:      #0aa0d0;
 
-// Assign palette colors to Bootstrap variables
-$min-contrast-ratio:   1.5;
+$min-contrast-ratio: 1.5;
 
-$primary:   #9954bb;   // intense lilac-cyan
-$secondary: #2780e3;   // vibrant blue
-
-$success:   #388e3c;   // darker green
-$danger:    #d32f2f;   // Material red
-$warning:   #ffa000;   // intense yellow-orange
-$info:      #1976d2;   // dark Material blue
-
-// Import Bootstrap
 @import "../node_modules/bootstrap/scss/bootstrap";

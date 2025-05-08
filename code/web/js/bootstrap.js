@@ -5286,8 +5286,8 @@ saltos.bootstrap.get_bs_theme = () => {
  */
 saltos.bootstrap.check_css_theme = theme => {
     const themes = ['default',
-        'blue', 'purple', 'orange', 'green', 'cyan', 'pink',
-        'gray', 'slate', 'crimson', 'teal', 'amber', 'indigo',
+        'black', 'blue', 'cyan', 'gray', 'green', 'indigo',
+        'orange', 'pink', 'purple', 'red', 'teal', 'yellow',
     ];
     return themes.includes(theme);
 };

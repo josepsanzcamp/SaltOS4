@@ -5,7 +5,7 @@ npm install bootstrap
 
 rm -f dist/*.min.css
 
-for i in blue purple orange green cyan pink gray slate crimson teal amber indigo; do
+for i in black blue cyan gray green indigo orange pink purple red teal yellow; do
     sass scss/$i.scss dist/bootstrap.$i.min.css --style=compressed --no-source-map
 done
 

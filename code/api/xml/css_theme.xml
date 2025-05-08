@@ -27,10 +27,8 @@
 
 <root>
     <rows>
-        <row label="Default" value="default"/>
-        <row label="Amber" value="amber"/>
+        <row label="Black" value="black"/>
         <row label="Blue" value="blue"/>
-        <row label="Crimson" value="crimson"/>
         <row label="Cyan" value="cyan"/>
         <row label="Gray" value="gray"/>
         <row label="Green" value="green"/>
@@ -38,7 +36,8 @@
         <row label="Orange" value="orange"/>
         <row label="Pink" value="pink"/>
         <row label="Purple" value="purple"/>
-        <row label="Slate" value="slate"/>
+        <row label="Red" value="red"/>
         <row label="Teal" value="teal"/>
+        <row label="Yellow" value="yellow"/>
     </rows>
 </root>
