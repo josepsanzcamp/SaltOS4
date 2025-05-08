@@ -1772,7 +1772,7 @@ saltos.bootstrap.__field.file = field => {
     const __button_remove_file = event => {
         const row = event.target.parentElement.parentElement;
         const table = row.parentElement.parentElement;
-        const input = table.parentElement.previousElementSibling;
+        const input = table.parentElement.previousElementSibling.querySelector('input');
         saltos.core.ajax({
             url: 'api/?/upload/delfile',
             data: JSON.stringify(row.data),
@@ -1857,6 +1857,10 @@ saltos.bootstrap.__field.file = field => {
             // If there is a file
             if (reader.result) {
                 data.data = reader.result;
+                // Check for void type
+                if (!data.type) {
+                    data.type = data.data.split(';')[0].split(':')[1];
+                }
                 // This allow multiple uploads in parallel
                 ((data, row) => {
                     const ajax = new XMLHttpRequest();
