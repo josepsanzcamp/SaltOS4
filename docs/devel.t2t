@@ -1,5 +1,5 @@
 Devel Documentation
-SaltOS 4.0 r2031
+SaltOS 4.0 r2057
 May 2025
 
 
@@ -795,6 +795,127 @@ attr:
 ```
 
 These examples demonstrate the simplicity of defining apps in YAML.
+
++++Advanced YAML file documentation+++
+
+In SaltOS4, a YAML file defines an application's interface and configuration declaratively. It serves as an intermediate specification that the system transforms into an XML file, which is the format actually processed by SaltOS4.
+
+When a YAML-defined app is loaded, SaltOS4 uses the `require` and `template` keys to generate the XML dynamically. This generated XML is stored in the cache directory and includes a comment line like:
+
+```
+<!-- source: apps/crm/xml/customers.yaml -->
+```
+
+This comment traces the XML back to its original YAML source.
+
+The `indent` key controls whether indentation is applied when generating the XML output. The `col_class` key sets a default Bootstrap class for all form fields in the app, unless overridden at the field level via `attr`.
+
+The `dropdown` key controls whether action icons are displayed inline or inside a dropdown menu when multiple actions exist for a record.
+
+Lines starting with `#` are comments in YAML and are ignored by the parser.
+
++++YAML structure+++
+
+Below is an example YAML structure:
+
+```
+app: myapp
+require: apps/common/php/default.php
+template: apps/common/xml/default.xml
+indent: true
+screen: type5
+col_class: col-md-6 mb-3
+dropdown: false
+list:
+    - [name, text, Name]
+    - [active, boolean, Active]
+form:
+    - [name, text, Name]
+    - [description, textarea, Description]
+    - [active, switch, Active]
+select:
+    # [id, table, optional field]
+    - [type_id, app_customers_types]
+attr:
+    name:
+        required: true
+        autofocus: true
+    notes:
+        col_class: col-md-12 mb-3
+        height: 5em
+    city:
+        col_class: col-md-3 mb-3
+    province:
+        col_class: col-md-3 mb-3
+    zip:
+        col_class: col-md-3 mb-3
+    country:
+        col_class: col-md-3 mb-3
+    code:
+        col_class: col-md-3 mb-3
+    email:
+        col_class: col-md-4 mb-3
+    phone:
+        col_class: col-md-4 mb-3
+    website:
+        col_class: col-md-4 mb-3
+    type_id:
+        col_class: col-md-3 mb-3
+```
+
++++Explanation of YAML fields+++
+
+- `app`: internal code (unique identifier) for the app
+- `require`: PHP file to include as backend logic
+- `template`: XML template used as a base for the interface
+- `indent`: whether to apply indentation (boolean)
+- `screen`: type of layout to use (type1, type2, type3, type4, type5)
+- `col_class`: default Bootstrap class applied to all form fields
+- `dropdown`: whether to force inline icons or use a dropdown menu
+- `list`: defines the list columns; each entry is [field, type, label]
+- `form`: defines the form fields; each entry is [field, type, label]
+- `select`: defines relationships between fields and external tables
+- `attr`: specifies additional attributes per field inside `form`
+
+
++++List and Form schema+++
+
+Both `list` and `form` sections use the same schema per field: `[id, type, label]`.
+
+For `list`, supported `type` values are:
+
+- `text`: displays plain text
+- `select`: resolves the field by querying a related table and displaying the linked label
+- `boolean`: shows a green or red icon (true if value != 0, false if value == 0)
+- `hastext`: like `boolean`, but true if the field contains text, false if empty
+
+
+For `form`, supported `type` values are:
+
+- `text`, `date`, `time`, `datetime`, `checkbox`, `switch`, `integer`, `float`, `color`, `textarea`, `ckeditor`, `codemirror`, `select`, `multiselect`, `newline`
+
+
+All these types correspond to widgets provided by SaltOS4, **except `newline`**, which is a special case. The `newline` type injects a `<div>` with `col_class="col-12"` in the XML, effectively creating a line break in the form layout for grouping fields visually.
+
++++Select section+++
+
+The `select` section allows mapping form fields to other tables. Each entry is `[id, table, optional_field]`. If `optional_field` is omitted, SaltOS4 tries to auto-resolve the master field from the target app's manifest.
+
++++Attr section+++
+
+The `attr` section adds custom attributes per form field in the XML widget, such as `required="true"`, `autofocus="true"`, `height="5em"`, or overrides like `col_class`.
+
++++Summary+++
+
+The YAML file defines:
+
+- Declarative structure for the app’s form and list
+- Default and override attributes for fields
+- Table relationships via `select`
+- UI behaviors like dropdowns and line breaks
+
+
+SaltOS4 transforms this YAML into a complete XML interface definition, enabling fast and flexible app development.
 
 ++XML-based Complex Apps++
 
