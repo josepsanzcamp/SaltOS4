@@ -389,7 +389,7 @@ saltos.bootstrap.__field.integer = field => {
     field.type = 'text';
     let obj = saltos.bootstrap.__text_helper(field);
     field.type = 'integer';
-    const element = obj;
+    const element = obj.querySelector('input');
     saltos.core.require([
         'lib/imaskjs/imask.min.js',
     ], () => {
@@ -434,7 +434,7 @@ saltos.bootstrap.__field.float = field => {
     field.type = 'text';
     let obj = saltos.bootstrap.__text_helper(field);
     field.type = 'float';
-    const element = obj;
+    const element = obj.querySelector('input');
     saltos.core.require([
         'lib/imaskjs/imask.min.js',
     ], () => {
@@ -483,7 +483,12 @@ saltos.bootstrap.__field.color = field => {
     field.type = 'color';
     field.class = 'form-control-color';
     let obj = saltos.bootstrap.__text_helper(field);
+    obj.classList.add('d-inline-block');
     obj = saltos.bootstrap.__label_combine(field, obj);
+    if (obj.children.length > 1) {
+        const br = saltos.core.html('<br/>');
+        obj.insertBefore(br, obj.children[1]);
+    }
     return obj;
 };
 
@@ -683,7 +688,6 @@ saltos.bootstrap.__field.ckeditor = field => {
             element.ckeditor = editor;
             element.nextElementSibling.classList.add('form-control');
             element.nextElementSibling.classList.add('p-0');
-            element.nextElementSibling.classList.add('shadow');
             if (field.color != 'none') {
                 element.nextElementSibling.classList.add('border');
                 element.nextElementSibling.classList.add('border-' + field.color);
@@ -857,7 +861,6 @@ saltos.bootstrap.__field.codemirror = field => {
         element.codemirror = cm;
         element.nextElementSibling.classList.add('form-control');
         element.nextElementSibling.classList.add('p-0');
-        element.nextElementSibling.classList.add('shadow');
         if (field.color != 'none') {
             element.nextElementSibling.classList.add('border');
             element.nextElementSibling.classList.add('border-' + field.color);
@@ -1092,8 +1095,12 @@ saltos.bootstrap.__field.select = field => {
         autofocus = 'autofocus';
     }
     let multiple = '';
+    let width = '';
+    let height = '';
     if (saltos.core.eval_bool(field.multiple)) {
         multiple = 'multiple';
+        width = 'w-100';
+        height = 'h-100';
     }
     let size = '';
     if (field.size != '') {
@@ -1108,15 +1115,18 @@ saltos.bootstrap.__field.select = field => {
         border = 'border-0';
     }
     let obj = saltos.core.html(`
-        <select class="form-select shadow ${border} ${field.class}" id="${field.id}"
-            ${disabled} ${required} ${autofocus} ${multiple} ${size}
-            data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}"></select>
+        <div class="shadow ${width}">
+            <select class="form-select ${border} ${height} ${field.class}" id="${field.id}"
+                ${disabled} ${required} ${autofocus} ${multiple} ${size}
+                data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}"></select>
+        </div>
     `);
+    const select = obj.querySelector('select');
     if (field.onchange != '') {
-        saltos.bootstrap.__onchange_helper(obj, field.onchange);
+        saltos.bootstrap.__onchange_helper(select, field.onchange);
     }
     if (field.tooltip != '') {
-        saltos.bootstrap.__tooltip_helper(obj);
+        saltos.bootstrap.__tooltip_helper(select);
     }
     if (!field.separator) {
         field.separator = ',';
@@ -1135,7 +1145,7 @@ saltos.bootstrap.__field.select = field => {
             }
             const option = saltos.core.html(`<option value="${val.value}" ${selected}></option>`);
             option.append(val.label);
-            obj.append(option);
+            select.append(option);
         } else {
             let selected = '';
             if (values.includes(val.toString())) {
@@ -1143,15 +1153,15 @@ saltos.bootstrap.__field.select = field => {
             }
             const option = saltos.core.html(`<option value="${val}" ${selected}></option>`);
             option.append(val);
-            obj.append(option);
+            select.append(option);
         }
     }
     // Program the disabled feature
-    obj.set_disabled = bool => {
+    select.set_disabled = bool => {
         if (bool) {
-            obj.setAttribute('disabled', '');
+            select.setAttribute('disabled', '');
         } else {
-            obj.removeAttribute('disabled');
+            select.removeAttribute('disabled');
         }
     };
     obj = saltos.bootstrap.__label_combine(field, obj);
@@ -1217,7 +1227,7 @@ saltos.bootstrap.__field.multiselect = field => {
         rows: field.rows,
     }));
     obj.querySelector('.two').append(saltos.bootstrap.__field.button({
-        class: `bi-chevron-double-right mb-3`,
+        class: `bi-chevron-double-right`,
         color: field.color,
         disabled: field.disabled,
         //tooltip: field.tooltip,
@@ -1234,7 +1244,7 @@ saltos.bootstrap.__field.multiselect = field => {
             obj.querySelector('#' + field.id).value = val.join(field.separator);
         },
     }));
-    obj.querySelector('.two').append(saltos.core.html('<br />'));
+    obj.querySelector('.two').append(saltos.core.html('<div class="mb-3"></div>'));
     obj.querySelector('.two').append(saltos.bootstrap.__field.button({
         class: `bi-chevron-double-left`,
         color: field.color,
@@ -1355,7 +1365,7 @@ saltos.bootstrap.__field.checkbox = field => {
     }
     const obj = saltos.core.html(`
         <div class="form-check ${field.class}">
-            <input class="form-check-input shadow ${border} ${color}" type="checkbox" id="${field.id}"
+            <input class="form-check-input ${border} ${color}" type="checkbox" id="${field.id}"
                 value="${value}" ${disabled} ${readonly} ${required} ${checked}
                 data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
             <label class="form-check-label" for="${field.id}"
@@ -1496,36 +1506,47 @@ saltos.bootstrap.__field.button = field => {
         collapse = `data-bs-toggle="collapse" data-bs-target="#${field.target}"
             aria-controls="${field.target}" aria-expanded="false"`;
     }
+    let width = '';
+    let height = '';
+    if (field.class.includes('w-100')) {
+        width = 'w-100';
+    }
+    if (field.class.includes('h-100')) {
+        height = 'h-100';
+    }
     const obj = saltos.core.html(`
-        <button type="button" id="${field.id}" ${disabled} ${autofocus} ${autoclose}
-            class="btn btn-${color} focus-ring focus-ring-${color} shadow ${field.class} ${_class}"
-            data-bs-accesskey="${field.accesskey}" ${collapse}
-            data-bs-title="${field.tooltip}">${field.label}</button>
+        <div class="shadow d-inline-block ${width} ${height}">
+            <button type="button" id="${field.id}" ${disabled} ${autofocus} ${autoclose}
+                class="btn btn-${color} focus-ring focus-ring-${color} ${field.class} ${_class}"
+                data-bs-accesskey="${field.accesskey}" ${collapse}
+                data-bs-title="${field.tooltip}">${field.label}</button>
+        </div>
     `);
+    const button = obj.querySelector('button');
     if (field.icon) {
-        obj.prepend(saltos.core.html(`<i class="bi bi-${field.icon}"></i>`));
+        button.prepend(saltos.core.html(`<i class="bi bi-${field.icon}"></i>`));
     }
     if (field.label && field.icon) {
-        obj.querySelector('i').classList.add('me-1');
+        button.querySelector('i').classList.add('me-1');
     }
     if (field.tooltip != '') {
-        saltos.bootstrap.__tooltip_helper(obj);
+        saltos.bootstrap.__tooltip_helper(button);
     }
-    saltos.bootstrap.__onclick_helper(obj, field.onclick);
+    saltos.bootstrap.__onclick_helper(button, field.onclick);
     // Program the disabled feature
-    obj.set_disabled = bool => {
+    button.set_disabled = bool => {
         if (bool) {
-            obj.setAttribute('disabled', '');
-            obj.classList.add('opacity-25');
+            button.setAttribute('disabled', '');
+            button.classList.add('opacity-25');
         } else {
-            obj.removeAttribute('disabled');
-            obj.classList.remove('opacity-25');
+            button.removeAttribute('disabled');
+            button.classList.remove('opacity-25');
         }
     };
     if (saltos.core.eval_bool(field.addbr)) {
-        const obj2 = saltos.core.html(`<div><label class="form-label">&nbsp;</label><br/></div>`);
-        obj2.append(obj);
-        return obj2;
+        const temp = saltos.core.html(`<div><label class="form-label">&nbsp;</label><br/></div>`);
+        temp.append(obj);
+        return temp;
     }
     return obj;
 };
@@ -1607,38 +1628,38 @@ saltos.bootstrap.__field.password = field => {
         </div>
     `);
     // Continue
-    const item = obj.querySelector('input');
+    const input = obj.querySelector('input');
     const button = obj.querySelector('button');
     if (field.tooltip != '') {
-        saltos.bootstrap.__tooltip_helper(item);
+        saltos.bootstrap.__tooltip_helper(input);
     }
     if (field.onenter != '') {
-        saltos.bootstrap.__onenter_helper(item, field.onenter);
+        saltos.bootstrap.__onenter_helper(input, field.onenter);
     }
     if (field.onchange != '') {
-        saltos.bootstrap.__onchange_helper(item, field.onchange);
+        saltos.bootstrap.__onchange_helper(input, field.onchange);
     }
     // Program the disabled feature
-    item.set_disabled = bool => {
+    input.set_disabled = bool => {
         if (bool) {
-            item.setAttribute('disabled', '');
+            input.setAttribute('disabled', '');
             button.setAttribute('disabled', '');
             button.classList.add('opacity-25');
         } else {
-            item.removeAttribute('disabled');
+            input.removeAttribute('disabled');
             button.removeAttribute('disabled');
             button.classList.remove('opacity-25');
         }
     };
     // Program the button feature
     button.addEventListener('click', event => {
-        switch (item.type) {
+        switch (input.type) {
             case 'password':
-                item.type = 'text';
+                input.type = 'text';
                 button.classList.replace('bi-eye-slash', 'bi-eye');
                 break;
             case 'text':
-                item.type = 'password';
+                input.type = 'password';
                 button.classList.replace('bi-eye', 'bi-eye-slash');
                 break;
         }
@@ -1708,11 +1729,13 @@ saltos.bootstrap.__field.file = field => {
     }
     const obj = saltos.core.html(`
         <div>
-            <input type="file" class="form-control shadow ${border1} ${field.class}" id="${field.id}"
-                ${disabled} ${required} ${autofocus} ${multiple}
-                data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
-            <div class="form-control p-0 border-0 shadow table-responsive">
-                <table class="table table-striped table-hover ${border2} d-none mb-0">
+            <div class="shadow">
+                <input type="file" class="form-control ${border1} ${field.class}" id="${field.id}"
+                    ${disabled} ${required} ${autofocus} ${multiple}
+                    data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
+            </div>
+            <div class="form-control p-0 border-0 shadow table-responsive mt-3 d-none">
+                <table class="table table-striped table-hover ${border2} mb-0">
                     <tbody>
                     </tbody>
                 </table>
@@ -1738,7 +1761,7 @@ saltos.bootstrap.__field.file = field => {
     // This helper programs the input file data update
     const __update_data_input_file = input => {
         const data = [];
-        const tabla = input.nextElementSibling.querySelector('table');
+        const tabla = input.parentElement.nextElementSibling.querySelector('table');
         tabla.querySelectorAll('tr').forEach(item => {
             data.push(item.data);
         });
@@ -1766,7 +1789,7 @@ saltos.bootstrap.__field.file = field => {
                 }
                 // If not there are files, hide the table
                 if (table.querySelectorAll('tr').length == 0) {
-                    table.classList.add('d-none');
+                    table.parentElement.classList.add('d-none');
                 }
                 __update_data_input_file(input);
             },
@@ -1781,7 +1804,7 @@ saltos.bootstrap.__field.file = field => {
     // This helper paints each row of the table
     const __add_row_file = (input, table, file) => {
         // Show the table
-        table.classList.remove('d-none');
+        table.parentElement.classList.remove('d-none');
         // Add the row for the new file
         const row = saltos.core.html('tbody', `
             <tr id="${file.id}" class="align-middle">
@@ -1809,7 +1832,7 @@ saltos.bootstrap.__field.file = field => {
     obj.querySelector('input').addEventListener('change', async event => {
         const input = event.target;
         const files = event.target.files;
-        const table = event.target.nextElementSibling.querySelector('table');
+        const table = event.target.parentElement.nextElementSibling.querySelector('table');
         for (let i = 0; i < files.length; i++) {
             // Prepare the data to send
             const data = {
@@ -1884,14 +1907,14 @@ saltos.bootstrap.__field.file = field => {
     // Program the set function
     obj.querySelector('input').set = data => {
         const input = obj.querySelector('input');
-        const tabla = input.nextElementSibling.querySelector('table');
+        const tabla = input.parentElement.nextElementSibling.querySelector('table');
         tabla.querySelectorAll('tr').forEach(item => {
             item.remove();
         });
         __update_data_input_file(input);
         for (const i in data) {
             const input = obj.querySelector('input');
-            const table = input.nextElementSibling.querySelector('table');
+            const table = input.parentElement.nextElementSibling.querySelector('table');
             const row = __add_row_file(input, table, data[i]);
             const percent = 100;
             row.querySelector('.progress-bar').style.width = percent + '%';
@@ -4260,19 +4283,22 @@ saltos.bootstrap.__text_helper = field => {
         border = 'border-0';
     }
     const obj = saltos.core.html(`
-        <input type="${field.type}" class="form-control shadow ${border} ${field.class}"
-            placeholder="${field.placeholder}" data-bs-accesskey="${field.accesskey}"
-            ${disabled} ${readonly} ${required} ${autofocus} ${autosave}
-            id="${field.id}" data-bs-title="${field.tooltip}" value="${field.value}" />
+        <div class="shadow">
+            <input type="${field.type}" class="form-control ${border} ${field.class}"
+                placeholder="${field.placeholder}" data-bs-accesskey="${field.accesskey}"
+                ${disabled} ${readonly} ${required} ${autofocus} ${autosave}
+                id="${field.id}" data-bs-title="${field.tooltip}" value="${field.value}" />
+        </div>
     `);
+    const input = obj.querySelector('input');
     if (field.tooltip != '') {
-        saltos.bootstrap.__tooltip_helper(obj);
+        saltos.bootstrap.__tooltip_helper(input);
     }
     if (field.onenter != '') {
-        saltos.bootstrap.__onenter_helper(obj, field.onenter);
+        saltos.bootstrap.__onenter_helper(input, field.onenter);
     }
     if (field.onchange != '') {
-        saltos.bootstrap.__onchange_helper(obj, field.onchange);
+        saltos.bootstrap.__onchange_helper(input, field.onchange);
     }
     return obj;
 };
@@ -4333,16 +4359,19 @@ saltos.bootstrap.__textarea_helper = field => {
         border = 'border-0';
     }
     const obj = saltos.core.html(`
-        <textarea class="form-control shadow ${border} ${field.class}"
-            placeholder="${field.placeholder}" data-bs-accesskey="${field.accesskey}"
-            ${disabled} ${readonly} ${required} ${autofocus} ${autosave}
-            id="${field.id}" data-bs-title="${field.tooltip}">${field.value}</textarea>
+        <div class="shadow">
+            <textarea class="form-control ${border} ${field.class}"
+                placeholder="${field.placeholder}" data-bs-accesskey="${field.accesskey}"
+                ${disabled} ${readonly} ${required} ${autofocus} ${autosave}
+                id="${field.id}" data-bs-title="${field.tooltip}">${field.value}</textarea>
+        </div>
     `);
+    const textarea = obj.querySelector('textarea');
     if (field.tooltip != '') {
-        saltos.bootstrap.__tooltip_helper(obj);
+        saltos.bootstrap.__tooltip_helper(textarea);
     }
     if (field.onchange != '') {
-        saltos.bootstrap.__onchange_helper(obj, field.onchange);
+        saltos.bootstrap.__onchange_helper(textarea, field.onchange);
     }
     return obj;
 };
