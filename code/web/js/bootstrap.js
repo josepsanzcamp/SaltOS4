@@ -306,7 +306,7 @@ saltos.bootstrap.__field.text = field => {
     field.type = 'text';
     let obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
-    obj.append(saltos.bootstrap.__text_helper(field));
+    obj.append(saltos.bootstrap.__shadow_helper(saltos.bootstrap.__text_helper(field)));
     if (field.datalist.length) {
         obj.querySelector('input').setAttribute('list', field.id + '_datalist');
         obj.append(saltos.core.html(`<datalist id="${field.id}_datalist"></datalist>`));
@@ -387,7 +387,7 @@ saltos.bootstrap.__field.hidden = field => {
  */
 saltos.bootstrap.__field.integer = field => {
     field.type = 'text';
-    let obj = saltos.bootstrap.__text_helper(field);
+    let obj = saltos.bootstrap.__shadow_helper(saltos.bootstrap.__text_helper(field));
     field.type = 'integer';
     const element = obj.querySelector('input');
     saltos.core.require([
@@ -432,7 +432,7 @@ saltos.bootstrap.__field.integer = field => {
  */
 saltos.bootstrap.__field.float = field => {
     field.type = 'text';
-    let obj = saltos.bootstrap.__text_helper(field);
+    let obj = saltos.bootstrap.__shadow_helper(saltos.bootstrap.__text_helper(field));
     field.type = 'float';
     const element = obj.querySelector('input');
     saltos.core.require([
@@ -482,7 +482,7 @@ saltos.bootstrap.__field.color = field => {
     }
     field.type = 'color';
     field.class = 'form-control-color';
-    let obj = saltos.bootstrap.__text_helper(field);
+    let obj = saltos.bootstrap.__shadow_helper(saltos.bootstrap.__text_helper(field));
     obj.classList.add('d-inline-block');
     obj = saltos.bootstrap.__label_combine(field, obj);
     if (obj.children.length > 1) {
@@ -515,7 +515,7 @@ saltos.bootstrap.__field.color = field => {
  */
 saltos.bootstrap.__field.date = field => {
     field.type = 'date';
-    let obj = saltos.bootstrap.__text_helper(field);
+    let obj = saltos.bootstrap.__shadow_helper(saltos.bootstrap.__text_helper(field));
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
@@ -543,8 +543,8 @@ saltos.bootstrap.__field.date = field => {
  */
 saltos.bootstrap.__field.time = field => {
     field.type = 'time';
-    let obj = saltos.bootstrap.__text_helper(field);
-    obj.step = 1; // This enable the seconds
+    let obj = saltos.bootstrap.__shadow_helper(saltos.bootstrap.__text_helper(field));
+    obj.querySelector('input').step = 1; // This enable the seconds
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
@@ -572,9 +572,9 @@ saltos.bootstrap.__field.time = field => {
  */
 saltos.bootstrap.__field.datetime = field => {
     field.type = 'datetime-local';
-    let obj = saltos.bootstrap.__text_helper(field);
+    let obj = saltos.bootstrap.__shadow_helper(saltos.bootstrap.__text_helper(field));
     field.type = 'datetime';
-    obj.step = 1; // This enable the seconds
+    obj.querySelector('input').step = 1; // This enable the seconds
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
@@ -610,7 +610,7 @@ saltos.bootstrap.__field.textarea = field => {
     saltos.core.check_params(field, ['height']);
     let obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
-    obj.append(saltos.bootstrap.__textarea_helper(field));
+    obj.append(saltos.bootstrap.__shadow_helper(saltos.bootstrap.__textarea_helper(field)));
     const element = obj.querySelector('textarea');
     saltos.core.require([
         'lib/autoheight/autoheight.min.js',
@@ -688,6 +688,7 @@ saltos.bootstrap.__field.ckeditor = field => {
             element.ckeditor = editor;
             element.nextElementSibling.classList.add('form-control');
             element.nextElementSibling.classList.add('p-0');
+            element.nextElementSibling.classList.add('shadow');
             if (field.color != 'none') {
                 element.nextElementSibling.classList.add('border');
                 element.nextElementSibling.classList.add('border-' + field.color);
@@ -828,8 +829,7 @@ saltos.bootstrap.__field.codemirror = field => {
     }
     const obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
-    const copied = saltos.core.copy_object(field);
-    obj.append(saltos.bootstrap.__textarea_helper(copied));
+    obj.append(saltos.bootstrap.__textarea_helper(saltos.core.copy_object(field)));
     const element = obj.querySelector('textarea');
     element.style.display = 'none';
     // Add the placeholder
@@ -861,6 +861,7 @@ saltos.bootstrap.__field.codemirror = field => {
         element.codemirror = cm;
         element.nextElementSibling.classList.add('form-control');
         element.nextElementSibling.classList.add('p-0');
+        element.nextElementSibling.classList.add('shadow');
         if (field.color != 'none') {
             element.nextElementSibling.classList.add('border');
             element.nextElementSibling.classList.add('border-' + field.color);
@@ -1301,7 +1302,7 @@ saltos.bootstrap.__field.multiselect = field => {
     obj.querySelector('input[type=hidden]').set(field.value);
     // Program the disabled feature
     obj.querySelector('input[type=hidden]').set_disabled = bool => {
-        const temp = obj.querySelector('#' + field.id).parentElement.parentElement;
+        const temp = obj.querySelector('#' + field.id).closest('.row');
         temp.querySelectorAll('select, button').forEach(item => {
             item.set_disabled(bool);
         });
@@ -2093,8 +2094,8 @@ saltos.bootstrap.__field.excel = field => {
             <div></div>
         </div>
     `);
-    const input = saltos.bootstrap.__field.hidden(saltos.core.copy_object(field));
-    obj.prepend(input);
+    obj.prepend(saltos.bootstrap.__field.hidden(saltos.core.copy_object(field)));
+    const input = obj.querySelector('input');
     field.numcols = parseInt(field.numcols, 10);
     field.numrows = parseInt(field.numrows, 10);
     if (!field.numcols) {
@@ -4287,22 +4288,19 @@ saltos.bootstrap.__text_helper = field => {
         border = 'border-0';
     }
     const obj = saltos.core.html(`
-        <div class="shadow">
-            <input type="${field.type}" class="form-control ${border} ${field.class}"
-                placeholder="${field.placeholder}" data-bs-accesskey="${field.accesskey}"
-                ${disabled} ${readonly} ${required} ${autofocus} ${autosave}
-                id="${field.id}" data-bs-title="${field.tooltip}" value="${field.value}" />
-        </div>
+        <input type="${field.type}" class="form-control ${border} ${field.class}"
+            placeholder="${field.placeholder}" data-bs-accesskey="${field.accesskey}"
+            ${disabled} ${readonly} ${required} ${autofocus} ${autosave}
+            id="${field.id}" data-bs-title="${field.tooltip}" value="${field.value}" />
     `);
-    const input = obj.querySelector('input');
     if (field.tooltip != '') {
-        saltos.bootstrap.__tooltip_helper(input);
+        saltos.bootstrap.__tooltip_helper(obj);
     }
     if (field.onenter != '') {
-        saltos.bootstrap.__onenter_helper(input, field.onenter);
+        saltos.bootstrap.__onenter_helper(obj, field.onenter);
     }
     if (field.onchange != '') {
-        saltos.bootstrap.__onchange_helper(input, field.onchange);
+        saltos.bootstrap.__onchange_helper(obj, field.onchange);
     }
     return obj;
 };
@@ -4363,21 +4361,36 @@ saltos.bootstrap.__textarea_helper = field => {
         border = 'border-0';
     }
     const obj = saltos.core.html(`
-        <div class="shadow">
-            <textarea class="form-control ${border} ${field.class}"
-                placeholder="${field.placeholder}" data-bs-accesskey="${field.accesskey}"
-                ${disabled} ${readonly} ${required} ${autofocus} ${autosave}
-                id="${field.id}" data-bs-title="${field.tooltip}">${field.value}</textarea>
-        </div>
+        <textarea class="form-control ${border} ${field.class}"
+            placeholder="${field.placeholder}" data-bs-accesskey="${field.accesskey}"
+            ${disabled} ${readonly} ${required} ${autofocus} ${autosave}
+            id="${field.id}" data-bs-title="${field.tooltip}">${field.value}</textarea>
     `);
-    const textarea = obj.querySelector('textarea');
     if (field.tooltip != '') {
-        saltos.bootstrap.__tooltip_helper(textarea);
+        saltos.bootstrap.__tooltip_helper(obj);
     }
     if (field.onchange != '') {
-        saltos.bootstrap.__onchange_helper(textarea, field.onchange);
+        saltos.bootstrap.__onchange_helper(obj, field.onchange);
     }
     return obj;
+};
+
+/**
+ * Private shadow constructor helper
+ *
+ * This function creates a shadow wrapper around a given DOM element.
+ *
+ * It generates a <div> element with the class "shadow", appends the provided object (obj) as its child,
+ * and returns the resulting DOM structure.
+ *
+ * @obj => The DOM element to be wrapped inside the shadow container.
+ *
+ * Returns the <div> element containing the original object as a child.
+ */
+saltos.bootstrap.__shadow_helper = obj => {
+    const shadow = saltos.core.html(`<div class="shadow"></div>`);
+    shadow.append(obj);
+    return shadow;
 };
 
 /**
