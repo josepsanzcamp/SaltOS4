@@ -662,7 +662,13 @@ saltos.bootstrap.__field.ckeditor = field => {
     }
     const obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
-    obj.append(saltos.bootstrap.__textarea_helper(saltos.core.copy_object(field)));
+    obj.append(
+        saltos.bootstrap.__shadow_helper(
+            saltos.bootstrap.__textarea_helper(
+                saltos.core.copy_object(field)
+            )
+        )
+    );
     const element = obj.querySelector('textarea');
     element.style.display = 'none';
     const array = [
@@ -686,12 +692,11 @@ saltos.bootstrap.__field.ckeditor = field => {
             language: lang,
         }).then(editor => {
             element.ckeditor = editor;
-            element.nextElementSibling.classList.add('form-control');
-            element.nextElementSibling.classList.add('p-0');
-            element.nextElementSibling.classList.add('shadow');
+            element.parentElement.classList.add('form-control');
+            element.parentElement.classList.add('p-0');
             if (field.color != 'none') {
-                element.nextElementSibling.classList.add('border');
-                element.nextElementSibling.classList.add('border-' + field.color);
+                element.parentElement.classList.add('border');
+                element.parentElement.classList.add('border-' + field.color);
             }
             editor.model.document.on('change:data', () => {
                 element.value = editor.getData();
@@ -781,6 +786,14 @@ saltos.bootstrap.__field.ckeditor = field => {
             }
         </style>
     `));
+    // Fix for a rounded corners
+    obj.append(saltos.core.html(`
+        <style>
+            :root {
+                --ck-border-radius: var(--bs-border-radius);
+            }
+        </style>
+    `));
     return obj;
 };
 
@@ -829,7 +842,13 @@ saltos.bootstrap.__field.codemirror = field => {
     }
     const obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
-    obj.append(saltos.bootstrap.__textarea_helper(saltos.core.copy_object(field)));
+    obj.append(
+        saltos.bootstrap.__shadow_helper(
+            saltos.bootstrap.__textarea_helper(
+                saltos.core.copy_object(field)
+            )
+        )
+    );
     const element = obj.querySelector('textarea');
     element.style.display = 'none';
     // Add the placeholder
@@ -859,12 +878,11 @@ saltos.bootstrap.__field.codemirror = field => {
             indentUnit: 4,
         });
         element.codemirror = cm;
-        element.nextElementSibling.classList.add('form-control');
-        element.nextElementSibling.classList.add('p-0');
-        element.nextElementSibling.classList.add('shadow');
+        element.parentElement.classList.add('form-control');
+        element.parentElement.classList.add('p-0');
         if (field.color != 'none') {
-            element.nextElementSibling.classList.add('border');
-            element.nextElementSibling.classList.add('border-' + field.color);
+            element.parentElement.classList.add('border');
+            element.parentElement.classList.add('border-' + field.color);
         }
         element.nextElementSibling.style.height = 'auto';
         cm.on('change', cm.save);
@@ -919,6 +937,14 @@ saltos.bootstrap.__field.codemirror = field => {
     if (saltos.core.eval_bool(field.disabled)) {
         element.set_disabled(true);
     }
+    // Fix for a rounded corners
+    obj.append(saltos.core.html(`
+        <style>
+            .CodeMirror {
+                border-radius: var(--bs-border-radius);
+            }
+        </style>
+    `));
     return obj;
 };
 
