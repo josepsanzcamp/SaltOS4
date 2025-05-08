@@ -1,5 +1,5 @@
 Devel Documentation
-SaltOS 4.0 r2057
+SaltOS 4.0 r2059
 May 2025
 
 
@@ -577,7 +577,7 @@ Both modes are based on the same HTML loader template found in `web/htm/index.ht
 
 +++Comparison Table+++
 
-| **Feature** | **Production Mode (`make web`)** | **Development Mode (`make devel`)** |
+|| Feature | Production Mode (`make web`) | Development Mode (`make devel`) |
 | Main JS | Combined in `index.js` | Loaded as individual source files |
 | Proxy | Minified `proxy.js` | Lightweight `importScripts(...)` loader |
 | HTML Loader | Minified `index.htm` with `integrity` | Expanded `index.htm` with raw script tags |
@@ -600,56 +600,128 @@ Each folder may contain:
 
 ++Manifest Files++
 
-The `manifest.xml` file defines the metadata and registration details for each SaltOS4 application. It serves as a declaration file that the system reads to know how to display, categorize, and enable the app.
+The `manifest.xml` file defines the metadata and registration details for each SaltOS4 application. It is a declaration file that the system reads to know how to display, categorize, and enable the app. Its use makes the system modular and extensible.
 
-Each `manifest.xml` typically lives in the `apps/<appname>/xml/` folder.
+Each `manifest.xml` is usually located at `apps/<appname>/xml/`.
 
 +++General Structure+++
 
-The manifest follows this structure:
+The general structure of the file is as follows:
 
 ```
 <root>
     <groups>
-        <group code="group_code" name="Group Name" description="Description" color="color" position="number"/>
+        <group code="group_code" name="Group Name" description="Description"
+               color="color" position="number"/>
     </groups>
     <apps>
-        <app id="number" active="1|0" group="group_code"
-             code="app_code" name="App Name" description="Description"
+        <app id="number" active="1|0" code="app_code" name="App Name" description="Description"
+             group="group_code" position="number"
+             color="color" opacity="0|25|50|75|100" fontsize="1-6"
              table="main_table" field="main_field"
-             subtables="subtable1:table(foreign_key),subtable2:table(foreign_key)"
+             subtables="alias:table(foreign_key),..."
              has_index="1|0" has_control="1|0" has_version="1|0"
              has_files="1|0" has_notes="1|0" has_log="1|0"
              widgets="widget1,widget2"
-             perms="*" color="color" opacity="percent" fontsize="number"
-             allow="1" deny="0"/>
+             perms="*" allow="1" deny="0"/>
     </apps>
 </root>
 ```
 
-+++Key Elements+++
++++Groups (<group>)+++
 
-- **<group>**: Defines a functional group (like CRM, Sales, HR).
-    - `code`: unique identifier.
-    - `name`: displayed name.
-    - `description`: description shown in UI.
-    - `color`: Bootstrap color (e.g., primary, success).
-    - `position`: ordering in menus.
-- **<app>**: Defines an individual app.
-    - `id`: unique numeric ID.
-    - `active`: whether the app is active (`1`) or disabled (`0`).
-    - `group`: links the app to its parent group.
-    - `code`: internal code name (used in URLs, API, etc.).
-    - `name`: visible name in the UI.
-    - `description`: short explanation of the app.
-    - `table`: main database table used.
-    - `field`: representative field or computed string (used in lists, selects).
-    - `subtables`: related tables, in format `alias:table(foreign_key)`.
-    - `has_index`, `has_control`, `has_version`, `has_files`, `has_notes`, `has_log`: enable or disable specific system features.
-    - `widgets`: defines which dashboard widgets are linked.
-    - `perms`: permissions (can be a comma-separated list or `*` for all).
-    - `color`, `opacity`, `fontsize`, `position`: visual customization.
-    - `allow`, `deny`: additional access control flags.
+- **Identity:**
+  - `code`: unique identifier.
+  - `name`: display name.
+  - `description`: visible description.
+- **Visual (optional):**
+  - `color`: Bootstrap class (primary, secondary, success, info, warning, danger).
+  - `position`: descending order number (higher appears first).
+
+
+Note: All visual attributes are optional; if not defined, they are not applied.
+
++++Apps (<app>)+++
+
+- **Identity:**
+  - `id`: unique numeric identifier.
+  - `active`: 1 (active), 0 (inactive).
+  - `code`: internal code (used in URLs, API, etc.).
+  - `name`: display name.
+  - `description`: short description.
+- **Visual (optional):**
+  - `group`: group code it belongs to.
+  - `position`: order within the group (higher appears first).
+  - `color`: Bootstrap class (same as <group>).
+  - `opacity`: 0, 25, 50, 75, 100 → `opacity-x` class (dashboard only).
+  - `fontsize`: 1-6 → `fs-x` class (dashboard only).
+- **Data:**
+  - `table`: main associated table.
+  - `field`: representative field or computed string.
+  - `subtables`: related subtables (alias:table(foreign_key),...)
+- **Feature Modules:**
+  - `has_index`: enables automatic indexing (creates Mroonga table).
+  - `has_control`: enables ownership and sharing control.
+  - `has_version`: enables version control (with local blockchain).
+  - `has_files`: enables file management.
+  - `has_notes`: enables note management.
+  - `has_log`: enables data access logging.
+- **Widgets:**
+  - `widgets`: list of widgets provided by the app for the dashboard.
+- **Permissions:**
+  - `perms`: list of permissions (comma-separated or using `*` and wildcards).
+  - `allow`: 1 to force global access.
+  - `deny`: 1 to force global denial.
+
+
+Note: All visual attributes are optional; if not defined, they are not applied.
+
++++Permission System+++
+
+SaltOS4 defines standard permissions in `tbl_perms`:
+
+|| ID | Code   | Owner  | Name                                |
+|   1 | main   |        | Main access                         |
+|   2 | menu   |        | Show in menu                        |
+|   3 | create |        | Create records                      |
+|   4 | widget |        | Show widget                         |
+|   5 | action |        | Execute action                      |
+|   6 | config |        | Configure app                       |
+|   7 | help   |        | Show help                           |
+|   8 | info   |        | Info feature                        |
+|  11 | list   | user   | List only user records              |
+|  12 | list   | group  | List user and group records         |
+|  13 | list   | all    | List all records                    |
+|  21 | view   | user   | View details only user records      |
+|  22 | view   | group  | View details user and group records |
+|  23 | view   | all    | View details all records            |
+|  31 | edit   | user   | Modify only user records            |
+|  32 | edit   | group  | Modify user and group records       |
+|  33 | edit   | all    | Modify all records                  |
+|  41 | delete | user   | Delete only user records            |
+|  42 | delete | group  | Delete user and group records       |
+|  43 | delete | all    | Delete all records                  |
+
+`allow="1"` forces global access; `deny="1"` globally denies access.
+
++++Feature Modules+++
+
+The feature modules (`has_*`) add extra functionality:
+
+- `has_index`: creates a Mroonga index table for full-text search.
+- `has_control`: adds ownership (user_id, group_id, sharing) and timestamps.
+- `has_version`: stores changes in a version table with local blockchain.
+- `has_files`: enables file upload and management.
+- `has_notes`: enables adding and managing notes.
+- `has_log`: records access and queries to the app.
+
+
++++Special Cases+++
+
+- Apps without `group`: e.g., `login`, `dashboard` (embedded or functional apps).
+- Apps without `table` and `field`: e.g., `login`, `dashboard`, `certs` (use backend functions).
+- Groups defined in different files are globally merged.
+- If visual attributes are not defined → no effect (equivalent to null).
 
 
 +++Example+++
@@ -657,27 +729,45 @@ The manifest follows this structure:
 ```
 <root>
     <groups>
-        <group code="sales" name="Sales" description="Sales & Billing Management" color="info" position="3"/>
+        <group code="crm" name="CRM" description="Customer Management" color="success" position="4"/>
+        <group code="sales" name="Sales" description="Sales Management" color="info" position="3"/>
     </groups>
     <apps>
-        <app id="53" active="1" group="sales" code="invoices" name="Invoices"
-             description="Invoices management" table="app_invoices"
-             field="IF(is_closed, invoice_code, proforma_code)"
+        <app id="1" active="1" code="login" name="Login" description="Login screen"
+             perms="main" allow="1"/>
+        <app id="2" active="1" code="dashboard" name="Dashboard" description="Main dashboard"
+             perms="main,config,help" allow="1"/>
+        <app id="50" active="1" code="customers" name="Customers" description="Manage customers"
+             group="crm" position="1" color="success" fontsize="1"
+             table="app_customers" field="name"
+             has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1" has_log="1"
+             widgets="last_customers,new_customers" perms="*"/>
+        <app id="53" active="1" code="invoices" name="Invoices" description="Manage invoices"
+             group="sales" position="1" color="info" opacity="50" fontsize="3"
+             table="app_invoices" field="IF(is_closed, invoice_code, proforma_code)"
              subtables="lines:app_invoices_lines(invoice_id),taxes:app_invoices_taxes(invoice_id)"
              has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1" has_log="1"
              widgets="last_7_invoices,invoice_total_by_day"
-             perms="*"/>
+             perms="main,create,edit,viewall,deleteall"/>
     </apps>
 </root>
 ```
 
 +++Usage Notes+++
 
-- The system reads all `manifest.xml` files on startup or when refreshing the app registry.
-- Disabling an app (`active="0"`) will hide it but preserve its data.
-- The `perms` attribute controls what actions are available (e.g., `main, create, edit, delete, view`) or can be set to `*` for full access.
-- Subtables help link detailed records like line items or attachments.
-- Visual attributes (`color`, `opacity`, `fontsize`) affect how the app appears in the UI but do not affect backend logic.
+- Groups and apps are ordered by `position` descending; within the same position, alphabetically.
+- Visual attributes are optional; if not defined they have no effect and only affect the UI appearance, not backend logic.
+- `perms` supports `*` and wildcards (e.g., `view*`), the `perms` attribute controls what actions are available (e.g., `main, create, edit, delete, view`) or can be set to `*` for full access.
+- The system reads all `manifest.xml` files when refreshing the app registry.
+- Disabling an app (`active="0"`) will hide it from UI but preserve its data in the database.
+- Subtables help link detailed records like line items or attachments and are used for indexing relationships.
+- Apps without `group` or without `table`/`field` are valid depending on their function (e.g., embedded apps like `login` or `dashboard`) and may fetch data directly through backend functions instead of database queries.
+- Feature modules activated via `has_*` automatically create and manage their corresponding tables and features.
+- `has_index` enables full-text indexing using Mroonga, integrated as a storage engine in MariaDB for high-performance searches without external services like Elasticsearch.
+- `has_version` enables automatic version control, storing each change as a delta in a version table, secured with a local blockchain to guarantee data integrity.
+- `has_control` adds ownership metadata (user_id, group_id, sharing) and timestamps for each record.
+- `has_files` and `has_notes` add UI elements and storage for user-uploaded files and notes.
+- `has_log` creates a log table to register access and queries for the app, providing traceability.
 
 
 This manifest system makes SaltOS4 highly modular and easy to extend.
