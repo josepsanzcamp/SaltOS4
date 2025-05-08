@@ -1487,7 +1487,7 @@ saltos.bootstrap.__field.button = field => {
     let _class = '';
     if (saltos.core.eval_bool(field.disabled)) {
         disabled = 'disabled';
-        _class = ' opacity-25';
+        _class = 'opacity-25';
     }
     let autofocus = '';
     if (saltos.core.eval_bool(field.autofocus)) {
@@ -4143,7 +4143,7 @@ saltos.bootstrap.__field.dropdown = field => {
     let _class = '';
     if (saltos.core.eval_bool(field.disabled)) {
         disabled = 'disabled';
-        _class = ' opacity-25';
+        _class = 'opacity-25';
     }
     let color = field.color;
     if (!field.color) {
