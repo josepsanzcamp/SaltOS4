@@ -1,5 +1,5 @@
 Web Client Documentation
-SaltOS 4.0 r2031
+SaltOS 4.0 r2060
 May 2025
 
 
@@ -1971,6 +1971,23 @@ Notes:
 This function is intended to be used by other helpers of the form_field constructor
 
 
++++Private shadow constructor helper+++
+
+```
+saltos.bootstrap.__shadow_helper = obj
+```
+
+This function creates a shadow wrapper around a given DOM element.
+
+It generates a <div> element with the class "shadow", appends the provided object (obj) as its child,
+and returns the resulting DOM structure.
+
+- @obj => The DOM element to be wrapped inside the shadow container.
+
+
+Returns the <div> element containing the original object as a child.
+
+
 +++Private tooltip constructor helper+++
 
 ```
@@ -2299,6 +2316,17 @@ saltos.bootstrap.set_data_bs_theme = e
 This function sets the data_bs_theme attribute to enable or disable the dark bs theme
 
 
++++Check bs theme+++
+
+```
+saltos.bootstrap.check_bs_theme = theme
+```
+
+This function checks the bs theme
+
+- @theme => Can be auto, light or dark
+
+
 +++Set bs theme+++
 
 ```
@@ -2310,6 +2338,26 @@ This function sets the bs theme
 - @theme => Can be auto, light or dark
 
 
++++Get bs theme+++
+
+```
+saltos.bootstrap.get_bs_theme = ()
+```
+
+Retrieve the bs_theme stored in the localStorage
+
+
++++Check css theme+++
+
+```
+saltos.bootstrap.check_css_theme = theme
+```
+
+This function checks the css theme
+
+- @theme => Can be default or one of the themes
+
+
 +++Set css theme+++
 
 ```
@@ -2318,16 +2366,7 @@ saltos.bootstrap.set_css_theme = theme
 
 This function sets the css theme
 
-- @theme => Can be default or one of the bootswatch themes
-
-
-+++Get bs theme+++
-
-```
-saltos.bootstrap.get_bs_theme = ()
-```
-
-Retrieve the bs_theme stored in the localStorage
+- @theme => Can be default or one of the themes
 
 
 +++Get css theme+++
