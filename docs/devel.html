@@ -25,7 +25,7 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <header>
 <hgroup>
 <h1>Devel Documentation</h1>
-<h2>SaltOS 4.0 r2059</h2>
+<h2>SaltOS 4.0 r2067</h2>
 <h3>May 2025</h3>
 </hgroup>
 </header>
@@ -1562,9 +1562,9 @@ Note: All visual attributes are optional; if not defined, they are not applied.
   </li>
   <li>`has_version`: enables version control (with local blockchain).
   </li>
-  <li>`has_files`: enables file management.
+  <li>`has_files`: enables files management.
   </li>
-  <li>`has_notes`: enables note management.
+  <li>`has_notes`: enables notes management.
   </li>
   <li>`has_log`: enables data access logging.
   </li>
@@ -1578,7 +1578,7 @@ Note: All visual attributes are optional; if not defined, they are not applied.
 </li>
 <li><strong>Permissions:</strong>
   <ul>
-  <li>`perms`: list of permissions (comma-separated or using `*` and wildcards).
+  <li>`perms`: list of permissions (comma-separated or using `*` as wildcards).
   </li>
   <li>`allow`: 1 to force global access.
   </li>
@@ -1589,7 +1589,30 @@ Note: All visual attributes are optional; if not defined, they are not applied.
 </ul>
 
 <p>
-Note: All visual attributes are optional; if not defined, they are not applied.
+Notes:
+</p>
+<p>
+All visual attributes are optional; if not defined, they are not applied.
+</p>
+<p>
+If the permission refers to a permission code without an `owner` (e.g., `main`, `menu`, `create`), you can simply write the code as is.
+</p>
+<p>
+For permission codes that support ownership (like `list`, `view`, `edit`, `delete`), you must specify the full code by combining the permission and the owner (e.g., `viewall`, `viewuser`, `viewgroup`), or use a wildcard (e.g., `view*`) to include all ownership levels.
+</p>
+<p>
+Example:
+</p>
+
+<ul>
+<li>`main,create,viewall` (valid)
+</li>
+<li>`view` (invalid → must be `viewall`, `viewuser` or `viewgroup`, or use `view*`)
+</li>
+</ul>
+
+<p>
+Using wildcards (e.g., `view*`) is common to grant all ownership levels.
 </p>
 
 </section>
@@ -1602,127 +1625,106 @@ SaltOS4 defines standard permissions in `tbl_perms`:
 
 <table class="tableborder">
 <tr>
-<th>ID</th>
 <th>Code</th>
 <th>Owner</th>
 <th>Name</th>
 </tr>
 <tr>
-<td class="right">1</td>
 <td>main</td>
 <td></td>
 <td>Main access</td>
 </tr>
 <tr>
-<td class="right">2</td>
 <td>menu</td>
 <td></td>
 <td>Show in menu</td>
 </tr>
 <tr>
-<td class="right">3</td>
 <td>create</td>
 <td></td>
 <td>Create records</td>
 </tr>
 <tr>
-<td class="right">4</td>
 <td>widget</td>
 <td></td>
 <td>Show widget</td>
 </tr>
 <tr>
-<td class="right">5</td>
 <td>action</td>
 <td></td>
 <td>Execute action</td>
 </tr>
 <tr>
-<td class="right">6</td>
 <td>config</td>
 <td></td>
 <td>Configure app</td>
 </tr>
 <tr>
-<td class="right">7</td>
 <td>help</td>
 <td></td>
 <td>Show help</td>
 </tr>
 <tr>
-<td class="right">8</td>
 <td>info</td>
 <td></td>
 <td>Info feature</td>
 </tr>
 <tr>
-<td class="right">11</td>
 <td>list</td>
 <td>user</td>
 <td>List only user records</td>
 </tr>
 <tr>
-<td class="right">12</td>
 <td>list</td>
 <td>group</td>
 <td>List user and group records</td>
 </tr>
 <tr>
-<td class="right">13</td>
 <td>list</td>
 <td>all</td>
 <td>List all records</td>
 </tr>
 <tr>
-<td class="right">21</td>
 <td>view</td>
 <td>user</td>
 <td>View details only user records</td>
 </tr>
 <tr>
-<td class="right">22</td>
 <td>view</td>
 <td>group</td>
 <td>View details user and group records</td>
 </tr>
 <tr>
-<td class="right">23</td>
 <td>view</td>
 <td>all</td>
 <td>View details all records</td>
 </tr>
 <tr>
-<td class="right">31</td>
 <td>edit</td>
 <td>user</td>
 <td>Modify only user records</td>
 </tr>
 <tr>
-<td class="right">32</td>
 <td>edit</td>
 <td>group</td>
 <td>Modify user and group records</td>
 </tr>
 <tr>
-<td class="right">33</td>
 <td>edit</td>
 <td>all</td>
 <td>Modify all records</td>
 </tr>
 <tr>
-<td class="right">41</td>
 <td>delete</td>
 <td>user</td>
 <td>Delete only user records</td>
 </tr>
 <tr>
-<td class="right">42</td>
 <td>delete</td>
 <td>group</td>
 <td>Delete user and group records</td>
 </tr>
 <tr>
-<td class="right">43</td>
 <td>delete</td>
 <td>all</td>
 <td>Delete all records</td>
@@ -1731,6 +1733,16 @@ SaltOS4 defines standard permissions in `tbl_perms`:
 
 <p>
 `allow="1"` forces global access; `deny="1"` globally denies access.
+</p>
+<p>
+Permissions codes with an `owner` require specifying the permission together with the owner.
+For example, instead of `view`, use `viewall`, `viewgroup` or `viewuser`.
+</p>
+<p>
+Wildcards like `view*` are supported to include all ownership levels at once.
+</p>
+<p>
+Simple permission codes (those without owner) like `main`, `menu`, `create` can be used directly.
 </p>
 
 </section>
@@ -1742,17 +1754,29 @@ The feature modules (`has_*`) add extra functionality:
 </p>
 
 <ul>
-<li>`has_index`: creates a Mroonga index table for full-text search.
+<li>`has_index`: automatically creates a full-text index table using Mroonga as a storage engine inside MariaDB, enabling high-performance searches without external services like Elasticsearch. This index includes not only the fields of the app's main table but also any defined subtables, as well as related files and notes for each record. The system keeps the index automatically updated on each data change, ensuring consistent and up-to-date search results across all linked information.
+<p></p>
 </li>
-<li>`has_control`: adds ownership (user_id, group_id, sharing) and timestamps.
+<li>`has_control`: enables the ownership and sharing control module, adding metadata to each record to store the creator’s `user_id`, `group_id`, and optional lists of additional users and groups with whom the record is shared. It also tracks a creation timestamp. This module allows precise control over who owns and who can access each record at the user and group level. It automatically adds user interface elements to view and manage these permissions directly from the record screens.
+<p></p>
 </li>
-<li>`has_version`: stores changes in a version table with local blockchain.
+<li>`has_version`: enables automatic version control for the app. Every change to a record is stored as a delta in a dedicated version table, preserving the full history of modifications over time. This version data is secured using a local blockchain to ensure data integrity and prevent tampering. The user interface automatically includes a button on each record’s detail view to access and review the version history, showing who made each change, what was changed, and when.
+<p></p>
 </li>
-<li>`has_files`: enables file upload and management.
+<li>`has_log`: activates access and query logging for the app, creating a log table that records every read, write, update, or delete operation performed on the app’s data. This provides complete traceability of data access for auditing purposes. Like `has_version`, a button is automatically added to the record detail view to allow users to consult the access log for each record, showing who accessed the data, from where, and when.
+<p></p>
 </li>
-<li>`has_notes`: enables adding and managing notes.
+<li>`has_files`: automatically adds the SaltOS4 file module to the app. This creates an additional table to store files related to each record in the app’s main table. It also automatically updates the user interface to include:
+  <ul>
+  <li>a button to upload new files on create and edit screens,
+  </li>
+  <li>a table showing attached files on view and edit screens.
+  This functionality is integrated into the core system so that any app enabling `has_files` gains built-in file upload, management, and display features without needing extra development.
+  <p></p>
+  </li>
+  </ul>
 </li>
-<li>`has_log`: records access and queries to the app.
+<li>`has_notes`: similar to `has_files`, but for notes. It creates a notes table linked to the main table and automatically adds UI elements to allow adding new notes and displaying all notes associated with each record on relevant screens. Like `has_files`, this module is pre-integrated into the core and ready for any app that enables it.
 </li>
 </ul>
 
@@ -1832,6 +1856,8 @@ The feature modules (`has_*`) add extra functionality:
 <li>`has_files` and `has_notes` add UI elements and storage for user-uploaded files and notes.
 </li>
 <li>`has_log` creates a log table to register access and queries for the app, providing traceability.
+</li>
+<li>For permissions requiring ownership, you must specify the full code (e.g., `viewall` instead of `view`), or use a wildcard (e.g., `view*`).
 </li>
 </ul>
 

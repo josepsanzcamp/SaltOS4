@@ -1,5 +1,5 @@
 Devel Documentation
-SaltOS 4.0 r2059
+SaltOS 4.0 r2067
 May 2025
 
 
@@ -663,57 +663,86 @@ Note: All visual attributes are optional; if not defined, they are not applied.
   - `has_index`: enables automatic indexing (creates Mroonga table).
   - `has_control`: enables ownership and sharing control.
   - `has_version`: enables version control (with local blockchain).
-  - `has_files`: enables file management.
-  - `has_notes`: enables note management.
+  - `has_files`: enables files management.
+  - `has_notes`: enables notes management.
   - `has_log`: enables data access logging.
 - **Widgets:**
   - `widgets`: list of widgets provided by the app for the dashboard.
 - **Permissions:**
-  - `perms`: list of permissions (comma-separated or using `*` and wildcards).
+  - `perms`: list of permissions (comma-separated or using `*` as wildcards).
   - `allow`: 1 to force global access.
   - `deny`: 1 to force global denial.
 
 
-Note: All visual attributes are optional; if not defined, they are not applied.
+Notes:
+
+All visual attributes are optional; if not defined, they are not applied.
+
+If the permission refers to a permission code without an `owner` (e.g., `main`, `menu`, `create`), you can simply write the code as is.
+
+For permission codes that support ownership (like `list`, `view`, `edit`, `delete`), you must specify the full code by combining the permission and the owner (e.g., `viewall`, `viewuser`, `viewgroup`), or use a wildcard (e.g., `view*`) to include all ownership levels.
+
+Example:
+
+- `main,create,viewall` (valid)
+- `view` (invalid → must be `viewall`, `viewuser` or `viewgroup`, or use `view*`)
+
+
+Using wildcards (e.g., `view*`) is common to grant all ownership levels.
 
 +++Permission System+++
 
 SaltOS4 defines standard permissions in `tbl_perms`:
 
-|| ID | Code   | Owner  | Name                                |
-|   1 | main   |        | Main access                         |
-|   2 | menu   |        | Show in menu                        |
-|   3 | create |        | Create records                      |
-|   4 | widget |        | Show widget                         |
-|   5 | action |        | Execute action                      |
-|   6 | config |        | Configure app                       |
-|   7 | help   |        | Show help                           |
-|   8 | info   |        | Info feature                        |
-|  11 | list   | user   | List only user records              |
-|  12 | list   | group  | List user and group records         |
-|  13 | list   | all    | List all records                    |
-|  21 | view   | user   | View details only user records      |
-|  22 | view   | group  | View details user and group records |
-|  23 | view   | all    | View details all records            |
-|  31 | edit   | user   | Modify only user records            |
-|  32 | edit   | group  | Modify user and group records       |
-|  33 | edit   | all    | Modify all records                  |
-|  41 | delete | user   | Delete only user records            |
-|  42 | delete | group  | Delete user and group records       |
-|  43 | delete | all    | Delete all records                  |
+|| Code   | Owner  | Name                                |
+| main   |        | Main access                         |
+| menu   |        | Show in menu                        |
+| create |        | Create records                      |
+| widget |        | Show widget                         |
+| action |        | Execute action                      |
+| config |        | Configure app                       |
+| help   |        | Show help                           |
+| info   |        | Info feature                        |
+| list   | user   | List only user records              |
+| list   | group  | List user and group records         |
+| list   | all    | List all records                    |
+| view   | user   | View details only user records      |
+| view   | group  | View details user and group records |
+| view   | all    | View details all records            |
+| edit   | user   | Modify only user records            |
+| edit   | group  | Modify user and group records       |
+| edit   | all    | Modify all records                  |
+| delete | user   | Delete only user records            |
+| delete | group  | Delete user and group records       |
+| delete | all    | Delete all records                  |
 
 `allow="1"` forces global access; `deny="1"` globally denies access.
+
+Permissions codes with an `owner` require specifying the permission together with the owner.
+For example, instead of `view`, use `viewall`, `viewgroup` or `viewuser`.
+
+Wildcards like `view*` are supported to include all ownership levels at once.
+
+Simple permission codes (those without owner) like `main`, `menu`, `create` can be used directly.
 
 +++Feature Modules+++
 
 The feature modules (`has_*`) add extra functionality:
 
-- `has_index`: creates a Mroonga index table for full-text search.
-- `has_control`: adds ownership (user_id, group_id, sharing) and timestamps.
-- `has_version`: stores changes in a version table with local blockchain.
-- `has_files`: enables file upload and management.
-- `has_notes`: enables adding and managing notes.
-- `has_log`: records access and queries to the app.
+- `has_index`: automatically creates a full-text index table using Mroonga as a storage engine inside MariaDB, enabling high-performance searches without external services like Elasticsearch. This index includes not only the fields of the app's main table but also any defined subtables, as well as related files and notes for each record. The system keeps the index automatically updated on each data change, ensuring consistent and up-to-date search results across all linked information.
+
+- `has_control`: enables the ownership and sharing control module, adding metadata to each record to store the creator’s `user_id`, `group_id`, and optional lists of additional users and groups with whom the record is shared. It also tracks a creation timestamp. This module allows precise control over who owns and who can access each record at the user and group level. It automatically adds user interface elements to view and manage these permissions directly from the record screens.
+
+- `has_version`: enables automatic version control for the app. Every change to a record is stored as a delta in a dedicated version table, preserving the full history of modifications over time. This version data is secured using a local blockchain to ensure data integrity and prevent tampering. The user interface automatically includes a button on each record’s detail view to access and review the version history, showing who made each change, what was changed, and when.
+
+- `has_log`: activates access and query logging for the app, creating a log table that records every read, write, update, or delete operation performed on the app’s data. This provides complete traceability of data access for auditing purposes. Like `has_version`, a button is automatically added to the record detail view to allow users to consult the access log for each record, showing who accessed the data, from where, and when.
+
+- `has_files`: automatically adds the SaltOS4 file module to the app. This creates an additional table to store files related to each record in the app’s main table. It also automatically updates the user interface to include:
+  - a button to upload new files on create and edit screens,
+  - a table showing attached files on view and edit screens.
+  This functionality is integrated into the core system so that any app enabling `has_files` gains built-in file upload, management, and display features without needing extra development.
+
+- `has_notes`: similar to `has_files`, but for notes. It creates a notes table linked to the main table and automatically adds UI elements to allow adding new notes and displaying all notes associated with each record on relevant screens. Like `has_files`, this module is pre-integrated into the core and ready for any app that enables it.
 
 
 +++Special Cases+++
@@ -768,6 +797,7 @@ The feature modules (`has_*`) add extra functionality:
 - `has_control` adds ownership metadata (user_id, group_id, sharing) and timestamps for each record.
 - `has_files` and `has_notes` add UI elements and storage for user-uploaded files and notes.
 - `has_log` creates a log table to register access and queries for the app, providing traceability.
+- For permissions requiring ownership, you must specify the full code (e.g., `viewall` instead of `view`), or use a wildcard (e.g., `view*`).
 
 
 This manifest system makes SaltOS4 highly modular and easy to extend.
