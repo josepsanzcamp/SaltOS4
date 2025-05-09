@@ -55,7 +55,7 @@ El formulario incluye los siguientes campos:
 - IBAN: Número de cuenta bancaria internacional para transferencias.
 - SWIFT/BIC: Código SWIFT/BIC que identifica el banco de la empresa en transferencias internacionales.
 - Régimen fiscal: Régimen tributario bajo el cual opera la empresa (ej: general, simplificado, pymes).
-- Código de actividad: Código de clasificación económica (ej: CNAE, NACE).
+- Código actividad: Código de clasificación económica (ej: CNAE, NACE).
 - Notas adicionales: Observaciones internas o información adicional sobre la empresa.
 
 
