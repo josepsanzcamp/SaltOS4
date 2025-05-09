@@ -271,6 +271,8 @@ describe('Screenshots', () => {
             await mypause(page, 500);
         } else if (info.app.includes('dashboard')) {
             await mypause(page, 500);
+        } else if (info.app.includes('emails')) {
+            await mypause(page, 500);
         } else {
             await mypause(page, 1);
         }

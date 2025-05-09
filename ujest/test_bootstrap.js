@@ -116,13 +116,16 @@ describe('Bootstrap', () => {
         const id = field.id;
         if (field.type == 'ckeditor') {
             await page.waitForFunction(id => document.getElementById(id).ckeditor, timeout, id);
+            await mypause(page, 100);
         } else if (field.type == 'codemirror') {
             await page.waitForFunction(id => document.getElementById(id).codemirror, timeout, id);
+            await mypause(page, 100);
         } else if (['tags', 'onetag'].includes(field.type)) {
             await page.waitForFunction(id => document.getElementById(id).tomselect, timeout, id);
         } else if (field.type == 'jstree') {
             await page.waitForFunction(id => document.getElementById(id).instance, timeout, id);
         } else if (field.type == 'excel') {
+            await mypause(page, 500);
             await page.waitForFunction(id => document.getElementById(id).excel, timeout, id);
         } else if (field.type == 'chartjs') {
             await mypause(page, 1000);

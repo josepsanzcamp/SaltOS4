@@ -208,7 +208,7 @@ describe('App Tester', () => {
      */
     test.each(bs_themes)('Action Bs Theme %s', async theme => {
         await page.evaluate(theme => { saltos.bootstrap.set_bs_theme(theme); }, theme);
-        await mypause(page, 100);
+        await mypause(page, 500);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
@@ -223,9 +223,10 @@ describe('App Tester', () => {
     /**
      * List of css_themes
      */
-    const css_themes = ['default', 'cerulean', 'cyborg', 'darkly', 'flatly', 'journal', 'litera', 'lumen',
-        'lux', 'materia', 'minty', 'morph', 'pulse', 'quartz', 'sandstone', 'simplex', 'sketchy',
-        'slate', 'solar', 'spacelab', 'superhero', 'united', 'vapor', 'yeti', 'zephyr', 'cosmo'];
+    const css_themes = ['default',
+        'black', 'blue', 'cyan', 'gray', 'green', 'indigo',
+        'orange', 'pink', 'purple', 'red', 'teal', 'yellow',
+    ];
 
     /**
      * Action Css Theme
