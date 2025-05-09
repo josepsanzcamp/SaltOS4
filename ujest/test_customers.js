@@ -88,40 +88,6 @@ afterAll(async () => {
 });
 
 /**
- * Workflow variables
- *
- * This variables allow to control the workflow of the test, the main idea is to
- * skip all tests when one test fails
- */
-let testFailed = false;
-let testFinish = false;
-
-/**
- * Before Each
- *
- * This function contains all code executed before each test, in this case the
- * features provided by this function includes the control of the workflow
- */
-beforeEach(() => {
-    if (testFailed) {
-        throw new Error('A previous test failed, skipping execution');
-    }
-    testFinish = false;
-});
-
-/**
- * After Each
- *
- * This function contains all code executed after each test, in this case the
- * features provided by this function includes the control of the workflow
- */
-afterEach(() => {
-    if (!testFinish) {
-        testFailed = true;
-    }
-});
-
-/**
  * App Customers
  *
  * This test is intended to validate the correctness of the customers application
@@ -152,8 +118,6 @@ describe('App Customers', () => {
             failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
-
-        testFinish = true;
     });
 
     /**
@@ -173,8 +137,6 @@ describe('App Customers', () => {
             failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
-
-        testFinish = true;
     });
 
     /**
@@ -193,8 +155,6 @@ describe('App Customers', () => {
             failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
-
-        testFinish = true;
     });
 
     /**
@@ -215,8 +175,6 @@ describe('App Customers', () => {
             failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
-
-        testFinish = true;
     });
 
     /**
@@ -235,8 +193,6 @@ describe('App Customers', () => {
             failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
-
-        testFinish = true;
     });
 
     /**
@@ -258,8 +214,6 @@ describe('App Customers', () => {
             failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
-
-        testFinish = true;
     });
 
     /**
@@ -278,8 +232,6 @@ describe('App Customers', () => {
             failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
-
-        testFinish = true;
     });
 
     /**
@@ -301,8 +253,6 @@ describe('App Customers', () => {
             failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
-
-        testFinish = true;
     });
 
     /**
@@ -321,8 +271,6 @@ describe('App Customers', () => {
             failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
-
-        testFinish = true;
     });
 
     /**
@@ -358,8 +306,6 @@ describe('App Customers', () => {
             failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
-
-        testFinish = true;
     });
 
     /**
@@ -396,8 +342,6 @@ describe('App Customers', () => {
             failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
-
-        testFinish = true;
     });
 
     /**
@@ -429,7 +373,5 @@ describe('App Customers', () => {
             failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
-
-        testFinish = true;
     });
 });
