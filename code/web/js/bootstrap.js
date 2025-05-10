@@ -1992,7 +1992,7 @@ saltos.bootstrap.__field.file = field => {
  */
 saltos.bootstrap.__field.link = field => {
     field.color = 'link';
-    const obj = saltos.bootstrap.__field.button(field);
+    const obj = saltos.bootstrap.__field.button(field).querySelector('button');
     return obj;
 };
 

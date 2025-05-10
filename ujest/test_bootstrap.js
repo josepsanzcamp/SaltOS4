@@ -107,7 +107,7 @@ describe('Bootstrap', () => {
     test.each(json)('$label', async field => {
         await page.evaluate(field => {
             const obj = saltos.bootstrap.field(field);
-            const div = saltos.core.html('<div id="widget" style="width:600px;" />');
+            const div = saltos.core.html('<div id="widget" style="width:600px; padding:1rem;" />');
             div.append(obj);
             document.body.innerHTML = '';
             document.body.append(div);
