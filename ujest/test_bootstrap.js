@@ -129,7 +129,9 @@ describe('Bootstrap', () => {
             await page.waitForFunction(id => document.getElementById(id).excel, timeout, id);
         } else if (field.type == 'chartjs') {
             await mypause(page, 1000);
-        } else if (['gallery', 'image'].includes(field.type)) {
+        } else if (field.type == 'gallery') {
+            await mypause(page, 500);
+        } else if (field.type == 'image') {
             await mypause(page, 100);
         } else if (field.type == 'pdfjs') {
             await page.waitForFunction(() => { return typeof pdfjsLib == 'object'; }, timeout);
