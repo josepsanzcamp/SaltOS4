@@ -447,11 +447,16 @@ saltos.driver.delete = async arg => {
  *
  * This function sets a placeholder object in the element identified by the arg
  *
- * @arg => the id of the element where do you want to put the placeholder
+ * @id     => the id of the element where do you want to put the placeholder
+ * @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
  */
 saltos.driver.placeholder = arg => {
+    saltos.core.check_params(arg, ['id', 'color']);
+    if (!arg.color) {
+        arg.color = 'primary';
+    }
     const obj = saltos.core.html(`
-        <div class="form-control shadow bg-primary-subtle h-100 driver-placeholder"></div>
+        <div class="form-control shadow bg-${arg.color}-subtle h-100 driver-placeholder"></div>
     `);
     obj.append(saltos.core.html(`
         <style>
@@ -466,7 +471,7 @@ saltos.driver.placeholder = arg => {
             }
         </style>
     `));
-    document.getElementById(arg).replaceChildren(obj);
+    document.getElementById(arg.id).replaceChildren(obj);
 };
 
 /**
@@ -683,7 +688,10 @@ saltos.driver.__types.type2.init = arg => {
     if (arg == 'list') {
         const action = saltos.hash.get().split('/').at(2);
         if (!['create', 'view', 'edit'].includes(action)) {
-            saltos.driver.placeholder('two');
+            saltos.driver.placeholder({
+                id: 'two',
+                color: 'secondary',
+            });
         }
         // Program the update event
         const app = saltos.hash.get().split('/').at(1);
@@ -727,7 +735,10 @@ saltos.driver.__types.type2.open = arg => {
  * @arg => unused at this scope
  */
 saltos.driver.__types.type2.close = arg => {
-    saltos.driver.placeholder('two');
+    saltos.driver.placeholder({
+        id: 'two',
+        color: 'secondary',
+    });
     // Hash part
     const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
     saltos.hash.add(temp);
@@ -781,8 +792,14 @@ saltos.driver.__types.type3.init = arg => {
     if (arg == 'list') {
         const action = saltos.hash.get().split('/').at(2);
         if (!['create', 'view', 'edit'].includes(action)) {
-            saltos.driver.placeholder('two');
-            saltos.driver.placeholder('three');
+            saltos.driver.placeholder({
+                id: 'two',
+                color: 'secondary',
+            });
+            saltos.driver.placeholder({
+                id: 'three',
+                color: 'secondary',
+            });
         }
         // Program the update event
         const app = saltos.hash.get().split('/').at(1);
@@ -805,7 +822,10 @@ saltos.driver.__types.type3.init = arg => {
         }
         const arr = saltos.hash.get().split('/');
         if (arr.length < 5) {
-            saltos.driver.placeholder('three');
+            saltos.driver.placeholder({
+                id: 'three',
+                color: 'secondary',
+            });
         }
     }
     if (arg == 'view') {
@@ -835,13 +855,19 @@ saltos.driver.__types.type3.close = arg => {
     const arr = saltos.hash.get().split('/');
     const action = saltos.hash.get().split('/').at(2);
     if (arr.length >= 5 && action == 'view') {
-        saltos.driver.placeholder('three');
+        saltos.driver.placeholder({
+            id: 'three',
+            color: 'secondary',
+        });
         // Hash part
         let temp = saltos.hash.get().split('/');
         temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
         saltos.hash.add(temp);
     } else {
-        saltos.driver.placeholder('two');
+        saltos.driver.placeholder({
+            id: 'two',
+            color: 'secondary',
+        });
         // Hash part
         const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
         saltos.hash.add(temp);
@@ -972,7 +998,10 @@ saltos.driver.__types.type5.init = arg => {
     if (arg == 'list') {
         const action = saltos.hash.get().split('/').at(2);
         if (!['create', 'view', 'edit'].includes(action)) {
-            saltos.driver.placeholder('two');
+            saltos.driver.placeholder({
+                id: 'two',
+                color: 'secondary',
+            });
             saltos.bootstrap.modal('close');
         }
         // Program the update event
@@ -1040,7 +1069,10 @@ saltos.driver.__types.type5.close = arg => {
         temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
         saltos.hash.add(temp);
     } else {
-        saltos.driver.placeholder('two');
+        saltos.driver.placeholder({
+            id: 'two',
+            color: 'secondary',
+        });
         // Hash part
         const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
         saltos.hash.add(temp);
