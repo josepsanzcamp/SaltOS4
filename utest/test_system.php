@@ -74,7 +74,7 @@ final class test_system extends TestCase
             rmdir('data/nada');
         }
         $this->assertDirectoryDoesNotExist('data/nada');
-        mkdir('data/nada');
+        mkdir('data/nada', 0444);
         $this->assertDirectoryExists('data/nada');
 
         $array = check_directories();
@@ -83,7 +83,7 @@ final class test_system extends TestCase
         $this->assertDirectoryExists('data/nada');
 
         $json = test_cli_helper('setup', [], '', '', '');
-        $this->assertCount(2, $json);
+        $this->assertCount(3, $json);
         $this->assertArrayHasKey('system', $json);
         $this->assertCount(0, $json['system']['output']);
         $this->assertArrayHasKey('directories', $json);
@@ -92,6 +92,8 @@ final class test_system extends TestCase
         $this->assertArrayHasKey('error', $json['directories']['output']['0']);
         $this->assertArrayHasKey('details', $json['directories']['output']['0']);
         $this->assertSame($json['directories']['output']['0']['error'], 'data/nada not writable');
+        $this->assertArrayHasKey('composer', $json);
+        $this->assertCount(0, $json['composer']['output']);
 
         $this->assertDirectoryExists('data/nada');
         rmdir('data/nada');
