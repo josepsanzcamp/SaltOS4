@@ -1511,10 +1511,10 @@ saltos.bootstrap.__field.button = field => {
                                      'onclick', 'tooltip', 'icon', 'label', 'accesskey',
                                      'color', 'collapse', 'target', 'addbr']);
     let disabled = '';
-    let _class = '';
+    let opacity = '';
     if (saltos.core.eval_bool(field.disabled)) {
         disabled = 'disabled';
-        _class = 'opacity-25';
+        opacity = 'opacity-25';
     }
     let autofocus = '';
     if (saltos.core.eval_bool(field.autofocus)) {
@@ -1544,7 +1544,7 @@ saltos.bootstrap.__field.button = field => {
     const obj = saltos.core.html(`
         <div class="shadow d-inline-block ${width} ${height}">
             <button type="button" id="${field.id}" ${disabled} ${autofocus} ${autoclose}
-                class="btn btn-${color} focus-ring focus-ring-${color} ${field.class} ${_class}"
+                class="btn btn-${color} focus-ring focus-ring-${color} ${field.class} ${opacity}"
                 data-bs-accesskey="${field.accesskey}" ${collapse}
                 data-bs-title="${field.tooltip}">${field.label}</button>
         </div>
@@ -4166,10 +4166,10 @@ saltos.bootstrap.__field.dropdown = field => {
     saltos.core.check_params(field, ['menu'], []);
     // Check for main attributes
     let disabled = '';
-    let _class = '';
+    let opacity = '';
     if (saltos.core.eval_bool(field.disabled)) {
         disabled = 'disabled';
-        _class = 'opacity-25';
+        opacity = 'opacity-25';
     }
     let color = field.color;
     if (!field.color) {
@@ -4181,7 +4181,7 @@ saltos.bootstrap.__field.dropdown = field => {
         obj = saltos.core.html(`
             <div class="btn-group shadow ${field.class}" id="${field.id}">
                 <button type="button" ${disabled}
-                    class="btn btn-${color} ${_class} dropdown-toggle"
+                    class="btn btn-${color} ${opacity} dropdown-toggle"
                     data-bs-toggle="dropdown" aria-expanded="false"
                     data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}">
                         ${field.label}
@@ -4192,12 +4192,12 @@ saltos.bootstrap.__field.dropdown = field => {
         obj = saltos.core.html(`
             <div class="btn-group shadow ${field.class}" id="${field.id}">
                 <button type="button" ${disabled}
-                    class="btn btn-${color} ${_class}"
+                    class="btn btn-${color} ${opacity}"
                     data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}">
                         ${field.label}
                 </button>
                 <button type="button" ${disabled}
-                    class="btn btn-${color} ${_class} dropdown-toggle dropdown-toggle-split"
+                    class="btn btn-${color} ${opacity} dropdown-toggle dropdown-toggle-split"
                     data-bs-toggle="dropdown" aria-expanded="false">
                 </button>
             </div>
