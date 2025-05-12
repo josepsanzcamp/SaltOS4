@@ -175,10 +175,10 @@ function make_version($app, $reg_id)
     $ver_id = intval(execute_query($query, [$version_id]));
     // Prepare the array to the insert
     $array = [
-        'user_id' => $user_id,
+        'user_id' => intval($user_id),
         'datetime' => $datetime,
-        'reg_id' => $reg_id,
-        'ver_id' => $ver_id + 1,
+        'reg_id' => intval($reg_id),
+        'ver_id' => intval($ver_id) + 1,
         'data' => base64_encode(serialize($data)),
         'hash' => $hash_old,
     ];
@@ -237,16 +237,12 @@ function get_version($app, $reg_id, $ver_id = null)
     $version_old = 0;
     $result = [];
     foreach ($rows as $row) {
-        // This guarantees that the id fields are integers
-        $row['user_id'] = intval($row['user_id']);
-        $row['reg_id'] = intval($row['reg_id']);
-        $row['ver_id'] = intval($row['ver_id']);
         // Check the blockchain integrity
         $array = [
-            'user_id' => $row['user_id'],
+            'user_id' => intval($row['user_id']),
             'datetime' => $row['datetime'],
-            'reg_id' => $row['reg_id'],
-            'ver_id' => $row['ver_id'],
+            'reg_id' => intval($row['reg_id']),
+            'ver_id' => intval($row['ver_id']),
             'data' => $row['data'],
             'hash' => $hash_old,
         ];
