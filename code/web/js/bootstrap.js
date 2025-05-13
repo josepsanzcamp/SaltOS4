@@ -1142,7 +1142,7 @@ saltos.bootstrap.__field.select = field => {
         border = 'border-0';
     }
     let obj = saltos.core.html(`
-        <div class="shadow ${width}">
+        <div class="shadow rounded ${width}">
             <select class="form-select ${border} ${height} ${field.class}" id="${field.id}"
                 ${disabled} ${required} ${autofocus} ${multiple} ${size}
                 data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}"></select>
@@ -1542,7 +1542,7 @@ saltos.bootstrap.__field.button = field => {
         height = 'h-100';
     }
     const obj = saltos.core.html(`
-        <div class="shadow d-inline-block ${width} ${height}">
+        <div class="shadow rounded d-inline-block ${width} ${height}">
             <button type="button" id="${field.id}" ${disabled} ${autofocus} ${autoclose}
                 class="btn btn-${color} focus-ring focus-ring-${color} ${field.class} ${opacity}"
                 data-bs-accesskey="${field.accesskey}" ${collapse}
@@ -1643,7 +1643,7 @@ saltos.bootstrap.__field.password = field => {
     }
     const obj = saltos.core.html(`
         <div>
-            <div class="input-group shadow">
+            <div class="input-group shadow rounded">
                 <input type="password" class="form-control ${border} ${field.class}"
                     id="${field.id}" placeholder="${field.placeholder}" value="${field.value}"
                     ${disabled} ${readonly} ${required} ${autofocus} ${autocomplete}
@@ -1756,7 +1756,7 @@ saltos.bootstrap.__field.file = field => {
     }
     const obj = saltos.core.html(`
         <div>
-            <div class="shadow">
+            <div class="shadow rounded">
                 <input type="file" class="form-control ${border1} ${field.class}" id="${field.id}"
                     ${disabled} ${required} ${autofocus} ${multiple}
                     data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
@@ -4413,7 +4413,7 @@ saltos.bootstrap.__textarea_helper = field => {
  * Returns the <div> element containing the original object as a child.
  */
 saltos.bootstrap.__shadow_helper = obj => {
-    const shadow = saltos.core.html(`<div class="shadow"></div>`);
+    const shadow = saltos.core.html(`<div class="shadow rounded"></div>`);
     shadow.append(obj);
     return shadow;
 };
@@ -4831,7 +4831,7 @@ saltos.bootstrap.modal = args => {
     const obj = saltos.core.html(`
         <div class="modal" id="${args.id}" tabindex="-1"
             aria-labelledby="${args.id}_label" aria-hidden="true" ${temp}>
-            <div class="modal-dialog shadow ${args.class}">
+            <div class="modal-dialog shadow rounded ${args.class}">
                 <div class="modal-content">
                     <div class="modal-header text-bg-${args.color}">
                         <h1 class="modal-title fs-5" id="${args.id}_label">${args.title}</h1>
