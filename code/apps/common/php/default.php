@@ -201,7 +201,7 @@ function make_app_file($data)
     }
 
     // set the dropdown attr to true or false string
-    if ($data['dropdown'] === null || $data['dropdown'] === 'auto') {
+    if (!isset($data['dropdown']) || $data['dropdown'] === 'auto') {
         $dropdown = count($actions) == 1 ? 'false' : 'true';
     } elseif ($data['dropdown'] === true) {
         $dropdown = 'true';
@@ -298,6 +298,9 @@ function make_app_file($data)
             case 'newline':
                 $xml[] = "<div col_class='col-12'/>";
                 break;
+            case 'hrline':
+                $xml[] = "<hr col_class='col-12'/>";
+                break;
             default:
                 show_php_error(['phperror' => "$type not found"]);
         }
@@ -307,7 +310,14 @@ function make_app_file($data)
 
     // set the col_class if needed
     foreach ($col_class as $key => $val) {
-        $col_class[$key] = $data['col_class'];
+        $col_class[$key] = $data['col_class'] ?? 'col-md-6 mb-3';
+    }
+
+    if (isset($data['overload'])) {
+        $overload = xmlfile2array($data['overload']);
+        foreach ($overload as $key => $val) {
+            set_array($array, $key, $val);
+        }
     }
 
     // disconnect to the database if needed

@@ -575,6 +575,9 @@ function make_app_file_helper($yamlfile)
         }
     }
     $files = [$yamlfile, $data['require'], $data['template']];
+    if (isset($data['overload'])) {
+        $files[] = $data['overload'];
+    }
     $xmlfile = get_cache_file($files, 'xml');
     if (cache_exists($xmlfile, $files)) {
         return $xmlfile;
