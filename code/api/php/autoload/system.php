@@ -149,6 +149,10 @@ function check_composer()
     $result = [];
     $files = glob('lib/*/composer.lock');
     foreach ($files as $file) {
+        $dir = dirname($file);
+        if (substr($dir, -4, 4) == '.old') {
+            continue;
+        }
         $json = file_get_contents($file);
         $array = json_decode($json, true);
         if (!isset($array['packages'])) {
