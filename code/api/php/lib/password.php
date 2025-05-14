@@ -54,3 +54,29 @@ function password_strength($pass)
     unset($ps);
     return $score;
 }
+
+/**
+ * Verifies a password hash using the legacy PHPass framework.
+ *
+ * This function is designed for backward compatibility with older SaltOS3 versions
+ * which used the external PHPass library for password hashing. Newer versions of SaltOS
+ * rely on PHP's native password_hash() and password_verify() functions, but this function
+ * is kept to ensure validation of legacy password hashes.
+ *
+ * @pass => The plain text password provided by the user.
+ * @hash => The hashed password stored in the database (created with PHPass).
+ *
+ * Returns true if the given password matches the stored hash, false otherwise.
+ *
+ * Notes:
+ *
+ * - see https://www.openwall.com/phpass/ (Original PHPass project)
+ */
+function password_verify_phpass($pass, $hash)
+{
+    require_once 'lib/phpass/PasswordHash.php';
+    $t_hasher = new PasswordHash(8, true);
+    $result = $t_hasher->CheckPassword($pass, $hash);
+    unset($t_hasher);
+    return $result;
+}

@@ -149,10 +149,11 @@ final class test_authupdate extends TestCase
         ], $json2['token'], '');
         $this->assertSame($json['status'], 'ko');
 
-        $user_id = execute_query("SELECT id FROM tbl_users WHERE login='admin'");
+        // Check for old MD5
+        $hash = md5('admin');
 
-        $query = "UPDATE tbl_users_passwords SET password=MD5('admin') WHERE user_id=$user_id";
-        db_query($query);
+        $query = 'UPDATE tbl_users_passwords SET password = ? WHERE user_id = 1 AND active = 1';
+        db_query($query, [$hash]);
 
         $json2 = test_web_helper('auth/login', [
             'user' => 'admin',
@@ -162,6 +163,38 @@ final class test_authupdate extends TestCase
         $this->assertSame(count($json2), 4);
         $this->assertArrayHasKey('token', $json2);
 
+        // Check for old SHA1
+        $hash = sha1('admin');
+
+        $query = 'UPDATE tbl_users_passwords SET password = ? WHERE user_id = 1 AND active = 1';
+        db_query($query, [$hash]);
+
+        $json2 = test_web_helper('auth/login', [
+            'user' => 'admin',
+            'pass' => 'admin',
+        ], '', '');
+        $this->assertSame($json2['status'], 'ok');
+        $this->assertSame(count($json2), 4);
+        $this->assertArrayHasKey('token', $json2);
+
+        // Check for old PHPASS
+        require_once 'lib/phpass/PasswordHash.php';
+        $t_hasher = new PasswordHash(8, true);
+        $hash = $t_hasher->HashPassword('admin');
+        unset($t_hasher);
+
+        $query = 'UPDATE tbl_users_passwords SET password = ? WHERE user_id = 1 AND active = 1';
+        db_query($query, [$hash]);
+
+        $json2 = test_web_helper('auth/login', [
+            'user' => 'admin',
+            'pass' => 'admin',
+        ], '', '');
+        $this->assertSame($json2['status'], 'ok');
+        $this->assertSame(count($json2), 4);
+        $this->assertArrayHasKey('token', $json2);
+
+        // Continue
         $this->assertFalse(oldpass_check(0, ''));
 
         $file = 'data/logs/phperror.log';
