@@ -54,7 +54,7 @@
                 <hidden id="page" value="0"/>
                 <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+shift+f" onenter="document.getElementById('search_extra').value=this.value;saltos.driver.search()" autofocus="true" onchange="document.getElementById('search_extra').value=this.value"/>
                 <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
-                <dropdown label="PDF" icon="filetype-pdf" tooltip="PDF options" require="php/lib/pdf.php" ifeval="exists_pdf_file(get_data('rest/1'))">
+                <dropdown label="PDF" icon="filetype-pdf" tooltip="PDF options" require="apps/common/php/pdf.php" ifeval="exists_pdf_file(get_data('rest/1'))">
                     <menu>
                         <button label="View" tooltip="To see the pdf" icon="search" onclick="saltos.common.viewpdf_checkbox()"/>
                         <button label="Download" tooltip="To download the pdf" icon="save" onclick="saltos.common.download_checkbox()"/>
@@ -65,7 +65,7 @@
             <div eval="true">xmlfile2array('apps/common/xml/filter.xml')['div']</div>
             <row auto="true" col_class="col-md-12 my-3">
                 <table id="list" nodata="Loading..." dropdown="TODO">
-                    <checkbox require="php/lib/pdf.php" eval="true">exists_pdf_file(get_data('rest/1'))</checkbox>
+                    <checkbox require="apps/common/php/pdf.php" eval="true">exists_pdf_file(get_data('rest/1'))</checkbox>
                     <header>TODO</header>
                     <actions>
                         <view label="View" icon="search" tooltip="To view the register" onclick="saltos.driver.open"/>
@@ -198,7 +198,7 @@
                         <button onclick="saltos.common.log()" label="Log" tooltip="To see the history of the changes" icon="file-text" ifeval="app2log(get_data('rest/1'))"/>
                     </menu>
                 </dropdown>
-                <dropdown label="PDF" icon="filetype-pdf" tooltip="PDF options" require="php/lib/pdf.php" ifeval="exists_pdf_file(get_data('rest/1'))">
+                <dropdown label="PDF" icon="filetype-pdf" tooltip="PDF options" require="apps/common/php/pdf.php" ifeval="exists_pdf_file(get_data('rest/1'))">
                     <menu>
                         <button onclick="saltos.common.viewpdf()" label="View" tooltip="To see the pdf" icon="search"/>
                         <button onclick="saltos.common.download()" label="Download" tooltip="To download the pdf" icon="save"/>

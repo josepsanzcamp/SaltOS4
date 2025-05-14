@@ -38,6 +38,7 @@ declare(strict_types=1);
  * including custom PDF class extensions and various PDF manipulation utilities
  */
 
+define('K_PATH_IMAGES', ''); // to prevent open_basedir restriction
 require_once 'lib/tcpdf/vendor/autoload.php';
 
 /**
@@ -594,43 +595,4 @@ function __pdf_all2pdf($input)
     $pdf->setPrintFooter(false);
     $buffer = $pdf->Output('output.pdf', 'S');
     return $buffer;
-}
-
-/**
- * Build the expected PDF template file path for the given app.
- *
- * Given an application ID, this function resolves the folder name
- * using `detect_app_folder($app)` and returns the full relative path
- * to its associated PDF XML definition file, expected at:
- *
- *     apps/<folder>/xml/<app>_pdf.xml
- *
- * This path is used to define the PDF layout when exporting records
- * from the app.
- *
- * @app => The application code (e.g., 'invoices', 'quotes')
- *
- * Return the relative path to the PDF XML file
- */
-function detect_pdf_file($app)
-{
-    $dir = detect_app_folder($app);
-    $pdf = "apps/$dir/xml/{$app}_pdf.xml";
-    return $pdf;
-}
-
-/**
- * Check if the PDF layout file exists for the given app.
- *
- * This function uses `detect_pdf_file()` to resolve the expected
- * path of the XML file used to generate PDF output for a given app,
- * and returns whether the file actually exists.
- *
- * @app => The application code (e.g., 'invoices', 'quotes')
- *
- * Return true if the PDF file exists, false otherwise
- */
-function exists_pdf_file($app)
-{
-    return file_exists(detect_pdf_file($app));
 }
