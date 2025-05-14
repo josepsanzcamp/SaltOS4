@@ -31,7 +31,7 @@
     <main>
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
-        <screen>type5</screen>
+        <screen>type2modal</screen>
         <gettext eval="true">T()</gettext>
         <navbar eval="true">xmlfile2array('apps/common/xml/navbar.xml')['navbar']</navbar>
         <javascript>

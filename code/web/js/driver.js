@@ -548,6 +548,10 @@ saltos.driver.search_if_needed = arg => {
  */
 saltos.driver.__types = {};
 
+/********************************************************************************
+ * DRIVER TYPE 1
+ ********************************************************************************/
+
 /**
  * Driver type1 object
  *
@@ -640,6 +644,10 @@ saltos.driver.__types.type1.open = arg => {
 saltos.driver.__types.type1.close = arg => {
     saltos.window.close();
 };
+
+/********************************************************************************
+ * DRIVER TYPE 2
+ ********************************************************************************/
 
 /**
  * Driver type2 object
@@ -743,6 +751,10 @@ saltos.driver.__types.type2.close = arg => {
     const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
     saltos.hash.add(temp);
 };
+
+/********************************************************************************
+ * DRIVER TYPE 3
+ ********************************************************************************/
 
 /**
  * Driver type3 object
@@ -874,36 +886,40 @@ saltos.driver.__types.type3.close = arg => {
     }
 };
 
-/**
- * Driver type4 object
- *
- * This object stores the functions used by the type4 driver
- */
-saltos.driver.__types.type4 = {};
+/********************************************************************************
+ * DRIVER TYPE 1 MODAL
+ ********************************************************************************/
 
 /**
- * Driver type4 template
+ * Driver type1modal object
  *
- * This function returns the type4 template to mount the screen
+ * This object stores the functions used by the type1modal driver
+ */
+saltos.driver.__types.type1modal = {};
+
+/**
+ * Driver type1modal template
+ *
+ * This function returns the type1modal template to mount the screen
  *
  * @arg => unused at this scope
  */
-saltos.driver.__types.type4.template = arg => {
+saltos.driver.__types.type1modal.template = arg => {
     const obj = saltos.driver.__types.type1.template();
-    obj.setAttribute('type', 'type4');
+    obj.setAttribute('type', 'type1modal');
     const div = saltos.core.html(`<div id="two" class="d-none"></div>`);
     obj.querySelector('#one').after(div);
     return obj;
 };
 
 /**
- * Driver type4 init
+ * Driver type1modal init
  *
- * This function initialize the type4 driver screen for the arg requested
+ * This function initialize the type1modal driver screen for the arg requested
  *
  * @arg => the desired action to do
  */
-saltos.driver.__types.type4.init = arg => {
+saltos.driver.__types.type1modal.init = arg => {
     if (arg == 'list') {
         const action = saltos.hash.get().split('/').at(2);
         if (!['create', 'view', 'edit'].includes(action)) {
@@ -943,58 +959,132 @@ saltos.driver.__types.type4.init = arg => {
 };
 
 /**
- * Driver type4 open
+ * Driver type1modal open
  *
  * This function bypass to the type2 driver
  *
  * @arg => the desired url
  */
-saltos.driver.__types.type4.open = saltos.driver.__types.type2.open;
+saltos.driver.__types.type1modal.open = saltos.driver.__types.type2.open;
 
 /**
- * Driver type4 close
+ * Driver type1modal close
  *
  * This function close the modal
  *
  * @arg => unused at this scope
  */
-saltos.driver.__types.type4.close = arg => {
+saltos.driver.__types.type1modal.close = arg => {
     saltos.bootstrap.modal('close');
     // Hash part
     const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
     saltos.hash.add(temp);
 };
 
-/**
- * Driver type5 object
- *
- * This object stores the functions used by the type5 driver
- */
-saltos.driver.__types.type5 = {};
+/********************************************************************************
+ * DRIVER TYPE 1 FLUID
+ ********************************************************************************/
 
 /**
- * Driver type5 template
+ * Driver type1fluid object
  *
- * This function returns the type5 template to mount the screen
+ * This object stores the functions used by the type1modal driver
+ */
+saltos.driver.__types.type1fluid = {};
+
+/**
+ * Create type1fluid template
+ *
+ * This function generates a template for the type1fluid driver, configuring specific
+ * attributes and layout modifications. It sets the 'type' attribute to 'type1fluid'
+ * and adjusts the layout of the corresponding element for proper display.
+ */
+saltos.driver.__types.type1fluid.template = arg => {
+    const obj = saltos.driver.__types.type1.template(); // Reuses the template from type1
+    obj.setAttribute('type', 'type1fluid'); // Set the type attribute to 'type1fluid'
+    obj.querySelector('.container-xl').classList.replace('container-xl', 'container-fluid');
+    return obj;
+};
+
+/**
+ * Initialization, open, and close handlers for type1fluid
+ *
+ * These methods inherit their implementations from the 'type1' driver, allowing
+ * reuse of core functionality for initializing, opening, and closing type1 resources.
+ */
+saltos.driver.__types.type1fluid.init = saltos.driver.__types.type1.init; // Inherits initialization
+saltos.driver.__types.type1fluid.open = saltos.driver.__types.type1.open; // Inherits opening logic
+saltos.driver.__types.type1fluid.close = saltos.driver.__types.type1.close; // Inherits closing logic
+
+/********************************************************************************
+ * DRIVER TYPE 1 FULL
+ ********************************************************************************/
+
+/**
+ * Driver type1full object
+ *
+ * This object stores the functions used by the type1full driver
+ */
+saltos.driver.__types.type1full = {};
+
+/**
+ * Create type1full template
+ *
+ * This function generates a template for the type1full driver, configuring specific
+ * attributes and layout modifications. It sets the 'type' attribute to 'type1full'
+ * and adjusts the layout of the corresponding element for proper display.
+ */
+saltos.driver.__types.type1full.template = arg => {
+    const obj = saltos.driver.__types.type1modal.template(); // Reuses the template from type1modal
+    obj.setAttribute('type', 'type1full'); // Set the type attribute to 'type1full'
+    obj.querySelector('.container-xl').classList.replace('container-xl', 'container-fluid');
+    return obj;
+};
+
+/**
+ * Initialization, open, and close handlers for type1full
+ *
+ * These methods inherit their implementations from the 'type1modal' driver, allowing
+ * reuse of core functionality for initializing, opening, and closing type1modal resources.
+ */
+saltos.driver.__types.type1full.init = saltos.driver.__types.type1modal.init; // Inherits initialization
+saltos.driver.__types.type1full.open = saltos.driver.__types.type1modal.open; // Inherits opening logic
+saltos.driver.__types.type1full.close = saltos.driver.__types.type1modal.close; // Inherits closing logic
+
+/********************************************************************************
+ * DRIVER TYPE 2 MODAL
+ ********************************************************************************/
+
+/**
+ * Driver type2modal object
+ *
+ * This object stores the functions used by the type2modal driver
+ */
+saltos.driver.__types.type2modal = {};
+
+/**
+ * Driver type2modal template
+ *
+ * This function returns the type2modal template to mount the screen
  *
  * @arg => unused at this scope
  */
-saltos.driver.__types.type5.template = arg => {
+saltos.driver.__types.type2modal.template = arg => {
     const obj = saltos.driver.__types.type2.template();
-    obj.setAttribute('type', 'type5');
+    obj.setAttribute('type', 'type2modal');
     const div = saltos.core.html(`<div id="three" class="d-none"></div>`);
     obj.querySelector('#two').after(div);
     return obj;
 };
 
 /**
- * Driver type5 init
+ * Driver type2modal init
  *
- * This function initialize the type5 driver screen for the arg requested
+ * This function initialize the type2modal driver screen for the arg requested
  *
  * @arg => the desired action to do
  */
-saltos.driver.__types.type5.init = arg => {
+saltos.driver.__types.type2modal.init = arg => {
     if (arg == 'list') {
         const action = saltos.hash.get().split('/').at(2);
         if (!['create', 'view', 'edit'].includes(action)) {
@@ -1044,22 +1134,22 @@ saltos.driver.__types.type5.init = arg => {
 };
 
 /**
- * Driver type5 open
+ * Driver type2modal open
  *
  * This function bypass to the type2 driver
  *
  * @arg => the desired url
  */
-saltos.driver.__types.type5.open = saltos.driver.__types.type2.open;
+saltos.driver.__types.type2modal.open = saltos.driver.__types.type2.open;
 
 /**
- * Driver type5 close
+ * Driver type2modal close
  *
  * This function close the modal and/or two zone of the screen
  *
  * @arg => unused at this scope
  */
-saltos.driver.__types.type5.close = arg => {
+saltos.driver.__types.type2modal.close = arg => {
     const arr = saltos.hash.get().split('/');
     const action = saltos.hash.get().split('/').at(2);
     if (arr.length >= 5 && action == 'view') {

@@ -1,5 +1,5 @@
 Devel Documentation
-SaltOS 4.0 r2067
+SaltOS 4.0 r2091
 May 2025
 
 
@@ -422,7 +422,7 @@ The file `app.js` implements the high-level application layer. It builds on top 
 - Handles modal dialogs, toast notifications, and main layout rendering.
 - Processes hash-based navigation (`#app/xyz/...`) and dispatches actions.
 - Manages event hooks (e.g., `saltos.app.login`, `saltos.app.ready`).
-- Integrates layout types (`type1` to `type5`) through `saltos.driver`.
+- Integrates layout types (`type1` to `type3`) through `saltos.driver`.
 
 
 It is also responsible for launching the application when loaded in the browser.
@@ -989,7 +989,7 @@ attr:
 - `require`: PHP file to include as backend logic
 - `template`: XML template used as a base for the interface
 - `indent`: whether to apply indentation (boolean)
-- `screen`: type of layout to use (type1, type2, type3, type4, type5)
+- `screen`: type of layout to use (type1, type2, type3, type1modal, type1fluid, type1full, type2modal)
 - `col_class`: default Bootstrap class applied to all form fields
 - `dropdown`: whether to force inline icons or use a dropdown menu
 - `list`: defines the list columns; each entry is [field, type, label]
@@ -1093,20 +1093,39 @@ This file contains the follow important nodes:
 - `<action id="xxx">`: Defines a call to app/customers/xxx that allows to execute the xxx action for this application
 
 
-++Available Layouts Type1 To Type5++
+++Available Layouts++
 
-The interface engine (driver.js) in SaltOS4 supports multiple layout types depending on the application’s needs:
+The interface engine (driver.js) in SaltOS4 supports multiple layout types depending on the application's needs. Layout types are named following this pattern:
 
-- type1: Simple layout with a single zone (#one). Each action opens a new view.
-- type2: Two zones — #one for the list and #two for details and attachments.
-- type3: Three zones — #one, #two, and #three — allowing all views at once.
-- type4: Extends type1. Adds #two as a modal to show details while keeping #one as the main area.
-- type5: Extends type2. Shows details in #two and uses #three as a modal for attachments.
+type[N][variant]
+
+Where:
+- N defines the number of main zones (1, 2, or 3).
+- Variants (modal, fluid, full) specify additional layout behavior.
 
 
-Mobile adaptation:
++++Type1 based layouts+++
 
-If an app is configured with type2, type3, type4 or type5 and the window.innerWidth is less than 1200 pixels, the system automatically switches to type1. This improves usability on mobile devices by simplifying the workflow and avoiding cluttered interfaces.
+- type1: Simple layout with a single zone (#one), using Bootstrap's fixed-width container.
+- type1fluid: Same as type1 but using a full-width Bootstrap container-fluid.
+- type1modal: Extends type1 by adding #two as a modal to show detail views, still using fixed-width container.
+- type1full: Extends type1fluid by adding #two as a modal for detail views while keeping the full-width container-fluid.
+
+
++++Type2 based layouts+++
+
+- type2: Two zones layout — #one for the list and #two for details and attachments. Always uses container-fluid.
+- type2modal: Extends type2 by adding #three as a modal for attachments.
+
+
++++Type3 layout+++
+
+- type3: Three zones layout — #one, #two, and #three — allowing all views at once. Always uses container-fluid.
+
+
++++Mobile adaptation+++
+
+If an app is configured with type2 or type3 and the window.innerWidth is less than 1200 pixels, the system automatically switches to type1. This improves usability on mobile devices by simplifying the workflow and avoiding cluttered interfaces.
 
 ++Data Model using dbschema.xml++
 
