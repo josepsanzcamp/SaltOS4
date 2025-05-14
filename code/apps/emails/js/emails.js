@@ -86,9 +86,11 @@ saltos.emails.init = arg => {
         saltos.core.when_visible('from', () => {
             saltos.emails.old_account = document.getElementById('from').value;
         });
+
+        // Remove specific button for certain screen types
         const type = document.getElementById('screen').getAttribute('type');
         if (type == 'type1') {
-            document.getElementById('only').parentElement.parentElement.remove();
+            document.getElementById('only').closest('.col-auto').remove();
         }
     }
 
@@ -180,7 +182,7 @@ saltos.emails.init = arg => {
         // Remove specific button for certain screen types
         const type = document.getElementById('screen').getAttribute('type');
         if (type == 'type1') {
-            document.getElementById('only').parentElement.parentElement.remove();
+            document.getElementById('only').closest('.col-auto').remove();
         }
     }
 };
