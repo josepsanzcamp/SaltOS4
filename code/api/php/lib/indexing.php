@@ -157,9 +157,8 @@ function make_index($app, $reg_id)
 function __make_index_helper($table, $id = '')
 {
     static $cache = [];
-    $hash = $table . '|' . $id;
-    if (isset($cache[$hash])) {
-        return $cache[$hash];
+    if (isset($cache[$table]) && $id == '') {
+        return $cache[$table];
     }
     $fieldnames = array_column(get_fields($table), 'name');
     $fieldnames = escape_reserved_word($fieldnames);
@@ -204,7 +203,9 @@ function __make_index_helper($table, $id = '')
             $result[] = "(SELECT $field FROM $val WHERE $where)";
         }
     }
-    $cache[$hash] = $result;
+    if ($id == '') {
+        $cache[$table] = $result;
+    }
     return $result;
 }
 
