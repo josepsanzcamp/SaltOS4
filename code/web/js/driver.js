@@ -721,6 +721,23 @@ saltos.driver.__types.type2.init = arg => {
         saltos.backup.restore('two,one');
         saltos.app.form_disabled(true);
     }
+    if (['view', 'edit'].includes(arg)) {
+        const obj = document.getElementById('list');
+        if (obj) {
+            obj.querySelectorAll('td').forEach(item => {
+                item.classList.remove('table-active');
+            });
+            const id = saltos.hash.get().split('/').at(-1);
+            if (saltos.core.is_number(id)) {
+                const row = document.getElementById(`list_${id}`);
+                if (row) {
+                    row.querySelectorAll('td').forEach(item => {
+                        item.classList.add('table-active');
+                    });
+                }
+            }
+        }
+    }
 };
 
 /**
@@ -844,6 +861,23 @@ saltos.driver.__types.type3.init = arg => {
         // This disable the fields to use as readonly
         saltos.backup.restore('two,one');
         saltos.app.form_disabled(true);
+    }
+    if (['view', 'edit'].includes(arg)) {
+        const obj = document.getElementById('list');
+        if (obj) {
+            obj.querySelectorAll('td').forEach(item => {
+                item.classList.remove('table-active');
+            });
+            const id = saltos.hash.get().split('/').at(-1);
+            if (saltos.core.is_number(id)) {
+                const row = document.getElementById(`list_${id}`);
+                if (row) {
+                    row.querySelectorAll('td').forEach(item => {
+                        item.classList.add('table-active');
+                    });
+                }
+            }
+        }
     }
 };
 
@@ -1130,6 +1164,23 @@ saltos.driver.__types.type2modal.init = arg => {
         // This disable the fields to use as readonly
         saltos.backup.restore('two,one');
         saltos.app.form_disabled(true);
+    }
+    if (['view', 'edit'].includes(arg)) {
+        const obj = document.getElementById('list');
+        if (obj) {
+            obj.querySelectorAll('td').forEach(item => {
+                item.classList.remove('table-active');
+            });
+            const id = saltos.hash.get().split('/').at(-1);
+            if (saltos.core.is_number(id)) {
+                const row = document.getElementById(`list_${id}`);
+                if (row) {
+                    row.querySelectorAll('td').forEach(item => {
+                        item.classList.add('table-active');
+                    });
+                }
+            }
+        }
     }
 };
 

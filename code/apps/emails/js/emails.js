@@ -53,21 +53,21 @@ saltos.emails = {};
 saltos.emails.init = arg => {
     // Handle list visibility and reset button states
     if (['create', 'view', 'close'].includes(arg)) {
-        saltos.core.when_visible('list', () => {
-            const obj = document.getElementById('list');
+        const obj = document.getElementById('list');
+        if (obj) {
             obj.querySelectorAll('button').forEach(item => {
                 item.classList.remove('active');
                 item.removeAttribute('aria-current');
             });
-        });
+        }
     }
 
     // Handle state changes for list and view
     if (['list', 'view'].includes(arg)) {
         const id = saltos.hash.get().split('/').at(-1);
-        if (!isNaN(parseInt(id))) {
-            saltos.core.when_visible(`button_${id}`, () => {
-                const button = document.getElementById(`button_${id}`);
+        if (saltos.core.is_number(id)) {
+            const button = document.getElementById(`button_${id}`);
+            if (button) {
                 button.classList.add('active');
                 button.setAttribute('aria-current', 'true');
                 button.classList.remove('fw-bold');
@@ -77,7 +77,7 @@ saltos.emails.init = arg => {
                     is_new.classList.remove('text-success');
                     is_new.innerHTML = T('Read');
                 }
-            });
+            }
         }
     }
 

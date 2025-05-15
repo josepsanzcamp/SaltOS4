@@ -957,9 +957,10 @@ saltos.core.is_number = arg => {
     }
     if (typeof arg == 'string') {
         arg = arg.trim();
-        if (arg != '') {
-            return isFinite(Number(arg));
+        if (arg == '') {
+            return false;
         }
+        return isFinite(Number(arg));
     }
     return false;
 };

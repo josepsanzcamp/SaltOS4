@@ -273,20 +273,20 @@ saltos.app.get_data = full => {
             case 'switch':
                 val = parseInt(val, 10);
                 old = parseInt(old, 10);
-                if (isNaN(val)) {
+                if (!saltos.core.is_number(val)) {
                     val = 0;
                 }
-                if (isNaN(old)) {
+                if (!saltos.core.is_number(old)) {
                     old = 0;
                 }
                 break;
             case 'float':
                 val = parseFloat(val);
                 old = parseFloat(old);
-                if (isNaN(val)) {
+                if (!saltos.core.is_number(val)) {
                     val = 0;
                 }
-                if (isNaN(old)) {
+                if (!saltos.core.is_number(old)) {
                     old = 0;
                 }
                 break;
