@@ -728,13 +728,11 @@ saltos.driver.__types.type2.init = arg => {
                 item.classList.remove('table-active');
             });
             const id = saltos.hash.get().split('/').at(-1);
-            if (saltos.core.is_number(id)) {
-                const row = document.getElementById(`list_${id}`);
-                if (row) {
-                    row.querySelectorAll('td').forEach(item => {
-                        item.classList.add('table-active');
-                    });
-                }
+            const row = document.getElementById(`list_${id}`);
+            if (row) {
+                row.querySelectorAll('td').forEach(item => {
+                    item.classList.add('table-active');
+                });
             }
         }
     }
@@ -869,13 +867,11 @@ saltos.driver.__types.type3.init = arg => {
                 item.classList.remove('table-active');
             });
             const id = saltos.hash.get().split('/').at(-1);
-            if (saltos.core.is_number(id)) {
-                const row = document.getElementById(`list_${id}`);
-                if (row) {
-                    row.querySelectorAll('td').forEach(item => {
-                        item.classList.add('table-active');
-                    });
-                }
+            const row = document.getElementById(`list_${id}`);
+            if (row) {
+                row.querySelectorAll('td').forEach(item => {
+                    item.classList.add('table-active');
+                });
             }
         }
     }
@@ -1172,13 +1168,11 @@ saltos.driver.__types.type2modal.init = arg => {
                 item.classList.remove('table-active');
             });
             const id = saltos.hash.get().split('/').at(-1);
-            if (saltos.core.is_number(id)) {
-                const row = document.getElementById(`list_${id}`);
-                if (row) {
-                    row.querySelectorAll('td').forEach(item => {
-                        item.classList.add('table-active');
-                    });
-                }
+            const row = document.getElementById(`list_${id}`);
+            if (row) {
+                row.querySelectorAll('td').forEach(item => {
+                    item.classList.add('table-active');
+                });
             }
         }
     }

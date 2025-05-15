@@ -65,18 +65,16 @@ saltos.emails.init = arg => {
     // Handle state changes for list and view
     if (['list', 'view'].includes(arg)) {
         const id = saltos.hash.get().split('/').at(-1);
-        if (saltos.core.is_number(id)) {
-            const button = document.getElementById(`button_${id}`);
-            if (button) {
-                button.classList.add('active');
-                button.setAttribute('aria-current', 'true');
-                button.classList.remove('fw-bold');
-                button.querySelector('h5').classList.remove('fw-bold');
-                const is_new = button.querySelector('small.text-success');
-                if (is_new && ['New', T('New')].includes(is_new.innerHTML)) {
-                    is_new.classList.remove('text-success');
-                    is_new.innerHTML = T('Read');
-                }
+        const button = document.getElementById(`button_${id}`);
+        if (button) {
+            button.classList.add('active');
+            button.setAttribute('aria-current', 'true');
+            button.classList.remove('fw-bold');
+            button.querySelector('h5').classList.remove('fw-bold');
+            const is_new = button.querySelector('small.text-success');
+            if (is_new && ['New', T('New')].includes(is_new.innerHTML)) {
+                is_new.classList.remove('text-success');
+                is_new.innerHTML = T('Read');
             }
         }
     }
