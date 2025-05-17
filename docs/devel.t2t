@@ -1,5 +1,5 @@
 Devel Documentation
-SaltOS 4.0 r2091
+SaltOS 4.0 r2097
 May 2025
 
 
@@ -72,6 +72,99 @@ SaltOS4 stores runtime and persistent data under the `data/` directory. This fol
 
 
 Make sure this directory is writable by the web server and CLI user.
+
++Quick Setup with Debian 12 and SQLite3+
+
+This section explains how to install SaltOS4 from scratch using a minimal Debian 12 (netinst) environment and SQLite3 as the backend.
+
+++Install Debian 12 (netinst)++
+
+During the installation, do **not** select any graphical environment. Only select the **SSH server** and **Web server** task options.
+
+After the system is installed and you log in, install some minimal utilities:
+
+```
+sudo apt install net-tools sudo vim
+```
+
+This ensures you have access to `ifconfig`, `sudo` (configure it for your user), and `vim`.
+
+++Install PHP and required packages++
+
+Install PHP with SQLite3 and required dependencies:
+
+```
+sudo apt install php php-mysql php-sqlite3 php-curl php-zip
+sudo systemctl restart apache2
+```
+
+To enable the digital signature feature in SaltOS4, install the following packages:
+
+```
+sudo apt install poppler-utils libnss3-tools
+```
+
+**Note:** this packages provide commands like pdfsig and certutil.
+
+++Download and extract SaltOS4++
+
+Download the SaltOS4 code into the web directory:
+
+```
+cd /var/www/html
+sudo wget https://download.saltos.org/SaltOS_v4.0_r2097.tgz
+sudo tar xvzf SaltOS_v4.0_r2097.tgz
+cd code
+chmod ugo+rwx data/*
+```
+
+**Note:** replace `r2097` with the latest available release.
+
+++Configure SQLite3 database access++
+
+Create the following configuration file:
+
+```
+echo '<root><db><type>pdo_sqlite</type></db></root>' > data/files/config.xml
+```
+
+++Run the initial setup++
+
+Run the basic setup:
+
+```
+php api/index.php setup
+```
+
+If you want to install demo data, run the following:
+
+```
+user=admin php api/index.php setup/certs
+user=admin php api/index.php setup/company
+user=admin php api/index.php setup/emails
+user=admin php api/index.php setup/crm
+user=admin php api/index.php setup/hr
+user=admin php api/index.php setup/purchases
+user=admin php api/index.php setup/sales
+```
+
+++Optional: use MariaDB or MySQL instead of SQLite3++
+
+If you prefer MariaDB/MySQL, install the server:
+
+```
+sudo apt install mariadb-server
+```
+
+Optionally, you may enable `mroonga` engine to get full-text support.
+
+Then configure the database like this:
+
+```
+echo '<root><db><type>pdo_mysql</type><pdo_mysql host="localhost" port="3306" name="saltos" user="saltos" pass="saltos"/></db></root>' > data/files/config.xml
+```
+
+**Note:** replace `host`, `port`, `name`, `user` and `pass` with your actual database settings.
 
 +Backend (api/)+
 
