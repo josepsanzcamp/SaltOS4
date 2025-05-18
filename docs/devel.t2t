@@ -1,5 +1,5 @@
 Devel Documentation
-SaltOS 4.0 r2097
+SaltOS 4.0 r2099
 May 2025
 
 
@@ -73,9 +73,9 @@ SaltOS4 stores runtime and persistent data under the `data/` directory. This fol
 
 Make sure this directory is writable by the web server and CLI user.
 
-+Quick Setup with Debian 12 and SQLite3+
++Quick Setup with Debian 12+
 
-This section explains how to install SaltOS4 from scratch using a minimal Debian 12 (netinst) environment and SQLite3 as the backend.
+This section explains how to install SaltOS4 from scratch using a minimal Debian 12 (netinst) environment and SQLite3 as the backend. It also includes optional steps to configure MariaDB and enable Mroonga for full-text search support.
 
 ++Install Debian 12 (netinst)++
 
@@ -91,10 +91,10 @@ This ensures you have access to `ifconfig`, `sudo` (configure it for your user),
 
 ++Install PHP and required packages++
 
-Install PHP with SQLite3 and required dependencies:
+Install PHP with the apache module and the required dependencies:
 
 ```
-sudo apt install php php-mysql php-sqlite3 php-curl php-zip
+sudo apt install php php-mbstring php-xml php-gd php-mysql php-sqlite3 php-curl php-zip
 sudo systemctl restart apache2
 ```
 
@@ -154,9 +154,21 @@ If you prefer MariaDB/MySQL, install the server:
 
 ```
 sudo apt install mariadb-server
+sudo systemctl restart mariadb
+sudo mariadb -uroot <<EOF
+CREATE DATABASE saltos;
+CREATE USER 'saltos'@'localhost' IDENTIFIED BY 'saltos';
+GRANT ALL PRIVILEGES ON saltos.* TO 'saltos'@'localhost';
+FLUSH PRIVILEGES;
+EOF
 ```
 
-Optionally, you may enable `mroonga` engine to get full-text support.
+Optionally, you may enable `mroonga` engine to get full-text support:
+
+```
+sudo apt install mariadb-plugin-mroonga
+sudo systemctl restart mariadb
+```
 
 Then configure the database like this:
 
@@ -165,6 +177,94 @@ echo '<root><db><type>pdo_mysql</type><pdo_mysql host="localhost" port="3306" na
 ```
 
 **Note:** replace `host`, `port`, `name`, `user` and `pass` with your actual database settings.
+
+++Optional: Installing Mroonga from source (advanced)++
+
+If the `mariadb-plugin-mroonga` package is not available for your distribution or you want to use a newer version, you can compile the Mroonga plugin manually. This guide shows how to build and install Mroonga using the official Git repository and MariaDB source.
+
++++Remove existing Mroonga installation+++
+
+Before updating or installing a custom version, remove any existing plugin:
+
+```
+cat /usr/lib/mysql/plugin/uninstall.sql | sudo mariadb -uroot
+sudo rm -f /usr/lib/mysql/plugin/ha_mroonga.so
+sudo rm -f /usr/lib/mysql/plugin/install.sql
+sudo rm -f /usr/lib/mysql/plugin/uninstall.sql
+```
+
++++Download and compile MariaDB+++
+
+Get the current MariaDB source and build it:
+
+```
+apt source mariadb
+cd mariadb-11.4.6+maria~deb12
+dpkg-buildpackage -rfakeroot -Tbuild
+```
+
+Wait until the file `libperfschema.a` is available, which is required to build Mroonga:
+
+```
+while true; do
+    echo -n date +"%Y-%m-%d %H:%M:%S"" => "
+    du -hs . | gawk '{printf $1" => "}'
+    find builddir/ | grep libperfschema.a | wc -l
+    sleep 1
+done
+```
+
+**Notes**
+
+- Replace `mariadb-11.4.6+maria~deb12` with any newer tag if needed.
+
+
++++Clone and compile Mroonga+++
+
+Clone the official Mroonga repository and build the plugin:
+
+```
+git clone https://github.com/mroonga/mroonga.git
+cd mroonga
+git checkout v15.10
+cmake .
+-GNinja
+-DCMAKE_BUILD_TYPE=Release
+-DMRN_WITH_DOC=OFF
+-DMYSQL_SOURCE_DIR=../mariadb-11.4.6+mariadeb12
+-DMYSQL_BUILD_DIR=../mariadb-11.4.6+mariadeb12/builddir
+-DMYSQL_CONFIG=../mariadb-11.4.6+maria~deb12/builddir/scripts/mysql_config
+cmake --build .
+```
+
+**Notes**
+
+- Replace version `v15.10` with any newer tag if needed.
+
+
++++Install the compiled plugin+++
+
+Copy the plugin files and register them in MariaDB:
+
+```
+sudo cp ha_mroonga.so /usr/lib/mysql/plugin/ha_mroonga.so
+cat data/install.sql data/update.sql | grep -v source | sudo tee /usr/lib/mysql/plugin/install.sql > /dev/null
+sudo cp data/uninstall.sql /usr/lib/mysql/plugin/
+cat /usr/lib/mysql/plugin/install.sql | sudo mariadb -uroot
+sudo systemctl restart mariadb
+```
+
+Verify that Mroonga was installed successfully:
+
+```
+echo "show engines;" | mariadb
+echo "show variables like 'mroonga%';" | mariadb
+```
+
+**Notes**
+
+- This process is required when package repositories do not provide a compatible or up-to-date plugin.
+
 
 +Backend (api/)+
 

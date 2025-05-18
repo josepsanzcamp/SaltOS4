@@ -25,7 +25,7 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <header>
 <hgroup>
 <h1>Devel Documentation</h1>
-<h2>SaltOS 4.0 r2097</h2>
+<h2>SaltOS 4.0 r2099</h2>
 <h3>May 2025</h3>
 </hgroup>
 </header>
@@ -47,7 +47,7 @@ pre{background-color:#e6e6e6;padding:5px 3px}
     </li>
     </ul>
   </li>
-  <li><a href="#toc6">2. Quick Setup with Debian 12 and SQLite3</a>
+  <li><a href="#toc6">2. Quick Setup with Debian 12</a>
     <ul>
     <li><a href="#toc7">2.1. Install Debian 12 (netinst)</a>
     </li>
@@ -61,235 +61,247 @@ pre{background-color:#e6e6e6;padding:5px 3px}
     </li>
     <li><a href="#toc12">2.6. Optional: use MariaDB or MySQL instead of SQLite3</a>
     </li>
-    </ul>
-  </li>
-  <li><a href="#toc13">3. Backend (api/)</a>
-    <ul>
-    <li><a href="#toc14">3.1. Autoloaded Modules (`php/autoload/`)</a>
-    </li>
-    <li><a href="#toc15">3.2. Database Drivers (`php/database/`)</a>
-    </li>
-    <li><a href="#toc16">3.3. Libraries (`php/lib/`)</a>
-    </li>
-    <li><a href="#toc17">3.4. Action Modules (`php/action/`)</a>
-    </li>
-    <li><a href="#toc18">3.5. Other API Components</a>
-    </li>
-    <li><a href="#toc19">3.6. Configuration Files</a>
+    <li><a href="#toc13">2.7. Optional: Installing Mroonga from source (advanced)</a>
       <ul>
-      <li><a href="#toc20">3.6.1. dbschema.xml</a>
+      <li><a href="#toc14">2.7.1. Remove existing Mroonga installation</a>
       </li>
-      <li><a href="#toc21">3.6.2. dbstatic.xml</a>
+      <li><a href="#toc15">2.7.2. Download and compile MariaDB</a>
       </li>
-      <li><a href="#toc22">3.6.3. config.xml</a>
+      <li><a href="#toc16">2.7.3. Clone and compile Mroonga</a>
       </li>
-      <li><a href="#toc23">3.6.4. cron.xml</a>
-      </li>
-      <li><a href="#toc24">3.6.5. locale.xml</a>
-      </li>
-      <li><a href="#toc25">3.6.6. bs_theme.xml</a>
-      </li>
-      <li><a href="#toc26">3.6.7. css_theme.xml</a>
-      </li>
-      </ul>
-    </li>
-    <li><a href="#toc27">3.7. API Access</a>
-      <ul>
-      <li><a href="#toc28">3.7.1. Web server access (Apache, Nginx, Cherokee)</a>
-      </li>
-      <li><a href="#toc29">3.7.2. Command-line access (CLI)</a>
-      </li>
-      </ul>
-    </li>
-    <li><a href="#toc30">3.8. API Authentication</a>
-      <ul>
-      <li><a href="#toc31">3.8.1. HTTP Access</a>
-      </li>
-      <li><a href="#toc32">3.8.2. CLI Access</a>
-      </li>
-      </ul>
-    </li>
-    <li><a href="#toc33">3.9. Token Lifecycle &amp; Session Security</a>
-      <ul>
-      <li><a href="#toc34">3.9.1. Token Binding</a>
-      </li>
-      <li><a href="#toc35">3.9.2. Expiration and Invalidation</a>
-      </li>
-      <li><a href="#toc36">3.9.3. CLI Considerations</a>
-      </li>
-      <li><a href="#toc37">3.9.4. Additional Protections</a>
+      <li><a href="#toc17">2.7.4. Install the compiled plugin</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc38">4. Frontend (web/)</a>
+  <li><a href="#toc18">3. Backend (api/)</a>
     <ul>
-    <li><a href="#toc39">4.1. Logic (core.js and app.js)</a>
+    <li><a href="#toc19">3.1. Autoloaded Modules (`php/autoload/`)</a>
+    </li>
+    <li><a href="#toc20">3.2. Database Drivers (`php/database/`)</a>
+    </li>
+    <li><a href="#toc21">3.3. Libraries (`php/lib/`)</a>
+    </li>
+    <li><a href="#toc22">3.4. Action Modules (`php/action/`)</a>
+    </li>
+    <li><a href="#toc23">3.5. Other API Components</a>
+    </li>
+    <li><a href="#toc24">3.6. Configuration Files</a>
       <ul>
-      <li><a href="#toc40">4.1.1. core.js Overview</a>
+      <li><a href="#toc25">3.6.1. dbschema.xml</a>
       </li>
-      <li><a href="#toc41">4.1.2. app.js Overview</a>
+      <li><a href="#toc26">3.6.2. dbstatic.xml</a>
       </li>
-      <li><a href="#toc42">4.1.3. Integration and Responsibilities</a>
+      <li><a href="#toc27">3.6.3. config.xml</a>
+      </li>
+      <li><a href="#toc28">3.6.4. cron.xml</a>
+      </li>
+      <li><a href="#toc29">3.6.5. locale.xml</a>
+      </li>
+      <li><a href="#toc30">3.6.6. bs_theme.xml</a>
+      </li>
+      <li><a href="#toc31">3.6.7. css_theme.xml</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc43">4.2. Deployment</a>
-    </li>
-    <li><a href="#toc44">4.3. Offline Support (Service Worker)</a>
+    <li><a href="#toc32">3.7. API Access</a>
       <ul>
-      <li><a href="#toc45">4.3.1. Main Features</a>
+      <li><a href="#toc33">3.7.1. Web server access (Apache, Nginx, Cherokee)</a>
       </li>
-      <li><a href="#toc46">4.3.2. Internal Structure</a>
+      <li><a href="#toc34">3.7.2. Command-line access (CLI)</a>
       </li>
-      <li><a href="#toc47">4.3.3. Debugging and Observability</a>
+      </ul>
+    </li>
+    <li><a href="#toc35">3.8. API Authentication</a>
+      <ul>
+      <li><a href="#toc36">3.8.1. HTTP Access</a>
       </li>
-      <li><a href="#toc48">4.3.4. Summary</a>
+      <li><a href="#toc37">3.8.2. CLI Access</a>
       </li>
-      <li><a href="#toc49">4.3.5. Core Auth Module</a>
+      </ul>
+    </li>
+    <li><a href="#toc38">3.9. Token Lifecycle &amp; Session Security</a>
+      <ul>
+      <li><a href="#toc39">3.9.1. Token Binding</a>
       </li>
-      <li><a href="#toc50">4.3.6. Login Workflow</a>
+      <li><a href="#toc40">3.9.2. Expiration and Invalidation</a>
       </li>
-      <li><a href="#toc51">4.3.7. Overview of Modes</a>
+      <li><a href="#toc41">3.9.3. CLI Considerations</a>
       </li>
-      <li><a href="#toc52">4.3.8. Build Process with Makefile</a>
-      </li>
-      <li><a href="#toc53">4.3.9. Web Directory Overview</a>
-      </li>
-      <li><a href="#toc54">4.3.10. Comparison Table</a>
+      <li><a href="#toc42">3.9.4. Additional Protections</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc55">5. Application System</a>
+  <li><a href="#toc43">4. Frontend (web/)</a>
     <ul>
-    <li><a href="#toc56">5.1. Manifest Files</a>
+    <li><a href="#toc44">4.1. Logic (core.js and app.js)</a>
       <ul>
-      <li><a href="#toc57">5.1.1. General Structure</a>
+      <li><a href="#toc45">4.1.1. core.js Overview</a>
       </li>
-      <li><a href="#toc58">5.1.2. Groups (&lt;group&gt;)</a>
+      <li><a href="#toc46">4.1.2. app.js Overview</a>
       </li>
-      <li><a href="#toc59">5.1.3. Apps (&lt;app&gt;)</a>
-      </li>
-      <li><a href="#toc60">5.1.4. Permission System</a>
-      </li>
-      <li><a href="#toc61">5.1.5. Feature Modules</a>
-      </li>
-      <li><a href="#toc62">5.1.6. Special Cases</a>
-      </li>
-      <li><a href="#toc63">5.1.7. Example</a>
-      </li>
-      <li><a href="#toc64">5.1.8. Usage Notes</a>
+      <li><a href="#toc47">4.1.3. Integration and Responsibilities</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc65">5.2. YAML-based Apps</a>
-      <ul>
-      <li><a href="#toc66">5.2.1. tokenslog.yaml</a>
-      </li>
-      <li><a href="#toc67">5.2.2. configlog.yaml</a>
-      </li>
-      <li><a href="#toc68">5.2.3. taxes.yaml</a>
-      </li>
-      <li><a href="#toc69">5.2.4. Advanced YAML file documentation</a>
-      </li>
-      <li><a href="#toc70">5.2.5. YAML structure</a>
-      </li>
-      <li><a href="#toc71">5.2.6. Explanation of YAML fields</a>
-      </li>
-      <li><a href="#toc72">5.2.7. List and Form schema</a>
-      </li>
-      <li><a href="#toc73">5.2.8. Select section</a>
-      </li>
-      <li><a href="#toc74">5.2.9. Attr section</a>
-      </li>
-      <li><a href="#toc75">5.2.10. Summary</a>
-      </li>
-      </ul>
+    <li><a href="#toc48">4.2. Deployment</a>
     </li>
-    <li><a href="#toc76">5.3. XML-based Complex Apps</a>
+    <li><a href="#toc49">4.3. Offline Support (Service Worker)</a>
       <ul>
-      <li><a href="#toc77">5.3.1. invoices.xml</a>
+      <li><a href="#toc50">4.3.1. Main Features</a>
       </li>
-      </ul>
-    </li>
-    <li><a href="#toc78">5.4. Available Layouts</a>
-      <ul>
-      <li><a href="#toc79">5.4.1. Type1 based layouts</a>
+      <li><a href="#toc51">4.3.2. Internal Structure</a>
       </li>
-      <li><a href="#toc80">5.4.2. Type2 based layouts</a>
+      <li><a href="#toc52">4.3.3. Debugging and Observability</a>
       </li>
-      <li><a href="#toc81">5.4.3. Type3 layout</a>
+      <li><a href="#toc53">4.3.4. Summary</a>
       </li>
-      <li><a href="#toc82">5.4.4. Mobile adaptation</a>
+      <li><a href="#toc54">4.3.5. Core Auth Module</a>
       </li>
-      </ul>
-    </li>
-    <li><a href="#toc83">5.5. Data Model using dbschema.xml</a>
-      <ul>
-      <li><a href="#toc84">5.5.1. Structure of dbschema.xml</a>
+      <li><a href="#toc55">4.3.6. Login Workflow</a>
       </li>
-      <li><a href="#toc85">5.5.2. Example</a>
+      <li><a href="#toc56">4.3.7. Overview of Modes</a>
       </li>
-      <li><a href="#toc86">5.5.3. Automatic Schema Management</a>
+      <li><a href="#toc57">4.3.8. Build Process with Makefile</a>
       </li>
-      <li><a href="#toc87">5.5.4. System-Wide and App-Specific Schemas</a>
+      <li><a href="#toc58">4.3.9. Web Directory Overview</a>
       </li>
-      <li><a href="#toc88">5.5.5. Benefits of dbschema.xml</a>
-      </li>
-      <li><a href="#toc89">5.5.6. Complement: dbstatic.xml</a>
-      </li>
-      </ul>
-    </li>
-    <li><a href="#toc90">5.6. Static Data using dbstatic.xml</a>
-    </li>
-    <li><a href="#toc91">5.7. How to Add a New App</a>
-      <ul>
-      <li><a href="#toc92">5.7.1. Create the App Folder</a>
-      </li>
-      <li><a href="#toc93">5.7.2. Define the Manifest</a>
-      </li>
-      <li><a href="#toc94">5.7.3. Define the Database Schema</a>
-      </li>
-      <li><a href="#toc95">5.7.4. Define the Static Data (Optional)</a>
-      </li>
-      <li><a href="#toc96">5.7.5. Add the Application Definition</a>
-      </li>
-      <li><a href="#toc97">5.7.6. Ensure Symbolic Links</a>
-      </li>
-      <li><a href="#toc98">5.7.7. Run Database Setup</a>
-      </li>
-      <li><a href="#toc99">5.7.8. Assign Permissions</a>
-      </li>
-      <li><a href="#toc100">5.7.9. Test the App</a>
+      <li><a href="#toc59">4.3.10. Comparison Table</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc101">6. Makefile Overview</a>
+  <li><a href="#toc60">5. Application System</a>
     <ul>
-    <li><a href="#toc102">6.1. Build Targets</a>
+    <li><a href="#toc61">5.1. Manifest Files</a>
+      <ul>
+      <li><a href="#toc62">5.1.1. General Structure</a>
+      </li>
+      <li><a href="#toc63">5.1.2. Groups (&lt;group&gt;)</a>
+      </li>
+      <li><a href="#toc64">5.1.3. Apps (&lt;app&gt;)</a>
+      </li>
+      <li><a href="#toc65">5.1.4. Permission System</a>
+      </li>
+      <li><a href="#toc66">5.1.5. Feature Modules</a>
+      </li>
+      <li><a href="#toc67">5.1.6. Special Cases</a>
+      </li>
+      <li><a href="#toc68">5.1.7. Example</a>
+      </li>
+      <li><a href="#toc69">5.1.8. Usage Notes</a>
+      </li>
+      </ul>
     </li>
-    <li><a href="#toc103">6.2. Documentation</a>
+    <li><a href="#toc70">5.2. YAML-based Apps</a>
+      <ul>
+      <li><a href="#toc71">5.2.1. tokenslog.yaml</a>
+      </li>
+      <li><a href="#toc72">5.2.2. configlog.yaml</a>
+      </li>
+      <li><a href="#toc73">5.2.3. taxes.yaml</a>
+      </li>
+      <li><a href="#toc74">5.2.4. Advanced YAML file documentation</a>
+      </li>
+      <li><a href="#toc75">5.2.5. YAML structure</a>
+      </li>
+      <li><a href="#toc76">5.2.6. Explanation of YAML fields</a>
+      </li>
+      <li><a href="#toc77">5.2.7. List and Form schema</a>
+      </li>
+      <li><a href="#toc78">5.2.8. Select section</a>
+      </li>
+      <li><a href="#toc79">5.2.9. Attr section</a>
+      </li>
+      <li><a href="#toc80">5.2.10. Summary</a>
+      </li>
+      </ul>
     </li>
-    <li><a href="#toc104">6.3. Testing</a>
+    <li><a href="#toc81">5.3. XML-based Complex Apps</a>
+      <ul>
+      <li><a href="#toc82">5.3.1. invoices.xml</a>
+      </li>
+      </ul>
     </li>
-    <li><a href="#toc105">6.4. Environment Checks</a>
+    <li><a href="#toc83">5.4. Available Layouts</a>
+      <ul>
+      <li><a href="#toc84">5.4.1. Type1 based layouts</a>
+      </li>
+      <li><a href="#toc85">5.4.2. Type2 based layouts</a>
+      </li>
+      <li><a href="#toc86">5.4.3. Type3 layout</a>
+      </li>
+      <li><a href="#toc87">5.4.4. Mobile adaptation</a>
+      </li>
+      </ul>
     </li>
-    <li><a href="#toc106">6.5. Dependency Management</a>
+    <li><a href="#toc88">5.5. Data Model using dbschema.xml</a>
+      <ul>
+      <li><a href="#toc89">5.5.1. Structure of dbschema.xml</a>
+      </li>
+      <li><a href="#toc90">5.5.2. Example</a>
+      </li>
+      <li><a href="#toc91">5.5.3. Automatic Schema Management</a>
+      </li>
+      <li><a href="#toc92">5.5.4. System-Wide and App-Specific Schemas</a>
+      </li>
+      <li><a href="#toc93">5.5.5. Benefits of dbschema.xml</a>
+      </li>
+      <li><a href="#toc94">5.5.6. Complement: dbstatic.xml</a>
+      </li>
+      </ul>
     </li>
-    <li><a href="#toc107">6.6. Code Statistics</a>
+    <li><a href="#toc95">5.6. Static Data using dbstatic.xml</a>
     </li>
-    <li><a href="#toc108">6.7. System Setup</a>
+    <li><a href="#toc96">5.7. How to Add a New App</a>
+      <ul>
+      <li><a href="#toc97">5.7.1. Create the App Folder</a>
+      </li>
+      <li><a href="#toc98">5.7.2. Define the Manifest</a>
+      </li>
+      <li><a href="#toc99">5.7.3. Define the Database Schema</a>
+      </li>
+      <li><a href="#toc100">5.7.4. Define the Static Data (Optional)</a>
+      </li>
+      <li><a href="#toc101">5.7.5. Add the Application Definition</a>
+      </li>
+      <li><a href="#toc102">5.7.6. Ensure Symbolic Links</a>
+      </li>
+      <li><a href="#toc103">5.7.7. Run Database Setup</a>
+      </li>
+      <li><a href="#toc104">5.7.8. Assign Permissions</a>
+      </li>
+      <li><a href="#toc105">5.7.9. Test the App</a>
+      </li>
+      </ul>
     </li>
-    <li><a href="#toc109">6.8. System Actions</a>
+    </ul>
+  </li>
+  <li><a href="#toc106">6. Makefile Overview</a>
+    <ul>
+    <li><a href="#toc107">6.1. Build Targets</a>
     </li>
-    <li><a href="#toc110">6.9. System langs</a>
+    <li><a href="#toc108">6.2. Documentation</a>
     </li>
-    <li><a href="#toc111">6.10. Script Directory Overview</a>
+    <li><a href="#toc109">6.3. Testing</a>
+    </li>
+    <li><a href="#toc110">6.4. Environment Checks</a>
+    </li>
+    <li><a href="#toc111">6.5. Dependency Management</a>
+    </li>
+    <li><a href="#toc112">6.6. Code Statistics</a>
+    </li>
+    <li><a href="#toc113">6.7. System Setup</a>
+    </li>
+    <li><a href="#toc114">6.8. System Actions</a>
+    </li>
+    <li><a href="#toc115">6.9. System langs</a>
+    </li>
+    <li><a href="#toc116">6.10. Script Directory Overview</a>
     </li>
     </ul>
   </li>
@@ -432,10 +444,10 @@ Make sure this directory is writable by the web server and CLI user.
 </section>
 </section>
 <section id="toc6">
-<h1>2. Quick Setup with Debian 12 and SQLite3</h1>
+<h1>2. Quick Setup with Debian 12</h1>
 
 <p>
-This section explains how to install SaltOS4 from scratch using a minimal Debian 12 (netinst) environment and SQLite3 as the backend.
+This section explains how to install SaltOS4 from scratch using a minimal Debian 12 (netinst) environment and SQLite3 as the backend. It also includes optional steps to configure MariaDB and enable Mroonga for full-text search support.
 </p>
 
 <section id="toc7">
@@ -461,11 +473,11 @@ This ensures you have access to `ifconfig`, `sudo` (configure it for your user),
 <h2>2.2. Install PHP and required packages</h2>
 
 <p>
-Install PHP with SQLite3 and required dependencies:
+Install PHP with the apache module and the required dependencies:
 </p>
 
 <pre>
-sudo apt install php php-mysql php-sqlite3 php-curl php-zip
+sudo apt install php php-mbstring php-xml php-gd php-mysql php-sqlite3 php-curl php-zip
 sudo systemctl restart apache2
 </pre>
 
@@ -549,11 +561,24 @@ If you prefer MariaDB/MySQL, install the server:
 
 <pre>
 sudo apt install mariadb-server
+sudo systemctl restart mariadb
+sudo mariadb -uroot &lt;&lt;EOF
+CREATE DATABASE saltos;
+CREATE USER 'saltos'@'localhost' IDENTIFIED BY 'saltos';
+GRANT ALL PRIVILEGES ON saltos.* TO 'saltos'@'localhost';
+FLUSH PRIVILEGES;
+EOF
 </pre>
 
 <p>
-Optionally, you may enable `mroonga` engine to get full-text support.
+Optionally, you may enable `mroonga` engine to get full-text support:
 </p>
+
+<pre>
+sudo apt install mariadb-plugin-mroonga
+sudo systemctl restart mariadb
+</pre>
+
 <p>
 Then configure the database like this:
 </p>
@@ -567,15 +592,139 @@ echo '&lt;root&gt;&lt;db&gt;&lt;type&gt;pdo_mysql&lt;/type&gt;&lt;pdo_mysql host
 </p>
 
 </section>
-</section>
 <section id="toc13">
+<h2>2.7. Optional: Installing Mroonga from source (advanced)</h2>
+
+<p>
+If the `mariadb-plugin-mroonga` package is not available for your distribution or you want to use a newer version, you can compile the Mroonga plugin manually. This guide shows how to build and install Mroonga using the official Git repository and MariaDB source.
+</p>
+
+<section id="toc14">
+<h3>2.7.1. Remove existing Mroonga installation</h3>
+
+<p>
+Before updating or installing a custom version, remove any existing plugin:
+</p>
+
+<pre>
+cat /usr/lib/mysql/plugin/uninstall.sql | sudo mariadb -uroot
+sudo rm -f /usr/lib/mysql/plugin/ha_mroonga.so
+sudo rm -f /usr/lib/mysql/plugin/install.sql
+sudo rm -f /usr/lib/mysql/plugin/uninstall.sql
+</pre>
+
+</section>
+<section id="toc15">
+<h3>2.7.2. Download and compile MariaDB</h3>
+
+<p>
+Get the current MariaDB source and build it:
+</p>
+
+<pre>
+apt source mariadb
+cd mariadb-11.4.6+maria~deb12
+dpkg-buildpackage -rfakeroot -Tbuild
+</pre>
+
+<p>
+Wait until the file `libperfschema.a` is available, which is required to build Mroonga:
+</p>
+
+<pre>
+while true; do
+    echo -n date +"%Y-%m-%d %H:%M:%S"" =&gt; "
+    du -hs . | gawk '{printf $1" =&gt; "}'
+    find builddir/ | grep libperfschema.a | wc -l
+    sleep 1
+done
+</pre>
+
+<p>
+<strong>Notes</strong>
+</p>
+
+<ul>
+<li>Replace `mariadb-11.4.6+maria~deb12` with any newer tag if needed.
+</li>
+</ul>
+
+</section>
+<section id="toc16">
+<h3>2.7.3. Clone and compile Mroonga</h3>
+
+<p>
+Clone the official Mroonga repository and build the plugin:
+</p>
+
+<pre>
+git clone https://github.com/mroonga/mroonga.git
+cd mroonga
+git checkout v15.10
+cmake .
+-GNinja
+-DCMAKE_BUILD_TYPE=Release
+-DMRN_WITH_DOC=OFF
+-DMYSQL_SOURCE_DIR=../mariadb-11.4.6+mariadeb12
+-DMYSQL_BUILD_DIR=../mariadb-11.4.6+mariadeb12/builddir
+-DMYSQL_CONFIG=../mariadb-11.4.6+maria~deb12/builddir/scripts/mysql_config
+cmake --build .
+</pre>
+
+<p>
+<strong>Notes</strong>
+</p>
+
+<ul>
+<li>Replace version `v15.10` with any newer tag if needed.
+</li>
+</ul>
+
+</section>
+<section id="toc17">
+<h3>2.7.4. Install the compiled plugin</h3>
+
+<p>
+Copy the plugin files and register them in MariaDB:
+</p>
+
+<pre>
+sudo cp ha_mroonga.so /usr/lib/mysql/plugin/ha_mroonga.so
+cat data/install.sql data/update.sql | grep -v source | sudo tee /usr/lib/mysql/plugin/install.sql &gt; /dev/null
+sudo cp data/uninstall.sql /usr/lib/mysql/plugin/
+cat /usr/lib/mysql/plugin/install.sql | sudo mariadb -uroot
+sudo systemctl restart mariadb
+</pre>
+
+<p>
+Verify that Mroonga was installed successfully:
+</p>
+
+<pre>
+echo "show engines;" | mariadb
+echo "show variables like 'mroonga%';" | mariadb
+</pre>
+
+<p>
+<strong>Notes</strong>
+</p>
+
+<ul>
+<li>This process is required when package repositories do not provide a compatible or up-to-date plugin.
+</li>
+</ul>
+
+</section>
+</section>
+</section>
+<section id="toc18">
 <h1>3. Backend (api/)</h1>
 
 <p>
 The backend is under the `api/` folder and contains four folders (autoload, database, lib and actions) to organize the code depending their usage and functionality.
 </p>
 
-<section id="toc14">
+<section id="toc19">
 <h2>3.1. Autoloaded Modules (`php/autoload/`)</h2>
 
 <p>
@@ -648,7 +797,7 @@ Core functions automatically loaded on each request:
 </ul>
 
 </section>
-<section id="toc15">
+<section id="toc20">
 <h2>3.2. Database Drivers (`php/database/`)</h2>
 
 <p>
@@ -671,7 +820,7 @@ Supports:
 </ul>
 
 </section>
-<section id="toc16">
+<section id="toc21">
 <h2>3.3. Libraries (`php/lib/`)</h2>
 
 <p>
@@ -750,7 +899,7 @@ Not autoloaded; provide extra functionality:
 </ul>
 
 </section>
-<section id="toc17">
+<section id="toc22">
 <h2>3.4. Action Modules (`php/action/`)</h2>
 
 <p>
@@ -783,7 +932,7 @@ Handle concrete system actions (CLI-aware where needed):
 </ul>
 
 </section>
-<section id="toc18">
+<section id="toc23">
 <h2>3.5. Other API Components</h2>
 
 <p>
@@ -820,14 +969,14 @@ This section lists complementary elements in the backend that support the main A
 </ul>
 
 </section>
-<section id="toc19">
+<section id="toc24">
 <h2>3.6. Configuration Files</h2>
 
 <p>
 SaltOS4 relies on several XML configuration files to define system-wide behavior, themes, languages, scheduled tasks, and database initialization. These files are stored in the root configuration directories and are essential for proper system setup.
 </p>
 
-<section id="toc20">
+<section id="toc25">
 <h3>3.6.1. dbschema.xml</h3>
 
 <p>
@@ -835,7 +984,7 @@ Defines the database schema structure used across all applications. It lists all
 </p>
 
 </section>
-<section id="toc21">
+<section id="toc26">
 <h3>3.6.2. dbstatic.xml</h3>
 
 <p>
@@ -843,7 +992,7 @@ Populates static content in the database. This includes predefined record values
 </p>
 
 </section>
-<section id="toc22">
+<section id="toc27">
 <h3>3.6.3. config.xml</h3>
 
 <p>
@@ -851,7 +1000,7 @@ Contains global system configuration, such as paths, timezones, defaults, UI set
 </p>
 
 </section>
-<section id="toc23">
+<section id="toc28">
 <h3>3.6.4. cron.xml</h3>
 
 <p>
@@ -859,7 +1008,7 @@ Specifies scheduled tasks and their timing. Each entry defines a script to be ex
 </p>
 
 </section>
-<section id="toc24">
+<section id="toc29">
 <h3>3.6.5. locale.xml</h3>
 
 <p>
@@ -867,7 +1016,7 @@ Defines available languages and translation mappings for the interface. Used by 
 </p>
 
 </section>
-<section id="toc25">
+<section id="toc30">
 <h3>3.6.6. bs_theme.xml</h3>
 
 <p>
@@ -875,7 +1024,7 @@ Defines Bootstrap theme settings, including color schemes, spacing, and variable
 </p>
 
 </section>
-<section id="toc26">
+<section id="toc31">
 <h3>3.6.7. css_theme.xml</h3>
 
 <p>
@@ -884,14 +1033,14 @@ Defines custom CSS style variants used in the frontend. Enables additional visua
 
 </section>
 </section>
-<section id="toc27">
+<section id="toc32">
 <h2>3.7. API Access</h2>
 
 <p>
 SaltOS4 supports access via HTTP or CLI.
 </p>
 
-<section id="toc28">
+<section id="toc33">
 <h3>3.7.1. Web server access (Apache, Nginx, Cherokee)</h3>
 
 <p>
@@ -926,7 +1075,7 @@ The main idea of sending information to SaltOS is to use the latest technologies
 </ul>
 
 </section>
-<section id="toc29">
+<section id="toc34">
 <h3>3.7.2. Command-line access (CLI)</h3>
 
 <ul>
@@ -940,7 +1089,7 @@ The main idea of sending information to SaltOS is to use the latest technologies
 
 </section>
 </section>
-<section id="toc30">
+<section id="toc35">
 <h2>3.8. API Authentication</h2>
 
 <p>
@@ -968,7 +1117,7 @@ Each request is handled in `api/php/action/auth.php`, which delegates to utility
 The token is associated with the client IP address and user-agent to prevent misuse. Internally, `current_token()` retrieves the token from the request and validates it against stored sessions.
 </p>
 
-<section id="toc31">
+<section id="toc36">
 <h3>3.8.1. HTTP Access</h3>
 
 <p>
@@ -998,7 +1147,7 @@ The backend automatically links the token to the user and group using functions 
 </p>
 
 </section>
-<section id="toc32">
+<section id="toc37">
 <h3>3.8.2. CLI Access</h3>
 
 <p>
@@ -1037,14 +1186,14 @@ This shortcut is only allowed for the instance owner. Other system users must us
 
 </section>
 </section>
-<section id="toc33">
+<section id="toc38">
 <h2>3.9. Token Lifecycle &amp; Session Security</h2>
 
 <p>
 SaltOS4 uses token-based authentication for both HTTP and CLI access. Beyond basic login/logout operations, the system enforces session integrity and security through token validation mechanisms.
 </p>
 
-<section id="toc34">
+<section id="toc39">
 <h3>3.9.1. Token Binding</h3>
 
 <p>
@@ -1063,7 +1212,7 @@ This ensures that a token cannot be reused from another location or browser, pro
 </p>
 
 </section>
-<section id="toc35">
+<section id="toc40">
 <h3>3.9.2. Expiration and Invalidation</h3>
 
 <p>
@@ -1086,7 +1235,7 @@ Expired or invalid tokens are automatically purged during background cleanup tas
 </p>
 
 </section>
-<section id="toc36">
+<section id="toc41">
 <h3>3.9.3. CLI Considerations</h3>
 
 <p>
@@ -1103,7 +1252,7 @@ When executing scripts from the command line:
 </ul>
 
 </section>
-<section id="toc37">
+<section id="toc42">
 <h3>3.9.4. Additional Protections</h3>
 
 <ul>
@@ -1122,7 +1271,7 @@ These security measures collectively ensure that only valid users can perform ac
 </section>
 </section>
 </section>
-<section id="toc38">
+<section id="toc43">
 <h1>4. Frontend (web/)</h1>
 
 <p>
@@ -1179,14 +1328,14 @@ JavaScript Modules:
 </li>
 </ul>
 
-<section id="toc39">
+<section id="toc44">
 <h2>4.1. Logic (core.js and app.js)</h2>
 
 <p>
 SaltOS4's frontend architecture is built upon two central modules: `core.js` and `app.js`. Together, they form the foundation for most runtime behavior, enabling dynamic interaction with the backend and managing the user interface.
 </p>
 
-<section id="toc40">
+<section id="toc45">
 <h3>4.1.1. core.js Overview</h3>
 
 <p>
@@ -1211,7 +1360,7 @@ This file acts as the technical backbone for the client-side logic.
 </p>
 
 </section>
-<section id="toc41">
+<section id="toc46">
 <h3>4.1.2. app.js Overview</h3>
 
 <p>
@@ -1236,7 +1385,7 @@ It is also responsible for launching the application when loaded in the browser.
 </p>
 
 </section>
-<section id="toc42">
+<section id="toc47">
 <h3>4.1.3. Integration and Responsibilities</h3>
 
 <ul>
@@ -1254,7 +1403,7 @@ These two modules form the base platform for all SaltOS4 frontend applications.
 
 </section>
 </section>
-<section id="toc43">
+<section id="toc48">
 <h2>4.2. Deployment</h2>
 
 <p>
@@ -1283,14 +1432,14 @@ To use SaltOS4 from the browser:
 </ul>
 
 </section>
-<section id="toc44">
+<section id="toc49">
 <h2>4.3. Offline Support (Service Worker)</h2>
 
 <p>
 SaltOS4 includes a service worker defined in `js/proxy.js` that transparently enables offline support and network optimization. It plays a key role in improving performance and user experience, even under poor connectivity conditions.
 </p>
 
-<section id="toc45">
+<section id="toc50">
 <h3>4.3.1. Main Features</h3>
 
 <ul>
@@ -1307,7 +1456,7 @@ SaltOS4 includes a service worker defined in `js/proxy.js` that transparently en
 </ul>
 
 </section>
-<section id="toc46">
+<section id="toc51">
 <h3>4.3.2. Internal Structure</h3>
 
 <p>
@@ -1362,7 +1511,7 @@ These capabilities allow external scripts to manage the state and behavior of th
 </p>
 
 </section>
-<section id="toc47">
+<section id="toc52">
 <h3>4.3.3. Debugging and Observability</h3>
 
 <p>
@@ -1379,7 +1528,7 @@ To aid debugging:
 </ul>
 
 </section>
-<section id="toc48">
+<section id="toc53">
 <h3>4.3.4. Summary</h3>
 
 <p>
@@ -1393,7 +1542,7 @@ SaltOS4 uses JavaScript modules to handle login and authentication on the client
 </p>
 
 </section>
-<section id="toc49">
+<section id="toc54">
 <h3>4.3.5. Core Auth Module</h3>
 
 <p>
@@ -1416,7 +1565,7 @@ These functions internally use `saltos.app.ajax(...)`, which wraps `saltos.core.
 </p>
 
 </section>
-<section id="toc50">
+<section id="toc55">
 <h3>4.3.6. Login Workflow</h3>
 
 <p>
@@ -1451,7 +1600,7 @@ SaltOS4 provides two build modes for the frontend: production and development. T
 </p>
 
 </section>
-<section id="toc51">
+<section id="toc56">
 <h3>4.3.7. Overview of Modes</h3>
 
 <ul>
@@ -1482,7 +1631,7 @@ SaltOS4 provides two build modes for the frontend: production and development. T
 </ul>
 
 </section>
-<section id="toc52">
+<section id="toc57">
 <h3>4.3.8. Build Process with Makefile</h3>
 
 <ul>
@@ -1509,7 +1658,7 @@ Both modes are based on the same HTML loader template found in `web/htm/index.ht
 </p>
 
 </section>
-<section id="toc53">
+<section id="toc58">
 <h3>4.3.9. Web Directory Overview</h3>
 
 <ul>
@@ -1538,7 +1687,7 @@ Both modes are based on the same HTML loader template found in `web/htm/index.ht
 </ul>
 
 </section>
-<section id="toc54">
+<section id="toc59">
 <h3>4.3.10. Comparison Table</h3>
 
 <table class="tableborder">
@@ -1587,7 +1736,7 @@ Both modes are based on the same HTML loader template found in `web/htm/index.ht
 </section>
 </section>
 </section>
-<section id="toc55">
+<section id="toc60">
 <h1>5. Application System</h1>
 
 <p>
@@ -1608,7 +1757,7 @@ Each folder may contain:
 </li>
 </ul>
 
-<section id="toc56">
+<section id="toc61">
 <h2>5.1. Manifest Files</h2>
 
 <p>
@@ -1618,7 +1767,7 @@ The `manifest.xml` file defines the metadata and registration details for each S
 Each `manifest.xml` is usually located at `apps/&lt;appname&gt;/xml/`.
 </p>
 
-<section id="toc57">
+<section id="toc62">
 <h3>5.1.1. General Structure</h3>
 
 <p>
@@ -1646,7 +1795,7 @@ The general structure of the file is as follows:
 </pre>
 
 </section>
-<section id="toc58">
+<section id="toc63">
 <h3>5.1.2. Groups (&lt;group&gt;)</h3>
 
 <ul>
@@ -1675,7 +1824,7 @@ Note: All visual attributes are optional; if not defined, they are not applied.
 </p>
 
 </section>
-<section id="toc59">
+<section id="toc64">
 <h3>5.1.3. Apps (&lt;app&gt;)</h3>
 
 <ul>
@@ -1779,7 +1928,7 @@ Using wildcards (e.g., `view*`) is common to grant all ownership levels.
 </p>
 
 </section>
-<section id="toc60">
+<section id="toc65">
 <h3>5.1.4. Permission System</h3>
 
 <p>
@@ -1909,7 +2058,7 @@ Simple permission codes (those without owner) like `main`, `menu`, `create` can 
 </p>
 
 </section>
-<section id="toc61">
+<section id="toc66">
 <h3>5.1.5. Feature Modules</h3>
 
 <p>
@@ -1944,7 +2093,7 @@ The feature modules (`has_*`) add extra functionality:
 </ul>
 
 </section>
-<section id="toc62">
+<section id="toc67">
 <h3>5.1.6. Special Cases</h3>
 
 <ul>
@@ -1959,7 +2108,7 @@ The feature modules (`has_*`) add extra functionality:
 </ul>
 
 </section>
-<section id="toc63">
+<section id="toc68">
 <h3>5.1.7. Example</h3>
 
 <pre>
@@ -1990,7 +2139,7 @@ The feature modules (`has_*`) add extra functionality:
 </pre>
 
 </section>
-<section id="toc64">
+<section id="toc69">
 <h3>5.1.8. Usage Notes</h3>
 
 <ul>
@@ -2030,14 +2179,14 @@ This manifest system makes SaltOS4 highly modular and easy to extend.
 
 </section>
 </section>
-<section id="toc65">
+<section id="toc70">
 <h2>5.2. YAML-based Apps</h2>
 
 <p>
 SaltOS4 allows simple applications to be defined using YAML. This format is ideal for CRUD-style interfaces with basic forms and lists. Below are real-world examples used in the system.
 </p>
 
-<section id="toc66">
+<section id="toc71">
 <h3>5.2.1. tokenslog.yaml</h3>
 
 <pre>
@@ -2076,7 +2225,7 @@ attr:
 </pre>
 
 </section>
-<section id="toc67">
+<section id="toc72">
 <h3>5.2.2. configlog.yaml</h3>
 
 <pre>
@@ -2114,7 +2263,7 @@ attr:
 </pre>
 
 </section>
-<section id="toc68">
+<section id="toc73">
 <h3>5.2.3. taxes.yaml</h3>
 
 <pre>
@@ -2155,7 +2304,7 @@ These examples demonstrate the simplicity of defining apps in YAML.
 </p>
 
 </section>
-<section id="toc69">
+<section id="toc74">
 <h3>5.2.4. Advanced YAML file documentation</h3>
 
 <p>
@@ -2183,7 +2332,7 @@ Lines starting with `#` are comments in YAML and are ignored by the parser.
 </p>
 
 </section>
-<section id="toc70">
+<section id="toc75">
 <h3>5.2.5. YAML structure</h3>
 
 <p>
@@ -2236,7 +2385,7 @@ attr:
 </pre>
 
 </section>
-<section id="toc71">
+<section id="toc76">
 <h3>5.2.6. Explanation of YAML fields</h3>
 
 <ul>
@@ -2265,7 +2414,7 @@ attr:
 </ul>
 
 </section>
-<section id="toc72">
+<section id="toc77">
 <h3>5.2.7. List and Form schema</h3>
 
 <p>
@@ -2300,7 +2449,7 @@ All these types correspond to widgets provided by SaltOS4, <strong>except `newli
 </p>
 
 </section>
-<section id="toc73">
+<section id="toc78">
 <h3>5.2.8. Select section</h3>
 
 <p>
@@ -2308,7 +2457,7 @@ The `select` section allows mapping form fields to other tables. Each entry is `
 </p>
 
 </section>
-<section id="toc74">
+<section id="toc79">
 <h3>5.2.9. Attr section</h3>
 
 <p>
@@ -2316,7 +2465,7 @@ The `attr` section adds custom attributes per form field in the XML widget, such
 </p>
 
 </section>
-<section id="toc75">
+<section id="toc80">
 <h3>5.2.10. Summary</h3>
 
 <p>
@@ -2340,14 +2489,14 @@ SaltOS4 transforms this YAML into a complete XML interface definition, enabling 
 
 </section>
 </section>
-<section id="toc76">
+<section id="toc81">
 <h2>5.3. XML-based Complex Apps</h2>
 
 <p>
 SaltOS4 also allows full custom apps defined in XML, often used for more complex business logic and interface customization.
 </p>
 
-<section id="toc77">
+<section id="toc82">
 <h3>5.3.1. invoices.xml</h3>
 
 <p>
@@ -2423,7 +2572,7 @@ This file contains the follow important nodes:
 
 </section>
 </section>
-<section id="toc78">
+<section id="toc83">
 <h2>5.4. Available Layouts</h2>
 
 <p>
@@ -2443,7 +2592,7 @@ Where:
 </li>
 </ul>
 
-<section id="toc79">
+<section id="toc84">
 <h3>5.4.1. Type1 based layouts</h3>
 
 <ul>
@@ -2458,7 +2607,7 @@ Where:
 </ul>
 
 </section>
-<section id="toc80">
+<section id="toc85">
 <h3>5.4.2. Type2 based layouts</h3>
 
 <ul>
@@ -2469,7 +2618,7 @@ Where:
 </ul>
 
 </section>
-<section id="toc81">
+<section id="toc86">
 <h3>5.4.3. Type3 layout</h3>
 
 <ul>
@@ -2478,7 +2627,7 @@ Where:
 </ul>
 
 </section>
-<section id="toc82">
+<section id="toc87">
 <h3>5.4.4. Mobile adaptation</h3>
 
 <p>
@@ -2487,7 +2636,7 @@ If an app is configured with type2 or type3 and the window.innerWidth is less th
 
 </section>
 </section>
-<section id="toc83">
+<section id="toc88">
 <h2>5.5. Data Model using dbschema.xml</h2>
 
 <p>
@@ -2510,7 +2659,7 @@ There is also a central file (`api/xml/dbschema.xml`) that defines the <strong>c
 </li>
 </ul>
 
-<section id="toc84">
+<section id="toc89">
 <h3>5.5.1. Structure of dbschema.xml</h3>
 
 <p>
@@ -2545,7 +2694,7 @@ A typical `dbschema.xml` file includes:
 </ul>
 
 </section>
-<section id="toc85">
+<section id="toc90">
 <h3>5.5.2. Example</h3>
 
 <p>
@@ -2579,7 +2728,7 @@ A taxes table might include:
 </ul>
 
 </section>
-<section id="toc86">
+<section id="toc91">
 <h3>5.5.3. Automatic Schema Management</h3>
 
 <p>
@@ -2599,7 +2748,7 @@ This means:
 </ul>
 
 </section>
-<section id="toc87">
+<section id="toc92">
 <h3>5.5.4. System-Wide and App-Specific Schemas</h3>
 
 <ul>
@@ -2614,7 +2763,7 @@ The system merges both to build the complete data model.
 </p>
 
 </section>
-<section id="toc88">
+<section id="toc93">
 <h3>5.5.5. Benefits of dbschema.xml</h3>
 
 <ul>
@@ -2631,7 +2780,7 @@ The system merges both to build the complete data model.
 </ul>
 
 </section>
-<section id="toc89">
+<section id="toc94">
 <h3>5.5.6. Complement: dbstatic.xml</h3>
 
 <p>
@@ -2655,7 +2804,7 @@ Together, `dbschema.xml` and `dbstatic.xml` allow SaltOS4 to fully bootstrap a n
 
 </section>
 </section>
-<section id="toc90">
+<section id="toc95">
 <h2>5.6. Static Data using dbstatic.xml</h2>
 
 <p>
@@ -2697,14 +2846,14 @@ This static data ensures consistent behavior across installations and is critica
 </p>
 
 </section>
-<section id="toc91">
+<section id="toc96">
 <h2>5.7. How to Add a New App</h2>
 
 <p>
 Adding a new app in SaltOS4 involves several steps that combine both backend and frontend configuration.
 </p>
 
-<section id="toc92">
+<section id="toc97">
 <h3>5.7.1. Create the App Folder</h3>
 
 <p>
@@ -2723,7 +2872,7 @@ Inside code/apps/, create a new folder with the app name, e.g. myapp/. This fold
 </ul>
 
 </section>
-<section id="toc93">
+<section id="toc98">
 <h3>5.7.2. Define the Manifest</h3>
 
 <p>
@@ -2758,7 +2907,7 @@ Example:
 </pre>
 
 </section>
-<section id="toc94">
+<section id="toc99">
 <h3>5.7.3. Define the Database Schema</h3>
 
 <p>
@@ -2784,7 +2933,7 @@ Example for a simple table:
 </pre>
 
 </section>
-<section id="toc95">
+<section id="toc100">
 <h3>5.7.4. Define the Static Data (Optional)</h3>
 
 <p>
@@ -2792,7 +2941,7 @@ Use xml/dbstatic.xml if the app needs initial records (like predefined types or 
 </p>
 
 </section>
-<section id="toc96">
+<section id="toc101">
 <h3>5.7.5. Add the Application Definition</h3>
 
 <p>
@@ -2826,7 +2975,7 @@ attr:
 </pre>
 
 </section>
-<section id="toc97">
+<section id="toc102">
 <h3>5.7.6. Ensure Symbolic Links</h3>
 
 <p>
@@ -2857,7 +3006,7 @@ Summary:
 </ul>
 
 </section>
-<section id="toc98">
+<section id="toc103">
 <h3>5.7.7. Run Database Setup</h3>
 
 <p>
@@ -2869,7 +3018,7 @@ make setup
 </pre>
 
 </section>
-<section id="toc99">
+<section id="toc104">
 <h3>5.7.8. Assign Permissions</h3>
 
 <p>
@@ -2877,7 +3026,7 @@ Grant access to the new app for users or groups using the admin interface or dat
 </p>
 
 </section>
-<section id="toc100">
+<section id="toc105">
 <h3>5.7.9. Test the App</h3>
 
 <p>
@@ -2900,14 +3049,14 @@ This structured process ensures the new app integrates smoothly with the SaltOS4
 </section>
 </section>
 </section>
-<section id="toc101">
+<section id="toc106">
 <h1>6. Makefile Overview</h1>
 
 <p>
 This `Makefile` automates building, testing, documentation, and setup tasks in SaltOS4.
 </p>
 
-<section id="toc102">
+<section id="toc107">
 <h2>6.1. Build Targets</h2>
 
 <p>
@@ -2938,7 +3087,7 @@ SaltOS4 includes several `make` targets to manage the build process for both pro
 </ul>
 
 </section>
-<section id="toc103">
+<section id="toc108">
 <h2>6.2. Documentation</h2>
 
 <p>
@@ -2984,7 +3133,7 @@ This logic is implemented using pattern matching via `findstring` in the Makefil
 </p>
 
 </section>
-<section id="toc104">
+<section id="toc109">
 <h2>6.3. Testing</h2>
 
 <p>
@@ -3017,7 +3166,7 @@ SaltOS4 integrates various testing mechanisms to maintain code quality across bo
 </ul>
 
 </section>
-<section id="toc105">
+<section id="toc110">
 <h2>6.4. Environment Checks</h2>
 
 <p>
@@ -3036,7 +3185,7 @@ SaltOS4 includes a helper target to verify that the environment is correctly set
 </ul>
 
 </section>
-<section id="toc106">
+<section id="toc111">
 <h2>6.5. Dependency Management</h2>
 
 <p>
@@ -3099,7 +3248,7 @@ This system is useful for tracking updates manually without relying on automatic
 </p>
 
 </section>
-<section id="toc107">
+<section id="toc112">
 <h2>6.6. Code Statistics</h2>
 
 <p>
@@ -3124,7 +3273,7 @@ SUM:                          415          5195         26798         39029
 </pre>
 
 </section>
-<section id="toc108">
+<section id="toc113">
 <h2>6.7. System Setup</h2>
 
 <p>
@@ -3145,7 +3294,7 @@ These targets initialize or reset the SaltOS4 environment, including database se
 </ul>
 
 </section>
-<section id="toc109">
+<section id="toc114">
 <h2>6.8. System Actions</h2>
 
 <p>
@@ -3164,7 +3313,7 @@ These targets trigger internal maintenance operations in SaltOS4, such as garbag
 </ul>
 
 </section>
-<section id="toc110">
+<section id="toc115">
 <h2>6.9. System langs</h2>
 
 <p>
@@ -3246,7 +3395,7 @@ python scripts/checklangs.py --strict
 </pre>
 
 </section>
-<section id="toc111">
+<section id="toc116">
 <h2>6.10. Script Directory Overview</h2>
 
 <p>
