@@ -3579,7 +3579,7 @@ saltos.bootstrap.__field.list = field => {
         if (val.header != '') {
             const temp = saltos.core.html(`
                 <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1 ${val.class}"></h5>
+                    <h5 class="mb-1 fw-normal ${val.class}"></h5>
                 </div>
             `);
             temp.querySelector('h5').append(val.header);
