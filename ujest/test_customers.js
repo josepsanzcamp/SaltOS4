@@ -314,7 +314,7 @@ describe('App Customers', () => {
      * This part of the test tries to validate the correctness of the update feature
      */
     test('Action Update', async () => {
-        const id = await page.$eval('#list tbody tr', el => el.id.split('/')[1]);
+        const id = await page.$eval('#list tbody tr', el => el.id.split('_')[1]);
         await page.goto('https://127.0.0.1/saltos/code4/#/app/customers/edit/' + id);
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
@@ -350,7 +350,7 @@ describe('App Customers', () => {
      * This part of the test tries to validate the correctness of the delete feature
      */
     test('Action Delete', async () => {
-        const id = await page.$eval('#list tbody tr', el => el.id.split('/')[1]);
+        const id = await page.$eval('#list tbody tr', el => el.id.split('_')[1]);
         await page.evaluate(id => { saltos.driver.delete(`app/customers/delete/${id}`); }, id);
 
         await page.waitForSelector('.modal', timeout);
