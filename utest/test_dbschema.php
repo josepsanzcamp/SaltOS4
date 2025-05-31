@@ -203,7 +203,7 @@ final class test_dbschema extends TestCase
         $query = parse_query(__dbschema_create_table($tablespec['table']));
         $this->assertSame($query, 'CREATE TABLE app_customers_index (' .
             'id INT(11) PRIMARY KEY AUTO_INCREMENT,' .
-            "search MEDIUMTEXT NULL" .
+            'search MEDIUMTEXT NULL' .
             ') ENGINE=Mroonga CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci');
 
         $xml = '<index name="tbl_utest_search" table="tbl_utest" fulltext="true" fields="search"/>';
@@ -234,8 +234,8 @@ final class test_dbschema extends TestCase
             'user_id INT(11) NULL,' .
             '`key` VARCHAR(255) NULL,' .
             "val VARCHAR(255) NOT NULL DEFAULT ''," .
-            "val1 INT(11) NOT NULL DEFAULT 0," .
-            "val2 DECIMAL(9,2) NOT NULL DEFAULT 0," .
+            'val1 INT(11) NOT NULL DEFAULT 0,' .
+            'val2 DECIMAL(9,2) NOT NULL DEFAULT 0,' .
             "val3 DATE NOT NULL DEFAULT '0000-00-00'," .
             "val4 TIME NOT NULL DEFAULT '00:00:00'," .
             "val5 DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'," .
