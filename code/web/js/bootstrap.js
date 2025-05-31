@@ -2602,7 +2602,9 @@ saltos.bootstrap.__field.table = field => {
                         td.append(temp);
                     }
                 } else {
-                    val2 = saltos.core.toString(val2);
+                    if (val2 !== null) {
+                        val2 = saltos.core.toString(val2);
+                    }
                     let type = 'text';
                     if (typeof iterator[key2] == 'object' && 'type' in iterator[key2]) {
                         type = iterator[key2].type;
