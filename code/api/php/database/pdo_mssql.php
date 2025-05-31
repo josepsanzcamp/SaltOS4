@@ -74,18 +74,13 @@ class database_pdo_mssql
             ]);
             // @codeCoverageIgnoreEnd
         }
-        $args['host'] = $args['host'] ?? 'localhost';
-        $args['port'] = $args['port'] ?? 1433;
-        $args['name'] = $args['name'] ?? '';
-        $args['user'] = $args['user'] ?? '';
-        $args['pass'] = $args['pass'] ?? '';
+        $host = $args['host'] ?? 'localhost';
+        $port = $args['port'] ?? 1433;
+        $name = $args['name'] ?? '';
+        $user = $args['user'] ?? '';
+        $pass = $args['pass'] ?? '';
         try {
-            $this->link = new PDO(
-                'dblib:host=' . $args['host'] . ':' . $args['port'] . ';' .
-                'dbname=' . $args['name'] . ';' .
-                'charset=UTF-8',
-                $args['user'], $args['pass']
-            );
+            $this->link = new PDO("dblib:host=$host:$port; dbname=$name; charset=UTF-8", $user, $pass);
         } catch (PDOException $e) {
             show_php_error(['dberror' => $e->getMessage()]);
         }

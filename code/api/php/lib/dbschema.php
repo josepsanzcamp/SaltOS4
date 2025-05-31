@@ -232,7 +232,7 @@ function db_static()
         $perms_id = [];
         foreach ($perms as $perm) {
             $perm = str_replace('*', '%', $perm);
-            $query = 'SELECT id FROM tbl_perms WHERE active=1 AND CONCAT(code,owner) LIKE ?';
+            $query = "SELECT id FROM tbl_perms WHERE active=1 AND CONCAT(code,IFNULL(owner,'')) LIKE ?";
             $temp = execute_query_array($query, [$perm]);
             $perms_id = array_merge($perms_id, $temp);
             if (!count($temp)) {
@@ -493,7 +493,7 @@ function __dbschema_auto_apps($dbschema)
                 // phpcs:disable Generic.Files.LineLength
                 $xml = '<table name="{$table}_index">
                             <fields>
-                                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                                <field name="id" type="INT(11)" pkey="true"/>
                                 <field name="search" type="MEDIUMTEXT"/>
                             </fields>
                             <indexes>
@@ -509,7 +509,7 @@ function __dbschema_auto_apps($dbschema)
                 // phpcs:disable Generic.Files.LineLength
                 $xml = '<table name="{$table}_control">
                             <fields>
-                                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true" fkey="{$table}"/>
+                                <field name="id" type="INT(11)" pkey="true" fkey="{$table}"/>
                                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                                 <field name="group_id" type="INT(11)" fkey="tbl_groups"/>
                                 <field name="datetime" type="DATETIME"/>
@@ -529,7 +529,7 @@ function __dbschema_auto_apps($dbschema)
             if (eval_bool(get_field_from_dbstatic($table, 'has_version'))) {
                 $xml = '<table name="{$table}_version">
                             <fields>
-                                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                                <field name="id" type="INT(11)" pkey="true"/>
                                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                                 <field name="datetime" type="DATETIME"/>
                                 <field name="reg_id" type="INT(11)" fkey="{$table}"/>
@@ -551,7 +551,7 @@ function __dbschema_auto_apps($dbschema)
             if (eval_bool(get_field_from_dbstatic($table, 'has_files'))) {
                 $xml = '<table name="{$table}_files">
                             <fields>
-                                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                                <field name="id" type="INT(11)" pkey="true"/>
                                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                                 <field name="datetime" type="DATETIME"/>
                                 <field name="reg_id" type="INT(11)" fkey="{$table}"/>
@@ -573,7 +573,7 @@ function __dbschema_auto_apps($dbschema)
             if (eval_bool(get_field_from_dbstatic($table, 'has_notes'))) {
                 $xml = '<table name="{$table}_notes">
                             <fields>
-                                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                                <field name="id" type="INT(11)" pkey="true"/>
                                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                                 <field name="datetime" type="DATETIME"/>
                                 <field name="reg_id" type="INT(11)" fkey="{$table}"/>
@@ -587,7 +587,7 @@ function __dbschema_auto_apps($dbschema)
             if (eval_bool(get_field_from_dbstatic($table, 'has_log'))) {
                 $xml = '<table name="{$table}_log">
                             <fields>
-                                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                                <field name="id" type="INT(11)" pkey="true"/>
                                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                                 <field name="datetime" type="DATETIME"/>
                                 <field name="log" type="VARCHAR(255)"/>
@@ -684,9 +684,10 @@ function __dbschema_auto_name($dbschema)
                     if (!isset($indexspec['#attr']['name'])) {
                         $table = $tablespec['#attr']['name'];
                         $fields = $indexspec['#attr']['fields'];
+                        $mysql_index_name = substr(str_replace(',', '_', $fields), 0, 64);
+                        $sqlite_index_name = substr($table . '_' . str_replace(',', '_', $fields), 0, 64);
                         $dbschema['tables'][$tablekey]['value']['indexes'][$indexkey]['#attr']['name'] =
-                        '/*MYSQL ' . substr(str_replace(',', '_', $fields), 0, 64) . ' */' .
-                        '/*SQLITE ' . substr($table . '_' . str_replace(',', '_', $fields), 0, 64) . ' */';
+                            "/*MYSQL $mysql_index_name *//*SQLITE $sqlite_index_name */";
                     }
                 }
             }
@@ -886,31 +887,41 @@ function __dbschema_create_table($tablespec)
     foreach ($tablespec['value']['fields'] as $field) {
         $name = $field['#attr']['name'];
         $type = $field['#attr']['type'];
-        $type2 = get_field_type($type);
-        $def = null;
-        if ($type2 == 'int') {
-            $def = intval(0);
-        } elseif ($type2 == 'float') {
-            $def = floatval(0);
-        } elseif ($type2 == 'date') {
-            $def = dateval(0);
-        } elseif ($type2 == 'time') {
-            $def = timeval(0);
-        } elseif ($type2 == 'datetime') {
-            $def = datetimeval(0);
-        } elseif ($type2 == 'string') {
-            $def = '';
-        } else {
-            // @codeCoverageIgnoreStart
-            show_php_error(['phperror' => "Unknown type '$type'"]);
-            // @codeCoverageIgnoreEnd
+        $null = 'NULL';
+        if (isset($field['#attr']['null']) && !eval_bool($field['#attr']['null'])) {
+            $null = 'NOT NULL';
         }
-        $extra = "NOT NULL DEFAULT '$def'";
-        if (isset($field['#attr']['pkey']) && eval_bool($field['#attr']['pkey'])) {
-            $extra = 'PRIMARY KEY /*MYSQL AUTO_INCREMENT *//*SQLITE AUTOINCREMENT */';
+        $default = '';
+        if (isset($field['#attr']['default'])) {
+            $default = $field['#attr']['default'];
+            $type2 = get_field_type($type);
+            if ($type2 == 'int') {
+                $default = intval($default);
+            } elseif ($type2 == 'float') {
+                $default = floatval($default);
+            } elseif ($type2 == 'date') {
+                $default = "'" . dateval($default) . "'";
+            } elseif ($type2 == 'time') {
+                $default = "'" . timeval($default) . "'";
+            } elseif ($type2 == 'datetime') {
+                $default = "'" . datetimeval($default) . "'";
+            } elseif ($type2 == 'string') {
+                $default = "'" . strval($default) . "'";
+            } else {
+                // @codeCoverageIgnoreStart
+                show_php_error(['phperror' => "Unknown type '$type'"]);
+                // @codeCoverageIgnoreEnd
+            }
+            $default = "DEFAULT $default";
         }
         $name2 = escape_reserved_word($name);
-        $fields[] = "$name2 $type $extra";
+        if (isset($field['#attr']['pkey']) && eval_bool($field['#attr']['pkey'])) {
+            $fields[] = $name2 . ' ' .
+                '/*MYSQL INT(11) PRIMARY KEY AUTO_INCREMENT */' .
+                '/*SQLITE INTEGER PRIMARY KEY AUTOINCREMENT */';
+        } else {
+            $fields[] = trim("$name2 $type $null $default");
+        }
     }
     foreach ($tablespec['value']['fields'] as $field) {
         if (isset($field['#attr']['fkey'])) {

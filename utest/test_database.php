@@ -507,7 +507,7 @@ final class test_database extends TestCase
                     'start' => '00:00:00',
                     'end' => '23:59:59',
                     'days' => '1111111',
-                    'groups_id' => '',
+                    'groups_id' => null,
                 ],
             ],
         ];

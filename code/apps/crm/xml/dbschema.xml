@@ -29,7 +29,7 @@
     <tables>
         <table name="app_customers">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="active" type="INT(11)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="address" type="VARCHAR(255)"/>
@@ -47,7 +47,7 @@
         </table>
         <table name="app_customers_types">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="active" type="INT(11)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
@@ -55,7 +55,7 @@
         </table>
         <table name="app_leads">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="active" type="INT(11)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="address" type="VARCHAR(255)"/>
@@ -76,7 +76,7 @@
         </table>
         <table name="app_leads_status">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="active" type="INT(11)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
@@ -84,7 +84,7 @@
         </table>
         <table name="app_meetings">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="start_time" type="DATETIME"/>
                 <field name="end_time" type="DATETIME"/>
                 <field name="title" type="VARCHAR(255)"/>
@@ -99,7 +99,7 @@
         </table>
         <table name="app_quotes">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="date" type="DATE"/>
                 <field name="company_id" type="INT(11)" fkey="app_company"/>
@@ -119,9 +119,9 @@
                 <field name="customer_country" type="VARCHAR(255)"/>
                 <field name="customer_code" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
-                <field name="subtotal" type="FLOAT"/>
-                <field name="tax" type="FLOAT"/>
-                <field name="total" type="FLOAT"/>
+                <field name="subtotal" type="DECIMAL(9,2)"/>
+                <field name="tax" type="DECIMAL(9,2)"/>
+                <field name="total" type="DECIMAL(9,2)"/>
                 <field name="payment_method_id" type="INT(11)" fkey="app_payment_methods"/>
                 <field name="valid_until" type="DATE"/>
                 <field name="status_id" type="INT(11)" fkey="app_quotes_status"/>
@@ -129,32 +129,32 @@
         </table>
         <table name="app_quotes_lines">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="quote_id" type="INT(11)" fkey="app_quotes"/>
                 <field name="product_id" type="INT(11)" fkey="app_products"/>
                 <field name="description" type="VARCHAR(255)"/>
                 <field name="quantity" type="FLOAT"/>
-                <field name="price" type="FLOAT"/>
+                <field name="price" type="DECIMAL(9,2)"/>
                 <field name="discount" type="FLOAT"/>
                 <field name="tax_id" type="INT(11)" fkey="app_taxes"/>
                 <field name="tax_value" type="FLOAT"/>
-                <field name="total" type="FLOAT"/>
+                <field name="total" type="DECIMAL(9,2)"/>
             </fields>
         </table>
         <table name="app_quotes_taxes">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="quote_id" type="INT(11)" fkey="app_quotes"/>
                 <field name="tax_id" type="INT(11)" fkey="app_taxes"/>
                 <field name="tax_name" type="VARCHAR(255)"/>
                 <field name="tax_value" type="FLOAT"/>
-                <field name="base" type="FLOAT"/>
-                <field name="tax" type="FLOAT"/>
+                <field name="base" type="DECIMAL(9,2)"/>
+                <field name="tax" type="DECIMAL(9,2)"/>
             </fields>
         </table>
         <table name="app_quotes_status">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="active" type="INT(11)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>

@@ -80,16 +80,16 @@ class database_sqlite3
             ]);
             // @codeCoverageIgnoreEnd
         }
-        $args['file'] = $args['file'] ?? '';
-        if (!file_exists($args['file'])) {
-            touch($args['file']);
-            chmod_protected($args['file'], 0666);
+        $file = $args['file'] ?? '';
+        if (!file_exists($file)) {
+            touch($file);
+            chmod_protected($file, 0666);
         }
-        if (!is_writable($args['file'])) {
-            show_php_error(['dberror' => "File '" . $args['file'] . "' not writable"]);
+        if (!is_writable($file)) {
+            show_php_error(['dberror' => "File '$file' not writable"]);
         }
         try {
-            $this->link = new SQLite3($args['file']);
+            $this->link = new SQLite3($file);
         // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             show_php_error(['dberror' => $e->getMessage()]);

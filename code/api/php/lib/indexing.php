@@ -273,7 +273,7 @@ function indexing_files()
         }
         // Search all pending files
         $query = "SELECT id, reg_id, file FROM {$table}_files
-            WHERE indexed = 0 AND retries < 3 AND file != '' LIMIT 1000";
+            WHERE IFNULL(indexed,0) = 0 AND IFNULL(retries,0) < 3 AND file != '' LIMIT 1000";
         $result = db_query($query);
         while ($row = db_fetch_row($result)) {
             if (time_get_usage() > get_config('server/percentstop')) {
@@ -286,7 +286,7 @@ function indexing_files()
                 continue;
             }
             // Continue
-            $query = "UPDATE {$table}_files SET retries = retries + 1 WHERE id = ?";
+            $query = "UPDATE {$table}_files SET retries = IFNULL(retries,0) + 1 WHERE id = ?";
             db_query($query, [$row['id']]);
             $input = get_directory('dirs/filesdir') . $app['code'] . '/' . $row['file'];
             $search = unoconv2txt($input);

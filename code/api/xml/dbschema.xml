@@ -47,7 +47,7 @@ that maintain the database using as reference this file
         -->
         <table name="tbl_config">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                 <field name="key" type="VARCHAR(255)"/>
                 <field name="val" type="TEXT"/>
@@ -70,7 +70,7 @@ that maintain the database using as reference this file
         -->
         <table name="tbl_users">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="active" type="INT(11)"/>
                 <field name="group_id" type="INT(11)" fkey="tbl_groups"/>
                 <field name="login" type="VARCHAR(255)"/>
@@ -84,7 +84,7 @@ that maintain the database using as reference this file
         </table>
         <table name="tbl_users_passwords">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="active" type="INT(11)"/>
                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                 <field name="created_at" type="DATETIME"/>
@@ -96,7 +96,7 @@ that maintain the database using as reference this file
         </table>
         <table name="tbl_users_tokens">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="active" type="INT(11)"/>
                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                 <field name="created_at" type="DATETIME"/>
@@ -114,7 +114,7 @@ that maintain the database using as reference this file
         </table>
         <table name="tbl_groups">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="active" type="INT(11)"/>
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="name" type="VARCHAR(255)"/>
@@ -134,7 +134,7 @@ that maintain the database using as reference this file
         -->
         <table name="tbl_apps">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="active" type="INT(11)"/>
                 <field name="group" type="VARCHAR(255)"/>
                 <field name="code" type="VARCHAR(255)"/>
@@ -158,7 +158,7 @@ that maintain the database using as reference this file
         </table>
         <table name="tbl_apps_groups">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
@@ -168,7 +168,7 @@ that maintain the database using as reference this file
         </table>
         <table name="tbl_perms">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="active" type="INT(11)"/>
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="owner" type="VARCHAR(255)"/>
@@ -178,7 +178,7 @@ that maintain the database using as reference this file
         </table>
         <table name="tbl_apps_perms">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="app_id" type="INT(11)" fkey="tbl_apps"/>
                 <field name="perm_id" type="INT(11)" fkey="tbl_perms"/>
                 <field name="allow" type="INT(11)"/>
@@ -188,7 +188,7 @@ that maintain the database using as reference this file
         </table>
         <table name="tbl_users_apps_perms">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                 <field name="app_id" type="INT(11)" fkey="tbl_apps"/>
                 <field name="perm_id" type="INT(11)" fkey="tbl_perms"/>
@@ -198,7 +198,7 @@ that maintain the database using as reference this file
         </table>
         <table name="tbl_groups_apps_perms">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="group_id" type="INT(11)" fkey="tbl_groups"/>
                 <field name="app_id" type="INT(11)" fkey="tbl_apps"/>
                 <field name="perm_id" type="INT(11)" fkey="tbl_perms"/>
@@ -213,7 +213,7 @@ that maintain the database using as reference this file
         -->
         <table name="tbl_uploads">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                 <field name="datetime" type="DATETIME"/>
                 <field name="uniqid" type="VARCHAR(255)"/>
@@ -231,7 +231,7 @@ that maintain the database using as reference this file
         -->
         <table name="tbl_cron">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="cmd" type="TEXT"/>
                 <field name="pid" type="INT(11)"/>
                 <field name="out" type="TEXT"/>
@@ -246,7 +246,7 @@ that maintain the database using as reference this file
         -->
         <table name="tbl_push">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                 <field name="datetime" type="DATETIME"/>
                 <field name="type" type="VARCHAR(255)"/>
@@ -260,7 +260,7 @@ that maintain the database using as reference this file
         -->
         <table name="tbl_trash">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="old_id" type="INT(11)"/>
                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                 <field name="datetime" type="DATETIME"/>

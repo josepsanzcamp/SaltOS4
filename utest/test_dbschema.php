@@ -203,7 +203,7 @@ final class test_dbschema extends TestCase
         $query = parse_query(__dbschema_create_table($tablespec['table']));
         $this->assertSame($query, 'CREATE TABLE app_customers_index (' .
             'id INT(11) PRIMARY KEY AUTO_INCREMENT,' .
-            "search MEDIUMTEXT NOT NULL DEFAULT ''" .
+            "search MEDIUMTEXT NULL" .
             ') ENGINE=Mroonga CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci');
 
         $xml = '<index name="tbl_utest_search" table="tbl_utest" fulltext="true" fields="search"/>';
@@ -219,23 +219,23 @@ final class test_dbschema extends TestCase
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                 <field name="key" type="VARCHAR(255)"/>
-                <field name="val" type="VARCHAR(255)"/>
-                <field name="val1" type="INT(11)"/>
-                <field name="val2" type="DECIMAL(9,2)"/>
-                <field name="val3" type="DATE"/>
-                <field name="val4" type="TIME"/>
-                <field name="val5" type="DATETIME"/>
+                <field name="val" type="VARCHAR(255)" null="false" default=""/>
+                <field name="val1" type="INT(11)" null="false" default="0"/>
+                <field name="val2" type="DECIMAL(9,2)" null="false" default="0"/>
+                <field name="val3" type="DATE" null="false" default="0000-00-00"/>
+                <field name="val4" type="TIME" null="false" default="00:00:00"/>
+                <field name="val5" type="DATETIME" null="false" default="0000-00-00 00:00:00"/>
             </fields>
         </table>';
         $tablespec = xml2array($xml);
         $query = parse_query(__dbschema_create_table($tablespec['table']));
         $this->assertSame($query, 'CREATE TABLE tbl_utest (' .
             'id INT(11) PRIMARY KEY AUTO_INCREMENT,' .
-            "user_id INT(11) NOT NULL DEFAULT '0'," .
-            "`key` VARCHAR(255) NOT NULL DEFAULT ''," .
+            'user_id INT(11) NULL,' .
+            '`key` VARCHAR(255) NULL,' .
             "val VARCHAR(255) NOT NULL DEFAULT ''," .
-            "val1 INT(11) NOT NULL DEFAULT '0'," .
-            "val2 DECIMAL(9,2) NOT NULL DEFAULT '0'," .
+            "val1 INT(11) NOT NULL DEFAULT 0," .
+            "val2 DECIMAL(9,2) NOT NULL DEFAULT 0," .
             "val3 DATE NOT NULL DEFAULT '0000-00-00'," .
             "val4 TIME NOT NULL DEFAULT '00:00:00'," .
             "val5 DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'," .

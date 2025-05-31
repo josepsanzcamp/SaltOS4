@@ -49,7 +49,7 @@ $time1 = microtime(true);
 $total = 0;
 
 // Search all pending files
-$query = 'SELECT id, reg_id, hash FROM app_emails_files WHERE indexed = 0 AND retries < 3 LIMIT 1000';
+$query = 'SELECT id, reg_id, hash FROM app_emails_files WHERE IFNULL(indexed,0) = 0 AND IFNULL(retries,0) < 3 LIMIT 1000';
 $result = db_query($query);
 while ($row = db_fetch_row($result)) {
     if (time_get_usage() > get_config('server/percentstop')) {
@@ -62,7 +62,7 @@ while ($row = db_fetch_row($result)) {
         continue;
     }
     // Continue
-    $query = 'UPDATE app_emails_files SET retries = retries + 1 WHERE id = ?';
+    $query = 'UPDATE app_emails_files SET retries = IFNULL(retries,0) + 1 WHERE id = ?';
     db_query($query, [$row['id']]);
     // Prepare the input file
     $decoded = __getmail_getmime($row['reg_id']);

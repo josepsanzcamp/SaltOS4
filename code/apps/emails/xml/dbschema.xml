@@ -36,7 +36,7 @@ This file allow to define the database needed by this application
         -->
         <table name="app_emails">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="account_id" type="INT(11)" fkey="app_emails_accounts"/>
                 <field name="uidl" type="VARCHAR(255)"/>
                 <field name="datetime" type="DATETIME"/>
@@ -67,7 +67,7 @@ This file allow to define the database needed by this application
         </table>
         <table name="app_emails_address">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="email_id" type="INT(11)" fkey="app_emails"/>
                 <field name="type_id" type="INT(11)"/>
                 <field name="name" type="VARCHAR(255)"/>
@@ -76,7 +76,7 @@ This file allow to define the database needed by this application
         </table>
         <table name="app_emails_deletes">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="INT(11)" pkey="true"/>
                 <field name="account_id" type="INT(11)" fkey="tbl_emails_accounts"/>
                 <field name="uidl" type="VARCHAR(255)"/>
                 <field name="datetime" type="DATETIME"/>
@@ -84,7 +84,7 @@ This file allow to define the database needed by this application
         </table>
 		<table name="app_emails_accounts">
 			<fields>
-				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+				<field name="id" type="INT(11)" pkey="true"/>
 				<field name="user_id" type="INT(11)" fkey="tbl_users"/>
 				<field name="email_name" type="VARCHAR(255)"/>
 				<field name="email_from" type="VARCHAR(255)"/>
