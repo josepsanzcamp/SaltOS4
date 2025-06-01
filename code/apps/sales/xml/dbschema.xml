@@ -29,12 +29,12 @@
     <tables>
         <table name="app_invoices">
             <fields>
-                <field name="id" type="INT(11)" pkey="true"/>
+                <field name="id" type="INTEGER" pkey="true"/>
                 <field name="proforma_code" type="VARCHAR(255)"/>
                 <field name="proforma_date" type="DATE"/>
                 <field name="invoice_code" type="VARCHAR(255)"/>
                 <field name="invoice_date" type="DATE"/>
-                <field name="company_id" type="INT(11)" fkey="app_company"/>
+                <field name="company_id" type="INTEGER" fkey="app_company"/>
                 <field name="company_name" type="VARCHAR(255)"/>
                 <field name="company_address" type="TEXT"/>
                 <field name="company_city" type="VARCHAR(255)"/>
@@ -42,7 +42,7 @@
                 <field name="company_zip" type="VARCHAR(255)"/>
                 <field name="company_country" type="VARCHAR(255)"/>
                 <field name="company_code" type="VARCHAR(255)"/>
-                <field name="customer_id" type="INT(11)" fkey="app_customers"/>
+                <field name="customer_id" type="INTEGER" fkey="app_customers"/>
                 <field name="customer_name" type="VARCHAR(255)"/>
                 <field name="customer_address" type="TEXT"/>
                 <field name="customer_city" type="VARCHAR(255)"/>
@@ -54,34 +54,34 @@
                 <field name="subtotal" type="DECIMAL(9,2)"/>
                 <field name="tax" type="DECIMAL(9,2)"/>
                 <field name="total" type="DECIMAL(9,2)"/>
-                <field name="payment_method_id" type="INT(11)" fkey="app_payment_methods"/>
+                <field name="payment_method_id" type="INTEGER" fkey="app_payment_methods"/>
                 <field name="due_date" type="DATE"/>
                 <field name="paid" type="DECIMAL(9,2)"/>
                 <field name="paid_date" type="DATE"/>
-                <field name="status_id" type="INT(11)" fkey="app_invoices_status"/>
-                <field name="is_closed" type="INT(11)"/>
-                <field name="is_paid" type="INT(11)"/>
+                <field name="status_id" type="INTEGER" fkey="app_invoices_status"/>
+                <field name="is_closed" type="INTEGER"/>
+                <field name="is_paid" type="INTEGER"/>
             </fields>
         </table>
         <table name="app_invoices_lines">
             <fields>
-                <field name="id" type="INT(11)" pkey="true"/>
-                <field name="invoice_id" type="INT(11)" fkey="app_invoices"/>
-                <field name="product_id" type="INT(11)" fkey="app_products"/>
+                <field name="id" type="INTEGER" pkey="true"/>
+                <field name="invoice_id" type="INTEGER" fkey="app_invoices"/>
+                <field name="product_id" type="INTEGER" fkey="app_products"/>
                 <field name="description" type="VARCHAR(255)"/>
                 <field name="quantity" type="FLOAT"/>
                 <field name="price" type="DECIMAL(9,2)"/>
                 <field name="discount" type="FLOAT"/>
-                <field name="tax_id" type="INT(11)" fkey="app_taxes"/>
+                <field name="tax_id" type="INTEGER" fkey="app_taxes"/>
                 <field name="tax_value" type="FLOAT"/>
                 <field name="total" type="DECIMAL(9,2)"/>
             </fields>
         </table>
         <table name="app_invoices_taxes">
             <fields>
-                <field name="id" type="INT(11)" pkey="true"/>
-                <field name="invoice_id" type="INT(11)" fkey="app_invoices"/>
-                <field name="tax_id" type="INT(11)" fkey="app_taxes"/>
+                <field name="id" type="INTEGER" pkey="true"/>
+                <field name="invoice_id" type="INTEGER" fkey="app_invoices"/>
+                <field name="tax_id" type="INTEGER" fkey="app_taxes"/>
                 <field name="tax_name" type="VARCHAR(255)"/>
                 <field name="tax_value" type="FLOAT"/>
                 <field name="base" type="DECIMAL(9,2)"/>
@@ -90,36 +90,36 @@
         </table>
         <table name="app_invoices_status">
             <fields>
-                <field name="id" type="INT(11)" pkey="true"/>
-                <field name="active" type="INT(11)"/>
+                <field name="id" type="INTEGER" pkey="true"/>
+                <field name="active" type="INTEGER"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
             </fields>
         </table>
         <table name="app_payment_methods">
             <fields>
-                <field name="id" type="INT(11)" pkey="true"/>
+                <field name="id" type="INTEGER" pkey="true"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
-                <field name="active" type="INT(11)"/>
-                <field name="default" type="INT(11)"/>
+                <field name="active" type="INTEGER"/>
+                <field name="default" type="INTEGER"/>
             </fields>
         </table>
         <table name="app_products">
             <fields>
-                <field name="id" type="INT(11)" pkey="true"/>
+                <field name="id" type="INTEGER" pkey="true"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
                 <field name="price" type="DECIMAL(9,2)"/>
-                <field name="tax_id" type="INT(11)" fkey="app_taxes"/>
-                <field name="type_id" type="INT(11)" fkey="app_products_types"/>
-                <field name="active" type="INT(11)"/>
+                <field name="tax_id" type="INTEGER" fkey="app_taxes"/>
+                <field name="type_id" type="INTEGER" fkey="app_products_types"/>
+                <field name="active" type="INTEGER"/>
                 <field name="unit" type="VARCHAR(255)"/>
                 <field name="cost" type="DECIMAL(9,2)"/>
                 <field name="margin" type="DECIMAL(9,2)"/>
                 <field name="barcode" type="VARCHAR(255)"/>
-                <field name="category_id" type="INT(11)" fkey="app_products_categories"/>
+                <field name="category_id" type="INTEGER" fkey="app_products_categories"/>
                 <field name="brand" type="VARCHAR(255)"/>
                 <field name="model" type="VARCHAR(255)"/>
                 <field name="stock" type="FLOAT"/>
@@ -131,41 +131,41 @@
         </table>
         <table name="app_products_types">
             <fields>
-                <field name="id" type="INT(11)" pkey="true"/>
-                <field name="active" type="INT(11)"/>
+                <field name="id" type="INTEGER" pkey="true"/>
+                <field name="active" type="INTEGER"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
             </fields>
         </table>
         <table name="app_products_categories">
             <fields>
-                <field name="id" type="INT(11)" pkey="true"/>
-                <field name="active" type="INT(11)"/>
+                <field name="id" type="INTEGER" pkey="true"/>
+                <field name="active" type="INTEGER"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
             </fields>
         </table>
         <table name="app_taxes">
             <fields>
-                <field name="id" type="INT(11)" pkey="true"/>
+                <field name="id" type="INTEGER" pkey="true"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
                 <field name="value" type="FLOAT"/>
-                <field name="active" type="INT(11)"/>
-                <field name="default" type="INT(11)"/>
+                <field name="active" type="INTEGER"/>
+                <field name="default" type="INTEGER"/>
             </fields>
         </table>
         <table name="app_workorders">
             <fields>
-                <field name="id" type="INT(11)" pkey="true"/>
+                <field name="id" type="INTEGER" pkey="true"/>
                 <field name="date" type="DATE"/>
-                <field name="worker_id" type="INT(11)" fkey="app_employees"/>
-                <field name="client_id" type="INT(11)" fkey="app_customers"/>
+                <field name="worker_id" type="INTEGER" fkey="app_employees"/>
+                <field name="client_id" type="INTEGER" fkey="app_customers"/>
                 <field name="description" type="TEXT"/>
                 <field name="hours" type="FLOAT"/>
                 <field name="price" type="DECIMAL(9,2)"/>
                 <field name="total" type="DECIMAL(9,2)"/>
-                <field name="invoice_id" type="INT(11)" fkey="app_invoices"/>
+                <field name="invoice_id" type="INTEGER" fkey="app_invoices"/>
             </fields>
         </table>
     </tables>

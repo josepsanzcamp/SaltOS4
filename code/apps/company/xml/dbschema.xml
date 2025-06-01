@@ -29,8 +29,8 @@
     <tables>
         <table name="app_company">
             <fields>
-                <field name="id" type="INT(11)" pkey="true"/>
-                <field name="active" type="INT(11)"/>
+                <field name="id" type="INTEGER" pkey="true"/>
+                <field name="active" type="INTEGER"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="address" type="VARCHAR(255)"/>

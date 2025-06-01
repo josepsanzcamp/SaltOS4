@@ -29,8 +29,8 @@
     <tables>
         <table name="app_customers">
             <fields>
-                <field name="id" type="INT(11)" pkey="true"/>
-                <field name="active" type="INT(11)"/>
+                <field name="id" type="INTEGER" pkey="true"/>
+                <field name="active" type="INTEGER"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="address" type="VARCHAR(255)"/>
                 <field name="city" type="VARCHAR(255)"/>
@@ -42,21 +42,21 @@
                 <field name="phone" type="VARCHAR(255)"/>
                 <field name="website" type="VARCHAR(255)"/>
                 <field name="notes" type="TEXT"/>
-                <field name="type_id" type="INT(11)" fkey="app_customers_types"/>
+                <field name="type_id" type="INTEGER" fkey="app_customers_types"/>
             </fields>
         </table>
         <table name="app_customers_types">
             <fields>
-                <field name="id" type="INT(11)" pkey="true"/>
-                <field name="active" type="INT(11)"/>
+                <field name="id" type="INTEGER" pkey="true"/>
+                <field name="active" type="INTEGER"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
             </fields>
         </table>
         <table name="app_leads">
             <fields>
-                <field name="id" type="INT(11)" pkey="true"/>
-                <field name="active" type="INT(11)"/>
+                <field name="id" type="INTEGER" pkey="true"/>
+                <field name="active" type="INTEGER"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="address" type="VARCHAR(255)"/>
                 <field name="city" type="VARCHAR(255)"/>
@@ -70,21 +70,21 @@
                 <field name="notes" type="TEXT"/>
                 <field name="contact" type="TEXT"/>
                 <field name="source" type="VARCHAR(255)"/>
-                <field name="status_id" type="INT(11)" fkey="app_leads_status"/>
+                <field name="status_id" type="INTEGER" fkey="app_leads_status"/>
                 <field name="assigned_to" type="VARCHAR(255)"/>
             </fields>
         </table>
         <table name="app_leads_status">
             <fields>
-                <field name="id" type="INT(11)" pkey="true"/>
-                <field name="active" type="INT(11)"/>
+                <field name="id" type="INTEGER" pkey="true"/>
+                <field name="active" type="INTEGER"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
             </fields>
         </table>
         <table name="app_meetings">
             <fields>
-                <field name="id" type="INT(11)" pkey="true"/>
+                <field name="id" type="INTEGER" pkey="true"/>
                 <field name="start_time" type="DATETIME"/>
                 <field name="end_time" type="DATETIME"/>
                 <field name="title" type="VARCHAR(255)"/>
@@ -94,15 +94,15 @@
                 <field name="topics_approved" type="TEXT"/>
                 <field name="topics_rejected" type="TEXT"/>
                 <field name="topics_pending" type="TEXT"/>
-                <field name="customer_id" type="INT(11)"/>
+                <field name="customer_id" type="INTEGER"/>
             </fields>
         </table>
         <table name="app_quotes">
             <fields>
-                <field name="id" type="INT(11)" pkey="true"/>
+                <field name="id" type="INTEGER" pkey="true"/>
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="date" type="DATE"/>
-                <field name="company_id" type="INT(11)" fkey="app_company"/>
+                <field name="company_id" type="INTEGER" fkey="app_company"/>
                 <field name="company_name" type="VARCHAR(255)"/>
                 <field name="company_address" type="TEXT"/>
                 <field name="company_city" type="VARCHAR(255)"/>
@@ -110,7 +110,7 @@
                 <field name="company_zip" type="VARCHAR(255)"/>
                 <field name="company_country" type="VARCHAR(255)"/>
                 <field name="company_code" type="VARCHAR(255)"/>
-                <field name="customer_id" type="INT(11)" fkey="app_customers"/>
+                <field name="customer_id" type="INTEGER" fkey="app_customers"/>
                 <field name="customer_name" type="VARCHAR(255)"/>
                 <field name="customer_address" type="TEXT"/>
                 <field name="customer_city" type="VARCHAR(255)"/>
@@ -122,30 +122,30 @@
                 <field name="subtotal" type="DECIMAL(9,2)"/>
                 <field name="tax" type="DECIMAL(9,2)"/>
                 <field name="total" type="DECIMAL(9,2)"/>
-                <field name="payment_method_id" type="INT(11)" fkey="app_payment_methods"/>
+                <field name="payment_method_id" type="INTEGER" fkey="app_payment_methods"/>
                 <field name="valid_until" type="DATE"/>
-                <field name="status_id" type="INT(11)" fkey="app_quotes_status"/>
+                <field name="status_id" type="INTEGER" fkey="app_quotes_status"/>
             </fields>
         </table>
         <table name="app_quotes_lines">
             <fields>
-                <field name="id" type="INT(11)" pkey="true"/>
-                <field name="quote_id" type="INT(11)" fkey="app_quotes"/>
-                <field name="product_id" type="INT(11)" fkey="app_products"/>
+                <field name="id" type="INTEGER" pkey="true"/>
+                <field name="quote_id" type="INTEGER" fkey="app_quotes"/>
+                <field name="product_id" type="INTEGER" fkey="app_products"/>
                 <field name="description" type="VARCHAR(255)"/>
                 <field name="quantity" type="FLOAT"/>
                 <field name="price" type="DECIMAL(9,2)"/>
                 <field name="discount" type="FLOAT"/>
-                <field name="tax_id" type="INT(11)" fkey="app_taxes"/>
+                <field name="tax_id" type="INTEGER" fkey="app_taxes"/>
                 <field name="tax_value" type="FLOAT"/>
                 <field name="total" type="DECIMAL(9,2)"/>
             </fields>
         </table>
         <table name="app_quotes_taxes">
             <fields>
-                <field name="id" type="INT(11)" pkey="true"/>
-                <field name="quote_id" type="INT(11)" fkey="app_quotes"/>
-                <field name="tax_id" type="INT(11)" fkey="app_taxes"/>
+                <field name="id" type="INTEGER" pkey="true"/>
+                <field name="quote_id" type="INTEGER" fkey="app_quotes"/>
+                <field name="tax_id" type="INTEGER" fkey="app_taxes"/>
                 <field name="tax_name" type="VARCHAR(255)"/>
                 <field name="tax_value" type="FLOAT"/>
                 <field name="base" type="DECIMAL(9,2)"/>
@@ -154,8 +154,8 @@
         </table>
         <table name="app_quotes_status">
             <fields>
-                <field name="id" type="INT(11)" pkey="true"/>
-                <field name="active" type="INT(11)"/>
+                <field name="id" type="INTEGER" pkey="true"/>
+                <field name="active" type="INTEGER"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
             </fields>

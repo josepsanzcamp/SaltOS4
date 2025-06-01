@@ -36,30 +36,30 @@ This file allow to define the database needed by this application
         -->
         <table name="app_emails">
             <fields>
-                <field name="id" type="INT(11)" pkey="true"/>
-                <field name="account_id" type="INT(11)" fkey="app_emails_accounts"/>
+                <field name="id" type="INTEGER" pkey="true"/>
+                <field name="account_id" type="INTEGER" fkey="app_emails_accounts"/>
                 <field name="uidl" type="VARCHAR(255)"/>
                 <field name="datetime" type="DATETIME"/>
-                <field name="size" type="INT(11)"/>
+                <field name="size" type="INTEGER"/>
                 <field name="subject" type="TEXT"/>
                 <field name="body" type="MEDIUMTEXT"/>
-                <field name="state_new" type="INT(11)"/>
-                <field name="state_reply" type="INT(11)"/>
-                <field name="state_forward" type="INT(11)"/>
-                <field name="state_wait" type="INT(11)"/>
-                <field name="state_spam" type="INT(11)"/>
-                <field name="email_id" type="INT(11)"/>
-                <field name="is_outbox" type="INT(11)"/>
-                <field name="state_sent" type="INT(11)"/>
+                <field name="state_new" type="INTEGER"/>
+                <field name="state_reply" type="INTEGER"/>
+                <field name="state_forward" type="INTEGER"/>
+                <field name="state_wait" type="INTEGER"/>
+                <field name="state_spam" type="INTEGER"/>
+                <field name="email_id" type="INTEGER"/>
+                <field name="is_outbox" type="INTEGER"/>
+                <field name="state_sent" type="INTEGER"/>
                 <field name="state_error" type="TEXT"/>
-                <field name="state_crt" type="INT(11)"/>
-                <field name="priority" type="INT(11)"/>
-                <field name="sensitivity" type="INT(11)"/>
+                <field name="state_crt" type="INTEGER"/>
+                <field name="priority" type="INTEGER"/>
+                <field name="sensitivity" type="INTEGER"/>
                 <field name="from" type="TEXT"/>
                 <field name="to" type="TEXT"/>
                 <field name="cc" type="TEXT"/>
                 <field name="bcc" type="TEXT"/>
-                <field name="files" type="INT(11)"/>
+                <field name="files" type="INTEGER"/>
             </fields>
             <indexes>
                 <index fields="datetime"/>
@@ -67,25 +67,25 @@ This file allow to define the database needed by this application
         </table>
         <table name="app_emails_address">
             <fields>
-                <field name="id" type="INT(11)" pkey="true"/>
-                <field name="email_id" type="INT(11)" fkey="app_emails"/>
-                <field name="type_id" type="INT(11)"/>
+                <field name="id" type="INTEGER" pkey="true"/>
+                <field name="email_id" type="INTEGER" fkey="app_emails"/>
+                <field name="type_id" type="INTEGER"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="value" type="VARCHAR(255)"/>
             </fields>
         </table>
         <table name="app_emails_deletes">
             <fields>
-                <field name="id" type="INT(11)" pkey="true"/>
-                <field name="account_id" type="INT(11)" fkey="tbl_emails_accounts"/>
+                <field name="id" type="INTEGER" pkey="true"/>
+                <field name="account_id" type="INTEGER" fkey="tbl_emails_accounts"/>
                 <field name="uidl" type="VARCHAR(255)"/>
                 <field name="datetime" type="DATETIME"/>
             </fields>
         </table>
 		<table name="app_emails_accounts">
 			<fields>
-				<field name="id" type="INT(11)" pkey="true"/>
-				<field name="user_id" type="INT(11)" fkey="tbl_users"/>
+				<field name="id" type="INTEGER" pkey="true"/>
+				<field name="user_id" type="INTEGER" fkey="tbl_users"/>
 				<field name="email_name" type="VARCHAR(255)"/>
 				<field name="email_from" type="VARCHAR(255)"/>
 				<field name="email_signature" type="MEDIUMTEXT"/>
@@ -94,18 +94,18 @@ This file allow to define the database needed by this application
 				<field name="pop3_extra" type="VARCHAR(255)"/>
 				<field name="pop3_user" type="VARCHAR(255)"/>
 				<field name="pop3_pass" type="VARCHAR(255)"/>
-				<field name="pop3_delete" type="INT(11)"/>
-				<field name="pop3_days" type="INT(11)"/>
+				<field name="pop3_delete" type="INTEGER"/>
+				<field name="pop3_days" type="INTEGER"/>
 				<field name="smtp_host" type="VARCHAR(255)"/>
 				<field name="smtp_port" type="VARCHAR(255)"/>
 				<field name="smtp_extra" type="VARCHAR(255)"/>
 				<field name="smtp_user" type="VARCHAR(255)"/>
 				<field name="smtp_pass" type="VARCHAR(255)"/>
-				<field name="email_disabled" type="INT(11)"/>
-				<field name="email_privated" type="INT(11)"/>
-				<field name="email_default" type="INT(11)"/>
-				<field name="email_addmetocc" type="INT(11)"/>
-				<field name="email_crt" type="INT(11)"/>
+				<field name="email_disabled" type="INTEGER"/>
+				<field name="email_privated" type="INTEGER"/>
+				<field name="email_default" type="INTEGER"/>
+				<field name="email_addmetocc" type="INTEGER"/>
+				<field name="email_crt" type="INTEGER"/>
 			</fields>
 		</table>
 
