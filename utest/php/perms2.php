@@ -42,7 +42,7 @@ init_timer();
 init_random();
 
 global $_CONFIG;
-$_CONFIG = eval_attr(xmlfiles2array(detect_config_files('xml/config.xml')));
+$_CONFIG = eval_attr(prepare_config_files(xmlfiles2array(detect_config_files('xml/config.xml'))));
 db_connect();
 
 check_user('dashboard', 'nada');
