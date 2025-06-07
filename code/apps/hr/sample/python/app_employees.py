@@ -31,7 +31,7 @@ def generate_app_employees_sql_gz():
         start_date_obj = fake.date_between(start_date='-5y', end_date='-1y')
         start_date = start_date_obj.isoformat()
         if random.random() > 0.1:
-            end_date = "'0000-00-00'"
+            end_date = "null"
         else:
             end_date_val = fake.date_between(start_date=start_date_obj, end_date='today').isoformat()
             end_date = f"'{end_date_val}'"

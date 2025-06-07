@@ -23,7 +23,7 @@ def generate_app_purchase_sql_gz():
         status = random.randint(1, 4)
         invoice_date = fake.date_between(start_date=date_obj, end_date='+10d').isoformat()
         invoice_date_obj = dt_date.fromisoformat(invoice_date)
-        paid_date = fake.date_between(start_date=invoice_date_obj, end_date='+30d').isoformat() if is_paid else None
+        paid_date = fake.date_between(start_date=invoice_date_obj, end_date='+30d').isoformat() if is_paid else 'null'
         notes = fake.text(max_nb_chars=60).replace("'", "''")
         row = f"({i}, '{order_date}', {supplier_id}, '{invoice_code}', '{description}', {subtotal}, {tax}, {total}, {paid}, {status}, '{invoice_date}', '{paid_date}', '{notes}')"
         rows.append(row)

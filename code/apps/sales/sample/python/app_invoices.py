@@ -37,7 +37,7 @@ def safe_sql_str(s):
     return f"'{escape_sql_text(s)}'" if s else "''"
 
 def safe_sql_date(d):
-    return f"'{d.strftime('%Y-%m-%d')}'" if d else "'0000-00-00'"
+    return f"'{d.strftime('%Y-%m-%d')}'" if d else "null"
 
 def random_discount():
     return random.choices([0, 5, 10, 15, 20, 25], weights=[70, 10, 8, 6, 4, 2])[0]
@@ -64,10 +64,10 @@ for i in range(n_invoices):
 
     proforma_code = gen_invoice_code("P", year, i + 1)
     proforma_date = fake.date_between(start_date='-60d', end_date='today')
-    invoice_code = gen_invoice_code("F", year, i + 1) if is_closed else ""
-    invoice_date = fake.date_between(start_date=proforma_date, end_date='today') if is_closed else None
-    due_date = invoice_date + timedelta(days=random.choice([15, 30, 45])) if is_closed else None
-    paid_date = fake.date_between(start_date=invoice_date, end_date='today') if is_paid and invoice_date else None
+    invoice_code = gen_invoice_code("F", year, i + 1) if is_closed else 'null'
+    invoice_date = fake.date_between(start_date=proforma_date, end_date='today') if is_closed else 'null'
+    due_date = invoice_date + timedelta(days=random.choice([15, 30, 45])) if is_closed else 'null'
+    paid_date = fake.date_between(start_date=invoice_date, end_date='today') if is_paid and invoice_date else 'null'
     payment_method_id = random.randint(1, 12)
     status_id = random.randint(1, 5)
 
