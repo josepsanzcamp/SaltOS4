@@ -223,16 +223,22 @@ function execute_query_array($query, $params = null)
  */
 function get_fields($table)
 {
-    $query = "/*MYSQL SHOW COLUMNS FROM $table *//*SQLITE PRAGMA TABLE_INFO($table) */";
-    $result = db_query($query);
     $fields = [];
+    // FOR MYSQL
+    $query = "/*MYSQL SHOW COLUMNS FROM $table */";
+    $result = db_query($query);
     while ($row = db_fetch_row($result)) {
-        if (isset($row['Field'])) {
-            $fields[] = ['name' => $row['Field'], 'type' => strtoupper($row['Type'])];
+        if ($row['Type'] == 'int(11)') {
+            $row['Type'] = 'integer';
         }
-        if (isset($row['name'])) {
-            $fields[] = ['name' => $row['name'], 'type' => strtoupper($row['type'])];
-        }
+        $fields[] = ['name' => $row['Field'], 'type' => strtoupper($row['Type'])];
+    }
+    db_free($result);
+    // FOR SQLITE
+    $query = "/*SQLITE PRAGMA TABLE_INFO($table) */";
+    $result = db_query($query);
+    while ($row = db_fetch_row($result)) {
+        $fields[] = ['name' => $row['name'], 'type' => strtoupper($row['type'])];
     }
     db_free($result);
     return $fields;
@@ -248,21 +254,6 @@ function get_fields($table)
 function get_indexes($table)
 {
     $indexes = [];
-    // FOR SQLITE
-    $query = "/*SQLITE PRAGMA INDEX_LIST($table) */";
-    $result = db_query($query);
-    while ($row = db_fetch_row($result)) {
-        $index = $row['name'];
-        $query2 = "/*SQLITE PRAGMA INDEX_INFO($index) */";
-        $result2 = db_query($query2);
-        $fields = [];
-        while ($row2 = db_fetch_row($result2)) {
-            $fields[] = $row2['name'];
-        }
-        db_free($result2);
-        $indexes[$index] = $fields;
-    }
-    db_free($result);
     // FOR MYSQL
     $query = "/*MYSQL SHOW INDEXES FROM $table */";
     $result = db_query($query);
@@ -277,6 +268,22 @@ function get_indexes($table)
         $column = $row['Column_name'];
         $indexes[$index][] = $column;
     }
+    db_free($result);
+    // FOR SQLITE
+    $query = "/*SQLITE PRAGMA INDEX_LIST($table) */";
+    $result = db_query($query);
+    while ($row = db_fetch_row($result)) {
+        $index = $row['name'];
+        $query2 = "PRAGMA INDEX_INFO($index)";
+        $result2 = db_query($query2);
+        $fields = [];
+        while ($row2 = db_fetch_row($result2)) {
+            $fields[] = $row2['name'];
+        }
+        db_free($result2);
+        $indexes[$index] = $fields;
+    }
+    db_free($result);
     return $indexes;
 }
 
@@ -287,8 +294,8 @@ function get_indexes($table)
  */
 function get_tables()
 {
-    $query = "/*MYSQL SHOW TABLES *//*SQLITE SELECT name FROM sqlite_master
-        WHERE type='table' AND name NOT LIKE 'sqlite_%' */";
+    $query = "/*MYSQL SHOW TABLES */
+        /*SQLITE SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' */";
     $result = db_query($query);
     $tables = [];
     while ($row = db_fetch_row($result)) {
@@ -358,7 +365,6 @@ function get_field_size($type)
         'TINYTEXT' => 255,
         'TEXT' => 65535,
         'MEDIUMTEXT' => 16777215,
-        'LONGTEXT' => 4294967295,
         'VARCHAR' => $type2,
     ];
     if (isset($datasizes[$type1])) {

@@ -140,7 +140,7 @@ function set_config($key, $val, $user_id = -1)
         }
     } else {
         if ($val !== null) {
-            $query = 'UPDATE tbl_config SET val = ? WHERE `id` = ?';
+            $query = 'UPDATE tbl_config SET val = ? WHERE id = ?';
             db_query($query, [$val, $id]);
         } else {
             $query = 'DELETE FROM tbl_config WHERE id = ?';

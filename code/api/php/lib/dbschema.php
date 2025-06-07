@@ -115,9 +115,7 @@ function db_schema()
             if (isset($tablespec['value']['indexes']) && is_array($tablespec['value']['indexes'])) {
                 foreach ($tablespec['value']['indexes'] as $indexspec) {
                     $indexspec['#attr']['table'] = $table;
-                    // This parse_query is important because the name of the index is different
-                    // for MySQL and SQLite and must to be parsed
-                    $index = parse_query($indexspec['#attr']['name']);
+                    $index = $indexspec['#attr']['name'];
                     if (array_key_exists($index, $indexes1)) {
                         $fields1 = $indexes1[$index];
                         $fields2 = $indexes2[$index];
@@ -423,7 +421,7 @@ function __dbschema_helper($fn, $table)
                 foreach ($tablespec['value']['fields'] as $fieldspec) {
                     $tables[$tablespec['#attr']['name']][] = [
                         'name' => $fieldspec['#attr']['name'],
-                        'type' => strtoupper(parse_query($fieldspec['#attr']['type'])),
+                        'type' => strtoupper($fieldspec['#attr']['type']),
                     ];
                     if (isset($fieldspec['#attr']['fkey']) && $fieldspec['#attr']['fkey'] != '') {
                         $fkeys[$tablespec['#attr']['name']][$fieldspec['#attr']['name']]
@@ -433,7 +431,7 @@ function __dbschema_helper($fn, $table)
                 if (isset($tablespec['value']['indexes'])) {
                     $indexes[$tablespec['#attr']['name']] = [];
                     foreach ($tablespec['value']['indexes'] as $indexspec) {
-                        $indexes[$tablespec['#attr']['name']][parse_query($indexspec['#attr']['name'])]
+                        $indexes[$tablespec['#attr']['name']][$indexspec['#attr']['name']]
                             = explode(',', $indexspec['#attr']['fields']);
                         if (
                             isset($indexspec['#attr']['fulltext']) &&
@@ -493,7 +491,7 @@ function __dbschema_auto_apps($dbschema)
                 // phpcs:disable Generic.Files.LineLength
                 $xml = '<table name="{$table}_index">
                             <fields>
-                                <field name="id" type="INT(11)" pkey="true"/>
+                                <field name="id" type="INTEGER" pkey="true"/>
                                 <field name="search" type="MEDIUMTEXT"/>
                             </fields>
                             <indexes>
@@ -509,9 +507,9 @@ function __dbschema_auto_apps($dbschema)
                 // phpcs:disable Generic.Files.LineLength
                 $xml = '<table name="{$table}_control">
                             <fields>
-                                <field name="id" type="INT(11)" pkey="true" fkey="{$table}"/>
-                                <field name="user_id" type="INT(11)" fkey="tbl_users"/>
-                                <field name="group_id" type="INT(11)" fkey="tbl_groups"/>
+                                <field name="id" type="INTEGER" pkey="true" fkey="{$table}"/>
+                                <field name="user_id" type="INTEGER" fkey="tbl_users"/>
+                                <field name="group_id" type="INTEGER" fkey="tbl_groups"/>
                                 <field name="datetime" type="DATETIME"/>
                                 <field name="users_id" type="TEXT"/>
                                 <field name="groups_id" type="TEXT"/>
@@ -529,11 +527,11 @@ function __dbschema_auto_apps($dbschema)
             if (eval_bool(get_field_from_dbstatic($table, 'has_version'))) {
                 $xml = '<table name="{$table}_version">
                             <fields>
-                                <field name="id" type="INT(11)" pkey="true"/>
-                                <field name="user_id" type="INT(11)" fkey="tbl_users"/>
+                                <field name="id" type="INTEGER" pkey="true"/>
+                                <field name="user_id" type="INTEGER" fkey="tbl_users"/>
                                 <field name="datetime" type="DATETIME"/>
-                                <field name="reg_id" type="INT(11)" fkey="{$table}"/>
-                                <field name="ver_id" type="INT(11)"/>
+                                <field name="reg_id" type="INTEGER" fkey="{$table}"/>
+                                <field name="ver_id" type="INTEGER"/>
                                 <field name="data" type="MEDIUMTEXT"/>
                                 <field name="hash" type="VARCHAR(255)"/>
                             </fields>
@@ -551,19 +549,19 @@ function __dbschema_auto_apps($dbschema)
             if (eval_bool(get_field_from_dbstatic($table, 'has_files'))) {
                 $xml = '<table name="{$table}_files">
                             <fields>
-                                <field name="id" type="INT(11)" pkey="true"/>
-                                <field name="user_id" type="INT(11)" fkey="tbl_users"/>
+                                <field name="id" type="INTEGER" pkey="true"/>
+                                <field name="user_id" type="INTEGER" fkey="tbl_users"/>
                                 <field name="datetime" type="DATETIME"/>
-                                <field name="reg_id" type="INT(11)" fkey="{$table}"/>
+                                <field name="reg_id" type="INTEGER" fkey="{$table}"/>
                                 <field name="uniqid" type="VARCHAR(255)"/>
                                 <field name="name" type="VARCHAR(255)"/>
-                                <field name="size" type="INT(11)"/>
+                                <field name="size" type="INTEGER"/>
                                 <field name="type" type="VARCHAR(255)"/>
                                 <field name="file" type="VARCHAR(255)"/>
                                 <field name="hash" type="VARCHAR(255)"/>
                                 <field name="search" type="MEDIUMTEXT"/>
-                                <field name="indexed" type="INT(11)"/>
-                                <field name="retries" type="INT(11)"/>
+                                <field name="indexed" type="INTEGER"/>
+                                <field name="retries" type="INTEGER"/>
                             </fields>
                         </table>';
                 $xml = str_replace('{$table}', $table, $xml);
@@ -573,10 +571,10 @@ function __dbschema_auto_apps($dbschema)
             if (eval_bool(get_field_from_dbstatic($table, 'has_notes'))) {
                 $xml = '<table name="{$table}_notes">
                             <fields>
-                                <field name="id" type="INT(11)" pkey="true"/>
-                                <field name="user_id" type="INT(11)" fkey="tbl_users"/>
+                                <field name="id" type="INTEGER" pkey="true"/>
+                                <field name="user_id" type="INTEGER" fkey="tbl_users"/>
                                 <field name="datetime" type="DATETIME"/>
-                                <field name="reg_id" type="INT(11)" fkey="{$table}"/>
+                                <field name="reg_id" type="INTEGER" fkey="{$table}"/>
                                 <field name="note" type="TEXT"/>
                             </fields>
                         </table>';
@@ -587,13 +585,13 @@ function __dbschema_auto_apps($dbschema)
             if (eval_bool(get_field_from_dbstatic($table, 'has_log'))) {
                 $xml = '<table name="{$table}_log">
                             <fields>
-                                <field name="id" type="INT(11)" pkey="true"/>
-                                <field name="user_id" type="INT(11)" fkey="tbl_users"/>
+                                <field name="id" type="INTEGER" pkey="true"/>
+                                <field name="user_id" type="INTEGER" fkey="tbl_users"/>
                                 <field name="datetime" type="DATETIME"/>
                                 <field name="log" type="VARCHAR(255)"/>
-                                <field name="reg_id" type="INT(11)" fkey="{$table}"/>
+                                <field name="reg_id" type="INTEGER" fkey="{$table}"/>
                                 <field name="reg_ids" type="TEXT"/>
-                                <field name="extra_id" type="INT(11)"/>
+                                <field name="extra_id" type="INTEGER"/>
                                 <field name="extra_ids" type="TEXT"/>
                             </fields>
                         </table>';
@@ -687,7 +685,7 @@ function __dbschema_auto_name($dbschema)
                         $mysql_index_name = substr(str_replace(',', '_', $fields), 0, 64);
                         $sqlite_index_name = substr($table . '_' . str_replace(',', '_', $fields), 0, 64);
                         $dbschema['tables'][$tablekey]['value']['indexes'][$indexkey]['#attr']['name'] =
-                            "/*MYSQL $mysql_index_name *//*SQLITE $sqlite_index_name */";
+                            parse_query("/*MYSQL $mysql_index_name *//*SQLITE $sqlite_index_name */");
                     }
                 }
             }
@@ -916,9 +914,8 @@ function __dbschema_create_table($tablespec)
         }
         $name2 = escape_reserved_word($name);
         if (isset($field['#attr']['pkey']) && eval_bool($field['#attr']['pkey'])) {
-            $fields[] = $name2 . ' ' .
-                '/*MYSQL INT(11) PRIMARY KEY AUTO_INCREMENT */' .
-                '/*SQLITE INTEGER PRIMARY KEY AUTOINCREMENT */';
+            $increment = '/*MYSQL AUTO_INCREMENT *//*SQLITE AUTOINCREMENT */';
+            $fields[] = "$name2 INTEGER PRIMARY KEY $increment";
         } else {
             $fields[] = trim("$name2 $type $null $default");
         }
