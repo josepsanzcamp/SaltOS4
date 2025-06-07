@@ -69,17 +69,17 @@ final class test_dbschema extends TestCase
     public function test_dbschema(): void
     {
         //~ $query = 'CREATE TABLE tbl_one (' .
-            //~ 'id INT(11) PRIMARY KEY AUTO_INCREMENT' .
+            //~ 'id INTEGER PRIMARY KEY AUTO_INCREMENT' .
             //~ ') ENGINE=Aria CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci';
         //~ db_query($query);
 
         $query = 'CREATE TABLE tbl_utest (' .
-            'id INT(11) PRIMARY KEY AUTO_INCREMENT' .
+            'id INTEGER PRIMARY KEY AUTO_INCREMENT' .
             ') ENGINE=Aria CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci';
         db_query($query);
 
         $query = 'ALTER TABLE tbl_config
-            ADD nada INT(11)';
+            ADD nada INTEGER';
         db_query($query);
 
         $query = 'DROP INDEX token ON tbl_users_tokens';
@@ -93,7 +93,7 @@ final class test_dbschema extends TestCase
         db_query($query);
 
         $query = 'ALTER TABLE tbl_perms
-            ADD nada INT(11)';
+            ADD nada INTEGER';
         db_query($query);
 
         $query = 'ALTER TABLE tbl_perms
@@ -192,7 +192,7 @@ final class test_dbschema extends TestCase
     {
         $xml = '<table name="app_customers_index">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id" type="/*MYSQL INTEGER *//*SQLITE INTEGER */" pkey="true"/>
                 <field name="search" type="MEDIUMTEXT"/>
             </fields>
             <indexes>
@@ -202,7 +202,7 @@ final class test_dbschema extends TestCase
         $tablespec = xml2array($xml);
         $query = parse_query(__dbschema_create_table($tablespec['table']));
         $this->assertSame($query, 'CREATE TABLE app_customers_index (' .
-            'id INT(11) PRIMARY KEY AUTO_INCREMENT,' .
+            'id INTEGER PRIMARY KEY AUTO_INCREMENT,' .
             'search MEDIUMTEXT NULL' .
             ') ENGINE=Mroonga CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci');
 
@@ -216,11 +216,11 @@ final class test_dbschema extends TestCase
 
         $xml = '<table name="tbl_utest">
             <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-                <field name="user_id" type="INT(11)" fkey="tbl_users"/>
+                <field name="id" type="/*MYSQL INTEGER *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="user_id" type="INTEGER" fkey="tbl_users"/>
                 <field name="key" type="VARCHAR(255)"/>
                 <field name="val" type="VARCHAR(255)" null="false" default=""/>
-                <field name="val1" type="INT(11)" null="false" default="0"/>
+                <field name="val1" type="INTEGER" null="false" default="0"/>
                 <field name="val2" type="DECIMAL(9,2)" null="false" default="0"/>
                 <field name="val3" type="DATE" null="false" default="0000-00-00"/>
                 <field name="val4" type="TIME" null="false" default="00:00:00"/>
@@ -230,11 +230,11 @@ final class test_dbschema extends TestCase
         $tablespec = xml2array($xml);
         $query = parse_query(__dbschema_create_table($tablespec['table']));
         $this->assertSame($query, 'CREATE TABLE tbl_utest (' .
-            'id INT(11) PRIMARY KEY AUTO_INCREMENT,' .
-            'user_id INT(11) NULL,' .
+            'id INTEGER PRIMARY KEY AUTO_INCREMENT,' .
+            'user_id INTEGER NULL,' .
             '`key` VARCHAR(255) NULL,' .
             "val VARCHAR(255) NOT NULL DEFAULT ''," .
-            'val1 INT(11) NOT NULL DEFAULT 0,' .
+            'val1 INTEGER NOT NULL DEFAULT 0,' .
             'val2 DECIMAL(9,2) NOT NULL DEFAULT 0,' .
             "val3 DATE NOT NULL DEFAULT '0000-00-00'," .
             "val4 TIME NOT NULL DEFAULT '00:00:00'," .

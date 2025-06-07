@@ -687,7 +687,6 @@ final class test_database extends TestCase
         test_external_exec('php/database06_sqlite3.php', 'dberror.log', 'unable to prepare statement: no such table: nada');
     }
 
-    // @phpstan-ignore method.unused
     #[testdox('pdo_mssql driver')]
     /**
      * PDO mssql driver
@@ -696,7 +695,7 @@ final class test_database extends TestCase
      * database connection, sendint queries validating the expected results and
      * closing the connection.
      */
-    private function test_pdo_mssql(): void
+    public function test_pdo_mssql(): void
     {
         $mssql = intval(ob_passthru('ps uaxw | grep sqlservr | grep -v grep | wc -l'));
         $this->assertTrue($mssql > 0, 'SQL Server not found');
@@ -818,11 +817,186 @@ final class test_database extends TestCase
             ],
         ]);
 
+        $obj->db_query('CREATE TABLE people (
+            id INT IDENTITY(1,1) PRIMARY KEY,
+            name NVARCHAR(255) NOT NULL
+        );');
+
+        $obj->db_query("INSERT INTO people (name) VALUES ('Josep');");
+        $last_id = $obj->db_last_insert_id();
+
+        $result = $obj->db_query('SELECT MAX(id) FROM people');
+        $this->assertSame($result, [
+            'total' => 1,
+            'header' => ['computed'],
+            'rows' => [
+                ['computed' => $last_id],
+            ],
+        ]);
+
+        $obj->db_query('DROP TABLE people;');
+
         // Close connection
         $obj->db_disconnect();
 
         test_external_exec('php/database01_pdo_mssql.php', 'dberror.log', 'unable to connect: Adaptive Server is unavailable or does not exist');
         test_external_exec('php/database02_pdo_mssql.php', 'dberror.log', 'general error: 20018 invalid object name nada');
+    }
+
+    #[testdox('pdo_pgsql driver')]
+    /**
+     * PDO pgsql driver
+     *
+     * This function checks the correctness of the sqlserver driver by creating a
+     * database connection, sendint queries validating the expected results and
+     * closing the connection.
+     */
+    public function test_pdo_pgsql(): void
+    {
+        $pgsql = intval(ob_passthru('ps uaxw | grep postgres | grep -v grep | wc -l'));
+        $this->assertTrue($pgsql > 0, 'PostgreSQL not found');
+
+        // Connection part
+        $obj = db_connect([
+            'type' => 'pdo_pgsql',
+            'name' => 'saltos',
+            'user' => 'saltos',
+            'pass' => 'saltos',
+        ]);
+        $this->assertSame($obj instanceof database_pdo_pgsql, true);
+
+        // First test part
+        $query = "SELECT '1' test";
+        $result = [
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 1],
+            ],
+        ];
+        $this->assertEquals($obj->db_query($query), $result);
+
+        // REPLACE test part
+        $query = "SELECT REPLACE('abc', 'b', 'c') test";
+        $result = [
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 'acc'],
+            ],
+        ];
+        $this->assertSame($obj->db_query($query), $result);
+
+        // CONCAT test part
+        $query = "SELECT CONCAT('a', 'b', 'c') test";
+        $result = [
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 'abc'],
+            ],
+        ];
+        $this->assertSame($obj->db_query($query), $result);
+
+        // YEAR test part
+        $query = "SELECT EXTRACT(YEAR FROM TIMESTAMP '2024-02-01 12:34:56') AS test";
+        $result = [
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 2024],
+            ],
+        ];
+        $this->assertEquals($obj->db_query($query), $result);
+
+        // MONTH test part
+        $query = "SELECT EXTRACT(MONTH FROM TIMESTAMP '2024-02-01 12:34:56') AS test";
+        $result = [
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 2],
+            ],
+        ];
+        $this->assertEquals($obj->db_query($query), $result);
+
+        // DAY test part
+        $query = "SELECT EXTRACT(DAY FROM TIMESTAMP '2024-02-01 12:34:56') AS test";
+        $result = [
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 1],
+            ],
+        ];
+        $this->assertEquals($obj->db_query($query), $result);
+
+        // Check part
+        $query = 'SELECT 1';
+        $this->assertEquals($obj->db_check($query), true);
+
+        $query = 'SELECT a';
+        $this->assertEquals($obj->db_check($query), false);
+
+        // This is for improve the coverage of all tests
+        $query = 'SELECT tablename FROM pg_tables';
+        $result = $obj->db_query($query, 'auto');
+
+        $query = 'SELECT tablename,tableowner FROM pg_tables';
+        $result = $obj->db_query($query, 'auto');
+
+        $query = 'SELECT tablename FROM pg_tables';
+        $result = $obj->db_query($query, 'concat');
+
+        $query = 'SELECT tablename FROM pg_tables WHERE 1=0';
+        $result = $obj->db_query($query, 'concat');
+
+        $this->assertSame(is_array($obj->db_query('')), true);
+
+        // Specific part
+        $this->assertSame($obj->db_escape('\'"%'), '\'\'"%');
+
+        // To test the prepared statements feature
+        $query = 'SELECT 1 WHERE ? = ?';
+        $this->assertEquals($obj->db_check($query, [1, 1]), true);
+
+        $query = 'SELECT 1 WHERE ? = ?';
+        $this->assertEquals($obj->db_query($query, [1, 1]), [
+            'total' => 1,
+            'header' => [
+                0 => '?column?',
+            ],
+            'rows' => [
+                0 => [
+                    '?column?' => 1,
+                ],
+            ],
+        ]);
+
+        $obj->db_query('CREATE TABLE people (
+            id SERIAL PRIMARY KEY,
+            name TEXT NOT NULL
+        );');
+
+        $obj->db_query("INSERT INTO people (name) VALUES ('Josep');");
+        $last_id = $obj->db_last_insert_id();
+
+        $result = $obj->db_query('SELECT MAX(id) FROM people');
+        $this->assertSame($result, [
+            'total' => 1,
+            'header' => ['max'],
+            'rows' => [
+                ['max' => $last_id],
+            ],
+        ]);
+
+        $obj->db_query('DROP TABLE people;');
+
+        // Close connection
+        $obj->db_disconnect();
+
+        test_external_exec('php/database01_pdo_pgsql.php', 'dberror.log', 'connection to server port 9999 failed connection refused');
+        test_external_exec('php/database02_pdo_pgsql.php', 'dberror.log', 'undefined table error relation nada does not exist');
     }
 
     #[testdox('database driver')]
