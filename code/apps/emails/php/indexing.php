@@ -49,7 +49,8 @@ $time1 = microtime(true);
 $total = 0;
 
 // Search all pending files
-$query = 'SELECT id, reg_id, hash FROM app_emails_files WHERE IFNULL(indexed,0) = 0 AND IFNULL(retries,0) < 3 LIMIT 1000';
+$query = 'SELECT id, reg_id, hash FROM app_emails_files
+    WHERE IFNULL(indexed,0) = 0 AND IFNULL(retries,0) < 3 LIMIT 1000';
 $result = db_query($query);
 while ($row = db_fetch_row($result)) {
     if (time_get_usage() > get_config('server/percentstop')) {
