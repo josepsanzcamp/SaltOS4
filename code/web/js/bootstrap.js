@@ -2001,17 +2001,21 @@ saltos.bootstrap.__field.link = field => {
  *
  * This function returns a label object, you can pass some arguments as:
  *
- * @id      => the id used to set the reference for to the object
- * @class   => allow to add more classes to the default form-label
- * @label   => this parameter is used as text for the label
- * @tooltip => this parameter raise the title flag
+ * @id       => the id used to set the reference for to the object
+ * @class    => allow to add more classes to the default form-label
+ * @label    => this parameter is used as text for the label
+ * @tooltip  => this parameter raise the title flag
+ * @required => this parameter add a red bold asterisk to the end of the label
  */
 saltos.bootstrap.__field.label = field => {
-    saltos.core.check_params(field, ['id', 'class', 'label', 'tooltip']);
+    saltos.core.check_params(field, ['id', 'class', 'label', 'tooltip', 'required']);
     const obj = saltos.core.html(`
         <label for="${field.id}" class="form-label ${field.class}"
             data-bs-title="${field.tooltip}">${field.label}</label>
     `);
+    if (field.required) {
+        obj.append(saltos.core.html('<span class="fw-bold text-danger ms-1">*</span>'));
+    }
     if (field.tooltip != '') {
         saltos.bootstrap.__tooltip_helper(obj);
     }
