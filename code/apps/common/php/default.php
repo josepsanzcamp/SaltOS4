@@ -180,7 +180,7 @@ function make_app_file($data)
         switch ($type) {
             case 'text':
             case 'select':
-                $xml[] = "<$id label=\"$label\"/>";
+                $xml[] = "<$id label=\"$label\" order=\"true\"/>";
                 break;
             case 'boolean':
             case 'hastext':

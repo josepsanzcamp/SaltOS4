@@ -861,3 +861,41 @@ function prepare_where_query($table, $array)
     $query = '(' . implode(' AND ', $temp) . ')';
     return [$query, $values];
 }
+
+/**
+ * Check Order
+ *
+ * Validates and sanitizes an SQL ORDER BY clause based on allowed fields.
+ *
+ * @order  => A comma-separated string of order clauses (e.g., "name ASC, date DESC").
+ * @fields => An array of allowed field names for ordering (e.g., ['name', 'date', 'id']).
+ *
+ * Returns a sanitized and validated ORDER BY clause. If no valid fields are found, returns "id DESC"
+ */
+function check_order($order, $fields)
+{
+    $order = explode(',', $order);
+    foreach ($order as $key => $val) {
+        $val = explode(' ', $val);
+        if (count($val) != 2) {
+            unset($order[$key]);
+            continue;
+        }
+        if (!in_array($val[0], $fields)) {
+            unset($order[$key]);
+            continue;
+        }
+        if (!in_array(strtoupper($val[1]), ['ASC', 'DESC'])) {
+            unset($order[$key]);
+            continue;
+        }
+        $val[0] = escape_reserved_word($val[0]);
+        $val = implode(' ', $val);
+        $order[$key] = $val;
+    }
+    if (!count($order)) {
+        $order[] = 'id DESC';
+    }
+    $order = implode(',', $order);
+    return $order;
+}

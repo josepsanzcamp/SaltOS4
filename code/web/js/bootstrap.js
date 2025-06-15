@@ -2493,6 +2493,63 @@ saltos.bootstrap.__field.table = field => {
                 if ('align' in val) {
                     th.classList.add('text-' + val.align);
                 }
+                if ('order' in val && saltos.core.eval_bool(val.order)) {
+                    th.classList.add('text-nowrap');
+                    let caret_asc = 'bi-caret-up';
+                    let active_asc = 'false';
+                    if (field.order == `${key} ASC`) {
+                        caret_asc = 'bi-caret-up-fill';
+                        active_asc = 'true';
+                    }
+                    let caret_desc = 'bi-caret-down';
+                    let active_desc = 'false';
+                    if (field.order == `${key} DESC`) {
+                        caret_desc = 'bi-caret-down-fill';
+                        active_desc = 'true';
+                    }
+                    th.append(saltos.core.html(`
+                        <button class="btn border-0 p-0 text-light ms-1">
+                            <i class="bi ${caret_asc}" data-active="${active_asc}"></i></button>`));
+                    th.append(saltos.core.html(`
+                        <button class="btn border-0 p-0 text-light">
+                            <i class="bi ${caret_desc}" data-active="${active_desc}"></i></button>`));
+                    th.querySelectorAll('i').forEach(icon => {
+                        if (icon.dataset.active == 'true') {
+                            return;
+                        }
+                        icon.addEventListener('mouseenter', () => {
+                            icon.classList.forEach(cls => {
+                                if (cls.includes('caret') && !cls.includes('-fill')) {
+                                    icon.classList.replace(cls, cls + '-fill');
+                                }
+                            });
+                        });
+                        icon.addEventListener('mouseleave', () => {
+                            icon.classList.forEach(cls => {
+                                if (cls.includes('caret') && cls.includes('-fill')) {
+                                    icon.classList.replace(cls, cls.replace('-fill', ''));
+                                }
+                            });
+                        });
+                    });
+                    const buttons = th.querySelectorAll('button');
+                    buttons[0].addEventListener('click', () => {
+                        const order = document.getElementById('order');
+                        if (!order) {
+                            return;
+                        }
+                        order.value = `${key} ASC`;
+                        order.dispatchEvent(new Event('change'));
+                    });
+                    buttons[1].addEventListener('click', () => {
+                        const order = document.getElementById('order');
+                        if (!order) {
+                            return;
+                        }
+                        order.value = `${key} DESC`;
+                        order.dispatchEvent(new Event('change'));
+                    });
+                }
             } else {
                 th = saltos.core.html('tr', `<th class="text-bg-${field.color}">${val}</th>`);
             }
