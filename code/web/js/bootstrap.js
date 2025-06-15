@@ -2508,10 +2508,10 @@ saltos.bootstrap.__field.table = field => {
                         active_desc = 'true';
                     }
                     th.append(saltos.core.html(`
-                        <button class="btn border-0 p-0 text-light ms-1">
+                        <button class="btn btn-${field.color} border-0 p-0 ms-1">
                             <i class="bi ${caret_asc}" data-active="${active_asc}"></i></button>`));
                     th.append(saltos.core.html(`
-                        <button class="btn border-0 p-0 text-light">
+                        <button class="btn btn-${field.color} border-0 p-0">
                             <i class="bi ${caret_desc}" data-active="${active_desc}"></i></button>`));
                     th.querySelectorAll('i').forEach(icon => {
                         if (icon.dataset.active == 'true') {
