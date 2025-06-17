@@ -62,7 +62,7 @@ function __nssdb_passthru_helper($cmd)
 function __nssdb_init()
 {
     if (!check_commands('certutil')) {
-        return ['certutil not found'];
+        return ['error' => 'certutil not found'];
     }
     $dir = __nssdb_dir_helper();
     if (!file_exists($dir)) {
@@ -71,7 +71,7 @@ function __nssdb_init()
     }
     $files = glob($dir . '/*');
     if (count($files)) {
-        return ["files found in $dir"];
+        return ['error' => "files found in $dir"];
     }
     $output = __nssdb_passthru_helper("certutil -N -d sql:$dir --empty-password 2>&1");
     $files = glob($dir . '/*');
@@ -93,7 +93,7 @@ function __nssdb_init()
 function __nssdb_create($outfile, $outpass, $subject = '', $name = '')
 {
     if (!check_commands('openssl')) {
-        return ['openssl not found'];
+        return ['error' => 'openssl not found'];
     }
     if (!$subject) {
         $subject = '/C=ES/serialNumber=ABCDE-12345678X/O=12345678X/CN=THE SALTOS PROJECT';
@@ -126,7 +126,7 @@ function __nssdb_create($outfile, $outpass, $subject = '', $name = '')
 function __nssdb_add($file, $pass)
 {
     if (!check_commands('pk12util')) {
-        return ['pk12util not found'];
+        return ['error' => 'pk12util not found'];
     }
     $dir = __nssdb_dir_helper();
     file_put_contents($dir . '/pass.txt', $pass);
@@ -143,7 +143,7 @@ function __nssdb_add($file, $pass)
 function __nssdb_list()
 {
     if (!check_commands('pdfsig')) {
-        return ['pdfsig not found'];
+        return ['error' => 'pdfsig not found'];
     }
     $dir = __nssdb_dir_helper();
     $output = __nssdb_passthru_helper("pdfsig -nssdir $dir -list-nicks 2>&1");
@@ -163,22 +163,22 @@ function __nssdb_list()
 function __nssdb_info($nick, $shortnames = false)
 {
     if (!check_commands('certutil')) {
-        return ['certutil not found'];
+        return ['error' => 'certutil not found'];
     }
     $dir = __nssdb_dir_helper();
     $cert = __nssdb_passthru_helper("certutil -L -d sql:$dir -n \"$nick\" -a 2>&1");
     $cert = implode("\n", $cert);
     $array = openssl_x509_parse($cert, $shortnames);
     if (!is_array($array)) {
-        return ['openssl_x509_parse output error'];
+        return ['error' => 'openssl_x509_parse output error'];
     }
     $pubkey = openssl_pkey_get_public($cert);
     if (!$pubkey) {
-        return ['openssl_pkey_get_public output error'];
+        return ['error' => 'openssl_pkey_get_public output error'];
     }
     $details = openssl_pkey_get_details($pubkey);
     if (!is_array($details) || !isset($details['key'])) {
-        return ['openssl_pkey_get_details output error'];
+        return ['error' => 'openssl_pkey_get_details output error'];
     }
     $remove = ['-----BEGIN PUBLIC KEY-----', '-----END PUBLIC KEY-----'];
     $binkey = base64_decode(str_replace($remove, '', $details['key']));
@@ -209,7 +209,7 @@ function __nssdb_info($nick, $shortnames = false)
 function __nssdb_pdfsig($nick, $input, $output)
 {
     if (!check_commands('pdfsig')) {
-        return ['pdfsig not found'];
+        return ['error' => 'pdfsig not found'];
     }
     $dir = __nssdb_dir_helper();
     // phpcs:disable Generic.Files.LineLength
@@ -233,7 +233,7 @@ function __nssdb_pdfsig($nick, $input, $output)
 function __nssdb_remove($nick)
 {
     if (!check_commands('certutil')) {
-        return ['certutil not found'];
+        return ['error' => 'certutil not found'];
     }
     $dir = __nssdb_dir_helper();
     $output = __nssdb_passthru_helper("certutil -D -d sql:$dir -n \"$nick\" 2>&1");
@@ -249,7 +249,7 @@ function __nssdb_reset()
 {
     $dir = __nssdb_dir_helper();
     if (!file_exists($dir)) {
-        return ["$dir not found"];
+        return ['error' => "$dir not found"];
     }
     $files = glob($dir . '/*');
     foreach ($files as $file) {

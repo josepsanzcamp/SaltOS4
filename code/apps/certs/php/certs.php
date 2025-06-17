@@ -50,6 +50,9 @@ function __certs_list($search, $order, $offset, $limit)
 {
     require_once 'apps/certs/php/nssdb.php';
     $list = __nssdb_list();
+    if (isset($list['error'])) {
+        show_json_error($list['error']);
+    }
 
     // Apply search filters
     $search = explode_with_quotes(' ', $search);
@@ -191,13 +194,12 @@ function __certs_view($hash)
 {
     $nick = __certs_hash2nick($hash);
     if ($nick == '') {
-        return [
-            'status' => 'ko',
-            'text' => 'Nick not found',
-            'code' => __get_code_from_trace(),
-        ];
+        show_json_error('Nick not found');
     }
     $info = __nssdb_info($nick);
+    if (isset($info['error'])) {
+        show_json_error($info['error']);
+    }
     $info['subject'] = array_map(fn($k, $v) => "$k: $v", array_keys($info['subject']), $info['subject']);
     $info['info'] = array_map(fn($k, $v) => "$k: $v", array_keys($info['info']), $info['info']);
     $info = array_merge(['[subject]'], $info['subject'], ['', '[info]'], $info['info']);
