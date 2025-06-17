@@ -23,6 +23,6 @@
 
 certificates_manager: Gestor de certificados
 certificates: Certificados
-certificate_nicknames_available: "Alias de certificado disponibles:"
+certificate_nicknames_available: Alias de certificado disponibles
 password_file: Archivo de contraseña
 certificate_file_p12_pfx: Archivo de certificado (.p12, .pfx)

@@ -46,7 +46,7 @@ declare(strict_types=1);
  *
  * Return the list of certificates with their ID and name.
  */
-function __certs_list($search, $offset, $limit)
+function __certs_list($search, $order, $offset, $limit)
 {
     require_once 'apps/certs/php/nssdb.php';
     $list = __nssdb_list();
@@ -65,6 +65,13 @@ function __certs_list($search, $offset, $limit)
             continue;
         }
         $list = array_grep($list, $val, $type == '-');
+    }
+
+    // Apply order feature
+    if ($order == 'name ASC') {
+        sort($list);
+    } elseif ($order == 'name DESC') {
+        rsort($list);
     }
 
     // Apply pagination

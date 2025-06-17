@@ -48,7 +48,7 @@ declare(strict_types=1);
  *
  * Returns a list of files with metadata including ID, name, size, and type.
  */
-function __files_list($search, $offset, $limit)
+function __files_list($search, $order, $offset, $limit)
 {
     $list = glob('data/logs/*'); // Retrieve all files from the logs directory
 
@@ -66,6 +66,41 @@ function __files_list($search, $offset, $limit)
             continue;
         }
         $list = array_grep($list, $val, $type == '-');
+    }
+
+    // Apply order feature
+    if ($order == 'name ASC') {
+        sort($list);
+    } elseif ($order == 'name DESC') {
+        rsort($list);
+    } elseif ($order == 'type ASC') {
+        $list = array_flip($list);
+        foreach ($list as $key => $val) {
+            $list[$key] = saltos_content_type($key);
+        }
+        asort($list);
+        $list = array_keys($list);
+    } elseif ($order == 'type DESC') {
+        $list = array_flip($list);
+        foreach ($list as $key => $val) {
+            $list[$key] = saltos_content_type($key);
+        }
+        arsort($list);
+        $list = array_keys($list);
+    } elseif ($order == 'size ASC') {
+        $list = array_flip($list);
+        foreach ($list as $key => $val) {
+            $list[$key] = filesize($key);
+        }
+        asort($list, SORT_NUMERIC);
+        $list = array_keys($list);
+    } elseif ($order == 'size DESC') {
+        $list = array_flip($list);
+        foreach ($list as $key => $val) {
+            $list[$key] = filesize($key);
+        }
+        arsort($list, SORT_NUMERIC);
+        $list = array_keys($list);
     }
 
     // Apply offset and limit

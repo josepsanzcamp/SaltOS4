@@ -51,6 +51,7 @@
                 <button onclick="saltos.common.filter()" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
                 <div col_class="col"/>
                 <hidden id="page" value="0"/>
+                <hidden id="order" value="id DESC" onchange="saltos.driver.search();"/>
                 <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+shift+f" onenter="document.getElementById('search_extra').value=this.value;saltos.driver.search()" autofocus="true" onchange="document.getElementById('search_extra').value=this.value"/>
                 <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
@@ -59,9 +60,9 @@
             <row auto="true" col_class="col-md-12 my-3">
                 <table id="list" nodata="Loading..." dropdown="false">
                     <header>
-                        <name label="Name"/>
-                        <type label="Type"/>
-                        <size label="Size"/>
+                        <name label="Name" order="true"/>
+                        <type label="Type" order="true"/>
+                        <size label="Size" order="true"/>
                     </header>
                     <actions>
                         <view icon="search" tooltip="View" onclick="saltos.driver.open"/>
@@ -85,21 +86,23 @@
             set_config('app/'.get_data('rest/1').'/filter/last', json_encode(get_data('json'), JSON_FORCE_OBJECT), current_user()),
             set_data('json/search', strval(get_data('json/search'))),
             set_data('json/page', intval(get_data('json/page'))),
+            set_data('json/order', check_order(get_data('json/order'), ['id', 'name', 'type', 'size'])),
             set_data('json/limit', 25),
             set_data('json/offset', intval(get_data('json/page') * get_data('json/limit'))),
         ]</temp>
         <data require="apps/common/php/actions.php,apps/common/php/files.php" eval="true">__merge_data_actions(
-            __files_list(get_data('json/search'), get_data('json/offset'), get_data('json/limit')),
+            __files_list(get_data('json/search'), get_data('json/order'), get_data('json/offset'), get_data('json/limit')),
             xpath_search_first_value('list[id=data]/actions', xmlfile2array(detect_app_file(get_data('rest/1'))))
         )</data>
         <actions ifeval="false">
             <view app="fileslog" action="view"/>
         </actions>
         <temp ifeval="!get_data('json/page')" eval="true">set_data('json/total', count(
-            __files_list(get_data('json/search'), 0, INF)
+            __files_list(get_data('json/search'), '', 0, INF)
         ))</temp>
         <nodata ifeval="!get_data('json/page') &amp;&amp; !get_data('json/total')">There are no files logs available</nodata>
         <footer ifeval="!get_data('json/page')" eval="true">get_data('json/total') ? 'Total: ' . get_data('json/total') : ''</footer>
+        <order eval="true">str_replace('`', '', get_data('json/order'))</order>
     </list>
 
     <list id="filter" eval="true">xmlfile2array('apps/common/xml/filter.xml')['list']</list>
