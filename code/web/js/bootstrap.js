@@ -5002,8 +5002,6 @@ saltos.bootstrap.__offcanvas = {};
  * @backdrop => to configure the backdrop feature (true or false)
  * @keyboard => to configure the keyboard feature (true or false)
  * @color    => the color of the widget (primary, secondary, success, danger, warning, info, none)
- * @resize   => the resize allow to the offcanvas to resize the contents of the screen to prevent
- *              offcanvas from hiding things
  *
  * Returns a boolean that indicates if the offcanvas can be open or not
  *
@@ -5013,10 +5011,6 @@ saltos.bootstrap.__offcanvas = {};
  * to undestand that only one offcanvas is allowed at each moment.
  *
  * Body allow to use a string containing a html fragment or an object, as the modal body.
- *
- * The resize option only works with start and end positions, too you can use left or right
- * as replacements for start and end positions, the resize will be disabled in top or bottom
- * positions.
  */
 saltos.bootstrap.offcanvas = args => {
     // Helper actions
@@ -5036,7 +5030,7 @@ saltos.bootstrap.offcanvas = args => {
     }
     // Normal operation
     saltos.core.check_params(args, ['id', 'pos', 'title', 'close', 'body', 'color',
-                                    'resize', 'static', 'backdrop', 'keyboard']);
+                                    'static', 'backdrop', 'keyboard']);
     let temp = [];
     if (saltos.core.eval_bool(args.static)) {
         temp.push(`data-bs-backdrop="static"`);
@@ -5059,9 +5053,6 @@ saltos.bootstrap.offcanvas = args => {
     }
     if (args.pos == 'right') {
         args.pos = 'end';
-    }
-    if (saltos.core.eval_bool(args.resize) && !['start', 'end'].includes(args.pos)) {
-        args.resize = false;
     }
     if (!args.color) {
         args.color = 'primary';
@@ -5089,18 +5080,6 @@ saltos.bootstrap.offcanvas = args => {
     saltos.bootstrap.__offcanvas.obj = obj;
     saltos.bootstrap.__offcanvas.instance = instance;
     obj.addEventListener('shown.bs.offcanvas', event => {
-        if (saltos.core.eval_bool(args.resize)) {
-            const width = obj.offsetWidth;
-            const item = document.getElementById('screen');
-            item.classList.add('position-absolute');
-            if (args.pos == 'start') {
-                item.style.left = `${width}px`;
-            }
-            if (args.pos == 'end') {
-                item.style.left = '0';
-            }
-            item.style.width = `calc(100% - ${width}px)`;
-        }
         obj.querySelectorAll('[autofocus]').forEach(item => {
             item.focus();
         });
@@ -5111,25 +5090,11 @@ saltos.bootstrap.offcanvas = args => {
         });
     });
     obj.addEventListener('hidden.bs.offcanvas', event => {
-        if (saltos.core.eval_bool(args.resize)) {
-            const item = document.getElementById('screen');
-            item.classList.remove('position-absolute');
-            item.style.left = '';
-            item.style.width = '';
-        }
         saltos.bootstrap.__offcanvas.instance.dispose();
         saltos.bootstrap.__offcanvas.obj.remove();
         delete saltos.bootstrap.__offcanvas.instance;
         delete saltos.bootstrap.__offcanvas.obj;
     });
-    obj.append(saltos.core.html(`
-        <style>
-            .offcanvas,
-            .offcanvas-backdrop.fade {
-                transition: none;
-            }
-        </style>
-    `));
     instance.show();
     return true;
 };
@@ -5197,7 +5162,7 @@ saltos.bootstrap.toast = args => {
     } else {
         obj.querySelector('.toast-body').append(args.body);
     }
-    const toast = new bootstrap.Toast(obj);
+    const toast = new bootstrap.Toast(obj, {animation: false});
     obj.addEventListener('hidden.bs.toast', event => {
         toast.dispose();
         obj.remove();
