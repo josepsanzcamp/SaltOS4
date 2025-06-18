@@ -101,6 +101,20 @@ function __files_list($search, $order, $offset, $limit)
         }
         arsort($list, SORT_NUMERIC);
         $list = array_keys($list);
+    } elseif ($order == 'datetime ASC') {
+        $list = array_flip($list);
+        foreach ($list as $key => $val) {
+            $list[$key] = filemtime($key);
+        }
+        asort($list, SORT_NUMERIC);
+        $list = array_keys($list);
+    } elseif ($order == 'datetime DESC') {
+        $list = array_flip($list);
+        foreach ($list as $key => $val) {
+            $list[$key] = filemtime($key);
+        }
+        arsort($list, SORT_NUMERIC);
+        $list = array_keys($list);
     }
 
     // Apply offset and limit
@@ -115,6 +129,7 @@ function __files_list($search, $order, $offset, $limit)
             'name' => basename($val),
             'size' => get_human_size(filesize($val), ' ', 'bytes'),
             'type' => saltos_content_type($val),
+            'datetime' => date('Y-m-d H:i:s', filemtime($val)),
         ];
     }
 
