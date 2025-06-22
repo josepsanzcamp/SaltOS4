@@ -86,7 +86,7 @@ saltos.emails.init = arg => {
         });
 
         // Remove specific button for certain screen types
-        const type = document.getElementById('screen').getAttribute('type');
+        const type = document.getElementById('screen').dataset.type;
         if (type == 'type1') {
             document.getElementById('only').closest('.col-auto').remove();
         }
@@ -178,7 +178,7 @@ saltos.emails.init = arg => {
         });
 
         // Remove specific button for certain screen types
-        const type = document.getElementById('screen').getAttribute('type');
+        const type = document.getElementById('screen').dataset.type;
         if (type == 'type1') {
             document.getElementById('only').closest('.col-auto').remove();
         }

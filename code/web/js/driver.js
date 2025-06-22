@@ -52,9 +52,7 @@ saltos.driver.init = async arg => {
     if (document.getElementById('saltos-driver-styles')) {
         document.getElementById('saltos-driver-styles').remove();
     }
-    const obj = saltos.driver.styles();
-    obj.setAttribute('id', 'saltos-driver-styles');
-    document.getElementById('screen').append(obj);
+    document.getElementById('screen').append(saltos.driver.styles());
     // Detect needed padding
     const has_top = document.getElementById('top').innerHTML.length;
     const has_bottom = document.getElementById('bottom').innerHTML.length;
@@ -91,7 +89,7 @@ saltos.driver.init = async arg => {
         saltos.autosave.init('two,one');
     }
     // Old feature
-    const type = document.getElementById('screen').getAttribute('type');
+    const type = document.getElementById('screen').dataset.type;
     saltos.driver.__types[type].init(arg);
 };
 
@@ -103,7 +101,7 @@ saltos.driver.init = async arg => {
  * @arg => this argument is bypassed to the destination
  */
 saltos.driver.open = arg => {
-    const type = document.getElementById('screen').getAttribute('type');
+    const type = document.getElementById('screen').dataset.type;
     saltos.driver.__types[type].open(arg);
 };
 
@@ -118,7 +116,7 @@ saltos.driver.open = arg => {
 saltos.driver.close = arg => {
     if (arg !== undefined && saltos.core.eval_bool(arg)) {
         // Old feature
-        const type = document.getElementById('screen').getAttribute('type');
+        const type = document.getElementById('screen').dataset.type;
         saltos.driver.__types[type].close(arg);
         return;
     }
@@ -133,7 +131,7 @@ saltos.driver.close = arg => {
         const url2 = window.location.href;
         if (url1 == url2) {
             // Old feature
-            const type = document.getElementById('screen').getAttribute('type');
+            const type = document.getElementById('screen').dataset.type;
             saltos.driver.__types[type].close(arg);
         }
     }, 100);
@@ -497,7 +495,7 @@ saltos.driver.styles = (arg = 'xl') => {
         document.getElementById('bottom').offsetHeight +
         document.getElementById('footer').offsetHeight;
     return saltos.core.html(`
-        <style>
+        <style id="saltos-driver-styles">
             @media (min-width: ${size}px) {
                 .overflow-auto-${arg} {
                     height: calc(100vh - ${height}px - 0.5px);
@@ -568,7 +566,7 @@ saltos.driver.__types.type1 = {};
  */
 saltos.driver.__types.type1.template = arg => {
     const obj = saltos.core.html(`
-        <div id="screen" type="type1">
+        <div id="screen" data-type="type1">
             <div id="header" class="sticky-top"></div>
             <div class="container-xl">
                 <div class="row">
@@ -665,7 +663,7 @@ saltos.driver.__types.type2 = {};
  */
 saltos.driver.__types.type2.template = arg => {
     const obj = saltos.core.html(`
-        <div id="screen" type="type2">
+        <div id="screen" data-type="type2">
             <div id="header"></div>
             <div class="container-fluid">
                 <div class="row">
@@ -787,7 +785,7 @@ saltos.driver.__types.type3 = {};
  */
 saltos.driver.__types.type3.template = arg => {
     const obj = saltos.core.html(`
-        <div id="screen" type="type3">
+        <div id="screen" data-type="type3">
             <div id="header"></div>
             <div class="container-fluid">
                 <div class="row">
@@ -936,7 +934,7 @@ saltos.driver.__types.type1modal = {};
  */
 saltos.driver.__types.type1modal.template = arg => {
     const obj = saltos.driver.__types.type1.template();
-    obj.setAttribute('type', 'type1modal');
+    obj.dataset.type = 'type1modal';
     const div = saltos.core.html(`<div id="two" class="d-none"></div>`);
     obj.querySelector('#one').after(div);
     return obj;
@@ -1031,7 +1029,7 @@ saltos.driver.__types.type1fluid = {};
  */
 saltos.driver.__types.type1fluid.template = arg => {
     const obj = saltos.driver.__types.type1.template(); // Reuses the template from type1
-    obj.setAttribute('type', 'type1fluid'); // Set the type attribute to 'type1fluid'
+    obj.dataset.type = 'type1fluid'; // Set the type attribute to 'type1fluid'
     obj.querySelector('.container-xl').classList.replace('container-xl', 'container-fluid');
     return obj;
 };
@@ -1066,7 +1064,7 @@ saltos.driver.__types.type1full = {};
  */
 saltos.driver.__types.type1full.template = arg => {
     const obj = saltos.driver.__types.type1modal.template(); // Reuses the template from type1modal
-    obj.setAttribute('type', 'type1full'); // Set the type attribute to 'type1full'
+    obj.dataset.type = 'type1full'; // Set the type attribute to 'type1full'
     obj.querySelector('.container-xl').classList.replace('container-xl', 'container-fluid');
     return obj;
 };
@@ -1101,7 +1099,7 @@ saltos.driver.__types.type2modal = {};
  */
 saltos.driver.__types.type2modal.template = arg => {
     const obj = saltos.driver.__types.type2.template();
-    obj.setAttribute('type', 'type2modal');
+    obj.dataset.type = 'type2modal';
     const div = saltos.core.html(`<div id="three" class="d-none"></div>`);
     obj.querySelector('#two').after(div);
     return obj;

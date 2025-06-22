@@ -2744,14 +2744,12 @@ saltos.bootstrap.__field.table = field => {
                     }
                     if (first_action) {
                         if (val2.onclick) {
-                            row.setAttribute('_onclick', val2.onclick);
+                            row.dataset.onclick = val2.onclick;
                             row.addEventListener('dblclick', event => {
                                 (new Function(
-                                    event.target.parentElement.getAttribute('_onclick')
+                                    event.target.parentElement.dataset.onclick
                                 )).call(event.target);
-                                if (document.selection && document.selection.empty) {
-                                    window.getSelection().removeAllRanges();
-                                } else if (window.getSelection) {
+                                if (window.getSelection) {
                                     window.getSelection().removeAllRanges();
                                 }
                             });
@@ -5181,7 +5179,7 @@ saltos.bootstrap.toast = args => {
  */
 window.addEventListener('keydown', event => {
     document.querySelectorAll('[data-bs-accesskey]:not([data-bs-accesskey=""])').forEach(obj => {
-        const temp = obj.getAttribute('data-bs-accesskey').split('+');
+        const temp = obj.dataset.bsAccesskey.split('+');
         let useAlt = false;
         let useCtrl = false;
         let useShift = false;
@@ -5250,7 +5248,7 @@ saltos.bootstrap.window_match_media = window.matchMedia('(prefers-color-scheme: 
  * This function sets the data_bs_theme attribute to enable or disable the dark bs theme
  */
 saltos.bootstrap.set_data_bs_theme = e => {
-    document.documentElement.setAttribute('data-bs-theme', e.matches ? 'dark' : '');
+    document.documentElement.dataset.bsTheme = e.matches ? 'dark' : '';
 };
 
 /**

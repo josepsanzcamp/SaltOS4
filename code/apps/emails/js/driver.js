@@ -50,7 +50,7 @@ saltos.driver.__types.type2emails = {};
  */
 saltos.driver.__types.type2emails.template = arg => {
     const obj = saltos.driver.__types.type2modal.template(); // Reuses the template from type2modal
-    obj.setAttribute('type', 'type2emails'); // Set the type attribute to 'type2emails'
+    obj.dataset.type = 'type2emails'; // Set the type attribute to 'type2emails'
     obj.querySelector('#one').classList.replace('col-xl', 'col-xl-4'); // Adjust layout classes
     return obj;
 };
