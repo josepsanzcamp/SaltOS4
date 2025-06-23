@@ -1901,10 +1901,11 @@ saltos.bootstrap.__field.file = field => {
                             throw new Error(ajax);
                         }
                         let data = ajax.response;
-                        if (ajax.getResponseHeader('content-type').toUpperCase().includes('JSON')) {
+                        let type = ajax.getResponseHeader('content-type');
+                        type = saltos.core.toString(type).toUpperCase();
+                        if (type.includes('JSON')) {
                             data = JSON.parse(ajax.responseText);
-                        }
-                        if (ajax.getResponseHeader('content-type').toUpperCase().includes('XML')) {
+                        } else if (type.includes('XML')) {
                             data = ajax.responseXML;
                         }
                         if (!saltos.app.check_response(data)) {

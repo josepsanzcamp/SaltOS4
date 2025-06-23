@@ -404,7 +404,8 @@ saltos.core.ajax = args => {
         }
         // Process response
         let data;
-        const type = response.headers.get('content-type').toUpperCase();
+        let type = response.headers.get('content-type');
+        type = saltos.core.toString(type).toUpperCase();
         if (type.includes('JSON')) {
             data = await response.json();
         } else if (type.includes('XML')) {
