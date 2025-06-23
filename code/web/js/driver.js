@@ -507,6 +507,334 @@ saltos.driver.styles = (arg = 'xl') => {
 };
 
 /**
+ * Initializes the column resizing feature for screen layouts with two or three columns.
+ *
+ * - Skips initialization if the resizable styles are already added to the DOM.
+ * - Only applies to layouts of type `type2` or `type3` (multi-column).
+ * - Injects a `<style>` element that defines the appearance and behavior of the resizable handles.
+ * - Delegates the actual resizing logic to internal helper functions:
+ *   - `saltos.driver.__resizable_2cols()` for two-column layouts
+ *   - `saltos.driver.__resizable_3cols()` for three-column layouts
+ *
+ * Notes:
+ * - The resizable handle is 16px wide and visually centered on the column edge.
+ * - On hover, the handle shows a dashed border and background highlight.
+ */
+saltos.driver.resizable = () => {
+    if (document.getElementById('saltos-driver-resizable')) {
+        return;
+    }
+    const type = document.getElementById('screen').dataset.type;
+    if (type.includes('type1')) {
+        return;
+    }
+    document.getElementById('screen').append(saltos.core.html(`
+        <style id="saltos-driver-resizable">
+            .saltos-resizable {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                padding: 0;
+                width: 16px; /* Área más grande para facilitar el clic */
+                margin-left: -8px; /* Centrar el handle sobre el borde */
+                transition: background-color 0.2s ease, backdrop-filter 0.2s ease;
+            }
+
+            .saltos-resizable:hover {
+                background-color: rgba(var(--bs-primary-rgb), 0.15);
+                border-left: 2px dashed rgba(var(--bs-primary-rgb), 0.5);
+                border-right: 2px dashed rgba(var(--bs-primary-rgb), 0.5);
+                backdrop-filter: blur(2px);
+            }
+
+            .saltos-noselect {
+                user-select: none !important;
+            }
+        </style>
+    `));
+    if (type.includes('type2')) {
+        saltos.driver.__resizable_2cols();
+    }
+    if (type.includes('type3')) {
+        saltos.driver.__resizable_3cols();
+    }
+};
+
+/**
+ * Enables dynamic resizing of two-column layouts (type2).
+ *
+ * - Targets elements with IDs `one` and `two`, assumed to be columns inside a shared parent row.
+ * - Loads previous column sizes from `saltos.storage`, if available, or infers them from current CSS classes.
+ * - Applies Bootstrap `col-xl-*` classes to adjust the column widths.
+ * - Injects a draggable handle between the two columns using the `interact` library.
+ *
+ * Behavior:
+ * - When dragging the handle:
+ *   - Calculates new column sizes based on pointer position (1–11 for col1, rest for col2).
+ *   - Enforces a minimum size of 1 column for each.
+ *   - Updates classes dynamically and saves the result per app hash.
+ * - Respects window resizes and updates the handle position accordingly.
+ *
+ * Storage key format: `saltos.driver.resizable/{app}`, where `{app}` is extracted from the hash.
+ */
+saltos.driver.__resizable_2cols = () => {
+    const row = document.getElementById('one').parentElement;
+    const one = document.getElementById('one');
+    const two = document.getElementById('two');
+
+    const save_handle_cols = values => {
+        const app = saltos.hash.get().split('/').at(1);
+        const key = `saltos.driver.resizable/${app}`;
+        saltos.storage.setItem(key, JSON.stringify(values));
+    };
+
+    const load_handle_cols = () => {
+        const app = saltos.hash.get().split('/').at(1);
+        const key = `saltos.driver.resizable/${app}`;
+        const data = saltos.storage.getItem(key);
+        try {
+            const parsed = JSON.parse(data);
+            if (Array.isArray(parsed) && parsed.length == 2) {
+                return parsed;
+            }
+        } catch (error) {
+            // Nothing to do
+        }
+        let col1 = 0;
+        let col2 = 0;
+        for (let i = 1; i <= 12; i++) {
+            if (!col1 && one.classList.contains(`col-xl-${i}`)) {
+                col1 = i;
+            }
+            if (!col2 && two.classList.contains(`col-xl-${i}`)) {
+                col2 = i;
+            }
+        }
+        if (!col1 || !col2) {
+            throw new Error('Unknown cols first case');
+        }
+        return [col1, col2];
+    };
+
+    let [col1, col2] = load_handle_cols();
+
+    const apply_handle_cols = () => {
+        for (let i = 1; i <= 12; i++) {
+            one.classList.remove(`col-xl-${i}`);
+            two.classList.remove(`col-xl-${i}`);
+        }
+        one.classList.add(`col-xl-${col1}`);
+        two.classList.add(`col-xl-${col2}`);
+    };
+
+    apply_handle_cols();
+
+    const create_handle = id => {
+        const handle = document.createElement('div');
+        handle.classList.add('saltos-resizable');
+        handle.id = id;
+        row.appendChild(handle);
+        return handle;
+    };
+
+    const handle = create_handle('handle');
+
+    const updateHandlePosition = () => {
+        handle.style.left = `${one.offsetLeft + one.offsetWidth}px`;
+    };
+
+    window.addEventListener('resize', updateHandlePosition);
+    updateHandlePosition();
+
+    interact(handle).draggable({
+        cursorChecker: () => 'ew-resize',
+        listeners: {
+            start() {
+                document.body.classList.add('saltos-noselect');
+            },
+            move(event) {
+                const rowRect = row.getBoundingClientRect();
+                const rowWidth = row.offsetWidth;
+
+                let pointerX = event.client.x - rowRect.left;
+                pointerX = Math.max(0, Math.min(rowWidth, pointerX));
+                handle.style.left = `${pointerX}px`;
+
+                let newCol = Math.round((pointerX / rowWidth) * 12);
+                newCol = Math.max(1, Math.min(11, newCol));
+
+                col1 = newCol;
+                col2 = 12 - col1;
+                col2 = Math.max(1, col2);
+                apply_handle_cols();
+            },
+            end() {
+                document.body.classList.remove('saltos-noselect');
+                updateHandlePosition();
+                save_handle_cols([col1, col2]);
+            }
+        }
+    });
+};
+
+/**
+ * Enables dynamic resizing of three-column layouts (type3).
+ *
+ * - Targets elements with IDs `one`, `two`, and `three`, assumed to be columns inside a shared parent row.
+ * - Loads saved column sizes from `saltos.storage` or infers them from current Bootstrap `col-xl-*` classes.
+ * - Applies calculated column widths via Bootstrap classes.
+ *
+ * Behavior:
+ * - Creates two draggable handles (`handle1` between columns 1 and 2, and `handle2` between columns 2 and 3).
+ * - When dragging:
+ *   - `handle1`: adjusts the size of column 1 (`col1`), recalculates `col2` keeping `col3` fixed.
+ *   - `handle2`: adjusts the size of column 2 (`col2`), recalculates `col3` keeping `col1` fixed.
+ * - Enforces constraints to ensure each column has at least 1 unit (out of 12 total).
+ * - Updates handle positions on window resize and after drag end.
+ * - Saves current sizes per app hash to persistent storage.
+ *
+ * Storage key format: `saltos.driver.resizable/{app}`, where `{app}` is extracted from the hash.
+ */
+saltos.driver.__resizable_3cols = () => {
+    const row = document.getElementById('one').parentElement;
+    const one = document.getElementById('one');
+    const two = document.getElementById('two');
+    const three = document.getElementById('three');
+
+    const save_handle_cols = values => {
+        const app = saltos.hash.get().split('/').at(1);
+        const key = `saltos.driver.resizable/${app}`;
+        saltos.storage.setItem(key, JSON.stringify(values));
+    };
+
+    const load_handle_cols = () => {
+        const app = saltos.hash.get().split('/').at(1);
+        const key = `saltos.driver.resizable/${app}`;
+        const data = saltos.storage.getItem(key);
+        try {
+            const parsed = JSON.parse(data);
+            if (Array.isArray(parsed) && parsed.length == 3) {
+                return parsed;
+            }
+        } catch (error) {
+            // Nothing to do
+        }
+        let col1 = 0;
+        let col2 = 0;
+        let col3 = 0;
+        for (let i = 1; i <= 12; i++) {
+            if (!col1 && one.classList.contains(`col-xl-${i}`)) {
+                col1 = i;
+            }
+            if (!col2 && two.classList.contains(`col-xl-${i}`)) {
+                col2 = i;
+            }
+            if (!col3 && three.classList.contains(`col-xl-${i}`)) {
+                col3 = i;
+            }
+        }
+        if (!col1 || !col2 || !col3) {
+            throw new Error('Unknown cols first case');
+        }
+        return [col1, col2, col3];
+    };
+
+    let [col1, col2, col3] = load_handle_cols();
+
+    const apply_handle_cols = () => {
+        for (let i = 1; i <= 12; i++) {
+            one.classList.remove(`col-xl-${i}`);
+            two.classList.remove(`col-xl-${i}`);
+            three.classList.remove(`col-xl-${i}`);
+        }
+        one.classList.add(`col-xl-${col1}`);
+        two.classList.add(`col-xl-${col2}`);
+        three.classList.add(`col-xl-${col3}`);
+    };
+
+    apply_handle_cols();
+
+    const create_handle = id => {
+        const handle = document.createElement('div');
+        handle.classList.add('saltos-resizable');
+        handle.id = id;
+        row.appendChild(handle);
+        return handle;
+    };
+
+    const handle1 = create_handle('handle1');
+    const handle2 = create_handle('handle2');
+
+    const update_handle_positions = () => {
+        handle1.style.left = `${one.offsetLeft + one.offsetWidth}px`;
+        handle2.style.left = `${two.offsetLeft + two.offsetWidth}px`;
+    };
+
+    window.addEventListener('resize', update_handle_positions);
+    update_handle_positions();
+
+    interact(handle1).draggable({
+        cursorChecker: () => 'ew-resize',
+        listeners: {
+            start() {
+                document.body.classList.add('saltos-noselect');
+            },
+            move(event) {
+                const rowRect = row.getBoundingClientRect();
+                const rowWidth = row.offsetWidth;
+
+                let pointerX = event.client.x - rowRect.left;
+                pointerX = Math.max(0, Math.min(rowWidth, pointerX));
+                handle1.style.left = `${pointerX}px`;
+
+                let newCol = Math.round((pointerX / rowWidth) * 12);
+                newCol = Math.max(1, Math.min(11 - col3, newCol));
+
+                col1 = newCol;
+                col2 = 12 - col1 - col3;
+                col2 = Math.max(1, col2);
+                apply_handle_cols();
+            },
+            end() {
+                document.body.classList.remove('saltos-noselect');
+                update_handle_positions();
+                save_handle_cols([col1, col2, col3]);
+            }
+        }
+    });
+
+    interact(handle2).draggable({
+        cursorChecker: () => 'ew-resize',
+        listeners: {
+            start() {
+                document.body.classList.add('saltos-noselect');
+            },
+            move(event) {
+                const rowRect = row.getBoundingClientRect();
+                const rowWidth = row.offsetWidth;
+
+                let pointerX = event.client.x - rowRect.left;
+                pointerX = Math.max(0, Math.min(rowWidth, pointerX));
+                handle2.style.left = `${pointerX}px`;
+
+                let newCol = Math.round((pointerX / rowWidth) * 12);
+                newCol = Math.max(col1, Math.min(11, newCol));
+
+                col2 = newCol - col1;
+                col2 = Math.max(1, col2);
+                col3 = 12 - col1 - col2;
+                apply_handle_cols();
+            },
+            end() {
+                document.body.classList.remove('saltos-noselect');
+                update_handle_positions();
+                save_handle_cols([col1, col2, col3]);
+            }
+        }
+    });
+};
+
+/**
  * Driver search if needed
  *
  * This function launch the saltos.driver.search action if the action is the
@@ -670,8 +998,8 @@ saltos.driver.__types.type2.template = arg => {
                     <div id="top" class="col-12"></div>
                 </div>
                 <div class="row">
-                    <div id="one" class="col-xl overflow-auto-xl"></div>
-                    <div id="two" class="col-xl overflow-auto-xl"></div>
+                    <div id="one" class="col-xl-6 overflow-auto-xl"></div>
+                    <div id="two" class="col-xl-6 overflow-auto-xl"></div>
                 </div>
                 <div class="row">
                     <div id="bottom" class="col-12"></div>
@@ -792,9 +1120,9 @@ saltos.driver.__types.type3.template = arg => {
                     <div id="top" class="col-12"></div>
                 </div>
                 <div class="row">
-                    <div id="one" class="col-xl overflow-auto-xl"></div>
-                    <div id="two" class="col-xl overflow-auto-xl"></div>
-                    <div id="three" class="col-xl overflow-auto-xl"></div>
+                    <div id="one" class="col-xl-4 overflow-auto-xl"></div>
+                    <div id="two" class="col-xl-4 overflow-auto-xl"></div>
+                    <div id="three" class="col-xl-4 overflow-auto-xl"></div>
                 </div>
                 <div class="row">
                     <div id="bottom" class="col-12"></div>

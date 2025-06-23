@@ -700,6 +700,7 @@ saltos.form.screen = action => {
                 return false;
             }
             document.body.append(saltos.driver.__types[action].template());
+            saltos.driver.resizable();
             return true;
         }
     }
