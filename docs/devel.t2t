@@ -1775,7 +1775,6 @@ All descriptions below are based on the actual content of each file.
 - `jest_coverage.php`: Processes Jest coverage reports and outputs them in a readable format.
 - `jest_tester.php`: Parses the layout structure from `apps/tester/xml/tester.xml`, checks for duplicate widget tags, and exports the data as `/tmp/tester.json`.
 - `jscs.json`: Defines JavaScript coding standards used by the JSCS code style checker.
-- `make_bootswatch.php`: Cleans up Bootswatch CSS files by removing any external `@import` statements.
 - `make_instance.sh`: Creates a new runnable SaltOS4 instance by linking `.htaccess`, preparing folders like `data/` and `tmp/`, and applying permissions.
 - `makehtml.php`: Converts a `.t2t` documentation file into an HTML file using `txt2tags`.
 - `maket2t.php`: Scans a source directory and extracts `/** ... */` comments from each file to generate a `.t2t` documentation file.
