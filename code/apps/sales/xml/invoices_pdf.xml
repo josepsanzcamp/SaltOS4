@@ -186,7 +186,10 @@
     </foreach>
     <eval>strpos($row["id"],",")===false</eval>
     <output>encode_bad_chars(execute_query("SELECT
-        IF(is_closed, CONCAT('".T('Proforma')."',' ',proforma_code,' ',customer_name), CONCAT('".T('Invoice')."',' ',invoice_code,' ',customer_name)) subject
+        IF(is_closed,
+            CONCAT('".T('Invoice')."', ' ', invoice_code, ' ', customer_name),
+            CONCAT('".T('Proforma')."', ' ', proforma_code, ' ', customer_name)
+        ) subject
         FROM app_invoices
         WHERE id IN ({$row['id']})")).'.pdf'</output>
     <eval>true</eval>

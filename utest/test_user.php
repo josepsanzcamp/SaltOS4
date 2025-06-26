@@ -231,18 +231,18 @@ final class test_user extends TestCase
         $this->assertContains($geoip['ip'], ['', '84.88.65.140']);
         $this->assertContains($geoip['isp'], ['', 'Consorci de Serveis Universitaris de Catalunya']);
 
-        $geoip = get_geoip_array('83.40.69.1');
+        $geoip = get_geoip_array('147.83.2.135');
         $this->assertIsArray($geoip);
         $this->assertArrayHasKey('city', $geoip);
         $this->assertArrayHasKey('region', $geoip);
         $this->assertArrayHasKey('country', $geoip);
         $this->assertArrayHasKey('ip', $geoip);
         $this->assertArrayHasKey('isp', $geoip);
-        $this->assertContains($geoip['city'], ['', 'Premià de Dalt']);
+        $this->assertContains($geoip['city'], ['', 'Barcelona']);
         $this->assertContains($geoip['region'], ['', 'Catalonia']);
         $this->assertContains($geoip['country'], ['', 'Spain']);
-        $this->assertContains($geoip['ip'], ['', '83.40.69.1']);
-        $this->assertContains($geoip['isp'], ['', 'Telefonica De Espana S.a.u.']);
+        $this->assertContains($geoip['ip'], ['', '147.83.2.135']);
+        $this->assertContains($geoip['isp'], ['', 'Consorci de Serveis Universitaris de Catalunya']);
 
         $geoip = get_geoip_array('79.116.196.1');
         $this->assertIsArray($geoip);

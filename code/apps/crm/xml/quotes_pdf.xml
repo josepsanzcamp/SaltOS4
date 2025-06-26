@@ -173,7 +173,7 @@
     </foreach>
     <eval>strpos($row["id"],",")===false</eval>
     <output>encode_bad_chars(execute_query("SELECT
-        CONCAT('".T('Quote')."',' ',code,' ',customer_name) subject
+        CONCAT('".T('Quote')."', ' ', code, ' ', customer_name) subject
         FROM app_quotes
         WHERE id IN ({$row['id']})")).'.pdf'</output>
     <eval>true</eval>

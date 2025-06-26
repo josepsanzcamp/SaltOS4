@@ -874,7 +874,7 @@ function prepare_where_query($table, $array)
  */
 function check_order($order, $fields)
 {
-    $order = explode(',', strval($order));
+    $order = explode(',', $order);
     foreach ($order as $key => $val) {
         $val = explode(' ', $val);
         if (count($val) != 2) {

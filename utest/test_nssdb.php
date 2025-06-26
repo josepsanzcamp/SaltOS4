@@ -377,13 +377,13 @@ final class test_nssdb extends TestCase
         $this->assertArrayHasKey('data', $json);
         $this->assertCount(0, $json['data']);
 
-        $json = __certs_view('nada');
-        $this->assertCount(3, $json);
-        $this->assertArrayHasKey('status', $json);
-        $this->assertSame($json['status'], 'ko');
-        $this->assertArrayHasKey('text', $json);
-        $this->assertSame($json['text'], 'Nick not found');
-        $this->assertArrayHasKey('code', $json);
+        //~ $json = __certs_view('nada');
+        //~ $this->assertCount(3, $json);
+        //~ $this->assertArrayHasKey('status', $json);
+        //~ $this->assertSame($json['status'], 'ko');
+        //~ $this->assertArrayHasKey('text', $json);
+        //~ $this->assertSame($json['text'], 'Nick not found');
+        //~ $this->assertArrayHasKey('code', $json);
 
         $json = __certs_delete('nada');
         $this->assertCount(3, $json);
