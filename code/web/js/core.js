@@ -993,3 +993,25 @@ saltos.core.is_function = arg => {
     }
     return false;
 };
+
+/**
+ * Detects the current browser based on the user agent string.
+ *
+ * Returns the browser name in lowercase: 'firefox', 'edge', 'opera', 'chrome' or 'unknown'.
+ */
+saltos.core.get_browser = () => {
+    const ua = navigator.userAgent;
+    if (ua.includes('Firefox')) {
+        return 'firefox';
+    }
+    if (ua.includes('Edg')) {
+        return 'edge';
+    }
+    if (ua.includes('OPR') || ua.includes('Opera')) {
+        return 'opera';
+    }
+    if (ua.includes('Chrome')) {
+        return 'chrome';
+    }
+    return 'unknown';
+};
