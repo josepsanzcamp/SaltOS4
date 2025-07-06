@@ -70,19 +70,25 @@ final class test_web_tokens extends TestCase
         $json = test_web_helper('auth/login', [
             'user' => 'admin',
         ], '', '');
-        $this->assertArrayHasKey('error', $json);
+        $this->assertArrayHasKey('status', $json);
+        $this->assertSame($json['status'], 'ko');
+        $this->assertSame(count($json), 3);
 
         $json = test_web_helper('auth/login', [
             'user' => 'nada',
             'pass' => 'admin',
         ], '', '');
+        $this->assertArrayHasKey('status', $json);
         $this->assertSame($json['status'], 'ko');
+        $this->assertSame(count($json), 3);
 
         $json = test_web_helper('auth/login', [
             'user' => 'admin',
             'pass' => 'nada',
         ], '', '');
+        $this->assertArrayHasKey('status', $json);
         $this->assertSame($json['status'], 'ko');
+        $this->assertSame(count($json), 3);
 
         $user_id = execute_query("SELECT id FROM tbl_users WHERE login='admin'");
 
@@ -93,7 +99,9 @@ final class test_web_tokens extends TestCase
             'user' => 'admin',
             'pass' => 'admin',
         ], '', '');
+        $this->assertArrayHasKey('status', $json);
         $this->assertSame($json['status'], 'ko');
+        $this->assertSame(count($json), 3);
 
         $query = "UPDATE tbl_users_passwords SET user_id=-user_id WHERE user_id=-$user_id";
         db_query($query);
@@ -105,7 +113,9 @@ final class test_web_tokens extends TestCase
             'user' => 'admin',
             'pass' => 'admin',
         ], '', '');
+        $this->assertArrayHasKey('status', $json);
         $this->assertSame($json['status'], 'ok');
+        $this->assertSame(count($json), 4);
 
         $json = test_web_helper('auth/login', [
             'user' => 'admin',

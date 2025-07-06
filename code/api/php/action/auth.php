@@ -47,13 +47,6 @@ $array = [];
 $action = get_data('rest/1');
 switch ($action) {
     case 'login':
-        // Check parameters
-        foreach (['user', 'pass'] as $key) {
-            if (get_data("json/$key") === null) {
-                semaphore_release('auth');
-                show_json_error("$key not found");
-            }
-        }
         $array = authtoken(get_data('json/user'), get_data('json/pass'));
         break;
     case 'logout':
@@ -63,13 +56,6 @@ switch ($action) {
         $array = checktoken();
         break;
     case 'update':
-        // Check parameters
-        foreach (['oldpass', 'newpass', 'renewpass'] as $key) {
-            if (get_data("json/$key") === null) {
-                semaphore_release('auth');
-                show_json_error("$key not found");
-            }
-        }
         $array = authupdate(get_data('json/oldpass'), get_data('json/newpass'), get_data('json/renewpass'));
         break;
     default:

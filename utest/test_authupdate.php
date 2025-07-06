@@ -69,32 +69,41 @@ final class test_authupdate extends TestCase
     public function test_authupdate(): void
     {
         $json = test_web_helper('auth/update', '', '', '');
-        $this->assertArrayHasKey('error', $json);
+        $this->assertArrayHasKey('status', $json);
+        $this->assertSame($json['status'], 'ko');
+        $this->assertSame(count($json), 3);
 
         $json2 = test_web_helper('auth/login', [
             'user' => 'admin',
             'pass' => 'admin',
         ], '', '');
+        $this->assertArrayHasKey('status', $json2);
         $this->assertSame($json2['status'], 'ok');
         $this->assertSame(count($json2), 4);
         $this->assertArrayHasKey('token', $json2);
 
         $json = test_web_helper('auth/update', [], $json2['token'], '');
-        $this->assertArrayHasKey('error', $json);
+        $this->assertArrayHasKey('status', $json);
+        $this->assertSame($json['status'], 'ko');
+        $this->assertSame(count($json), 3);
 
         $json = test_web_helper('auth/update', [
             'oldpass' => 'nada',
             'newpass' => 'admin',
             'renewpass' => 'admin',
         ], '', '');
+        $this->assertArrayHasKey('status', $json);
         $this->assertSame($json['status'], 'ko');
+        $this->assertSame(count($json), 3);
 
         $json = test_web_helper('auth/update', [
             'oldpass' => 'nada',
             'newpass' => 'admin',
             'renewpass' => 'admin',
         ], $json2['token'], '');
+        $this->assertArrayHasKey('status', $json);
         $this->assertSame($json['status'], 'ko');
+        $this->assertSame(count($json), 3);
 
         // Check for internal error
         $file = 'data/logs/phperror.log';
@@ -124,14 +133,18 @@ final class test_authupdate extends TestCase
             'newpass' => 'admin',
             'renewpass' => 'nada',
         ], $json2['token'], '');
+        $this->assertArrayHasKey('status', $json);
         $this->assertSame($json['status'], 'ko');
+        $this->assertSame(count($json), 3);
 
         $json = test_web_helper('auth/update', [
             'oldpass' => 'admin',
             'newpass' => 'admin',
             'renewpass' => 'admin',
         ], $json2['token'], '');
+        $this->assertArrayHasKey('status', $json);
         $this->assertSame($json['status'], 'ko');
+        $this->assertSame(count($json), 3);
 
         $json = test_web_helper('auth/update', [
             'oldpass' => 'admin',
@@ -147,7 +160,9 @@ final class test_authupdate extends TestCase
             'newpass' => 'asd123ASD',
             'renewpass' => 'asd123ASD',
         ], $json2['token'], '');
+        $this->assertArrayHasKey('status', $json);
         $this->assertSame($json['status'], 'ko');
+        $this->assertSame(count($json), 3);
 
         // Check for old MD5
         $hash = md5('admin');

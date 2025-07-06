@@ -51,6 +51,17 @@ function authtoken($user, $pass)
 {
     require_once 'php/lib/password.php';
 
+    // Zero check
+    foreach (['user', 'pass'] as $key) {
+        if ($$key === null) {
+            return [
+                'status' => 'ko',
+                'text' => "$key not found",
+                'code' => __get_code_from_trace(),
+            ];
+        }
+    }
+
     // First check
     $query = 'SELECT * FROM tbl_users WHERE active = 1 AND login = ?';
     $row = execute_query($query, [$user]);
@@ -229,6 +240,17 @@ function authupdate($oldpass, $newpass, $renewpass)
             'text' => 'Authentication update error',
             'code' => __get_code_from_trace(),
         ];
+    }
+
+    // Zero check
+    foreach (['oldpass', 'newpass', 'renewpass'] as $key) {
+        if ($$key === null) {
+            return [
+                'status' => 'ko',
+                'text' => "$key not found",
+                'code' => __get_code_from_trace(),
+            ];
+        }
     }
 
     // Password checks
