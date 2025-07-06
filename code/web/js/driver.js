@@ -528,10 +528,6 @@ saltos.driver.resizable = () => {
     if (type.includes('type1')) {
         return;
     }
-    let margin = -8;
-    if (saltos.core.get_browser() == 'chrome') {
-        margin = -16;
-    }
     document.getElementById('screen').append(saltos.core.html(`
         <style id="saltos-driver-resizable">
             .saltos-resizable {
@@ -540,7 +536,7 @@ saltos.driver.resizable = () => {
                 bottom: 0;
                 padding: 0;
                 width: 16px; /* Área más grande para facilitar el clic */
-                margin-left: ${margin}px; /* Centrar el handle sobre el borde */
+                margin-left: -8px; /* Centrar el handle sobre el borde */
                 transition: background-color 0.2s ease, backdrop-filter 0.2s ease;
             }
 
@@ -556,6 +552,17 @@ saltos.driver.resizable = () => {
             }
         </style>
     `));
+    if (saltos.core.get_browser() == 'chrome') {
+        // The follow fix tries to hide the scrollbar
+        // but allowing to scroll at the same time
+        document.getElementById('screen').append(saltos.core.html(`
+            <style>
+                ::-webkit-scrollbar {
+                    display: none;
+                }
+            </style>
+        `));
+    }
     if (type.includes('type2')) {
         saltos.driver.__resizable_2cols();
     }
