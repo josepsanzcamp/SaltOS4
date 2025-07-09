@@ -4,7 +4,7 @@
  */
 
 // The editor creator to use.
-import ClassicEditorBase from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
+import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
 
 import { Autoformat } from '@ckeditor/ckeditor5-autoformat';
 import { Base64UploadAdapter } from '@ckeditor/ckeditor5-upload';
@@ -31,7 +31,7 @@ import { Emoji } from '@ckeditor/ckeditor5-emoji';
 import { Mention } from '@ckeditor/ckeditor5-mention';
 import { Bookmark } from '@ckeditor/ckeditor5-bookmark';
 
-export default class ClassicEditor extends ClassicEditorBase {
+export default class ClassicEditorCustom extends ClassicEditor {
 	public static override builtinPlugins = [
 		Autoformat,
 		Base64UploadAdapter,
