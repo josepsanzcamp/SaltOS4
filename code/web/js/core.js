@@ -799,6 +799,9 @@ document.addEventListener('DOMContentLoaded', event => {
             if (!navigator.serviceWorker.controller) {
                 return;
             }
+            if (!navigator.onLine) {
+                return;
+            }
             const check = await saltos.core.check_network();
             if (!check.http || check.https) {
                 return;
