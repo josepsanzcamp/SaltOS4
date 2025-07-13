@@ -1,0 +1,5 @@
+
+# https://buunguyen.github.io/topbar/
+# https://github.com/buunguyen/topbar
+
+wget https://raw.githubusercontent.com/buunguyen/topbar/refs/heads/master/topbar.min.js

@@ -634,19 +634,7 @@ saltos.form.screen = action => {
         case 'loading': {
             clearTimeout(saltos.form.__form.timer);
             saltos.form.__form.loading++;
-            const obj = document.getElementById('loading');
-            if (obj) {
-                return false;
-            }
-            document.body.append(saltos.core.html(`
-                <div id="loading">
-                    <div class="modal-backdrop show" style="z-index:202"></div>
-                    <div class="position-fixed top-50 start-50 translate-middle" style="z-index:203">
-                        <div class="spinner-border text-light" role="status" style="width:3rem;height:3rem;">
-                        </div>
-                    </div>
-                </div>
-            `));
+            topbar.show();
             return true;
         }
         case 'unloading': {
@@ -658,24 +646,13 @@ saltos.form.screen = action => {
             if (saltos.form.__form.loading > 0) {
                 return false;
             }
-            const obj = document.getElementById('loading');
-            if (!obj) {
-                return false;
-            }
             // This setTimeout allow to prevent the blinking effect caused by
             // consecutives loadings and unloadings by adding a delay in the
             // real unloading code
             saltos.form.__form.timer = setTimeout(() => {
-                obj.remove();
+                topbar.hide();
             }, 100);
             return true;
-        }
-        case 'isloading': {
-            const obj = document.getElementById('loading');
-            if (obj) {
-                return true;
-            }
-            return false;
         }
         case 'clear':
             const obj = document.getElementById('screen');
