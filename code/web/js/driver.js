@@ -537,14 +537,6 @@ saltos.driver.resizable = () => {
                 padding: 0;
                 width: 16px; /* Área más grande para facilitar el clic */
                 margin-left: -8px; /* Centrar el handle sobre el borde */
-                transition: background-color 0.2s ease, backdrop-filter 0.2s ease;
-            }
-
-            .saltos-resizable:hover {
-                background-color: rgba(var(--bs-primary-rgb), 0.15);
-                border-left: 2px dashed rgba(var(--bs-primary-rgb), 0.5);
-                border-right: 2px dashed rgba(var(--bs-primary-rgb), 0.5);
-                backdrop-filter: blur(2px);
             }
 
             .saltos-noselect {
