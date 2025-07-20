@@ -49,6 +49,7 @@ saltos.form.__form = {
     fields: [],
     loading: 0,
     timer: null,
+    init: false,
 };
 
 /**
@@ -634,20 +635,23 @@ saltos.form.screen = action => {
         case 'loading': {
             clearTimeout(saltos.form.__form.timer);
             saltos.form.__form.loading++;
-            topbar.config({
-                barColors: {
-                    '0.0': '#0d6efd', // blue
-                    '0.1': '#6610f2', // indigo
-                    '0.2': '#6f42c1', // purple
-                    '0.3': '#d63384', // pink
-                    '0.4': '#dc3545', // red
-                    '0.5': '#fd7e14', // orange
-                    '0.6': '#ffc107', // yellow
-                    '0.7': '#198754', // green
-                    '0.8': '#20c997', // teal
-                    '0.9': '#0dcaf0', // cyan
-                },
-            });
+            if (!saltos.form.__form.init) {
+                topbar.config({
+                    barColors: {
+                        '0.0': '#0d6efd', // blue
+                        '0.1': '#6610f2', // indigo
+                        '0.2': '#6f42c1', // purple
+                        '0.3': '#d63384', // pink
+                        '0.4': '#dc3545', // red
+                        '0.5': '#fd7e14', // orange
+                        '0.6': '#ffc107', // yellow
+                        '0.7': '#198754', // green
+                        '0.8': '#20c997', // teal
+                        '0.9': '#0dcaf0', // cyan
+                    },
+                });
+                saltos.form.__form.init = true;
+            }
             topbar.show();
             return true;
         }
@@ -665,7 +669,7 @@ saltos.form.screen = action => {
             // real unloading code
             saltos.form.__form.timer = setTimeout(() => {
                 topbar.hide();
-            }, 100);
+            }, 300);
             return true;
         }
         case 'clear':
