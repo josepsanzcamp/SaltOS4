@@ -449,12 +449,21 @@ saltos.driver.delete = async arg => {
  * @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
  */
 saltos.driver.placeholder = arg => {
-    saltos.core.check_params(arg, ['id', 'color']);
+    saltos.core.check_params(arg, ['id', 'color', 'shadow', 'rounded']);
     if (!arg.color) {
         arg.color = 'primary';
     }
+    let shadow = 'shadow';
+    if (arg.shadow) {
+        shadow = arg.shadow;
+    }
+    let rounded = 'rounded-4';
+    if (arg.rounded) {
+        rounded = arg.rounded;
+    }
     const obj = saltos.core.html(`
-        <div class="form-control shadow bg-${arg.color}-subtle h-100 driver-placeholder"></div>
+        <div class="form-control ${rounded} ${shadow} border-0
+            bg-${arg.color}-subtle h-100 driver-placeholder"></div>
     `);
     obj.append(saltos.core.html(`
         <style>

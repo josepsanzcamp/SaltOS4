@@ -306,7 +306,7 @@ saltos.bootstrap.__field.text = field => {
     field.type = 'text';
     let obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
-    obj.append(saltos.bootstrap.__shadow_helper(saltos.bootstrap.__text_helper(field)));
+    obj.append(saltos.bootstrap.__text_helper(field));
     if (field.datalist.length) {
         obj.querySelector('input').setAttribute('list', field.id + '_datalist');
         obj.append(saltos.core.html(`<datalist id="${field.id}_datalist"></datalist>`));
@@ -387,7 +387,7 @@ saltos.bootstrap.__field.hidden = field => {
  */
 saltos.bootstrap.__field.integer = field => {
     field.type = 'text';
-    let obj = saltos.bootstrap.__shadow_helper(saltos.bootstrap.__text_helper(field));
+    let obj = saltos.bootstrap.__text_helper(field);
     field.type = 'integer';
     const element = obj.querySelector('input');
     saltos.core.require([
@@ -432,7 +432,7 @@ saltos.bootstrap.__field.integer = field => {
  */
 saltos.bootstrap.__field.float = field => {
     field.type = 'text';
-    let obj = saltos.bootstrap.__shadow_helper(saltos.bootstrap.__text_helper(field));
+    let obj = saltos.bootstrap.__text_helper(field);
     field.type = 'float';
     const element = obj.querySelector('input');
     saltos.core.require([
@@ -482,7 +482,7 @@ saltos.bootstrap.__field.color = field => {
     }
     field.type = 'color';
     field.class = 'form-control-color';
-    let obj = saltos.bootstrap.__shadow_helper(saltos.bootstrap.__text_helper(field));
+    let obj = saltos.bootstrap.__text_helper(field);
     obj.classList.add('d-inline-block');
     obj = saltos.bootstrap.__label_combine(field, obj);
     if (obj.children.length > 1) {
@@ -515,7 +515,7 @@ saltos.bootstrap.__field.color = field => {
  */
 saltos.bootstrap.__field.date = field => {
     field.type = 'date';
-    let obj = saltos.bootstrap.__shadow_helper(saltos.bootstrap.__text_helper(field));
+    let obj = saltos.bootstrap.__text_helper(field);
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
@@ -543,7 +543,7 @@ saltos.bootstrap.__field.date = field => {
  */
 saltos.bootstrap.__field.time = field => {
     field.type = 'time';
-    let obj = saltos.bootstrap.__shadow_helper(saltos.bootstrap.__text_helper(field));
+    let obj = saltos.bootstrap.__text_helper(field);
     obj.querySelector('input').step = 1; // This enable the seconds
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
@@ -572,7 +572,7 @@ saltos.bootstrap.__field.time = field => {
  */
 saltos.bootstrap.__field.datetime = field => {
     field.type = 'datetime-local';
-    let obj = saltos.bootstrap.__shadow_helper(saltos.bootstrap.__text_helper(field));
+    let obj = saltos.bootstrap.__text_helper(field);
     field.type = 'datetime';
     obj.querySelector('input').step = 1; // This enable the seconds
     obj = saltos.bootstrap.__label_combine(field, obj);
@@ -610,7 +610,7 @@ saltos.bootstrap.__field.textarea = field => {
     saltos.core.check_params(field, ['height']);
     let obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
-    obj.append(saltos.bootstrap.__shadow_helper(saltos.bootstrap.__textarea_helper(field)));
+    obj.append(saltos.bootstrap.__textarea_helper(field));
     const element = obj.querySelector('textarea');
     saltos.core.require([
         'lib/autoheight/autoheight.min.js',
@@ -656,19 +656,13 @@ saltos.bootstrap.__field.textarea = field => {
  * value of the ckeditor, intended to load new data.
  */
 saltos.bootstrap.__field.ckeditor = field => {
-    saltos.core.check_params(field, ['height', 'color', 'disabled']);
+    saltos.core.check_params(field, ['height', 'color', 'disabled', 'rounded']);
     if (!field.color) {
         field.color = 'primary';
     }
     const obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
-    obj.append(
-        saltos.bootstrap.__shadow_helper(
-            saltos.bootstrap.__textarea_helper(
-                saltos.core.copy_object(field)
-            )
-        )
-    );
+    obj.append(saltos.bootstrap.__textarea_helper(saltos.core.copy_object(field)));
     const element = obj.querySelector('textarea');
     element.style.display = 'none';
     const array = [
@@ -787,10 +781,34 @@ saltos.bootstrap.__field.ckeditor = field => {
         </style>
     `));
     // Fix for a rounded corners
+    let rounded = 'var(--bs-border-radius-xl)';
+    if (saltos.core.is_number(field.rounded.replace('rounded-', ''))) {
+        const index = parseInt(field.rounded.replace('rounded-', ''));
+        switch (index) {
+            case 0:
+                rounded = '0';
+                break;
+            case 1:
+                rounded = 'var(--bs-border-radius-sm)';
+                break;
+            case 2:
+                rounded = 'var(--bs-border-radius)';
+                break;
+            case 3:
+                rounded = 'var(--bs-border-radius-ls)';
+                break;
+            case 4:
+                rounded = 'var(--bs-border-radius-xl)';
+                break;
+            case 5:
+                rounded = 'var(--bs-border-radius-xxl)';
+                break;
+        }
+    }
     obj.append(saltos.core.html(`
         <style>
             :root {
-                --ck-border-radius: var(--bs-border-radius);
+                --ck-border-radius: ${rounded};
             }
         </style>
     `));
@@ -832,7 +850,7 @@ saltos.bootstrap.__field.ckeditor = field => {
  * value of the codemirror, intended to load new data.
  */
 saltos.bootstrap.__field.codemirror = field => {
-    saltos.core.check_params(field, ['mode', 'height', 'color', 'disabled', 'indent']);
+    saltos.core.check_params(field, ['mode', 'height', 'color', 'disabled', 'indent', 'rounded']);
     if (!field.color) {
         field.color = 'primary';
     }
@@ -842,13 +860,7 @@ saltos.bootstrap.__field.codemirror = field => {
     }
     const obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
-    obj.append(
-        saltos.bootstrap.__shadow_helper(
-            saltos.bootstrap.__textarea_helper(
-                saltos.core.copy_object(field)
-            )
-        )
-    );
+    obj.append(saltos.bootstrap.__textarea_helper(saltos.core.copy_object(field)));
     const element = obj.querySelector('textarea');
     element.style.display = 'none';
     // Add the placeholder
@@ -938,10 +950,34 @@ saltos.bootstrap.__field.codemirror = field => {
         element.set_disabled(true);
     }
     // Fix for a rounded corners
+    let rounded = 'var(--bs-border-radius-xl)';
+    if (saltos.core.is_number(field.rounded.replace('rounded-', ''))) {
+        const index = parseInt(field.rounded.replace('rounded-', ''));
+        switch (index) {
+            case 0:
+                rounded = '0';
+                break;
+            case 1:
+                rounded = 'var(--bs-border-radius-sm)';
+                break;
+            case 2:
+                rounded = 'var(--bs-border-radius)';
+                break;
+            case 3:
+                rounded = 'var(--bs-border-radius-ls)';
+                break;
+            case 4:
+                rounded = 'var(--bs-border-radius-xl)';
+                break;
+            case 5:
+                rounded = 'var(--bs-border-radius-xxl)';
+                break;
+        }
+    }
     obj.append(saltos.core.html(`
         <style>
             .CodeMirror {
-                border-radius: var(--bs-border-radius);
+                border-radius: ${rounded};
             }
         </style>
     `));
@@ -1014,11 +1050,20 @@ saltos.bootstrap.__indent_helper = (str, mode) => {
  * and the parent container, we must to add the d-block to convert it from inline to block
  */
 saltos.bootstrap.__field.iframe = field => {
-    saltos.core.check_params(field, ['src', 'srcdoc', 'id', 'class', 'height', 'color']);
+    saltos.core.check_params(field, ['src', 'srcdoc', 'id', 'class',
+                                     'height', 'color', 'shadow', 'rounded']);
     if (!field.color) {
         field.color = 'primary';
     }
-    let border = `form-control p-0 shadow border border-${field.color}`;
+    let shadow = 'shadow';
+    if (field.shadow) {
+        shadow = field.shadow;
+    }
+    let rounded = 'rounded-4';
+    if (field.rounded) {
+        rounded = field.rounded;
+    }
+    let border = `form-control p-0 ${shadow} ${rounded} border border-${field.color}`;
     if (field.color == 'none') {
         border = 'border-0';
     }
@@ -1107,7 +1152,7 @@ saltos.bootstrap.__field.iframe = field => {
 saltos.bootstrap.__field.select = field => {
     saltos.core.check_params(field, ['class', 'id', 'disabled', 'required', 'onchange',
                                      'autofocus', 'multiple', 'size', 'value', 'tooltip',
-                                     'accesskey', 'color', 'separator']);
+                                     'accesskey', 'color', 'separator', 'shadow', 'rounded']);
     saltos.core.check_params(field, ['rows'], []);
     let disabled = '';
     if (saltos.core.eval_bool(field.disabled)) {
@@ -1133,17 +1178,25 @@ saltos.bootstrap.__field.select = field => {
     if (field.size != '') {
         size = `size="${field.size}"`;
     }
-    let color = field.color;
-    if (!field.color) {
-        color = 'primary';
+    let color = 'primary';
+    if (field.color) {
+        color = field.color;
     }
     let border = `border border-${color}`;
     if (field.color == 'none') {
         border = 'border-0';
     }
+    let shadow = 'shadow';
+    if (field.shadow) {
+        shadow = field.shadow;
+    }
+    let rounded = 'rounded-pill';
+    if (field.rounded) {
+        rounded = field.rounded;
+    }
     let obj = saltos.core.html(`
-        <div class="shadow rounded ${width}">
-            <select class="form-select ${border} ${height} ${field.class}" id="${field.id}"
+        <div class="${shadow} ${rounded} ${width}">
+            <select class="form-select ${rounded} ${border} ${height} ${field.class}" id="${field.id}"
                 ${disabled} ${required} ${autofocus} ${multiple} ${size}
                 data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}"></select>
         </div>
@@ -1252,6 +1305,7 @@ saltos.bootstrap.__field.multiselect = field => {
         multiple: true,
         size: field.size,
         rows: field.rows,
+        rounded: 'rounded-4',
     }));
     obj.querySelector('.two').append(saltos.bootstrap.__field.button({
         class: `bi-chevron-double-right`,
@@ -1297,6 +1351,7 @@ saltos.bootstrap.__field.multiselect = field => {
         tooltip: field.tooltip,
         multiple: true,
         size: field.size,
+        rounded: 'rounded-4',
     }));
     saltos.core.when_visible(obj, () => {
         document.querySelectorAll('label[for=' + field.id + ']').forEach(item => {
@@ -1382,9 +1437,9 @@ saltos.bootstrap.__field.checkbox = field => {
     if (value) {
         checked = 'checked';
     }
-    let color = field.color;
-    if (!field.color) {
-        color = 'primary';
+    let color = 'primary';
+    if (field.color) {
+        color = field.color;
     }
     let border = `border border-${color}`;
     if (field.color == 'none') {
@@ -1509,7 +1564,7 @@ saltos.bootstrap.__field.switch = field => {
 saltos.bootstrap.__field.button = field => {
     saltos.core.check_params(field, ['class', 'id', 'disabled', 'autofocus', 'autoclose',
                                      'onclick', 'tooltip', 'icon', 'label', 'accesskey',
-                                     'color', 'collapse', 'target', 'addbr']);
+                                     'color', 'collapse', 'target', 'addbr', 'shadow', 'rounded']);
     let disabled = '';
     let opacity = '';
     if (saltos.core.eval_bool(field.disabled)) {
@@ -1524,9 +1579,9 @@ saltos.bootstrap.__field.button = field => {
     if (saltos.core.eval_bool(field.autoclose)) {
         autoclose = 'autoclose';
     }
-    let color = field.color;
-    if (!field.color) {
-        color = 'primary';
+    let color = 'primary';
+    if (field.color) {
+        color = field.color;
     }
     let collapse = '';
     if (saltos.core.eval_bool(field.collapse)) {
@@ -1541,10 +1596,18 @@ saltos.bootstrap.__field.button = field => {
     if (field.class.includes('h-100')) {
         height = 'h-100';
     }
+    let shadow = 'shadow';
+    if (field.shadow) {
+        shadow = field.shadow;
+    }
+    let rounded = 'rounded-pill';
+    if (field.rounded) {
+        rounded = field.rounded;
+    }
     const obj = saltos.core.html(`
-        <div class="shadow rounded d-inline-block ${width} ${height}">
+        <div class="${shadow} ${rounded} d-inline-block ${width} ${height}">
             <button type="button" id="${field.id}" ${disabled} ${autofocus} ${autoclose}
-                class="btn btn-${color} focus-ring focus-ring-${color} ${field.class} ${opacity}"
+                class="btn btn-${color} ${rounded} focus-ring focus-ring-${color} ${field.class} ${opacity}"
                 data-bs-accesskey="${field.accesskey}" ${collapse}
                 data-bs-title="${field.tooltip}">${field.label}</button>
         </div>
@@ -1610,8 +1673,8 @@ saltos.bootstrap.__field.button = field => {
  */
 saltos.bootstrap.__field.password = field => {
     saltos.core.check_params(field, ['label', 'class', 'id', 'placeholder', 'value', 'disabled',
-                                     'onenter', 'onchange', 'readonly', 'required',
-                                     'autofocus', 'tooltip', 'accesskey', 'color']);
+                                     'onenter', 'onchange', 'readonly', 'required', 'autofocus',
+                                     'tooltip', 'accesskey', 'color', 'shadow', 'rounded']);
     saltos.core.check_params(field, ['autocomplete'], true);
     let disabled = '';
     if (saltos.core.eval_bool(field.disabled)) {
@@ -1629,9 +1692,9 @@ saltos.bootstrap.__field.password = field => {
     if (saltos.core.eval_bool(field.autofocus)) {
         autofocus = 'autofocus';
     }
-    let color = field.color;
-    if (!field.color) {
-        color = 'primary';
+    let color = 'primary';
+    if (field.color) {
+        color = field.color;
     }
     let border = `border border-${color}`;
     if (field.color == 'none') {
@@ -1641,15 +1704,27 @@ saltos.bootstrap.__field.password = field => {
     if (!saltos.core.eval_bool(field.autocomplete)) {
         autocomplete = 'autocomplete="new-password"';
     }
+    let shadow = 'shadow';
+    if (field.shadow) {
+        shadow = field.shadow;
+    }
+    let rounded = 'rounded-pill';
+    let rounded_start = 'rounded-start-pill';
+    let rounded_end = 'rounded-end-pill';
+    if (field.rounded) {
+        rounded = field.rounded;
+        rounded_start = field.rounded.replace('rounded-', 'rounded-start-');
+        rounded_end = field.rounded.replace('rounded-', 'rounded-end-');
+    }
     const obj = saltos.core.html(`
         <div>
-            <div class="input-group shadow rounded">
-                <input type="password" class="form-control ${border} ${field.class}"
+            <div class="input-group ${shadow} ${rounded}">
+                <input type="password" class="form-control ${rounded_start} ${border} ${field.class}"
                     id="${field.id}" placeholder="${field.placeholder}" value="${field.value}"
                     ${disabled} ${readonly} ${required} ${autofocus} ${autocomplete}
                     aria-label="${field.placeholder}" aria-describedby="${field.id}_button"
                     data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
-                <button class="btn btn-${color} bi-eye-slash" type="button"
+                <button class="btn btn-${color} bi-eye-slash ${rounded_end}" type="button"
                     id="${field.id}_button" data-bs-title="${field.tooltip}"></button>
             </div>
         </div>
@@ -1726,8 +1801,9 @@ saltos.bootstrap.__field.password = field => {
  * the real upload action.
  */
 saltos.bootstrap.__field.file = field => {
-    saltos.core.check_params(field, ['class', 'id', 'value', 'data', 'disabled', 'required', 'onchange',
-                                     'autofocus', 'multiple', 'tooltip', 'accesskey', 'color']);
+    saltos.core.check_params(field, ['class', 'id', 'value', 'data', 'disabled',
+                                     'required', 'onchange', 'autofocus', 'multiple',
+                                     'tooltip', 'accesskey', 'color', 'shadow', 'rounded']);
     let disabled = '';
     if (saltos.core.eval_bool(field.disabled)) {
         disabled = 'disabled';
@@ -1744,9 +1820,9 @@ saltos.bootstrap.__field.file = field => {
     if (saltos.core.eval_bool(field.multiple)) {
         multiple = 'multiple';
     }
-    let color = field.color;
-    if (!field.color) {
-        color = 'primary';
+    let color = 'primary';
+    if (field.color) {
+        color = field.color;
     }
     let border1 = `border border-${color}`;
     let border2 = `border-${color}`;
@@ -1754,14 +1830,22 @@ saltos.bootstrap.__field.file = field => {
         border1 = 'border-0';
         border2 = '';
     }
+    let shadow = 'shadow';
+    if (field.shadow) {
+        shadow = field.shadow;
+    }
+    let rounded = 'rounded-pill';
+    if (field.rounded) {
+        rounded = field.rounded;
+    }
     const obj = saltos.core.html(`
         <div>
-            <div class="shadow rounded">
-                <input type="file" class="form-control ${border1} ${field.class}" id="${field.id}"
+            <div class="${shadow} ${rounded}">
+                <input type="file" class="form-control ${rounded} ${border1} ${field.class}" id="${field.id}"
                     ${disabled} ${required} ${autofocus} ${multiple}
                     data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
             </div>
-            <div class="form-control p-0 border-0 shadow table-responsive mt-3 d-none">
+            <div class="form-control p-0 border-0 ${shadow} table-responsive mt-3 d-none">
                 <table class="table table-striped table-hover ${border2} mb-0">
                     <tbody>
                     </tbody>
@@ -1772,7 +1856,7 @@ saltos.bootstrap.__field.file = field => {
     // The follow code allow to colorize the hover and active rows of the table
     obj.append(saltos.core.html(`
         <style>
-            .table td:not([class*="text-bg-"]) {
+            .table td {
                 --bs-table-hover-bg: #fbec88;
                 --bs-table-active-bg: #fbec88;
                 --bs-table-hover-color: #373a3c;
@@ -2039,15 +2123,23 @@ saltos.bootstrap.__field.label = field => {
  * @color   => the color of the widget (primary, secondary, success, danger, warning, info, none)
  */
 saltos.bootstrap.__field.image = field => {
-    saltos.core.check_params(field, ['id', 'class', 'value', 'alt',
-                                     'tooltip', 'width', 'height', 'color']);
+    saltos.core.check_params(field, ['id', 'class', 'value', 'alt', 'tooltip',
+                                     'width', 'height', 'color', 'shadow', 'rounded']);
     if (field.class == '') {
         field.class = 'img-fluid';
     }
     if (!field.color) {
         field.color = 'primary';
     }
-    let border = `form-control p-0 shadow border border-${field.color}`;
+    let shadow = 'shadow';
+    if (field.shadow) {
+        shadow = field.shadow;
+    }
+    let rounded = 'rounded-4';
+    if (field.rounded) {
+        rounded = field.rounded;
+    }
+    let border = `form-control ${rounded} p-0 ${shadow} border border-${field.color}`;
     if (field.color == 'none') {
         border = 'border-0';
     }
@@ -2108,7 +2200,7 @@ saltos.bootstrap.__field.excel = field => {
                                      'rowHeaders', 'colHeaders', 'minSpareRows', 'height',
                                      'contextMenu', 'rowHeaderWidth', 'colWidths', 'color',
                                      'numcols', 'numrows', 'cell', 'cells', 'afterChange',
-                                     'autoWrapCol', 'autoWrapRow']);
+                                     'autoWrapCol', 'autoWrapRow', 'shadow', 'rounded']);
     if (!field.color) {
         field.color = 'primary';
     }
@@ -2120,8 +2212,16 @@ saltos.bootstrap.__field.excel = field => {
     if (field.height == '') {
         height = '100%';
     }
+    let shadow = 'shadow';
+    if (field.shadow) {
+        shadow = field.shadow;
+    }
+    let rounded = 'rounded-4';
+    if (field.rounded) {
+        rounded = field.rounded;
+    }
     let obj = saltos.core.html(`
-        <div class="form-control p-0 shadow" style="height: ${height}; overflow: auto">
+        <div class="form-control p-0 ${shadow} ${rounded}" style="height: ${height}; overflow: auto">
             <div></div>
         </div>
     `);
@@ -2314,7 +2414,7 @@ saltos.bootstrap.__field.excel = field => {
  * that modal scrollTop is the same.
  */
 saltos.bootstrap.__field.pdfjs = field => {
-    saltos.core.check_params(field, ['id', 'class', 'src', 'srcdoc', 'color']);
+    saltos.core.check_params(field, ['id', 'class', 'src', 'srcdoc', 'color', 'shadow', 'rounded']);
     if (field.srcdoc != '') {
         field.src = {data: atob(field.srcdoc)};
     }
@@ -2374,8 +2474,17 @@ saltos.bootstrap.__field.pdfjs = field => {
                         }
                         canvas.style.width = '100%';
                         canvas.classList.add('form-control');
+                        let rounded = 'rounded-4';
+                        if (field.rounded) {
+                            rounded = field.rounded;
+                        }
+                        canvas.classList.add(rounded);
                         canvas.classList.add('p-0');
-                        canvas.classList.add('shadow');
+                        let shadow = 'shadow';
+                        if (field.shadow) {
+                            shadow = field.shadow;
+                        }
+                        canvas.classList.add(shadow);
                         canvas.classList.add('border');
                         canvas.classList.add('border-' + field.color);
                         if (num < pdf.numPages) {
@@ -2440,7 +2549,8 @@ saltos.bootstrap.__field.pdfjs = field => {
  * to identify if you want to use a column with some special type as for example, the icons
  */
 saltos.bootstrap.__field.table = field => {
-    saltos.core.check_params(field, ['class', 'id', 'checkbox', 'dropdown', 'color', 'nodata']);
+    saltos.core.check_params(field, ['class', 'id', 'checkbox', 'dropdown',
+                                     'color', 'nodata', 'shadow', 'rounded']);
     saltos.core.check_params(field, ['header', 'data', 'footer', 'actions'], []);
     saltos.core.check_params(field, ['first_action'], true);
     if (field.checkbox != '') {
@@ -2451,8 +2561,16 @@ saltos.bootstrap.__field.table = field => {
     }
     // This creates a responsive table (a table inside a div with table-responsive class)
     // We are using the same div to put inside the overlodaded styles of the table
+    let shadow = 'shadow';
+    if (field.shadow) {
+        shadow = field.shadow;
+    }
+    let rounded = 'rounded-4';
+    if (field.rounded) {
+        rounded = field.rounded;
+    }
     let obj = saltos.core.html(`
-        <div id="${field.id}" class="form-control p-0 border-0 shadow table-responsive">
+        <div id="${field.id}" class="form-control ${rounded} p-0 border-0 ${shadow} table-responsive">
             <table class="table table-striped table-hover border-${field.color} ${field.class} mb-0">
             </table>
         </div>
@@ -2467,7 +2585,7 @@ saltos.bootstrap.__field.table = field => {
         if (field.checkbox) {
             obj.querySelector('thead tr').append(saltos.core.html(
                 'tr',
-                `<th class="text-bg-${field.color}" style="width: 1%"><input type="checkbox" /></th>`
+                `<th class="bg-${field.color}-subtle" style="width: 1%"><input type="checkbox" /></th>`
             ));
             obj.querySelector('thead input[type=checkbox]').addEventListener('change', event => {
                 const item = event.target;
@@ -2490,7 +2608,7 @@ saltos.bootstrap.__field.table = field => {
             const val = field.header[key];
             let th;
             if (typeof val == 'object' && val !== null) {
-                th = saltos.core.html('tr', `<th class="text-bg-${field.color}">${val.label}</th>`);
+                th = saltos.core.html('tr', `<th class="bg-${field.color}-subtle">${val.label}</th>`);
                 if ('align' in val) {
                     th.classList.add('text-' + val.align);
                 }
@@ -2509,10 +2627,10 @@ saltos.bootstrap.__field.table = field => {
                         active_desc = 'true';
                     }
                     th.append(saltos.core.html(`
-                        <button class="btn btn-${field.color} border-0 p-0 ms-1">
+                        <button class="btn border-0 p-0 ms-1">
                             <i class="bi ${caret_asc}" data-active="${active_asc}"></i></button>`));
                     th.append(saltos.core.html(`
-                        <button class="btn btn-${field.color} border-0 p-0">
+                        <button class="btn border-0 p-0">
                             <i class="bi ${caret_desc}" data-active="${active_desc}"></i></button>`));
                     th.querySelectorAll('i').forEach(icon => {
                         if (icon.dataset.active == 'true') {
@@ -2552,18 +2670,18 @@ saltos.bootstrap.__field.table = field => {
                     });
                 }
             } else {
-                th = saltos.core.html('tr', `<th class="text-bg-${field.color}">${val}</th>`);
+                th = saltos.core.html('tr', `<th class="bg-${field.color}-subtle">${val}</th>`);
             }
             obj.querySelector('thead tr').append(th);
         }
         if (Object.keys(field.actions).length) {
-            const th = saltos.core.html('tr', `<th class="text-bg-${field.color}" style="width: 1%"></th>`);
+            const th = saltos.core.html('tr', `<th class="bg-${field.color}-subtle" style="width: 1%"></th>`);
             obj.querySelector('thead tr').append(th);
         }
     } else {
         obj.querySelector('thead tr').append(saltos.core.html(
             'tr',
-            `<th class="text-bg-${field.color} text-center" colspan="100">&nbsp;</th>`
+            `<th class="bg-${field.color}-subtle text-center" colspan="100">&nbsp;</th>`
         ));
     }
     obj.querySelector('table').append(saltos.core.html('table', `
@@ -2701,7 +2819,7 @@ saltos.bootstrap.__field.table = field => {
                 if (typeof iterator[key2] == 'object' && 'class' in iterator[key2]) {
                     if (iterator[key2].class in val) {
                         if (val[iterator[key2].class] != '') {
-                            td.classList.add('text-bg-' + val[iterator[key2].class]);
+                            td.classList.add('bg-' + val[iterator[key2].class] + '-subtle');
                         }
                     }
                 }
@@ -2719,7 +2837,7 @@ saltos.bootstrap.__field.table = field => {
                             <button class="btn border-0 dropdown-toggle" type="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                             </button>
-                            <ul class="dropdown-menu shadow">
+                            <ul class="dropdown-menu ${rounded} ${shadow}">
                             </ul>
                         </div>
                     `));
@@ -2802,7 +2920,7 @@ saltos.bootstrap.__field.table = field => {
             if (field.checkbox) {
                 obj.querySelector('tfoot tr').append(saltos.core.html(
                     'tr',
-                    `<td class="bg-${field.color}-subtle"></td>`
+                    `<td class="bg-${field.color}-subtle border-0"></td>`
                 ));
             }
             // This is to allow to use tables with footer and without header
@@ -2815,9 +2933,15 @@ saltos.bootstrap.__field.table = field => {
                 const val = field.footer[key];
                 let td;
                 if (typeof val == 'object' && val !== null) {
-                    td = saltos.core.html('tr', `<td class="bg-${field.color}-subtle">${val.value}</td>`);
+                    td = saltos.core.html(
+                        'tr',
+                        `<td class="bg-${field.color}-subtle border-0">${val.value}</td>`
+                    );
                 } else {
-                    td = saltos.core.html('tr', `<td class="bg-${field.color}-subtle">${val}</td>`);
+                    td = saltos.core.html(
+                        'tr',
+                        `<td class="bg-${field.color}-subtle border-0">${val}</td>`
+                    );
                 }
                 if (typeof iterator[key] == 'object' && 'align' in iterator[key]) {
                     td.classList.add('text-' + iterator[key].align);
@@ -2827,25 +2951,35 @@ saltos.bootstrap.__field.table = field => {
             if (Object.keys(field.actions).length) {
                 obj.querySelector('tfoot tr').append(saltos.core.html(
                     'tr',
-                    `<td class="bg-${field.color}-subtle"></td>`
+                    `<td class="bg-${field.color}-subtle border-0"></td>`
                 ));
             }
         }
         if (typeof field.footer == 'string') {
             obj.querySelector('tfoot tr').append(saltos.core.html(
                 'tr',
-                `<td colspan="100" class="text-center bg-${field.color}-subtle">${field.footer}</td>`
+                `<td colspan="100" class="text-center bg-${field.color}-subtle border-0">${field.footer}</td>`
             ));
         }
     }
     // The follow code allow to colorize the hover and active rows of the table
+    // Note that the last lines tries to fix the color buttons in dark mode
     obj.append(saltos.core.html(`
         <style>
-            .table td:not([class*="text-bg-"]) {
+            .table td {
                 --bs-table-hover-bg: #fbec88;
                 --bs-table-active-bg: #fbec88;
                 --bs-table-hover-color: #373a3c;
                 --bs-table-active-color: #373a3c;
+            }
+            .table tr:hover td > button,
+            .table tr:active td > button,
+            .table td.table-active > button,
+            .table tr:hover td > div > button,
+            .table tr:active td > div > button,
+            .table td.table-active > div > button {
+                color: #373a3c !important;
+                transition: none !important;
             }
         </style>
     `));
@@ -2895,13 +3029,22 @@ saltos.bootstrap.__field.table = field => {
  * know if I maintain this or I remove it, but at the moment, this is added by default
  */
 saltos.bootstrap.__field.alert = field => {
-    saltos.core.check_params(field, ['class', 'id', 'title', 'text', 'body', 'close', 'color']);
+    saltos.core.check_params(field, ['class', 'id', 'title', 'text', 'body',
+                                     'close', 'color', 'shadow', 'rounded']);
     if (!field.color) {
         field.color = 'primary';
     }
+    let shadow = 'shadow';
+    if (field.shadow) {
+        shadow = field.shadow;
+    }
+    let rounded = 'rounded-4';
+    if (field.rounded) {
+        rounded = field.rounded;
+    }
     let obj = saltos.core.html(`
-        <div class="alert alert-${field.color} shadow ${field.class} mb-0" role="alert" id="${field.id}">
-        </div>
+        <div class="alert alert-${field.color} ${rounded} ${shadow} ${field.class} mb-0"
+            role="alert" id="${field.id}"></div>
     `);
     if (field.title != '') {
         obj.append(saltos.core.html(`<h4>${field.title}</h4>`));
@@ -2957,12 +3100,16 @@ saltos.bootstrap.__field.alert = field => {
  * @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
  */
 saltos.bootstrap.__field.card = field => {
-    saltos.core.check_params(field, ['id', 'image', 'alt', 'header',
-                                     'footer', 'title', 'text', 'body', 'color']);
+    saltos.core.check_params(field, ['id', 'image', 'alt', 'header', 'footer',
+                                     'title', 'text', 'body', 'color', 'shadow']);
     if (!field.color) {
         field.color = 'primary';
     }
-    let obj = saltos.core.html(`<div class="card border-${field.color} shadow" id="${field.id}"></div>`);
+    let shadow = 'shadow';
+    if (field.shadow) {
+        shadow = field.shadow;
+    }
+    let obj = saltos.core.html(`<div class="card border-${field.color} ${shadow}" id="${field.id}"></div>`);
     if (field.image != '') {
         obj.append(saltos.core.html(`
             <img src="${field.image}" class="card-img-top" alt="${field.alt}" />
@@ -3016,8 +3163,18 @@ saltos.bootstrap.__field.card = field => {
  * @lib/chartjs/chart.umd.min.js
  */
 saltos.bootstrap.__field.chartjs = field => {
-    saltos.core.check_params(field, ['id', 'mode', 'data']);
-    let obj = saltos.core.html(`<div><canvas id="${field.id}" class="form-control shadow"></canvas></div>`);
+    saltos.core.check_params(field, ['id', 'mode', 'data', 'shadow', 'rounded']);
+    let shadow = 'shadow';
+    if (field.shadow) {
+        shadow = field.shadow;
+    }
+    let rounded = 'rounded-4';
+    if (field.rounded) {
+        rounded = field.rounded;
+    }
+    let obj = saltos.core.html(`
+        <div><canvas id="${field.id}" class="form-control ${rounded} ${shadow}"></canvas></div>
+    `);
     for (const key in field.data.datasets) {
         field.data.datasets[key].borderWidth = 1;
     }
@@ -3452,7 +3609,7 @@ saltos.bootstrap.__value_helper = (value, separator) => {
  * @lib/imagesloaded/imagesloaded.pkgd.min.js
  */
 saltos.bootstrap.__field.gallery = field => {
-    saltos.core.check_params(field, ['id', 'class', 'images', 'color']);
+    saltos.core.check_params(field, ['id', 'class', 'images', 'color', 'shadow', 'rounded']);
     if (field.class == '') {
         field.class = 'col';
     }
@@ -3469,6 +3626,14 @@ saltos.bootstrap.__field.gallery = field => {
             </div>
         </div>
     `);
+    let shadow = 'shadow';
+    if (field.shadow) {
+        shadow = field.shadow;
+    }
+    let rounded = 'rounded-4';
+    if (field.rounded) {
+        rounded = field.rounded;
+    }
     if (typeof field.images == 'object') {
         for (const key in field.images) {
             let val = field.images[key];
@@ -3479,7 +3644,8 @@ saltos.bootstrap.__field.gallery = field => {
             const img = saltos.core.html(`
                 <div class="${field.class} p-1">
                     <a href="${val.image}" class="venobox" data-gall="${field.id}" title="${val.title}">
-                        <img src="${val.image}" class="img-fluid img-thumbnail ${border} p-0 shadow" />
+                        <img src="${val.image}"
+                            class="img-fluid img-thumbnail ${border} p-0 ${rounded} ${shadow}"/>
                     </a>
                 </div>
             `);
@@ -3516,14 +3682,18 @@ saltos.bootstrap.__field.gallery = field => {
  * @label  => this parameter is used as text for the label
  */
 saltos.bootstrap.__field.placeholder = field => {
-    saltos.core.check_params(field, ['id', 'color', 'height', 'label']);
+    saltos.core.check_params(field, ['id', 'color', 'height', 'label', 'rounded']);
     if (!field.color) {
         field.color = 'primary';
+    }
+    let rounded = 'rounded-4';
+    if (field.rounded) {
+        rounded = field.rounded;
     }
     let obj = saltos.core.html(`
         <div id="${field.id}" class="w-100 h-100 placeholder-glow text-${field.color}"
              aria-hidden="true" style="height:${field.height}!important">
-            <span class="w-100 h-100 placeholder"></span>
+            <span class="w-100 h-100 placeholder ${rounded}"></span>
         </div>
     `);
     obj = saltos.bootstrap.__label_combine(field, obj);
@@ -3574,7 +3744,8 @@ saltos.bootstrap.__field.placeholder = field => {
  * depending of this parameter, the function uses a dir or an ul element to do the list
  */
 saltos.bootstrap.__field.list = field => {
-    saltos.core.check_params(field, ['class', 'id', 'onclick', 'truncate', 'checkbox', 'nodata']);
+    saltos.core.check_params(field, ['class', 'id', 'onclick', 'truncate',
+                                     'checkbox', 'nodata', 'shadow', 'rounded']);
     saltos.core.check_params(field, ['data', 'actions'], []);
     // Check for data not found
     if (!field.data.length) {
@@ -3595,11 +3766,23 @@ saltos.bootstrap.__field.list = field => {
         return obj;
     }
     // Continue
+    let shadow = 'shadow';
+    if (field.shadow) {
+        shadow = field.shadow;
+    }
+    let rounded = 'rounded-4';
+    if (field.rounded) {
+        rounded = field.rounded;
+    }
     let obj;
     if (saltos.core.eval_bool(field.onclick)) {
-        obj = saltos.core.html(`<div id="${field.id}" class="list-group shadow ${field.class}"></div>`);
+        obj = saltos.core.html(`
+            <div id="${field.id}" class="list-group ${rounded} ${shadow} ${field.class}"></div>
+        `);
     } else {
-        obj = saltos.core.html(`<ul id="${field.id}" class="list-group shadow ${field.class}"></ul>`);
+        obj = saltos.core.html(`
+            <ul id="${field.id}" class="list-group ${rounded} ${shadow} ${field.class}"></ul>
+        `);
     }
     for (const key in field.data) {
         const val = field.data[key];
@@ -3754,6 +3937,9 @@ saltos.bootstrap.__field.list = field => {
                 --bs-list-group-action-hover-color: #373a3c;
                 --bs-list-group-action-active-color: #373a3c;
                 --bs-list-group-action-color: --var(--bs-body-color);
+                --bs-list-group-active-bg: #fbec88;
+                --bs-list-group-active-color: #373a3c;
+                --bs-list-group-active-border-color: var(--bs-list-group-border-color);
             }
             .list-group-item:nth-child(odd) {
                 --bs-list-group-bg: rgba(var(--bs-emphasis-color-rgb), 0.05);
@@ -4029,13 +4215,17 @@ saltos.bootstrap.__field.vpills = field => {
  * @active   => this parameter raise the active flag
  */
 saltos.bootstrap.__field.accordion = field => {
-    saltos.core.check_params(field, ['id', 'flush', 'multiple']);
+    saltos.core.check_params(field, ['id', 'flush', 'multiple', 'shadow']);
     saltos.core.check_params(field, ['items'], []);
     if (saltos.core.eval_bool(field.flush)) {
         field.flush = 'accordion-flush';
     }
+    let shadow = 'shadow';
+    if (field.shadow) {
+        shadow = field.shadow;
+    }
     let obj = saltos.core.html(`
-        <div class="accordion shadow ${field.flush}" id="${field.id}"></div>
+        <div class="accordion ${shadow} ${field.flush}" id="${field.id}"></div>
     `);
     for (const key in field.items) {
         let val = field.items[key];
@@ -4222,8 +4412,8 @@ saltos.bootstrap.__field.jstree = field => {
  * and not in the dropdown button that opens the real dropdown menu
  */
 saltos.bootstrap.__field.dropdown = field => {
-    saltos.core.check_params(field, ['id', 'class', 'disabled', 'label', 'onclick',
-                                     'split', 'tooltip', 'icon', 'accesskey', 'color']);
+    saltos.core.check_params(field, ['id', 'class', 'disabled', 'label', 'onclick', 'split',
+                                     'tooltip', 'icon', 'accesskey', 'color', 'shadow', 'rounded']);
     saltos.core.check_params(field, ['menu'], []);
     // Check for main attributes
     let disabled = '';
@@ -4232,17 +4422,31 @@ saltos.bootstrap.__field.dropdown = field => {
         disabled = 'disabled';
         opacity = 'opacity-25';
     }
-    let color = field.color;
-    if (!field.color) {
-        color = 'primary';
+    let color = 'primary';
+    if (field.color) {
+        color = field.color;
     }
     // Create the main object
+    let shadow = 'shadow';
+    if (field.shadow) {
+        shadow = field.shadow;
+    }
+    let rounded = 'rounded-pill';
+    let rounded_start = 'rounded-start-pill';
+    let rounded_end = 'rounded-end-pill';
+    let rounded_menu = 'rounded-4';
+    if (field.rounded) {
+        rounded = field.rounded;
+        rounded_start = field.rounded.replace('rounded-', 'rounded-start-');
+        rounded_end = field.rounded.replace('rounded-', 'rounded-end-');
+        rounded_menu = field.rounded.replace('rounded-fill', 'rounded-4');
+    }
     let obj;
     if (!saltos.core.eval_bool(field.split)) {
         obj = saltos.core.html(`
-            <div class="btn-group shadow ${field.class}" id="${field.id}">
+            <div class="btn-group ${rounded} ${shadow} ${field.class}" id="${field.id}">
                 <button type="button" ${disabled}
-                    class="btn btn-${color} ${opacity} dropdown-toggle"
+                    class="btn ${rounded} btn-${color} ${opacity} dropdown-toggle"
                     data-bs-toggle="dropdown" aria-expanded="false"
                     data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}">
                         ${field.label}
@@ -4251,14 +4455,14 @@ saltos.bootstrap.__field.dropdown = field => {
         `);
     } else {
         obj = saltos.core.html(`
-            <div class="btn-group shadow ${field.class}" id="${field.id}">
+            <div class="btn-group ${rounded} ${shadow} ${field.class}" id="${field.id}">
                 <button type="button" ${disabled}
-                    class="btn btn-${color} ${opacity}"
+                    class="btn ${rounded_start} btn-${color} ${opacity}"
                     data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}">
                         ${field.label}
                 </button>
                 <button type="button" ${disabled}
-                    class="btn btn-${color} ${opacity} dropdown-toggle dropdown-toggle-split"
+                    class="btn ${rounded_end} btn-${color} ${opacity} dropdown-toggle dropdown-toggle-split"
                     data-bs-toggle="dropdown" aria-expanded="false">
                 </button>
             </div>
@@ -4275,7 +4479,7 @@ saltos.bootstrap.__field.dropdown = field => {
     if (field.label && field.icon) {
         obj.querySelector('i').classList.add('me-1');
     }
-    obj.append(saltos.core.html(`<ul class="dropdown-menu shadow"></ul>`));
+    obj.append(saltos.core.html(`<ul class="dropdown-menu ${rounded_menu} ${shadow}"></ul>`));
     // Add the dropdown items
     for (const key in field.menu) {
         const val = field.menu[key];
@@ -4341,9 +4545,9 @@ saltos.bootstrap.__field.dropdown = field => {
  * This function is intended to be used by other helpers of the form_field constructor
  */
 saltos.bootstrap.__text_helper = field => {
-    saltos.core.check_params(field, ['type', 'class', 'id', 'placeholder', 'value',
-                                     'disabled', 'onenter', 'onchange', 'readonly', 'required',
-                                     'autofocus', 'tooltip', 'accesskey', 'color']);
+    saltos.core.check_params(field, ['type', 'class', 'id', 'placeholder', 'value', 'disabled',
+                                     'onenter', 'onchange', 'readonly', 'required', 'autofocus',
+                                     'tooltip', 'accesskey', 'color', 'shadow', 'rounded']);
     saltos.core.check_params(field, ['autosave'], true);
     let disabled = '';
     if (saltos.core.eval_bool(field.disabled)) {
@@ -4365,16 +4569,20 @@ saltos.bootstrap.__text_helper = field => {
     if (!saltos.core.eval_bool(field.autosave)) {
         autosave = 'autosave="false"';
     }
-    let color = field.color;
-    if (!field.color) {
-        color = 'primary';
+    let color = 'primary';
+    if (field.color) {
+        color = field.color;
     }
     let border = `border border-${color}`;
     if (field.color == 'none') {
         border = 'border-0';
     }
+    let rounded = 'rounded-pill';
+    if (field.rounded) {
+        rounded = field.rounded;
+    }
     const obj = saltos.core.html(`
-        <input type="${field.type}" class="form-control ${border} ${field.class}"
+        <input type="${field.type}" class="form-control ${rounded} ${border} ${field.class}"
             placeholder="${field.placeholder}" data-bs-accesskey="${field.accesskey}"
             ${disabled} ${readonly} ${required} ${autofocus} ${autosave}
             id="${field.id}" data-bs-title="${field.tooltip}" value="${field.value}" />
@@ -4388,7 +4596,17 @@ saltos.bootstrap.__text_helper = field => {
     if (field.onchange != '') {
         saltos.bootstrap.__onchange_helper(obj, field.onchange);
     }
-    return obj;
+    if (field.type == 'hidden') {
+        return obj;
+    }
+    // add shadow feature
+    let shadow = 'shadow';
+    if (field.shadow) {
+        shadow = field.shadow;
+    }
+    const obj2 = saltos.core.html(`<div class="${shadow} ${rounded}"></div>`);
+    obj2.append(obj);
+    return obj2;
 };
 
 /**
@@ -4416,7 +4634,7 @@ saltos.bootstrap.__text_helper = field => {
 saltos.bootstrap.__textarea_helper = field => {
     saltos.core.check_params(field, ['class', 'id', 'placeholder', 'value', 'onchange',
                                      'disabled', 'readonly', 'required', 'autofocus',
-                                     'tooltip', 'accesskey', 'color']);
+                                     'tooltip', 'accesskey', 'color', 'shadow', 'rounded']);
     saltos.core.check_params(field, ['autosave'], true);
     let disabled = '';
     if (saltos.core.eval_bool(field.disabled)) {
@@ -4438,16 +4656,20 @@ saltos.bootstrap.__textarea_helper = field => {
     if (!saltos.core.eval_bool(field.autosave)) {
         autosave = 'autosave="false"';
     }
-    let color = field.color;
-    if (!field.color) {
-        color = 'primary';
+    let color = 'primary';
+    if (field.color) {
+        color = field.color;
     }
     let border = `border border-${color}`;
     if (field.color == 'none') {
         border = 'border-0';
     }
+    let rounded = 'rounded-4';
+    if (field.rounded) {
+        rounded = field.rounded;
+    }
     const obj = saltos.core.html(`
-        <textarea class="form-control ${border} ${field.class}"
+        <textarea class="form-control ${rounded} ${border} ${field.class}"
             placeholder="${field.placeholder}" data-bs-accesskey="${field.accesskey}"
             ${disabled} ${readonly} ${required} ${autofocus} ${autosave}
             id="${field.id}" data-bs-title="${field.tooltip}">${field.value}</textarea>
@@ -4458,25 +4680,14 @@ saltos.bootstrap.__textarea_helper = field => {
     if (field.onchange != '') {
         saltos.bootstrap.__onchange_helper(obj, field.onchange);
     }
-    return obj;
-};
-
-/**
- * Private shadow constructor helper
- *
- * This function creates a shadow wrapper around a given DOM element.
- *
- * It generates a <div> element with the class "shadow", appends the provided object (obj) as its child,
- * and returns the resulting DOM structure.
- *
- * @obj => The DOM element to be wrapped inside the shadow container.
- *
- * Returns the <div> element containing the original object as a child.
- */
-saltos.bootstrap.__shadow_helper = obj => {
-    const shadow = saltos.core.html(`<div class="shadow rounded"></div>`);
-    shadow.append(obj);
-    return shadow;
+    // add shadow feature
+    let shadow = 'shadow';
+    if (field.shadow) {
+        shadow = field.shadow;
+    }
+    const obj2 = saltos.core.html(`<div class="${shadow} ${rounded}"></div>`);
+    obj2.append(obj);
+    return obj2;
 };
 
 /**
@@ -4662,9 +4873,17 @@ saltos.bootstrap.__onenter_helper = (obj, fn) => {
  * @divider  => you can set this boolean to true to convert the element into a divider
  */
 saltos.bootstrap.menu = args => {
-    saltos.core.check_params(args, ['class']);
+    saltos.core.check_params(args, ['class', 'shadow', 'rounded']);
     saltos.core.check_params(args, ['menu'], []);
     const obj = saltos.core.html(`<ul class="${args.class}"></ul>`);
+    let shadow = 'shadow';
+    if (args.shadow) {
+        shadow = args.shadow;
+    }
+    let rounded = 'rounded-4';
+    if (args.rounded) {
+        rounded = args.rounded;
+    }
     for (const key in args.menu) {
         const val = args.menu[key];
         saltos.core.check_params(val, ['label', 'icon',
@@ -4689,7 +4908,7 @@ saltos.bootstrap.menu = args => {
                         role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         ${val.label}
                     </button>
-                    <ul class="dropdown-menu shadow ${dropdown_menu_end}">
+                    <ul class="dropdown-menu ${rounded} ${shadow} ${dropdown_menu_end}">
                     </ul>
                 </li>
             `);
@@ -4781,15 +5000,19 @@ saltos.bootstrap.menu = args => {
  * gets a navbar of 56px of height
  */
 saltos.bootstrap.navbar = args => {
-    saltos.core.check_params(args, ['id', 'color', 'pos', 'class']);
+    saltos.core.check_params(args, ['id', 'color', 'pos', 'class', 'shadow']);
     saltos.core.check_params(args, ['brand'], {});
     saltos.core.check_params(args.brand, ['label', 'image', 'alt', 'width', 'height', 'class']);
     saltos.core.check_params(args, ['items'], []);
     if (!args.color) {
         args.color = 'primary';
     }
+    let shadow = 'shadow';
+    if (args.shadow) {
+        shadow = args.shadow;
+    }
     const obj = saltos.core.html(`
-        <nav class="navbar navbar-expand-md navbar-dark shadow-lg bg-${args.color} ${args.pos} ${args.class}">
+        <nav class="navbar navbar-expand-md ${shadow} bg-${args.color}-subtle ${args.pos} ${args.class}">
             <div class="container-fluid">
                 <div class="navbar-brand ${args.brand.class}"></div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -4805,8 +5028,11 @@ saltos.bootstrap.navbar = args => {
     if (args.brand.image != '') {
         obj.querySelector('.navbar-brand').append(saltos.core.html(`
             <img src="${args.brand.image}" alt="${args.brand.alt}"
-                width="${args.brand.width}" height="${args.brand.height}"/>
+                width="${args.brand.width}" height="${args.brand.height}"
+                class="bg-${args.color}" style="position:absolute;top:0;left:0;"/>
         `));
+        const width = args.brand.width - 24;
+        obj.querySelector('.navbar-brand').style.width = width + 'px';
     }
     if (args.brand.label != '') {
         obj.querySelector('.navbar-brand').append(saltos.core.html(`
@@ -4880,7 +5106,8 @@ saltos.bootstrap.modal = args => {
         return false;
     }
     // Normal operation
-    saltos.core.check_params(args, ['id', 'class', 'title', 'close', 'body', 'footer', 'static', 'color']);
+    saltos.core.check_params(args, ['id', 'class', 'title', 'close', 'body',
+                                    'footer', 'static', 'color', 'shadow', 'rounded']);
     let temp = '';
     if (saltos.core.eval_bool(args.static)) {
         temp = `data-bs-backdrop="static" data-bs-keyboard="false"`;
@@ -4888,15 +5115,25 @@ saltos.bootstrap.modal = args => {
     if (!args.color) {
         args.color = 'primary';
     }
+    let shadow = 'shadow';
+    if (args.shadow) {
+        shadow = args.shadow;
+    }
+    let rounded = 'rounded-4';
+    let rounded_top = 'rounded-top-4';
+    if (args.rounded) {
+        rounded = args.rounded;
+        rounded_top = args.rounded.replace('rounded-', 'rounded-top-');
+    }
     // Note: removed the fade class in the first div, the old class was "modal fade"
     const obj = saltos.core.html(`
         <div class="modal" id="${args.id}" tabindex="-1"
             aria-labelledby="${args.id}_label" aria-hidden="true" ${temp}>
-            <div class="modal-dialog shadow rounded ${args.class}">
-                <div class="modal-content">
-                    <div class="modal-header text-bg-${args.color}">
+            <div class="modal-dialog ${shadow} ${rounded} ${args.class}">
+                <div class="modal-content ${rounded}">
+                    <div class="modal-header bg-${args.color}-subtle ${rounded_top}">
                         <h1 class="modal-title fs-5" id="${args.id}_label">${args.title}</h1>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="${args.close}"></button>
                     </div>
                     <div class="modal-body">
@@ -5028,8 +5265,8 @@ saltos.bootstrap.offcanvas = args => {
         return false;
     }
     // Normal operation
-    saltos.core.check_params(args, ['id', 'pos', 'title', 'close', 'body', 'color',
-                                    'static', 'backdrop', 'keyboard']);
+    saltos.core.check_params(args, ['id', 'pos', 'title', 'close', 'body',
+                                    'color', 'static', 'backdrop', 'keyboard']);
     let temp = [];
     if (saltos.core.eval_bool(args.static)) {
         temp.push(`data-bs-backdrop="static"`);
@@ -5059,9 +5296,9 @@ saltos.bootstrap.offcanvas = args => {
     const obj = saltos.core.html(`
         <div class="offcanvas offcanvas-${args.pos}" tabindex="-1" id="${args.id}"
             aria-labelledby="${args.id}_label" ${temp}>
-            <div class="offcanvas-header text-bg-${args.color}">
+            <div class="offcanvas-header bg-${args.color}-subtle">
                 <h5 class="offcanvas-title" id="${args.id}_label">${args.title}</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
                     aria-label="${args.close}"></button>
             </div>
             <div class="offcanvas-body"></div>

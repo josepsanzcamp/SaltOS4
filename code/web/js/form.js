@@ -592,18 +592,18 @@ saltos.form.title = title => {
             const brand = container.querySelector('.navbar-brand');
             const collapse = container.querySelector('.navbar-collapse');
             const title1 = saltos.core.html(`
-                <h2 id="title1" class="d-none d-xl-block
-                    position-absolute top-50 start-50 translate-middle
-                    text-white fw-bold my-auto"/>
-                <h4 id="title3" class="d-block d-md-none
-                    text-white fw-bold my-auto"/>
+                <h4 id="title1" class="d-none d-xl-block
+                    position-absolute top-50 start-50 translate-middle my-auto"/>
             `);
             const title2 = saltos.core.html(`
-                <h3 id="title2" class="d-none d-md-block d-xl-none
-                    text-white fw-bold my-auto"/>
+                <h5 id="title2" class="d-none d-md-block d-xl-none my-auto"/>
+            `);
+            const title3 = saltos.core.html(`
+                <h6 id="title3" class="d-block d-md-none my-auto"/>
             `);
             container.insertBefore(title1, brand.nextSibling);
             collapse.insertBefore(title2, collapse.lastChild);
+            container.insertBefore(title3, brand.nextSibling);
         }
         for (let i = 1; i <= 3; i++) {
             const obj = document.getElementById(`title${i}`);
@@ -636,6 +636,7 @@ saltos.form.screen = action => {
             saltos.form.__form.loading++;
             topbar.config({
                 barColors: {
+                    '0.0': '#0d6efd', // blue
                     '0.1': '#6610f2', // indigo
                     '0.2': '#6f42c1', // purple
                     '0.3': '#d63384', // pink

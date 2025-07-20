@@ -35,7 +35,7 @@
         <layout>
             <div id="screen" class="vh-100 d-flex bg-body-secondary">
                 <container auto="true" container_class="container m-auto bg-body rounded shadow p-5" col_class="col-12 mb-3" container_style="max-width:400px">
-                    <image width="100px" height="100px" value="img/logo_red.svg" col_class="col-12 mb-3 text-center" color="none"/>
+                    <image value="img/logo_saltos.png" col_class="col-12" color="none" class="logo_saltos bg-primary rounded-top" width="400"/>
                     <label class="fs-2 w-100 text-center" label="Please login"/>
                     <text id="user" label="Username" required="true" autofocus="true" onenter="document.getElementById('pass').focus()"/>
                     <password id="pass" label="Password" required="true" onenter="saltos.login.authenticate()"/>
@@ -43,6 +43,15 @@
                 </container>
             </div>
         </layout>
+        <style>
+            <inline>
+                .logo_saltos {
+                    position:relative;
+                    top:-48px;
+                    left:-48px;
+                }
+            </inline>
+        </style>
         <javascript>
             <file eval="true">file_with_hash('apps/users/js/login.js')</file>
         </javascript>

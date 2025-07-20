@@ -32,7 +32,7 @@
         <title>New Tester Demo App</title>
         <screen>clear</screen>
 
-        <navbar id="navbar" pos="sticky-top" brand.image="img/logo_saltos.png" brand.alt="SaltOS" brand.width="155" brand.height="29">
+        <navbar id="navbar" pos="sticky-top" brand.image="img/logo_saltos.png" brand.alt="SaltOS" brand.width="182" brand.height="56">
             <items>
                 <menu class="navbar-nav me-auto">
                     <item label="Home" disabled="false" onclick="alert(1)"/>
