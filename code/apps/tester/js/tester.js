@@ -147,7 +147,7 @@ saltos.tester.campo10 = () => {
  */
 saltos.tester.campo11 = () => {
     saltos.bootstrap.toast({
-        //class: 'text-bg-primary',
+        //color: 'primary',
         close: 'Close',
         title: 'Hello World',
         subtitle: 'Well then',

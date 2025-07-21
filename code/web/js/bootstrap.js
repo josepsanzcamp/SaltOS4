@@ -5380,10 +5380,10 @@ saltos.bootstrap.toast = args => {
     const obj = saltos.core.html(`
         <div id="${args.id}" class="toast ${args.class}" role="alert" aria-live="assertive"
             aria-atomic="true" hash="x${hash}">
-            <div class="toast-header text-bg-${args.color}">
+            <div class="toast-header bg-${args.color}-subtle">
                 <strong class="me-auto">${args.title}</strong>
                 <small>${args.subtitle}</small>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"
+                <button type="button" class="btn-close" data-bs-dismiss="toast"
                     aria-label="${args.close}"></button>
             </div>
             <div class="toast-body">

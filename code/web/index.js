@@ -527,10 +527,10 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
         `));const t=md5(JSON.stringify(e));if(document.querySelector(`.toast[hash=x${t}]`))return!1;e.color||(e.color="primary");const o=saltos.core.html(`
         <div id="${e.id}" class="toast ${e.class}" role="alert" aria-live="assertive"
             aria-atomic="true" hash="x${t}">
-            <div class="toast-header text-bg-${e.color}">
+            <div class="toast-header bg-${e.color}-subtle">
                 <strong class="me-auto">${e.title}</strong>
                 <small>${e.subtitle}</small>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"
+                <button type="button" class="btn-close" data-bs-dismiss="toast"
                     aria-label="${e.close}"></button>
             </div>
             <div class="toast-body">
