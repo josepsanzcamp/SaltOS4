@@ -76,6 +76,7 @@ saltos.emails.init = arg => {
                 is_new.classList.remove('text-success');
                 is_new.innerHTML = T('Read');
             }
+            button.blur();
         }
     }
 
