@@ -477,25 +477,26 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
                     <button id="${n.id}" class="nav-link ${t} ${o}">${n.label}</button>
                 </li>
             `);n.icon&&b.querySelector("button").prepend(saltos.core.html(`<i class="bi bi-${n.icon}"></i>`)),n.label&&n.icon&&b.querySelector("i").classList.add("me-1"),saltos.core.eval_bool(n.disabled)||saltos.bootstrap.__onclick_helper(b,n.onclick),s.append(b)}}return s},saltos.bootstrap.navbar=e=>{saltos.core.check_params(e,["id","color","pos","class","shadow"]),saltos.core.check_params(e,["brand"],{}),saltos.core.check_params(e.brand,["label","image","alt","width","height","class"]),saltos.core.check_params(e,["items"],[]),e.color||(e.color="primary");let t="shadow";e.shadow&&(t=e.shadow);const o=saltos.core.html(`
-        <nav class="navbar navbar-expand-md ${t} bg-${e.color}-subtle ${e.pos} ${e.class}">
-            <div class="container-fluid">
-                <div class="navbar-brand ${e.brand.class}"></div>
+        <nav class="navbar navbar-expand-md ${t} py-0
+            bg-${e.color}-subtle ${e.pos} ${e.class}">
+            <div class="container-fluid ps-0">
+                <div class="navbar-brand py-0 me-1 ${e.brand.class}"></div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#${e.id}" aria-controls="${e.id}" aria-expanded="false"
-                    aria-label="Toggle navigation">
+                    data-bs-target="#${e.id}" aria-controls="${e.id}"
+                    aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="${e.id}">
                 </div>
             </div>
         </nav>
-    `);if(""!=e.brand.image){o.querySelector(".navbar-brand").append(saltos.core.html(`
+    `);for(var s in""!=e.brand.image&&o.querySelector(".navbar-brand").append(saltos.core.html(`
             <img src="${e.brand.image}" alt="${e.brand.alt}"
                 width="${e.brand.width}" height="${e.brand.height}"
-                class="bg-${e.color}" style="position:absolute;top:0;left:0;"/>
-        `));const a=e.brand.width-24;o.querySelector(".navbar-brand").style.width=a+"px"}for(var s in""!=e.brand.label&&o.querySelector(".navbar-brand").append(saltos.core.html(`
+                class="bg-${e.color}"/>
+        `)),""!=e.brand.label&&o.querySelector(".navbar-brand").append(saltos.core.html(`
             ${e.brand.label}
-        `)),e.items){const l=e.items[s];o.querySelector(".collapse").append(l)}return o},saltos.bootstrap.__modal={},saltos.bootstrap.modal=e=>{if("close"==e){const c="object"==typeof saltos.bootstrap.__modal.instance;return c&&saltos.bootstrap.__modal.instance.hide(),c}if("isopen"==e)return"object"==typeof saltos.bootstrap.__modal.instance;if("object"==typeof saltos.bootstrap.__modal.instance)return!1;saltos.core.check_params(e,["id","class","title","close","body","footer","static","color","shadow","rounded"]);let t="",o=(saltos.core.eval_bool(e.static)&&(t='data-bs-backdrop="static" data-bs-keyboard="false"'),e.color||(e.color="primary"),"shadow"),s=(e.shadow&&(o=e.shadow),"rounded-4"),a="rounded-top-4";e.rounded&&(s=e.rounded,a=e.rounded.replace("rounded-","rounded-top-"));const r=saltos.core.html(`
+        `)),e.items){const a=e.items[s];o.querySelector(".collapse").append(a)}return o},saltos.bootstrap.__modal={},saltos.bootstrap.modal=e=>{if("close"==e){const c="object"==typeof saltos.bootstrap.__modal.instance;return c&&saltos.bootstrap.__modal.instance.hide(),c}if("isopen"==e)return"object"==typeof saltos.bootstrap.__modal.instance;if("object"==typeof saltos.bootstrap.__modal.instance)return!1;saltos.core.check_params(e,["id","class","title","close","body","footer","static","color","shadow","rounded"]);let t="",o=(saltos.core.eval_bool(e.static)&&(t='data-bs-backdrop="static" data-bs-keyboard="false"'),e.color||(e.color="primary"),"shadow"),s=(e.shadow&&(o=e.shadow),"rounded-4"),a="rounded-top-4";e.rounded&&(s=e.rounded,a=e.rounded.replace("rounded-","rounded-top-"));const r=saltos.core.html(`
         <div class="modal" id="${e.id}" tabindex="-1"
             aria-labelledby="${e.id}_label" aria-hidden="true" ${t}>
             <div class="modal-dialog ${o} ${s} ${e.class}">

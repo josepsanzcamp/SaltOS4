@@ -5012,12 +5012,13 @@ saltos.bootstrap.navbar = args => {
         shadow = args.shadow;
     }
     const obj = saltos.core.html(`
-        <nav class="navbar navbar-expand-md ${shadow} bg-${args.color}-subtle ${args.pos} ${args.class}">
-            <div class="container-fluid">
-                <div class="navbar-brand ${args.brand.class}"></div>
+        <nav class="navbar navbar-expand-md ${shadow} py-0
+            bg-${args.color}-subtle ${args.pos} ${args.class}">
+            <div class="container-fluid ps-0">
+                <div class="navbar-brand py-0 me-1 ${args.brand.class}"></div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#${args.id}" aria-controls="${args.id}" aria-expanded="false"
-                    aria-label="Toggle navigation">
+                    data-bs-target="#${args.id}" aria-controls="${args.id}"
+                    aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="${args.id}">
@@ -5029,10 +5030,8 @@ saltos.bootstrap.navbar = args => {
         obj.querySelector('.navbar-brand').append(saltos.core.html(`
             <img src="${args.brand.image}" alt="${args.brand.alt}"
                 width="${args.brand.width}" height="${args.brand.height}"
-                class="bg-${args.color}" style="position:absolute;top:0;left:0;"/>
+                class="bg-${args.color}"/>
         `));
-        const width = args.brand.width - 24;
-        obj.querySelector('.navbar-brand').style.width = width + 'px';
     }
     if (args.brand.label != '') {
         obj.querySelector('.navbar-brand').append(saltos.core.html(`
