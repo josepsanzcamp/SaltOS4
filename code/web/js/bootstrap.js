@@ -760,6 +760,10 @@ saltos.bootstrap.__field.ckeditor = field => {
             .ck-toolbar:has(.ck-disabled:not(.ck-off)) {
                 background-color: var(--bs-secondary-bg)!important;
             }
+            :root[data-bs-theme="dark"]:has(.ck-disabled:not(.ck-off)) {
+                --ck-color-text: #fff !important;
+                --ck-content-font-color: #fff !important;
+            }
         </style>
     `));
     if (field.height) {
@@ -772,14 +776,6 @@ saltos.bootstrap.__field.ckeditor = field => {
             </style>
         `));
     }
-    // Fix for dark mode
-    obj.append(saltos.core.html(`
-        <style>
-            :root[data-bs-theme="dark"] .ck-editor__editable_inline {
-                color: #000;
-            }
-        </style>
-    `));
     // Fix for a rounded corners
     let rounded = 'var(--bs-border-radius-xl)';
     if (saltos.core.is_number(field.rounded.replace('rounded-', ''))) {
@@ -807,8 +803,11 @@ saltos.bootstrap.__field.ckeditor = field => {
     }
     obj.append(saltos.core.html(`
         <style>
-            :root {
-                --ck-border-radius: ${rounded};
+            .ck-editor__top {
+                --ck-border-radius: ${rounded} ${rounded} 0 0;
+            }
+            .ck-editor__main {
+                --ck-border-radius: 0 0 ${rounded} ${rounded};
             }
         </style>
     `));
@@ -1853,17 +1852,6 @@ saltos.bootstrap.__field.file = field => {
             </div>
         </div>
     `);
-    // The follow code allow to colorize the hover and active rows of the table
-    obj.append(saltos.core.html(`
-        <style>
-            .table td {
-                --bs-table-hover-bg: #fbec88;
-                --bs-table-active-bg: #fbec88;
-                --bs-table-hover-color: #373a3c;
-                --bs-table-active-color: #373a3c;
-            }
-        </style>
-    `));
     if (field.tooltip != '') {
         obj.querySelectorAll('input').forEach(item => {
             saltos.bootstrap.__tooltip_helper(item);
@@ -2348,6 +2336,9 @@ saltos.bootstrap.__field.excel = field => {
         <style>
             :root[data-bs-theme="dark"] .handsontable td {
                 color: #000;
+            }
+            :root[data-bs-theme="dark"]:has(.bg-body-secondary) .handsontable td {
+                color: #fff;
             }
         </style>
     `));
@@ -2963,7 +2954,6 @@ saltos.bootstrap.__field.table = field => {
         }
     }
     // The follow code allow to colorize the hover and active rows of the table
-    // Note that the last lines tries to fix the color buttons in dark mode
     obj.append(saltos.core.html(`
         <style>
             .table td {
@@ -2972,6 +2962,11 @@ saltos.bootstrap.__field.table = field => {
                 --bs-table-hover-color: #373a3c;
                 --bs-table-active-color: #373a3c;
             }
+        </style>
+    `));
+    // The follow code allow to fix the color buttons in dark mode
+    obj.append(saltos.core.html(`
+        <style>
             .table tr:hover td > button,
             .table tr:active td > button,
             .table td.table-active > button,
@@ -3941,9 +3936,19 @@ saltos.bootstrap.__field.list = field => {
                 --bs-list-group-active-color: #373a3c;
                 --bs-list-group-active-border-color: var(--bs-list-group-border-color);
             }
+        </style>
+    `));
+    // The follow code colorize the rows of the table using the main color subtle class
+    obj.append(saltos.core.html(`
+        <style>
             .list-group-item:nth-child(odd) {
                 --bs-list-group-bg: rgba(var(--bs-emphasis-color-rgb), 0.05);
             }
+        </style>
+    `));
+    // The follow code allow to fix the color buttons in dark mode
+    obj.append(saltos.core.html(`
+        <style>
             .list-group-item.active h5 {
                 color: inherit;
             }

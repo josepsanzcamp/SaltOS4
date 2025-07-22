@@ -463,7 +463,7 @@ saltos.driver.placeholder = arg => {
     }
     const obj = saltos.core.html(`
         <div class="form-control ${rounded} ${shadow} border-0
-            bg-${arg.color}-subtle h-100 driver-placeholder"></div>
+            bg-${arg.color}-subtle opacity-50 h-100 driver-placeholder"></div>
     `);
     obj.append(saltos.core.html(`
         <style>
