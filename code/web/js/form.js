@@ -600,7 +600,7 @@ saltos.form.title = title => {
                 <h5 id="title2" class="d-none d-md-block d-xl-none my-auto"/>
             `);
             const title3 = saltos.core.html(`
-                <h6 id="title3" class="d-block d-md-none my-auto"/>
+                <h6 id="title3" class="d-none d-sm-block d-md-none my-auto"/>
             `);
             container.insertBefore(title1, brand.nextSibling);
             collapse.insertBefore(title2, collapse.lastChild);
