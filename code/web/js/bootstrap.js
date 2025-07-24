@@ -5026,7 +5026,7 @@ saltos.bootstrap.navbar = args => {
                     aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="${args.id}">
+                <div class="collapse navbar-collapse ps-2 ps-md-0" id="${args.id}">
                 </div>
             </div>
         </nav>

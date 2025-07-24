@@ -490,7 +490,7 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
                     aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="${e.id}">
+                <div class="collapse navbar-collapse ps-2 ps-md-0" id="${e.id}">
                 </div>
             </div>
         </nav>
