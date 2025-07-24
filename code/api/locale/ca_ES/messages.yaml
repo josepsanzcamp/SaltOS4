@@ -128,3 +128,13 @@ access_log: Registre d'accés
 list: Llistat
 detail: Detall
 modify: Modificar
+select_registers: Selecciona registres
+you_must_select_the_desired_registers_that_you_want_see_in_the_pdf_file: Has de seleccionar els registres que vols veure al fitxer PDF
+you_must_select_the_desired_registers_that_you_want_download_in_the_pdf_file: Has de seleccionar els registres que vols descarregar al fitxer PDF
+password_updated_successfully: Contrasenya actualitzada correctament
+content_served_from_cache_because_there_is_an_issue_with_the_server: El contingut s'ha servit des de la memòria cau perquè hi ha un problema amb el servidor
+content_served_from_cache_because_navigator_is_offline: El contingut s'ha servit des de la memòria cau perquè el navegador està fora de línia
+attention: Atenció
+do_you_want_to_close_this_screen: Vols tancar aquesta pantalla?
+no_data_found: No s'han trobat dades
+data_restored_from_the_previous_session: Dades restaurades de la sessió anterior

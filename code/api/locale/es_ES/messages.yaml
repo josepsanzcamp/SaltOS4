@@ -128,3 +128,13 @@ access_log: Registro de acceso
 list: Listado
 detail: Detalle
 modify: Modificar
+select_registers: Selecciona registros
+you_must_select_the_desired_registers_that_you_want_see_in_the_pdf_file: Debes seleccionar los registros que deseas ver en el archivo PDF
+you_must_select_the_desired_registers_that_you_want_download_in_the_pdf_file: Debes seleccionar los registros que deseas descargar en el archivo PDF
+password_updated_successfully: Contraseña actualizada correctamente
+content_served_from_cache_because_there_is_an_issue_with_the_server: El contenido se ha servido desde la caché porque hay un problema con el servidor
+content_served_from_cache_because_navigator_is_offline: El contenido se ha servido desde la caché porque el navegador está sin conexión
+attention: Atención
+do_you_want_to_close_this_screen: ¿Deseas cerrar esta pantalla?
+no_data_found: No se encontraron datos
+data_restored_from_the_previous_session: Datos restaurados de la sesión anterior

@@ -238,6 +238,29 @@ def extract_keys_manifest(path):
         print(f"[ERROR] {os.path.basename(path)} Error parsing manifest.xml")
     return keys
 
+def extract_keys_js_extended(path):
+    keys = set()
+    try:
+        with open(path, encoding="utf-8") as f:
+            content = f.read()
+
+            # Detectar saltos.app.toast('Título', 'Mensaje')
+            for m in re.finditer(r'saltos\.app\.toast\s*\(\s*("|\')(.*?)\1\s*,\s*("|\')(.*?)\3', content):
+                keys.add(("js", m.group(2).strip()))
+                keys.add(("js", m.group(4).strip()))
+
+            # Detectar saltos.app.modal('Título', 'Mensaje', {...})
+            for m in re.finditer(r'saltos\.app\.modal\s*\(\s*("|\')(.*?)\1\s*,\s*("|\')(.*?)\3', content):
+                keys.add(("js", m.group(2).strip()))
+                keys.add(("js", m.group(4).strip()))
+
+            # Detectar label: 'Texto' o "Texto" dentro de objetos
+            for m in re.finditer(r'label\s*:\s*("|\')(.*?)\1', content):
+                keys.add(("js", m.group(2).strip()))
+    except Exception:
+        print(f"[ERROR] {os.path.basename(path)} Error parsing extended JS")
+    return keys
+
 # ----------- Análisis por idioma -----------
 
 generic_messages = load_generic_messages()
@@ -290,8 +313,8 @@ for group in os.listdir(APPS_PATH):
                 status = "missing" if missing else "present"
                 if missing and found_elsewhere:
                     status = "missing_but_in_other_group"
-                results.append([group, base, origin, text[:35], key, status])
-                print("{:<10} {:<20} {:<10} {:<40} {:<40} {:<30}".format(group, base, origin, text[:35], key, status))
+                results.append([group, base, origin, text, key, status])
+                print("{:<10} {:<20} {:<10} {:<40} {:<40} {:<30}".format(group, base, origin, text, key, status))
 
         for yaml_file in glob(os.path.join(xml_dir, "*.yaml")):
             base = os.path.basename(yaml_file)
@@ -307,15 +330,15 @@ for group in os.listdir(APPS_PATH):
                 status = "missing" if missing else "present"
                 if missing and found_elsewhere:
                     status = "missing_but_in_other_group"
-                results.append([group, base, origin, text[:35], key, status])
-                print("{:<10} {:<20} {:<10} {:<40} {:<40} {:<30}".format(group, base, origin, text[:35], key, status))
+                results.append([group, base, origin, text, key, status])
+                print("{:<10} {:<20} {:<10} {:<40} {:<40} {:<30}".format(group, base, origin, text, key, status))
 
     if os.path.isdir(js_dir):
         for js_file in glob(os.path.join(js_dir, "*.js")):
             if js_file.endswith(".min.js") or js_file.endswith(".map"):
                 continue
             base = os.path.basename(js_file)
-            entries = extract_keys_js(js_file)
+            entries = extract_keys_js(js_file) | extract_keys_js_extended(js_file)
             for origin, text in entries:
                 key = text_to_key(text)
                 missing = key not in combined_messages
@@ -327,8 +350,33 @@ for group in os.listdir(APPS_PATH):
                 status = "missing" if missing else "present"
                 if missing and found_elsewhere:
                     status = "missing_but_in_other_group"
-                results.append([group, base, origin, text[:35], key, status])
-                print("{:<10} {:<20} {:<10} {:<40} {:<40} {:<30}".format(group, base, origin, text[:35], key, status))
+                results.append([group, base, origin, text, key, status])
+                print("{:<10} {:<20} {:<10} {:<40} {:<40} {:<30}".format(group, base, origin, text, key, status))
+
+# Procesar ficheros JS del grupo "global" (code/web/js/*.js)
+WEB_JS_DIR = os.path.join(ROOT, "code", "web", "js")
+if (not GROUP_FILTER or GROUP_FILTER == "global") and os.path.isdir(WEB_JS_DIR):
+    group = "global"
+    group_messages = load_group_messages_yaml(group)
+    combined_messages = {**generic_messages, **group_messages}
+    for js_file in glob(os.path.join(WEB_JS_DIR, "*.js")):
+        if js_file.endswith(".min.js") or js_file.endswith(".map"):
+            continue
+        base = os.path.basename(js_file)
+        entries = extract_keys_js(js_file) | extract_keys_js_extended(js_file)
+        for origin, text in entries:
+            key = text_to_key(text)
+            missing = key not in combined_messages
+            found_elsewhere = any(key in m for g, m in other_groups_messages.items()) if missing else False
+            if ((FILTER == "missing" and not missing) or
+                (FILTER == "present" and missing) or
+                (FILTER == "missing_but_in_other_group" and (not missing or not found_elsewhere))):
+                continue
+            status = "missing" if missing else "present"
+            if missing and found_elsewhere:
+                status = "missing_but_in_other_group"
+            results.append([group, base, origin, text, key, status])
+            print("{:<10} {:<20} {:<10} {:<40} {:<40} {:<30}".format(group, base, origin, text, key, status))
 
 if args.csv:
     with open(args.csv, "w", newline="", encoding="utf-8") as f:

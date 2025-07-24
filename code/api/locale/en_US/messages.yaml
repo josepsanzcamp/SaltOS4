@@ -128,3 +128,13 @@ access_log: Access log
 list: List
 detail: Detail
 modify: Modify
+select_registers: Select registers
+you_must_select_the_desired_registers_that_you_want_see_in_the_pdf_file: You must select the desired registers that you want see in the PDF file
+you_must_select_the_desired_registers_that_you_want_download_in_the_pdf_file: You must select the desired registers that you want download in the PDF file
+password_updated_successfully: Password updated successfully
+content_served_from_cache_because_there_is_an_issue_with_the_server: Content served from cache because there is an issue with the server
+content_served_from_cache_because_navigator_is_offline: Content served from cache because navigator is offline
+attention: Attention
+do_you_want_to_close_this_screen: Do you want to close this screen???
+no_data_found: No data found
+data_restored_from_the_previous_session: Data restored from the previous session

@@ -132,7 +132,6 @@ only_outbox: Only outbox
 you_must_select_the_desired_emails_that_you_want_see_in_the_pdf_file: You must select the desired emails that you want to see in the PDF file
 you_must_select_the_desired_emails_that_you_want_download_in_the_pdf_file: You must select the desired emails that you want to download in the PDF file
 mark: Mark
-do_you_want_to_close_this_screen: Do you want to close this window?
 to_see_the_email: To see the email
 without_subject: Without subject
 until_date: Until date
@@ -151,3 +150,6 @@ emails_accounts: Emails accounts
 to_download_the_email: To download the email
 detail_of_the_email_account: Detail of the email account
 modify_this_email_account: Modify this email account
+priority: Priority
+do_you_want_to_delete_this_email: Do you want to delete this email???
+delete_this_email: Delete this email???

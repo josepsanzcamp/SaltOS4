@@ -132,7 +132,6 @@ only_outbox: Només sortint
 you_must_select_the_desired_emails_that_you_want_see_in_the_pdf_file: Heu de seleccionar els correus desitjats que voleu veure al fitxer PDF
 you_must_select_the_desired_emails_that_you_want_download_in_the_pdf_file: Heu de seleccionar els correus desitjats que voleu descarregar al fitxer PDF
 mark: Marcar
-do_you_want_to_close_this_screen: Voleu tancar aquesta finestra?
 to_see_the_email: Per veure el correu electrònic
 without_subject: Sense assumpte
 until_date: Fins la data
@@ -151,3 +150,6 @@ emails_accounts: Comptes de correu
 to_download_the_email: Per descarregar el correu electrònic
 detail_of_the_email_account: Detall del compte de correu
 modify_this_email_account: Modificar aquest compte de correu
+priority: Prioritat
+do_you_want_to_delete_this_email: Vols eliminar aquest correu?
+delete_this_email: Elimina aquest correu

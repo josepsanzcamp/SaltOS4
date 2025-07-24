@@ -132,7 +132,6 @@ only_outbox: Solo salida
 you_must_select_the_desired_emails_that_you_want_see_in_the_pdf_file: Debes seleccionar los correos que deseas ver en el archivo PDF
 you_must_select_the_desired_emails_that_you_want_download_in_the_pdf_file: Debes seleccionar los correos que deseas descargar en el archivo PDF
 mark: Marcar
-do_you_want_to_close_this_screen: ¿Deseas cerrar esta ventana?
 to_see_the_email: Para ver el correo electrónico
 without_subject: Sin asunto
 until_date: Hasta la fecha
@@ -151,3 +150,6 @@ emails_accounts: Cuentas de correo
 to_download_the_email: Para descargar el correo electrónico
 detail_of_the_email_account: Detalle de la cuenta de correo
 modify_this_email_account: Modificar esta cuenta de correo
+priority: Prioridad
+do_you_want_to_delete_this_email: ¿Deseas eliminar este correo?
+delete_this_email: Eliminar este correo
