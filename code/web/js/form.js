@@ -592,9 +592,9 @@ saltos.form.title = title => {
             const container = navbar.closest('.container-fluid');
             const brand = container.querySelector('.navbar-brand');
             const collapse = container.querySelector('.navbar-collapse');
+            const extra = 'position-absolute top-50 start-50 translate-middle';
             const title1 = saltos.core.html(`
-                <h4 id="title1" class="d-none d-xl-block
-                    position-absolute top-50 start-50 translate-middle my-auto"/>
+                <h4 id="title1" class="d-none d-xl-block ${extra} my-auto"/>
             `);
             const title2 = saltos.core.html(`
                 <h5 id="title2" class="d-none d-md-block d-xl-none my-auto"/>
