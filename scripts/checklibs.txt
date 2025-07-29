@@ -21,7 +21,7 @@ jstree|https://github.com/vakata/jstree/commits/v.4.0.atom|<updated>|PHVwZGF0ZWQ
 locutus|https://github.com/locutusjs/locutus/tags.atom|<title>|PHRpdGxlPnYyLjAuMzI8L3RpdGxlPg==
 masonry|https://github.com/desandro/masonry/tags.atom|<title>|PHRpdGxlPnY0LjIuMiAtIGZsb2F0IHBvc2l0aW9uIHZhbHVlczwvdGl0bGU+
 md5|https://github.com/blueimp/JavaScript-MD5/tags.atom|<title>|PHRpdGxlPnYyLjE5LjA8L3RpdGxlPg==
-pdfjs|https://github.com/mozilla/pdf.js/tags.atom|<title>|PHRpdGxlPnY1LjMuOTM8L3RpdGxlPg==
+pdfjs|https://github.com/mozilla/pdf.js/tags.atom|<title>|PHRpdGxlPnY1LjQuNTQ8L3RpdGxlPg==
 sourcemap|https://github.com/novocaine/sourcemapped-stacktrace/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAxOS0wOS0wMVQwODowNTo1Mlo8L3VwZGF0ZWQ+
 tomselect|https://github.com/orchidjs/tom-select/tags.atom|<title>|PHRpdGxlPnYyLjQuMzwvdGl0bGU+
 topbar|https://github.com/buunguyen/topbar/commits/master.atom|<title>|PHRpdGxlPlJlY2VudCBDb21taXRzIHRvIHRvcGJhcjptYXN0ZXI8L3RpdGxlPg==
@@ -46,9 +46,9 @@ minify|https://github.com/coderaiser/minify/tags.atom|<title>|PHRpdGxlPm1pbmlmeS
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|PHRpdGxlPk1yb29uZ2EgMTUuMTEgLSAyMDI1LTA2LTA2PC90aXRsZT4=
 node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjUtMDctMTUsIFZlcnNpb24gMjQuNC4xIChDdXJyZW50KSwgQFJhZmFlbEdTUzwvdGl0bGU+
 pcov|https://github.com/krakjoe/pcov/tags.atom|<title>|PHRpdGxlPnYxLjAuMTI8L3RpdGxlPg==
-php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjMuMjRSQzE8L3RpdGxlPg==
+php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjQuMTE8L3RpdGxlPg==
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|PHRpdGxlPjQuMC4wUkMxIC0gMjAyNS0wNi0xODwvdGl0bGU+
-phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjIuMS4xOTwvdGl0bGU+
+phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjIuMS4yMTwvdGl0bGU+
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|PHRpdGxlPlBIUFVuaXQgMTIuMi43PC90aXRsZT4=
 uglifyjs|https://github.com/mishoo/UglifyJS/tags.atom|<title>|PHRpdGxlPnYzLjE5LjM8L3RpdGxlPg==
 wpcs|https://github.com/WordPress/WordPress-Coding-Standards/tags.atom|<title>|PHRpdGxlPjMuMi4wPC90aXRsZT4=

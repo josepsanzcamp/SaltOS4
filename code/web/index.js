@@ -283,63 +283,63 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
              aria-hidden="true" style="height:${e.height}!important">
             <span class="w-100 h-100 placeholder ${t}"></span>
         </div>
-    `));return o=saltos.bootstrap.__label_combine(e,o)},saltos.bootstrap.__field.list=l=>{if(saltos.core.check_params(l,["class","id","onclick","truncate","checkbox","nodata","shadow","rounded"]),saltos.core.check_params(l,["data","actions"],[]),!l.data.length){const r=saltos.bootstrap.__field.alert({id:l.id,title:l.nodata,label:l.label});return r.set=e=>{const t=saltos.bootstrap.__field.list({...l,...e});r.replaceWith(t)},r.add=e=>{const t={...l,...e,data:[...l.data,...e.data]},o=saltos.bootstrap.__field.list(t);r.replaceWith(o)},r}let e="shadow",t=(l.shadow&&(e=l.shadow),"rounded-4");l.rounded&&(t=l.rounded);let r;for(var o in r=saltos.core.eval_bool(l.onclick)?saltos.core.html(`
+    `));return o=saltos.bootstrap.__label_combine(e,o)},saltos.bootstrap.__field.list=l=>{if(saltos.core.check_params(l,["class","id","onclick","truncate","checkbox","nodata","shadow","rounded"]),saltos.core.check_params(l,["data","actions"],[]),!l.data.length){const r=saltos.bootstrap.__field.alert({id:l.id,title:l.nodata,label:l.label});return r.set=e=>{const t=saltos.bootstrap.__field.list({...l,...e});r.replaceWith(t)},r.add=e=>{const t={...l,...e,data:[...l.data,...e.data]},o=saltos.bootstrap.__field.list(t);r.replaceWith(o)},r}let e="shadow",t=(l.shadow&&(e=l.shadow),"rounded-4"),o="rounded-bottom-4";l.rounded&&(t=l.rounded,o=l.rounded.replace("rounded-","rounded-bottom-"));let r;for(var s in r=saltos.core.eval_bool(l.onclick)?saltos.core.html(`
             <div id="${l.id}" class="list-group ${t} ${e} ${l.class}"></div>
         `):saltos.core.html(`
             <ul id="${l.id}" class="list-group ${t} ${e} ${l.class}"></ul>
-        `),l.data){const s=l.data[o];saltos.core.check_params(s,["header","body","footer","class","header_text","header_icon","header_color","body_text","body_icon","body_color","footer_text","footer_icon","footer_color","onclick","arg","active","disabled","actions","id"]);let e;if(saltos.core.eval_bool(l.onclick)){if(e=saltos.core.html(`<button
-                class="list-group-item list-group-item-action ${s.class}"></button>`),Object.keys(l.actions).length){"actions"in s||(s.actions={});const a={...saltos.core.join_attr_value(Object.values(l.actions)[0]),...Object.values(s.actions)[0]};"onclick"in a&&"arg"in a&&(s.onclick=a.onclick,s.arg=a.arg)}""!=s.arg&&(s.onclick=`${s.onclick}("${s.arg}")`),saltos.bootstrap.__onclick_helper(e,s.onclick),saltos.core.eval_bool(l.checkbox)&&(""==s.id&&(s.id=saltos.core.uniqid()),e.setAttribute("id","button_"+s.id))}else e=saltos.core.html(`<li class="list-group-item ${s.class}"></li>`);if(""!=s.header){const c=saltos.core.html(`
+        `),l.data){const a=l.data[s];saltos.core.check_params(a,["header","body","footer","class","header_text","header_icon","header_color","body_text","body_icon","body_color","footer_text","footer_icon","footer_color","onclick","arg","active","disabled","actions","id"]);let e;if(saltos.core.eval_bool(l.onclick)){if(e=saltos.core.html(`<button
+                class="list-group-item list-group-item-action ${a.class}"></button>`),Object.keys(l.actions).length){"actions"in a||(a.actions={});const c={...saltos.core.join_attr_value(Object.values(l.actions)[0]),...Object.values(a.actions)[0]};"onclick"in c&&"arg"in c&&(a.onclick=c.onclick,a.arg=c.arg)}""!=a.arg&&(a.onclick=`${a.onclick}("${a.arg}")`),saltos.bootstrap.__onclick_helper(e,a.onclick),saltos.core.eval_bool(l.checkbox)&&(""==a.id&&(a.id=saltos.core.uniqid()),e.setAttribute("id","button_"+a.id))}else e=saltos.core.html(`<li class="list-group-item ${a.class}"></li>`);if(""!=a.header){const n=saltos.core.html(`
                 <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1 fw-normal ${s.class}"></h5>
+                    <h5 class="mb-1 fw-normal ${a.class}"></h5>
                 </div>
-            `);c.querySelector("h5").append(s.header),saltos.core.eval_bool(l.truncate)&&c.querySelector("h5").classList.add("text-truncate"),""!=s.header_text&&""!=s.header_icon?c.append(saltos.core.html(`
-                    <small class="text-nowrap text-${s.header_color} ms-1">
-                        ${s.header_text}
-                        <i class="bi bi-${s.header_icon}"></i>
+            `);n.querySelector("h5").append(a.header),saltos.core.eval_bool(l.truncate)&&n.querySelector("h5").classList.add("text-truncate"),""!=a.header_text&&""!=a.header_icon?n.append(saltos.core.html(`
+                    <small class="text-nowrap text-${a.header_color} ms-1">
+                        ${a.header_text}
+                        <i class="bi bi-${a.header_icon}"></i>
                     </small>
-                `)):""!=s.header_text?c.append(saltos.core.html(`
-                    <small class="text-nowrap text-${s.header_color} ms-1">
-                        ${s.header_text}
+                `)):""!=a.header_text?n.append(saltos.core.html(`
+                    <small class="text-nowrap text-${a.header_color} ms-1">
+                        ${a.header_text}
                     </small>
-                `)):""!=s.header_icon&&c.append(saltos.core.html(`
-                    <small class="text-nowrap text-${s.header_color} ms-1">
-                        <i class="bi bi-${s.header_icon}"></i>
+                `)):""!=a.header_icon&&n.append(saltos.core.html(`
+                    <small class="text-nowrap text-${a.header_color} ms-1">
+                        <i class="bi bi-${a.header_icon}"></i>
                     </small>
-                `)),e.append(c)}if(""!=s.body){const n=saltos.core.html(`
+                `)),e.append(n)}if(""!=a.body){const i=saltos.core.html(`
                 <div class="d-flex w-100 justify-content-between">
                     <p class="mb-1"></p>
                 </div>
-            `);n.querySelector("p").append(s.body),saltos.core.eval_bool(l.truncate)&&n.querySelector("p").classList.add("text-truncate"),""!=s.body_text&&""!=s.body_icon?n.append(saltos.core.html(`
-                    <small class="text-nowrap text-${s.body_color} ms-1">
-                        ${s.body_text}
-                        <i class="bi bi-${s.body_icon}"></i>
+            `);i.querySelector("p").append(a.body),saltos.core.eval_bool(l.truncate)&&i.querySelector("p").classList.add("text-truncate"),""!=a.body_text&&""!=a.body_icon?i.append(saltos.core.html(`
+                    <small class="text-nowrap text-${a.body_color} ms-1">
+                        ${a.body_text}
+                        <i class="bi bi-${a.body_icon}"></i>
                     </small>
-                `)):""!=s.body_text?n.append(saltos.core.html(`
-                    <small class="text-nowrap text-${s.body_color} ms-1">
-                        ${s.body_text}
+                `)):""!=a.body_text?i.append(saltos.core.html(`
+                    <small class="text-nowrap text-${a.body_color} ms-1">
+                        ${a.body_text}
                     </small>
-                `)):""!=s.body_icon&&n.append(saltos.core.html(`
-                    <small class="text-nowrap text-${s.body_color} ms-1">
-                        <i class="bi bi-${s.body_icon}"></i>
+                `)):""!=a.body_icon&&i.append(saltos.core.html(`
+                    <small class="text-nowrap text-${a.body_color} ms-1">
+                        <i class="bi bi-${a.body_icon}"></i>
                     </small>
-                `)),e.append(n)}if(""!=s.footer){const i=saltos.core.html(`
+                `)),e.append(i)}if(""!=a.footer){const d=saltos.core.html(`
                 <div class="d-flex w-100 justify-content-between">
                     <small></small>
                 </div>
-            `);i.querySelector("small").append(s.footer),saltos.core.eval_bool(l.truncate)&&i.querySelector("small").classList.add("text-truncate"),""!=s.footer_text&&""!=s.footer_icon?i.append(saltos.core.html(`
-                    <small class="text-nowrap text-${s.footer_color} ms-1">
-                        ${s.footer_text}
-                        <i class="bi bi-${s.footer_icon}"></i>
+            `);d.querySelector("small").append(a.footer),saltos.core.eval_bool(l.truncate)&&d.querySelector("small").classList.add("text-truncate"),""!=a.footer_text&&""!=a.footer_icon?d.append(saltos.core.html(`
+                    <small class="text-nowrap text-${a.footer_color} ms-1">
+                        ${a.footer_text}
+                        <i class="bi bi-${a.footer_icon}"></i>
                     </small>
-                `)):""!=s.footer_text?i.append(saltos.core.html(`
-                    <small class="text-nowrap text-${s.footer_color} ms-1">
-                        ${s.footer_text}
+                `)):""!=a.footer_text?d.append(saltos.core.html(`
+                    <small class="text-nowrap text-${a.footer_color} ms-1">
+                        ${a.footer_text}
                     </small>
-                `)):""!=s.footer_icon&&i.append(saltos.core.html(`
-                    <small class="text-nowrap text-${s.footer_color} ms-1">
-                        <i class="bi bi-${s.footer_icon}"></i>
+                `)):""!=a.footer_icon&&d.append(saltos.core.html(`
+                    <small class="text-nowrap text-${a.footer_color} ms-1">
+                        <i class="bi bi-${a.footer_icon}"></i>
                     </small>
-                `)),e.append(i)}saltos.core.eval_bool(s.active)&&(e.classList.add("active"),e.setAttribute("aria-current","true")),saltos.core.eval_bool(s.disabled)&&(e.classList.add("disabled"),e.setAttribute("aria-disabled","true")),r.append(e)}return r.append(saltos.core.html(`
+                `)),e.append(d)}saltos.core.eval_bool(a.active)&&(e.classList.add("active"),e.setAttribute("aria-current","true")),saltos.core.eval_bool(a.disabled)&&(e.classList.add("disabled"),e.setAttribute("aria-disabled","true")),r.append(e)}return r.lastElementChild&&r.lastElementChild.classList.add(o),r.append(saltos.core.html(`
         <style>
             .list-group {
                 --bs-list-group-action-hover-bg: #fbec88;

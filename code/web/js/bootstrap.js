@@ -3766,8 +3766,10 @@ saltos.bootstrap.__field.list = field => {
         shadow = field.shadow;
     }
     let rounded = 'rounded-4';
+    let rounded_bottom = 'rounded-bottom-4';
     if (field.rounded) {
         rounded = field.rounded;
+        rounded_bottom = field.rounded.replace('rounded-', 'rounded-bottom-');
     }
     let obj;
     if (saltos.core.eval_bool(field.onclick)) {
@@ -3921,6 +3923,9 @@ saltos.bootstrap.__field.list = field => {
             item.setAttribute('aria-disabled', 'true');
         }
         obj.append(item);
+    }
+    if (obj.lastElementChild) {
+        obj.lastElementChild.classList.add(rounded_bottom);
     }
     // The follow code allow to colorize the hover and active rows of the list
     // The --bs-body-color is used as main color here from bootstrap 5.3.5
