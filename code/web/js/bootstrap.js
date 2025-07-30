@@ -1744,12 +1744,8 @@ saltos.bootstrap.__field.password = field => {
     input.set_disabled = bool => {
         if (bool) {
             input.setAttribute('disabled', '');
-            button.setAttribute('disabled', '');
-            button.classList.add('opacity-25');
         } else {
             input.removeAttribute('disabled');
-            button.removeAttribute('disabled');
-            button.classList.remove('opacity-25');
         }
     };
     // Program the button feature
