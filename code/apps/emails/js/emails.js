@@ -72,7 +72,7 @@ saltos.emails.init = arg => {
             button.classList.remove('fw-bold');
             button.querySelector('h5').classList.remove('fw-bold');
             const is_new = button.querySelector('small.text-success');
-            if (is_new && ['New', T('New')].includes(is_new.innerHTML)) {
+            if (is_new && ['New', T('New')].includes(is_new.innerHTML.trim())) {
                 is_new.classList.remove('text-success');
                 is_new.innerHTML = T('Read');
             }
