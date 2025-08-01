@@ -78,3 +78,16 @@ if (!function_exists('array_key_first')) {
         }
     }
 }
+
+if (!function_exists('posix_getuid')) {
+    /**
+     * Posix GetUID
+     *
+     * This function only is available in posix compilant systems like unix,
+     * linux and mac, and for windows this is a short circuit
+     */
+    function posix_getuid()
+    {
+        return getmyuid();
+    }
+}
