@@ -779,7 +779,7 @@ saltos.bootstrap.__field.ckeditor = field => {
     // Fix for a rounded corners
     let rounded = 'var(--bs-border-radius-xl)';
     if (saltos.core.is_number(field.rounded.replace('rounded-', ''))) {
-        const index = parseInt(field.rounded.replace('rounded-', ''));
+        const index = parseInt(field.rounded.replace('rounded-', ''), 10);
         switch (index) {
             case 0:
                 rounded = '0';
@@ -951,7 +951,7 @@ saltos.bootstrap.__field.codemirror = field => {
     // Fix for a rounded corners
     let rounded = 'var(--bs-border-radius-xl)';
     if (saltos.core.is_number(field.rounded.replace('rounded-', ''))) {
-        const index = parseInt(field.rounded.replace('rounded-', ''));
+        const index = parseInt(field.rounded.replace('rounded-', ''), 10);
         switch (index) {
             case 0:
                 rounded = '0';
