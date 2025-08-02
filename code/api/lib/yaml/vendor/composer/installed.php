@@ -38,9 +38,9 @@
             'dev_requirement' => false,
         ),
         'symfony/yaml' => array(
-            'pretty_version' => 'v7.3.1',
-            'version' => '7.3.1.0',
-            'reference' => '0c3555045a46ab3cd4cc5a69d161225195230edb',
+            'pretty_version' => 'v7.3.2',
+            'version' => '7.3.2.0',
+            'reference' => 'b8d7d868da9eb0919e99c8830431ea087d6aae30',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/yaml',
             'aliases' => array(),
