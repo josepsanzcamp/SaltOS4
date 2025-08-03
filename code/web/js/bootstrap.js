@@ -2429,8 +2429,8 @@ saltos.bootstrap.__field.pdfjs = field => {
             await new Promise(resolve => setTimeout(resolve, 1));
         }
         // Continue
-        const url = new URL('lib/pdfjs/pdf.worker.min.mjs', window.location.href);
-        pdfjsLib.GlobalWorkerOptions.workerSrc = url.href;
+        const url = new URL('lib/pdfjs/pdf.worker.min.mjs', window.location.href).href;
+        pdfjsLib.GlobalWorkerOptions.workerSrc = url;
         pdfjsLib.getDocument(field.src).promise.then(pdf => {
             if (!pdf.numPages) {
                 return;
