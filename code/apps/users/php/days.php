@@ -65,6 +65,9 @@ function days2bin($days)
  */
 function bin2days($days)
 {
+    if ($days === null) {
+        return $days;
+    }
     $days = str_split($days);
     $days = array_reverse($days);
     foreach ($days as $key => $val) {
