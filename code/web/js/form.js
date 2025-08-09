@@ -50,7 +50,6 @@ saltos.form.__form = {
     loading: 0,
     timer: null,
     init: false,
-    isloading: false,
 };
 
 /**
@@ -650,11 +649,11 @@ saltos.form.screen = action => {
                         '0.8': '#20c997', // teal
                         '0.9': '#0dcaf0', // cyan
                     },
+                    className: 'tolbar',
                 });
                 saltos.form.__form.init = true;
             }
             topbar.show();
-            saltos.form.__form.isloading = true;
             return true;
         }
         case 'unloading': {
@@ -671,12 +670,12 @@ saltos.form.screen = action => {
             // real unloading code
             saltos.form.__form.timer = setTimeout(() => {
                 topbar.hide();
-                saltos.form.__form.isloading = false;
             }, 300);
             return true;
         }
         case 'isloading': {
-            return saltos.form.__form.isloading;
+            const tolbar = document.querySelector('.tolbar');
+            return tolbar && tolbar.style.opacity > 0.05;
         }
         case 'clear':
             const obj = document.getElementById('screen');
