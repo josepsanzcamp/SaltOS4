@@ -50,6 +50,7 @@ saltos.form.__form = {
     loading: 0,
     timer: null,
     init: false,
+    isloading: false,
 };
 
 /**
@@ -653,6 +654,7 @@ saltos.form.screen = action => {
                 saltos.form.__form.init = true;
             }
             topbar.show();
+            saltos.form.__form.isloading = true;
             return true;
         }
         case 'unloading': {
@@ -669,8 +671,12 @@ saltos.form.screen = action => {
             // real unloading code
             saltos.form.__form.timer = setTimeout(() => {
                 topbar.hide();
+                saltos.form.__form.isloading = false;
             }, 300);
             return true;
+        }
+        case 'isloading': {
+            return saltos.form.__form.isloading;
         }
         case 'clear':
             const obj = document.getElementById('screen');
