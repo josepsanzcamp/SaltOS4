@@ -49,6 +49,9 @@ require_once 'php/lib/setup.php';
 // This part allow request like setup/crm for specific setups
 if (get_data('rest/1')) {
     $dir = encode_bad_chars(strval(get_data('rest/1')));
+    if (!file_exists("apps/$dir/sample")) {
+        show_php_error(['phperror' => "apps/$dir/sample not found"]);
+    }
 
     // Search for specific setup
     $file = "apps/$dir/sample/setup.php";

@@ -146,8 +146,7 @@ function __nssdb_list()
         return ['error' => 'pdfsig not found'];
     }
     $dir = __nssdb_dir_helper();
-    $output = __nssdb_passthru_helper("pdfsig -nssdir $dir -list-nicks 2>&1");
-    $output = array_grep($output, 'NSS_Shutdown failed', true);
+    $output = __nssdb_passthru_helper("pdfsig -nssdir $dir -list-nicks 2>/dev/null");
     $output = array_grep($output, 'There are no certificates available.', true);
     $output = array_grep($output, 'Certificate nicknames available:', true);
     return $output;
@@ -213,13 +212,12 @@ function __nssdb_pdfsig($nick, $input, $output)
     }
     $dir = __nssdb_dir_helper();
     // phpcs:disable Generic.Files.LineLength
-    $output1 = __nssdb_passthru_helper("pdfsig -nssdir $dir -add-signature -nick \"$nick\" $input $output 2>&1");
+    $output1 = __nssdb_passthru_helper("pdfsig -nssdir $dir -add-signature -nick \"$nick\" $input $output 2>/dev/null");
     // phpcs:enable Generic.Files.LineLength
     if (file_exists($output)) {
         chmod_protected($output, 0666);
     }
-    $output1 = array_grep($output1, 'NSS_Shutdown failed', true);
-    $output2 = __nssdb_passthru_helper("pdfsig $output 2>&1");
+    $output2 = __nssdb_passthru_helper("pdfsig $output 2>/dev/null");
     return array_merge($output1, $output2);
 }
 
