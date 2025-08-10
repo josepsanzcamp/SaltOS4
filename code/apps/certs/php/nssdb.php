@@ -149,6 +149,7 @@ function __nssdb_list()
     $output = __nssdb_passthru_helper("pdfsig -nssdir $dir -list-nicks 2>/dev/null");
     $output = array_grep($output, 'There are no certificates available.', true);
     $output = array_grep($output, 'Certificate nicknames available:', true);
+    $output = array_trim($output);
     return $output;
 }
 

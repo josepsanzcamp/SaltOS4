@@ -724,3 +724,19 @@ function check_real_matrix($array)
     }
     return true;
 }
+
+/**
+ * Trim helper
+ *
+ * This function tries to do the same that trim but for all elements of the
+ * input array.
+ *
+ * @input => the input array
+ */
+function array_trim($array)
+{
+    foreach ($array as $key => $val) {
+        $array[$key] = trim($val);
+    }
+    return $array;
+}
