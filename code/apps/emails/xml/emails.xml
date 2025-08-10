@@ -222,7 +222,7 @@
                         SELECT CONCAT(email_name,' &lt;',email_from,'&gt;') label, id value, email_default,
                             (SELECT COUNT(*) FROM app_emails WHERE account_id = a.id AND is_outbox = 1) counter
                         FROM app_emails_accounts a
-                        WHERE user_id = ? AND email_disabled = 0 AND smtp_host != ''
+                        WHERE user_id = ? AND IFNULL(email_disabled, 0) = 0 AND smtp_host != ''
                         ORDER BY email_default DESC, counter DESC
                     ", [current_user()])</rows>
                 </select>

@@ -1439,7 +1439,7 @@ function getmail_server()
         ]);
     }
     // datos pop3
-    $query = 'SELECT * FROM app_emails_accounts WHERE user_id = ? AND email_disabled = 0';
+    $query = 'SELECT * FROM app_emails_accounts WHERE user_id = ? AND IFNULL(email_disabled, 0) = 0';
     $result = execute_query_array($query, [current_user()]);
     if (!count($result)) {
         semaphore_release($semaphore);

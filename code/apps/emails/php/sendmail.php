@@ -382,7 +382,7 @@ function sendmail_prepare($action, $email_id)
     $query = "SELECT id
         FROM app_emails_accounts
         WHERE user_id = ?
-            AND email_disabled = 0
+            AND IFNULL(email_disabled, 0) = 0
             AND smtp_host != ''
             AND email_default = 1
         LIMIT 1";
@@ -398,8 +398,8 @@ function sendmail_prepare($action, $email_id)
                 ) AND type_id IN (1,2,3,4)
             ) counter, email_default
             FROM app_emails_accounts a
-            WHERE user_id = ? AND email_disabled = 0 AND smtp_host != ''
-            ORDER BY email_default DESC, counter DESC
+            WHERE user_id = ? AND IFNULL(email_disabled, 0) = 0 AND smtp_host != ''
+            ORDER BY IFNULL(email_default, 0) DESC, counter DESC
             LIMIT 1) z";
         $account_id = execute_query($query, [current_user()]);
     }
