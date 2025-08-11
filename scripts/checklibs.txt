@@ -11,7 +11,7 @@ yaml|https://github.com/symfony/yaml/tags.atom|<title>|PHRpdGxlPnY3LjMuMjwvdGl0b
 autoheight|https://github.com/kamilkp/autoheight/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAxNi0wOC0wN1QyMzo0MToxMVo8L3VwZGF0ZWQ+
 bootstrap|https://github.com/twbs/bootstrap/tags.atom|<title>|PHRpdGxlPnY1LjMuNzwvdGl0bGU+
 chartjs|https://github.com/chartjs/Chart.js/tags.atom|<title>|PHRpdGxlPnY0LjUuMDwvdGl0bGU+
-ckeditor|https://github.com/ckeditor/ckeditor5/tags.atom|<title>|PHRpdGxlPnY0Ni4wLjA8L3RpdGxlPg==
+ckeditor|https://github.com/ckeditor/ckeditor5/tags.atom|<title>|PHRpdGxlPnY0Ni4wLjE8L3RpdGxlPg==
 codemirror|https://api.cdnjs.com/libraries/codemirror?fields=name,version|version|eyJuYW1lIjoiY29kZW1pcnJvciIsInZlcnNpb24iOiI2LjY1LjcifQ==
 icons|https://github.com/twbs/icons/tags.atom|<title>|PHRpdGxlPnYxLjEzLjE8L3RpdGxlPg==
 imagesloaded|https://github.com/desandro/imagesloaded/tags.atom|<title>|PHRpdGxlPnY1LjAuMDwvdGl0bGU+
@@ -49,7 +49,7 @@ pcov|https://github.com/krakjoe/pcov/tags.atom|<title>|PHRpdGxlPnYxLjAuMTI8L3Rpd
 php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjUuMGFscGhhNDwvdGl0bGU+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|PHRpdGxlPjQuMC4wUkMxIC0gMjAyNS0wNi0xODwvdGl0bGU+
 phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjIuMS4yMjwvdGl0bGU+
-phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|PHRpdGxlPlBIUFVuaXQgMTIuMy4yPC90aXRsZT4=
+phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|PHRpdGxlPlBIUFVuaXQgMTIuMy4zPC90aXRsZT4=
 uglifyjs|https://github.com/mishoo/UglifyJS/tags.atom|<title>|PHRpdGxlPnYzLjE5LjM8L3RpdGxlPg==
 wpcs|https://github.com/WordPress/WordPress-Coding-Standards/tags.atom|<title>|PHRpdGxlPjMuMi4wPC90aXRsZT4=
 semver|https://github.com/composer/semver/tags.atom|<title>|PHRpdGxlPjMuNC4zPC90aXRsZT4=
