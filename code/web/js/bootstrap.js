@@ -690,7 +690,7 @@ saltos.bootstrap.__field.ckeditor = field => {
             element.parentElement.classList.add('p-0');
             if (field.color != 'none') {
                 element.parentElement.classList.add('border');
-                element.parentElement.classList.add('border-' + field.color);
+                element.parentElement.classList.add('border-' + field.color + '-subtle');
             }
             editor.model.document.on('change:data', () => {
                 element.value = editor.getData();
@@ -893,7 +893,7 @@ saltos.bootstrap.__field.codemirror = field => {
         element.parentElement.classList.add('p-0');
         if (field.color != 'none') {
             element.parentElement.classList.add('border');
-            element.parentElement.classList.add('border-' + field.color);
+            element.parentElement.classList.add('border-' + field.color + '-subtle');
         }
         element.nextElementSibling.style.height = 'auto';
         cm.on('change', cm.save);
@@ -1062,7 +1062,7 @@ saltos.bootstrap.__field.iframe = field => {
     if (field.rounded) {
         rounded = field.rounded;
     }
-    let border = `form-control p-0 ${shadow} ${rounded} border border-${field.color}`;
+    let border = `form-control p-0 ${shadow} ${rounded} border border-${field.color}-subtle`;
     if (field.color == 'none') {
         border = 'border-0';
     }
@@ -1181,7 +1181,7 @@ saltos.bootstrap.__field.select = field => {
     if (field.color) {
         color = field.color;
     }
-    let border = `border border-${color}`;
+    let border = `border border-${color}-subtle`;
     if (field.color == 'none') {
         border = 'border-0';
     }
@@ -1440,7 +1440,7 @@ saltos.bootstrap.__field.checkbox = field => {
     if (field.color) {
         color = field.color;
     }
-    let border = `border border-${color}`;
+    let border = `border border-${color}-subtle`;
     if (field.color == 'none') {
         border = 'border-0';
     }
@@ -1695,7 +1695,7 @@ saltos.bootstrap.__field.password = field => {
     if (field.color) {
         color = field.color;
     }
-    let border = `border border-${color}`;
+    let border = `border border-${color}-subtle`;
     if (field.color == 'none') {
         border = 'border-0';
     }
@@ -1819,8 +1819,8 @@ saltos.bootstrap.__field.file = field => {
     if (field.color) {
         color = field.color;
     }
-    let border1 = `border border-${color}`;
-    let border2 = `border-${color}`;
+    let border1 = `border border-${color}-subtle`;
+    let border2 = `border-${color}-subtle`;
     if (field.color == 'none') {
         border1 = 'border-0';
         border2 = '';
@@ -2123,7 +2123,7 @@ saltos.bootstrap.__field.image = field => {
     if (field.rounded) {
         rounded = field.rounded;
     }
-    let border = `form-control ${rounded} p-0 ${shadow} border border-${field.color}`;
+    let border = `form-control ${rounded} p-0 ${shadow} border border-${field.color}-subtle`;
     if (field.color == 'none') {
         border = 'border-0';
     }
@@ -2559,7 +2559,7 @@ saltos.bootstrap.__field.table = field => {
     }
     let obj = saltos.core.html(`
         <div id="${field.id}" class="form-control ${rounded} p-0 border-0 ${shadow} table-responsive">
-            <table class="table table-striped table-hover border-${field.color} ${field.class} mb-0">
+            <table class="table table-striped table-hover border-${field.color}-subtle ${field.class} mb-0">
             </table>
         </div>
     `);
@@ -3224,7 +3224,7 @@ saltos.bootstrap.__field.chartjs = field => {
  */
 saltos.bootstrap.__field.tags = field => {
     saltos.core.check_params(field, ['separator'], ',');
-    saltos.core.check_params(field, ['datalist', 'color']);
+    saltos.core.check_params(field, ['datalist', 'color', 'rounded']);
     saltos.core.check_params(field, ['create'], true);
     field.create = saltos.core.eval_bool(field.create);
     field.value = saltos.bootstrap.__value_helper(field.value, field.separator);
@@ -3238,6 +3238,11 @@ saltos.bootstrap.__field.tags = field => {
         color: field.color,
     });
     obj.append(placeholder);
+    // Prepare rounded
+    let rounded = 'rounded-pill';
+    if (field.rounded) {
+        rounded = field.rounded;
+    }
     // Continue
     saltos.core.require([
         'lib/tomselect/tom-select.bootstrap5.min.css',
@@ -3261,6 +3266,10 @@ saltos.bootstrap.__field.tags = field => {
                 'caret_position',
                 'input_autogrow',
             ],
+            onInitialize() {
+                //~ this.wrapper.classList.add(rounded);
+                this.control.classList.add(rounded);
+            },
         });
         element.tomselect = tags;
     });
@@ -3346,7 +3355,7 @@ saltos.bootstrap.__field.tags = field => {
  * - https://tom-select.js.org/
  */
 saltos.bootstrap.__field.onetag = field => {
-    saltos.core.check_params(field, ['datalist', 'color', 'value']);
+    saltos.core.check_params(field, ['datalist', 'color', 'value', 'rounded']);
     saltos.core.check_params(field, ['create'], true);
     field.create = saltos.core.eval_bool(field.create);
     if (field.value)  {
@@ -3362,6 +3371,11 @@ saltos.bootstrap.__field.onetag = field => {
         color: field.color,
     });
     obj.append(placeholder);
+    // Prepare rounded
+    let rounded = 'rounded-pill';
+    if (field.rounded) {
+        rounded = field.rounded;
+    }
     // Continue
     saltos.core.require([
         'lib/tomselect/tom-select.bootstrap5.min.css',
@@ -3382,6 +3396,10 @@ saltos.bootstrap.__field.onetag = field => {
                 'clear_button',
                 'input_autogrow',
             ],
+            onInitialize() {
+                //~ this.wrapper.classList.add(rounded);
+                this.control.classList.add(rounded);
+            },
         });
         element.tomselect = tags;
     });
@@ -3608,7 +3626,7 @@ saltos.bootstrap.__field.gallery = field => {
     if (!field.color) {
         field.color = 'primary';
     }
-    let border = `border border-${field.color}`;
+    let border = `border border-${field.color}-subtle`;
     if (field.color == 'none') {
         border = 'border-0';
     }
@@ -4580,7 +4598,7 @@ saltos.bootstrap.__text_helper = field => {
     if (field.color) {
         color = field.color;
     }
-    let border = `border border-${color}`;
+    let border = `border border-${color}-subtle`;
     if (field.color == 'none') {
         border = 'border-0';
     }
@@ -4667,7 +4685,7 @@ saltos.bootstrap.__textarea_helper = field => {
     if (field.color) {
         color = field.color;
     }
-    let border = `border border-${color}`;
+    let border = `border border-${color}-subtle`;
     if (field.color == 'none') {
         border = 'border-0';
     }
