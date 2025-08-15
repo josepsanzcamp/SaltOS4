@@ -108,6 +108,19 @@ saltos.bootstrap = {};
  * only for internal use.
  */
 saltos.bootstrap.field = field => {
+    // Remove the disable background color
+    if (!saltos.bootstrap.__cssinit) {
+        document.body.append(saltos.core.html(`
+            <style>
+                .form-control:disabled,
+                .form-select:disabled,
+                .disabled .ts-control {
+                    background-color: inherit!important;
+                }
+            </style>
+        `));
+        saltos.bootstrap.__cssinit = true;
+    }
     // Fix when some attributes need the fix_key feature
     for (const key in field) {
         const new_key = saltos.core.fix_key(key);
@@ -752,20 +765,20 @@ saltos.bootstrap.__field.ckeditor = field => {
         element.set_disabled(true);
     }
     // Continue
-    obj.append(saltos.core.html(`
-        <style>
-            .ck-read-only {
-                background-color: var(--bs-secondary-bg)!important;
-            }
-            .ck-toolbar:has(.ck-disabled:not(.ck-off)) {
-                background-color: var(--bs-secondary-bg)!important;
-            }
-            :root[data-bs-theme="dark"]:has(.ck-disabled:not(.ck-off)) {
-                --ck-color-text: #fff !important;
-                --ck-content-font-color: #fff !important;
-            }
-        </style>
-    `));
+    //~ obj.append(saltos.core.html(`
+        //~ <style>
+            //~ .ck-read-only {
+                //~ background-color: var(--bs-secondary-bg)!important;
+            //~ }
+            //~ .ck-toolbar:has(.ck-disabled:not(.ck-off)) {
+                //~ background-color: var(--bs-secondary-bg)!important;
+            //~ }
+            //~ :root[data-bs-theme="dark"]:has(.ck-disabled:not(.ck-off)) {
+                //~ --ck-color-text: #fff !important;
+                //~ --ck-content-font-color: #fff !important;
+            //~ }
+        //~ </style>
+    //~ `));
     if (field.height) {
         // The follow code allow to sets the min-height for this widget
         obj.append(saltos.core.html(`
@@ -939,10 +952,10 @@ saltos.bootstrap.__field.codemirror = field => {
         }
         if (bool) {
             element.codemirror.setOption('readOnly', true);
-            element.nextElementSibling.classList.add('bg-body-secondary');
+            //~ element.nextElementSibling.classList.add('bg-body-secondary');
         } else {
             element.codemirror.setOption('readOnly', false);
-            element.nextElementSibling.classList.remove('bg-body-secondary');
+            //~ element.nextElementSibling.classList.remove('bg-body-secondary');
         }
     };
     if (saltos.core.eval_bool(field.disabled)) {
@@ -2311,15 +2324,15 @@ saltos.bootstrap.__field.excel = field => {
                 } else {
                     cell.readOnly = bool;
                 }
-                if ('className' in cell) {
-                    // Nothing to do
-                } else if ('readOnlyCellClassName' in cell) {
-                    // Nothing to do
-                } else if (bool) {
-                    cell.readOnlyCellClassName = 'bg-body-secondary';
-                } else {
-                    cell.readOnlyCellClassName = '';
-                }
+                //~ if ('className' in cell) {
+                    //~ // Nothing to do
+                //~ } else if ('readOnlyCellClassName' in cell) {
+                    //~ // Nothing to do
+                //~ } else if (bool) {
+                    //~ cell.readOnlyCellClassName = 'bg-body-secondary';
+                //~ } else {
+                    //~ cell.readOnlyCellClassName = '';
+                //~ }
                 return cell;
             },
         });
