@@ -4914,6 +4914,14 @@ saltos.bootstrap.menu = args => {
     saltos.core.check_params(args, ['class', 'shadow', 'rounded']);
     saltos.core.check_params(args, ['menu'], []);
     const obj = saltos.core.html(`<ul class="${args.class}"></ul>`);
+    obj.append(saltos.core.html(`
+        <style>
+            .dropdown-menu-scroll {
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+        </style>
+    `));
     let shadow = 'shadow';
     if (args.shadow) {
         shadow = args.shadow;
@@ -4946,7 +4954,7 @@ saltos.bootstrap.menu = args => {
                         role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         ${val.label}
                     </button>
-                    <ul class="dropdown-menu ${rounded} ${shadow} ${dropdown_menu_end}">
+                    <ul class="dropdown-menu ${rounded} ${shadow} ${dropdown_menu_end} dropdown-menu-scroll">
                     </ul>
                 </li>
             `);
