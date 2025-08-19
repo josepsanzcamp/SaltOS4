@@ -765,20 +765,20 @@ saltos.bootstrap.__field.ckeditor = field => {
         element.set_disabled(true);
     }
     // Continue
-    //~ obj.append(saltos.core.html(`
-        //~ <style>
-            //~ .ck-read-only {
-                //~ background-color: var(--bs-secondary-bg)!important;
-            //~ }
-            //~ .ck-toolbar:has(.ck-disabled:not(.ck-off)) {
-                //~ background-color: var(--bs-secondary-bg)!important;
-            //~ }
-            //~ :root[data-bs-theme="dark"]:has(.ck-disabled:not(.ck-off)) {
-                //~ --ck-color-text: #fff !important;
-                //~ --ck-content-font-color: #fff !important;
-            //~ }
-        //~ </style>
-    //~ `));
+    /*obj.append(saltos.core.html(`
+        <style>
+            .ck-read-only {
+                background-color: var(--bs-secondary-bg)!important;
+            }
+            .ck-toolbar:has(.ck-disabled:not(.ck-off)) {
+                background-color: var(--bs-secondary-bg)!important;
+            }
+            :root[data-bs-theme="dark"]:has(.ck-disabled:not(.ck-off)) {
+                --ck-color-text: #fff !important;
+                --ck-content-font-color: #fff !important;
+            }
+        </style>
+    `));*/
     if (field.height) {
         // The follow code allow to sets the min-height for this widget
         obj.append(saltos.core.html(`
@@ -2324,15 +2324,15 @@ saltos.bootstrap.__field.excel = field => {
                 } else {
                     cell.readOnly = bool;
                 }
-                //~ if ('className' in cell) {
-                    //~ // Nothing to do
-                //~ } else if ('readOnlyCellClassName' in cell) {
-                    //~ // Nothing to do
-                //~ } else if (bool) {
-                    //~ cell.readOnlyCellClassName = 'bg-body-secondary';
-                //~ } else {
-                    //~ cell.readOnlyCellClassName = '';
-                //~ }
+                /*if ('className' in cell) {
+                    // Nothing to do
+                } else if ('readOnlyCellClassName' in cell) {
+                    // Nothing to do
+                } else if (bool) {
+                    cell.readOnlyCellClassName = 'bg-body-secondary';
+                } else {
+                    cell.readOnlyCellClassName = '';
+                }*/
                 return cell;
             },
         });
@@ -3048,7 +3048,7 @@ saltos.bootstrap.__field.alert = field => {
         rounded = field.rounded;
     }
     let obj = saltos.core.html(`
-        <div class="alert alert-${field.color} ${rounded} ${shadow} ${field.class} mb-0"
+        <div class="alert alert-${field.color} ${rounded} ${shadow} ${field.class} mb-0 border-0"
             role="alert" id="${field.id}"></div>
     `);
     if (field.title != '') {

@@ -215,7 +215,7 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
             }
         </style>
     `)),r.set=e=>{const t=saltos.bootstrap.__field.table({...l,...e});r.replaceWith(t)},r.add=e=>{const t={...l,...e,data:[...l.data,...e.data]},o=saltos.bootstrap.__field.table(t);r.replaceWith(o)},r=saltos.bootstrap.__label_combine(l,r)},saltos.bootstrap.__field.alert=e=>{saltos.core.check_params(e,["class","id","title","text","body","close","color","shadow","rounded"]),e.color||(e.color="primary");let t="shadow",o=(e.shadow&&(t=e.shadow),"rounded-4"),s=(e.rounded&&(o=e.rounded),saltos.core.html(`
-        <div class="alert alert-${e.color} ${o} ${t} ${e.class} mb-0"
+        <div class="alert alert-${e.color} ${o} ${t} ${e.class} mb-0 border-0"
             role="alert" id="${e.id}"></div>
     `));return""!=e.title&&(s.append(saltos.core.html(`<h4>${e.title}</h4>`)),e.text+e.body=="")&&s.querySelector("h4").classList.add("mb-0"),""!=e.text&&(s.append(saltos.core.html(`<p>${e.text}</p>`)),""==e.body)&&s.querySelector("p").classList.add("mb-0"),""!=e.body&&s.append(saltos.core.html(e.body)),saltos.core.eval_bool(e.close)&&(s.classList.add("alert-dismissible"),s.classList.add("fade"),s.classList.add("show"),s.append(saltos.core.html(`
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
