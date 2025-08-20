@@ -46,6 +46,24 @@ db_connect();
 require_once 'php/lib/dbschema.php';
 require_once 'php/lib/setup.php';
 
+// This part allow request to the setup/apache
+if (get_data('rest/1') == 'apache') {
+    $argv = get_server('argv');
+    $url = array_pop($argv);
+    require_once 'php/lib/apache.php';
+    $time0 = microtime(true);
+    $output = check_apache($url);
+    $time1 = microtime(true);
+    semaphore_release('setup');
+    output_handler_json([
+        'apache' => [
+            'time' => round($time1 - $time0, 6),
+            'output' => $output,
+            'count' => count($output),
+        ],
+    ]);
+}
+
 // This part allow request like setup/crm for specific setups
 if (get_data('rest/1')) {
     $dir = encode_bad_chars(strval(get_data('rest/1')));

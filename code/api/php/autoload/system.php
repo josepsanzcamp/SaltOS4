@@ -88,6 +88,26 @@ function check_system()
 }
 
  /**
+ * Exec Check System
+ *
+ * This function executes the check system function and trigger an error if needed
+ */
+function exec_check_system()
+{
+    $output = check_system();
+    foreach ($output as $key => $val) {
+        // @codeCoverageIgnoreStart
+        if (isset($val['error'])) {
+            show_php_error([
+                'phperror' => $val['error'],
+                'details' => $val['details'],
+            ]);
+        }
+        // @codeCoverageIgnoreEnd
+    }
+}
+
+ /**
  * Check Directories
  *
  * Check all directories of the data directory to validate that the process can write inside it
@@ -108,26 +128,6 @@ function check_directories()
     }
     $result = array_values($result);
     return $result;
-}
-
- /**
- * Exec Check System
- *
- * This function executes the check system function and trigger an error if needed
- */
-function exec_check_system()
-{
-    $output = check_system();
-    foreach ($output as $key => $val) {
-        // @codeCoverageIgnoreStart
-        if (isset($val['error'])) {
-            show_php_error([
-                'phperror' => $val['error'],
-                'details' => $val['details'],
-            ]);
-        }
-        // @codeCoverageIgnoreEnd
-    }
 }
 
 /**
