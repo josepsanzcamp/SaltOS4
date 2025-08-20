@@ -1,6 +1,8 @@
 
 # https://github.com/browscap/browscap-php
 
+rm -rf vendor
+rm -f composer.*
 composer require browscap/browscap-php
 
 #vendor/bin/browscap-php browscap:fetch --remote-file=Lite_PHP_BrowscapINI

@@ -1,3 +1,6 @@
 
 # https://github.com/Webklex/php-geoip
+
+rm -rf vendor
+rm -f composer.*
 composer require webklex/php-geoip

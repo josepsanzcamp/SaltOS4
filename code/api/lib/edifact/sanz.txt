@@ -1,4 +1,4 @@
 
 rm -rf vendor
 rm -f composer.*
-composer require symfony/yaml
+composer require sabas/edifact

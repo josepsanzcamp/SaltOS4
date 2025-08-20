@@ -1,6 +1,8 @@
 
 # Use composer to get the library:
 
+rm -rf vendor
+rm -f composer.*
 composer require phpoffice/phpspreadsheet
 
 # To fix the permissions in files and directories, use it:
