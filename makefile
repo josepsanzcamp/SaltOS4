@@ -263,3 +263,17 @@ langs:
 	for i in global certs common company crm dashboard emails hr purchases sales users; do \
 		python scripts/checklangs.py --lang en_US --group $$i --filter missing; \
 	done
+
+start:
+	cd scripts && docker compose up -d
+
+stop:
+	cd scripts && docker compose down
+	cd scripts && yes | docker volume prune
+
+logs:
+	cd scripts && docker compose logs
+
+status:
+	docker ps
+	cd scripts && docker compose ps
