@@ -5409,8 +5409,16 @@ saltos.bootstrap.offcanvas = args => {
 saltos.bootstrap.toast = args => {
     saltos.core.check_params(args, ['id', 'class', 'close', 'title', 'subtitle', 'body', 'color']);
     if (document.querySelectorAll('.toast-container').length == 0) {
+        // Remove border only for light mode
         document.body.append(saltos.core.html(`
-            <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+            <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            </div>
+            <style>
+                :root:not([data-bs-theme="dark"]) .toast,
+                :root:not([data-bs-theme="dark"]) .toast-header {
+                    border: 0;
+                }
+            </style>
         `));
     }
     // Check for repetitions

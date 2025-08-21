@@ -530,7 +530,14 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
             <div class="offcanvas-body"></div>
         </div>
     `)),a=(document.body.append(s),"string"==typeof e.body?""!=e.body&&s.querySelector(".offcanvas-body").append(saltos.core.html(e.body)):s.querySelector(".offcanvas-body").append(e.body),new bootstrap.Offcanvas(s));return saltos.bootstrap.__offcanvas.obj=s,saltos.bootstrap.__offcanvas.instance=a,s.addEventListener("shown.bs.offcanvas",e=>{s.querySelectorAll("[autofocus]").forEach(e=>{e.focus()})}),s.addEventListener("hide.bs.offcanvas",e=>{s.querySelectorAll("[autoclose]").forEach(e=>{e.click()})}),s.addEventListener("hidden.bs.offcanvas",e=>{saltos.bootstrap.__offcanvas.instance.dispose(),saltos.bootstrap.__offcanvas.obj.remove(),delete saltos.bootstrap.__offcanvas.instance,delete saltos.bootstrap.__offcanvas.obj}),a.show(),!0},saltos.bootstrap.toast=e=>{saltos.core.check_params(e,["id","class","close","title","subtitle","body","color"]),0==document.querySelectorAll(".toast-container").length&&document.body.append(saltos.core.html(`
-            <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+            <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            </div>
+            <style>
+                :root:not([data-bs-theme="dark"]) .toast,
+                :root:not([data-bs-theme="dark"]) .toast-header {
+                    border: 0;
+                }
+            </style>
         `));const t=md5(JSON.stringify(e));if(document.querySelector(`.toast[hash=x${t}]`))return!1;e.color||(e.color="primary");const o=saltos.core.html(`
         <div id="${e.id}" class="toast ${e.class}" role="alert" aria-live="assertive"
             aria-atomic="true" hash="x${t}">
