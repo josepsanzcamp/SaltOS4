@@ -40,9 +40,8 @@ declare(strict_types=1);
  *
  * This requires loads the external libraries needed to run this library.
  */
-require_once 'apps/emails/lib/mimeparser/mime_parser.php';
-require_once 'apps/emails/lib/mimeparser/rfc822_addresses.php';
-require_once 'apps/emails/lib/pop3class/pop3.php';
+require_once 'apps/emails/lib/compat/mime_parser.php';
+require_once 'apps/emails/lib/compat/pop3.php';
 
 /**
  * Defines section
@@ -1488,13 +1487,8 @@ function getmail_server()
                 $pop3->port = $row['pop3_port'];
             }
             $pop3->tls = ($row['pop3_extra'] == 'tls') ? 1 : 0;
-            // I have detected that stream_socket_client generates uncontrolable
-            // errors, for this reason, I have overloaded the error handler to
-            // manage this kind of errors
-            overload_error_handler('stream_socket_client');
+            $pop3->ssl = ($row['pop3_extra'] == 'ssl') ? 1 : 0;
             $error = $pop3->Open();
-            restore_error_handler();
-            // End of the overloaded error zone
         }
         if ($error == '') {
             $error = $pop3->Login($row['pop3_user'], $row['pop3_pass']);

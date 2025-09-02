@@ -28,19 +28,16 @@ topbar|https://github.com/buunguyen/topbar/commits/master.atom|<title>|PHRpdGxlP
 venobox|https://github.com/nicolafranchini/VenoBox/tags.atom|<title>|PHRpdGxlPjIuMS44PC90aXRsZT4=
 vkbeautify|https://github.com/vkiryukhin/vkBeautify/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAxOC0wNi0yOFQwNTowMjoyNlo8L3VwZGF0ZWQ+
 
-mimeparser|https://www.phpclasses.org/browse/file/14670.html|<span title=|PHNwYW4gdGl0bGU9IjIwMjQtMTEtMDMgMDk6MDg6MDYiPg==
 phpmailer|https://github.com/PHPMailer/PHPMailer/tags.atom|<title>|PHRpdGxlPnY2LjEwLjA8L3RpdGxlPg==
-pop3|https://www.phpclasses.org/browse/file/3.html|<span title=|PHNwYW4gdGl0bGU9IjIwMjItMTAtMDQgMDA6NTg6NTMiPg==
-rfc822|https://www.phpclasses.org/browse/file/21704.html|<span title=|PHNwYW4gdGl0bGU9IjIwMTYtMDctMjIgMjA6NTk6MDUiPg==
 sortablejs|https://github.com/SortableJS/Sortable/tags.atom|<title>|PHRpdGxlPnYxLjE1LjY8L3RpdGxlPg==
 
 acorn|https://github.com/acornjs/acorn/tags.atom|<title>|PHRpdGxlPlZlcnNpb24gOC4xNS4wPC90aXRsZT4=
 brotli|https://github.com/kjdev/php-ext-brotli/tags.atom|<title>|PHRpdGxlPjAuMTguMjwvdGl0bGU+
 browserify|https://github.com/browserify/browserify/tags.atom|<title>|PHRpdGxlPnYxNy4wLjE8L3RpdGxlPg==
 cloc|https://github.com/AlDanial/cloc/tags.atom|<title>|PHRpdGxlPjIuMDY8L3RpdGxlPg==
-jest|https://github.com/jestjs/jest/tags.atom|<title>|PHRpdGxlPjMwLjEuMTwvdGl0bGU+
+jest|https://github.com/jestjs/jest/tags.atom|<title>|PHRpdGxlPnYzMC4xLjM8L3RpdGxlPg==
 jscs|https://github.com/jscs-dev/node-jscs/tags.atom|<title>|PHRpdGxlPjMuMC43PC90aXRsZT4=
-libreoffice|https://es.libreoffice.org/descarga/libreoffice/|type=deb|PG9wdGlvbiB2YWx1ZT0iL2Rlc2NhcmdhL2xpYnJlb2ZmaWNlLz90eXBlPWRlYi1hYXJjaDY0JnZlcnNpb249MjUuOC4xJmxhbmc9ZXMiPg==
+libreoffice|https://es.libreoffice.org/descarga/libreoffice/|type=deb|PG9wdGlvbiB2YWx1ZT0iL2Rlc2NhcmdhL2xpYnJlb2ZmaWNlLz90eXBlPWRlYi1hYXJjaDY0JnZlcnNpb249MjUuOC4xJmxhbmc9ZXMiPkxpbnV4IChBYXJjaDY0KSAoZGViKTwvb3B0aW9uPg==
 mariadb|https://github.com/MariaDB/server/tags.atom|<title>|PHRpdGxlPk1hcmlhREIgQ29tbXVuaXR5IFNlcnZlciAxMi4xLjE8L3RpdGxlPg==
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|PHRpdGxlPm1pbmlmeSB2MTQuMS4wPC90aXRsZT4=
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|PHRpdGxlPnYxNS4xNTwvdGl0bGU+

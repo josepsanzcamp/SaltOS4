@@ -64,8 +64,6 @@ foreach ($libs as $key => $lib) {
         $istimeout = (($end - $start) >= 5);
         $temp = trim($temp);
         $iserror = ($temp == '');
-        $temp = str_replace('<TD><span ', "<TD>\n<span ", $temp); // FIX FOR WWW.PHPCLASSES.ORG
-        $temp = str_replace('">', "\">\n", $temp); // FIX FOR WWW.PHPCLASSES.ORG
         $temp = str_replace('><svg', ">\n<svg", $temp); // FIX FOR SOURCEFORGE.NET
         $temp = str_replace('<title>Tags from', '', $temp); // FIX FOR GITHUB.COM
         $temp = grep($temp, $lib[2]);

@@ -49,7 +49,6 @@ function check_system()
         ['extension', 'xml', 'error', 'php-xml'],
         ['extension', 'gd', 'error', 'php-gd'],
         ['extension', 'mbstring', 'error', 'php-mbstring'],
-        ['extension', 'curl', 'error', 'php-curl'],
         ['extension', 'yaml', 'warning', 'php-yaml'],
         ['class', 'pdo', 'warning', 'php-pdo'],
         ['class', 'mysqli', 'warning', 'php-mysql'],
@@ -58,6 +57,9 @@ function check_system()
         ['function', 'gzdeflate', 'warning', 'php-zlib'],
         ['function', 'zstd_compress', 'warning', 'php-zstd'],
         ['function', 'brotli_compress', 'warning', 'php-brotli'],
+        ['extension', 'curl', 'warning', 'php-curl'],
+        ['extension', 'mailparse', 'warning', 'php-mailparse'],
+        ['extension', 'imap', 'warning', 'php-imap'],
     ];
     foreach ($items as $item) {
         [$type, $name, $trigger, $package] = $item;

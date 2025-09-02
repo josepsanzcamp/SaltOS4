@@ -149,6 +149,7 @@
         <select id="pop3_extra" label="Extra" col_class="col-md-2 mb-3">
             <rows>
                 <row label="" value=""/>
+                <row label="SSL" value="ssl"/>
                 <row label="TLS" value="tls"/>
             </rows>
         </select>
