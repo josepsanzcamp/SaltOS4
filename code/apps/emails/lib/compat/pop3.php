@@ -164,28 +164,27 @@ class pop3_class
             }
             $sizes = [];
             foreach ($ov as $o) {
-                // $o->msgno is 1..N
                 $sizes[$o->msgno] = isset($o->size) ? (int)$o->size : 0;
             }
             return $sizes;
         } else {
-            // Real UIDLs; fallback to md5(header) if UID is missing
+            // Try real POP3 UIDL via overview->uid; fallback to sequential msgno
+            overload_error_handler('imap_fetch_overview');
+            $ov = imap_fetch_overview($this->stream, "1:$num", 0);
+            restore_error_handler();
+            if ($ov === false) {
+                return $this->lastError();
+            }
+
             $uidlsArr = [];
-            for ($i = 1; $i <= $num; $i++) {
-                overload_error_handler('imap_uid');
-                $uid = imap_uid($this->stream, $i);
-                restore_error_handler();
-                // @phpstan-ignore identical.alwaysFalse
-                if ($uid === false || $uid === 0 || $uid === '') {
-                    overload_error_handler('imap_fetchheader');
-                    $hdr = imap_fetchheader($this->stream, $i, 0);
-                    restore_error_handler();
-                    if ($hdr === false) {
-                        return $this->lastError();
-                    }
-                    $uid = md5($hdr);
+            foreach ($ov as $o) {
+                if (isset($o->uid) && $o->uid !== '' && $o->uid !== 0) {
+                    // Real POP3 UIDL
+                    $uidlsArr[$o->msgno] = (string)$o->uid;
+                } else {
+                    // Fallback: sequential id
+                    $uidlsArr[$o->msgno] = (string)$o->msgno;
                 }
-                $uidlsArr[$i] = (string)$uid;
             }
             return $uidlsArr;
         }
