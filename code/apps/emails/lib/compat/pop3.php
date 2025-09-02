@@ -164,7 +164,7 @@ class pop3_class
             }
             $sizes = [];
             foreach ($ov as $o) {
-                $sizes[$o->msgno] = isset($o->size) ? (int)$o->size : 0;
+                $sizes[(int)$o->msgno] = isset($o->size) ? (int)$o->size : 0;
             }
             return $sizes;
         } else {
@@ -175,18 +175,11 @@ class pop3_class
             if ($ov === false) {
                 return $this->lastError();
             }
-
-            $uidlsArr = [];
+            $uidls = [];
             foreach ($ov as $o) {
-                if (isset($o->uid) && $o->uid !== '' && $o->uid !== 0) {
-                    // Real POP3 UIDL
-                    $uidlsArr[$o->msgno] = (string)$o->uid;
-                } else {
-                    // Fallback: sequential id
-                    $uidlsArr[$o->msgno] = (string)$o->msgno;
-                }
+                $uidls[(int)$o->msgno] = (string) (($o->uid ?? '') ?: $o->msgno);
             }
-            return $uidlsArr;
+            return $uidls;
         }
     }
 
