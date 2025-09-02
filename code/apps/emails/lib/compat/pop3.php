@@ -34,8 +34,6 @@ declare(strict_types=1);
 /**
  * pop3_class (replacement using PHP imap extension in POP3 mode)
  * Drop-in for old PHPClasses pop3_class.
- *
- * Requirements: ext-imap enabled.
  */
 class pop3_class
 {
@@ -43,8 +41,7 @@ class pop3_class
     public $hostname = '';
     public $port = 110;      // default POP3
     public $tls = 0;         // 1 => /tls
-    public $ssl = 0;         // (opcional) 1 => /ssl si lo quisieras usar en vez de tls
-    public $novalidate = 0;  // 1 => /novalidate-cert
+    public $ssl = 0;         // optional: 1 => /ssl if you want to use it instead of tls
 
     // --- Internal state ---
     private $mailboxString = '';
@@ -65,7 +62,7 @@ class pop3_class
     private function lastError(): string
     {
         $e = imap_last_error();
-        imap_errors(); // clear stack
+        imap_errors(); // clear error stack
         return $e ? (string)$e : 'Unknown IMAP/POP3 error';
     }
 
@@ -77,24 +74,23 @@ class pop3_class
         $flags = ['/pop3'];
         if ($this->tls) {
             $flags[] = '/tls';
+            $flags[] = '/novalidate-cert';
         }
         if ($this->ssl) {
             $flags[] = '/ssl';
-        }
-        if ($this->novalidate) {
             $flags[] = '/novalidate-cert';
         }
 
-        // POP3 no tiene carpetas; el nombre tras } es irrelevante, usamos INBOX por compatibilidad
+        // POP3 has no folders; the name after } is irrelevant, we use INBOX for compatibility
         return sprintf('{%s:%d%s}INBOX', $host, $port, implode('', $flags));
     }
 
     // --- Public API ---
 
     /**
-     * Emula el Open() original: aquí solo prepara el mailbox string.
-     * La conexión real se hace en Login(), como en la clase antigua.
-     * @return string '' si ok, o mensaje de error
+     * Emulates the original Open(): here it only prepares the mailbox string.
+     * The real connection is done in Login(), just like in the old class.
+     * @return string '' if ok, or error message
      */
     public function Open(): string
     {
@@ -106,20 +102,20 @@ class pop3_class
     }
 
     /**
-     * Abre la conexión autentificada (imap_open en modo POP3).
-     * @return string '' si ok, o mensaje de error
+     * Opens the authenticated connection (imap_open in POP3 mode).
+     * @return string '' if ok, or error message
      */
     public function Login(string $user, string $pass): string
     {
         $this->user = $user;
         $this->pass = $pass;
 
-        // Timeouts razonables
+        // Reasonable timeouts
         imap_timeout(IMAP_OPENTIMEOUT, 20);
         imap_timeout(IMAP_READTIMEOUT, 60);
         imap_timeout(IMAP_WRITETIMEOUT, 60);
 
-        $params = 0; // opciones
+        $params = 0; // options
         $n_retries = 1;
 
         overload_error_handler('imap_open');
@@ -131,7 +127,7 @@ class pop3_class
         $this->stream = $stream;
         $this->opened = true;
 
-        // This line prevent the follow phperror.log notice:
+        // This line prevents the following phperror.log notice:
         // PHP Request Shutdown: SECURITY PROBLEM: insecure server advertised AUTH=PLAIN
         imap_errors();
 
@@ -140,8 +136,8 @@ class pop3_class
     }
 
     /**
-     * Lista de mensajes: tamaños (uidls=0) o UIDL (uidls=1).
-     * Devuelve array indexado 1..N o string de error.
+     * Message list: sizes (uidls=0) or UIDL (uidls=1).
+     * Returns array indexed 1..N or error string.
      */
     public function ListMessages(string $mailbox = '', int $uidls = 0)
     {
@@ -155,11 +151,11 @@ class pop3_class
             return $this->lastError();
         }
         if ($num < 1) {
-            return []; // sin mensajes
+            return []; // no messages
         }
 
         if ($uidls === 0) {
-            // Tamaños vía overview
+            // Sizes via overview
             overload_error_handler('imap_fetch_overview');
             $ov = imap_fetch_overview($this->stream, "1:$num", 0);
             restore_error_handler();
@@ -168,12 +164,12 @@ class pop3_class
             }
             $sizes = [];
             foreach ($ov as $o) {
-                // $o->msgno es 1..N
+                // $o->msgno is 1..N
                 $sizes[$o->msgno] = isset($o->size) ? (int)$o->size : 0;
             }
             return $sizes;
         } else {
-            // UIDL reales; fallback a md5(header) si no hay UID
+            // Real UIDLs; fallback to md5(header) if UID is missing
             $uidlsArr = [];
             for ($i = 1; $i <= $num; $i++) {
                 overload_error_handler('imap_uid');
@@ -196,9 +192,9 @@ class pop3_class
     }
 
     /**
-     * Prepara un buffer con el mensaje completo.
-     * $length se ignora (mantenemos signatura).
-     * @return string '' si ok, o mensaje de error
+     * Prepares a buffer with the full message.
+     * $length is ignored (kept for signature compatibility).
+     * @return string '' if ok, or error message
      */
     public function OpenMessage(int $index, int $length = -1): string
     {
@@ -206,7 +202,7 @@ class pop3_class
             return 'Not connected';
         }
 
-        // Cabeceras completas (sin flags)
+        // Full headers (no flags)
         overload_error_handler('imap_fetchheader');
         $hdr = imap_fetchheader($this->stream, $index, 0);
         restore_error_handler();
@@ -214,7 +210,7 @@ class pop3_class
             return $this->lastError();
         }
 
-        // Cuerpo completo (sin flags)
+        // Full body (no flags)
         overload_error_handler('imap_body');
         $body = imap_body($this->stream, $index, 0);
         restore_error_handler();
@@ -222,8 +218,8 @@ class pop3_class
             return $this->lastError();
         }
 
-        // --- Normaliza el "seam" header/body sin recortar contenido ---
-        // Cuenta CRLF al final del header (0,1,2)
+        // --- Normalize header/body seam without cutting content ---
+        // Count CRLF at the end of the header (0,1,2)
         $t = 0;
         $end4 = substr($hdr, -4);
         if ($end4 === "\r\n\r\n") {
@@ -232,7 +228,7 @@ class pop3_class
             $t = 1;
         }
 
-        // Cuenta CRLF al inicio del body (0,1,2)
+        // Count CRLF at the beginning of the body (0,1,2)
         $b = 0;
         $start4 = substr($body, 0, 4);
         if ($start4 === "\r\n\r\n") {
@@ -241,7 +237,7 @@ class pop3_class
             $b = 1;
         }
 
-        // Añade solo los CRLF necesarios para alcanzar 2 en total
+        // Add only the CRLF needed to reach 2 in total
         $need = 2 - ($t + $b);
         if ($need > 0) {
             $hdr .= str_repeat("\r\n", $need);
@@ -254,11 +250,11 @@ class pop3_class
     }
 
     /**
-     * Emula lectura por trozos desde el buffer cargado por OpenMessage().
-     * @param  int    $max  Máximo de bytes a leer en esta llamada
-     * @param  string &$out Bloque leído
-     * @param  int    &$eof 1 cuando no queda nada más por leer, 0 en caso contrario
-     * @return string '' si ok, o mensaje de error
+     * Emulates chunked reading from the buffer loaded by OpenMessage().
+     * @param  int    $max  Maximum bytes to read in this call
+     * @param  string &$out Block read
+     * @param  int    &$eof 1 when there is nothing left to read, 0 otherwise
+     * @return string '' if ok, or error message
      */
     public function GetMessage(int $max, string &$out, int &$eof): string
     {
@@ -281,8 +277,8 @@ class pop3_class
     }
 
     /**
-     * Marca un mensaje para borrar (se expurga en Close()).
-     * @return string '' si ok, o mensaje de error
+     * Marks a message for deletion (expunged on Close()).
+     * @return string '' if ok, or error message
      */
     public function DeleteMessage(int $index): string
     {
@@ -301,8 +297,8 @@ class pop3_class
     }
 
     /**
-     * Cierra la sesión; si hubo deletes, hace EXPUNGE.
-     * @return string '' si ok, o mensaje de error
+     * Closes the session; if there were deletes, does EXPUNGE.
+     * @return string '' if ok, or error message
      */
     public function Close(): string
     {
@@ -313,7 +309,7 @@ class pop3_class
             restore_error_handler();
             // @phpstan-ignore identical.alwaysFalse
             if ($ok === false) {
-                // Aun si falla, intentamos liberar
+                // Even if it fails, try to release resources
                 $err = $this->lastError();
                 $this->stream = null;
                 $this->opened = false;
