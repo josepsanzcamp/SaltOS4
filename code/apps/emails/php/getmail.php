@@ -1487,7 +1487,7 @@ function getmail_server()
                 $pop3->port = $row['pop3_port'];
             }
             $pop3->tls = ($row['pop3_extra'] == 'tls') ? 1 : 0;
-            $pop3->ssl = ($row['pop3_extra'] == 'ssl') ? 1 : 0;
+            //~ $pop3->ssl = ($row['pop3_extra'] == 'ssl') ? 1 : 0;
             $error = $pop3->Open();
         }
         if ($error == '') {
