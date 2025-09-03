@@ -32,288 +32,252 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Methods.CamelCapsMethodName
 
 /**
- * pop3_class (replacement using PHP imap extension in POP3 mode)
- * Drop-in for old PHPClasses pop3_class.
+ * pop3_class: cURL/POP3 compatible replacement.
+ * Requirements: ext-curl enabled.
+ *
+ * Notes:
+ * - This implementation authenticates per command (no persistent session),
+ *   leveraging cURL’s POP3 support to keep transport logic simple and robust.
+ * - STARTTLS (STLS) can be requested via $tls=1 (when not using POP3S).
  */
 class pop3_class
 {
-    // --- Public API-compatible properties ---
     public $hostname = '';
-    public $port = 110;      // default POP3
-    public $tls = 0;         // 1 => /tls
-    public $ssl = 0;         // optional: 1 => /ssl if you want to use it instead of tls
+    public $port = 110;
+    public $tls = 0; // 1 = STARTTLS (STLS)
+    public $ssl = 0; // 1 = POP3S (implicit TLS)
 
-    // --- Internal state ---
-    private $mailboxString = '';
-    private $stream = null;
     private $user = '';
     private $pass = '';
-    private $opened = false;
-
-    // message buffering to emulate OpenMessage/GetMessage
-    private $currentMsgIndex = null;
-    private $currentMsgData = '';
-    private $currentMsgPtr = 0;
-
-    // tracks if any delete was requested (to expunge on close)
-    private $hasDeletes = false;
-
-    // --- Helpers ---
-    private function lastError(): string
-    {
-        $e = imap_last_error();
-        imap_errors(); // clear error stack
-        return $e ? (string)$e : 'Unknown IMAP/POP3 error';
-    }
-
-    private function buildMailboxString(): string
-    {
-        $host = $this->hostname ?: 'localhost';
-        $port = (int)$this->port ?: 110;
-
-        $flags = ['/pop3'];
-        if ($this->tls) {
-            $flags[] = '/tls';
-            $flags[] = '/novalidate-cert';
-        }
-        if ($this->ssl) {
-            $flags[] = '/ssl';
-            $flags[] = '/novalidate-cert';
-        }
-
-        // POP3 has no folders; the name after } is irrelevant, we use INBOX for compatibility
-        return sprintf('{%s:%d%s}INBOX', $host, $port, implode('', $flags));
-    }
-
-    // --- Public API ---
+    private $baseUrl = '';
+    private $msgBuffer = null;
+    private $msgPos = 0;
 
     /**
-     * Emulates the original Open(): here it only prepares the mailbox string.
-     * The real connection is done in Login(), just like in the old class.
-     * @return string '' if ok, or error message
+     * Initialize connection parameters and compute base URL.
+     * Returns '' on success or an error string on failure.
      */
-    public function Open(): string
+    public function Open()
     {
         if (!$this->hostname) {
-            return 'POP3 host not set';
+            return 'Open failed: empty host';
         }
-        $this->mailboxString = $this->buildMailboxString();
-        return '';
-    }
-
-    /**
-     * Opens the authenticated connection (imap_open in POP3 mode).
-     * @return string '' if ok, or error message
-     */
-    public function Login(string $user, string $pass): string
-    {
-        $this->user = $user;
-        $this->pass = $pass;
-
-        // Reasonable timeouts
-        imap_timeout(IMAP_OPENTIMEOUT, 20);
-        imap_timeout(IMAP_READTIMEOUT, 60);
-        imap_timeout(IMAP_WRITETIMEOUT, 60);
-
-        $params = 0; // options
-        $n_retries = 1;
-
-        overload_error_handler('imap_open');
-        $stream = imap_open($this->mailboxString, $this->user, $this->pass, $params, $n_retries);
-        restore_error_handler();
-        if ($stream === false) {
-            return $this->lastError();
-        }
-        $this->stream = $stream;
-        $this->opened = true;
-
-        // This line prevents the following phperror.log notice:
-        // PHP Request Shutdown: SECURITY PROBLEM: insecure server advertised AUTH=PLAIN
-        imap_errors();
-
-        // Continue
-        return '';
-    }
-
-    /**
-     * Message list: sizes (uidls=0) or UIDL (uidls=1).
-     * Returns array indexed 1..N or error string.
-     */
-    public function ListMessages(string $mailbox = '', int $uidls = 0)
-    {
-        if (!$this->opened || !$this->stream) {
-            return 'Not connected';
-        }
-        overload_error_handler('imap_num_msg');
-        $num = imap_num_msg($this->stream);
-        restore_error_handler();
-        if ($num === false) {
-            return $this->lastError();
-        }
-        if ($num < 1) {
-            return []; // no messages
-        }
-
-        if ($uidls === 0) {
-            // Sizes via overview
-            overload_error_handler('imap_fetch_overview');
-            $ov = imap_fetch_overview($this->stream, "1:$num", 0);
-            restore_error_handler();
-            if ($ov === false) {
-                return $this->lastError();
+        // Choose URL scheme and default port
+        if ((int)$this->ssl === 1) {
+            $scheme = 'pop3s'; // POP3 over implicit TLS
+            if (!$this->port) {
+                $this->port = 995;
             }
-            $sizes = [];
-            foreach ($ov as $o) {
-                $sizes[(int)$o->msgno] = isset($o->size) ? (int)$o->size : 0;
-            }
-            return $sizes;
         } else {
-            // Try real POP3 UIDL via overview->uid; fallback to sequential msgno
-            overload_error_handler('imap_fetch_overview');
-            $ov = imap_fetch_overview($this->stream, "1:$num", 0);
-            restore_error_handler();
-            if ($ov === false) {
-                return $this->lastError();
+            $scheme = 'pop3';
+            if (!$this->port) {
+                $this->port = 110;
             }
-            $uidls = [];
-            foreach ($ov as $o) {
-                $uidls[(int)$o->msgno] = (string) (($o->uid ?? '') ?: $o->msgno);
-            }
-            return $uidls;
         }
-    }
-
-    /**
-     * Prepares a buffer with the full message.
-     * $length is ignored (kept for signature compatibility).
-     * @return string '' if ok, or error message
-     */
-    public function OpenMessage(int $index, int $length = -1): string
-    {
-        if (!$this->opened || !$this->stream) {
-            return 'Not connected';
-        }
-
-        // Full headers (no flags)
-        overload_error_handler('imap_fetchheader');
-        $hdr = imap_fetchheader($this->stream, $index, 0);
-        restore_error_handler();
-        if ($hdr === false) {
-            return $this->lastError();
-        }
-
-        // Full body (no flags)
-        overload_error_handler('imap_body');
-        $body = imap_body($this->stream, $index, 0);
-        restore_error_handler();
-        if ($body === false) {
-            return $this->lastError();
-        }
-
-        // --- Normalize header/body seam without cutting content ---
-        // Count CRLF at the end of the header (0,1,2)
-        $t = 0;
-        $end4 = substr($hdr, -4);
-        if ($end4 === "\r\n\r\n") {
-            $t = 2;
-        } elseif (substr($hdr, -2) === "\r\n") {
-            $t = 1;
-        }
-
-        // Count CRLF at the beginning of the body (0,1,2)
-        $b = 0;
-        $start4 = substr($body, 0, 4);
-        if ($start4 === "\r\n\r\n") {
-            $b = 2;
-        } elseif (substr($body, 0, 2) === "\r\n") {
-            $b = 1;
-        }
-
-        // Add only the CRLF needed to reach 2 in total
-        $need = 2 - ($t + $b);
-        if ($need > 0) {
-            $hdr .= str_repeat("\r\n", $need);
-        }
-
-        $this->currentMsgIndex = $index;
-        $this->currentMsgData  = $hdr . $body;
-        $this->currentMsgPtr   = 0;
+        $this->baseUrl = sprintf('%s://%s:%d/', $scheme, $this->hostname, (int)$this->port);
         return '';
     }
 
     /**
-     * Emulates chunked reading from the buffer loaded by OpenMessage().
-     * @param  int    $max  Maximum bytes to read in this call
-     * @param  string &$out Block read
-     * @param  int    &$eof 1 when there is nothing left to read, 0 otherwise
-     * @return string '' if ok, or error message
+     * Store credentials and validate them with a lightweight NOOP.
+     * Returns '' on success or an error string on failure.
      */
-    public function GetMessage(int $max, string &$out, int &$eof): string
+    public function Login($user, $pass)
     {
-        if ($this->currentMsgIndex === null) {
-            $out = '';
-            $eof = 1;
+        $this->user = (string)$user;
+        $this->pass = (string)$pass;
+
+        // Verify credentials using a one-line command (NOOP)
+        $err = $this->exec('NOOP', true, $out, false);
+        return $err; // '' if OK
+    }
+
+    /**
+     * List messages.
+     * $uidls=0 → LIST (sizes) | $uidls=1 → UIDL (unique IDs)
+     * @return array|string Array on success; error string on failure.
+     */
+    public function ListMessages($folder = '', $uidls = 0)
+    {
+        $cmd = ((int)$uidls === 1) ? 'UIDL' : 'LIST';
+        $err = $this->exec($cmd, true, $out, true);
+        if ($err !== '') {
+            return $err;
+        }
+
+        $lines = preg_split('~\r?\n~', trim($out));
+        $result = [];
+        foreach ($lines as $line) {
+            // Skip status lines such as +OK or -ERR
+            if ($line === '' || $line[0] === '+' || stripos($line, '-ERR') === 0) {
+                continue;
+            }
+            if (preg_match('~^(\d+)\s+(\S+)~', trim($line), $m)) {
+                $n = (int)$m[1];
+                $v = $m[2];
+                $result[$n] = ((int)$uidls === 1) ? (string)$v : (int)$v;
+            }
+        }
+        ksort($result, SORT_NUMERIC);
+        return $result;
+    }
+
+    /**
+     * Open a message for streamed reads (via GetMessage()).
+     * $lines = -1 → full message (RETR); otherwise use TOP with $lines.
+     * Returns '' on success or an error string on failure.
+     */
+    public function OpenMessage($index, $lines = -1)
+    {
+        $index = (int)$index;
+        if ($index < 1) {
+            return 'OpenMessage failed: bad index';
+        }
+        $custom = true;
+        $cmd = ($lines === -1)
+            ? "RETR {$index}"
+            : "TOP {$index} " . max(0, (int)$lines);
+
+        $err = $this->exec($cmd, $custom, $out, true);
+        if ($err !== '') {
+            return $err;
+        }
+
+        $this->msgBuffer = (string)$out;
+        $this->msgPos = 0;
+        return '';
+    }
+
+    /**
+     * Read a chunk from the currently opened message.
+     * @param  int    $length Bytes to read
+     * @param  string &$out   Output chunk
+     * @param  int    &$eof   1 when end-of-file is reached; 0 otherwise
+     * @return string Empty string on success; error text on failure
+     */
+    public function GetMessage($length, &$out, &$eof)
+    {
+        $out = '';
+        $eof = 0;
+        if ($this->msgBuffer === null) {
             return 'No message opened';
         }
-        $remaining = strlen($this->currentMsgData) - $this->currentMsgPtr;
-        if ($remaining <= 0) {
-            $out = '';
+
+        $len = strlen($this->msgBuffer);
+        if ($this->msgPos >= $len) {
             $eof = 1;
             return '';
         }
-        $readLen = ($max > 0) ? min($max, $remaining) : $remaining;
-        $out = substr($this->currentMsgData, $this->currentMsgPtr, $readLen);
-        $this->currentMsgPtr += $readLen;
-        $eof = ($this->currentMsgPtr >= strlen($this->currentMsgData)) ? 1 : 0;
+
+        $chunk = substr($this->msgBuffer, $this->msgPos, (int)$length);
+        $this->msgPos += strlen($chunk);
+        $out = $chunk;
+        if ($this->msgPos >= $len) {
+            $eof = 1;
+        }
         return '';
     }
 
     /**
-     * Marks a message for deletion (expunged on Close()).
-     * @return string '' if ok, or error message
+     * Mark a message for deletion.
+     * Returns '' on success or an error string on failure.
      */
-    public function DeleteMessage(int $index): string
+    public function DeleteMessage($index)
     {
-        if (!$this->opened || !$this->stream) {
-            return 'Not connected';
+        $index = (int)$index;
+        if ($index < 1) {
+            return 'DeleteMessage failed: bad index';
         }
-        overload_error_handler('imap_delete');
-        $ok = imap_delete($this->stream, (string)$index, 0); // flag \Deleted
-        restore_error_handler();
-        // @phpstan-ignore identical.alwaysFalse
-        if ($ok === false) {
-            return $this->lastError();
-        }
-        $this->hasDeletes = true;
+        return $this->exec("DELE {$index}", true, $out, false);
+    }
+
+    /**
+     * Cleanup local state. Each cURL call is standalone, so no persistent QUIT is needed.
+     */
+    public function Close()
+    {
+        $this->msgBuffer = null;
+        $this->msgPos = 0;
         return '';
     }
 
     /**
-     * Closes the session; if there were deletes, does EXPUNGE.
-     * @return string '' if ok, or error message
+     * Execute a POP3 command (UIDL, LIST, RETR N, TOP N L, DELE N, NOOP, CAPA, etc.).
+     *
+     * If $custom=true we use CURLOPT_CUSTOMREQUEST with the verb (e.g., "UIDL", "LIST", "RETR 1").
+     * If $custom=false we switch to a path-style request (/N) — kept for compatibility if needed.
+     *
+     * $withBody controls whether we expect a multi-line response:
+     *  - true  → multi-line commands (UIDL/LIST/RETR/TOP) return the body
+     *  - false → one-line commands (NOOP/DELE/CAPA) avoid waiting for a body to prevent hangs
+     *
+     * @param  string  $cmdOrPath  POP3 command or path
+     * @param  bool    $custom     Use CUSTOMREQUEST when true
+     * @param  ?string &$out       Filled with response body when $withBody = true
+     * @param  bool    $withBody   Whether to read a response body
+     * @return string '' on success; error text on failure
      */
-    public function Close(): string
+    // @phpstan-ignore parameterByRef.unusedType
+    private function exec(string $cmdOrPath, bool $custom, ?string &$out, bool $withBody = true)
     {
-        if ($this->stream) {
-            $flags = $this->hasDeletes ? CL_EXPUNGE : 0;
-            overload_error_handler('imap_close');
-            $ok = imap_close($this->stream, $flags);
-            restore_error_handler();
-            // @phpstan-ignore identical.alwaysFalse
-            if ($ok === false) {
-                // Even if it fails, try to release resources
-                $err = $this->lastError();
-                $this->stream = null;
-                $this->opened = false;
-                return $err;
-            }
+        $out = '';
+        $ch = curl_init();
+
+        $opts = [
+            CURLOPT_USERNAME         => $this->user,
+            CURLOPT_PASSWORD         => $this->pass,
+            CURLOPT_RETURNTRANSFER   => true,
+            CURLOPT_URL              => $this->baseUrl,
+
+            // NOTE: Verification is disabled for compatibility.
+            CURLOPT_SSL_VERIFYPEER   => false,
+            CURLOPT_SSL_VERIFYHOST   => 0,
+            CURLOPT_SSL_ENABLE_ALPN  => false,
+
+            //~ CURLOPT_VERBOSE      => true,
+        ];
+
+        // STARTTLS via STLS when requested (and not using implicit TLS)
+        if ($this->ssl != 1 && $this->tls == 1) {
+            $opts[CURLOPT_USE_SSL] = CURLUSESSL_ALL;
         }
-        $this->stream = null;
-        $this->opened = false;
-        $this->currentMsgIndex = null;
-        $this->currentMsgData  = '';
-        $this->currentMsgPtr   = 0;
-        $this->hasDeletes = false;
+
+        if ($custom) {
+            // e.g., "UIDL", "LIST", "RETR 1", "TOP 3 20", "DELE 2"
+            $opts[CURLOPT_CUSTOMREQUEST] = $cmdOrPath;
+        } else {
+            // Path-based fallback (rarely needed with POP3)
+            $opts[CURLOPT_URL] = rtrim($this->baseUrl, '/') . '/' . ltrim($cmdOrPath, '/');
+        }
+
+        if ($withBody) {
+            // Multi-line commands: we want the body (UIDL/LIST/RETR/TOP)
+            $opts[CURLOPT_NOBODY] = false;
+        } else {
+            // One-line commands: do not wait for a body to avoid hangs (Debian 12 workaround)
+            $opts[CURLOPT_NOBODY]        = true;
+            $opts[CURLOPT_FRESH_CONNECT] = true;  // force a new connection
+            $opts[CURLOPT_FORBID_REUSE]  = true;  // and do not reuse it
+        }
+
+        curl_setopt_array($ch, $opts);
+        $resp = curl_exec($ch);
+        if ($resp === false) {
+            $err = 'cURL: ' . curl_error($ch);
+            curl_close($ch);
+            return $err;
+        }
+
+        // POP3 is text-based; CURLINFO_RESPONSE_CODE may be unused/zero here.
+        $code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+        curl_close($ch);
+
+        $out = $withBody ? (string)$resp : '';
+
+        // Basic POP3 error detection from response payload (multi-line cases)
+        if ($withBody && preg_match('~^-ERR~mi', $out)) {
+            return 'POP3 error: ' . trim($out);
+        }
         return '';
     }
 }
