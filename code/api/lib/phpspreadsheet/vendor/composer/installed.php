@@ -56,9 +56,9 @@
             'dev_requirement' => false,
         ),
         'phpoffice/phpspreadsheet' => array(
-            'pretty_version' => '5.0.0',
-            'version' => '5.0.0.0',
-            'reference' => 'd88efcac2444cde18e17684178de02b25dff2050',
+            'pretty_version' => '5.1.0',
+            'version' => '5.1.0.0',
+            'reference' => 'fd26e45a814e94ae2aad0df757d9d1739c4bf2e0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpoffice/phpspreadsheet',
             'aliases' => array(),
