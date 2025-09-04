@@ -164,6 +164,18 @@ check:
 	@echo -n uglifyjs:" "; which uglifyjs > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
 	@echo -n wget:" "; which wget > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
 	@echo -n xxd:" "; which xxd > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n wkhtmltopdf:" "; which wkhtmltopdf > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n xlsxio_xlsx2csv:" "; which xlsxio_xlsx2csv > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n soffice:" "; which soffice > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n pdftotext:" "; which pdftotext > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n convert:" "; which convert > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n tesseract:" "; which tesseract > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n pdftoppm:" "; which pdftoppm > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n timeout:" "; which timeout > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n certutil:" "; which certutil > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n openssl:" "; which openssl > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n pk12util:" "; which pk12util > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n pdfsig:" "; which pdfsig > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
 
 utest:
 ifeq ($(file), ) # default behaviour
