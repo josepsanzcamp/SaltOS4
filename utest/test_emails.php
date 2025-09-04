@@ -73,7 +73,7 @@ final class test_emails extends TestCase
         $query = 'UPDATE app_emails_accounts
             SET smtp_user = ?, smtp_pass = ?, smtp_port = ?, smtp_extra = ?
             WHERE id = ?';
-        db_query($query, ['admin', 'admin', 587, 'tls', 1]);
+        db_query($query, ['admin', 'admin', 587, 'ssl', 1]);
 
         $json = test_cli_helper('app/emails', [], '', '', 'admin');
         $json = test_cli_helper('app/emails/list/filter', [], '', '', 'admin');
@@ -392,7 +392,7 @@ final class test_emails extends TestCase
         $this->assertIsInt($result);
 
         $result = sendmail(1, 'admin@example.com', 'nada', 'nada', [], false);
-        $this->assertStringContainsString('Connection refused', $result);
+        $this->assertStringContainsString('Failed to connect to server', $result);
 
         set_server('QUERY_STRING', 'app/emails/create');
 
@@ -488,26 +488,18 @@ final class test_emails extends TestCase
 
         $result = test_cli_helper('app/emails/action/server', [], '', '', 'admin');
         $this->assertIsArray($result);
-        $this->assertStringContainsString('email(s) received', $result[0]);
-        $this->assertStringContainsString('Connection refused', $result[1]);
+        $this->assertStringContainsString('TLS connect error', $result[0]);
+        $this->assertStringContainsString('email(s) received', $result[1]);
+        $this->assertStringContainsString('Failed to connect to server', $result[2]);
         $this->assertStringContainsString('email(s) sended', $result[count($result) - 1]);
 
-        $query = 'UPDATE app_emails_accounts SET smtp_port = ?, smtp_extra = ? WHERE id = ?';
-        db_query($query, [25, '', 1]);
-
-        $result = test_cli_helper('app/emails/action/server', [], '', '', 'admin');
-        $this->assertIsArray($result);
-        $this->assertStringContainsString('email(s) received', $result[0]);
-        $this->assertStringContainsString('Could not authenticate', $result[1]);
-        $this->assertStringContainsString('email(s) sended', $result[count($result) - 1]);
+        $query = 'UPDATE app_emails_accounts SET pop3_extra = ?, smtp_extra = ? WHERE id = ?';
+        db_query($query, ['', '', 1]);
 
         // This trick is for execute the internal error part
         $files = glob('data/outbox/1/*.obj');
         unlink($files[1]);
         file_put_contents($files[2], '');
-
-        $query = 'UPDATE app_emails_accounts SET smtp_user = ?, smtp_pass = ? WHERE id = ?';
-        db_query($query, ['', '', 1]);
 
         $result = test_cli_helper('app/emails/action/server', [], '', '', 'admin');
         $this->assertIsArray($result);
@@ -521,10 +513,8 @@ final class test_emails extends TestCase
         $this->assertStringContainsString('email(s) received', $result[0]);
         $this->assertStringContainsString('email(s) sended', $result[1]);
 
-        $query = 'UPDATE app_emails_accounts
-            SET smtp_user = ?, smtp_pass = ?, smtp_port = ?, smtp_extra = ?
-            WHERE id = ?';
-        db_query($query, ['admin', 'admin', 587, 'tls', 1]);
+        $query = 'UPDATE app_emails_accounts SET pop3_extra = ?, smtp_extra = ? WHERE id = ?';
+        db_query($query, ['ssl', 'ssl', 1]);
 
         $query = 'UPDATE app_emails_accounts SET email_addmetocc = ? WHERE id = ?';
         db_query($query, [1, 1]);

@@ -1796,6 +1796,14 @@ function getmail_setter($ids, $what)
  */
 function getmail_pdf($ids)
 {
+    $ids = check_ids_array($ids);
+    foreach ($ids as $id) {
+        // Validate user permissions for accessing the email
+        if (!__getmail_checkperm($id)) {
+            show_php_error(['phperror' => 'Permission denied']);
+        }
+    }
+
     // Check if the required command is available
     if (!check_commands('wkhtmltopdf')) {
         require_once 'php/lib/pdf.php';
@@ -1809,14 +1817,8 @@ function getmail_pdf($ids)
         return $cache[$hash];
     }
 
-    $ids = check_ids_array($ids);
     $pdfs = [];
     foreach ($ids as $id) {
-        // Validate user permissions for accessing the email
-        if (!__getmail_checkperm($id)) {
-            show_php_error(['phperror' => 'Permission denied']);
-        }
-
         // Generate HTML content for the email
         $input = get_cache_file([__FUNCTION__, $id], '.html');
         if (!file_exists($input)) {

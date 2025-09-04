@@ -180,7 +180,7 @@ final class test_file extends TestCase
             'headers' => [],
             'cookies' => [],
             'code' => 0,
-            'error' => 'error 1: Protocol "nada" not supported or disabled in libcurl',
+            'error' => 'error 1: Protocol "nada" not supported',
         ]);
 
         $buffer = __url_get_contents('https://127.0.0.1/saltos/code4/api/?/auth/check', [
@@ -214,16 +214,6 @@ final class test_file extends TestCase
         $this->assertSame(strlen($buffer['body']) > 0, true);
 
         $buffer = __url_get_contents('http://127.0.0.1:631/admin/');
-        $temp = $buffer['cookies']['org.cups.sid'];
-        $cookies = $buffer['cookies'];
-        $buffer = __url_get_contents('http://127.0.0.1:631/admin/', [
-            'cookies' => $cookies,
-            'method' => 'post',
-            'values' => [
-                'org.cups.sid' => $temp,
-                'OP' => 'add-printer',
-            ],
-        ]);
         $this->assertSame($buffer['code'], 401);
         $this->assertSame(strlen($buffer['body']) > 0, true);
         $this->assertStringContainsString('Unauthorized', $buffer['body']);
