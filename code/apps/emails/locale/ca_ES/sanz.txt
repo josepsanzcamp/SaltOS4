@@ -1,3 +1,0 @@
-
-soffice --headless --convert-to pdf emails.odt
-soffice --headless --convert-to pdf emails_accounts.odt
