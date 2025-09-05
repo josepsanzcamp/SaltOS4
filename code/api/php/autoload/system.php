@@ -46,20 +46,35 @@ function check_system()
     $result = [];
     // PACKAGE CHECKS
     $items = [
-        ['extension', 'xml', 'error', 'php-xml'],
-        ['extension', 'gd', 'error', 'php-gd'],
-        ['extension', 'mbstring', 'error', 'php-mbstring'],
-        ['extension', 'yaml', 'warning', 'php-yaml'],
-        ['class', 'pdo', 'warning', 'php-pdo'],
-        ['class', 'mysqli', 'warning', 'php-mysql'],
-        ['class', 'sqlite3', 'warning', 'php-sqlite3'],
-        ['function', 'gzencode', 'warning', 'php-zlib'],
-        ['function', 'gzdeflate', 'warning', 'php-zlib'],
-        ['function', 'zstd_compress', 'warning', 'php-zstd'],
-        ['function', 'brotli_compress', 'warning', 'php-brotli'],
-        ['extension', 'curl', 'warning', 'php-curl'],
-        ['extension', 'mailparse', 'warning', 'php-mailparse'],
-        ['extension', 'imap', 'warning', 'php-imap'],
+        ['extension', 'xml', 'error', 'php-xml'], // core module
+        ['extension', 'gd', 'error', 'php-gd'], // core module
+        ['extension', 'mbstring', 'error', 'php-mbstring'], // core module
+        ['extension', 'yaml', 'warning', 'php-yaml'], // core module
+        ['program', 'timeout', 'warning', 'coreutils'], // core module
+        ['program', 'svnversion', 'warning', 'subversion'], // core module
+        ['program', 'git', 'warning', 'git'], // core module
+        ['class', 'pdo', 'warning', 'php-pdo'], // database driver
+        ['class', 'mysqli', 'warning', 'php-mysql'], // database driver
+        ['class', 'sqlite3', 'warning', 'php-sqlite3'], // database driver
+        ['function', 'gzencode', 'warning', 'php-zlib'], // output_handler function
+        ['function', 'gzdeflate', 'warning', 'php-zlib'], // output_handler function
+        ['function', 'zstd_compress', 'warning', 'php-zstd'], // output_handler function
+        ['function', 'brotli_compress', 'warning', 'php-brotli'], // output_handler function
+        ['extension', 'curl', 'warning', 'php-curl'], // url_get_contents function
+        ['program', 'xlsxio_xlsx2csv', 'warning', 'libxlsxio'], // import module
+        ['program', 'soffice', 'warning', 'libreoffice'], // unoconv module
+        ['program', 'pdftotext', 'warning', 'poppler-utils'], // unoconv module
+        ['program', 'convert', 'warning', 'imagemagick'], // unoconv module
+        ['program', 'tesseract', 'warning', 'tesseract-ocr'], // unoconv module
+        ['program', 'pdftoppm', 'warning', 'poppler-utils'], // unoconv module
+        ['extension', 'mailparse', 'warning', 'php-mailparse'], // emails module
+        ['extension', 'imap', 'warning', 'php-imap'], // emails module
+        ['program', 'wkhtmltopdf', 'warning', 'wkhtmltopdf'], // emails module
+        ['program', 'pdfunite', 'warning', 'poppler-utils'], // emails module
+        ['program', 'certutil', 'warning', 'libnss3-tools'], // nssdb module
+        ['program', 'openssl', 'warning', 'openssl'], // nssdb module
+        ['program', 'pk12util', 'warning', 'libnss3-tools'], // nssdb module
+        ['program', 'pdfsig', 'warning', 'poppler-utils'], // nssdb module
     ];
     foreach ($items as $item) {
         [$type, $name, $trigger, $package] = $item;
@@ -74,6 +89,8 @@ function check_system()
             case 'function':
                 $bool = function_exists($name);
                 break;
+            case 'program':
+                $bool = check_commands($name, 0);
         }
         if (!$bool) {
             // @codeCoverageIgnoreStart

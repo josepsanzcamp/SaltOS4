@@ -165,6 +165,7 @@ check:
 	@echo -n wget:" "; which wget > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
 	@echo -n xxd:" "; which xxd > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
 	@echo -n wkhtmltopdf:" "; which wkhtmltopdf > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n pdfunite:" "; which pdfunite > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
 	@echo -n xlsxio_xlsx2csv:" "; which xlsxio_xlsx2csv > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
 	@echo -n soffice:" "; which soffice > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
 	@echo -n pdftotext:" "; which pdftotext > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
@@ -280,6 +281,7 @@ start:
 	cd scripts && docker compose up -d
 
 stop:
+	cd scripts && docker compose kill
 	cd scripts && docker compose down
 	cd scripts && yes | docker volume prune
 
