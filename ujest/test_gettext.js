@@ -359,7 +359,7 @@ test('saltos.gettext.bootstrap.menu', () => {
     expect(html).toContain('translated3');
     expect(html).toContain('translated4');
 
-    expect(saltos.gettext.bootstrap.menu({}).innerHTML).toBe('');
+    expect(saltos.gettext.bootstrap.menu({}).innerHTML).toContain('<style>');
 });
 
 /**

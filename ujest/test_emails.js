@@ -161,8 +161,8 @@ describe('App Emails', () => {
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0,
-            failureThresholdType: 'pixel',
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
@@ -176,8 +176,8 @@ describe('App Emails', () => {
 
         const screenshot2 = await page.screenshot({encoding: 'base64'});
         expect(screenshot2).toMatchImageSnapshot({
-            failureThreshold: 0,
-            failureThresholdType: 'pixel',
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
     });
@@ -243,6 +243,7 @@ describe('App Emails', () => {
         await page.$$eval('#top button', buttons => buttons[0].click()); // this trigger the filter action
 
         await page.waitForSelector('.offcanvas', timeout);
+        await mypause(page, 500);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({

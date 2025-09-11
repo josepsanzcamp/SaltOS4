@@ -179,6 +179,7 @@ describe('App Login', () => {
         await page.waitForSelector('#one', timeout);
         // Special case to allow the chartjs render
         await mypause(page, 1000);
+        await page.waitForFunction(() => !document.querySelector('.toast'), timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({

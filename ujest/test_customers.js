@@ -201,9 +201,9 @@ describe('App Customers', () => {
      * This part of the test tries to load the view screen
      */
     test('Action View', async () => {
-        await page.waitForSelector('#list button', timeout);
-        await page.$$eval('#list button', buttons => buttons[0].click()); // this open the dropdown
-        await page.$$eval('#list button', buttons => buttons[1].click()); // this trigger the view action
+        await page.waitForSelector('#list tbody button', timeout);
+        await page.$$eval('#list tbody button', buttons => buttons[0].click()); // this open the dropdown
+        await page.$$eval('#list tbody button', buttons => buttons[1].click()); // this trigger the view
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#name', timeout);
@@ -240,9 +240,9 @@ describe('App Customers', () => {
      * This part of the test tries to load the edit screen
      */
     test('Action Edit', async () => {
-        await page.waitForSelector('#list button', timeout);
-        await page.$$eval('#list button', buttons => buttons[0].click()); // this open the dropdown
-        await page.$$eval('#list button', buttons => buttons[2].click()); // this trigger the edit action
+        await page.waitForSelector('#list tbody button', timeout);
+        await page.$$eval('#list tbody button', buttons => buttons[0].click()); // this open the dropdown
+        await page.$$eval('#list tbody button', buttons => buttons[2].click()); // this trigger the edit
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#name', timeout);

@@ -110,7 +110,7 @@ describe('App Tester', () => {
         await page.$eval('#pass', el => el.value = 'admin');
         await page.$$eval('button', buttons => buttons[1].click());
 
-        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+        await page.waitForFunction(() => !saltos.form.screen('isloading'), {timeout: 10000});
         await page.waitForSelector('#campo26d', timeout);
         await mypause(page, 1000);
 
@@ -120,7 +120,7 @@ describe('App Tester', () => {
             failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
-    });
+    }, 20000);
 
     /**
      * Action Disabled

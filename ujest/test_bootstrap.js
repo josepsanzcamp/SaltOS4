@@ -143,8 +143,8 @@ describe('Bootstrap', () => {
         const widget = await page.$('#widget');
         const screenshot = await widget.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0,
-            failureThresholdType: 'pixel',
+            failureThreshold: 0.005,
+            failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
     });

@@ -44,17 +44,25 @@ if ($is_locale) {
 ob_passthru("txt2tags $toc -t tex -i ${file}.t2t -o ${file}.tex");
 $buffer = file_get_contents("${file}.tex");
 $buffer = explode("\n", $buffer);
-$buffer0 = array_slice($buffer, 0, 5);
+if ($buffer[7] != '') {
+    echo "Internal error!!!\n";
+    die();
+}
+$buffer0 = array_slice($buffer, 0, 8);
 $buffer0 = str_replace('\\documentclass{article}', '\\documentclass[a4paper]{article}', $buffer0);
 $buffer0 = str_replace(
     "\\usepackage[urlcolor=blue,colorlinks=true]{hyperref}",
     "\\usepackage[urlcolor=myblue,colorlinks=true,linkcolor=myblue]{hyperref}",
     $buffer0
 );
+$buffer0 = str_replace(
+    '\\usepackage[utf8]{inputenc}',
+    '\\usepackage[utf8x,utf8]{inputenc}',
+    $buffer0
+);
 $buffer1 = [
     "\\usepackage[$lang]{babel}",
     '\\usepackage{ucs}',
-    '\\usepackage[utf8x]{inputenc}',
     '\\usepackage{eurosym}',
     '\\usepackage{sans}',
     '\\usepackage{fullpage}',
@@ -75,7 +83,7 @@ $buffer1 = [
     '\\setlength\\cftparskip{3mm}',
     '',
 ];
-$buffer2 = array_slice($buffer, 5);
+$buffer2 = array_slice($buffer, 8);
 $buffer2 = str_replace("\\begin{verbatim}", "\\begin{lstlisting}", $buffer2);
 $buffer2 = str_replace("\\end{verbatim}", "\\end{lstlisting}", $buffer2);
 $buffer2 = str_replace("\t", str_repeat(' ', 4), $buffer2);
