@@ -1,6 +1,6 @@
 Api Documentation
-SaltOS 4.0 r2031
-May 2025
+SaltOS 4.0 r2204
+September 2025
 
 
 
@@ -1019,6 +1019,18 @@ checks that the keys are numeric and that all values are non arrays
 - @array => the array to check
 
 
++++Trim helper+++
+
+```
+function array_trim($array)
+```
+
+This function tries to do the same that trim but for all elements of the
+input array.
+
+- @input => the input array
+
+
 ++Compatibility helper module++
 
 ```
@@ -1062,6 +1074,16 @@ Notes:
 
 Code copied from the follow web:
 https://www.php.net/manual/es/function.array-key-last.php#124007
+
+
++++Posix GetUID+++
+
+```
+function posix_getuid()
+```
+
+This function only is available in posix compilant systems like unix,
+linux and mac, and for windows this is a short circuit
 
 
 ++Config helper module++
@@ -3437,6 +3459,21 @@ This function allow to create where sentences joinin all fields by AND
           the field
 
 
++++Check Order+++
+
+```
+function check_order($order, $fields)
+```
+
+Validates and sanitizes an SQL ORDER BY clause based on allowed fields.
+
+- @order  => A comma-separated string of order clauses (e.g., "name ASC, date DESC").
+- @fields => An array of allowed field names for ordering (e.g., ['name', 'date', 'id']).
+
+
+Returns a sanitized and validated ORDER BY clause. If no valid fields are found, returns "id DESC"
+
+
 ++String utils helper module++
 
 ```
@@ -3713,6 +3750,15 @@ defines an array with the type (class or function), the name and some extra info
 that is triggered if the dependency is not satisfied
 
 
++++Exec Check System+++
+
+```
+function exec_check_system()
+```
+
+This function executes the check system function and trigger an error if needed
+
+
 +++Check Directories+++
 
 ```
@@ -3722,13 +3768,22 @@ function check_directories()
 Check all directories of the data directory to validate that the process can write inside it
 
 
-+++Exec Check System+++
++++Check Composer packages requirements+++
 
 ```
-function exec_check_system()
+function check_composer()
 ```
 
-This function executes the check system function and trigger an error if needed
+Checks PHP version and PHP extension requirements defined in composer.lock files of local packages,
+including extension version constraints when available.
+
+This function scans all composer.lock files under lib directory and verifies if:
+- The current PHP version satisfies "require['php']" constraints.
+- The required PHP extensions (marked as "require['ext-xxx']") are loaded.
+- The extension versions (when specified and detectable) satisfy the given constraints.
+
+
+Requires the composer/semver library (loaded from lib/semver/vendor/autoload.php).
 
 
 ++Tokens helper module++
@@ -3851,13 +3906,28 @@ This fie contains useful functions related to the version of the SaltOS of the p
 +++Get Name Version Revision+++
 
 ```
-function get_name_version_revision($full = false)
+function get_name_version_revision()
 ```
 
-This function returns a string with the SaltOS name, version, revision and
-copyright if needed
+This function returns a string with the SaltOS name, version and revision
 
-- @full => boolean to specify if you want to add the copyright to the output
+
++++Helper Name Version Revision+++
+
+```
+function __name_version_revision($name, $version, $revision)
+```
+
+This function returns a string of the form 'NAME vVERSION rREVISION'
+
+- @name     => The string used as name
+- @version  => The string used as version
+- @revision => The string used as revision
+
+
+Notes:
+
+This function only tries to formalize the about string used in SaltOS
 
 
 +++SVN Version+++
@@ -4866,6 +4936,131 @@ public function db_disconnect()
 This function close the database connection and sets the link to null
 
 
+++PDO PgSQL driver++
+
+```
+api/php/database/pdo_pgsql.php
+```
+
+This file implements the PgSQL improved driver. This is the recommended driver when you want
+to use PgSQL servers, it uses the PDO extension and alow to connect to PgSQL servers with a
+good performance.
+
+
++++Database PDO PgSQL class+++
+
+```
+class database_pdo_pgsql
+```
+
+This class allow to SaltOS to connect to PgSQL databases using the PDO driver
+
+
++++Private link variable+++
+
+```
+private $link = null;
+```
+
+This private variable contains the link to the database
+
+
++++Constructor+++
+
+```
+public function __construct($args)
+```
+
+This public function is intended to stablish the connection to the database
+
+- @args => is an array with key val pairs
+- @host => the host for the connection
+- @port => the port used for the connection
+- @name => name of the database for the connection
+- @user => user used to stablish the connection
+- @pass => pass used to stablish the connection
+
+
++++DB Check+++
+
+```
+public function db_check($query, $params = [])
+```
+
+This public function is intended to check that the query execution will not trigger an error
+
+- @query => the query that you want to validate
+
+
++++DB Escape+++
+
+```
+public function db_escape($str)
+```
+
+This public function is intended to escape the special chars to sanitize the string to be used
+in a sql query
+
+- @str => the string that you want to sanitize
+
+
+Notes:
+
+This driver adds a simple quotes at the beginning and at the finish of ths string, by this
+reason this function returns the substr(1, -1) of the quoted string.
+
+
++++DB Query+++
+
+```
+public function db_query($query, ...$args)
+```
+
+This public function is intended to execute the query and returns the resultset
+
+- @query => the query that you want to execute
+- @fetch => the type of fetch that you want to use, can be auto, query, column or concat
+
+
+Notes:
+
+The fetch argument can perform an speed up in the execution of the retrieve action, and
+can modify how the result is returned
+
+auto: this fetch method try to detect if the resultset contains one or more columns, and
+sets the fetch to column (if the resultset only contains one column) or to query (otherwise)
+
+query: this fetch method returns all resultset as an array of rows, and each row contain the
+pair of key val with the name of the field and the value of the field
+
+column: this fetch method returns an array where each element is each value of the field of
+the each row, this is useful when for example do you want to get all ids of a query, with
+this method you can obtain an array with each value of the array is an id of the resultset
+
+concat: this fetch method is an special mode intended to speed up the retrieve of large
+arrays, this is useful when you want to get all ids of a query and you want to get a big
+sized array, in this case, is more efficient to get an string separated by commas with all
+ids instead of an array where each element is an id
+
+
++++DB Last Insert ID+++
+
+```
+public function db_last_insert_id()
+```
+
+This function returns the last insert id
+
+
++++DB Disconnect+++
+
+```
+public function db_disconnect()
+```
+
+This function close the database connection and sets the link to null
+
+
 ++PDO SQLite driver++
 
 ```
@@ -5194,6 +5389,20 @@ and notes tables, as an excepcion, the version table maintain all data
 to allow the recovery action, too, the files of the files feature will
 be moved to the trash folder to allow the previous recovery from the
 version table
+
+
+++TODO++
+
+```
+api/php/lib/apache.php
+```
+
+
++++TODO+++
+
+```
+function check_apache($url)
+```
 
 
 ++Array to XML helper module++
@@ -7059,6 +7268,28 @@ password
 - @pass => password that do you want to check
 
 
++++Verifies a password hash using the legacy PHPass framework.+++
+
+```
+function password_verify_phpass($pass, $hash)
+```
+
+This function is designed for backward compatibility with older SaltOS3 versions
+which used the external PHPass library for password hashing. Newer versions of SaltOS
+rely on PHP's native password_hash() and password_verify() functions, but this function
+is kept to ensure validation of legacy password hashes.
+
+- @pass => The plain text password provided by the user.
+- @hash => The hashed password stored in the database (created with PHPass).
+
+
+Returns true if the given password matches the stored hash, false otherwise.
+
+Notes:
+
+- see https://www.openwall.com/phpass/ (Original PHPass project)
+
+
 ++PDF helper module++
 
 ```
@@ -7221,43 +7452,6 @@ function __pdf_all2pdf($input)
 
 
 Returns PDF content as string
-
-
-+++Build the expected PDF template file path for the given app.+++
-
-```
-function detect_pdf_file($app)
-```
-
-Given an application ID, this function resolves the folder name
-using `detect_app_folder($app)` and returns the full relative path
-to its associated PDF XML definition file, expected at:
-
-    apps/<folder>/xml/<app>_pdf.xml
-
-This path is used to define the PDF layout when exporting records
-from the app.
-
-- @app => The application code (e.g., 'invoices', 'quotes')
-
-
-Return the relative path to the PDF XML file
-
-
-+++Check if the PDF layout file exists for the given app.+++
-
-```
-function exists_pdf_file($app)
-```
-
-This function uses `detect_pdf_file()` to resolve the expected
-path of the XML file used to generate PDF output for a given app,
-and returns whether the file actually exists.
-
-- @app => The application code (e.g., 'invoices', 'quotes')
-
-
-Return true if the PDF file exists, false otherwise
 
 
 ++Push utils helper module++

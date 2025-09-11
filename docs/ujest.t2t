@@ -1,6 +1,6 @@
 Jest Test Documentation
-SaltOS 4.0 r2031
-May 2025
+SaltOS 4.0 r2204
+September 2025
 
 
 
@@ -177,36 +177,6 @@ afterAll(async ()
 This function contains all code executed after all tests, in this case the
 features provided by this function include the stop of the javsacript coverage
 recording, the save feature to the desired storage path and the browser close
-
-
-+++Workflow variables+++
-
-```
-let testFailed = false;
-```
-
-This variables allow to control the workflow of the test, the main idea is to
-skip all tests when one test fails
-
-
-+++Before Each+++
-
-```
-beforeEach(()
-```
-
-This function contains all code executed before each test, in this case the
-features provided by this function includes the control of the workflow
-
-
-+++After Each+++
-
-```
-afterEach(()
-```
-
-This function contains all code executed after each test, in this case the
-features provided by this function includes the control of the workflow
 
 
 +++App Login+++
@@ -926,7 +896,7 @@ ensuring that essential features operate correctly under different scenarios.
 +++Test service worker registration+++
 
 ```
-test('Registers service worker if supported and on HTTPS', async ()
+/*
 ```
 
 This test checks if the service worker is registered properly when the
@@ -1010,36 +980,6 @@ afterAll(async ()
 This function contains all code executed after all tests, in this case the
 features provided by this function include the stop of the javsacript coverage
 recording, the save feature to the desired storage path and the browser close
-
-
-+++Workflow variables+++
-
-```
-let testFailed = false;
-```
-
-This variables allow to control the workflow of the test, the main idea is to
-skip all tests when one test fails
-
-
-+++Before Each+++
-
-```
-beforeEach(()
-```
-
-This function contains all code executed before each test, in this case the
-features provided by this function includes the control of the workflow
-
-
-+++After Each+++
-
-```
-afterEach(()
-```
-
-This function contains all code executed after each test, in this case the
-features provided by this function includes the control of the workflow
 
 
 +++App Customers+++
@@ -1208,36 +1148,6 @@ afterAll(async ()
 This function contains all code executed after all tests, in this case the
 features provided by this function include the stop of the javsacript coverage
 recording, the save feature to the desired storage path and the browser close
-
-
-+++Workflow variables+++
-
-```
-let testFailed = false;
-```
-
-This variables allow to control the workflow of the test, the main idea is to
-skip all tests when one test fails
-
-
-+++Before Each+++
-
-```
-beforeEach(()
-```
-
-This function contains all code executed before each test, in this case the
-features provided by this function includes the control of the workflow
-
-
-+++After Each+++
-
-```
-afterEach(()
-```
-
-This function contains all code executed after each test, in this case the
-features provided by this function includes the control of the workflow
 
 
 +++App Emails+++
@@ -2054,36 +1964,6 @@ features provided by this function include the stop of the javsacript coverage
 recording, the save feature to the desired storage path and the browser close
 
 
-+++Workflow variables+++
-
-```
-let testFailed = false;
-```
-
-This variables allow to control the workflow of the test, the main idea is to
-skip all tests when one test fails
-
-
-+++Before Each+++
-
-```
-beforeEach(()
-```
-
-This function contains all code executed before each test, in this case the
-features provided by this function includes the control of the workflow
-
-
-+++After Each+++
-
-```
-afterEach(()
-```
-
-This function contains all code executed after each test, in this case the
-features provided by this function includes the control of the workflow
-
-
 +++App Invoices+++
 
 ```
@@ -2383,36 +2263,6 @@ features provided by this function include the stop of the javsacript coverage
 recording, the save feature to the desired storage path and the browser close
 
 
-+++Workflow variables+++
-
-```
-let testFailed = false;
-```
-
-This variables allow to control the workflow of the test, the main idea is to
-skip all tests when one test fails
-
-
-+++Before Each+++
-
-```
-beforeEach(()
-```
-
-This function contains all code executed before each test, in this case the
-features provided by this function includes the control of the workflow
-
-
-+++After Each+++
-
-```
-afterEach(()
-```
-
-This function contains all code executed after each test, in this case the
-features provided by this function includes the control of the workflow
-
-
 +++App Customers+++
 
 ```
@@ -2521,36 +2371,6 @@ features provided by this function include the stop of the javsacript coverage
 recording, the save feature to the desired storage path and the browser close
 
 
-+++Workflow variables+++
-
-```
-let testFailed = false;
-```
-
-This variables allow to control the workflow of the test, the main idea is to
-skip all tests when one test fails
-
-
-+++Before Each+++
-
-```
-beforeEach(()
-```
-
-This function contains all code executed before each test, in this case the
-features provided by this function includes the control of the workflow
-
-
-+++After Each+++
-
-```
-afterEach(()
-```
-
-This function contains all code executed after each test, in this case the
-features provided by this function includes the control of the workflow
-
-
 +++App Tester+++
 
 ```
@@ -2609,7 +2429,7 @@ This part of the test tries to set the differents bs_themes
 +++List of css_themes+++
 
 ```
-const css_themes = ['default', 'cerulean', 'cyborg', 'darkly', 'flatly', 'journal', 'litera', 'lumen',
+const css_themes = ['default',
 ```
 
 

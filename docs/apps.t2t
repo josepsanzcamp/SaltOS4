@@ -1,6 +1,6 @@
 Applications Documentation
-SaltOS 4.0 r2031
-May 2025
+SaltOS 4.0 r2204
+September 2025
 
 
 
@@ -19,7 +19,7 @@ inserting, checking, viewing, and deleting certificates from the NSS database.
 +++List Certificates+++
 
 ```
-function __certs_list($search, $offset, $limit)
+function __certs_list($search, $order, $offset, $limit)
 ```
 
 This function retrieves a list of certificates from the NSS database, applies search filters,
@@ -360,7 +360,7 @@ to interact with the `data/logs` directory.
 +++List files in the logs directory+++
 
 ```
-function __files_list($search, $offset, $limit)
+function __files_list($search, $order, $offset, $limit)
 ```
 
 This function retrieves a list of files from the `data/logs` directory, applies search filters,
@@ -447,6 +447,72 @@ function make_matrix_log($app, $id)
 
 This function processes log data and generates headers and formatting information
 for integration into the Excel widget.
+
+
+++Helper file for the order feature++
+
+```
+apps/common/php/order.php
+```
+
+
++++Get Order Fields+++
+
+```
+function get_order_fields($app)
+```
+
+Get Orderable Fields from the XML Definition, to do it, parses a given
+XML file and extracts the list of field names that are marked as orderable.
+
+- @app => app to search the xml file that contains the layout definition.
+
+
+Returns an array of field names that have the 'order' attribute enabled.
+
+
+++PDF helper file++
+
+```
+apps/common/php/pdf.php
+```
+
+
++++Build the expected PDF template file path for the given app.+++
+
+```
+function detect_pdf_file($app)
+```
+
+Given an application ID, this function resolves the folder name
+using `detect_app_folder($app)` and returns the full relative path
+to its associated PDF XML definition file, expected at:
+
+    apps/<folder>/xml/<app>_pdf.xml
+
+This path is used to define the PDF layout when exporting records
+from the app.
+
+- @app => The application code (e.g., 'invoices', 'quotes')
+
+
+Return the relative path to the PDF XML file
+
+
++++Check if the PDF layout file exists for the given app.+++
+
+```
+function exists_pdf_file($app)
+```
+
+This function uses `detect_pdf_file()` to resolve the expected
+path of the XML file used to generate PDF output for a given app,
+and returns whether the file actually exists.
+
+- @app => The application code (e.g., 'invoices', 'quotes')
+
+
+Return true if the PDF file exists, false otherwise
 
 
 +Crm+
@@ -806,34 +872,34 @@ This application implements the typical features associated with email functiona
 including templates and initialization processes for handling email-related tasks.
 
 
-+++Driver emails object+++
++++Driver type2emails object+++
 
 ```
-saltos.driver.__types.emails = {};
+saltos.driver.__types.type2emails = {};
 ```
 
 This object stores the functions and properties used by the email driver,
 providing the necessary methods for managing email operations.
 
 
-+++Create email template+++
++++Create type2emails template+++
 
 ```
-saltos.driver.__types.emails.template = arg
+saltos.driver.__types.type2emails.template = arg
 ```
 
 This function generates a template for the email driver, configuring specific
-attributes and layout modifications. It sets the 'type' attribute to 'emails'
+attributes and layout modifications. It sets the 'type' attribute to 'type2emails'
 and adjusts the layout of the corresponding element for proper display.
 
 
-+++Initialization, open, and close handlers for emails+++
++++Initialization, open, and close handlers for type2emails+++
 
 ```
-saltos.driver.__types.emails.init = saltos.driver.__types.type5.init; // Inherits initialization from type5
+saltos.driver.__types.type2emails.init = saltos.driver.__types.type2modal.init; // Inherits initialization
 ```
 
-These methods inherit their implementations from the 'type5' driver, allowing
+These methods inherit their implementations from the 'type2modal' driver, allowing
 reuse of core functionality for initializing, opening, and closing email resources.
 
 
@@ -1003,7 +1069,7 @@ This library provides the necesary functions to download, parse and manage email
 +++Requires section+++
 
 ```
-require_once 'apps/emails/lib/mimeparser/mime_parser.php';
+require_once 'apps/emails/lib/compat/mime_parser.php';
 ```
 
 This requires loads the external libraries needed to run this library.

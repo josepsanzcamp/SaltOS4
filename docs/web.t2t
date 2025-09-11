@@ -1,6 +1,6 @@
 Web Client Documentation
-SaltOS 4.0 r2071
-May 2025
+SaltOS 4.0 r2204
+September 2025
 
 
 
@@ -1309,10 +1309,11 @@ saltos.bootstrap.__field.label = field
 
 This function returns a label object, you can pass some arguments as:
 
-- @id      => the id used to set the reference for to the object
-- @class   => allow to add more classes to the default form-label
-- @label   => this parameter is used as text for the label
-- @tooltip => this parameter raise the title flag
+- @id       => the id used to set the reference for to the object
+- @class    => allow to add more classes to the default form-label
+- @label    => this parameter is used as text for the label
+- @tooltip  => this parameter raise the title flag
+- @required => this parameter add a red bold asterisk to the end of the label
 
 
 +++Image constructor helper+++
@@ -1971,23 +1972,6 @@ Notes:
 This function is intended to be used by other helpers of the form_field constructor
 
 
-+++Private shadow constructor helper+++
-
-```
-saltos.bootstrap.__shadow_helper = obj
-```
-
-This function creates a shadow wrapper around a given DOM element.
-
-It generates a <div> element with the class "shadow", appends the provided object (obj) as its child,
-and returns the resulting DOM structure.
-
-- @obj => The DOM element to be wrapped inside the shadow container.
-
-
-Returns the <div> element containing the original object as a child.
-
-
 +++Private tooltip constructor helper+++
 
 ```
@@ -2237,8 +2221,6 @@ This function creates a bootstrap offcanvas and open it, offers two ways of usag
 - @backdrop => to configure the backdrop feature (true or false)
 - @keyboard => to configure the keyboard feature (true or false)
 - @color    => the color of the widget (primary, secondary, success, danger, warning, info, none)
-- @resize   => the resize allow to the offcanvas to resize the contents of the screen to prevent
-             offcanvas from hiding things
 
 
 Returns a boolean that indicates if the offcanvas can be open or not
@@ -2249,10 +2231,6 @@ This offcanvas will be destroyed (instance and element) when it closes, too is i
 to undestand that only one offcanvas is allowed at each moment.
 
 Body allow to use a string containing a html fragment or an object, as the modal body.
-
-The resize option only works with start and end positions, too you can use left or right
-as replacements for start and end positions, the resize will be disabled in top or bottom
-positions.
 
 
 +++Toast constructor helper+++
@@ -3029,6 +3007,15 @@ syntactically correct and wrapped properly if necessary.
 Returns true if the string is a valid function, false otherwise.
 
 
++++Detects the current browser based on the user agent string.+++
+
+```
+saltos.core.get_browser = ()
+```
+
+Returns the browser name in lowercase: 'firefox', 'edge', 'opera', 'chrome' or 'unknown'.
+
+
 ++Driver module++
 
 ```
@@ -3178,7 +3165,8 @@ saltos.driver.placeholder = arg
 
 This function sets a placeholder object in the element identified by the arg
 
-- @arg => the id of the element where do you want to put the placeholder
+- @id     => the id of the element where do you want to put the placeholder
+- @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
 
 
 +++Driver styles+++
@@ -3191,6 +3179,72 @@ This function returns the style object that contains the tricks to do
 that the screen with verticals scrolls runs as expected
 
 - @arg => the break-size used in the driver screen, xl as default
+
+
++++Initializes the column resizing feature for screen layouts with two or three columns.+++
+
+```
+saltos.driver.resizable = ()
+```
+
+- Skips initialization if the resizable styles are already added to the DOM.
+- Only applies to layouts of type `type2` or `type3` (multi-column).
+- Injects a `<style>` element that defines the appearance and behavior of the resizable handles.
+- Delegates the actual resizing logic to internal helper functions:
+  - `saltos.driver.__resizable_2cols()` for two-column layouts
+  - `saltos.driver.__resizable_3cols()` for three-column layouts
+
+
+Notes:
+- The resizable handle is 16px wide and visually centered on the column edge.
+- On hover, the handle shows a dashed border and background highlight.
+
+
++++Enables dynamic resizing of two-column layouts (type2).+++
+
+```
+saltos.driver.__resizable_2cols = ()
+```
+
+- Targets elements with IDs `one` and `two`, assumed to be columns inside a shared parent row.
+- Loads previous column sizes from `saltos.storage`, if available, or infers them from current CSS classes.
+- Applies Bootstrap `col-xl-*` classes to adjust the column widths.
+- Injects a draggable handle between the two columns using the `interact` library.
+
+
+Behavior:
+- When dragging the handle:
+  - Calculates new column sizes based on pointer position (1–11 for col1, rest for col2).
+  - Enforces a minimum size of 1 column for each.
+  - Updates classes dynamically and saves the result per app hash.
+- Respects window resizes and updates the handle position accordingly.
+
+
+Storage key format: `saltos.driver.resizable/{app}`, where `{app}` is extracted from the hash.
+
+
++++Enables dynamic resizing of three-column layouts (type3).+++
+
+```
+saltos.driver.__resizable_3cols = ()
+```
+
+- Targets elements with IDs `one`, `two`, and `three`, assumed to be columns inside a shared parent row.
+- Loads saved column sizes from `saltos.storage` or infers them from current Bootstrap `col-xl-*` classes.
+- Applies calculated column widths via Bootstrap classes.
+
+
+Behavior:
+- Creates two draggable handles (`handle1` between columns 1 and 2, and `handle2` between columns 2 and 3).
+- When dragging:
+  - `handle1`: adjusts the size of column 1 (`col1`), recalculates `col2` keeping `col3` fixed.
+  - `handle2`: adjusts the size of column 2 (`col2`), recalculates `col3` keeping `col1` fixed.
+- Enforces constraints to ensure each column has at least 1 unit (out of 12 total).
+- Updates handle positions on window resize and after drag end.
+- Saves current sizes per app hash to persistent storage.
+
+
+Storage key format: `saltos.driver.resizable/{app}`, where `{app}` is extracted from the hash.
 
 
 +++Driver search if needed+++
@@ -3375,41 +3429,41 @@ This function close the three and/or two zone of the screen
 - @arg => unused at this scope
 
 
-+++Driver type4 object+++
++++Driver type1modal object+++
 
 ```
-saltos.driver.__types.type4 = {};
+saltos.driver.__types.type1modal = {};
 ```
 
-This object stores the functions used by the type4 driver
+This object stores the functions used by the type1modal driver
 
 
-+++Driver type4 template+++
++++Driver type1modal template+++
 
 ```
-saltos.driver.__types.type4.template = arg
+saltos.driver.__types.type1modal.template = arg
 ```
 
-This function returns the type4 template to mount the screen
+This function returns the type1modal template to mount the screen
 
 - @arg => unused at this scope
 
 
-+++Driver type4 init+++
++++Driver type1modal init+++
 
 ```
-saltos.driver.__types.type4.init = arg
+saltos.driver.__types.type1modal.init = arg
 ```
 
-This function initialize the type4 driver screen for the arg requested
+This function initialize the type1modal driver screen for the arg requested
 
 - @arg => the desired action to do
 
 
-+++Driver type4 open+++
++++Driver type1modal open+++
 
 ```
-saltos.driver.__types.type4.open = saltos.driver.__types.type2.open;
+saltos.driver.__types.type1modal.open = saltos.driver.__types.type2.open;
 ```
 
 This function bypass to the type2 driver
@@ -3417,10 +3471,10 @@ This function bypass to the type2 driver
 - @arg => the desired url
 
 
-+++Driver type4 close+++
++++Driver type1modal close+++
 
 ```
-saltos.driver.__types.type4.close = arg
+saltos.driver.__types.type1modal.close = arg
 ```
 
 This function close the modal
@@ -3428,41 +3482,101 @@ This function close the modal
 - @arg => unused at this scope
 
 
-+++Driver type5 object+++
++++Driver type1fluid object+++
 
 ```
-saltos.driver.__types.type5 = {};
+saltos.driver.__types.type1fluid = {};
 ```
 
-This object stores the functions used by the type5 driver
+This object stores the functions used by the type1modal driver
 
 
-+++Driver type5 template+++
++++Create type1fluid template+++
 
 ```
-saltos.driver.__types.type5.template = arg
+saltos.driver.__types.type1fluid.template = arg
 ```
 
-This function returns the type5 template to mount the screen
+This function generates a template for the type1fluid driver, configuring specific
+attributes and layout modifications. It sets the 'type' attribute to 'type1fluid'
+and adjusts the layout of the corresponding element for proper display.
+
+
++++Initialization, open, and close handlers for type1fluid+++
+
+```
+saltos.driver.__types.type1fluid.init = saltos.driver.__types.type1.init; // Inherits initialization
+```
+
+These methods inherit their implementations from the 'type1' driver, allowing
+reuse of core functionality for initializing, opening, and closing type1 resources.
+
+
++++Driver type1full object+++
+
+```
+saltos.driver.__types.type1full = {};
+```
+
+This object stores the functions used by the type1full driver
+
+
++++Create type1full template+++
+
+```
+saltos.driver.__types.type1full.template = arg
+```
+
+This function generates a template for the type1full driver, configuring specific
+attributes and layout modifications. It sets the 'type' attribute to 'type1full'
+and adjusts the layout of the corresponding element for proper display.
+
+
++++Initialization, open, and close handlers for type1full+++
+
+```
+saltos.driver.__types.type1full.init = saltos.driver.__types.type1modal.init; // Inherits initialization
+```
+
+These methods inherit their implementations from the 'type1modal' driver, allowing
+reuse of core functionality for initializing, opening, and closing type1modal resources.
+
+
++++Driver type2modal object+++
+
+```
+saltos.driver.__types.type2modal = {};
+```
+
+This object stores the functions used by the type2modal driver
+
+
++++Driver type2modal template+++
+
+```
+saltos.driver.__types.type2modal.template = arg
+```
+
+This function returns the type2modal template to mount the screen
 
 - @arg => unused at this scope
 
 
-+++Driver type5 init+++
++++Driver type2modal init+++
 
 ```
-saltos.driver.__types.type5.init = arg
+saltos.driver.__types.type2modal.init = arg
 ```
 
-This function initialize the type5 driver screen for the arg requested
+This function initialize the type2modal driver screen for the arg requested
 
 - @arg => the desired action to do
 
 
-+++Driver type5 open+++
++++Driver type2modal open+++
 
 ```
-saltos.driver.__types.type5.open = saltos.driver.__types.type2.open;
+saltos.driver.__types.type2modal.open = saltos.driver.__types.type2.open;
 ```
 
 This function bypass to the type2 driver
@@ -3470,10 +3584,10 @@ This function bypass to the type2 driver
 - @arg => the desired url
 
 
-+++Driver type5 close+++
++++Driver type2modal close+++
 
 ```
-saltos.driver.__types.type5.close = arg
+saltos.driver.__types.type2modal.close = arg
 ```
 
 This function close the modal and/or two zone of the screen

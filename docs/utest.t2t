@@ -1,6 +1,6 @@
 Phpunit Test Documentation
-SaltOS 4.0 r2031
-May 2025
+SaltOS 4.0 r2204
+September 2025
 
 
 
@@ -240,41 +240,6 @@ public function test_adderror(): void
 
 This test performs some tests to validate the correctness
 of the adderror functions
-
-
-++Test apache++
-
-```
-test_apache.php
-```
-
-This test performs some tests to validate the correctness
-of the apache configuration
-
-
-+++Importing namespaces+++
-
-```
-use PHPUnit\Framework\TestCase;
-```
-
-
-+++Main class of this unit test+++
-
-```
-final class test_apache extends TestCase
-```
-
-
-+++addlog test+++
-
-```
-public function test_apache(): void
-```
-
-This test performs some tests to validate the correctness of the apache configuration,
-the main idea is that the path saltos/code4 of the web server must point to the web
-directory.
 
 
 ++Test apps++
@@ -1198,7 +1163,18 @@ closing the connection.
 +++PDO mssql driver+++
 
 ```
-private function test_pdo_mssql(): void
+public function test_pdo_mssql(): void
+```
+
+This function checks the correctness of the sqlserver driver by creating a
+database connection, sendint queries validating the expected results and
+closing the connection.
+
+
++++PDO pgsql driver+++
+
+```
+public function test_pdo_pgsql(): void
 ```
 
 This function checks the correctness of the sqlserver driver by creating a
