@@ -116,6 +116,7 @@ saltos.bootstrap.field = field => {
                 .form-select:disabled,
                 .disabled .ts-control {
                     background-color: inherit!important;
+                    color: var(--bs-secondary-color);
                 }
             </style>
         `));
