@@ -26,3 +26,4 @@ certificates: Certificats
 certificate_nicknames_available: Àlies de certificat disponibles
 password_file: Fitxer de contrasenya
 certificate_file_p12_pfx: Fitxer de certificat (.p12, .pfx)
+subject: Assumpte

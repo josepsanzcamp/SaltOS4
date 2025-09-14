@@ -26,3 +26,4 @@ certificates: Certificates
 certificate_nicknames_available: Certificate nicknames available
 password_file: Password file
 certificate_file_p12_pfx: Certificate file (.p12, .pfx)
+subject: Subject

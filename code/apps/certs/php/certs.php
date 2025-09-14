@@ -202,11 +202,12 @@ function __certs_view($hash)
     }
     $info['subject'] = array_map(fn($k, $v) => "$k: $v", array_keys($info['subject']), $info['subject']);
     $info['info'] = array_map(fn($k, $v) => "$k: $v", array_keys($info['info']), $info['info']);
-    $info = array_merge(['[subject]'], $info['subject'], ['', '[info]'], $info['info']);
-    $info = implode("\n", $info);
+    $info['subject'] = implode("\n", $info['subject']);
+    $info['info'] = implode("\n", $info['info']);
     return [
         'name' => $nick,
-        'info' => $info,
+        'subject' => $info['subject'],
+        'info' => $info['info'],
     ];
 }
 
