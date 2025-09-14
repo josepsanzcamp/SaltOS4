@@ -32,8 +32,14 @@ function head($data, $lines)
 
 function curl($url, $timeout)
 {
-    $firefox = '-H "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0"';
-    $firefox = str_replace('133', strval(random_int(133, 142)), $firefox);
+    $firefox = [
+        '-H "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0"',
+        '-H "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"',
+        '-H "Accept-Language: es_ES"',
+        '-H "Accept-Encoding: deflate"',
+    ];
+    $firefox[0] = str_replace('133', strval(random_int(133, 142)), $firefox[0]);
+    $firefox = implode(' ', $firefox);
     ob_start();
     passthru("timeout $timeout curl $firefox -s $url");
     $buffer = ob_get_clean();
