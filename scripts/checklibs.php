@@ -33,6 +33,7 @@ function head($data, $lines)
 function curl($url, $timeout)
 {
     $firefox = '-H "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0"';
+    $firefox = str_replace('133', strval(random_int(133, 142)), $firefox);
     ob_start();
     passthru("timeout $timeout curl $firefox -s $url");
     $buffer = ob_get_clean();
