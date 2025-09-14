@@ -85,7 +85,7 @@ pdf_options: PDF options
 new: New
 default: Default
 pdf: PDF
-info: Info
+info: Information
 to_create_a_new_register: To create a new register
 to_edit_this_register: To edit this register
 to_delete_the_register: To delete the register
