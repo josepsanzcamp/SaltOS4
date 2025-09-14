@@ -1752,13 +1752,13 @@ make langs
 Run language-specific analysis manually:
 
 ```
-python scripts/checklangs.py --lang ca_ES --group=crm --filter=missing
+python3 scripts/checklangs.py --lang ca_ES --group=crm --filter=missing
 ```
 
 Strict duplicate detection between groups:
 
 ```
-python scripts/checklangs.py --strict
+python3 scripts/checklangs.py --strict
 ```
 
 ++Script Directory Overview++
