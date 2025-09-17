@@ -1493,18 +1493,18 @@ function getmail_server()
         if ($error == '') {
             $error = $pop3->Login($row['pop3_user'], $row['pop3_pass']);
         }
-        $sizes = null;
-        if ($error == '') {
-            $sizes = $pop3->ListMessages('', 0);
-            if (!is_array($sizes)) {
-                $error = $sizes;
-            }
-        }
         $uidls = null;
         if ($error == '') {
             $uidls = $pop3->ListMessages('', 1);
             if (!is_array($uidls)) {
                 $error = $uidls;
+            }
+        }
+        $sizes = null;
+        if ($error == '') {
+            $sizes = $pop3->ListMessages('', 0);
+            if (!is_array($sizes)) {
+                $error = $sizes;
             }
         }
         if ($error == '') {
