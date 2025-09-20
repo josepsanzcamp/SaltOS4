@@ -33,35 +33,65 @@ declare(strict_types=1);
 
 /**
  * pop3_class: cURL/POP3 compatible replacement.
- * Requirements: ext-curl enabled.
  *
- * Notes:
- * - This implementation authenticates per command (no persistent session),
- *   leveraging cURL’s POP3 support to keep transport logic simple and robust.
- * - STARTTLS (STLS) can be requested via $tls=1 (when not using POP3S).
+ * Requirements:
+ * - PHP cURL extension (ext-curl).
+ *
+ * Design:
+ * - Stateless per-command operation: every POP3 verb is executed via a fresh
+ *   cURL transfer (as needed) rather than maintaining an app-level session.
+ * - Implicit TLS (POP3S) via $ssl=1, or opportunistic STARTTLS via $tls=1 when
+ *   using plain POP3.
+ * - Command execution is centralized in exec(), which handles multi-line vs
+ *   single-line responses and basic error detection.
+ *
+ * Security note:
+ * - Certificate verification is disabled here for compatibility. In production,
+ *   you should enable peer/host verification and configure CA bundle paths.
  */
 class pop3_class
 {
+    /** @var string POP3 server hostname or IP (required). */
     public $hostname = '';
-    public $port = 110;
-    public $tls = 0; // 1 = STARTTLS (STLS)
-    public $ssl = 0; // 1 = POP3S (implicit TLS)
 
-    private $user = '';
-    private $pass = '';
+    /** @var int POP3 TCP port (110 for POP3, 995 for POP3S if not set explicitly). */
+    public $port = 110;
+
+    /** @var int 1 to request STARTTLS (STLS) when using plain POP3; 0 otherwise. */
+    public $tls = 0;
+
+    /** @var int 1 to use POP3S (implicit TLS); 0 for plain POP3. */
+    public $ssl = 0;
+
+    /** @var string Username for authentication. */
+    public $user = '';
+
+    /** @var string Password for authentication. */
+    public $pass = '';
+
+    /** @var string Computed base URL (pop3[s]://host:port/). */
     private $baseUrl = '';
-    private $msgBuffer = null;
-    private $msgPos = 0;
+
+    /** @var resource|null cURL handle reused across invocations. */
+    private $ch = null;
+
+    /** @var array|null Baseline cURL options applied on each exec(). */
+    private $opts = null;
 
     /**
-     * Initialize connection parameters and compute base URL.
-     * Returns '' on success or an error string on failure.
+     * Prepare the cURL handle and compute the base URL based on configuration.
+     *
+     * This does not establish a persistent POP3 session; it only sets up
+     * the common cURL options used by exec().
+     *
+     * @return string Empty string on success; non-empty error message on failure.
      */
     public function Open()
     {
         if (!$this->hostname) {
             return 'Open failed: empty host';
         }
+
         // Choose URL scheme and default port
         if ((int)$this->ssl === 1) {
             $scheme = 'pop3s'; // POP3 over implicit TLS
@@ -75,32 +105,47 @@ class pop3_class
             }
         }
         $this->baseUrl = sprintf('%s://%s:%d/', $scheme, $this->hostname, (int)$this->port);
+
+        $this->ch = curl_init();
+
+        $this->opts = [
+            CURLOPT_USERNAME         => $this->user,
+            CURLOPT_PASSWORD         => $this->pass,
+            CURLOPT_RETURNTRANSFER   => true,
+            CURLOPT_URL              => $this->baseUrl,
+
+            // NOTE: Disabled for compatibility; enable in production deployments.
+            CURLOPT_SSL_VERIFYPEER   => false,
+            CURLOPT_SSL_VERIFYHOST   => 0,
+            CURLOPT_SSL_ENABLE_ALPN  => false,
+
+            //~ CURLOPT_VERBOSE      => true,
+        ];
+
+        // STARTTLS via STLS when requested (and not using implicit TLS)
+        if ($this->ssl != 1 && $this->tls == 1) {
+            $this->opts[CURLOPT_USE_SSL] = CURLUSESSL_ALL;
+        }
+
         return '';
     }
 
     /**
-     * Store credentials and validate them with a lightweight NOOP.
-     * Returns '' on success or an error string on failure.
+     * Retrieve the server's UIDL listing and return a map of index => uidl.
+     *
+     * Behavior:
+     * - Issues "UIDL" and parses the multi-line response.
+     * - Skips status lines (+OK / -ERR) and returns only numbered entries.
+     *
+     * Caveat:
+     * - Indices are assigned by the server and can change between calls if
+     *   messages are deleted. Consumers should prefer using UIDLs as stable ids.
+     *
+     * @return array<int,string>|string Array of [msgIndex => uidl] on success; error string on failure.
      */
-    public function Login($user, $pass)
+    public function ListMessages()
     {
-        $this->user = (string)$user;
-        $this->pass = (string)$pass;
-
-        // Verify credentials using a one-line command (NOOP)
-        $err = $this->exec('NOOP', true, $out, false);
-        return $err; // '' if OK
-    }
-
-    /**
-     * List messages.
-     * $uidls=0 → LIST (sizes) | $uidls=1 → UIDL (unique IDs)
-     * @return array|string Array on success; error string on failure.
-     */
-    public function ListMessages($folder = '', $uidls = 0)
-    {
-        $cmd = ((int)$uidls === 1) ? 'UIDL' : 'LIST';
-        $err = $this->exec($cmd, true, $out, true);
+        $err = $this->exec('UIDL', $out, true);
         if ($err !== '') {
             return $err;
         }
@@ -115,7 +160,7 @@ class pop3_class
             if (preg_match('~^(\d+)\s+(\S+)~', trim($line), $m)) {
                 $n = (int)$m[1];
                 $v = $m[2];
-                $result[$n] = ((int)$uidls === 1) ? (string)$v : (int)$v;
+                $result[$n] = (string)$v;
             }
         }
         ksort($result, SORT_NUMERIC);
@@ -123,64 +168,38 @@ class pop3_class
     }
 
     /**
-     * Open a message for streamed reads (via GetMessage()).
-     * $lines = -1 → full message (RETR); otherwise use TOP with $lines.
-     * Returns '' on success or an error string on failure.
+     * Download a full message by server index using "RETR <index>".
+     *
+     * @param int         $index  1-based server message index.
+     * @param string|null $out    Filled with the raw RFC 5322 message on success.
+     * @return string             Empty string on success; non-empty error message on failure.
      */
-    public function OpenMessage($index, $lines = -1)
+    public function GetMessage($index, &$out)
     {
         $index = (int)$index;
         if ($index < 1) {
             return 'OpenMessage failed: bad index';
         }
-        $custom = true;
-        $cmd = ($lines === -1)
-            ? "RETR {$index}"
-            : "TOP {$index} " . max(0, (int)$lines);
 
-        $err = $this->exec($cmd, $custom, $out, true);
+        $err = $this->exec("RETR {$index}", $out, true);
         if ($err !== '') {
             return $err;
         }
-
-        $this->msgBuffer = (string)$out;
-        $this->msgPos = 0;
         return '';
     }
 
     /**
-     * Read a chunk from the currently opened message.
-     * @param  int    $length Bytes to read
-     * @param  string &$out   Output chunk
-     * @param  int    &$eof   1 when end-of-file is reached; 0 otherwise
-     * @return string Empty string on success; error text on failure
-     */
-    public function GetMessage($length, &$out, &$eof)
-    {
-        $out = '';
-        $eof = 0;
-        if ($this->msgBuffer === null) {
-            return 'No message opened';
-        }
-
-        $len = strlen($this->msgBuffer);
-        if ($this->msgPos >= $len) {
-            $eof = 1;
-            return '';
-        }
-
-        $chunk = substr($this->msgBuffer, $this->msgPos, (int)$length);
-        $this->msgPos += strlen($chunk);
-        $out = $chunk;
-        if ($this->msgPos >= $len) {
-            $eof = 1;
-        }
-        return '';
-    }
-
-    /**
-     * Mark a message for deletion.
-     * Returns '' on success or an error string on failure.
+     * Issue "DELE <index>" to mark a message for deletion.
+     *
+     * Notes:
+     * - Since this client operates per-command with independent connections,
+     *   deletion is immediately applied server-side for that command.
+     * - Be careful when chaining deletions by index; if indices shift between
+     *   commands, you may delete unintended messages. Prefer resolving indices
+     *   from UIDLs with ListMessages() right before deletion.
+     *
+     * @param int $index 1-based server message index.
+     * @return string    Empty string on success; non-empty error message on failure.
      */
     public function DeleteMessage($index)
     {
@@ -188,67 +207,49 @@ class pop3_class
         if ($index < 1) {
             return 'DeleteMessage failed: bad index';
         }
-        return $this->exec("DELE {$index}", true, $out, false);
+        return $this->exec("DELE {$index}", $out, false);
     }
 
     /**
-     * Cleanup local state. Each cURL call is standalone, so no persistent QUIT is needed.
+     * Release the cURL handle. No explicit POP3 QUIT is required because each
+     * command is executed as its own transfer.
+     *
+     * @return string Always returns empty string.
      */
     public function Close()
     {
-        $this->msgBuffer = null;
-        $this->msgPos = 0;
+        curl_close($this->ch);
         return '';
     }
 
     /**
-     * Execute a POP3 command (UIDL, LIST, RETR N, TOP N L, DELE N, NOOP, CAPA, etc.).
+     * Execute a POP3 command using cURL.
      *
-     * If $custom=true we use CURLOPT_CUSTOMREQUEST with the verb (e.g., "UIDL", "LIST", "RETR 1").
-     * If $custom=false we switch to a path-style request (/N) — kept for compatibility if needed.
+     * Behavior:
+     * - Sets CURLOPT_CUSTOMREQUEST to the given verb (e.g., "UIDL", "RETR 1", "DELE 2").
+     * - When $withBody is true (multi-line commands like UIDL/LIST/RETR/TOP),
+     *   fetches and returns the response body in $out.
+     * - When $withBody is false (single-line commands like NOOP/DELE/CAPA),
+     *   uses CURLOPT_NOBODY and forces a fresh connection to avoid hangs
+     *   observed on some distributions (e.g., Debian 12).
      *
-     * $withBody controls whether we expect a multi-line response:
-     *  - true  → multi-line commands (UIDL/LIST/RETR/TOP) return the body
-     *  - false → one-line commands (NOOP/DELE/CAPA) avoid waiting for a body to prevent hangs
+     * Error handling:
+     * - On transport failure, returns a "cURL: ..." message.
+     * - On multi-line responses, scans for "-ERR" and returns a "POP3 error: ..."
+     *   message when found.
      *
-     * @param  string  $cmdOrPath  POP3 command or path
-     * @param  bool    $custom     Use CUSTOMREQUEST when true
-     * @param  ?string &$out       Filled with response body when $withBody = true
-     * @param  bool    $withBody   Whether to read a response body
-     * @return string '' on success; error text on failure
+     * @param  string       $cmd       POP3 command (verbatim), e.g., "UIDL", "RETR 1", "DELE 3".
+     * @param  string|null  $out       Filled with response body when $withBody is true; otherwise ''.
+     * @param  bool         $withBody  True for multi-line commands; false for single-line commands.
+     * @return string                  Empty string on success; non-empty error text on failure.
      */
     // @phpstan-ignore parameterByRef.unusedType
-    private function exec(string $cmdOrPath, bool $custom, ?string &$out, bool $withBody = true)
+    private function exec(string $cmd, ?string &$out, bool $withBody = true)
     {
         $out = '';
-        $ch = curl_init();
 
-        $opts = [
-            CURLOPT_USERNAME         => $this->user,
-            CURLOPT_PASSWORD         => $this->pass,
-            CURLOPT_RETURNTRANSFER   => true,
-            CURLOPT_URL              => $this->baseUrl,
-
-            // NOTE: Verification is disabled for compatibility.
-            CURLOPT_SSL_VERIFYPEER   => false,
-            CURLOPT_SSL_VERIFYHOST   => 0,
-            CURLOPT_SSL_ENABLE_ALPN  => false,
-
-            //~ CURLOPT_VERBOSE      => true,
-        ];
-
-        // STARTTLS via STLS when requested (and not using implicit TLS)
-        if ($this->ssl != 1 && $this->tls == 1) {
-            $opts[CURLOPT_USE_SSL] = CURLUSESSL_ALL;
-        }
-
-        if ($custom) {
-            // e.g., "UIDL", "LIST", "RETR 1", "TOP 3 20", "DELE 2"
-            $opts[CURLOPT_CUSTOMREQUEST] = $cmdOrPath;
-        } else {
-            // Path-based fallback (rarely needed with POP3)
-            $opts[CURLOPT_URL] = rtrim($this->baseUrl, '/') . '/' . ltrim($cmdOrPath, '/');
-        }
+        $opts = $this->opts;
+        $opts[CURLOPT_CUSTOMREQUEST] = $cmd;
 
         if ($withBody) {
             // Multi-line commands: we want the body (UIDL/LIST/RETR/TOP)
@@ -260,17 +261,14 @@ class pop3_class
             $opts[CURLOPT_FORBID_REUSE]  = true;  // and do not reuse it
         }
 
-        curl_setopt_array($ch, $opts);
-        $resp = curl_exec($ch);
+        curl_reset($this->ch);
+        curl_setopt_array($this->ch, $opts);
+        $resp = curl_exec($this->ch);
         if ($resp === false) {
-            $err = 'cURL: ' . curl_error($ch);
-            curl_close($ch);
+            $err = 'cURL: ' . curl_error($this->ch);
+            curl_close($this->ch);
             return $err;
         }
-
-        // POP3 is text-based; CURLINFO_RESPONSE_CODE may be unused/zero here.
-        $code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
-        curl_close($ch);
 
         $out = $withBody ? (string)$resp : '';
 

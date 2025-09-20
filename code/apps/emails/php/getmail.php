@@ -1488,23 +1488,15 @@ function getmail_server()
             }
             $pop3->tls = ($row['pop3_extra'] == 'tls') ? 1 : 0;
             $pop3->ssl = ($row['pop3_extra'] == 'ssl') ? 1 : 0;
+            $pop3->user = $row['pop3_user'];
+            $pop3->pass = $row['pop3_pass'];
             $error = $pop3->Open();
-        }
-        if ($error == '') {
-            $error = $pop3->Login($row['pop3_user'], $row['pop3_pass']);
         }
         $uidls = null;
         if ($error == '') {
-            $uidls = $pop3->ListMessages('', 1);
+            $uidls = $pop3->ListMessages();
             if (!is_array($uidls)) {
                 $error = $uidls;
-            }
-        }
-        $sizes = null;
-        if ($error == '') {
-            $sizes = $pop3->ListMessages('', 0);
-            if (!is_array($sizes)) {
-                $error = $sizes;
             }
         }
         if ($error == '') {
@@ -1518,17 +1510,8 @@ function getmail_server()
                     $file = $prefix . '/' . $uidls[$index] . '.eml.gz';
                     if (!file_exists($file)) {
                         // retrieve the entire message
-                        $error = $pop3->OpenMessage($index, -1);
                         $message = null;
-                        if ($error == '') {
-                            $message = '';
-                            $eof = 0;
-                            while (!$eof && $error == '') {
-                                $temp = '';
-                                $error = $pop3->GetMessage($sizes[$index] + 1, $temp, $eof);
-                                $message .= $temp;
-                            }
-                        }
+                        $error = $pop3->GetMessage($index, $message);
                         if ($error == '') {
                             // store the message into single file
                             $fp = gzopen($file, 'w');
@@ -1565,6 +1548,7 @@ function getmail_server()
                     $index2 = array_search($row2['uidl'], $uidls);
                     $error = $pop3->DeleteMessage($index2);
                     unset($uidls[$index2]);
+                    $uidls = array_combine(range(1, count($uidls)), array_values($uidls));
                 }
                 if ($error != '') {
                     break;
