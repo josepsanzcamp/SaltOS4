@@ -237,7 +237,7 @@ final class test_emails extends TestCase
         $result = getmail_pdf('42,43');
         $this->assertIsArray($result);
 
-        $cache = get_cache_file('which wkhtmltopdf', '.out');
+        $cache = get_cache_file('which chromium', '.out');
         $this->assertNotFalse(file_put_contents($cache, ''));
         $result = getmail_pdf('42,43');
         $this->assertIsArray($result);

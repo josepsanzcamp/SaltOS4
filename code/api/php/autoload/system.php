@@ -69,7 +69,7 @@ function check_system()
         ['program', 'pdftoppm', 'warning', 'poppler-utils'], // unoconv module
         ['extension', 'mailparse', 'warning', 'php-mailparse'], // emails module
         ['extension', 'imap', 'warning', 'php-imap'], // emails module
-        ['program', 'wkhtmltopdf', 'warning', 'wkhtmltopdf'], // emails module
+        ['program', 'chromium', 'warning', 'chromium'], // emails module
         ['program', 'pdfunite', 'warning', 'poppler-utils'], // emails module
         ['program', 'certutil', 'warning', 'libnss3-tools'], // nssdb module
         ['program', 'openssl', 'warning', 'openssl'], // nssdb module

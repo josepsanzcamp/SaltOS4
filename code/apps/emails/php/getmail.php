@@ -1769,7 +1769,7 @@ function getmail_setter($ids, $what)
  * Generate PDF from emails
  *
  * This function generates PDF files for the provided email IDs using either the
- * `wkhtmltopdf` command or a fallback library. If multiple emails are selected,
+ * `chromium` command or a fallback library. If multiple emails are selected,
  * their PDFs are merged into a single file. It validates user permissions for
  * accessing the emails and manages caching for performance optimization.
  *
@@ -1789,7 +1789,7 @@ function getmail_pdf($ids)
     }
 
     // Check if the required command is available
-    if (!check_commands('wkhtmltopdf')) {
+    if (!check_commands('chromium')) {
         require_once 'php/lib/pdf.php';
         return pdf('apps/emails/xml/emails_pdf.xml', ['id' => check_ids($ids)]);
     }
@@ -1821,7 +1821,7 @@ function getmail_pdf($ids)
         // Generate PDF file from the HTML content
         $output = get_cache_file([__FUNCTION__, $id], '.pdf');
         if (!file_exists($output)) {
-            ob_passthru("wkhtmltopdf $input $output 2>&1");
+            ob_passthru("chromium --headless --no-pdf-header-footer --print-to-pdf=$output file://$input 2>&1");
             if (!file_exists($output)) {
                 // Some thing was wrong, falling back to old style
                 require_once 'php/lib/pdf.php';
