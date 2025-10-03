@@ -1821,7 +1821,8 @@ function getmail_pdf($ids)
         // Generate PDF file from the HTML content
         $output = get_cache_file([__FUNCTION__, $id], '.pdf');
         if (!file_exists($output)) {
-            ob_passthru("chromium --headless --no-pdf-header-footer --print-to-pdf=$output file://$input 2>&1");
+            $opts = '--headless --no-pdf-header-footer';
+            ob_passthru("chromium $opts --print-to-pdf=$output file://$input 2>&1");
             if (!file_exists($output)) {
                 // Some thing was wrong, falling back to old style
                 require_once 'php/lib/pdf.php';
