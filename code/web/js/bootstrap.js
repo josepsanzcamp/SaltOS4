@@ -404,6 +404,7 @@ saltos.bootstrap.__field.integer = field => {
     let obj = saltos.bootstrap.__text_helper(field);
     field.type = 'integer';
     const element = obj.querySelector('input');
+    element.setAttribute('inputmode', 'numeric');
     saltos.core.require([
         'lib/imaskjs/imask.min.js',
     ], () => {
@@ -449,6 +450,7 @@ saltos.bootstrap.__field.float = field => {
     let obj = saltos.bootstrap.__text_helper(field);
     field.type = 'float';
     const element = obj.querySelector('input');
+    element.setAttribute('inputmode', 'numeric');
     saltos.core.require([
         'lib/imaskjs/imask.min.js',
     ], () => {
