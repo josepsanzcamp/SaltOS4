@@ -10,7 +10,7 @@ yaml|https://github.com/symfony/yaml/tags.atom|<title>|PHRpdGxlPnY2LjQuMjY8L3Rpd
 
 autoheight|https://github.com/kamilkp/autoheight/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAxNi0wOC0wN1QyMzo0MToxMVo8L3VwZGF0ZWQ+
 bootstrap|https://github.com/twbs/bootstrap/tags.atom|<title>|PHRpdGxlPnY1LjMuODwvdGl0bGU+
-chartjs|https://github.com/chartjs/Chart.js/tags.atom|<title>|PHRpdGxlPnY0LjUuMDwvdGl0bGU+
+chartjs|https://github.com/chartjs/Chart.js/tags.atom|<title>|PHRpdGxlPnY0LjUuMTwvdGl0bGU+
 ckeditor|https://github.com/ckeditor/ckeditor5/tags.atom|<title>|PHRpdGxlPnY0Ny4wLjA8L3RpdGxlPg==
 codemirror|https://api.cdnjs.com/libraries/codemirror?fields=name,version|version|eyJuYW1lIjoiY29kZW1pcnJvciIsInZlcnNpb24iOiI2LjY1LjcifQ==
 icons|https://github.com/twbs/icons/tags.atom|<title>|PHRpdGxlPnYxLjEzLjE8L3RpdGxlPg==
@@ -37,16 +37,16 @@ browserify|https://github.com/browserify/browserify/tags.atom|<title>|PHRpdGxlPn
 cloc|https://github.com/AlDanial/cloc/tags.atom|<title>|PHRpdGxlPjIuMDY8L3RpdGxlPg==
 jest|https://github.com/jestjs/jest/tags.atom|<title>|PHRpdGxlPjMwLjIuMDwvdGl0bGU+
 jscs|https://github.com/jscs-dev/node-jscs/tags.atom|<title>|PHRpdGxlPjMuMC43PC90aXRsZT4=
-libreoffice|https://es.libreoffice.org/descarga/libreoffice/|type=deb|PG9wdGlvbiB2YWx1ZT0iL2Rlc2NhcmdhL2xpYnJlb2ZmaWNlLz90eXBlPWRlYi1hYXJjaDY0JnZlcnNpb249MjUuOC4xJmxhbmc9ZXMiPkxpbnV4IChBYXJjaDY0KSAoZGViKTwvb3B0aW9uPg==
+libreoffice|https://es.libreoffice.org/descarga/libreoffice/|type=deb|PG9wdGlvbiB2YWx1ZT0iL2Rlc2NhcmdhL2xpYnJlb2ZmaWNlLz90eXBlPWRlYi1hYXJjaDY0JnZlcnNpb249MjUuOC4yJmxhbmc9ZXMiPkxpbnV4IChBYXJjaDY0KSAoZGViKTwvb3B0aW9uPg==
 mariadb|https://github.com/MariaDB/server/tags.atom|<title>|PHRpdGxlPk1hcmlhREIgQ29tbXVuaXR5IFNlcnZlciAxMi4xLjE8L3RpdGxlPg==
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|PHRpdGxlPm1pbmlmeSB2MTQuMS4wPC90aXRsZT4=
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|PHRpdGxlPk1yb29uZ2EgMTUuMTcgLSAyMDI1LTA5LTI5PC90aXRsZT4=
-node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjUtMDktMjUsIFZlcnNpb24gMjQuOS4wIChDdXJyZW50KSwgQHRhcmdvczwvdGl0bGU+
+node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjUtMTAtMDgsIFZlcnNpb24gMjQuMTAuMCAoQ3VycmVudCksIEBSYWZhZWxHU1M8L3RpdGxlPg==
 pcov|https://github.com/krakjoe/pcov/tags.atom|<title>|PHRpdGxlPnYxLjAuMTI8L3RpdGxlPg==
-php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjUuMFJDMTwvdGl0bGU+
+php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjUuMFJDMjwvdGl0bGU+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|PHRpdGxlPjQuMC4wIC0gMjAyNS0wOS0xNjwvdGl0bGU+
-phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjIuMS4zMDwvdGl0bGU+
-phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|PHRpdGxlPlBIUFVuaXQgMTIuNC4wPC90aXRsZT4=
+phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjIuMS4zMTwvdGl0bGU+
+phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|PHRpdGxlPlBIUFVuaXQgMTIuNC4xPC90aXRsZT4=
 uglifyjs|https://github.com/mishoo/UglifyJS/tags.atom|<title>|PHRpdGxlPnYzLjE5LjM8L3RpdGxlPg==
 wpcs|https://github.com/WordPress/WordPress-Coding-Standards/tags.atom|<title>|PHRpdGxlPjMuMi4wPC90aXRsZT4=
 semver|https://github.com/composer/semver/tags.atom|<title>|PHRpdGxlPjMuNC40PC90aXRsZT4=

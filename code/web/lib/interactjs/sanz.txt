@@ -1,2 +1,4 @@
 
 wget -O interact.min.js https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.10.27/interact.min.js
+cat interact.min.js | grep -v sourceMappingURL > interact.min.js.new
+mv interact.min.js.new interact.min.js
