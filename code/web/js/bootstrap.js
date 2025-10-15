@@ -3255,10 +3255,14 @@ saltos.bootstrap.__field.tags = field => {
     });
     obj.append(placeholder);
     // Prepare rounded
-    let rounded = 'rounded-pill';
+    let rounded = 'rounded-4';
     if (field.rounded) {
         rounded = field.rounded;
     }
+    // Fix rounded-pill to the desired rounded
+    obj.querySelectorAll('.rounded-pill').forEach(item => {
+        item.classList.replace('rounded-pill', rounded);
+    });
     // Continue
     saltos.core.require([
         'lib/tomselect/tom-select.bootstrap5.min.css',
