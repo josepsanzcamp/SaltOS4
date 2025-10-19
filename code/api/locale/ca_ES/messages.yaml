@@ -73,8 +73,8 @@ view: Veure
 download: Descarregar
 navigator_is_online: El navegador està en línia
 navigator_is_offline: El navegador està fora de línia
-browser_browser_platform_platform_and_a_device_type_device_type: navegador $browser, plataforma $platform y dispositiu tipus $device_type
-city_region_country_using_ip_ip_and_network_of_isp: $city, $region, $country fent servir la IP $ip y la xarxa de $isp
+browser_browser_platform_platform_and_a_device_type_device_type: navegador $browser, plataforma $platform i dispositiu tipus $device_type
+city_region_country_using_ip_ip_and_network_of_isp: $city, $region, $country fent servir la IP $ip i la xarxa de $isp
 a_connection_has_been_detected_from_geoip_on_a_browser: S'ha detectat una connexió des de $geoip amb $browser.
 to_see_the_history_of_the_changes: Per veure l'historial dels canvis
 information_of_this_register: Informació d'aquest registre

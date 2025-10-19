@@ -186,7 +186,7 @@ final class test_user extends TestCase
 
         set_data('server/lang', 'ca_ES');
         $browser = get_browser_string($user_agent);
-        $this->assertSame($browser, 'navegador Firefox, plataforma Linux y dispositiu tipus Desktop');
+        $this->assertSame($browser, 'navegador Firefox, plataforma Linux i dispositiu tipus Desktop');
 
         set_data('server/lang', null);
     }
@@ -269,15 +269,15 @@ final class test_user extends TestCase
         set_data('server/lang', 'es_ES');
         $geoip = get_geoip_string($remote_addr);
         $this->assertContains($geoip, [
-            ', ,  using IP  and network of ',
+            ', ,  usando la IP  y la red de ',
             'Madrid, Madrid, Spain usando la IP 79.116.196.1 y la red de Digi Spain Telecom S.l.',
         ]);
 
         set_data('server/lang', 'ca_ES');
         $geoip = get_geoip_string($remote_addr);
         $this->assertContains($geoip, [
-            ', ,  using IP  and network of ',
-            'Madrid, Madrid, Spain fent servir la IP 79.116.196.1 y la xarxa de Digi Spain Telecom S.l.',
+            ', ,  fent servir la IP  i la xarxa de ',
+            'Madrid, Madrid, Spain fent servir la IP 79.116.196.1 i la xarxa de Digi Spain Telecom S.l.',
         ]);
 
         set_data('server/lang', null);
