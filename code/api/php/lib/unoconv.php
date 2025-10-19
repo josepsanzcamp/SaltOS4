@@ -322,7 +322,7 @@ function __unoconv_histogram($values, $usage1, $usage2)
 {
     $histo = [];
     foreach ($values as $val) {
-        $val = round($val, 0);
+        $val = (int)round($val, 0);
         if (!isset($histo[$val])) {
             $histo[$val] = 0;
         }
@@ -442,7 +442,7 @@ function __unoconv_lines2matrix($lines, $width, $height)
     $posy = null;
     foreach ($lines as $index => $line) {
         if ($line[0] == 'line') {
-            $posy = round((($line[4] + $line[2]) / 2) / $height, 0);
+            $posy = (int)round((($line[4] + $line[2]) / 2) / $height, 0);
             if (!isset($matrix[$posy])) {
                 $matrix[$posy] = [];
             }
@@ -455,7 +455,7 @@ function __unoconv_lines2matrix($lines, $width, $height)
             // AS DEFAULT FEATURE
             $len = mb_strlen($line[5]);
             $bias = ($line[3] - $line[1]) / ($len * 2);
-            $posx = round(($line[1] + $bias) / $width, 0);
+            $posx = (int)round(($line[1] + $bias) / $width, 0);
             for ($i = 0; $i < $len; $i++) {
                 $letter = mb_substr($line[5], $i, 1);
                 if (isset($matrix[$posy][$posx])) {
@@ -618,10 +618,10 @@ function __unoconv_hocr2txt($hocr)
     }
     // MAKE OUTPUT
     $buffer = [];
-    $minx = round($lines[0][1] / $width, 0);
-    $maxx = round($lines[0][3] / $width, 0);
-    $miny = round($lines[0][2] / $height, 0);
-    $maxy = round($lines[0][4] / $height, 0);
+    $minx = (int)round($lines[0][1] / $width, 0);
+    $maxx = (int)round($lines[0][3] / $width, 0);
+    $miny = (int)round($lines[0][2] / $height, 0);
+    $maxy = (int)round($lines[0][4] / $height, 0);
     for ($y = $miny; $y <= $maxy; $y++) {
         $temp = [];
         for ($x = $minx; $x <= $maxx; $x++) {
