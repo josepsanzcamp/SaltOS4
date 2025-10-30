@@ -166,7 +166,7 @@ class Analyser
      * @param array|null $rawSegments (optional) List of raw segments from EDI\Parser::getRawSegments
      * @return string file
      */
-    public function process(array $data, array $rawSegments = null): string
+    public function process(array $data, ?array $rawSegments = null): string
     {
         $r = [];
         foreach ($data as $nrow => $segment) {
@@ -226,7 +226,14 @@ class Analyser
                                 $r[] = '        type: '.$d_sub_desc_attr['type'];
 
                                 if (isset($jsoncomposite[$d_sub_desc_attr['name']])) {
-                                    $jsoncomposite[$d_sub_desc_attr['name']] .= $d_detail;
+                                    if (is_array($jsoncomposite[$d_sub_desc_attr['name']])) {
+                                        $jsoncomposite[$d_sub_desc_attr['name']][] = $d_detail;
+                                    } else {
+                                        $jsoncomposite[$d_sub_desc_attr['name']] = [
+                                            $jsoncomposite[$d_sub_desc_attr['name']],
+                                            $d_detail
+                                        ];
+                                    }
                                 } else {
                                     $jsoncomposite[$d_sub_desc_attr['name']] = $d_detail;
                                 }

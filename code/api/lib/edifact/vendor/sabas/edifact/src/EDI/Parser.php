@@ -276,7 +276,10 @@ class Parser
         }
 
         $this->messageFormat = $lineElement[0];
-        $this->messageDirectory = $lineElement[2];
+
+        if (isset($lineElement[2])) {
+            $this->messageDirectory = $lineElement[2];
+        }
     }
 
     /**
@@ -522,10 +525,10 @@ class Parser
             $this->errors[] = 'This file contains some segments without terminators';
         }
 
-        $terminatorRegex = '/(([^'.$this->symbRel.']'.$this->symbRel.'{2})+|[^'.$this->symbRel.'])'.$this->symbEnd.'|[\r\n]+/';
+        $terminatorRegex = '/((?<!'.$this->symbRel.')(?:'.$this->symbRel.$this->symbRel.')*)'.$this->symbEnd.'|[\r\n]+/';
 
         if ($this->strict) {
-            $terminatorRegex = '/(([^'.$this->symbRel.']'.$this->symbRel.'{2})+|[^'.$this->symbRel.'])'.$this->symbEnd.'/';
+            $terminatorRegex = '/((?<!'.$this->symbRel.')(?:'.$this->symbRel.$this->symbRel.')*)'.$this->symbEnd.'/';
         }
 
         $string = (string) \preg_replace(
