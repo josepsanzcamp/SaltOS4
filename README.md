@@ -5,7 +5,7 @@
 ### Build Enterprise Business Apps Declaratively in YAML/XML
 **CRM · ERP · Custom Workflows — 10x Faster Than Traditional Frameworks**
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE.md)
 [![PHP](https://img.shields.io/badge/PHP-7.0%20to%208.3-777BB4.svg)](https://www.php.net/)
 [![Demo](https://img.shields.io/badge/Demo-Live-success)](https://demos.saltos.org/)
 [![Docs](https://img.shields.io/badge/Docs-9%20PDFs-orange)](https://github.com/josepsanzcamp/SaltOS4/tree/master/docs)
