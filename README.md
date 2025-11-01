@@ -179,7 +179,7 @@ From these definitions, SaltOS automatically creates:
 - **💰 Zero Licensing Costs**: GPL-3.0 open source
 - **🔒 Self-Hosted**: Your data stays on your servers
 - **📊 Audit Compliance**: Every action logged with user/timestamp
-- **🌐 Multilingual**: Built-in i18n (gettext-based)
+- **🌐 Multilingual**: Built-in i18n (YAML-based translations)
 - **📄 PDF Generation**: Custom templates for invoices/reports
 - **🔄 Import/Export**: CSV, Excel, SQL
 
@@ -271,7 +271,7 @@ open http://localhost:8000
 - **Frontend**: TypeScript, Bootstrap 5, TomSelect, CKEditor, Chart.js
 - **Storage**: Multi-database abstraction layer (PDO)
 - **Testing**: PHPUnit (backend) + Jest (frontend)
-- **i18n**: GNU gettext
+- **i18n**: YAML-based translations
 - **PDFs**: TCPDF with XML templates
 - **Excel**: PHPSpreadsheet (import/export)
 
