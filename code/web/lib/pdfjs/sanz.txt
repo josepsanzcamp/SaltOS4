@@ -19,5 +19,5 @@
 #wget https://cdnjs.cloudflare.com/ajax/libs/pdf.js/$version/pdf.worker.min.mjs
 
 version=$(curl -s https://data.jsdelivr.com/v1/packages/gh/mozilla/pdf.js/resolved | jq -r .version)
-wget https://cdn.jsdelivr.net/npm/pdfjs-dist@$version/build/pdf.min.mjs
-wget https://cdn.jsdelivr.net/npm/pdfjs-dist@$version/build/pdf.worker.min.mjs
+wget -O pdf.min.mjs https://cdn.jsdelivr.net/npm/pdfjs-dist@$version/build/pdf.min.mjs
+wget -O pdf.worker.min.mjs https://cdn.jsdelivr.net/npm/pdfjs-dist@$version/build/pdf.worker.min.mjs
