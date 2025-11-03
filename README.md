@@ -230,6 +230,13 @@ bash ../scripts/make_instance.sh
 
 # 4. Run setup (creates tables + sample data)
 php api/index.php setup
+user=admin php api/index.php setup/certs
+user=admin php api/index.php setup/company
+user=admin php api/index.php setup/emails
+user=admin php api/index.php setup/crm
+user=admin php api/index.php setup/hr
+user=admin php api/index.php setup/purchases
+user=admin php api/index.php setup/sales
 
 # 5. Start web server
 cd web
