@@ -67,7 +67,7 @@ attr:
 ```
 
 Plus **database schema** (dbschema.xml) and **app manifest** (manifest.xml).
-👉 [See complete CRM example](https://github.com/josepsanzcamp/SaltOS4/tree/master/apps/crm/xml)
+👉 [See complete CRM example](https://github.com/josepsanzcamp/SaltOS4/tree/master/code/apps/crm/xml)
 
 **You automatically get:**
 - ✅ Full REST API (`GET/POST/PUT/DELETE /api/app/customers`)
@@ -331,12 +331,12 @@ Every change is stored with **cryptographic chain-of-custody**:
 
 Comprehensive docs in 3 languages (English, Spanish, Catalan):
 
-- 📘 [**User Manual**](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/user_en_us.pdf) — End-user guide
+- 📘 **User Manual** — End-user guide [English](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/user_en_us.pdf) [Spanish](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/user_es_es.pdf) [Catalan](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/user_ca_es.pdf)
 - 🔧 [**Developer Guide**](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/devel.pdf) — Architecture & customization
 - 🌐 [**API Reference**](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/api.pdf) — REST endpoints
 - 💻 [**Web Client**](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/web.pdf) — Frontend architecture
 - 📦 [**Apps Guide**](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/apps.pdf) — Building custom apps
-- 🧪 [**Testing**](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/utest.pdf) — PHPUnit & Jest guides
+- 🧪 **Testing** — [PHPUnit](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/utest.pdf) & [Jest](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/ujest.pdf) guides
 
 ---
 
