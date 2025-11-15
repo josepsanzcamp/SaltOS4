@@ -396,10 +396,13 @@ saltos.core.ajax = args => {
             return;
         }
         // Check for the about in the response header
-        if (!('about' in saltos.core)) {
-            const about = response.headers.get('x-about');
-            if (about) {
+        const about = response.headers.get('x-about');
+        if (about) {
+            if (!('about' in saltos.core)) {
                 saltos.core.about = about;
+            }
+            if (saltos.core.about != about) {
+                window.location.reload();
             }
         }
         // Process response
