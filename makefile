@@ -20,7 +20,11 @@ web: clean
 	php scripts/fixpath.php fonts/AtkinsonHyperlegible atkinson/fonts/AtkinsonHyperlegible | \
 	php scripts/fixpath.php fonts/bootstrap-icons bootstrap/fonts/bootstrap-icons > code/web/lib/index.css
 
-	cat code/web/lib/bootstrap/bootstrap.bundle.min.js code/web/lib/md5/md5.min.js code/web/lib/sourcemap/sourcemapped-stacktrace.min.js code/web/lib/interactjs/interact.min.js code/web/lib/topbar/topbar.min.js > code/web/lib/index.js
+	cat code/web/lib/bootstrap/bootstrap.bundle.min.js \
+		code/web/lib/md5/md5.min.js \
+		code/web/lib/sourcemap/sourcemapped-stacktrace.min.js \
+		code/web/lib/interactjs/interact.min.js \
+		code/web/lib/topbar/topbar.min.js > code/web/lib/index.js
 
 	mkdir -p code/web/js/.js
 	@for i in code/web/js/*.js; do \
@@ -43,7 +47,12 @@ web: clean
 devel: clean
 	cat code/web/htm/index.htm | \
 	php scripts/debug.php lib/index.css lib/bootstrap/bootstrap-icons.min.css lib/atkinson/atkinson.min.css | \
-	php scripts/debug.php lib/index.js lib/bootstrap/bootstrap.bundle.min.js lib/md5/md5.min.js lib/sourcemap/sourcemapped-stacktrace.min.js lib/interactjs/interact.min.js lib/topbar/topbar.min.js | \
+	php scripts/debug.php \
+		lib/index.js lib/bootstrap/bootstrap.bundle.min.js \
+		lib/md5/md5.min.js \
+		lib/sourcemap/sourcemapped-stacktrace.min.js \
+		lib/interactjs/interact.min.js \
+		lib/topbar/topbar.min.js | \
 	php scripts/debug.php index.js js/{$(FILES)}.js > code/web/index.htm
 
 	echo "importScripts('lib/md5/md5.min.js','js/proxy.js');" > code/web/proxy.js
