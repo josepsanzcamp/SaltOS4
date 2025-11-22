@@ -270,7 +270,10 @@ function xml2struct($xml, $file = '')
             'xmlerror' => "Error $code: $error (on file $file at line $linea,$fila)",
         ]);
     }
-    xml_parser_free($parser);
+    // Function xml_parser_free() is deprecated since 8.5, as it has no effect since PHP 8.0
+    if (version_compare(PHP_VERSION, '8.0.0', '<')) {
+        xml_parser_free($parser);
+    }
     return $array;
 }
 

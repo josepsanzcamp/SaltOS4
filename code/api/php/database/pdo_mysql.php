@@ -89,7 +89,11 @@ class database_pdo_mysql
         $this->db_query('SET NAMES utf8mb4 COLLATE utf8mb4_general_ci');
         $this->db_query('SET FOREIGN_KEY_CHECKS=0');
         $this->db_query('SET GROUP_CONCAT_MAX_LEN:=@@MAX_ALLOWED_PACKET');
-        $this->link->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, false);
+        if (version_compare(PHP_VERSION, '8.4.0', '<')) {
+            $this->link->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, false);
+        } else {
+            $this->link->setAttribute(Pdo\Mysql::ATTR_USE_BUFFERED_QUERY, false);
+        }
     }
 
     /**
