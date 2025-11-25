@@ -82,7 +82,7 @@ final class test_gdlib extends TestCase
         ob_start();
         imagejpeg($im);
         $data = ob_get_clean();
-        imagedestroy($im);
+        imagedestroy_deprecated($im);
 
         $buffer = image_resize($data, 1000);
         $this->assertSame($buffer, $data);
@@ -92,7 +92,7 @@ final class test_gdlib extends TestCase
         ob_start();
         imagejpeg($im);
         $data = ob_get_clean();
-        imagedestroy($im);
+        imagedestroy_deprecated($im);
 
         $buffer = image_resize($data, 1000);
         $this->assertNotSame($buffer, $data);
@@ -100,7 +100,7 @@ final class test_gdlib extends TestCase
         $im = @imagecreatefromstring($buffer);
         $width = imagesx($im);
         $height = imagesy($im);
-        imagedestroy($im);
+        imagedestroy_deprecated($im);
 
         $this->assertSame($width, 1000);
         $this->assertSame($height, 1000);
@@ -110,7 +110,7 @@ final class test_gdlib extends TestCase
         ob_start();
         imagejpeg($im);
         $data = ob_get_clean();
-        imagedestroy($im);
+        imagedestroy_deprecated($im);
 
         $buffer = image_resize($data, 1000);
         $this->assertNotSame($buffer, $data);
@@ -118,7 +118,7 @@ final class test_gdlib extends TestCase
         $im = @imagecreatefromstring($buffer);
         $width = imagesx($im);
         $height = imagesy($im);
-        imagedestroy($im);
+        imagedestroy_deprecated($im);
 
         $this->assertSame($width, 100);
         $this->assertSame($height, 1000);
@@ -128,7 +128,7 @@ final class test_gdlib extends TestCase
         ob_start();
         imagejpeg($im);
         $data = ob_get_clean();
-        imagedestroy($im);
+        imagedestroy_deprecated($im);
 
         $buffer = image_resize($data, 1000);
         $this->assertNotSame($buffer, $data);
@@ -136,7 +136,7 @@ final class test_gdlib extends TestCase
         $im = @imagecreatefromstring($buffer);
         $width = imagesx($im);
         $height = imagesy($im);
-        imagedestroy($im);
+        imagedestroy_deprecated($im);
 
         $this->assertSame($width, 1000);
         $this->assertSame($height, 100);

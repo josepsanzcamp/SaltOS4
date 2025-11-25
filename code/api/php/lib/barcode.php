@@ -81,8 +81,8 @@ function __barcode_image($msg, $w, $h, $m, $s, $t)
     ob_start();
     imagepng($im2);
     $buffer = ob_get_clean();
-    imagedestroy($im1);
-    imagedestroy($im2);
+    imagedestroy_deprecated($im1);
+    imagedestroy_deprecated($im2);
     return $buffer;
 }
 

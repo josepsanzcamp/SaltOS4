@@ -75,7 +75,7 @@ final class test_image extends TestCase
         $this->assertStringContainsString('PNG image data', get_mime($img));
         $gd = @imagecreatefromstring($img);
         $this->assertInstanceOf(GdImage::class, $gd);
-        imagedestroy($gd);
+        imagedestroy_deprecated($gd);
 
         // This case is for the special case when tcpdf doesn't returns valid data
         $this->assertSame(__barcode_image(chr(0), 1, 30, 10, 8, 'C39'), '');
@@ -144,7 +144,7 @@ final class test_image extends TestCase
         $this->assertStringContainsString('PNG image data', get_mime($img));
         $gd = @imagecreatefromstring($img);
         $this->assertInstanceOf(GdImage::class, $gd);
-        imagedestroy($gd);
+        imagedestroy_deprecated($gd);
 
         $json = test_cli_helper('image/qrcode', [], '', '', '');
         $this->assertArrayHasKey('error', $json);
@@ -210,7 +210,7 @@ final class test_image extends TestCase
         $this->assertStringContainsString('PNG image data', get_mime($img));
         $gd = @imagecreatefromstring($img);
         $this->assertInstanceOf(GdImage::class, $gd);
-        imagedestroy($gd);
+        imagedestroy_deprecated($gd);
 
         $text = __captcha_make_number(5);
         $this->assertSame(is_numeric($text), true);
@@ -288,7 +288,7 @@ final class test_image extends TestCase
         $this->assertStringContainsString('PNG image data', get_mime($img));
         $gd = @imagecreatefromstring($img);
         $this->assertInstanceOf(GdImage::class, $gd);
-        imagedestroy($gd);
+        imagedestroy_deprecated($gd);
 
         $json = test_cli_helper('image/score', [], '', '', '');
         $this->assertArrayHasKey('error', $json);

@@ -84,7 +84,7 @@ function image_resize($data, $size)
     $width = imagesx($im);
     $height = imagesy($im);
     if ($width <= $size && $height <= $size) {
-        imagedestroy($im);
+        imagedestroy_deprecated($im);
         return $data;
     }
     $scale = min($size / $width, $size / $height);
@@ -98,7 +98,7 @@ function image_resize($data, $size)
     ob_start();
     imagejpeg($im2);
     $img = ob_get_clean();
-    imagedestroy($im);
-    imagedestroy($im2);
+    imagedestroy_deprecated($im);
+    imagedestroy_deprecated($im2);
     return $img;
 }

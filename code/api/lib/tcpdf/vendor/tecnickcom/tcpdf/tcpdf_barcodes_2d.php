@@ -238,7 +238,7 @@ class TCPDF2DBarcode {
 			ob_start();
 			imagepng($png);
 			$imagedata = ob_get_clean();
-			imagedestroy($png);
+			imagedestroy_deprecated($png);
 			return $imagedata;
 		}
 	}

@@ -89,8 +89,19 @@ class database_pdo_sqlite
         if (!is_writable($file)) {
             show_php_error(['dberror' => "File '$file' not writable"]);
         }
+        // @codeCoverageIgnoreStart
+        if (version_compare(PHP_VERSION, '8.4.0', '<')) {
+            $PDO = 'PDO';
+            $sqliteCreateAggregate = 'sqliteCreateAggregate';
+            $sqliteCreateFunction = 'sqliteCreateFunction';
+        } else {
+            $PDO = 'PDO\SQLite';
+            $sqliteCreateAggregate = 'createAggregate';
+            $sqliteCreateFunction = 'createFunction';
+        }
+        // @codeCoverageIgnoreEnd
         try {
-            $this->link = new PDO("sqlite:$file");
+            $this->link = new $PDO("sqlite:$file");
         // @codeCoverageIgnoreStart
         } catch (PDOException $e) {
             show_php_error(['dberror' => $e->getMessage()]);
@@ -103,7 +114,7 @@ class database_pdo_sqlite
         $this->db_query('PRAGMA foreign_keys=OFF');
         if (!$this->db_check('SELECT GROUP_CONCAT(1)')) {
             // @codeCoverageIgnoreStart
-            $this->link->sqliteCreateAggregate(
+            $this->link->$sqliteCreateAggregate(
                 'GROUP_CONCAT',
                 '__libsqlite_group_concat_step',
                 '__libsqlite_group_concat_finalize'
@@ -112,31 +123,31 @@ class database_pdo_sqlite
         }
         if (!$this->db_check('SELECT REPLACE(1,2,3)')) {
             // @codeCoverageIgnoreStart
-            $this->link->sqliteCreateFunction('REPLACE', '__libsqlite_replace');
+            $this->link->$sqliteCreateFunction('REPLACE', '__libsqlite_replace');
             // @codeCoverageIgnoreEnd
         }
-        $this->link->sqliteCreateFunction('LPAD', '__libsqlite_lpad');
-        $this->link->sqliteCreateFunction('CONCAT', '__libsqlite_concat');
-        $this->link->sqliteCreateFunction('CONCAT_WS', '__libsqlite_concat_ws');
-        $this->link->sqliteCreateFunction('UNIX_TIMESTAMP', '__libsqlite_unix_timestamp');
-        $this->link->sqliteCreateFunction('FROM_UNIXTIME', '__libsqlite_from_unixtime');
-        $this->link->sqliteCreateFunction('YEAR', '__libsqlite_year');
-        $this->link->sqliteCreateFunction('MONTH', '__libsqlite_month');
-        $this->link->sqliteCreateFunction('WEEK', '__libsqlite_week');
-        $this->link->sqliteCreateFunction('TRUNCATE', '__libsqlite_truncate');
-        $this->link->sqliteCreateFunction('DAY', '__libsqlite_day');
-        $this->link->sqliteCreateFunction('DAYOFYEAR', '__libsqlite_dayofyear');
-        $this->link->sqliteCreateFunction('DAYOFWEEK', '__libsqlite_dayofweek');
-        $this->link->sqliteCreateFunction('HOUR', '__libsqlite_hour');
-        $this->link->sqliteCreateFunction('MINUTE', '__libsqlite_minute');
-        $this->link->sqliteCreateFunction('SECOND', '__libsqlite_second');
-        $this->link->sqliteCreateFunction('MD5', '__libsqlite_md5');
-        $this->link->sqliteCreateFunction('REPEAT', '__libsqlite_repeat');
-        $this->link->sqliteCreateFunction('FIND_IN_SET', '__libsqlite_find_in_set');
-        $this->link->sqliteCreateFunction('IF', '__libsqlite_if');
-        $this->link->sqliteCreateFunction('POW', '__libsqlite_pow');
-        $this->link->sqliteCreateFunction('DATE_FORMAT', '__libsqlite_date_format');
-        $this->link->sqliteCreateFunction('NOW', '__libsqlite_now');
+        $this->link->$sqliteCreateFunction('LPAD', '__libsqlite_lpad');
+        $this->link->$sqliteCreateFunction('CONCAT', '__libsqlite_concat');
+        $this->link->$sqliteCreateFunction('CONCAT_WS', '__libsqlite_concat_ws');
+        $this->link->$sqliteCreateFunction('UNIX_TIMESTAMP', '__libsqlite_unix_timestamp');
+        $this->link->$sqliteCreateFunction('FROM_UNIXTIME', '__libsqlite_from_unixtime');
+        $this->link->$sqliteCreateFunction('YEAR', '__libsqlite_year');
+        $this->link->$sqliteCreateFunction('MONTH', '__libsqlite_month');
+        $this->link->$sqliteCreateFunction('WEEK', '__libsqlite_week');
+        $this->link->$sqliteCreateFunction('TRUNCATE', '__libsqlite_truncate');
+        $this->link->$sqliteCreateFunction('DAY', '__libsqlite_day');
+        $this->link->$sqliteCreateFunction('DAYOFYEAR', '__libsqlite_dayofyear');
+        $this->link->$sqliteCreateFunction('DAYOFWEEK', '__libsqlite_dayofweek');
+        $this->link->$sqliteCreateFunction('HOUR', '__libsqlite_hour');
+        $this->link->$sqliteCreateFunction('MINUTE', '__libsqlite_minute');
+        $this->link->$sqliteCreateFunction('SECOND', '__libsqlite_second');
+        $this->link->$sqliteCreateFunction('MD5', '__libsqlite_md5');
+        $this->link->$sqliteCreateFunction('REPEAT', '__libsqlite_repeat');
+        $this->link->$sqliteCreateFunction('FIND_IN_SET', '__libsqlite_find_in_set');
+        $this->link->$sqliteCreateFunction('IF', '__libsqlite_if');
+        $this->link->$sqliteCreateFunction('POW', '__libsqlite_pow');
+        $this->link->$sqliteCreateFunction('DATE_FORMAT', '__libsqlite_date_format');
+        $this->link->$sqliteCreateFunction('NOW', '__libsqlite_now');
     }
 
     /**

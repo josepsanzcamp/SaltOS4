@@ -218,7 +218,7 @@ class pop3_class
      */
     public function Close()
     {
-        curl_close($this->ch);
+        curl_close_deprecated($this->ch);
         return '';
     }
 
@@ -266,7 +266,7 @@ class pop3_class
         $resp = curl_exec($this->ch);
         if ($resp === false) {
             $err = 'cURL: ' . curl_error($this->ch);
-            curl_close($this->ch);
+            curl_close_deprecated($this->ch);
             return $err;
         }
 

@@ -261,12 +261,12 @@ function __url_get_contents($url, $args = [])
     if ($response === false) {
         $errno = curl_errno($ch);
         $error = curl_error($ch);
-        curl_close($ch);
+        curl_close_deprecated($ch);
         return array_merge($void, ['error' => "error $errno: $error"]);
     }
     $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-    curl_close($ch);
+    curl_close_deprecated($ch);
     $headers = substr($response, 0, $size);
     $body = substr($response, $size);
     // parse headers

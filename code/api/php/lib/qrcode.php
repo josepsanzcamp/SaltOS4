@@ -66,8 +66,8 @@ function __qrcode_image($msg, $s, $m, $l)
     ob_start();
     imagepng($im2);
     $buffer = ob_get_clean();
-    imagedestroy($im1);
-    imagedestroy($im2);
+    imagedestroy_deprecated($im1);
+    imagedestroy_deprecated($im2);
     return $buffer;
 }
 

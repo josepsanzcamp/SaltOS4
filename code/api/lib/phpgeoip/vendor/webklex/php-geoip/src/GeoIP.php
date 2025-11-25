@@ -86,7 +86,7 @@ class GeoIP {
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
             $output = curl_exec($ch);
-            curl_close($ch);
+            curl_close_deprecated($ch);
 
             if($output == false) {
                 sleep(1);

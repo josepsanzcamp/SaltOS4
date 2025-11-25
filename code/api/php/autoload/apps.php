@@ -497,7 +497,7 @@ function current_app()
         //~ show_php_error(['phperror' => 'unknown app in rest args']);
         return '';
     }
-    if (!app_exists(get_data('rest/1'))) {
+    if (!app_exists(get_data('rest/1') ?? '')) {
         show_php_error(['phperror' => 'unknown app in rest args']);
     }
     return get_data('rest/1');

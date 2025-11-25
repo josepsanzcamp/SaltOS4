@@ -139,5 +139,5 @@ function check_lang_format($lang)
  */
 function current_lang()
 {
-    return get_data('server/lang');
+    return get_data('server/lang') ?? '';
 }

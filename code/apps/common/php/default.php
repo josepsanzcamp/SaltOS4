@@ -242,7 +242,7 @@ function make_app_file($data)
                 $table2 = $data['select'][$id]['table'];
                 $fields[] = "IFNULL((SELECT $field2
                     FROM $table2 $alias WHERE $alias.id = a.$fixed), '') $fixed";
-                $alias++; // compute the next alias, to prevent field collisions
+                $alias = chr(ord($alias) + 1); // compute the next alias, to prevent field collisions
                 break;
             default:
                 show_php_error(['phperror' => "$type not found"]);
