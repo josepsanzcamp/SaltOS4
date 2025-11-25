@@ -12,6 +12,9 @@ function ob_passthru($cmd)
 }
 
 // Prepare the files to use and output variables
+if (!isset($argv)) {
+    die();
+}
 array_shift($argv);
 $temp = array_shift($argv);
 $outdir = dirname($temp);

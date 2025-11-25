@@ -66,6 +66,9 @@ function ob_passthru($cmd)
 }
 
 // Prepare the files to use and output variables
+if (!isset($argv)) {
+    die();
+}
 array_shift($argv);
 $outfile = array_shift($argv);
 $jsonfile = array_shift($argv);
