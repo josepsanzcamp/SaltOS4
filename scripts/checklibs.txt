@@ -1,5 +1,5 @@
 
-browscap|https://github.com/browscap/browscap-php/tags.atom|<title>|PHRpdGxlPjcuNS4wPC90aXRsZT4=
+browscap|https://github.com/browscap/browscap-php/tags.atom|<title>|PHRpdGxlPjcuNi4wPC90aXRsZT4=
 edifact|https://github.com/php-edifact/edifact/tags.atom|<title>|PHRpdGxlPjEuMy4wPC90aXRsZT4=
 fpdi|https://github.com/Setasign/FPDI/tags.atom|<title>|PHRpdGxlPkZQREkgMi42LjQ8L3RpdGxlPg==
 phpgeoip|https://github.com/Webklex/php-geoip/tags.atom|<title>|PHRpdGxlPjEuMC4wPC90aXRsZT4=
@@ -40,7 +40,7 @@ jscs|https://github.com/jscs-dev/node-jscs/tags.atom|<title>|PHRpdGxlPjMuMC43PC9
 libreoffice|https://es.libreoffice.org/descarga/libreoffice/|type=deb|PG9wdGlvbiB2YWx1ZT0iL2Rlc2NhcmdhL2xpYnJlb2ZmaWNlLz90eXBlPWRlYi1hYXJjaDY0JnZlcnNpb249MjUuOC4zJmxhbmc9ZXMiPkxpbnV4IChBYXJjaDY0KSAoZGViKTwvb3B0aW9uPg==
 mariadb|https://github.com/MariaDB/server/tags.atom|<title>|PHRpdGxlPk1hcmlhREIgQ29tbXVuaXR5IFNlcnZlciAxMi4yLjEgUkM8L3RpdGxlPg==
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|PHRpdGxlPm1pbmlmeSB2MTQuMS4wPC90aXRsZT4=
-mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|PHRpdGxlPnYxNS4xODwvdGl0bGU+
+mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|PHRpdGxlPnYxNS4yMTwvdGl0bGU+
 node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjUtMTEtMjUsIFZlcnNpb24gMjAuMTkuNiAmIzM5O0lyb24mIzM5OyAoTFRTKSwgQG1hcmNvLWlwcG9saXRvPC90aXRsZT4=
 pcov|https://github.com/krakjoe/pcov/tags.atom|<title>|PHRpdGxlPnYxLjAuMTI8L3RpdGxlPg==
 php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjQuMTZSQzE8L3RpdGxlPg==
