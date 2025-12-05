@@ -457,7 +457,7 @@ saltos.driver.placeholder = arg => {
     if (arg.shadow) {
         shadow = arg.shadow;
     }
-    let rounded = 'rounded-4';
+    let rounded = 'rounded-3';
     if (arg.rounded) {
         rounded = arg.rounded;
     }
