@@ -793,7 +793,7 @@ saltos.bootstrap.__field.ckeditor = field => {
         `));
     }
     // Fix for a rounded corners
-    let rounded = 'var(--bs-border-radius-xl)';
+    let rounded = 'var(--bs-border-radius-lg)';
     if (saltos.core.is_number(field.rounded.replace('rounded-', ''))) {
         const index = parseInt(field.rounded.replace('rounded-', ''), 10);
         switch (index) {
@@ -807,7 +807,7 @@ saltos.bootstrap.__field.ckeditor = field => {
                 rounded = 'var(--bs-border-radius)';
                 break;
             case 3:
-                rounded = 'var(--bs-border-radius-ls)';
+                rounded = 'var(--bs-border-radius-lg)';
                 break;
             case 4:
                 rounded = 'var(--bs-border-radius-xl)';
@@ -965,7 +965,7 @@ saltos.bootstrap.__field.codemirror = field => {
         element.set_disabled(true);
     }
     // Fix for a rounded corners
-    let rounded = 'var(--bs-border-radius-xl)';
+    let rounded = 'var(--bs-border-radius-lg)';
     if (saltos.core.is_number(field.rounded.replace('rounded-', ''))) {
         const index = parseInt(field.rounded.replace('rounded-', ''), 10);
         switch (index) {
@@ -979,7 +979,7 @@ saltos.bootstrap.__field.codemirror = field => {
                 rounded = 'var(--bs-border-radius)';
                 break;
             case 3:
-                rounded = 'var(--bs-border-radius-ls)';
+                rounded = 'var(--bs-border-radius-lg)';
                 break;
             case 4:
                 rounded = 'var(--bs-border-radius-xl)';
@@ -1074,7 +1074,7 @@ saltos.bootstrap.__field.iframe = field => {
     if (field.shadow) {
         shadow = field.shadow;
     }
-    let rounded = 'rounded-4';
+    let rounded = 'rounded-3';
     if (field.rounded) {
         rounded = field.rounded;
     }
@@ -1320,7 +1320,7 @@ saltos.bootstrap.__field.multiselect = field => {
         multiple: true,
         size: field.size,
         rows: field.rows,
-        rounded: 'rounded-4',
+        rounded: 'rounded-3',
     }));
     obj.querySelector('.two').append(saltos.bootstrap.__field.button({
         class: `bi-chevron-double-right`,
@@ -1366,7 +1366,7 @@ saltos.bootstrap.__field.multiselect = field => {
         tooltip: field.tooltip,
         multiple: true,
         size: field.size,
-        rounded: 'rounded-4',
+        rounded: 'rounded-3',
     }));
     saltos.core.when_visible(obj, () => {
         document.querySelectorAll('label[for=' + field.id + ']').forEach(item => {
@@ -2135,7 +2135,7 @@ saltos.bootstrap.__field.image = field => {
     if (field.shadow) {
         shadow = field.shadow;
     }
-    let rounded = 'rounded-4';
+    let rounded = 'rounded-3';
     if (field.rounded) {
         rounded = field.rounded;
     }
@@ -2216,7 +2216,7 @@ saltos.bootstrap.__field.excel = field => {
     if (field.shadow) {
         shadow = field.shadow;
     }
-    let rounded = 'rounded-4';
+    let rounded = 'rounded-3';
     if (field.rounded) {
         rounded = field.rounded;
     }
@@ -2478,7 +2478,7 @@ saltos.bootstrap.__field.pdfjs = field => {
                         }
                         canvas.style.width = '100%';
                         canvas.classList.add('form-control');
-                        let rounded = 'rounded-4';
+                        let rounded = 'rounded-3';
                         if (field.rounded) {
                             rounded = field.rounded;
                         }
@@ -2569,7 +2569,7 @@ saltos.bootstrap.__field.table = field => {
     if (field.shadow) {
         shadow = field.shadow;
     }
-    let rounded = 'rounded-4';
+    let rounded = 'rounded-3';
     if (field.rounded) {
         rounded = field.rounded;
     }
@@ -3046,7 +3046,7 @@ saltos.bootstrap.__field.alert = field => {
     if (field.shadow) {
         shadow = field.shadow;
     }
-    let rounded = 'rounded-4';
+    let rounded = 'rounded-3';
     if (field.rounded) {
         rounded = field.rounded;
     }
@@ -3176,7 +3176,7 @@ saltos.bootstrap.__field.chartjs = field => {
     if (field.shadow) {
         shadow = field.shadow;
     }
-    let rounded = 'rounded-4';
+    let rounded = 'rounded-3';
     if (field.rounded) {
         rounded = field.rounded;
     }
@@ -3255,7 +3255,7 @@ saltos.bootstrap.__field.tags = field => {
     });
     obj.append(placeholder);
     // Prepare rounded
-    let rounded = 'rounded-4';
+    let rounded = 'rounded-3';
     if (field.rounded) {
         rounded = field.rounded;
     }
@@ -3660,7 +3660,7 @@ saltos.bootstrap.__field.gallery = field => {
     if (field.shadow) {
         shadow = field.shadow;
     }
-    let rounded = 'rounded-4';
+    let rounded = 'rounded-3';
     if (field.rounded) {
         rounded = field.rounded;
     }
@@ -3716,7 +3716,7 @@ saltos.bootstrap.__field.placeholder = field => {
     if (!field.color) {
         field.color = 'primary';
     }
-    let rounded = 'rounded-4';
+    let rounded = 'rounded-3';
     if (field.rounded) {
         rounded = field.rounded;
     }
@@ -3800,8 +3800,8 @@ saltos.bootstrap.__field.list = field => {
     if (field.shadow) {
         shadow = field.shadow;
     }
-    let rounded = 'rounded-4';
-    let rounded_bottom = 'rounded-bottom-4';
+    let rounded = 'rounded-3';
+    let rounded_bottom = 'rounded-bottom-3';
     if (field.rounded) {
         rounded = field.rounded;
         rounded_bottom = field.rounded.replace('rounded-', 'rounded-bottom-');
@@ -4479,12 +4479,12 @@ saltos.bootstrap.__field.dropdown = field => {
     let rounded = 'rounded-pill';
     let rounded_start = 'rounded-start-pill';
     let rounded_end = 'rounded-end-pill';
-    let rounded_menu = 'rounded-4';
+    let rounded_menu = 'rounded-3';
     if (field.rounded) {
         rounded = field.rounded;
         rounded_start = field.rounded.replace('rounded-', 'rounded-start-');
         rounded_end = field.rounded.replace('rounded-', 'rounded-end-');
-        rounded_menu = field.rounded.replace('rounded-fill', 'rounded-4');
+        rounded_menu = field.rounded.replace('rounded-fill', 'rounded-3');
     }
     let obj;
     if (!saltos.core.eval_bool(field.split)) {
@@ -4709,7 +4709,7 @@ saltos.bootstrap.__textarea_helper = field => {
     if (field.color == 'none') {
         border = 'border-0';
     }
-    let rounded = 'rounded-4';
+    let rounded = 'rounded-3';
     if (field.rounded) {
         rounded = field.rounded;
     }
@@ -4933,7 +4933,7 @@ saltos.bootstrap.menu = args => {
     if (args.shadow) {
         shadow = args.shadow;
     }
-    let rounded = 'rounded-4';
+    let rounded = 'rounded-3';
     if (args.rounded) {
         rounded = args.rounded;
     }
@@ -5171,8 +5171,8 @@ saltos.bootstrap.modal = args => {
     if (args.shadow) {
         shadow = args.shadow;
     }
-    let rounded = 'rounded-4';
-    let rounded_top = 'rounded-top-4';
+    let rounded = 'rounded-3';
+    let rounded_top = 'rounded-top-3';
     if (args.rounded) {
         rounded = args.rounded;
         rounded_top = args.rounded.replace('rounded-', 'rounded-top-');
