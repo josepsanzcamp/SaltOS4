@@ -1084,6 +1084,8 @@ saltos.driver.__types.type2.init = arg => {
  * @arg => the desired url
  */
 saltos.driver.__types.type2.open = arg => {
+    saltos.autosave.save('two,one');
+    saltos.autosave.purge('two,one');
     saltos.hash.add(arg);
     saltos.app.send_request(arg);
 };
