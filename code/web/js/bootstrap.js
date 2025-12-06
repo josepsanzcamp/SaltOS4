@@ -2221,7 +2221,7 @@ saltos.bootstrap.__field.excel = field => {
         rounded = field.rounded;
     }
     let obj = saltos.core.html(`
-        <div class="form-control p-0 ${shadow} ${rounded}" style="height: ${height}; overflow: auto">
+        <div>
             <div></div>
         </div>
     `);
@@ -2303,6 +2303,8 @@ saltos.bootstrap.__field.excel = field => {
         'lib/handsontable/handsontable.full.min.js',
     ], () => {
         placeholder.remove();
+        element.parentElement.setAttribute('class', `form-control p-0 ${shadow} ${rounded}`);
+        element.parentElement.setAttribute('style', `height: ${height}; overflow: auto`);
         const excel = new Handsontable(element, options);
         input.excel = excel;
         element.parentElement.classList.add(...border);
@@ -3181,7 +3183,7 @@ saltos.bootstrap.__field.chartjs = field => {
         rounded = field.rounded;
     }
     let obj = saltos.core.html(`
-        <div><canvas id="${field.id}" class="form-control ${rounded} ${shadow}"></canvas></div>
+        <div><canvas id="${field.id}"></canvas></div>
     `);
     for (const key in field.data.datasets) {
         field.data.datasets[key].borderWidth = 1;
@@ -3191,12 +3193,13 @@ saltos.bootstrap.__field.chartjs = field => {
     const placeholder = saltos.bootstrap.__field.placeholder({
         color: field.color,
     });
-    obj.append(placeholder);
+    obj.prepend(placeholder);
     // Continue
     saltos.core.require([
         'lib/chartjs/chart.umd.min.js',
     ], () => {
         placeholder.remove();
+        element.setAttribute('class', `form-control ${rounded} ${shadow}`);
         new Chart(element, {
             type: field.mode,
             data: field.data,
