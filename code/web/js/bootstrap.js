@@ -1728,8 +1728,8 @@ saltos.bootstrap.__field.password = field => {
     let rounded_end = 'rounded-end';
     if (field.rounded) {
         rounded = field.rounded;
-        rounded_start = field.rounded.replace('rounded-', 'rounded-start-');
-        rounded_end = field.rounded.replace('rounded-', 'rounded-end-');
+        rounded_start = field.rounded.replace('rounded', 'rounded-start');
+        rounded_end = field.rounded.replace('rounded', 'rounded-end');
     }
     const obj = saltos.core.html(`
         <div>
@@ -3804,7 +3804,7 @@ saltos.bootstrap.__field.list = field => {
     let rounded_bottom = 'rounded-bottom';
     if (field.rounded) {
         rounded = field.rounded;
-        rounded_bottom = field.rounded.replace('rounded-', 'rounded-bottom-');
+        rounded_bottom = field.rounded.replace('rounded', 'rounded-bottom');
     }
     let obj;
     if (saltos.core.eval_bool(field.onclick)) {
@@ -4482,8 +4482,8 @@ saltos.bootstrap.__field.dropdown = field => {
     let rounded_menu = 'rounded';
     if (field.rounded) {
         rounded = field.rounded;
-        rounded_start = field.rounded.replace('rounded-', 'rounded-start-');
-        rounded_end = field.rounded.replace('rounded-', 'rounded-end-');
+        rounded_start = field.rounded.replace('rounded', 'rounded-start');
+        rounded_end = field.rounded.replace('rounded', 'rounded-end');
         rounded_menu = field.rounded.replace('rounded-pill', 'rounded');
     }
     let obj;
@@ -5175,7 +5175,7 @@ saltos.bootstrap.modal = args => {
     let rounded_top = 'rounded-top';
     if (args.rounded) {
         rounded = args.rounded;
-        rounded_top = args.rounded.replace('rounded-', 'rounded-top-');
+        rounded_top = args.rounded.replace('rounded', 'rounded-top');
     }
     // Note: removed the fade class in the first div, the old class was "modal fade"
     const obj = saltos.core.html(`
