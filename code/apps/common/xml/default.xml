@@ -53,7 +53,8 @@
                 <div col_class="col"/>
                 <hidden id="page" value="0"/>
                 <hidden id="order" value="id DESC" onchange="saltos.driver.search();"/>
-                <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+shift+f" onenter="document.getElementById('search_extra').value=this.value;saltos.driver.search()" autofocus="true" onchange="document.getElementById('search_extra').value=this.value"/>
+                <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+shift+f" autofocus="true" rounded="rounded-pill"
+                    onenter="document.getElementById('search_extra').value=this.value;saltos.driver.search()" onchange="document.getElementById('search_extra').value=this.value"/>
                 <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
                 <dropdown label="PDF" icon="filetype-pdf" tooltip="PDF options" require="apps/common/php/pdf.php" ifeval="exists_pdf_file(get_data('rest/1'))">
                     <menu>

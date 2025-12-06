@@ -37,8 +37,8 @@
                 <container auto="true" container_class="container m-auto bg-body rounded-4 shadow" col_class="col-12 mb-3 px-5" container_style="max-width:400px">
                     <image value="img/logo_saltos.png" col_class="col-12 mb-5 px-0" color="none" class="bg-primary rounded-top-4 img-fluid"/>
                     <label class="fs-2 w-100 text-center" label="Please login"/>
-                    <text id="user" label="Username" required="true" autofocus="true" onenter="document.getElementById('pass').focus()"/>
-                    <password id="pass" label="Password" required="true" onenter="saltos.login.authenticate()"/>
+                    <text id="user" label="Username" required="true" autofocus="true" rounded="rounded-pill" onenter="document.getElementById('pass').focus()"/>
+                    <password id="pass" label="Password" required="true" rounded="rounded-pill" onenter="saltos.login.authenticate()"/>
                     <button class="w-100" onclick="saltos.login.authenticate()" label="Login" icon="box-arrow-in-right" col_class="col-12 my-3 px-5 pb-5"/>
                 </container>
             </div>

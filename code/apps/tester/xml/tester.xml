@@ -49,7 +49,7 @@
                     <item label="Enable" disabled="false" onclick="saltos.app.form_disabled(false)"/>
                 </menu>
                 <form class="d-flex">
-                    <text placeholder="Search" color="light" id="search"/>
+                    <text placeholder="Search" color="light" id="search" rounded="rounded-pill"/>
                     <button onclick="alert(7)" color="light" class=" mx-1 text-nowrap" label="Search"/>
                 </form>
                 <menu class="navbar-nav">
