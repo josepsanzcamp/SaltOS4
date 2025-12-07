@@ -29,9 +29,9 @@
             'dev_requirement' => false,
         ),
         'symfony/yaml' => array(
-            'pretty_version' => 'v8.0.0',
-            'version' => '8.0.0.0',
-            'reference' => '74521d9e932f623616b5d860199124c0fd5c8cca',
+            'pretty_version' => 'v8.0.1',
+            'version' => '8.0.1.0',
+            'reference' => '7a1a90ba1df6e821a6b53c4cabdc32a56cabfb14',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/yaml',
             'aliases' => array(),
