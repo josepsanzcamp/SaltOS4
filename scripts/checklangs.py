@@ -20,7 +20,7 @@ API_LOCALE_PATH = os.path.join(ROOT, "code", "api", "locale")
 
 parser = argparse.ArgumentParser(description="Check translations usage and duplicates")
 parser.add_argument("--lang", help="Language to analyze, e.g., ca_ES")
-parser.add_argument("--filter", choices=["missing", "present", "missing_but_in_other_group"], help="Filter output")
+parser.add_argument("--filter", choices=["missing", "present", "missing_but_in_other_group", "unused"], help="Filter output")
 parser.add_argument("--group", help="Limit analysis to a single app group")
 parser.add_argument("--csv", help="Export result to CSV file")
 parser.add_argument("--strict", action="store_true", help="Report duplicates between groups, not just global")
@@ -265,6 +265,7 @@ def extract_keys_js_extended(path):
 
 generic_messages = load_generic_messages()
 other_groups_messages = load_all_other_groups_messages(GROUP_FILTER) if GROUP_FILTER else {}
+all_used_keys = set()
 
 results = []
 print(f"# Translation check for language: {LANG}\n")
@@ -304,6 +305,7 @@ for group in os.listdir(APPS_PATH):
                     continue
             for origin, text in entries:
                 key = text_to_key(text)
+                all_used_keys.add(key)
                 missing = key not in combined_messages
                 found_elsewhere = any(key in m for g, m in other_groups_messages.items()) if missing else False
                 if ((FILTER == "missing" and not missing) or
@@ -314,6 +316,8 @@ for group in os.listdir(APPS_PATH):
                 if missing and found_elsewhere:
                     status = "missing_but_in_other_group"
                 results.append([group, base, origin, text, key, status])
+                if (FILTER == 'unused'):
+                    continue
                 print("{:<10} {:<20} {:<10} {:<40} {:<40} {:<30}".format(group, base, origin, text, key, status))
 
         for yaml_file in glob(os.path.join(xml_dir, "*.yaml")):
@@ -321,6 +325,7 @@ for group in os.listdir(APPS_PATH):
             entries = extract_keys_yaml(yaml_file)
             for origin, text in entries:
                 key = text_to_key(text)
+                all_used_keys.add(key)
                 missing = key not in combined_messages
                 found_elsewhere = any(key in m for g, m in other_groups_messages.items()) if missing else False
                 if ((FILTER == "missing" and not missing) or
@@ -331,6 +336,8 @@ for group in os.listdir(APPS_PATH):
                 if missing and found_elsewhere:
                     status = "missing_but_in_other_group"
                 results.append([group, base, origin, text, key, status])
+                if (FILTER == 'unused'):
+                    continue
                 print("{:<10} {:<20} {:<10} {:<40} {:<40} {:<30}".format(group, base, origin, text, key, status))
 
     if os.path.isdir(js_dir):
@@ -341,6 +348,7 @@ for group in os.listdir(APPS_PATH):
             entries = extract_keys_js(js_file) | extract_keys_js_extended(js_file)
             for origin, text in entries:
                 key = text_to_key(text)
+                all_used_keys.add(key)
                 missing = key not in combined_messages
                 found_elsewhere = any(key in m for g, m in other_groups_messages.items()) if missing else False
                 if ((FILTER == "missing" and not missing) or
@@ -351,6 +359,8 @@ for group in os.listdir(APPS_PATH):
                 if missing and found_elsewhere:
                     status = "missing_but_in_other_group"
                 results.append([group, base, origin, text, key, status])
+                if (FILTER == 'unused'):
+                    continue
                 print("{:<10} {:<20} {:<10} {:<40} {:<40} {:<30}".format(group, base, origin, text, key, status))
 
 # Procesar ficheros JS del grupo "global" (code/web/js/*.js)
@@ -366,6 +376,7 @@ if (not GROUP_FILTER or GROUP_FILTER == "global") and os.path.isdir(WEB_JS_DIR):
         entries = extract_keys_js(js_file) | extract_keys_js_extended(js_file)
         for origin, text in entries:
             key = text_to_key(text)
+            all_used_keys.add(key)
             missing = key not in combined_messages
             found_elsewhere = any(key in m for g, m in other_groups_messages.items()) if missing else False
             if ((FILTER == "missing" and not missing) or
@@ -376,7 +387,43 @@ if (not GROUP_FILTER or GROUP_FILTER == "global") and os.path.isdir(WEB_JS_DIR):
             if missing and found_elsewhere:
                 status = "missing_but_in_other_group"
             results.append([group, base, origin, text, key, status])
+            if (FILTER == 'unused'):
+                continue
             print("{:<10} {:<20} {:<10} {:<40} {:<40} {:<30}".format(group, base, origin, text, key, status))
+
+if FILTER == "unused":
+    print("\n# 🗑️ Checking for UNUSED translation keys (Orphan keys)")
+
+    # 1. Recoger todas las claves DEFINIDAS en el ámbito actual (Global + Grupos)
+    all_defined_keys = set()
+
+    # Claves globales definidas
+    global_yaml_path = os.path.join(API_LOCALE_PATH, LANG, "messages.yaml")
+    if os.path.isfile(global_yaml_path) and (not GROUP_FILTER or GROUP_FILTER == "global"):
+        with open(global_yaml_path, encoding="utf-8") as f:
+            defined_keys = set((yaml.safe_load(f) or {}).keys())
+            unused_keys = defined_keys - all_used_keys
+            for key in sorted(unused_keys):
+                results.append(["global", "messages.yaml", "defined", "", key, "unused"])
+                print("{:<10} {:<20} {:<10} {:<40} {:<40} {:<30}".format("global", "messages.yaml", "defined", "", key, "unused"))
+
+    # Claves de grupo definidas
+    for group in os.listdir(APPS_PATH):
+        if GROUP_FILTER and group != GROUP_FILTER:
+            continue
+        group_yaml_path = os.path.join(APPS_PATH, group, "locale", LANG, "messages.yaml")
+        if os.path.isfile(group_yaml_path):
+            with open(group_yaml_path, encoding="utf-8") as f:
+                defined_keys = set((yaml.safe_load(f) or {}).keys())
+
+                # Excluir las claves definidas globalmente si no se está en modo --group
+                if not GROUP_FILTER:
+                    defined_keys -= set(load_generic_messages().keys())
+
+                unused_keys = defined_keys - all_used_keys
+                for key in sorted(unused_keys):
+                    results.append([group, "messages.yaml", "defined", "", key, "unused"])
+                    print("{:<10} {:<20} {:<10} {:<40} {:<40} {:<30}".format(group, "messages.yaml", "defined", "", key, "unused"))
 
 if args.csv:
     with open(args.csv, "w", newline="", encoding="utf-8") as f:

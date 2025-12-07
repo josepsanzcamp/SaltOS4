@@ -964,11 +964,6 @@ saltos.driver.__types.type1.init = arg => {
  * @arg => the desired url
  */
 saltos.driver.__types.type1.open = arg => {
-    const only1 = saltos.hash.get().split('/').at(-1);
-    const only2 = arg.split('/').at(-1);
-    if (only1 == 'only' && only2 != 'only') {
-        arg += '/only';
-    }
     saltos.window.open(arg);
 };
 

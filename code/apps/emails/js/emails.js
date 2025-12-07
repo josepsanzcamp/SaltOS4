@@ -85,12 +85,6 @@ saltos.emails.init = arg => {
         saltos.core.when_visible('from', () => {
             saltos.emails.old_account = document.getElementById('from').value;
         });
-
-        // Remove specific button for certain screen types
-        const type = document.getElementById('screen').dataset.type;
-        if (type == 'type1') {
-            document.getElementById('only').closest('.col-auto').remove();
-        }
     }
 
     // Handle initialization for viewing emails
@@ -177,12 +171,6 @@ saltos.emails.init = arg => {
                 loading: false,
             });
         });
-
-        // Remove specific button for certain screen types
-        const type = document.getElementById('screen').dataset.type;
-        if (type == 'type1') {
-            document.getElementById('only').closest('.col-auto').remove();
-        }
     }
 };
 

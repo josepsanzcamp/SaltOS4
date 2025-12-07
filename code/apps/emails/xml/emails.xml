@@ -227,8 +227,6 @@
                         ORDER BY email_default DESC, counter DESC
                     ", [current_user()])</rows>
                 </select>
-                <button onclick="saltos.window.open(saltos.hash.get()+'/only');saltos.driver.close()" tooltip="To open this content in a new window"
-                    icon="arrows-fullscreen" col_class="col-auto mb-3" addbr="true" id="only"/>
                 <tags id="to" label="To" separator=";" datalist="app/emails/create/emails" required="true"/>
                 <tags id="cc" label="CC" separator=";" datalist="app/emails/create/emails"/>
                 <tags id="bcc" label="BCC" separator=";" datalist="app/emails/create/emails"/>
@@ -337,8 +335,6 @@
                 <hidden id="is_outbox"/>
                 <hidden id="num_files"/>
                 <text id="from" label="From" col_class="col mb-3"/>
-                <button onclick="saltos.window.open(saltos.hash.get()+'/only');saltos.driver.close()" tooltip="To open this content in a new window"
-                    icon="arrows-fullscreen" col_class="col-auto mb-3" addbr="true" id="only"/>
                 <text id="to" label="To"/>
                 <text id="cc" label="CC"/>
                 <text id="bcc" label="BCC"/>
