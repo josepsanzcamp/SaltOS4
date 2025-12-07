@@ -158,6 +158,7 @@ window.addEventListener('hashchange', event => {
     // Modal and offcanvas part
     saltos.bootstrap.modal('close');
     saltos.bootstrap.offcanvas('close');
+    saltos.bootstrap.__tooltip_hide();
     // Token part
     if (!saltos.token.get()) {
         saltos.app.send_request('app/login');

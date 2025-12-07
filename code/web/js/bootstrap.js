@@ -2885,6 +2885,7 @@ saltos.bootstrap.__field.table = field => {
                         val2.class = `text-${val2.color}`;
                     }
                     val2.color = 'none';
+                    val2.rounded = 'rounded-0';
                     const button = saltos.bootstrap.__field.button(val2).querySelector('button');
                     if (dropdown) {
                         button.classList.replace('btn', 'dropdown-item');
