@@ -135,7 +135,6 @@ function fix_key($arg)
  */
 function xmlfiles2array($files, $usecache = true)
 {
-    $result = [];
     foreach ($files as $index => $file) {
         $files[$index] = xmlfile2array($file, $usecache);
     }
