@@ -8,7 +8,7 @@ NONE=\033[0m
 
 .PHONY: utest docs ujest
 
-FILES=object,core,bootstrap,storage,hash,token,auth,window,gettext,driver,filter,backup,form,push,common,app
+FILES=object,core,bootstrap,storage,hash,token,auth,window,polyfill,gettext,driver,filter,backup,form,push,common,app
 
 export NODE_PATH := $(shell npm -g root)
 
