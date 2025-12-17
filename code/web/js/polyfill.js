@@ -27,14 +27,17 @@
 'use strict';
 
 /**
- * TODO
+ * Global prototype extensions and polyfills for the SaltOS framework.
  */
 
 /**
- * TODO
+ * Polyfill for Array.prototype.at() to support older environments.
+ *
+ * Takes an integer value and returns the item at that index, allowing for
+ * positive and negative integers.
  */
 if (!Array.prototype.at) {
-    Array.prototype.at = n => {
+    Array.prototype.at = function(n) {
         n = Math.trunc(n) || 0;
         if (n < 0) {
             n += this.length;
