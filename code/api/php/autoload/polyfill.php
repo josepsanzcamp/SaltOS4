@@ -30,9 +30,18 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Files.SideEffects
 
 /**
- * Compatibility helper module
+ * Compatibility Layer / Polyfill Module
  *
- * This file add some functions used by SaltOS that can not be found in all allowed versions of PHP
+ * This file provides fallback implementations for native PHP functions and
+ * extension-specific logic that may be missing in older PHP versions or
+ * specific operating system environments supported by SaltOS.
+ *
+ * Features:
+ * - Backports for PHP 7.3+ array functions (array_key_first, array_key_last).
+ * - Compatibility shims for POSIX functions on non-Unix (Windows) systems.
+ *
+ * Note: Each function is wrapped in a !function_exists() check to prevent
+ * redeclaration conflicts with native implementations or other libraries.
  */
 
 if (!function_exists('array_key_last')) {
