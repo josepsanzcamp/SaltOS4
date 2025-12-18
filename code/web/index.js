@@ -425,32 +425,32 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
                 .jstree-selected:hover .jstree-node-icon:before { background:white; }
                 .jstree-selected:hover .jstree-node-icon:after { background:white; }
             </style>
-        `))}),t.set=e=>{"instance"in t?(e.length||(e=[{id:null,text:o.nodata}]),t.instance.empty().create(e),saltos.core.eval_bool(o.open)&&t.instance.openAll()):("queue"in t||(t.queue=[]),t.queue.push(e),"timer"in t||(t.timer=setInterval(()=>{if("instance"in t)for(clearInterval(t.timer);t.queue.length;){const e=t.queue.shift();t.set(e)}},1)))},t.set(o.data),e=saltos.bootstrap.__label_combine(o,e)},saltos.bootstrap.__field.dropdown=s=>{saltos.core.check_params(s,["id","class","disabled","label","onclick","split","tooltip","icon","accesskey","color","shadow","rounded"]),saltos.core.check_params(s,["menu"],[]);let e="",t="",o=(saltos.core.eval_bool(s.disabled)&&(e="disabled",t="opacity-25"),"primary"),a=(s.color&&(o=s.color),"shadow"),l=(s.shadow&&(a=s.shadow),"rounded-pill"),r="rounded-start-pill",n="rounded-end-pill",c="rounded";s.rounded&&(l=s.rounded,r=s.rounded.replace("rounded","rounded-start"),n=s.rounded.replace("rounded","rounded-end"),c=s.rounded.replace("rounded-pill","rounded"));let i;for(var d in saltos.core.eval_bool(s.split)?(i=saltos.core.html(`
-            <div class="btn-group ${l} ${a} ${s.class}" id="${s.id}">
+        `))}),t.set=e=>{"instance"in t?(e.length||(e=[{id:null,text:o.nodata}]),t.instance.empty().create(e),saltos.core.eval_bool(o.open)&&t.instance.openAll()):("queue"in t||(t.queue=[]),t.queue.push(e),"timer"in t||(t.timer=setInterval(()=>{if("instance"in t)for(clearInterval(t.timer);t.queue.length;){const e=t.queue.shift();t.set(e)}},1)))},t.set(o.data),e=saltos.bootstrap.__label_combine(o,e)},saltos.bootstrap.__field.dropdown=a=>{saltos.core.check_params(a,["id","class","disabled","label","onclick","split","tooltip","icon","accesskey","color","shadow","rounded"]),saltos.core.check_params(a,["menu"],[]);let e="",t="",o=(saltos.core.eval_bool(a.disabled)&&(e="disabled",t="opacity-25"),"primary"),s=(a.color&&(o=a.color),"shadow"),l=(a.shadow&&(s=a.shadow),"rounded-pill"),r="rounded-start-pill",n="rounded-end-pill",c="rounded";a.rounded&&(l=a.rounded,r=a.rounded.replace("rounded","rounded-start"),n=a.rounded.replace("rounded","rounded-end"),c=a.rounded.replace("rounded-pill","rounded"));let i;for(var d in saltos.core.eval_bool(a.split)?(i=saltos.core.html(`
+            <div class="btn-group ${l} ${s} ${a.class}" id="${a.id}">
                 <button type="button" ${e}
                     class="btn ${r} btn-${o} ${t}"
-                    data-bs-accesskey="${s.accesskey}" data-bs-title="${s.tooltip}">
-                        ${s.label}
+                    data-bs-accesskey="${a.accesskey}" data-bs-title="${a.tooltip}">
+                        ${a.label}
                 </button>
                 <button type="button" ${e}
                     class="btn ${n} btn-${o} ${t} dropdown-toggle dropdown-toggle-split"
                     data-bs-toggle="dropdown" aria-expanded="false">
                 </button>
             </div>
-        `),saltos.bootstrap.__onclick_helper(i.querySelector("button"),s.onclick),""!=s.tooltip&&saltos.bootstrap.__tooltip_helper(i.querySelector("button"))):i=saltos.core.html(`
-            <div class="btn-group ${l} ${a} ${s.class}" id="${s.id}">
+        `),saltos.bootstrap.__onclick_helper(i.querySelector("button"),a.onclick),""!=a.tooltip&&saltos.bootstrap.__tooltip_helper(i.querySelector("button"))):i=saltos.core.html(`
+            <div class="btn-group ${l} ${s} ${a.class}" id="${a.id}">
                 <button type="button" ${e}
                     class="btn ${l} btn-${o} ${t} dropdown-toggle"
                     data-bs-toggle="dropdown" aria-expanded="false"
-                    data-bs-accesskey="${s.accesskey}" data-bs-title="${s.tooltip}">
-                        ${s.label}
+                    data-bs-accesskey="${a.accesskey}" data-bs-title="${a.tooltip}">
+                        ${a.label}
                 </button>
             </div>
-        `),s.icon&&i.querySelector("button").prepend(saltos.core.html(`<i class="bi bi-${s.icon}"></i>`)),s.label&&s.icon&&i.querySelector("i").classList.add("me-1"),i.append(saltos.core.html(`<ul class="dropdown-menu ${c} ${a}"></ul>`)),s.menu){const p=s.menu[d];saltos.core.check_params(p,["id","label","icon","disabled","active","onclick","divider","tooltip","accesskey"]);let e="",t=(saltos.core.eval_bool(p.disabled)&&(e="disabled"),"");saltos.core.eval_bool(p.active)&&(t="active");let o;saltos.core.eval_bool(p.divider)?o=saltos.core.html('<li><hr class="dropdown-divider"></li>'):(o=saltos.core.html(`
-                <li><button id="${p.id}" class="dropdown-item ${e} ${t}"
+        `),a.icon&&i.querySelector("button").prepend(saltos.core.html(`<i class="bi bi-${a.icon}"></i>`)),a.label&&a.icon&&i.querySelector("i").classList.add("me-1"),i.append(saltos.core.html(`<ul class="dropdown-menu ${c} ${s}"></ul>`)),a.menu){const p=a.menu[d];saltos.core.check_params(p,["id","label","icon","disabled","active","onclick","divider","tooltip","accesskey","color"]);let e="",t=(saltos.core.eval_bool(p.disabled)&&(e="disabled"),""),o=(saltos.core.eval_bool(p.active)&&(t="active"),"");""!=p.color&&(o="text-"+p.color);let s;saltos.core.eval_bool(p.divider)?s=saltos.core.html('<li><hr class="dropdown-divider"></li>'):(s=saltos.core.html(`
+                <li><button id="${p.id}" class="dropdown-item ${e} ${t} ${o}"
                     data-bs-accesskey="${p.accesskey}" data-bs-title="${p.tooltip}">
                         ${p.label}
-                </button></li>`),p.icon&&o.querySelector("button").prepend(saltos.core.html(`<i class="bi bi-${p.icon}"></i>`)),p.label&&p.icon&&o.querySelector("i").classList.add("me-1"),""!=p.tooltip&&saltos.bootstrap.__tooltip_helper(o.querySelector("button")),saltos.core.eval_bool(p.disabled)||saltos.bootstrap.__onclick_helper(o.querySelector("button"),p.onclick)),i.querySelector("ul").append(o)}return i},saltos.bootstrap.__text_helper=e=>{saltos.core.check_params(e,["type","class","id","placeholder","value","disabled","onenter","onchange","readonly","required","autofocus","tooltip","accesskey","color","shadow","rounded"]),saltos.core.check_params(e,["autosave"],!0);let t="",o=(saltos.core.eval_bool(e.disabled)&&(t="disabled"),""),s=(saltos.core.eval_bool(e.readonly)&&(o="readonly"),""),a=(saltos.core.eval_bool(e.required)&&(s="required"),""),l=(saltos.core.eval_bool(e.autofocus)&&(a="autofocus"),""),r=(saltos.core.eval_bool(e.autosave)||(l='autosave="false"'),"primary"),n=`border border-${r=e.color?e.color:r}-subtle`,c=("none"==e.color&&(n="border-0"),"rounded");e.rounded&&(c=e.rounded);const i=saltos.core.html(`
+                </button></li>`),p.icon&&s.querySelector("button").prepend(saltos.core.html(`<i class="bi bi-${p.icon}"></i>`)),p.label&&p.icon&&s.querySelector("i").classList.add("me-1"),""!=p.tooltip&&saltos.bootstrap.__tooltip_helper(s.querySelector("button")),saltos.core.eval_bool(p.disabled)||saltos.bootstrap.__onclick_helper(s.querySelector("button"),p.onclick)),i.querySelector("ul").append(s)}return i},saltos.bootstrap.__text_helper=e=>{saltos.core.check_params(e,["type","class","id","placeholder","value","disabled","onenter","onchange","readonly","required","autofocus","tooltip","accesskey","color","shadow","rounded"]),saltos.core.check_params(e,["autosave"],!0);let t="",o=(saltos.core.eval_bool(e.disabled)&&(t="disabled"),""),s=(saltos.core.eval_bool(e.readonly)&&(o="readonly"),""),a=(saltos.core.eval_bool(e.required)&&(s="required"),""),l=(saltos.core.eval_bool(e.autofocus)&&(a="autofocus"),""),r=(saltos.core.eval_bool(e.autosave)||(l='autosave="false"'),"primary"),n=`border border-${r=e.color?e.color:r}-subtle`,c=("none"==e.color&&(n="border-0"),"rounded");e.rounded&&(c=e.rounded);const i=saltos.core.html(`
         <input type="${e.type}" class="form-control ${c} ${n} ${e.class}"
             placeholder="${e.placeholder}" data-bs-accesskey="${e.accesskey}"
             ${t} ${o} ${s} ${a} ${l}

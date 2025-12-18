@@ -37,7 +37,7 @@ browserify|https://github.com/browserify/browserify/tags.atom|<title>|PHRpdGxlPn
 cloc|https://github.com/AlDanial/cloc/tags.atom|<title>|PHRpdGxlPjIuMDY8L3RpdGxlPg==
 jest|https://github.com/jestjs/jest/tags.atom|<title>|PHRpdGxlPjMwLjIuMDwvdGl0bGU+
 jscs|https://github.com/jscs-dev/node-jscs/tags.atom|<title>|PHRpdGxlPjMuMC43PC90aXRsZT4=
-libreoffice|https://es.libreoffice.org/descarga/libreoffice/|type=deb|PG9wdGlvbiB2YWx1ZT0iL2Rlc2NhcmdhL2xpYnJlb2ZmaWNlLz90eXBlPWRlYi1hYXJjaDY0JnZlcnNpb249MjUuOC4zJmxhbmc9ZXMiPkxpbnV4IChBYXJjaDY0KSAoZGViKTwvb3B0aW9uPg==
+libreoffice|https://es.libreoffice.org/descarga/libreoffice/|type=deb|PG9wdGlvbiB2YWx1ZT0iL2Rlc2NhcmdhL2xpYnJlb2ZmaWNlLz90eXBlPWRlYi1hYXJjaDY0JnZlcnNpb249MjUuOC40Jmxhbmc9ZXMiPkxpbnV4IChBYXJjaDY0KSAoZGViKTwvb3B0aW9uPg==
 mariadb|https://github.com/MariaDB/server/tags.atom|<title>|PHRpdGxlPk1hcmlhREIgQ29tbXVuaXR5IFNlcnZlciAxMi4yLjEgUkM8L3RpdGxlPg==
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|PHRpdGxlPm1pbmlmeSB2MTQuMS4wPC90aXRsZT4=
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|PHRpdGxlPk1yb29uZ2EgMTUuMjIgLSAyMDI1LTEyLTEwPC90aXRsZT4=

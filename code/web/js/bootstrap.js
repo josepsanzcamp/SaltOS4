@@ -4452,6 +4452,7 @@ saltos.bootstrap.__field.jstree = field => {
  * @divider   => you can set this boolean to true to convert the element into a divider
  * @tooltip   => this parameter raise the title flag
  * @accesskey => the key used as accesskey parameter
+ * @color     => the color of the item (primary, secondary, success, danger, warning, info, none)
  *
  * Notes:
  *
@@ -4533,7 +4534,7 @@ saltos.bootstrap.__field.dropdown = field => {
     for (const key in field.menu) {
         const val = field.menu[key];
         saltos.core.check_params(val, ['id', 'label', 'icon', 'disabled', 'active',
-                                       'onclick', 'divider', 'tooltip', 'accesskey']);
+                                       'onclick', 'divider', 'tooltip', 'accesskey', 'color']);
         let disabled = '';
         if (saltos.core.eval_bool(val.disabled)) {
             disabled = 'disabled';
@@ -4542,12 +4543,16 @@ saltos.bootstrap.__field.dropdown = field => {
         if (saltos.core.eval_bool(val.active)) {
             active = 'active';
         }
+        let color = '';
+        if (val.color  != '') {
+            color = `text-${val.color}`;
+        }
         let temp;
         if (saltos.core.eval_bool(val.divider)) {
             temp = saltos.core.html(`<li><hr class="dropdown-divider"></li>`);
         } else {
             temp = saltos.core.html(`
-                <li><button id="${val.id}" class="dropdown-item ${disabled} ${active}"
+                <li><button id="${val.id}" class="dropdown-item ${disabled} ${active} ${color}"
                     data-bs-accesskey="${val.accesskey}" data-bs-title="${val.tooltip}">
                         ${val.label}
                 </button></li>`);
