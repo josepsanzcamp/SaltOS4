@@ -5423,7 +5423,7 @@ saltos.bootstrap.offcanvas = args => {
  * Body allow to use a string containing a html fragment or an object, as the modal body.
  */
 saltos.bootstrap.toast = args => {
-    saltos.core.check_params(args, ['id', 'class', 'close', 'title', 'subtitle', 'body', 'color']);
+    saltos.core.check_params(args, ['id', 'class', 'close', 'title', 'subtitle', 'body', 'color', 'timeout']);
     if (document.querySelectorAll('.toast-container').length == 0) {
         // Remove border only for light mode
         document.body.append(saltos.core.html(`
@@ -5446,6 +5446,9 @@ saltos.bootstrap.toast = args => {
     if (!args.color) {
         args.color = 'primary';
     }
+    if (!args.timeout) {
+        args.timeout = 5000;
+    }
     const obj = saltos.core.html(`
         <div id="${args.id}" class="toast ${args.class}" role="alert" aria-live="assertive"
             aria-atomic="true" hash="x${hash}">
@@ -5467,12 +5470,28 @@ saltos.bootstrap.toast = args => {
     } else {
         obj.querySelector('.toast-body').append(args.body);
     }
-    const toast = new bootstrap.Toast(obj, {animation: false});
+    // Disabled the native autohide
+    const toast = new bootstrap.Toast(obj, {
+        animation: false,
+        autohide: false,
+    });
+    // The next code implements the autohide with visibility check
+    let timer = null;
+    const handleVisibility = () => {
+        clearTimeout(timer);
+        if (!document.hidden) {
+            timer = setTimeout(() => toast.hide(), args.timeout);
+        }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
     obj.addEventListener('hidden.bs.toast', event => {
+        clearTimeout(timer);
+        document.removeEventListener('visibilitychange', handleVisibility);
         toast.dispose();
         obj.remove();
     });
     toast.show();
+    handleVisibility();
     return true;
 };
 
