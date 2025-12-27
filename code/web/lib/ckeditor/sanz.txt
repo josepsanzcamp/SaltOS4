@@ -13,10 +13,12 @@ rm -f ../translations/*
 rmdir ../translations
 rm -f ../ckeditor.min.js
 
-mv ckeditor.min.js ..
+cat ckeditor.min.js | grep -v sourceMappingURL=ckeditor.min.js.map > ../ckeditor.min.js
 mv translations ..
 
 rm -rf node_modules
 rm -f package-lock.json
+rm -f ckeditor.min.js
+rm -f ckeditor.min.js.map
 
 cd ..

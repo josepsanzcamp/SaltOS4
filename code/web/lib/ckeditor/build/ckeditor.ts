@@ -26,9 +26,6 @@ import { SourceEditing } from '@ckeditor/ckeditor5-source-editing';
 import { Table, TableToolbar } from '@ckeditor/ckeditor5-table';
 import { TextTransformation } from '@ckeditor/ckeditor5-typing';
 import { TodoList } from '@ckeditor/ckeditor5-list';
-import { WordCount } from '@ckeditor/ckeditor5-word-count';
-import { Emoji } from '@ckeditor/ckeditor5-emoji';
-import { Mention } from '@ckeditor/ckeditor5-mention';
 import { Bookmark } from '@ckeditor/ckeditor5-bookmark';
 
 export default class ClassicEditorCustom extends ClassicEditor {
@@ -65,9 +62,6 @@ export default class ClassicEditorCustom extends ClassicEditor {
 		TextTransformation,
 		TodoList,
 		Underline,
-		WordCount,
-		Emoji,
-		Mention,
 		Bookmark
 	];
 
@@ -99,7 +93,6 @@ export default class ClassicEditorCustom extends ClassicEditor {
 				'insertTable',
 				'horizontalLine',
 				'bookmark',
-				'emoji',
 				'|',
 				'sourceEditing',
 				'code',
