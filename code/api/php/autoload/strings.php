@@ -134,10 +134,10 @@ function trim_words($cad, $pad = ' ')
         $len2 = strlen($cad);
     } while ($len1 - $len2 > 0);
     $len = strlen($pad);
-    if (substr($cad, 0, $len) == $pad) {
+    if (substr($cad, 0, $len) === $pad) {
         $cad = substr($cad, $len);
     }
-    if (substr($cad, -$len, $len) == $pad) {
+    if (substr($cad, -$len, $len) === $pad) {
         $cad = substr($cad, 0, -$len);
     }
     return $cad;
@@ -189,11 +189,11 @@ function intelligence_cut($txt, $max, $end = '...')
 {
     $len = strlen($txt);
     if ($len > $max) {
-        while ($max > 0 && $txt[$max] != ' ') {
+        while ($max > 0 && $txt[$max] !== ' ') {
             $max--;
         }
-        if ($max == 0) {
-            while ($max < $len && $txt[$max] != ' ') {
+        if ($max === 0) {
+            while ($max < $len && $txt[$max] !== ' ') {
                 $max++;
             }
         }
@@ -202,7 +202,7 @@ function intelligence_cut($txt, $max, $end = '...')
                 $max--;
             }
         }
-        $preview = ($max == $len) ? $txt : substr($txt, 0, $max) . $end;
+        $preview = ($max === $len) ? $txt : substr($txt, 0, $max) . $end;
     } else {
         $preview = $txt;
     }
@@ -222,13 +222,13 @@ function normalize_value($value)
 {
     $number = intval(substr($value, 0, -1));
     $letter = strtoupper(substr($value, -1, 1));
-    if ($letter == 'K') {
+    if ($letter === 'K') {
         $value = $number * 1024;
     }
-    if ($letter == 'M') {
+    if ($letter === 'M') {
         $value = $number * 1024 * 1024;
     }
-    if ($letter == 'G') {
+    if ($letter === 'G') {
         $value = $number * 1024 * 1024 * 1024;
     }
     return $value;
@@ -247,7 +247,7 @@ function normalize_value($value)
 function html2text($html)
 {
     $html = strval($html);
-    if ($html == '') {
+    if ($html === '') {
         return $html;
     }
     if (!defined('RCUBE_CHARSET')) {
@@ -268,7 +268,7 @@ function html2text($html)
  */
 function getutf8($str)
 {
-    if ($str != '' && !mb_check_encoding($str, 'UTF-8')) {
+    if ($str !== '' && !mb_check_encoding($str, 'UTF-8')) {
         $str = mb_convert_encoding($str, 'UTF-8', mb_detect_order());
     }
     return $str;
@@ -430,7 +430,7 @@ function get_string_from_quotes($val)
     $open = substr($val, 0, 1);
     if (in_array($open, ['"', "'"])) {
         $close = substr($val, -1, 1);
-        if ($open == $close) {
+        if ($open === $close) {
             $val = substr($val, 1, -1);
         }
     }

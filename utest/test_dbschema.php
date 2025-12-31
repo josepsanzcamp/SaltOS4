@@ -135,7 +135,7 @@ final class test_dbschema extends TestCase
 
         $fields = get_fields_from_dbschema('nada');
         $this->assertIsArray($fields);
-        $this->assertTrue(count($fields) == 0);
+        $this->assertTrue(count($fields) === 0);
 
         $indexes = get_indexes_from_dbschema('tbl_users');
         $this->assertIsArray($indexes);
@@ -155,7 +155,7 @@ final class test_dbschema extends TestCase
 
         $fkeys = get_fkeys_from_dbschema('nada');
         $this->assertIsArray($fkeys);
-        $this->assertTrue(count($fkeys) == 0);
+        $this->assertTrue(count($fkeys) === 0);
 
         $apps = get_apps_from_dbstatic();
         $this->assertIsArray($apps);

@@ -192,7 +192,7 @@ function import_file($args)
  */
 function __import_utf8bom($data)
 {
-    if (substr($data, 0, 3) == "\xef\xbb\xbf") {
+    if (substr($data, 0, 3) === "\xef\xbb\xbf") {
         $data = substr($data, 3);
     }
     return $data;
@@ -293,7 +293,7 @@ function __import_xls2array($file, $sheet)
         }
     } else {
         foreach ($sheets as $key => $val) {
-            if ($sheet == $val) {
+            if ($sheet === $val) {
                 $sheet = $key;
                 break;
             }
@@ -307,7 +307,7 @@ function __import_xls2array($file, $sheet)
         $csv = get_cache_file($file, 'csv');
         if (!file_exists($csv)) {
             $xlsx = get_cache_file($file, 'xlsx');
-            $fix = (dirname(realpath($file)) != dirname(realpath_protected($xlsx)));
+            $fix = (dirname(realpath($file)) !== dirname(realpath_protected($xlsx)));
             if ($fix) {
                 symlink(realpath($file), $xlsx);
             } else {
@@ -322,7 +322,7 @@ function __import_xls2array($file, $sheet)
             foreach ($sheets as $key => $val) {
                 $temp = $xlsx . '.' . $val . '.csv';
                 if (file_exists($temp)) {
-                    if ($key == $sheet) {
+                    if ($key === $sheet) {
                         rename($temp, $csv);
                         chmod_protected($csv, 0666);
                     } else {
@@ -510,7 +510,7 @@ function __import_removevoid($array)
     $cols = array_fill(0, $count_cols, 0);
     foreach ($array as $key => $val) {
         foreach ($val as $key2 => $val2) {
-            if ($val2 != '') {
+            if ($val2 !== '') {
                 $rows[$key]++;
                 $cols[$key2]++;
             }
@@ -585,7 +585,7 @@ function __import_array2tree($array, $nodes, $nohead, $noletter)
         $col = 0;
         foreach ($nodes as $key => $val) {
             if (!is_array($val)) {
-                if ($val == '') {
+                if ($val === '') {
                     $val = [];
                 } else {
                     $val = explode(',', $val);

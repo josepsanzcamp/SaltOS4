@@ -52,7 +52,7 @@ function db_schema()
         $tables1 = array_diff(get_tables(), $ignores);
         $tables2 = array_diff(get_tables_from_dbschema(), $ignores);
         foreach ($tables1 as $table) {
-            $isbackup = (substr($table, 0, 2) == '__' && substr($table, -2, 2) == '__');
+            $isbackup = (substr($table, 0, 2) === '__' && substr($table, -2, 2) === '__');
             if (!$isbackup && !in_array($table, $tables2)) {
                 $backup = "__{$table}__";
                 db_query(__dbschema_alter_table($table, $backup));
@@ -70,7 +70,7 @@ function db_schema()
                 $fields2 = get_fields_from_dbschema($table);
                 $hash3 = md5(serialize($fields1));
                 $hash4 = md5(serialize($fields2));
-                if ($hash3 != $hash4) {
+                if ($hash3 !== $hash4) {
                     db_query(__dbschema_alter_table($table, $backup));
                     db_query(__dbschema_create_table($tablespec));
                     foreach (get_indexes($table) as $index => $fields) {
@@ -85,7 +85,7 @@ function db_schema()
                 $fields2 = get_fields_from_dbschema($table);
                 $hash3 = md5(serialize($fields1));
                 $hash4 = md5(serialize($fields2));
-                if ($hash3 != $hash4) {
+                if ($hash3 !== $hash4) {
                     db_query(__dbschema_create_table($tablespec));
                     foreach (get_indexes($table) as $index => $fields) {
                         db_query(__dbschema_drop_index($index, $table));
@@ -121,7 +121,7 @@ function db_schema()
                         $fields2 = $indexes2[$index];
                         $hash3 = md5(serialize($fields1));
                         $hash4 = md5(serialize($fields2));
-                        if ($hash3 != $hash4) {
+                        if ($hash3 !== $hash4) {
                             db_query(__dbschema_drop_index($index, $table));
                             db_query(__dbschema_create_index($indexspec));
                             $output[] = "Alter $index on $table";
@@ -169,7 +169,7 @@ function __dbschema_check()
 {
     $hash1 = get_config('xml/dbschema.xml', 0);
     $hash2 = __dbschema_hash();
-    return $hash1 == $hash2;
+    return $hash1 === $hash2;
 }
 
 /**
@@ -282,7 +282,7 @@ function __dbstatic_check()
 {
     $hash1 = get_config('xml/dbstatic.xml', 0);
     $hash2 = __dbstatic_hash();
-    return $hash1 == $hash2;
+    return $hash1 === $hash2;
 }
 
 /**
@@ -302,7 +302,7 @@ function __dbstatic_check()
 function __dbstatic_insert($table, $row)
 {
     foreach ($row as $field => $value) {
-        if ($field == 'id' || substr($field, 0, 3) == 'id_' || substr($field, -3, 3) == '_id') {
+        if ($field === 'id' || substr($field, 0, 3) === 'id_' || substr($field, -3, 3) === '_id') {
             if (strpos(strval($value), ',') !== false) {
                 $a = explode(',', $value);
                 $queries = [];
@@ -423,7 +423,7 @@ function __dbschema_helper($fn, $table)
                         'name' => $fieldspec['#attr']['name'],
                         'type' => strtoupper($fieldspec['#attr']['type']),
                     ];
-                    if (isset($fieldspec['#attr']['fkey']) && $fieldspec['#attr']['fkey'] != '') {
+                    if (isset($fieldspec['#attr']['fkey']) && $fieldspec['#attr']['fkey'] !== '') {
                         $fkeys[$tablespec['#attr']['name']][$fieldspec['#attr']['name']]
                             = $fieldspec['#attr']['fkey'];
                     }
@@ -633,7 +633,7 @@ function __dbschema_auto_fkey($dbschema)
                 }
             }
             foreach ($tablespec['value']['fields'] as $fieldkey => $fieldspec) {
-                if (isset($fieldspec['#attr']['fkey']) && $fieldspec['#attr']['fkey'] != '') {
+                if (isset($fieldspec['#attr']['fkey']) && $fieldspec['#attr']['fkey'] !== '') {
                     if (in_array($fieldspec['#attr']['name'], $indexes)) {
                         continue;
                     }
@@ -763,12 +763,12 @@ function __dbstatic_helper($fn, $table, $field)
         ));
         if (is_array($dbstatic) && isset($dbstatic['tables']) && is_array($dbstatic['tables'])) {
             foreach ($dbstatic['tables'] as $data) {
-                if ($data['#attr']['name'] != 'tbl_apps') {
+                if ($data['#attr']['name'] !== 'tbl_apps') {
                     continue;
                 }
                 $rows = $data['value'];
                 foreach ($rows as $row) {
-                    if (isset($row['#attr']['table']) && $row['#attr']['table'] != '') {
+                    if (isset($row['#attr']['table']) && $row['#attr']['table'] !== '') {
                         $apps[$row['#attr']['code']] = $row['#attr'];
                         $tables[$row['#attr']['table']] = $row['#attr'];
                     }
@@ -893,17 +893,17 @@ function __dbschema_create_table($tablespec)
         if (isset($field['#attr']['default'])) {
             $default = $field['#attr']['default'];
             $type2 = get_field_type($type);
-            if ($type2 == 'int') {
+            if ($type2 === 'int') {
                 $default = intval($default);
-            } elseif ($type2 == 'float') {
+            } elseif ($type2 === 'float') {
                 $default = floatval($default);
-            } elseif ($type2 == 'date') {
+            } elseif ($type2 === 'date') {
                 $default = "'" . dateval($default) . "'";
-            } elseif ($type2 == 'time') {
+            } elseif ($type2 === 'time') {
                 $default = "'" . timeval($default) . "'";
-            } elseif ($type2 == 'datetime') {
+            } elseif ($type2 === 'datetime') {
                 $default = "'" . datetimeval($default) . "'";
-            } elseif ($type2 == 'string') {
+            } elseif ($type2 === 'string') {
                 $default = "'" . strval($default) . "'";
             } else {
                 // @codeCoverageIgnoreStart
@@ -923,7 +923,7 @@ function __dbschema_create_table($tablespec)
     foreach ($tablespec['value']['fields'] as $field) {
         if (isset($field['#attr']['fkey'])) {
             $fkey = $field['#attr']['fkey'];
-            if ($fkey != '') {
+            if ($fkey !== '') {
                 $name = $field['#attr']['name'];
                 $fields[] = "FOREIGN KEY ($name) REFERENCES $fkey (id)";
             }
@@ -978,17 +978,17 @@ function __dbschema_insert_from_select($dest, $orig)
     foreach ($fdest as $f) {
         $type = $f['type'];
         $type2 = get_field_type($type);
-        if ($type2 == 'int') {
+        if ($type2 === 'int') {
             $defs[] = intval(0);
-        } elseif ($type2 == 'float') {
+        } elseif ($type2 === 'float') {
             $defs[] = floatval(0);
-        } elseif ($type2 == 'date') {
+        } elseif ($type2 === 'date') {
             $defs[] = dateval(0);
-        } elseif ($type2 == 'time') {
+        } elseif ($type2 === 'time') {
             $defs[] = timeval(0);
-        } elseif ($type2 == 'datetime') {
+        } elseif ($type2 === 'datetime') {
             $defs[] = datetimeval(0);
-        } elseif ($type2 == 'string') {
+        } elseif ($type2 === 'string') {
             $defs[] = '';
         } else {
             // @codeCoverageIgnoreStart

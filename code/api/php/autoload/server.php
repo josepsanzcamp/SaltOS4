@@ -45,10 +45,10 @@ function get_server($key)
 {
     $keys = explode('/', $key);
     $count = count($keys);
-    if ($count == 1) {
+    if ($count === 1) {
         return $_SERVER[$keys[0]] ?? null;
     }
-    if ($count == 2) {
+    if ($count === 2) {
         return $_SERVER[$keys[0]][$keys[1]] ?? null;
     }
     show_php_error(['phperror' => "key $key not found"]);
@@ -66,7 +66,7 @@ function set_server($key, $val)
 {
     $keys = explode('/', $key);
     $count = count($keys);
-    if ($count == 1) {
+    if ($count === 1) {
         if ($val !== null) {
             $_SERVER[$keys[0]] = $val;
         } else {
@@ -74,7 +74,7 @@ function set_server($key, $val)
         }
         return;
     }
-    if ($count == 2) {
+    if ($count === 2) {
         if ($val !== null) {
             $_SERVER[$keys[0]][$keys[1]] = $val;
         } else {
@@ -94,7 +94,7 @@ function set_server($key, $val)
 function current_hash()
 {
     $hash = get_server('QUERY_STRING');
-    if (is_string($hash) && substr($hash, 0, 1) == '/') {
+    if (is_string($hash) && substr($hash, 0, 1) === '/') {
         $hash = substr($hash, 1);
     }
     return $hash;

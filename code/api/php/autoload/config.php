@@ -62,10 +62,10 @@ function get_config($key, $user_id = -1)
         // Try to search the key in the config file
         $keys = explode('/', $key);
         $count = count($keys);
-        if ($count == 1) {
+        if ($count === 1) {
             return $_CONFIG[$keys[0]] ?? null;
         }
-        if ($count == 2) {
+        if ($count === 2) {
             return $_CONFIG[$keys[0]][$keys[1]] ?? null;
         }
         show_php_error(['phperror' => "key $key not found"]);
@@ -110,7 +110,7 @@ function set_config($key, $val, $user_id = -1)
         // This case only affects to the memory version of the config file
         $keys = explode('/', $key);
         $count = count($keys);
-        if ($count == 1) {
+        if ($count === 1) {
             if ($val !== null) {
                 $_CONFIG[$keys[0]] = $val;
             } else {
@@ -118,7 +118,7 @@ function set_config($key, $val, $user_id = -1)
             }
             return;
         }
-        if ($count == 2) {
+        if ($count === 2) {
             if ($val !== null) {
                 $_CONFIG[$keys[0]][$keys[1]] = $val;
             } else {
@@ -200,7 +200,7 @@ function prepare_config_files($array)
     foreach ($array as $key => $val) {
         foreach ($val as $key2 => $val2) {
             $key3 = fix_key($key2);
-            if ($key2 != $key3) {
+            if ($key2 !== $key3) {
                 unset($array[$key][$key2]);
                 $array[$key][$key3] = $val2;
             }

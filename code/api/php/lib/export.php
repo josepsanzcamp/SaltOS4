@@ -105,7 +105,7 @@ function export_file($args)
     }
     if (!isset($args['notree'])) {
         $args['notree'] = true;
-        if ($args['type'] != 'xml') {
+        if ($args['type'] !== 'xml') {
             $args['notree'] = false;
         }
     }
@@ -170,11 +170,11 @@ function export_file($args)
         default:
             show_php_error(['phperror' => "Unknown type '{$args["type"]}' for file '{$args["file"]}'"]);
     }
-    if ($args['file'] != '') {
-        if ($args['ext'] == '') {
+    if ($args['file'] !== '') {
+        if ($args['ext'] === '') {
             $args['ext'] = $args['type'];
         }
-        if (strtolower(extension($args['file'])) != $args['ext']) {
+        if (strtolower(extension($args['file'])) !== $args['ext']) {
             $args['file'] .= '.' . $args['ext'];
         }
         file_put_contents($args['file'], $buffer);
@@ -238,7 +238,7 @@ function __export_file_csv(
         $val = str_replace($replace['from'], $replace['to'], $val);
         foreach ($val as $key2 => $val2) {
             $val2 = trim($val2);
-            if ($escape['mode'] == 'auto') {
+            if ($escape['mode'] === 'auto') {
                 $has_sep = strpos($val2, $sep) !== false ? 1 : 0;
                 $has_new = strpos($val2, "\n") !== false ? 1 : 0;
                 $has_ret = strpos($val2, "\r") !== false ? 1 : 0;
@@ -275,7 +275,7 @@ function __export_file_excel($matrix, $title = '', $type = 'Xlsx')
     $objPHPExcel = new PhpOffice\PhpSpreadsheet\Spreadsheet();
     $objPHPExcel->getProperties()->setCreator(get_name_version_revision());
     $objPHPExcel->getProperties()->setLastModifiedBy(current_datetime());
-    if ($title != '') {
+    if ($title !== '') {
         $objPHPExcel->getProperties()->setTitle($title);
         $objPHPExcel->getProperties()->setSubject($title);
         $objPHPExcel->getProperties()->setDescription($title);
@@ -287,7 +287,7 @@ function __export_file_excel($matrix, $title = '', $type = 'Xlsx')
     for ($i = 0; $i < count($matrix[0]); $i++) {
         $objPHPExcel->getActiveSheet()->getColumnDimension(__import_col2name($i))->setAutoSize(true);
     }
-    if ($title != '') {
+    if ($title !== '') {
         $objPHPExcel->getActiveSheet()->setTitle(substr($title, 0, 31));
     }
     // Convert all long numbers to string
@@ -297,7 +297,7 @@ function __export_file_excel($matrix, $title = '', $type = 'Xlsx')
         foreach ($val as $key2 => $val2) {
             if (is_numeric($val2)) {
                 if (strlen($val2) > 15) {
-                    if (substr($val2, 0, 1) != '0') {
+                    if (substr($val2, 0, 1) !== '0') {
                         $objPHPExcel->getActiveSheet()->setCellValueExplicit(
                             __import_col2name($col) . strval($row + 1),
                             $val2,

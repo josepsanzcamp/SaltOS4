@@ -71,7 +71,7 @@ function insert_user($data)
     }
 
     // Password checks
-    if ($newpass != $renewpass) {
+    if ($newpass !== $renewpass) {
         return [
             'status' => 'ko',
             'text' => 'New password differs',
@@ -89,7 +89,7 @@ function insert_user($data)
 
     // Real insert using general insert action
     $array = insert('users', $data);
-    if ($array['status'] == 'ko') {
+    if ($array['status'] === 'ko') {
         return $array;
     }
     $user_id = $array['created_id'];
@@ -155,7 +155,7 @@ function update_user($user_id, $data)
 
     if ($newpass || $renewpass) {
         // Password checks
-        if ($newpass != $renewpass) {
+        if ($newpass !== $renewpass) {
             return [
                 'status' => 'ko',
                 'text' => 'New password differs',
@@ -183,7 +183,7 @@ function update_user($user_id, $data)
     // Real update using general update action
     if (count($data)) {
         $array = update('users', $user_id, $data);
-        if ($array['status'] == 'ko') {
+        if ($array['status'] === 'ko') {
             return $array;
         }
     }
@@ -200,10 +200,10 @@ function update_user($user_id, $data)
         foreach ($perms as $key => $val) {
             foreach ($old_perms as $old_key => $old_val) {
                 if (
-                    $val['app_id'] == $old_val['app_id'] &&
-                    $val['perm_id'] == $old_val['perm_id'] &&
-                    $val['allow'] == $old_val['allow'] &&
-                    $val['deny'] == $old_val['deny']
+                    $val['app_id'] === $old_val['app_id'] &&
+                    $val['perm_id'] === $old_val['perm_id'] &&
+                    $val['allow'] === $old_val['allow'] &&
+                    $val['deny'] === $old_val['deny']
                 ) {
                     unset($perms[$key]);
                     unset($old_perms[$old_key]);
@@ -261,7 +261,7 @@ function delete_user($user_id)
 
     // Real delete using general delete action
     $array = delete('users', $user_id);
-    if ($array['status'] == 'ko') {
+    if ($array['status'] === 'ko') {
         return $array;
     }
 

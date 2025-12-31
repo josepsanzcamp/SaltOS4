@@ -51,7 +51,7 @@ function check_notes_old($app, $action, $id = null)
     }
     // Check the app table
     $table = app2table($app);
-    if ($table == '') {
+    if ($table === '') {
         return false;
     }
     // Check if notes table exists
@@ -61,7 +61,7 @@ function check_notes_old($app, $action, $id = null)
     }
     // This check fix a security issue when this function is called with all
     // parameters and id is null, in this scope two parameters must be true
-    if (func_num_args() == 2) {
+    if (func_num_args() === 2) {
         return true;
     }
     // Check for registers
@@ -87,7 +87,7 @@ function check_notes_new($app, $action)
     }
     // Check the app table
     $table = app2table($app);
-    if ($table == '') {
+    if ($table === '') {
         return false;
     }
     // Check if notes table exists

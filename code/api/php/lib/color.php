@@ -47,16 +47,16 @@ declare(strict_types=1);
  */
 function color2dec($color, $component)
 {
-    if (substr($color, 0, 1) == '#') {
+    if (substr($color, 0, 1) === '#') {
         $color = substr($color, 1);
     }
-    if (strlen($color) == 3) {
+    if (strlen($color) === 3) {
         $R = substr($color, 0, 1);
         $G = substr($color, 1, 1);
         $B = substr($color, 2, 1);
         $color = $R . $R . $G . $G . $B . $B;
     }
-    if (strlen($color) != 6) {
+    if (strlen($color) !== 6) {
         show_php_error(['phperror' => 'Unknown color length']);
     }
     $offset = ['R' => 0, 'G' => 2, 'B' => 4];

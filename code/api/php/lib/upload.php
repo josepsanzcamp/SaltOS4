@@ -47,12 +47,12 @@ function add_upload_file($val)
     // Check for the data prefix
     $pre = "data:{$val["type"]};base64,";
     $len = strlen($pre);
-    if (strncmp($pre, $data, $len) != 0) {
+    if (strncmp($pre, $data, $len) !== 0) {
         return $val;
     }
     // Check for the data size
     $data = base64_decode(substr($data, $len));
-    if (strlen($data) != $val['size']) {
+    if (strlen($data) !== $val['size']) {
         return $val;
     }
     // Store it in a local file
@@ -111,7 +111,7 @@ function del_upload_file($val)
         return $val;
     }
     // Check for file name integrity
-    if (encode_bad_chars_file($val['file']) != $val['file']) {
+    if (encode_bad_chars_file($val['file']) !== $val['file']) {
         return $val;
     }
     // Check for the file exists and is a file
@@ -120,11 +120,11 @@ function del_upload_file($val)
         return $val;
     }
     // Check for file size integrity
-    if (filesize($dir . $val['file']) != $val['size']) {
+    if (filesize($dir . $val['file']) !== $val['size']) {
         return $val;
     }
     // Check for file hash integrity
-    if (md5_file($dir . $val['file']) != $val['hash']) {
+    if (md5_file($dir . $val['file']) !== $val['hash']) {
         return $val;
     }
     // Remove the local file

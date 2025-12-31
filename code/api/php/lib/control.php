@@ -60,7 +60,7 @@ function make_control($app, $reg_id)
 {
     // Check the passed parameters
     $table = app2table($app);
-    if ($table == '') {
+    if ($table === '') {
         return -1;
     }
     // Check if control exists

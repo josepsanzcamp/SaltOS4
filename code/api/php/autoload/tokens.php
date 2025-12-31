@@ -63,7 +63,7 @@ function check_token_format($token)
     $lengths = array_map(function ($val) {
         return strlen($val);
     }, $parts);
-    if (implode('-', $lengths) != '8-4-4-4-12') {
+    if (implode('-', $lengths) !== '8-4-4-4-12') {
         return null;
     }
     // Check the type of each part

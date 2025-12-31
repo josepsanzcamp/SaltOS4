@@ -38,6 +38,6 @@ $buffer[1] = "SaltOS 4.0 r$rev";
 $buffer[2] = $date;
 $buffer = implode("\n", $buffer);
 $hash2 = md5($buffer);
-if ($hash1 != $hash2) {
+if ($hash1 !== $hash2) {
     file_put_contents($outfile, $buffer);
 }

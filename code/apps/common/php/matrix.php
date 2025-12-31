@@ -106,7 +106,7 @@ function make_matrix_version($app, $id)
             $pos[] = $key;
             continue;
         }
-        if ($old['val'] != $temp) {
+        if ($old['val'] !== $temp) {
             $pos[] = $old['key'];
             $ranges[] = $pos;
             $old['key'] = $key;
@@ -117,7 +117,7 @@ function make_matrix_version($app, $id)
         $old['key'] = $key;
         $old['val'] = $temp;
     }
-    if (count($pos) == 1) {
+    if (count($pos) === 1) {
         $pos[] = $key;
         $ranges[] = $pos;
     }
@@ -162,8 +162,8 @@ function make_matrix_version($app, $id)
                 $val0 = $val2;
                 continue;
             }
-            if ($val2 != $val0) {
-                if ($val2 != '') {
+            if ($val2 !== $val0) {
+                if ($val2 !== '') {
                     $color = 'bg-success text-white';
                 } else {
                     $color = 'bg-danger text-white';

@@ -47,7 +47,7 @@ require_once 'php/lib/dbschema.php';
 require_once 'php/lib/setup.php';
 
 // This part allow request to the setup/apache
-if (get_data('rest/1') == 'apache') {
+if (get_data('rest/1') === 'apache') {
     $argv = get_server('argv');
     $url = array_pop($argv);
     require_once 'php/lib/apache.php';

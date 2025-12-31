@@ -72,7 +72,7 @@ final class test_version extends TestCase
         $this->assertSame(svnversion('/tmp/'), 123);
         unlink('/tmp/svnversion');
 
-        $this->assertSame(gitversion() == 0, true);
+        $this->assertSame(gitversion() === 0, true);
         $this->assertSame(gitversion(getenv('HOME')), 0);
         file_put_contents('/tmp/gitversion', '123');
         $this->assertSame(gitversion('/tmp/'), 123);
@@ -87,13 +87,13 @@ final class test_version extends TestCase
         // This part allow to execute the otherwise check_command part
         $cache = get_cache_file('which svnversion', '.out');
         $this->assertNotFalse(file_put_contents($cache, ''));
-        $this->assertSame(svnversion() == 0, true);
+        $this->assertSame(svnversion() === 0, true);
         $this->assertTrue(unlink($cache));
 
         // This part allow to execute the otherwise check_command part
         $cache = get_cache_file('which git', '.out');
         $this->assertNotFalse(file_put_contents($cache, ''));
-        $this->assertSame(gitversion() == 0, true);
+        $this->assertSame(gitversion() === 0, true);
         $this->assertTrue(unlink($cache));
 
         // Return to the original state;

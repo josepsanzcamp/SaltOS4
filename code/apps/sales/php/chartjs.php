@@ -188,7 +188,7 @@ SQL;
     $values = [];
 
     foreach ($data as $row) {
-        $labels[] = $row['is_paid'] == 1 ? 'Paid' : 'Unpaid';
+        $labels[] = $row['is_paid'] === 1 ? 'Paid' : 'Unpaid';
         $values[] = intval($row['count']);
     }
 

@@ -47,7 +47,7 @@ declare(strict_types=1);
  */
 function __libsqlite_group_concat_step($context, $rows, $string, $separator = ',')
 {
-    if ($context != '') {
+    if ($context !== '') {
         $context .= $separator;
     }
     $context .= $string;

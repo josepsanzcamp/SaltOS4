@@ -59,10 +59,10 @@ foreach ($files as $file => $temp) {
             die();
         }
         $a = trim(substr($buffer, $pos2 + strlen($close), $pos3 - $pos2 - strlen($close)));
-        if (substr($a, -5, 5) == ' => {') {
+        if (substr($a, -5, 5) === ' => {') {
             $a = substr($a, 0, -5);
         }
-        if ($a == '(()') {
+        if ($a === '(()') {
             $a = '';
         }
         $b = trim(substr($buffer, $pos, $pos2 - $pos + strlen($close)));
@@ -71,9 +71,9 @@ foreach ($files as $file => $temp) {
         array_pop($b);
         foreach ($b as $key => $val) {
             $val = trim($val);
-            if ($val == '*') {
+            if ($val === '*') {
                 $val = '';
-            } elseif (substr($val, 0, 2) == '* ') {
+            } elseif (substr($val, 0, 2) === '* ') {
                 $val = substr($val, 2);
             }
             if (in_array(substr($val, 0, 1), ['@', '+', '-']) && !in_array(substr($val, 1, 1), ['', ' '])) {
@@ -86,9 +86,9 @@ foreach ($files as $file => $temp) {
         // To add newlines to break the lists
         $is_inside_list = false;
         foreach ($b as $key => $val) {
-            if (substr($val, 0, 1) == '-') {
+            if (substr($val, 0, 1) === '-') {
                 $is_inside_list = true;
-            } elseif ($val == '' && $is_inside_list) {
+            } elseif ($val === '' && $is_inside_list) {
                 $b[$key] = "\n";
                 $is_inside_list = false;
             }
@@ -141,19 +141,19 @@ $map = [
     'ujest code' => 'jest code',
 ];
 foreach ($files as $file => $contents) {
-    if (substr($file, 0, 13) == 'code/api/php/') {
+    if (substr($file, 0, 13) === 'code/api/php/') {
         $path2 = explode('/', $file)[3];
-    } elseif (substr($file, 0, 12) == 'code/web/js/') {
+    } elseif (substr($file, 0, 12) === 'code/web/js/') {
         $path2 = explode('/', $file)[2];
-    } elseif (substr($file, 0, 10) == 'code/apps/') {
+    } elseif (substr($file, 0, 10) === 'code/apps/') {
         $path2 = explode('/', $file)[2];
-    } elseif (substr($file, 0, 10) == 'utest/lib/') {
+    } elseif (substr($file, 0, 10) === 'utest/lib/') {
         $path2 = 'utest lib';
-    } elseif (substr($file, 0, 6) == 'utest/') {
+    } elseif (substr($file, 0, 6) === 'utest/') {
         $path2 = 'utest code';
-    } elseif (substr($file, 0, 10) == 'ujest/lib/') {
+    } elseif (substr($file, 0, 10) === 'ujest/lib/') {
         $path2 = 'ujest lib';
-    } elseif (substr($file, 0, 6) == 'ujest/') {
+    } elseif (substr($file, 0, 6) === 'ujest/') {
         $path2 = 'ujest code';
     } else {
         ob_clean();
@@ -164,7 +164,7 @@ foreach ($files as $file => $contents) {
         $path2 = $map[$path2];
     }
     $path2 = ucwords($path2);
-    if ($path != $path2) {
+    if ($path !== $path2) {
         echo "+$path2+\n";
         echo "\n";
         $path = $path2;
@@ -180,13 +180,13 @@ foreach ($files as $file => $contents) {
             echo "+++{$content[0]}+++\n";
             echo "\n";
         }
-        if ($content[1] != '') {
+        if ($content[1] !== '') {
             echo "```\n";
             echo "{$content[1]}\n";
             echo "```\n";
             echo "\n";
         }
-        if ($content[2] != '') {
+        if ($content[2] !== '') {
             echo "{$content[2]}\n";
             echo "\n";
         }

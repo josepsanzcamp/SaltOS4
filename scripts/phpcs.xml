@@ -45,4 +45,5 @@
     <rule ref="Squiz.Strings.DoubleQuoteUsage">
         <exclude name="Squiz.Strings.DoubleQuoteUsage.ContainsVar"/>
     </rule>
+    <rule ref="SlevomatCodingStandard.Operators.DisallowEqualOperators"/>
 </ruleset>

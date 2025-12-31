@@ -46,7 +46,7 @@ declare(strict_types=1);
 function __cron_compare($val, $now)
 {
     // true case
-    if ($val == '*') {
+    if ($val === '*') {
         return true;
     }
     // list of options
@@ -62,7 +62,7 @@ function __cron_compare($val, $now)
     // using module
     if (strpos($val, '*/') !== false) {
         $module = intval(substr($val, 2)) ;
-        return $now % $module == 0;
+        return $now % $module === 0;
     }
     // using range
     if (strpos($val, '-') !== false) {
@@ -70,7 +70,7 @@ function __cron_compare($val, $now)
         return $now >= intval($range[0]) && $now <= intval($range[1]);
     }
     // direct case
-    return intval($val) == $now;
+    return intval($val) === intval($now);
 }
 
 /**
@@ -99,7 +99,7 @@ function __cron_is_now($minute, $hour, $day, $month, $dow)
 function __cron_users($arg)
 {
     // all users
-    if ($arg == '*') {
+    if ($arg === '*') {
         return execute_query_array('SELECT login FROM tbl_users WHERE active = 1');
     }
     // list of users
@@ -200,7 +200,7 @@ function cron_exec()
             ];
         }
         foreach ($task as $key => $val) {
-            if (fix_key($key) != 'task') {
+            if (fix_key($key) !== 'task') {
                 continue;
             }
             $val = join_attr_value($val);

@@ -52,10 +52,10 @@ function get_directory($key)
     if ($dir === null) {
         return $dir;
     }
-    if ($dir == '') {
+    if ($dir === '') {
         return $dir;
     }
-    if (substr($dir, -1, 1) != '/') {
+    if (substr($dir, -1, 1) !== '/') {
         $dir .= '/';
     }
     return $dir;
@@ -76,10 +76,10 @@ function get_directory($key)
  */
 function get_temp_file($ext = '')
 {
-    if ($ext == '') {
+    if ($ext === '') {
         $ext = '.tmp';
     }
-    if (substr($ext, 0, 1) != '.') {
+    if (substr($ext, 0, 1) !== '.') {
         $ext = '.' . $ext;
     }
     $dir = get_directory('dirs/tempdir') ?? getcwd_protected() . '/data/temp/';
@@ -111,13 +111,13 @@ function get_cache_file($data, $ext = '')
     if (is_array($data)) {
         $data = serialize($data);
     }
-    if ($ext == '') {
+    if ($ext === '') {
         $ext = strtolower(extension($data));
     }
-    if ($ext == '') {
+    if ($ext === '') {
         $ext = '.tmp';
     }
-    if (substr($ext, 0, 1) != '.') {
+    if (substr($ext, 0, 1) !== '.') {
         $ext = '.' . $ext;
     }
     $dir = get_directory('dirs/cachedir') ?? getcwd_protected() . '/data/cache/';
@@ -221,7 +221,7 @@ function __url_get_contents($url, $args = [])
     }
     if (isset($args['method'])) {
         $method = strtoupper($args['method']);
-        if ($method == 'HEAD') {
+        if ($method === 'HEAD') {
             curl_setopt($ch, CURLOPT_NOBODY, true);
         } else {
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
@@ -239,12 +239,12 @@ function __url_get_contents($url, $args = [])
         $user_agent = false;
         foreach ($args['headers'] as $key => $val) {
             $key2 = strtolower($key);
-            if ($key2 == 'user-agent') {
+            if ($key2 === 'user-agent') {
                 curl_setopt($ch, CURLOPT_USERAGENT, $val);
                 $user_agent = true;
-            } elseif ($key2 == 'referer') {
+            } elseif ($key2 === 'referer') {
                 curl_setopt($ch, CURLOPT_REFERER, $val);
-            } elseif ($key2 == 'accept-encoding') {
+            } elseif ($key2 === 'accept-encoding') {
                 curl_setopt($ch, CURLOPT_ACCEPT_ENCODING, $val);
             } else {
                 $headers[] = "$key: $val";
@@ -278,7 +278,7 @@ function __url_get_contents($url, $args = [])
             $header[1] = '';
         }
         $header[0] = trim($header[0]);
-        if ($header[0] == '') {
+        if ($header[0] === '') {
             continue;
         }
         $header[1] = trim($header[1]);
@@ -290,7 +290,7 @@ function __url_get_contents($url, $args = [])
     $cookies = $headers[$key] ?? '';
     unset($headers[$key]);
     $temp = [];
-    if ($cookies == '') {
+    if ($cookies === '') {
         $cookies = [];
     } else {
         $cookies = explode(';', $cookies);
@@ -301,7 +301,7 @@ function __url_get_contents($url, $args = [])
             $cookie[1] = '';
         }
         $cookie[0] = trim($cookie[0]);
-        if ($cookie[0] == '') {
+        if ($cookie[0] === '') {
             continue;
         }
         $cookie[1] = trim($cookie[1]);
@@ -441,7 +441,7 @@ function chmod_protected($file, $mode)
  */
 function fsockopen_protected($hostname, $port, &$errno = 0, &$errstr = '', $timeout = null)
 {
-    if ($timeout == null) {
+    if ($timeout === null) {
         $timeout = floatval(ini_get('default_socket_timeout'));
     }
     return stream_socket_client(

@@ -86,7 +86,7 @@ function addlog($msg, $file = '')
         $file = get_config('debug/logfile') ?? 'saltos.log';
     }
     $dir = get_directory('dirs/logsdir') ?? getcwd_protected() . '/data/logs/';
-    $maxfilesize = normalize_value(get_config('debug/maxfilesize') ?? '100M');
+    $maxfilesize = intval(normalize_value(get_config('debug/maxfilesize') ?? '100M'));
     if (
         $maxfilesize > 0 && file_exists($dir . $file) && is_file($dir . $file) &&
         filesize($dir . $file) >= $maxfilesize

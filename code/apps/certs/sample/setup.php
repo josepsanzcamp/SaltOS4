@@ -55,7 +55,7 @@ function __setup_helper_certs()
         $files = glob('apps/certs/sample/certs/*.p12');
         foreach ($files as $file) {
             $output = __nssdb_add($file, '1234');
-            if (implode('', $output) == 'pk12util: PKCS12 IMPORT SUCCESSFUL') {
+            if (implode('', $output) === 'pk12util: PKCS12 IMPORT SUCCESSFUL') {
                 $total++;
             }
         }

@@ -39,7 +39,7 @@ function dump_query_as_insert($query, $dest_table, $out)
         }
 
         $count_fields = count($fields);
-        if ($count_fields == $expected_cols) {
+        if ($count_fields === $expected_cols) {
             // Escapamos para SQLite
             $fields = array_map(function ($v) {
                 $v = stripcslashes($v);

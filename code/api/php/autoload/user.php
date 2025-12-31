@@ -50,9 +50,9 @@ function current_token()
     static $user_agent = null;
     if (
         $token_id === null ||
-        $token != get_data('server/token') ||
-        $remote_addr != get_data('server/remote_addr') ||
-        $user_agent != get_data('server/user_agent')
+        $token !== get_data('server/token') ||
+        $remote_addr !== get_data('server/remote_addr') ||
+        $user_agent !== get_data('server/user_agent')
     ) {
         crontab_users();
         $token = get_data('server/token');
@@ -84,7 +84,7 @@ function current_user()
     static $user_id = null;
     static $token_id = null;
     static $user = null;
-    if ($user_id === null || $token_id != current_token()) {
+    if ($user_id === null || $token_id !== current_token()) {
         $token_id = current_token();
         $query = 'SELECT user_id FROM tbl_users_tokens WHERE id = ? AND active = 1';
         $user_id = execute_query($query, [$token_id]);
@@ -109,7 +109,7 @@ function current_group()
 {
     static $group_id = null;
     static $user_id = null;
-    if ($group_id === null || $user_id != current_user()) {
+    if ($group_id === null || $user_id !== current_user()) {
         $user_id = current_user();
         $query = 'SELECT group_id FROM tbl_users WHERE id = ? AND active = 1';
         $group_id = execute_query($query, [$user_id]);
@@ -130,7 +130,7 @@ function current_groups()
 {
     static $groups_id = null;
     static $user_id = null;
-    if ($groups_id === null || $user_id != current_user()) {
+    if ($groups_id === null || $user_id !== current_user()) {
         $user_id = current_user();
         if (!$user_id) {
             $groups_id = '0';

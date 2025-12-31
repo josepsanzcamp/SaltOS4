@@ -78,7 +78,7 @@ function make_app_file($data)
     if (!isset($screen)) {
         show_php_error(['phperror' => 'main/screen node not found']);
     }
-    if ($screen != 'TODO') {
+    if ($screen !== 'TODO') {
         show_php_error(['phperror' => 'main/screen TODO not found']);
     }
 
@@ -86,7 +86,7 @@ function make_app_file($data)
     if (!isset($dropdown)) {
         show_php_error(['phperror' => 'list/dropdown attr not found']);
     }
-    if ($dropdown != 'TODO') {
+    if ($dropdown !== 'TODO') {
         show_php_error(['phperror' => 'list/dropdown TODO not found']);
     }
 
@@ -94,7 +94,7 @@ function make_app_file($data)
     if (!isset($header)) {
         show_php_error(['phperror' => 'list/header node not found']);
     }
-    if ($header != 'TODO') {
+    if ($header !== 'TODO') {
         show_php_error(['phperror' => 'list/header TODO not found']);
     }
 
@@ -118,7 +118,7 @@ function make_app_file($data)
     if (!isset($form)) {
         show_php_error(['phperror' => 'form node not found']);
     }
-    if ($form != 'TODO') {
+    if ($form !== 'TODO') {
         show_php_error(['phperror' => 'form TODO not found']);
     }
 
@@ -131,7 +131,7 @@ function make_app_file($data)
         if (!isset($col_class[$key])) {
             show_php_error(['phperror' => "$key col_class not found"]);
         }
-        if ($col_class[$key] != 'TODO') {
+        if ($col_class[$key] !== 'TODO') {
             show_php_error(['phperror' => "$key col_class TODO not found"]);
         }
     }
@@ -202,7 +202,7 @@ function make_app_file($data)
 
     // set the dropdown attr to true or false string
     if (!isset($data['dropdown']) || $data['dropdown'] === 'auto') {
-        $dropdown = count($actions) == 1 ? 'false' : 'true';
+        $dropdown = count($actions) === 1 ? 'false' : 'true';
     } elseif ($data['dropdown'] === true) {
         $dropdown = 'true';
     } elseif ($data['dropdown'] === false) {
@@ -212,7 +212,7 @@ function make_app_file($data)
     }
 
     // remove labels in actions if needed
-    if ($dropdown == 'false') {
+    if ($dropdown === 'false') {
         foreach ($actions as $key => $action) {
             unset($actions[$key]['#attr']['label']);
         }

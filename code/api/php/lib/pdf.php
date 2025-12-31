@@ -202,17 +202,17 @@ function __pdf_eval_explode($separator, $str, $limit = 0)
     $parentheses = 0;
     for ($i = 0; $i < $len; $i++) {
         $letter = $str[$i];
-        if ($letter == "'") {
+        if ($letter === "'") {
             $single = ($single + 1) % 2;
-        } elseif ($letter == '"') {
+        } elseif ($letter === '"') {
             $double = ($double + 1) % 2;
-        } elseif ($letter == '(') {
+        } elseif ($letter === '(') {
             $parentheses++;
-        } elseif ($letter == ')') {
+        } elseif ($letter === ')') {
             $parentheses--;
         }
-        if ($letter == $separator && $single == 0 && $double == 0 && $parentheses == 0) {
-            if ($limit > 0 && $count == $limit - 1) {
+        if ($letter === $separator && $single === 0 && $double === 0 && $parentheses === 0) {
+            if ($limit > 0 && $count === $limit - 1) {
                 $result[] = substr($str, $ini);
                 $ini = $i;
                 break;
@@ -223,7 +223,7 @@ function __pdf_eval_explode($separator, $str, $limit = 0)
             }
         }
     }
-    if ($i != $ini) {
+    if ($i !== $ini) {
         $result[] = substr($str, $ini, $i - $ini);
     }
     return $result;
@@ -267,7 +267,7 @@ function __pdf_eval_pdftag($array, $row = [])
                 $pdf = new MyPDF($temp[0], $temp[1], $temp[2]);
                 $pdf->SetCreator(get_name_version_revision());
                 $pdf->SetDisplayMode('fullwidth', 'continuous');
-                $pdf->setRTL($dir == 'rtl');
+                $pdf->setRTL($dir === 'rtl');
                 $pdf->Init();
                 break;
             case 'margins':
@@ -557,7 +557,7 @@ function __pdf_all2pdf($input)
         $pdf->SetAutoPageBreak(true, 10);
         $pdf->AddPage();
         $pdf->SetFont('atkinsonhyperlegiblenext', '', 10);
-        if ($type1 == 'html') {
+        if ($type1 === 'html') {
             $pdf->WriteHTML(file_get_contents($input));
         } else {
             $pdf->Write(0, file_get_contents($input));
@@ -567,7 +567,7 @@ function __pdf_all2pdf($input)
     }
 
     // For images
-    if ($type0 == 'image') {
+    if ($type0 === 'image') {
         list($width, $height) = getimagesize($input);
         if (in_array($type1, ['jpeg', 'tiff'])) {
             $exif = exif_read_data($input);

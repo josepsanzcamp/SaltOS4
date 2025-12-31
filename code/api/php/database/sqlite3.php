@@ -271,10 +271,10 @@ class database_sqlite3
         semaphore_release(__FUNCTION__);
         // Dump result to matrix
         if (!is_bool($stmt) && $stmt->numColumns() > 0) {
-            if ($fetch == 'auto') {
+            if ($fetch === 'auto') {
                 $fetch = $stmt->numColumns() > 1 ? 'query' : 'column';
             }
-            if ($fetch == 'query') {
+            if ($fetch === 'query') {
                 while ($row = $stmt->fetchArray(SQLITE3_ASSOC)) {
                     $result['rows'][] = $row;
                 }
@@ -284,7 +284,7 @@ class database_sqlite3
                 }
                 $stmt->finalize();
             }
-            if ($fetch == 'column') {
+            if ($fetch === 'column') {
                 while ($row = $stmt->fetchArray(SQLITE3_NUM)) {
                     $result['rows'][] = $row[0];
                 }
@@ -292,7 +292,7 @@ class database_sqlite3
                 $result['header'] = ['column'];
                 $stmt->finalize();
             }
-            if ($fetch == 'concat') {
+            if ($fetch === 'concat') {
                 if ($row = $stmt->fetchArray(SQLITE3_NUM)) {
                     $result['rows'][] = $row[0];
                 }

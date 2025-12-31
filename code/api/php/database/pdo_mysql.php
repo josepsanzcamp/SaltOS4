@@ -196,10 +196,10 @@ class database_pdo_mysql
         }
         // Dump result to matrix
         if (!is_bool($stmt) && $stmt->columnCount() > 0) {
-            if ($fetch == 'auto') {
+            if ($fetch === 'auto') {
                 $fetch = $stmt->columnCount() > 1 ? 'query' : 'column';
             }
-            if ($fetch == 'query') {
+            if ($fetch === 'query') {
                 $result['rows'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $result['total'] = count($result['rows']);
                 if ($result['total'] > 0) {
@@ -207,15 +207,15 @@ class database_pdo_mysql
                 }
                 $stmt = null; // like free_result
             }
-            if ($fetch == 'column') {
+            if ($fetch === 'column') {
                 $result['rows'] = $stmt->fetchAll(PDO::FETCH_COLUMN);
                 $result['total'] = count($result['rows']);
                 $result['header'] = ['column'];
                 $stmt = null; // like free_result
             }
-            if ($fetch == 'concat') {
+            if ($fetch === 'concat') {
                 $result['rows'][] = implode(',', $stmt->fetchAll(PDO::FETCH_COLUMN));
-                if ($result['rows'][0] == '') {
+                if ($result['rows'][0] === '') {
                     unset($result['rows'][0]);
                 }
                 $result['total'] = count($result['rows']);

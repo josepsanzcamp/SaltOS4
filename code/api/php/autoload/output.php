@@ -57,14 +57,14 @@ function output_handler($array)
     $cache = isset($array['cache']) ? $array['cache'] : '';
     $name = isset($array['name']) ? $array['name'] : '';
     $extra = isset($array['extra']) ? $array['extra'] : [];
-    if ($file != '') {
+    if ($file !== '') {
         if (!file_exists($file) || !is_file($file)) {
             show_php_error(['phperror' => "file $file not found"]);
         }
-        if ($data == '' && filesize($file) < memory_get_free(true) / 3) {
+        if ($data === '' && filesize($file) < memory_get_free(true) / 3) {
             $data = file_get_contents($file);
         }
-        if ($type == '') {
+        if ($type === '') {
             $type = saltos_content_type($file);
         }
     }
@@ -77,12 +77,12 @@ function output_handler($array)
     __output_header('X-About: ' . get_name_version_revision());
     if ($cache) {
         $hash1 = get_server('HTTP_IF_NONE_MATCH');
-        if ($file != '' && $data == '') {
+        if ($file !== '' && $data === '') {
             $hash2 = md5_file($file);
         } else {
             $hash2 = md5($data);
         }
-        if ($hash1 == $hash2) {
+        if ($hash1 === $hash2) {
             __output_header('HTTP/1.1 304 Not Modified');
             pcov_stop();
             // @codeCoverageIgnoreStart
@@ -90,7 +90,7 @@ function output_handler($array)
             // @codeCoverageIgnoreEnd
         }
     }
-    if ($file != '' && $data == '') {
+    if ($file !== '' && $data === '') {
         __output_header('Content-Encoding: identity');
     } else {
         $encoding = strval(get_server('HTTP_ACCEPT_ENCODING'));
@@ -111,7 +111,7 @@ function output_handler($array)
         }
         __output_header('Vary: Accept-Encoding');
     }
-    if ($file != '' && $data == '') {
+    if ($file !== '' && $data === '') {
         $size = filesize($file);
     } else {
         $size = strlen($data);
@@ -132,14 +132,14 @@ function output_handler($array)
     }
     __output_header("Content-Type: $type");
     __output_header("Content-Length: $size");
-    if ($name != '') {
+    if ($name !== '') {
         __output_header("Content-disposition: attachment; filename=\"$name\"");
     }
     foreach ($extra as $temp) {
         __output_header($temp, false);
     }
     __output_header('Connection: keep-alive, close');
-    if ($file != '' && $data == '') {
+    if ($file !== '' && $data === '') {
         readfile($file);
     } else {
         echo $data;
@@ -160,7 +160,7 @@ function output_handler($array)
  */
 function __output_header($header, $replace = true)
 {
-    if (get_data('server/request_method') == 'CLI') {
+    if (get_data('server/request_method') === 'CLI') {
         return;
     }
     header($header, $replace);

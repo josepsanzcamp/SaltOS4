@@ -31,7 +31,7 @@ $file = str_replace('.t2t', '', $outfile);
 ob_passthru("txt2tags --toc -t html -i ${file}.t2t -o ${file}.html");
 $buffer = file_get_contents("${file}.html");
 $buffer = explode("\n", $buffer);
-if ($buffer[28] != '</style>') {
+if ($buffer[28] !== '</style>') {
     echo "Internal error!!!\n";
     die();
 }

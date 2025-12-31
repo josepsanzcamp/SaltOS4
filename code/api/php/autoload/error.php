@@ -220,12 +220,12 @@ function do_message_error($array)
         }
         if (is_array($data) && !count($data)) {
             unset($array[$type]);
-        } elseif (is_string($data) && $data == '') {
+        } elseif (is_string($data) && $data === '') {
             unset($array[$type]);
-        } elseif ($type == 'code') {
+        } elseif ($type === 'code') {
             unset($array[$type]);
             $json[$type] = $data;
-        } elseif (is_string($data) && $json['text'] == '') {
+        } elseif (is_string($data) && $json['text'] === '') {
             $array[$type] = $data;
             $json['text'] = $data;
         } else {
@@ -348,7 +348,7 @@ function __shutdown_handler()
     semaphore_shutdown();
     $error = error_get_last();
     // @phpstan-ignore isset.offset
-    if (is_array($error) && isset($error['type']) && $error['type'] != 0) {
+    if (is_array($error) && isset($error['type']) && $error['type'] !== 0) {
         show_php_error([
             'phperror' => "{$error["message"]}",
             'details' => 'Error on file ' . basename($error['file']) . ':' . $error['line'],

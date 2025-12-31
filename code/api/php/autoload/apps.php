@@ -104,13 +104,13 @@ function __apps($fn, $arg)
         }
         db_free($result);
     }
-    if ($fn == 'app_exists') {
+    if ($fn === 'app_exists') {
         return isset($dict['app2id'][$arg]);
     }
-    if ($fn == 'table_exists') {
+    if ($fn === 'table_exists') {
         return isset($dict['table2id'][$arg]);
     }
-    if ($fn == 'subtable_exists') {
+    if ($fn === 'subtable_exists') {
         return isset($dict['subtable2id'][$arg]);
     }
     if (isset($dict[$fn][$arg])) {
@@ -493,7 +493,7 @@ function detect_apps_files($file)
  */
 function current_app()
 {
-    if (get_data('rest/0') != 'app') {
+    if (get_data('rest/0') !== 'app') {
         //~ show_php_error(['phperror' => 'unknown app in rest args']);
         return '';
     }
@@ -548,7 +548,7 @@ function detect_app_folder($app)
     }
     foreach ($exts as $ext) {
         $files = glob("apps/*/xml/$app.$ext");
-        if (count($files) == 1) {
+        if (count($files) === 1) {
             $dir = explode('/', $files[0])[1];
             return $dir;
         }
@@ -587,13 +587,13 @@ function make_app_file_helper($yamlfile)
     // generate the output xml
     $header = file_get_contents($data['template']);
     $header = explode("\n\n", $header);
-    if (substr($header[0], 0, 5) != '<?xml') {
+    if (substr($header[0], 0, 5) !== '<?xml') {
         show_php_error(['phperror' => 'Internal error']);
     }
-    if (substr($header[1], 0, 4) != '<!--') {
+    if (substr($header[1], 0, 4) !== '<!--') {
         show_php_error(['phperror' => 'Internal error']);
     }
-    if (substr($header[2], 0, 6) != '<root>') {
+    if (substr($header[2], 0, 6) !== '<root>') {
         show_php_error(['phperror' => 'Internal error']);
     }
     // generate the output xml

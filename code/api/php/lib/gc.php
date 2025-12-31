@@ -57,7 +57,7 @@ function gc_exec()
     ];
     $output = [];
     foreach ($dirs as $dir => $timeout) {
-        if ($dir == '') {
+        if ($dir === '') {
             show_php_error(['phperror' => 'Internal error']);
         }
         $files1 = glob_protected($dir . '*'); // Visible files

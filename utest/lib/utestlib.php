@@ -74,13 +74,13 @@ function test_pcov_stop($index): void
 {
     for ($i = 0; $i < 1000; $i++) {
         $buffer = file_get_contents('data/temp/pcov.out');
-        if (substr($buffer, -1, 1) == '}') {
+        if (substr($buffer, -1, 1) === '}') {
             break;
         }
         usleep(1000);
     }
     unlink('data/temp/pcov.out');
-    if ($buffer == '') {
+    if ($buffer === '') {
         throw new Error('Coverage pipe is void');
     }
     $collected = unserialize($buffer);
@@ -218,7 +218,7 @@ function get_mime($buffer): string
 function test_external_exec($test_file, $error_file, $error_words): void
 {
     $file = "../../utest/$test_file";
-    if ($error_file != '') {
+    if ($error_file !== '') {
         $file2 = "data/logs/$error_file";
         Assert::assertFileDoesNotExist($file2);
     } else {
@@ -229,7 +229,7 @@ function test_external_exec($test_file, $error_file, $error_words): void
     ob_passthru("php $file");
     test_pcov_stop(2);
 
-    if ($error_file != '') {
+    if ($error_file !== '') {
         Assert::assertFileExists($file2);
         Assert::assertTrue(words_exists($error_words, file_get_contents($file2)));
         unlink($file2);

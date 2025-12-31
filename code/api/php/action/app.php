@@ -42,7 +42,7 @@ declare(strict_types=1);
 
 // Check for rest/1, that is the name of the app to load
 set_data('rest/1', encode_bad_chars(strval(get_data('rest/1'))));
-if (get_data('rest/1') == '') {
+if (get_data('rest/1') === '') {
     show_json_error('App not found');
 }
 
@@ -62,12 +62,12 @@ $found = false;
 
 // Check for rest/2, that is the name of the action to load
 set_data('rest/2', encode_bad_chars(strval(get_data('rest/2'))));
-if (get_data('rest/2') == '' && count($array) == 1) {
+if (get_data('rest/2') === '' && count($array) === 1) {
     set_data('rest/2', key($array));
     $found = true;
 }
 
-if (!$found && get_data('rest/2') == '') {
+if (!$found && get_data('rest/2') === '') {
     $items = [];
     foreach ($array as $key => $val) {
         $candidate = is_attr_value($val) && isset($val['#attr']['default']);
@@ -78,24 +78,24 @@ if (!$found && get_data('rest/2') == '') {
     if (count($items) > 1) {
         show_php_error(['phperror' => 'Multiple default nodes found']);
     }
-    if (count($items) == 1) {
+    if (count($items) === 1) {
         $key = $items[0];
         set_data('rest/2', $key);
         $found = true;
     }
 }
 
-if (get_data('rest/2') == '') {
+if (get_data('rest/2') === '') {
     show_json_error('Action not found');
 }
 
 // Trick to allow requests like widget/table2 that is <widget id="table2">
-if (!$found && get_data('rest/3') != '') {
+if (!$found && get_data('rest/3') !== '') {
     $items = [];
     foreach ($array as $key => $val) {
-        if (fix_key($key) == get_data('rest/2')) {
+        if (fix_key($key) === get_data('rest/2')) {
             $candidate = is_attr_value($val) && isset($val['#attr']['id']);
-            if ($candidate && $val['#attr']['id'] == get_data('rest/3')) {
+            if ($candidate && $val['#attr']['id'] === get_data('rest/3')) {
                 $items[] = $key;
             }
         }
@@ -105,7 +105,7 @@ if (!$found && get_data('rest/3') != '') {
         $id = get_data('rest/3');
         show_php_error(['phperror' => "Multiple repeated nodes <$action id='$id'> found"]);
     }
-    if (count($items) == 1) {
+    if (count($items) === 1) {
         $key = $items[0];
         set_data('rest/2', $key);
         $found = true;
@@ -117,7 +117,7 @@ if (!$found) {
     $items = [];
     foreach ($array as $key => $val) {
         $candidate = is_attr_value($val) && isset($val['#attr']['id']);
-        if (!$candidate && fix_key($key) == get_data('rest/2')) {
+        if (!$candidate && fix_key($key) === get_data('rest/2')) {
             $items[] = $key;
         }
     }
@@ -125,7 +125,7 @@ if (!$found) {
         $action = get_data('rest/2');
         show_php_error(['phperror' => "Multiple repeated nodes <$action> found"]);
     }
-    if (count($items) == 1) {
+    if (count($items) === 1) {
         $key = $items[0];
         set_data('rest/2', $key);
         $found = true;
@@ -138,11 +138,11 @@ if (!$found) {
     $items = [];
     foreach ($array as $key => $val) {
         $candidate = is_attr_value($val) && isset($val['#attr']['id']);
-        if ($candidate && $val['#attr']['id'] == get_data('rest/2')) {
+        if ($candidate && $val['#attr']['id'] === get_data('rest/2')) {
             $items[] = $key;
         }
     }
-    if (count($items) == 1) {
+    if (count($items) === 1) {
         $key = $items[0];
         $val = $array[$key];
         $rest = get_data('rest');
@@ -190,14 +190,14 @@ $first = true;
 foreach ($array as $key => $val) {
     // Control that the first node is a check node
     if ($first) {
-        if (fix_key($key) != 'check') {
+        if (fix_key($key) !== 'check') {
             show_json_error('Permission denied');
         }
         $first = false;
     }
     // Evaluate the node
     $val = eval_attr($val);
-    if (fix_key($key) == 'check') {
+    if (fix_key($key) === 'check') {
         // If the node is a check, can contains a message
         $message = 'Permission denied';
         $logout = false;
@@ -217,7 +217,7 @@ foreach ($array as $key => $val) {
         // As note: all checks are removed from the array
         unset($array[$key]);
         continue;
-    } elseif (fix_key($key) == 'temp') {
+    } elseif (fix_key($key) === 'temp') {
         // All temp nodes are removed
         unset($array[$key]);
         continue;
@@ -232,7 +232,7 @@ foreach ($array as $key => $val) {
         }
     }
     // Search for output nodes
-    if (fix_key($key) == 'output') {
+    if (fix_key($key) === 'output') {
         $array = $val;
         break;
     }

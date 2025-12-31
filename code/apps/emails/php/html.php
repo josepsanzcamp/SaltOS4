@@ -89,7 +89,7 @@ function remove_comment_tag($html)
  */
 function remove_meta_tag($html)
 {
-    if (trim($html) == '') {
+    if (trim($html) === '') {
         return $html;
     }
     $dom = new DOMDocument();
@@ -119,7 +119,7 @@ function remove_meta_tag($html)
  */
 function remove_link_tag($html)
 {
-    if (trim($html) == '') {
+    if (trim($html) === '') {
         return $html;
     }
     $dom = new DOMDocument();
@@ -149,7 +149,7 @@ function remove_link_tag($html)
  */
 function inline_img_tag($html)
 {
-    if (trim($html) == '') {
+    if (trim($html) === '') {
         return $html;
     }
     $dom = new DOMDocument();
@@ -160,7 +160,7 @@ function inline_img_tag($html)
     foreach ($items as $item) {
         $src = $item->getAttribute('src');
         $img = __inline_img_helper($src);
-        if ($img == $src) {
+        if ($img === $src) {
             continue;
         }
         $froms = [
@@ -185,7 +185,7 @@ function inline_img_tag($html)
  */
 function inline_img_style($html)
 {
-    if (trim($html) == '') {
+    if (trim($html) === '') {
         return $html;
     }
     $dom = new DOMDocument();
@@ -202,7 +202,7 @@ function inline_img_style($html)
         foreach ($matches[1] as $src) {
             $src = trim($src, '"\''); // Remove surrounding quotes
             $img = __inline_img_helper($src);
-            if ($img == $src) {
+            if ($img === $src) {
                 continue;
             }
             $froms = [
@@ -228,7 +228,7 @@ function inline_img_style($html)
  */
 function inline_img_background($html)
 {
-    if (trim($html) == '') {
+    if (trim($html) === '') {
         return $html;
     }
     $dom = new DOMDocument();
@@ -238,11 +238,11 @@ function inline_img_background($html)
     $items = $dom->getElementsByTagName('*');
     foreach ($items as $item) {
         $src = $item->getAttribute('background');
-        if ($src == '') {
+        if ($src === '') {
             continue;
         }
         $img = __inline_img_helper($src);
-        if ($img == $src) {
+        if ($img === $src) {
             continue;
         }
         $froms = [
@@ -292,7 +292,7 @@ function __inline_img_helper($src)
             'Accept-Encoding' => 'gzip, deflate, br, zstd',
         ],
     ]);
-    if ($data['code'] == 200) {
+    if ($data['code'] === 200) {
         $key = array_key_search('content-type', $data['headers']);
         if (isset($data['headers'][$key])) {
             $type = $data['headers'][$key];
@@ -305,7 +305,7 @@ function __inline_img_helper($src)
             require_once 'php/lib/gdlib.php';
             $data['body'] = image_resize($data['body'], 1000);
             $hash2 = md5($data['body']);
-            if ($hash1 != $hash2) {
+            if ($hash1 !== $hash2) {
                 $type = 'image/jpeg';
             }
             $img = mime_inline($type, $data['body']);
@@ -334,7 +334,7 @@ function __inline_img_helper($src)
  */
 function extract_img_tag($html)
 {
-    if (trim($html) == '') {
+    if (trim($html) === '') {
         return [$html, []];
     }
     $dom = new DOMDocument();
@@ -346,7 +346,7 @@ function extract_img_tag($html)
     foreach ($items as $item) {
         $src = $item->getAttribute('src');
         $img = mime_extract(__inline_img_helper($src));
-        if ($img['data'] == '' || $img['type'] == '') {
+        if ($img['data'] === '' || $img['type'] === '') {
             continue;
         }
         $hash = md5($img['data']);
@@ -368,7 +368,7 @@ function extract_img_tag($html)
  */
 function extract_img_style($html)
 {
-    if (trim($html) == '') {
+    if (trim($html) === '') {
         return [$html, []];
     }
     $dom = new DOMDocument();
@@ -386,7 +386,7 @@ function extract_img_style($html)
         foreach ($matches[1] as $src) {
             $src = trim($src, '"\''); // Remove surrounding quotes
             $img = mime_extract(__inline_img_helper($src));
-            if ($img['data'] == '' || $img['type'] == '') {
+            if ($img['data'] === '' || $img['type'] === '') {
                 continue;
             }
             $hash = md5($img['data']);
@@ -409,7 +409,7 @@ function extract_img_style($html)
  */
 function extract_img_background($html)
 {
-    if (trim($html) == '') {
+    if (trim($html) === '') {
         return [$html, []];
     }
     $dom = new DOMDocument();
@@ -420,11 +420,11 @@ function extract_img_background($html)
     $files = [];
     foreach ($items as $item) {
         $src = $item->getAttribute('background');
-        if ($src == '') {
+        if ($src === '') {
             continue;
         }
         $img = mime_extract(__inline_img_helper($src));
-        if ($img['data'] == '' || $img['type'] == '') {
+        if ($img['data'] === '' || $img['type'] === '') {
             continue;
         }
         $hash = md5($img['data']);
@@ -446,7 +446,7 @@ function extract_img_background($html)
  */
 function fix_img_tag($html)
 {
-    if (trim($html) == '') {
+    if (trim($html) === '') {
         return $html;
     }
     $dom = new DOMDocument();
@@ -485,7 +485,7 @@ function fix_img_tag($html)
  */
 function fix_img_style($html)
 {
-    if (trim($html) == '') {
+    if (trim($html) === '') {
         return $html;
     }
     $dom = new DOMDocument();
@@ -531,7 +531,7 @@ function fix_img_style($html)
  */
 function fix_img_background($html)
 {
-    if (trim($html) == '') {
+    if (trim($html) === '') {
         return $html;
     }
     $dom = new DOMDocument();
@@ -541,7 +541,7 @@ function fix_img_background($html)
     $items = $dom->getElementsByTagName('*');
     foreach ($items as $item) {
         $src = $item->getAttribute('background');
-        if ($src == '') {
+        if ($src === '') {
             continue;
         }
         $scheme = parse_url($src, PHP_URL_SCHEME);

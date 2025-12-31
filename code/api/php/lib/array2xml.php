@@ -123,7 +123,7 @@ function __array2xml_write_nodes(&$array, $level = null)
                 }
                 $val = "<![CDATA[$val]]>";
             }
-            if ($val != '') {
+            if ($val !== '') {
                 $buffer .= "$prefix<$key$attr>$val</$key>$postfix";
             } else {
                 $buffer .= "$prefix<$key$attr/>$postfix";

@@ -51,7 +51,7 @@ set_include_path(get_include_path() . ':' . getcwd() . '/' . 'utest');
 
 chdir('code/api');
 foreach (glob('php/autoload/*.php') as $file) {
-    if (basename($file) == 'zindex.php') {
+    if (basename($file) === 'zindex.php') {
         continue;
     }
     require $file;

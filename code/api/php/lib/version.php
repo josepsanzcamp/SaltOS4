@@ -66,7 +66,7 @@ function make_version($app, $reg_id)
 {
     // Check the passed parameters
     $table = app2table($app);
-    if ($table == '') {
+    if ($table === '') {
         return -1;
     }
     // Check if version exists
@@ -97,7 +97,7 @@ function make_version($app, $reg_id)
     // Compute the diff from old data and new data
     $data_old = get_version($app, $reg_id, INF);
     if (!is_array($data_old)) {
-        if ($data_old != -3) {
+        if ($data_old !== -3) {
             show_php_error(['phperror' => "Internal error for $app:$reg_id"]);
         }
         $data_old = [];
@@ -144,7 +144,7 @@ function make_version($app, $reg_id)
         $rows = execute_query_array($query, [$reg_id]);
         foreach ($rows as $key => $val) {
             // Ignote the search field in the files tables
-            if ($subtable == "{$table}_files") {
+            if ($subtable === "{$table}_files") {
                 unset($val['search']);
             }
             // Continue;
@@ -221,7 +221,7 @@ function get_version($app, $reg_id, $ver_id = null)
 {
     // Check the passed parameters
     $table = app2table($app);
-    if ($table == '') {
+    if ($table === '') {
         return -1;
     }
     // Check if version exists
@@ -246,7 +246,7 @@ function get_version($app, $reg_id, $ver_id = null)
             'data' => $row['data'],
             'hash' => $hash_old,
         ];
-        if ($row['hash'] != md5(serialize($array))) {
+        if ($row['hash'] !== md5(serialize($array))) {
             $ver_id = $row['ver_id'];
             show_php_error(['phperror' => "Blockchain integrity break for $app:$reg_id:$ver_id"]);
         }
@@ -255,7 +255,7 @@ function get_version($app, $reg_id, $ver_id = null)
             $ver_id = $row['ver_id'];
             show_php_error(['phperror' => "Blockchain integrity break for $app:$reg_id:$ver_id"]);
         }
-        if ($row['ver_id'] != $version_old + 1) {
+        if ($row['ver_id'] !== $version_old + 1) {
             $ver_id = $row['ver_id'];
             show_php_error(['phperror' => "Blockchain integrity break for $app:$reg_id:$ver_id"]);
         }
@@ -320,7 +320,7 @@ function del_version($app, $reg_id)
 {
     // Check the passed parameters
     $table = app2table($app);
-    if ($table == '') {
+    if ($table === '') {
         return -1;
     }
     // Check if version exists

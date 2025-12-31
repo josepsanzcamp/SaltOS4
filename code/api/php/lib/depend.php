@@ -55,7 +55,7 @@ function check_dependencies($app, $id)
                 continue;
             }
             foreach ($tablespec['value']['fields'] as $field) {
-                if (isset($field['#attr']['fkey']) && $field['#attr']['fkey'] == $table) {
+                if (isset($field['#attr']['fkey']) && $field['#attr']['fkey'] === $table) {
                     $result[] = [
                         'table' => $tablespec['#attr']['name'],
                         'field' => $field['#attr']['name'],

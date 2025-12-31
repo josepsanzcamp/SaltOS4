@@ -127,7 +127,7 @@ final class test_file extends TestCase
         $this->assertSame(is_array(glob_protected('*')), true);
         $this->assertSame(count(glob_protected('*')) > 0, true);
         $this->assertSame(is_array(glob_protected('nada')), true);
-        $this->assertSame(count(glob_protected('nada')) == 0, true);
+        $this->assertSame(count(glob_protected('nada')) === 0, true);
 
         $file = get_temp_file();
         file_put_contents($file, '');

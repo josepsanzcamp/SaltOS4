@@ -49,10 +49,10 @@ function trim_words($cad, $pad = ' ')
         $len2 = strlen($cad);
     } while ($len1 - $len2 > 0);
     $len = strlen($pad);
-    if (substr($cad, 0, $len) == $pad) {
+    if (substr($cad, 0, $len) === $pad) {
         $cad = substr($cad, $len);
     }
-    if (substr($cad, -$len, $len) == $pad) {
+    if (substr($cad, -$len, $len) === $pad) {
         $cad = substr($cad, 0, -$len);
     }
     return $cad;
@@ -96,7 +96,7 @@ $hash1 = md5($buffer);
 $buffer = explode("\n", $buffer);
 foreach ($buffer as $key => $val) {
     if (strncmp('saltos.bootstrap.__field.', $val, 25) === 0) {
-        if ($buffer[$key - 1] == '```' && $buffer[$key + 1] == '```') {
+        if ($buffer[$key - 1] === '```' && $buffer[$key + 1] === '```') {
             $type = strtok(substr($val, 25), ' ');
             if (isset($images[$type])) {
                 $buffer[$key + 2] = "\n[../{$images[$type]}]\n";
@@ -108,6 +108,6 @@ foreach ($buffer as $key => $val) {
 //~ die();
 $buffer = implode("\n", $buffer);
 $hash2 = md5($buffer);
-if ($hash1 != $hash2) {
+if ($hash1 !== $hash2) {
     file_put_contents($outfile, $buffer);
 }

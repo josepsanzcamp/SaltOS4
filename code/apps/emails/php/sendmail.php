@@ -104,22 +104,22 @@ function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
     if (!in_array($host, ['mail', 'sendmail', 'qmail', ''])) {
         $mail->IsSMTP();
         $mail->set('Host', $host);
-        if ($port != '') {
+        if ($port !== '') {
             $mail->set('Port', $port);
         }
-        if ($extra != '') {
+        if ($extra !== '') {
             $mail->set('SMTPSecure', $extra);
         }
         $mail->set('Username', $user);
         $mail->set('Password', $pass);
-        $mail->set('SMTPAuth', ($user != '' || $pass != ''));
+        $mail->set('SMTPAuth', ($user !== '' || $pass !== ''));
         $mail->set('Hostname', $host);
     } else {
-        if ($host == 'mail') {
+        if ($host === 'mail') {
             $mail->IsMail();
-        } elseif ($host == 'sendmail') {
+        } elseif ($host === 'sendmail') {
             $mail->IsSendmail();
-        } elseif ($host == 'qmail') {
+        } elseif ($host === 'qmail') {
             $mail->IsQmail();
         }
     }
@@ -156,49 +156,49 @@ function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
         foreach ($to as $addr) {
             $type = $valids[0];
             foreach ($valids as $valid) {
-                if (strncasecmp($addr, $valid, strlen($valid)) == 0) {
+                if (strncasecmp($addr, $valid, strlen($valid)) === 0) {
                     $type = $valid;
                     $addr = substr($addr, strlen($type));
                     break;
                 }
             }
             // EXTRA FOR POPULATE $bcc
-            if ($type == $valids[2]) {
+            if ($type === $valids[2]) {
                 $bcc[] = $addr;
             }
             // CONTINUE
             list($addr, $addrname) = __sendmail_parser($addr);
-            if ($type == $valids[0]) {
+            if ($type === $valids[0]) {
                 if (!$mail->AddAddress($addr, $addrname)) {
                     if ($mail->ErrorInfo) {
                         return $mail->ErrorInfo;
                     }
                 }
             }
-            if ($type == $valids[1]) {
+            if ($type === $valids[1]) {
                 if (!$mail->AddCC($addr, $addrname)) {
                     if ($mail->ErrorInfo) {
                         return $mail->ErrorInfo;
                     }
                 }
             }
-            if ($type == $valids[2]) {
+            if ($type === $valids[2]) {
                 if (!$mail->AddBCC($addr, $addrname)) {
                     if ($mail->ErrorInfo) {
                         return $mail->ErrorInfo;
                     }
                 }
             }
-            if ($type == $valids[3]) {
+            if ($type === $valids[3]) {
                 $mail->set('ConfirmReadingTo', $addr);
             }
-            if ($type == $valids[4]) {
+            if ($type === $valids[4]) {
                 $mail->set('Priority', $addr);
             }
-            if ($type == $valids[5]) {
+            if ($type === $valids[5]) {
                 $mail->AddCustomHeader('Sensitivity', $addr);
             }
-            if ($type == $valids[6]) {
+            if ($type === $valids[6]) {
                 if (!$mail->AddReplyTo($addr, $addrname)) {
                     if ($mail->ErrorInfo) {
                         return $mail->ErrorInfo;
@@ -263,7 +263,7 @@ function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
 function __sendmail_debugoutput_helper($str, $level)
 {
     $fix = 'smtp error:';
-    if (strncasecmp($str, $fix, strlen($fix)) == 0) {
+    if (strncasecmp($str, $fix, strlen($fix)) === 0) {
         echo $str;
     }
 }
@@ -416,7 +416,7 @@ function sendmail_prepare($action, $email_id)
     if (in_array($action, ['reply', 'replyall', 'forward'])) {
         $query = 'SELECT account_id FROM app_emails WHERE id = ?';
         $result2 = execute_query($query, [$email_id]);
-        if ($result2 && $account_id != $result2) {
+        if ($result2 && $account_id !== $result2) {
             $account_id = $result2;
         }
     }
@@ -446,10 +446,10 @@ function sendmail_prepare($action, $email_id)
         $query = 'SELECT * FROM app_emails_address WHERE email_id = ?';
         $result2 = execute_query_array($query, [$email_id]);
         foreach ($result2 as $addr) {
-            if ($addr['type_id'] == 6) {
+            if ($addr['type_id'] === 6) {
                 $finded_replyto = $addr;
             }
-            if ($addr['type_id'] == 1) {
+            if ($addr['type_id'] === 1) {
                 $finded_from = $addr;
             }
         }
@@ -461,7 +461,7 @@ function sendmail_prepare($action, $email_id)
             } elseif (isset($finded_from)) {
                 $finded = $finded_from;
             }
-            if ($finded['name'] != '') {
+            if ($finded['name'] !== '') {
                 $to_extra[] = $finded['name'] . ' <' . $finded['value'] . '>';
             } else {
                 $to_extra[] = $finded['value'];
@@ -470,13 +470,13 @@ function sendmail_prepare($action, $email_id)
     }
 
     // Handle "replyall" for additional recipients in "To" and "CC"
-    if ($action == 'replyall') {
+    if ($action === 'replyall') {
         if (isset($finded_replyto) && isset($finded_from)) {
             $finded_tocc = [];
             $finded_tocc[] = $finded_from;
         }
         foreach ($result2 as $addr) {
-            if ($addr['type_id'] == 2 || $addr['type_id'] == 3) {
+            if ($addr['type_id'] === 2 || $addr['type_id'] === 3) {
                 if (!isset($finded_tocc)) {
                     $finded_tocc = [];
                 }
@@ -486,7 +486,7 @@ function sendmail_prepare($action, $email_id)
         if (isset($finded_tocc)) {
             if (isset($finded)) {
                 foreach ($finded_tocc as $key2 => $addr) {
-                    if ($addr['value'] == $finded['value']) {
+                    if ($addr['value'] === $finded['value']) {
                         unset($finded_tocc[$key2]);
                     }
                 }
@@ -495,13 +495,13 @@ function sendmail_prepare($action, $email_id)
             $result2 = execute_query_array($query, [current_user(), $account_id]);
             foreach ($result2 as $addr) {
                 foreach ($finded_tocc as $key2 => $addr2) {
-                    if ($addr2['value'] == $addr['email_from']) {
+                    if ($addr2['value'] === $addr['email_from']) {
                         unset($finded_tocc[$key2]);
                     }
                 }
             }
             foreach ($finded_tocc as $addr) {
-                if ($addr['name'] != '') {
+                if ($addr['name'] !== '') {
                     $cc_extra[] = $addr['name'] . ' <' . $addr['value'] . '>';
                 } else {
                     $cc_extra[] = $addr['value'];
@@ -511,11 +511,11 @@ function sendmail_prepare($action, $email_id)
     }
 
     // Handle "forward" action for "From" metadata
-    if ($action == 'forward') {
+    if ($action === 'forward') {
         $query = 'SELECT * FROM app_emails_address WHERE email_id = ?';
         $result2 = execute_query_array($query, [$email_id]);
         foreach ($result2 as $addr) {
-            if ($addr['type_id'] == 1) {
+            if ($addr['type_id'] === 1) {
                 $finded_from = $addr;
             }
         }
@@ -529,7 +529,7 @@ function sendmail_prepare($action, $email_id)
             $subject_extra = $row2['subject'];
             $prefixes = ['reply' => 'Re: ', 'replyall' => 'Re: ', 'forward' => 'Fwd: '];
             $prefix = $prefixes[$action];
-            if (strncasecmp($subject_extra, $prefix, strlen($prefix)) != 0) {
+            if (strncasecmp($subject_extra, $prefix, strlen($prefix)) !== 0) {
                 $subject_extra = $prefix . $subject_extra;
             }
         }
@@ -543,7 +543,7 @@ function sendmail_prepare($action, $email_id)
             $oldhead .= __HTML_TEXT_CLOSE__;
             $oldbody = '';
             $decoded = __getmail_getmime($email_id);
-            if ($action == 'forward') {
+            if ($action === 'forward') {
                 $oldbody .= __getmail_head_helper($decoded, $email_id);
             }
             $oldbody .= __getmail_body_helper($decoded, true);
@@ -621,21 +621,21 @@ function sendmail_action($json, $action, $email_id)
     $to = explode(';', $to);
     foreach ($to as $addr) {
         $addr = trim($addr);
-        if ($addr != '') {
+        if ($addr !== '') {
             $recipients[] = 'to:' . $addr;
         }
     }
     $cc = explode(';', $cc);
     foreach ($cc as $addr) {
         $addr = trim($addr);
-        if ($addr != '') {
+        if ($addr !== '') {
             $recipients[] = 'cc:' . $addr;
         }
     }
     $bcc = explode(';', $bcc);
     foreach ($bcc as $addr) {
         $addr = trim($addr);
-        if ($addr != '') {
+        if ($addr !== '') {
             $recipients[] = 'bcc:' . $addr;
         }
     }
@@ -709,13 +709,13 @@ function sendmail_action($json, $action, $email_id)
     if (in_array($action, ['reply', 'replyall', 'forward'])) {
         __getmail_update('email_id', $email_id, $last_id);
         $campo = null;
-        if ($action == 'reply') {
+        if ($action === 'reply') {
             $campo = 'state_reply';
         }
-        if ($action == 'replyall') {
+        if ($action === 'replyall') {
             $campo = 'state_reply';
         }
-        if ($action == 'forward') {
+        if ($action === 'forward') {
             $campo = 'state_forward';
         }
         __getmail_update($campo, 1, $email_id);
@@ -817,19 +817,19 @@ function sendmail_server()
 
             // Check if SMTP settings match the email account configuration
             $idem = 1;
-            if ($current_host != $host) {
+            if ($current_host !== $host) {
                 $idem = 0;
             }
-            if ($current_port != $port) {
+            if ($current_port !== $port) {
                 $idem = 0;
             }
-            if ($current_extra != $extra) {
+            if ($current_extra !== $extra) {
                 $idem = 0;
             }
-            if ($current_user != $user) {
+            if ($current_user !== $user) {
                 $idem = 0;
             }
-            if ($current_pass != $pass) {
+            if ($current_pass !== $pass) {
                 $idem = 0;
             }
 
@@ -842,14 +842,14 @@ function sendmail_server()
                     $mail->set('SMTPSecure', $current_extra);
                     $mail->set('Username', $current_user);
                     $mail->set('Password', $current_pass);
-                    $mail->set('SMTPAuth', ($current_user != '' || $current_pass != ''));
+                    $mail->set('SMTPAuth', ($current_user !== '' || $current_pass !== ''));
                     $mail->set('Hostname', $current_host);
                 } else {
-                    if ($current_host == 'mail') {
+                    if ($current_host === 'mail') {
                         $mail->IsMail();
-                    } elseif ($current_host == 'sendmail') {
+                    } elseif ($current_host === 'sendmail') {
                         $mail->IsSendmail();
-                    } elseif ($current_host == 'qmail') {
+                    } elseif ($current_host === 'qmail') {
                         $mail->IsQmail();
                     }
                 }
@@ -905,7 +905,7 @@ function sendmail_server()
  */
 function sendmail_files($action, $email_id)
 {
-    if ($action == 'forward' && $email_id) {
+    if ($action === 'forward' && $email_id) {
         require_once 'apps/emails/php/getmail.php';
         require_once 'php/lib/upload.php';
 
@@ -1012,7 +1012,7 @@ function sendmail_signature($json)
         if ($result_old['email_addmetocc']) {
             foreach ($cc as $key => $val) {
                 list($email_from, $email_name) = __sendmail_parser($val);
-                if ($result_old['email_from'] == $email_from && $result_old['email_name'] == $email_name) {
+                if ($result_old['email_from'] === $email_from && $result_old['email_name'] === $email_name) {
                     unset($cc[$key]);
                 }
             }
@@ -1020,7 +1020,7 @@ function sendmail_signature($json)
         if ($result_new['email_addmetocc']) {
             foreach ($cc as $key => $val) {
                 list($email_from, $email_name) = __sendmail_parser($val);
-                if ($result_new['email_from'] == $email_from && $result_new['email_name'] == $email_name) {
+                if ($result_new['email_from'] === $email_from && $result_new['email_name'] === $email_name) {
                     unset($cc[$key]);
                 }
             }
@@ -1031,7 +1031,7 @@ function sendmail_signature($json)
 
     // Replace the encryption state
     if ($result_old && $result_new) {
-        if ($result_old['email_crt'] == $state_crt) {
+        if ($result_old['email_crt'] === $state_crt) {
             $state_crt = $result_new['email_crt'];
         }
     }

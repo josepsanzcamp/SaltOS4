@@ -221,8 +221,8 @@ function __captcha_make_math($length)
         do {
             $num2 = rand(0, intval($max));
             $code = $num1 . $oper . $num2;
-        } while (!is_prime($num2) || substr(strval($num2), 0, 1) == '7' || strlen($code) != $length);
-    } while ($oper == '-' && $num1 < $num2);
+        } while (!is_prime($num2) || substr(strval($num2), 0, 1) === '7' || strlen($code) !== $length);
+    } while ($oper === '-' && $num1 < $num2);
     //~ $real = eval("return $code;");
     return $code;
 }

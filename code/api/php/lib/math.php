@@ -69,69 +69,69 @@ function is_prime($num)
     if ($num < 2) {
         return false;
     }
-    if ($num % 2 == 0 && $num != 2) {
+    if ($num % 2 === 0 && $num !== 2) {
         return false;
     }
-    if ($num % 3 == 0 && $num != 3) {
+    if ($num % 3 === 0 && $num !== 3) {
         return false;
     }
-    if ($num % 5 == 0 && $num != 5) {
+    if ($num % 5 === 0 && $num !== 5) {
         return false;
     }
     // Primer numbers are distributed in 8 columns
     $div = 7;
     $max = intval(sqrt(floatval($num)));
     for (;;) {
-        if ($num % $div == 0 && $num != $div) {
+        if ($num % $div === 0 && $num !== $div) {
             return false;
         }
         if ($div >= $max) {
             break;
         }
         $div += 4;
-        if ($num % $div == 0 && $num != $div) {
+        if ($num % $div === 0 && $num !== $div) {
             return false;
         }
         if ($div >= $max) {
             break;
         }
         $div += 2;
-        if ($num % $div == 0 && $num != $div) {
+        if ($num % $div === 0 && $num !== $div) {
             return false;
         }
         if ($div >= $max) {
             break;
         }
         $div += 4;
-        if ($num % $div == 0 && $num != $div) {
+        if ($num % $div === 0 && $num !== $div) {
             return false;
         }
         if ($div >= $max) {
             break;
         }
         $div += 2;
-        if ($num % $div == 0 && $num != $div) {
+        if ($num % $div === 0 && $num !== $div) {
             return false;
         }
         if ($div >= $max) {
             break;
         }
         $div += 4;
-        if ($num % $div == 0 && $num != $div) {
+        if ($num % $div === 0 && $num !== $div) {
             return false;
         }
         if ($div >= $max) {
             break;
         }
         $div += 6;
-        if ($num % $div == 0 && $num != $div) {
+        if ($num % $div === 0 && $num !== $div) {
             return false;
         }
         if ($div >= $max) {
             break;
         }
         $div += 2;
-        if ($num % $div == 0 && $num != $div) {
+        if ($num % $div === 0 && $num !== $div) {
             return false;
         }
         if ($div >= $max) {

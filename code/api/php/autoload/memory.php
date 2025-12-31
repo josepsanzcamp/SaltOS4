@@ -44,8 +44,8 @@ declare(strict_types=1);
  */
 function memory_get_free($bytes = false)
 {
-    $memory_limit = normalize_value(ini_get('memory_limit'));
-    if ($memory_limit == -1) {
+    $memory_limit = intval(normalize_value(ini_get('memory_limit')));
+    if ($memory_limit === -1) {
         $memory_limit = INF;
     }
     $memory_usage = memory_get_usage();

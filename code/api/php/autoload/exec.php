@@ -97,7 +97,7 @@ function ob_passthru($cmd, $expires = 0)
  */
 function check_commands($commands, $expires = -1)
 {
-    if ($expires == -1) {
+    if ($expires === -1) {
         $expires = get_config('server/commandexpires') ?? 3600;
     }
     if (!is_array($commands)) {
@@ -136,12 +136,12 @@ function is_disabled_function($fn)
         $array = explode(',', $array);
         $array = array_diff($array, ['']);
     }
-    if (func_num_args() == 2) {
+    if (func_num_args() === 2) {
         $fn = func_get_args();
-        if ($fn[0] == 'add') {
+        if ($fn[0] === 'add') {
             $array[] = $fn[1];
         }
-        if ($fn[0] == 'del') {
+        if ($fn[0] === 'del') {
             $array = array_diff($array, [$fn[1]]);
         }
         return;

@@ -96,13 +96,13 @@ function make_where_query_emails($json)
 
     // Start building the WHERE clause
     $query = ['1=1']; // Default condition to ensure the query is valid
-    if ($account_id != '') {
+    if ($account_id !== '') {
         $query[] = "account_id='$account_id'";
     }
-    if ($fields != '') {
+    if ($fields !== '') {
         $query[] = make_like_query($fields_array[$fields], $search);
     }
-    if ($only != '') {
+    if ($only !== '') {
         $query[] = $only_array[$only];
     }
     if ($hidespam) {
@@ -120,13 +120,13 @@ function make_where_query_emails($json)
     if ($onlyoutbox) {
         $query[] = 'is_outbox=1';
     }
-    if ($date1 != '') {
+    if ($date1 !== '') {
         $query[] = "(DATE(datetime)>=DATE('$date1'))";
     }
-    if ($date2 != '') {
+    if ($date2 !== '') {
         $query[] = "(DATE('$date2')>=DATE(datetime))";
     }
-    if ($date3 != '') {
+    if ($date3 !== '') {
         $query[] = $date3_array[$date3];
     }
 

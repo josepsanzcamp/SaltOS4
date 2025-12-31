@@ -61,7 +61,7 @@ function make_index($app, $reg_id)
 {
     // Check the passed parameters
     $table = app2table($app);
-    if ($table == '') {
+    if ($table === '') {
         return -1;
     }
     // Check if index exists
@@ -157,38 +157,38 @@ function make_index($app, $reg_id)
 function __make_index_helper($table, $id = '')
 {
     static $cache = [];
-    if (isset($cache[$table]) && $id == '') {
+    if (isset($cache[$table]) && $id === '') {
         return $cache[$table];
     }
     $fieldnames = array_column(get_fields($table), 'name');
     $fieldnames = escape_reserved_word($fieldnames);
     $result = $fieldnames;
     $tablefield = __get_field_helper($table);
-    if ($tablefield != '') {
+    if ($tablefield !== '') {
         $result[] = $tablefield;
     }
     $fieldfkeys = __get_fkeys_helper($table);
     foreach ($fieldfkeys as $key => $val) {
         $temp = __get_field_helper($val);
-        if ($temp == '') {
+        if ($temp === '') {
             $temp = array_column(get_fields($val), 'name');
             $temp = escape_reserved_word($temp);
             $temp = implode(",' ',", $temp);
-            if ($temp != '') {
+            if ($temp !== '') {
                 $temp = "CONCAT($temp)";
             }
         }
         $field = $temp;
         $type = get_field_type(array_column(get_fields($table), 'type', 'name')[$key]);
-        $where = null;
-        if ($type == 'int') {
-            if ($id == '') {
+        $where = '';
+        if ($type === 'int') {
+            if ($id === '') {
                 $where = "$val.id=$key";
             } else {
                 $where = "$val.id=(SELECT $key FROM $table WHERE id=$id)";
             }
-        } elseif ($type == 'string') {
-            if ($id == '') {
+        } elseif ($type === 'string') {
+            if ($id === '') {
                 $where = "FIND_IN_SET($val.id,$key)";
             } else {
                 $where = "FIND_IN_SET($val.id,(SELECT $key FROM $table WHERE id=$id))";
@@ -199,11 +199,11 @@ function __make_index_helper($table, $id = '')
             show_php_error(['phperror' => "Unknown type '$type'"]);
             // @codeCoverageIgnoreEnd
         }
-        if ($field != '' && $where != '') {
+        if ($field !== '' && $where !== '') {
             $result[] = "(SELECT $field FROM $val WHERE $where)";
         }
     }
-    if ($id == '') {
+    if ($id === '') {
         $cache[$table] = $result;
     }
     return $result;

@@ -30,7 +30,7 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Files.SideEffects
 
 foreach (glob('php/autoload/*.php') as $file) {
-    if (basename($file) == 'zindex.php') {
+    if (basename($file) === 'zindex.php') {
         continue;
     }
     require $file;

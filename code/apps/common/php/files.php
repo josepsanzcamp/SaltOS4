@@ -65,50 +65,50 @@ function __files_list($search, $order, $offset, $limit)
         if (!strlen($val)) {
             continue;
         }
-        $list = array_grep($list, $val, $type == '-');
+        $list = array_grep($list, $val, $type === '-');
     }
 
     // Apply order feature
-    if ($order == 'name ASC') {
+    if ($order === 'name ASC') {
         sort($list);
-    } elseif ($order == 'name DESC') {
+    } elseif ($order === 'name DESC') {
         rsort($list);
-    } elseif ($order == 'type ASC') {
+    } elseif ($order === 'type ASC') {
         $list = array_flip($list);
         foreach ($list as $key => $val) {
             $list[$key] = saltos_content_type($key);
         }
         asort($list);
         $list = array_keys($list);
-    } elseif ($order == 'type DESC') {
+    } elseif ($order === 'type DESC') {
         $list = array_flip($list);
         foreach ($list as $key => $val) {
             $list[$key] = saltos_content_type($key);
         }
         arsort($list);
         $list = array_keys($list);
-    } elseif ($order == 'size ASC') {
+    } elseif ($order === 'size ASC') {
         $list = array_flip($list);
         foreach ($list as $key => $val) {
             $list[$key] = filesize($key);
         }
         asort($list, SORT_NUMERIC);
         $list = array_keys($list);
-    } elseif ($order == 'size DESC') {
+    } elseif ($order === 'size DESC') {
         $list = array_flip($list);
         foreach ($list as $key => $val) {
             $list[$key] = filesize($key);
         }
         arsort($list, SORT_NUMERIC);
         $list = array_keys($list);
-    } elseif ($order == 'datetime ASC') {
+    } elseif ($order === 'datetime ASC') {
         $list = array_flip($list);
         foreach ($list as $key => $val) {
             $list[$key] = filemtime($key);
         }
         asort($list, SORT_NUMERIC);
         $list = array_keys($list);
-    } elseif ($order == 'datetime DESC') {
+    } elseif ($order === 'datetime DESC') {
         $list = array_flip($list);
         foreach ($list as $key => $val) {
             $list[$key] = filemtime($key);
@@ -150,7 +150,7 @@ function __files_getfile($file)
 {
     $list = glob('data/logs/*'); // Retrieve all files from the logs directory
     foreach ($list as $key => $val) {
-        if (basename($val) == $file) {
+        if (basename($val) === $file) {
             return $val; // Return the full path if the file is found
         }
     }
@@ -187,7 +187,7 @@ function __files_check($file)
 function __files_view($file)
 {
     $file = __files_getfile($file); // Get the full path of the file
-    if ($file == '') {
+    if ($file === '') {
         return [
             'status' => 'ko',
             'text' => 'File not found',
@@ -197,7 +197,7 @@ function __files_view($file)
 
     // Retrieve file contents based on its type (regular or gzip-compressed)
     $buffer = '';
-    if (extension($file) == 'gz') {
+    if (extension($file) === 'gz') {
         $handle = gzopen($file, 'rb');
         $data = gzread($handle, 1024 * 1024 * 10); // Read up to 10 MB of data
         gzclose($handle);

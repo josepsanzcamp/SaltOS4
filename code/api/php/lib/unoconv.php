@@ -49,7 +49,7 @@ function unoconv2pdf($input)
         $type = saltos_content_type($input);
         $ext = strtolower(extension($input));
         $type0 = saltos_content_type0($type);
-        if ($type == 'application/pdf') {
+        if ($type === 'application/pdf') {
             copy($input, $output);
         } elseif (
             (in_array($ext, __unoconv_list()) && !in_array($type0, ['audio', 'video'])) ||
@@ -81,11 +81,11 @@ function unoconv2txt($input)
         $type0 = saltos_content_type0($type);
         if (in_array($type, ['text/plain', 'application/json'])) {
             copy($input, $output);
-        } elseif ($type == 'text/html') {
+        } elseif ($type === 'text/html') {
             file_put_contents($output, html2text(file_get_contents($input)));
-        } elseif ($type == 'application/pdf') {
+        } elseif ($type === 'application/pdf') {
             __unoconv_pdf2txt($input, $output);
-            if (!file_exists($output) || trim(file_get_contents($output)) == '') {
+            if (!file_exists($output) || trim(file_get_contents($output)) === '') {
                 file_put_contents($output, __unoconv_pdf2ocr($input));
             }
         } elseif (
@@ -99,11 +99,11 @@ function unoconv2txt($input)
             if (file_exists($pdf)) {
                 chmod_protected($pdf, 0666);
                 __unoconv_pdf2txt($pdf, $output);
-                if (!file_exists($output) || trim(file_get_contents($output)) == '') {
+                if (!file_exists($output) || trim(file_get_contents($output)) === '') {
                     file_put_contents($output, __unoconv_pdf2ocr($pdf));
                 }
             }
-        } elseif ($type0 == 'image') {
+        } elseif ($type0 === 'image') {
             file_put_contents($output, __unoconv_img2ocr($input));
         }
         if (!file_exists($output)) {
@@ -193,7 +193,7 @@ function __unoconv_convert($input, $output, $format)
     $input = realpath($input);
     $output = realpath_protected($output);
     $input2 = get_cache_file($input);
-    $fix = (dirname($input) != dirname($input2));
+    $fix = (dirname($input) !== dirname($input2));
     if ($fix) {
         symlink($input, $input2);
     } else {
@@ -209,7 +209,7 @@ function __unoconv_convert($input, $output, $format)
         return;
     }
     chmod_protected($output2, 0666);
-    if ($output != $output2) {
+    if ($output !== $output2) {
         rename($output2, $output);
     }
 }
@@ -229,7 +229,7 @@ function __unoconv_img2ocr($file)
         return '';
     }
     $type = saltos_content_type($file);
-    if ($type != 'image/tiff') {
+    if ($type !== 'image/tiff') {
         $tiff = get_cache_file($file, '.tif');
         //~ if(file_exists($tiff)) unlink($tiff);
         if (!file_exists($tiff)) {
@@ -395,7 +395,7 @@ function __unoconv_node2attr($node)
     if (strpos($node['#attr']['title'], '; ') !== false) {
         $temp = explode('; ', $node['#attr']['title']);
         foreach ($temp as $temp2) {
-            if (substr($temp2, 0, 4) == 'bbox') {
+            if (substr($temp2, 0, 4) === 'bbox') {
                 $node['#attr']['title'] = $temp2;
             }
         }
@@ -441,15 +441,15 @@ function __unoconv_lines2matrix($lines, $width, $height)
     $matrix = [];
     $posy = null;
     foreach ($lines as $index => $line) {
-        if ($line[0] == 'line') {
+        if ($line[0] === 'line') {
             $posy = (int)round((($line[4] + $line[2]) / 2) / $height, 0);
             if (!isset($matrix[$posy])) {
                 $matrix[$posy] = [];
             }
         }
-        if ($line[0] == 'word') {
+        if ($line[0] === 'word') {
             // AS MAKEBOX FEATURE
-            if ($line[5] == '') {
+            if ($line[5] === '') {
                 $line[5] = '~';
             }
             // AS DEFAULT FEATURE
@@ -459,8 +459,8 @@ function __unoconv_lines2matrix($lines, $width, $height)
             for ($i = 0; $i < $len; $i++) {
                 $letter = mb_substr($line[5], $i, 1);
                 if (isset($matrix[$posy][$posx])) {
-                    if ($letter != '_') {
-                        if ($matrix[$posy][$posx] != '_') {
+                    if ($letter !== '_') {
+                        if ($matrix[$posy][$posx] !== '_') {
                             return $index;
                         }
                         $matrix[$posy][$posx] = $letter;
@@ -555,10 +555,10 @@ function __unoconv_hocr2txt($hocr)
     $angles = [];
     $pos1 = null;
     foreach ($lines as $line) {
-        if ($line[0] == 'line') {
+        if ($line[0] === 'line') {
             $pos1 = null;
         }
-        if ($line[0] == 'word') {
+        if ($line[0] === 'word') {
             $pos2 = [($line[3] + $line[1]) / 2, ($line[4] + $line[2]) / 2];
             if (is_array($pos1)) {
                 $incrx = $pos2[0] - $pos1[0];
@@ -573,13 +573,13 @@ function __unoconv_hocr2txt($hocr)
     // APPLY ANGLE CORRECTION
     $quadrant = null;
     foreach ($lines as $index => $line) {
-        if ($line[1] != 0 && $line[2] != 0) {
+        if ($line[1] !== 0 && $line[2] !== 0) {
             list($line[1], $line[2]) = __unoconv_rotate($line[1], $line[2], -$angle);
         }
-        if ($line[3] != 0 && $line[4] != 0) {
+        if ($line[3] !== 0 && $line[4] !== 0) {
             list($line[3], $line[4]) = __unoconv_rotate($line[3], $line[4], -$angle);
         }
-        if ($index == 0) {
+        if ($index === 0) {
             $incrx = $line[3] - $line[1];
             $incry = $line[4] - $line[2];
             if ($incrx >= 0 && $incry >= 0) {
@@ -593,11 +593,11 @@ function __unoconv_hocr2txt($hocr)
             }
             //~ echo "<pre>".sprintr(array($incrx,$incry,$quadrant))."</pre>";
         }
-        if ($quadrant == 1) {
+        if ($quadrant === 1) {
             $line = __unoconv_fixline($line, 1, 4, 3, 2);
-        } elseif ($quadrant == 2) {
+        } elseif ($quadrant === 2) {
             $line = __unoconv_fixline($line, 3, 4, 1, 2);
-        } elseif ($quadrant == 3) {
+        } elseif ($quadrant === 3) {
             $line = __unoconv_fixline($line, 3, 2, 1, 4);
         }
         $lines[$index] = $line;
@@ -705,12 +705,12 @@ function __unoconv_remove_margins($page)
     $last = -1;
     foreach ($page as $index => $line) {
         $max = max(mb_strlen(rtrim($line)), $max);
-        if ($min == 0) {
+        if ($min === 0) {
             $min = $max;
         }
         $min = min(mb_strlen($line) - mb_strlen(ltrim($line)), $min);
-        if (trim($line) != '') {
-            if ($first == -1) {
+        if (trim($line) !== '') {
+            if ($first === -1) {
                 $first = $index;
             } else {
                 $last = $index;

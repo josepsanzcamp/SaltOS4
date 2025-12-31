@@ -80,10 +80,10 @@ foreach ($array as $lang => $groups) {
             $buffer = file_get_contents($file);
             $buffer = explode("\n", $buffer);
             foreach ($buffer as $key => $val) {
-                if (substr($val, 0, 1) == '=' && substr($val, -1, 1) == '=') {
+                if (substr($val, 0, 1) === '=' && substr($val, -1, 1) === '=') {
                     $buffer[$key] = str_replace('=', '+', $val);
                 }
-                if (substr($val, 0, 1) == '[' && substr($val, -1, 1) == ']') {
+                if (substr($val, 0, 1) === '[' && substr($val, -1, 1) === ']') {
                     $buffer[$key] = str_replace('../../../../../ujest', '../ujest', $val);
                 }
             }

@@ -67,13 +67,13 @@ function __certs_list($search, $order, $offset, $limit)
         if (!strlen($val)) {
             continue;
         }
-        $list = array_grep($list, $val, $type == '-');
+        $list = array_grep($list, $val, $type === '-');
     }
 
     // Apply order feature
-    if ($order == 'name ASC') {
+    if ($order === 'name ASC') {
         sort($list);
-    } elseif ($order == 'name DESC') {
+    } elseif ($order === 'name DESC') {
         rsort($list);
     }
 
@@ -122,13 +122,13 @@ function __certs_insert($json)
             ])
         ) {
             $output = __nssdb_add($upload . $file['file'], $json['passfile']);
-            if (implode('', $output) == 'pk12util: PKCS12 IMPORT SUCCESSFUL') {
+            if (implode('', $output) === 'pk12util: PKCS12 IMPORT SUCCESSFUL') {
                 $certs++;
             }
         }
     }
     $count = count($json['certfile']);
-    if ($count != $certs) {
+    if ($count !== $certs) {
         return [
             'status' => 'ko',
             'text' => 'Error importing certificates',
@@ -157,7 +157,7 @@ function __certs_hash2nick($hash)
     require_once 'apps/certs/php/nssdb.php';
     $list = __nssdb_list();
     foreach ($list as $key => $val) {
-        if ($hash == md5($val)) {
+        if ($hash === md5($val)) {
             return $val;
         }
     }
@@ -193,7 +193,7 @@ function __certs_check($hash)
 function __certs_view($hash)
 {
     $nick = __certs_hash2nick($hash);
-    if ($nick == '') {
+    if ($nick === '') {
         show_json_error('Nick not found');
     }
     $info = __nssdb_info($nick);
@@ -223,7 +223,7 @@ function __certs_view($hash)
 function __certs_delete($hash)
 {
     $nick = __certs_hash2nick($hash);
-    if ($nick == '') {
+    if ($nick === '') {
         return [
             'status' => 'ko',
             'text' => 'Nick not found',

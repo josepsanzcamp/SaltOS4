@@ -169,7 +169,7 @@ final class test_web_customers extends TestCase
         $json2 = test_web_helper('app/customers/list/data', [
             'search' => $search,
         ], $json['token'], '');
-        $this->assertTrue(count($json2['data']) == 1);
+        $this->assertTrue(count($json2['data']) === 1);
 
         //~ $json2 = test_web_helper('app/customers/widget/table1', '', $json['token'], '');
         //~ $this->assertArrayHasKey('data', $json2);

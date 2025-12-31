@@ -56,7 +56,7 @@ function make_log($app, $log, $reg_ids, $extra_ids = '')
 {
     // Check the passed parameters
     $table = app2table($app);
-    if ($table == '') {
+    if ($table === '') {
         return -1;
     }
     // Check if control exists
@@ -70,10 +70,10 @@ function make_log($app, $log, $reg_ids, $extra_ids = '')
     // Prepare reg data
     $reg_array = check_ids_array($reg_ids);
     $reg_count = count($reg_array);
-    if ($reg_count == 0) {
+    if ($reg_count === 0) {
         $reg_id = 0;
         $reg_ids = '';
-    } elseif ($reg_count == 1) {
+    } elseif ($reg_count === 1) {
         $reg_id = $reg_array[0];
         $reg_ids = '';
     } else {
@@ -83,10 +83,10 @@ function make_log($app, $log, $reg_ids, $extra_ids = '')
     // Prepare extra data
     $extra_array = check_ids_array($extra_ids);
     $extra_count = count($extra_array);
-    if ($extra_count == 0) {
+    if ($extra_count === 0) {
         $extra_id = 0;
         $extra_ids = '';
-    } elseif ($extra_count == 1) {
+    } elseif ($extra_count === 1) {
         $extra_id = $extra_array[0];
         $extra_ids = '';
     } else {
@@ -158,7 +158,7 @@ function get_logs($app, $reg_id)
 {
     // Check the passed parameters
     $table = app2table($app);
-    if ($table == '') {
+    if ($table === '') {
         return -1;
     }
     // Check if version exists
@@ -197,7 +197,7 @@ function del_log($app, $reg_id)
 {
     // Check the passed parameters
     $table = app2table($app);
-    if ($table == '') {
+    if ($table === '') {
         return -1;
     }
     // Check if version exists

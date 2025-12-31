@@ -52,7 +52,7 @@ function array_protected($x)
         return [];
     }
     if (is_string($x)) {
-        if ($x == '') {
+        if ($x === '') {
             return [];
         }
         return [$x];
@@ -76,7 +76,7 @@ function join_attr_value($array)
 {
     if (is_attr_value($array)) {
         if (is_string($array['value'])) {
-            if (trim($array['value']) == '') {
+            if (trim($array['value']) === '') {
                 $array['value'] = [];
             } else {
                 $array['value'] = ['value' => $array['value']];
@@ -106,7 +106,7 @@ function __array_getnode($path, $array)
     if (!is_array($array) || !isset($array[$elem])) {
         return null;
     }
-    if (count($path) == 0) {
+    if (count($path) === 0) {
         return $array[$elem];
     }
     return __array_getnode($path, __array_getvalue($array[$elem]));
@@ -158,7 +158,7 @@ function __array_addnode($path, &$array, $value)
         $path = explode('/', $path);
     }
     $elem = array_shift($path);
-    if (count($path) == 0) {
+    if (count($path) === 0) {
         set_array($array, $elem, $value);
         return true;
     }
@@ -192,7 +192,7 @@ function __array_setnode($path, &$array, $value)
     if (!is_array($array) || !isset($array[$elem])) {
         return false;
     }
-    if (count($path) == 0) {
+    if (count($path) === 0) {
         $array[$elem] = $value;
         return true;
     }
@@ -222,7 +222,7 @@ function __array_delnode($path, &$array)
     if (!is_array($array) || !isset($array[$elem])) {
         return false;
     }
-    if (count($path) == 0) {
+    if (count($path) === 0) {
         unset($array[$elem]);
         return true;
     }
@@ -347,7 +347,7 @@ function __array_apply_patch_rec(&$array, $key, $val)
 {
     $key0 = array_pop($key);
     $key1 = array_pop($key);
-    if ($key0 == 'row') {
+    if ($key0 === 'row') {
         if (isset($array['rows'][$key1])) {
             __array_apply_patch_rec($array['rows'][$key1], $key, $val);
         } elseif (isset($array[$key1])) {
@@ -355,11 +355,11 @@ function __array_apply_patch_rec(&$array, $key, $val)
         } else {
             show_php_error(['phperror' => "Path '$key0' for '$key1' not found"]);
         }
-    } elseif ($key0 == 'col') {
+    } elseif ($key0 === 'col') {
         if (isset($array['row']) && isset($array['rows'])) {
             $col = 0;
             foreach ($array['row'] as $key2 => $val2) {
-                if ($col == $key1) {
+                if ($col === intval($key1)) {
                     $array['row'][$key2] = $val;
                 }
                 $col++;
@@ -367,7 +367,7 @@ function __array_apply_patch_rec(&$array, $key, $val)
         } else {
             $col = 0;
             foreach ($array as $key2 => $val2) {
-                if ($col == $key1) {
+                if ($col === intval($key1)) {
                     $array[$key2] = $val;
                 }
                 $col++;
@@ -387,7 +387,7 @@ function __array_apply_patch_rec(&$array, $key, $val)
  */
 function is_attr_value($array)
 {
-    return is_array($array) && isset($array['value']) && isset($array['#attr']) && count($array) == 2;
+    return is_array($array) && isset($array['value']) && isset($array['#attr']) && count($array) === 2;
 }
 
 /**
@@ -455,7 +455,7 @@ function xpath_search_array($xpath, $array)
             $array = __array_getvalue($array);
             foreach ($array as $key => $val) {
                 $found = false;
-                if (fix_key($key) == $matches[1][0]) {
+                if (fix_key($key) === $matches[1][0]) {
                     if (is_attr_value($val)) {
                         $attr = $val['#attr'];
                     } else {
@@ -463,7 +463,7 @@ function xpath_search_array($xpath, $array)
                     }
                     $combine = array_combine($matches[2], $matches[3]);
                     $intersect = array_intersect_assoc($combine, $attr);
-                    $found = ($combine == $intersect);
+                    $found = ($combine === $intersect);
                 }
                 if ($found) {
                     $new_result[] = $val;
@@ -584,7 +584,7 @@ function array_key_lowercase($array)
 function array_key_search($needed, $array)
 {
     foreach ($array as $key => $val) {
-        if (strcasecmp($key, $needed) == 0) {
+        if (strcasecmp($key, $needed) === 0) {
             return $key;
         }
     }
@@ -613,13 +613,13 @@ function explode_with_quotes($separator, $str, $limit = 0)
     $double = 0;
     for ($i = 0; $i < $len; $i++) {
         $letter = $str[$i];
-        if ($letter == "'") {
+        if ($letter === "'") {
             $single = ($single + 1) % 2;
-        } elseif ($letter == '"') {
+        } elseif ($letter === '"') {
             $double = ($double + 1) % 2;
         }
-        if ($letter == $separator && $single == 0 && $double == 0) {
-            if ($limit > 0 && $count == $limit - 1) {
+        if ($letter === $separator && $single === 0 && $double === 0) {
+            if ($limit > 0 && $count === $limit - 1) {
                 $result[] = substr($str, $ini);
                 $ini = $i;
                 break;
@@ -630,7 +630,7 @@ function explode_with_quotes($separator, $str, $limit = 0)
             }
         }
     }
-    if ($i != $ini) {
+    if ($i !== $ini) {
         $result[] = substr($str, $ini, $i - $ini);
     }
     return $result;

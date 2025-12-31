@@ -47,7 +47,7 @@ if ($is_locale) {
 ob_passthru("txt2tags $toc -t tex -i ${file}.t2t -o ${file}.tex");
 $buffer = file_get_contents("${file}.tex");
 $buffer = explode("\n", $buffer);
-if ($buffer[7] != '') {
+if ($buffer[7] !== '') {
     echo "Internal error!!!\n";
     die();
 }

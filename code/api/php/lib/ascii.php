@@ -68,9 +68,9 @@ function __ascii_make_table_ascii($array)
             }
             if (is_numeric($val)) {
                 $aligns[$key]['R']++;
-            } elseif (substr($val, -1, 1) == '%') {
+            } elseif (substr($val, -1, 1) === '%') {
                 $aligns[$key]['R']++;
-            } elseif (mb_substr($val, -1, 1) == '€') {
+            } elseif (mb_substr($val, -1, 1) === '€') {
                 $aligns[$key]['R']++;
             } else {
                 $aligns[$key]['L']++;
@@ -97,7 +97,7 @@ function __ascii_make_table_ascii($array)
     }
     echo "+\n";
     foreach ($rows as $index => $row) {
-        if ($index == 1 && $head) {
+        if ($index === 1 && $head) {
             foreach ($widths as $width) {
                 echo '+' . str_repeat('-', $width + ($compact ? 0 : 2));
             }
@@ -105,11 +105,11 @@ function __ascii_make_table_ascii($array)
         }
         foreach ($row as $key => $val) {
             echo '|';
-            if ($aligns[$key] == 'R') {
+            if ($aligns[$key] === 'R') {
                 echo str_repeat(' ', $widths[$key] - mb_strlen(strval($val)));
             }
             echo ($compact ? '' : ' ') . $val . ($compact ? '' : ' ');
-            if ($aligns[$key] == 'L') {
+            if ($aligns[$key] === 'L') {
                 echo str_repeat(' ', $widths[$key] - mb_strlen(strval($val)));
             }
         }

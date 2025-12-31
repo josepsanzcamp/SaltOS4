@@ -54,7 +54,7 @@ function check_user($app, $perm)
     static $array = null;
     static $user_id = null;
     static $groups_id = null;
-    if ($array === null || $user_id != current_user() || $groups_id != current_groups()) {
+    if ($array === null || $user_id !== current_user() || $groups_id !== current_groups()) {
         // Get all permissions with all permutations
         $query = 'SELECT app_id, perm_id, allow, deny FROM tbl_apps_perms';
         $from_apps_perms = execute_query_array($query);
@@ -193,7 +193,7 @@ function __perms($fn, $arg)
         $dict['id2perm'] = [];
         $dict['perm2id'] = [];
         while ($row = db_fetch_row($result)) {
-            if ($row['owner'] != '') {
+            if ($row['owner'] !== '') {
                 if (!isset($dict['perm2id'][$row['code']])) {
                     $dict['perm2id'][$row['code']] = [];
                 }
@@ -205,7 +205,7 @@ function __perms($fn, $arg)
         }
         db_free($result);
     }
-    if ($fn == 'perm_exists') {
+    if ($fn === 'perm_exists') {
         return isset($dict['perm2id'][$arg]);
     }
     if (isset($dict[$fn][$arg])) {
@@ -280,7 +280,7 @@ function check_app_perm_id($app, $perm, $id = null)
     }
     // This check fix a security issue when this function is called with all
     // parameters and id is null, in this scope two parameters must be true
-    if (func_num_args() == 2) {
+    if (func_num_args() === 2) {
         return true;
     }
     // Here all parameters are used, id can be checked
@@ -304,7 +304,7 @@ function __user_is_admin($app)
         WHERE active = 1 AND id IN (SELECT perm_id FROM tbl_apps_perms WHERE app_id = ?)';
     $rows = execute_query_array($query, [$app_id]);
     foreach ($rows as $row) {
-        if ($row['owner'] != '') {
+        if ($row['owner'] !== '') {
             $perm = $row['code'] . '|' . $row['owner'];
         } else {
             $perm = $row['code'];

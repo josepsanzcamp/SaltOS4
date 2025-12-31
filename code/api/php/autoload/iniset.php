@@ -52,13 +52,13 @@ function eval_iniset($array)
             $key = fix_key($key);
             $cur = ini_get($key);
             $diff = false;
-            if (strtolower($val) == 'on' || strtolower($val) == 'off') {
+            if (strtolower($val) === 'on' || strtolower($val) === 'off') {
                 $cur = $cur ? 'On' : 'Off';
-                if (strtolower($val) != strtolower($cur)) {
+                if (strtolower($val) !== strtolower($cur)) {
                     $diff = true;
                 }
             } else {
-                if ($val != $cur) {
+                if ($val !== $cur) {
                     $diff = true;
                 }
             }
@@ -88,7 +88,7 @@ function eval_putenv($array)
             $key = fix_key($key);
             $cur = getenv($key);
             $diff = 0;
-            if ($val != $cur) {
+            if ($val !== $cur) {
                 $diff = 1;
             }
             if ($diff) {
@@ -104,7 +104,7 @@ function eval_putenv($array)
                  * As trick, I have added the void key condition to force a case that executes
                  * the show_php_error
                  */
-                if ($key == '' || putenv("$key=$val") === false) {
+                if ($key === '' || putenv("$key=$val") === false) {
                     show_php_error(['phperror' => "putenv fails to set '$key' from '$cur' to '$val'"]);
                 }
             }
@@ -125,7 +125,7 @@ function eval_extras($array)
     if (is_array($array)) {
         foreach ($array as $key => $val) {
             $key = fix_key($key);
-            if ($key == 'mb_detect_order') {
+            if ($key === 'mb_detect_order') {
                 $val = array_intersect($val, mb_list_encodings());
             }
             if (!function_exists($key) || $key($val) === false) {

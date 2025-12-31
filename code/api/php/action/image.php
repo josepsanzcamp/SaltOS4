@@ -182,10 +182,10 @@ switch ($action) {
         // Do image
         require_once 'php/lib/captcha.php';
         $code = null;
-        if ($type == 'number') {
+        if ($type === 'number') {
             $code = __captcha_make_number($length);
         }
-        if ($type == 'math') {
+        if ($type === 'math') {
             $code = __captcha_make_math($length);
         }
         $image = __captcha_image($code, $args);
@@ -222,11 +222,11 @@ switch ($action) {
 }
 
 // Check image
-if ($image == '') {
+if ($image === '') {
     show_json_error('Internal error');
 }
 // Dump image
-if ($format == 'png') {
+if ($format === 'png') {
     output_handler([
         'data' => $image,
         'type' => 'image/png',

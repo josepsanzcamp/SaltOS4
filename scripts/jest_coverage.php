@@ -15,7 +15,7 @@ foreach ($files as $file) {
     $json = json_decode(file_get_contents('/tmp/acorn.json'), true);
     foreach ($json['body'] as $body) {
         // This remove the 'use strict' line like does jest
-        if (isset($body['expression']['raw']) && $body['expression']['raw'] == "'use strict'") {
+        if (isset($body['expression']['raw']) && $body['expression']['raw'] === "'use strict'") {
             continue;
         }
         // This computes the range and defines the lines
@@ -36,7 +36,7 @@ foreach ($files as $file) {
     $json = json_decode(file_get_contents($file), true);
     foreach ($json as $key => $val) {
         // This part is for detect internal errors, the key must to be the path
-        if ($key != $val['path']) {
+        if ($key !== $val['path']) {
             echo "Internal error 1!!!\n";
             die();
         }

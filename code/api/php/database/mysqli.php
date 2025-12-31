@@ -195,10 +195,10 @@ class database_mysqli
         }
         // Dump result to matrix
         if (!is_bool($stmt) && $stmt->field_count > 0) {
-            if ($fetch == 'auto') {
+            if ($fetch === 'auto') {
                 $fetch = $stmt->field_count > 1 ? 'query' : 'column';
             }
-            if ($fetch == 'query') {
+            if ($fetch === 'query') {
                 while ($row = $stmt->fetch_assoc()) {
                     $result['rows'][] = $row;
                 }
@@ -208,7 +208,7 @@ class database_mysqli
                 }
                 $stmt->free_result();
             }
-            if ($fetch == 'column') {
+            if ($fetch === 'column') {
                 while ($row = $stmt->fetch_row()) {
                     $result['rows'][] = $row[0];
                 }
@@ -216,7 +216,7 @@ class database_mysqli
                 $result['header'] = ['column'];
                 $stmt->free_result();
             }
-            if ($fetch == 'concat') {
+            if ($fetch === 'concat') {
                 if ($row = $stmt->fetch_row()) {
                     $result['rows'][] = $row[0];
                 }

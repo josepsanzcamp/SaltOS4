@@ -120,10 +120,10 @@ function check_lang_format($lang)
     if (count($temp) < 2) {
         return null;
     }
-    if (strlen($temp[0]) != 2) {
+    if (strlen($temp[0]) !== 2) {
         return null;
     }
-    if (strlen($temp[1]) != 2) {
+    if (strlen($temp[1]) !== 2) {
         return null;
     }
     // Build the output

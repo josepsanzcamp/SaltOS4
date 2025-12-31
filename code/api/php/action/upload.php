@@ -78,7 +78,7 @@ foreach ($array as $key => $val) {
 if (count($array)) {
     show_json_error('Missing ' . implode(', ', $array));
 }
-if ($file['error'] != '') {
+if ($file['error'] !== '') {
     show_json_error($file['error']);
 }
 

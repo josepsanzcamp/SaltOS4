@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 chdir('code/api');
 foreach (glob('php/autoload/*.php') as $file) {
-    if (basename($file) == 'zindex.php') {
+    if (basename($file) === 'zindex.php') {
         continue;
     }
     require $file;
@@ -32,7 +32,7 @@ $label = [];
 foreach ($array as $key => $val) {
     $val = join_attr_value($val);
     $val['type'] = fix_key($key);
-    if ($val['type'] == 'hidden') {
+    if ($val['type'] === 'hidden') {
         unset($array[$key]);
         continue;
     }

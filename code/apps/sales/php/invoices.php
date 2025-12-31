@@ -121,53 +121,53 @@ function unmake_matrix_data($json, $invoice_id)
             if (!$product_id) {
                 unset($row['product_id']);
             }
-            if ($val[0] == '') {
+            if ($val[0] === '') {
                 unset($row['description']);
             }
-            if ($val[1] == '') {
+            if ($val[1] === '') {
                 unset($row['quantity']);
             }
-            if ($val[2] == '') {
+            if ($val[2] === '') {
                 unset($row['price']);
             }
-            if ($val[3] == '') {
+            if ($val[3] === '') {
                 unset($row['discount']);
             }
             if (!$tax_id) {
                 unset($row['tax_id']);
             }
-            if ($val[4] == '') {
+            if ($val[4] === '') {
                 unset($row['tax_value']);
             }
-            if ($val[5] == '') {
+            if ($val[5] === '') {
                 unset($row['total']);
             }
         } else {
-            if ($lines_array[$key]['product_id'] == $product_id) {
+            if ($lines_array[$key]['product_id'] === $product_id) {
                 unset($row['product_id']);
             }
-            if ($lines_array[$key]['description'] == $val[0]) {
+            if ($lines_array[$key]['description'] === $val[0]) {
                 unset($row['description']);
             }
-            if ($lines_array[$key]['quantity'] == $val[1]) {
+            if ($lines_array[$key]['quantity'] === $val[1]) {
                 unset($row['quantity']);
             }
-            if ($lines_array[$key]['price'] == $val[2]) {
+            if ($lines_array[$key]['price'] === $val[2]) {
                 unset($row['price']);
             }
-            if ($lines_array[$key]['discount'] == $val[3]) {
+            if ($lines_array[$key]['discount'] === $val[3]) {
                 unset($row['discount']);
             }
-            if ($lines_array[$key]['tax_id'] == $tax_id) {
+            if ($lines_array[$key]['tax_id'] === $tax_id) {
                 unset($row['tax_id']);
             }
-            if ($lines_array[$key]['tax_value'] == $val[4]) {
+            if ($lines_array[$key]['tax_value'] === $val[4]) {
                 unset($row['tax_value']);
             }
-            if ($lines_array[$key]['total'] == $val[5]) {
+            if ($lines_array[$key]['total'] === $val[5]) {
                 unset($row['total']);
             }
-            if (count($row) == 1) {
+            if (count($row) === 1) {
                 unset($row['id']);
             }
         }
@@ -220,35 +220,35 @@ function unmake_matrix_data($json, $invoice_id)
             if (!$tax_id) {
                 unset($row['tax_id']);
             }
-            if ($val[0] == '') {
+            if ($val[0] === '') {
                 unset($row['tax_name']);
             }
             if (!$tax_value) {
                 unset($row['tax_value']);
             }
-            if ($val[1] == '') {
+            if ($val[1] === '') {
                 unset($row['base']);
             }
-            if ($val[2] == '') {
+            if ($val[2] === '') {
                 unset($row['tax']);
             }
         } else {
-            if ($taxes_array[$key]['tax_id'] == $tax_id) {
+            if ($taxes_array[$key]['tax_id'] === $tax_id) {
                 unset($row['tax_id']);
             }
-            if ($taxes_array[$key]['tax_name'] == $val[0]) {
+            if ($taxes_array[$key]['tax_name'] === $val[0]) {
                 unset($row['tax_name']);
             }
-            if ($taxes_array[$key]['tax_value'] == $tax_value) {
+            if ($taxes_array[$key]['tax_value'] === $tax_value) {
                 unset($row['tax_value']);
             }
-            if ($taxes_array[$key]['base'] == $val[1]) {
+            if ($taxes_array[$key]['base'] === $val[1]) {
                 unset($row['base']);
             }
-            if ($taxes_array[$key]['tax'] == $val[2]) {
+            if ($taxes_array[$key]['tax'] === $val[2]) {
                 unset($row['tax']);
             }
-            if (count($row) == 1) {
+            if (count($row) === 1) {
                 unset($row['id']);
             }
         }
@@ -274,13 +274,13 @@ function unmake_matrix_data($json, $invoice_id)
         $json['tax'] = $totals[0][1];
         $json['total'] = $totals[0][2];
         if (isset($totals_array[0])) {
-            if ($totals_array[0]['subtotal'] == $totals[0][0]) {
+            if ($totals_array[0]['subtotal'] === $totals[0][0]) {
                 unset($json['subtotal']);
             }
-            if ($totals_array[0]['tax'] == $totals[0][1]) {
+            if ($totals_array[0]['tax'] === $totals[0][1]) {
                 unset($json['tax']);
             }
-            if ($totals_array[0]['total'] == $totals[0][2]) {
+            if ($totals_array[0]['total'] === $totals[0][2]) {
                 unset($json['total']);
             }
         }
@@ -391,7 +391,7 @@ function set_proforma_invoice($json, $invoice_id)
     $fields = ['id', 'name', 'code', 'address', 'city', 'province', 'zip', 'country'];
     foreach ($fields as $field) {
         $real = 'company_' . $field;
-        if (($invoice[$real] ?? '') != ($company[$field] ?? '')) {
+        if (($invoice[$real] ?? '') !== ($company[$field] ?? '')) {
             $json[$real] = $company[$field];
         }
     }

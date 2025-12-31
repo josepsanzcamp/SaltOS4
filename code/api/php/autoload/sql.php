@@ -56,7 +56,7 @@ declare(strict_types=1);
  */
 function parse_query($query, $type = '')
 {
-    if ($type == '') {
+    if ($type === '') {
         $type = __parse_query_type();
     }
     $pos = __parse_query_strpos($query, '/*');
@@ -69,7 +69,7 @@ function parse_query($query, $type = '')
                 $pos = $pos3;
                 $pos3 = __parse_query_strpos($query, '/*', $pos + 2);
             }
-            if (substr($query, $pos + 2, $len) == $type) {
+            if (substr($query, $pos + 2, $len) === $type) {
                 $replacement = trim(substr($query, $pos + 2 + $len, $pos2 - $pos - 2 - $len));
             } else {
                 $replacement = '';
@@ -127,7 +127,7 @@ function __parse_query_strpos($haystack, $needle, $offset = 0)
                   substr_count($haystack, "\\'", $offset, $len2);
         $count2 = substr_count($haystack, '"', $offset, $len2) -
                   substr_count($haystack, '\\"', $offset, $len2);
-        while ($pos !== false && ($count1 % 2 != 0 || $count2 % 2 != 0)) {
+        while ($pos !== false && ($count1 % 2 !== 0 || $count2 % 2 !== 0)) {
             $offset = $pos + $len;
             $pos = strpos($haystack, $needle, $offset);
             if ($pos !== false && $pos > $offset) {
@@ -183,11 +183,11 @@ function execute_query($query, $params = null)
     $numrows = db_num_rows($result);
     $numfields = db_num_fields($result);
     $value = null;
-    if ($numrows == 1 && $numfields == 1) {
+    if ($numrows === 1 && $numfields === 1) {
         $value = db_fetch_row($result);
-    } elseif ($numrows == 1 && $numfields > 1) {
+    } elseif ($numrows === 1 && $numfields > 1) {
         $value = db_fetch_row($result);
-    } elseif ($numrows > 1 && $numfields == 1) {
+    } elseif ($numrows > 1 && $numfields === 1) {
         $value = db_fetch_all($result);
     } elseif ($numrows > 1 && $numfields > 1) {
         $value = db_fetch_all($result);
@@ -228,7 +228,7 @@ function get_fields($table)
     $query = "/*MYSQL SHOW COLUMNS FROM $table */";
     $result = db_query($query);
     while ($row = db_fetch_row($result)) {
-        if ($row['Type'] == 'int(11)') {
+        if ($row['Type'] === 'int(11)') {
             $row['Type'] = 'integer';
         }
         $fields[] = ['name' => $row['Field'], 'type' => strtoupper($row['Type'])];
@@ -259,7 +259,7 @@ function get_indexes($table)
     $result = db_query($query);
     while ($row = db_fetch_row($result)) {
         $index = $row['Key_name'];
-        if ($index == 'PRIMARY') {
+        if ($index === 'PRIMARY') {
             continue;
         }
         if (!isset($indexes[$index])) {
@@ -571,7 +571,7 @@ function make_like_query($keys, $values, $args = [])
     $keys = explode(',', $keys);
     foreach ($keys as $key => $val) {
         $val = trim($val);
-        if ($val != '') {
+        if ($val !== '') {
             $keys[$key] = $val;
         } else {
             unset($keys[$key]);
@@ -601,7 +601,7 @@ function make_like_query($keys, $values, $args = [])
     }
     $query = [];
     foreach ($values as $key => $val) {
-        if ($types[$key] == '+') {
+        if ($types[$key] === '+') {
             $query2 = [];
             foreach ($keys as $key2) {
                 $query2[] = "$key2 LIKE '%$val%'";
@@ -721,7 +721,7 @@ function make_fulltext_query($values, $app, $args = [])
         }
         $fields = implode(',', $fields);
         $where = make_like_query($fields, $values, $args);
-        if ($where == $default) {
+        if ($where === $default) {
             return $default;
         }
         $query = "{$prefix}id IN (SELECT id FROM $table WHERE $where)";
@@ -729,12 +729,12 @@ function make_fulltext_query($values, $app, $args = [])
     }
     // Default behaviour, table_index is found
     $engine = strtolower(get_engine("{$table}_index"));
-    if ($engine == 'mroonga') {
+    if ($engine === 'mroonga') {
         $where = __make_fulltext_query_helper($values, $args);
     } else {
         $where = make_like_query('search', $values, $args);
     }
-    if ($where == $default) {
+    if ($where === $default) {
         return $default;
     }
     $query = "{$prefix}id IN (SELECT id FROM {$table}_index WHERE $where)";
@@ -766,17 +766,17 @@ function __prepare_helper_query($table, $array)
         $names[] = escape_reserved_word($name);
         $type = $field['type'];
         $type2 = get_field_type($type);
-        if ($type2 == 'int') {
+        if ($type2 === 'int') {
             $values[] = intval($array[$name]);
-        } elseif ($type2 == 'float') {
+        } elseif ($type2 === 'float') {
             $values[] = floatval($array[$name]);
-        } elseif ($type2 == 'date') {
+        } elseif ($type2 === 'date') {
             $values[] = dateval($array[$name]);
-        } elseif ($type2 == 'time') {
+        } elseif ($type2 === 'time') {
             $values[] = timeval($array[$name]);
-        } elseif ($type2 == 'datetime') {
+        } elseif ($type2 === 'datetime') {
             $values[] = datetimeval($array[$name]);
-        } elseif ($type2 == 'string') {
+        } elseif ($type2 === 'string') {
             $size2 = get_field_size($type);
             $values[] = mb_substr(strval($array[$name]), 0, $size2);
         } else {
@@ -877,7 +877,7 @@ function check_order($order, $fields)
     $order = explode(',', $order);
     foreach ($order as $key => $val) {
         $val = explode(' ', $val);
-        if (count($val) != 2) {
+        if (count($val) !== 2) {
             unset($order[$key]);
             continue;
         }

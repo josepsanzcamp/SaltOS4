@@ -59,7 +59,7 @@ function insert_group($data)
 
     // Real insert using general insert action
     $array = insert('groups', $data);
-    if ($array['status'] == 'ko') {
+    if ($array['status'] === 'ko') {
         return $array;
     }
     $group_id = $array['created_id'];
@@ -118,7 +118,7 @@ function update_group($group_id, $data)
     // Real update using general update action
     if (count($data)) {
         $array = update('groups', $group_id, $data);
-        if ($array['status'] == 'ko') {
+        if ($array['status'] === 'ko') {
             return $array;
         }
     }
@@ -129,10 +129,10 @@ function update_group($group_id, $data)
         foreach ($perms as $key => $val) {
             foreach ($old_perms as $old_key => $old_val) {
                 if (
-                    $val['app_id'] == $old_val['app_id'] &&
-                    $val['perm_id'] == $old_val['perm_id'] &&
-                    $val['allow'] == $old_val['allow'] &&
-                    $val['deny'] == $old_val['deny']
+                    $val['app_id'] === $old_val['app_id'] &&
+                    $val['perm_id'] === $old_val['perm_id'] &&
+                    $val['allow'] === $old_val['allow'] &&
+                    $val['deny'] === $old_val['deny']
                 ) {
                     unset($perms[$key]);
                     unset($old_perms[$old_key]);
@@ -190,7 +190,7 @@ function delete_group($group_id)
 
     // Real delete using general delete action
     $array = delete('groups', $group_id);
-    if ($array['status'] == 'ko') {
+    if ($array['status'] === 'ko') {
         return $array;
     }
 

@@ -74,7 +74,7 @@ function check_apache($url)
 
     // ServerSignature Off
     // ServerTokens Prod
-    if (isset($response['headers']['Server']) && $response['headers']['Server'] != 'Apache') {
+    if (isset($response['headers']['Server']) && $response['headers']['Server'] !== 'Apache') {
         $result[] = [
             'warning' => "Server {$response['headers']['Server']} header detected",
             'details' => 'Set ServerSignature = Off and ServerTokens = Prod in your apache configuration',

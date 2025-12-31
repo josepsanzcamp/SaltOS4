@@ -101,7 +101,7 @@ eval_putenv(get_config('putenv'));
 eval_extras(get_config('extras'));
 
 // Collect all input data
-if (php_sapi_name() == 'cli') {
+if (php_sapi_name() === 'cli') {
     // This allow to use SaltOS from the command line using the CLI SAPI
     set_server('QUERY_STRING', implode('/', array_slice(get_server('argv'), 1)));
     stream_set_blocking(STDIN, false); // Important if stdin is not used
@@ -131,7 +131,7 @@ if (php_sapi_name() == 'cli') {
     }
     // Try to set the HTTP_AUTHORIZATION_TOKEN if Bearer is detect
     $auth = get_server('HTTP_AUTHORIZATION');
-    if ($auth && substr($auth, 0, 7) == 'Bearer ') {
+    if ($auth && substr($auth, 0, 7) === 'Bearer ') {
         set_server('HTTP_AUTHORIZATION_TOKEN', substr($auth, 7));
     }
     $_DATA = [
@@ -156,7 +156,7 @@ if (php_sapi_name() == 'cli') {
 
 // Check for the main requirement: rest/0
 set_data('rest/0', encode_bad_chars(strval(get_data('rest/0'))));
-if (get_data('rest/0') == '') {
+if (get_data('rest/0') === '') {
     show_json_error('Unknown request');
 }
 
@@ -166,15 +166,15 @@ if (!in_array(get_data('server/request_method'), ['GET', 'POST', 'CLI'])) {
 }
 
 // Check for a bad GET request_method
-if (get_data('server/request_method') == 'GET') {
-    if (get_data('server/content_type') != '' || count(get_data('json'))) {
+if (get_data('server/request_method') === 'GET') {
+    if (get_data('server/content_type') !== '' || count(get_data('json'))) {
         show_json_error('Unknown request');
     }
 }
 
 // Check for a bad POST request_method
-if (get_data('server/request_method') == 'POST') {
-    if (get_data('server/content_type') != 'application/json' || !count(get_data('json'))) {
+if (get_data('server/request_method') === 'POST') {
+    if (get_data('server/content_type') !== 'application/json' || !count(get_data('json'))) {
         show_json_error('Unknown request');
     }
 }

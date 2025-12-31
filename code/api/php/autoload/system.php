@@ -169,7 +169,7 @@ function check_composer()
     $files = glob('lib/*/composer.lock');
     foreach ($files as $file) {
         $dir = dirname($file);
-        if (substr($dir, -4, 4) == '.old') {
+        if (substr($dir, -4, 4) === '.old') {
             continue;
         }
         $json = file_get_contents($file);
@@ -183,7 +183,7 @@ function check_composer()
             }
             $name = $package['name'];
             foreach ($package['require'] as $key => $val) {
-                if ($key == 'php') {
+                if ($key === 'php') {
                     if (!Composer\Semver\Semver::satisfies(PHP_VERSION, $val)) {
                         $result[] = [
                             'error' => "$name requires $val",
@@ -191,7 +191,7 @@ function check_composer()
                         ];
                     }
                 }
-                if (substr($key, 0, 4) == 'ext-') {
+                if (substr($key, 0, 4) === 'ext-') {
                     $ext = substr($key, 4);
                     if (!extension_loaded($ext)) {
                         $result[] = [
@@ -200,7 +200,7 @@ function check_composer()
                         ];
                         continue;
                     }
-                    if ($val == '*') {
+                    if ($val === '*') {
                         continue;
                     }
                     $ver = phpversion($ext);

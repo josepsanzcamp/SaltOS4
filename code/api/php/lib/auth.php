@@ -65,7 +65,7 @@ function authtoken($user, $pass)
     // First check
     $query = 'SELECT * FROM tbl_users WHERE active = 1 AND login = ?';
     $row = execute_query($query, [$user]);
-    if (!is_array($row) || !isset($row['login']) || $user != $row['login']) {
+    if (!is_array($row) || !isset($row['login']) || $user !== $row['login']) {
         return [
             'status' => 'ko',
             'text' => 'Permission denied',
@@ -254,7 +254,7 @@ function authupdate($oldpass, $newpass, $renewpass)
     }
 
     // Password checks
-    if ($newpass != $renewpass) {
+    if ($newpass !== $renewpass) {
         return [
             'status' => 'ko',
             'text' => 'New password differs',

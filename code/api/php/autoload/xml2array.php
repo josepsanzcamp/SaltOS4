@@ -61,7 +61,7 @@ function set_array(&$array, $name, $value)
         $name .= '#';
         $len = strlen($name);
         $key = array_key_last($array);
-        if (strncmp($name, $key, $len) == 0) {
+        if (strncmp($name, $key, $len) === 0) {
             $count = intval(substr($key, $len)) + 1;
         } else {
             $count = 1;
@@ -92,7 +92,7 @@ function unset_array(&$array, $name)
     $name .= '#';
     $len = strlen($name);
     foreach ($array as $key => $val) {
-        if (strncmp($name, $key, $len) == 0) {
+        if (strncmp($name, $key, $len) === 0) {
             unset($array[$key]);
         }
     }
@@ -233,10 +233,10 @@ function xml2struct($xml, $file = '')
             if ($pos3 !== false) {
                 $pos4 = $pos3 + 9;
                 $pos5 = null;
-                if ($tag[$pos4] == '"') {
+                if ($tag[$pos4] === '"') {
                     $pos4++;
                     $pos5 = strpos($tag, '"', $pos4);
-                } elseif ($tag[$pos4] == "'") {
+                } elseif ($tag[$pos4] === "'") {
                     $pos4++;
                     $pos5 = strpos($tag, "'", $pos4);
                 } else {
@@ -259,7 +259,7 @@ function xml2struct($xml, $file = '')
         $error = xml_error_string($code);
         $linea = xml_get_current_line_number($parser);
         $fila = xml_get_current_column_number($parser);
-        if ($file == '') {
+        if ($file === '') {
             show_php_error([
                 'xmlerror' => "Error $code: $error (at line $linea,$fila)",
             ]);
@@ -312,27 +312,27 @@ function struct2array(&$data, $file = '')
         if (isset($linea['attributes'])) {
             $attr = $linea['attributes'];
         }
-        if ($type == 'open') {
+        if ($type === 'open') {
             // CASE 1 <some>
             $value = struct2array($data, $file);
             if (count($attr)) {
                 $value = ['value' => $value, '#attr' => $attr];
             }
             set_array($array, $name, $value);
-        } elseif ($type == 'close') {
+        } elseif ($type === 'close') {
             // CASE 2 </some>
             return $array;
-        } elseif ($type == 'complete') {
+        } elseif ($type === 'complete') {
             // CASE 3 <some/>
             // CASE 4 <some>some</some>
             if (count($attr)) {
                 $value = ['value' => $value, '#attr' => $attr];
             }
             set_array($array, $name, $value);
-        } elseif ($type == 'cdata') {
+        } elseif ($type === 'cdata') {
             // NOTHING TO DO
         } else {
-            if ($file == '') {
+            if ($file === '') {
                 show_php_error([
                     'xmlerror' => "Unknown tag type with name '</$name>'",
                 ]);

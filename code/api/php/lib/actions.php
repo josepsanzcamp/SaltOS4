@@ -351,7 +351,7 @@ function delete($app, $id)
     $depend = check_dependencies($app, $id);
     // Remove this app in the dependencies array
     foreach ($depend as $key => $val) {
-        if (isset($val['app']) && $val['app'] == $app) {
+        if (isset($val['app']) && $val['app'] === $app) {
             unset($depend[$key]);
         }
     }
@@ -375,7 +375,7 @@ function delete($app, $id)
         }
         $others = count($others);
         if ($others) {
-            if ($others == 1) {
+            if ($others === 1) {
                 $message[] = $others . ' ' . T('internal table');
             } else {
                 $message[] = $others . ' ' . T('internal tables');

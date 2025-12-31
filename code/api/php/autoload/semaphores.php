@@ -100,7 +100,7 @@ function semaphore_file($name = '')
 function __semaphore_helper($fn, $name, $timeout)
 {
     static $fds = [];
-    if ($name == '') {
+    if ($name === '' || $name === null) {
         $name = __FUNCTION__;
     }
     $file = get_cache_file($name, '.sem');
