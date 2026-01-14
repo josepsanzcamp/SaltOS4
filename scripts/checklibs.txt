@@ -11,7 +11,7 @@ yaml|https://github.com/symfony/yaml/tags.atom|<title>|PHRpdGxlPnY4LjAuMTwvdGl0b
 autoheight|https://github.com/kamilkp/autoheight/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAxNi0wOC0wN1QyMzo0MToxMVo8L3VwZGF0ZWQ+
 bootstrap|https://github.com/twbs/bootstrap/tags.atom|<title>|PHRpdGxlPnY1LjMuODwvdGl0bGU+
 chartjs|https://github.com/chartjs/Chart.js/tags.atom|<title>|PHRpdGxlPnY0LjUuMTwvdGl0bGU+
-ckeditor|https://github.com/ckeditor/ckeditor5/tags.atom|<title>|PHRpdGxlPnY0Ny4zLjA8L3RpdGxlPg==
+ckeditor|https://github.com/ckeditor/ckeditor5/tags.atom|<title>|PHRpdGxlPnY0Ny40LjA8L3RpdGxlPg==
 codemirror|https://api.cdnjs.com/libraries/codemirror?fields=name,version|version|eyJuYW1lIjoiY29kZW1pcnJvciIsInZlcnNpb24iOiI2LjY1LjcifQ==
 icons|https://github.com/twbs/icons/tags.atom|<title>|PHRpdGxlPnYxLjEzLjE8L3RpdGxlPg==
 imagesloaded|https://github.com/desandro/imagesloaded/tags.atom|<title>|PHRpdGxlPnY1LjAuMDwvdGl0bGU+
@@ -41,9 +41,9 @@ libreoffice|https://es.libreoffice.org/descarga/libreoffice/|type=deb|PG9wdGlvbi
 mariadb|https://github.com/MariaDB/server/tags.atom|<title>|PHRpdGxlPk1hcmlhREIgQ29tbXVuaXR5IFNlcnZlciAxMi4yLjEgUkM8L3RpdGxlPg==
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|PHRpdGxlPm1pbmlmeSB2MTUuMC4xPC90aXRsZT4=
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|PHRpdGxlPk1yb29uZ2EgMTUuMjIgLSAyMDI1LTEyLTEwPC90aXRsZT4=
-node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjUtMTItMTAsIFZlcnNpb24gMjQuMTIuMCAmIzM5O0tyeXB0b24mIzM5OyAoTFRTKSwgQHRhcmdvczwvdGl0bGU+
+node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjYtMDEtMTMsIFZlcnNpb24gMjUuMy4wIChDdXJyZW50KSwgQFJhZmFlbEdTUzwvdGl0bGU+
 pcov|https://github.com/krakjoe/pcov/tags.atom|<title>|PHRpdGxlPnYxLjAuMTI8L3RpdGxlPg==
-php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjUuMlJDMTwvdGl0bGU+
+php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjUuMjwvdGl0bGU+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|PHRpdGxlPjQuMC4xIC0gMjAyNS0xMS0xMDwvdGl0bGU+
 phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjIuMS4zMzwvdGl0bGU+
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|PHRpdGxlPlBIUFVuaXQgMTIuNS40PC90aXRsZT4=
