@@ -153,9 +153,11 @@ saltos.common.download = file => {
  * @file => the file or note string path
  */
 saltos.common.delete = file => {
-    const row = document.getElementById('all' + file.split('/').slice(3, 6).join('/'));
+    const all_id = 'all' + file.split('/').slice(3, 6).join('/');
+    const row = document.getElementById(all_id);
     row.remove();
-    const obj = document.getElementById('del' + file.split('/').at(3));
+    const del_id = 'del' + file.split('/').at(3);
+    const obj = document.getElementById(del_id);
     let value = obj.value.split(',');
     value.push(file.split('/').at(-1));
     obj.value = value.filter(arg => arg != '').join(',');
