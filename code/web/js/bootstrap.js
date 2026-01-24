@@ -2704,7 +2704,7 @@ saltos.bootstrap.__field.table = field => {
         for (const key in field.data) {
             const val = field.data[key];
             const row = saltos.core.html('tbody', `<tr class="align-middle"></tr>`);
-            row.setAttribute('id', `${field.id}_${val.id}`);
+            row.setAttribute('id', `${field.id}/${val.id}`);
             if (field.checkbox) {
                 row.append(saltos.core.html('tr', `<td><input type="checkbox" value="${val.id}" /></td>`));
                 row.querySelector('input[type=checkbox]').addEventListener('change', event => {
