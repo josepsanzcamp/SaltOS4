@@ -99,6 +99,30 @@ final class test_system extends TestCase
         rmdir('data/nada');
         $this->assertDirectoryDoesNotExist('data/nada');
 
+        $json = test_cli_helper('setup/apache https://127.0.0.1/saltos/code4/api', [], '', '', '');
+        $this->assertCount(1, $json);
+        $this->assertArrayHasKey('apache', $json);
+        $this->assertCount(3, $json['apache']);
+        $this->assertArrayHasKey('time', $json['apache']);
+        $this->assertArrayHasKey('output', $json['apache']);
+        $this->assertArrayHasKey('count', $json['apache']);
+        $this->assertSame($json['apache']['output'], []);
+        $this->assertSame($json['apache']['count'], 0);
+
+        $json = test_cli_helper('setup/crm', [], '', '', '');
+        $this->assertCount(1, $json);
+        $this->assertArrayHasKey('setup', $json);
+        $this->assertCount(2, $json['setup']);
+        $this->assertArrayHasKey('time', $json['setup']);
+        $this->assertArrayHasKey('total', $json['setup']);
+
+        $json = test_cli_helper('setup/certs', [], '', '', '');
+        $this->assertCount(1, $json);
+        $this->assertArrayHasKey('setup', $json);
+        $this->assertCount(2, $json['setup']);
+        $this->assertArrayHasKey('time', $json['setup']);
+        $this->assertArrayHasKey('total', $json['setup']);
+
         exec_check_system();
     }
 }
