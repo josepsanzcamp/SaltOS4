@@ -124,7 +124,7 @@ function __dashboard_helper()
         foreach ($groups[$group] as $row) {
             $xml = '<button id="app/{$code}" onclick="saltos.window.open(\'app/{$code}\')"
                 class="w-100 h-100 fs-{$fontsize} opacity-{$opacity}" label="{$name}"
-                tooltip="{$description}" color="{$color}"/>';
+                rounded="rounded" tooltip="{$description}" color="{$color}"/>';
             $xml = str_replace_assoc([
                 '{$code}' => $row['code'],
                 '{$name}' => T($row['name'], $row['code']),
