@@ -11,6 +11,8 @@ NONE=\033[0m
 FILES=object,core,bootstrap,storage,hash,token,auth,window,polyfill,gettext,driver,filter,backup,form,push,common,app
 
 export NODE_PATH := $(shell npm -g root)
+export NODE_OPTIONS := --no-deprecation
+export JEST_OPTIONS := -u
 
 all:
 	@echo Nothing to do by default
@@ -204,12 +206,12 @@ ujest:
 	rm -f ujest/snaps/__diff_output__/*
 	-rmdir ujest/snaps/__diff_output__
 ifeq ($(file), ) # default behaviour
-	-@jest -u --silent --config=scripts/jest.config.js $(shell svn st ujest/test_*.js | grep -e ^A -e ^M -e ^? | grep '\.'js$$ | gawk '{print "../"$$2}' | sort | paste -s -d' ')
+	-@jest $(JEST_OPTIONS) --config=scripts/jest.config.js $(shell svn st ujest/test_*.js | grep -e ^A -e ^M -e ^? | grep '\.'js$$ | gawk '{print "../"$$2}' | sort | paste -s -d' ')
 else
 ifeq ($(file), all) # file=all
-	-@jest -u --silent --config=scripts/jest.config.js
+	-@jest $(JEST_OPTIONS) --config=scripts/jest.config.js
 else # file=xxx,yyy,zzz
-	-@jest -u --silent --config=scripts/jest.config.js $(shell echo ${file} | tr ',' '\n' | gawk '{print "../ujest/test_"$$0".js"}' | paste -s -d' ')
+	-@jest $(JEST_OPTIONS) --config=scripts/jest.config.js $(shell echo ${file} | tr ',' '\n' | gawk '{print "../ujest/test_"$$0".js"}' | paste -s -d' ')
 endif
 endif
 	php scripts/jest_coverage.php

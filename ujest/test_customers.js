@@ -278,7 +278,7 @@ describe('App Customers', () => {
      *
      * This part of the test tries to validate the correctness of the insert feature
      */
-    test('Action Insert', async () => {
+    test('Action Insert (first part)', async () => {
         await page.goto('https://127.0.0.1/saltos/code4/#/app/customers/create');
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
@@ -290,7 +290,14 @@ describe('App Customers', () => {
             failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
+    });
 
+    /**
+     * Action Insert
+     *
+     * This part of the test tries to validate the correctness of the insert feature
+     */
+    test('Action Insert (second part)', async () => {
         await page.$eval('#name', el => el.value = 'Josep Sanz');
         await page.$eval('#code', el => el.value = '12345678X');
         await page.$eval('#city', el => el.value = 'Barcelona');
@@ -313,9 +320,9 @@ describe('App Customers', () => {
      *
      * This part of the test tries to validate the correctness of the update feature
      */
-    test('Action Update', async () => {
+    test('Action Update (first part)', async () => {
         const id = await page.$eval('#list tbody tr', el => el.id.split('_')[1]);
-        await page.goto('https://127.0.0.1/saltos/code4/#/app/customers/edit/' + id);
+        await page.goto(`https://127.0.0.1/saltos/code4/#/app/customers/edit/${id}`);
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#name', timeout);
@@ -326,7 +333,14 @@ describe('App Customers', () => {
             failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
+    });
 
+    /**
+     * Action Update
+     *
+     * This part of the test tries to validate the correctness of the update feature
+     */
+    test('Action Update (second part)', async () => {
         await page.$eval('#name', el => el.value = 'Josep Sanz');
         await page.$eval('#code', el => el.value = '12345678Y');
         await page.$eval('#city', el => el.value = 'Barcelona');
@@ -349,7 +363,7 @@ describe('App Customers', () => {
      *
      * This part of the test tries to validate the correctness of the delete feature
      */
-    test('Action Delete', async () => {
+    test('Action Delete (first part)', async () => {
         const id = await page.$eval('#list tbody tr', el => el.id.split('_')[1]);
         await page.evaluate(id => { saltos.driver.delete(`app/customers/delete/${id}`); }, id);
 
@@ -361,7 +375,14 @@ describe('App Customers', () => {
             failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
+    });
 
+    /**
+     * Action Delete
+     *
+     * This part of the test tries to validate the correctness of the delete feature
+     */
+    test('Action Delete (second part)', async () => {
         await page.$eval('.modal-footer button', button => button.click()); // yes button
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);

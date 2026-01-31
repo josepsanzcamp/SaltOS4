@@ -153,7 +153,7 @@ saltos.common.download = file => {
  * @file => the file or note string path
  */
 saltos.common.delete = file => {
-    const all_id = 'all' + file.split('/').slice(3, 6).join('/');
+    const all_id = 'all' + file.split('/').slice(3, 6).join('_');
     const row = document.getElementById(all_id);
     row.remove();
     const del_id = 'del' + file.split('/').at(3);

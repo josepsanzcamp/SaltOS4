@@ -126,56 +126,70 @@ describe('App Invoices', () => {
      * This part of the test tries to validate the correctness of the checkbox
      * feature
      */
-    test('Action Checkbox', async () => {
+    test('Action Checkbox (first part)', async () => {
         let count;
 
-        // This checks that no checkboxes are enabled
-        count = await page.$$eval('#list input[type=checkbox]:checked', inputs => inputs.length);
-        expect(count).toBe(0);
+        try {
+            // This checks that no checkboxes are enabled
+            count = await page.$$eval('#list input[type=checkbox]:checked', inputs => inputs.length);
+            expect(count).toBe(0);
 
-        // This enable all checkboxes
-        await page.$$eval('#list input[type=checkbox]', inputs => inputs[0].click());
-        count = await page.$$eval('#list input[type=checkbox]:checked', inputs => inputs.length);
-        expect(count).toBe(26);
+            // This enable all checkboxes
+            await page.$$eval('#list input[type=checkbox]', inputs => inputs[0].click());
+            count = await page.$$eval('#list input[type=checkbox]:checked', inputs => inputs.length);
+            expect(count).toBe(26);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
-        expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
-            customSnapshotsDir: `${__dirname}/snaps`,
-        });
-
-        // This disable all checkboxes
-        await page.$$eval('#list input[type=checkbox]', inputs => inputs[0].click());
-        count = await page.$$eval('#list input[type=checkbox]:checked', inputs => inputs.length);
-        expect(count).toBe(0);
-
-        // This enable the first row, note that the click is triggered to the first row
-        await page.$$eval('#list tbody tr', rows => rows[0].click());
-        // This event is triggered to the checkbox number six to get only 5 enabled checkboxes
-        await page.evaluate(() => {
-            const checkbox = document.querySelectorAll('#list input[type=checkbox]')[5];
-            const event = new MouseEvent('click', {
-                bubbles: true,
-                ctrlKey: true,
+            const screenshot = await page.screenshot({encoding: 'base64'});
+            expect(screenshot).toMatchImageSnapshot({
+                failureThreshold: 0.005,
+                failureThresholdType: 'percent',
+                customSnapshotsDir: `${__dirname}/snaps`,
             });
-            checkbox.dispatchEvent(event);
-        });
-        count = await page.$$eval('#list input[type=checkbox]:checked', inputs => inputs.length);
-        expect(count).toBe(5);
+        } finally {
+            // This disable all checkboxes
+            await page.$$eval('#list input[type=checkbox]', inputs => inputs[0].click());
+            count = await page.$$eval('#list input[type=checkbox]:checked', inputs => inputs.length);
+            expect(count).toBe(0);
+        }
+    });
 
-        const screenshot2 = await page.screenshot({encoding: 'base64'});
-        expect(screenshot2).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
-            customSnapshotsDir: `${__dirname}/snaps`,
-        });
+    /**
+     * Action List
+     *
+     * This part of the test tries to validate the correctness of the checkbox
+     * feature
+     */
+    test('Action Checkbox (second part)', async () => {
+        let count;
 
-        // This reset all checkboxes to disabled all selections
-        await page.$$eval('#list input[type=checkbox]', inputs => inputs[0].click());
-        await page.$$eval('#list input[type=checkbox]', inputs => inputs[0].click());
-        count = await page.$$eval('#list input[type=checkbox]:checked', inputs => inputs.length);
-        expect(count).toBe(0);
+        try {
+            // This enable the first row, note that the click is triggered to the first row
+            await page.$$eval('#list tbody tr', rows => rows[0].click());
+            // This event is triggered to the checkbox number six to get only 5 enabled checkboxes
+            await page.evaluate(() => {
+                const checkbox = document.querySelectorAll('#list input[type=checkbox]')[5];
+                const event = new MouseEvent('click', {
+                    bubbles: true,
+                    ctrlKey: true,
+                });
+                checkbox.dispatchEvent(event);
+            });
+            count = await page.$$eval('#list input[type=checkbox]:checked', inputs => inputs.length);
+            expect(count).toBe(5);
+
+            const screenshot2 = await page.screenshot({encoding: 'base64'});
+            expect(screenshot2).toMatchImageSnapshot({
+                failureThreshold: 0.005,
+                failureThresholdType: 'percent',
+                customSnapshotsDir: `${__dirname}/snaps`,
+            });
+        } finally {
+            // This reset all checkboxes to disabled all selections
+            await page.$$eval('#list input[type=checkbox]', inputs => inputs[0].click());
+            await page.$$eval('#list input[type=checkbox]', inputs => inputs[0].click());
+            count = await page.$$eval('#list input[type=checkbox]:checked', inputs => inputs.length);
+            expect(count).toBe(0);
+        }
     });
 
     /**

@@ -154,7 +154,7 @@ describe('App Emails', () => {
      *
      * This part of the test tries to validate the control+f focus
      */
-    test('Action Control F', async () => {
+    test('Action Control F (first part)', async () => {
         await page.waitForSelector('#top input', timeout);
         await page.$$eval('#top input', inputs => inputs[1].blur()); // this blur the focus
         await mypause(page, 500);
@@ -165,7 +165,14 @@ describe('App Emails', () => {
             failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
+    });
 
+    /**
+     * Action Control F
+     *
+     * This part of the test tries to validate the control+f focus
+     */
+    test('Action Control F (second part)', async () => {
         await page.keyboard.down('Control');
         await page.keyboard.down('Shift');
         await page.keyboard.press('F');
@@ -188,22 +195,24 @@ describe('App Emails', () => {
      * This part of the test tries to load the profile screen
      */
     test('Action Profile', async () => {
-        await page.waitForSelector('#username', timeout);
-        await page.$eval('#username', element => element.click()); // this open the dropdown
-        await page.$$eval('#username ~ ul button', buttons => buttons[0].click()); // this trigger the profile
+        try {
+            await page.waitForSelector('#username', timeout);
+            await page.$eval('#username', element => element.click()); // this open the dropdown
+            await page.$$eval('#username ~ ul button', buttons => buttons[0].click()); // this trigger the profile
 
-        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForSelector('#oldpass', timeout);
+            await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+            await page.waitForSelector('#oldpass', timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
-        expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
-            customSnapshotsDir: `${__dirname}/snaps`,
-        });
-
-        await page.evaluate(() => { saltos.common.profile(); });
-        await page.waitForFunction(() => !document.querySelector('#oldpass'), timeout);
+            const screenshot = await page.screenshot({encoding: 'base64'});
+            expect(screenshot).toMatchImageSnapshot({
+                failureThreshold: 0.005,
+                failureThresholdType: 'percent',
+                customSnapshotsDir: `${__dirname}/snaps`,
+            });
+        } finally {
+            await page.evaluate(() => { saltos.common.profile(); });
+            await page.waitForFunction(() => !document.querySelector('#oldpass'), timeout);
+        }
     });
 
     /**
@@ -212,25 +221,27 @@ describe('App Emails', () => {
      * This part of the test tries to load the help screen
      */
     test('Action Help', async () => {
-        await page.waitForSelector('#username', timeout);
-        await page.$eval('#username', element => element.click()); // this open the dropdown
-        await page.$$eval('#username ~ ul button', buttons => buttons[1].click()); // this trigger the help
+        try {
+            await page.waitForSelector('#username', timeout);
+            await page.$eval('#username', element => element.click()); // this open the dropdown
+            await page.$$eval('#username ~ ul button', buttons => buttons[1].click()); // this trigger the help
 
-        await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForSelector('#pdfjs', timeout);
+            await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+            await page.waitForSelector('#pdfjs', timeout);
 
-        // Special case to allow the pdf load
-        await mypause(page, 500);
+            // Special case to allow the pdf load
+            await mypause(page, 500);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
-        expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
-            customSnapshotsDir: `${__dirname}/snaps`,
-        });
-
-        await page.evaluate(() => { saltos.common.help(); });
-        await page.waitForFunction(() => !document.querySelector('#pdfjs'), timeout);
+            const screenshot = await page.screenshot({encoding: 'base64'});
+            expect(screenshot).toMatchImageSnapshot({
+                failureThreshold: 0.005,
+                failureThresholdType: 'percent',
+                customSnapshotsDir: `${__dirname}/snaps`,
+            });
+        } finally {
+            await page.evaluate(() => { saltos.common.help(); });
+            await page.waitForFunction(() => !document.querySelector('#pdfjs'), timeout);
+        }
     });
 
     /**
@@ -239,21 +250,23 @@ describe('App Emails', () => {
      * This part of the test tries to load the filter screen
      */
     test('Action Filter', async () => {
-        await page.waitForSelector('#top button', timeout);
-        await page.$$eval('#top button', buttons => buttons[0].click()); // this trigger the filter action
+        try {
+            await page.waitForSelector('#top button', timeout);
+            await page.$$eval('#top button', buttons => buttons[0].click()); // this trigger the filter action
 
-        await page.waitForSelector('.offcanvas', timeout);
-        await mypause(page, 500);
+            await page.waitForSelector('.offcanvas', timeout);
+            await mypause(page, 500);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
-        expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
-            customSnapshotsDir: `${__dirname}/snaps`,
-        });
-
-        await page.evaluate(() => { saltos.common.filter(); });
-        await page.waitForFunction(() => !document.querySelector('.offcanvas'), timeout);
+            const screenshot = await page.screenshot({encoding: 'base64'});
+            expect(screenshot).toMatchImageSnapshot({
+                failureThreshold: 0.005,
+                failureThresholdType: 'percent',
+                customSnapshotsDir: `${__dirname}/snaps`,
+            });
+        } finally {
+            await page.evaluate(() => { saltos.common.filter(); });
+            await page.waitForFunction(() => !document.querySelector('.offcanvas'), timeout);
+        }
     });
 
     /**

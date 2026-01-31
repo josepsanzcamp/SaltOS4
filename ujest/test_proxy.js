@@ -203,7 +203,9 @@ describe('debug', () => {
 
 describe('proxy', () => {
     const makeServiceWorkerEnv = require('service-worker-mock');
-    Object.assign(global, makeServiceWorkerEnv());
+    const environment = makeServiceWorkerEnv();
+    environment.location = global.location;
+    Object.assign(global, environment);
 
     const fetchMock = require('jest-fetch-mock');
     global.Headers = fetchMock.Headers;
