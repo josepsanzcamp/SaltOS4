@@ -68,12 +68,10 @@ clean:
 test:
 ifeq ($(file),) # default behaviour
 	$(eval files := $(shell svn st code/api/index.php code/api/php scripts utest code/apps/*/php code/apps/*/sample | grep -e ^A -e ^M -e ^? | grep '\.'php$$ | gawk '{print $$2}' | sort))
-else
-ifeq ($(file),all) # file=all
+else ifeq ($(file),all) # file=all
 	$(eval files := $(shell find code/api/index.php code/api/php scripts utest code/apps/*/php code/apps/*/sample -name *.php | sort))
 else # file=path
 	$(eval files := $(shell find $(file) -name *.php | sort))
-endif
 endif
 	@$(if $(files), \
 	phpcs --colors -p --standard=scripts/phpcs.xml ${files}; \
@@ -82,12 +80,10 @@ endif
 
 ifeq ($(file),) # default behaviour
 	$(eval files := $(shell svn st code/web/js scripts ujest code/apps/*/js | grep -e ^A -e ^M -e ^? | grep '\.'js$$ | grep -v '\.'min'\.'js$$ | gawk '{print $$2}' | sort))
-else
-ifeq ($(file),all) # file=all
+else ifeq ($(file),all) # file=all
 	$(eval files := $(shell find code/web/js scripts ujest code/apps/*/js -name *.js | grep -v '\.'min'\.'js$$ | sort))
 else # file=path
 	$(eval files := $(shell find $(file) -name *.js | grep -v '\.'min'\.'js$$ | sort))
-endif
 endif
 	@$(if $(files), \
 	jscs --config=scripts/jscs.json ${files}; \
@@ -192,12 +188,10 @@ check:
 utest:
 ifeq ($(file), ) # default behaviour
 	@phpunit -c scripts/phpunit.xml $(shell svn st utest/test_*.php | grep -e ^A -e ^M -e ^? | grep '\.'php$$ | gawk '{print "../../"$$2}' | sort | paste -s -d' ')
-else
-ifeq ($(file), all) # file=all
+else ifeq ($(file), all) # file=all
 	@phpunit -c scripts/phpunit.xml
 else # file=xxx,yyy,zzz
 	@phpunit -c scripts/phpunit.xml $(shell echo ${file} | tr ',' '\n' | gawk '{print "../../utest/test_"$$0".php"}' | paste -s -d' ')
-endif
 endif
 
 ujest:
@@ -207,19 +201,21 @@ ujest:
 	-rmdir ujest/snaps/__diff_output__
 ifeq ($(file), ) # default behaviour
 	-@jest $(JEST_OPTIONS) --config=scripts/jest.config.js $(shell svn st ujest/test_*.js | grep -e ^A -e ^M -e ^? | grep '\.'js$$ | gawk '{print "../"$$2}' | sort | paste -s -d' ')
-else
-ifeq ($(file), all) # file=all
+else ifeq ($(file), all) # file=all
 	-@jest $(JEST_OPTIONS) --config=scripts/jest.config.js
 else # file=xxx,yyy,zzz
 	-@jest $(JEST_OPTIONS) --config=scripts/jest.config.js $(shell echo ${file} | tr ',' '\n' | gawk '{print "../ujest/test_"$$0".js"}' | paste -s -d' ')
 endif
-endif
 	php scripts/jest_coverage.php
 
 ujest_by_parts:
+ifeq ($(part),1)
 	$(MAKE) ujest file=core,filter,gettext,hash,proxy,push,storage,token,window
+else ifeq ($(part),2)
 	$(MAKE) ujest file=apps,bootstrap,customers,emails,invoices,tester
+else ifeq ($(part),3)
 	$(MAKE) ujest file=screenshots
+endif
 
 cloc:
 	find scripts utest ujest code/api/{index.php,php,xml,locale} code/web/{js,htm} code/apps/*/{js,php,xml,locale,sample} > /tmp/cloc.include
@@ -255,7 +251,7 @@ setupclean:
 	echo "DROP DATABASE saltos;" | mariadb
 	echo "CREATE DATABASE saltos;" | mariadb
 
-setupmysql:
+setupfull:
 	php code/api/index.php setup
 	user=admin php code/api/index.php setup/certs
 	user=admin php code/api/index.php setup/company
@@ -264,20 +260,23 @@ setupmysql:
 	user=admin php code/api/index.php setup/hr
 	user=admin php code/api/index.php setup/purchases
 	user=admin php code/api/index.php setup/sales
+
+setupmysql:
+	echo '<root><db><type>pdo_mysql</type></db></root>' > code/data/files/config.xml
 
 setupsqlite:
 	echo '<root><db><type>pdo_sqlite</type></db></root>' > code/data/files/config.xml
-	php code/api/index.php setup
-	user=admin php code/api/index.php setup/certs
-	user=admin php code/api/index.php setup/company
-	user=admin php code/api/index.php setup/emails
-	user=admin php code/api/index.php setup/crm
-	user=admin php code/api/index.php setup/hr
-	user=admin php code/api/index.php setup/purchases
-	user=admin php code/api/index.php setup/sales
+
+setupunlink:
 	rm -f code/data/files/config.xml
 
-setupinstall: setupclean setupmysql setupsqlite
+setupinstall:
+	$(MAKE) setupclean
+	$(MAKE) setupmysql
+	$(MAKE) setupfull
+	$(MAKE) setupsqlite
+	$(MAKE) setupfull
+	$(MAKE) setupunlink
 
 cron:
 	php code/api/index.php cron

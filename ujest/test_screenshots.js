@@ -199,16 +199,16 @@ describe('Screenshots', () => {
     }
     //~ console.log(allApps);
 
-    const fs = require('fs');
-    const path = require('path');
-    const dir = path.join(__dirname, 'snaps');
-    fs.readdirSync(dir).forEach(file => {
-        if (file.includes('tokenslog') || file.includes('configlog')) {
-            const fullPath = path.join(dir, file);
-            fs.unlinkSync(fullPath);
+    //~ const fs = require('fs');
+    //~ const path = require('path');
+    //~ const dir = path.join(__dirname, 'snaps');
+    //~ fs.readdirSync(dir).forEach(file => {
+        //~ if (file.includes('tokenslog') || file.includes('configlog')) {
+            //~ const fullPath = path.join(dir, file);
+            //~ fs.unlinkSync(fullPath);
             //~ console.log('Deleted:', fullPath);
-        }
-    });
+        //~ }
+    //~ });
 
     test.each(allApps)('$group $app $action $lang', async (info) => {
         if (['list', ''].includes(info.action)) {
