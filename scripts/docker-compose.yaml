@@ -1,41 +1,55 @@
 services:
 
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: mssql2022
-    environment:
-      ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: "asd123ASD"
-    ports:
-      - "1433:1433"
-    restart: unless-stopped
+    sqlserver:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        container_name: mssql2022
+        environment:
+            ACCEPT_EULA: "Y"
+            MSSQL_SA_PASSWORD: "asd123ASD"
+        ports:
+            - "1433:1433"
+        profiles: ["test"]
+        restart: unless-stopped
 
-  postgres:
-    image: postgres:17
-    container_name: pgsql17
-    environment:
-      POSTGRES_PASSWORD: saltos
-      POSTGRES_USER: saltos
-      POSTGRES_DB: saltos
-    ports:
-      - "5432:5432"
-    restart: unless-stopped
+    postgres:
+        image: postgres:17
+        container_name: pgsql17
+        environment:
+            POSTGRES_PASSWORD: saltos
+            POSTGRES_USER: saltos
+            POSTGRES_DB: saltos
+        ports:
+            - "5432:5432"
+        profiles: ["test"]
+        restart: unless-stopped
 
-  greenmail:
-    image: greenmail/standalone:latest
-    container_name: greenmail
-    environment:
-      GREENMAIL_OPTS: >
-        -Dgreenmail.smtp.hostname=0.0.0.0
-        -Dgreenmail.smtp.port=587
-        -Dgreenmail.pop3.hostname=0.0.0.0
-        -Dgreenmail.pop3.port=995
-        -Dgreenmail.users=admin:admin@example.com
-        -Dgreenmail.hostname=example.com
-        -Dgreenmail.api.disabled=true
-        -Dgreenmail.verbose
-      JAVA_OPTS: -Djava.net.preferIPv4Stack=true
-    ports:
-      - "995:995"
-      - "587:587"
-    restart: unless-stopped
+    greenmail:
+        image: greenmail/standalone:latest
+        container_name: greenmail
+        environment:
+            GREENMAIL_OPTS: >
+                -Dgreenmail.smtp.hostname=0.0.0.0
+                -Dgreenmail.smtp.port=587
+                -Dgreenmail.pop3.hostname=0.0.0.0
+                -Dgreenmail.pop3.port=995
+                -Dgreenmail.users=admin:admin@example.com
+                -Dgreenmail.hostname=example.com
+                -Dgreenmail.api.disabled=true
+                -Dgreenmail.verbose
+            JAVA_OPTS: -Djava.net.preferIPv4Stack=true
+        ports:
+            - "995:995"
+            - "587:587"
+        profiles: ["test"]
+        restart: unless-stopped
+
+    saltos4:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: saltos4
+        ports:
+            - "8080:80"
+            - "8443:443"
+        profiles: ["server"]
+        restart: unless-stopped

@@ -241,13 +241,64 @@ user=admin php api/index.php setup/sales
 # 5. Start web server
 cd web
 ln -s index.htm index.php
-php -S localhost:8000
+php -S localhost:8080
 
 # 6. Open browser
-open http://localhost:8000
+open http://localhost:8080
 ```
 
-**Docker Compose** coming soon!
+### Local Installation (Docker Compose)
+
+SaltOS 4 now provides a **production-ready Docker setup** including Apache, PHP and MariaDB,
+with SaltOS fully installed and initialized during the image build.
+
+#### Build and start the server
+
+```bash
+make serverbuild
+make serverstart
+```
+
+#### Access
+
+- HTTP: http://localhost:8080
+- HTTPS: https://localhost:8443
+- Username: `admin`
+- Password: `admin`
+
+A self-signed SSL certificate is generated automatically.
+
+#### Server management
+
+```bash
+make serverstatus   # Show container status
+make serverlogs     # Show logs
+make serverstop     # Stop and remove containers
+```
+
+#### Docker Compose profiles
+
+SaltOS 4 includes two Docker Compose profiles:
+
+- `server`: launches the full SaltOS 4 stack using the provided Dockerfile
+  (Apache + PHP + MariaDB, ready to use).
+
+- `test`: starts the external services required to run unit tests:
+    - Microsoft SQL Server 2022
+    - PostgreSQL 17
+    - GreenMail (SMTP / POP3 mail server simulation)
+
+#### Test services (unit testing)
+
+The optional `test` profile starts SQL Server, PostgreSQL and GreenMail
+required for running the unit test suite.
+
+```bash
+make teststart     # Start test dependencies
+make teststatus    # Show running containers
+make testlogs      # View service logs
+make teststop      # Stop and cleanup
+```
 
 ---
 

@@ -287,17 +287,32 @@ langs:
 		python3 scripts/checklangs.py --lang en_US --group $$i --filter missing; \
 	done
 
-start:
-	cd scripts && docker compose up -d
+teststart:
+	cd scripts && docker compose --profile test up -d
 
-stop:
-	cd scripts && docker compose kill
-	cd scripts && docker compose down
+teststop:
+	cd scripts && docker compose --profile test kill
+	cd scripts && docker compose --profile test down
 	cd scripts && yes | docker volume prune
 
-logs:
-	cd scripts && docker compose logs
+testlogs:
+	cd scripts && docker compose --profile test logs
 
-status:
-	docker ps
-	cd scripts && docker compose ps
+teststatus:
+	cd scripts && docker compose --profile test ps
+
+serverbuild:
+	cd scripts && docker compose --profile server build
+
+serverstart:
+	cd scripts && docker compose --profile server up -d
+
+serverstop:
+	cd scripts && docker compose --profile server kill
+	cd scripts && docker compose --profile server down
+
+serverlogs:
+	cd scripts && docker compose --profile server logs saltoa4
+
+serverstatus:
+	cd scripts && docker compose --profile server ps
