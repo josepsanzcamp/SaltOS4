@@ -227,8 +227,8 @@ saltos.driver.search = arg => {
  */
 saltos.driver.reset = arg => {
     saltos.backup.restore('top+one');
-    const types = ['text', 'hidden', 'integer', 'float', 'color', 'date', 'time',
-        'datetime', 'textarea', 'ckeditor', 'codemirror', 'select', 'multiselect',
+    const types = ['text', 'hidden', 'integer', 'float', 'color', 'date', 'time', 'datetime',
+        'textarea', 'ckeditor', 'joditeditor', 'codemirror', 'select', 'multiselect',
         'checkbox', 'switch', 'password', 'file', 'excel', 'tags', 'onetag'];
     for (const i in saltos.form.__form.fields) {
         const field = saltos.form.__form.fields[i];

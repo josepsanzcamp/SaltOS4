@@ -60,6 +60,7 @@ saltos.bootstrap = {};
  * @datetime    => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, OE, OC
  * @textarea    => id, class, PL, value, DS, RO, RQ, AF, AK, rows, tooltip, label, color, height, OC
  * @ckeditor    => id, class, PL, value, DS, RO, RQ, AF, AK, rows, label, color, height, OC
+ * @joditeditor => id, class, PL, value, DS, RO, RQ, AF, AK, rows, label, color, height, OC
  * @codemirror  => id, class, PL, value, DS, RO, RQ, AF, AK, rows, mode, label, color, height, OC
  * @iframe      => id, class, src, srcdoc, height, label, color
  * @select      => id, class, DS, RQ, AF, AK, rows, multiple, size, value, tooltip, label, color, OC
@@ -711,20 +712,6 @@ saltos.bootstrap.__field.ckeditor = field => {
             editor.model.document.on('change:data', () => {
                 element.value = editor.getData();
             });
-            //~ editor.keystrokes.set('Enter', 'shiftEnter');
-            //~ editor.keystrokes.set('Shift+Enter', 'enter');
-            // I maintain the follow commented lines as an example of usage
-            /*editor.on('change:isReadOnly', (evt, propertyName, isReadOnly) => {
-                const toolbar = editor.ui.view.toolbar.element;
-                const editable = editor.ui.view.editable.element;
-                if (isReadOnly) {
-                    toolbar.classList.add('bg-body-secondary');
-                    editable.classList.add('bg-body-secondary');
-                } else {
-                    toolbar.classList.remove('bg-body-secondary');
-                    editable.classList.remove('bg-body-secondary');
-                }
-            });*/
         }).catch(error => {
             throw new Error(error);
         });
@@ -768,20 +755,6 @@ saltos.bootstrap.__field.ckeditor = field => {
         element.set_disabled(true);
     }
     // Continue
-    /*obj.append(saltos.core.html(`
-        <style>
-            .ck-read-only {
-                background-color: var(--bs-secondary-bg)!important;
-            }
-            .ck-toolbar:has(.ck-disabled:not(.ck-off)) {
-                background-color: var(--bs-secondary-bg)!important;
-            }
-            :root[data-bs-theme="dark"]:has(.ck-disabled:not(.ck-off)) {
-                --ck-color-text: #fff !important;
-                --ck-content-font-color: #fff !important;
-            }
-        </style>
-    `));*/
     if (field.height) {
         // The follow code allow to sets the min-height for this widget
         obj.append(saltos.core.html(`
@@ -824,6 +797,164 @@ saltos.bootstrap.__field.ckeditor = field => {
             }
             .ck-editor__main {
                 --ck-border-radius: 0 0 ${rounded} ${rounded};
+            }
+        </style>
+    `));
+    return obj;
+};
+
+/**
+ * Joditeditor constructor helper
+ *
+ * This function returns a textarea object with the joditeditor plugin enabled
+ *
+ * @id          => the id used by the object
+ * @class       => allow to add more classes to the default form-control
+ * @placeholder => the text used as placeholder parameter
+ * @value       => the value used as value parameter
+ * @disabled    => this parameter raise the disabled flag
+ * @readonly    => this parameter raise the readonly flag
+ * @required    => this parameter raise the required flag
+ * @autofocus   => this parameter raise the autofocus flag
+ * @tooltip     => this parameter raise the title flag
+ * @accesskey   => the key used as accesskey parameter
+ * @label       => this parameter is used as text for the label
+ * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @height      => the height used as style.minHeight parameter
+ * @onchange    => the function executed when onchange event is detected
+ *
+ * Notes:
+ *
+ * This widget requires the joditeditor library and can be loaded automatically using the require
+ * feature:
+ *
+ * @lib/joditeditor/jodit.fat.min.css
+ * @lib/joditeditor/jodit.fat.min.js
+ *
+ * The returned object contains a textarea with two new properties like joditeditor and set,
+ * the first contains the joditeditor object and the second is a function used to update the
+ * value of the joditeditor, intended to load new data.
+ */
+saltos.bootstrap.__field.joditeditor = field => {
+    saltos.core.check_params(field, ['height', 'color', 'disabled', 'rounded']);
+    if (!field.color) {
+        field.color = 'primary';
+    }
+    const obj = saltos.core.html(`<div></div>`);
+    obj.append(saltos.bootstrap.__label_helper(field));
+    obj.append(saltos.bootstrap.__textarea_helper(saltos.core.copy_object(field)));
+    const element = obj.querySelector('textarea');
+    element.style.display = 'none';
+    // Add the placeholder
+    const placeholder = saltos.bootstrap.__field.placeholder({
+        color: field.color,
+        height: field.height,
+    });
+    obj.append(placeholder);
+    // Continue
+    saltos.core.require([
+        'lib/joditeditor/jodit.fat.min.css',
+        'lib/joditeditor/jodit.fat.min.js',
+    ], () => {
+        placeholder.remove();
+        element.parentElement.classList.add('form-control');
+        element.parentElement.classList.add('p-0');
+        if (field.color != 'none') {
+            element.parentElement.classList.add('border');
+            element.parentElement.classList.add('border-' + field.color + '-subtle');
+        }
+        const buttons = [
+            'bold', 'italic', 'underline', 'strikethrough', '|',
+            'ul', 'ol', '|',
+            'outdent', 'indent', '|',
+            'link', '|',
+            'brush', '|',
+            'undo', 'redo', '|',
+            'image', 'paragraph', 'table', 'hr', '|',
+            'source',
+        ];
+        const editor = new Jodit(element, {
+            toolbarAdaptive: true,
+            toolbarSticky: true,
+            uploader: {
+                insertImageAsBase64URI: true
+            },
+            statusbar: false,
+            buttons: buttons,
+            buttonsMD: buttons,
+            buttonsSM: buttons,
+            buttonsXS: buttons,
+            language: saltos.gettext.get_short(),
+            minHeight: field.height,
+        });
+        element.joditeditor = editor;
+    });
+    // Program the set feature
+    element.set = value => {
+        if (!('joditeditor' in element)) {
+            if (!('queue' in element)) {
+                element.queue = [];
+            }
+            element.queue.push(value);
+            if (!('timer' in element)) {
+                element.timer = setInterval(() => {
+                    if (!('joditeditor' in element)) {
+                        return;
+                    }
+                    clearInterval(element.timer);
+                    while (element.queue.length) {
+                        const item = element.queue.shift();
+                        element.set(item);
+                    }
+                }, 1);
+            }
+            return;
+        }
+        element.joditeditor.value = value;
+    };
+    // Program the disabled feature
+    element.set_disabled = bool => {
+        if (!('joditeditor' in element)) {
+            setTimeout(() => element.set_disabled(bool), 1);
+            return;
+        }
+        element.joditeditor.setReadOnly(bool);
+    };
+    if (saltos.core.eval_bool(field.disabled)) {
+        element.set_disabled(true);
+    }
+    // Fix for a rounded corners
+    let rounded = 'var(--bs-border-radius)';
+    if (saltos.core.is_number(field.rounded.replace('rounded-', ''))) {
+        const index = parseInt(field.rounded.replace('rounded-', ''), 10);
+        switch (index) {
+            case 0:
+                rounded = '0';
+                break;
+            case 1:
+                rounded = 'var(--bs-border-radius-sm)';
+                break;
+            case 2:
+                rounded = 'var(--bs-border-radius)';
+                break;
+            case 3:
+                rounded = 'var(--bs-border-radius-lg)';
+                break;
+            case 4:
+                rounded = 'var(--bs-border-radius-xl)';
+                break;
+            case 5:
+                rounded = 'var(--bs-border-radius-xxl)';
+                break;
+        }
+    }
+    obj.append(saltos.core.html(`
+        <style>
+            .jodit-container {
+                --jd-border-radius-default: ${rounded};
+            }
+            .jodit-workplace {
+                border-radius: 0 0 ${rounded} ${rounded};
             }
         </style>
     `));

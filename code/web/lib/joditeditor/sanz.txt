@@ -1,0 +1,3 @@
+
+wget https://cdn.jsdelivr.net/npm/jodit@4.9.4/es2021/jodit.fat.min.js
+wget https://cdn.jsdelivr.net/npm/jodit@4.9.4/es2021/jodit.fat.min.css
