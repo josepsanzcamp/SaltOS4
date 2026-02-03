@@ -33,7 +33,7 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Files.SideEffects
 
 /**
- * Test roundcube library
+ * Test html2markdown library
  */
 
 /**
@@ -46,25 +46,50 @@ use PHPUnit\Framework\Attributes\Depends;
 /**
  * Main class of this unit test
  */
-final class test_roundcube extends TestCase
+final class test_html2markdown extends TestCase
 {
     #[testdox('html2text function')]
     /**
      * html2text
      *
      * This function checks the correctness of the html2text method provided by the
-     * roundcube library.
+     * html2markdown library.
      */
     public function test_html2text(): void
     {
         $html = 'The SaltOS project<br/><a href="https://www.saltos.org">www.saltos.org</a>';
-        $text = "The SaltOS project\nwww.saltos.org [1]\n\nLinks:\n------\n[1] https://www.saltos.org\n";
+        $text = "The SaltOS project\n[www.saltos.org](https://www.saltos.org)";
         $this->assertSame(html2text($html), $text);
 
-        $this->assertSame(html2text(' '), ' ');
+        $this->assertSame(html2text(' '), '');
         $this->assertSame(html2text(true), '1');
         $this->assertSame(html2text(''), '');
         $this->assertSame(html2text(false), '');
         $this->assertSame(html2text(null), '');
+
+        // Case 2: Malformed entity
+        $html = 'Tom & Jerry<br/>Cartoon';
+        $text = "Tom & Jerry\nCartoon";
+        $this->assertSame(html2text($html), $text);
+
+        // Case 3: Unclosed HTML tags
+        $html = '<div><p><b>Hello SaltOS</div>';
+        $text = '**Hello SaltOS**';
+        $this->assertSame(html2text($html), $text);
+
+        // Case 4: Incomplete HTML (unclosed link)
+        $html = '<a href="https://saltos.org">SaltOS';
+        $text = '[SaltOS](https://saltos.org)';
+        $this->assertSame(html2text($html), $text);
+
+        // Case 5: HTML list
+        $html = '<ul><li>One</li><li>Two</li></ul>';
+        $text = "- One\n- Two";
+        $this->assertSame(html2text($html), $text);
+
+        // Case 6: Invalid or unusual UTF-8 character (may trigger warnings without libxml handling)
+        $html = "Hola\x01 Mundo<br/>SaltOS";
+        $text = "Hola Mundo\nSaltOS";
+        $this->assertSame(html2text($html), $text);
     }
 }

@@ -255,7 +255,7 @@ final class test_user extends TestCase
         $this->assertContains($geoip['region'], ['', 'Madrid']);
         $this->assertContains($geoip['country'], ['', 'Spain']);
         $this->assertContains($geoip['ip'], ['', '79.116.196.1']);
-        $this->assertContains($geoip['isp'], ['', 'Digi Spain Telecom S.l.']);
+        $this->assertContains($geoip['isp'], ['', 'Digi Spain Telecom S.A']);
 
         $remote_addr = '79.116.196.1';
 
@@ -263,21 +263,21 @@ final class test_user extends TestCase
         $geoip = get_geoip_string($remote_addr);
         $this->assertContains($geoip, [
             ', ,  using IP  and network of ',
-            'Madrid, Madrid, Spain using IP 79.116.196.1 and network of Digi Spain Telecom S.l.',
+            'Madrid, Madrid, Spain using IP 79.116.196.1 and network of Digi Spain Telecom S.A',
         ]);
 
         set_data('server/lang', 'es_ES');
         $geoip = get_geoip_string($remote_addr);
         $this->assertContains($geoip, [
             ', ,  usando la IP  y la red de ',
-            'Madrid, Madrid, Spain usando la IP 79.116.196.1 y la red de Digi Spain Telecom S.l.',
+            'Madrid, Madrid, Spain usando la IP 79.116.196.1 y la red de Digi Spain Telecom S.A',
         ]);
 
         set_data('server/lang', 'ca_ES');
         $geoip = get_geoip_string($remote_addr);
         $this->assertContains($geoip, [
             ', ,  fent servir la IP  i la xarxa de ',
-            'Madrid, Madrid, Spain fent servir la IP 79.116.196.1 i la xarxa de Digi Spain Telecom S.l.',
+            'Madrid, Madrid, Spain fent servir la IP 79.116.196.1 i la xarxa de Digi Spain Telecom S.A',
         ]);
 
         set_data('server/lang', null);

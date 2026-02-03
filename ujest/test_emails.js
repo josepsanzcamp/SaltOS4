@@ -198,7 +198,7 @@ describe('App Emails', () => {
         try {
             await page.waitForSelector('#username', timeout);
             await page.$eval('#username', element => element.click()); // this open the dropdown
-            await page.$$eval('#username ~ ul button', buttons => buttons[0].click()); // this trigger the profile
+            await page.$$eval('#username ~ ul button', buttons => buttons[0].click()); // this trigger profile
 
             await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
             await page.waitForSelector('#oldpass', timeout);
@@ -224,7 +224,7 @@ describe('App Emails', () => {
         try {
             await page.waitForSelector('#username', timeout);
             await page.$eval('#username', element => element.click()); // this open the dropdown
-            await page.$$eval('#username ~ ul button', buttons => buttons[1].click()); // this trigger the help
+            await page.$$eval('#username ~ ul button', buttons => buttons[1].click()); // this trigger help
 
             await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
             await page.waitForSelector('#pdfjs', timeout);

@@ -237,26 +237,29 @@ function normalize_value($value)
 /**
  * HTML to Text
  *
- * This function uses the html2text roundcube function to convert html to
- * plain text, this code have the issue that requires the error_reporting(0)
- * because it have a lot of errors causes by use nondefined variables, for
- * example
+ * This function returns the ascii version of the html
  *
- * @html => the html code that you want to convert to plain text
+ * @html => HTML code to convert into plain text
  */
 function html2text($html)
 {
-    $html = strval($html);
-    if ($html === '') {
-        return $html;
-    }
-    if (!defined('RCUBE_CHARSET')) {
-        define('RCUBE_CHARSET', 'UTF-8');
-    }
-    require_once 'lib/roundcube/rcube_html2text.php';
-    $obj = new rcube_html2text($html);
-    $text = $obj->get_text();
-    return $text;
+    // Convert to markdown
+    require_once 'lib/html2markdown/vendor/autoload.php';
+    $converter = new League\HTMLToMarkdown\HtmlConverter();
+    libxml_use_internal_errors(true);
+    $text = $converter->convert((string) $html);
+    libxml_clear_errors();
+
+    // remove the two spaces that appear between text and <br/>
+    $text = preg_replace("/[ \t]+\n/", "\n", $text);
+
+    // Decode html entities
+    $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5);
+
+    // Remove html entities
+    $text = strip_tags($text);
+
+    return trim($text);
 }
 
 /**
