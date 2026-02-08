@@ -227,9 +227,7 @@ saltos.driver.search = arg => {
  */
 saltos.driver.reset = arg => {
     saltos.backup.restore('top+one');
-    const types = ['text', 'hidden', 'integer', 'float', 'color', 'date', 'time', 'datetime',
-        'textarea', 'ckeditor', 'joditeditor', 'codemirror', 'select', 'multiselect',
-        'checkbox', 'switch', 'password', 'file', 'excel', 'tags', 'onetag'];
+    const types = saltos.bootstrap.__field_types;
     for (const i in saltos.form.__form.fields) {
         const field = saltos.form.__form.fields[i];
         if (!types.includes(field.type)) {

@@ -59,8 +59,9 @@ saltos.bootstrap = {};
  * @time        => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, OE, OC
  * @datetime    => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, OE, OC
  * @textarea    => id, class, PL, value, DS, RO, RQ, AF, AK, rows, tooltip, label, color, height, OC
- * @ckeditor    => id, class, PL, value, DS, RO, RQ, AF, AK, rows, label, color, height, OC
+ * @ckeditor5   => id, class, PL, value, DS, RO, RQ, AF, AK, rows, label, color, height, OC
  * @joditeditor => id, class, PL, value, DS, RO, RQ, AF, AK, rows, label, color, height, OC
+ * @ckeditor4   => id, class, PL, value, DS, RO, RQ, AF, AK, rows, label, color, height, OC
  * @codemirror  => id, class, PL, value, DS, RO, RQ, AF, AK, rows, mode, label, color, height, OC
  * @iframe      => id, class, src, srcdoc, height, label, color
  * @select      => id, class, DS, RQ, AF, AK, rows, multiple, size, value, tooltip, label, color, OC
@@ -642,7 +643,7 @@ saltos.bootstrap.__field.textarea = field => {
 };
 
 /**
- * Ckeditor constructor helper
+ * Ckeditor5 constructor helper
  *
  * This function returns a textarea object with the ckeditor plugin enabled
  *
@@ -666,13 +667,13 @@ saltos.bootstrap.__field.textarea = field => {
  * This widget requires the ckeditor library and can be loaded automatically using the require
  * feature:
  *
- * @lib/ckeditor/ckeditor.min.js
+ * @lib/ckeditor5/ckeditor.min.js
  *
  * The returned object contains a textarea with two new properties like ckeditor and set,
  * the first contains the ckeditor object and the second is a function used to update the
  * value of the ckeditor, intended to load new data.
  */
-saltos.bootstrap.__field.ckeditor = field => {
+saltos.bootstrap.__field.ckeditor5 = field => {
     saltos.core.check_params(field, ['height', 'color', 'disabled', 'rounded']);
     if (!field.color) {
         field.color = 'primary';
@@ -683,12 +684,12 @@ saltos.bootstrap.__field.ckeditor = field => {
     const element = obj.querySelector('textarea');
     element.style.display = 'none';
     const array = [
-        'lib/ckeditor/ckeditor.min.js',
+        'lib/ckeditor5/ckeditor.min.js',
     ];
     // Language prefetch
     const lang = saltos.gettext.get_short();
     if (lang != 'en') {
-        array.push(`lib/ckeditor/translations/${lang}.js`);
+        array.push(`lib/ckeditor5/translations/${lang}.js`);
     }
     // Add the placeholder
     const placeholder = saltos.bootstrap.__field.placeholder({
@@ -954,6 +955,191 @@ saltos.bootstrap.__field.joditeditor = field => {
                 --jd-border-radius-default: ${rounded};
             }
             .jodit-workplace {
+                border-radius: 0 0 ${rounded} ${rounded};
+            }
+        </style>
+    `));
+    return obj;
+};
+
+/**
+ * Ckeditor4 constructor helper
+ *
+ * This function returns a textarea object with the ckeditor plugin enabled
+ *
+ * @id          => the id used by the object
+ * @class       => allow to add more classes to the default form-control
+ * @placeholder => the text used as placeholder parameter
+ * @value       => the value used as value parameter
+ * @disabled    => this parameter raise the disabled flag
+ * @readonly    => this parameter raise the readonly flag
+ * @required    => this parameter raise the required flag
+ * @autofocus   => this parameter raise the autofocus flag
+ * @tooltip     => this parameter raise the title flag
+ * @accesskey   => the key used as accesskey parameter
+ * @label       => this parameter is used as text for the label
+ * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @height      => the height used as style.minHeight parameter
+ * @onchange    => the function executed when onchange event is detected
+ *
+ * Notes:
+ *
+ * This widget requires the ckeditor library and can be loaded automatically using the require
+ * feature:
+ *
+ * @lib/ckeditor4/ckeditor.js
+ *
+ * The returned object contains a textarea with two new properties like ckeditor and set,
+ * the first contains the ckeditor object and the second is a function used to update the
+ * value of the ckeditor, intended to load new data.
+ */
+saltos.bootstrap.__field.ckeditor4 = field => {
+    saltos.core.check_params(field, ['height', 'color', 'disabled', 'rounded']);
+    if (!field.color) {
+        field.color = 'primary';
+    }
+    const obj = saltos.core.html(`<div></div>`);
+    obj.append(saltos.bootstrap.__label_helper(field));
+    obj.append(saltos.bootstrap.__textarea_helper(saltos.core.copy_object(field)));
+    const element = obj.querySelector('textarea');
+    element.style.display = 'none';
+    const array = [
+        'lib/ckeditor4/ckeditor.js',
+    ];
+    // Language prefetch
+    const lang = saltos.gettext.get_short();
+    if (lang != 'en') {
+        array.push(`lib/ckeditor4/lang/${lang}.js`);
+    }
+    // Add the placeholder
+    const placeholder = saltos.bootstrap.__field.placeholder({
+        color: field.color,
+        height: field.height,
+    });
+    obj.append(placeholder);
+    // Continue
+    window.CKEDITOR_BASEPATH = new URL('lib/ckeditor4/', window.location.href).href;
+    saltos.core.require(array, () => {
+        placeholder.remove();
+        const editor = CKEDITOR.replace(element, {
+            language: lang,
+            skin: 'moono-lisa',
+            extraPlugins: 'autogrow,codesnippet,base64image',
+            removePlugins: 'elementspath,resize',
+            toolbar: [
+                ['Bold','Italic','Underline','Strike'],
+                ['NumberedList','BulletedList'],
+                ['Outdent','Indent'],
+                ['Link','Unlink'],
+                ['TextColor','BGColor'],
+                ['Undo','Redo'],
+                ['base64image', 'Blockquote', 'Table', 'HorizontalRule'],
+                ['Source','CodeSnippet'],
+            ],
+            autoGrow_onStartup: true,
+            autoGrow_minHeight: field.height,
+            contentsCss: [
+                CKEDITOR.basePath + 'contents.css',
+                'body { margin: 8px; }'
+            ],
+            versionCheck: false,
+        });
+        element.ckeditor = editor;
+        element.parentElement.classList.add('form-control');
+        element.parentElement.classList.add('p-0');
+        if (field.color !== 'none') {
+            element.parentElement.classList.add('border');
+            element.parentElement.classList.add('border-' + field.color + '-subtle');
+        }
+        editor.on('change', () => {
+            element.value = editor.getData();
+        });
+    });
+    // Program the set feature
+    element.set = value => {
+        if (!('ckeditor' in element)) {
+            if (!('queue' in element)) {
+                element.queue = [];
+            }
+            element.queue.push(value);
+            if (!('timer' in element)) {
+                element.timer = setInterval(() => {
+                    if (!('ckeditor' in element)) {
+                        return;
+                    }
+                    clearInterval(element.timer);
+                    while (element.queue.length) {
+                        const item = element.queue.shift();
+                        element.set(item);
+                    }
+                }, 1);
+            }
+            return;
+        }
+        element.ckeditor.setData(value);
+        element.value = value;
+    };
+    // Program the disabled feature
+    element.set_disabled = bool => {
+        if (!('ckeditor' in element)) {
+            setTimeout(() => element.set_disabled(bool), 1);
+            return;
+        }
+        element.ckeditor.setReadOnly(bool);
+    };
+    if (saltos.core.eval_bool(field.disabled)) {
+        element.set_disabled(true);
+    }
+    // Trick to remove the source text
+    obj.append(saltos.core.html(`
+        <style>
+            .cke_button__source_label {
+                display: none !important;
+            }
+        </style>
+    `));
+    // Trick to hide the is not secure message
+    obj.append(saltos.core.html(`
+        <style>
+            .cke_notification.cke_notification_warning {
+                display: none !important;
+            }
+        </style>
+    `));
+    // Fix for a rounded corners
+    let rounded = 'var(--bs-border-radius)';
+    if (saltos.core.is_number(field.rounded.replace('rounded-', ''))) {
+        const index = parseInt(field.rounded.replace('rounded-', ''), 10);
+        switch (index) {
+            case 0:
+                rounded = '0';
+                break;
+            case 1:
+                rounded = 'var(--bs-border-radius-sm)';
+                break;
+            case 2:
+                rounded = 'var(--bs-border-radius)';
+                break;
+            case 3:
+                rounded = 'var(--bs-border-radius-lg)';
+                break;
+            case 4:
+                rounded = 'var(--bs-border-radius-xl)';
+                break;
+            case 5:
+                rounded = 'var(--bs-border-radius-xxl)';
+                break;
+        }
+    }
+    obj.append(saltos.core.html(`
+        <style>
+            .cke, .cke_inner {
+                border-radius: ${rounded};
+            }
+            .cke_top {
+                border-radius: ${rounded} ${rounded} 0 0;
+            }
+            .cke_contents {
                 border-radius: 0 0 ${rounded} ${rounded};
             }
         </style>
@@ -5810,3 +5996,21 @@ saltos.bootstrap.set_css_theme = theme => {
 saltos.bootstrap.get_css_theme = () => {
     return saltos.storage.getItem('saltos.bootstrap.css_theme');
 };
+
+/**
+ * Field Types
+ *
+ * This list defines the widgets that are treated as data input fields.
+ *
+ * These field types are used by functions such as:
+ * - saltos.driver.reset
+ * - saltos.app.get_data
+ * - saltos.app.check_required
+ * - saltos.app.form_disabled
+ */
+saltos.bootstrap.__field_types = [
+    'text', 'hidden', 'integer', 'float', 'color', 'date', 'time', 'datetime',
+    'select', 'multiselect', 'checkbox', 'switch', 'password', 'file',
+    'textarea', 'ckeditor5', 'codemirror', 'excel', 'tags', 'onetag',
+    'joditeditor', 'ckeditor4',
+];

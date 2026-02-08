@@ -115,7 +115,7 @@
                 <button id="campo11" tooltip="Tooltip 11 (button)" label="Campo 11 (button)" onclick="saltos.tester.campo11()" required="true"/>
 
                 <textarea id="campo12" label="Campo 12 (textarea)" placeholder="Escriba aqui" tooltip="Tooltip 12 (textarea)" required="true">Texto de prueba&#13;&#13;Adios&#13;</textarea>
-                <ckeditor id="campo13" label="Campo 13 (ckeditor)" placeholder="Escriba aqui" tooltip="Tooltip 13 (ckeditor)" required="true"><![CDATA[Texto de prueba<br/><br/>Adios<br/>]]></ckeditor>
+                <ckeditor5 id="campo13" label="Campo 13 (ckeditor5)" placeholder="Escriba aqui" tooltip="Tooltip 13 (ckeditor5)" required="true"><![CDATA[<p>Texto de prueba</p><p>Adios</p>]]></ckeditor5>
                 <codemirror id="campo14" label="Campo 14 (codemirror)" placeholder="Escriba aqui" tooltip="Tooltip 14 (codemirror)" mode="xml" required="true"><![CDATA[<xml>&#13;&#9;<tag>valor</tag>&#13;</xml>&#13;]]></codemirror>
                 <multiselect id="campo15" label="Campo 15 (multiselect)" tooltip="Tooltip 15 (multiselect)" value="2; 3; 5" size="5" separator=";" required="true">
                     <rows eval="true">[
@@ -186,7 +186,8 @@
                 <alert id="campo29" label="Campo 29 (alert)" tooltip="Tooltip 29 (alert)" color="success" title="The alert message!!!" text="This text can be used as you want" close="true">
                     <body><![CDATA[<hr/>More text here]]></body>
                 </alert>
-                <joditeditor id="campo13b" label="Campo 13 (joditeditor)" placeholder="Escriba aqui" tooltip="Tooltip 13 (joditeditor)" required="true"><![CDATA[Texto de prueba<br/><br/>Adios<br/>]]></joditeditor>
+                <joditeditor id="campo13b" label="Campo 13 (joditeditor)" placeholder="Escriba aqui" tooltip="Tooltip 13 (joditeditor)" required="true"><![CDATA[<p>Texto de prueba</p><p>Adios</p>]]></joditeditor>
+                <ckeditor4 id="campo13c" label="Campo 13 (ckeditor4)" placeholder="Escriba aqui" tooltip="Tooltip 13 (ckeditor4)" required="true"><![CDATA[<p>Texto de prueba</p><p>Adios</p>]]></ckeditor4>
 
                 <hr col_class="col-12 clonable" class="mt-0 border-3"/>
 

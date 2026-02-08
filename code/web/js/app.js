@@ -238,9 +238,7 @@ saltos.app.process_response = async response => {
  */
 saltos.app.get_data = full => {
     let data = {};
-    const types = ['text', 'hidden', 'integer', 'float', 'color', 'date', 'time', 'datetime',
-        'textarea', 'ckeditor', 'joditeditor', 'codemirror', 'select', 'multiselect',
-        'checkbox', 'switch', 'password', 'file', 'excel', 'tags', 'onetag'];
+    const types = saltos.bootstrap.__field_types;
     for (const i in saltos.form.__form.fields) {
         const field = saltos.form.__form.fields[i];
         if (!types.includes(field.type)) {
@@ -259,8 +257,9 @@ saltos.app.get_data = full => {
         let old = field.value.toString();
         switch (field.type) {
             case 'textarea':
-            case 'ckeditor':
+            case 'ckeditor5':
             case 'joditeditor':
+            case 'ckeditor4':
             case 'codemirror':
                 val = val.replace(/\r\n|\r/g, '\n');
                 old = old.replace(/\r\n|\r/g, '\n');
@@ -404,9 +403,7 @@ saltos.app.checkbox_ids = obj => {
  */
 saltos.app.check_required = () => {
     let obj = null;
-    const types = ['text', 'hidden', 'integer', 'float', 'color', 'date', 'time', 'datetime',
-        'textarea', 'ckeditor', 'joditeditor', 'codemirror', 'select', 'multiselect',
-        'checkbox', 'switch', 'password', 'file', 'excel', 'tags', 'onetag'];
+    const types = saltos.bootstrap.__field_types;
     for (const i in saltos.form.__form.fields) {
         const field = saltos.form.__form.fields[i];
         if (!types.includes(field.type)) {
@@ -427,8 +424,8 @@ saltos.app.check_required = () => {
             obj_color = item.nextElementSibling;
             obj_focus = item.nextElementSibling.querySelector('input');
         }
-        // to detect the color and focus of the ckeditor fields
-        if (field.type == 'ckeditor') {
+        // to detect the color and focus of the ckeditor5 fields
+        if (field.type == 'ckeditor5') {
             obj_color = item.nextElementSibling;
             obj_focus = item.ckeditor;
         }
@@ -439,6 +436,11 @@ saltos.app.check_required = () => {
             }
             obj_color = item.previousElementSibling;
             obj_focus = item.joditeditor;
+        }
+        // to detect the color and focus of the ckeditor4 fields
+        if (field.type == 'ckeditor4') {
+            obj_color = item.nextElementSibling;
+            obj_focus = item.ckeditor;
         }
         // to detect the color and focus of the codemirror fields
         if (field.type == 'codemirror') {
@@ -551,9 +553,7 @@ saltos.app.check_required = () => {
  * to do screen for view mode.
  */
 saltos.app.form_disabled = bool => {
-    const types = ['text', 'hidden', 'integer', 'float', 'color', 'date', 'time', 'datetime',
-        'textarea', 'ckeditor', 'joditeditor', 'codemirror', 'select', 'multiselect',
-        'checkbox', 'switch', 'password', 'file', 'excel', 'tags', 'onetag'];
+    const types = saltos.bootstrap.__field_types;
     for (const i in saltos.form.__form.fields) {
         const field = saltos.form.__form.fields[i];
         if (!types.includes(field.type)) {

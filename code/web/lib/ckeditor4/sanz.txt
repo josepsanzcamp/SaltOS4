@@ -1,0 +1,9 @@
+
+Main code from:
+- https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.22.1/ckeditor_4.22.1_full.tar.gz
+
+Plugins autogrow and codesnippet added from:
+- https://github.com/ckeditor/ckeditor4/archive/refs/tags/4.22.1.tar.gz
+
+Plugin base64image added from:
+- https://download.ckeditor.com/base64image/releases/base64image_1.3.zip
