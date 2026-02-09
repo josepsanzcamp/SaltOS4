@@ -247,7 +247,7 @@
                     ]</rows>
                 </select>
                 <text id="subject" label="Subject" required="true"/>
-                <ckeditor id="body" label="Body" height="5em" required="true"/>
+                <ckeditor5 id="body" label="Body" height="5em" required="true"/>
                 <file id="files" label="Attachments" multiple="true"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">

@@ -1021,6 +1021,8 @@ saltos.bootstrap.__field.ckeditor4 = field => {
     window.CKEDITOR_BASEPATH = new URL('lib/ckeditor4/', window.location.href).href;
     saltos.core.require(array, () => {
         placeholder.remove();
+        CKEDITOR.disableAutoInline = true;
+        CKEDITOR.config.versionCheck = false;
         const editor = CKEDITOR.replace(element, {
             language: lang,
             skin: 'moono-lisa',
@@ -1042,7 +1044,6 @@ saltos.bootstrap.__field.ckeditor4 = field => {
                 CKEDITOR.basePath + 'contents.css',
                 'body { margin: 8px; }'
             ],
-            versionCheck: false,
         });
         element.ckeditor = editor;
         element.parentElement.classList.add('form-control');
