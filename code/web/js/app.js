@@ -257,9 +257,7 @@ saltos.app.get_data = full => {
         let old = field.value.toString();
         switch (field.type) {
             case 'textarea':
-            case 'ckeditor5':
             case 'joditeditor':
-            case 'ckeditor4':
             case 'codemirror':
                 val = val.replace(/\r\n|\r/g, '\n');
                 old = old.replace(/\r\n|\r/g, '\n');
@@ -424,11 +422,6 @@ saltos.app.check_required = () => {
             obj_color = item.nextElementSibling;
             obj_focus = item.nextElementSibling.querySelector('input');
         }
-        // to detect the color and focus of the ckeditor5 fields
-        if (field.type == 'ckeditor5') {
-            obj_color = item.nextElementSibling;
-            obj_focus = item.ckeditor;
-        }
         // to detect the color and focus of the joditeditor fields
         if (field.type == 'joditeditor') {
             if (value == '<p><br></p>') {
@@ -436,11 +429,6 @@ saltos.app.check_required = () => {
             }
             obj_color = item.previousElementSibling;
             obj_focus = item.joditeditor;
-        }
-        // to detect the color and focus of the ckeditor4 fields
-        if (field.type == 'ckeditor4') {
-            obj_color = item.nextElementSibling;
-            obj_focus = item.ckeditor;
         }
         // to detect the color and focus of the codemirror fields
         if (field.type == 'codemirror') {

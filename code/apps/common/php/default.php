@@ -57,7 +57,7 @@ declare(strict_types=1);
  * @form      => the list of fields used in the form screen, this must be a list of
  *               arrays with 3 elements: id, type and label, types can be as follow:
  *               - text, date, time, datetime, checkbox, switch => default widget
- *               - textarea, ckeditor, codemirror => widget with 5em of height
+ *               - textarea, joditeditor, codemirror => widget with 5em of height
  *               - select => widget that uses the select spec to resolve the contents
  * @select    => this spec is intended to defined the selects used in the list and
  *               forms, requires an array of 3 elements: id, table and field, if the
@@ -274,7 +274,7 @@ function make_app_file($data)
             case 'float':
             case 'color':
             case 'textarea':
-            case 'ckeditor':
+            case 'joditeditor':
             case 'codemirror':
                 $xml[] = "<$type id=\"$id\" label=\"$label\" $attr/>";
                 break;

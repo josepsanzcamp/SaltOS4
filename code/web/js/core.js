@@ -183,7 +183,7 @@ saltos.core.uniqid = () => {
  * When visible
  *
  * This function allow to execute some code when the object is visible, useful for third part
- * widgets as ckeditor or codemirror that requires a rendered environemt to initialize their
+ * widgets as joditeditor or codemirror that requires a rendered environemt to initialize their
  * code and paint the widget correctly
  *
  * @obj  => the object that do you want to monitorize the visibility
