@@ -1,6 +1,6 @@
 Devel Documentation
-SaltOS 4.0 r2204
-September 2025
+SaltOS 4.0 r2291
+February 2026
 
 
 
@@ -1205,7 +1205,7 @@ For `list`, supported `type` values are:
 
 For `form`, supported `type` values are:
 
-- `text`, `date`, `time`, `datetime`, `checkbox`, `switch`, `integer`, `float`, `color`, `textarea`, `ckeditor`, `codemirror`, `select`, `multiselect`, `newline`
+- `text`, `date`, `time`, `datetime`, `checkbox`, `switch`, `integer`, `float`, `color`, `textarea`, `joditeditor`, `codemirror`, `select`, `multiselect`, `newline`
 
 
 All these types correspond to widgets provided by SaltOS4, **except `newline`**, which is a special case. The `newline` type injects a `<div>` with `col_class="col-12"` in the XML, effectively creating a line break in the form layout for grouping fields visually.

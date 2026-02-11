@@ -33,8 +33,8 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <header>
 <hgroup>
 <h1>Web Client Documentation</h1>
-<h2>SaltOS 4.0 r2204</h2>
-<h3>September 2025</h3>
+<h2>SaltOS 4.0 r2291</h2>
+<h3>February 2026</h3>
 </hgroup>
 </header>
 
@@ -161,7 +161,7 @@ pre{background-color:#e6e6e6;padding:5px 3px}
       </li>
       <li><a href="#toc56">1.4.17. Textarea constructor helper</a>
       </li>
-      <li><a href="#toc57">1.4.18. Ckeditor constructor helper</a>
+      <li><a href="#toc57">1.4.18. Joditeditor constructor helper</a>
       </li>
       <li><a href="#toc58">1.4.19. Codemirror constructor helper</a>
       </li>
@@ -279,449 +279,457 @@ pre{background-color:#e6e6e6;padding:5px 3px}
       </li>
       <li><a href="#toc115">1.4.76. Get css theme</a>
       </li>
-      </ul>
-    </li>
-    <li><a href="#toc116">1.5. Common helper module</a>
-      <ul>
-      <li><a href="#toc117">1.5.1. Common helper object</a>
-      </li>
-      <li><a href="#toc118">1.5.2. Profile screen</a>
-      </li>
-      <li><a href="#toc119">1.5.3. Help screen</a>
-      </li>
-      <li><a href="#toc120">1.5.4. Logout feature</a>
-      </li>
-      <li><a href="#toc121">1.5.5. Filter screen</a>
-      </li>
-      <li><a href="#toc122">1.5.6. Download helper</a>
-      </li>
-      <li><a href="#toc123">1.5.7. Delete helper</a>
-      </li>
-      <li><a href="#toc124">1.5.8. Version common helper</a>
-      </li>
-      <li><a href="#toc125">1.5.9. Log common helper</a>
-      </li>
-      <li><a href="#toc126">1.5.10. Edit common helper</a>
-      </li>
-      <li><a href="#toc127">1.5.11. Create common helper</a>
-      </li>
-      <li><a href="#toc128">1.5.12. Viewpdf common helper</a>
-      </li>
-      <li><a href="#toc129">1.5.13. Remove common helper</a>
-      </li>
-      <li><a href="#toc130">1.5.14. Allfiles common helper</a>
-      </li>
-      <li><a href="#toc131">1.5.15. Allnotes common helper</a>
-      </li>
-      <li><a href="#toc132">1.5.16. View selected registers in PDF format</a>
-      </li>
-      <li><a href="#toc133">1.5.17. Download selected registers as PDF</a>
+      <li><a href="#toc116">1.4.77. Field Types</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc134">1.6. Core helper module</a>
+    <li><a href="#toc117">1.5. Common helper module</a>
       <ul>
-      <li><a href="#toc135">1.6.1. Core helper object</a>
+      <li><a href="#toc118">1.5.1. Common helper object</a>
       </li>
-      <li><a href="#toc136">1.6.2. Error management</a>
+      <li><a href="#toc119">1.5.2. Profile screen</a>
       </li>
-      <li><a href="#toc137">1.6.3. Old error handler</a>
+      <li><a href="#toc120">1.5.3. Help screen</a>
       </li>
-      <li><a href="#toc138">1.6.4. New error handler</a>
+      <li><a href="#toc121">1.5.4. Logout feature</a>
       </li>
-      <li><a href="#toc139">1.6.5. Log management</a>
+      <li><a href="#toc122">1.5.5. Filter screen</a>
       </li>
-      <li><a href="#toc140">1.6.6. Check params</a>
+      <li><a href="#toc123">1.5.6. Download helper</a>
       </li>
-      <li><a href="#toc141">1.6.7. UniqID</a>
+      <li><a href="#toc124">1.5.7. Delete helper</a>
       </li>
-      <li><a href="#toc142">1.6.8. When visible</a>
+      <li><a href="#toc125">1.5.8. Version common helper</a>
       </li>
-      <li><a href="#toc143">1.6.9. Get keycode</a>
+      <li><a href="#toc126">1.5.9. Log common helper</a>
       </li>
-      <li><a href="#toc144">1.6.10. Get keyname</a>
+      <li><a href="#toc127">1.5.10. Edit common helper</a>
       </li>
-      <li><a href="#toc145">1.6.11. HTML builder</a>
+      <li><a href="#toc128">1.5.11. Create common helper</a>
       </li>
-      <li><a href="#toc146">1.6.12. Ajax helper array</a>
+      <li><a href="#toc129">1.5.12. Viewpdf common helper</a>
       </li>
-      <li><a href="#toc147">1.6.13. AJAX</a>
+      <li><a href="#toc130">1.5.13. Remove common helper</a>
       </li>
-      <li><a href="#toc148">1.6.14. Fix key</a>
+      <li><a href="#toc131">1.5.14. Allfiles common helper</a>
       </li>
-      <li><a href="#toc149">1.6.15. Copy object</a>
+      <li><a href="#toc132">1.5.15. Allnotes common helper</a>
       </li>
-      <li><a href="#toc150">1.6.16. Optimizer object</a>
+      <li><a href="#toc133">1.5.16. View selected registers in PDF format</a>
       </li>
-      <li><a href="#toc151">1.6.17. Require helper array</a>
-      </li>
-      <li><a href="#toc152">1.6.18. Require feature</a>
-      </li>
-      <li><a href="#toc153">1.6.19. Eval Bool</a>
-      </li>
-      <li><a href="#toc154">1.6.20. toString function</a>
-      </li>
-      <li><a href="#toc155">1.6.21. Is attr value</a>
-      </li>
-      <li><a href="#toc156">1.6.22. Join attr value</a>
-      </li>
-      <li><a href="#toc157">1.6.23. Encode Bar Chars</a>
-      </li>
-      <li><a href="#toc158">1.6.24. Prepare Words</a>
-      </li>
-      <li><a href="#toc159">1.6.25. Main core code</a>
-      </li>
-      <li><a href="#toc160">1.6.26. Proxy feature</a>
-      </li>
-      <li><a href="#toc161">1.6.27. Online sync</a>
-      </li>
-      <li><a href="#toc162">1.6.28. Get code from file and line</a>
-      </li>
-      <li><a href="#toc163">1.6.29. Timestamp helper</a>
-      </li>
-      <li><a href="#toc164">1.6.30. Human Size</a>
-      </li>
-      <li><a href="#toc165">1.6.31. Check network</a>
-      </li>
-      <li><a href="#toc166">1.6.32. Is Number</a>
-      </li>
-      <li><a href="#toc167">1.6.33. Checks whether the given string represents a valid JavaScript function expression.</a>
-      </li>
-      <li><a href="#toc168">1.6.34. Detects the current browser based on the user agent string.</a>
+      <li><a href="#toc134">1.5.17. Download selected registers as PDF</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc169">1.7. Driver module</a>
+    <li><a href="#toc135">1.6. Core helper module</a>
       <ul>
-      <li><a href="#toc170">1.7.1. Driver object</a>
+      <li><a href="#toc136">1.6.1. Core helper object</a>
       </li>
-      <li><a href="#toc171">1.7.2. Driver init</a>
+      <li><a href="#toc137">1.6.2. Error management</a>
       </li>
-      <li><a href="#toc172">1.7.3. Driver open</a>
+      <li><a href="#toc138">1.6.3. Old error handler</a>
       </li>
-      <li><a href="#toc173">1.7.4. Driver close</a>
+      <li><a href="#toc139">1.6.4. New error handler</a>
       </li>
-      <li><a href="#toc174">1.7.5. Driver cancel</a>
+      <li><a href="#toc140">1.6.5. Log management</a>
       </li>
-      <li><a href="#toc175">1.7.6. Driver search</a>
+      <li><a href="#toc141">1.6.6. Check params</a>
       </li>
-      <li><a href="#toc176">1.7.7. Driver search</a>
+      <li><a href="#toc142">1.6.7. UniqID</a>
       </li>
-      <li><a href="#toc177">1.7.8. Driver more</a>
+      <li><a href="#toc143">1.6.8. When visible</a>
       </li>
-      <li><a href="#toc178">1.7.9. Driver insert</a>
+      <li><a href="#toc144">1.6.9. Get keycode</a>
       </li>
-      <li><a href="#toc179">1.7.10. Driver update</a>
+      <li><a href="#toc145">1.6.10. Get keyname</a>
       </li>
-      <li><a href="#toc180">1.7.11. Driver delete</a>
+      <li><a href="#toc146">1.6.11. HTML builder</a>
       </li>
-      <li><a href="#toc181">1.7.12. Driver placeholder</a>
+      <li><a href="#toc147">1.6.12. Ajax helper array</a>
       </li>
-      <li><a href="#toc182">1.7.13. Driver styles</a>
+      <li><a href="#toc148">1.6.13. AJAX</a>
       </li>
-      <li><a href="#toc183">1.7.14. Initializes the column resizing feature for screen layouts with two or three columns.</a>
+      <li><a href="#toc149">1.6.14. Fix key</a>
       </li>
-      <li><a href="#toc184">1.7.15. Enables dynamic resizing of two-column layouts (type2).</a>
+      <li><a href="#toc150">1.6.15. Copy object</a>
       </li>
-      <li><a href="#toc185">1.7.16. Enables dynamic resizing of three-column layouts (type3).</a>
+      <li><a href="#toc151">1.6.16. Optimizer object</a>
       </li>
-      <li><a href="#toc186">1.7.17. Driver search if needed</a>
+      <li><a href="#toc152">1.6.17. Require helper array</a>
       </li>
-      <li><a href="#toc187">1.7.18. Driver internal object</a>
+      <li><a href="#toc153">1.6.18. Require feature</a>
       </li>
-      <li><a href="#toc188">1.7.19. Driver type1 object</a>
+      <li><a href="#toc154">1.6.19. Eval Bool</a>
       </li>
-      <li><a href="#toc189">1.7.20. Driver type1 template</a>
+      <li><a href="#toc155">1.6.20. toString function</a>
       </li>
-      <li><a href="#toc190">1.7.21. Driver type1 init</a>
+      <li><a href="#toc156">1.6.21. Is attr value</a>
       </li>
-      <li><a href="#toc191">1.7.22. Driver type1 open</a>
+      <li><a href="#toc157">1.6.22. Join attr value</a>
       </li>
-      <li><a href="#toc192">1.7.23. Driver type1 close</a>
+      <li><a href="#toc158">1.6.23. Encode Bar Chars</a>
       </li>
-      <li><a href="#toc193">1.7.24. Driver type2 object</a>
+      <li><a href="#toc159">1.6.24. Prepare Words</a>
       </li>
-      <li><a href="#toc194">1.7.25. Driver type2 template</a>
+      <li><a href="#toc160">1.6.25. Main core code</a>
       </li>
-      <li><a href="#toc195">1.7.26. Driver type2 init</a>
+      <li><a href="#toc161">1.6.26. Proxy feature</a>
       </li>
-      <li><a href="#toc196">1.7.27. Driver type2 open</a>
+      <li><a href="#toc162">1.6.27. Online sync</a>
       </li>
-      <li><a href="#toc197">1.7.28. Driver type2 close</a>
+      <li><a href="#toc163">1.6.28. Get code from file and line</a>
       </li>
-      <li><a href="#toc198">1.7.29. Driver type3 object</a>
+      <li><a href="#toc164">1.6.29. Timestamp helper</a>
       </li>
-      <li><a href="#toc199">1.7.30. Driver type3 template</a>
+      <li><a href="#toc165">1.6.30. Human Size</a>
       </li>
-      <li><a href="#toc200">1.7.31. Driver type3 init</a>
+      <li><a href="#toc166">1.6.31. Check network</a>
       </li>
-      <li><a href="#toc201">1.7.32. Driver type3 open</a>
+      <li><a href="#toc167">1.6.32. Is Number</a>
       </li>
-      <li><a href="#toc202">1.7.33. Driver type3 close</a>
+      <li><a href="#toc168">1.6.33. Checks whether the given string represents a valid JavaScript function expression.</a>
       </li>
-      <li><a href="#toc203">1.7.34. Driver type1modal object</a>
-      </li>
-      <li><a href="#toc204">1.7.35. Driver type1modal template</a>
-      </li>
-      <li><a href="#toc205">1.7.36. Driver type1modal init</a>
-      </li>
-      <li><a href="#toc206">1.7.37. Driver type1modal open</a>
-      </li>
-      <li><a href="#toc207">1.7.38. Driver type1modal close</a>
-      </li>
-      <li><a href="#toc208">1.7.39. Driver type1fluid object</a>
-      </li>
-      <li><a href="#toc209">1.7.40. Create type1fluid template</a>
-      </li>
-      <li><a href="#toc210">1.7.41. Initialization, open, and close handlers for type1fluid</a>
-      </li>
-      <li><a href="#toc211">1.7.42. Driver type1full object</a>
-      </li>
-      <li><a href="#toc212">1.7.43. Create type1full template</a>
-      </li>
-      <li><a href="#toc213">1.7.44. Initialization, open, and close handlers for type1full</a>
-      </li>
-      <li><a href="#toc214">1.7.45. Driver type2modal object</a>
-      </li>
-      <li><a href="#toc215">1.7.46. Driver type2modal template</a>
-      </li>
-      <li><a href="#toc216">1.7.47. Driver type2modal init</a>
-      </li>
-      <li><a href="#toc217">1.7.48. Driver type2modal open</a>
-      </li>
-      <li><a href="#toc218">1.7.49. Driver type2modal close</a>
+      <li><a href="#toc169">1.6.34. Detects the current browser based on the user agent string.</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc219">1.8. Filter module</a>
+    <li><a href="#toc170">1.7. Driver module</a>
       <ul>
-      <li><a href="#toc220">1.8.1. Filter object</a>
+      <li><a href="#toc171">1.7.1. Driver object</a>
       </li>
-      <li><a href="#toc221">1.8.2. Filter cache</a>
+      <li><a href="#toc172">1.7.2. Driver init</a>
       </li>
-      <li><a href="#toc222">1.8.3. Init filter</a>
+      <li><a href="#toc173">1.7.3. Driver open</a>
       </li>
-      <li><a href="#toc223">1.8.4. Load filter</a>
+      <li><a href="#toc174">1.7.4. Driver close</a>
       </li>
-      <li><a href="#toc224">1.8.5. Update filter</a>
+      <li><a href="#toc175">1.7.5. Driver cancel</a>
       </li>
-      <li><a href="#toc225">1.8.6. Update filter</a>
+      <li><a href="#toc176">1.7.6. Driver search</a>
       </li>
-      <li><a href="#toc226">1.8.7. Filter button helper</a>
+      <li><a href="#toc177">1.7.7. Driver search</a>
       </li>
-      <li><a href="#toc227">1.8.8. Select button helper</a>
+      <li><a href="#toc178">1.7.8. Driver more</a>
+      </li>
+      <li><a href="#toc179">1.7.9. Driver insert</a>
+      </li>
+      <li><a href="#toc180">1.7.10. Driver update</a>
+      </li>
+      <li><a href="#toc181">1.7.11. Driver delete</a>
+      </li>
+      <li><a href="#toc182">1.7.12. Driver placeholder</a>
+      </li>
+      <li><a href="#toc183">1.7.13. Driver styles</a>
+      </li>
+      <li><a href="#toc184">1.7.14. Initializes the column resizing feature for screen layouts with two or three columns.</a>
+      </li>
+      <li><a href="#toc185">1.7.15. Enables dynamic resizing of two-column layouts (type2).</a>
+      </li>
+      <li><a href="#toc186">1.7.16. Enables dynamic resizing of three-column layouts (type3).</a>
+      </li>
+      <li><a href="#toc187">1.7.17. Driver search if needed</a>
+      </li>
+      <li><a href="#toc188">1.7.18. Driver internal object</a>
+      </li>
+      <li><a href="#toc189">1.7.19. Driver type1 object</a>
+      </li>
+      <li><a href="#toc190">1.7.20. Driver type1 template</a>
+      </li>
+      <li><a href="#toc191">1.7.21. Driver type1 init</a>
+      </li>
+      <li><a href="#toc192">1.7.22. Driver type1 open</a>
+      </li>
+      <li><a href="#toc193">1.7.23. Driver type1 close</a>
+      </li>
+      <li><a href="#toc194">1.7.24. Driver type2 object</a>
+      </li>
+      <li><a href="#toc195">1.7.25. Driver type2 template</a>
+      </li>
+      <li><a href="#toc196">1.7.26. Driver type2 init</a>
+      </li>
+      <li><a href="#toc197">1.7.27. Driver type2 open</a>
+      </li>
+      <li><a href="#toc198">1.7.28. Driver type2 close</a>
+      </li>
+      <li><a href="#toc199">1.7.29. Driver type3 object</a>
+      </li>
+      <li><a href="#toc200">1.7.30. Driver type3 template</a>
+      </li>
+      <li><a href="#toc201">1.7.31. Driver type3 init</a>
+      </li>
+      <li><a href="#toc202">1.7.32. Driver type3 open</a>
+      </li>
+      <li><a href="#toc203">1.7.33. Driver type3 close</a>
+      </li>
+      <li><a href="#toc204">1.7.34. Driver type1modal object</a>
+      </li>
+      <li><a href="#toc205">1.7.35. Driver type1modal template</a>
+      </li>
+      <li><a href="#toc206">1.7.36. Driver type1modal init</a>
+      </li>
+      <li><a href="#toc207">1.7.37. Driver type1modal open</a>
+      </li>
+      <li><a href="#toc208">1.7.38. Driver type1modal close</a>
+      </li>
+      <li><a href="#toc209">1.7.39. Driver type1fluid object</a>
+      </li>
+      <li><a href="#toc210">1.7.40. Create type1fluid template</a>
+      </li>
+      <li><a href="#toc211">1.7.41. Initialization, open, and close handlers for type1fluid</a>
+      </li>
+      <li><a href="#toc212">1.7.42. Driver type1full object</a>
+      </li>
+      <li><a href="#toc213">1.7.43. Create type1full template</a>
+      </li>
+      <li><a href="#toc214">1.7.44. Initialization, open, and close handlers for type1full</a>
+      </li>
+      <li><a href="#toc215">1.7.45. Driver type2modal object</a>
+      </li>
+      <li><a href="#toc216">1.7.46. Driver type2modal template</a>
+      </li>
+      <li><a href="#toc217">1.7.47. Driver type2modal init</a>
+      </li>
+      <li><a href="#toc218">1.7.48. Driver type2modal open</a>
+      </li>
+      <li><a href="#toc219">1.7.49. Driver type2modal close</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc228">1.9. Form helper module</a>
+    <li><a href="#toc220">1.8. Filter module</a>
       <ul>
-      <li><a href="#toc229">1.9.1. Form constructor helper object</a>
+      <li><a href="#toc221">1.8.1. Filter object</a>
       </li>
-      <li><a href="#toc230">1.9.2. Data helper object</a>
+      <li><a href="#toc222">1.8.2. Filter cache</a>
       </li>
-      <li><a href="#toc231">1.9.3. Form data helper</a>
+      <li><a href="#toc223">1.8.3. Init filter</a>
       </li>
-      <li><a href="#toc232">1.9.4. Form layout helper</a>
+      <li><a href="#toc224">1.8.4. Load filter</a>
       </li>
-      <li><a href="#toc233">1.9.5. Form layout auto helper object</a>
+      <li><a href="#toc225">1.8.5. Update filter</a>
       </li>
-      <li><a href="#toc234">1.9.6. Form layout auto helper for containers</a>
+      <li><a href="#toc226">1.8.6. Update filter</a>
       </li>
-      <li><a href="#toc235">1.9.7. Form layout auto helper for rows</a>
+      <li><a href="#toc227">1.8.7. Filter button helper</a>
       </li>
-      <li><a href="#toc236">1.9.8. Form layout auto helper for cols</a>
-      </li>
-      <li><a href="#toc237">1.9.9. Widget helper</a>
-      </li>
-      <li><a href="#toc238">1.9.10. Style helper array</a>
-      </li>
-      <li><a href="#toc239">1.9.11. Form style helper</a>
-      </li>
-      <li><a href="#toc240">1.9.12. Javascript helper array</a>
-      </li>
-      <li><a href="#toc241">1.9.13. Form javascript helper</a>
-      </li>
-      <li><a href="#toc242">1.9.14. Form title helper</a>
-      </li>
-      <li><a href="#toc243">1.9.15. Form screen helper</a>
-      </li>
-      <li><a href="#toc244">1.9.16. Form navbar helper</a>
-      </li>
-      <li><a href="#toc245">1.9.17. Load gettext helper</a>
-      </li>
-      <li><a href="#toc246">1.9.18. Form cache helper</a>
+      <li><a href="#toc228">1.8.8. Select button helper</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc247">1.10. Gettext helper module</a>
+    <li><a href="#toc229">1.9. Form helper module</a>
       <ul>
-      <li><a href="#toc248">1.10.1. Gettext helper object</a>
+      <li><a href="#toc230">1.9.1. Form constructor helper object</a>
       </li>
-      <li><a href="#toc249">1.10.2. Get gettext function</a>
+      <li><a href="#toc231">1.9.2. Data helper object</a>
       </li>
-      <li><a href="#toc250">1.10.3. Get Short gettext function</a>
+      <li><a href="#toc232">1.9.3. Form data helper</a>
       </li>
-      <li><a href="#toc251">1.10.4. Set gettext function</a>
+      <li><a href="#toc233">1.9.4. Form layout helper</a>
       </li>
-      <li><a href="#toc252">1.10.5. Unset gettext and expires_at</a>
+      <li><a href="#toc234">1.9.5. Form layout auto helper object</a>
       </li>
-      <li><a href="#toc253">1.10.6. Get Text function</a>
+      <li><a href="#toc235">1.9.6. Form layout auto helper for containers</a>
       </li>
-      <li><a href="#toc254">1.10.7. T function</a>
+      <li><a href="#toc236">1.9.7. Form layout auto helper for rows</a>
       </li>
-      <li><a href="#toc255">1.10.8. Bootstrap gettext object</a>
+      <li><a href="#toc237">1.9.8. Form layout auto helper for cols</a>
       </li>
-      <li><a href="#toc256">1.10.9. Bootstrap field overload</a>
+      <li><a href="#toc238">1.9.9. Widget helper</a>
       </li>
-      <li><a href="#toc257">1.10.10. Bootstrap modal overload</a>
+      <li><a href="#toc239">1.9.10. Style helper array</a>
       </li>
-      <li><a href="#toc258">1.10.11. Bootstrap toast overload</a>
+      <li><a href="#toc240">1.9.11. Form style helper</a>
       </li>
-      <li><a href="#toc259">1.10.12. Bootstrap menu overload</a>
+      <li><a href="#toc241">1.9.12. Javascript helper array</a>
       </li>
-      <li><a href="#toc260">1.10.13. Bootstrap offcanvas overload</a>
+      <li><a href="#toc242">1.9.13. Form javascript helper</a>
+      </li>
+      <li><a href="#toc243">1.9.14. Form title helper</a>
+      </li>
+      <li><a href="#toc244">1.9.15. Form screen helper</a>
+      </li>
+      <li><a href="#toc245">1.9.16. Form navbar helper</a>
+      </li>
+      <li><a href="#toc246">1.9.17. Load gettext helper</a>
+      </li>
+      <li><a href="#toc247">1.9.18. Form cache helper</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc261">1.11. Hash helper module</a>
+    <li><a href="#toc248">1.10. Gettext helper module</a>
       <ul>
-      <li><a href="#toc262">1.11.1. Hash helper object</a>
+      <li><a href="#toc249">1.10.1. Gettext helper object</a>
       </li>
-      <li><a href="#toc263">1.11.2. Get hash</a>
+      <li><a href="#toc250">1.10.2. Get gettext function</a>
       </li>
-      <li><a href="#toc264">1.11.3. Set hash</a>
+      <li><a href="#toc251">1.10.3. Get Short gettext function</a>
       </li>
-      <li><a href="#toc265">1.11.4. Add hash</a>
+      <li><a href="#toc252">1.10.4. Set gettext function</a>
       </li>
-      <li><a href="#toc266">1.11.5. Hash helper</a>
+      <li><a href="#toc253">1.10.5. Unset gettext and expires_at</a>
       </li>
-      <li><a href="#toc267">1.11.6. Url to hash</a>
+      <li><a href="#toc254">1.10.6. Get Text function</a>
       </li>
-      <li><a href="#toc268">1.11.7. Change trigger</a>
+      <li><a href="#toc255">1.10.7. T function</a>
       </li>
-      <li><a href="#toc269">1.11.8. Hash change management</a>
+      <li><a href="#toc256">1.10.8. Bootstrap gettext object</a>
       </li>
-      <li><a href="#toc270">1.11.9. Before unload management</a>
+      <li><a href="#toc257">1.10.9. Bootstrap field overload</a>
+      </li>
+      <li><a href="#toc258">1.10.10. Bootstrap modal overload</a>
+      </li>
+      <li><a href="#toc259">1.10.11. Bootstrap toast overload</a>
+      </li>
+      <li><a href="#toc260">1.10.12. Bootstrap menu overload</a>
+      </li>
+      <li><a href="#toc261">1.10.13. Bootstrap offcanvas overload</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc271">1.12. Object helper module</a>
+    <li><a href="#toc262">1.11. Hash helper module</a>
       <ul>
-      <li><a href="#toc272">1.12.1. Main object</a>
+      <li><a href="#toc263">1.11.1. Hash helper object</a>
+      </li>
+      <li><a href="#toc264">1.11.2. Get hash</a>
+      </li>
+      <li><a href="#toc265">1.11.3. Set hash</a>
+      </li>
+      <li><a href="#toc266">1.11.4. Add hash</a>
+      </li>
+      <li><a href="#toc267">1.11.5. Hash helper</a>
+      </li>
+      <li><a href="#toc268">1.11.6. Url to hash</a>
+      </li>
+      <li><a href="#toc269">1.11.7. Change trigger</a>
+      </li>
+      <li><a href="#toc270">1.11.8. Hash change management</a>
+      </li>
+      <li><a href="#toc271">1.11.9. Before unload management</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc273">1.13. SaltOS4 Proxy Service Worker</a>
+    <li><a href="#toc272">1.12. Object helper module</a>
       <ul>
-      <li><a href="#toc274">1.13.1. Broadcast console log to all active tabs</a>
-      </li>
-      <li><a href="#toc275">1.13.2. Build formatted console debug output</a>
-      </li>
-      <li><a href="#toc276">1.13.3. Timeout configuration</a>
-      </li>
-      <li><a href="#toc277">1.13.4. Proxy function</a>
-      </li>
-      <li><a href="#toc278">1.13.5. Queue open</a>
-      </li>
-      <li><a href="#toc279">1.13.6. Queue push</a>
-      </li>
-      <li><a href="#toc280">1.13.7. Queue getall</a>
-      </li>
-      <li><a href="#toc281">1.13.8. Queue delete</a>
-      </li>
-      <li><a href="#toc282">1.13.9. Request serialize</a>
-      </li>
-      <li><a href="#toc283">1.13.10. Request unserialize</a>
-      </li>
-      <li><a href="#toc284">1.13.11. Human Size</a>
-      </li>
-      <li><a href="#toc285">1.13.12. Install binding</a>
-      </li>
-      <li><a href="#toc286">1.13.13. Activate binding</a>
-      </li>
-      <li><a href="#toc287">1.13.14. Fetch binding</a>
-      </li>
-      <li><a href="#toc288">1.13.15. Sync in progress flag</a>
-      </li>
-      <li><a href="#toc289">1.13.16. Message binding</a>
+      <li><a href="#toc273">1.12.1. Main object</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc290">1.14. Push &amp; favicon helper module</a>
+    <li><a href="#toc274">1.13. Global prototype extensions and polyfills for the SaltOS framework.</a>
       <ul>
-      <li><a href="#toc291">1.14.1. Push constructor helper object</a>
-      </li>
-      <li><a href="#toc292">1.14.2. Push helper</a>
-      </li>
-      <li><a href="#toc293">1.14.3. Load setup</a>
-      </li>
-      <li><a href="#toc294">1.14.4. Online sync</a>
-      </li>
-      <li><a href="#toc295">1.14.5. Favicon constructor helper object</a>
-      </li>
-      <li><a href="#toc296">1.14.6. Favicon helper</a>
-      </li>
-      <li><a href="#toc297">1.14.7. Visibility Change</a>
-      </li>
-      <li><a href="#toc298">1.14.8. Run</a>
+      <li><a href="#toc275">1.13.1. Polyfill for Array.prototype.at() to support older environments.</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc299">1.15. Token helper module</a>
+    <li><a href="#toc276">1.14. SaltOS4 Proxy Service Worker</a>
       <ul>
-      <li><a href="#toc300">1.15.1. Storage helper object</a>
+      <li><a href="#toc277">1.14.1. Broadcast console log to all active tabs</a>
       </li>
-      <li><a href="#toc301">1.15.2. Pathname helper string</a>
+      <li><a href="#toc278">1.14.2. Build formatted console debug output</a>
       </li>
-      <li><a href="#toc302">1.15.3. Get key</a>
+      <li><a href="#toc279">1.14.3. Timeout configuration</a>
       </li>
-      <li><a href="#toc303">1.15.4. Get Item</a>
+      <li><a href="#toc280">1.14.4. Proxy function</a>
       </li>
-      <li><a href="#toc304">1.15.5. Set Item</a>
+      <li><a href="#toc281">1.14.5. Queue open</a>
       </li>
-      <li><a href="#toc305">1.15.6. Remove Item</a>
+      <li><a href="#toc282">1.14.6. Queue push</a>
       </li>
-      <li><a href="#toc306">1.15.7. Clear</a>
+      <li><a href="#toc283">1.14.7. Queue getall</a>
       </li>
-      <li><a href="#toc307">1.15.8. Get Item With Timestamp</a>
+      <li><a href="#toc284">1.14.8. Queue delete</a>
       </li>
-      <li><a href="#toc308">1.15.9. Set Item With Timestamp</a>
+      <li><a href="#toc285">1.14.9. Request serialize</a>
       </li>
-      <li><a href="#toc309">1.15.10. Purge With Timestamp</a>
+      <li><a href="#toc286">1.14.10. Request unserialize</a>
+      </li>
+      <li><a href="#toc287">1.14.11. Human Size</a>
+      </li>
+      <li><a href="#toc288">1.14.12. Install binding</a>
+      </li>
+      <li><a href="#toc289">1.14.13. Activate binding</a>
+      </li>
+      <li><a href="#toc290">1.14.14. Fetch binding</a>
+      </li>
+      <li><a href="#toc291">1.14.15. Sync in progress flag</a>
+      </li>
+      <li><a href="#toc292">1.14.16. Message binding</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc310">1.16. Token helper module</a>
+    <li><a href="#toc293">1.15. Push &amp; favicon helper module</a>
       <ul>
-      <li><a href="#toc311">1.16.1. Token helper object</a>
+      <li><a href="#toc294">1.15.1. Push constructor helper object</a>
       </li>
-      <li><a href="#toc312">1.16.2. Get token function</a>
+      <li><a href="#toc295">1.15.2. Push helper</a>
       </li>
-      <li><a href="#toc313">1.16.3. Get expires_at function</a>
+      <li><a href="#toc296">1.15.3. Load setup</a>
       </li>
-      <li><a href="#toc314">1.16.4. Set token and expires_at</a>
+      <li><a href="#toc297">1.15.4. Online sync</a>
       </li>
-      <li><a href="#toc315">1.16.5. Unset token and expires_at</a>
+      <li><a href="#toc298">1.15.5. Favicon constructor helper object</a>
+      </li>
+      <li><a href="#toc299">1.15.6. Favicon helper</a>
+      </li>
+      <li><a href="#toc300">1.15.7. Visibility Change</a>
+      </li>
+      <li><a href="#toc301">1.15.8. Run</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc316">1.17. Window helper module</a>
+    <li><a href="#toc302">1.16. Token helper module</a>
       <ul>
-      <li><a href="#toc317">1.17.1. Window communication helper object</a>
+      <li><a href="#toc303">1.16.1. Storage helper object</a>
       </li>
-      <li><a href="#toc318">1.17.2. Open window</a>
+      <li><a href="#toc304">1.16.2. Pathname helper string</a>
       </li>
-      <li><a href="#toc319">1.17.3. Close window</a>
+      <li><a href="#toc305">1.16.3. Get key</a>
       </li>
-      <li><a href="#toc320">1.17.4. Listeners helper object</a>
+      <li><a href="#toc306">1.16.4. Get Item</a>
       </li>
-      <li><a href="#toc321">1.17.5. Set listener</a>
+      <li><a href="#toc307">1.16.5. Set Item</a>
       </li>
-      <li><a href="#toc322">1.17.6. Unset listener</a>
+      <li><a href="#toc308">1.16.6. Remove Item</a>
       </li>
-      <li><a href="#toc323">1.17.7. Send message</a>
+      <li><a href="#toc309">1.16.7. Clear</a>
       </li>
-      <li><a href="#toc324">1.17.8. Storage management</a>
+      <li><a href="#toc310">1.16.8. Get Item With Timestamp</a>
+      </li>
+      <li><a href="#toc311">1.16.9. Set Item With Timestamp</a>
+      </li>
+      <li><a href="#toc312">1.16.10. Purge With Timestamp</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc313">1.17. Token helper module</a>
+      <ul>
+      <li><a href="#toc314">1.17.1. Token helper object</a>
+      </li>
+      <li><a href="#toc315">1.17.2. Get token function</a>
+      </li>
+      <li><a href="#toc316">1.17.3. Get expires_at function</a>
+      </li>
+      <li><a href="#toc317">1.17.4. Set token and expires_at</a>
+      </li>
+      <li><a href="#toc318">1.17.5. Unset token and expires_at</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc319">1.18. Window helper module</a>
+      <ul>
+      <li><a href="#toc320">1.18.1. Window communication helper object</a>
+      </li>
+      <li><a href="#toc321">1.18.2. Open window</a>
+      </li>
+      <li><a href="#toc322">1.18.3. Close window</a>
+      </li>
+      <li><a href="#toc323">1.18.4. Listeners helper object</a>
+      </li>
+      <li><a href="#toc324">1.18.5. Set listener</a>
+      </li>
+      <li><a href="#toc325">1.18.6. Unset listener</a>
+      </li>
+      <li><a href="#toc326">1.18.7. Send message</a>
+      </li>
+      <li><a href="#toc327">1.18.8. Storage management</a>
       </li>
       </ul>
     </li>
@@ -1442,7 +1450,7 @@ widgets, the types that can be called are the follow:
 </li>
 <li>@textarea    =&gt; id, class, PL, value, DS, RO, RQ, AF, AK, rows, tooltip, label, color, height, OC
 </li>
-<li>@ckeditor    =&gt; id, class, PL, value, DS, RO, RQ, AF, AK, rows, label, color, height, OC
+<li>@joditeditor =&gt; id, class, PL, value, DS, RO, RQ, AF, AK, rows, label, color, height, OC
 </li>
 <li>@codemirror  =&gt; id, class, PL, value, DS, RO, RQ, AF, AK, rows, mode, label, color, height, OC
 </li>
@@ -2147,17 +2155,17 @@ feature:
 
 </section>
 <section id="toc57">
-<h3>1.4.18. Ckeditor constructor helper</h3>
+<h3>1.4.18. Joditeditor constructor helper</h3>
 
 <pre>
-saltos.bootstrap.__field.ckeditor = field
+saltos.bootstrap.__field.joditeditor = field
 </pre>
 
 <p>
-<img class="center" src="../ujest/snaps/test-bootstrap-js-bootstrap-campo-13-ckeditor-1-snap.png" alt="">
+<img class="center" src="../ujest/snaps/test-bootstrap-js-bootstrap-campo-13-joditeditor-1-snap.png" alt="">
 </p>
 <p>
-This function returns a textarea object with the ckeditor plugin enabled
+This function returns a textarea object with the joditeditor plugin enabled
 </p>
 
 <ul>
@@ -2195,19 +2203,21 @@ This function returns a textarea object with the ckeditor plugin enabled
 Notes:
 </p>
 <p>
-This widget requires the ckeditor library and can be loaded automatically using the require
+This widget requires the joditeditor library and can be loaded automatically using the require
 feature:
 </p>
 
 <ul>
-<li>@lib/ckeditor/ckeditor.min.js
+<li>@lib/joditeditor/jodit.fat.min.css
+</li>
+<li>@lib/joditeditor/jodit.fat.min.js
 </li>
 </ul>
 
 <p>
-The returned object contains a textarea with two new properties like ckeditor and set,
-the first contains the ckeditor object and the second is a function used to update the
-value of the ckeditor, intended to load new data.
+The returned object contains a textarea with two new properties like joditeditor and set,
+the first contains the joditeditor object and the second is a function used to update the
+value of the joditeditor, intended to load new data.
 </p>
 
 </section>
@@ -3785,6 +3795,8 @@ This function returns a dropdown object, you can pass the follow arguments:
 </li>
 <li>@accesskey =&gt; the key used as accesskey parameter
 </li>
+<li>@color     =&gt; the color of the item (primary, secondary, success, danger, warning, info, none)
+</li>
 </ul>
 
 <p>
@@ -4480,8 +4492,34 @@ Retrieve the css_theme stored in the localStorage
 </p>
 
 </section>
-</section>
 <section id="toc116">
+<h3>1.4.77. Field Types</h3>
+
+<pre>
+saltos.bootstrap.__field_types = [
+</pre>
+
+<p>
+This list defines the widgets that are treated as data input fields.
+</p>
+<p>
+These field types are used by functions such as:
+</p>
+
+<ul>
+<li>saltos.driver.reset
+</li>
+<li>saltos.app.get_data
+</li>
+<li>saltos.app.check_required
+</li>
+<li>saltos.app.form_disabled
+</li>
+</ul>
+
+</section>
+</section>
+<section id="toc117">
 <h2>1.5. Common helper module</h2>
 
 <pre>
@@ -4492,7 +4530,7 @@ web/js/common.js
 This fie contains useful functions related to the common applications
 </p>
 
-<section id="toc117">
+<section id="toc118">
 <h3>1.5.1. Common helper object</h3>
 
 <pre>
@@ -4504,7 +4542,7 @@ This object stores all application functions and data
 </p>
 
 </section>
-<section id="toc118">
+<section id="toc119">
 <h3>1.5.2. Profile screen</h3>
 
 <pre>
@@ -4516,7 +4554,7 @@ This function allow to open the profile screen in a offcanvas widget
 </p>
 
 </section>
-<section id="toc119">
+<section id="toc120">
 <h3>1.5.3. Help screen</h3>
 
 <pre>
@@ -4528,7 +4566,7 @@ This function allow to open the help screen in a modal widget
 </p>
 
 </section>
-<section id="toc120">
+<section id="toc121">
 <h3>1.5.4. Logout feature</h3>
 
 <pre>
@@ -4540,7 +4578,7 @@ This function execute the deauthtoken action and jump to the login screen
 </p>
 
 </section>
-<section id="toc121">
+<section id="toc122">
 <h3>1.5.5. Filter screen</h3>
 
 <pre>
@@ -4552,7 +4590,7 @@ This function allow to open the filter screen in a offcanvas widget
 </p>
 
 </section>
-<section id="toc122">
+<section id="toc123">
 <h3>1.5.6. Download helper</h3>
 
 <pre>
@@ -4571,7 +4609,7 @@ to emulate the download action
 </ul>
 
 </section>
-<section id="toc123">
+<section id="toc124">
 <h3>1.5.7. Delete helper</h3>
 
 <pre>
@@ -4588,7 +4626,7 @@ This function allow to remove the files and notes in the files and notes widgets
 </ul>
 
 </section>
-<section id="toc124">
+<section id="toc125">
 <h3>1.5.8. Version common helper</h3>
 
 <pre>
@@ -4600,7 +4638,7 @@ This function open the version widget
 </p>
 
 </section>
-<section id="toc125">
+<section id="toc126">
 <h3>1.5.9. Log common helper</h3>
 
 <pre>
@@ -4612,7 +4650,7 @@ This function open the log widget
 </p>
 
 </section>
-<section id="toc126">
+<section id="toc127">
 <h3>1.5.10. Edit common helper</h3>
 
 <pre>
@@ -4624,7 +4662,7 @@ This function open the edit screen
 </p>
 
 </section>
-<section id="toc127">
+<section id="toc128">
 <h3>1.5.11. Create common helper</h3>
 
 <pre>
@@ -4636,7 +4674,7 @@ This function open the create screen
 </p>
 
 </section>
-<section id="toc128">
+<section id="toc129">
 <h3>1.5.12. Viewpdf common helper</h3>
 
 <pre>
@@ -4648,7 +4686,7 @@ This function open the viewpdf widget
 </p>
 
 </section>
-<section id="toc129">
+<section id="toc130">
 <h3>1.5.13. Remove common helper</h3>
 
 <pre>
@@ -4666,7 +4704,7 @@ tries to detect if the table identified by the argument contains something
 </ul>
 
 </section>
-<section id="toc130">
+<section id="toc131">
 <h3>1.5.14. Allfiles common helper</h3>
 
 <pre>
@@ -4678,7 +4716,7 @@ This function remove the allfiles table if it is void
 </p>
 
 </section>
-<section id="toc131">
+<section id="toc132">
 <h3>1.5.15. Allnotes common helper</h3>
 
 <pre>
@@ -4690,7 +4728,7 @@ This function remove the allnotes table if it is void
 </p>
 
 </section>
-<section id="toc132">
+<section id="toc133">
 <h3>1.5.16. View selected registers in PDF format</h3>
 
 <pre>
@@ -4703,7 +4741,7 @@ If no registers are selected, it prompts the user to select registers first.
 </p>
 
 </section>
-<section id="toc133">
+<section id="toc134">
 <h3>1.5.17. Download selected registers as PDF</h3>
 
 <pre>
@@ -4717,7 +4755,7 @@ If no registers are selected, it prompts the user to select registers first.
 
 </section>
 </section>
-<section id="toc134">
+<section id="toc135">
 <h2>1.6. Core helper module</h2>
 
 <pre>
@@ -4729,7 +4767,7 @@ This fie contains useful functions related to the core application, provides the
 for manage errors, logs, manipulates html and DOM objects, manage ajax requests, and more things
 </p>
 
-<section id="toc135">
+<section id="toc136">
 <h3>1.6.1. Core helper object</h3>
 
 <pre>
@@ -4741,7 +4779,7 @@ This object stores all core functions and data
 </p>
 
 </section>
-<section id="toc136">
+<section id="toc137">
 <h3>1.6.2. Error management</h3>
 
 <pre>
@@ -4776,7 +4814,7 @@ errors was mapped by the event unhandledrejection.
 </p>
 
 </section>
-<section id="toc137">
+<section id="toc138">
 <h3>1.6.3. Old error handler</h3>
 
 <pre>
@@ -4788,7 +4826,7 @@ This code allow to capture the old errors triggered outside the fetch requests
 </p>
 
 </section>
-<section id="toc138">
+<section id="toc139">
 <h3>1.6.4. New error handler</h3>
 
 <pre>
@@ -4800,7 +4838,7 @@ This code allow to capture the new errors triggered inside the fetch requests
 </p>
 
 </section>
-<section id="toc139">
+<section id="toc140">
 <h3>1.6.5. Log management</h3>
 
 <pre>
@@ -4817,7 +4855,7 @@ This function allow to send messages to the addlog of the server side, requires 
 </ul>
 
 </section>
-<section id="toc140">
+<section id="toc141">
 <h3>1.6.6. Check params</h3>
 
 <pre>
@@ -4841,7 +4879,7 @@ and if some param is not found, then define it using the default value passed:
 </ul>
 
 </section>
-<section id="toc141">
+<section id="toc142">
 <h3>1.6.7. UniqID</h3>
 
 <pre>
@@ -4855,7 +4893,7 @@ provide it to the widget constructor
 </p>
 
 </section>
-<section id="toc142">
+<section id="toc143">
 <h3>1.6.8. When visible</h3>
 
 <pre>
@@ -4864,7 +4902,7 @@ saltos.core.when_visible = (obj, fn, args)
 
 <p>
 This function allow to execute some code when the object is visible, useful for third part
-widgets as ckeditor or codemirror that requires a rendered environemt to initialize their
+widgets as joditeditor or codemirror that requires a rendered environemt to initialize their
 code and paint the widget correctly
 </p>
 
@@ -4886,7 +4924,7 @@ to be used when the object not exists at the moment to call this function
 </p>
 
 </section>
-<section id="toc143">
+<section id="toc144">
 <h3>1.6.9. Get keycode</h3>
 
 <pre>
@@ -4903,7 +4941,7 @@ This function allow to get the keycode of a keyboard event detecting the browser
 </ul>
 
 </section>
-<section id="toc144">
+<section id="toc145">
 <h3>1.6.10. Get keyname</h3>
 
 <pre>
@@ -4920,7 +4958,7 @@ This function allow to get the keyname of a keyboard event detecting the browser
 </ul>
 
 </section>
-<section id="toc145">
+<section id="toc146">
 <h3>1.6.11. HTML builder</h3>
 
 <pre>
@@ -4950,7 +4988,7 @@ create separate portions of the table as trs or tds.
 </p>
 
 </section>
-<section id="toc146">
+<section id="toc147">
 <h3>1.6.12. Ajax helper array</h3>
 
 <pre>
@@ -4963,7 +5001,7 @@ if it is needed when onhashchange.
 </p>
 
 </section>
-<section id="toc147">
+<section id="toc148">
 <h3>1.6.13. AJAX</h3>
 
 <pre>
@@ -5014,7 +5052,7 @@ only when abortError or typeError appear in the error.name
 </p>
 
 </section>
-<section id="toc148">
+<section id="toc149">
 <h3>1.6.14. Fix key</h3>
 
 <pre>
@@ -5035,7 +5073,7 @@ for this reason, exists this function here
 </ul>
 
 </section>
-<section id="toc149">
+<section id="toc150">
 <h3>1.6.15. Copy object</h3>
 
 <pre>
@@ -5052,7 +5090,7 @@ This function is intended to do copies of objects using as intermediate a json f
 </ul>
 
 </section>
-<section id="toc150">
+<section id="toc151">
 <h3>1.6.16. Optimizer object</h3>
 
 <pre>
@@ -5071,7 +5109,7 @@ original object
 </ul>
 
 </section>
-<section id="toc151">
+<section id="toc152">
 <h3>1.6.17. Require helper array</h3>
 
 <pre>
@@ -5083,7 +5121,7 @@ This array allow to the require feature to control the loaded libraries
 </p>
 
 </section>
-<section id="toc152">
+<section id="toc153">
 <h3>1.6.18. Require feature</h3>
 
 <pre>
@@ -5110,7 +5148,7 @@ the load will be synchronous.
 </p>
 
 </section>
-<section id="toc153">
+<section id="toc154">
 <h3>1.6.19. Eval Bool</h3>
 
 <pre>
@@ -5140,7 +5178,7 @@ php/autoload/xml2array.php file with more javascript details as type detection.
 </p>
 
 </section>
-<section id="toc154">
+<section id="toc155">
 <h3>1.6.20. toString function</h3>
 
 <pre>
@@ -5153,7 +5191,7 @@ number, null, undefined or other type.
 </p>
 
 </section>
-<section id="toc155">
+<section id="toc156">
 <h3>1.6.21. Is attr value</h3>
 
 <pre>
@@ -5170,7 +5208,7 @@ This function return true if the data argument is an object with #attr and value
 </ul>
 
 </section>
-<section id="toc156">
+<section id="toc157">
 <h3>1.6.22. Join attr value</h3>
 
 <pre>
@@ -5196,7 +5234,7 @@ of the original value.
 </p>
 
 </section>
-<section id="toc157">
+<section id="toc158">
 <h3>1.6.23. Encode Bar Chars</h3>
 
 <pre>
@@ -5224,7 +5262,7 @@ only allow one pading char at time
 </ul>
 
 </section>
-<section id="toc158">
+<section id="toc159">
 <h3>1.6.24. Prepare Words</h3>
 
 <pre>
@@ -5251,7 +5289,7 @@ remove padding chars in the start and in the end of the string
 </p>
 
 </section>
-<section id="toc159">
+<section id="toc160">
 <h3>1.6.25. Main core code</h3>
 
 <pre>
@@ -5263,7 +5301,7 @@ This is the code that must to be executed to initialize all requirements of this
 </p>
 
 </section>
-<section id="toc160">
+<section id="toc161">
 <h3>1.6.26. Proxy feature</h3>
 
 <pre>
@@ -5275,7 +5313,7 @@ This function is intended to send messages to the proxy feature
 </p>
 
 </section>
-<section id="toc161">
+<section id="toc162">
 <h3>1.6.27. Online sync</h3>
 
 <pre>
@@ -5287,7 +5325,7 @@ This function send a sync message to the proxy when navigator detects an online 
 </p>
 
 </section>
-<section id="toc162">
+<section id="toc163">
 <h3>1.6.28. Get code from file and line</h3>
 
 <pre>
@@ -5307,7 +5345,7 @@ the launcher of an error, for example
 </ul>
 
 </section>
-<section id="toc163">
+<section id="toc164">
 <h3>1.6.29. Timestamp helper</h3>
 
 <pre>
@@ -5324,7 +5362,7 @@ This function is a helper to obtain the timestamp in seconds with the desidet of
 </ul>
 
 </section>
-<section id="toc164">
+<section id="toc165">
 <h3>1.6.30. Human Size</h3>
 
 <pre>
@@ -5344,7 +5382,7 @@ post  =&gt; string added after the unit letter at the end
 </ul>
 
 </section>
-<section id="toc165">
+<section id="toc166">
 <h3>1.6.31. Check network</h3>
 
 <pre>
@@ -5366,7 +5404,7 @@ expected result
 </p>
 
 </section>
-<section id="toc166">
+<section id="toc167">
 <h3>1.6.32. Is Number</h3>
 
 <pre>
@@ -5383,7 +5421,7 @@ This function checks that the str contains a valid number and is finite
 </ul>
 
 </section>
-<section id="toc167">
+<section id="toc168">
 <h3>1.6.33. Checks whether the given string represents a valid JavaScript function expression.</h3>
 
 <pre>
@@ -5406,7 +5444,7 @@ Returns true if the string is a valid function, false otherwise.
 </p>
 
 </section>
-<section id="toc168">
+<section id="toc169">
 <h3>1.6.34. Detects the current browser based on the user agent string.</h3>
 
 <pre>
@@ -5419,7 +5457,7 @@ Returns the browser name in lowercase: 'firefox', 'edge', 'opera', 'chrome' or '
 
 </section>
 </section>
-<section id="toc169">
+<section id="toc170">
 <h2>1.7. Driver module</h2>
 
 <pre>
@@ -5430,7 +5468,7 @@ web/js/driver.js
 Intended to be used as an abstraction layer to allow multiple screens configurations
 </p>
 
-<section id="toc170">
+<section id="toc171">
 <h3>1.7.1. Driver object</h3>
 
 <pre>
@@ -5442,7 +5480,7 @@ This object stores the functions used by the layouts widgets and must work with 
 </p>
 
 </section>
-<section id="toc171">
+<section id="toc172">
 <h3>1.7.2. Driver init</h3>
 
 <pre>
@@ -5461,7 +5499,7 @@ and the autosave features, and executes the specific init function.
 </ul>
 
 </section>
-<section id="toc172">
+<section id="toc173">
 <h3>1.7.3. Driver open</h3>
 
 <pre>
@@ -5478,7 +5516,7 @@ This function launch the specific open action for the screen type
 </ul>
 
 </section>
-<section id="toc173">
+<section id="toc174">
 <h3>1.7.4. Driver close</h3>
 
 <pre>
@@ -5496,7 +5534,7 @@ otherwise use the specific close action for the screen type
 </ul>
 
 </section>
-<section id="toc174">
+<section id="toc175">
 <h3>1.7.5. Driver cancel</h3>
 
 <pre>
@@ -5523,7 +5561,7 @@ bypassing the arg argument.
 </ul>
 
 </section>
-<section id="toc175">
+<section id="toc176">
 <h3>1.7.6. Driver search</h3>
 
 <pre>
@@ -5541,7 +5579,7 @@ using the filters fields
 </ul>
 
 </section>
-<section id="toc176">
+<section id="toc177">
 <h3>1.7.7. Driver search</h3>
 
 <pre>
@@ -5558,7 +5596,7 @@ This function implement the reset feature associated to the filters fields
 </ul>
 
 </section>
-<section id="toc177">
+<section id="toc178">
 <h3>1.7.8. Driver more</h3>
 
 <pre>
@@ -5576,7 +5614,7 @@ using the filters fields
 </ul>
 
 </section>
-<section id="toc178">
+<section id="toc179">
 <h3>1.7.9. Driver insert</h3>
 
 <pre>
@@ -5593,7 +5631,7 @@ This function implement the insert feature associated to the current app fields
 </ul>
 
 </section>
-<section id="toc179">
+<section id="toc180">
 <h3>1.7.10. Driver update</h3>
 
 <pre>
@@ -5610,7 +5648,7 @@ This function implement the update feature associated to the current app fields
 </ul>
 
 </section>
-<section id="toc180">
+<section id="toc181">
 <h3>1.7.11. Driver delete</h3>
 
 <pre>
@@ -5627,7 +5665,7 @@ This function implement the delete feature associated to the current app registe
 </ul>
 
 </section>
-<section id="toc181">
+<section id="toc182">
 <h3>1.7.12. Driver placeholder</h3>
 
 <pre>
@@ -5646,7 +5684,7 @@ This function sets a placeholder object in the element identified by the arg
 </ul>
 
 </section>
-<section id="toc182">
+<section id="toc183">
 <h3>1.7.13. Driver styles</h3>
 
 <pre>
@@ -5664,7 +5702,7 @@ that the screen with verticals scrolls runs as expected
 </ul>
 
 </section>
-<section id="toc183">
+<section id="toc184">
 <h3>1.7.14. Initializes the column resizing feature for screen layouts with two or three columns.</h3>
 
 <pre>
@@ -5700,7 +5738,7 @@ Notes:
 </ul>
 
 </section>
-<section id="toc184">
+<section id="toc185">
 <h3>1.7.15. Enables dynamic resizing of two-column layouts (type2).</h3>
 
 <pre>
@@ -5742,7 +5780,7 @@ Storage key format: `saltos.driver.resizable/{app}`, where `{app}` is extracted 
 </p>
 
 </section>
-<section id="toc185">
+<section id="toc186">
 <h3>1.7.16. Enables dynamic resizing of three-column layouts (type3).</h3>
 
 <pre>
@@ -5786,7 +5824,7 @@ Storage key format: `saltos.driver.resizable/{app}`, where `{app}` is extracted 
 </p>
 
 </section>
-<section id="toc186">
+<section id="toc187">
 <h3>1.7.17. Driver search if needed</h3>
 
 <pre>
@@ -5806,7 +5844,7 @@ arg argument.
 </ul>
 
 </section>
-<section id="toc187">
+<section id="toc188">
 <h3>1.7.18. Driver internal object</h3>
 
 <pre>
@@ -5818,7 +5856,7 @@ This object stores the functions used by the main driver
 </p>
 
 </section>
-<section id="toc188">
+<section id="toc189">
 <h3>1.7.19. Driver type1 object</h3>
 
 <pre>
@@ -5830,7 +5868,7 @@ This object stores the functions used by the type1 driver
 </p>
 
 </section>
-<section id="toc189">
+<section id="toc190">
 <h3>1.7.20. Driver type1 template</h3>
 
 <pre>
@@ -5847,7 +5885,7 @@ This function returns the type1 template to mount the screen
 </ul>
 
 </section>
-<section id="toc190">
+<section id="toc191">
 <h3>1.7.21. Driver type1 init</h3>
 
 <pre>
@@ -5864,7 +5902,7 @@ This function initialize the type1 driver screen for the arg requested
 </ul>
 
 </section>
-<section id="toc191">
+<section id="toc192">
 <h3>1.7.22. Driver type1 open</h3>
 
 <pre>
@@ -5881,7 +5919,7 @@ This function open a new window
 </ul>
 
 </section>
-<section id="toc192">
+<section id="toc193">
 <h3>1.7.23. Driver type1 close</h3>
 
 <pre>
@@ -5898,7 +5936,7 @@ This function close the window
 </ul>
 
 </section>
-<section id="toc193">
+<section id="toc194">
 <h3>1.7.24. Driver type2 object</h3>
 
 <pre>
@@ -5910,7 +5948,7 @@ This object stores the functions used by the type2 driver
 </p>
 
 </section>
-<section id="toc194">
+<section id="toc195">
 <h3>1.7.25. Driver type2 template</h3>
 
 <pre>
@@ -5927,7 +5965,7 @@ This function returns the type2 template to mount the screen
 </ul>
 
 </section>
-<section id="toc195">
+<section id="toc196">
 <h3>1.7.26. Driver type2 init</h3>
 
 <pre>
@@ -5944,7 +5982,7 @@ This function initialize the type2 driver screen for the arg requested
 </ul>
 
 </section>
-<section id="toc196">
+<section id="toc197">
 <h3>1.7.27. Driver type2 open</h3>
 
 <pre>
@@ -5961,7 +5999,7 @@ This function open a new content
 </ul>
 
 </section>
-<section id="toc197">
+<section id="toc198">
 <h3>1.7.28. Driver type2 close</h3>
 
 <pre>
@@ -5978,7 +6016,7 @@ This function close the two zone of the screen
 </ul>
 
 </section>
-<section id="toc198">
+<section id="toc199">
 <h3>1.7.29. Driver type3 object</h3>
 
 <pre>
@@ -5990,7 +6028,7 @@ This object stores the functions used by the type3 driver
 </p>
 
 </section>
-<section id="toc199">
+<section id="toc200">
 <h3>1.7.30. Driver type3 template</h3>
 
 <pre>
@@ -6007,7 +6045,7 @@ This function returns the type3 template to mount the screen
 </ul>
 
 </section>
-<section id="toc200">
+<section id="toc201">
 <h3>1.7.31. Driver type3 init</h3>
 
 <pre>
@@ -6024,7 +6062,7 @@ This function initialize the type3 driver screen for the arg requested
 </ul>
 
 </section>
-<section id="toc201">
+<section id="toc202">
 <h3>1.7.32. Driver type3 open</h3>
 
 <pre>
@@ -6041,7 +6079,7 @@ This function bypass to the type2 driver
 </ul>
 
 </section>
-<section id="toc202">
+<section id="toc203">
 <h3>1.7.33. Driver type3 close</h3>
 
 <pre>
@@ -6058,7 +6096,7 @@ This function close the three and/or two zone of the screen
 </ul>
 
 </section>
-<section id="toc203">
+<section id="toc204">
 <h3>1.7.34. Driver type1modal object</h3>
 
 <pre>
@@ -6070,7 +6108,7 @@ This object stores the functions used by the type1modal driver
 </p>
 
 </section>
-<section id="toc204">
+<section id="toc205">
 <h3>1.7.35. Driver type1modal template</h3>
 
 <pre>
@@ -6087,7 +6125,7 @@ This function returns the type1modal template to mount the screen
 </ul>
 
 </section>
-<section id="toc205">
+<section id="toc206">
 <h3>1.7.36. Driver type1modal init</h3>
 
 <pre>
@@ -6104,7 +6142,7 @@ This function initialize the type1modal driver screen for the arg requested
 </ul>
 
 </section>
-<section id="toc206">
+<section id="toc207">
 <h3>1.7.37. Driver type1modal open</h3>
 
 <pre>
@@ -6121,7 +6159,7 @@ This function bypass to the type2 driver
 </ul>
 
 </section>
-<section id="toc207">
+<section id="toc208">
 <h3>1.7.38. Driver type1modal close</h3>
 
 <pre>
@@ -6138,7 +6176,7 @@ This function close the modal
 </ul>
 
 </section>
-<section id="toc208">
+<section id="toc209">
 <h3>1.7.39. Driver type1fluid object</h3>
 
 <pre>
@@ -6150,7 +6188,7 @@ This object stores the functions used by the type1modal driver
 </p>
 
 </section>
-<section id="toc209">
+<section id="toc210">
 <h3>1.7.40. Create type1fluid template</h3>
 
 <pre>
@@ -6164,7 +6202,7 @@ and adjusts the layout of the corresponding element for proper display.
 </p>
 
 </section>
-<section id="toc210">
+<section id="toc211">
 <h3>1.7.41. Initialization, open, and close handlers for type1fluid</h3>
 
 <pre>
@@ -6177,7 +6215,7 @@ reuse of core functionality for initializing, opening, and closing type1 resourc
 </p>
 
 </section>
-<section id="toc211">
+<section id="toc212">
 <h3>1.7.42. Driver type1full object</h3>
 
 <pre>
@@ -6189,7 +6227,7 @@ This object stores the functions used by the type1full driver
 </p>
 
 </section>
-<section id="toc212">
+<section id="toc213">
 <h3>1.7.43. Create type1full template</h3>
 
 <pre>
@@ -6203,7 +6241,7 @@ and adjusts the layout of the corresponding element for proper display.
 </p>
 
 </section>
-<section id="toc213">
+<section id="toc214">
 <h3>1.7.44. Initialization, open, and close handlers for type1full</h3>
 
 <pre>
@@ -6216,7 +6254,7 @@ reuse of core functionality for initializing, opening, and closing type1modal re
 </p>
 
 </section>
-<section id="toc214">
+<section id="toc215">
 <h3>1.7.45. Driver type2modal object</h3>
 
 <pre>
@@ -6228,7 +6266,7 @@ This object stores the functions used by the type2modal driver
 </p>
 
 </section>
-<section id="toc215">
+<section id="toc216">
 <h3>1.7.46. Driver type2modal template</h3>
 
 <pre>
@@ -6245,7 +6283,7 @@ This function returns the type2modal template to mount the screen
 </ul>
 
 </section>
-<section id="toc216">
+<section id="toc217">
 <h3>1.7.47. Driver type2modal init</h3>
 
 <pre>
@@ -6262,7 +6300,7 @@ This function initialize the type2modal driver screen for the arg requested
 </ul>
 
 </section>
-<section id="toc217">
+<section id="toc218">
 <h3>1.7.48. Driver type2modal open</h3>
 
 <pre>
@@ -6279,7 +6317,7 @@ This function bypass to the type2 driver
 </ul>
 
 </section>
-<section id="toc218">
+<section id="toc219">
 <h3>1.7.49. Driver type2modal close</h3>
 
 <pre>
@@ -6297,7 +6335,7 @@ This function close the modal and/or two zone of the screen
 
 </section>
 </section>
-<section id="toc219">
+<section id="toc220">
 <h2>1.8. Filter module</h2>
 
 <pre>
@@ -6308,7 +6346,7 @@ web/js/filter.js
 Implements all filters features
 </p>
 
-<section id="toc220">
+<section id="toc221">
 <h3>1.8.1. Filter object</h3>
 
 <pre>
@@ -6320,7 +6358,7 @@ This object stores the functions used by the filter module
 </p>
 
 </section>
-<section id="toc221">
+<section id="toc222">
 <h3>1.8.2. Filter cache</h3>
 
 <pre>
@@ -6332,7 +6370,7 @@ This object stores the cache used by the filter module
 </p>
 
 </section>
-<section id="toc222">
+<section id="toc223">
 <h3>1.8.3. Init filter</h3>
 
 <pre>
@@ -6351,7 +6389,7 @@ save.
 </ul>
 
 </section>
-<section id="toc223">
+<section id="toc224">
 <h3>1.8.4. Load filter</h3>
 
 <pre>
@@ -6372,7 +6410,7 @@ the saltos.driver.search, that load the data in the list
 </ul>
 
 </section>
-<section id="toc224">
+<section id="toc225">
 <h3>1.8.5. Update filter</h3>
 
 <pre>
@@ -6393,7 +6431,7 @@ This function only updates the cache filter
 </ul>
 
 </section>
-<section id="toc225">
+<section id="toc226">
 <h3>1.8.6. Update filter</h3>
 
 <pre>
@@ -6427,7 +6465,7 @@ and prevent non needed ajax requests.
 </p>
 
 </section>
-<section id="toc226">
+<section id="toc227">
 <h3>1.8.7. Filter button helper</h3>
 
 <pre>
@@ -6446,7 +6484,7 @@ rename a filter.
 </ul>
 
 </section>
-<section id="toc227">
+<section id="toc228">
 <h3>1.8.8. Select button helper</h3>
 
 <pre>
@@ -6466,7 +6504,7 @@ a filter
 
 </section>
 </section>
-<section id="toc228">
+<section id="toc229">
 <h2>1.9. Form helper module</h2>
 
 <pre>
@@ -6477,7 +6515,7 @@ web/js/form.js
 This module provides the needed tools to implement the form feature
 </p>
 
-<section id="toc229">
+<section id="toc230">
 <h3>1.9.1. Form constructor helper object</h3>
 
 <pre>
@@ -6490,7 +6528,7 @@ helper
 </p>
 
 </section>
-<section id="toc230">
+<section id="toc231">
 <h3>1.9.2. Data helper object</h3>
 
 <pre>
@@ -6502,7 +6540,7 @@ This object allow to the app to store the data of the fields map
 </p>
 
 </section>
-<section id="toc231">
+<section id="toc232">
 <h3>1.9.3. Form data helper</h3>
 
 <pre>
@@ -6516,7 +6554,7 @@ allow that the get_data can differ between the original data and the modified da
 </p>
 
 </section>
-<section id="toc232">
+<section id="toc233">
 <h3>1.9.4. Form layout helper</h3>
 
 <pre>
@@ -6550,7 +6588,7 @@ can retrieve the desired information of the fields.
 </p>
 
 </section>
-<section id="toc233">
+<section id="toc234">
 <h3>1.9.5. Form layout auto helper object</h3>
 
 <pre>
@@ -6562,7 +6600,7 @@ This object stores the functions used as layout_auto_helper for containers, rows
 </p>
 
 </section>
-<section id="toc234">
+<section id="toc235">
 <h3>1.9.6. Form layout auto helper for containers</h3>
 
 <pre>
@@ -6592,7 +6630,7 @@ follow arguments:
 </ul>
 
 </section>
-<section id="toc235">
+<section id="toc236">
 <h3>1.9.7. Form layout auto helper for rows</h3>
 
 <pre>
@@ -6618,7 +6656,7 @@ follow arguments:
 </ul>
 
 </section>
-<section id="toc236">
+<section id="toc237">
 <h3>1.9.8. Form layout auto helper for cols</h3>
 
 <pre>
@@ -6647,7 +6685,7 @@ to each col without repetitions.
 </p>
 
 </section>
-<section id="toc237">
+<section id="toc238">
 <h3>1.9.9. Widget helper</h3>
 
 <pre>
@@ -6685,7 +6723,7 @@ that the update was finished.
 </p>
 
 </section>
-<section id="toc238">
+<section id="toc239">
 <h3>1.9.10. Style helper array</h3>
 
 <pre>
@@ -6697,7 +6735,7 @@ This array allow to the require feature to control the loaded libraries
 </p>
 
 </section>
-<section id="toc239">
+<section id="toc240">
 <h3>1.9.11. Form style helper</h3>
 
 <pre>
@@ -6715,7 +6753,7 @@ what kind of usage do you want to do.
 </ul>
 
 </section>
-<section id="toc240">
+<section id="toc241">
 <h3>1.9.12. Javascript helper array</h3>
 
 <pre>
@@ -6727,7 +6765,7 @@ This array allow to the require feature to control the loaded libraries
 </p>
 
 </section>
-<section id="toc241">
+<section id="toc242">
 <h3>1.9.13. Form javascript helper</h3>
 
 <pre>
@@ -6745,7 +6783,7 @@ what kind of usage do you want to do.
 </ul>
 
 </section>
-<section id="toc242">
+<section id="toc243">
 <h3>1.9.14. Form title helper</h3>
 
 <pre>
@@ -6764,7 +6802,7 @@ last part of the title.
 </ul>
 
 </section>
-<section id="toc243">
+<section id="toc244">
 <h3>1.9.15. Form screen helper</h3>
 
 <pre>
@@ -6782,7 +6820,7 @@ to clear the screen by removing all contents of the body
 </ul>
 
 </section>
-<section id="toc244">
+<section id="toc245">
 <h3>1.9.16. Form navbar helper</h3>
 
 <pre>
@@ -6800,7 +6838,7 @@ info about this feature in the bootstrap documentation
 </ul>
 
 </section>
-<section id="toc245">
+<section id="toc246">
 <h3>1.9.17. Load gettext helper</h3>
 
 <pre>
@@ -6812,7 +6850,7 @@ This function load the gettext data from the api to the cli sapi
 </p>
 
 </section>
-<section id="toc246">
+<section id="toc247">
 <h3>1.9.18. Form cache helper</h3>
 
 <pre>
@@ -6841,7 +6879,7 @@ process_response is called.
 
 </section>
 </section>
-<section id="toc247">
+<section id="toc248">
 <h2>1.10. Gettext helper module</h2>
 
 <pre>
@@ -6854,7 +6892,7 @@ SaltOS translations using a merged system of the unix locales and the old SaltOS
 system.
 </p>
 
-<section id="toc248">
+<section id="toc249">
 <h3>1.10.1. Gettext helper object</h3>
 
 <pre>
@@ -6866,7 +6904,7 @@ This object stores all gettext functions to get and set data using the localStor
 </p>
 
 </section>
-<section id="toc249">
+<section id="toc250">
 <h3>1.10.2. Get gettext function</h3>
 
 <pre>
@@ -6878,7 +6916,7 @@ This function returns the gettext stored in the localStorage
 </p>
 
 </section>
-<section id="toc250">
+<section id="toc251">
 <h3>1.10.3. Get Short gettext function</h3>
 
 <pre>
@@ -6890,7 +6928,7 @@ This function returns the short version of gettext stored in the localStorage
 </p>
 
 </section>
-<section id="toc251">
+<section id="toc252">
 <h3>1.10.4. Set gettext function</h3>
 
 <pre>
@@ -6907,7 +6945,7 @@ This function sets the gettext stored in the localStorage
 </ul>
 
 </section>
-<section id="toc252">
+<section id="toc253">
 <h3>1.10.5. Unset gettext and expires_at</h3>
 
 <pre>
@@ -6919,7 +6957,7 @@ This function removes the gettext and expires_at in the localStorage
 </p>
 
 </section>
-<section id="toc253">
+<section id="toc254">
 <h3>1.10.6. Get Text function</h3>
 
 <pre>
@@ -6947,7 +6985,7 @@ the same feature that old SaltOS provides
 </p>
 
 </section>
-<section id="toc254">
+<section id="toc255">
 <h3>1.10.7. T function</h3>
 
 <pre>
@@ -6959,7 +6997,7 @@ This line allow to publish the saltos.gettext.T function in the global scope
 </p>
 
 </section>
-<section id="toc255">
+<section id="toc256">
 <h3>1.10.8. Bootstrap gettext object</h3>
 
 <pre>
@@ -6973,7 +7011,7 @@ texts.
 </p>
 
 </section>
-<section id="toc256">
+<section id="toc257">
 <h3>1.10.9. Bootstrap field overload</h3>
 
 <pre>
@@ -6991,7 +7029,7 @@ features to the arguments depending the type of field.
 </ul>
 
 </section>
-<section id="toc257">
+<section id="toc258">
 <h3>1.10.10. Bootstrap modal overload</h3>
 
 <pre>
@@ -7009,7 +7047,7 @@ features to the arguments
 </ul>
 
 </section>
-<section id="toc258">
+<section id="toc259">
 <h3>1.10.11. Bootstrap toast overload</h3>
 
 <pre>
@@ -7027,7 +7065,7 @@ features to the arguments
 </ul>
 
 </section>
-<section id="toc259">
+<section id="toc260">
 <h3>1.10.12. Bootstrap menu overload</h3>
 
 <pre>
@@ -7045,7 +7083,7 @@ features to the arguments
 </ul>
 
 </section>
-<section id="toc260">
+<section id="toc261">
 <h3>1.10.13. Bootstrap offcanvas overload</h3>
 
 <pre>
@@ -7064,7 +7102,7 @@ features to the arguments
 
 </section>
 </section>
-<section id="toc261">
+<section id="toc262">
 <h2>1.11. Hash helper module</h2>
 
 <pre>
@@ -7076,7 +7114,7 @@ This module includes the code used to manage the hash feature in the browser
 and to provide an onhashchange function
 </p>
 
-<section id="toc262">
+<section id="toc263">
 <h3>1.11.1. Hash helper object</h3>
 
 <pre>
@@ -7088,7 +7126,7 @@ This object stores all hash functions to get, set and trigger a change
 </p>
 
 </section>
-<section id="toc263">
+<section id="toc264">
 <h3>1.11.2. Get hash</h3>
 
 <pre>
@@ -7100,7 +7138,7 @@ Function intended to return the current hash without the pillow
 </p>
 
 </section>
-<section id="toc264">
+<section id="toc265">
 <h3>1.11.3. Set hash</h3>
 
 <pre>
@@ -7129,7 +7167,7 @@ The operation is cancelled if the current hash is the same that the new hash
 </p>
 
 </section>
-<section id="toc265">
+<section id="toc266">
 <h3>1.11.4. Add hash</h3>
 
 <pre>
@@ -7158,7 +7196,7 @@ The operation is cancelled if the current hash is the same that the new hash
 </p>
 
 </section>
-<section id="toc266">
+<section id="toc267">
 <h3>1.11.5. Hash helper</h3>
 
 <pre>
@@ -7175,7 +7213,7 @@ This function is used by all other functions to clean the hash
 </ul>
 
 </section>
-<section id="toc267">
+<section id="toc268">
 <h3>1.11.6. Url to hash</h3>
 
 <pre>
@@ -7192,7 +7230,7 @@ This function allow to convert and url string into a hash string
 </ul>
 
 </section>
-<section id="toc268">
+<section id="toc269">
 <h3>1.11.7. Change trigger</h3>
 
 <pre>
@@ -7204,7 +7242,7 @@ This function triggers the hashchange event to execute the onhashchange
 </p>
 
 </section>
-<section id="toc269">
+<section id="toc270">
 <h3>1.11.8. Hash change management</h3>
 
 <pre>
@@ -7216,7 +7254,7 @@ This function allow to SaltOS to update the contents when hash change
 </p>
 
 </section>
-<section id="toc270">
+<section id="toc271">
 <h3>1.11.9. Before unload management</h3>
 
 <pre>
@@ -7229,7 +7267,7 @@ This function allow to SaltOS to update the contents when hash change
 
 </section>
 </section>
-<section id="toc271">
+<section id="toc272">
 <h2>1.12. Object helper module</h2>
 
 <pre>
@@ -7240,7 +7278,7 @@ web/js/object.js
 This file contains the main saltos object
 </p>
 
-<section id="toc272">
+<section id="toc273">
 <h3>1.12.1. Main object</h3>
 
 <pre>
@@ -7253,8 +7291,29 @@ This object contains all SaltOS code
 
 </section>
 </section>
-<section id="toc273">
-<h2>1.13. SaltOS4 Proxy Service Worker</h2>
+<section id="toc274">
+<h2>1.13. Global prototype extensions and polyfills for the SaltOS framework.</h2>
+
+<pre>
+web/js/polyfill.js
+</pre>
+
+<section id="toc275">
+<h3>1.13.1. Polyfill for Array.prototype.at() to support older environments.</h3>
+
+<pre>
+if (!Array.prototype.at) {
+</pre>
+
+<p>
+Takes an integer value and returns the item at that index, allowing for
+positive and negative integers.
+</p>
+
+</section>
+</section>
+<section id="toc276">
+<h2>1.14. SaltOS4 Proxy Service Worker</h2>
 
 <pre>
 web/js/proxy.js
@@ -7281,8 +7340,8 @@ the appropriate behavior:
 All logic integrates transparently with the frontend’s AJAX layer.
 </p>
 
-<section id="toc274">
-<h3>1.13.1. Broadcast console log to all active tabs</h3>
+<section id="toc277">
+<h3>1.14.1. Broadcast console log to all active tabs</h3>
 
 <pre>
 const console_log = (message)
@@ -7300,8 +7359,8 @@ to all connected clients using `postMessage`.
 </ul>
 
 </section>
-<section id="toc275">
-<h3>1.13.2. Build formatted console debug output</h3>
+<section id="toc278">
+<h3>1.14.2. Build formatted console debug output</h3>
 
 <pre>
 const debug = (action, url, type, duration, size)
@@ -7330,8 +7389,8 @@ Returns the formatted message and styling for `console.log(...)`
 </p>
 
 </section>
-<section id="toc276">
-<h3>1.13.3. Timeout configuration</h3>
+<section id="toc279">
+<h3>1.14.3. Timeout configuration</h3>
 
 <pre>
 const timeout_max = 30000;
@@ -7366,8 +7425,8 @@ and gracefully recover when the network is restored.
 </p>
 
 </section>
-<section id="toc277">
-<h3>1.13.4. Proxy function</h3>
+<section id="toc280">
+<h3>1.14.4. Proxy function</h3>
 
 <pre>
 const proxy = async request
@@ -7422,8 +7481,8 @@ Returns an object with type, response, duration, and size.
 </p>
 
 </section>
-<section id="toc278">
-<h3>1.13.5. Queue open</h3>
+<section id="toc281">
+<h3>1.14.5. Queue open</h3>
 
 <pre>
 const queue_open = ()
@@ -7435,8 +7494,8 @@ in the add, delete or getAll features.
 </p>
 
 </section>
-<section id="toc279">
-<h3>1.13.6. Queue push</h3>
+<section id="toc282">
+<h3>1.14.6. Queue push</h3>
 
 <pre>
 const queue_push = data
@@ -7452,8 +7511,8 @@ This function adds an entry to the queue system
 </ul>
 
 </section>
-<section id="toc280">
-<h3>1.13.7. Queue getall</h3>
+<section id="toc283">
+<h3>1.14.7. Queue getall</h3>
 
 <pre>
 const queue_getall = ()
@@ -7465,8 +7524,8 @@ order
 </p>
 
 </section>
-<section id="toc281">
-<h3>1.13.8. Queue delete</h3>
+<section id="toc284">
+<h3>1.14.8. Queue delete</h3>
 
 <pre>
 const queue_delete = key
@@ -7482,8 +7541,8 @@ This function allow to delete the entry identified by @key
 </ul>
 
 </section>
-<section id="toc282">
-<h3>1.13.9. Request serialize</h3>
+<section id="toc285">
+<h3>1.14.9. Request serialize</h3>
 
 <pre>
 const request_serialize = async request
@@ -7500,8 +7559,8 @@ that can be stored in an indexedDB
 </ul>
 
 </section>
-<section id="toc283">
-<h3>1.13.10. Request unserialize</h3>
+<section id="toc286">
+<h3>1.14.10. Request unserialize</h3>
 
 <pre>
 const request_unserialize = request
@@ -7518,8 +7577,8 @@ into a valid request that can be used in fetch operations
 </ul>
 
 </section>
-<section id="toc284">
-<h3>1.13.11. Human Size</h3>
+<section id="toc287">
+<h3>1.14.11. Human Size</h3>
 
 <pre>
 const human_size = (size, pre = '', post = '')
@@ -7538,8 +7597,8 @@ post  =&gt; string added after the unit letter at the end
 </ul>
 
 </section>
-<section id="toc285">
-<h3>1.13.12. Install binding</h3>
+<section id="toc288">
+<h3>1.14.12. Install binding</h3>
 
 <pre>
 self.addEventListener('install', event
@@ -7550,8 +7609,8 @@ This code implements the install feature
 </p>
 
 </section>
-<section id="toc286">
-<h3>1.13.13. Activate binding</h3>
+<section id="toc289">
+<h3>1.14.13. Activate binding</h3>
 
 <pre>
 self.addEventListener('activate', event
@@ -7562,8 +7621,8 @@ This code implements the activate feature
 </p>
 
 </section>
-<section id="toc287">
-<h3>1.13.14. Fetch binding</h3>
+<section id="toc290">
+<h3>1.14.14. Fetch binding</h3>
 
 <pre>
 self.addEventListener('fetch', event
@@ -7574,8 +7633,8 @@ This code implements the fetch feature
 </p>
 
 </section>
-<section id="toc288">
-<h3>1.13.15. Sync in progress flag</h3>
+<section id="toc291">
+<h3>1.14.15. Sync in progress flag</h3>
 
 <pre>
 let sync_in_progress = false;
@@ -7590,8 +7649,8 @@ until the current one finishes.
 </p>
 
 </section>
-<section id="toc289">
-<h3>1.13.16. Message binding</h3>
+<section id="toc292">
+<h3>1.14.16. Message binding</h3>
 
 <pre>
 self.addEventListener('message', async event
@@ -7611,8 +7670,8 @@ to test the comunication between the proxy and the app layer
 
 </section>
 </section>
-<section id="toc290">
-<h2>1.14. Push &amp; favicon helper module</h2>
+<section id="toc293">
+<h2>1.15. Push &amp; favicon helper module</h2>
 
 <pre>
 web/js/push.js
@@ -7622,8 +7681,8 @@ web/js/push.js
 This fie contains useful functions related to the push and favicon features
 </p>
 
-<section id="toc291">
-<h3>1.14.1. Push constructor helper object</h3>
+<section id="toc294">
+<h3>1.15.1. Push constructor helper object</h3>
 
 <pre>
 saltos.push = {
@@ -7635,8 +7694,8 @@ helper
 </p>
 
 </section>
-<section id="toc292">
-<h3>1.14.2. Push helper</h3>
+<section id="toc295">
+<h3>1.15.2. Push helper</h3>
 
 <pre>
 saltos.push.fn = ()
@@ -7649,8 +7708,8 @@ includes features to prevent concurrence and malfunctions
 </p>
 
 </section>
-<section id="toc293">
-<h3>1.14.3. Load setup</h3>
+<section id="toc296">
+<h3>1.15.3. Load setup</h3>
 
 <pre>
 window.addEventListener('load', async event
@@ -7663,8 +7722,8 @@ each second
 </p>
 
 </section>
-<section id="toc294">
-<h3>1.14.4. Online sync</h3>
+<section id="toc297">
+<h3>1.15.4. Online sync</h3>
 
 <pre>
 window.addEventListener('online', event
@@ -7675,8 +7734,8 @@ This function send a push request when navigator detects an online change
 </p>
 
 </section>
-<section id="toc295">
-<h3>1.14.5. Favicon constructor helper object</h3>
+<section id="toc298">
+<h3>1.15.5. Favicon constructor helper object</h3>
 
 <pre>
 saltos.favicon = {
@@ -7688,8 +7747,8 @@ helper
 </p>
 
 </section>
-<section id="toc296">
-<h3>1.14.6. Favicon helper</h3>
+<section id="toc299">
+<h3>1.15.6. Favicon helper</h3>
 
 <pre>
 saltos.favicon.fn = bool
@@ -7706,8 +7765,8 @@ the bool argument
 </ul>
 
 </section>
-<section id="toc297">
-<h3>1.14.7. Visibility Change</h3>
+<section id="toc300">
+<h3>1.15.7. Visibility Change</h3>
 
 <pre>
 document.addEventListener('visibilitychange', ()
@@ -7719,8 +7778,8 @@ the main task is to cancel the favicon animation
 </p>
 
 </section>
-<section id="toc298">
-<h3>1.14.8. Run</h3>
+<section id="toc301">
+<h3>1.15.8. Run</h3>
 
 <pre>
 saltos.favicon.run = ()
@@ -7732,8 +7791,8 @@ This function run the favicon animation of the app is not visible
 
 </section>
 </section>
-<section id="toc299">
-<h2>1.15. Token helper module</h2>
+<section id="toc302">
+<h2>1.16. Token helper module</h2>
 
 <pre>
 web/js/storage.js
@@ -7743,8 +7802,8 @@ web/js/storage.js
 This module provides the needed tools to manage the tokens
 </p>
 
-<section id="toc300">
-<h3>1.15.1. Storage helper object</h3>
+<section id="toc303">
+<h3>1.16.1. Storage helper object</h3>
 
 <pre>
 saltos.storage = {};
@@ -7755,8 +7814,8 @@ This object manage the localStorage using a prefix to prevent collisions
 </p>
 
 </section>
-<section id="toc301">
-<h3>1.15.2. Pathname helper string</h3>
+<section id="toc304">
+<h3>1.16.2. Pathname helper string</h3>
 
 <pre>
 saltos.storage.pathname = saltos.core.encode_bad_chars(window.location.pathname);
@@ -7767,8 +7826,8 @@ This string contains the pathname for the current execution
 </p>
 
 </section>
-<section id="toc302">
-<h3>1.15.3. Get key</h3>
+<section id="toc305">
+<h3>1.16.3. Get key</h3>
 
 <pre>
 saltos.storage.get_key = key
@@ -7783,8 +7842,8 @@ key =&gt; the desired key used to access to the local storage
 </p>
 
 </section>
-<section id="toc303">
-<h3>1.15.4. Get Item</h3>
+<section id="toc306">
+<h3>1.16.4. Get Item</h3>
 
 <pre>
 saltos.storage.getItem = key
@@ -7798,8 +7857,8 @@ key =&gt; the desired key used to access to the local storage
 </p>
 
 </section>
-<section id="toc304">
-<h3>1.15.5. Set Item</h3>
+<section id="toc307">
+<h3>1.16.5. Set Item</h3>
 
 <pre>
 saltos.storage.setItem = (key, value)
@@ -7814,8 +7873,8 @@ value =&gt; the value that you want to set
 </p>
 
 </section>
-<section id="toc305">
-<h3>1.15.6. Remove Item</h3>
+<section id="toc308">
+<h3>1.16.6. Remove Item</h3>
 
 <pre>
 saltos.storage.removeItem = key
@@ -7829,8 +7888,8 @@ key =&gt; the desired key used to access to the local storage
 </p>
 
 </section>
-<section id="toc306">
-<h3>1.15.7. Clear</h3>
+<section id="toc309">
+<h3>1.16.7. Clear</h3>
 
 <pre>
 saltos.storage.clear = ()
@@ -7843,8 +7902,8 @@ keys and removes all items that starts with the prefix returned by get_key
 </p>
 
 </section>
-<section id="toc307">
-<h3>1.15.8. Get Item With Timestamp</h3>
+<section id="toc310">
+<h3>1.16.8. Get Item With Timestamp</h3>
 
 <pre>
 saltos.storage.getItemWithTimestamp = key
@@ -7859,8 +7918,8 @@ key =&gt; the desired key used to access to the local storage
 </p>
 
 </section>
-<section id="toc308">
-<h3>1.15.9. Set Item With Timestamp</h3>
+<section id="toc311">
+<h3>1.16.9. Set Item With Timestamp</h3>
 
 <pre>
 saltos.storage.setItemWithTimestamp = (key, value)
@@ -7875,8 +7934,8 @@ key =&gt; the desired key used to access to the local storage
 </p>
 
 </section>
-<section id="toc309">
-<h3>1.15.10. Purge With Timestamp</h3>
+<section id="toc312">
+<h3>1.16.10. Purge With Timestamp</h3>
 
 <pre>
 saltos.storage.purgeWithTimestamp = (prefix, offset)
@@ -7896,8 +7955,8 @@ timestamp.
 
 </section>
 </section>
-<section id="toc310">
-<h2>1.16. Token helper module</h2>
+<section id="toc313">
+<h2>1.17. Token helper module</h2>
 
 <pre>
 web/js/token.js
@@ -7907,8 +7966,8 @@ web/js/token.js
 This module provides the needed tools to manage the tokens
 </p>
 
-<section id="toc311">
-<h3>1.16.1. Token helper object</h3>
+<section id="toc314">
+<h3>1.17.1. Token helper object</h3>
 
 <pre>
 saltos.token = {};
@@ -7919,8 +7978,8 @@ This object stores all token functions to get and set data using the localStorag
 </p>
 
 </section>
-<section id="toc312">
-<h3>1.16.2. Get token function</h3>
+<section id="toc315">
+<h3>1.17.2. Get token function</h3>
 
 <pre>
 saltos.token.get = ()
@@ -7931,8 +7990,8 @@ This function returns the token stored in the localStorage
 </p>
 
 </section>
-<section id="toc313">
-<h3>1.16.3. Get expires_at function</h3>
+<section id="toc316">
+<h3>1.17.3. Get expires_at function</h3>
 
 <pre>
 saltos.token.get_expires_at = ()
@@ -7943,8 +8002,8 @@ This function returns the expires_at stored in the localStorage
 </p>
 
 </section>
-<section id="toc314">
-<h3>1.16.4. Set token and expires_at</h3>
+<section id="toc317">
+<h3>1.17.4. Set token and expires_at</h3>
 
 <pre>
 saltos.token.set = response
@@ -7964,8 +8023,8 @@ This function store the token and expires_at in the localStorage
 </ul>
 
 </section>
-<section id="toc315">
-<h3>1.16.5. Unset token and expires_at</h3>
+<section id="toc318">
+<h3>1.17.5. Unset token and expires_at</h3>
 
 <pre>
 saltos.token.unset = ()
@@ -7977,8 +8036,8 @@ This function removes the token and expires_at in the localStorage
 
 </section>
 </section>
-<section id="toc316">
-<h2>1.17. Window helper module</h2>
+<section id="toc319">
+<h2>1.18. Window helper module</h2>
 
 <pre>
 web/js/window.js
@@ -7989,8 +8048,8 @@ This function provides all needed code to manage the windows (open and close) an
 to provide a tool to send messages between tabs inside the same browser.
 </p>
 
-<section id="toc317">
-<h3>1.17.1. Window communication helper object</h3>
+<section id="toc320">
+<h3>1.18.1. Window communication helper object</h3>
 
 <pre>
 saltos.window = {};
@@ -8001,8 +8060,8 @@ This object stores all windows communications functions to send and listen messa
 </p>
 
 </section>
-<section id="toc318">
-<h3>1.17.2. Open window</h3>
+<section id="toc321">
+<h3>1.18.2. Open window</h3>
 
 <pre>
 saltos.window.open = url
@@ -8019,8 +8078,8 @@ the window.open but in a future, can add more features
 </ul>
 
 </section>
-<section id="toc319">
-<h3>1.17.3. Close window</h3>
+<section id="toc322">
+<h3>1.18.3. Close window</h3>
 
 <pre>
 saltos.window.close = ()
@@ -8031,8 +8090,8 @@ This function is intended to close the current window
 </p>
 
 </section>
-<section id="toc320">
-<h3>1.17.4. Listeners helper object</h3>
+<section id="toc323">
+<h3>1.18.4. Listeners helper object</h3>
 
 <pre>
 saltos.window.listeners = {};
@@ -8043,8 +8102,8 @@ This object stores all listeners added by the set_listeners and used by the onst
 </p>
 
 </section>
-<section id="toc321">
-<h3>1.17.5. Set listener</h3>
+<section id="toc324">
+<h3>1.18.5. Set listener</h3>
 
 <pre>
 saltos.window.set_listener = (name, fn)
@@ -8062,8 +8121,8 @@ This function allos to set a listener function to the named event
 </ul>
 
 </section>
-<section id="toc322">
-<h3>1.17.6. Unset listener</h3>
+<section id="toc325">
+<h3>1.18.6. Unset listener</h3>
 
 <pre>
 saltos.window.unset_listener = (name, fn)
@@ -8081,8 +8140,8 @@ This function removes a listener from the listeners object
 </ul>
 
 </section>
-<section id="toc323">
-<h3>1.17.7. Send message</h3>
+<section id="toc326">
+<h3>1.18.7. Send message</h3>
 
 <pre>
 saltos.window.send = (name, data = '', scope = 'all')
@@ -8121,8 +8180,8 @@ the prefix that too
 </p>
 
 </section>
-<section id="toc324">
-<h3>1.17.8. Storage management</h3>
+<section id="toc327">
+<h3>1.18.8. Storage management</h3>
 
 <pre>
 window.addEventListener('storage', event

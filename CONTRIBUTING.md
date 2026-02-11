@@ -215,7 +215,7 @@ SaltOS4/
 │   │   ├── js/                 # TypeScript/JavaScript core
 │   │   ├── lib/                # External JS libraries
 │   │   │   ├── bootstrap/
-│   │   │   ├── ckeditor/
+│   │   │   ├── joditeditor/
 │   │   │   ├── chartjs/
 │   │   │   ├── codemirror/
 │   │   │   ├── pdfjs/

@@ -33,8 +33,8 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <header>
 <hgroup>
 <h1>Applications Documentation</h1>
-<h2>SaltOS 4.0 r2204</h2>
-<h3>September 2025</h3>
+<h2>SaltOS 4.0 r2291</h2>
+<h3>February 2026</h3>
 </hgroup>
 </header>
 
@@ -1007,7 +1007,7 @@ This function returns the xml of an app using the follow specs passed in @data:
               <ul>
               <li>text, date, time, datetime, checkbox, switch =&gt; default widget
               </li>
-              <li>textarea, ckeditor, codemirror =&gt; widget with 5em of height
+              <li>textarea, joditeditor, codemirror =&gt; widget with 5em of height
               </li>
               <li>select =&gt; widget that uses the select spec to resolve the contents
               </li>
@@ -2779,7 +2779,7 @@ function getmail_pdf($ids)
 
 <p>
 This function generates PDF files for the provided email IDs using either the
-`wkhtmltopdf` command or a fallback library. If multiple emails are selected,
+`chromium` command or a fallback library. If multiple emails are selected,
 their PDFs are merged into a single file. It validates user permissions for
 accessing the emails and manages caching for performance optimization.
 </p>

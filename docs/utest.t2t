@@ -1,6 +1,6 @@
 Phpunit Test Documentation
-SaltOS 4.0 r2204
-September 2025
+SaltOS 4.0 r2291
+February 2026
 
 
 
@@ -1941,6 +1941,37 @@ This test performs some tests to validate the correctness
 of the html functions
 
 
+++Test html2markdown library++
+
+```
+test_html2markdown.php
+```
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Main class of this unit test+++
+
+```
+final class test_html2markdown extends TestCase
+```
+
+
++++html2text+++
+
+```
+public function test_html2text(): void
+```
+
+This function checks the correctness of the html2text method provided by the
+html2markdown library.
+
+
 ++Test IDs++
 
 ```
@@ -2871,37 +2902,6 @@ public function test_replace(): void
 
 This test performs some tests to validate the correctness
 of the str_replace_assoc instead of the replace function
-
-
-++Test roundcube library++
-
-```
-test_roundcube.php
-```
-
-
-+++Importing namespaces+++
-
-```
-use PHPUnit\Framework\TestCase;
-```
-
-
-+++Main class of this unit test+++
-
-```
-final class test_roundcube extends TestCase
-```
-
-
-+++html2text+++
-
-```
-public function test_html2text(): void
-```
-
-This function checks the correctness of the html2text method provided by the
-roundcube library.
 
 
 ++Test semaphore++

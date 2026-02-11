@@ -218,7 +218,7 @@ describe('Screenshots', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
 
         if (info.app == 'emails' && info.action == 'create') {
-            await page.waitForFunction(id => document.getElementById(id).ckeditor, timeout, 'body');
+            await page.waitForFunction(id => document.getElementById(id).joditeditor, timeout, 'body');
             await mypause(page, 1);
         } else if (info.action.includes('viewpdf')) {
             await mypause(page, 500);

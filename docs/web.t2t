@@ -1,6 +1,6 @@
 Web Client Documentation
-SaltOS 4.0 r2204
-September 2025
+SaltOS 4.0 r2291
+February 2026
 
 
 
@@ -500,7 +500,7 @@ widgets, the types that can be called are the follow:
 - @time        => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, OE, OC
 - @datetime    => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, OE, OC
 - @textarea    => id, class, PL, value, DS, RO, RQ, AF, AK, rows, tooltip, label, color, height, OC
-- @ckeditor    => id, class, PL, value, DS, RO, RQ, AF, AK, rows, label, color, height, OC
+- @joditeditor => id, class, PL, value, DS, RO, RQ, AF, AK, rows, label, color, height, OC
 - @codemirror  => id, class, PL, value, DS, RO, RQ, AF, AK, rows, mode, label, color, height, OC
 - @iframe      => id, class, src, srcdoc, height, label, color
 - @select      => id, class, DS, RQ, AF, AK, rows, multiple, size, value, tooltip, label, color, OC
@@ -917,15 +917,15 @@ feature:
 - @lib/autoheight/autoheight.min.js
 
 
-+++Ckeditor constructor helper+++
++++Joditeditor constructor helper+++
 
 ```
-saltos.bootstrap.__field.ckeditor = field
+saltos.bootstrap.__field.joditeditor = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-13-ckeditor-1-snap.png]
+[../ujest/snaps/test-bootstrap-js-bootstrap-campo-13-joditeditor-1-snap.png]
 
-This function returns a textarea object with the ckeditor plugin enabled
+This function returns a textarea object with the joditeditor plugin enabled
 
 - @id          => the id used by the object
 - @class       => allow to add more classes to the default form-control
@@ -945,15 +945,16 @@ This function returns a textarea object with the ckeditor plugin enabled
 
 Notes:
 
-This widget requires the ckeditor library and can be loaded automatically using the require
+This widget requires the joditeditor library and can be loaded automatically using the require
 feature:
 
-- @lib/ckeditor/ckeditor.min.js
+- @lib/joditeditor/jodit.fat.min.css
+- @lib/joditeditor/jodit.fat.min.js
 
 
-The returned object contains a textarea with two new properties like ckeditor and set,
-the first contains the ckeditor object and the second is a function used to update the
-value of the ckeditor, intended to load new data.
+The returned object contains a textarea with two new properties like joditeditor and set,
+the first contains the joditeditor object and the second is a function used to update the
+value of the joditeditor, intended to load new data.
 
 
 +++Codemirror constructor helper+++
@@ -1907,6 +1908,7 @@ This function returns a dropdown object, you can pass the follow arguments:
 - @divider   => you can set this boolean to true to convert the element into a divider
 - @tooltip   => this parameter raise the title flag
 - @accesskey => the key used as accesskey parameter
+- @color     => the color of the item (primary, secondary, success, danger, warning, info, none)
 
 
 Notes:
@@ -2356,6 +2358,21 @@ saltos.bootstrap.get_css_theme = ()
 Retrieve the css_theme stored in the localStorage
 
 
++++Field Types+++
+
+```
+saltos.bootstrap.__field_types = [
+```
+
+This list defines the widgets that are treated as data input fields.
+
+These field types are used by functions such as:
+- saltos.driver.reset
+- saltos.app.get_data
+- saltos.app.check_required
+- saltos.app.form_disabled
+
+
 ++Common helper module++
 
 ```
@@ -2634,7 +2651,7 @@ saltos.core.when_visible = (obj, fn, args)
 ```
 
 This function allow to execute some code when the object is visible, useful for third part
-widgets as ckeditor or codemirror that requires a rendered environemt to initialize their
+widgets as joditeditor or codemirror that requires a rendered environemt to initialize their
 code and paint the widget correctly
 
 - @obj  => the object that do you want to monitorize the visibility
@@ -4264,6 +4281,23 @@ const saltos = {};
 ```
 
 This object contains all SaltOS code
+
+
+++Global prototype extensions and polyfills for the SaltOS framework.++
+
+```
+web/js/polyfill.js
+```
+
+
++++Polyfill for Array.prototype.at() to support older environments.+++
+
+```
+if (!Array.prototype.at) {
+```
+
+Takes an integer value and returns the item at that index, allowing for
+positive and negative integers.
 
 
 ++SaltOS4 Proxy Service Worker++

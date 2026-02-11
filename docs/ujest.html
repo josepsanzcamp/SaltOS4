@@ -33,8 +33,8 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <header>
 <hgroup>
 <h1>Jest Test Documentation</h1>
-<h2>SaltOS 4.0 r2204</h2>
-<h3>September 2025</h3>
+<h2>SaltOS 4.0 r2291</h2>
+<h3>February 2026</h3>
 </hgroup>
 </header>
 
@@ -297,375 +297,385 @@ pre{background-color:#e6e6e6;padding:5px 3px}
       </li>
       <li><a href="#toc120">2.4.15. Action Insert</a>
       </li>
-      <li><a href="#toc121">2.4.16. Action Update</a>
+      <li><a href="#toc121">2.4.16. Action Insert</a>
       </li>
-      <li><a href="#toc122">2.4.17. Action Delete</a>
+      <li><a href="#toc122">2.4.17. Action Update</a>
       </li>
-      </ul>
-    </li>
-    <li><a href="#toc123">2.5. Emails unit tests</a>
-      <ul>
-      <li><a href="#toc124">2.5.1. Puppeteer setup</a>
+      <li><a href="#toc123">2.4.18. Action Update</a>
       </li>
-      <li><a href="#toc125">2.5.2. Global variables</a>
+      <li><a href="#toc124">2.4.19. Action Delete</a>
       </li>
-      <li><a href="#toc126">2.5.3. Before All</a>
-      </li>
-      <li><a href="#toc127">2.5.4. After All</a>
-      </li>
-      <li><a href="#toc128">2.5.5. App Emails</a>
-      </li>
-      <li><a href="#toc129">2.5.6. Action List</a>
-      </li>
-      <li><a href="#toc130">2.5.7. Action Control F</a>
-      </li>
-      <li><a href="#toc131">2.5.8. Action Profile</a>
-      </li>
-      <li><a href="#toc132">2.5.9. Action Help</a>
-      </li>
-      <li><a href="#toc133">2.5.10. Action Filter</a>
-      </li>
-      <li><a href="#toc134">2.5.11. Action Create</a>
-      </li>
-      <li><a href="#toc135">2.5.12. Action View</a>
+      <li><a href="#toc125">2.4.20. Action Delete</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc136">2.6. Filter unit tests</a>
+    <li><a href="#toc126">2.5. Emails unit tests</a>
       <ul>
-      <li><a href="#toc137">2.6.1. Load all needed files of the project</a>
+      <li><a href="#toc127">2.5.1. Puppeteer setup</a>
       </li>
-      <li><a href="#toc138">2.6.2. Reset mocks before each test</a>
+      <li><a href="#toc128">2.5.2. Global variables</a>
       </li>
-      <li><a href="#toc139">2.6.3. Restore mocks after each test</a>
+      <li><a href="#toc129">2.5.3. Before All</a>
       </li>
-      <li><a href="#toc140">2.6.4. Test suite for filter initialization</a>
+      <li><a href="#toc130">2.5.4. After All</a>
       </li>
-      <li><a href="#toc141">2.6.5. Setup before each test in this suite</a>
+      <li><a href="#toc131">2.5.5. App Emails</a>
       </li>
-      <li><a href="#toc142">2.6.6. Test filter cache initialization</a>
+      <li><a href="#toc132">2.5.6. Action List</a>
       </li>
-      <li><a href="#toc143">2.6.7. Test cache reuse</a>
+      <li><a href="#toc133">2.5.7. Action Control F</a>
       </li>
-      <li><a href="#toc144">2.6.8. Test suite for filter loading</a>
+      <li><a href="#toc134">2.5.8. Action Control F</a>
       </li>
-      <li><a href="#toc145">2.6.9. Setup before each test in this suite</a>
+      <li><a href="#toc135">2.5.9. Action Profile</a>
       </li>
-      <li><a href="#toc146">2.6.10. Test loading existing filter</a>
+      <li><a href="#toc136">2.5.10. Action Help</a>
       </li>
-      <li><a href="#toc147">2.6.11. Test loading non-existent filter</a>
+      <li><a href="#toc137">2.5.11. Action Filter</a>
       </li>
-      <li><a href="#toc148">2.6.12. Test suite for filter updates</a>
+      <li><a href="#toc138">2.5.12. Action Create</a>
       </li>
-      <li><a href="#toc149">2.6.13. Test updating filter cache</a>
-      </li>
-      <li><a href="#toc150">2.6.14. Test suite for filter saving</a>
-      </li>
-      <li><a href="#toc151">2.6.15. Test saving new filter</a>
-      </li>
-      <li><a href="#toc152">2.6.16. Test updating existing filter</a>
-      </li>
-      <li><a href="#toc153">2.6.17. Test unchanged filter</a>
-      </li>
-      <li><a href="#toc154">2.6.18. Test filter deletion</a>
-      </li>
-      <li><a href="#toc155">2.6.19. Test deleting non-existent filter</a>
-      </li>
-      <li><a href="#toc156">2.6.20. Test suite for filter UI buttons</a>
-      </li>
-      <li><a href="#toc157">2.6.21. Setup before each test in this suite</a>
-      </li>
-      <li><a href="#toc158">2.6.22. Test load action</a>
-      </li>
-      <li><a href="#toc159">2.6.23. Test update action</a>
-      </li>
-      <li><a href="#toc160">2.6.24. Test delete action</a>
-      </li>
-      <li><a href="#toc161">2.6.25. Test create action</a>
-      </li>
-      <li><a href="#toc162">2.6.26. Test rename action</a>
-      </li>
-      <li><a href="#toc163">2.6.27. Test invalid action</a>
-      </li>
-      <li><a href="#toc164">2.6.28. Test suite for filter selection UI</a>
-      </li>
-      <li><a href="#toc165">2.6.29. Setup before each test in this suite</a>
-      </li>
-      <li><a href="#toc166">2.6.30. Test UI update</a>
-      </li>
-      <li><a href="#toc167">2.6.31. Test missing tree element</a>
-      </li>
-      <li><a href="#toc168">2.6.32. Test missing select element</a>
-      </li>
-      <li><a href="#toc169">2.6.33. Test missing form elements</a>
+      <li><a href="#toc139">2.5.13. Action View</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc170">2.7. Core unit tests</a>
+    <li><a href="#toc140">2.6. Filter unit tests</a>
       <ul>
-      <li><a href="#toc171">2.7.1. Load all needed files of the project</a>
+      <li><a href="#toc141">2.6.1. Load all needed files of the project</a>
       </li>
-      <li><a href="#toc172">2.7.2. berofeEach used in this test</a>
+      <li><a href="#toc142">2.6.2. Reset mocks before each test</a>
       </li>
-      <li><a href="#toc173">2.7.3. afterEach used in this test</a>
+      <li><a href="#toc143">2.6.3. Restore mocks after each test</a>
       </li>
-      <li><a href="#toc174">2.7.4. saltos.gettext.bootstrap.set/get/get_short/unset</a>
+      <li><a href="#toc144">2.6.4. Test suite for filter initialization</a>
       </li>
-      <li><a href="#toc175">2.7.5. saltos.gettext.bootstrap.field</a>
+      <li><a href="#toc145">2.6.5. Setup before each test in this suite</a>
       </li>
-      <li><a href="#toc176">2.7.6. saltos.gettext.bootstrap.modal</a>
+      <li><a href="#toc146">2.6.6. Test filter cache initialization</a>
       </li>
-      <li><a href="#toc177">2.7.7. saltos.gettext.bootstrap.toast</a>
+      <li><a href="#toc147">2.6.7. Test cache reuse</a>
       </li>
-      <li><a href="#toc178">2.7.8. saltos.gettext.bootstrap.menu</a>
+      <li><a href="#toc148">2.6.8. Test suite for filter loading</a>
       </li>
-      <li><a href="#toc179">2.7.9. saltos.gettext.bootstrap.offcanvas</a>
+      <li><a href="#toc149">2.6.9. Setup before each test in this suite</a>
+      </li>
+      <li><a href="#toc150">2.6.10. Test loading existing filter</a>
+      </li>
+      <li><a href="#toc151">2.6.11. Test loading non-existent filter</a>
+      </li>
+      <li><a href="#toc152">2.6.12. Test suite for filter updates</a>
+      </li>
+      <li><a href="#toc153">2.6.13. Test updating filter cache</a>
+      </li>
+      <li><a href="#toc154">2.6.14. Test suite for filter saving</a>
+      </li>
+      <li><a href="#toc155">2.6.15. Test saving new filter</a>
+      </li>
+      <li><a href="#toc156">2.6.16. Test updating existing filter</a>
+      </li>
+      <li><a href="#toc157">2.6.17. Test unchanged filter</a>
+      </li>
+      <li><a href="#toc158">2.6.18. Test filter deletion</a>
+      </li>
+      <li><a href="#toc159">2.6.19. Test deleting non-existent filter</a>
+      </li>
+      <li><a href="#toc160">2.6.20. Test suite for filter UI buttons</a>
+      </li>
+      <li><a href="#toc161">2.6.21. Setup before each test in this suite</a>
+      </li>
+      <li><a href="#toc162">2.6.22. Test load action</a>
+      </li>
+      <li><a href="#toc163">2.6.23. Test update action</a>
+      </li>
+      <li><a href="#toc164">2.6.24. Test delete action</a>
+      </li>
+      <li><a href="#toc165">2.6.25. Test create action</a>
+      </li>
+      <li><a href="#toc166">2.6.26. Test rename action</a>
+      </li>
+      <li><a href="#toc167">2.6.27. Test invalid action</a>
+      </li>
+      <li><a href="#toc168">2.6.28. Test suite for filter selection UI</a>
+      </li>
+      <li><a href="#toc169">2.6.29. Setup before each test in this suite</a>
+      </li>
+      <li><a href="#toc170">2.6.30. Test UI update</a>
+      </li>
+      <li><a href="#toc171">2.6.31. Test missing tree element</a>
+      </li>
+      <li><a href="#toc172">2.6.32. Test missing select element</a>
+      </li>
+      <li><a href="#toc173">2.6.33. Test missing form elements</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc180">2.8. Hash unit tests</a>
+    <li><a href="#toc174">2.7. Core unit tests</a>
       <ul>
-      <li><a href="#toc181">2.8.1. Load all needed files of the project</a>
+      <li><a href="#toc175">2.7.1. Load all needed files of the project</a>
       </li>
-      <li><a href="#toc182">2.8.2. Reset mocks before each test</a>
+      <li><a href="#toc176">2.7.2. berofeEach used in this test</a>
       </li>
-      <li><a href="#toc183">2.8.3. Restore mocks after each test</a>
+      <li><a href="#toc177">2.7.3. afterEach used in this test</a>
       </li>
-      <li><a href="#toc184">2.8.4. Test suite for hash helper function</a>
+      <li><a href="#toc178">2.7.4. saltos.gettext.bootstrap.set/get/get_short/unset</a>
       </li>
-      <li><a href="#toc185">2.8.5. Test hash with leading #</a>
+      <li><a href="#toc179">2.7.5. saltos.gettext.bootstrap.field</a>
       </li>
-      <li><a href="#toc186">2.8.6. Test hash with leading /</a>
+      <li><a href="#toc180">2.7.6. saltos.gettext.bootstrap.modal</a>
       </li>
-      <li><a href="#toc187">2.8.7. Test hash with leading #/</a>
+      <li><a href="#toc181">2.7.7. saltos.gettext.bootstrap.toast</a>
       </li>
-      <li><a href="#toc188">2.8.8. Test empty hash</a>
+      <li><a href="#toc182">2.7.8. saltos.gettext.bootstrap.menu</a>
       </li>
-      <li><a href="#toc189">2.8.9. Test clean hash</a>
-      </li>
-      <li><a href="#toc190">2.8.10. Test suite for hash getter function</a>
-      </li>
-      <li><a href="#toc191">2.8.11. Test getting current hash</a>
-      </li>
-      <li><a href="#toc192">2.8.12. Test getting empty hash</a>
-      </li>
-      <li><a href="#toc193">2.8.13. Test getting hash with leading /</a>
-      </li>
-      <li><a href="#toc194">2.8.14. Test suite for hash setter function</a>
-      </li>
-      <li><a href="#toc195">2.8.15. Test setting new hash</a>
-      </li>
-      <li><a href="#toc196">2.8.16. Test setting same hash</a>
-      </li>
-      <li><a href="#toc197">2.8.17. Test setting hash with #</a>
-      </li>
-      <li><a href="#toc198">2.8.18. Test setting hash with /</a>
-      </li>
-      <li><a href="#toc199">2.8.19. Test setting empty hash</a>
-      </li>
-      <li><a href="#toc200">2.8.20. Test suite for hash adder function</a>
-      </li>
-      <li><a href="#toc201">2.8.21. Test adding new hash</a>
-      </li>
-      <li><a href="#toc202">2.8.22. Test adding same hash</a>
-      </li>
-      <li><a href="#toc203">2.8.23. Test adding hash with #</a>
-      </li>
-      <li><a href="#toc204">2.8.24. Test adding hash with /</a>
-      </li>
-      <li><a href="#toc205">2.8.25. Test adding empty hash</a>
-      </li>
-      <li><a href="#toc206">2.8.26. Test suite for URL hash extraction</a>
-      </li>
-      <li><a href="#toc207">2.8.27. Test extracting hash from URL</a>
-      </li>
-      <li><a href="#toc208">2.8.28. Test extracting hash with /</a>
-      </li>
-      <li><a href="#toc209">2.8.29. Test URL without hash</a>
-      </li>
-      <li><a href="#toc210">2.8.30. Test suite for hash change events</a>
-      </li>
-      <li><a href="#toc211">2.8.31. Test triggering hash change</a>
+      <li><a href="#toc183">2.7.9. saltos.gettext.bootstrap.offcanvas</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc212">2.9. Invoices unit tests</a>
+    <li><a href="#toc184">2.8. Hash unit tests</a>
       <ul>
-      <li><a href="#toc213">2.9.1. Puppeteer setup</a>
+      <li><a href="#toc185">2.8.1. Load all needed files of the project</a>
       </li>
-      <li><a href="#toc214">2.9.2. Global variables</a>
+      <li><a href="#toc186">2.8.2. Reset mocks before each test</a>
       </li>
-      <li><a href="#toc215">2.9.3. Before All</a>
+      <li><a href="#toc187">2.8.3. Restore mocks after each test</a>
       </li>
-      <li><a href="#toc216">2.9.4. After All</a>
+      <li><a href="#toc188">2.8.4. Test suite for hash helper function</a>
       </li>
-      <li><a href="#toc217">2.9.5. App Invoices</a>
+      <li><a href="#toc189">2.8.5. Test hash with leading #</a>
       </li>
-      <li><a href="#toc218">2.9.6. Action List</a>
+      <li><a href="#toc190">2.8.6. Test hash with leading /</a>
       </li>
-      <li><a href="#toc219">2.9.7. Action List</a>
+      <li><a href="#toc191">2.8.7. Test hash with leading #/</a>
       </li>
-      <li><a href="#toc220">2.9.8. Action Create</a>
+      <li><a href="#toc192">2.8.8. Test empty hash</a>
       </li>
-      <li><a href="#toc221">2.9.9. Action View</a>
+      <li><a href="#toc193">2.8.9. Test clean hash</a>
       </li>
-      <li><a href="#toc222">2.9.10. Action Edit</a>
+      <li><a href="#toc194">2.8.10. Test suite for hash getter function</a>
+      </li>
+      <li><a href="#toc195">2.8.11. Test getting current hash</a>
+      </li>
+      <li><a href="#toc196">2.8.12. Test getting empty hash</a>
+      </li>
+      <li><a href="#toc197">2.8.13. Test getting hash with leading /</a>
+      </li>
+      <li><a href="#toc198">2.8.14. Test suite for hash setter function</a>
+      </li>
+      <li><a href="#toc199">2.8.15. Test setting new hash</a>
+      </li>
+      <li><a href="#toc200">2.8.16. Test setting same hash</a>
+      </li>
+      <li><a href="#toc201">2.8.17. Test setting hash with #</a>
+      </li>
+      <li><a href="#toc202">2.8.18. Test setting hash with /</a>
+      </li>
+      <li><a href="#toc203">2.8.19. Test setting empty hash</a>
+      </li>
+      <li><a href="#toc204">2.8.20. Test suite for hash adder function</a>
+      </li>
+      <li><a href="#toc205">2.8.21. Test adding new hash</a>
+      </li>
+      <li><a href="#toc206">2.8.22. Test adding same hash</a>
+      </li>
+      <li><a href="#toc207">2.8.23. Test adding hash with #</a>
+      </li>
+      <li><a href="#toc208">2.8.24. Test adding hash with /</a>
+      </li>
+      <li><a href="#toc209">2.8.25. Test adding empty hash</a>
+      </li>
+      <li><a href="#toc210">2.8.26. Test suite for URL hash extraction</a>
+      </li>
+      <li><a href="#toc211">2.8.27. Test extracting hash from URL</a>
+      </li>
+      <li><a href="#toc212">2.8.28. Test extracting hash with /</a>
+      </li>
+      <li><a href="#toc213">2.8.29. Test URL without hash</a>
+      </li>
+      <li><a href="#toc214">2.8.30. Test suite for hash change events</a>
+      </li>
+      <li><a href="#toc215">2.8.31. Test triggering hash change</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc223">2.10. Proxy unit tests</a>
+    <li><a href="#toc216">2.9. Invoices unit tests</a>
       <ul>
-      <li><a href="#toc224">2.10.1. berofeEach used in this test</a>
+      <li><a href="#toc217">2.9.1. Puppeteer setup</a>
       </li>
-      <li><a href="#toc225">2.10.2. afterEach used in this test</a>
+      <li><a href="#toc218">2.9.2. Global variables</a>
       </li>
-      <li><a href="#toc226">2.10.3. Load the needed environment of the proxy part</a>
+      <li><a href="#toc219">2.9.3. Before All</a>
       </li>
-      <li><a href="#toc227">2.10.4. md5</a>
+      <li><a href="#toc220">2.9.4. After All</a>
       </li>
-      <li><a href="#toc228">2.10.5. human_size</a>
+      <li><a href="#toc221">2.9.5. App Invoices</a>
+      </li>
+      <li><a href="#toc222">2.9.6. Action List</a>
+      </li>
+      <li><a href="#toc223">2.9.7. Action List</a>
+      </li>
+      <li><a href="#toc224">2.9.8. Action List</a>
+      </li>
+      <li><a href="#toc225">2.9.9. Action Create</a>
+      </li>
+      <li><a href="#toc226">2.9.10. Action View</a>
+      </li>
+      <li><a href="#toc227">2.9.11. Action Edit</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc229">2.11. Push unit tests</a>
+    <li><a href="#toc228">2.10. Proxy unit tests</a>
       <ul>
-      <li><a href="#toc230">2.11.1. Load all needed files of the project</a>
+      <li><a href="#toc229">2.10.1. berofeEach used in this test</a>
       </li>
-      <li><a href="#toc231">2.11.2. Reset mocks before each test</a>
+      <li><a href="#toc230">2.10.2. afterEach used in this test</a>
       </li>
-      <li><a href="#toc232">2.11.3. Restore mocks after each test</a>
+      <li><a href="#toc231">2.10.3. Load the needed environment of the proxy part</a>
       </li>
-      <li><a href="#toc233">2.11.4. Test suite for saltos.push.fn functionality</a>
+      <li><a href="#toc232">2.10.4. md5</a>
       </li>
-      <li><a href="#toc234">2.11.5. Setup before each test in this suite</a>
-      </li>
-      <li><a href="#toc235">2.11.6. Test push function when already executing</a>
-      </li>
-      <li><a href="#toc236">2.11.7. Test push function without token</a>
-      </li>
-      <li><a href="#toc237">2.11.8. Test push function when offline</a>
-      </li>
-      <li><a href="#toc238">2.11.9. Test push function with positive count</a>
-      </li>
-      <li><a href="#toc239">2.11.10. Test push function with successful response</a>
-      </li>
-      <li><a href="#toc240">2.11.11. Test push function with error response</a>
-      </li>
-      <li><a href="#toc241">2.11.12. Test suite for saltos.favicon.fn functionality</a>
-      </li>
-      <li><a href="#toc242">2.11.13. Test favicon function activation</a>
-      </li>
-      <li><a href="#toc243">2.11.14. Test favicon function deactivation</a>
+      <li><a href="#toc233">2.10.5. human_size</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc244">2.12. Screenshots unit tests</a>
+    <li><a href="#toc234">2.11. Push unit tests</a>
       <ul>
-      <li><a href="#toc245">2.12.1. Puppeteer setup</a>
+      <li><a href="#toc235">2.11.1. Load all needed files of the project</a>
       </li>
-      <li><a href="#toc246">2.12.2. Global variables</a>
+      <li><a href="#toc236">2.11.2. Reset mocks before each test</a>
       </li>
-      <li><a href="#toc247">2.12.3. Before All</a>
+      <li><a href="#toc237">2.11.3. Restore mocks after each test</a>
       </li>
-      <li><a href="#toc248">2.12.4. After All</a>
+      <li><a href="#toc238">2.11.4. Test suite for saltos.push.fn functionality</a>
       </li>
-      <li><a href="#toc249">2.12.5. App Customers</a>
+      <li><a href="#toc239">2.11.5. Setup before each test in this suite</a>
       </li>
-      <li><a href="#toc250">2.12.6. Action List</a>
+      <li><a href="#toc240">2.11.6. Test push function when already executing</a>
+      </li>
+      <li><a href="#toc241">2.11.7. Test push function without token</a>
+      </li>
+      <li><a href="#toc242">2.11.8. Test push function when offline</a>
+      </li>
+      <li><a href="#toc243">2.11.9. Test push function with positive count</a>
+      </li>
+      <li><a href="#toc244">2.11.10. Test push function with successful response</a>
+      </li>
+      <li><a href="#toc245">2.11.11. Test push function with error response</a>
+      </li>
+      <li><a href="#toc246">2.11.12. Test suite for saltos.favicon.fn functionality</a>
+      </li>
+      <li><a href="#toc247">2.11.13. Test favicon function activation</a>
+      </li>
+      <li><a href="#toc248">2.11.14. Test favicon function deactivation</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc251">2.13. Storage unit tests</a>
+    <li><a href="#toc249">2.12. Screenshots unit tests</a>
       <ul>
-      <li><a href="#toc252">2.13.1. Load all needed files of the project</a>
+      <li><a href="#toc250">2.12.1. Puppeteer setup</a>
       </li>
-      <li><a href="#toc253">2.13.2. berofeEach used in this test</a>
+      <li><a href="#toc251">2.12.2. Global variables</a>
       </li>
-      <li><a href="#toc254">2.13.3. afterEach used in this test</a>
+      <li><a href="#toc252">2.12.3. Before All</a>
       </li>
-      <li><a href="#toc255">2.13.4. saltos.storage</a>
+      <li><a href="#toc253">2.12.4. After All</a>
+      </li>
+      <li><a href="#toc254">2.12.5. App Customers</a>
+      </li>
+      <li><a href="#toc255">2.12.6. Action List</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc256">2.14. Tester unit tests</a>
+    <li><a href="#toc256">2.13. Storage unit tests</a>
       <ul>
-      <li><a href="#toc257">2.14.1. Puppeteer setup</a>
+      <li><a href="#toc257">2.13.1. Load all needed files of the project</a>
       </li>
-      <li><a href="#toc258">2.14.2. Global variables</a>
+      <li><a href="#toc258">2.13.2. berofeEach used in this test</a>
       </li>
-      <li><a href="#toc259">2.14.3. Before All</a>
+      <li><a href="#toc259">2.13.3. afterEach used in this test</a>
       </li>
-      <li><a href="#toc260">2.14.4. After All</a>
-      </li>
-      <li><a href="#toc261">2.14.5. App Tester</a>
-      </li>
-      <li><a href="#toc262">2.14.6. Action Init</a>
-      </li>
-      <li><a href="#toc263">2.14.7. Action Disabled</a>
-      </li>
-      <li><a href="#toc264">2.14.8. Action Enabled</a>
-      </li>
-      <li><a href="#toc265">2.14.9. List of bs_themes</a>
-      </li>
-      <li><a href="#toc266">2.14.10. Action Bs Theme</a>
-      </li>
-      <li><a href="#toc267">2.14.11. List of css_themes</a>
-      </li>
-      <li><a href="#toc268">2.14.12. Action Css Theme</a>
+      <li><a href="#toc260">2.13.4. saltos.storage</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc269">2.15. Token unit tests</a>
+    <li><a href="#toc261">2.14. Tester unit tests</a>
       <ul>
-      <li><a href="#toc270">2.15.1. Load all needed files of the project</a>
+      <li><a href="#toc262">2.14.1. Puppeteer setup</a>
       </li>
-      <li><a href="#toc271">2.15.2. berofeEach used in this test</a>
+      <li><a href="#toc263">2.14.2. Global variables</a>
       </li>
-      <li><a href="#toc272">2.15.3. afterEach used in this test</a>
+      <li><a href="#toc264">2.14.3. Before All</a>
       </li>
-      <li><a href="#toc273">2.15.4. saltos.token</a>
+      <li><a href="#toc265">2.14.4. After All</a>
+      </li>
+      <li><a href="#toc266">2.14.5. App Tester</a>
+      </li>
+      <li><a href="#toc267">2.14.6. Action Init</a>
+      </li>
+      <li><a href="#toc268">2.14.7. Action Disabled</a>
+      </li>
+      <li><a href="#toc269">2.14.8. Action Enabled</a>
+      </li>
+      <li><a href="#toc270">2.14.9. List of bs_themes</a>
+      </li>
+      <li><a href="#toc271">2.14.10. Action Bs Theme</a>
+      </li>
+      <li><a href="#toc272">2.14.11. List of css_themes</a>
+      </li>
+      <li><a href="#toc273">2.14.12. Action Css Theme</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc274">2.16. Window unit tests</a>
+    <li><a href="#toc274">2.15. Token unit tests</a>
       <ul>
-      <li><a href="#toc275">2.16.1. Load all needed files of the project</a>
+      <li><a href="#toc275">2.15.1. Load all needed files of the project</a>
       </li>
-      <li><a href="#toc276">2.16.2. Reset mocks before each test</a>
+      <li><a href="#toc276">2.15.2. berofeEach used in this test</a>
       </li>
-      <li><a href="#toc277">2.16.3. Restore mocks after each test</a>
+      <li><a href="#toc277">2.15.3. afterEach used in this test</a>
       </li>
-      <li><a href="#toc278">2.16.4. Test suite for window open/close functionality</a>
+      <li><a href="#toc278">2.15.4. saltos.token</a>
       </li>
-      <li><a href="#toc279">2.16.5. Setup before each test in this suite</a>
+      </ul>
+    </li>
+    <li><a href="#toc279">2.16. Window unit tests</a>
+      <ul>
+      <li><a href="#toc280">2.16.1. Load all needed files of the project</a>
       </li>
-      <li><a href="#toc280">2.16.6. Test opening app URLs</a>
+      <li><a href="#toc281">2.16.2. Reset mocks before each test</a>
       </li>
-      <li><a href="#toc281">2.16.7. Test opening HTTP URLs</a>
+      <li><a href="#toc282">2.16.3. Restore mocks after each test</a>
       </li>
-      <li><a href="#toc282">2.16.8. Test opening HTTPS URLs</a>
+      <li><a href="#toc283">2.16.4. Test suite for window open/close functionality</a>
       </li>
-      <li><a href="#toc283">2.16.9. Test unsupported URL protocols</a>
+      <li><a href="#toc284">2.16.5. Setup before each test in this suite</a>
       </li>
-      <li><a href="#toc284">2.16.10. Test window closing</a>
+      <li><a href="#toc285">2.16.6. Test opening app URLs</a>
       </li>
-      <li><a href="#toc285">2.16.11. Test suite for window event listeners</a>
+      <li><a href="#toc286">2.16.7. Test opening HTTP URLs</a>
       </li>
-      <li><a href="#toc286">2.16.12. Test setting event listeners</a>
+      <li><a href="#toc287">2.16.8. Test opening HTTPS URLs</a>
       </li>
-      <li><a href="#toc287">2.16.13. Test removing event listeners</a>
+      <li><a href="#toc288">2.16.9. Test unsupported URL protocols</a>
       </li>
-      <li><a href="#toc288">2.16.14. Test sending events to current tab</a>
+      <li><a href="#toc289">2.16.10. Test window closing</a>
       </li>
-      <li><a href="#toc289">2.16.15. Test sending events to other tabs</a>
+      <li><a href="#toc290">2.16.11. Test suite for window event listeners</a>
       </li>
-      <li><a href="#toc290">2.16.16. Test sending events to all tabs</a>
+      <li><a href="#toc291">2.16.12. Test setting event listeners</a>
       </li>
-      <li><a href="#toc291">2.16.17. Test sessionStorage event filtering</a>
+      <li><a href="#toc292">2.16.13. Test removing event listeners</a>
       </li>
-      <li><a href="#toc292">2.16.18. Test event key filtering</a>
+      <li><a href="#toc293">2.16.14. Test sending events to current tab</a>
       </li>
-      <li><a href="#toc293">2.16.19. Test unregistered event filtering</a>
+      <li><a href="#toc294">2.16.15. Test sending events to other tabs</a>
+      </li>
+      <li><a href="#toc295">2.16.16. Test sending events to all tabs</a>
+      </li>
+      <li><a href="#toc296">2.16.17. Test sessionStorage event filtering</a>
+      </li>
+      <li><a href="#toc297">2.16.18. Test event key filtering</a>
+      </li>
+      <li><a href="#toc298">2.16.19. Test unregistered event filtering</a>
       </li>
       </ul>
     </li>
@@ -2080,7 +2090,7 @@ This part of the test tries to validate the correctness of the go back feature
 <h3>2.4.15. Action Insert</h3>
 
 <pre>
-test('Action Insert', async ()
+test('Action Insert (first part)', async ()
 </pre>
 
 <p>
@@ -2089,10 +2099,22 @@ This part of the test tries to validate the correctness of the insert feature
 
 </section>
 <section id="toc121">
-<h3>2.4.16. Action Update</h3>
+<h3>2.4.16. Action Insert</h3>
 
 <pre>
-test('Action Update', async ()
+test('Action Insert (second part)', async ()
+</pre>
+
+<p>
+This part of the test tries to validate the correctness of the insert feature
+</p>
+
+</section>
+<section id="toc122">
+<h3>2.4.17. Action Update</h3>
+
+<pre>
+test('Action Update (first part)', async ()
 </pre>
 
 <p>
@@ -2100,11 +2122,35 @@ This part of the test tries to validate the correctness of the update feature
 </p>
 
 </section>
-<section id="toc122">
-<h3>2.4.17. Action Delete</h3>
+<section id="toc123">
+<h3>2.4.18. Action Update</h3>
 
 <pre>
-test('Action Delete', async ()
+test('Action Update (second part)', async ()
+</pre>
+
+<p>
+This part of the test tries to validate the correctness of the update feature
+</p>
+
+</section>
+<section id="toc124">
+<h3>2.4.19. Action Delete</h3>
+
+<pre>
+test('Action Delete (first part)', async ()
+</pre>
+
+<p>
+This part of the test tries to validate the correctness of the delete feature
+</p>
+
+</section>
+<section id="toc125">
+<h3>2.4.20. Action Delete</h3>
+
+<pre>
+test('Action Delete (second part)', async ()
 </pre>
 
 <p>
@@ -2113,7 +2159,7 @@ This part of the test tries to validate the correctness of the delete feature
 
 </section>
 </section>
-<section id="toc123">
+<section id="toc126">
 <h2>2.5. Emails unit tests</h2>
 
 <pre>
@@ -2124,7 +2170,7 @@ test_emails.js
 This file contains the emails unit tests
 </p>
 
-<section id="toc124">
+<section id="toc127">
 <h3>2.5.1. Puppeteer setup</h3>
 
 <pre>
@@ -2136,7 +2182,7 @@ This lines contain the needed setup for run puppeteer and take screenshots
 </p>
 
 </section>
-<section id="toc125">
+<section id="toc128">
 <h3>2.5.2. Global variables</h3>
 
 <pre>
@@ -2148,7 +2194,7 @@ This variables contains the browser and page links
 </p>
 
 </section>
-<section id="toc126">
+<section id="toc129">
 <h3>2.5.3. Before All</h3>
 
 <pre>
@@ -2162,7 +2208,7 @@ the screen size and start the javascript coverage
 </p>
 
 </section>
-<section id="toc127">
+<section id="toc130">
 <h3>2.5.4. After All</h3>
 
 <pre>
@@ -2176,7 +2222,7 @@ recording, the save feature to the desired storage path and the browser close
 </p>
 
 </section>
-<section id="toc128">
+<section id="toc131">
 <h3>2.5.5. App Emails</h3>
 
 <pre>
@@ -2190,7 +2236,7 @@ validate with the expected screenshot
 </p>
 
 </section>
-<section id="toc129">
+<section id="toc132">
 <h3>2.5.6. Action List</h3>
 
 <pre>
@@ -2203,11 +2249,11 @@ appear in the screen
 </p>
 
 </section>
-<section id="toc130">
+<section id="toc133">
 <h3>2.5.7. Action Control F</h3>
 
 <pre>
-test('Action Control F', async ()
+test('Action Control F (first part)', async ()
 </pre>
 
 <p>
@@ -2215,8 +2261,20 @@ This part of the test tries to validate the control+f focus
 </p>
 
 </section>
-<section id="toc131">
-<h3>2.5.8. Action Profile</h3>
+<section id="toc134">
+<h3>2.5.8. Action Control F</h3>
+
+<pre>
+test('Action Control F (second part)', async ()
+</pre>
+
+<p>
+This part of the test tries to validate the control+f focus
+</p>
+
+</section>
+<section id="toc135">
+<h3>2.5.9. Action Profile</h3>
 
 <pre>
 test('Action Profile', async ()
@@ -2227,8 +2285,8 @@ This part of the test tries to load the profile screen
 </p>
 
 </section>
-<section id="toc132">
-<h3>2.5.9. Action Help</h3>
+<section id="toc136">
+<h3>2.5.10. Action Help</h3>
 
 <pre>
 test('Action Help', async ()
@@ -2239,8 +2297,8 @@ This part of the test tries to load the help screen
 </p>
 
 </section>
-<section id="toc133">
-<h3>2.5.10. Action Filter</h3>
+<section id="toc137">
+<h3>2.5.11. Action Filter</h3>
 
 <pre>
 test('Action Filter', async ()
@@ -2251,8 +2309,8 @@ This part of the test tries to load the filter screen
 </p>
 
 </section>
-<section id="toc134">
-<h3>2.5.11. Action Create</h3>
+<section id="toc138">
+<h3>2.5.12. Action Create</h3>
 
 <pre>
 test('Action Create', async ()
@@ -2263,8 +2321,8 @@ This part of the test tries to load the create screen
 </p>
 
 </section>
-<section id="toc135">
-<h3>2.5.12. Action View</h3>
+<section id="toc139">
+<h3>2.5.13. Action View</h3>
 
 <pre>
 test('Action View', async ()
@@ -2276,7 +2334,7 @@ This part of the test tries to load the view screen
 
 </section>
 </section>
-<section id="toc136">
+<section id="toc140">
 <h2>2.6. Filter unit tests</h2>
 
 <pre>
@@ -2288,15 +2346,15 @@ This file contains unit tests for the filter management system
 including initialization, loading, saving, and UI interactions
 </p>
 
-<section id="toc137">
+<section id="toc141">
 <h3>2.6.1. Load all needed files of the project</h3>
 
 <pre>
-const files = `app,backup,core,driver,filter,form,gettext,hash,storage,token`.split(',');
+const files = `app,backup,bootstrap,core,driver,filter,form,gettext,hash,storage,token`.split(',');
 </pre>
 
 </section>
-<section id="toc138">
+<section id="toc142">
 <h3>2.6.2. Reset mocks before each test</h3>
 
 <pre>
@@ -2308,7 +2366,7 @@ Ensures all Jest mocks are reset before each test case runs
 </p>
 
 </section>
-<section id="toc139">
+<section id="toc143">
 <h3>2.6.3. Restore mocks after each test</h3>
 
 <pre>
@@ -2321,7 +2379,7 @@ after each test case completes
 </p>
 
 </section>
-<section id="toc140">
+<section id="toc144">
 <h3>2.6.4. Test suite for filter initialization</h3>
 
 <pre>
@@ -2333,7 +2391,7 @@ Contains tests for initializing the filter cache from server data
 </p>
 
 </section>
-<section id="toc141">
+<section id="toc145">
 <h3>2.6.5. Setup before each test in this suite</h3>
 
 <pre>
@@ -2345,7 +2403,7 @@ Mocks window location and sets up AJAX response for filter data
 </p>
 
 </section>
-<section id="toc142">
+<section id="toc146">
 <h3>2.6.6. Test filter cache initialization</h3>
 
 <pre>
@@ -2358,7 +2416,7 @@ and properly populates the cache
 </p>
 
 </section>
-<section id="toc143">
+<section id="toc147">
 <h3>2.6.7. Test cache reuse</h3>
 
 <pre>
@@ -2371,7 +2429,7 @@ when cache is already populated
 </p>
 
 </section>
-<section id="toc144">
+<section id="toc148">
 <h3>2.6.8. Test suite for filter loading</h3>
 
 <pre>
@@ -2383,7 +2441,7 @@ Contains tests for loading filter data into forms and triggering searches
 </p>
 
 </section>
-<section id="toc145">
+<section id="toc149">
 <h3>2.6.9. Setup before each test in this suite</h3>
 
 <pre>
@@ -2395,7 +2453,7 @@ Mocks form data and driver search functions
 </p>
 
 </section>
-<section id="toc146">
+<section id="toc150">
 <h3>2.6.10. Test loading existing filter</h3>
 
 <pre>
@@ -2408,7 +2466,7 @@ and triggers a search
 </p>
 
 </section>
-<section id="toc147">
+<section id="toc151">
 <h3>2.6.11. Test loading non-existent filter</h3>
 
 <pre>
@@ -2421,7 +2479,7 @@ without modifying form data
 </p>
 
 </section>
-<section id="toc148">
+<section id="toc152">
 <h3>2.6.12. Test suite for filter updates</h3>
 
 <pre>
@@ -2433,7 +2491,7 @@ Contains tests for updating the local filter cache
 </p>
 
 </section>
-<section id="toc149">
+<section id="toc153">
 <h3>2.6.13. Test updating filter cache</h3>
 
 <pre>
@@ -2445,7 +2503,7 @@ Verifies that update modifies the filter cache correctly
 </p>
 
 </section>
-<section id="toc150">
+<section id="toc154">
 <h3>2.6.14. Test suite for filter saving</h3>
 
 <pre>
@@ -2457,7 +2515,7 @@ Contains tests for saving filters to both cache and server
 </p>
 
 </section>
-<section id="toc151">
+<section id="toc155">
 <h3>2.6.15. Test saving new filter</h3>
 
 <pre>
@@ -2469,7 +2527,7 @@ Verifies that new filters are added to cache and saved to server
 </p>
 
 </section>
-<section id="toc152">
+<section id="toc156">
 <h3>2.6.16. Test updating existing filter</h3>
 
 <pre>
@@ -2481,7 +2539,7 @@ Verifies that modified filters are updated in cache and server
 </p>
 
 </section>
-<section id="toc153">
+<section id="toc157">
 <h3>2.6.17. Test unchanged filter</h3>
 
 <pre>
@@ -2493,7 +2551,7 @@ Verifies that unchanged filters don't trigger server updates
 </p>
 
 </section>
-<section id="toc154">
+<section id="toc158">
 <h3>2.6.18. Test filter deletion</h3>
 
 <pre>
@@ -2505,7 +2563,7 @@ Verifies that filters are removed from cache and server when set to null
 </p>
 
 </section>
-<section id="toc155">
+<section id="toc159">
 <h3>2.6.19. Test deleting non-existent filter</h3>
 
 <pre>
@@ -2517,7 +2575,7 @@ Verifies that attempting to delete unknown filters doesn't trigger server calls
 </p>
 
 </section>
-<section id="toc156">
+<section id="toc160">
 <h3>2.6.20. Test suite for filter UI buttons</h3>
 
 <pre>
@@ -2529,7 +2587,7 @@ Contains tests for all filter-related UI actions
 </p>
 
 </section>
-<section id="toc157">
+<section id="toc161">
 <h3>2.6.21. Setup before each test in this suite</h3>
 
 <pre>
@@ -2541,7 +2599,7 @@ Sets up DOM elements and mocks filter functions
 </p>
 
 </section>
-<section id="toc158">
+<section id="toc162">
 <h3>2.6.22. Test load action</h3>
 
 <pre>
@@ -2553,7 +2611,7 @@ Verifies that load button loads selected filter and resets selection
 </p>
 
 </section>
-<section id="toc159">
+<section id="toc163">
 <h3>2.6.23. Test update action</h3>
 
 <pre>
@@ -2565,7 +2623,7 @@ Verifies that update button saves current form data to selected filter
 </p>
 
 </section>
-<section id="toc160">
+<section id="toc164">
 <h3>2.6.24. Test delete action</h3>
 
 <pre>
@@ -2577,7 +2635,7 @@ Verifies that delete button removes selected filter and refreshes UI
 </p>
 
 </section>
-<section id="toc161">
+<section id="toc165">
 <h3>2.6.25. Test create action</h3>
 
 <pre>
@@ -2589,7 +2647,7 @@ Verifies that create button saves current form data as new filter
 </p>
 
 </section>
-<section id="toc162">
+<section id="toc166">
 <h3>2.6.26. Test rename action</h3>
 
 <pre>
@@ -2602,7 +2660,7 @@ and removes old filter entry
 </p>
 
 </section>
-<section id="toc163">
+<section id="toc167">
 <h3>2.6.27. Test invalid action</h3>
 
 <pre>
@@ -2614,7 +2672,7 @@ Verifies that unknown actions don't modify filter cache
 </p>
 
 </section>
-<section id="toc164">
+<section id="toc168">
 <h3>2.6.28. Test suite for filter selection UI</h3>
 
 <pre>
@@ -2626,7 +2684,7 @@ Contains tests for updating filter dropdown and tree view
 </p>
 
 </section>
-<section id="toc165">
+<section id="toc169">
 <h3>2.6.29. Setup before each test in this suite</h3>
 
 <pre>
@@ -2638,7 +2696,7 @@ Populates filter cache with test data
 </p>
 
 </section>
-<section id="toc166">
+<section id="toc170">
 <h3>2.6.30. Test UI update</h3>
 
 <pre>
@@ -2650,7 +2708,7 @@ Verifies that select updates dropdown options and tree view
 </p>
 
 </section>
-<section id="toc167">
+<section id="toc171">
 <h3>2.6.31. Test missing tree element</h3>
 
 <pre>
@@ -2662,7 +2720,7 @@ Verifies graceful handling when tree element is missing
 </p>
 
 </section>
-<section id="toc168">
+<section id="toc172">
 <h3>2.6.32. Test missing select element</h3>
 
 <pre>
@@ -2674,7 +2732,7 @@ Verifies graceful handling when select element is missing
 </p>
 
 </section>
-<section id="toc169">
+<section id="toc173">
 <h3>2.6.33. Test missing form elements</h3>
 
 <pre>
@@ -2687,7 +2745,7 @@ Verifies graceful handling when all form elements are missing
 
 </section>
 </section>
-<section id="toc170">
+<section id="toc174">
 <h2>2.7. Core unit tests</h2>
 
 <pre>
@@ -2698,7 +2756,7 @@ test_gettext.js
 This file contains the core unit tests
 </p>
 
-<section id="toc171">
+<section id="toc175">
 <h3>2.7.1. Load all needed files of the project</h3>
 
 <pre>
@@ -2706,7 +2764,7 @@ const files = `bootstrap,core,gettext,storage`.split(',');
 </pre>
 
 </section>
-<section id="toc172">
+<section id="toc176">
 <h3>2.7.2. berofeEach used in this test</h3>
 
 <pre>
@@ -2714,7 +2772,7 @@ beforeEach(()
 </pre>
 
 </section>
-<section id="toc173">
+<section id="toc177">
 <h3>2.7.3. afterEach used in this test</h3>
 
 <pre>
@@ -2722,7 +2780,7 @@ afterEach(()
 </pre>
 
 </section>
-<section id="toc174">
+<section id="toc178">
 <h3>2.7.4. saltos.gettext.bootstrap.set/get/get_short/unset</h3>
 
 <pre>
@@ -2734,7 +2792,7 @@ This function performs the tests of the set/get/get_short and unset functions
 </p>
 
 </section>
-<section id="toc175">
+<section id="toc179">
 <h3>2.7.5. saltos.gettext.bootstrap.field</h3>
 
 <pre>
@@ -2746,7 +2804,7 @@ This function performs the tests of the field function
 </p>
 
 </section>
-<section id="toc176">
+<section id="toc180">
 <h3>2.7.6. saltos.gettext.bootstrap.modal</h3>
 
 <pre>
@@ -2758,7 +2816,7 @@ This function performs the tests of the modal function
 </p>
 
 </section>
-<section id="toc177">
+<section id="toc181">
 <h3>2.7.7. saltos.gettext.bootstrap.toast</h3>
 
 <pre>
@@ -2770,7 +2828,7 @@ This function performs the tests of the toast function
 </p>
 
 </section>
-<section id="toc178">
+<section id="toc182">
 <h3>2.7.8. saltos.gettext.bootstrap.menu</h3>
 
 <pre>
@@ -2782,7 +2840,7 @@ This function performs the tests of the menu function
 </p>
 
 </section>
-<section id="toc179">
+<section id="toc183">
 <h3>2.7.9. saltos.gettext.bootstrap.offcanvas</h3>
 
 <pre>
@@ -2795,7 +2853,7 @@ This function performs the tests of the offcanvas function
 
 </section>
 </section>
-<section id="toc180">
+<section id="toc184">
 <h2>2.8. Hash unit tests</h2>
 
 <pre>
@@ -2807,7 +2865,7 @@ This file contains unit tests for hash management functionality
 including hash parsing, manipulation, and event triggering
 </p>
 
-<section id="toc181">
+<section id="toc185">
 <h3>2.8.1. Load all needed files of the project</h3>
 
 <pre>
@@ -2815,7 +2873,7 @@ const files = `hash`.split(',');
 </pre>
 
 </section>
-<section id="toc182">
+<section id="toc186">
 <h3>2.8.2. Reset mocks before each test</h3>
 
 <pre>
@@ -2828,7 +2886,7 @@ and resets all mocks between test cases
 </p>
 
 </section>
-<section id="toc183">
+<section id="toc187">
 <h3>2.8.3. Restore mocks after each test</h3>
 
 <pre>
@@ -2841,7 +2899,7 @@ after each test case completes
 </p>
 
 </section>
-<section id="toc184">
+<section id="toc188">
 <h3>2.8.4. Test suite for hash helper function</h3>
 
 <pre>
@@ -2854,7 +2912,7 @@ that cleans hash strings by removing special characters
 </p>
 
 </section>
-<section id="toc185">
+<section id="toc189">
 <h3>2.8.5. Test hash with leading #</h3>
 
 <pre>
@@ -2866,7 +2924,7 @@ Verifies the helper removes the # character from the beginning
 </p>
 
 </section>
-<section id="toc186">
+<section id="toc190">
 <h3>2.8.6. Test hash with leading /</h3>
 
 <pre>
@@ -2878,7 +2936,7 @@ Verifies the helper removes the / character from the beginning
 </p>
 
 </section>
-<section id="toc187">
+<section id="toc191">
 <h3>2.8.7. Test hash with leading #/</h3>
 
 <pre>
@@ -2890,7 +2948,7 @@ Verifies the helper removes both # and / characters from the beginning
 </p>
 
 </section>
-<section id="toc188">
+<section id="toc192">
 <h3>2.8.8. Test empty hash</h3>
 
 <pre>
@@ -2902,7 +2960,7 @@ Verifies the helper returns empty string for empty input
 </p>
 
 </section>
-<section id="toc189">
+<section id="toc193">
 <h3>2.8.9. Test clean hash</h3>
 
 <pre>
@@ -2914,7 +2972,7 @@ Verifies the helper returns unchanged input when no special characters
 </p>
 
 </section>
-<section id="toc190">
+<section id="toc194">
 <h3>2.8.10. Test suite for hash getter function</h3>
 
 <pre>
@@ -2927,7 +2985,7 @@ with proper formatting
 </p>
 
 </section>
-<section id="toc191">
+<section id="toc195">
 <h3>2.8.11. Test getting current hash</h3>
 
 <pre>
@@ -2939,7 +2997,7 @@ Verifies the function returns hash without # prefix
 </p>
 
 </section>
-<section id="toc192">
+<section id="toc196">
 <h3>2.8.12. Test getting empty hash</h3>
 
 <pre>
@@ -2951,7 +3009,7 @@ Verifies the function returns empty string when no hash exists
 </p>
 
 </section>
-<section id="toc193">
+<section id="toc197">
 <h3>2.8.13. Test getting hash with leading /</h3>
 
 <pre>
@@ -2963,7 +3021,7 @@ Verifies the function removes leading / from the hash
 </p>
 
 </section>
-<section id="toc194">
+<section id="toc198">
 <h3>2.8.14. Test suite for hash setter function</h3>
 
 <pre>
@@ -2976,7 +3034,7 @@ using history.replaceState
 </p>
 
 </section>
-<section id="toc195">
+<section id="toc199">
 <h3>2.8.15. Test setting new hash</h3>
 
 <pre>
@@ -2989,7 +3047,7 @@ and uses replaceState
 </p>
 
 </section>
-<section id="toc196">
+<section id="toc200">
 <h3>2.8.16. Test setting same hash</h3>
 
 <pre>
@@ -3001,7 +3059,7 @@ Verifies the function doesn't update history when hash doesn't change
 </p>
 
 </section>
-<section id="toc197">
+<section id="toc201">
 <h3>2.8.17. Test setting hash with #</h3>
 
 <pre>
@@ -3013,7 +3071,7 @@ Verifies the function properly handles input containing #
 </p>
 
 </section>
-<section id="toc198">
+<section id="toc202">
 <h3>2.8.18. Test setting hash with /</h3>
 
 <pre>
@@ -3025,7 +3083,7 @@ Verifies the function properly handles input containing /
 </p>
 
 </section>
-<section id="toc199">
+<section id="toc203">
 <h3>2.8.19. Test setting empty hash</h3>
 
 <pre>
@@ -3037,7 +3095,7 @@ Verifies the function properly handles empty hash input
 </p>
 
 </section>
-<section id="toc200">
+<section id="toc204">
 <h3>2.8.20. Test suite for hash adder function</h3>
 
 <pre>
@@ -3050,7 +3108,7 @@ using history.pushState
 </p>
 
 </section>
-<section id="toc201">
+<section id="toc205">
 <h3>2.8.21. Test adding new hash</h3>
 
 <pre>
@@ -3063,7 +3121,7 @@ and uses pushState
 </p>
 
 </section>
-<section id="toc202">
+<section id="toc206">
 <h3>2.8.22. Test adding same hash</h3>
 
 <pre>
@@ -3075,7 +3133,7 @@ Verifies the function doesn't update history when hash doesn't change
 </p>
 
 </section>
-<section id="toc203">
+<section id="toc207">
 <h3>2.8.23. Test adding hash with #</h3>
 
 <pre>
@@ -3087,7 +3145,7 @@ Verifies the function properly handles input containing #
 </p>
 
 </section>
-<section id="toc204">
+<section id="toc208">
 <h3>2.8.24. Test adding hash with /</h3>
 
 <pre>
@@ -3099,7 +3157,7 @@ Verifies the function properly handles input containing /
 </p>
 
 </section>
-<section id="toc205">
+<section id="toc209">
 <h3>2.8.25. Test adding empty hash</h3>
 
 <pre>
@@ -3111,7 +3169,7 @@ Verifies the function properly handles empty hash input
 </p>
 
 </section>
-<section id="toc206">
+<section id="toc210">
 <h3>2.8.26. Test suite for URL hash extraction</h3>
 
 <pre>
@@ -3123,7 +3181,7 @@ Contains tests for extracting hash fragments from URLs
 </p>
 
 </section>
-<section id="toc207">
+<section id="toc211">
 <h3>2.8.27. Test extracting hash from URL</h3>
 
 <pre>
@@ -3135,7 +3193,7 @@ Verifies the function extracts hash fragment correctly
 </p>
 
 </section>
-<section id="toc208">
+<section id="toc212">
 <h3>2.8.28. Test extracting hash with /</h3>
 
 <pre>
@@ -3147,7 +3205,7 @@ Verifies the function handles hashes containing /
 </p>
 
 </section>
-<section id="toc209">
+<section id="toc213">
 <h3>2.8.29. Test URL without hash</h3>
 
 <pre>
@@ -3159,7 +3217,7 @@ Verifies the function returns empty string when no hash exists
 </p>
 
 </section>
-<section id="toc210">
+<section id="toc214">
 <h3>2.8.30. Test suite for hash change events</h3>
 
 <pre>
@@ -3171,7 +3229,7 @@ Contains tests for triggering hashchange events
 </p>
 
 </section>
-<section id="toc211">
+<section id="toc215">
 <h3>2.8.31. Test triggering hash change</h3>
 
 <pre>
@@ -3184,7 +3242,7 @@ Verifies the function dispatches a hashchange event
 
 </section>
 </section>
-<section id="toc212">
+<section id="toc216">
 <h2>2.9. Invoices unit tests</h2>
 
 <pre>
@@ -3195,7 +3253,7 @@ test_invoices.js
 This file contains the invoices unit tests
 </p>
 
-<section id="toc213">
+<section id="toc217">
 <h3>2.9.1. Puppeteer setup</h3>
 
 <pre>
@@ -3207,7 +3265,7 @@ This lines contain the needed setup for run puppeteer and take screenshots
 </p>
 
 </section>
-<section id="toc214">
+<section id="toc218">
 <h3>2.9.2. Global variables</h3>
 
 <pre>
@@ -3219,7 +3277,7 @@ This variables contains the browser and page links
 </p>
 
 </section>
-<section id="toc215">
+<section id="toc219">
 <h3>2.9.3. Before All</h3>
 
 <pre>
@@ -3233,7 +3291,7 @@ the screen size and start the javascript coverage
 </p>
 
 </section>
-<section id="toc216">
+<section id="toc220">
 <h3>2.9.4. After All</h3>
 
 <pre>
@@ -3247,7 +3305,7 @@ recording, the save feature to the desired storage path and the browser close
 </p>
 
 </section>
-<section id="toc217">
+<section id="toc221">
 <h3>2.9.5. App Invoices</h3>
 
 <pre>
@@ -3261,7 +3319,7 @@ the expected screenshot
 </p>
 
 </section>
-<section id="toc218">
+<section id="toc222">
 <h3>2.9.6. Action List</h3>
 
 <pre>
@@ -3273,11 +3331,11 @@ This part of the test tries to load the list screen
 </p>
 
 </section>
-<section id="toc219">
+<section id="toc223">
 <h3>2.9.7. Action List</h3>
 
 <pre>
-test('Action Checkbox', async ()
+test('Action Checkbox (first part)', async ()
 </pre>
 
 <p>
@@ -3286,8 +3344,21 @@ feature
 </p>
 
 </section>
-<section id="toc220">
-<h3>2.9.8. Action Create</h3>
+<section id="toc224">
+<h3>2.9.8. Action List</h3>
+
+<pre>
+test('Action Checkbox (second part)', async ()
+</pre>
+
+<p>
+This part of the test tries to validate the correctness of the checkbox
+feature
+</p>
+
+</section>
+<section id="toc225">
+<h3>2.9.9. Action Create</h3>
 
 <pre>
 test('Action Create', async ()
@@ -3298,8 +3369,8 @@ This part of the test tries to load the create screen
 </p>
 
 </section>
-<section id="toc221">
-<h3>2.9.9. Action View</h3>
+<section id="toc226">
+<h3>2.9.10. Action View</h3>
 
 <pre>
 test('Action View', async ()
@@ -3310,8 +3381,8 @@ This part of the test tries to load the view screen
 </p>
 
 </section>
-<section id="toc222">
-<h3>2.9.10. Action Edit</h3>
+<section id="toc227">
+<h3>2.9.11. Action Edit</h3>
 
 <pre>
 test('Action Edit', async ()
@@ -3323,7 +3394,7 @@ This part of the test tries to load the edit screen
 
 </section>
 </section>
-<section id="toc223">
+<section id="toc228">
 <h2>2.10. Proxy unit tests</h2>
 
 <pre>
@@ -3334,7 +3405,7 @@ test_proxy.js
 This file contains the proxy unit tests
 </p>
 
-<section id="toc224">
+<section id="toc229">
 <h3>2.10.1. berofeEach used in this test</h3>
 
 <pre>
@@ -3342,7 +3413,7 @@ beforeEach(()
 </pre>
 
 </section>
-<section id="toc225">
+<section id="toc230">
 <h3>2.10.2. afterEach used in this test</h3>
 
 <pre>
@@ -3350,7 +3421,7 @@ afterEach(()
 </pre>
 
 </section>
-<section id="toc226">
+<section id="toc231">
 <h3>2.10.3. Load the needed environment of the proxy part</h3>
 
 <pre>
@@ -3358,7 +3429,7 @@ Object.assign(global, myrequire(
 </pre>
 
 </section>
-<section id="toc227">
+<section id="toc232">
 <h3>2.10.4. md5</h3>
 
 <pre>
@@ -3370,7 +3441,7 @@ This function performs the test of the md5 function
 </p>
 
 </section>
-<section id="toc228">
+<section id="toc233">
 <h3>2.10.5. human_size</h3>
 
 <pre>
@@ -3383,7 +3454,7 @@ This function performs the test of the human_size function
 
 </section>
 </section>
-<section id="toc229">
+<section id="toc234">
 <h2>2.11. Push unit tests</h2>
 
 <pre>
@@ -3395,7 +3466,7 @@ This file contains unit tests for the push notification functionality
 and favicon status updates in the SaltOS framework.
 </p>
 
-<section id="toc230">
+<section id="toc235">
 <h3>2.11.1. Load all needed files of the project</h3>
 
 <pre>
@@ -3403,7 +3474,7 @@ const files = `app,bootstrap,core,gettext,push,storage,token`.split(',');
 </pre>
 
 </section>
-<section id="toc231">
+<section id="toc236">
 <h3>2.11.2. Reset mocks before each test</h3>
 
 <pre>
@@ -3415,7 +3486,7 @@ Ensures all Jest mocks are reset before each test case runs
 </p>
 
 </section>
-<section id="toc232">
+<section id="toc237">
 <h3>2.11.3. Restore mocks after each test</h3>
 
 <pre>
@@ -3428,7 +3499,7 @@ after each test case completes
 </p>
 
 </section>
-<section id="toc233">
+<section id="toc238">
 <h3>2.11.4. Test suite for saltos.push.fn functionality</h3>
 
 <pre>
@@ -3441,7 +3512,7 @@ including various execution conditions and response handling
 </p>
 
 </section>
-<section id="toc234">
+<section id="toc239">
 <h3>2.11.5. Setup before each test in this suite</h3>
 
 <pre>
@@ -3453,7 +3524,7 @@ Initializes mock implementations and resets push notification state
 </p>
 
 </section>
-<section id="toc235">
+<section id="toc240">
 <h3>2.11.6. Test push function when already executing</h3>
 
 <pre>
@@ -3466,7 +3537,7 @@ is already in progress
 </p>
 
 </section>
-<section id="toc236">
+<section id="toc241">
 <h3>2.11.7. Test push function without token</h3>
 
 <pre>
@@ -3479,7 +3550,7 @@ token is available
 </p>
 
 </section>
-<section id="toc237">
+<section id="toc242">
 <h3>2.11.8. Test push function when offline</h3>
 
 <pre>
@@ -3492,7 +3563,7 @@ is offline
 </p>
 
 </section>
-<section id="toc238">
+<section id="toc243">
 <h3>2.11.9. Test push function with positive count</h3>
 
 <pre>
@@ -3505,7 +3576,7 @@ counter hasn't reached zero
 </p>
 
 </section>
-<section id="toc239">
+<section id="toc244">
 <h3>2.11.10. Test push function with successful response</h3>
 
 <pre>
@@ -3518,7 +3589,7 @@ handles a successful response
 </p>
 
 </section>
-<section id="toc240">
+<section id="toc245">
 <h3>2.11.11. Test push function with error response</h3>
 
 <pre>
@@ -3531,7 +3602,7 @@ from the server
 </p>
 
 </section>
-<section id="toc241">
+<section id="toc246">
 <h3>2.11.12. Test suite for saltos.favicon.fn functionality</h3>
 
 <pre>
@@ -3544,7 +3615,7 @@ including visibility state handling
 </p>
 
 </section>
-<section id="toc242">
+<section id="toc247">
 <h3>2.11.13. Test favicon function activation</h3>
 
 <pre>
@@ -3557,7 +3628,7 @@ the function is activated
 </p>
 
 </section>
-<section id="toc243">
+<section id="toc248">
 <h3>2.11.14. Test favicon function deactivation</h3>
 
 <pre>
@@ -3571,7 +3642,7 @@ the function is deactivated
 
 </section>
 </section>
-<section id="toc244">
+<section id="toc249">
 <h2>2.12. Screenshots unit tests</h2>
 
 <pre>
@@ -3582,7 +3653,7 @@ test_screenshots.js
 This file contains the screenshots unit tests
 </p>
 
-<section id="toc245">
+<section id="toc250">
 <h3>2.12.1. Puppeteer setup</h3>
 
 <pre>
@@ -3594,7 +3665,7 @@ This lines contain the needed setup for run puppeteer and take screenshots
 </p>
 
 </section>
-<section id="toc246">
+<section id="toc251">
 <h3>2.12.2. Global variables</h3>
 
 <pre>
@@ -3606,7 +3677,7 @@ This variables contains the browser and page links
 </p>
 
 </section>
-<section id="toc247">
+<section id="toc252">
 <h3>2.12.3. Before All</h3>
 
 <pre>
@@ -3620,7 +3691,7 @@ the screen size and start the javascript coverage
 </p>
 
 </section>
-<section id="toc248">
+<section id="toc253">
 <h3>2.12.4. After All</h3>
 
 <pre>
@@ -3634,7 +3705,7 @@ recording, the save feature to the desired storage path and the browser close
 </p>
 
 </section>
-<section id="toc249">
+<section id="toc254">
 <h3>2.12.5. App Customers</h3>
 
 <pre>
@@ -3648,7 +3719,7 @@ insert, update and delete features and validate with the expected screenshot
 </p>
 
 </section>
-<section id="toc250">
+<section id="toc255">
 <h3>2.12.6. Action List</h3>
 
 <pre>
@@ -3661,7 +3732,7 @@ This part of the test tries to load the list screen
 
 </section>
 </section>
-<section id="toc251">
+<section id="toc256">
 <h2>2.13. Storage unit tests</h2>
 
 <pre>
@@ -3672,7 +3743,7 @@ test_storage.js
 This file contains the storage unit tests
 </p>
 
-<section id="toc252">
+<section id="toc257">
 <h3>2.13.1. Load all needed files of the project</h3>
 
 <pre>
@@ -3680,7 +3751,7 @@ const files = `core,storage`.split(',');
 </pre>
 
 </section>
-<section id="toc253">
+<section id="toc258">
 <h3>2.13.2. berofeEach used in this test</h3>
 
 <pre>
@@ -3688,7 +3759,7 @@ beforeEach(()
 </pre>
 
 </section>
-<section id="toc254">
+<section id="toc259">
 <h3>2.13.3. afterEach used in this test</h3>
 
 <pre>
@@ -3696,7 +3767,7 @@ afterEach(()
 </pre>
 
 </section>
-<section id="toc255">
+<section id="toc260">
 <h3>2.13.4. saltos.storage</h3>
 
 <pre>
@@ -3709,7 +3780,7 @@ This function performs the test of the storage functions
 
 </section>
 </section>
-<section id="toc256">
+<section id="toc261">
 <h2>2.14. Tester unit tests</h2>
 
 <pre>
@@ -3720,7 +3791,7 @@ test_tester.js
 This file contains the tester unit tests
 </p>
 
-<section id="toc257">
+<section id="toc262">
 <h3>2.14.1. Puppeteer setup</h3>
 
 <pre>
@@ -3732,7 +3803,7 @@ This lines contain the needed setup for run puppeteer and take screenshots
 </p>
 
 </section>
-<section id="toc258">
+<section id="toc263">
 <h3>2.14.2. Global variables</h3>
 
 <pre>
@@ -3744,7 +3815,7 @@ This variables contains the browser and page links
 </p>
 
 </section>
-<section id="toc259">
+<section id="toc264">
 <h3>2.14.3. Before All</h3>
 
 <pre>
@@ -3758,7 +3829,7 @@ the screen size and start the javascript coverage
 </p>
 
 </section>
-<section id="toc260">
+<section id="toc265">
 <h3>2.14.4. After All</h3>
 
 <pre>
@@ -3772,7 +3843,7 @@ recording, the save feature to the desired storage path and the browser close
 </p>
 
 </section>
-<section id="toc261">
+<section id="toc266">
 <h3>2.14.5. App Tester</h3>
 
 <pre>
@@ -3786,7 +3857,7 @@ validate with the expected screenshot
 </p>
 
 </section>
-<section id="toc262">
+<section id="toc267">
 <h3>2.14.6. Action Init</h3>
 
 <pre>
@@ -3799,7 +3870,7 @@ valid credentials and loads the tester application
 </p>
 
 </section>
-<section id="toc263">
+<section id="toc268">
 <h3>2.14.7. Action Disabled</h3>
 
 <pre>
@@ -3811,7 +3882,7 @@ This part of the test tries to disable all widgets
 </p>
 
 </section>
-<section id="toc264">
+<section id="toc269">
 <h3>2.14.8. Action Enabled</h3>
 
 <pre>
@@ -3823,7 +3894,7 @@ This part of the test tries to enable all widgets
 </p>
 
 </section>
-<section id="toc265">
+<section id="toc270">
 <h3>2.14.9. List of bs_themes</h3>
 
 <pre>
@@ -3831,7 +3902,7 @@ const bs_themes = ['light', 'dark', 'auto'];
 </pre>
 
 </section>
-<section id="toc266">
+<section id="toc271">
 <h3>2.14.10. Action Bs Theme</h3>
 
 <pre>
@@ -3843,7 +3914,7 @@ This part of the test tries to set the differents bs_themes
 </p>
 
 </section>
-<section id="toc267">
+<section id="toc272">
 <h3>2.14.11. List of css_themes</h3>
 
 <pre>
@@ -3851,7 +3922,7 @@ const css_themes = ['default',
 </pre>
 
 </section>
-<section id="toc268">
+<section id="toc273">
 <h3>2.14.12. Action Css Theme</h3>
 
 <pre>
@@ -3864,7 +3935,7 @@ This part of the test tries to set the differents css_themes
 
 </section>
 </section>
-<section id="toc269">
+<section id="toc274">
 <h2>2.15. Token unit tests</h2>
 
 <pre>
@@ -3875,7 +3946,7 @@ test_token.js
 This file contains the token unit tests
 </p>
 
-<section id="toc270">
+<section id="toc275">
 <h3>2.15.1. Load all needed files of the project</h3>
 
 <pre>
@@ -3883,7 +3954,7 @@ const files = `core,storage,token`.split(',');
 </pre>
 
 </section>
-<section id="toc271">
+<section id="toc276">
 <h3>2.15.2. berofeEach used in this test</h3>
 
 <pre>
@@ -3891,7 +3962,7 @@ beforeEach(()
 </pre>
 
 </section>
-<section id="toc272">
+<section id="toc277">
 <h3>2.15.3. afterEach used in this test</h3>
 
 <pre>
@@ -3899,7 +3970,7 @@ afterEach(()
 </pre>
 
 </section>
-<section id="toc273">
+<section id="toc278">
 <h3>2.15.4. saltos.token</h3>
 
 <pre>
@@ -3912,7 +3983,7 @@ This function performs the test of the token functions
 
 </section>
 </section>
-<section id="toc274">
+<section id="toc279">
 <h2>2.16. Window unit tests</h2>
 
 <pre>
@@ -3924,7 +3995,7 @@ This file contains unit tests for window management functionality
 including window opening/closing and cross-tab communication
 </p>
 
-<section id="toc275">
+<section id="toc280">
 <h3>2.16.1. Load all needed files of the project</h3>
 
 <pre>
@@ -3932,7 +4003,7 @@ const files = `core,storage,window`.split(',');
 </pre>
 
 </section>
-<section id="toc276">
+<section id="toc281">
 <h3>2.16.2. Reset mocks before each test</h3>
 
 <pre>
@@ -3944,7 +4015,7 @@ Ensures all Jest mocks are reset before each test case runs
 </p>
 
 </section>
-<section id="toc277">
+<section id="toc282">
 <h3>2.16.3. Restore mocks after each test</h3>
 
 <pre>
@@ -3957,7 +4028,7 @@ after each test case completes
 </p>
 
 </section>
-<section id="toc278">
+<section id="toc283">
 <h3>2.16.4. Test suite for window open/close functionality</h3>
 
 <pre>
@@ -3970,7 +4041,7 @@ and closing the current window
 </p>
 
 </section>
-<section id="toc279">
+<section id="toc284">
 <h3>2.16.5. Setup before each test in this suite</h3>
 
 <pre>
@@ -3982,7 +4053,7 @@ Mocks window.open and window.close functions
 </p>
 
 </section>
-<section id="toc280">
+<section id="toc285">
 <h3>2.16.6. Test opening app URLs</h3>
 
 <pre>
@@ -3995,7 +4066,7 @@ when opening new windows
 </p>
 
 </section>
-<section id="toc281">
+<section id="toc286">
 <h3>2.16.7. Test opening HTTP URLs</h3>
 
 <pre>
@@ -4008,7 +4079,7 @@ when opening new windows
 </p>
 
 </section>
-<section id="toc282">
+<section id="toc287">
 <h3>2.16.8. Test opening HTTPS URLs</h3>
 
 <pre>
@@ -4021,7 +4092,7 @@ when opening new windows
 </p>
 
 </section>
-<section id="toc283">
+<section id="toc288">
 <h3>2.16.9. Test unsupported URL protocols</h3>
 
 <pre>
@@ -4034,7 +4105,7 @@ throws an error
 </p>
 
 </section>
-<section id="toc284">
+<section id="toc289">
 <h3>2.16.10. Test window closing</h3>
 
 <pre>
@@ -4046,7 +4117,7 @@ Verifies that the close function properly calls window.close
 </p>
 
 </section>
-<section id="toc285">
+<section id="toc290">
 <h3>2.16.11. Test suite for window event listeners</h3>
 
 <pre>
@@ -4059,7 +4130,7 @@ including setting listeners and sending events between tabs
 </p>
 
 </section>
-<section id="toc286">
+<section id="toc291">
 <h3>2.16.12. Test setting event listeners</h3>
 
 <pre>
@@ -4071,7 +4142,7 @@ Verifies that listeners can be registered for specific events
 </p>
 
 </section>
-<section id="toc287">
+<section id="toc292">
 <h3>2.16.13. Test removing event listeners</h3>
 
 <pre>
@@ -4083,7 +4154,7 @@ Verifies that listeners can be removed for specific events
 </p>
 
 </section>
-<section id="toc288">
+<section id="toc293">
 <h3>2.16.14. Test sending events to current tab</h3>
 
 <pre>
@@ -4096,7 +4167,7 @@ in the current tab
 </p>
 
 </section>
-<section id="toc289">
+<section id="toc294">
 <h3>2.16.15. Test sending events to other tabs</h3>
 
 <pre>
@@ -4109,7 +4180,7 @@ in other tabs through localStorage events
 </p>
 
 </section>
-<section id="toc290">
+<section id="toc295">
 <h3>2.16.16. Test sending events to all tabs</h3>
 
 <pre>
@@ -4122,7 +4193,7 @@ in all tabs including the current one
 </p>
 
 </section>
-<section id="toc291">
+<section id="toc296">
 <h3>2.16.17. Test sessionStorage event filtering</h3>
 
 <pre>
@@ -4135,7 +4206,7 @@ the cross-tab communication callbacks
 </p>
 
 </section>
-<section id="toc292">
+<section id="toc297">
 <h3>2.16.18. Test event key filtering</h3>
 
 <pre>
@@ -4148,7 +4219,7 @@ the cross-tab communication callbacks
 </p>
 
 </section>
-<section id="toc293">
+<section id="toc298">
 <h3>2.16.19. Test unregistered event filtering</h3>
 
 <pre>

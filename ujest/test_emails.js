@@ -281,8 +281,8 @@ describe('App Emails', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#from', timeout);
 
-        // Special case to allow the ckeditor render
-        await page.waitForFunction(() => document.getElementById('body').ckeditor, timeout);
+        // Special case to allow the joditeditor render
+        await page.waitForFunction(() => document.getElementById('body').joditeditor, timeout);
 
         const screenshot = await page.screenshot({encoding: 'base64'});
         expect(screenshot).toMatchImageSnapshot({

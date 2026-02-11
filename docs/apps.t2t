@@ -1,6 +1,6 @@
 Applications Documentation
-SaltOS 4.0 r2204
-September 2025
+SaltOS 4.0 r2291
+February 2026
 
 
 
@@ -334,7 +334,7 @@ This function returns the xml of an app using the follow specs passed in @data:
 - @form      => the list of fields used in the form screen, this must be a list of
               arrays with 3 elements: id, type and label, types can be as follow:
               - text, date, time, datetime, checkbox, switch => default widget
-              - textarea, ckeditor, codemirror => widget with 5em of height
+              - textarea, joditeditor, codemirror => widget with 5em of height
               - select => widget that uses the select spec to resolve the contents
 - @select    => this spec is intended to defined the selects used in the list and
               forms, requires an array of 3 elements: id, table and field, if the
@@ -1533,7 +1533,7 @@ function getmail_pdf($ids)
 ```
 
 This function generates PDF files for the provided email IDs using either the
-`wkhtmltopdf` command or a fallback library. If multiple emails are selected,
+`chromium` command or a fallback library. If multiple emails are selected,
 their PDFs are merged into a single file. It validates user permissions for
 accessing the emails and manages caching for performance optimization.
 

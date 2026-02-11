@@ -1,6 +1,6 @@
 Jest Test Documentation
-SaltOS 4.0 r2204
-September 2025
+SaltOS 4.0 r2291
+February 2026
 
 
 
@@ -1077,7 +1077,16 @@ This part of the test tries to validate the correctness of the go back feature
 +++Action Insert+++
 
 ```
-test('Action Insert', async ()
+test('Action Insert (first part)', async ()
+```
+
+This part of the test tries to validate the correctness of the insert feature
+
+
++++Action Insert+++
+
+```
+test('Action Insert (second part)', async ()
 ```
 
 This part of the test tries to validate the correctness of the insert feature
@@ -1086,7 +1095,16 @@ This part of the test tries to validate the correctness of the insert feature
 +++Action Update+++
 
 ```
-test('Action Update', async ()
+test('Action Update (first part)', async ()
+```
+
+This part of the test tries to validate the correctness of the update feature
+
+
++++Action Update+++
+
+```
+test('Action Update (second part)', async ()
 ```
 
 This part of the test tries to validate the correctness of the update feature
@@ -1095,7 +1113,16 @@ This part of the test tries to validate the correctness of the update feature
 +++Action Delete+++
 
 ```
-test('Action Delete', async ()
+test('Action Delete (first part)', async ()
+```
+
+This part of the test tries to validate the correctness of the delete feature
+
+
++++Action Delete+++
+
+```
+test('Action Delete (second part)', async ()
 ```
 
 This part of the test tries to validate the correctness of the delete feature
@@ -1174,7 +1201,16 @@ appear in the screen
 +++Action Control F+++
 
 ```
-test('Action Control F', async ()
+test('Action Control F (first part)', async ()
+```
+
+This part of the test tries to validate the control+f focus
+
+
++++Action Control F+++
+
+```
+test('Action Control F (second part)', async ()
 ```
 
 This part of the test tries to validate the control+f focus
@@ -1238,7 +1274,7 @@ including initialization, loading, saving, and UI interactions
 +++Load all needed files of the project+++
 
 ```
-const files = `app,backup,core,driver,filter,form,gettext,hash,storage,token`.split(',');
+const files = `app,backup,bootstrap,core,driver,filter,form,gettext,hash,storage,token`.split(',');
 ```
 
 
@@ -1987,7 +2023,17 @@ This part of the test tries to load the list screen
 +++Action List+++
 
 ```
-test('Action Checkbox', async ()
+test('Action Checkbox (first part)', async ()
+```
+
+This part of the test tries to validate the correctness of the checkbox
+feature
+
+
++++Action List+++
+
+```
+test('Action Checkbox (second part)', async ()
 ```
 
 This part of the test tries to validate the correctness of the checkbox

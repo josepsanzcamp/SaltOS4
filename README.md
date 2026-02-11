@@ -326,7 +326,7 @@ make teststop      # Stop and cleanup
 
 ### Core Technologies
 - **Backend**: PHP 7.0-8.3 (strict types, tested)
-- **Frontend**: TypeScript, Bootstrap 5, TomSelect, CKEditor, Chart.js
+- **Frontend**: TypeScript, Bootstrap 5, TomSelect, Jodit Editor, Chart.js
 - **Storage**: Multi-database abstraction layer (PDO)
 - **Testing**: PHPUnit (backend) + Jest (frontend)
 - **i18n**: YAML-based translations
@@ -459,7 +459,7 @@ SaltOS 4 is built on top of excellent open source projects:
 
 **Frontend:**
 - [Bootstrap](https://getbootstrap.com/) — UI framework
-- [CKEditor](https://ckeditor.com/) — Rich text editor
+- [Jodit Editor](https://xdsoft.net/jodit/) — Rich text editor
 - [Chart.js](https://www.chartjs.org/) — Data visualization
 - [PDF.js](https://mozilla.github.io/pdf.js/) — PDF viewer (Mozilla)
 - [CodeMirror](https://codemirror.net/) — Code editor

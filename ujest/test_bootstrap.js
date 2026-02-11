@@ -114,8 +114,8 @@ describe('Bootstrap', () => {
         }, field);
 
         const id = field.id;
-        if (field.type == 'ckeditor') {
-            await page.waitForFunction(id => document.getElementById(id).ckeditor, timeout, id);
+        if (field.type == 'joditeditor') {
+            await page.waitForFunction(id => document.getElementById(id).joditeditor, timeout, id);
             await mypause(page, 100);
         } else if (field.type == 'codemirror') {
             await page.waitForFunction(id => document.getElementById(id).codemirror, timeout, id);

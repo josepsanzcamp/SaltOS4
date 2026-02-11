@@ -1,6 +1,6 @@
 Api Documentation
-SaltOS 4.0 r2204
-September 2025
+SaltOS 4.0 r2291
+February 2026
 
 
 
@@ -1031,61 +1031,6 @@ input array.
 - @input => the input array
 
 
-++Compatibility helper module++
-
-```
-api/php/autoload/compat.php
-```
-
-This file add some functions used by SaltOS that can not be found in all allowed versions of PHP
-
-
-+++Array Key Last+++
-
-```
-function array_key_last(array $array)
-```
-
-This function appear in PHP 7.3, and for previous version SaltOS
-uses this code
-
-- @array => the array where you want to obtain the last key
-
-
-Notes:
-
-Code copied from the follow web:
-https://www.php.net/manual/es/function.array-key-last.php#124007
-
-
-+++Array Key First+++
-
-```
-function array_key_first(array $arr)
-```
-
-This function appear in PHP 7.3, and for previous version SaltOS
-uses this code
-
-- @array => the array where you want to obtain the first key
-
-
-Notes:
-
-Code copied from the follow web:
-https://www.php.net/manual/es/function.array-key-last.php#124007
-
-
-+++Posix GetUID+++
-
-```
-function posix_getuid()
-```
-
-This function only is available in posix compilant systems like unix,
-linux and mac, and for windows this is a short circuit
-
-
 ++Config helper module++
 
 ```
@@ -1571,6 +1516,15 @@ function datetime_format($x)
 This function returns the datetime using the europe format for d/m/Y instead of Y-m-d
 
 - @x => the datetime string that you want to convert
+
+
+++Deprecated helper module++
+
+```
+api/php/autoload/deprecations.php
+```
+
+This file add some functions used by SaltOS that are deprecated in new versions of PHP
 
 
 ++Error helper module++
@@ -2282,7 +2236,7 @@ if is needed to change or not the current setting
 +++According to the documentation, putenv must return false in error cases, but+++
 
 ```
-if ($key == '' || putenv("$key=$val") === false) {
+if ($key === '' || putenv("$key=$val") === false) {
 ```
 
 
@@ -2871,6 +2825,71 @@ application.
 
 - @app  => the app to check
 - @perm => the perm to check
+
+
+++Compatibility Layer / Polyfill Module++
+
+```
+api/php/autoload/polyfill.php
+```
+
+This file provides fallback implementations for native PHP functions and
+extension-specific logic that may be missing in older PHP versions or
+specific operating system environments supported by SaltOS.
+
+Features:
+- Backports for PHP 7.3+ array functions (array_key_first, array_key_last).
+- Compatibility shims for POSIX functions on non-Unix (Windows) systems.
+
+
+Note: Each function is wrapped in a !function_exists() check to prevent
+redeclaration conflicts with native implementations or other libraries.
+
+
++++Array Key Last+++
+
+```
+function array_key_last(array $array)
+```
+
+This function appear in PHP 7.3, and for previous version SaltOS
+uses this code
+
+- @array => the array where you want to obtain the last key
+
+
+Notes:
+
+Code copied from the follow web:
+https://www.php.net/manual/es/function.array-key-last.php#124007
+
+
++++Array Key First+++
+
+```
+function array_key_first(array $arr)
+```
+
+This function appear in PHP 7.3, and for previous version SaltOS
+uses this code
+
+- @array => the array where you want to obtain the first key
+
+
+Notes:
+
+Code copied from the follow web:
+https://www.php.net/manual/es/function.array-key-last.php#124007
+
+
++++Posix GetUID+++
+
+```
+function posix_getuid()
+```
+
+This function only is available in posix compilant systems like unix,
+linux and mac, and for windows this is a short circuit
 
 
 ++Random helper module++
@@ -3591,12 +3610,9 @@ get the number without factor
 function html2text($html)
 ```
 
-This function uses the html2text roundcube function to convert html to
-plain text, this code have the issue that requires the error_reporting(0)
-because it have a lot of errors causes by use nondefined variables, for
-example
+This function returns the ascii version of the html
 
-- @html => the html code that you want to convert to plain text
+- @html => HTML code to convert into plain text
 
 
 +++Get UTF-8+++
