@@ -1,6 +1,9 @@
 
-wget https://cdn.jsdelivr.net/npm/tom-select@2.4.4/dist/js/tom-select.complete.min.js
-wget https://cdn.jsdelivr.net/npm/tom-select@2.4.4/dist/css/tom-select.bootstrap5.min.css
+rm -f tom-select.complete.min.js
+rm -f tom-select.bootstrap5.min.css
+
+wget https://cdn.jsdelivr.net/npm/tom-select@2.5.0/dist/js/tom-select.complete.min.js
+wget https://cdn.jsdelivr.net/npm/tom-select@2.5.0/dist/css/tom-select.bootstrap5.min.css
 
 for i in tom-select.*; do
     cat $i | grep -v sourceMappingURL > $i.new
