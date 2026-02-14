@@ -8,6 +8,7 @@ RUN apt update && apt install -y \
     net-tools \
     iputils-ping \
     poppler-utils \
+    libnss3-tools \
     && rm -rf /var/lib/apt/lists/*
 
 # Enable external repos like sury and official mariadb
