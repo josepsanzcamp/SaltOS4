@@ -43,13 +43,23 @@ services:
         profiles: ["test"]
         restart: unless-stopped
 
-    saltos4:
+    saltos4server:
         build:
             context: .
-            dockerfile: Dockerfile
-        container_name: saltos4
+            dockerfile: Dockerfile.server
+        container_name: saltos4server
         ports:
             - "8080:80"
             - "8443:443"
         profiles: ["server"]
+        restart: unless-stopped
+
+    saltos4devel:
+        build:
+            context: .
+            dockerfile: Dockerfile.devel
+        container_name: saltos4devel
+        ports:
+            - "8080:8080"
+        profiles: ["devel"]
         restart: unless-stopped

@@ -1,4 +1,8 @@
 
+################################################################################
+# MAIN PART
+################################################################################
+
 SHELL=/bin/bash
 RED=\033[0;31m
 GREEN=\033[0;32m
@@ -16,6 +20,10 @@ export JEST_OPTIONS := -u
 
 all:
 	@echo Nothing to do by default
+
+################################################################################
+# WEB PART
+################################################################################
 
 web: clean
 	cat code/web/lib/bootstrap/bootstrap-icons.min.css code/web/lib/atkinson/atkinson.min.css | \
@@ -65,6 +73,10 @@ clean:
 	rm -f code/apps/*/js/*.min.{js,js.map}
 	rm -f code/web/proxy.{js,js.map}
 
+################################################################################
+# TEST PART
+################################################################################
+
 test:
 ifeq ($(file),) # default behaviour
 	$(eval files := $(shell svn st code/api/index.php code/api/php scripts utest code/apps/*/php code/apps/*/sample | grep -e ^A -e ^M -e ^? | grep '\.'php$$ | gawk '{print $$2}' | sort))
@@ -89,12 +101,20 @@ endif
 	jscs --config=scripts/jscs.json ${files}; \
 	node -c ${files}; )
 
+################################################################################
+# CHECKLIBS PART
+################################################################################
+
 libs:
 ifeq ($(libs),) # default behaviour
 	php scripts/checklibs.php scripts/checklibs.txt
 else # libs=lib[,lib,lib]
 	php scripts/checklibs.php scripts/checklibs.txt $(shell echo ${libs} | tr ',' ' ')
 endif
+
+################################################################################
+# DOCS PART
+################################################################################
 
 docs:
 ifeq ($(file),)
@@ -138,6 +158,10 @@ ifneq (,$(findstring user,$(file)))
 	php scripts/makeuser.php
 endif
 endif
+
+################################################################################
+# CHECK PART
+################################################################################
 
 check:
 	@echo -e "$(YELLOW)Directories:$(NONE)"
@@ -185,6 +209,10 @@ check:
 	@echo -n pk12util:" "; which pk12util > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
 	@echo -n pdfsig:" "; which pdfsig > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
 
+################################################################################
+# UNIT TEST PART
+################################################################################
+
 utest:
 ifeq ($(file), ) # default behaviour
 	@phpunit -c scripts/phpunit.xml $(shell svn st utest/test_*.php | grep -e ^A -e ^M -e ^? | grep '\.'php$$ | gawk '{print "../../"$$2}' | sort | paste -s -d' ')
@@ -217,13 +245,18 @@ else ifeq ($(part),3)
 	$(MAKE) ujest file=screenshots
 endif
 
+################################################################################
+# METRICS PART
+################################################################################
+
 cloc:
 	find scripts utest ujest code/api/{index.php,php,xml,locale} code/web/{js,htm} code/apps/*/{js,php,xml,locale,sample} > /tmp/cloc.include
 	find code/apps/*/js/*.min.* utest/files/* > /tmp/cloc.exclude
 	cloc --list-file=/tmp/cloc.include --exclude-list-file=/tmp/cloc.exclude
 
-setup:
-	php code/api/index.php setup
+################################################################################
+# MAINTENANCE PART
+################################################################################
 
 gc:
 	php code/api/index.php gc
@@ -233,6 +266,26 @@ indexing:
 
 integrity:
 	php code/api/index.php integrity
+
+cron:
+	php code/api/index.php cron
+
+################################################################################
+# LANGUAGE PART
+################################################################################
+
+langs:
+	python3 scripts/checklangs.py
+	for i in global certs common company crm dashboard emails hr purchases sales users; do \
+		python3 scripts/checklangs.py --lang en_US --group $$i --filter missing; \
+	done
+
+################################################################################
+# SETUP PART
+################################################################################
+
+setup:
+	php code/api/index.php setup
 
 setupclean:
 	rm -f code/data/inbox/1/*
@@ -278,14 +331,9 @@ setupinstall:
 	$(MAKE) setupfull
 	$(MAKE) setupunlink
 
-cron:
-	php code/api/index.php cron
-
-langs:
-	python3 scripts/checklangs.py
-	for i in global certs common company crm dashboard emails hr purchases sales users; do \
-		python3 scripts/checklangs.py --lang en_US --group $$i --filter missing; \
-	done
+################################################################################
+# DOCKER TEST PART
+################################################################################
 
 teststart:
 	cd scripts && docker compose --profile test up -d
@@ -301,6 +349,10 @@ testlogs:
 teststatus:
 	cd scripts && docker compose --profile test ps
 
+################################################################################
+# DOCKER SERVER PART
+################################################################################
+
 serverbuild:
 	cd scripts && docker compose --profile server build
 
@@ -312,7 +364,33 @@ serverstop:
 	cd scripts && docker compose --profile server down
 
 serverlogs:
-	cd scripts && docker compose --profile server logs saltoa4
+	cd scripts && docker compose --profile server logs
 
 serverstatus:
 	cd scripts && docker compose --profile server ps
+
+serverbash:
+	cd scripts && docker compose --profile server exec saltos4server bash
+
+################################################################################
+# DOCKER DEVEL PART
+################################################################################
+
+develbuild:
+	cd scripts && docker compose --profile devel build
+
+develstart:
+	cd scripts && docker compose --profile devel up -d
+
+develstop:
+	cd scripts && docker compose --profile devel kill
+	cd scripts && docker compose --profile devel down
+
+devellogs:
+	cd scripts && docker compose --profile devel logs
+
+develstatus:
+	cd scripts && docker compose --profile devel ps
+
+develbash:
+	cd scripts && docker compose --profile devel exec saltos4devel bash

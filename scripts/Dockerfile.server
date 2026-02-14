@@ -1,9 +1,9 @@
 FROM debian:trixie
 
 # Preform first update and install dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt update && apt install -y \
     extrepo \
-    git \
+    wget \
     vim \
     net-tools \
     iputils-ping \
@@ -15,7 +15,7 @@ RUN extrepo enable sury \
     && extrepo enable mariadb-11.8
 
 # Install MariaDB, Apache and PHP
-RUN apt-get update && apt-get install -y \
+RUN apt update && apt install -y \
     mariadb-server \
     mariadb-client \
     apache2 \
@@ -25,17 +25,16 @@ RUN apt-get update && apt-get install -y \
     php8.5-common \
     php8.5-curl \
     php8.5-gd \
-    php8.5-intl \
+    php8.5-imap \
+    php8.5-mailparse \
     php8.5-mbstring \
     php8.5-mysql \
-    php8.5-pgsql \
     php8.5-readline \
+    php8.5-sqlite3 \
     php8.5-xml \
+    php8.5-yaml \
     php8.5-zip \
-    php8.5-soap \
-    php8.5-bcmath \
-    php8.5-gettext \
-    php8.5-mailparse \
+    php8.5-zstd \
     && rm -rf /var/lib/apt/lists/*
 
 # Add the apache ssl support
@@ -76,30 +75,36 @@ RUN sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 50M/' /etc/php/8.5/
     sed -i 's/max_execution_time = 30/max_execution_time = 300/' /etc/php/8.5/apache2/php.ini
 
 # Checkout saltos4 code
-RUN git clone https://github.com/josepsanzcamp/SaltOS4.git /opt/SaltOS4
+RUN cd /opt \
+    && mkdir saltos4 \
+    && cd saltos4 \
+    && wget -q -O - https://github.com/josepsanzcamp/SaltOS4/archive/refs/heads/master.tar.gz | tar xvz \
+    && mv SaltOS4-master/code code \
+    && mv SaltOS4-master/scripts scripts \
+    && rm -rf SaltOS4-master
 
 # Create the saltos4 instance
-RUN cd /var/www \
-    && mv html html.old \
-    && mkdir html \
-    && ln -s /opt/SaltOS4/code \
-    && ln -s /opt/SaltOS4/scripts \
-    && cd html \
-    && bash ../scripts/make_instance.sh \
+RUN cd /opt/saltos4 \
+    && mkdir instance \
+    && cd instance \
+    && bash /opt/saltos4/scripts/make_instance.sh \
     && cd .. \
-    && chown -R www-data:www-data html \
-    && chmod -R 755 html
+    && chown -R www-data:www-data instance \
+    && chmod -R 755 instance \
+    && cd /var/www \
+    && mv html html.old \
+    && ln -s /opt/saltos4/instance/web html
 
 # SaltOS setup
 RUN service mariadb start \
-    && php /var/www/html/api/index.php setup \
-    && user=admin php /var/www/html/api/index.php setup/certs \
-    && user=admin php /var/www/html/api/index.php setup/company \
-    && user=admin php /var/www/html/api/index.php setup/emails \
-    && user=admin php /var/www/html/api/index.php setup/crm \
-    && user=admin php /var/www/html/api/index.php setup/hr \
-    && user=admin php /var/www/html/api/index.php setup/purchases \
-    && user=admin php /var/www/html/api/index.php setup/sales \
+    && php /opt/saltos4/instance/api/index.php setup \
+    && user=admin php /opt/saltos4/instance/api/index.php setup/certs \
+    && user=admin php /opt/saltos4/instance/api/index.php setup/company \
+    && user=admin php /opt/saltos4/instance/api/index.php setup/emails \
+    && user=admin php /opt/saltos4/instance/api/index.php setup/crm \
+    && user=admin php /opt/saltos4/instance/api/index.php setup/hr \
+    && user=admin php /opt/saltos4/instance/api/index.php setup/purchases \
+    && user=admin php /opt/saltos4/instance/api/index.php setup/sales \
     && service mariadb stop
 
 CMD service mariadb start \
