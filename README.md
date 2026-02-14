@@ -212,7 +212,7 @@ From these definitions, SaltOS automatically creates:
 - Username: `admin`
 - Password: `admin`
 
-Each visitor gets an isolated demo instance (SQLite-based).
+Each visitor gets an isolated SQLite-based instance, similar to the `devel` Docker profile.
 
 ### Local Installation
 ```bash
@@ -221,8 +221,8 @@ git clone https://github.com/josepsanzcamp/SaltOS4.git
 cd SaltOS4
 
 # 2. Create instance (symlinks code/ to instance directory)
-mkdir my-instance
-cd my-instance
+mkdir instance
+cd instance
 bash ../scripts/make_instance.sh
 
 # 3. Configure database (SQLite or MySQL)
@@ -241,16 +241,57 @@ user=admin php api/index.php setup/sales
 # 5. Start web server
 cd web
 ln -s index.htm index.php
-php -S localhost:8080
+php -S 0.0.0.0:8080
 
 # 6. Open browser
 open http://localhost:8080
 ```
 
-### Local Installation (Docker Compose)
+### Docker Profiles Overview
 
-SaltOS 4 now provides a **production-ready Docker setup** including Apache, PHP and MariaDB,
-with SaltOS fully installed and initialized during the image build.
+SaltOS 4 provides two main runtime Docker profiles:
+
+- `devel`: lightweight development environment (SQLite + PHP built-in server)
+- `server`: production-ready stack (Apache + PHP + MariaDB)
+
+The server profile installs and initializes SaltOS automatically during the image build.
+
+### Development with Docker (SQLite + PHP Built-in Server)
+
+SaltOS 4 provides a lightweight development environment using:
+
+- PHP built-in server
+- SQLite database
+- Minimal dependencies
+- Fast startup
+
+#### Build and start development container
+
+```
+make develbuild
+make develstart
+```
+
+#### Access
+
+- http://localhost:8080
+- Username: `admin`
+- Password: `admin`
+
+#### Development container management
+
+```
+make develstatus   # Show container status
+make devellogs     # Show logs
+make develbash     # Open shell inside container
+make develstop     # Stop and remove container
+```
+
+This profile is optimized for fast development and testing.
+
+### Production Server with Docker (Apache + MariaDB)
+
+The server profile installs and initializes SaltOS automatically during the image build.
 
 #### Build and start the server
 
@@ -273,20 +314,27 @@ A self-signed SSL certificate is generated automatically.
 ```bash
 make serverstatus   # Show container status
 make serverlogs     # Show logs
+make serverbash     # Open shell inside container
 make serverstop     # Stop and remove containers
 ```
 
 #### Docker Compose profiles
 
-SaltOS 4 includes two Docker Compose profiles:
+Docker Compose defines three profiles:
 
-- `server`: launches the full SaltOS 4 stack using the provided Dockerfile
-  (Apache + PHP + MariaDB, ready to use).
+- `devel`: builds and runs SaltOS using `Dockerfile.devel`
+  (PHP built-in server + SQLite).
 
-- `test`: starts the external services required to run unit tests:
+- `server`: builds and runs SaltOS using `Dockerfile.server`
+  (Apache + PHP + MariaDB).
+
+- `test`: starts external service containers used for unit testing:
     - Microsoft SQL Server 2022
     - PostgreSQL 17
     - GreenMail (SMTP / POP3 mail server simulation)
+
+The `test` profile does not build SaltOS itself.
+It only provides the external dependencies required by the test suite.
 
 #### Test services (unit testing)
 
@@ -303,6 +351,7 @@ make teststop      # Stop and cleanup
 ---
 
 ## 🏗️ Architecture
+
 ```
 ┌─────────────────────────────────────────────────────┐
 │                  Web Browser (PWA)                  │
@@ -324,8 +373,12 @@ make teststop      # Stop and cleanup
 └─────────────────────────────────────────────────────┘
 ```
 
+**Docker profiles:**
+Development uses SQLite + PHP built-in server.
+Production uses Apache + MariaDB.
+
 ### Core Technologies
-- **Backend**: PHP 7.0-8.3 (strict types, tested)
+- **Backend**: PHP 7.0-8.5 (strict types, tested)
 - **Frontend**: TypeScript, Bootstrap 5, TomSelect, Jodit Editor, Chart.js
 - **Storage**: Multi-database abstraction layer (PDO)
 - **Testing**: PHPUnit (backend) + Jest (frontend)
