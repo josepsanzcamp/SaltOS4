@@ -73,7 +73,7 @@ key: Key
 user_agent: User Agent
 token: Token
 created: Created
-remote_addres: Remote Address
+remote_address: Remote Address
 updated: Updated
 expires: Expires
 stdout: STDOUT

@@ -41,7 +41,7 @@ form:
     - [user_id, select, User]
     - [created_at, datetime, Created]
     - [updated_at, datetime, Updated]
-    - [remote_addr, text, Remote Addres]
+    - [remote_addr, text, Remote Address]
     - [user_agent, text, User Agent]
     - [token, text, Token]
     - [expires_at, datetime, Expires]

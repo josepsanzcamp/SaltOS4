@@ -1,5 +1,5 @@
 Devel Documentation
-SaltOS 4.0 r2291
+SaltOS 4.0 r2297
 February 2026
 
 
@@ -14,10 +14,13 @@ It is composed of:
 - A JavaScript frontend (`web/`)
 - REST/JSON API with support for CLI execution
 - Offline operation through a Service Worker proxy
-- Declarative and dinamic app definitions via XML and/or YAML
+- Declarative and dynamic app definitions via XML and/or YAML
 - Shared templates and logic to reduce boilerplate
-- Clean separation of frontend and backend
-- Rapid development of apps with shared templates and logic
+- Clean separation between frontend and backend
+- Declarative app definitions via XML and/or YAML
+- Offline support via Service Worker
+- REST/JSON API with CLI execution
+- Shared templates to reduce boilerplate
 
 
 ++Advanced System Features++
@@ -27,6 +30,105 @@ SaltOS4 includes two key functionalities that stand out for their utility and fo
 - Version traceability of records: Each modification in application data generates a new version of the record, maintaining a complete change history, similar to version control systems like Subversion or Git.
 - Data access logging: The system records who accessed a piece of data, from where, and in what context (e.g., if it was shown in a list or form). This provides full auditability of data usage and consultation.
 
+
+++Architecture Overview++
+
+SaltOS4 follows a layered and declarative architecture designed to separate responsibilities clearly between frontend, backend, configuration, and data persistence.
+
+The system operates across four main layers:
+
++++Client Layer (SPA)+++
+
+The frontend is a Single Page Application (SPA) written in JavaScript and located in `web/`.
+
+- `core.js` provides low-level utilities (AJAX, DOM helpers, error handling).
+- `app.js` manages UI logic, navigation, layout, and interaction.
+- Additional modules (auth, form, filter, etc.) extend functionality.
+- A Service Worker (`proxy.js`) intercepts network requests to provide caching, offline support, and request queueing.
+
+
+All user interactions eventually result in REST-style requests to the backend.
+
++++API Layer (Execution Engine)+++
+
+The backend is implemented in PHP under `api/`.
+
+- `index.php` acts as the main entry point.
+- Autoloaded modules provide core services (database, permissions, logging, tokens, etc.).
+- Action modules (`action/*.php`) dispatch REST or CLI requests.
+- The same execution path supports both HTTP and CLI access.
+
+
+Requests follow this simplified lifecycle:
+
+- Request received (HTTP or CLI)
+- Token validation (if required)
+- Permission validation
+- Action dispatch
+- Response serialization (JSON)
+
+
++++Declarative Application Layer+++
+
+Applications are defined declaratively using:
+
+- `manifest.xml` → metadata and permissions
+- `dbschema.xml` → database structure
+- `dbstatic.xml` → static data
+- `*.yaml` or `*.xml` → UI definitions
+
+
+For YAML-based apps:
+
+- YAML is transformed into XML dynamically.
+- The generated XML is cached for performance.
+- The execution engine processes XML definitions to render UI and perform actions.
+
+
+This approach enables rapid development without writing boilerplate controllers or views.
+
++++Data & Persistence Layer+++
+
+SaltOS4 supports:
+
+- MariaDB/MySQL (with optional Mroonga full-text indexing)
+- SQLite (lightweight deployments)
+
+
+Schema management is automatic:
+
+- `dbschema.xml` definitions are compared with the live database.
+- Differences are applied automatically.
+- No manual migration scripts are required.
+
+
+Versioning, logging, indexing, and feature modules (`has_*`) extend the data layer transparently.
+
++++Cross-Cutting Concerns+++
+
+Several features operate across all layers:
+
+- Token-based authentication (HTTP and CLI)
+- Ownership and permission control
+- Version tracking with blockchain-style integrity
+- Access logging
+- Automatic schema synchronization
+- Offline support via Service Worker
+
+
++++Design Principles+++
+
+SaltOS4 is built around the following principles:
+
+- Declarative over imperative
+- Convention over configuration
+- Automatic synchronization of schema and metadata
+- Unified execution model (HTTP and CLI share the same engine)
+- Modular, extensible app architecture
+- Minimal boilerplate for CRUD applications
+
+
+This architecture allows SaltOS4 to function both as a rapid application framework and as a structured business application platform.
 
 ++Project Structure++
 
@@ -112,17 +214,18 @@ Download the SaltOS4 code into the web directory:
 
 ```
 cd /var/www/html
-sudo wget https://download.saltos.org/SaltOS_v4.0_r2097.tgz
-sudo tar xvzf SaltOS_v4.0_r2097.tgz
-cd code
+sudo wget -L --content-disposition https://download.saltos.org/
+sudo tar xvzf SaltOS4-master.tar.gz
+cd SaltOS4-master/code
 chmod ugo+rwx data/*
 ```
 
-**Note:** replace `r2097` with the latest available release.
-
 ++Configure SQLite3 database access++
 
-Create the following configuration file:
+If you are using the Makefile (recommended), no manual configuration is required.
+The target `make setupsqlite` automatically creates the correct database configuration file.
+
+If you prefer manual configuration instead of using Make, create the following file:
 
 ```
 echo '<root><db><type>pdo_sqlite</type></db></root>' > data/files/config.xml
@@ -130,13 +233,39 @@ echo '<root><db><type>pdo_sqlite</type></db></root>' > data/files/config.xml
 
 ++Run the initial setup++
 
-Run the basic setup:
+If you are using the Makefile (recommended), make sure the project root contains the Makefile and required symbolic links.
+You can verify the environment with:
+
+```
+make check
+```
+
+Then initialize the system with SQLite:
+
+
+```
+make setupsqlite
+```
+
+If you prefer MariaDB/MySQL:
+
+```
+make setupmysql
+```
+
+To perform a full clean installation (reset + MySQL + SQLite):
+
+```
+make setupinstall
+```
+
+If you prefer manual CLI execution instead of Make:
 
 ```
 php api/index.php setup
 ```
 
-If you want to install demo data, run the following:
+To install demo data manually:
 
 ```
 user=admin php api/index.php setup/certs
@@ -231,8 +360,8 @@ cmake .
 -GNinja
 -DCMAKE_BUILD_TYPE=Release
 -DMRN_WITH_DOC=OFF
--DMYSQL_SOURCE_DIR=../mariadb-11.4.6+mariadeb12
--DMYSQL_BUILD_DIR=../mariadb-11.4.6+mariadeb12/builddir
+-DMYSQL_SOURCE_DIR=../mariadb-11.4.6+maria~deb12
+-DMYSQL_BUILD_DIR=../mariadb-11.4.6+maria~deb12/builddir
 -DMYSQL_CONFIG=../mariadb-11.4.6+maria~deb12/builddir/scripts/mysql_config
 cmake --build .
 ```
@@ -276,10 +405,10 @@ Core functions automatically loaded on each request:
 
 - `autoload/apps.php`: * Apps helper module
 - `autoload/array.php`: * Array helper module
-- `autoload/compat.php`: * Compatibility helper module
 - `autoload/config.php`: * Config helper module
 - `autoload/database.php`: * Database helper module
 - `autoload/datetime.php`: * Datetime helper module
+- `autoload/deprecations.php`: * Handles deprecated functionality and compatibility warnings
 - `autoload/error.php`: * Error helper module
 - `autoload/exec.php`: * Execution helper module
 - `autoload/file.php`: * File utils helper module
@@ -293,6 +422,7 @@ Core functions automatically loaded on each request:
 - `autoload/output.php`: * Output helper module
 - `autoload/pcov.php`: * PCOV helper module
 - `autoload/perms.php`: * Permissions helper module
+- `autoload/polyfill.php`: * Polyfill and backward-compatibility utilities
 - `autoload/random.php`: * Random helper module
 - `autoload/semaphores.php`: * Semaphore helper module
 - `autoload/server.php`: * Server helper module
@@ -315,6 +445,7 @@ Supports:
 - `database/mysqli.php`: * MySQL improved driver
 - `database/pdo_mssql.php`: * PDO MsSQL driver
 - `database/pdo_mysql.php`: * PDO MySQL driver
+- `database/pdo_pgsql.php`: * PDO PostgreSQL driver
 - `database/pdo_sqlite.php`: * PDO SQLite driver
 - `database/sqlite3.php`: * SQLite3 driver
 
@@ -363,17 +494,17 @@ Not autoloaded; provide extra functionality:
 
 Handle concrete system actions (CLI-aware where needed):
 
-- `action/add.php`: * Add log action
-- `action/app.php`: * Application action
-- `action/auth.php`: * Authentication helper module
-- `action/cron.php`: * Garbage Collector action
-- `action/gc.php`: * Garbage Collector action
-- `action/image.php`: * BarCode action
-- `action/indexing.php`: * Make indexing action
-- `action/integrity.php`: * Make indexing action
-- `action/push.php`: * Garbage Collector action
-- `action/setup.php`: * DB Schema action
-- `action/upload.php`: * Add files action
+- `action/add.php`: Handles log or auxiliary add operations triggered by the system.
+- `action/app.php`: Main application dispatcher for `app/...` REST and CLI calls.
+- `action/auth.php`: Implements authentication endpoints (`login`, `check`, `logout`, `update`).
+- `action/cron.php`: Executes scheduled tasks defined in `cron.xml`.
+- `action/gc.php`: Executes garbage collection routines (cleanup of expired or temporary data).
+- `action/image.php`: Generates dynamic images (e.g., barcodes or other image-based outputs).
+- `action/indexing.php`: Triggers full-text indexing and index maintenance processes.
+- `action/integrity.php`: Executes integrity validation checks for records and system data.
+- `action/push.php`: Handles push-related operations and notification dispatching.
+- `action/setup.php`: Performs schema synchronization and static data initialization.
+- `action/upload.php`: Handles file upload processing and attachment management.
 
 
 ++Other API Components++
@@ -440,6 +571,7 @@ The main idea of sending information to SaltOS is to use the latest technologies
   - `@rest/1` = invoices
   - `@rest/2` = view
   - `@rest/3` = 2
+
 - POST with JSON:
   - An example request: `https://host/?/app/invoices/insert`
   - Use `Content-Type: application/json`
@@ -534,10 +666,10 @@ This ensures that a token cannot be reused from another location or browser, pro
 
 Tokens are subject to expiration based on system configuration. They may be invalidated:
 
-  - After a certain period of inactivity
-  - On user logout
-  - When explicitly reset by administrators
-  - If the IP address or user agent changes
+- After a certain period of inactivity
+- On user logout
+- When explicitly reset by administrators
+- If the IP address or user agent changes
 
 
 Expired or invalid tokens are automatically purged during background cleanup tasks (`crontab_users()`).
@@ -631,12 +763,22 @@ These two modules form the base platform for all SaltOS4 frontend applications.
 
 ++Deployment++
 
+Before deploying to production, make sure frontend assets are generated using:
+
+```
+make web
+```
+
+Production environments should not rely on development mode builds.
+
 To use SaltOS4 from the browser:
 
 - Publish `web/`
+
 - Create symbolic links inside `web/`:
   - `apps/` → application resources
   - `api/` → backend
+
 - Inside `api/`, symbolic links to:
   - `data/` → file storage
   - `apps/` → app definitions
@@ -661,12 +803,15 @@ The service worker (`js/proxy.js`) contains the following key components:
 
 - **`console_log(message)`**:
   - Broadcasts messages to all connected clients using `postMessage`, since `console.log()` is often suppressed in service workers.
+
 - **`debug(action, url, type, duration, size)`**:
   - Builds color-coded debug output showing the nature of the request (`network`, `cache`, `queue`, `error`), its duration, and response size.
+
 - **`fetch` event listener**:
   - Intercepts all network requests.
   - Determines behavior based on request method and headers.
   - Responds from cache, fetches from the network, or queues operations depending on availability and context.
+
 - **`message` event listener**:
   - Handles external control commands sent by the application. Supported messages include:
     - `resetCache`: clears the entire cache storage.
@@ -692,7 +837,7 @@ To aid debugging:
 SaltOS4’s service worker acts as a smart, low-level proxy that enables offline functionality and efficient request handling. It ensures smooth interaction with the backend while minimizing the impact of network failures or latency.
 
 
-+Authentication++
+++Authentication++
 
 SaltOS4 uses JavaScript modules to handle login and authentication on the client side. The core logic is implemented in `web/js/auth.js`, while the login form logic is defined in `apps/users/js/login.js`.
 
@@ -723,9 +868,11 @@ The `saltos.login.authenticate` function handles the login form:
 
 This flow enables seamless login via the web UI while leveraging the same token-based backend used for API and CLI access.
 
-+Build System++
+++Build System++
 
-SaltOS4 provides two build modes for the frontend: production and development. These modes are designed to balance efficiency and ease of debugging, and they are automatically generated using the `make web` and `make devel` targets in the project’s `Makefile`.
+SaltOS4 provides two build modes for the frontend: production and development. These modes control how JavaScript assets are generated and loaded in the browser.
+
+The build process must be executed from the project root using the Makefile. In production environments, assets should already be generated before deployment.
 
 +++Overview of Modes+++
 
@@ -734,6 +881,7 @@ SaltOS4 provides two build modes for the frontend: production and development. T
   - Combines the service worker proxy and MD5 loader into `proxy.js`.
   - Generates a minified `index.htm` with `integrity` hashes and MD5-based cache busting.
   - Loads minimal assets, optimized for performance and security.
+
 - **Development Mode (`make devel`)**:
   - Loads all source files individually from the `js/` folder.
   - Skips minification, hashing, and integrity checks.
@@ -746,6 +894,7 @@ SaltOS4 provides two build modes for the frontend: production and development. T
 - `make web`:
   - Uses scripts such as `fixpath.php`, `md5sum.php`, `uglifyjs`, `sha384.php`.
   - Populates `index.htm` based on the `web/htm/index.htm` template, inserting hashes and integrity attributes.
+
 - `make devel`:
   - Uses `debug.php` to create a loader that references unminified files directly.
   - Generates a simplified `proxy.js` pointing to the original sources.
@@ -827,6 +976,7 @@ The general structure of the file is as follows:
   - `code`: unique identifier.
   - `name`: display name.
   - `description`: visible description.
+
 - **Visual (optional):**
   - `color`: Bootstrap class (primary, secondary, success, info, warning, danger).
   - `position`: descending order number (higher appears first).
@@ -842,16 +992,19 @@ Note: All visual attributes are optional; if not defined, they are not applied.
   - `code`: internal code (used in URLs, API, etc.).
   - `name`: display name.
   - `description`: short description.
+
 - **Visual (optional):**
   - `group`: group code it belongs to.
   - `position`: order within the group (higher appears first).
   - `color`: Bootstrap class (same as <group>).
   - `opacity`: 0, 25, 50, 75, 100 → `opacity-x` class (dashboard only).
   - `fontsize`: 1-6 → `fs-x` class (dashboard only).
+
 - **Data:**
   - `table`: main associated table.
   - `field`: representative field or computed string.
   - `subtables`: related subtables (alias:table(foreign_key),...)
+
 - **Feature Modules:**
   - `has_index`: enables automatic indexing (creates Mroonga table).
   - `has_control`: enables ownership and sharing control.
@@ -859,8 +1012,10 @@ Note: All visual attributes are optional; if not defined, they are not applied.
   - `has_files`: enables files management.
   - `has_notes`: enables notes management.
   - `has_log`: enables data access logging.
+
 - **Widgets:**
   - `widgets`: list of widgets provided by the app for the dashboard.
+
 - **Permissions:**
   - `perms`: list of permissions (comma-separated or using `*` as wildcards).
   - `allow`: 1 to force global access.
@@ -1022,7 +1177,7 @@ form:
     - [user_id, select, User]
     - [created_at, datetime, Created]
     - [updated_at, datetime, Updated]
-    - [remote_addr, text, Remote Addres]
+    - [remote_addr, text, Remote Address]
     - [user_agent, text, User Agent]
     - [token, text, Token]
     - [expires_at, datetime, Expires]
@@ -1266,7 +1421,7 @@ The following is a small example illustrating the structure of an application XM
 .
 ```
 
-This file contains the follow important nodes:
+This file contains the following important nodes:
 
 - `<main>`: Defines a call to app/customers/main that returns the screen type, literals, and the navbar specification
 - `<list default="true">`: Defines a call to app/customers/list that returns a cache load from app/customers/list/cache
@@ -1339,11 +1494,13 @@ A typical `dbschema.xml` file includes:
 
 - `<table>`: Defines a database table.
   - `name`: Table name.
+
 - `<fields>`: Contains `<field>` entries:
   - `name`: Column name.
   - `type`: SQL type (supports MySQL and SQLite variants).
   - `pkey`: Marks the primary key if `true`.
   - `fkey`: Defines a foreign key reference.
+
 - `<indexes>` (optional): Contains `<index>` entries listing:
   - `fields`: Comma-separated list of fields in the index.
 
@@ -1578,7 +1735,9 @@ SaltOS4 includes several `make` targets to manage the build process for both pro
   - Uses `fixpath.php`, `md5sum.php`, `uglifyjs`, `minify`, `sha384.php`
   - Handles app-specific JS from `apps/*/js/*.js`
   - Generates the `proxy.js` script with source maps
+
 - `make devel`: Prepares a development environment with unminified assets using `debug.php`.
+
 - `make clean`: Deletes generated files:
   - Minified JS, CSS, maps, HTML, `proxy.js`, and per-app compiled assets
 
@@ -1599,7 +1758,7 @@ Examples:
 Supported sections:
 
 - `api`: generates the backend doc `docs/api.t2t` from `code/api/php`
-- `web`: generates the fronend doc `docs/web.t2t` from `code/web/js`
+- `web`: generates the frontend doc `docs/web.t2t` from `code/web/js`
 - `apps`: generates the applications doc `docs/apps.t2t` from `code/apps/*/php` and `code/apps/*/js`
 - `utest`: generates the php unit test doc `docs/utest.t2t` from `utest/`
 - `ujest`: generates the javascript unit test `docs/ujest.t2t` from `ujest/`
@@ -1610,26 +1769,39 @@ This logic is implemented using pattern matching via `findstring` in the Makefil
 
 ++Testing++
 
-SaltOS4 integrates various testing mechanisms to maintain code quality across both PHP and JavaScript components. The `make` system provides convenient commands for running static analysis, unit tests, and coverage reports. Below are the available targets:
+SaltOS4 integrates multiple testing layers to maintain code quality across both PHP and JavaScript components.
 
-- `make test`: Runs:
-  - `phpcs`, `php -l`, `phpstan` on PHP files
-  - `jscs`, `node -c` on JS files
-  - Accepts variable `file=...`, `file=all`, or none (uses SVN diff)
-- `make utest`: Runs PHPUnit with optional filtering by file
-- `make ujest`: Runs JS tests with Jest:
-  - Cleans diff snapshots and temp coverage
-  - Supports full or filtered test runs
-  - Generates coverage report
+Testing is divided into static analysis and unit testing.
+
+- `make test`:
+  Runs static analysis only (no unit tests).
+  - PHP: `php -l`, `phpcs`, `phpstan`
+  - JavaScript: `jscs`, `node -c`
+  Accepts variable `file=...`, `file=all`, or none (defaults to SVN diff).
+
+- `make utest`:
+  Executes PHPUnit test suites located in the `utest/` directory.
+  Supports optional filtering by file.
+
+- `make ujest`:
+  Executes Jest test suites located in the `ujest/` directory.
+  - Cleans snapshot diffs and temporary coverage data
+  - Supports full or filtered runs
+  - Generates coverage reports
 
 
 ++Environment Checks++
 
-SaltOS4 includes a helper target to verify that the environment is correctly set up. This check ensures required directories, symbolic links, and external tools are available before running builds, tests, or development tasks.
+SaltOS4 includes helper targets to verify that the environment is correctly set up. The checks are divided into three levels:
 
-- `make check`: Verifies required folders and system commands:
-  - Symbolic links: `api/data`, `web/apps`, etc.
-  - Commands: `php`, `node`, `jest`, `phpunit`, `uglifyjs`, `txt2tags`, etc.
+- `make checkdirs`:
+  Validates required symbolic links and directory structure (api/apps, api/data, web/api, web/apps).
+- `make checkdev`:
+  Verifies development tools used for building, testing, documentation generation, and asset compilation (node, jest, phpunit, phpcs, uglifyjs, txt2tags, etc.).
+- `make checkprod`:
+  Verifies external commands required in a production environment (php, openssl, PDF tools, OCR utilities, certificate tools, etc.).
+- `make check`:
+  Executes all checks (`checkdirs`, `checkdev`, and `checkprod`).
 
 
 ++Dependency Management++
@@ -1676,39 +1848,72 @@ This system is useful for tracking updates manually without relying on automatic
 ---------------------------------------------------------------------------
 Language                    files         blank       comment          code
 ---------------------------------------------------------------------------
-PHP                           309          3973         19290         24837
-JavaScript                     46          1076          6928         11261
-XML                            54           409          1403          5441
-YAML                           60            60          1436          2552
-Python                         27           184            40          1341
-Bourne Shell                    2            12             0            77
-Text                            3             6             0            53
-HTML                            2             2            24            16
+PHP                           312          4047         19355         25324
+JavaScript                     47          1073          7017         11600
+XML                            54           409          1403          5452
+YAML                           61            65          1436          2651
+Python                         27           195            48          1417
+Dockerfile                      2            19            17           140
+Bourne Shell                    4            14             0            89
+Text                            2             5             0            49
+HTML                            2             2            24            19
 JSON                            1             0             0            12
 ---------------------------------------------------------------------------
-SUM:                          504          5722         29121         45590
+SUM:                          512          5829         29300         46753
 ---------------------------------------------------------------------------
 ```
 
 ++System Setup++
 
-These targets initialize or reset the SaltOS4 environment, including database setup and cleanup of data directories. They allow switching between MariaDB and SQLite, and can be used to fully reconfigure the system during development or deployment.
+These targets manage database configuration, initialization, and full environment resets.
 
-- `make setup`: Initializes SaltOS4 system
-- `make setupmysql`: Sets up all applications using MariaDB
-- `make setupsqlite`: Sets up all applications using SQLite
-- `make setupinstall`: Combines cleaning + full MySQL + SQLite setup
-- `make setupclean`: Cleans data directories and resets the database
+- `make setup`:
+  Executes the core system initialization (`api/index.php setup`).
+  Applies schema definitions (`dbschema.xml`) and static data (`dbstatic.xml`).
+
+- `make setupfull`:
+  Runs full initialization including demo and example data
+  (certificates, company data, emails, CRM, HR, purchases, sales).
+
+- `make setupmysql`:
+  Generates a temporary database configuration file for MariaDB/MySQL
+  by writing `data/files/config.xml`.
+
+- `make setupsqlite`:
+  Generates a temporary database configuration file for SQLite
+  by writing `data/files/config.xml`.
+
+- `make setupunlink`:
+  Removes the database configuration file (`config.xml`).
+
+- `make setupclean`:
+  Cleans data directories and resets the MySQL database (`DROP` + `CREATE`).
+  This operation is destructive.
+
+- `make setupinstall`:
+  Performs a complete installation cycle:
+    - Cleans environment
+    - Initializes MySQL (full)
+    - Initializes SQLite (full)
+    - Removes temporary configuration
+  Intended for development or fresh system provisioning.
 
 
 ++System Actions++
 
-These targets trigger internal maintenance operations in SaltOS4, such as garbage collection, indexing, integrity validation, and scheduled task execution. They help keep the system optimized and consistent.
+These targets trigger internal maintenance operations in SaltOS4. They execute specific backend actions without requiring manual API calls.
 
-- `make gc`: Launches garbage collection
-- `make indexing`: Performs indexing operations
-- `make integrity`: Runs integrity checks
-- `make cron`: Executes scheduled tasks (cron)
+- `make gc`:
+  Executes the garbage collection process, cleaning obsolete data, expired sessions, and temporary resources.
+
+- `make indexing`:
+  Rebuilds or updates full-text indexes (including Mroonga-based indexes when enabled).
+
+- `make integrity`:
+  Performs integrity validation checks to ensure data consistency and detect structural issues.
+
+- `make cron`:
+  Executes scheduled tasks defined in `cron.xml`, simulating periodic background execution.
 
 
 ++System langs++
@@ -1763,29 +1968,55 @@ python3 scripts/checklangs.py --strict
 
 ++Script Directory Overview++
 
-This section describes the purpose of each script and configuration file in the `scripts/` directory.
+This section describes the purpose of each file in the `scripts/` directory, grouped by functionality.
 
-All descriptions below are based on the actual content of each file.
++++Build and Asset Generation+++
 
-- `checklangs.py`: Scans XML/YAML/JS files for translation keys and detects missing or duplicated strings across apps.
-- `checklibs.php`: Validates the current versions of required libraries by parsing `checklibs.txt`, performing curl requests, and comparing base64-encoded version strings. Updates the file if needed.
-- `checklibs.txt`: Contains a list of required libraries, with their URLs and expected version tags encoded in base64.
-- `debug.php`: Generates a debug-friendly version of the frontend using `debug.php`.
-- `fixpath.php`: Adjusts file paths in generated HTML/JS/CSS to match the deployment structure.
-- `jest.config.js`: Configuration file for running JavaScript unit tests with Jest.
-- `jest_coverage.php`: Processes Jest coverage reports and outputs them in a readable format.
-- `jest_tester.php`: Parses the layout structure from `apps/tester/xml/tester.xml`, checks for duplicate widget tags, and exports the data as `/tmp/tester.json`.
-- `jscs.json`: Defines JavaScript coding standards used by the JSCS code style checker.
-- `make_instance.sh`: Creates a new runnable SaltOS4 instance by linking `.htaccess`, preparing folders like `data/` and `tmp/`, and applying permissions.
+- `debug.php`: Generates a development-mode frontend loader that references unminified JavaScript sources.
+- `fixpath.php`: Adjusts file paths in generated HTML/JS/CSS files to match the deployment structure.
+- `md5sum.php`: Generates MD5 checksums for one or more files, typically used for cache-busting mechanisms.
+- `sha384.php`: Calculates SHA-384 hashes for files to be used in Subresource Integrity (SRI) attributes in generated HTML.
+- `maket2t.php`: Scans a source directory and extracts `/** ... */` documentation comments from each file to generate a `.t2t` documentation file.
 - `makehtml.php`: Converts a `.t2t` documentation file into an HTML file using `txt2tags`.
-- `maket2t.php`: Scans a source directory and extracts `/** ... */` comments from each file to generate a `.t2t` documentation file.
 - `makepdf.php`: Converts a `.t2t` documentation file into a `.pdf` using LaTeX.
-- `md5sum.php`: Generates an MD5 checksum of one or more files.
-- `migrate_v3_to_v4.php`: Migrates a SaltOS system from version 3 to version 4, adapting data and file structure.
-- `movelangs.py`: Moves selected translation keys from a group-specific messages.yaml to the global one without altering file structure.
+- `imagest2t.php`: Processes image resources for inclusion in `.t2t` documentation outputs.
+- `updatet2t.php`: Updates the version and date lines of a `.t2t` documentation file (used, for example, in `devel.t2t`).
+- `makelocale.php`: Generates or processes locale-related files used for translations and language management.
+- `makeuser.php`: Utility script for creating or managing system users during setup or provisioning.
+- `make_instance.sh`: Creates a new runnable SaltOS4 instance by linking required files (such as `.htaccess`), preparing directories like `data/` and `tmp/`, and applying correct permissions.
+
+
++++Testing and Quality+++
+
+- `jest.config.js`: Configuration file for running JavaScript unit tests with Jest.
+- `jest_coverage.php`: Processes Jest coverage reports and formats them into a readable summary.
+- `jest_tester.php`: Parses the layout structure from `apps/tester/xml/tester.xml`, checks for duplicate widget definitions, and exports the result as `/tmp/tester.json`.
+- `jscs.json`: Defines JavaScript coding standards used by the JSCS style checker.
 - `phpcs.xml`: Configuration file for PHP_CodeSniffer to enforce PHP coding standards.
 - `phpstan.neon`: Configuration file for PHPStan, specifying analysis rules and paths for static code analysis.
-- `phpunit.xml`: Configuration file for PHPUnit, specifying test directories, filters, and bootstrap files.
-- `sha384.php`: Calculates SHA-384 hashes for files to use in Subresource Integrity (SRI) attributes in HTML.
-- `updatet2t.php`: Updates the second and third lines of a `.t2t` file (used to update the version and date of `devel.t2t`).
+- `phpunit.xml`: Configuration file for PHPUnit, defining test directories, bootstrap files, and execution settings.
+- `checklangs.py`: Scans XML/YAML/JS files for translation keys and detects missing or duplicated strings across apps and language groups.
+- `movelangs.py`: Moves selected translation keys from a group-specific `messages.yaml` file to the global one without altering file structure.
+
+
++++Database and Migration+++
+
+- `database_export.sh`: Exports the system database content to a portable format.
+- `database_import.sh`: Imports a previously exported database into the system.
+- `migrate_v3_to_v4.php`: Migrates a SaltOS system from version 3 to version 4, adapting both data structures and file organization.
+- `migrate_mysql_to_sqlite.php`: Migrates data from a MySQL/MariaDB database to SQLite format.
+- `migrate_sqlite_to_sqlite.php`: Performs internal SQLite-to-SQLite migration tasks.
+
+
++++Dependency and Library Management+++
+
+- `checklibs.php`: Validates the current versions of required libraries by parsing `checklibs.txt`, performing HTTP requests, and comparing base64-encoded version strings. Updates the file if changes are detected.
+- `checklibs.txt`: Contains the list of tracked libraries, including their version URLs, regex patterns, and base64-encoded reference values.
+
+
++++Docker and Containerization+++
+
+- `docker-compose.yaml`: Defines Docker services and profiles for development, server, and testing environments.
+- `Dockerfile.devel`: Docker image definition used for the development profile.
+- `Dockerfile.server`: Docker image definition used for the production/server profile.
 

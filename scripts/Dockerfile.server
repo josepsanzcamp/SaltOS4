@@ -79,7 +79,7 @@ RUN sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 50M/' /etc/php/8.5/
 RUN cd /opt \
     && mkdir saltos4 \
     && cd saltos4 \
-    && wget -q -O - https://github.com/josepsanzcamp/SaltOS4/archive/refs/heads/master.tar.gz | tar xvz \
+    && wget -q -O - https://download.saltos.org/ | tar xvz \
     && mv SaltOS4-master/code code \
     && mv SaltOS4-master/scripts scripts \
     && rm -rf SaltOS4-master
