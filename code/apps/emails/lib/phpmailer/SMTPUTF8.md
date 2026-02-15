@@ -1,0 +1,1 @@
+vendor/phpmailer/phpmailer/SMTPUTF8.md
