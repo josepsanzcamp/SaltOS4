@@ -193,7 +193,7 @@ final class test_authupdate extends TestCase
         $this->assertArrayHasKey('token', $json2);
 
         // Check for old PHPASS
-        require_once 'lib/phpass/PasswordHash.php';
+        require_once 'lib/phpass/src/PasswordHash.php';
         $t_hasher = new PasswordHash(8, true);
         $hash = $t_hasher->HashPassword('admin');
         unset($t_hasher);

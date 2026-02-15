@@ -12,3 +12,6 @@ for i in bootstrap.bundle.min.js bootstrap.min.css; do
     cat $i | grep -v sourceMappingURL > $i.new
     mv $i.new $i
 done
+
+#wget https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/LICENSE
+#wget https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/README.md

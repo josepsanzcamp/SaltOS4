@@ -74,7 +74,7 @@ function password_strength($pass)
  */
 function password_verify_phpass($pass, $hash)
 {
-    require_once 'lib/phpass/PasswordHash.php';
+    require_once 'lib/phpass/src/PasswordHash.php';
     $t_hasher = new PasswordHash(8, true);
     $result = $t_hasher->CheckPassword($pass, $hash);
     unset($t_hasher);

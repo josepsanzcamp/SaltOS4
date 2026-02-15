@@ -6,3 +6,8 @@ rm -f locutus.js
 rm -rf node_modules
 rm -f package-lock.json
 rm -f package.json
+
+#wget https://raw.githubusercontent.com/locutusjs/locutus/refs/heads/main/CHANGELOG.md
+#wget https://raw.githubusercontent.com/locutusjs/locutus/refs/heads/main/CONTRIBUTING.md
+#wget https://raw.githubusercontent.com/locutusjs/locutus/refs/heads/main/LICENSE
+#wget https://raw.githubusercontent.com/locutusjs/locutus/refs/heads/main/README.md

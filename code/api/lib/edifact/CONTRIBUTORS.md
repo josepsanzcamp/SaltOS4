@@ -1,0 +1,1 @@
+vendor/sabas/edifact/CONTRIBUTORS.md

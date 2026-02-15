@@ -11,3 +11,6 @@ done
 
 rm -rf node_modules
 rm -f package*.json
+
+#wget https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/LICENSE
+#wget https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/README.md

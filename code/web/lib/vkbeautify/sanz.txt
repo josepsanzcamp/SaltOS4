@@ -4,3 +4,6 @@
 # https://github.com/vkiryukhin/vkBeautify/commits/master/vkbeautify.js
 wget https://raw.githubusercontent.com/vkiryukhin/vkBeautify/refs/heads/master/vkbeautify.js
 minify vkbeautify.js > vkbeautify.min.js
+
+#wget https://raw.githubusercontent.com/vkiryukhin/vkBeautify/refs/heads/master/LICENSE
+#wget https://raw.githubusercontent.com/vkiryukhin/vkBeautify/refs/heads/master/README.md

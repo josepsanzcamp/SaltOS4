@@ -2,3 +2,7 @@
 wget https://cdnjs.cloudflare.com/ajax/libs/imask/7.6.1/imask.min.js
 cat imask.min.js | grep -v sourceMappingURL > imask.min.js.new
 mv imask.min.js.new imask.min.js
+
+#wget https://raw.githubusercontent.com/uNmAnNeR/imaskjs/refs/heads/master/CODE_OF_CONDUCT.md
+#wget https://raw.githubusercontent.com/uNmAnNeR/imaskjs/refs/heads/master/LICENSE
+#wget https://raw.githubusercontent.com/uNmAnNeR/imaskjs/refs/heads/master/README.md

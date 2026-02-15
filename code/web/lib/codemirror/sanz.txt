@@ -13,3 +13,7 @@ wget https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/xml/xml.min.j
 wget https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/selection/active-line.min.js
 
 cat js/codemirror.min.js js/mode/*.js js/addon/*.js > codemirror.min.js
+
+#wget https://raw.githubusercontent.com/codemirror/dev/refs/heads/main/CONTRIBUTING.md
+#wget https://raw.githubusercontent.com/codemirror/dev/refs/heads/main/LICENSE
+#wget https://raw.githubusercontent.com/codemirror/dev/refs/heads/main/README.md

@@ -1,0 +1,1 @@
+vendor/browscap/browscap-php/README.md

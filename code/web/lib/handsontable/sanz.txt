@@ -8,3 +8,9 @@
 
 wget https://cdnjs.cloudflare.com/ajax/libs/handsontable/6.2.2/handsontable.full.min.js
 wget https://cdnjs.cloudflare.com/ajax/libs/handsontable/6.2.2/handsontable.full.min.css
+
+#wget https://raw.githubusercontent.com/handsontable/handsontable/refs/tags/6.2.2/CHANGELOG.md
+#wget https://raw.githubusercontent.com/handsontable/handsontable/refs/tags/6.2.2/CODE_OF_CONDUCT.md
+#wget https://raw.githubusercontent.com/handsontable/handsontable/refs/tags/6.2.2/CONTRIBUTING.md
+#wget https://raw.githubusercontent.com/handsontable/handsontable/refs/tags/6.2.2/LICENSE
+#wget https://raw.githubusercontent.com/handsontable/handsontable/refs/tags/6.2.2/README.md

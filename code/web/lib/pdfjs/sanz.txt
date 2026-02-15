@@ -22,3 +22,6 @@ version=$(curl -s https://data.jsdelivr.com/v1/packages/gh/mozilla/pdf.js/resolv
 version=5.4.530
 wget -O pdf.min.mjs https://cdn.jsdelivr.net/npm/pdfjs-dist@$version/build/pdf.min.mjs
 wget -O pdf.worker.min.mjs https://cdn.jsdelivr.net/npm/pdfjs-dist@$version/build/pdf.worker.min.mjs
+
+#wget https://raw.githubusercontent.com/mozilla/pdf.js/refs/heads/master/LICENSE
+#wget https://raw.githubusercontent.com/mozilla/pdf.js/refs/heads/master/README.md

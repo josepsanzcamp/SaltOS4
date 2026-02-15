@@ -1,0 +1,1 @@
+vendor/league/html-to-markdown/CHANGELOG.md

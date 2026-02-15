@@ -2,3 +2,6 @@
 wget https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js
 cat md5.min.js | grep -v sourceMappingURL > md5.min.js.new
 mv md5.min.js.new md5.min.js
+
+#wget https://raw.githubusercontent.com/blueimp/JavaScript-MD5/refs/heads/master/LICENSE.txt
+#wget https://raw.githubusercontent.com/blueimp/JavaScript-MD5/refs/heads/master/README.md

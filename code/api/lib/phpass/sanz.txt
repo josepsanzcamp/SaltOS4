@@ -1,36 +1,21 @@
-==========================================
- Legacy PHPass Library for SaltOS v3.x
-==========================================
+PHPass (Legacy Compatibility)
 
 This directory contains the original PHPass library
-(Portable PHP password hashing framework) version 0.5,
-created by Solar Designer and published in the public domain.
+(Portable PHP password hashing framework)
+by Solar Designer.
 
-SaltOS used this library in legacy versions (SaltOS3) for password
-hashing and verification.
+Source:
+https://www.openwall.com/phpass/
+https://github.com/openwall/phpass
 
-IMPORTANT:
-- This library is considered **obsolete**.
-- It exists **only for compatibility** with older SaltOS3 systems.
-- Newer versions of SaltOS use PHP's native password_hash() and
-  password_verify() functions.
-- Do not use this library for new developments.
+Purpose:
+This library is included only for compatibility with
+legacy SaltOS 3.x password hashes.
 
-Reference: https://www.openwall.com/phpass/
+It is NOT used for new password generation.
+New versions of SaltOS use PHP native functions
+(password_hash / password_verify).
 
-=====================
-Project Compatibility
-=====================
-This library is used by SaltOS to verify legacy password hashes
-generated with PHPass. It should not be used to generate new hashes.
-
-=====================
-Migration Recommendation
-=====================
-If possible, migrate old password hashes to PHP's native formats
-using password_needs_rehash() and password_hash().
-
-=====================
-License
-=====================
-Public domain, no warranty.
+License:
+Public domain (CC-PDDC, as declared in composer.json).
+No warranty.

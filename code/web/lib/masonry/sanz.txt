@@ -4,3 +4,5 @@
 # https://cdnjs.com/libraries/masonry
 
 wget https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js
+
+#wget https://raw.githubusercontent.com/desandro/masonry/refs/heads/master/README.md

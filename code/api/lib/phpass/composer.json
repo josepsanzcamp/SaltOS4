@@ -1,0 +1,41 @@
+{
+    "name": "openwall/phpass",
+    "description": "Legacy password hashing framework for PHP applications needing to support or having previously supported PHP below 5.5.",
+    "homepage": "https://www.openwall.com/phpass/",
+    "license": "CC-PDDC",
+    "authors": [
+        {
+            "name": "Solar Designer",
+            "homepage": "https://github.com/solardiz"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/openwall/phpass/issues",
+        "source": "https://github.com/openwall/phpass"
+    },
+    "require": {
+        "php": ">=5.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8.36 || ^5.7.21 || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0"
+    },
+    "autoload": {
+        "psr-0": { "PasswordHash": "src/" }
+    },
+    "autoload-dev" : {
+        "psr-4": {
+            "Openwall\\PHPass\\Tests\\": "tests/unit/"
+        }
+    },
+    "scripts": {
+        "unit-test": [
+            "@php ./vendor/phpunit/phpunit/phpunit --no-coverage"
+        ],
+        "coverage": [
+            "@php ./vendor/phpunit/phpunit/phpunit"
+        ],
+        "test": [
+            "@php ./tests/test.php"
+        ]
+    }
+}

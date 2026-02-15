@@ -1,4 +1,8 @@
 
 # https://github.com/kamilkp/autoheight/blob/master/src/autoheight.js
+
 wget https://raw.githubusercontent.com/kamilkp/autoheight/master/src/autoheight.js
 minify autoheight.js > autoheight.min.js
+
+#wget https://raw.githubusercontent.com/kamilkp/autoheight/master/LICENSE
+#wget https://raw.githubusercontent.com/kamilkp/autoheight/master/README.md

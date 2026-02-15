@@ -9,3 +9,6 @@ for i in tom-select.*; do
     cat $i | grep -v sourceMappingURL > $i.new
     mv $i.new $i
 done
+
+#wget https://raw.githubusercontent.com/orchidjs/tom-select/refs/heads/master/LICENSE
+#wget https://raw.githubusercontent.com/orchidjs/tom-select/refs/heads/master/README.md
