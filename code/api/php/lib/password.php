@@ -46,13 +46,13 @@ declare(strict_types=1);
  */
 function password_strength($pass)
 {
-    require_once 'lib/wolfsoftware/password_strength.class.php';
-    $ps = new Password_Strength();
-    $ps->set_password($pass);
-    $ps->calculate();
-    $score = max(min(round($ps->get_score(), 0), 100), 0);
-    unset($ps);
-    return $score;
+    require_once 'lib/zxcvbn/vendor/autoload.php';
+    static $zxcvbn = null;
+    if ($zxcvbn === null) {
+        $zxcvbn = new \ZxcvbnPhp\Zxcvbn();
+    }
+    $result = $zxcvbn->passwordStrength($pass);
+    return $result['score'] * 25;
 }
 
 /**
@@ -75,8 +75,10 @@ function password_strength($pass)
 function password_verify_phpass($pass, $hash)
 {
     require_once 'lib/phpass/src/PasswordHash.php';
-    $t_hasher = new PasswordHash(8, true);
+    static $t_hasher = null;
+    if ($t_hasher === null) {
+        $t_hasher = new PasswordHash(8, true);
+    }
     $result = $t_hasher->CheckPassword($pass, $hash);
-    unset($t_hasher);
     return $result;
 }

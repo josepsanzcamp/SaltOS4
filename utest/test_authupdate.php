@@ -148,17 +148,17 @@ final class test_authupdate extends TestCase
 
         $json = test_web_helper('auth/update', [
             'oldpass' => 'admin',
-            'newpass' => 'asd123ASD',
-            'renewpass' => 'asd123ASD',
+            'newpass' => 'asd123ASD.',
+            'renewpass' => 'asd123ASD.',
         ], $json2['token'], '');
         $this->assertArrayHasKey('status', $json);
         $this->assertSame($json['status'], 'ok');
         $this->assertSame(count($json), 3);
 
         $json = test_web_helper('auth/update', [
-            'oldpass' => 'asd123ASD',
-            'newpass' => 'asd123ASD',
-            'renewpass' => 'asd123ASD',
+            'oldpass' => 'asd123ASD.',
+            'newpass' => 'asd123ASD.',
+            'renewpass' => 'asd123ASD.',
         ], $json2['token'], '');
         $this->assertArrayHasKey('status', $json);
         $this->assertSame($json['status'], 'ko');

@@ -166,8 +166,8 @@ final class test_users extends TestCase
 
         $result = insert_user([
             'nada' => 'nada',
-            'newpass' => 'asd123ASD',
-            'renewpass' => 'asd123ASD',
+            'newpass' => 'asd123ASD.',
+            'renewpass' => 'asd123ASD.',
         ]);
         $this->assertIsArray($result);
         $this->assertSame($result['status'], 'ko');
@@ -181,8 +181,8 @@ final class test_users extends TestCase
             'start' => '00:00:00',
             'end' => '23:59:59',
             'days' => '1111111',
-            'newpass' => 'asd123ASD',
-            'renewpass' => 'asd123ASD',
+            'newpass' => 'asd123ASD.',
+            'renewpass' => 'asd123ASD.',
             'perms' => $result2,
         ]);
         $this->assertIsArray($result);
@@ -208,16 +208,16 @@ final class test_users extends TestCase
         $this->assertSame($result['status'], 'ko');
 
         $result = update_user($user_id, [
-            'newpass' => 'asd123ASD',
-            'renewpass' => 'asd123ASD',
+            'newpass' => 'asd123ASD.',
+            'renewpass' => 'asd123ASD.',
         ]);
         $this->assertIsArray($result);
         $this->assertSame($result['status'], 'ko');
 
         $result = update_user($user_id, [
             'nada' => 'nada',
-            'newpass' => 'asd123ASD2',
-            'renewpass' => 'asd123ASD2',
+            'newpass' => 'asd123ASD.2',
+            'renewpass' => 'asd123ASD.2',
         ]);
         $this->assertIsArray($result);
         $this->assertSame($result['status'], 'ko');
@@ -234,8 +234,8 @@ final class test_users extends TestCase
             'start' => '00:00:00',
             'end' => '23:59:59',
             'days' => '1111111',
-            'newpass' => 'asd123ASD2',
-            'renewpass' => 'asd123ASD2',
+            'newpass' => 'asd123ASD.2',
+            'renewpass' => 'asd123ASD.2',
             'perms' => $result2,
         ]);
         $this->assertIsArray($result);
