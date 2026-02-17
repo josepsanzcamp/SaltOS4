@@ -482,8 +482,8 @@ SaltOS is licensed under the [MIT License](LICENSE.md)
 Copyright (c) 2007-2026 Josep Sanz Campderrós
 ```
 
-SaltOS4 was previously licensed under GPL-3.0.
-Starting from version 4.1 it is licensed under MIT.
+SaltOS4 versions prior to 4.1 were licensed under GPL-3.0.
+Starting from version 4.1, the project is licensed under MIT.
 
 ---
 
