@@ -5,7 +5,7 @@
 ### Build Enterprise Business Apps Declaratively in YAML/XML
 **CRM · ERP · Custom Workflows — 10x Faster Than Traditional Frameworks**
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 [![PHP](https://img.shields.io/badge/PHP-7.0%20to%208.5-777BB4.svg)](https://www.php.net/)
 [![Demo](https://img.shields.io/badge/Demo-Live-success)](https://demos.saltos.org/)
 [![Docs](https://img.shields.io/badge/Docs-9%20PDFs-orange)](https://github.com/josepsanzcamp/SaltOS4/tree/master/docs)
@@ -176,7 +176,7 @@ From these definitions, SaltOS automatically creates:
 - **🌍 Multi-Database**: MySQL, PostgreSQL, SQLite, MSSQL
 
 ### For Businesses
-- **💰 Zero Licensing Costs**: GPL-3.0 open source
+- **💰 Zero Licensing Costs**: MIT open source
 - **🔒 Self-Hosted**: Your data stays on your servers
 - **📊 Audit Compliance**: Every action logged with user/timestamp
 - **🌐 Multilingual**: Built-in i18n (YAML-based translations)
@@ -448,7 +448,7 @@ Comprehensive docs in 3 languages (English, Spanish, Catalan):
 
 | Feature | SaltOS 4 | Odoo | ERPNext | Bubble.io |
 |---------|----------|------|---------|-----------|
-| **Open Source** | ✅ GPL-3.0 | ✅ LGPL (CE) / Proprietary (EE) | ✅ GPL-3.0 | ❌ Proprietary |
+| **Open Source** | ✅ MIT | ✅ LGPL (CE) / Proprietary (EE) | ✅ GPL-3.0 | ❌ Proprietary |
 | **Self-Hosted** | ✅ Yes | ✅ Yes | ✅ Yes | ❌ Cloud-only |
 | **No Vendor Lock-in** | ✅ Yes | ⚠️ Complex | ✅ Yes | ❌ No |
 | **Declarative Apps (YAML)** | ✅ Yes | ❌ Python/XML | ❌ Python | ✅ Visual |
@@ -476,16 +476,14 @@ make ujest       # Jest (frontend tests)
 
 ## 📄 License
 
-[GPL-3.0](LICENSE.md) — Free as in freedom.
-```
-SaltOS: Framework to develop Rich Internet Applications
-Copyright (C) 2007-2025 by Josep Sanz Campderrós
+SaltOS is licensed under the [MIT License](LICENSE.md)
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
 ```
+Copyright (c) 2007-2026 Josep Sanz Campderrós
+```
+
+SaltOS was previously licensed under GPL-3.0.
+Starting from version 4.x it is licensed under MIT.
 
 ---
 

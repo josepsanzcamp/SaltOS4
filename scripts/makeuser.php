@@ -67,7 +67,7 @@ foreach ($array as $lang => $groups) {
     $date = date('F Y');
     $header = implode("\n", [
         $titles[$lang],
-        "SaltOS 4.0 r$rev",
+        "SaltOS 4.1 r$rev",
         $date,
         '',
         '',

@@ -8,21 +8,10 @@
  * |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
  *
  * SaltOS: Framework to develop Rich Internet Applications
- * Copyright (C) 2007-2026 by Josep Sanz Campderrós
- * More information in https://www.saltos.org or info@saltos.org
+ * Copyright (c) 2007-2026 Josep Sanz Campderrós
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * Licensed under the MIT License.
+ * See the LICENSE file in the project root for full license information.
  */
 
 declare(strict_types=1);
@@ -72,7 +61,7 @@ class pop3_class
     /** @var string Computed base URL (pop3[s]://host:port/). */
     private $baseUrl = '';
 
-    /** @var resource|null cURL handle reused across invocations. */
+    /** @var CurlHandle|null cURL handle reused across invocations. */
     private $ch = null;
 
     /** @var array|null Baseline cURL options applied on each exec(). */
@@ -123,7 +112,7 @@ class pop3_class
         ];
 
         // STARTTLS via STLS when requested (and not using implicit TLS)
-        if ($this->ssl != 1 && $this->tls == 1) {
+        if ($this->ssl !== 1 && $this->tls === 1) {
             $this->opts[CURLOPT_USE_SSL] = CURLUSESSL_ALL;
         }
 
@@ -170,9 +159,9 @@ class pop3_class
     /**
      * Download a full message by server index using "RETR <index>".
      *
-     * @param int         $index  1-based server message index.
-     * @param string|null $out    Filled with the raw RFC 5322 message on success.
-     * @return string             Empty string on success; non-empty error message on failure.
+     * @param  int         $index  1-based server message index.
+     * @param  string|null $out    Filled with the raw RFC 5322 message on success.
+     * @return string              Empty string on success; non-empty error message on failure.
      */
     public function GetMessage($index, &$out)
     {
@@ -198,8 +187,8 @@ class pop3_class
      *   commands, you may delete unintended messages. Prefer resolving indices
      *   from UIDLs with ListMessages() right before deletion.
      *
-     * @param int $index 1-based server message index.
-     * @return string    Empty string on success; non-empty error message on failure.
+     * @param  int    $index 1-based server message index.
+     * @return string Empty string on success; non-empty error message on failure.
      */
     public function DeleteMessage($index)
     {

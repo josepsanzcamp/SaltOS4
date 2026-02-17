@@ -280,10 +280,12 @@ cron:
 # LANGUAGE PART
 ################################################################################
 
+lang ?= en_US
+
 langs:
 	python3 scripts/checklangs.py
 	for i in global certs common company crm dashboard emails hr purchases sales users; do \
-		python3 scripts/checklangs.py --lang en_US --group $$i --filter missing; \
+		python3 scripts/checklangs.py --lang $(lang) --group $$i --filter missing; \
 	done
 
 ################################################################################

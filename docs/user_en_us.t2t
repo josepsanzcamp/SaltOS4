@@ -1,5 +1,5 @@
 User Manual
-SaltOS 4.0 r2291
+SaltOS 4.1 r2302
 February 2026
 
 
@@ -2003,7 +2003,7 @@ It includes:
 - User: User associated with the token.
 - Created: Date and time when the token was created.
 - Updated: Date and time of the last update to the token's state.
-- Remote Addres: IP address from which the token was used or created.
+- Remote Address: IP address from which the token was used or created.
 - User Agent: Browser or client used when the token was generated or accessed.
 - Token: The token string used for authentication or access.
 - Expires: Expiration date and time of the token, after which it is no longer valid.

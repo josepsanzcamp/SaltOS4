@@ -453,7 +453,7 @@ When reporting bugs, please include:
 
 ## 📄 License
 
-By contributing to SaltOS 4, you agree that your contributions will be licensed under the [GPL-3.0 License](LICENSE.md).
+By contributing to SaltOS 4, you agree that your contributions will be licensed under the [MIT License](LICENSE.md).
 
 ---
 

@@ -33,7 +33,7 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <header>
 <hgroup>
 <h1>Applications Documentation</h1>
-<h2>SaltOS 4.0 r2291</h2>
+<h2>SaltOS 4.1 r2302</h2>
 <h3>February 2026</h3>
 </hgroup>
 </header>
@@ -377,153 +377,177 @@ pre{background-color:#e6e6e6;padding:5px 3px}
     </li>
     <li><a href="#toc144">5.6. Make indexing action</a>
     </li>
-    <li><a href="#toc145">5.7. Send email library</a>
+    <li><a href="#toc145">5.7. This class replaces the legacy phpclasses.org implementations</a>
       <ul>
-      <li><a href="#toc146">5.7.1. Used libraries</a>
+      <li><a href="#toc146">5.7.1. - @param  array $input Must be an array with 'File' or 'Data'</a>
       </li>
-      <li><a href="#toc147">5.7.2. Sendmail</a>
+      <li><a href="#toc147">5.7.2. - @param resource $msg   mailparse message handle</a>
       </li>
-      <li><a href="#toc148">5.7.3. Debugoutput helper</a>
+      </ul>
+    </li>
+    <li><a href="#toc148">5.8. pop3_class: cURL/POP3 compatible replacement.</a>
+      <ul>
+      <li><a href="#toc149">5.8.1. Prepare the cURL handle and compute the base URL based on configuration.</a>
       </li>
-      <li><a href="#toc149">5.7.4. Parser</a>
+      <li><a href="#toc150">5.8.2. Retrieve the server's UIDL listing and return a map of index =&gt; uidl.</a>
       </li>
-      <li><a href="#toc150">5.7.5. Message Id</a>
+      <li><a href="#toc151">5.8.3. Download a full message by server index using "RETR &lt;index&gt;".</a>
       </li>
-      <li><a href="#toc151">5.7.6. Eml saver</a>
+      <li><a href="#toc152">5.8.4. Issue "DELE &lt;index&gt;" to mark a message for deletion.</a>
       </li>
-      <li><a href="#toc152">5.7.7. Obj saver</a>
+      <li><a href="#toc153">5.8.5. Release the cURL handle. No explicit POP3 QUIT is required because each</a>
       </li>
-      <li><a href="#toc153">5.7.8. Prepare email for sending</a>
+      <li><a href="#toc154">5.8.6. Execute a POP3 command using cURL.</a>
       </li>
-      <li><a href="#toc154">5.7.9. Perform email sending action</a>
+      </ul>
+    </li>
+    <li><a href="#toc155">5.9. Send email library</a>
+      <ul>
+      <li><a href="#toc156">5.9.1. Used libraries</a>
       </li>
-      <li><a href="#toc155">5.7.10. Send queued emails from the server</a>
+      <li><a href="#toc157">5.9.2. Sendmail</a>
       </li>
-      <li><a href="#toc156">5.7.11. Retrieve email attachments</a>
+      <li><a href="#toc158">5.9.3. Debugoutput helper</a>
       </li>
-      <li><a href="#toc157">5.7.12. Update email signature, CC, and encryption state</a>
+      <li><a href="#toc159">5.9.4. Parser</a>
+      </li>
+      <li><a href="#toc160">5.9.5. Message Id</a>
+      </li>
+      <li><a href="#toc161">5.9.6. Eml saver</a>
+      </li>
+      <li><a href="#toc162">5.9.7. Obj saver</a>
+      </li>
+      <li><a href="#toc163">5.9.8. Prepare email for sending</a>
+      </li>
+      <li><a href="#toc164">5.9.9. Perform email sending action</a>
+      </li>
+      <li><a href="#toc165">5.9.10. Send queued emails from the server</a>
+      </li>
+      <li><a href="#toc166">5.9.11. Retrieve email attachments</a>
+      </li>
+      <li><a href="#toc167">5.9.12. Update email signature, CC, and encryption state</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc158">6. Sales</a>
+  <li><a href="#toc168">6. Sales</a>
     <ul>
-    <li><a href="#toc159">6.1. Invoices application</a>
+    <li><a href="#toc169">6.1. Invoices application</a>
       <ul>
-      <li><a href="#toc160">6.1.1. Main object</a>
+      <li><a href="#toc170">6.1.1. Main object</a>
       </li>
-      <li><a href="#toc161">6.1.2. Initialize the invoices application</a>
+      <li><a href="#toc171">6.1.2. Initialize the invoices application</a>
       </li>
-      <li><a href="#toc162">6.1.3. Calculate the dynamic width for each column in the "lines" table.</a>
+      <li><a href="#toc172">6.1.3. Calculate the dynamic width for each column in the "lines" table.</a>
       </li>
-      <li><a href="#toc163">6.1.4. Define cell configuration for each column in the "lines" table.</a>
+      <li><a href="#toc173">6.1.4. Define cell configuration for each column in the "lines" table.</a>
       </li>
-      <li><a href="#toc164">6.1.5. Calculate the dynamic width for each column in the "taxes" table.</a>
+      <li><a href="#toc174">6.1.5. Calculate the dynamic width for each column in the "taxes" table.</a>
       </li>
-      <li><a href="#toc165">6.1.6. Define cell configuration for each column in the "taxes" table.</a>
+      <li><a href="#toc175">6.1.6. Define cell configuration for each column in the "taxes" table.</a>
       </li>
-      <li><a href="#toc166">6.1.7. Calculate equal column widths for the "totals" table.</a>
+      <li><a href="#toc176">6.1.7. Calculate equal column widths for the "totals" table.</a>
       </li>
-      <li><a href="#toc167">6.1.8. Define cell configuration for the "totals" table.</a>
+      <li><a href="#toc177">6.1.8. Define cell configuration for the "totals" table.</a>
       </li>
-      <li><a href="#toc168">6.1.9. Handle and recalculate invoice line totals and tax breakdowns after user edits.</a>
+      <li><a href="#toc178">6.1.9. Handle and recalculate invoice line totals and tax breakdowns after user edits.</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc169">6.2. ChartJS widgets for invoices</a>
+    <li><a href="#toc179">6.2. ChartJS widgets for invoices</a>
       <ul>
-      <li><a href="#toc170">6.2.1. compute_invoice_total_by_day</a>
+      <li><a href="#toc180">6.2.1. compute_invoice_total_by_day</a>
       </li>
-      <li><a href="#toc171">6.2.2. compute_invoice_avg_by_day</a>
+      <li><a href="#toc181">6.2.2. compute_invoice_avg_by_day</a>
       </li>
-      <li><a href="#toc172">6.2.3. compute_top5_customers_by_total</a>
+      <li><a href="#toc182">6.2.3. compute_top5_customers_by_total</a>
       </li>
-      <li><a href="#toc173">6.2.4. compute_invoice_paid_vs_pending</a>
+      <li><a href="#toc183">6.2.4. compute_invoice_paid_vs_pending</a>
       </li>
-      <li><a href="#toc174">6.2.5. compute_invoice_avg_days_to_pay</a>
+      <li><a href="#toc184">6.2.5. compute_invoice_avg_days_to_pay</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc175">6.3. Reverses the process of `make_matrix_data()` for the `invoices` app.</a>
+    <li><a href="#toc185">6.3. Reverses the process of `make_matrix_data()` for the `invoices` app.</a>
       <ul>
-      <li><a href="#toc176">6.3.1. unmake_matrix_data</a>
+      <li><a href="#toc186">6.3.1. unmake_matrix_data</a>
       </li>
-      <li><a href="#toc177">6.3.2. Generates or completes proforma and final invoice metadata.</a>
+      <li><a href="#toc187">6.3.2. Generates or completes proforma and final invoice metadata.</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc178">7. Tester</a>
+  <li><a href="#toc188">7. Tester</a>
     <ul>
-    <li><a href="#toc179">7.1. Tester application</a>
+    <li><a href="#toc189">7.1. Tester application</a>
       <ul>
-      <li><a href="#toc180">7.1.1. Tester object</a>
+      <li><a href="#toc190">7.1.1. Tester object</a>
       </li>
-      <li><a href="#toc181">7.1.2. Campo 8: Alert functionality</a>
+      <li><a href="#toc191">7.1.2. Campo 8: Alert functionality</a>
       </li>
-      <li><a href="#toc182">7.1.3. Campo 9: Modal functionality</a>
+      <li><a href="#toc192">7.1.3. Campo 9: Modal functionality</a>
       </li>
-      <li><a href="#toc183">7.1.4. Campo 10: Offcanvas functionality</a>
+      <li><a href="#toc193">7.1.4. Campo 10: Offcanvas functionality</a>
       </li>
-      <li><a href="#toc184">7.1.5. Campo 11: Toast functionality</a>
+      <li><a href="#toc194">7.1.5. Campo 11: Toast functionality</a>
       </li>
-      <li><a href="#toc185">7.1.6. Campo 22: Open statistics page</a>
+      <li><a href="#toc195">7.1.6. Campo 22: Open statistics page</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc186">8. Users</a>
+  <li><a href="#toc196">8. Users</a>
     <ul>
-    <li><a href="#toc187">8.1. Login application</a>
+    <li><a href="#toc197">8.1. Login application</a>
       <ul>
-      <li><a href="#toc188">8.1.1. Main object</a>
+      <li><a href="#toc198">8.1.1. Main object</a>
       </li>
-      <li><a href="#toc189">8.1.2. Authenticate login function</a>
+      <li><a href="#toc199">8.1.2. Authenticate login function</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc190">8.2. Days functions</a>
+    <li><a href="#toc200">8.2. Days functions</a>
       <ul>
-      <li><a href="#toc191">8.2.1. Days to bin</a>
+      <li><a href="#toc201">8.2.1. Days to bin</a>
       </li>
-      <li><a href="#toc192">8.2.2. Bin to days</a>
+      <li><a href="#toc202">8.2.2. Bin to days</a>
       </li>
-      <li><a href="#toc193">8.2.3. Fix for days</a>
+      <li><a href="#toc203">8.2.3. Fix for days</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc194">8.3. Groups functions</a>
+    <li><a href="#toc204">8.3. Groups functions</a>
       <ul>
-      <li><a href="#toc195">8.3.1. Insert group action</a>
+      <li><a href="#toc205">8.3.1. Insert group action</a>
       </li>
-      <li><a href="#toc196">8.3.2. Update group action</a>
+      <li><a href="#toc206">8.3.2. Update group action</a>
       </li>
-      <li><a href="#toc197">8.3.3. Delete group action</a>
+      <li><a href="#toc207">8.3.3. Delete group action</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc198">8.4. Matrix functions</a>
+    <li><a href="#toc208">8.4. Matrix functions</a>
       <ul>
-      <li><a href="#toc199">8.4.1. Create matrix data</a>
+      <li><a href="#toc209">8.4.1. Create matrix data</a>
       </li>
-      <li><a href="#toc200">8.4.2. Create matrix cells</a>
+      <li><a href="#toc210">8.4.2. Create matrix cells</a>
       </li>
-      <li><a href="#toc201">8.4.3. Unmake matrix data</a>
+      <li><a href="#toc211">8.4.3. Unmake matrix data</a>
       </li>
-      <li><a href="#toc202">8.4.4. Generate matrix permissions</a>
+      <li><a href="#toc212">8.4.4. Generate matrix permissions</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc203">8.5. Users functions</a>
+    <li><a href="#toc213">8.5. Users functions</a>
       <ul>
-      <li><a href="#toc204">8.5.1. Insert user action</a>
+      <li><a href="#toc214">8.5.1. Insert user action</a>
       </li>
-      <li><a href="#toc205">8.5.2. Update user action</a>
+      <li><a href="#toc215">8.5.2. Update user action</a>
       </li>
-      <li><a href="#toc206">8.5.3. Delete user action</a>
+      <li><a href="#toc216">8.5.3. Delete user action</a>
       </li>
       </ul>
     </li>
@@ -2076,7 +2100,7 @@ This library provides the necesary functions to download, parse and manage email
 <h3>5.4.1. Requires section</h3>
 
 <pre>
-require_once 'apps/emails/lib/compat/mime_parser.php';
+require_once 'apps/emails/php/mime_parser.php';
 </pre>
 
 <p>
@@ -3178,7 +3202,256 @@ mroonga engine to search in the fulltext string generated by this action
 
 </section>
 <section id="toc145">
-<h2>5.7. Send email library</h2>
+<h2>5.7. This class replaces the legacy phpclasses.org implementations</h2>
+
+<pre>
+apps/emails/php/mime_parser.php
+</pre>
+
+<p>
+extension. The goal is to keep the output structure compatible with
+the old classes (`Headers`, `DecodedHeaders`, `ExtractedAddresses`,
+`Body`, `BodyLength`, and `Parts`) while leveraging `mailparse` for
+parsing and RFC822 address extraction. It accepts input either as a
+whole message in memory (`Data`) or via a stream wrapper (`File`),
+builds a recursive part tree using `mailparse_msg_get_structure()`,
+and (optionally) extracts decoded bodies for non-multipart parts.
+</p>
+
+<section id="toc146">
+<h3>5.7.1. - @param  array $input Must be an array with 'File' or 'Data'</h3>
+
+<pre>
+public function Decode($input, array &amp;$decoded): bool
+</pre>
+
+<ul>
+<li>@return bool
+</li>
+</ul>
+
+</section>
+<section id="toc147">
+<h3>5.7.2. - @param resource $msg   mailparse message handle</h3>
+
+<pre>
+private function buildNode($msg, string $partId, array $struct, string $raw, bool $decodeBodies): array
+</pre>
+
+<ul>
+<li>@param array    $struct  cached full structure
+</li>
+<li>@param string   $raw     full message in memory
+</li>
+<li>@param bool     $decodeBodies
+</li>
+</ul>
+
+</section>
+</section>
+<section id="toc148">
+<h2>5.8. pop3_class: cURL/POP3 compatible replacement.</h2>
+
+<pre>
+apps/emails/php/pop3.php
+</pre>
+
+<p>
+Requirements:
+</p>
+
+<ul>
+<li>PHP cURL extension (ext-curl).
+</li>
+</ul>
+
+<p>
+Design:
+</p>
+
+<ul>
+<li>Stateless per-command operation: every POP3 verb is executed via a fresh
+  cURL transfer (as needed) rather than maintaining an app-level session.
+</li>
+<li>Implicit TLS (POP3S) via $ssl=1, or opportunistic STARTTLS via $tls=1 when
+  using plain POP3.
+</li>
+<li>Command execution is centralized in exec(), which handles multi-line vs
+  single-line responses and basic error detection.
+</li>
+</ul>
+
+<p>
+Security note:
+</p>
+
+<ul>
+<li>Certificate verification is disabled here for compatibility. In production,
+  you should enable peer/host verification and configure CA bundle paths.
+</li>
+</ul>
+
+<section id="toc149">
+<h3>5.8.1. Prepare the cURL handle and compute the base URL based on configuration.</h3>
+
+<pre>
+public function Open()
+</pre>
+
+<p>
+This does not establish a persistent POP3 session; it only sets up
+the common cURL options used by exec().
+</p>
+
+<ul>
+<li>@return string Empty string on success; non-empty error message on failure.
+</li>
+</ul>
+
+</section>
+<section id="toc150">
+<h3>5.8.2. Retrieve the server's UIDL listing and return a map of index =&gt; uidl.</h3>
+
+<pre>
+public function ListMessages()
+</pre>
+
+<p>
+Behavior:
+</p>
+
+<ul>
+<li>Issues "UIDL" and parses the multi-line response.
+</li>
+<li>Skips status lines (+OK / -ERR) and returns only numbered entries.
+</li>
+</ul>
+
+<p>
+Caveat:
+</p>
+
+<ul>
+<li>Indices are assigned by the server and can change between calls if
+  messages are deleted. Consumers should prefer using UIDLs as stable ids.
+</li>
+</ul>
+
+<ul>
+<li>@return array&lt;int,string&gt;|string Array of <a href="uidl">msgIndex =&gt;</a> on success; error string on failure.
+</li>
+</ul>
+
+</section>
+<section id="toc151">
+<h3>5.8.3. Download a full message by server index using "RETR &lt;index&gt;".</h3>
+
+<pre>
+public function GetMessage($index, &amp;$out)
+</pre>
+
+<ul>
+<li>@param  int         $index  1-based server message index.
+</li>
+<li>@param  string|null $out    Filled with the raw RFC 5322 message on success.
+</li>
+<li>@return string              Empty string on success; non-empty error message on failure.
+</li>
+</ul>
+
+</section>
+<section id="toc152">
+<h3>5.8.4. Issue "DELE &lt;index&gt;" to mark a message for deletion.</h3>
+
+<pre>
+public function DeleteMessage($index)
+</pre>
+
+<p>
+Notes:
+</p>
+
+<ul>
+<li>Since this client operates per-command with independent connections,
+  deletion is immediately applied server-side for that command.
+</li>
+<li>Be careful when chaining deletions by index; if indices shift between
+  commands, you may delete unintended messages. Prefer resolving indices
+  from UIDLs with ListMessages() right before deletion.
+</li>
+</ul>
+
+<ul>
+<li>@param  int    $index 1-based server message index.
+</li>
+<li>@return string Empty string on success; non-empty error message on failure.
+</li>
+</ul>
+
+</section>
+<section id="toc153">
+<h3>5.8.5. Release the cURL handle. No explicit POP3 QUIT is required because each</h3>
+
+<pre>
+public function Close()
+</pre>
+
+<ul>
+<li>@return string Always returns empty string.
+</li>
+</ul>
+
+</section>
+<section id="toc154">
+<h3>5.8.6. Execute a POP3 command using cURL.</h3>
+
+<pre>
+// @phpstan-ignore parameterByRef.unusedType
+</pre>
+
+<p>
+Behavior:
+</p>
+
+<ul>
+<li>Sets CURLOPT_CUSTOMREQUEST to the given verb (e.g., "UIDL", "RETR 1", "DELE 2").
+</li>
+<li>When $withBody is true (multi-line commands like UIDL/LIST/RETR/TOP),
+  fetches and returns the response body in $out.
+</li>
+<li>When $withBody is false (single-line commands like NOOP/DELE/CAPA),
+  uses CURLOPT_NOBODY and forces a fresh connection to avoid hangs
+  observed on some distributions (e.g., Debian 12).
+</li>
+</ul>
+
+<p>
+Error handling:
+</p>
+
+<ul>
+<li>On transport failure, returns a "cURL: ..." message.
+</li>
+<li>On multi-line responses, scans for "-ERR" and returns a "POP3 error: ..."
+  message when found.
+</li>
+</ul>
+
+<ul>
+<li>@param  string       $cmd       POP3 command (verbatim), e.g., "UIDL", "RETR 1", "DELE 3".
+</li>
+<li>@param  string|null  $out       Filled with response body when $withBody is true; otherwise ''.
+</li>
+<li>@param  bool         $withBody  True for multi-line commands; false for single-line commands.
+</li>
+<li>@return string                  Empty string on success; non-empty error text on failure.
+</li>
+</ul>
+
+</section>
+</section>
+<section id="toc155">
+<h2>5.9. Send email library</h2>
 
 <pre>
 apps/emails/php/sendmail.php
@@ -3188,8 +3461,8 @@ apps/emails/php/sendmail.php
 This library provides the necesary functions to send emails.
 </p>
 
-<section id="toc146">
-<h3>5.7.1. Used libraries</h3>
+<section id="toc156">
+<h3>5.9.1. Used libraries</h3>
 
 <pre>
 use PHPMailer\PHPMailer\PHPMailer;
@@ -3200,8 +3473,8 @@ This use loads the external libraries needed to run this library.
 </p>
 
 </section>
-<section id="toc147">
-<h3>5.7.2. Sendmail</h3>
+<section id="toc157">
+<h3>5.9.2. Sendmail</h3>
 
 <pre>
 function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
@@ -3227,8 +3500,8 @@ This function must return the last_id if success, and a string if error
 </p>
 
 </section>
-<section id="toc148">
-<h3>5.7.3. Debugoutput helper</h3>
+<section id="toc158">
+<h3>5.9.3. Debugoutput helper</h3>
 
 <pre>
 function __sendmail_debugoutput_helper($str, $level)
@@ -3249,8 +3522,8 @@ of this function will accomplish the neested callback arguments
 </ul>
 
 </section>
-<section id="toc149">
-<h3>5.7.4. Parser</h3>
+<section id="toc159">
+<h3>5.9.4. Parser</h3>
 
 <pre>
 function __sendmail_parser($oldaddr)
@@ -3268,8 +3541,8 @@ for the addr and the second is for the name.
 </ul>
 
 </section>
-<section id="toc150">
-<h3>5.7.5. Message Id</h3>
+<section id="toc160">
+<h3>5.9.5. Message Id</h3>
 
 <pre>
 function __sendmail_messageid($account_id, $from)
@@ -3289,8 +3562,8 @@ value and checks that is unique in the system to prevent concurrence.
 </ul>
 
 </section>
-<section id="toc151">
-<h3>5.7.6. Eml saver</h3>
+<section id="toc161">
+<h3>5.9.6. Eml saver</h3>
 
 <pre>
 function __sendmail_emlsaver($message, $messageid)
@@ -3308,8 +3581,8 @@ This function is intended to save the RFC822 message into the eml gzfile
 </ul>
 
 </section>
-<section id="toc152">
-<h3>5.7.7. Obj saver</h3>
+<section id="toc162">
+<h3>5.9.7. Obj saver</h3>
 
 <pre>
 function __sendmail_objsaver($mail, $messageid)
@@ -3327,8 +3600,8 @@ This function is intended to save the PHPMailer object into the obj file
 </ul>
 
 </section>
-<section id="toc153">
-<h3>5.7.8. Prepare email for sending</h3>
+<section id="toc163">
+<h3>5.9.8. Prepare email for sending</h3>
 
 <pre>
 function sendmail_prepare($action, $email_id)
@@ -3353,8 +3626,8 @@ Return the prepared email parameters, including sender, recipients, subject, bod
 </p>
 
 </section>
-<section id="toc154">
-<h3>5.7.9. Perform email sending action</h3>
+<section id="toc164">
+<h3>5.9.9. Perform email sending action</h3>
 
 <pre>
 function sendmail_action($json, $action, $email_id)
@@ -3381,8 +3654,8 @@ Returns the status and message of the email action.
 </p>
 
 </section>
-<section id="toc155">
-<h3>5.7.10. Send queued emails from the server</h3>
+<section id="toc165">
+<h3>5.9.10. Send queued emails from the server</h3>
 
 <pre>
 function sendmail_server()
@@ -3400,8 +3673,8 @@ and manages errors during the sending process. The function is intended for use 
 </ul>
 
 </section>
-<section id="toc156">
-<h3>5.7.11. Retrieve email attachments</h3>
+<section id="toc166">
+<h3>5.9.11. Retrieve email attachments</h3>
 
 <pre>
 function sendmail_files($action, $email_id)
@@ -3425,8 +3698,8 @@ Returns a list of attachments with metadata including ID, app, name, size, type,
 </p>
 
 </section>
-<section id="toc157">
-<h3>5.7.12. Update email signature, CC, and encryption state</h3>
+<section id="toc167">
+<h3>5.9.12. Update email signature, CC, and encryption state</h3>
 
 <pre>
 function sendmail_signature($json)
@@ -3449,10 +3722,10 @@ Return the updated email body, CC list, and encryption state.
 </section>
 </section>
 </section>
-<section id="toc158">
+<section id="toc168">
 <h1>6. Sales</h1>
 
-<section id="toc159">
+<section id="toc169">
 <h2>6.1. Invoices application</h2>
 
 <pre>
@@ -3464,7 +3737,7 @@ This application provides core functionalities for managing invoices, including 
 editing, viewing, and exporting invoices in PDF format.
 </p>
 
-<section id="toc160">
+<section id="toc170">
 <h3>6.1.1. Main object</h3>
 
 <pre>
@@ -3476,7 +3749,7 @@ This object contains all SaltOS code related to invoice operations.
 </p>
 
 </section>
-<section id="toc161">
+<section id="toc171">
 <h3>6.1.2. Initialize the invoices application</h3>
 
 <pre>
@@ -3494,7 +3767,7 @@ It updates UI elements and attaches appropriate event listeners.
 </ul>
 
 </section>
-<section id="toc162">
+<section id="toc172">
 <h3>6.1.3. Calculate the dynamic width for each column in the "lines" table.</h3>
 
 <pre>
@@ -3517,7 +3790,7 @@ Returns the width in pixels
 </p>
 
 </section>
-<section id="toc163">
+<section id="toc173">
 <h3>6.1.4. Define cell configuration for each column in the "lines" table.</h3>
 
 <pre>
@@ -3551,7 +3824,7 @@ Returns the configuration object
 </p>
 
 </section>
-<section id="toc164">
+<section id="toc174">
 <h3>6.1.5. Calculate the dynamic width for each column in the "taxes" table.</h3>
 
 <pre>
@@ -3573,7 +3846,7 @@ Returns the width in pixels
 </p>
 
 </section>
-<section id="toc165">
+<section id="toc175">
 <h3>6.1.6. Define cell configuration for each column in the "taxes" table.</h3>
 
 <pre>
@@ -3598,7 +3871,7 @@ Returns the configuration object
 </p>
 
 </section>
-<section id="toc166">
+<section id="toc176">
 <h3>6.1.7. Calculate equal column widths for the "totals" table.</h3>
 
 <pre>
@@ -3619,7 +3892,7 @@ Returns the width in pixels
 </p>
 
 </section>
-<section id="toc167">
+<section id="toc177">
 <h3>6.1.8. Define cell configuration for the "totals" table.</h3>
 
 <pre>
@@ -3644,7 +3917,7 @@ Returns the configuration object
 </p>
 
 </section>
-<section id="toc168">
+<section id="toc178">
 <h3>6.1.9. Handle and recalculate invoice line totals and tax breakdowns after user edits.</h3>
 
 <pre>
@@ -3704,7 +3977,7 @@ This function is triggered after the user modifies any cell in the "lines" matri
 
 </section>
 </section>
-<section id="toc169">
+<section id="toc179">
 <h2>6.2. ChartJS widgets for invoices</h2>
 
 <pre>
@@ -3741,7 +4014,7 @@ All functions rely on data from the `app_invoices` table and assume
 only closed invoices (`is_closed = 1`) are relevant.
 </p>
 
-<section id="toc170">
+<section id="toc180">
 <h3>6.2.1. compute_invoice_total_by_day</h3>
 
 <pre>
@@ -3757,7 +4030,7 @@ Returns a Chart.js-compatible array with labels (dates) and a single dataset (to
 </p>
 
 </section>
-<section id="toc171">
+<section id="toc181">
 <h3>6.2.2. compute_invoice_avg_by_day</h3>
 
 <pre>
@@ -3773,7 +4046,7 @@ Returns a Chart.js-compatible array with labels (dates) and a single dataset (av
 </p>
 
 </section>
-<section id="toc172">
+<section id="toc182">
 <h3>6.2.3. compute_top5_customers_by_total</h3>
 
 <pre>
@@ -3789,7 +4062,7 @@ Returns a Chart.js-compatible array: labels (customer names) and one dataset (to
 </p>
 
 </section>
-<section id="toc173">
+<section id="toc183">
 <h3>6.2.4. compute_invoice_paid_vs_pending</h3>
 
 <pre>
@@ -3805,7 +4078,7 @@ Returns a Chart.js-compatible array: labels (Paid/Unpaid) and one dataset (count
 </p>
 
 </section>
-<section id="toc174">
+<section id="toc184">
 <h3>6.2.5. compute_invoice_avg_days_to_pay</h3>
 
 <pre>
@@ -3822,7 +4095,7 @@ Returns a Chart.js-compatible array: labels (payment dates) and one dataset (ave
 
 </section>
 </section>
-<section id="toc175">
+<section id="toc185">
 <h2>6.3. Reverses the process of `make_matrix_data()` for the `invoices` app.</h2>
 
 <pre>
@@ -3836,7 +4109,7 @@ in the database, and builds a minimal diff-like array that includes only
 the fields that have changed, been removed, or added.
 </p>
 
-<section id="toc176">
+<section id="toc186">
 <h3>6.3.1. unmake_matrix_data</h3>
 
 <pre>
@@ -3860,7 +4133,7 @@ data and the current state of the database.
 </p>
 
 </section>
-<section id="toc177">
+<section id="toc187">
 <h3>6.3.2. Generates or completes proforma and final invoice metadata.</h3>
 
 <pre>
@@ -3915,10 +4188,10 @@ Return the updated JSON with appropriate codes and dates filled in.
 </section>
 </section>
 </section>
-<section id="toc178">
+<section id="toc188">
 <h1>7. Tester</h1>
 
-<section id="toc179">
+<section id="toc189">
 <h2>7.1. Tester application</h2>
 
 <pre>
@@ -3930,7 +4203,7 @@ This application implements the typical features associated with a tester,
 showcasing functionalities such as modals, toasts, and offcanvas elements.
 </p>
 
-<section id="toc180">
+<section id="toc190">
 <h3>7.1.1. Tester object</h3>
 
 <pre>
@@ -3943,7 +4216,7 @@ providing the necessary methods for interaction and testing features.
 </p>
 
 </section>
-<section id="toc181">
+<section id="toc191">
 <h3>7.1.2. Campo 8: Alert functionality</h3>
 
 <pre>
@@ -3955,7 +4228,7 @@ This function triggers a simple alert box when called, showcasing a button-click
 </p>
 
 </section>
-<section id="toc182">
+<section id="toc192">
 <h3>7.1.3. Campo 9: Modal functionality</h3>
 
 <pre>
@@ -3976,7 +4249,7 @@ This function displays a Bootstrap modal with a title, body, and footer. The mod
 </ul>
 
 </section>
-<section id="toc183">
+<section id="toc193">
 <h3>7.1.4. Campo 10: Offcanvas functionality</h3>
 
 <pre>
@@ -3996,7 +4269,7 @@ The body includes:
 </ul>
 
 </section>
-<section id="toc184">
+<section id="toc194">
 <h3>7.1.5. Campo 11: Toast functionality</h3>
 
 <pre>
@@ -4015,7 +4288,7 @@ This function displays a Bootstrap toast notification with customizable attribut
 </ul>
 
 </section>
-<section id="toc185">
+<section id="toc195">
 <h3>7.1.6. Campo 22: Open statistics page</h3>
 
 <pre>
@@ -4029,10 +4302,10 @@ This function opens the SaltOS statistics page in a new browser tab or window.
 </section>
 </section>
 </section>
-<section id="toc186">
+<section id="toc196">
 <h1>8. Users</h1>
 
-<section id="toc187">
+<section id="toc197">
 <h2>8.1. Login application</h2>
 
 <pre>
@@ -4043,7 +4316,7 @@ apps/users/js/login.js
 This application implements the tipical features associated to login
 </p>
 
-<section id="toc188">
+<section id="toc198">
 <h3>8.1.1. Main object</h3>
 
 <pre>
@@ -4055,7 +4328,7 @@ This object contains all SaltOS code
 </p>
 
 </section>
-<section id="toc189">
+<section id="toc199">
 <h3>8.1.2. Authenticate login function</h3>
 
 <pre>
@@ -4069,7 +4342,7 @@ it uses the authenticate function that send data to the authtoken action
 
 </section>
 </section>
-<section id="toc190">
+<section id="toc200">
 <h2>8.2. Days functions</h2>
 
 <pre>
@@ -4080,7 +4353,7 @@ apps/users/php/days.php
 This file contain all functions needed by the days feature
 </p>
 
-<section id="toc191">
+<section id="toc201">
 <h3>8.2.1. Days to bin</h3>
 
 <pre>
@@ -4100,7 +4373,7 @@ selection 64,32,16,8,4 is returned like from monday to friday (1111100)
 </ul>
 
 </section>
-<section id="toc192">
+<section id="toc202">
 <h3>8.2.2. Bin to days</h3>
 
 <pre>
@@ -4119,7 +4392,7 @@ decimal like 64,32,16,8,4.
 </ul>
 
 </section>
-<section id="toc193">
+<section id="toc203">
 <h3>8.2.3. Fix for days</h3>
 
 <pre>
@@ -4141,7 +4414,7 @@ to translate this string into a decimal string like 64,32,16,8,4.
 
 </section>
 </section>
-<section id="toc194">
+<section id="toc204">
 <h2>8.3. Groups functions</h2>
 
 <pre>
@@ -4152,7 +4425,7 @@ apps/users/php/groups.php
 This file contain all functions needed by the groups app
 </p>
 
-<section id="toc195">
+<section id="toc205">
 <h3>8.3.1. Insert group action</h3>
 
 <pre>
@@ -4170,7 +4443,7 @@ the groups app and only requires the data.
 </ul>
 
 </section>
-<section id="toc196">
+<section id="toc206">
 <h3>8.3.2. Update group action</h3>
 
 <pre>
@@ -4190,7 +4463,7 @@ the groups app and requires the group_id and data.
 </ul>
 
 </section>
-<section id="toc197">
+<section id="toc207">
 <h3>8.3.3. Delete group action</h3>
 
 <pre>
@@ -4209,7 +4482,7 @@ the groups app and only requires the group_id.
 
 </section>
 </section>
-<section id="toc198">
+<section id="toc208">
 <h2>8.4. Matrix functions</h2>
 
 <pre>
@@ -4221,7 +4494,7 @@ This file contains all the functions required by the Excel widget for handling
 permissions and applications in a matrix structure.
 </p>
 
-<section id="toc199">
+<section id="toc209">
 <h3>8.4.1. Create matrix data</h3>
 
 <pre>
@@ -4234,7 +4507,7 @@ application with its respective permissions and their assigned values ("Allow", 
 </p>
 
 </section>
-<section id="toc200">
+<section id="toc210">
 <h3>8.4.2. Create matrix cells</h3>
 
 <pre>
@@ -4247,7 +4520,7 @@ and dropdown options for editing cell values. Read-only attributes are applied t
 </p>
 
 </section>
-<section id="toc201">
+<section id="toc211">
 <h3>8.4.3. Unmake matrix data</h3>
 
 <pre>
@@ -4260,7 +4533,7 @@ permission and application mappings while validating data consistency.
 </p>
 
 </section>
-<section id="toc202">
+<section id="toc212">
 <h3>8.4.4. Generate matrix permissions</h3>
 
 <pre>
@@ -4274,7 +4547,7 @@ the Excel widget, including column headers, row headers, data values, and cell d
 
 </section>
 </section>
-<section id="toc203">
+<section id="toc213">
 <h2>8.5. Users functions</h2>
 
 <pre>
@@ -4285,7 +4558,7 @@ apps/users/php/users.php
 This file contain all functions needed by the users app
 </p>
 
-<section id="toc204">
+<section id="toc214">
 <h3>8.5.1. Insert user action</h3>
 
 <pre>
@@ -4303,7 +4576,7 @@ the users app and only requires the data.
 </ul>
 
 </section>
-<section id="toc205">
+<section id="toc215">
 <h3>8.5.2. Update user action</h3>
 
 <pre>
@@ -4323,7 +4596,7 @@ the users app and requires the user_id and data.
 </ul>
 
 </section>
-<section id="toc206">
+<section id="toc216">
 <h3>8.5.3. Delete user action</h3>
 
 <pre>

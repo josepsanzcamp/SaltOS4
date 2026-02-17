@@ -1,0 +1,13 @@
+atkinson => Atkinson Hyperlegible Font License
+browscap => MIT License
+edifact => GNU Lesser General Public License v3 (LGPL-3.0)
+fpdi => MIT License
+gorrisans => SIL Open Font License 1.1 (OFL-1.1)
+html2markdown => MIT License
+phpass => Creative Commons Public Domain Dedication (CC-PDDC)
+phpgeoip => MIT License
+phpspreadsheet => MIT License
+semver => MIT License
+tcpdf => GNU Lesser General Public License v3 (LGPL-3.0)
+yaml => MIT License
+zxcvbn => MIT License

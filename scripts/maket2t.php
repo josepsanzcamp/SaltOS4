@@ -124,7 +124,7 @@ if (isset($map[$title])) {
 $title .= ' documentation';
 echo ucwords($title) . "\n";
 $rev = intval(ob_passthru('svnversion'));
-echo "SaltOS 4.0 r$rev\n";
+echo "SaltOS 4.1 r$rev\n";
 $date = date('F Y');
 echo "$date\n";
 echo "\n";
