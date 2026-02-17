@@ -142,6 +142,15 @@ saltos.gettext.bootstrap = {};
  * @field => the argument passed to the original bootstrap function
  */
 saltos.gettext.bootstrap.field = field => {
+    // The follow fix was copied from saltos.bootstrap.field
+    // Fix when some attributes need the fix_key feature
+    for (const key in field) {
+        const new_key = saltos.core.fix_key(key);
+        if (new_key != key && !(new_key in field)) {
+            field[new_key] = field[key];
+            delete field[key];
+        }
+    }
     // For all general bootstrap widgers
     const props = ['label', 'tooltip', 'placeholder'];
     for (const i in props) {
