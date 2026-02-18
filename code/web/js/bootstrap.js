@@ -5438,11 +5438,13 @@ saltos.bootstrap.toast = args => {
     let timer = null;
     const handleVisibility = () => {
         clearTimeout(timer);
+        document.removeEventListener('visibilitychange', handleVisibility);
         if (!document.hidden) {
             timer = setTimeout(() => toast.hide(), args.timeout);
+        } else {
+            document.addEventListener('visibilitychange', handleVisibility);
         }
     };
-    document.addEventListener('visibilitychange', handleVisibility);
     obj.addEventListener('hidden.bs.toast', event => {
         clearTimeout(timer);
         document.removeEventListener('visibilitychange', handleVisibility);
