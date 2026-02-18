@@ -60,7 +60,7 @@
             </row>
             <div eval="true">xmlfile2array('apps/common/xml/filter.xml')['div']</div>
             <row auto="true" col_class="col-md-12 my-3">
-                <table id="list" nodata="Loading..." checkbox="true">
+                <table id="list" nodata="Data not found" checkbox="true">
                     <header>
                         <customer_name label="Customer" order="true"/>
                         <customer_code label="CIF" order="true"/>
@@ -124,8 +124,7 @@
             WHERE 1 = 1
             AND '.make_fulltext_query(get_data('json/search'), get_data('rest/1')).'
             AND '.check_sql(get_data('rest/1'), 'list')))</temp>
-        <nodata ifeval="!get_data('json/page') &amp;&amp; !get_data('json/total')">Data not found</nodata>
-        <footer ifeval="!get_data('json/page')" eval="true">get_data('json/total') ? 'Total: ' . get_data('json/total') : ''</footer>
+        <footer ifeval="!get_data('json/page')" eval="true">get_data('json/total') ? sprintf(T('Total: %d'), get_data('json/total')) : ''</footer>
         <order eval="true">str_replace('`', '', get_data('json/order'))</order>
     </list>
 

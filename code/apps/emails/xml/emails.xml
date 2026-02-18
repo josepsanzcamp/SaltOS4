@@ -115,7 +115,7 @@
                 <div id="filter_form" eval="true">xpath_search_first_value('div/div[id=filter_form]', xmlfile2array('apps/common/xml/filter.xml'))</div>
             </div>
             <row auto="true" col_class="col-12 mb-3">
-                <list id="list" nodata="Loading..." onclick="true" truncate="true" checkbox="true">
+                <list id="list" nodata="Data not found" onclick="true" truncate="true" checkbox="true">
                     <actions>
                         <view onclick="saltos.driver.open"/>
                     </actions>
@@ -183,7 +183,6 @@
         <actions ifeval="false">
             <view app="emails" action="view"/>
         </actions>
-        <nodata ifeval="!get_data('json/page')">Data not found</nodata>
     </list>
 
     <list id="filter" eval="true">xmlfile2array('apps/common/xml/filter.xml')['list']</list>

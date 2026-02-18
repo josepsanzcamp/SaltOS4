@@ -134,3 +134,4 @@ delete_file: Eliminar archivo
 files: Archivos
 view_file: Ver archivo
 new_files: Nuevos archivos
+total_d: "Total: %d"

@@ -48,7 +48,7 @@
             </row>
             <div eval="true">xmlfile2array('apps/common/xml/filter.xml')['div']</div>
             <row auto="true" col_class="col-md-12 my-3">
-                <table id="list" nodata="Loading..." dropdown="false">
+                <table id="list" nodata="There are no files logs available" dropdown="false">
                     <header>
                         <name label="Name" order="true"/>
                         <type label="Type" order="true"/>
@@ -91,8 +91,7 @@
         <temp ifeval="!get_data('json/page')" eval="true">set_data('json/total', count(
             __files_list(get_data('json/search'), '', 0, INF)
         ))</temp>
-        <nodata ifeval="!get_data('json/page') &amp;&amp; !get_data('json/total')">There are no files logs available</nodata>
-        <footer ifeval="!get_data('json/page')" eval="true">get_data('json/total') ? 'Total: ' . get_data('json/total') : ''</footer>
+        <footer ifeval="!get_data('json/page')" eval="true">get_data('json/total') ? sprintf(T('Total: %d'), get_data('json/total')) : ''</footer>
         <order eval="true">str_replace('`', '', get_data('json/order'))</order>
     </list>
 

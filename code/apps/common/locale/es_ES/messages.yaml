@@ -65,3 +65,4 @@ stderr: STDERR
 stop: Detener
 out: Salida
 err: Error
+there_are_no_files_logs_available: No hay archivos disponibles

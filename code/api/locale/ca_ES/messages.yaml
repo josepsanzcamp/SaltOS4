@@ -134,3 +134,4 @@ delete_file: Esborrar fitxer
 files: Fitxers
 view_file: Veure fitxer
 new_files: Nous fitxers
+total_d: "Total: %d"

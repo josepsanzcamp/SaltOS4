@@ -65,3 +65,4 @@ stderr: STDERR
 stop: Aturar
 out: Sortida
 err: Error
+there_are_no_files_logs_available: No hi ha fitxers disponibles

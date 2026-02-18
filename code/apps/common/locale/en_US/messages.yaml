@@ -65,3 +65,4 @@ stderr: STDERR
 stop: Stop
 out: Out
 err: Err
+there_are_no_files_logs_available: There are no files available

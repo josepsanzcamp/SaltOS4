@@ -49,7 +49,7 @@
             </row>
             <div eval="true">xmlfile2array('apps/common/xml/filter.xml')['div']</div>
             <row auto="true" col_class="col-12 my-3">
-                <table id="list" nodata="Loading..." checkbox="true" dropdown="false" >
+                <table id="list" nodata="Data not found" checkbox="true" dropdown="false" >
                     <header>
                         <user label="User" ifeval="__user_is_admin(get_data('rest/1'))" order="true"/>
                         <email_name label="Name" order="true"/>
@@ -108,8 +108,7 @@
             WHERE 1 = 1
             AND '.make_fulltext_query(get_data('json/search'), 'emails_accounts').'
             AND '.check_sql('emails_accounts', 'list')))</temp>
-        <nodata ifeval="!get_data('json/page') &amp;&amp; !get_data('json/total')">Data not found</nodata>
-        <footer ifeval="!get_data('json/page')" eval="true">get_data('json/total') ? 'Total: ' . get_data('json/total') : ''</footer>
+        <footer ifeval="!get_data('json/page')" eval="true">get_data('json/total') ? sprintf(T('Total: %d'), get_data('json/total')) : ''</footer>
         <order eval="true">str_replace('`', '', get_data('json/order'))</order>
     </list>
 
