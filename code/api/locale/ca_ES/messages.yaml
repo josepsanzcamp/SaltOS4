@@ -135,3 +135,11 @@ files: Fitxers
 view_file: Veure fitxer
 new_files: Nous fitxers
 total_d: "Total: %d"
+about: Quant a
+api_libraries: Llibreries (API)
+web_libraries: Llibreries (Web)
+apps_libraries: Llibreries (Aplicacions)
+version: Versió
+license: Llicència
+homepage: Pàgina d'inici
+legal: Avís legal

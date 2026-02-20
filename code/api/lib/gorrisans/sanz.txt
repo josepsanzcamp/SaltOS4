@@ -1,5 +1,5 @@
 
-# http://www.dafont.com/gorrisans.font
+# https://www.dafont.com/gorrisans.font
 
 wget -O gorrisans.zip https://dl.dafont.com/dl/?f=gorrisans
 unzip -o gorrisans.zip

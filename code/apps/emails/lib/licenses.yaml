@@ -1,0 +1,5 @@
+- id: phpmailer
+  name: PHPMailer
+  homepage: https://github.com/PHPMailer/PHPMailer
+  license: GNU Lesser General Public License v2.1 (LGPL-2.1)
+  license_id: LGPL-2.1-only

@@ -33,7 +33,7 @@ vkbeautify|https://github.com/vkiryukhin/vkBeautify/commits/master.atom|<updated
 phpmailer|https://github.com/PHPMailer/PHPMailer/tags.atom|<title>|PHRpdGxlPlBIUE1haWxlciA3LjAuMjwvdGl0bGU+
 sortablejs|https://github.com/SortableJS/Sortable/tags.atom|<title>|PHRpdGxlPnYxLjE1Ljc8L3RpdGxlPg==
 
-acorn|https://github.com/acornjs/acorn/tags.atom|<title>|PHRpdGxlPlZlcnNpb24gOC4xNS4wPC90aXRsZT4=
+acorn|https://github.com/acornjs/acorn/tags.atom|<title>|PHRpdGxlPlZlcnNpb24gOC4xNi4wPC90aXRsZT4=
 brotli|https://github.com/kjdev/php-ext-brotli/tags.atom|<title>|PHRpdGxlPjAuMTguMzwvdGl0bGU+
 browserify|https://github.com/browserify/browserify/tags.atom|<title>|PHRpdGxlPnYxNy4wLjE8L3RpdGxlPg==
 cloc|https://github.com/AlDanial/cloc/tags.atom|<title>|PHRpdGxlPnYyLjA4PC90aXRsZT4=

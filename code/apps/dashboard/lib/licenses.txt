@@ -1,1 +1,0 @@
-sortablejs => MIT License

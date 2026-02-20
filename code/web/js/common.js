@@ -66,6 +66,108 @@ saltos.common.help = () => {
 };
 
 /**
+ * About screen
+ *
+ * This function allow to open the about screen in a modal widget
+ */
+saltos.common.about = () => {
+    if (saltos.bootstrap.modal('isopen')) {
+        saltos.bootstrap.modal('close');
+        return;
+    }
+    saltos.gettext.bootstrap.modal({
+        close: 'Close',
+        class: 'modal-xl',
+    });
+    saltos.core.ajax({
+        url: 'api/?/about',
+        success: response => {
+            const title = document.querySelector('.modal-title');
+            title.innerHTML = [
+                T('About'),
+                response.about,
+            ].join(' - ');
+            const body = document.querySelector('.modal-body');
+            body.append(saltos.gettext.bootstrap.field({
+                id: 'header',
+                type: 'codemirror',
+                value: response.header.join('\n'),
+            }));
+            body.append(saltos.gettext.bootstrap.field({
+                type: 'div',
+                class: 'mb-3',
+            }));
+            body.append(saltos.gettext.bootstrap.field({
+                id: 'api-libs',
+                type: 'table',
+                label: 'API libraries',
+                header: {
+                    name: 'Name',
+                    version: 'Version',
+                    license_id: 'License',
+                    homepage: {
+                        label: 'Homepage',
+                        type: 'link',
+                    },
+                },
+                data: response.libraries.api,
+                parentClass: 'mb-3'
+            }));
+            body.append(saltos.gettext.bootstrap.field({
+                type: 'div',
+                class: 'mb-3',
+            }));
+            body.append(saltos.gettext.bootstrap.field({
+                id: 'web-libs',
+                type: 'table',
+                label: 'WEB libraries',
+                header: {
+                    name: 'Name',
+                    version: 'Version',
+                    license_id: 'License',
+                    homepage: {
+                        label: 'Homepage',
+                        type: 'link',
+                    },
+                },
+                data: response.libraries.web,
+                parentClass: 'mb-3'
+            }));
+            body.append(saltos.gettext.bootstrap.field({
+                type: 'div',
+                class: 'mb-3',
+            }));
+            body.append(saltos.gettext.bootstrap.field({
+                id: 'apps-libs',
+                type: 'table',
+                label: 'APPS libraries',
+                header: {
+                    name: 'Name',
+                    version: 'Version',
+                    license_id: 'License',
+                    homepage: {
+                        label: 'Homepage',
+                        type: 'link',
+                    },
+                },
+                data: response.libraries.apps,
+                parentClass: 'mb-3'
+            }));
+            body.append(saltos.gettext.bootstrap.field({
+                type: 'div',
+                class: 'mb-3',
+            }));
+            body.append(saltos.gettext.bootstrap.field({
+                id: 'legal',
+                type: 'codemirror',
+                label: 'Legal',
+                value: response.legal.join('\n'),
+            }));
+        },
+    });
+};
+
+/**
  * Logout feature
  *
  * This function execute the deauthtoken action and jump to the login screen

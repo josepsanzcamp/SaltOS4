@@ -1,0 +1,77 @@
+- id: atkinson
+  name: Atkinson Hyperlegible
+  homepage: https://brailleinstitute.org/freefont
+  license: Atkinson Hyperlegible Font License
+  license_id: Atkinson-Hyperlegible
+
+- id: browscap
+  name: browscap/browscap-php
+  homepage: https://github.com/browscap/browscap-php
+  license: MIT License
+  license_id: MIT
+
+- id: edifact
+  name: sabas/edifact
+  homepage: https://github.com/sabas/edifact
+  license: GNU Lesser General Public License v3 (LGPL-3.0)
+  license_id: LGPL-3.0-only
+
+- id: fpdi
+  name: setasign/fpdi
+  homepage: https://www.setasign.com/products/fpdi/
+  license: MIT License
+  license_id: MIT
+
+- id: gorrisans
+  name: Gorri Sans
+  homepage: https://www.dafont.com/gorrisans.font
+  license: SIL Open Font License 1.1 (OFL-1.1)
+  license_id: OFL-1.1
+
+- id: html2markdown
+  name: league/html-to-markdown
+  homepage: https://github.com/thephpleague/html-to-markdown
+  license: MIT License
+  license_id: MIT
+
+- id: phpass
+  name: openwall/phpass
+  homepage: https://www.openwall.com/phpass/
+  license: Creative Commons Public Domain Dedication (CC-PDDC)
+  license_id: CC0-1.0
+
+- id: phpgeoip
+  name: webklex/php-geoip
+  homepage: https://github.com/Webklex/php-geoip
+  license: MIT License
+  license_id: MIT
+
+- id: phpspreadsheet
+  name: phpoffice/phpspreadsheet
+  homepage: https://github.com/PHPOffice/PhpSpreadsheet
+  license: MIT License
+  license_id: MIT
+
+- id: semver
+  name: composer/semver
+  homepage: https://github.com/composer/semver
+  license: MIT License
+  license_id: MIT
+
+- id: tcpdf
+  name: tecnickcom/tcpdf
+  homepage: https://tcpdf.org/
+  license: GNU Lesser General Public License v3 (LGPL-3.0)
+  license_id: LGPL-3.0-only
+
+- id: yaml
+  name: symfony/yaml
+  homepage: https://symfony.com/doc/current/components/yaml.html
+  license: MIT License
+  license_id: MIT
+
+- id: zxcvbn
+  name: bjeavons/zxcvbn-php
+  homepage: https://github.com/bjeavons/zxcvbn-php
+  license: MIT License
+  license_id: MIT

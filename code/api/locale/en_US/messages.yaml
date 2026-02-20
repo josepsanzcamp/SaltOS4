@@ -135,3 +135,11 @@ files: Files
 view_file: View file
 new_files: New files
 total_d: "Total: %d"
+about: About
+api_libraries: Libraries (API)
+web_libraries: Libraries (Web)
+apps_libraries: Libraries (Applications)
+version: Version
+license: License
+homepage: Homepage
+legal: Legal Notice

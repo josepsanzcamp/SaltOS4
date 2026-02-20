@@ -29,6 +29,7 @@
                     <menu>
                         <item label="Profile" onclick="saltos.common.profile()"/>
                         <item label="Help" onclick="saltos.common.help()"/>
+                        <item label="About" onclick="saltos.common.about()"/>
                         <item label="Logout" onclick="saltos.common.logout()"/>
                     </menu>
                 </item>

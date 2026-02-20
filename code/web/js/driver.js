@@ -208,7 +208,7 @@ saltos.driver.search = arg => {
 };
 
 /**
- * Driver search
+ * Driver reset
  *
  * This function implement the reset feature associated to the filters fields
  *

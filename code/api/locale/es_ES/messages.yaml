@@ -135,3 +135,11 @@ files: Archivos
 view_file: Ver archivo
 new_files: Nuevos archivos
 total_d: "Total: %d"
+about: Acerca de
+api_libraries: Librerias (API)
+web_libraries: Librerias (Web)
+apps_libraries: Librerias (Aplicaciones)
+version: Versión
+license: Licencia
+homepage: Página de inicio
+legal: Texto legal

@@ -1,0 +1,125 @@
+- id: atkinson
+  name: Atkinson Hyperlegible
+  homepage: https://brailleinstitute.org/freefont
+  license: Atkinson Hyperlegible Font License
+  license_id: Atkinson-Hyperlegible
+
+- id: autoheight
+  name: jackmoore/autosize
+  homepage: https://github.com/jackmoore/autosize
+  license: MIT License
+  license_id: MIT
+
+- id: bootstrap
+  name: Bootstrap
+  homepage: https://getbootstrap.com/
+  license: MIT License
+  license_id: MIT
+
+- id: chartjs
+  name: Chart.js
+  homepage: https://www.chartjs.org/
+  license: MIT License
+  license_id: MIT
+
+- id: codemirror
+  name: CodeMirror
+  homepage: https://codemirror.net/
+  license: MIT License
+  license_id: MIT
+
+- id: handsontable
+  name: Handsontable
+  homepage: https://handsontable.com/
+  license: MIT License
+  license_id: MIT
+
+- id: imagesloaded
+  name: imagesLoaded
+  homepage: https://imagesloaded.desandro.com/
+  license: MIT License
+  license_id: MIT
+
+- id: imaskjs
+  name: iMask.js
+  homepage: https://imask.js.org/
+  license: MIT License
+  license_id: MIT
+
+- id: interactjs
+  name: interact.js
+  homepage: https://interactjs.io/
+  license: MIT License
+  license_id: MIT
+
+- id: joditeditor
+  name: Jodit Editor
+  homepage: https://xdsoft.net/jodit/
+  license: MIT License
+  license_id: MIT
+
+- id: jstree
+  name: jsTree
+  homepage: https://www.jstree.com/
+  license: MIT License
+  license_id: MIT
+
+- id: locutus
+  name: Locutus
+  homepage: https://locutus.io/
+  license: MIT License (BC Math components under LGPL-2.1)
+  license_id: MIT
+
+- id: masonry
+  name: Masonry
+  homepage: https://masonry.desandro.com/
+  license: MIT License
+  license_id: MIT
+
+- id: md5
+  name: blueimp-md5
+  homepage: https://github.com/blueimp/JavaScript-MD5
+  license: MIT License
+  license_id: MIT
+
+- id: pdfjs
+  name: PDF.js
+  homepage: https://mozilla.github.io/pdf.js/
+  license: Apache License 2.0
+  license_id: Apache-2.0
+
+- id: sourcemap
+  name: source-map
+  homepage: https://github.com/mozilla/source-map
+  license: BSD 2-Clause License
+  license_id: BSD-2-Clause
+
+- id: themes
+  name: Bootstrap Themes
+  homepage: https://getbootstrap.com/
+  license: MIT License
+  license_id: MIT
+
+- id: tomselect
+  name: Tom Select
+  homepage: https://tom-select.js.org/
+  license: Apache License 2.0
+  license_id: Apache-2.0
+
+- id: topbar
+  name: topbar.js
+  homepage: https://buunguyen.github.io/topbar/
+  license: MIT License
+  license_id: MIT
+
+- id: venobox
+  name: VenoBox
+  homepage: https://veno.es/venobox/
+  license: MIT License
+  license_id: MIT
+
+- id: vkbeautify
+  name: vkBeautify
+  homepage: https://github.com/vkiryukhin/vkBeautify
+  license: MIT License
+  license_id: MIT

@@ -427,16 +427,12 @@ saltos.core.ajax = args => {
             args.success(data, response);
         }
     }).catch(error => {
-        if (error.name == 'AbortError') {
-            if (typeof args.abort == 'function') {
-                args.abort(error);
-            }
-        } else if (error.name == 'TypeError') {
-            if (typeof args.error == 'function') {
-                args.error(error);
-            }
+        if (error.name == 'AbortError' && typeof args.abort == 'function') {
+            args.abort(error);
+        } else if (error.name == 'TypeError' && typeof args.error == 'function') {
+            args.error(error);
         } else {
-            throw new Error(error);
+            throw error;
         }
     }).finally(() => {
         // Remove the element of the ajax request list

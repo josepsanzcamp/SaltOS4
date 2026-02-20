@@ -1862,9 +1862,6 @@ saltos.bootstrap.__field.file = field => {
                 }
                 __update_data_input_file(input);
             },
-            error: error => {
-                throw new Error(error);
-            },
             token: saltos.token.get(),
             lang: saltos.gettext.get(),
             abortable: true,
@@ -1940,7 +1937,7 @@ saltos.bootstrap.__field.file = field => {
                     ajax.setRequestHeader('X-Proxy-Order', 'no');
                     ajax.onload = event => {
                         if (ajax.status < 200 || ajax.status >= 300) {
-                            throw new Error(ajax);
+                            throw new Error(`HTTP ${ajax.status}: ${ajax.statusText} - ${ajax.responseText}`);
                         }
                         let data = ajax.response;
                         let type = ajax.getResponseHeader('content-type');
@@ -1957,7 +1954,7 @@ saltos.bootstrap.__field.file = field => {
                         __update_data_input_file(input);
                     };
                     ajax.onerror = event => {
-                        throw new Error(ajax);
+                        throw new Error(`Network error (readyState: ${ajax.readyState})`);
                     };
                     ajax.onprogress = event => {
                         if (event.lengthComputable) {
@@ -1973,7 +1970,7 @@ saltos.bootstrap.__field.file = field => {
             // If there is an error
             if (reader.error) {
                 data.error = reader.error.message;
-                throw new Error(reader.error);
+                throw reader.error;
             }
         }
         input.value = '';
@@ -2460,7 +2457,7 @@ saltos.bootstrap.__field.pdfjs = field => {
             };
             render(1);
         }, error => {
-            throw new Error(error);
+            throw error;
         });
     });
     obj = saltos.bootstrap.__label_combine(field, obj);
@@ -2764,6 +2761,13 @@ saltos.bootstrap.__field.table = field => {
                         case 'html':
                             if (val2) {
                                 const temp = saltos.core.html(val2);
+                                td.append(temp);
+                            }
+                            break;
+                        case 'link':
+                            if (val2) {
+                                const temp = saltos.core.html(`<a href="${val2}">${val2}</a>`);
+                                temp.setAttribute('target', '_blank');
                                 td.append(temp);
                             }
                             break;
@@ -3513,9 +3517,6 @@ saltos.bootstrap.__datalist_helper = datalist => {
                         }
                     }
                     callback(array);
-                },
-                error: error => {
-                    throw new Error(error);
                 },
                 token: saltos.token.get(),
                 lang: saltos.gettext.get(),
