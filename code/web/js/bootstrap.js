@@ -2630,6 +2630,9 @@ saltos.bootstrap.__field.table = field => {
                         order.dispatchEvent(new Event('change'));
                     });
                 }
+                if ('width' in val) {
+                    th.style.width = val.width;
+                }
             } else {
                 th = saltos.core.html('tr', `<th class="bg-${field.color}-subtle">${val}</th>`);
             }

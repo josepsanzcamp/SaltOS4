@@ -1,8 +1,8 @@
 - id: atkinson
   name: Atkinson Hyperlegible
   homepage: https://brailleinstitute.org/freefont
-  license: Atkinson Hyperlegible Font License
-  license_id: Atkinson-Hyperlegible
+  license: SIL Open Font License 1.1
+  license_id: OFL-1.1
 
 - id: browscap
   name: browscap/browscap-php

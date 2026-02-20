@@ -97,19 +97,30 @@ saltos.common.about = () => {
                 type: 'div',
                 class: 'mb-3',
             }));
+            const header = {
+                name: {
+                    label: 'Name',
+                    width: '25%',
+                },
+                version: {
+                    label: 'Version',
+                    width: '15%',
+                },
+                license_id: {
+                    label: 'License',
+                    width: '15%',
+                },
+                homepage: {
+                    label: 'Homepage',
+                    type: 'link',
+                    width: '45%',
+                },
+            };
             body.append(saltos.gettext.bootstrap.field({
                 id: 'api-libs',
                 type: 'table',
                 label: 'API libraries',
-                header: {
-                    name: 'Name',
-                    version: 'Version',
-                    license_id: 'License',
-                    homepage: {
-                        label: 'Homepage',
-                        type: 'link',
-                    },
-                },
+                header: header,
                 data: response.libraries.api,
                 parentClass: 'mb-3'
             }));
@@ -121,15 +132,7 @@ saltos.common.about = () => {
                 id: 'web-libs',
                 type: 'table',
                 label: 'WEB libraries',
-                header: {
-                    name: 'Name',
-                    version: 'Version',
-                    license_id: 'License',
-                    homepage: {
-                        label: 'Homepage',
-                        type: 'link',
-                    },
-                },
+                header: header,
                 data: response.libraries.web,
                 parentClass: 'mb-3'
             }));
@@ -141,15 +144,7 @@ saltos.common.about = () => {
                 id: 'apps-libs',
                 type: 'table',
                 label: 'APPS libraries',
-                header: {
-                    name: 'Name',
-                    version: 'Version',
-                    license_id: 'License',
-                    homepage: {
-                        label: 'Homepage',
-                        type: 'link',
-                    },
-                },
+                header: header,
                 data: response.libraries.apps,
                 parentClass: 'mb-3'
             }));
