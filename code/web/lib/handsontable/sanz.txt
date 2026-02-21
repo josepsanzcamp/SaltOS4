@@ -14,3 +14,5 @@ wget https://cdnjs.cloudflare.com/ajax/libs/handsontable/6.2.2/handsontable.full
 #wget https://raw.githubusercontent.com/handsontable/handsontable/refs/tags/6.2.2/CONTRIBUTING.md
 #wget https://raw.githubusercontent.com/handsontable/handsontable/refs/tags/6.2.2/LICENSE
 #wget https://raw.githubusercontent.com/handsontable/handsontable/refs/tags/6.2.2/README.md
+
+#minify handsontable.dark.css > handsontable.dark.min.css

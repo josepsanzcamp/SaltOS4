@@ -2,8 +2,8 @@
 rm -f jodit.fat.min.js
 rm -f jodit.fat.min.css
 
-wget https://cdn.jsdelivr.net/npm/jodit@4.9.6/es2021/jodit.fat.min.js
-wget https://cdn.jsdelivr.net/npm/jodit@4.9.6/es2021/jodit.fat.min.css
+wget https://cdn.jsdelivr.net/npm/jodit@4.9.10/es2021/jodit.fat.min.js
+wget https://cdn.jsdelivr.net/npm/jodit@4.9.10/es2021/jodit.fat.min.css
 
 #wget https://raw.githubusercontent.com/xdan/jodit/refs/heads/main/CHANGELOG.md
 #wget https://raw.githubusercontent.com/xdan/jodit/refs/heads/main/CONTRIBUTING.md

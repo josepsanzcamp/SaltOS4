@@ -1,0 +1,105 @@
+
+/**
+ *  ____        _ _    ___  ____    _  _    ___
+ * / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ * \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ *  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ * |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ *
+ * SaltOS: Framework to develop Rich Internet Applications
+ * Copyright (c) 2007-2026 Josep Sanz Campderrós
+ * SPDX-License-Identifier: MIT
+ * Licensed under the MIT License.
+ * See the LICENSE file in the project root for full license information.
+ */
+
+:root[data-bs-theme="dark"] {
+
+    /* Container */
+    .handsontable {
+        color: var(--bs-body-color);
+    }
+
+    /* Base table */
+    .handsontable table.htCore {
+        background-color: var(--bs-body-bg);
+    }
+
+    /* Cells */
+    .handsontable td,
+    .handsontable th {
+        background-color: var(--bs-body-bg);
+        color: var(--bs-body-color);
+        border-right: 1px solid var(--bs-border-color);
+        border-bottom: 1px solid var(--bs-border-color);
+    }
+
+    /* First row and column */
+    .handsontable tr:first-child td,
+    .handsontable tr:first-child th {
+        border-top: 1px solid var(--bs-border-color);
+    }
+
+    .handsontable td:first-of-type,
+    .handsontable th:first-child {
+        border-left: 1px solid var(--bs-border-color);
+    }
+
+    /* Fix for special case of A cell */
+    .handsontable.htRowHeaders thead tr th:nth-child(2) {
+        border-left: 1px solid var(--bs-border-color);
+    }
+
+    /* Headers */
+    .handsontable th {
+        background-color: var(--bs-tertiary-bg);
+        color: var(--bs-emphasis-color);
+    }
+
+    .handsontable th.active {
+        background-color: var(--bs-primary);
+        color: var(--bs-white);
+    }
+
+    /* Selection */
+    .handsontable td.area:before,
+    .handsontable td.area-1:before,
+    .handsontable td.area-2:before,
+    .handsontable td.area-3:before,
+    .handsontable td.area-4:before,
+    .handsontable td.area-5:before,
+    .handsontable td.area-6:before,
+    .handsontable td.area-7:before {
+        background: var(--bs-primary);
+    }
+
+    /* Editor */
+    .handsontableInput {
+        background-color: var(--bs-body-bg);
+        color: var(--bs-body-color);
+        box-shadow: inset 0 0 0 2px var(--bs-primary);
+    }
+
+    /* Dimmed text */
+    .handsontable .htDimmed {
+        color: var(--bs-secondary-color);
+    }
+
+    /* Search result */
+    .handsontable td.htSearchResult {
+        background: var(--bs-warning-bg-subtle);
+        color: var(--bs-warning-text-emphasis);
+    }
+
+    /* Autocomplete / listbox */
+    .handsontable.listbox .ht_master table {
+        background: var(--bs-body-bg);
+        border: 1px solid var(--bs-border-color);
+    }
+
+    .handsontable.listbox tr:hover td,
+    .handsontable.listbox tr td.current {
+        background: var(--bs-secondary-bg);
+    }
+
+}

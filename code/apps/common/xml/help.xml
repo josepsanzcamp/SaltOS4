@@ -32,5 +32,13 @@
                 <button onclick="saltos.common.help()" label="Close" tooltip="To close this help" icon="x-lg"/>
             </row>
         </layout>
+        <javascript>
+            <inline>
+                const button = document.getElementById('pdfjs_pdfjs-dark').parentElement;
+                button.style.position = 'absolute';
+                button.style.top = '-44px';
+                button.style.right = '66px';
+            </inline>
+        </javascript>
     </help>
 </root>

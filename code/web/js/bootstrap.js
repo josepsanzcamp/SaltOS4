@@ -683,12 +683,6 @@ saltos.bootstrap.__field.joditeditor = field => {
         'lib/joditeditor/jodit.fat.min.js',
     ], () => {
         placeholder.remove();
-        element.parentElement.classList.add('form-control');
-        element.parentElement.classList.add('p-0');
-        if (field.color != 'none') {
-            element.parentElement.classList.add('border');
-            element.parentElement.classList.add('border-' + field.color + '-subtle');
-        }
         const buttons = [
             'bold', 'italic', 'underline', 'strikethrough', '|',
             'ul', 'ol', '|',
@@ -785,6 +779,27 @@ saltos.bootstrap.__field.joditeditor = field => {
             }
         </style>
     `));
+    // Fix for border color
+    if (field.color != 'none') {
+        obj.append(saltos.core.html(`
+            <style>
+                :root {
+                    --jd-color-border: var(--bs-${field.color}-border-subtle);
+                }
+            </style>
+        `));
+    }
+    // Fix for dark mode
+    obj.append(saltos.core.html(`
+        <style>
+            :root[data-bs-theme="dark"] {
+                --jd-color-background-light-gray: #1e1e1e;
+                --jd-color-background-default: #1e1e1e;
+                --jd-color-panel: #2a2a2a;
+                --jd-color-icon: #b5b5b5;
+            }
+        </style>
+    `));
     return obj;
 };
 
@@ -850,6 +865,9 @@ saltos.bootstrap.__field.codemirror = field => {
     if (saltos.core.eval_bool(field.indent)) {
         array.push('lib/vkbeautify/vkbeautify.min.js');
     }
+    const detect_theme = () => {
+        return document.documentElement.dataset.bsTheme === 'dark' ? 'dracula' : 'default';
+    };
     saltos.core.require(array, () => {
         placeholder.remove();
         if (saltos.core.eval_bool(field.indent)) {
@@ -861,6 +879,7 @@ saltos.bootstrap.__field.codemirror = field => {
             lineNumbers: true,
             lineWrapping: true,
             indentUnit: 4,
+            theme: detect_theme(),
         });
         element.codemirror = cm;
         element.parentElement.classList.add('form-control');
@@ -954,6 +973,13 @@ saltos.bootstrap.__field.codemirror = field => {
             }
         </style>
     `));
+    // Fix for dark mode
+    new MutationObserver(() => {
+        element.codemirror.setOption('theme', detect_theme());
+    }).observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-bs-theme'],
+    });
     return obj;
 };
 
@@ -1041,18 +1067,20 @@ saltos.bootstrap.__field.iframe = field => {
         border = 'border-0';
     }
     let obj = saltos.core.html(`
-        <iframe id="${field.id}" frameborder="0" class="${border} ${field.class}"></iframe>
+        <div class="${border}" style="line-height: 0">
+            <iframe id="${field.id}" frameborder="0" class="${rounded} ${field.class} w-100"></iframe>
+        </div>
     `);
+    const element = obj.querySelector('iframe');
     if (field.src) {
-        obj.src = field.src;
+        element.src = field.src;
     }
     if (field.srcdoc) {
-        obj.srcdoc = saltos.bootstrap.__iframe_srcdoc_helper(field.srcdoc);
+        element.srcdoc = saltos.bootstrap.__iframe_srcdoc_helper(field.srcdoc);
     }
     if (field.height) {
-        obj.style.minHeight = field.height;
+        element.style.minHeight = field.height;
     }
-    const element = obj;
     // When new load is detected
     element.addEventListener('load', event => {
         // Program the resize that computes the height
@@ -1098,6 +1126,33 @@ saltos.bootstrap.__field.iframe = field => {
         }
     };
     obj = saltos.bootstrap.__label_combine(field, obj);
+    // Fix for dark mode
+    const button_id = field.id + '_iframe-dark';
+    const button_value = saltos.core.eval_bool(saltos.storage.getItem(button_id));
+    if (button_value) {
+        element.style.background = '#fff';
+        element.style.filter = 'invert(.9)';
+    }
+    const button = saltos.bootstrap.field({
+        id: button_id,
+        type: 'switch',
+        class: 'float-end',
+        color: field.color,
+        value: button_value,
+        onchange: () => {
+            const bool = button.querySelector('input').checked;
+            if (bool) {
+                element.style.background = '#fff';
+                element.style.filter = 'invert(.9)';
+            } else {
+                element.style.background = '';
+                element.style.filter = '';
+            }
+            saltos.storage.setItem(button_id, bool);
+        },
+    });
+    button.querySelector('input').style.marginLeft = '0px';
+    obj.prepend(button);
     return obj;
 };
 
@@ -2099,15 +2154,40 @@ saltos.bootstrap.__field.image = field => {
         border = 'border-0';
     }
     let obj = saltos.core.html(`
-        <img id="${field.id}" src="${field.value}" alt="${field.alt}"
-            class="${border} ${field.class}"
-            width="${field.width}" height="${field.height}"
-            data-bs-title="${field.tooltip}" />
+        <div class="${border}">
+            <img id="${field.id}" src="${field.value}" alt="${field.alt}" class="${rounded} ${field.class}"
+                width="${field.width}" height="${field.height}" data-bs-title="${field.tooltip}" />
+        </div>
     `);
+    const element = obj.querySelector('img');
     if (field.tooltip != '') {
-        saltos.bootstrap.__tooltip_helper(obj);
+        saltos.bootstrap.__tooltip_helper(element);
     }
     obj = saltos.bootstrap.__label_combine(field, obj);
+    // Fix for dark mode
+    const button_id = field.id + '_image-dark';
+    const button_value = saltos.core.eval_bool(saltos.storage.getItem(button_id));
+    if (button_value) {
+        element.style.filter = 'invert(.9)';
+    }
+    const button = saltos.bootstrap.field({
+        id: button_id,
+        type: 'switch',
+        class: 'float-end',
+        color: field.color,
+        value: button_value,
+        onchange: () => {
+            const bool = button.querySelector('input').checked;
+            if (bool) {
+                element.style.filter = 'invert(.9)';
+            } else {
+                element.style.filter = '';
+            }
+            saltos.storage.setItem(button_id, bool);
+        },
+    });
+    button.querySelector('input').style.marginLeft = '0px';
+    obj.prepend(button);
     return obj;
 };
 
@@ -2256,6 +2336,7 @@ saltos.bootstrap.__field.excel = field => {
     saltos.core.require([
         'lib/handsontable/handsontable.full.min.css',
         'lib/handsontable/handsontable.full.min.js',
+        'lib/handsontable/handsontable.dark.min.css',
     ], () => {
         placeholder.remove();
         element.parentElement.setAttribute('class', `form-control p-0 ${shadow} ${rounded}`);
@@ -2300,17 +2381,6 @@ saltos.bootstrap.__field.excel = field => {
     if (saltos.core.eval_bool(field.disabled)) {
         input.set_disabled(true);
     }
-    // Fix for dark mode
-    obj.append(saltos.core.html(`
-        <style>
-            :root[data-bs-theme="dark"] .handsontable td {
-                color: #000;
-            }
-            :root[data-bs-theme="dark"]:has(.bg-body-secondary) .handsontable td {
-                color: #fff;
-            }
-        </style>
-    `));
     // Program the set in the input first
     input.set = value => {
         if (!('excel' in input)) {
@@ -2393,6 +2463,9 @@ saltos.bootstrap.__field.pdfjs = field => {
         color: field.color,
     });
     obj.append(placeholder);
+    // Prepare the dark mode fix
+    const button_id = field.id + '_pdfjs-dark';
+    const button_value = saltos.core.eval_bool(saltos.storage.getItem(button_id));
     // Continue
     saltos.core.require([
         'lib/pdfjs/pdf.min.mjs',
@@ -2425,31 +2498,31 @@ saltos.bootstrap.__field.pdfjs = field => {
                         if (num == 1) {
                             placeholder.remove();
                         }
-                        if (num < pdf.numPages) {
-                            element.append(canvas);
-                        } else {
-                            const div = document.createElement('div');
-                            div.append(canvas);
-                            div.style.lineHeight = 0;
-                            element.append(div);
-                        }
+                        const div = document.createElement('div');
+                        div.style.lineHeight = 0;
+                        div.append(canvas);
+                        element.append(div);
                         canvas.style.width = '100%';
-                        canvas.classList.add('form-control');
+                        div.classList.add('form-control');
                         let rounded = 'rounded';
                         if (field.rounded) {
                             rounded = field.rounded;
                         }
+                        div.classList.add(rounded);
                         canvas.classList.add(rounded);
-                        canvas.classList.add('p-0');
+                        div.classList.add('p-0');
                         let shadow = 'shadow';
                         if (field.shadow) {
                             shadow = field.shadow;
                         }
-                        canvas.classList.add(shadow);
-                        canvas.classList.add('border');
-                        canvas.classList.add('border-' + field.color);
+                        div.classList.add(shadow);
+                        div.classList.add('border');
+                        div.classList.add('border-' + field.color);
+                        if (button_value) {
+                            canvas.style.filter = 'invert(.9)';
+                        }
                         if (num < pdf.numPages) {
-                            canvas.classList.add('mb-3');
+                            div.classList.add('mb-3');
                             render(num + 1);
                         }
                     });
@@ -2461,6 +2534,27 @@ saltos.bootstrap.__field.pdfjs = field => {
         });
     });
     obj = saltos.bootstrap.__label_combine(field, obj);
+    // Fix for dark mode
+    const button = saltos.bootstrap.field({
+        id: button_id,
+        type: 'switch',
+        class: 'float-end',
+        color: field.color,
+        value: button_value,
+        onchange: () => {
+            const bool = button.querySelector('input').checked;
+            element.querySelectorAll('canvas').forEach(item => {
+                if (bool) {
+                    item.style.filter = 'invert(.9)';
+                } else {
+                    item.style.filter = '';
+                }
+            });
+            saltos.storage.setItem(button_id, bool);
+        },
+    });
+    button.querySelector('input').style.marginLeft = '0px';
+    obj.prepend(button);
     return obj;
 };
 
@@ -3237,6 +3331,7 @@ saltos.bootstrap.__field.tags = field => {
     saltos.core.require([
         'lib/tomselect/tom-select.bootstrap5.min.css',
         'lib/tomselect/tom-select.complete.min.js',
+        'lib/tomselect/tom-select.dark.min.css',
     ], () => {
         placeholder.remove();
         const tags = new TomSelect(element, {
@@ -3300,16 +3395,6 @@ saltos.bootstrap.__field.tags = field => {
             element.tomselect.enable();
         }
     };
-    // Fix for dark mode
-    obj.append(saltos.core.html(`
-        <style>
-            :root[data-bs-theme="dark"] .ts-control input,
-            :root[data-bs-theme="dark"] .ts-control,
-            :root[data-bs-theme="dark"] .ts-dropdown {
-                color: #fff;
-            }
-        </style>
-    `));
     return obj;
 };
 
@@ -3370,6 +3455,7 @@ saltos.bootstrap.__field.onetag = field => {
     saltos.core.require([
         'lib/tomselect/tom-select.bootstrap5.min.css',
         'lib/tomselect/tom-select.complete.min.js',
+        'lib/tomselect/tom-select.dark.min.css',
     ], () => {
         placeholder.remove();
         const tags = new TomSelect(element, {
@@ -3432,16 +3518,6 @@ saltos.bootstrap.__field.onetag = field => {
             element.tomselect.enable();
         }
     };
-    // Fix for dark mode
-    obj.append(saltos.core.html(`
-        <style>
-            :root[data-bs-theme="dark"] .ts-control input,
-            :root[data-bs-theme="dark"] .ts-control,
-            :root[data-bs-theme="dark"] .ts-dropdown {
-                color: #fff;
-            }
-        </style>
-    `));
     return obj;
 };
 

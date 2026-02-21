@@ -1,0 +1,71 @@
+
+/**
+ *  ____        _ _    ___  ____    _  _    ___
+ * / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ * \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ *  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ * |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ *
+ * SaltOS: Framework to develop Rich Internet Applications
+ * Copyright (c) 2007-2026 Josep Sanz Campderrós
+ * SPDX-License-Identifier: MIT
+ * Licensed under the MIT License.
+ * See the LICENSE file in the project root for full license information.
+ */
+
+:root[data-bs-theme="dark"] {
+
+    /* Texto base */
+    .ts-control,
+    .ts-control input,
+    .ts-dropdown {
+        color: var(--bs-body-color);
+    }
+
+    /* Items seleccionados (multi) */
+    .ts-wrapper.multi .ts-control > div {
+        background: var(--bs-tertiary-bg);
+        color: var(--bs-body-color);
+        border: 1px solid var(--bs-border-color);
+    }
+
+    /* Item activo */
+    .ts-wrapper.multi .ts-control > div.active {
+        background: var(--bs-primary);
+        color: var(--bs-white);
+        border-color: var(--bs-primary);
+    }
+
+    /* Hover remove button */
+    .ts-wrapper.plugin-remove_button .item .remove:hover {
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    /* Dropdown */
+    .ts-dropdown {
+        background: var(--bs-body-bg);
+        border-color: var(--bs-border-color);
+    }
+
+    /* Opciones */
+    .ts-dropdown .option {
+        color: var(--bs-body-color);
+    }
+
+    .ts-dropdown [data-selectable]:hover {
+        background-color: var(--bs-secondary-bg);
+        color: var(--bs-body-color);
+    }
+
+    .ts-dropdown .active {
+        background-color: var(--bs-tertiary-bg);
+        color: var(--bs-body-color);
+    }
+
+    /* Optgroup */
+    .ts-dropdown .optgroup-header {
+        color: var(--bs-secondary-color);
+        background: var(--bs-body-bg);
+    }
+
+}
