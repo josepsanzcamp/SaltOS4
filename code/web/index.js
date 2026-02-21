@@ -39,7 +39,13 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
                 border-radius: ${i};
             }
         </style>
-    `)),new MutationObserver(()=>{s.codemirror.setOption("theme",r())}).observe(document.documentElement,{attributes:!0,attributeFilter:["data-bs-theme"]}),e},saltos.bootstrap.__indent_helper=(e,t)=>{if(e.trim().length)switch(t){case"xml":e=vkbeautify.xml(e);break;case"json":case"js":case"javascript":/}{|]\[|}\[|]\{/.test(e)&&(e="["+e.replace(/}{|]\[|}\[|]\{/g,e=>e[0]+","+e[1])+"]");try{e=vkbeautify.json(e)}catch(e){}break;case"css":e=vkbeautify.css(e);break;case"sql":e=vkbeautify.sql(e)}return e},saltos.bootstrap.__field.iframe=t=>{saltos.core.check_params(t,["src","srcdoc","id","class","height","color","shadow","rounded"]),t.color||(t.color="primary");let e="shadow",o=(t.shadow&&(e=t.shadow),"rounded"),s=(t.rounded&&(o=t.rounded),`form-control p-0 ${e} ${o} border border-${t.color}-subtle`),a=("none"==t.color&&(s="border-0"),saltos.core.html(`
+    `)),new MutationObserver(()=>{s.codemirror.setOption("theme",r())}).observe(document.documentElement,{attributes:!0,attributeFilter:["data-bs-theme"]}),e.append(saltos.core.html(`
+        <style>
+            .CodeMirror {
+                font-size: 0.9rem;
+            }
+        </style>
+    `)),e},saltos.bootstrap.__indent_helper=(e,t)=>{if(e.trim().length)switch(t){case"xml":e=vkbeautify.xml(e);break;case"json":case"js":case"javascript":/}{|]\[|}\[|]\{/.test(e)&&(e="["+e.replace(/}{|]\[|}\[|]\{/g,e=>e[0]+","+e[1])+"]");try{e=vkbeautify.json(e)}catch(e){}break;case"css":e=vkbeautify.css(e);break;case"sql":e=vkbeautify.sql(e)}return e},saltos.bootstrap.__field.iframe=t=>{saltos.core.check_params(t,["src","srcdoc","id","class","height","color","shadow","rounded"]),t.color||(t.color="primary");let e="shadow",o=(t.shadow&&(e=t.shadow),"rounded"),s=(t.rounded&&(o=t.rounded),`form-control p-0 ${e} ${o} border border-${t.color}-subtle`),a=("none"==t.color&&(s="border-0"),saltos.core.html(`
         <div class="${s}" style="line-height: 0">
             <iframe id="${t.id}" frameborder="0" class="${o} ${t.class} w-100"></iframe>
         </div>

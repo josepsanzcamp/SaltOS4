@@ -438,7 +438,7 @@
         <title append="modal" ifeval="!get_data('rest/5')" require="apps/emails/php/getmail.php" eval="true">getmail_pdf(check_ids(get_data('rest/4')))['name']</title>
         <layout append="three,two,one">
             <row auto="true" col_class="col-12 mb-3">
-                <pdfjs>
+                <pdfjs id="pdfjs">
                     <srcdoc ifeval="get_data('rest/5')" require="apps/emails/php/getmail.php" eval="true">getmail_viewpdf(intval(get_data('rest/4')),get_data('rest/5'))</srcdoc>
                     <srcdoc ifeval="!get_data('rest/5')" require="apps/emails/php/getmail.php" eval="true">getmail_pdf(check_ids(get_data('rest/4')))['data']</srcdoc>
                 </pdfjs>
@@ -454,6 +454,12 @@
         </layout>
         <javascript>
             <inline>saltos.driver.init('view')</inline>
+            <inline>(() => {
+                const button = document.getElementById('pdfjs_pdfjs-dark').parentElement;
+                button.style.position = 'absolute';
+                button.style.top = '-44px';
+                button.style.right = '66px';
+            })()</inline>
         </javascript>
     </view>
 

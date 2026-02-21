@@ -66,7 +66,7 @@
         ])['name']</title>
         <layout append="three,two,one">
             <row auto="true" col_class="col-12 mb-3">
-                <pdfjs>
+                <pdfjs id="pdfjs">
                     <srcdoc ifeval="get_data('rest/5')" require="php/lib/files.php" eval="true">files_viewpdf(get_data('rest/1'), intval(get_data('rest/4')), intval(get_data('rest/5')))</srcdoc>
                     <srcdoc ifeval="!get_data('rest/5')" require="php/lib/pdf.php,apps/common/php/pdf.php" eval="true">pdf(detect_pdf_file(get_data('rest/1')), [
                         'id' => check_ids(get_data('rest/4')),
@@ -84,6 +84,12 @@
         </layout>
         <javascript>
             <inline>saltos.driver.init('view')</inline>
+            <inline>(() => {
+                const button = document.getElementById('pdfjs_pdfjs-dark').parentElement;
+                button.style.position = 'absolute';
+                button.style.top = '-44px';
+                button.style.right = '66px';
+            })()</inline>
         </javascript>
     </view>
 

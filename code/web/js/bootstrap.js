@@ -980,6 +980,14 @@ saltos.bootstrap.__field.codemirror = field => {
         attributes: true,
         attributeFilter: ['data-bs-theme'],
     });
+    // Fix for font-size
+    obj.append(saltos.core.html(`
+        <style>
+            .CodeMirror {
+                font-size: 0.9rem;
+            }
+        </style>
+    `));
     return obj;
 };
 
