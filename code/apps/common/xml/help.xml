@@ -33,12 +33,12 @@
             </row>
         </layout>
         <javascript>
-            <inline>
+            <inline>(() => {
                 const button = document.getElementById('pdfjs_pdfjs-dark').parentElement;
                 button.style.position = 'absolute';
                 button.style.top = '-44px';
                 button.style.right = '66px';
-            </inline>
+            })()</inline>
         </javascript>
     </help>
 </root>
