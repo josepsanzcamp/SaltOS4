@@ -866,7 +866,7 @@ saltos.bootstrap.__field.codemirror = field => {
         array.push('lib/vkbeautify/vkbeautify.min.js');
     }
     const detect_theme = () => {
-        return document.documentElement.dataset.bsTheme === 'dark' ? 'dracula' : 'default';
+        return saltos.bootstrap.__is_dark_helper() ? 'dracula' : 'default';
     };
     saltos.core.require(array, () => {
         placeholder.remove();
@@ -1136,7 +1136,8 @@ saltos.bootstrap.__field.iframe = field => {
     obj = saltos.bootstrap.__label_combine(field, obj);
     // Fix for dark mode
     const button_id = field.id + '_iframe-dark';
-    const button_value = saltos.core.eval_bool(saltos.storage.getItem(button_id));
+    const button_key = saltos.bootstrap.__button_key_helper(field.id);
+    const button_value = saltos.core.eval_bool(saltos.storage.getItem(button_key));
     if (button_value) {
         element.style.background = '#fff';
         element.style.filter = 'invert(.9)';
@@ -1147,7 +1148,7 @@ saltos.bootstrap.__field.iframe = field => {
         class: 'float-end',
         color: field.color,
         value: button_value,
-        onchange: () => {
+        onchange: event => {
             const bool = button.querySelector('input').checked;
             if (bool) {
                 element.style.background = '#fff';
@@ -1156,12 +1157,57 @@ saltos.bootstrap.__field.iframe = field => {
                 element.style.background = '';
                 element.style.filter = '';
             }
-            saltos.storage.setItem(button_id, bool);
+            if (event.isTrusted) {
+                const button_key = saltos.bootstrap.__button_key_helper(field.id);
+                saltos.storage.setItem(button_key, bool);
+            }
         },
     });
     button.querySelector('input').style.marginLeft = '0px';
     obj.prepend(button);
+    new MutationObserver(() => {
+        const button_key = saltos.bootstrap.__button_key_helper(field.id);
+        let button_value = saltos.storage.getItem(button_key);
+        if (button_value !== null) {
+            button_value = saltos.core.eval_bool(button_value);
+        } else {
+            button_value = saltos.bootstrap.__is_dark_helper();
+        }
+        button.querySelector('input').checked = button_value;
+        button.querySelector('input').dispatchEvent(new Event('change'));
+    }).observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-bs-theme'],
+    });
     return obj;
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.bootstrap.__is_dark_helper = () => {
+    return document.documentElement.dataset.bsTheme === 'dark';
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.bootstrap.__get_mode_helper = () => {
+    return saltos.bootstrap.__is_dark_helper() ? 'dark' : 'light';
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.bootstrap.__button_key_helper = field_id => {
+    const mode_id = saltos.bootstrap.__get_mode_helper();
+    return `${field_id}/${mode_id}`;
 };
 
 /**
@@ -2174,7 +2220,8 @@ saltos.bootstrap.__field.image = field => {
     obj = saltos.bootstrap.__label_combine(field, obj);
     // Fix for dark mode
     const button_id = field.id + '_image-dark';
-    const button_value = saltos.core.eval_bool(saltos.storage.getItem(button_id));
+    const button_key = saltos.bootstrap.__button_key_helper(field.id);
+    const button_value = saltos.core.eval_bool(saltos.storage.getItem(button_key));
     if (button_value) {
         element.style.filter = 'invert(.9)';
     }
@@ -2184,18 +2231,35 @@ saltos.bootstrap.__field.image = field => {
         class: 'float-end',
         color: field.color,
         value: button_value,
-        onchange: () => {
+        onchange: event => {
             const bool = button.querySelector('input').checked;
             if (bool) {
                 element.style.filter = 'invert(.9)';
             } else {
                 element.style.filter = '';
             }
-            saltos.storage.setItem(button_id, bool);
+            if (event.isTrusted) {
+                const button_key = saltos.bootstrap.__button_key_helper(field.id);
+                saltos.storage.setItem(button_key, bool);
+            }
         },
     });
     button.querySelector('input').style.marginLeft = '0px';
     obj.prepend(button);
+    new MutationObserver(() => {
+        const button_key = saltos.bootstrap.__button_key_helper(field.id);
+        let button_value = saltos.storage.getItem(button_key);
+        if (button_value !== null) {
+            button_value = saltos.core.eval_bool(button_value);
+        } else {
+            button_value = saltos.bootstrap.__is_dark_helper();
+        }
+        button.querySelector('input').checked = button_value;
+        button.querySelector('input').dispatchEvent(new Event('change'));
+    }).observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-bs-theme'],
+    });
     return obj;
 };
 
@@ -2473,7 +2537,8 @@ saltos.bootstrap.__field.pdfjs = field => {
     obj.append(placeholder);
     // Prepare the dark mode fix
     const button_id = field.id + '_pdfjs-dark';
-    const button_value = saltos.core.eval_bool(saltos.storage.getItem(button_id));
+    const button_key = saltos.bootstrap.__button_key_helper(field.id);
+    const button_value = saltos.core.eval_bool(saltos.storage.getItem(button_key));
     // Continue
     saltos.core.require([
         'lib/pdfjs/pdf.min.mjs',
@@ -2549,7 +2614,7 @@ saltos.bootstrap.__field.pdfjs = field => {
         class: 'float-end',
         color: field.color,
         value: button_value,
-        onchange: () => {
+        onchange: event => {
             const bool = button.querySelector('input').checked;
             element.querySelectorAll('canvas').forEach(item => {
                 if (bool) {
@@ -2558,11 +2623,28 @@ saltos.bootstrap.__field.pdfjs = field => {
                     item.style.filter = '';
                 }
             });
-            saltos.storage.setItem(button_id, bool);
+            if (event.isTrusted) {
+                const button_key = saltos.bootstrap.__button_key_helper(field.id);
+                saltos.storage.setItem(button_key, bool);
+            }
         },
     });
     button.querySelector('input').style.marginLeft = '0px';
     obj.prepend(button);
+    new MutationObserver(() => {
+        const button_key = saltos.bootstrap.__button_key_helper(field.id);
+        let button_value = saltos.storage.getItem(button_key);
+        if (button_value !== null) {
+            button_value = saltos.core.eval_bool(button_value);
+        } else {
+            button_value = saltos.bootstrap.__is_dark_helper();
+        }
+        button.querySelector('input').checked = button_value;
+        button.querySelector('input').dispatchEvent(new Event('change'));
+    }).observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-bs-theme'],
+    });
     return obj;
 };
 
