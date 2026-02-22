@@ -352,7 +352,7 @@
                 <switch id="state_crt" label="Request confirmation of receipt" col_class="col-sm-9 col-md-6 col-lg-6 mb-3"/>
                 <text id="state_error" label="Error" color="danger"/>
                 <text id="subject" label="Subject"/>
-                <iframe id="body" label="Body" height="5em" srcdoc="Loading..."/>
+                <iframe id="body" label="Body" height="5em" srcdoc="Loading..." invert="true"/>
                 <table id="files" label="Attachments" col_class="col-12 mb-3" dropdown="false">
                     <header>
                         <name>Filename</name>
@@ -416,7 +416,7 @@
         <title append="modal">Source of the email</title>
         <layout append="three,two,one">
             <row auto="true" col_class="col-12 mb-3">
-                <iframe>
+                <iframe id="iframe" invert="true">
                     <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_source(intval(get_data('rest/4')))</srcdoc>
                 </iframe>
             </row>
@@ -427,6 +427,12 @@
         </layout>
         <javascript>
             <inline>saltos.driver.init('view')</inline>
+            <inline>(() => {
+                const button = document.getElementById('iframe_dark').parentElement;
+                button.style.position = 'absolute';
+                button.style.top = '-44px';
+                button.style.right = '66px';
+            })()</inline>
         </javascript>
     </view>
 
@@ -438,7 +444,7 @@
         <title append="modal" ifeval="!get_data('rest/5')" require="apps/emails/php/getmail.php" eval="true">getmail_pdf(check_ids(get_data('rest/4')))['name']</title>
         <layout append="three,two,one">
             <row auto="true" col_class="col-12 mb-3">
-                <pdfjs id="pdfjs">
+                <pdfjs id="pdfjs" invert="true">
                     <srcdoc ifeval="get_data('rest/5')" require="apps/emails/php/getmail.php" eval="true">getmail_viewpdf(intval(get_data('rest/4')),get_data('rest/5'))</srcdoc>
                     <srcdoc ifeval="!get_data('rest/5')" require="apps/emails/php/getmail.php" eval="true">getmail_pdf(check_ids(get_data('rest/4')))['data']</srcdoc>
                 </pdfjs>
@@ -455,7 +461,7 @@
         <javascript>
             <inline>saltos.driver.init('view')</inline>
             <inline>(() => {
-                const button = document.getElementById('pdfjs_pdfjs-dark').parentElement;
+                const button = document.getElementById('pdfjs_dark').parentElement;
                 button.style.position = 'absolute';
                 button.style.top = '-44px';
                 button.style.right = '66px';

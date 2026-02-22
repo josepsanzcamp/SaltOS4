@@ -22,7 +22,7 @@
         <title append="modal">Help</title>
         <layout append="four">
             <row auto="true" col_class="col-12 mb-3">
-                <pdfjs id="pdfjs">
+                <pdfjs id="pdfjs" invert="true">
                     <src require="php/lib/help.php" eval="true">detect_help_file(get_data('rest/4'), current_lang())</src>
                 </pdfjs>
             </row>
@@ -34,7 +34,7 @@
         </layout>
         <javascript>
             <inline>(() => {
-                const button = document.getElementById('pdfjs_pdfjs-dark').parentElement;
+                const button = document.getElementById('pdfjs_dark').parentElement;
                 button.style.position = 'absolute';
                 button.style.top = '-44px';
                 button.style.right = '66px';

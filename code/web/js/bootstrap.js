@@ -1045,6 +1045,7 @@ saltos.bootstrap.__indent_helper = (str, mode) => {
  * @height => the height used as style.minHeight parameter
  * @label  => this parameter is used as text for the label
  * @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @invert => enable the invert feature in the widget contents
  *
  * Notes:
  *
@@ -1057,7 +1058,7 @@ saltos.bootstrap.__indent_helper = (str, mode) => {
  * and the parent container, we must to add the d-block to convert it from inline to block
  */
 saltos.bootstrap.__field.iframe = field => {
-    saltos.core.check_params(field, ['src', 'srcdoc', 'id', 'class',
+    saltos.core.check_params(field, ['src', 'srcdoc', 'id', 'class', 'invert',
                                      'height', 'color', 'shadow', 'rounded']);
     if (!field.color) {
         field.color = 'primary';
@@ -1135,79 +1136,93 @@ saltos.bootstrap.__field.iframe = field => {
     };
     obj = saltos.bootstrap.__label_combine(field, obj);
     // Fix for dark mode
-    const button_id = field.id + '_iframe-dark';
-    const button_key = saltos.bootstrap.__button_key_helper(field.id);
-    const button_value = saltos.core.eval_bool(saltos.storage.getItem(button_key));
-    if (button_value) {
-        element.style.background = '#fff';
-        element.style.filter = 'invert(.9)';
-    }
-    const button = saltos.bootstrap.field({
-        id: button_id,
-        type: 'switch',
-        class: 'float-end',
-        color: field.color,
-        value: button_value,
-        onchange: event => {
-            const bool = button.querySelector('input').checked;
-            if (bool) {
-                element.style.background = '#fff';
-                element.style.filter = 'invert(.9)';
-            } else {
-                element.style.background = '';
-                element.style.filter = '';
-            }
-            if (event.isTrusted) {
-                const button_key = saltos.bootstrap.__button_key_helper(field.id);
-                saltos.storage.setItem(button_key, bool);
-            }
-        },
-    });
-    button.querySelector('input').style.marginLeft = '0px';
-    obj.prepend(button);
-    new MutationObserver(() => {
-        const button_key = saltos.bootstrap.__button_key_helper(field.id);
-        let button_value = saltos.storage.getItem(button_key);
-        if (button_value !== null) {
-            button_value = saltos.core.eval_bool(button_value);
-        } else {
-            button_value = saltos.bootstrap.__is_dark_helper();
+    if (saltos.core.eval_bool(field.invert)) {
+        const button_id = field.id + '_dark';
+        const button_value = saltos.bootstrap.__button_value_helper(field.id);
+        if (button_value) {
+            element.style.background = '#fff';
+            element.style.filter = 'invert(.9)';
         }
-        button.querySelector('input').checked = button_value;
-        button.querySelector('input').dispatchEvent(new Event('change'));
-    }).observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ['data-bs-theme'],
-    });
+        const button = saltos.bootstrap.field({
+            id: button_id,
+            type: 'switch',
+            class: 'float-end',
+            color: field.color,
+            value: button_value,
+            onchange: event => {
+                const bool = button.querySelector('input').checked;
+                if (bool) {
+                    element.style.background = '#fff';
+                    element.style.filter = 'invert(.9)';
+                } else {
+                    element.style.background = '';
+                    element.style.filter = '';
+                }
+                if (event.isTrusted) {
+                    const button_key = saltos.bootstrap.__button_key_helper(field.id);
+                    saltos.storage.setItem(button_key, bool);
+                }
+            },
+        });
+        button.querySelector('input').style.marginLeft = '0px';
+        obj.prepend(button);
+        new MutationObserver(() => {
+            const button_value = saltos.bootstrap.__button_value_helper(field.id);
+            button.querySelector('input').checked = button_value;
+            button.querySelector('input').dispatchEvent(new Event('change'));
+        }).observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['data-bs-theme'],
+        });
+    }
     return obj;
 };
 
 /**
- * TODO
+ * Determines whether the current Bootstrap theme is set to dark mode.
  *
- * TODO
+ * @returns {boolean} True if the active theme is "dark", otherwise false.
  */
 saltos.bootstrap.__is_dark_helper = () => {
     return document.documentElement.dataset.bsTheme === 'dark';
 };
 
 /**
- * TODO
+ * Returns the current UI mode based on the Bootstrap theme.
  *
- * TODO
+ * @returns {string} "dark" if dark mode is active, otherwise "light".
  */
 saltos.bootstrap.__get_mode_helper = () => {
     return saltos.bootstrap.__is_dark_helper() ? 'dark' : 'light';
 };
 
 /**
- * TODO
+ * Generates a storage key for a button based on its field ID and the current mode.
  *
- * TODO
+ * @param {string} field_id - The unique identifier of the field.
+ * @returns {string} A composed key in the format "field_id/mode".
  */
 saltos.bootstrap.__button_key_helper = field_id => {
     const mode_id = saltos.bootstrap.__get_mode_helper();
     return `${field_id}/${mode_id}`;
+};
+
+/**
+ * Retrieves the stored button value for the given field and current mode.
+ * Falls back to the current theme mode if no stored value exists.
+ *
+ * @param {string} field_id - The unique identifier of the field.
+ * @returns {boolean} The stored boolean value, or the current theme mode as default.
+ */
+saltos.bootstrap.__button_value_helper = field_id => {
+    const key = saltos.bootstrap.__button_key_helper(field_id);
+    let value = saltos.storage.getItem(key);
+    if (value !== null) {
+        value = saltos.core.eval_bool(value);
+    } else {
+        value = saltos.bootstrap.__is_dark_helper();
+    }
+    return value;
 };
 
 /**
@@ -2185,9 +2200,10 @@ saltos.bootstrap.__field.label = field => {
  * @width   => this parameter is used as width for the image
  * @height  => this parameter is used as height for the image
  * @color   => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @invert  => enable the invert feature in the widget contents
  */
 saltos.bootstrap.__field.image = field => {
-    saltos.core.check_params(field, ['id', 'class', 'value', 'alt', 'tooltip',
+    saltos.core.check_params(field, ['id', 'class', 'value', 'alt', 'tooltip', 'invert',
                                      'width', 'height', 'color', 'shadow', 'rounded']);
     if (field.class == '') {
         field.class = 'img-fluid';
@@ -2219,47 +2235,42 @@ saltos.bootstrap.__field.image = field => {
     }
     obj = saltos.bootstrap.__label_combine(field, obj);
     // Fix for dark mode
-    const button_id = field.id + '_image-dark';
-    const button_key = saltos.bootstrap.__button_key_helper(field.id);
-    const button_value = saltos.core.eval_bool(saltos.storage.getItem(button_key));
-    if (button_value) {
-        element.style.filter = 'invert(.9)';
-    }
-    const button = saltos.bootstrap.field({
-        id: button_id,
-        type: 'switch',
-        class: 'float-end',
-        color: field.color,
-        value: button_value,
-        onchange: event => {
-            const bool = button.querySelector('input').checked;
-            if (bool) {
-                element.style.filter = 'invert(.9)';
-            } else {
-                element.style.filter = '';
-            }
-            if (event.isTrusted) {
-                const button_key = saltos.bootstrap.__button_key_helper(field.id);
-                saltos.storage.setItem(button_key, bool);
-            }
-        },
-    });
-    button.querySelector('input').style.marginLeft = '0px';
-    obj.prepend(button);
-    new MutationObserver(() => {
-        const button_key = saltos.bootstrap.__button_key_helper(field.id);
-        let button_value = saltos.storage.getItem(button_key);
-        if (button_value !== null) {
-            button_value = saltos.core.eval_bool(button_value);
-        } else {
-            button_value = saltos.bootstrap.__is_dark_helper();
+    if (saltos.core.eval_bool(field.invert)) {
+        const button_id = field.id + '_dark';
+        const button_value = saltos.bootstrap.__button_value_helper(field.id);
+        if (button_value) {
+            element.style.filter = 'invert(.9)';
         }
-        button.querySelector('input').checked = button_value;
-        button.querySelector('input').dispatchEvent(new Event('change'));
-    }).observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ['data-bs-theme'],
-    });
+        const button = saltos.bootstrap.field({
+            id: button_id,
+            type: 'switch',
+            class: 'float-end',
+            color: field.color,
+            value: button_value,
+            onchange: event => {
+                const bool = button.querySelector('input').checked;
+                if (bool) {
+                    element.style.filter = 'invert(.9)';
+                } else {
+                    element.style.filter = '';
+                }
+                if (event.isTrusted) {
+                    const button_key = saltos.bootstrap.__button_key_helper(field.id);
+                    saltos.storage.setItem(button_key, bool);
+                }
+            },
+        });
+        button.querySelector('input').style.marginLeft = '0px';
+        obj.prepend(button);
+        new MutationObserver(() => {
+            const button_value = saltos.bootstrap.__button_value_helper(field.id);
+            button.querySelector('input').checked = button_value;
+            button.querySelector('input').dispatchEvent(new Event('change'));
+        }).observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['data-bs-theme'],
+        });
+    }
     return obj;
 };
 
@@ -2499,6 +2510,7 @@ saltos.bootstrap.__field.excel = field => {
  * @srcdoc => the data that contains the pdf document
  * @label  => this parameter is used as text for the label
  * @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @invert => enable the invert feature in the widget contents
  *
  * Notes:
  *
@@ -2516,7 +2528,8 @@ saltos.bootstrap.__field.excel = field => {
  * that modal scrollTop is the same.
  */
 saltos.bootstrap.__field.pdfjs = field => {
-    saltos.core.check_params(field, ['id', 'class', 'src', 'srcdoc', 'color', 'shadow', 'rounded']);
+    saltos.core.check_params(field, ['id', 'class', 'src', 'srcdoc',
+                                     'invert', 'color', 'shadow', 'rounded']);
     if (field.srcdoc != '') {
         field.src = {data: atob(field.srcdoc)};
     }
@@ -2535,11 +2548,6 @@ saltos.bootstrap.__field.pdfjs = field => {
         color: field.color,
     });
     obj.append(placeholder);
-    // Prepare the dark mode fix
-    const button_id = field.id + '_pdfjs-dark';
-    const button_key = saltos.bootstrap.__button_key_helper(field.id);
-    const button_value = saltos.core.eval_bool(saltos.storage.getItem(button_key));
-    // Continue
     saltos.core.require([
         'lib/pdfjs/pdf.min.mjs',
     ], async () => {
@@ -2591,8 +2599,11 @@ saltos.bootstrap.__field.pdfjs = field => {
                         div.classList.add(shadow);
                         div.classList.add('border');
                         div.classList.add('border-' + field.color);
-                        if (button_value) {
-                            canvas.style.filter = 'invert(.9)';
+                        if (saltos.core.eval_bool(field.invert)) {
+                            const button_value = saltos.bootstrap.__button_value_helper(field.id);
+                            if (button_value) {
+                                canvas.style.filter = 'invert(.9)';
+                            }
                         }
                         if (num < pdf.numPages) {
                             div.classList.add('mb-3');
@@ -2608,43 +2619,41 @@ saltos.bootstrap.__field.pdfjs = field => {
     });
     obj = saltos.bootstrap.__label_combine(field, obj);
     // Fix for dark mode
-    const button = saltos.bootstrap.field({
-        id: button_id,
-        type: 'switch',
-        class: 'float-end',
-        color: field.color,
-        value: button_value,
-        onchange: event => {
-            const bool = button.querySelector('input').checked;
-            element.querySelectorAll('canvas').forEach(item => {
-                if (bool) {
-                    item.style.filter = 'invert(.9)';
-                } else {
-                    item.style.filter = '';
+    if (saltos.core.eval_bool(field.invert)) {
+        const button_id = field.id + '_dark';
+        const button_value = saltos.bootstrap.__button_value_helper(field.id);
+        const button = saltos.bootstrap.field({
+            id: button_id,
+            type: 'switch',
+            class: 'float-end',
+            color: field.color,
+            value: button_value,
+            onchange: event => {
+                const bool = button.querySelector('input').checked;
+                element.querySelectorAll('canvas').forEach(item => {
+                    if (bool) {
+                        item.style.filter = 'invert(.9)';
+                    } else {
+                        item.style.filter = '';
+                    }
+                });
+                if (event.isTrusted) {
+                    const button_key = saltos.bootstrap.__button_key_helper(field.id);
+                    saltos.storage.setItem(button_key, bool);
                 }
-            });
-            if (event.isTrusted) {
-                const button_key = saltos.bootstrap.__button_key_helper(field.id);
-                saltos.storage.setItem(button_key, bool);
-            }
-        },
-    });
-    button.querySelector('input').style.marginLeft = '0px';
-    obj.prepend(button);
-    new MutationObserver(() => {
-        const button_key = saltos.bootstrap.__button_key_helper(field.id);
-        let button_value = saltos.storage.getItem(button_key);
-        if (button_value !== null) {
-            button_value = saltos.core.eval_bool(button_value);
-        } else {
-            button_value = saltos.bootstrap.__is_dark_helper();
-        }
-        button.querySelector('input').checked = button_value;
-        button.querySelector('input').dispatchEvent(new Event('change'));
-    }).observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ['data-bs-theme'],
-    });
+            },
+        });
+        button.querySelector('input').style.marginLeft = '0px';
+        obj.prepend(button);
+        new MutationObserver(() => {
+            const button_value = saltos.bootstrap.__button_value_helper(field.id);
+            button.querySelector('input').checked = button_value;
+            button.querySelector('input').dispatchEvent(new Event('change'));
+        }).observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['data-bs-theme'],
+        });
+    }
     return obj;
 };
 

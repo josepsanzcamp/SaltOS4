@@ -120,12 +120,12 @@ function make_matrix_version($app, $id)
     // Apply color schemes to matrix cells based on ranges
     $matrix = [];
     $colors = [
-        'bg-primary-subtle text-black',
+        'bg-primary-subtle text-primary-emphasis',
         //~ 'bg-secondary-subtle text-black',
-        'bg-success-subtle text-black',
-        'bg-danger-subtle text-black',
-        'bg-warning-subtle text-black',
-        'bg-info-subtle text-black',
+        'bg-success-subtle text-success-emphasis',
+        'bg-danger-subtle text-danger-emphasis',
+        'bg-warning-subtle text-warning-emphasis',
+        'bg-info-subtle text-info-emphasis',
         //~ 'bg-light-subtle text-black',
         //~ 'bg-dark-subtle text-black',
     ];
