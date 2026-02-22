@@ -1,0 +1,1 @@
+:root[data-bs-theme=dark]{& .jstree-closed:after,& .jstree-opened:after{border-left-color:#fff}& .jstree-icon-i,& .jstree-icon-t,& .jstree-icon-v:after,& .jstree-icon-v2:after,& .jstree-icon-h:before{filter:invert()}& .jstree-node-text{color:#fff}& .jstree-node-text:hover{background:#444}& .jstree-selected,& .jstree-selected:hover{color:#fff;background:#0d6efd}}

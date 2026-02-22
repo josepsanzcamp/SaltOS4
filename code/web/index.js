@@ -280,53 +280,71 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1 fw-normal ${a.class}"></h5>
                 </div>
-            `);i.querySelector("h5").append(a.header),saltos.core.eval_bool(l.truncate)&&i.querySelector("h5").classList.add("text-truncate"),""!=a.header_text&&""!=a.header_icon?i.append(saltos.core.html(`
-                    <small class="text-nowrap text-${a.header_color} ms-1">
-                        ${a.header_text}
-                        <i class="bi bi-${a.header_icon}"></i>
-                    </small>
+            `);i.querySelector("h5").append(a.header),saltos.core.eval_bool(l.truncate)&&i.querySelector("h5").classList.add("text-truncate"),""==a.header_color&&(a.header_color="secondary"),""!=a.header_text&&""!=a.header_icon?i.append(saltos.core.html(`
+                    <div class="text-nowrap ms-1">
+                        <span class="badge rounded-pill text-bg-${a.header_color}">
+                            ${a.header_text}
+                            <i class="bi bi-${a.header_icon}"></i>
+                        </span>
+                    </div>
                 `)):""!=a.header_text?i.append(saltos.core.html(`
-                    <small class="text-nowrap text-${a.header_color} ms-1">
-                        ${a.header_text}
-                    </small>
+                    <div class="text-nowrap ms-1">
+                        <span class="badge rounded-pill text-bg-${a.header_color}">
+                            ${a.header_text}
+                        </span>
+                    </div>
                 `)):""!=a.header_icon&&i.append(saltos.core.html(`
-                    <small class="text-nowrap text-${a.header_color} ms-1">
-                        <i class="bi bi-${a.header_icon}"></i>
-                    </small>
+                    <div class="text-nowrap ms-1">
+                        <span class="badge rounded-pill text-bg-${a.header_color}">
+                            <i class="bi bi-${a.header_icon}"></i>
+                        </span>
+                    </div>
                 `)),e.append(i)}if(""!=a.body){const c=saltos.core.html(`
                 <div class="d-flex w-100 justify-content-between">
                     <p class="mb-1"></p>
                 </div>
-            `);c.querySelector("p").append(a.body),saltos.core.eval_bool(l.truncate)&&c.querySelector("p").classList.add("text-truncate"),""!=a.body_text&&""!=a.body_icon?c.append(saltos.core.html(`
-                    <small class="text-nowrap text-${a.body_color} ms-1">
-                        ${a.body_text}
-                        <i class="bi bi-${a.body_icon}"></i>
-                    </small>
+            `);c.querySelector("p").append(a.body),saltos.core.eval_bool(l.truncate)&&c.querySelector("p").classList.add("text-truncate"),""==a.body_color&&(a.body_color="secondary"),""!=a.body_text&&""!=a.body_icon?c.append(saltos.core.html(`
+                    <div class="text-nowrap ms-1">
+                        <span class="badge rounded-pill text-bg-${a.body_color}">
+                            ${a.body_text}
+                            <i class="bi bi-${a.body_icon}"></i>
+                        </span>
+                    </div>
                 `)):""!=a.body_text?c.append(saltos.core.html(`
-                    <small class="text-nowrap text-${a.body_color} ms-1">
-                        ${a.body_text}
-                    </small>
+                    <div class="text-nowrap ms-1">
+                        <span class="badge rounded-pill text-bg-${a.body_color}">
+                            ${a.body_text}
+                        </span>
+                    </div>
                 `)):""!=a.body_icon&&c.append(saltos.core.html(`
-                    <small class="text-nowrap text-${a.body_color} ms-1">
-                        <i class="bi bi-${a.body_icon}"></i>
-                    </small>
+                    <div class="text-nowrap ms-1">
+                        <span class="badge rounded-pill text-bg-${a.body_color}">
+                            <i class="bi bi-${a.body_icon}"></i>
+                        </span>
+                    </div>
                 `)),e.append(c)}if(""!=a.footer){const d=saltos.core.html(`
                 <div class="d-flex w-100 justify-content-between">
                     <small></small>
                 </div>
-            `);d.querySelector("small").append(a.footer),saltos.core.eval_bool(l.truncate)&&d.querySelector("small").classList.add("text-truncate"),""!=a.footer_text&&""!=a.footer_icon?d.append(saltos.core.html(`
-                    <small class="text-nowrap text-${a.footer_color} ms-1">
-                        ${a.footer_text}
-                        <i class="bi bi-${a.footer_icon}"></i>
-                    </small>
+            `);d.querySelector("small").append(a.footer),saltos.core.eval_bool(l.truncate)&&d.querySelector("small").classList.add("text-truncate"),""==a.footer_color&&(a.footer_color="secondary"),""!=a.footer_text&&""!=a.footer_icon?d.append(saltos.core.html(`
+                    <div class="text-nowrap ms-1">
+                        <span class="badge rounded-pill text-bg-${a.footer_color}">
+                            ${a.footer_text}
+                            <i class="bi bi-${a.footer_icon}"></i>
+                        </span>
+                    </div>
                 `)):""!=a.footer_text?d.append(saltos.core.html(`
-                    <small class="text-nowrap text-${a.footer_color} ms-1">
-                        ${a.footer_text}
-                    </small>
+                    <div class="text-nowrap ms-1">
+                        <span class="badge rounded-pill text-bg-${a.footer_color}">
+                            ${a.footer_text}
+                        </span>
+                    </div>
                 `)):""!=a.footer_icon&&d.append(saltos.core.html(`
-                    <small class="text-nowrap text-${a.footer_color} ms-1">
-                        <i class="bi bi-${a.footer_icon}"></i>
-                    </small>
+                    <div class="text-nowrap ms-1">
+                        <span class="badge rounded-pill text-bg-${a.footer_color}">
+                            <i class="bi bi-${a.footer_icon}"></i>
+                        </span>
+                    </div>
                 `)),e.append(d)}saltos.core.eval_bool(a.active)&&(e.classList.add("active"),e.setAttribute("aria-current","true")),saltos.core.eval_bool(a.disabled)&&(e.classList.add("disabled"),e.setAttribute("aria-disabled","true")),r.append(e)}return r.lastElementChild&&r.lastElementChild.classList.add(o),r.append(saltos.core.html(`
         <style>
             .list-group {
@@ -404,7 +422,7 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
                     </div>
                 </div>
             </div>
-        `);c.querySelector(".accordion-button").append(e.label),c.querySelector(".accordion-body").append(e.content),r.append(c)}return r=saltos.bootstrap.__label_combine(l,r)},saltos.bootstrap.__field.jstree=o=>{saltos.core.check_params(o,["id","class","open","onclick","nodata","color"]),saltos.core.check_params(o,["data"],[]),o.color||(o.color="primary");let e=saltos.core.html(`<div id="${o.id}" class="${o.class}"></div>`);const t=e,s=saltos.bootstrap.__field.placeholder({color:o.color});return e.append(s),saltos.core.require(["lib/jstree/jstree.min.css?02f744dff770a5dd0df6cbec22f351ec","lib/jstree/jstree.min.js?bbc5da7d04d05b9bd46855d114405966"],()=>{s.remove();const e=new jsTree({},t);(t.instance=e).on("select",e=>{let t=e.node.data.text;if(t="id"in e.node.data?e.node.data.id:t)if("string"==typeof o.onclick)new Function(o.onclick).call(t);else{if("function"!=typeof o.onclick)throw new Error("Unknown jstree onclick typeof "+typeof o.onclick);o.onclick(t)}}),t.append(saltos.core.html(`
+        `);c.querySelector(".accordion-button").append(e.label),c.querySelector(".accordion-body").append(e.content),r.append(c)}return r=saltos.bootstrap.__label_combine(l,r)},saltos.bootstrap.__field.jstree=o=>{saltos.core.check_params(o,["id","class","open","onclick","nodata","color"]),saltos.core.check_params(o,["data"],[]),o.color||(o.color="primary");let e=saltos.core.html(`<div id="${o.id}" class="${o.class}"></div>`);const t=e,s=saltos.bootstrap.__field.placeholder({color:o.color});return e.append(s),saltos.core.require(["lib/jstree/jstree.min.css?02f744dff770a5dd0df6cbec22f351ec","lib/jstree/jstree.min.js?bbc5da7d04d05b9bd46855d114405966","lib/jstree/jstree.dark.min.css?2c304c0e9c1f8c9cffa2025524d74059"],()=>{s.remove();const e=new jsTree({},t);(t.instance=e).on("select",e=>{let t=e.node.data.text;if(t="id"in e.node.data?e.node.data.id:t)if("string"==typeof o.onclick)new Function(o.onclick).call(t);else{if("function"!=typeof o.onclick)throw new Error("Unknown jstree onclick typeof "+typeof o.onclick);o.onclick(t)}}),t.append(saltos.core.html(`
             <style>
                 .jstree-node-text { color:var(--bs-${o.color}); }
                 .jstree-node-text:hover { background:#fbec88; color:#373a3c; }

@@ -8,3 +8,5 @@ trash jstree
 
 #wget https://raw.githubusercontent.com/vakata/jstree/refs/heads/v.4.0/LICENSE-MIT
 #wget https://raw.githubusercontent.com/vakata/jstree/refs/heads/v.4.0/README.md
+
+#minify jstree.dark.css > jstree.dark.min.css

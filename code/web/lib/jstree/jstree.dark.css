@@ -1,0 +1,49 @@
+
+/**
+ *  ____        _ _    ___  ____    _  _    ___
+ * / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ * \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ *  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ * |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ *
+ * SaltOS: Framework to develop Rich Internet Applications
+ * Copyright (c) 2007-2026 Josep Sanz Campderrós
+ * SPDX-License-Identifier: MIT
+ * Licensed under the MIT License.
+ * See the LICENSE file in the project root for full license information.
+ */
+
+:root[data-bs-theme="dark"] {
+
+    /* Flechas */
+    .jstree-closed:after,
+    .jstree-opened:after {
+        border-left-color: #fff;
+    }
+
+    /* Líneas verticales */
+    .jstree-icon-i,
+    .jstree-icon-t,
+    .jstree-icon-v:after,
+    .jstree-icon-v2:after,
+    .jstree-icon-h:before {
+        filter: invert(1);
+    }
+
+    /* Texto */
+    .jstree-node-text {
+        color: #fff;
+    }
+
+    .jstree-node-text:hover {
+        background: #444;
+    }
+
+    /* Selección */
+    .jstree-selected,
+    .jstree-selected:hover {
+        background: #0d6efd;
+        color: #fff;
+    }
+
+}

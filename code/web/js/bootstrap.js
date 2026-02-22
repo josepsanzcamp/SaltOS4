@@ -4005,24 +4005,33 @@ saltos.bootstrap.__field.list = field => {
             if (saltos.core.eval_bool(field.truncate)) {
                 temp.querySelector('h5').classList.add('text-truncate');
             }
+            if (val.header_color == '') {
+                val.header_color = 'secondary';
+            }
             if (val.header_text != '' && val.header_icon != '') {
                 temp.append(saltos.core.html(`
-                    <small class="text-nowrap text-${val.header_color} ms-1">
-                        ${val.header_text}
-                        <i class="bi bi-${val.header_icon}"></i>
-                    </small>
+                    <div class="text-nowrap ms-1">
+                        <span class="badge rounded-pill text-bg-${val.header_color}">
+                            ${val.header_text}
+                            <i class="bi bi-${val.header_icon}"></i>
+                        </span>
+                    </div>
                 `));
             } else if (val.header_text != '') {
                 temp.append(saltos.core.html(`
-                    <small class="text-nowrap text-${val.header_color} ms-1">
-                        ${val.header_text}
-                    </small>
+                    <div class="text-nowrap ms-1">
+                        <span class="badge rounded-pill text-bg-${val.header_color}">
+                            ${val.header_text}
+                        </span>
+                    </div>
                 `));
             } else if (val.header_icon != '') {
                 temp.append(saltos.core.html(`
-                    <small class="text-nowrap text-${val.header_color} ms-1">
-                        <i class="bi bi-${val.header_icon}"></i>
-                    </small>
+                    <div class="text-nowrap ms-1">
+                        <span class="badge rounded-pill text-bg-${val.header_color}">
+                            <i class="bi bi-${val.header_icon}"></i>
+                        </span>
+                    </div>
                 `));
             }
             item.append(temp);
@@ -4037,24 +4046,33 @@ saltos.bootstrap.__field.list = field => {
             if (saltos.core.eval_bool(field.truncate)) {
                 temp.querySelector('p').classList.add('text-truncate');
             }
+            if (val.body_color == '') {
+                val.body_color = 'secondary';
+            }
             if (val.body_text != '' && val.body_icon != '') {
                 temp.append(saltos.core.html(`
-                    <small class="text-nowrap text-${val.body_color} ms-1">
-                        ${val.body_text}
-                        <i class="bi bi-${val.body_icon}"></i>
-                    </small>
+                    <div class="text-nowrap ms-1">
+                        <span class="badge rounded-pill text-bg-${val.body_color}">
+                            ${val.body_text}
+                            <i class="bi bi-${val.body_icon}"></i>
+                        </span>
+                    </div>
                 `));
             } else if (val.body_text != '') {
                 temp.append(saltos.core.html(`
-                    <small class="text-nowrap text-${val.body_color} ms-1">
-                        ${val.body_text}
-                    </small>
+                    <div class="text-nowrap ms-1">
+                        <span class="badge rounded-pill text-bg-${val.body_color}">
+                            ${val.body_text}
+                        </span>
+                    </div>
                 `));
             } else if (val.body_icon != '') {
                 temp.append(saltos.core.html(`
-                    <small class="text-nowrap text-${val.body_color} ms-1">
-                        <i class="bi bi-${val.body_icon}"></i>
-                    </small>
+                    <div class="text-nowrap ms-1">
+                        <span class="badge rounded-pill text-bg-${val.body_color}">
+                            <i class="bi bi-${val.body_icon}"></i>
+                        </span>
+                    </div>
                 `));
             }
             item.append(temp);
@@ -4069,24 +4087,33 @@ saltos.bootstrap.__field.list = field => {
             if (saltos.core.eval_bool(field.truncate)) {
                 temp.querySelector('small').classList.add('text-truncate');
             }
+            if (val.footer_color == '') {
+                val.footer_color = 'secondary';
+            }
             if (val.footer_text != '' && val.footer_icon != '') {
                 temp.append(saltos.core.html(`
-                    <small class="text-nowrap text-${val.footer_color} ms-1">
-                        ${val.footer_text}
-                        <i class="bi bi-${val.footer_icon}"></i>
-                    </small>
+                    <div class="text-nowrap ms-1">
+                        <span class="badge rounded-pill text-bg-${val.footer_color}">
+                            ${val.footer_text}
+                            <i class="bi bi-${val.footer_icon}"></i>
+                        </span>
+                    </div>
                 `));
             } else if (val.footer_text != '') {
                 temp.append(saltos.core.html(`
-                    <small class="text-nowrap text-${val.footer_color} ms-1">
-                        ${val.footer_text}
-                    </small>
+                    <div class="text-nowrap ms-1">
+                        <span class="badge rounded-pill text-bg-${val.footer_color}">
+                            ${val.footer_text}
+                        </span>
+                    </div>
                 `));
             } else if (val.footer_icon != '') {
                 temp.append(saltos.core.html(`
-                    <small class="text-nowrap text-${val.footer_color} ms-1">
-                        <i class="bi bi-${val.footer_icon}"></i>
-                    </small>
+                    <div class="text-nowrap ms-1">
+                        <span class="badge rounded-pill text-bg-${val.footer_color}">
+                            <i class="bi bi-${val.footer_icon}"></i>
+                        </span>
+                    </div>
                 `));
             }
             item.append(temp);
@@ -4489,6 +4516,7 @@ saltos.bootstrap.__field.jstree = field => {
     saltos.core.require([
         'lib/jstree/jstree.min.css',
         'lib/jstree/jstree.min.js',
+        'lib/jstree/jstree.dark.min.css',
     ], () => {
         placeholder.remove();
         const instance = new jsTree({}, element);
