@@ -24,58 +24,24 @@
         <navbar id="navbar" pos="sticky-top" brand.image="img/logo_saltos.png" brand.alt="SaltOS" brand.width="182" brand.height="56">
             <items>
                 <menu class="navbar-nav me-auto">
-                    <item label="Home" disabled="false" onclick="alert(1)"/>
-                    <item label="Link" disabled="false" onclick="alert(2)"/>
-                    <item label="Dropdown" disabled="false">
-                        <menu>
-                            <item label="Action" disabled="false" onclick="alert(3)"/>
-                            <item label="Another action" disabled="false" onclick="alert(4)"/>
-                            <item divider="true"/>
-                            <item label="Something else here" disabled="false" onclick="alert(5)"/>
-                        </menu>
+                    <item label="Dashboard" onclick="saltos.window.open('app/dashboard')"/>
+                    <item label="Applications">
+                        <menu require="apps/dashboard/php/dashboard.php" eval="true">__navbar_helper()</menu>
                     </item>
-                    <item label="Disable" disabled="false" onclick="saltos.app.form_disabled(true)"/>
-                    <item label="Enable" disabled="false" onclick="saltos.app.form_disabled(false)"/>
+                    <item label="Enable" onclick="saltos.app.form_disabled(false)"/>
+                    <item label="Disable" onclick="saltos.app.form_disabled(true)"/>
+                    <item label="Auto" onclick="saltos.bootstrap.set_bs_theme('auto')"/>
+                    <item label="Light" onclick="saltos.bootstrap.set_bs_theme('light')"/>
+                    <item label="Dark" onclick="saltos.bootstrap.set_bs_theme('dark')"/>
                 </menu>
-                <form class="d-flex">
-                    <text placeholder="Search" color="light" id="search" rounded="rounded-pill"/>
-                    <button onclick="alert(7)" color="light" class=" mx-1 text-nowrap" label="Search"/>
-                </form>
-                <menu class="navbar-nav">
-                    <item label="Themes" dropdown_menu_end="true">
+                <menu class="navbar-nav ms-auto">
+                    <item id="username" dropdown_menu_end="true" icon="person">
+                        <label eval="true">execute_query('SELECT name FROM tbl_users WHERE id = ?', [current_user()])</label>
                         <menu>
-                            <item label="bootstrap" disabled="false" onclick="alert('bootstrap')"/>
-                            <item label="cerulean" disabled="false" onclick="alert('cerulean')"/>
-                            <item label="cosmo" disabled="false" onclick="alert('cosmo')"/>
-                            <item label="cyborg" disabled="false" onclick="alert('cyborg')"/>
-                            <item label="darkly" disabled="false" onclick="alert('darkly')"/>
-                            <item label="flatly" disabled="false" onclick="alert('flatly')"/>
-                            <item label="journal" disabled="false" onclick="alert('journal')"/>
-                            <item label="litera" disabled="false" onclick="alert('litera')"/>
-                            <item label="lumen" disabled="false" onclick="alert('lumen')"/>
-                            <item label="lux" disabled="false" onclick="alert('lux')"/>
-                            <item label="materia" disabled="false" onclick="alert('materia')"/>
-                            <item label="minty" disabled="false" onclick="alert('minty')"/>
-                            <item label="morph" disabled="false" onclick="alert('morph')"/>
-                            <item label="pulse" disabled="false" onclick="alert('pulse')"/>
-                            <item label="quartz" disabled="false" onclick="alert('quartz')"/>
-                            <item label="sandstone" disabled="false" onclick="alert('sandstone')"/>
-                            <item label="simplex" disabled="false" onclick="alert('simplex')"/>
-                            <item label="sketchy" disabled="false" onclick="alert('sketchy')"/>
-                            <item label="slate" disabled="false" onclick="alert('slate')"/>
-                            <item label="solar" disabled="false" onclick="alert('solar')"/>
-                            <item label="spacelab" disabled="false" onclick="alert('spacelab')"/>
-                            <item label="superhero" disabled="false" onclick="alert('superhero')"/>
-                            <item label="united" disabled="false" onclick="alert('united')"/>
-                            <item label="vapor" disabled="false" onclick="alert('vapor')"/>
-                            <item label="yeti" disabled="false" onclick="alert('yeti')"/>
-                            <item label="zephyr" disabled="false" onclick="alert('zephyr')"/>
-                        </menu>
-                    </item>
-                    <item icon="sun-fill" dropdown_menu_end="true">
-                        <menu>
-                            <item label="Light" icon="sun-fill" disabled="false" onclick="alert('light')"/>
-                            <item label="Dark" icon="moon-stars-fill" disabled="false" onclick="alert('dark')"/>
+                            <item label="Profile" onclick="saltos.common.profile()"/>
+                            <item label="Help" onclick="saltos.common.help()"/>
+                            <item label="About" onclick="saltos.common.about()"/>
+                            <item label="Logout" onclick="saltos.common.logout()"/>
                         </menu>
                     </item>
                 </menu>
