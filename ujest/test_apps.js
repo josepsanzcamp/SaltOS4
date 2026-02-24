@@ -33,6 +33,7 @@ const pti = require('puppeteer-to-istanbul');
 const toMatchImageSnapshot = require('jest-image-snapshot').toMatchImageSnapshot;
 expect.extend({toMatchImageSnapshot});
 const timeout = {timeout: 3000};
+const sharp = require('sharp');
 
 /**
  * Global variables
@@ -96,7 +97,10 @@ describe('App Login', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#user', timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -116,7 +120,10 @@ describe('App Login', () => {
         await mypause(page, 100);
         await page.waitForSelector('.is-invalid', timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -141,7 +148,10 @@ describe('App Login', () => {
         // Special case because the previous toast detection not works as expected
         await mypause(page, 1000);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -170,7 +180,10 @@ describe('App Login', () => {
         await mypause(page, 1000);
         await page.waitForFunction(() => !document.querySelector('.toast'), timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -192,7 +205,10 @@ describe('App Login', () => {
         // Special case to allow the chartjs render
         await mypause(page, 1000);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -210,12 +226,15 @@ describe('App Login', () => {
     test('Action Logout', async () => {
         await page.waitForSelector('#username', timeout);
         await page.$eval('#username', element => element.click()); // this open the dropdown
-        await page.$$eval('#username ~ ul button', buttons => buttons[2].click()); // this trigger the logout
+        await page.$$eval('#username ~ ul button', buttons => buttons[3].click()); // this trigger the logout
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#user', timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',

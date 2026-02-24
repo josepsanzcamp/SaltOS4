@@ -33,6 +33,7 @@ const pti = require('puppeteer-to-istanbul');
 const toMatchImageSnapshot = require('jest-image-snapshot').toMatchImageSnapshot;
 expect.extend({toMatchImageSnapshot});
 const timeout = {timeout: 3000};
+const sharp = require('sharp');
 
 /**
  * Global variables
@@ -95,7 +96,10 @@ describe('Screenshots', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#user', timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -172,25 +176,30 @@ describe('Screenshots', () => {
 
     const allApps = [];
     const langs = ['en_US', 'ca_ES', 'es_ES'];
+    const modes = ['light', 'dark'];
     for (const lang in langs) {
-        for (const group in apps) {
-            for (const app in apps[group]) {
-                for (const action in apps[group][app]) {
-                    allApps.push({
-                        group: group,
-                        app: app,
-                        action: apps[group][app][action],
-                        lang: langs[lang],
-                    });
+        for (const mode in modes) {
+            for (const group in apps) {
+                for (const app in apps[group]) {
+                    for (const action in apps[group][app]) {
+                        allApps.push({
+                            group: group,
+                            app: app,
+                            action: apps[group][app][action],
+                            lang: langs[lang],
+                            mode: modes[mode],
+                        });
+                    }
                 }
             }
         }
     }
     //~ console.log(allApps);
 
-    test.each(allApps)('$group $app $action $lang', async (info) => {
+    test.each(allApps)('$group $app $action $lang $mode', async (info) => {
         if (['list', ''].includes(info.action)) {
             await page.evaluate(lang => { saltos.gettext.set(lang); }, info.lang);
+            await page.evaluate(mode => { saltos.bootstrap.set_bs_theme(mode); }, info.mode);
             await page.goto('about:blank');
         }
         if (['create', 'edit/100', 'edit/10', 'edit/1'].includes(info.action)) {
@@ -219,7 +228,10 @@ describe('Screenshots', () => {
             await mypause(page, 1);
         }
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',

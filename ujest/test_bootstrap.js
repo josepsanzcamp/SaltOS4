@@ -33,6 +33,7 @@ const pti = require('puppeteer-to-istanbul');
 const toMatchImageSnapshot = require('jest-image-snapshot').toMatchImageSnapshot;
 expect.extend({toMatchImageSnapshot});
 const timeout = {timeout: 3000};
+const sharp = require('sharp');
 
 /**
  * Bootstrap
@@ -85,6 +86,12 @@ describe('Bootstrap', () => {
      */
     const fs = require('fs');
     const json = JSON.parse(fs.readFileSync('/tmp/tester.json', 'utf-8'));
+    const modes = ['light', 'dark'];
+    const cases = json.flatMap(field => modes.map(mode => ({
+        mode: mode,
+        field: field,
+        label: `${field.label} [${mode}]`,
+    })));
 
     /**
      * Real test
@@ -93,14 +100,15 @@ describe('Bootstrap', () => {
      * create a widget and validate the correctness of the widget comparing
      * the new widget screenshot to the backup widget screenshot
      */
-    test.each(json)('$label', async field => {
-        await page.evaluate(field => {
+    test.each(cases)('$label', async ({mode, field, label}) => {
+        await page.evaluate(({mode, field}) => {
+            saltos.bootstrap.set_bs_theme(mode);
             const obj = saltos.bootstrap.field(field);
             const div = saltos.core.html('<div id="widget" style="width:600px; padding:1rem;" />');
             div.append(obj);
             document.body.innerHTML = '';
             document.body.append(div);
-        }, field);
+        }, {mode, field});
 
         const id = field.id;
         if (field.type == 'joditeditor') {
@@ -130,7 +138,10 @@ describe('Bootstrap', () => {
         }
 
         const widget = await page.$('#widget');
-        const screenshot = await widget.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await widget.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',

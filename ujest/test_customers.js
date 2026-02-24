@@ -33,6 +33,7 @@ const pti = require('puppeteer-to-istanbul');
 const toMatchImageSnapshot = require('jest-image-snapshot').toMatchImageSnapshot;
 expect.extend({toMatchImageSnapshot});
 const timeout = {timeout: 3000};
+const sharp = require('sharp');
 
 /**
  * Global variables
@@ -101,7 +102,10 @@ describe('App Customers', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#list table', timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -120,7 +124,10 @@ describe('App Customers', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForFunction(() => document.querySelectorAll('#list tbody tr').length == 50, timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -138,7 +145,10 @@ describe('App Customers', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForFunction(() => document.querySelectorAll('#list tbody tr').length == 25, timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -158,7 +168,10 @@ describe('App Customers', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#name', timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -176,7 +189,10 @@ describe('App Customers', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForFunction(() => !document.querySelector('#name'), timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -197,7 +213,10 @@ describe('App Customers', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#name', timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -215,7 +234,10 @@ describe('App Customers', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForFunction(() => !document.querySelector('#name'), timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -236,7 +258,10 @@ describe('App Customers', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#name', timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -254,7 +279,10 @@ describe('App Customers', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForFunction(() => !document.querySelector('#name'), timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -273,7 +301,10 @@ describe('App Customers', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#name', timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -296,8 +327,11 @@ describe('App Customers', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForFunction(() => !document.querySelector('#name'), timeout);
 
-        const screenshot2 = await page.screenshot({encoding: 'base64'});
-        expect(screenshot2).toMatchImageSnapshot({
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
+        expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
@@ -316,7 +350,10 @@ describe('App Customers', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#name', timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -339,8 +376,11 @@ describe('App Customers', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForFunction(() => !document.querySelector('#name'), timeout);
 
-        const screenshot2 = await page.screenshot({encoding: 'base64'});
-        expect(screenshot2).toMatchImageSnapshot({
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
+        expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
@@ -358,7 +398,10 @@ describe('App Customers', () => {
 
         await page.waitForSelector('.modal', timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -377,8 +420,11 @@ describe('App Customers', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForFunction(() => !document.querySelector('.modal'), timeout);
 
-        const screenshot2 = await page.screenshot({encoding: 'base64'});
-        expect(screenshot2).toMatchImageSnapshot({
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
+        expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,

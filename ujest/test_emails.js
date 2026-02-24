@@ -33,6 +33,7 @@ const pti = require('puppeteer-to-istanbul');
 const toMatchImageSnapshot = require('jest-image-snapshot').toMatchImageSnapshot;
 expect.extend({toMatchImageSnapshot});
 const timeout = {timeout: 3000};
+const sharp = require('sharp');
 
 /**
  * Global variables
@@ -130,7 +131,10 @@ describe('App Emails', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#list button', timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -148,7 +152,10 @@ describe('App Emails', () => {
         await page.$$eval('#top input', inputs => inputs[1].blur()); // this blur the focus
         await mypause(page, 500);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -170,8 +177,11 @@ describe('App Emails', () => {
 
         await mypause(page, 500);
 
-        const screenshot2 = await page.screenshot({encoding: 'base64'});
-        expect(screenshot2).toMatchImageSnapshot({
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
+        expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
@@ -192,7 +202,10 @@ describe('App Emails', () => {
             await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
             await page.waitForSelector('#oldpass', timeout);
 
-            const screenshot = await page.screenshot({encoding: 'base64'});
+            const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
             expect(screenshot).toMatchImageSnapshot({
                 failureThreshold: 0.005,
                 failureThresholdType: 'percent',
@@ -221,7 +234,42 @@ describe('App Emails', () => {
             // Special case to allow the pdf load
             await mypause(page, 500);
 
-            const screenshot = await page.screenshot({encoding: 'base64'});
+            const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
+            expect(screenshot).toMatchImageSnapshot({
+                failureThreshold: 0.005,
+                failureThresholdType: 'percent',
+                customSnapshotsDir: `${__dirname}/snaps`,
+            });
+        } finally {
+            await page.evaluate(() => { saltos.common.help(); });
+            await page.waitForFunction(() => !document.querySelector('#pdfjs'), timeout);
+        }
+    });
+
+    /**
+     * Action About
+     *
+     * This part of the test tries to load the about screen
+     */
+    test('Action About', async () => {
+        try {
+            await page.waitForSelector('#username', timeout);
+            await page.$eval('#username', element => element.click()); // this open the dropdown
+            await page.$$eval('#username ~ ul button', buttons => buttons[2].click()); // this trigger about
+
+            await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
+            await page.waitForSelector('#legal', timeout);
+
+            // Special case to allow the pdf load
+            await mypause(page, 100);
+
+            const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
             expect(screenshot).toMatchImageSnapshot({
                 failureThreshold: 0.005,
                 failureThresholdType: 'percent',
@@ -246,7 +294,10 @@ describe('App Emails', () => {
             await page.waitForSelector('.offcanvas', timeout);
             await mypause(page, 500);
 
-            const screenshot = await page.screenshot({encoding: 'base64'});
+            const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
             expect(screenshot).toMatchImageSnapshot({
                 failureThreshold: 0.005,
                 failureThresholdType: 'percent',
@@ -273,7 +324,10 @@ describe('App Emails', () => {
         // Special case to allow the joditeditor render
         await page.waitForFunction(() => document.getElementById('body').joditeditor, timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -293,7 +347,10 @@ describe('App Emails', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#from', timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
