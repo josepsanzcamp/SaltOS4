@@ -133,9 +133,9 @@ describe('App Invoices', () => {
             expect(count).toBe(26);
 
             const screenshot = await sharp(await page.screenshot()).png({
-            compressionLevel: 9,
-            palette: true,
-        }).toBuffer();
+                compressionLevel: 9,
+                palette: true,
+            }).toBuffer();
             expect(screenshot).toMatchImageSnapshot({
                 failureThreshold: 0.005,
                 failureThresholdType: 'percent',
@@ -175,7 +175,7 @@ describe('App Invoices', () => {
 
             const screenshot = await sharp(await page.screenshot()).png({
                 compressionLevel: 9,
-                    palette: true,
+                palette: true,
             }).toBuffer();
             expect(screenshot).toMatchImageSnapshot({
                 failureThreshold: 0.005,

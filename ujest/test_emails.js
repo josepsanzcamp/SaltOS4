@@ -203,9 +203,9 @@ describe('App Emails', () => {
             await page.waitForSelector('#oldpass', timeout);
 
             const screenshot = await sharp(await page.screenshot()).png({
-            compressionLevel: 9,
-            palette: true,
-        }).toBuffer();
+                compressionLevel: 9,
+                palette: true,
+            }).toBuffer();
             expect(screenshot).toMatchImageSnapshot({
                 failureThreshold: 0.005,
                 failureThresholdType: 'percent',
@@ -235,9 +235,9 @@ describe('App Emails', () => {
             await mypause(page, 500);
 
             const screenshot = await sharp(await page.screenshot()).png({
-            compressionLevel: 9,
-            palette: true,
-        }).toBuffer();
+                compressionLevel: 9,
+                palette: true,
+            }).toBuffer();
             expect(screenshot).toMatchImageSnapshot({
                 failureThreshold: 0.005,
                 failureThresholdType: 'percent',
@@ -267,9 +267,9 @@ describe('App Emails', () => {
             await mypause(page, 100);
 
             const screenshot = await sharp(await page.screenshot()).png({
-            compressionLevel: 9,
-            palette: true,
-        }).toBuffer();
+                compressionLevel: 9,
+                palette: true,
+            }).toBuffer();
             expect(screenshot).toMatchImageSnapshot({
                 failureThreshold: 0.005,
                 failureThresholdType: 'percent',
@@ -295,9 +295,9 @@ describe('App Emails', () => {
             await mypause(page, 500);
 
             const screenshot = await sharp(await page.screenshot()).png({
-            compressionLevel: 9,
-            palette: true,
-        }).toBuffer();
+                compressionLevel: 9,
+                palette: true,
+            }).toBuffer();
             expect(screenshot).toMatchImageSnapshot({
                 failureThreshold: 0.005,
                 failureThresholdType: 'percent',
