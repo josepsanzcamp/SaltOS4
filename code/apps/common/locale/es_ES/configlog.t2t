@@ -11,7 +11,7 @@ Este módulo es esencial para los administradores que desean auditar cambios y g
 
 ==Vista de lista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-list-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -25,15 +25,15 @@ Esta vista muestra los detalles completos de un registro de cambio de configurac
 
 En el modo **crear**, el formulario está vacío y listo para introducir nuevos datos.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-create-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, los campos están rellenos con la información del registro seleccionado y no pueden editarse.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-view-10-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-view-10-es-es-light-1-snap.png]
 
 En el modo **edición**, el formulario se muestra con los datos existentes y permite modificaciones.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-edit-10-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-edit-10-es-es-light-1-snap.png]
 
 Incluye:
 

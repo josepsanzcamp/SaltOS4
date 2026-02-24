@@ -11,7 +11,7 @@ Los productos pueden vincularse a presupuestos, facturas y compras, siendo este 
 
 ==Vista de lista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-list-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -26,15 +26,15 @@ Esta vista se utiliza para crear, editar o consultar un registro de producto.
 
 En el modo **crear**, el formulario está vacío para introducir un nuevo producto.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-create-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, todos los campos son de solo lectura y muestran información detallada.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-view-100-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-view-100-es-es-light-1-snap.png]
 
 En el modo **edición**, pueden actualizarse o corregirse los datos del producto.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-edit-100-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-edit-100-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 

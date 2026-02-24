@@ -15,7 +15,7 @@ està estretament integrada amb el mòdul de Comptes de correu electrònic i és
 
 ==Vista de llista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-ca-es-light-1-snap.png]
 
 La vista de llista mostra els correus entrants com a botons o targetes clicables.
 Cada entrada mostra habitualment:
@@ -33,7 +33,7 @@ La interfície també inclou filtres i un formulari de cerca per remitent, assum
 
 Aquesta vista mostra el contingut complet del correu, incloent metadades de la capçalera i adjunts.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-100-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-100-ca-es-light-1-snap.png]
 
 La informació mostrada inclou:
 
@@ -62,7 +62,7 @@ La informació mostrada inclou:
 
 Els usuaris poden respondre un missatge existent o redactar-ne un de nou mitjançant un formulari simplificat.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-create-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-create-ca-es-light-1-snap.png]
 
 El formulari inclou:
 
@@ -86,7 +86,7 @@ Els missatges s’eliminen localment o es marquen per eliminar, segons la config
 
 ==Generació de PDF==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-viewpdf-100-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-viewpdf-100-ca-es-light-1-snap.png]
 
 Des de la vista individual d’un registre (view), l’usuari pot generar i descarregar un PDF amb totes les dades rellevants d’aquest registre.
 

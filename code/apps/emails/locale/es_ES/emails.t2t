@@ -15,7 +15,7 @@ está estrechamente integrada con el módulo de Cuentas de correo electrónico y
 
 ==Vista de lista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-es-es-light-1-snap.png]
 
 La vista de lista muestra los correos entrantes como botones o tarjetas clicables.
 Cada entrada muestra normalmente:
@@ -33,7 +33,7 @@ La interfaz también incluye filtros y un formulario de búsqueda por remitente,
 
 Esta vista muestra el contenido completo del mensaje, incluyendo metadatos y archivos adjuntos.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-100-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-100-es-es-light-1-snap.png]
 
 La información mostrada incluye:
 
@@ -62,7 +62,7 @@ La información mostrada incluye:
 
 Los usuarios pueden responder a un mensaje existente o redactar uno nuevo desde un formulario simplificado.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-create-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-create-es-es-light-1-snap.png]
 
 El formulario de respuesta o redacción incluye:
 
@@ -86,7 +86,7 @@ Los mensajes se eliminan localmente o se marcan para eliminación, según la con
 
 ==Generación de PDF==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-viewpdf-100-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-viewpdf-100-es-es-light-1-snap.png]
 
 Desde la vista individual de un registro (view), el usuario puede generar y descargar un PDF con todos los datos relevantes de ese registro.
 

@@ -11,7 +11,7 @@ Este módulo permite la integración con proveedores externos y admite autentica
 
 ==Vista de lista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-list-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -27,15 +27,15 @@ Esta vista se utiliza para crear, ver o editar una cuenta de correo.
 
 En el modo **crear**, se configura una cuenta nueva desde cero.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-create-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, se muestran los datos de la cuenta pero no se pueden modificar.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-view-1-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-view-1-es-es-light-1-snap.png]
 
 En el modo **edición**, se pueden corregir o actualizar los parámetros.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-edit-1-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-edit-1-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 

@@ -12,7 +12,7 @@ Normalment inclou el nom, el codi fiscal, l'adreça, el logotip i l'idioma prefe
 
 ==Vista de llista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-list-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -29,15 +29,15 @@ Aquesta vista s'utilitza per definir o editar el perfil de l'empresa.
 
 En el mode **crear**, el formulari està buit i preparat per introduir noves dades.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-create-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, els camps es mostren omplerts però no editables.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-view-1-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-view-1-ca-es-light-1-snap.png]
 
 En el mode **edició**, el formulari es mostra preomplert i permet modificacions.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-edit-1-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-edit-1-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 

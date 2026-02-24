@@ -11,7 +11,7 @@ Aquest mòdul és essencial per a administradors que volen auditar canvis i asse
 
 ==Vista de llista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-list-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -25,15 +25,15 @@ Aquesta vista mostra els detalls complets d'un registre de canvi de configuraci�
 
 En el mode **crear**, el formulari està buit i llest per introduir noves dades.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-create-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, els camps es mostren amb la informació del registre seleccionat i no es poden editar.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-view-10-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-view-10-ca-es-light-1-snap.png]
 
 En el mode **edició**, el formulari està preomplert i permet modificacions.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-edit-10-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-configlog-edit-10-ca-es-light-1-snap.png]
 
 Inclou:
 

@@ -11,7 +11,7 @@ Aquest mòdul permet integrar proveïdors externs i admet autenticació, carpete
 
 ==Vista de llista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-list-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -27,15 +27,15 @@ Aquesta vista s'utilitza per crear, consultar o editar un compte de correu.
 
 En el mode **crear**, es configura un compte nou des de zero.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-create-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, es mostren les dades del compte però no es poden modificar.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-view-1-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-view-1-ca-es-light-1-snap.png]
 
 En el mode **edició**, es poden corregir o actualitzar els paràmetres.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-edit-1-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-edit-1-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 

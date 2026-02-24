@@ -12,7 +12,7 @@ and convert leads into customers when appropriate.
 
 ==List view==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-list-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -28,15 +28,15 @@ This view is used for creating, editing or viewing a lead.
 
 In **create** mode, the form is empty and ready to enter new data.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-create-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-create-en-us-light-1-snap.png]
 
 In **view** mode, the fields are filled with the selected record and cannot be edited.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-view-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-view-100-en-us-light-1-snap.png]
 
 In **edit** mode, the form is pre-filled and allows modifications.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-edit-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-edit-100-en-us-light-1-snap.png]
 
 The form includes the following fields:
 

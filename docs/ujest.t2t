@@ -1,5 +1,5 @@
 Jest Test Documentation
-SaltOS 4.1 r2302
+SaltOS 4.1 r2321
 February 2026
 
 
@@ -314,7 +314,7 @@ const fs = require('fs');
 +++Real test+++
 
 ```
-test.each(json)('$label', async field
+test.each(cases)('$label', async ({mode, field, label})
 ```
 
 This function executes the real test for each json item, its able to
@@ -1232,6 +1232,15 @@ test('Action Help', async ()
 ```
 
 This part of the test tries to load the help screen
+
+
++++Action About+++
+
+```
+test('Action About', async ()
+```
+
+This part of the test tries to load the about screen
 
 
 +++Action Filter+++
@@ -2456,36 +2465,27 @@ test('Action Enabled', async ()
 This part of the test tries to enable all widgets
 
 
-+++List of bs_themes+++
++++Prepare the test.each iterator+++
 
 ```
-const bs_themes = ['light', 'dark', 'auto'];
-```
-
-
-+++Action Bs Theme+++
-
-```
-test.each(bs_themes)('Action Bs Theme %s', async theme
-```
-
-This part of the test tries to set the differents bs_themes
-
-
-+++List of css_themes+++
-
-```
-const css_themes = ['default',
+const themes = ['default',
 ```
 
 
-+++Action Css Theme+++
++++Visual Theme Combinations+++
 
 ```
-test.each(css_themes)('Action Css Theme %s', async theme
+test.each(cases)('$label', async ({mode, theme, label})
 ```
 
-This part of the test tries to set the differents css_themes
+This test iterates all css themes combined with both light and dark
+bootstrap modes. For each permutation the bootstrap theme and the
+css theme are applied and the resulting screen is validated against
+the expected visual snapshot.
+
+This ensures visual consistency across all supported theme
+combinations without duplicating structural tests like
+enabled/disabled state.
 
 
 ++Token unit tests++

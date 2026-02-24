@@ -11,7 +11,7 @@ Este módulo se utiliza normalmente en flujos de trabajo de RRHH para organizar 
 
 ==Vista de lista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-employees-list-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-employees-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -27,15 +27,15 @@ Esta vista se utiliza para crear, consultar o editar fichas de empleados.
 
 En el modo **crear**, se añade un nuevo perfil de empleado.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-employees-create-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-employees-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, el perfil se muestra en formato solo lectura.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-employees-view-100-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-employees-view-100-es-es-light-1-snap.png]
 
 En el modo **edición**, se puede actualizar el perfil del empleado.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-employees-edit-100-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-employees-edit-100-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 

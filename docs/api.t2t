@@ -1,10 +1,20 @@
 Api Documentation
-SaltOS 4.1 r2302
+SaltOS 4.1 r2321
 February 2026
 
 
 
 +Actions+
+
+++About endpoint.++
+
+```
+api/php/action/about.php
+```
+
+Exposes framework metadata, license information,
+third-party libraries and legal text as JSON.
+
 
 ++Add log action++
 
@@ -7084,6 +7094,68 @@ the indexing table in the first loop and tries to search not found registers
 in the app table in the second loop, with all found not found registers the
 function executes the make_index that add or remove the needed index register
 to maintain the integrity with the indexing feature.
+
+
+++License and legal information helpers for SaltOS framework.++
+
+```
+api/php/lib/license.php
+```
+
+Provides structured access to copyright, license metadata,
+third-party libraries and full legal text.
+
+
++++Returns the copyright notice.+++
+
+```
+function get_copyright()
+```
+
+- @return string
+
+
++++Returns license metadata.+++
+
+```
+function get_license()
+```
+
+- @return array{
+    license: string,
+    license_id: string
+}
+
+
++++Returns the SaltOS ASCII header and project metadata.+++
+
+```
+function get_header()
+```
+
+- @return string[]
+
+
++++Returns third-party libraries information grouped by area+++
+
+```
+function get_libraries()
+```
+
+
+- @return array{
+    libraries: array<string,array>,
+    stats: array<string,int>
+}
+
+
++++Returns the full MIT license legal text.+++
+
+```
+function get_legal()
+```
+
+- @return string[]
 
 
 ++Log helper module++

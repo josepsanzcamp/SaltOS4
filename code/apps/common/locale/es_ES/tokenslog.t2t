@@ -11,7 +11,7 @@ Este módulo permite a los administradores monitorizar el acceso al sistema y de
 
 ==Vista de lista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-list-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -25,7 +25,7 @@ Los siguientes campos se muestran en la vista de lista:
 
 Esta vista muestra toda la información relacionada con un acceso mediante token.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-view-1-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-view-1-es-es-light-1-snap.png]
 
 Incluye:
 

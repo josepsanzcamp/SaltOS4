@@ -14,7 +14,7 @@ i garantir que la infraestructura de seguretat estigui actualitzada.
 
 ==Vista de llista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-certs-certs-list-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-certs-certs-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -27,7 +27,7 @@ Aquesta vista s'utilitza per afegir, revisar o actualitzar la informació d'un c
 
 En **mode creació**, el formulari està buit i llest per introduir noves dades.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-certs-certs-create-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-certs-certs-create-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -37,7 +37,7 @@ El formulari inclou els següents camps:
 
 En **mode vista**, els camps estan omplerts amb el registre seleccionat i no es poden editar.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-certs-certs-view-ab-877-d-2027-f-7-c-71-d-9935999-cce-1-b-802-b-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-certs-certs-view-ab-877-d-2027-f-7-c-71-d-9935999-cce-1-b-802-b-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 

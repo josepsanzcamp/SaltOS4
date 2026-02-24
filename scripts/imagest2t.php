@@ -82,9 +82,16 @@ foreach ($json as $item) {
         continue;
     }
     $label = encode_bad_chars($item['label'], '-');
-    $file = "ujest/snaps/test-bootstrap-js-bootstrap-$label-1-snap.png";
-    if (file_exists($file)) {
-        $images[$type] = $file;
+    $file1 = "ujest/snaps/test-bootstrap-js-bootstrap-$label-light-1-snap.png";
+    $file2 = "ujest/snaps/test-bootstrap-js-bootstrap-$label-dark-1-snap.png";
+    $file3 = "code/data/cache/" . md5($label) . ".png";
+    if (!file_exists($file3)) {
+        if (file_exists($file1) && file_exists($file2)) {
+            passthru("convert $file1 $file2 +append $file3");
+        }
+    }
+    if (file_exists($file3)) {
+        $images[$type] = $file3;
     }
 }
 //~ print_r($images);

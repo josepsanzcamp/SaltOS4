@@ -15,7 +15,7 @@ closely integrated with the Emails Accounts module and is essential for managing
 
 ==List view==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-en-us-light-1-snap.png]
 
 The list view shows incoming emails as clickable buttons or cards.
 Each entry typically displays:
@@ -33,7 +33,7 @@ The interface also includes filters and a search form to filter by sender, subje
 
 This view shows the full content of an email message, including header metadata and attachments.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-100-en-us-light-1-snap.png]
 
 The following information is typically displayed:
 
@@ -62,7 +62,7 @@ The following information is typically displayed:
 
 Users can reply to an existing message or compose a new email using a simplified form.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-create-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-create-en-us-light-1-snap.png]
 
 The reply and compose form includes:
 
@@ -86,7 +86,7 @@ Messages are usually deleted locally or flagged for deletion, depending on the s
 
 ==PDF generation==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-viewpdf-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-viewpdf-100-en-us-light-1-snap.png]
 
 From the individual view of a record (view), the user can generate and download a PDF containing all relevant data of that entry.
 

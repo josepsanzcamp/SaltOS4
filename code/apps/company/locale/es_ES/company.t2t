@@ -12,7 +12,7 @@ Normalmente incluye el nombre de la empresa, su código fiscal, dirección, logo
 
 ==Vista de lista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-list-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -29,15 +29,15 @@ Esta vista se utiliza para definir o editar el perfil de la empresa.
 
 En el modo **crear**, el formulario está vacío y listo para ingresar los datos.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-create-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, los campos se muestran rellenos pero no se pueden editar.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-view-1-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-view-1-es-es-light-1-snap.png]
 
 En el modo **edición**, el formulario está precargado y permite realizar modificaciones.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-edit-1-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-company-company-edit-1-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 

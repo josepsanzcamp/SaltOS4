@@ -11,7 +11,7 @@ This module allows integration with external email providers and supports authen
 
 ==List view==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-list-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -27,15 +27,15 @@ This view is used to create, view or edit an email account.
 
 In **create** mode, a new account is configured from scratch.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-create-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-create-en-us-light-1-snap.png]
 
 In **view** mode, account settings are shown without allowing changes.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-view-1-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-view-1-en-us-light-1-snap.png]
 
 In **edit** mode, the configuration can be updated or corrected.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-edit-1-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-edit-1-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
