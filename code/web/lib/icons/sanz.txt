@@ -1,0 +1,19 @@
+
+version=$(curl -s https://data.jsdelivr.com/v1/packages/npm/bootstrap-icons/resolved | jq -r .version)
+echo $version > VERSION
+
+rm -f bootstrap-icons.min.css
+wget https://cdn.jsdelivr.net/npm/bootstrap-icons@$version/font/bootstrap-icons.min.css
+
+cd fonts
+
+rm -f bootstrap-icons.woff
+wget https://cdn.jsdelivr.net/npm/bootstrap-icons@$version/font/fonts/bootstrap-icons.woff
+
+rm -f bootstrap-icons.woff2
+wget https://cdn.jsdelivr.net/npm/bootstrap-icons@$version/font/fonts/bootstrap-icons.woff2
+
+cd ..
+
+#wget https://raw.githubusercontent.com/twbs/icons/refs/heads/main/LICENSE
+#wget https://raw.githubusercontent.com/twbs/icons/refs/heads/main/README.md

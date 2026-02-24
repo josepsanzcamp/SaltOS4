@@ -1,125 +1,153 @@
 - id: atkinson
   name: Atkinson Hyperlegible
+  package: null
   homepage: https://brailleinstitute.org/freefont
   license: SIL Open Font License 1.1
   license_id: OFL-1.1
 
 - id: autoheight
-  name: jackmoore/autosize
+  name: Autosize
+  package: jackmoore/autosize
   homepage: https://github.com/jackmoore/autosize
   license: MIT License
   license_id: MIT
 
 - id: bootstrap
   name: Bootstrap
+  package: twbs/bootstrap
   homepage: https://getbootstrap.com/
   license: MIT License
   license_id: MIT
 
 - id: chartjs
   name: Chart.js
+  package: chart.js
   homepage: https://www.chartjs.org/
   license: MIT License
   license_id: MIT
 
 - id: codemirror
   name: CodeMirror
+  package: codemirror/dev
   homepage: https://codemirror.net/
   license: MIT License
   license_id: MIT
 
 - id: handsontable
   name: Handsontable
+  package: handsontable@6.2.2
   homepage: https://handsontable.com/
+  license: MIT License
+  license_id: MIT
+
+- id: icons
+  name: Bootstrap Icons
+  package: twbs/icons
+  homepage: https://icons.getbootstrap.com/
   license: MIT License
   license_id: MIT
 
 - id: imagesloaded
   name: imagesLoaded
+  package: desandro/imagesloaded
   homepage: https://imagesloaded.desandro.com/
   license: MIT License
   license_id: MIT
 
 - id: imaskjs
-  name: iMask.js
+  name: IMask
+  package: uNmAnNeR/imaskjs
   homepage: https://imask.js.org/
   license: MIT License
   license_id: MIT
 
 - id: interactjs
   name: interact.js
+  package: taye/interact.js
   homepage: https://interactjs.io/
   license: MIT License
   license_id: MIT
 
 - id: joditeditor
-  name: Jodit Editor
+  name: Jodit
+  package: xdan/jodit
   homepage: https://xdsoft.net/jodit/
   license: MIT License
   license_id: MIT
 
 - id: jstree
   name: jsTree
+  package: vakata/jstree
   homepage: https://www.jstree.com/
   license: MIT License
   license_id: MIT
 
 - id: locutus
   name: Locutus
+  package: locutusjs/locutus
   homepage: https://locutus.io/
   license: MIT License (BC Math components under LGPL-2.1)
   license_id: MIT
 
 - id: masonry
   name: Masonry
+  package: desandro/masonry
   homepage: https://masonry.desandro.com/
   license: MIT License
   license_id: MIT
 
 - id: md5
-  name: blueimp-md5
+  name: JavaScript MD5
+  package: blueimp/JavaScript-MD5
   homepage: https://github.com/blueimp/JavaScript-MD5
   license: MIT License
   license_id: MIT
 
 - id: pdfjs
   name: PDF.js
+  package: mozilla/pdf.js
   homepage: https://mozilla.github.io/pdf.js/
   license: Apache License 2.0
   license_id: Apache-2.0
 
 - id: sourcemap
   name: source-map
+  package: mozilla/source-map
   homepage: https://github.com/mozilla/source-map
   license: BSD 2-Clause License
   license_id: BSD-2-Clause
 
 - id: themes
   name: Bootstrap Themes
+  package: twbs/bootstrap
   homepage: https://getbootstrap.com/
   license: MIT License
   license_id: MIT
 
 - id: tomselect
   name: Tom Select
+  package: orchidjs/tom-select
   homepage: https://tom-select.js.org/
   license: Apache License 2.0
   license_id: Apache-2.0
 
 - id: topbar
   name: topbar.js
+  package: buunguyen/topbar
   homepage: https://buunguyen.github.io/topbar/
   license: MIT License
   license_id: MIT
 
 - id: venobox
   name: VenoBox
+  package: nicolafranchini/VenoBox
   homepage: https://veno.es/venobox/
   license: MIT License
   license_id: MIT
 
 - id: vkbeautify
   name: vkBeautify
+  package: vkiryukhin/vkBeautify
   homepage: https://github.com/vkiryukhin/vkBeautify
   license: MIT License
   license_id: MIT

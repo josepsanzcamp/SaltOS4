@@ -1,77 +1,90 @@
 - id: atkinson
   name: Atkinson Hyperlegible
+  package: null
   homepage: https://brailleinstitute.org/freefont
   license: SIL Open Font License 1.1
   license_id: OFL-1.1
 
 - id: browscap
-  name: browscap/browscap-php
+  name: browscap-php
+  package: browscap/browscap-php
   homepage: https://github.com/browscap/browscap-php
   license: MIT License
   license_id: MIT
 
 - id: edifact
-  name: sabas/edifact
+  name: edifact
+  package: sabas/edifact
   homepage: https://github.com/sabas/edifact
   license: GNU Lesser General Public License v3 (LGPL-3.0)
   license_id: LGPL-3.0-only
 
 - id: fpdi
-  name: setasign/fpdi
+  name: FPDI
+  package: setasign/fpdi
   homepage: https://www.setasign.com/products/fpdi/
   license: MIT License
   license_id: MIT
 
 - id: gorrisans
   name: Gorri Sans
+  package: null
   homepage: https://www.dafont.com/gorrisans.font
-  license: SIL Open Font License 1.1 (OFL-1.1)
+  license: SIL Open Font License 1.1
   license_id: OFL-1.1
 
 - id: html2markdown
-  name: league/html-to-markdown
+  name: HTML to Markdown
+  package: league/html-to-markdown
   homepage: https://github.com/thephpleague/html-to-markdown
   license: MIT License
   license_id: MIT
 
 - id: phpass
-  name: openwall/phpass
+  name: phpass
+  package: openwall/phpass
   homepage: https://www.openwall.com/phpass/
-  license: Creative Commons Public Domain Dedication (CC-PDDC)
+  license: Creative Commons Public Domain Dedication
   license_id: CC0-1.0
 
 - id: phpgeoip
-  name: webklex/php-geoip
+  name: php-geoip
+  package: webklex/php-geoip
   homepage: https://github.com/Webklex/php-geoip
   license: MIT License
   license_id: MIT
 
 - id: phpspreadsheet
-  name: phpoffice/phpspreadsheet
+  name: PhpSpreadsheet
+  package: phpoffice/phpspreadsheet
   homepage: https://github.com/PHPOffice/PhpSpreadsheet
   license: MIT License
   license_id: MIT
 
 - id: semver
-  name: composer/semver
+  name: Semver
+  package: composer/semver
   homepage: https://github.com/composer/semver
   license: MIT License
   license_id: MIT
 
 - id: tcpdf
-  name: tecnickcom/tcpdf
+  name: TCPDF
+  package: tecnickcom/tcpdf
   homepage: https://tcpdf.org/
   license: GNU Lesser General Public License v3 (LGPL-3.0)
   license_id: LGPL-3.0-only
 
 - id: yaml
-  name: symfony/yaml
+  name: Symfony YAML
+  package: symfony/yaml
   homepage: https://symfony.com/doc/current/components/yaml.html
   license: MIT License
   license_id: MIT
 
 - id: zxcvbn
-  name: bjeavons/zxcvbn-php
+  name: zxcvbn-php
+  package: bjeavons/zxcvbn-php
   homepage: https://github.com/bjeavons/zxcvbn-php
   license: MIT License
   license_id: MIT

@@ -5,6 +5,8 @@ rm -rf vendor
 rm -f composer.*
 composer require phpoffice/phpspreadsheet
 
+composer show phpoffice/phpspreadsheet --format=json | jq -r '.versions[0]' | sed 's/^v//' > VERSION
+
 # To fix the permissions in files and directories, use it:
 
 find vendor -type d | gawk '{print "\""$0"\""}' | xargs chmod 0775

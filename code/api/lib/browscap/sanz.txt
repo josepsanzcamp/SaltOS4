@@ -5,6 +5,8 @@ rm -rf vendor
 rm -f composer.*
 composer require browscap/browscap-php
 
+composer show browscap/browscap-php --format=json | jq -r '.versions[0]' | sed 's/^v//' > VERSION
+
 #vendor/bin/browscap-php browscap:fetch --remote-file=Lite_PHP_BrowscapINI
 #vendor/bin/browscap-php browscap:convert
 

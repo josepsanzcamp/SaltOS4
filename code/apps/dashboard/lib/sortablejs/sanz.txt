@@ -2,7 +2,12 @@
 rm -f Sortable.min.js
 
 #wget -O sortable.min.js https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.6/Sortable.min.js
-wget -O sortable.min.js https://cdn.jsdelivr.net/npm/sortablejs@1.15.7/Sortable.min.js
+
+version=$(curl -s https://data.jsdelivr.com/v1/packages/npm/sortablejs/resolved | jq -r .version)
+echo $version > VERSION
+
+wget https://cdn.jsdelivr.net/npm/sortablejs@$version/Sortable.min.js
+mv Sortable.min.js sortable.min.js
 
 #wget https://raw.githubusercontent.com/SortableJS/Sortable/refs/heads/master/CONTRIBUTING.md
 #wget https://raw.githubusercontent.com/SortableJS/Sortable/refs/heads/master/LICENSE

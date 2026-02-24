@@ -1,22 +1,26 @@
 
 # https://cdnjs.com/libraries/codemirror
 
-wget -O js/codemirror.min.js        https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js
-wget -O css/codemirror.min.css      https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css
+version=$(curl -s https://api.cdnjs.com/libraries/codemirror?fields=version | jq -r .version)
+echo $version > VERSION
 
-wget -O js/mode/css.min.js          https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/css/css.min.js
-wget -O js/mode/javascript.min.js   https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.min.js
-wget -O js/mode/php.min.js          https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/php/php.min.js
-wget -O js/mode/sql.min.js          https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/sql/sql.min.js
-wget -O js/mode/xml.min.js          https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/xml/xml.min.js
+wget -O js/codemirror.min.js        https://cdnjs.cloudflare.com/ajax/libs/codemirror/$version/codemirror.min.js
+wget -O css/codemirror.min.css      https://cdnjs.cloudflare.com/ajax/libs/codemirror/$version/codemirror.min.css
 
-wget -O js/addon/active-line.min.js https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/selection/active-line.min.js
+wget -O js/mode/css.min.js          https://cdnjs.cloudflare.com/ajax/libs/codemirror/$version/mode/css/css.min.js
+wget -O js/mode/javascript.min.js   https://cdnjs.cloudflare.com/ajax/libs/codemirror/$version/mode/javascript/javascript.min.js
+wget -O js/mode/php.min.js          https://cdnjs.cloudflare.com/ajax/libs/codemirror/$version/mode/php/php.min.js
+wget -O js/mode/sql.min.js          https://cdnjs.cloudflare.com/ajax/libs/codemirror/$version/mode/sql/sql.min.js
+wget -O js/mode/xml.min.js          https://cdnjs.cloudflare.com/ajax/libs/codemirror/$version/mode/xml/xml.min.js
+wget -O js/mode/yaml.min.js         https://cdnjs.cloudflare.com/ajax/libs/codemirror/$version/mode/yaml/yaml.min.js
 
-wget -O CONTRIBUTING.md             https://raw.githubusercontent.com/codemirror/dev/refs/heads/main/CONTRIBUTING.md
-wget -O LICENSE                     https://raw.githubusercontent.com/codemirror/dev/refs/heads/main/LICENSE
-wget -O README.md                   https://raw.githubusercontent.com/codemirror/dev/refs/heads/main/README.md
+wget -O js/addon/active-line.min.js https://cdnjs.cloudflare.com/ajax/libs/codemirror/$version/addon/selection/active-line.min.js
 
-wget -O css/theme/dracula.min.css   https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/dracula.min.css
+#wget -O CONTRIBUTING.md             https://raw.githubusercontent.com/codemirror/dev/refs/heads/main/CONTRIBUTING.md
+#wget -O LICENSE                     https://raw.githubusercontent.com/codemirror/dev/refs/heads/main/LICENSE
+#wget -O README.md                   https://raw.githubusercontent.com/codemirror/dev/refs/heads/main/README.md
+
+wget -O css/theme/dracula.min.css   https://cdnjs.cloudflare.com/ajax/libs/codemirror/$version/theme/dracula.min.css
 
 cat js/codemirror.min.js js/mode/*.js js/addon/*.js > codemirror.min.js
 cat css/codemirror.min.css css/theme/*.css > codemirror.min.css

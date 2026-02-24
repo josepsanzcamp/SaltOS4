@@ -1,9 +1,12 @@
 
-rm -f tom-select.complete.min.js
-rm -f tom-select.bootstrap5.min.css
+version=$(curl -s https://data.jsdelivr.com/v1/packages/gh/orchidjs/tom-select/resolved | jq -r .version)
+echo $version > VERSION
 
-wget https://cdn.jsdelivr.net/npm/tom-select@2.5.0/dist/js/tom-select.complete.min.js
-wget https://cdn.jsdelivr.net/npm/tom-select@2.5.0/dist/css/tom-select.bootstrap5.min.css
+rm -f tom-select.complete.min.js
+wget https://cdn.jsdelivr.net/npm/tom-select@$version/dist/js/tom-select.complete.min.js
+
+rm -f tom-select.bootstrap5.min.css
+wget https://cdn.jsdelivr.net/npm/tom-select@$version/dist/css/tom-select.bootstrap5.min.css
 
 for i in tom-select.*; do
     cat $i | grep -v sourceMappingURL > $i.new

@@ -5,9 +5,14 @@
 #wget https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js
 #wget https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js
 
-wget https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.js
+version=$(curl -s https://data.jsdelivr.com/v1/packages/gh/chartjs/Chart.js/resolved | jq -r .version)
+echo $version > VERSION
+
+rm -f chart.umd.js
+wget https://cdn.jsdelivr.net/npm/chart.js@$version/dist/chart.umd.js
+
 cat chart.umd.js | grep -v sourceMappingURL > chart.umd.min.js
 rm -f chart.umd.js
 
-#wget https://cdn.jsdelivr.net/npm/chart.js@4.5.1/LICENSE.md
-#wget https://cdn.jsdelivr.net/npm/chart.js@4.5.1/README.md
+#wget https://raw.githubusercontent.com/chartjs/Chart.js/refs/heads/master/LICENSE
+#wget https://raw.githubusercontent.com/chartjs/Chart.js/refs/heads/master/README.md

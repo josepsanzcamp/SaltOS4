@@ -105,6 +105,9 @@ function get_libraries()
             $libraries[$key] = array_merge($libraries[$key], $items);
         }
         $stats[$key] = count($libraries[$key]);
+        usort($libraries[$key], function ($a, $b) {
+            return strcasecmp($a['name'], $b['name']);
+        });
     }
     $stats['total'] = array_sum($stats);
     return [

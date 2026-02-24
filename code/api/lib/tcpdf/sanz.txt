@@ -3,6 +3,8 @@ rm -rf vendor
 rm -f composer.*
 composer require tecnickcom/tcpdf
 
+#composer show tecnickcom/tcpdf --format=json | jq -r '.versions[0]' | sed 's/^v//' > VERSION
+
 cd ../atkinson/
 source sanz.txt
 cd -

@@ -1,2 +1,6 @@
 
+rm -rf vendor
+rm -f composer.*
 composer require bjeavons/zxcvbn-php
+
+composer show bjeavons/zxcvbn-php --format=json | jq -r '.versions[0]' | sed 's/^v//' > VERSION

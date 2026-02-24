@@ -1,17 +1,17 @@
 
-wget -N https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js
-wget -N https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css
+version=$(curl -s https://data.jsdelivr.com/v1/packages/npm/bootstrap/resolved | jq -r .version)
+echo $version > VERSION
 
-wget -N https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css
-cd fonts
-wget -N https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/fonts/bootstrap-icons.woff
-wget -N https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/fonts/bootstrap-icons.woff2
-cd ..
+rm -f bootstrap.bundle.min.js
+wget https://cdn.jsdelivr.net/npm/bootstrap@$version/dist/js/bootstrap.bundle.min.js
+
+rm -f bootstrap.min.css
+wget https://cdn.jsdelivr.net/npm/bootstrap@$version/dist/css/bootstrap.min.css
 
 for i in bootstrap.bundle.min.js bootstrap.min.css; do
     cat $i | grep -v sourceMappingURL > $i.new
     mv $i.new $i
 done
 
-#wget https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/LICENSE
-#wget https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/README.md
+#wget https://raw.githubusercontent.com/twbs/bootstrap/refs/heads/master/LICENSE
+#wget https://raw.githubusercontent.com/twbs/bootstrap/refs/heads/master/README.md

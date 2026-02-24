@@ -117,11 +117,11 @@ saltos.common.about = () => {
                 },
             };
             body.append(saltos.gettext.bootstrap.field({
-                id: 'api-libs',
+                id: 'web-libs',
                 type: 'table',
-                label: 'API libraries',
+                label: 'WEB libraries',
                 header: header,
-                data: response.libraries.api,
+                data: response.libraries.web,
                 parentClass: 'mb-3'
             }));
             body.append(saltos.gettext.bootstrap.field({
@@ -129,11 +129,11 @@ saltos.common.about = () => {
                 class: 'mb-3',
             }));
             body.append(saltos.gettext.bootstrap.field({
-                id: 'web-libs',
+                id: 'api-libs',
                 type: 'table',
-                label: 'WEB libraries',
+                label: 'API libraries',
                 header: header,
-                data: response.libraries.web,
+                data: response.libraries.api,
                 parentClass: 'mb-3'
             }));
             body.append(saltos.gettext.bootstrap.field({

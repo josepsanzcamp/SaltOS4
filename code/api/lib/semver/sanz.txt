@@ -2,3 +2,5 @@
 rm -rf vendor
 rm -f composer.*
 composer require composer/semver
+
+composer show composer/semver --format=json | jq -r '.versions[0]' | sed 's/^v//' > VERSION

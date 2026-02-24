@@ -4,3 +4,5 @@
 rm -rf vendor
 rm -f composer.*
 composer require webklex/php-geoip
+
+composer show webklex/php-geoip --format=json | jq -r '.versions[0]' | sed 's/^v//' > VERSION

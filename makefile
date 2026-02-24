@@ -26,9 +26,9 @@ all:
 ################################################################################
 
 web: clean
-	cat code/web/lib/bootstrap/bootstrap-icons.min.css code/web/lib/atkinson/atkinson.min.css | \
+	cat code/web/lib/icons/bootstrap-icons.min.css code/web/lib/atkinson/atkinson.min.css | \
 	php scripts/fixpath.php fonts/AtkinsonHyperlegible atkinson/fonts/AtkinsonHyperlegible | \
-	php scripts/fixpath.php fonts/bootstrap-icons bootstrap/fonts/bootstrap-icons > code/web/lib/index.css
+	php scripts/fixpath.php fonts/bootstrap-icons icons/fonts/bootstrap-icons > code/web/lib/index.css
 
 	cat code/web/lib/bootstrap/bootstrap.bundle.min.js \
 		code/web/lib/md5/md5.min.js \
@@ -56,7 +56,7 @@ web: clean
 
 devel: clean
 	cat code/web/htm/index.htm | \
-	php scripts/debug.php lib/index.css lib/bootstrap/bootstrap-icons.min.css lib/atkinson/atkinson.min.css | \
+	php scripts/debug.php lib/index.css lib/icons/bootstrap-icons.min.css lib/atkinson/atkinson.min.css | \
 	php scripts/debug.php \
 		lib/index.js lib/bootstrap/bootstrap.bundle.min.js \
 		lib/md5/md5.min.js \
