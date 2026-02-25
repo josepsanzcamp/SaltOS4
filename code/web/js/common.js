@@ -315,14 +315,36 @@ saltos.common.viewpdf = file => {
  * @id => the id of the table
  */
 saltos.common.__remove_helper = id => {
-    const obj = document.getElementById(id);
-    if (obj) {
-        const len = obj.querySelector('tbody').innerText.trim().length;
-        if (!len) {
-            const row = obj.closest('.mb-3');
-            if (row) {
-                row.remove();
-            }
+    let obj = document.getElementById(id);
+    if (!obj) {
+        return;
+    }
+
+    // Prefer explicit wrapper mapping (subtable hidden input pattern)
+    let target = obj;
+    if (obj.dataset && obj.dataset.wrapper) {
+        const wrapper = document.getElementById(obj.dataset.wrapper);
+        if (wrapper) {
+            target = wrapper;
+        }
+    } else if (obj.tagName === 'INPUT') {
+        // Backward compatibility fallback
+        const wrapper = document.getElementById(`${id}__wrapper`);
+        if (wrapper) {
+            target = wrapper;
+        }
+    }
+
+    const tbody = target.querySelector('tbody');
+    if (!tbody) {
+        return;
+    }
+
+    const len = tbody.innerText.trim().length;
+    if (!len) {
+        const row = obj.closest('.mb-3') || target.closest('.mb-3');
+        if (row) {
+            row.remove();
         }
     }
 };
