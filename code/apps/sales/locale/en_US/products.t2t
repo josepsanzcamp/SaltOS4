@@ -11,7 +11,7 @@ Products can be linked to quotes, invoices, and purchases, making this module fu
 
 ==List view==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-list-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -26,15 +26,15 @@ This view is used for creating, editing or viewing a product entry.
 
 In **create** mode, the form is empty for entering a new product.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-create-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-create-en-us-light-1-snap.png]
 
 In **view** mode, all fields are read-only and show detailed information.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-view-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-view-100-en-us-light-1-snap.png]
 
 In **edit** mode, the product data can be updated or corrected.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-edit-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-products-edit-100-en-us-light-1-snap.png]
 
 The form includes the following fields:
 

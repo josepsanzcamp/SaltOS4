@@ -33,6 +33,7 @@ const pti = require('puppeteer-to-istanbul');
 const toMatchImageSnapshot = require('jest-image-snapshot').toMatchImageSnapshot;
 expect.extend({toMatchImageSnapshot});
 const timeout = {timeout: 3000};
+const sharp = require('sharp');
 
 /**
  * Global variables
@@ -101,7 +102,10 @@ describe('App Invoices', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#list table', timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -128,7 +132,10 @@ describe('App Invoices', () => {
             count = await page.$$eval('#list input[type=checkbox]:checked', inputs => inputs.length);
             expect(count).toBe(26);
 
-            const screenshot = await page.screenshot({encoding: 'base64'});
+            const screenshot = await sharp(await page.screenshot()).png({
+                compressionLevel: 9,
+                palette: true,
+            }).toBuffer();
             expect(screenshot).toMatchImageSnapshot({
                 failureThreshold: 0.005,
                 failureThresholdType: 'percent',
@@ -166,8 +173,11 @@ describe('App Invoices', () => {
             count = await page.$$eval('#list input[type=checkbox]:checked', inputs => inputs.length);
             expect(count).toBe(5);
 
-            const screenshot2 = await page.screenshot({encoding: 'base64'});
-            expect(screenshot2).toMatchImageSnapshot({
+            const screenshot = await sharp(await page.screenshot()).png({
+                compressionLevel: 9,
+                palette: true,
+            }).toBuffer();
+            expect(screenshot).toMatchImageSnapshot({
                 failureThreshold: 0.005,
                 failureThresholdType: 'percent',
                 customSnapshotsDir: `${__dirname}/snaps`,
@@ -193,7 +203,10 @@ describe('App Invoices', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#customer_name', timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -214,7 +227,10 @@ describe('App Invoices', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#customer_name', timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -235,7 +251,10 @@ describe('App Invoices', () => {
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#customer_name', timeout);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',

@@ -11,7 +11,7 @@ Este módulo es esencial para el control de acceso, la personalización y la tra
 
 ==Vista de lista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-list-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -28,15 +28,15 @@ Esta vista se utiliza para crear, ver o editar cuentas de usuario.
 
 En el modo **crear**, el formulario permite registrar un nuevo usuario con credenciales de acceso.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-create-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, los datos del usuario se muestran sin opción de edición.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-view-1-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-view-1-es-es-light-1-snap.png]
 
 En el modo **edición**, se puede actualizar la información o restablecer credenciales.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-edit-1-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-edit-1-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 

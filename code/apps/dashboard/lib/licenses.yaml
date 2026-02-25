@@ -1,5 +1,6 @@
 - id: sortablejs
   name: SortableJS
+  package: sortablejs/Sortable
   homepage: https://sortablejs.github.io/Sortable/
   license: MIT License
   license_id: MIT

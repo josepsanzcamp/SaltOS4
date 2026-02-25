@@ -12,7 +12,7 @@ Ejemplos de departamentos pueden incluir "Ventas", "Informática", "RRHH" o "Log
 
 ==Vista de lista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-departments-list-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-departments-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -28,15 +28,15 @@ Esta vista se utiliza para crear, ver o editar departamentos.
 
 En el modo **crear**, se puede definir un nuevo departamento.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-departments-create-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-departments-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, los detalles del departamento son visibles pero no editables.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-departments-view-100-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-departments-view-100-es-es-light-1-snap.png]
 
 En el modo **edición**, los valores existentes pueden actualizarse.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-departments-edit-100-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-hr-departments-edit-100-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 

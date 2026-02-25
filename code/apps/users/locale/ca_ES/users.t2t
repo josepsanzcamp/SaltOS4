@@ -11,7 +11,7 @@ Aquest mòdul és essencial per al control d'accés, la personalització i el re
 
 ==Vista de llista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-list-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -28,15 +28,15 @@ Aquesta vista s'utilitza per crear, consultar o editar comptes d'usuari.
 
 En el mode **crear**, el formulari permet registrar un usuari nou amb credencials d'accés.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-create-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, es mostren les dades del compte sense possibilitat d'edició.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-view-1-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-view-1-ca-es-light-1-snap.png]
 
 En el mode **edició**, es poden actualitzar les dades o restablir les credencials.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-edit-1-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-edit-1-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 

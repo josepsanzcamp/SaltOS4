@@ -2,7 +2,11 @@
 # https://imagesloaded.desandro.com/
 # https://cdnjs.com/libraries/jquery.imagesloaded
 
-wget https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/5.0.0/imagesloaded.pkgd.min.js
+version=$(curl -s https://api.cdnjs.com/libraries/jquery.imagesloaded?fields=version | jq -r .version)
+echo $version > VERSION
+
+rm -f imagesloaded.pkgd.min.js
+wget https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/$version/imagesloaded.pkgd.min.js
 
 #wget https://raw.githubusercontent.com/desandro/imagesloaded/refs/heads/master/LICENSE.md
 #wget https://raw.githubusercontent.com/desandro/imagesloaded/refs/heads/master/README.md

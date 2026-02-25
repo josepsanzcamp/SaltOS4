@@ -694,6 +694,7 @@ saltos.bootstrap.__field.joditeditor = field => {
             'source',
         ];
         const editor = new Jodit(element, {
+            tabIndex: 0,
             toolbarAdaptive: true,
             toolbarSticky: true,
             uploader: {

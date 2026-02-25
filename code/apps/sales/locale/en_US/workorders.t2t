@@ -12,7 +12,7 @@ such as technical support, installations, or field services.
 
 ==List view==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-list-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -27,15 +27,15 @@ This view is used to create, edit, or view a work order.
 
 In **create** mode, the form allows registering a new task to be performed.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-create-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-create-en-us-light-1-snap.png]
 
 In **view** mode, the information is shown as read-only.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-100-en-us-light-1-snap.png]
 
 In **edit** mode, the data can be updated based on progress or feedback.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-edit-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-edit-100-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -58,7 +58,7 @@ Deactivation is preferred if you want to retain history without exposing the rec
 
 ==PDF generation==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-viewpdf-100-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-viewpdf-100-en-us-light-1-snap.png]
 
 From the individual view of a record (view), the user can generate and download a PDF containing all relevant data of that entry.
 

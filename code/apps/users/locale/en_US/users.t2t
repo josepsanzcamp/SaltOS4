@@ -11,7 +11,7 @@ This module is essential for access control, personalization, and audit tracking
 
 ==List view==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-list-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -28,15 +28,15 @@ This view is used to create, view or edit user accounts.
 
 In **create** mode, the form is used to register a new user with login credentials.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-create-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-create-en-us-light-1-snap.png]
 
 In **view** mode, the account details are shown without edit capability.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-view-1-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-view-1-en-us-light-1-snap.png]
 
 In **edit** mode, you can update user information or reset credentials.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-edit-1-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-users-edit-1-en-us-light-1-snap.png]
 
 The form includes the following fields:
 

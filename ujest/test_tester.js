@@ -33,6 +33,7 @@ const pti = require('puppeteer-to-istanbul');
 const toMatchImageSnapshot = require('jest-image-snapshot').toMatchImageSnapshot;
 expect.extend({toMatchImageSnapshot});
 const timeout = {timeout: 3000};
+const sharp = require('sharp');
 
 /**
  * Global variables
@@ -103,7 +104,10 @@ describe('App Tester', () => {
         await page.waitForSelector('#campo26d', timeout);
         await mypause(page, 1000);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -120,7 +124,10 @@ describe('App Tester', () => {
         await page.evaluate(() => { saltos.app.form_disabled(true); });
         await mypause(page, 100);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -137,7 +144,10 @@ describe('App Tester', () => {
         await page.evaluate(() => { saltos.app.form_disabled(false); });
         await mypause(page, 100);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
@@ -146,49 +156,48 @@ describe('App Tester', () => {
     });
 
     /**
-     * List of bs_themes
+     * Prepare the test.each iterator
      */
-    const bs_themes = ['light', 'dark', 'auto'];
-
-    /**
-     * Action Bs Theme
-     *
-     * This part of the test tries to set the differents bs_themes
-     */
-    test.each(bs_themes)('Action Bs Theme %s', async theme => {
-        await page.evaluate(theme => { saltos.bootstrap.set_bs_theme(theme); }, theme);
-        await mypause(page, 500);
-
-        const screenshot = await page.screenshot({encoding: 'base64'});
-        expect(screenshot).toMatchImageSnapshot({
-            failureThreshold: 0.005,
-            failureThresholdType: 'percent',
-            customSnapshotsDir: `${__dirname}/snaps`,
-        });
-    });
-
-    /**
-     * List of css_themes
-     */
-    const css_themes = ['default',
+    const themes = ['default',
         'black', 'blue', 'cyan', 'gray', 'green', 'indigo',
         'orange', 'pink', 'purple', 'red', 'teal', 'yellow',
     ];
+    const modes = ['light', 'dark'];
+    const cases = modes.flatMap(mode => themes.map(theme => ({
+        mode: mode,
+        theme: theme,
+        label: `${theme} [${mode}]`,
+    })));
 
     /**
-     * Action Css Theme
+     * Visual Theme Combinations
      *
-     * This part of the test tries to set the differents css_themes
+     * This test iterates all css themes combined with both light and dark
+     * bootstrap modes. For each permutation the bootstrap theme and the
+     * css theme are applied and the resulting screen is validated against
+     * the expected visual snapshot.
+     *
+     * This ensures visual consistency across all supported theme
+     * combinations without duplicating structural tests like
+     * enabled/disabled state.
      */
-    test.each(css_themes)('Action Css Theme %s', async theme => {
-        await page.evaluate(theme => { saltos.bootstrap.set_css_theme(theme); }, theme);
+    test.each(cases)('$label', async ({mode, theme, label}) => {
+        await page.evaluate(({mode, theme}) => {
+            saltos.bootstrap.set_bs_theme(mode);
+            saltos.bootstrap.set_css_theme(theme);
+        }, {mode, theme});
+
         await mypause(page, 500);
 
-        const screenshot = await page.screenshot({encoding: 'base64'});
+        const screenshot = await sharp(await page.screenshot()).png({
+            compressionLevel: 9,
+            palette: true,
+        }).toBuffer();
         expect(screenshot).toMatchImageSnapshot({
             failureThreshold: 0.005,
             failureThresholdType: 'percent',
             customSnapshotsDir: `${__dirname}/snaps`,
         });
+
     });
 });

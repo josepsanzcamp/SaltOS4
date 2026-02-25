@@ -11,7 +11,7 @@ Typical statuses might include "New", "Contacted", "Qualified", or "Rejected".
 
 ==List view==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-list-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -26,15 +26,15 @@ This view is used to create, view or edit lead status records.
 
 In **create** mode, the form is empty and ready to enter new data.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-create-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-create-en-us-light-1-snap.png]
 
 In **view** mode, the fields are filled with the selected record and cannot be edited.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-view-10-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-view-10-en-us-light-1-snap.png]
 
 In **edit** mode, the form is pre-filled and allows modifications.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-edit-10-en-us-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-edit-10-en-us-light-1-snap.png]
 
 The form includes the following fields:
 

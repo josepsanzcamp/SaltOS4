@@ -1,5 +1,5 @@
 Manual d'usuari
-SaltOS 4.1 r2302
+SaltOS 4.1 r2321
 February 2026
 
 
@@ -17,7 +17,7 @@ Aquesta vista centralitza accions freqüents i mostra informació rellevant de f
 
 ++Vista principal++
 
-[../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-ca-es-light-1-snap.png]
 
 El dashboard pot incloure:
 
@@ -55,7 +55,7 @@ Cada usuari pot tenir el seu propi dashboard personalitzat, i aquesta eina n'és
 
 ++Vista de configuració++
 
-[../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-widgets-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-widgets-ca-es-light-1-snap.png]
 
 La pantalla mostra una vista en forma de canvas on es poden configurar els elements del dashboard de forma dinàmica i visual.
 
@@ -102,7 +102,7 @@ mòduls com pressupostos, factures, reunions i correus.
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -119,15 +119,15 @@ Aquesta vista s'utilitza per crear, editar o consultar una fitxa de client.
 
 En el mode **crear**, el formulari està buit i preparat per introduir dades noves.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, els camps estan plens amb la fitxa seleccionada i no es poden editar.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-view-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-view-100-ca-es-light-1-snap.png]
 
 En el mode **edició**, el formulari està preomplert i permet modificacions.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-edit-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-edit-100-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -166,7 +166,7 @@ Classificar els clients ajuda a personalitzar l’atenció, filtrar les dades i 
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -181,15 +181,15 @@ Aquesta vista permet gestionar els tipus de client.
 
 En el mode **crear**, es pot afegir un nou tipus.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, només es mostren les dades sense possibilitat d’edició.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-view-10-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-view-10-ca-es-light-1-snap.png]
 
 En el mode **edició**, es poden modificar les dades existents.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-edit-10-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-edit-10-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -218,7 +218,7 @@ i convertir interessats en clients quan sigui oportú.
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -234,15 +234,15 @@ Aquesta vista s'utilitza per crear, editar o consultar un interessat.
 
 En el mode **crear**, el formulari està buit i preparat per introduir dades noves.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, els camps es mostren amb la informació seleccionada i no es poden editar.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-view-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-view-100-ca-es-light-1-snap.png]
 
 En el mode **edició**, el formulari està preomplert i permet fer modificacions.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-edit-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-edit-100-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -276,7 +276,7 @@ Els estats ajuden a fer seguiment dels leads segons el seu grau d'interès, qual
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -291,15 +291,15 @@ Aquesta vista permet gestionar els estats dels interessats.
 
 En el mode **crear**, pots afegir un estat nou.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, es mostra la informació de l'estat.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-view-10-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-view-10-ca-es-light-1-snap.png]
 
 En el mode **edició**, es poden modificar els valors.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-edit-10-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-edit-10-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -327,7 +327,7 @@ Aquest mòdul afavoreix la col·laboració i garanteix la traçabilitat de les d
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -343,15 +343,15 @@ Aquesta vista s'utilitza per crear, editar o consultar una reunió.
 
 En el mode **crear**, el formulari està buit i preparat per introduir una nova reunió.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, els camps són només de lectura i mostren els detalls de la reunió.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-100-ca-es-light-1-snap.png]
 
 En el mode **edició**, es poden modificar els detalls de la reunió.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-edit-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-edit-100-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -376,7 +376,7 @@ Aquesta acció no es pot desfer i pot requerir permisos específics.
 
 ++Generació de PDF++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-viewpdf-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-viewpdf-100-ca-es-light-1-snap.png]
 
 Des de la vista individual d’un registre (view), l’usuari pot generar i descarregar un PDF amb totes les dades rellevants d’aquest registre.
 
@@ -394,7 +394,7 @@ Aquests pressupostos poden convertir-se fàcilment en factures un cop acceptats 
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -411,15 +411,15 @@ Aquesta vista s'utilitza per crear, editar o consultar un pressupost.
 
 En el mode **crear**, el formulari està buit i preparat per introduir un nou pressupost.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, els camps són només de lectura i mostren el detall del pressupost.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-100-ca-es-light-1-snap.png]
 
 En el mode **edició**, es poden modificar les dades existents del pressupost.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-edit-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-edit-100-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -450,7 +450,7 @@ Aquesta acció no es pot desfer i pot requerir permisos especials.
 
 ++Generació de PDF++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-viewpdf-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-viewpdf-100-ca-es-light-1-snap.png]
 
 Des de la vista individual d’un registre (view), l’usuari pot generar i descarregar un PDF amb totes les dades rellevants d’aquest registre.
 
@@ -468,7 +468,7 @@ Els estats ajuden a fer seguiment dels pressupostos i a organitzar el procés co
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -483,15 +483,15 @@ Aquesta vista permet crear, editar o consultar un estat de pressupost.
 
 En el mode **crear**, es pot definir un nou estat.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, es mostra el detall de l'estat sense possibilitat d'edició.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-view-10-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-view-10-ca-es-light-1-snap.png]
 
 En el mode **edició**, es poden modificar els valors existents.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-edit-10-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-edit-10-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -519,7 +519,7 @@ També gestiona proformes, venciments i registre de cobraments.
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -538,15 +538,15 @@ Aquesta vista s'utilitza per crear, consultar o editar una factura.
 
 En el mode **crear**, el formulari permet generar una nova factura o proforma.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, es mostren tots els detalls sense opció d'edició.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-100-ca-es-light-1-snap.png]
 
 En el mode **edició**, es poden modificar les dades de la factura.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-edit-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-edit-100-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -584,7 +584,7 @@ Aquesta acció és irreversible.
 
 ++Generació de PDF++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-viewpdf-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-viewpdf-100-ca-es-light-1-snap.png]
 
 Des de la vista individual d’un registre (view), l’usuari pot generar i descarregar un PDF amb totes les dades rellevants d’aquest registre.
 
@@ -618,7 +618,7 @@ Aquests estats s’utilitzen per fer seguiment del cobrament i per classificar l
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -633,15 +633,15 @@ Aquesta vista permet crear, editar o consultar estats de factura.
 
 En el mode **crear**, pots afegir un nou estat.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, només es mostren els detalls.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-view-10-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-view-10-ca-es-light-1-snap.png]
 
 En el mode **edició**, pots modificar el contingut.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-edit-10-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-edit-10-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -669,7 +669,7 @@ Aquest mòdul garanteix la coherència i la traçabilitat en tot el procés de f
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -685,15 +685,15 @@ Aquesta vista s'utilitza per crear, consultar o editar mètodes de pagament.
 
 En el mode **crear**, s'afegeix un nou mètode de pagament.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, els camps es mostren en mode només lectura.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-view-10-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-view-10-ca-es-light-1-snap.png]
 
 En el mode **edició**, es poden modificar els detalls.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-edit-10-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-edit-10-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -721,7 +721,7 @@ Els productes es poden vincular a pressupostos, factures i compres, fent d'aques
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -736,15 +736,15 @@ Aquesta vista s'utilitza per crear, editar o consultar una entrada de producte.
 
 En el mode **crear**, el formulari està buit per introduir un nou producte.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, tots els camps són només de lectura i mostren informació detallada.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-view-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-view-100-ca-es-light-1-snap.png]
 
 En el mode **edició**, es poden actualitzar o corregir les dades del producte.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-edit-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-edit-100-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -789,7 +789,7 @@ Exemples de categories poden incloure "Producte", "Servei", "Subscripció" o "Pa
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -804,15 +804,15 @@ Aquesta vista s'utilitza per crear, consultar o editar registres de categoria de
 
 En el mode **crear**, es pot definir una nova categoria.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, els detalls de la categoria es mostren però no es poden editar.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-view-10-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-view-10-ca-es-light-1-snap.png]
 
 En el mode **edició**, es poden actualitzar els valors existents.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-edit-10-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-edit-10-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -840,7 +840,7 @@ Alguns tipus habituals poden incloure "Maquinari", "Programari", "Serveis" o "Ac
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -855,15 +855,15 @@ Aquesta vista s'utilitza per crear, consultar o editar registres de tipus de pro
 
 En el mode **crear**, es pot definir un nou tipus.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, es mostren els detalls però no es poden editar.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-view-10-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-view-10-ca-es-light-1-snap.png]
 
 En el mode **edició**, es poden actualitzar els valors existents.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-edit-10-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-edit-10-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -890,7 +890,7 @@ Cada registre inclou el nom, el percentatge i l'estat, garantint una aplicació 
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -907,15 +907,15 @@ Aquesta vista s'utilitza per crear, consultar o editar impostos.
 
 En el mode **crear**, es pot definir una nova norma fiscal.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, es mostren els detalls fiscals però no es poden editar.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-view-1-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-view-1-ca-es-light-1-snap.png]
 
 En el mode **edició**, es poden actualitzar els valors existents.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-edit-1-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-edit-1-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -944,7 +944,7 @@ i notes o fitxers adjunts associats. Aquest mòdul és essencial per gestionar a
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -959,15 +959,15 @@ Aquesta vista s'utilitza per crear, editar o consultar una ordre de treball.
 
 En el mode **crear**, el formulari permet registrar una nova tasca a realitzar.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, la informació es mostra en mode només de lectura.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-100-ca-es-light-1-snap.png]
 
 En el mode **edició**, es poden actualitzar les dades segons l'evolució o el retorn.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-edit-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-edit-100-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -990,7 +990,7 @@ Abans de l'eliminació es mostra un avís de confirmació.
 
 ++Generació de PDF++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-viewpdf-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-viewpdf-100-ca-es-light-1-snap.png]
 
 Des de la vista individual d’un registre (view), l’usuari pot generar i descarregar un PDF amb totes les dades rellevants d’aquest registre.
 
@@ -1008,7 +1008,7 @@ Aquest mòdul garanteix la traçabilitat de les despeses i està vinculat al mò
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -1024,15 +1024,15 @@ Aquesta vista s'utilitza per crear, editar o consultar un registre de compra.
 
 En el mode **crear**, el formulari serveix per introduir una nova compra vinculada a un proveïdor.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, es mostren els detalls de la compra registrada en mode només lectura.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-view-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-view-100-ca-es-light-1-snap.png]
 
 En el mode **edició**, es pot actualitzar la informació si cal.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-edit-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-edit-100-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -1070,7 +1070,7 @@ Aquests estats ajuden a fer seguiment del procés de compres i milloren la clare
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -1085,15 +1085,15 @@ Aquesta vista s'utilitza per crear, consultar o editar estats de compra.
 
 En el mode **crear**, el formulari serveix per introduir un nou estat.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, es mostren els detalls de l'estat en mode només lectura.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-view-10-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-view-10-ca-es-light-1-snap.png]
 
 En el mode **edició**, es pot actualitzar la informació si cal.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-edit-10-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-edit-10-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -1120,7 +1120,7 @@ Aquest mòdul està vinculat als processos de compra, permetent associar proveï
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -1137,15 +1137,15 @@ Aquesta vista s'utilitza per crear, editar o consultar registres de proveïdors.
 
 En el mode **crear**, el formulari està buit per afegir un nou proveïdor.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, els camps es mostren en mode només lectura.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-view-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-view-100-ca-es-light-1-snap.png]
 
 En el mode **edició**, es poden actualitzar les dades del proveïdor.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-edit-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-edit-100-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -1185,7 +1185,7 @@ Exemples de tipus inclouen "Distribuïdor", "Fabricant", "Prestador de serveis",
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -1200,15 +1200,15 @@ Aquesta vista s'utilitza per crear, consultar o editar tipus de proveïdor.
 
 En el mode **crear**, es pot definir un nou tipus.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, els detalls del tipus són visibles però no editables.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-view-10-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-view-10-ca-es-light-1-snap.png]
 
 En el mode **edició**, es poden actualitzar els valors existents.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-edit-10-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-edit-10-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -1236,7 +1236,7 @@ Exemples de departaments poden ser "Vendes", "Informàtica", "RRHH" o "Logístic
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -1252,15 +1252,15 @@ Aquesta vista s'utilitza per crear, consultar o editar departaments.
 
 En el mode **crear**, es pot definir un nou departament.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, els detalls del departament són visibles però no editables.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-view-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-view-100-ca-es-light-1-snap.png]
 
 En el mode **edició**, es poden actualitzar els valors existents.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-edit-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-edit-100-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -1289,7 +1289,7 @@ Aquest mòdul s'utilitza habitualment en processos de RRHH per organitzar el per
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -1305,15 +1305,15 @@ Aquesta vista s'utilitza per crear, consultar o editar fitxes d'empleats.
 
 En el mode **crear**, s'afegeix un nou perfil d'empleat.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, es mostra el perfil en format només lectura.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-view-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-view-100-ca-es-light-1-snap.png]
 
 En el mode **edició**, es pot actualitzar la fitxa de l'empleat.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-edit-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-edit-100-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -1355,7 +1355,7 @@ Alguns tipus habituals inclouen "Jornada completa", "Temps parcial", "Autònom",
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -1370,15 +1370,15 @@ Aquesta vista s'utilitza per crear, consultar o editar tipus d'empleat.
 
 En el mode **crear**, es pot definir un nou tipus d'empleat.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, els detalls del tipus són visibles però no editables.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-view-10-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-view-10-ca-es-light-1-snap.png]
 
 En el mode **edició**, es poden actualitzar els valors existents.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-edit-10-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-edit-10-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -1408,7 +1408,7 @@ i garantir que la infraestructura de seguretat estigui actualitzada.
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-certs-certs-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-certs-certs-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -1421,7 +1421,7 @@ Aquesta vista s'utilitza per afegir, revisar o actualitzar la informació d'un c
 
 En **mode creació**, el formulari està buit i llest per introduir noves dades.
 
-[../ujest/snaps/test-screenshots-js-screenshots-certs-certs-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-certs-certs-create-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -1431,7 +1431,7 @@ El formulari inclou els següents camps:
 
 En **mode vista**, els camps estan omplerts amb el registre seleccionat i no es poden editar.
 
-[../ujest/snaps/test-screenshots-js-screenshots-certs-certs-view-ab-877-d-2027-f-7-c-71-d-9935999-cce-1-b-802-b-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-certs-certs-view-ab-877-d-2027-f-7-c-71-d-9935999-cce-1-b-802-b-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -1458,7 +1458,7 @@ Normalment inclou el nom, el codi fiscal, l'adreça, el logotip i l'idioma prefe
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-company-company-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-company-company-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -1475,15 +1475,15 @@ Aquesta vista s'utilitza per definir o editar el perfil de l'empresa.
 
 En el mode **crear**, el formulari està buit i preparat per introduir noves dades.
 
-[../ujest/snaps/test-screenshots-js-screenshots-company-company-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-company-company-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, els camps es mostren omplerts però no editables.
 
-[../ujest/snaps/test-screenshots-js-screenshots-company-company-view-1-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-company-company-view-1-ca-es-light-1-snap.png]
 
 En el mode **edició**, el formulari es mostra preomplert i permet modificacions.
 
-[../ujest/snaps/test-screenshots-js-screenshots-company-company-edit-1-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-company-company-edit-1-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -1527,7 +1527,7 @@ està estretament integrada amb el mòdul de Comptes de correu electrònic i és
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-ca-es-light-1-snap.png]
 
 La vista de llista mostra els correus entrants com a botons o targetes clicables.
 Cada entrada mostra habitualment:
@@ -1545,7 +1545,7 @@ La interfície també inclou filtres i un formulari de cerca per remitent, assum
 
 Aquesta vista mostra el contingut complet del correu, incloent metadades de la capçalera i adjunts.
 
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-100-ca-es-light-1-snap.png]
 
 La informació mostrada inclou:
 
@@ -1574,7 +1574,7 @@ La informació mostrada inclou:
 
 Els usuaris poden respondre un missatge existent o redactar-ne un de nou mitjançant un formulari simplificat.
 
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-create-ca-es-light-1-snap.png]
 
 El formulari inclou:
 
@@ -1598,7 +1598,7 @@ Els missatges s’eliminen localment o es marquen per eliminar, segons la config
 
 ++Generació de PDF++
 
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-viewpdf-100-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-viewpdf-100-ca-es-light-1-snap.png]
 
 Des de la vista individual d’un registre (view), l’usuari pot generar i descarregar un PDF amb totes les dades rellevants d’aquest registre.
 
@@ -1622,7 +1622,7 @@ Aquest mòdul permet integrar proveïdors externs i admet autenticació, carpete
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -1638,15 +1638,15 @@ Aquesta vista s'utilitza per crear, consultar o editar un compte de correu.
 
 En el mode **crear**, es configura un compte nou des de zero.
 
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, es mostren les dades del compte però no es poden modificar.
 
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-view-1-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-view-1-ca-es-light-1-snap.png]
 
 En el mode **edició**, es poden corregir o actualitzar els paràmetres.
 
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-edit-1-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-edit-1-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -1691,7 +1691,7 @@ Els grups simplifiquen l'administració del control d'accés permetent gestionar
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-users-groups-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-users-groups-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -1707,15 +1707,15 @@ Aquesta vista s'utilitza per crear, consultar o editar grups d'usuaris.
 
 En el mode **crear**, es defineix un nou grup.
 
-[../ujest/snaps/test-screenshots-js-screenshots-users-groups-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-users-groups-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, es mostren els detalls del grup i els permisos assignats.
 
-[../ujest/snaps/test-screenshots-js-screenshots-users-groups-view-1-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-users-groups-view-1-ca-es-light-1-snap.png]
 
 En el mode **edició**, es poden actualitzar el nom, la descripció i el conjunt de permisos.
 
-[../ujest/snaps/test-screenshots-js-screenshots-users-groups-edit-1-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-users-groups-edit-1-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -1745,7 +1745,7 @@ Aquest mòdul és essencial per al control d'accés, la personalització i el re
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-users-users-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-users-users-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -1762,15 +1762,15 @@ Aquesta vista s'utilitza per crear, consultar o editar comptes d'usuari.
 
 En el mode **crear**, el formulari permet registrar un usuari nou amb credencials d'accés.
 
-[../ujest/snaps/test-screenshots-js-screenshots-users-users-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-users-users-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, es mostren les dades del compte sense possibilitat d'edició.
 
-[../ujest/snaps/test-screenshots-js-screenshots-users-users-view-1-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-users-users-view-1-ca-es-light-1-snap.png]
 
 En el mode **edició**, es poden actualitzar les dades o restablir les credencials.
 
-[../ujest/snaps/test-screenshots-js-screenshots-users-users-edit-1-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-users-users-edit-1-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 
@@ -1807,7 +1807,7 @@ Aquest mòdul és essencial per a administradors que volen auditar canvis i asse
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -1821,15 +1821,15 @@ Aquesta vista mostra els detalls complets d'un registre de canvi de configuraci�
 
 En el mode **crear**, el formulari està buit i llest per introduir noves dades.
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-create-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, els camps es mostren amb la informació del registre seleccionat i no es poden editar.
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-view-10-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-view-10-ca-es-light-1-snap.png]
 
 En el mode **edició**, el formulari està preomplert i permet modificacions.
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-edit-10-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-edit-10-ca-es-light-1-snap.png]
 
 Inclou:
 
@@ -1856,7 +1856,7 @@ Aquest mòdul és essencial per diagnosticar errors i verificar que les operacio
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-cronlog-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-cronlog-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -1898,7 +1898,7 @@ Aquest mòdul proporciona una traçabilitat completa de l'activitat documental, 
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-fileslog-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-fileslog-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -1937,7 +1937,7 @@ Aquest mòdul permet als administradors monitorar el flux de notificacions i dia
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-pushlog-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-pushlog-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -1977,7 +1977,7 @@ Aquest mòdul permet als administradors monitorar l'accés al sistema i detectar
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -1991,7 +1991,7 @@ Els següents camps es mostren a la vista de llista:
 
 Aquesta vista mostra tota la informació relacionada amb un accés concret mitjançant token.
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-view-1-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-view-1-ca-es-light-1-snap.png]
 
 Inclou:
 
@@ -2023,7 +2023,7 @@ Aquest mòdul és clau per a la traçabilitat i ajuda a identificar eliminacions
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-trashlog-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-trashlog-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -2068,7 +2068,7 @@ Ajuda a traçar l'origen, l'usuari i el context de cada pujada, i és útil per 
 
 ++Vista de llista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-uploadlog-list-ca-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-uploadlog-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 

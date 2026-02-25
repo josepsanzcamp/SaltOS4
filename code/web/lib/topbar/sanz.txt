@@ -2,6 +2,12 @@
 # https://buunguyen.github.io/topbar/
 # https://github.com/buunguyen/topbar
 
-wget https://raw.githubusercontent.com/buunguyen/topbar/refs/heads/master/topbar.min.js
+#wget https://raw.githubusercontent.com/buunguyen/topbar/refs/heads/master/topbar.min.js
+
+version=$(curl -s https://data.jsdelivr.com/v1/packages/npm/topbar/resolved | jq -r .version)
+echo $version > VERSION
+
+rm -f topbar.min.js
+wget https://cdn.jsdelivr.net/npm/topbar@$version/topbar.min.js
 
 #wget https://raw.githubusercontent.com/buunguyen/topbar/refs/heads/master/README.md

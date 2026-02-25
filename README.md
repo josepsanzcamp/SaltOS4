@@ -3,7 +3,7 @@
 # SaltOS 4
 
 ### Build Enterprise Business Apps Declaratively in YAML/XML
-**CRM · ERP · Custom Workflows — 10x Faster Than Traditional Frameworks**
+**Structured Business Systems — 10x Faster Than Traditional Frameworks**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 [![PHP](https://img.shields.io/badge/PHP-7.0%20to%208.5-777BB4.svg)](https://www.php.net/)
@@ -19,8 +19,8 @@
 ## 🎯 The Problem
 
 Building custom business applications is expensive and slow:
-- Traditional development: **6-12 months** for a basic CRM/ERP
-- Commercial solutions (Odoo, SAP): **€20K-100K/year** + vendor lock-in
+- Traditional development: **6-12 months** for a basic business application
+- Proprietary enterprise platforms: High recurring licensing costs + vendor lock-in
 - Customizing platforms: Expensive and complex
 - No-code tools: Limited power for complex business logic
 
@@ -190,15 +190,21 @@ From these definitions, SaltOS automatically creates:
 <table>
   <tr>
     <td><img src="https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/ujest/snaps/test-screenshots-js-screenshots-users-login-1-snap.png" alt="Login"/></td>
-    <td><img src="https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-en-us-1-snap.png" alt="Dashboard"/></td>
-    <td><img src="https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-100-en-us-1-snap.png" alt="Email"/></td>
-    <td><img src="https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/ujest/snaps/test-screenshots-js-screenshots-emails-emails-create-en-us-1-snap.png" alt="Email"/></td>
+    <td><img src="https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-en-us-light-1-snap.png" alt="Dashboard"/></td>
+    <td><img src="https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-100-en-us-light-1-snap.png" alt="Invoices"/></td>
+    <td><img src="https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/ujest/snaps/test-screenshots-js-screenshots-sales-invoices-create-en-us-light-1-snap.png" alt="Invoices"/></td>
   </tr>
   <tr>
-    <td><img src="https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-100-en-us-1-snap.png" alt="Invoices"/></td>
-    <td><img src="https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/ujest/snaps/test-screenshots-js-screenshots-sales-invoices-create-en-us-1-snap.png" alt="Invoices"/></td>
-    <td><img src="https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/ujest/snaps/test-tester-js-app-tester-action-bs-theme-light-1-snap.png" alt="Tester"/></td>
-    <td><img src="https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/ujest/snaps/test-tester-js-app-tester-action-bs-theme-dark-1-snap.png" alt="Tester"/></td>
+    <td><img src="https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-100-en-us-light-1-snap.png" alt="Emails"/></td>
+    <td><img src="https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/ujest/snaps/test-screenshots-js-screenshots-emails-emails-create-en-us-light-1-snap.png" alt="Emails"/></td>
+    <td><img src="https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/ujest/snaps/test-emails-js-app-emails-action-help-1-snap.png" alt="Help"/></td>
+    <td><img src="https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/ujest/snaps/test-emails-js-app-emails-action-about-1-snap.png" alt="About"/></td>
+  </tr>
+  <tr>
+    <td><img src="https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-100-en-us-dark-1-snap.png" alt="Emails"/></td>
+    <td><img src="https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-viewpdf-100-en-us-dark-1-snap.png" alt="PDF"/></td>
+    <td><img src="https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/ujest/snaps/test-screenshots-js-screenshots-crm-customers-edit-100-en-us-dark-1-snap.png" alt="Customers"/></td>
+    <td><img src="https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-viewpdf-100-en-us-dark-1-snap.png" alt="PDF"/></td>
   </tr>
 </table>
 
@@ -441,22 +447,6 @@ Comprehensive docs in 3 languages (English, Spanish, Catalan):
 - 💻 [**Web Client**](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/web.pdf) — Frontend architecture
 - 📦 [**Apps Guide**](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/apps.pdf) — Building custom apps
 - 🧪 **Testing** — [PHPUnit](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/utest.pdf) & [Jest](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/ujest.pdf) guides
-
----
-
-## 🆚 Comparison
-
-| Feature | SaltOS 4 | Odoo | ERPNext | Bubble.io |
-|---------|----------|------|---------|-----------|
-| **Open Source** | ✅ MIT | ✅ LGPL (CE) / Proprietary (EE) | ✅ GPL-3.0 | ❌ Proprietary |
-| **Self-Hosted** | ✅ Yes | ✅ Yes | ✅ Yes | ❌ Cloud-only |
-| **No Vendor Lock-in** | ✅ Yes | ⚠️ Complex | ✅ Yes | ❌ No |
-| **Declarative Apps (YAML)** | ✅ Yes | ❌ Python/XML | ❌ Python | ✅ Visual |
-| **Blockchain Versioning** | ✅ Yes | ❌ No | ❌ No | ❌ No |
-| **PWA Offline Support** | ✅ Yes | ⚠️ Limited | ❌ No | ❌ No |
-| **Learning Curve** | 🟢 Low | 🔴 High | 🟡 Medium | 🟢 Low |
-| **Customization** | 🟢 Easy | 🟡 Complex | 🟡 Medium | 🔴 Limited |
-| **Cost (self-hosted)** | **€0** | €0 (CE) / €€€ (EE) | €0 | N/A |
 
 ---
 

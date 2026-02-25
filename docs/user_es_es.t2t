@@ -1,5 +1,5 @@
 Manual de usuario
-SaltOS 4.1 r2302
+SaltOS 4.1 r2321
 February 2026
 
 
@@ -17,7 +17,7 @@ Esta vista centraliza acciones comunes y muestra información relevante de forma
 
 ++Vista principal++
 
-[../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-es-es-light-1-snap.png]
 
 El dashboard puede incluir:
 
@@ -55,7 +55,7 @@ Cada usuario puede tener su propio dashboard personalizado, y esta herramienta e
 
 ++Vista de configuración++
 
-[../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-widgets-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-widgets-es-es-light-1-snap.png]
 
 La pantalla muestra una vista en forma de lienzo donde los elementos del dashboard pueden organizarse de forma dinámica y visual.
 
@@ -102,7 +102,7 @@ módulos como presupuestos, facturas, reuniones y correos.
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -119,15 +119,15 @@ Esta vista se utiliza para crear, editar o consultar una ficha de cliente.
 
 En el modo **crear**, el formulario está vacío y preparado para introducir nuevos datos.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, los campos están llenos con la ficha seleccionada y no se pueden editar.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-view-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-view-100-es-es-light-1-snap.png]
 
 En el modo **edición**, el formulario está prellenado y permite modificaciones.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-edit-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-edit-100-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -166,7 +166,7 @@ Clasificar a los clientes ayuda a personalizar la atención, filtrar los datos y
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -181,15 +181,15 @@ Esta vista permite gestionar los tipos de cliente.
 
 En el modo **crear**, se puede agregar un nuevo tipo.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, los datos se muestran sin posibilidad de edición.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-view-10-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-view-10-es-es-light-1-snap.png]
 
 En el modo **edición**, se pueden modificar los datos existentes.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-edit-10-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-edit-10-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -218,7 +218,7 @@ y convertir leads en clientes cuando corresponda.
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -234,15 +234,15 @@ Esta vista se utiliza para crear, editar o consultar un lead.
 
 En el modo **crear**, el formulario está vacío y listo para introducir nuevos datos.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, los campos se muestran con la información seleccionada y no se pueden editar.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-view-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-view-100-es-es-light-1-snap.png]
 
 En el modo **edición**, el formulario está prellenado y permite realizar modificaciones.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-edit-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-edit-100-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -276,7 +276,7 @@ Los estados ayudan a realizar seguimiento de los leads según su nivel de inter�
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -291,15 +291,15 @@ Esta vista permite gestionar los estados de los leads.
 
 En el modo **crear**, puedes añadir un nuevo estado.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, se muestra la información del estado.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-view-10-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-view-10-es-es-light-1-snap.png]
 
 En el modo **edición**, es posible modificar los valores existentes.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-edit-10-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-edit-10-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -327,7 +327,7 @@ Este módulo facilita la colaboración y asegura la trazabilidad de las decision
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -343,15 +343,15 @@ Esta vista se utiliza para crear, editar o consultar una reunión.
 
 En el modo **crear**, el formulario está vacío y listo para registrar una nueva reunión.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, los campos son de solo lectura y muestran los detalles de la reunión.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-100-es-es-light-1-snap.png]
 
 En el modo **edición**, los campos pueden modificarse para actualizar la información de la reunión.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-edit-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-edit-100-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -376,7 +376,7 @@ Esta acción no se puede deshacer y puede requerir permisos específicos.
 
 ++Generación de PDF++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-viewpdf-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-viewpdf-100-es-es-light-1-snap.png]
 
 Desde la vista individual de cada registro (view) se puede generar y descargar un PDF con los datos completos del registro.
 
@@ -394,7 +394,7 @@ Estos presupuestos pueden convertirse fácilmente en facturas una vez sean acept
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -411,15 +411,15 @@ Esta vista se utiliza para crear, editar o consultar un presupuesto.
 
 En el modo **crear**, el formulario está vacío y listo para introducir un nuevo presupuesto.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, los campos son de solo lectura y muestran el detalle del presupuesto.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-100-es-es-light-1-snap.png]
 
 En el modo **edición**, se pueden modificar los datos existentes del presupuesto.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-edit-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-edit-100-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -450,7 +450,7 @@ Esta acción no se puede deshacer y puede requerir permisos especiales.
 
 ++Generación de PDF++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-viewpdf-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-viewpdf-100-es-es-light-1-snap.png]
 
 Desde la vista individual de cada registro (view) se puede generar y descargar un PDF con los datos completos del registro.
 
@@ -468,7 +468,7 @@ Los estados ayudan a hacer seguimiento de los presupuestos y a organizar el proc
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -483,15 +483,15 @@ Esta vista permite crear, editar o consultar un estado de presupuesto.
 
 En el modo **crear**, se puede definir un nuevo estado.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, se muestran los detalles del estado sin posibilidad de edición.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-view-10-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-view-10-es-es-light-1-snap.png]
 
 En el modo **edición**, se pueden modificar los valores existentes.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-edit-10-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-edit-10-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -519,7 +519,7 @@ También gestiona proformas, vencimientos y registro de pagos.
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -538,15 +538,15 @@ Esta vista se utiliza para crear, consultar o editar una factura.
 
 En el modo **crear**, el formulario permite generar una nueva factura o proforma.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, se muestran todos los detalles sin posibilidad de edición.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-100-es-es-light-1-snap.png]
 
 En el modo **edición**, se pueden modificar los datos de la factura.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-edit-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-edit-100-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -584,7 +584,7 @@ Esta acción no se puede deshacer.
 
 ++Generación de PDF++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-viewpdf-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-viewpdf-100-es-es-light-1-snap.png]
 
 Desde la vista individual de cada registro (view) se puede generar y descargar un PDF con los datos completos del registro.
 
@@ -618,7 +618,7 @@ Estos estados se utilizan para hacer seguimiento del cobro y clasificar las fact
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -633,15 +633,15 @@ Esta vista permite crear, editar o consultar estados de factura.
 
 En el modo **crear**, puedes agregar un nuevo estado.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, solo se muestran los detalles.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-view-10-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-view-10-es-es-light-1-snap.png]
 
 En el modo **edición**, puedes modificar el contenido.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-edit-10-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-edit-10-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -669,7 +669,7 @@ Este módulo garantiza coherencia y trazabilidad en todo el proceso de facturaci
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -685,15 +685,15 @@ Esta vista se utiliza para crear, consultar o editar métodos de pago.
 
 En el modo **crear**, se añade un nuevo método de pago.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, los campos se muestran en modo solo lectura.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-view-10-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-view-10-es-es-light-1-snap.png]
 
 En el modo **edición**, los detalles pueden modificarse.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-edit-10-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-edit-10-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -721,7 +721,7 @@ Los productos pueden vincularse a presupuestos, facturas y compras, siendo este 
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -736,15 +736,15 @@ Esta vista se utiliza para crear, editar o consultar un registro de producto.
 
 En el modo **crear**, el formulario está vacío para introducir un nuevo producto.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, todos los campos son de solo lectura y muestran información detallada.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-view-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-view-100-es-es-light-1-snap.png]
 
 En el modo **edición**, pueden actualizarse o corregirse los datos del producto.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-edit-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-edit-100-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -789,7 +789,7 @@ Ejemplos de categorías incluyen "Producto", "Servicio", "Suscripción" o "Paque
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -804,15 +804,15 @@ Esta vista se utiliza para crear, consultar o editar registros de categorías de
 
 En el modo **crear**, se puede definir una nueva categoría.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, los detalles de la categoría se muestran pero no se pueden editar.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-view-10-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-view-10-es-es-light-1-snap.png]
 
 En el modo **edición**, se pueden actualizar los valores existentes.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-edit-10-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-edit-10-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -840,7 +840,7 @@ Algunos tipos habituales pueden incluir "Hardware", "Software", "Servicios" o "A
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -855,15 +855,15 @@ Esta vista se utiliza para crear, consultar o editar registros de tipos de produ
 
 En el modo **crear**, se puede definir un nuevo tipo.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, los detalles se muestran pero no se pueden editar.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-view-10-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-view-10-es-es-light-1-snap.png]
 
 En el modo **edición**, se pueden actualizar los valores existentes.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-edit-10-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-edit-10-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -890,7 +890,7 @@ Cada registro incluye el nombre, el porcentaje y el estado, asegurando una aplic
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -907,15 +907,15 @@ Esta vista se utiliza para crear, ver o editar tipos de impuesto.
 
 En el modo **crear**, se puede definir una nueva regla de impuesto.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, los detalles del impuesto son visibles pero no editables.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-view-1-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-view-1-es-es-light-1-snap.png]
 
 En el modo **edición**, los valores existentes pueden actualizarse.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-edit-1-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-edit-1-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -945,7 +945,7 @@ como soporte técnico, instalaciones o servicios de campo.
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -960,15 +960,15 @@ Esta vista se utiliza para crear, editar o consultar una orden de trabajo.
 
 En el modo **crear**, el formulario permite registrar una nueva tarea a realizar.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, la información se muestra como solo lectura.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-100-es-es-light-1-snap.png]
 
 En el modo **edición**, los datos pueden actualizarse según el progreso o retroalimentación.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-edit-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-edit-100-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -991,7 +991,7 @@ Se recomienda desactivarlas si se desea conservar el historial sin mantenerlas v
 
 ++Generación de PDF++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-viewpdf-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-viewpdf-100-es-es-light-1-snap.png]
 
 Desde la vista individual de cada registro (view) se puede generar y descargar un PDF con los datos completos del registro.
 
@@ -1009,7 +1009,7 @@ Este módulo garantiza la trazabilidad de los gastos y está vinculado al módul
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -1025,15 +1025,15 @@ Esta vista se utiliza para crear, editar o consultar un registro de compra.
 
 En el modo **crear**, el formulario se utiliza para registrar una nueva compra vinculada a un proveedor.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, muestra los detalles de la compra en modo solo lectura.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-view-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-view-100-es-es-light-1-snap.png]
 
 En el modo **edición**, puede actualizarse la información si es necesario.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-edit-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-edit-100-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -1071,7 +1071,7 @@ Estos estados ayudan a seguir el progreso del proceso de compras y mejoran la cl
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -1086,15 +1086,15 @@ Esta vista se utiliza para crear, ver o editar entradas de estados de compra.
 
 En el modo **crear**, el formulario se utiliza para ingresar un nuevo estado.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, muestra los detalles del estado en modo solo lectura.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-view-10-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-view-10-es-es-light-1-snap.png]
 
 En el modo **edición**, la información puede actualizarse si es necesario.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-edit-10-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-edit-10-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -1121,7 +1121,7 @@ Este módulo está vinculado a los flujos de compra, permitiendo asociar proveed
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -1138,15 +1138,15 @@ Esta vista se utiliza para crear, editar o consultar registros de proveedores.
 
 En el modo **crear**, el formulario está vacío para añadir un nuevo proveedor.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, los campos se muestran en modo solo lectura.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-view-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-view-100-es-es-light-1-snap.png]
 
 En el modo **edición**, se pueden actualizar los datos del proveedor.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-edit-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-edit-100-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -1186,7 +1186,7 @@ Ejemplos de tipos incluyen "Distribuidor", "Fabricante", "Prestador de servicios
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -1201,15 +1201,15 @@ Esta vista se utiliza para crear, ver o editar tipos de proveedor.
 
 En el modo **crear**, se puede definir un nuevo tipo.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, los detalles del tipo son visibles pero no editables.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-view-10-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-view-10-es-es-light-1-snap.png]
 
 En el modo **edición**, los valores existentes pueden actualizarse.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-edit-10-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-edit-10-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -1237,7 +1237,7 @@ Ejemplos de departamentos pueden incluir "Ventas", "Informática", "RRHH" o "Log
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -1253,15 +1253,15 @@ Esta vista se utiliza para crear, ver o editar departamentos.
 
 En el modo **crear**, se puede definir un nuevo departamento.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, los detalles del departamento son visibles pero no editables.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-view-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-view-100-es-es-light-1-snap.png]
 
 En el modo **edición**, los valores existentes pueden actualizarse.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-edit-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-edit-100-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -1290,7 +1290,7 @@ Este módulo se utiliza normalmente en flujos de trabajo de RRHH para organizar 
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -1306,15 +1306,15 @@ Esta vista se utiliza para crear, consultar o editar fichas de empleados.
 
 En el modo **crear**, se añade un nuevo perfil de empleado.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, el perfil se muestra en formato solo lectura.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-view-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-view-100-es-es-light-1-snap.png]
 
 En el modo **edición**, se puede actualizar el perfil del empleado.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-edit-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-edit-100-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -1356,7 +1356,7 @@ Algunos tipos comunes incluyen "Jornada completa", "Media jornada", "Autónomo",
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -1371,15 +1371,15 @@ Esta vista se utiliza para crear, ver o editar tipos de empleado.
 
 En el modo **crear**, se puede definir un nuevo tipo de empleado.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, los detalles son visibles pero no editables.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-view-10-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-view-10-es-es-light-1-snap.png]
 
 En el modo **edición**, se pueden actualizar los valores existentes.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-edit-10-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-edit-10-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -1409,7 +1409,7 @@ Es especialmente útil para gestionar certificados de dominios personalizados, s
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-certs-certs-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-certs-certs-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -1422,7 +1422,7 @@ Esta vista se utiliza para añadir, revisar o actualizar la información de un c
 
 En **modo creación**, el formulario está vacío y listo para introducir nuevos datos.
 
-[../ujest/snaps/test-screenshots-js-screenshots-certs-certs-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-certs-certs-create-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -1432,7 +1432,7 @@ El formulario incluye los siguientes campos:
 
 En **modo vista**, los campos están rellenos con el registro seleccionado y no se pueden editar.
 
-[../ujest/snaps/test-screenshots-js-screenshots-certs-certs-view-ab-877-d-2027-f-7-c-71-d-9935999-cce-1-b-802-b-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-certs-certs-view-ab-877-d-2027-f-7-c-71-d-9935999-cce-1-b-802-b-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -1459,7 +1459,7 @@ Normalmente incluye el nombre de la empresa, su código fiscal, dirección, logo
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-company-company-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-company-company-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -1476,15 +1476,15 @@ Esta vista se utiliza para definir o editar el perfil de la empresa.
 
 En el modo **crear**, el formulario está vacío y listo para ingresar los datos.
 
-[../ujest/snaps/test-screenshots-js-screenshots-company-company-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-company-company-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, los campos se muestran rellenos pero no se pueden editar.
 
-[../ujest/snaps/test-screenshots-js-screenshots-company-company-view-1-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-company-company-view-1-es-es-light-1-snap.png]
 
 En el modo **edición**, el formulario está precargado y permite realizar modificaciones.
 
-[../ujest/snaps/test-screenshots-js-screenshots-company-company-edit-1-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-company-company-edit-1-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -1528,7 +1528,7 @@ está estrechamente integrada con el módulo de Cuentas de correo electrónico y
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-es-es-light-1-snap.png]
 
 La vista de lista muestra los correos entrantes como botones o tarjetas clicables.
 Cada entrada muestra normalmente:
@@ -1546,7 +1546,7 @@ La interfaz también incluye filtros y un formulario de búsqueda por remitente,
 
 Esta vista muestra el contenido completo del mensaje, incluyendo metadatos y archivos adjuntos.
 
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-100-es-es-light-1-snap.png]
 
 La información mostrada incluye:
 
@@ -1575,7 +1575,7 @@ La información mostrada incluye:
 
 Los usuarios pueden responder a un mensaje existente o redactar uno nuevo desde un formulario simplificado.
 
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-create-es-es-light-1-snap.png]
 
 El formulario de respuesta o redacción incluye:
 
@@ -1599,7 +1599,7 @@ Los mensajes se eliminan localmente o se marcan para eliminación, según la con
 
 ++Generación de PDF++
 
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-viewpdf-100-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-viewpdf-100-es-es-light-1-snap.png]
 
 Desde la vista individual de un registro (view), el usuario puede generar y descargar un PDF con todos los datos relevantes de ese registro.
 
@@ -1623,7 +1623,7 @@ Este módulo permite la integración con proveedores externos y admite autentica
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -1639,15 +1639,15 @@ Esta vista se utiliza para crear, ver o editar una cuenta de correo.
 
 En el modo **crear**, se configura una cuenta nueva desde cero.
 
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, se muestran los datos de la cuenta pero no se pueden modificar.
 
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-view-1-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-view-1-es-es-light-1-snap.png]
 
 En el modo **edición**, se pueden corregir o actualizar los parámetros.
 
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-edit-1-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-edit-1-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -1692,7 +1692,7 @@ Los grupos simplifican la administración del control de acceso al permitir gest
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-users-groups-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-users-groups-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -1708,15 +1708,15 @@ Esta vista se utiliza para crear, ver o editar grupos de usuarios.
 
 En el modo **crear**, se define un nuevo grupo.
 
-[../ujest/snaps/test-screenshots-js-screenshots-users-groups-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-users-groups-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, se muestran los detalles del grupo y los permisos asignados.
 
-[../ujest/snaps/test-screenshots-js-screenshots-users-groups-view-1-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-users-groups-view-1-es-es-light-1-snap.png]
 
 En el modo **edición**, se puede actualizar el nombre, la descripción y la matriz de permisos.
 
-[../ujest/snaps/test-screenshots-js-screenshots-users-groups-edit-1-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-users-groups-edit-1-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -1746,7 +1746,7 @@ Este módulo es esencial para el control de acceso, la personalización y la tra
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-users-users-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-users-users-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -1763,15 +1763,15 @@ Esta vista se utiliza para crear, ver o editar cuentas de usuario.
 
 En el modo **crear**, el formulario permite registrar un nuevo usuario con credenciales de acceso.
 
-[../ujest/snaps/test-screenshots-js-screenshots-users-users-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-users-users-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, los datos del usuario se muestran sin opción de edición.
 
-[../ujest/snaps/test-screenshots-js-screenshots-users-users-view-1-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-users-users-view-1-es-es-light-1-snap.png]
 
 En el modo **edición**, se puede actualizar la información o restablecer credenciales.
 
-[../ujest/snaps/test-screenshots-js-screenshots-users-users-edit-1-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-users-users-edit-1-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 
@@ -1808,7 +1808,7 @@ Este módulo es esencial para los administradores que desean auditar cambios y g
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -1822,15 +1822,15 @@ Esta vista muestra los detalles completos de un registro de cambio de configurac
 
 En el modo **crear**, el formulario está vacío y listo para introducir nuevos datos.
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-create-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, los campos están rellenos con la información del registro seleccionado y no pueden editarse.
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-view-10-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-view-10-es-es-light-1-snap.png]
 
 En el modo **edición**, el formulario se muestra con los datos existentes y permite modificaciones.
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-edit-10-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-edit-10-es-es-light-1-snap.png]
 
 Incluye:
 
@@ -1857,7 +1857,7 @@ Este módulo es esencial para la detección de errores y para verificar que las 
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-cronlog-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-cronlog-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -1899,7 +1899,7 @@ Este módulo proporciona una trazabilidad completa de la actividad documental, r
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-fileslog-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-fileslog-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -1938,7 +1938,7 @@ Este módulo permite a los administradores monitorizar el flujo de notificacione
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-pushlog-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-pushlog-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -1978,7 +1978,7 @@ Este módulo permite a los administradores monitorizar el acceso al sistema y de
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -1992,7 +1992,7 @@ Los siguientes campos se muestran en la vista de lista:
 
 Esta vista muestra toda la información relacionada con un acceso mediante token.
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-view-1-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-view-1-es-es-light-1-snap.png]
 
 Incluye:
 
@@ -2024,7 +2024,7 @@ Este módulo es clave para la trazabilidad y ayuda a identificar eliminaciones a
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-trashlog-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-trashlog-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -2069,7 +2069,7 @@ Ayuda a rastrear el origen, el usuario y el contexto de cada carga, y resulta ú
 
 ++Vista de lista++
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-uploadlog-list-es-es-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-uploadlog-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 

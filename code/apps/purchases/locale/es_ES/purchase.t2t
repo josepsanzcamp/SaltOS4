@@ -11,7 +11,7 @@ Este módulo garantiza la trazabilidad de los gastos y está vinculado al módul
 
 ==Vista de lista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-list-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -27,15 +27,15 @@ Esta vista se utiliza para crear, editar o consultar un registro de compra.
 
 En el modo **crear**, el formulario se utiliza para registrar una nueva compra vinculada a un proveedor.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-create-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, muestra los detalles de la compra en modo solo lectura.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-view-100-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-view-100-es-es-light-1-snap.png]
 
 En el modo **edición**, puede actualizarse la información si es necesario.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-edit-100-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-edit-100-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 

@@ -1,5 +1,5 @@
 Web Client Documentation
-SaltOS 4.1 r2302
+SaltOS 4.1 r2321
 February 2026
 
 
@@ -643,7 +643,7 @@ argument in the field object to specify what kind of class do you want to use.
 saltos.bootstrap.__field.text = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-0-text-1-snap.png]
+[../code/data/cache/9faf81355ef15e915f7d9a2a6dabb61a.png]
 
 This function returns an input object of type text, you can pass the same arguments
 that for the input object of type text
@@ -705,7 +705,7 @@ class to identify a group of hidden input
 saltos.bootstrap.__field.integer = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-1-integer-1-snap.png]
+[../code/data/cache/36d399435826fb0f5f06b0d8ebd25515.png]
 
 This function returns an input object of type integer, you can pass the same arguments
 that for the input object of type text
@@ -740,7 +740,7 @@ feature:
 saltos.bootstrap.__field.float = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-2-float-1-snap.png]
+[../code/data/cache/45f36b01c2a797718fe9e97c06c3ddb1.png]
 
 This function returns an input object of type float, you can pass the same arguments
 that for the input object of type text
@@ -775,7 +775,7 @@ feature:
 saltos.bootstrap.__field.color = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-3-color-1-snap.png]
+[../code/data/cache/9525bc6e4c95c7dd3c35e68bfb7e45db.png]
 
 This function returns an input object of type color, you can pass the same
 arguments that for the input object of type text
@@ -808,7 +808,7 @@ for this reason it is set to #000000 if value is void
 saltos.bootstrap.__field.date = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-4-date-1-snap.png]
+[../code/data/cache/148f588e4963343241289a89f219413c.png]
 
 This function returns an input object of type date, you can pass the same arguments
 that for the input object of type text
@@ -835,7 +835,7 @@ that for the input object of type text
 saltos.bootstrap.__field.time = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-5-time-1-snap.png]
+[../code/data/cache/5609bc943bb4ca998f42dee1e270f9d8.png]
 
 This function returns an input object of type time, you can pass the same arguments
 that for the input object of type text
@@ -862,7 +862,7 @@ that for the input object of type text
 saltos.bootstrap.__field.datetime = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-6-datetime-1-snap.png]
+[../code/data/cache/88224e001f170fa6bde598a6581d226e.png]
 
 This function returns an input object of type datetime, you can pass the same arguments
 that for the input object of type text
@@ -889,7 +889,7 @@ that for the input object of type text
 saltos.bootstrap.__field.textarea = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-12-textarea-1-snap.png]
+[../code/data/cache/1ad75f3a69db4e63a8309edd75ba935b.png]
 
 This function returns a textarea object with the autogrow plugin enabled
 
@@ -923,7 +923,7 @@ feature:
 saltos.bootstrap.__field.joditeditor = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-13-joditeditor-1-snap.png]
+[../code/data/cache/e2a30a797fefffe07c6c0e1ac6eae50d.png]
 
 This function returns a textarea object with the joditeditor plugin enabled
 
@@ -963,7 +963,7 @@ value of the joditeditor, intended to load new data.
 saltos.bootstrap.__field.codemirror = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-14-codemirror-1-snap.png]
+[../code/data/cache/eb891cc94aa65bf6078fb19f06897ae0.png]
 
 This function returns a textarea object with the codemirror plugin enabled
 
@@ -1019,7 +1019,7 @@ contents like xml, json, css or sql
 saltos.bootstrap.__field.iframe = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-24-iframe-1-snap.png]
+[../code/data/cache/29abcfbb7a178fec81ea59220e1b36ec.png]
 
 This function returns an iframe object, you can pass the follow arguments:
 
@@ -1030,6 +1030,7 @@ This function returns an iframe object, you can pass the follow arguments:
 - @height => the height used as style.minHeight parameter
 - @label  => this parameter is used as text for the label
 - @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
+- @invert => enable the invert feature in the widget contents
 
 
 Notes:
@@ -1043,13 +1044,52 @@ To fix some issues with the iframe that adds some space between the bottom of th
 and the parent container, we must to add the d-block to convert it from inline to block
 
 
++++Determines whether the current Bootstrap theme is set to dark mode.+++
+
+```
+saltos.bootstrap.__is_dark_helper = ()
+```
+
+- @returns {boolean} True if the active theme is "dark", otherwise false.
+
+
++++Returns the current UI mode based on the Bootstrap theme.+++
+
+```
+saltos.bootstrap.__get_mode_helper = ()
+```
+
+- @returns {string} "dark" if dark mode is active, otherwise "light".
+
+
++++Generates a storage key for a button based on its field ID and the current mode.+++
+
+```
+saltos.bootstrap.__button_key_helper = field_id
+```
+
+- @param {string} field_id - The unique identifier of the field.
+- @returns {string} A composed key in the format "field_id/mode".
+
+
++++Retrieves the stored button value for the given field and current mode.+++
+
+```
+saltos.bootstrap.__button_value_helper = field_id
+```
+
+
+- @param {string} field_id - The unique identifier of the field.
+- @returns {boolean} The stored boolean value, or the current theme mode as default.
+
+
 +++Select constructor helper+++
 
 ```
 saltos.bootstrap.__field.select = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-22-select-1-snap.png]
+[../code/data/cache/55077591df0192ffd2b9171775ba224c.png]
 
 This function returns a select object, you can pass the follow arguments:
 
@@ -1076,7 +1116,7 @@ This function returns a select object, you can pass the follow arguments:
 saltos.bootstrap.__field.multiselect = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-15-multiselect-1-snap.png]
+[../code/data/cache/58c3d5ebc4e4880c01f45ce90e2a3837.png]
 
 This function returns a multiselect object, you can pass the follow arguments:
 
@@ -1112,7 +1152,7 @@ Detected a bug with this widget in chrome in mobile browsers
 saltos.bootstrap.__field.checkbox = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-17-checkbox-1-snap.png]
+[../code/data/cache/e8901cbc404c25106abd609bad7cafd5.png]
 
 This function returns a checkbox object, you can pass the follow arguments:
 
@@ -1141,7 +1181,7 @@ This widget returns their value by setting a zero or one (0/1) value on the valu
 saltos.bootstrap.__field.switch = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-18-switch-1-snap.png]
+[../code/data/cache/821f5755375c52e2159dd80f572e442e.png]
 
 This function returns a switch object, you can pass the follow arguments:
 
@@ -1169,7 +1209,7 @@ This widget uses the checkbox constructor
 saltos.bootstrap.__field.button = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-8-button-1-snap.png]
+[../code/data/cache/9c019e76085e613bd7d6835f94fee2a4.png]
 
 This function returns a button object, you can pass the follow arguments:
 
@@ -1200,7 +1240,7 @@ hidden focus when you try to focus a button inside a modal, for example.
 saltos.bootstrap.__field.password = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-20-password-1-snap.png]
+[../code/data/cache/394c64cb13c85b6cb734510f7b64969f.png]
 
 This function returns an input object of type password, you can pass some arguments as:
 
@@ -1237,7 +1277,7 @@ autocomplete provided by the browsers password adding the autocomplete="new-pass
 saltos.bootstrap.__field.file = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-21-file-1-snap.png]
+[../code/data/cache/cf51acef0f7a00eee75cf331e78344f6.png]
 
 This function returns an input object of type password, you can pass some arguments as:
 
@@ -1274,7 +1314,7 @@ the real upload action.
 saltos.bootstrap.__field.link = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-23-link-1-snap.png]
+[../code/data/cache/5f6d8d5c2c8f2986efd22f890597a216.png]
 
 This function creates a field similar of text but with the appearance of a link using a button,
 the object can receive the follow arguments:
@@ -1306,7 +1346,7 @@ appearance
 saltos.bootstrap.__field.label = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-16-label-1-snap.png]
+[../code/data/cache/aa3f7639cacf9060a82a3655b67cce03.png]
 
 This function returns a label object, you can pass some arguments as:
 
@@ -1323,7 +1363,7 @@ This function returns a label object, you can pass some arguments as:
 saltos.bootstrap.__field.image = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-27-image-1-snap.png]
+[../code/data/cache/646aac01755f4fa3e7f8b45280a7938b.png]
 
 This function returns an image object, you can pass some arguments as:
 
@@ -1336,6 +1376,7 @@ This function returns an image object, you can pass some arguments as:
 - @width   => this parameter is used as width for the image
 - @height  => this parameter is used as height for the image
 - @color   => the color of the widget (primary, secondary, success, danger, warning, info, none)
+- @invert  => enable the invert feature in the widget contents
 
 
 +++Excel constructor helper+++
@@ -1344,7 +1385,7 @@ This function returns an image object, you can pass some arguments as:
 saltos.bootstrap.__field.excel = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-25-excel-1-snap.png]
+[../code/data/cache/53ac1d21af224907f86d7326830d9b7b.png]
 
 This function creates and returns an excel object, to do this they use the handsontable library,
 currently this library uses a privative license, by this reason, we are using the version 6.2.2
@@ -1390,7 +1431,7 @@ feature:
 saltos.bootstrap.__field.pdfjs = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-26-pdfjs-1-snap.png]
+[../code/data/cache/47b3b8ec3170bac304497747bae7dc23.png]
 
 This function creates and returns a pdfviewer object, to do this they use the pdf.js library.
 
@@ -1400,6 +1441,7 @@ This function creates and returns a pdfviewer object, to do this they use the pd
 - @srcdoc => the data that contains the pdf document
 - @label  => this parameter is used as text for the label
 - @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
+- @invert => enable the invert feature in the widget contents
 
 
 Notes:
@@ -1425,7 +1467,7 @@ that modal scrollTop is the same.
 saltos.bootstrap.__field.table = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-28-table-1-snap.png]
+[../code/data/cache/44db408dfb8d1f142211c16fb6b1257e.png]
 
 Returns a table using the follow params:
 
@@ -1478,7 +1520,7 @@ to identify if you want to use a column with some special type as for example, t
 saltos.bootstrap.__field.alert = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-29-alert-1-snap.png]
+[../code/data/cache/ef1c4666740269f5c93976bc6da9e096.png]
 
 This component allow to set boxes type alert in the contents, only requires:
 
@@ -1506,7 +1548,7 @@ know if I maintain this or I remove it, but at the moment, this is added by defa
 saltos.bootstrap.__field.card = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-34-card-1-snap.png]
+[../code/data/cache/20d304c065d14c796b235ca5428f0d27.png]
 
 This functions creates a card with a lot of options:
 
@@ -1529,7 +1571,7 @@ This functions creates a card with a lot of options:
 saltos.bootstrap.__field.chartjs = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-30-chartjs-1-snap.png]
+[../code/data/cache/fa13bffc3d296a1f39f5468eda484c5c.png]
 
 This function creates a chart using the chart.js library, to do this requires de follow arguments:
 
@@ -1555,7 +1597,7 @@ feature:
 saltos.bootstrap.__field.tags = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-7-tags-1-snap.png]
+[../code/data/cache/a7161a9094da41489de425d3aada3af9.png]
 
 This function creates a text input that allow to manage tags, each tag is paint as a badge
 and each tag can be deleted, the result is stored in a text using a comma separated values
@@ -1594,7 +1636,7 @@ This widget uses the tom-select plugin, more info in their project website:
 saltos.bootstrap.__field.onetag = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-45-onetag-1-snap.png]
+[../code/data/cache/c7900eee44d481a5551bb0d63bf16c73.png]
 
 This function creates a select that allow to be used as a text input like a select widget and allow
 to create new items writing directly inside of the widget.
@@ -1670,7 +1712,7 @@ to be used to convert a string into an array using the separator for split.
 saltos.bootstrap.__field.gallery = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-35-gallery-1-snap.png]
+[../code/data/cache/6cd939382dfc4657ec5298f9c8efa0a5.png]
 
 This function returns a gallery object, you can pass some arguments as:
 
@@ -1712,7 +1754,7 @@ This function returns a grey area that uses all space with the placeholder glow 
 saltos.bootstrap.__field.list = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-37-list-1-snap.png]
+[../code/data/cache/86f0a5bd5470fae4b22ecc3a695e4f5b.png]
 
 Returns a list widget using the follow params:
 
@@ -1764,7 +1806,7 @@ depending of this parameter, the function uses a dir or an ul element to do the 
 saltos.bootstrap.__field.tabs = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-40-tabs-1-snap.png]
+[../code/data/cache/e984e85701518cb484ccbeda193dd4b1.png]
 
 Returns a tabs widget using the follow params:
 
@@ -1787,7 +1829,7 @@ Each item in the tabs can contain:
 saltos.bootstrap.__field.pills = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-41-pills-1-snap.png]
+[../code/data/cache/22da47e316713ed4eb6afe5bad65e5e3.png]
 
 Returns a tabs widget using the follow params:
 
@@ -1810,7 +1852,7 @@ Each item in the tabs can contain:
 saltos.bootstrap.__field.vpills = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-39-vertical-1-snap.png]
+[../code/data/cache/f6215211558bc53d16a9c784f1628cd4.png]
 
 Returns a tabs widget using the follow params:
 
@@ -1833,7 +1875,7 @@ Each item in the tabs can contain:
 saltos.bootstrap.__field.accordion = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-36-accordion-1-snap.png]
+[../code/data/cache/926ef84717b05a4bbf0c4b77d392e779.png]
 
 Returns an accordion widget using the follow params:
 
@@ -1857,7 +1899,7 @@ Each item in the tabs can contain:
 saltos.bootstrap.__field.jstree = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-42-jstree-1-snap.png]
+[../code/data/cache/e83ce92aec232a4a45bf614f3cc08eb5.png]
 
 This function returns a jstree object using the follow parameters:
 
@@ -1883,7 +1925,7 @@ Each node must contain the follow items:
 saltos.bootstrap.__field.dropdown = field
 ```
 
-[../ujest/snaps/test-bootstrap-js-bootstrap-campo-43-dropdown-1-snap.png]
+[../code/data/cache/40c5a29100e2f515fb7f69c08854b850.png]
 
 This function returns a dropdown object, you can pass the follow arguments:
 
@@ -2407,6 +2449,15 @@ saltos.common.help = ()
 ```
 
 This function allow to open the help screen in a modal widget
+
+
++++About screen+++
+
+```
+saltos.common.about = ()
+```
+
+This function allow to open the about screen in a modal widget
 
 
 +++Logout feature+++
@@ -3118,7 +3169,7 @@ using the filters fields
 - @arg => unused at this scope
 
 
-+++Driver search+++
++++Driver reset+++
 
 ```
 saltos.driver.reset = arg

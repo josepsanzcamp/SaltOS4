@@ -1,5 +1,5 @@
 User Manual
-SaltOS 4.1 r2302
+SaltOS 4.1 r2321
 February 2026
 
 
@@ -17,7 +17,7 @@ This screen centralizes commonly used tools and relevant system information.
 
 ++Main view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-en-us-light-1-snap.png]
 
 The dashboard can include:
 
@@ -55,7 +55,7 @@ Each user can have their own personalized dashboard, and this tool is its visual
 
 ++Configuration view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-widgets-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-widgets-en-us-light-1-snap.png]
 
 The screen displays a canvas-style layout where dashboard elements can be added, arranged, and grouped visually.
 
@@ -102,7 +102,7 @@ modules like quotes, invoices, meetings, and emails.
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -119,15 +119,15 @@ This view is used for creating, editing or viewing a customer record.
 
 In **create** mode, the form is empty and ready to enter new data.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-create-en-us-light-1-snap.png]
 
 In **view** mode, the fields are filled with the selected record and cannot be edited.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-view-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-view-100-en-us-light-1-snap.png]
 
 In **edit** mode, the form is pre-filled and allows modifications.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-edit-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-edit-100-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -167,7 +167,7 @@ Examples may include "Individual", "Company", "VIP", or "Distributor".
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -182,15 +182,15 @@ This view is used to create, view or edit customer type entries.
 
 In **create** mode, the form is empty and ready to enter new data.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-create-en-us-light-1-snap.png]
 
 In **view** mode, the fields are filled with the selected record and cannot be edited.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-view-10-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-view-10-en-us-light-1-snap.png]
 
 In **edit** mode, the form is pre-filled and allows modifications.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-edit-10-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-customers-types-edit-10-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -218,7 +218,7 @@ and convert leads into customers when appropriate.
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -234,15 +234,15 @@ This view is used for creating, editing or viewing a lead.
 
 In **create** mode, the form is empty and ready to enter new data.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-create-en-us-light-1-snap.png]
 
 In **view** mode, the fields are filled with the selected record and cannot be edited.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-view-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-view-100-en-us-light-1-snap.png]
 
 In **edit** mode, the form is pre-filled and allows modifications.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-edit-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-edit-100-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -277,7 +277,7 @@ Typical statuses might include "New", "Contacted", "Qualified", or "Rejected".
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -292,15 +292,15 @@ This view is used to create, view or edit lead status records.
 
 In **create** mode, the form is empty and ready to enter new data.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-create-en-us-light-1-snap.png]
 
 In **view** mode, the fields are filled with the selected record and cannot be edited.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-view-10-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-view-10-en-us-light-1-snap.png]
 
 In **edit** mode, the form is pre-filled and allows modifications.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-edit-10-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-leads-status-edit-10-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -327,7 +327,7 @@ This module is essential for keeping a history of client interactions, improving
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -343,15 +343,15 @@ This view is used for creating, editing or viewing a meeting entry.
 
 In **create** mode, a new meeting is scheduled.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-create-en-us-light-1-snap.png]
 
 In **view** mode, details are shown read-only for reference or audit.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-100-en-us-light-1-snap.png]
 
 In **edit** mode, the meeting details can be modified if needed.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-edit-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-edit-100-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -375,7 +375,7 @@ Records are usually kept for historical traceability unless explicit removal is 
 
 ++PDF generation++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-viewpdf-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-meetings-view-viewpdf-100-en-us-light-1-snap.png]
 
 From the individual view of a record (view), the user can generate and download a PDF containing all relevant data of that entry.
 
@@ -394,7 +394,7 @@ This module is tightly integrated with Customers and Products, and allows for tr
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -411,15 +411,15 @@ This view is used for creating, editing or viewing a quote.
 
 In **create** mode, the form is empty and allows you to build a new quote.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-create-en-us-light-1-snap.png]
 
 In **view** mode, it displays a finalized quote without editing capabilities.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-100-en-us-light-1-snap.png]
 
 In **edit** mode, it shows a draft quote ready for modification.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-edit-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-edit-100-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -452,7 +452,7 @@ This action is irreversible and subject to user permissions.
 
 ++PDF generation++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-viewpdf-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-view-viewpdf-100-en-us-light-1-snap.png]
 
 From the individual view of a record (view), the user can generate and download a PDF containing all relevant data of that entry.
 
@@ -471,7 +471,7 @@ Examples of common statuses include "Draft", "Sent", "Accepted", and "Declined".
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -486,15 +486,15 @@ This view is used to create, view or edit quote status entries.
 
 In **create** mode, the form is empty and allows you to build a new quote.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-create-en-us-light-1-snap.png]
 
 In **view** mode, it displays a finalized quote without editing capabilities.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-view-10-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-view-10-en-us-light-1-snap.png]
 
 In **edit** mode, it shows a draft quote ready for modification.
 
-[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-edit-10-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-crm-quotes-status-edit-10-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -523,7 +523,7 @@ It also provides traceability for due dates, payment dates, and links to related
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -542,15 +542,15 @@ This view is used for creating, editing or viewing an invoice.
 
 In **create** mode, the form is empty and allows the user to generate a new invoice, including pro forma invoices.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-create-en-us-light-1-snap.png]
 
 In **view** mode, it shows a finalized invoice in read-only mode.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-100-en-us-light-1-snap.png]
 
 In **edit** mode, it allows modifying a draft invoice or correcting information before finalization.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-edit-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-edit-100-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -588,7 +588,7 @@ Once an invoice is finalized and/or linked to a payment, deletion is restricted.
 
 ++PDF generation++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-viewpdf-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-view-viewpdf-100-en-us-light-1-snap.png]
 
 From the individual view of a record (view), the user can generate and download a PDF containing all relevant data of that entry.
 
@@ -623,7 +623,7 @@ Common statuses may include "Draft", "Pending", "Paid", or "Cancelled".
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -638,15 +638,15 @@ This view is used to create, view or edit invoice status entries.
 
 In **create** mode, a new tax rule can be defined.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-create-en-us-light-1-snap.png]
 
 In **view** mode, tax details are visible but not editable.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-view-10-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-view-10-en-us-light-1-snap.png]
 
 In **edit** mode, existing values can be updated.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-edit-10-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-invoices-status-edit-10-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -673,7 +673,7 @@ This module ensures consistency and traceability across the billing process.
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -689,15 +689,15 @@ This view is used to create, view or edit payment method records.
 
 In **create** mode, a new payment method is added.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-create-en-us-light-1-snap.png]
 
 In **view** mode, fields are shown in read-only mode.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-view-10-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-view-10-en-us-light-1-snap.png]
 
 In **edit** mode, the details can be modified.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-edit-10-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-payment-methods-edit-10-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -725,7 +725,7 @@ Products can be linked to quotes, invoices, and purchases, making this module fu
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -740,15 +740,15 @@ This view is used for creating, editing or viewing a product entry.
 
 In **create** mode, the form is empty for entering a new product.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-create-en-us-light-1-snap.png]
 
 In **view** mode, all fields are read-only and show detailed information.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-view-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-view-100-en-us-light-1-snap.png]
 
 In **edit** mode, the product data can be updated or corrected.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-edit-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-edit-100-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -793,7 +793,7 @@ Typical categories might include "Hardware", "Software", "Services", or "Accesso
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -808,15 +808,15 @@ This view is used to create, view or edit product category records.
 
 In **create** mode, a new tax rule can be defined.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-create-en-us-light-1-snap.png]
 
 In **view** mode, tax details are visible but not editable.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-view-10-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-view-10-en-us-light-1-snap.png]
 
 In **edit** mode, existing values can be updated.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-edit-10-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-categories-edit-10-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -844,7 +844,7 @@ Examples of types include "Product", "Service", "Subscription", or "Bundle".
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -859,15 +859,15 @@ This view is used to create, view or edit product type records.
 
 In **create** mode, a new tax rule can be defined.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-create-en-us-light-1-snap.png]
 
 In **view** mode, tax details are visible but not editable.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-view-10-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-view-10-en-us-light-1-snap.png]
 
 In **edit** mode, existing values can be updated.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-edit-10-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-products-types-edit-10-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -894,7 +894,7 @@ Each record includes the name, rate, and status, ensuring consistent tax applica
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -911,15 +911,15 @@ This view is used to create, view or edit tax entries.
 
 In **create** mode, a new tax rule can be defined.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-create-en-us-light-1-snap.png]
 
 In **view** mode, tax details are visible but not editable.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-view-1-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-view-1-en-us-light-1-snap.png]
 
 In **edit** mode, existing values can be updated.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-edit-1-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-taxes-edit-1-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -949,7 +949,7 @@ such as technical support, installations, or field services.
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -964,15 +964,15 @@ This view is used to create, edit, or view a work order.
 
 In **create** mode, the form allows registering a new task to be performed.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-create-en-us-light-1-snap.png]
 
 In **view** mode, the information is shown as read-only.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-100-en-us-light-1-snap.png]
 
 In **edit** mode, the data can be updated based on progress or feedback.
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-edit-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-edit-100-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -995,7 +995,7 @@ Deactivation is preferred if you want to retain history without exposing the rec
 
 ++PDF generation++
 
-[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-viewpdf-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-sales-workorders-view-viewpdf-100-en-us-light-1-snap.png]
 
 From the individual view of a record (view), the user can generate and download a PDF containing all relevant data of that entry.
 
@@ -1013,7 +1013,7 @@ This module ensures traceability of expenses and is linked to the Suppliers modu
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -1029,15 +1029,15 @@ This view is used for creating, editing or viewing a purchase record.
 
 In **create** mode, the form is used to enter a new purchase linked to a supplier.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-create-en-us-light-1-snap.png]
 
 In **view** mode, it shows the details of the recorded purchase, in read-only mode.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-view-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-view-100-en-us-light-1-snap.png]
 
 In **edit** mode, the information can be updated if necessary.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-edit-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-edit-100-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -1075,7 +1075,7 @@ These statuses help in tracking the progress of procurement processes and improv
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -1090,15 +1090,15 @@ This view is used to create, view or edit purchase status entries.
 
 In **create** mode, the form is used to enter a new purchase linked to a supplier.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-create-en-us-light-1-snap.png]
 
 In **view** mode, it shows the details of the recorded purchase, in read-only mode.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-view-10-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-view-10-en-us-light-1-snap.png]
 
 In **edit** mode, the information can be updated if necessary.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-edit-10-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-purchase-status-edit-10-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -1125,7 +1125,7 @@ This module is linked to purchase workflows, allowing you to associate suppliers
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -1142,15 +1142,15 @@ This view is used for creating, editing or viewing supplier records.
 
 In **create** mode, the form is blank to add a new supplier.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-create-en-us-light-1-snap.png]
 
 In **view** mode, the fields are shown in read-only mode.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-view-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-view-100-en-us-light-1-snap.png]
 
 In **edit** mode, supplier data can be updated.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-edit-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-edit-100-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -1189,7 +1189,7 @@ Examples of types include "Distributor", "Manufacturer", "Service Provider", etc
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -1204,15 +1204,15 @@ This view is used to create, view or edit supplier type entries.
 
 In **create** mode, a new tax rule can be defined.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-create-en-us-light-1-snap.png]
 
 In **view** mode, tax details are visible but not editable.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-view-10-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-view-10-en-us-light-1-snap.png]
 
 In **edit** mode, existing values can be updated.
 
-[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-edit-10-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-purchases-suppliers-types-edit-10-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -1240,7 +1240,7 @@ Examples of departments include "Sales", "IT", "HR", or "Logistics".
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -1256,15 +1256,15 @@ This view is used to create, view or edit departments.
 
 In **create** mode, a new tax rule can be defined.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-create-en-us-light-1-snap.png]
 
 In **view** mode, tax details are visible but not editable.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-view-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-view-100-en-us-light-1-snap.png]
 
 In **edit** mode, existing values can be updated.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-edit-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-departments-edit-100-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -1293,7 +1293,7 @@ This module is typically used in HR workflows to organize staff and optionally a
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -1309,15 +1309,15 @@ This view is used to create, view or edit employee records.
 
 In **create** mode, a new employee profile is added.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-create-en-us-light-1-snap.png]
 
 In **view** mode, the profile is shown in read-only format.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-view-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-view-100-en-us-light-1-snap.png]
 
 In **edit** mode, the profile can be updated.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-edit-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-edit-100-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -1359,7 +1359,7 @@ Common types include "Full-time", "Part-time", "Contractor", "Intern", etc.
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -1374,15 +1374,15 @@ This view is used to create, view or edit employee type entries.
 
 In **create** mode, a new tax rule can be defined.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-create-en-us-light-1-snap.png]
 
 In **view** mode, tax details are visible but not editable.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-view-10-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-view-10-en-us-light-1-snap.png]
 
 In **edit** mode, existing values can be updated.
 
-[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-edit-10-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-hr-employees-types-edit-10-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -1412,7 +1412,7 @@ It is especially useful for managing certificates for custom domains, internal s
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-certs-certs-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-certs-certs-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -1425,7 +1425,7 @@ This view is used to add, review, or update certificate information.
 
 In **create** mode, the form is empty and ready to enter new data.
 
-[../ujest/snaps/test-screenshots-js-screenshots-certs-certs-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-certs-certs-create-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -1435,7 +1435,7 @@ The form includes the following fields:
 
 In **view** mode, the fields are filled with the selected record and cannot be edited.
 
-[../ujest/snaps/test-screenshots-js-screenshots-certs-certs-view-ab-877-d-2027-f-7-c-71-d-9935999-cce-1-b-802-b-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-certs-certs-view-ab-877-d-2027-f-7-c-71-d-9935999-cce-1-b-802-b-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -1462,7 +1462,7 @@ It typically includes the company's name, tax code, address, logo, and preferred
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-company-company-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-company-company-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -1479,15 +1479,15 @@ This view is used to define or edit the company profile.
 
 In **create** mode, the form is empty and ready to enter new data.
 
-[../ujest/snaps/test-screenshots-js-screenshots-company-company-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-company-company-create-en-us-light-1-snap.png]
 
 In **view** mode, the fields are filled with the selected record and cannot be edited.
 
-[../ujest/snaps/test-screenshots-js-screenshots-company-company-view-1-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-company-company-view-1-en-us-light-1-snap.png]
 
 In **edit** mode, the form is pre-filled and allows modifications.
 
-[../ujest/snaps/test-screenshots-js-screenshots-company-company-edit-1-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-company-company-edit-1-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -1531,7 +1531,7 @@ closely integrated with the Emails Accounts module and is essential for managing
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-en-us-light-1-snap.png]
 
 The list view shows incoming emails as clickable buttons or cards.
 Each entry typically displays:
@@ -1549,7 +1549,7 @@ The interface also includes filters and a search form to filter by sender, subje
 
 This view shows the full content of an email message, including header metadata and attachments.
 
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-100-en-us-light-1-snap.png]
 
 The following information is typically displayed:
 
@@ -1578,7 +1578,7 @@ The following information is typically displayed:
 
 Users can reply to an existing message or compose a new email using a simplified form.
 
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-create-en-us-light-1-snap.png]
 
 The reply and compose form includes:
 
@@ -1602,7 +1602,7 @@ Messages are usually deleted locally or flagged for deletion, depending on the s
 
 ++PDF generation++
 
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-viewpdf-100-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-view-viewpdf-100-en-us-light-1-snap.png]
 
 From the individual view of a record (view), the user can generate and download a PDF containing all relevant data of that entry.
 
@@ -1626,7 +1626,7 @@ This module allows integration with external email providers and supports authen
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -1642,15 +1642,15 @@ This view is used to create, view or edit an email account.
 
 In **create** mode, a new account is configured from scratch.
 
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-create-en-us-light-1-snap.png]
 
 In **view** mode, account settings are shown without allowing changes.
 
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-view-1-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-view-1-en-us-light-1-snap.png]
 
 In **edit** mode, the configuration can be updated or corrected.
 
-[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-edit-1-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-accounts-edit-1-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -1695,7 +1695,7 @@ Groups simplify the administration of access control by allowing permission mana
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-users-groups-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-users-groups-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -1711,15 +1711,15 @@ This view is used to create, view or edit user groups.
 
 In **create** mode, a new group is defined.
 
-[../ujest/snaps/test-screenshots-js-screenshots-users-groups-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-users-groups-create-en-us-light-1-snap.png]
 
 In **view** mode, the group details and assigned permissions are shown.
 
-[../ujest/snaps/test-screenshots-js-screenshots-users-groups-view-1-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-users-groups-view-1-en-us-light-1-snap.png]
 
 In **edit** mode, you can update the group’s name, description, and permission set.
 
-[../ujest/snaps/test-screenshots-js-screenshots-users-groups-edit-1-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-users-groups-edit-1-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -1749,7 +1749,7 @@ This module is essential for access control, personalization, and audit tracking
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-users-users-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-users-users-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -1766,15 +1766,15 @@ This view is used to create, view or edit user accounts.
 
 In **create** mode, the form is used to register a new user with login credentials.
 
-[../ujest/snaps/test-screenshots-js-screenshots-users-users-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-users-users-create-en-us-light-1-snap.png]
 
 In **view** mode, the account details are shown without edit capability.
 
-[../ujest/snaps/test-screenshots-js-screenshots-users-users-view-1-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-users-users-view-1-en-us-light-1-snap.png]
 
 In **edit** mode, you can update user information or reset credentials.
 
-[../ujest/snaps/test-screenshots-js-screenshots-users-users-edit-1-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-users-users-edit-1-en-us-light-1-snap.png]
 
 The form includes the following fields:
 
@@ -1811,7 +1811,7 @@ This module is essential for administrators who want to audit changes and ensure
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -1825,15 +1825,15 @@ This view displays the full details of a single configuration change record.
 
 In **create** mode, the form is empty and ready to enter new data.
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-create-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-create-en-us-light-1-snap.png]
 
 In **view** mode, the fields are filled with the selected record and cannot be edited.
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-view-10-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-view-10-en-us-light-1-snap.png]
 
 In **edit** mode, the form is pre-filled and allows modifications.
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-edit-10-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-configlog-edit-10-en-us-light-1-snap.png]
 
 It includes:
 
@@ -1860,7 +1860,7 @@ This module is essential for troubleshooting and verifying that scheduled operat
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-cronlog-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-cronlog-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -1902,7 +1902,7 @@ This module provides a complete audit trail for document activity, supporting tr
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-fileslog-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-fileslog-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -1941,7 +1941,7 @@ This module allows administrators to monitor the flow of notifications and diagn
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-pushlog-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-pushlog-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -1981,7 +1981,7 @@ This module allows administrators to monitor access to the system and detect pot
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -1995,7 +1995,7 @@ The following fields are displayed in the list view:
 
 This view displays all information related to a specific token access.
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-view-1-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-tokenslog-view-1-en-us-light-1-snap.png]
 
 It includes:
 
@@ -2027,7 +2027,7 @@ This module is key for auditability and helps identify accidental deletions or u
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-trashlog-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-trashlog-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 
@@ -2073,7 +2073,7 @@ and verifying that uploads are being processed correctly.
 
 ++List view++
 
-[../ujest/snaps/test-screenshots-js-screenshots-common-uploadlog-list-en-us-1-snap.png]
+[../ujest/snaps/test-screenshots-js-screenshots-common-uploadlog-list-en-us-light-1-snap.png]
 
 The following fields are displayed in the list view:
 

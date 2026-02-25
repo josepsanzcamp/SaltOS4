@@ -1,5 +1,10 @@
 
-wget -O interact.min.js https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.10.27/interact.min.js
+version=$(curl -s https://api.cdnjs.com/libraries/interact.js?fields=version | jq -r .version)
+echo $version > VERSION
+
+rm -f interact.min.js
+wget -O interact.min.js https://cdnjs.cloudflare.com/ajax/libs/interact.js/$version/interact.min.js
+
 cat interact.min.js | grep -v sourceMappingURL > interact.min.js.new
 mv interact.min.js.new interact.min.js
 

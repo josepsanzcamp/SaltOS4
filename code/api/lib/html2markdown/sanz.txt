@@ -1,2 +1,6 @@
 
+rm -rf vendor
+rm -f composer.*
 composer require league/html-to-markdown
+
+composer show league/html-to-markdown --format=json | jq -r '.versions[0]' | sed 's/^v//' > VERSION

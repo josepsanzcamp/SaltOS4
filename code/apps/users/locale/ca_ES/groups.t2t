@@ -11,7 +11,7 @@ Els grups simplifiquen l'administració del control d'accés permetent gestionar
 
 ==Vista de llista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-groups-list-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-groups-list-ca-es-light-1-snap.png]
 
 Els següents camps es mostren a la vista de llista:
 
@@ -27,15 +27,15 @@ Aquesta vista s'utilitza per crear, consultar o editar grups d'usuaris.
 
 En el mode **crear**, es defineix un nou grup.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-groups-create-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-groups-create-ca-es-light-1-snap.png]
 
 En el mode **visualització**, es mostren els detalls del grup i els permisos assignats.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-groups-view-1-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-groups-view-1-ca-es-light-1-snap.png]
 
 En el mode **edició**, es poden actualitzar el nom, la descripció i el conjunt de permisos.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-groups-edit-1-ca-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-groups-edit-1-ca-es-light-1-snap.png]
 
 El formulari inclou els següents camps:
 

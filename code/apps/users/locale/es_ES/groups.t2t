@@ -11,7 +11,7 @@ Los grupos simplifican la administración del control de acceso al permitir gest
 
 ==Vista de lista==
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-groups-list-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-groups-list-es-es-light-1-snap.png]
 
 Los siguientes campos se muestran en la vista de lista:
 
@@ -27,15 +27,15 @@ Esta vista se utiliza para crear, ver o editar grupos de usuarios.
 
 En el modo **crear**, se define un nuevo grupo.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-groups-create-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-groups-create-es-es-light-1-snap.png]
 
 En el modo **visualización**, se muestran los detalles del grupo y los permisos asignados.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-groups-view-1-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-groups-view-1-es-es-light-1-snap.png]
 
 En el modo **edición**, se puede actualizar el nombre, la descripción y la matriz de permisos.
 
-[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-groups-edit-1-es-es-1-snap.png]
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-users-groups-edit-1-es-es-light-1-snap.png]
 
 El formulario incluye los siguientes campos:
 

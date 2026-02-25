@@ -16,7 +16,7 @@ FILES=object,core,bootstrap,storage,hash,token,auth,window,polyfill,gettext,driv
 
 export NODE_PATH := $(shell npm -g root)
 export NODE_OPTIONS := --no-deprecation
-export JEST_OPTIONS := -u
+#export JEST_OPTIONS := -u
 
 all:
 	@echo Nothing to do by default
@@ -26,9 +26,9 @@ all:
 ################################################################################
 
 web: clean
-	cat code/web/lib/bootstrap/bootstrap-icons.min.css code/web/lib/atkinson/atkinson.min.css | \
+	cat code/web/lib/icons/bootstrap-icons.min.css code/web/lib/atkinson/atkinson.min.css | \
 	php scripts/fixpath.php fonts/AtkinsonHyperlegible atkinson/fonts/AtkinsonHyperlegible | \
-	php scripts/fixpath.php fonts/bootstrap-icons bootstrap/fonts/bootstrap-icons > code/web/lib/index.css
+	php scripts/fixpath.php fonts/bootstrap-icons icons/fonts/bootstrap-icons > code/web/lib/index.css
 
 	cat code/web/lib/bootstrap/bootstrap.bundle.min.js \
 		code/web/lib/md5/md5.min.js \
@@ -56,7 +56,7 @@ web: clean
 
 devel: clean
 	cat code/web/htm/index.htm | \
-	php scripts/debug.php lib/index.css lib/bootstrap/bootstrap-icons.min.css lib/atkinson/atkinson.min.css | \
+	php scripts/debug.php lib/index.css lib/icons/bootstrap-icons.min.css lib/atkinson/atkinson.min.css | \
 	php scripts/debug.php \
 		lib/index.js lib/bootstrap/bootstrap.bundle.min.js \
 		lib/md5/md5.min.js \
@@ -232,7 +232,7 @@ ujest:
 	php scripts/jest_tester.php
 	rm -f /tmp/nyc_output/*/*.json
 	rm -f ujest/snaps/__diff_output__/*
-	-rmdir ujest/snaps/__diff_output__
+	rmdir ujest/snaps/__diff_output__ || true
 ifeq ($(file), ) # default behaviour
 	-@jest $(JEST_OPTIONS) --config=scripts/jest.config.js $(shell svn st ujest/test_*.js | grep -e ^A -e ^M -e ^? | grep '\.'js$$ | gawk '{print "../"$$2}' | sort | paste -s -d' ')
 else ifeq ($(file), all) # file=all
@@ -292,7 +292,7 @@ langs:
 # SETUP PART
 ################################################################################
 
-setup:
+setuponly:
 	php code/api/index.php setup
 
 setupclean:
@@ -312,7 +312,7 @@ setupclean:
 	echo "DROP DATABASE saltos;" | mariadb
 	echo "CREATE DATABASE saltos;" | mariadb
 
-setupfull:
+setupdemo:
 	php code/api/index.php setup
 	user=admin php code/api/index.php setup/certs
 	user=admin php code/api/index.php setup/company
@@ -331,12 +331,12 @@ setupsqlite:
 setupunlink:
 	rm -f code/data/files/config.xml
 
-setupinstall:
+setupall:
 	$(MAKE) setupclean
 	$(MAKE) setupmysql
-	$(MAKE) setupfull
+	$(MAKE) setupdemo
 	$(MAKE) setupsqlite
-	$(MAKE) setupfull
+	$(MAKE) setupdemo
 	$(MAKE) setupunlink
 
 ################################################################################

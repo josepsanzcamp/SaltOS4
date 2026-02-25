@@ -18,12 +18,17 @@
 #wget https://cdnjs.cloudflare.com/ajax/libs/pdf.js/$version/pdf.min.mjs
 #wget https://cdnjs.cloudflare.com/ajax/libs/pdf.js/$version/pdf.worker.min.mjs
 
-version=$(curl -s https://data.jsdelivr.com/v1/packages/gh/mozilla/pdf.js/resolved | jq -r .version)
+version=$(curl -s https://data.jsdelivr.com/v1/packages/npm/pdfjs-dist/resolved | jq -r .version)
 version=5.4.530
-wget -O pdf.min.mjs        https://cdn.jsdelivr.net/npm/pdfjs-dist@$version/build/pdf.min.mjs
-wget -O pdf.worker.min.mjs https://cdn.jsdelivr.net/npm/pdfjs-dist@$version/build/pdf.worker.min.mjs
+echo $version > VERSION
 
-wget -O AGENTS.md https://raw.githubusercontent.com/mozilla/pdf.js/refs/heads/master/AGENTS.md
-wget -O EXPORT    https://raw.githubusercontent.com/mozilla/pdf.js/refs/heads/master/EXPORT
-wget -O LICENSE   https://raw.githubusercontent.com/mozilla/pdf.js/refs/heads/master/LICENSE
-wget -O README.md https://raw.githubusercontent.com/mozilla/pdf.js/refs/heads/master/README.md
+rm -f pdf.min.mjs
+wget https://cdn.jsdelivr.net/npm/pdfjs-dist@$version/build/pdf.min.mjs
+
+rm -f pdf.worker.min.mjs
+wget  https://cdn.jsdelivr.net/npm/pdfjs-dist@$version/build/pdf.worker.min.mjs
+
+#wget -O AGENTS.md https://raw.githubusercontent.com/mozilla/pdf.js/refs/heads/master/AGENTS.md
+#wget -O EXPORT    https://raw.githubusercontent.com/mozilla/pdf.js/refs/heads/master/EXPORT
+#wget -O LICENSE   https://raw.githubusercontent.com/mozilla/pdf.js/refs/heads/master/LICENSE
+#wget -O README.md https://raw.githubusercontent.com/mozilla/pdf.js/refs/heads/master/README.md
