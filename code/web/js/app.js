@@ -705,3 +705,62 @@ window.addEventListener('load', async event => {
     // Hash part
     saltos.hash.trigger();
 });
+
+/**
+ * Extended get_data
+ *
+ * This function wraps the original get_data to include subtable fields in the
+ * collected form data, the subtable payload is parsed from the hidden input value
+ * and added to the data object using the subtable id as key.
+ *
+ * @full => boolean to force inclusion of all fields regardless of changes
+ */
+saltos.app.__get_data_extended = saltos.app.get_data;
+saltos.app.get_data = full => {
+    const data = saltos.app.__get_data_extended(full);
+    for (const i in saltos.form.__form.fields) {
+        const field = saltos.form.__form.fields[i];
+        if (field.type != 'subtable') {
+            continue;
+        }
+        const obj = document.getElementById(field.id);
+        if (!obj) {
+            continue;
+        }
+        const val = obj.value || '';
+        const old = field.value || '';
+        if (val != old || full) {
+            try {
+                data[field.id] = JSON.parse(val || '{}');
+            } catch (e) {
+                data[field.id] = {};
+            }
+        }
+    }
+    return data;
+};
+
+/**
+ * Extended form_disabled
+ *
+ * This function wraps the original form_disabled to propagate the disabled state
+ * to subtable controls, when the form is disabled (view mode) the subtable toolbar
+ * and row action buttons are also disabled, when the form is enabled (edit mode)
+ * the buttons are re-enabled.
+ *
+ * @bool => boolean to enable or disable the form fields
+ */
+saltos.app.__form_disabled_extended = saltos.app.form_disabled;
+saltos.app.form_disabled = bool => {
+    saltos.app.__form_disabled_extended(bool);
+    for (const i in saltos.form.__form.fields) {
+        const field = saltos.form.__form.fields[i];
+        if (field.type != 'subtable') {
+            continue;
+        }
+        const obj = document.getElementById(field.id);
+        if (obj && typeof obj.set_disabled == 'function') {
+            obj.set_disabled(bool);
+        }
+    }
+};

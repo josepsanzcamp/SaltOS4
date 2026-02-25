@@ -16,30 +16,35 @@
 
 <root>
     <_form>
-        <hidden id="delnotes" require="php/lib/notes.php" ifeval="check_notes_old(get_data('rest/1'), get_data('rest/2'))" autosave="false"/>
-        <table id="allnotes" label="Notes" col_class="col-12 mb-3" require="php/lib/notes.php" ifeval="check_notes_old(get_data('rest/1'), get_data('rest/2'))" dropdown="false" first_action="false">
+        <subtable id="allnotes" label="Notes" col_class="col-12 mb-3" nodata="No notes" require="php/lib/notes.php" ifeval="check_notes(get_data('rest/1'), get_data('rest/2'))">
             <header>
-                <user>User</user>
-                <datetime>Datetime</datetime>
-                <note>Note</note>
+                <user label="User"/>
+                <datetime label="Datetime"/>
+                <note label="Note"/>
             </header>
-            <actions ifeval="get_data('rest/2') == 'edit'">
-                <delete icon="trash" tooltip="Delete note" onclick="saltos.common.delete"/>
+            <toolbar>
+                <button label="New note" tooltip="Add a new note" icon="plus-lg" color="success" onclick="saltos.common.note_add('allnotes')"/>
+                <div col_class="col"/>
+                <text nodisable="true" placeholder="Search notes" tooltip="Search in notes" rounded="rounded-pill" onenter="document.getElementById('allnotes').search()"/>
+                <button nodisable="true" onclick="document.getElementById('allnotes').search()" tooltip="Search" icon="search"/>
+                <button nodisable="true" onclick="document.getElementById('allnotes').clear_search()" tooltip="Reset" icon="x-lg"/>
+            </toolbar>
+            <actions>
+                <edit icon="pencil" tooltip="Edit note" onclick="saltos.common.note_edit"/>
+                <delete icon="trash" color="danger" tooltip="Delete note" onclick="saltos.common.note_delete"/>
             </actions>
-        </table>
-        <textarea id="addnotes" label="New note" height="5em" col_class="col-12 mb-3" require="php/lib/notes.php" ifeval="check_notes_new(get_data('rest/1'), get_data('rest/2'))"/>
+            <footer>
+                <count label="Total: {n}"/>
+                <pagination items="10"/>
+            </footer>
+            <modal title="Note" color="primary" col_class="col-md-12 mb-3">
+                <textarea id="note" label="Note" required="true" height="5em" col_class="col-md-12 mb-3"/>
+            </modal>
+        </subtable>
     </_form>
 
-    <_data>
-        <data require="php/lib/notes.php" ifeval="check_notes_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))" eval="true">merge_data_actions(
-            execute_query_array("SELECT CONCAT(reg_id, '/', id) id, (SELECT name FROM tbl_users b WHERE b.id=user_id) user, datetime, note
-                FROM " . app2table(get_data('rest/1')) . '_notes WHERE reg_id = ? ORDER BY id DESC', [intval(get_data('rest/3'))]),
-            array_protected(xpath_search_first_value('_data/actions[id='.get_data('rest/2').']', xmlfile2array('apps/common/xml/notes.xml')))
-        )</data>
-        <actions id="edit" ifeval="false">
-            <delete action="delete/notes">
-                <app eval="true">get_data('rest/1')</app>
-            </delete>
-        </actions>
-    </_data>
+    <_data require="php/lib/notes.php" eval="true">check_notes(get_data('rest/1'), get_data('rest/2')) ?
+        execute_query_array("SELECT id, (SELECT name FROM tbl_users b WHERE b.id=user_id) user, datetime, note
+            FROM " . app2table(get_data('rest/1')) . '_notes WHERE reg_id = ? ORDER BY id DESC',
+            [intval(get_data('rest/3'))]) : []</_data>
 </root>

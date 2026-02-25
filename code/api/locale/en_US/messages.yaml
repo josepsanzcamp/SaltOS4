@@ -78,9 +78,8 @@ info: Information
 to_create_a_new_register: To create a new register
 to_edit_this_register: To edit this register
 to_delete_the_register: To delete the register
-to_save_the_changes_of_this_register: To save the changes of this registe
-to_close_the_detail_of_this_register: To close the detail of this registe
-notes: Notes
+to_save_the_changes_of_this_register: To save the changes of this register
+to_close_the_detail_of_this_register: To close the detail of this register
 load_more: Load more
 to_cancel_the_register_modification: To cancel the register modification
 to_view_the_register: To view the register
@@ -127,9 +126,19 @@ attention: Attention
 do_you_want_to_close_this_screen: Do you want to close this screen???
 no_data_found: No data found
 data_restored_from_the_previous_session: Data restored from the previous session
+notes: Notes
+note: Note
+no_notes: No notes
+total: Total
+filtered: Filtered
+search_notes: Search note...
+search_in_notes: Search in notes
+add_a_new_note: Add a new note
+edit_note: Edit note
 new_note: New note
 delete_note: Delete note
 download_file: Download file
+delete_this_note: Do you want to delete this note?
 delete_file: Delete file
 files: Files
 view_file: View file

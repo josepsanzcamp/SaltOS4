@@ -5863,3 +5863,933 @@ saltos.bootstrap.__field_types = [
     'select', 'multiselect', 'checkbox', 'switch', 'password', 'file',
     'textarea', 'joditeditor', 'codemirror', 'excel', 'tags', 'onetag',
 ];
+
+/**
+ * Subtable constructor helper
+ *
+ * This function provides a reusable subtable control inside forms, it renders a table
+ * with toolbar buttons (above the table) and row actions (per row), all changes are
+ * buffered in a JSON payload that is sent when the master form is saved.
+ *
+ * The control integrates with the standard table field for rendering and follows
+ * the same XML patterns used in the rest of SaltOS for defining headers, actions
+ * and buttons.
+ *
+ * @id       => the id used by the hidden input that stores the payload
+ * @label    => this parameter is used as text for the label
+ * @color    => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @nodata   => text used when no data is found
+ * @header   => object with the labels, types and aligns of each column
+ * @toolbar  => object with <button>, <text>, <div> elements (rendered above the table, in XML order)
+ * @actions  => object with the row action buttons definition (rendered per row)
+ * @footer   => object with the footer components definition
+ * @modal    => object with the modal form definition (fields rendered from XML)
+ * @data     => initial data array for the table rows
+ *
+ * The toolbar follows the standard SaltOS XML pattern (multiple same-name elements
+ * are handled via #N suffix using fix_key, element order follows XML position):
+ *
+ * <button> - rendered with standard SaltOS button styling
+ *   @label     => the text used as label in the button
+ *   @icon      => the icon used in the button
+ *   @color     => the color of the button (success, primary, danger, ...)
+ *   @tooltip   => the tooltip used in the button
+ *   @onclick   => the onclick function
+ *   @nodisable => if "true", the button stays enabled when the subtable is disabled (e.g. search buttons)
+ *
+ * <text> - rendered with standard SaltOS text input styling
+ *   @id          => the id of the input element
+ *   @placeholder => placeholder text
+ *   @onenter     => function executed when enter key is pressed
+ *   @onchange    => function executed when value changes
+ *   @width       => width of the input (default 200px)
+ *   @nodisable   => if "true", the input stays enabled when the subtable is disabled
+ *
+ * <div> - spacer element
+ *   @col_class => CSS classes (e.g., "col" for flex spacer)
+ *
+ * Each row action can contain:
+ *
+ * @label   => the text used as label in the button
+ * @icon    => the icon used in the button
+ * @color   => the color of the button
+ * @tooltip => the tooltip used in the button
+ * @onclick => the onclick function that receives as argument "table_id:row_id"
+ *
+ * The footer can contain the following components:
+ *
+ * @count => displays the total number of rows
+ *   @label => text template, use {n} as placeholder for the row count
+ *
+ * @pagination => enables client-side pagination with navigation controls
+ *   @items => default number of items per page (user can change via input)
+ *
+ * The hidden input exposes the following public API:
+ *
+ * @set(data)       => initialize the table with the given data array
+ * @add_row(row)    => add a new row, auto-generates id as "new_N" if not provided
+ * @update_row(row) => update an existing row by id
+ * @delete_row(id)  => delete a row by id
+ * @get_row(id)     => get a row object by id
+ * @set_disabled(b) => enable or disable the toolbar and row action buttons
+ * @search()        => execute search with current input value
+ * @clear_search()  => clear search and show all rows
+ * @open_modal(row) => open the modal form defined in XML, pre-populated with row data
+ * @onsave          => optional callback function to normalize row data before saving
+ *
+ * The <modal> section defines the form fields rendered inside a popup dialog:
+ *
+ * <modal title="title" color="primary" class="modal-lg" col_class="col-md-6 mb-3">
+ *   @title     => the modal dialog title
+ *   @color     => the color of the modal header (primary, success, danger, ...)
+ *   @class     => CSS class for the modal size (modal-lg, modal-xl)
+ *   @col_class => default column class for the form layout (overridable per field)
+ *
+ * Inside the <modal> tag, use standard SaltOS field types (text, select, switch, etc.)
+ * with the same attributes as in any form layout. Field IDs are automatically prefixed
+ * to avoid conflicts with the main form. Select fields with _id suffix automatically
+ * collect the display text (e.g. category_id also stores category).
+ *
+ * The payload stored in the hidden input is a flat JSON array compatible with
+ * actions.php subtable conventions:
+ * - Rows without id field => INSERT (new rows)
+ * - Rows with positive id => UPDATE (existing rows)
+ * - Rows with negative id => DELETE (removed rows)
+ */
+saltos.bootstrap.__field.subtable = field => {
+    saltos.core.check_params(field, ['id', 'label', 'color', 'nodata']);
+    saltos.core.check_params(field, ['header', 'data', 'toolbar', 'actions', 'footer', 'modal'], []);
+
+    if (field.color === true) {
+        field.color = '';
+    }
+    if (!field.color) {
+        field.color = 'primary';
+    }
+    if (!field.nodata) {
+        field.nodata = T('No data');
+    }
+
+    // Main container
+    const obj = saltos.core.html('<div></div>');
+    obj.append(saltos.bootstrap.__label_helper(field));
+
+    // Hidden input to store payload
+    const input = saltos.core.html(`<input type="hidden" id="${field.id}" value="${field.value || ''}">`);
+    input.__field = field;
+    input.dataset.wrapper = `${field.id}__wrapper`;
+    obj.append(input);
+
+    // Wrapper for toolbar and table
+    const wrapper = saltos.core.html(`<div id="${field.id}__wrapper"></div>`);
+    obj.append(wrapper);
+
+    // Toolbar container
+    const toolbar_container = saltos.core.html('<div class="d-flex gap-2 mb-2"></div>');
+    wrapper.append(toolbar_container);
+
+    // Render a single toolbar element based on its type (after fix_key)
+    const render_toolbar_element = (type, item_def) => {
+        let el = null;
+        if (type === 'button') {
+            // Use standard SaltOS button renderer for correct styling
+            // Extract just the button from the wrapper (like __field.link does)
+            const btn_wrapper = saltos.bootstrap.__field.button({
+                id: item_def.id || '',
+                label: item_def.label || '',
+                icon: item_def.icon || '',
+                color: item_def.color || 'primary',
+                tooltip: item_def.tooltip || '',
+                onclick: item_def.onclick || '',
+                disabled: item_def.disabled || '',
+                rounded: item_def.rounded || 'rounded-pill',
+                shadow: item_def.shadow || 'shadow',
+            });
+            el = btn_wrapper.querySelector('button');
+        } else if (type === 'text') {
+            // Use standard SaltOS text renderer, extract input only
+            const text_wrapper = saltos.bootstrap.__field.text({
+                id: item_def.id || `${field.id}__search_input`,
+                placeholder: item_def.placeholder || '',
+                tooltip: item_def.tooltip || '',
+                value: item_def.value || '',
+                rounded: item_def.rounded || 'rounded-pill',
+                onenter: item_def.onenter || '',
+                onchange: item_def.onchange || '',
+                class: item_def.class || '',
+            });
+            el = text_wrapper.querySelector('input');
+            // Set a reasonable width for toolbar input
+            el.style.width = item_def.width || '200px';
+        } else if (type === 'div') {
+            // Support spacer divs (e.g., <div col_class="col"/>)
+            const col_class = item_def.col_class || item_def.class || '';
+            el = saltos.core.html(`<div class="${col_class}"></div>`);
+        }
+        // Mark elements that should stay enabled when subtable is disabled
+        if (el && saltos.core.eval_bool(item_def.nodisable)) {
+            el.dataset.nodisable = 'true';
+        }
+        return el;
+    };
+
+    // Build toolbar from XML definition using standard SaltOS field renderers
+    // This follows the same pattern as saltos.form.layout() using fix_key
+    // to handle duplicate element names with #N suffixes.
+    // Element order is determined by position in XML (same as core).
+    const build_toolbar = () => {
+        toolbar_container.replaceChildren();
+        const toolbar_def = field.toolbar || {};
+
+        for (const key in toolbar_def) {
+            const item = toolbar_def[key];
+            const item_def = saltos.core.join_attr_value(item);
+            if (typeof item_def !== 'object' || item_def === null) {
+                continue;
+            }
+            // Use fix_key to get the real type without #N suffix (same pattern as core)
+            const type = saltos.core.fix_key(key);
+            const el = render_toolbar_element(type, item_def);
+            if (el) {
+                toolbar_container.append(el);
+            }
+        }
+    };
+
+    // Table container
+    const table_holder = saltos.core.html(`<div id="${field.id}__table"></div>`);
+    wrapper.append(table_holder);
+
+    // Footer container (styled like tfoot for visual consistency)
+    const footer_container = saltos.core.html(`<div id="${field.id}__footer"></div>`);
+    wrapper.append(footer_container);
+
+    // Parse footer configuration from XML
+    const parse_footer_config = () => {
+        const footer_def = field.footer || {};
+        const config = {has_count: false, count_label: 'Total: {n}', has_pagination: false, items: 10};
+
+        for (const key in footer_def) {
+            const item_def = saltos.core.join_attr_value(footer_def[key]);
+            if (typeof item_def !== 'object' || item_def === null) {
+                continue;
+            }
+            if (key === 'count') {
+                config.has_count = true;
+                config.count_label = item_def.label || 'Total: {n}';
+            }
+            if (key === 'pagination') {
+                config.has_pagination = true;
+                config.items = parseInt(item_def.items, 10) || 10;
+            }
+        }
+        return config;
+    };
+
+    const footer_config = parse_footer_config();
+
+    // Parse modal configuration from XML
+    // The <modal> tag has attributes AND children, so PHP parses it as
+    // {value: {...children...}, '#attr': {...attrs...}} (the is_attr_value pattern).
+    // Use is_attr_value to detect this and extract fields from value.
+    const modal_config = (() => {
+        const modal_def = field.modal || {};
+        if (!modal_def || typeof modal_def !== 'object') {
+            return null;
+        }
+        // Extract attributes and field definitions handling the {value, #attr} pattern
+        let attrs, fields_def;
+        if (saltos.core.is_attr_value(modal_def)) {
+            attrs = modal_def['#attr'] || {};
+            fields_def = (typeof modal_def.value === 'object' && modal_def.value !== null)
+                ? modal_def.value : {};
+        } else {
+            attrs = modal_def['#attr'] ? {...modal_def['#attr']} : {};
+            fields_def = modal_def;
+        }
+        let has_fields = false;
+        for (const key in fields_def) {
+            if (key !== '#attr') {
+                has_fields = true;
+                break;
+            }
+        }
+        if (!has_fields) {
+            return null;
+        }
+        return {
+            title: attrs.title || '',
+            color: attrs.color || field.color || 'primary',
+            class: attrs.class || '',
+            col_class: attrs.col_class || 'col-md-6 mb-3',
+            close: attrs.close || T('Close'),
+            fields: fields_def,
+        };
+    })();
+
+    // Strip internal fields from row data for payload
+    const strip_row = row => {
+        const data = {};
+        for (const key in row) {
+            if (key.startsWith('_')) {
+                continue;
+            }
+            if (key.endsWith('_icon')) {
+                continue;
+            }
+            if (key === 'actions') {
+                continue;
+            }
+            data[key] = row[key];
+        }
+        return data;
+    };
+
+    // Refresh hidden input value with current payload
+    // Converts internal tracking format to flat array for actions.php:
+    // no id = INSERT, positive id = UPDATE, negative id = DELETE
+    const refresh_value = () => {
+        const payload = input.__payload || {create: [], update: [], delete: []};
+        const flat = [];
+        for (const row of payload.create) {
+            const r = {...row};
+            delete r.id;
+            flat.push(r);
+        }
+        for (const row of payload.update) {
+            flat.push({...row});
+        }
+        for (const id of payload.delete) {
+            flat.push({id: -Math.abs(parseInt(id, 10))});
+        }
+        input.value = JSON.stringify(flat);
+    };
+
+    // Ensure payload structure exists
+    const ensure_payload = () => {
+        if (!input.__payload) {
+            input.__payload = {create: [], update: [], delete: []};
+        }
+    };
+
+    // Build actions object from XML definition
+    const build_actions = () => {
+        const actions_def = field.actions || {};
+        const actions = {};
+
+        for (const key in actions_def) {
+            const action_def = saltos.core.join_attr_value(actions_def[key]);
+            if (typeof action_def !== 'object' || action_def === null) {
+                continue;
+            }
+
+            actions[key] = {
+                label: action_def.label || '',
+                icon: action_def.icon || '',
+                color: action_def.color || '',
+                tooltip: action_def.tooltip || '',
+                onclick: action_def.onclick || '',
+            };
+        }
+        return actions;
+    };
+
+    // Search filter function (excludes _icon and _ prefixed fields)
+    const filter_rows = (rows, term) => {
+        if (!term || term.trim() === '') {
+            return rows;
+        }
+        const search_term = term.toLowerCase().trim();
+        return rows.filter(row => {
+            for (const key in row) {
+                // Skip internal fields
+                if (key.startsWith('_') || key.endsWith('_icon') || key === 'actions' || key === 'id') {
+                    continue;
+                }
+                const value = row[key];
+                if (value !== null && value !== undefined) {
+                    if (String(value).toLowerCase().includes(search_term)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        });
+    };
+
+    // Search functions - find text input in toolbar
+    const get_search_input = () => toolbar_container.querySelector('input[type="text"]');
+
+    const do_search = () => {
+        const search_input = get_search_input();
+        const term = search_input ? search_input.value : '';
+        input.__search_term = term;
+        input.__rows = filter_rows(input.__all_rows || [], term);
+        input.__page = 0;
+        render();
+        // Visual indicator on search input (option 3)
+        update_search_indicator();
+    };
+
+    const do_clear = () => {
+        const search_input = get_search_input();
+        if (search_input) {
+            search_input.value = '';
+        }
+        input.__search_term = '';
+        input.__rows = [...(input.__all_rows || [])];
+        input.__page = 0;
+        render();
+        // Clear visual indicator
+        update_search_indicator();
+    };
+
+    // Update visual indicator on search input when a search is active
+    const update_search_indicator = () => {
+        const search_input = get_search_input();
+        if (!search_input) {
+            return;
+        }
+        const term = (input.__search_term || '').trim();
+        if (term) {
+            search_input.classList.add('border-primary', 'border-2');
+        } else {
+            search_input.classList.remove('border-primary', 'border-2');
+        }
+    };
+
+    // Pagination helpers
+    const get_total_rows = () => (input.__rows || []).length;
+    const get_total_pages = () => {
+        const total = get_total_rows();
+        const items = input.__items_per_page || footer_config.items;
+        return Math.max(1, Math.ceil(total / items));
+    };
+    const get_current_page = () => Math.min(input.__page || 0, get_total_pages() - 1);
+
+    // Navigation functions
+    const go_first = () => {
+        input.__page = 0;
+        render();
+    };
+    const go_prev = () => {
+        input.__page = Math.max(0, get_current_page() - 1);
+        render();
+    };
+    const go_next = () => {
+        input.__page = Math.min(get_total_pages() - 1, get_current_page() + 1);
+        render();
+    };
+    const go_last = () => {
+        input.__page = get_total_pages() - 1;
+        render();
+    };
+    const on_items_change = value => {
+        const items = Math.max(1, Math.min(999, parseInt(value, 10) || footer_config.items));
+        input.__items_per_page = items;
+        input.__page = 0;
+        render();
+    };
+
+    // Render the footer with count and/or pagination
+    const render_footer = () => {
+        footer_container.replaceChildren();
+
+        if (!footer_config.has_count && !footer_config.has_pagination) {
+            return;
+        }
+
+        const total = get_total_rows();
+        const current_page = get_current_page();
+        const total_pages = get_total_pages();
+        const items = input.__items_per_page || footer_config.items;
+        const is_first = current_page === 0;
+        const is_last = current_page >= total_pages - 1;
+
+        // Footer styled like tfoot
+        const footer_el = saltos.core.html(`
+            <div class="d-flex align-items-center justify-content-between px-3 py-2 bg-${field.color}-subtle rounded-bottom">
+            </div>
+        `);
+
+        // Left side: count (show "X of Y" when search is active)
+        if (footer_config.has_count) {
+            const total_all = (input.__all_rows || []).length;
+            const is_filtered = (input.__search_term || '').trim() !== '';
+            let count_text;
+            if (is_filtered) {
+                count_text = total + ' / ' + total_all + ' (' + T('filtered') + ')';
+            } else {
+                count_text = T(footer_config.count_label).replace(/\{n\}/g, total);
+            }
+            const count_el = saltos.core.html(`<span class="text-muted">${count_text}</span>`);
+            footer_el.append(count_el);
+        } else {
+            footer_el.append(saltos.core.html('<span></span>'));
+        }
+
+        // Right side: pagination
+        if (footer_config.has_pagination && total > 0) {
+            const pagination_el = saltos.core.html(`
+                <div class="d-flex align-items-center gap-1">
+                </div>
+            `);
+
+            // Button style helper (more contrast for disabled state)
+            const btn_class = disabled => `btn btn-sm btn-outline-secondary${disabled ? ' opacity-25' : ''}`;
+
+            // First button
+            const btn_first = saltos.core.html(`
+                <button type="button" class="${btn_class(is_first)}" title="${T('First page')}" ${is_first ? 'disabled' : ''}>
+                    <i class="bi bi-chevron-double-left"></i>
+                </button>
+            `);
+            btn_first.addEventListener('click', go_first);
+            pagination_el.append(btn_first);
+
+            // Prev button
+            const btn_prev = saltos.core.html(`
+                <button type="button" class="${btn_class(is_first)}" title="${T('Previous page')}" ${is_first ? 'disabled' : ''}>
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+            `);
+            btn_prev.addEventListener('click', go_prev);
+            pagination_el.append(btn_prev);
+
+            // Page indicator
+            const page_indicator = saltos.core.html(`
+                <span class="mx-2 text-muted text-nowrap">${T('Page')} ${current_page + 1} ${T('of')} ${total_pages}</span>
+            `);
+            pagination_el.append(page_indicator);
+
+            // Next button
+            const btn_next = saltos.core.html(`
+                <button type="button" class="${btn_class(is_last)}" title="${T('Next page')}" ${is_last ? 'disabled' : ''}>
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+            `);
+            btn_next.addEventListener('click', go_next);
+            pagination_el.append(btn_next);
+
+            // Last button
+            const btn_last = saltos.core.html(`
+                <button type="button" class="${btn_class(is_last)}" title="${T('Last page')}" ${is_last ? 'disabled' : ''}>
+                    <i class="bi bi-chevron-double-right"></i>
+                </button>
+            `);
+            btn_last.addEventListener('click', go_last);
+            pagination_el.append(btn_last);
+
+            // Items per page input
+            const items_input = saltos.core.html(`
+                <input type="number" class="form-control form-control-sm ms-2" style="width: 60px"
+                    value="${items}" min="1" max="999" title="${T('Items per page')}">
+            `);
+            items_input.addEventListener('change', e => on_items_change(e.target.value));
+            pagination_el.append(items_input);
+
+            footer_el.append(pagination_el);
+        } else if (footer_config.has_pagination) {
+            footer_el.append(saltos.core.html('<span></span>'));
+        }
+
+        footer_container.append(footer_el);
+    };
+
+    // Highlight matching text in table cells by wrapping matches with <mark>
+    const highlight_matches = (container, term) => {
+        const lower_term = term.toLowerCase();
+        // Only process td cells in tbody (skip thead and action buttons)
+        const cells = container.querySelectorAll('tbody td');
+        for (const cell of cells) {
+            // Skip action cells (contain buttons)
+            if (cell.querySelector('button')) {
+                continue;
+            }
+            const walker = document.createTreeWalker(cell, NodeFilter.SHOW_TEXT);
+            const text_nodes = [];
+            while (walker.nextNode()) {
+                text_nodes.push(walker.currentNode);
+            }
+            for (const node of text_nodes) {
+                const text = node.textContent;
+                const lower_text = text.toLowerCase();
+                const idx = lower_text.indexOf(lower_term);
+                if (idx === -1) {
+                    continue;
+                }
+                // Split text node and wrap the match with <mark>
+                const before = text.substring(0, idx);
+                const match = text.substring(idx, idx + term.length);
+                const after = text.substring(idx + term.length);
+                const frag = document.createDocumentFragment();
+                if (before) {
+                    frag.append(document.createTextNode(before));
+                }
+                const mark = document.createElement('mark');
+                mark.className = 'p-0';
+                mark.textContent = match;
+                frag.append(mark);
+                if (after) {
+                    frag.append(document.createTextNode(after));
+                }
+                node.parentNode.replaceChild(frag, node);
+            }
+        }
+    };
+
+    // Render the table
+    const render = () => {
+        const actions = build_actions();
+
+        // Prepare all row data with action arguments
+        const all_data = (input.__rows || []).map(row => {
+            const next = {...row};
+            if (!input.__disabled && Object.keys(actions).length) {
+                if (!('actions' in next)) {
+                    next.actions = {};
+                }
+                for (const key in actions) {
+                    next.actions[key] = {arg: `${field.id}:${row.id}`};
+                }
+            }
+            return next;
+        });
+
+        // Apply pagination if enabled
+        let data = all_data;
+        if (footer_config.has_pagination && all_data.length > 0) {
+            const items = input.__items_per_page || footer_config.items;
+            const page = get_current_page();
+            const start = page * items;
+            const end = start + items;
+            data = all_data.slice(start, end);
+        }
+
+        // Determine rounded class based on footer presence
+        const has_footer = footer_config.has_count || footer_config.has_pagination;
+        const rounded_class = has_footer ? 'rounded-top' : (field.rounded || 'rounded');
+
+        // Create table using standard table field
+        const table = saltos.bootstrap.__field.table({
+            id: `${field.id}__table_component`,
+            class: field.class || '',
+            color: field.color,
+            nodata: field.nodata,
+            header: field.header || {},
+            data,
+            actions,
+            first_action: false,
+            dropdown: field.dropdown || 'false',
+            shadow: field.shadow || 'shadow',
+            rounded: rounded_class,
+        });
+        table_holder.replaceChildren(table);
+
+        // Highlight matching text in cells when search is active (option 4)
+        const search_term = (input.__search_term || '').trim();
+        if (search_term) {
+            highlight_matches(table_holder, search_term);
+        }
+
+        // Handle disabled state for table buttons
+        if (input.__disabled) {
+            table_holder.querySelectorAll('button').forEach(btn => {
+                btn.setAttribute('disabled', '');
+                btn.classList.add('disabled');
+            });
+        }
+
+        // Handle disabled state for toolbar buttons
+        // Skip elements marked with nodisable (e.g. search/clear buttons)
+        toolbar_container.querySelectorAll('button, input').forEach(el => {
+            if (el.dataset.nodisable === 'true') {
+                return;
+            }
+            if (typeof el.set_disabled === 'function') {
+                el.set_disabled(input.__disabled);
+            } else {
+                if (input.__disabled) {
+                    el.setAttribute('disabled', '');
+                    el.classList.add('opacity-25');
+                } else {
+                    el.removeAttribute('disabled');
+                    el.classList.remove('opacity-25');
+                }
+            }
+        });
+
+        // Render footer with count and pagination
+        render_footer();
+    };
+
+    // Public API: Set data
+    input.set = (data, sync = true) => {
+        input.__all_rows = Array.isArray(data) ? data : [];
+        input.__rows = [...input.__all_rows];
+        input.__new_id = 0;
+        input.__disabled = input.__disabled || false;
+        input.__payload = {create: [], update: [], delete: []};
+        input.__page = 0;
+        input.__items_per_page = footer_config.items;
+        input.__search_term = '';
+        // Clear search input if exists
+        const search_input = get_search_input();
+        if (search_input) {
+            search_input.value = '';
+        }
+        refresh_value();
+        if (sync && input.__field) {
+            input.__field.value = input.value;
+        }
+        render();
+    };
+
+    // Public API: Update existing row
+    input.update_row = row => {
+        ensure_payload();
+        // Update in __all_rows
+        const all_idx = (input.__all_rows || []).findIndex(item => item.id == row.id);
+        if (all_idx >= 0) {
+            input.__all_rows[all_idx] = {...input.__all_rows[all_idx], ...row};
+        }
+        // Re-apply search filter
+        input.__rows = filter_rows(input.__all_rows || [], input.__search_term || '');
+        // Update payload
+        const updated_row = input.__all_rows[all_idx] || row;
+        if (String(row.id).startsWith('new_')) {
+            input.__payload.create = input.__payload.create.filter(item => item.id != row.id);
+            input.__payload.create.push(strip_row(updated_row));
+        } else {
+            input.__payload.update = input.__payload.update.filter(item => item.id != row.id);
+            input.__payload.update.push(strip_row(updated_row));
+        }
+        refresh_value();
+        render();
+    };
+
+    // Public API: Add new row
+    input.add_row = row => {
+        ensure_payload();
+        const next = {...row};
+        if (!('id' in next) || next.id === null || next.id === undefined || next.id === '') {
+            input.__new_id += 1;
+            next.id = `new_${input.__new_id}`;
+        }
+        // Add to __all_rows
+        input.__all_rows = input.__all_rows || [];
+        input.__all_rows.push(next);
+        // Re-apply search filter
+        input.__rows = filter_rows(input.__all_rows, input.__search_term || '');
+        // Update payload
+        input.__payload.create = input.__payload.create.filter(item => item.id != next.id);
+        input.__payload.create.push(strip_row(next));
+        refresh_value();
+        render();
+    };
+
+    // Public API: Delete row
+    input.delete_row = id => {
+        ensure_payload();
+        // Remove from __all_rows
+        input.__all_rows = (input.__all_rows || []).filter(item => item.id != id);
+        // Re-apply search filter
+        input.__rows = filter_rows(input.__all_rows, input.__search_term || '');
+        // Update payload
+        if (String(id).startsWith('new_')) {
+            input.__payload.create = input.__payload.create.filter(item => item.id != id);
+        } else {
+            input.__payload.update = input.__payload.update.filter(item => item.id != id);
+            if (!input.__payload.delete.includes(id)) {
+                input.__payload.delete.push(id);
+            }
+        }
+        refresh_value();
+        render();
+    };
+
+    // Public API: Get row by id (searches in all rows, not just filtered)
+    input.get_row = id => (input.__all_rows || []).find(item => item.id == id);
+
+    // Public API: Set disabled state
+    input.set_disabled = bool => {
+        input.__disabled = !!bool;
+        render();
+    };
+
+    // Public API: Execute search with current input value
+    input.search = () => {
+        do_search();
+    };
+
+    // Public API: Clear search and show all rows
+    input.clear_search = () => {
+        do_clear();
+    };
+
+    // Public API: Open modal form defined in XML, pre-populated with row data
+    // If row has an id, save updates the existing row; otherwise adds a new row.
+    // Register input.onsave = fn to normalize/transform row data before saving.
+    input.open_modal = row => {
+        if (!modal_config) {
+            return;
+        }
+
+        const data = row || {};
+        const prefix = `${field.id}_modal_`;
+        const field_ids = [];
+
+        if (saltos.bootstrap.modal('isopen')) {
+            saltos.bootstrap.modal('close');
+        }
+
+        // Render form fields into a row layout
+        const body = saltos.core.html('<div class="row g-3"></div>');
+
+        for (const key in modal_config.fields) {
+            if (key === '#attr') {
+                continue;
+            }
+
+            // Deep clone to avoid mutating the original definition
+            const item = saltos.core.copy_object(modal_config.fields[key]);
+            const item_def = saltos.core.join_attr_value(item);
+            if (typeof item_def !== 'object' || item_def === null) {
+                continue;
+            }
+
+            const type = saltos.core.fix_key(key);
+
+            // Handle spacer divs
+            if (type === 'div') {
+                const col_class = item_def.col_class || item_def.class || '';
+                body.append(saltos.core.html(`<div class="${col_class}"></div>`));
+                continue;
+            }
+
+            // Set field type for the renderer
+            item_def.type = type;
+
+            // Prefix ID to avoid conflicts with main form
+            const original_id = item_def.id || '';
+            if (original_id) {
+                item_def.id = prefix + original_id;
+                field_ids.push({
+                    original_id,
+                    prefixed_id: item_def.id,
+                    required: saltos.core.eval_bool(item_def.required),
+                    type,
+                });
+            }
+
+            // Pre-populate value from row data
+            if (original_id && data[original_id] !== undefined) {
+                item_def.value = data[original_id];
+            }
+
+            // Render using SaltOS bootstrap field dispatcher (with i18n)
+            const field_el = saltos.gettext.bootstrap.field(item_def);
+
+            // Wrap in col with appropriate class
+            const col_class = item_def.col_class || modal_config.col_class;
+            const col = saltos.core.html(`<div class="${col_class}"></div>`);
+            col.append(field_el);
+            body.append(col);
+        }
+
+        // Create footer with save and cancel buttons
+        const footer = saltos.core.html('<div class="d-flex gap-2 w-100"></div>');
+        const save_btn = saltos.core.html(`<button type="button" class="btn btn-success">${T('Save')}</button>`);
+        const cancel_btn = saltos.core.html(`<button type="button" class="btn btn-danger">${T('Cancel')}</button>`);
+        footer.append(save_btn);
+        footer.append(cancel_btn);
+
+        save_btn.addEventListener('click', () => {
+            // Validate required fields (same visual pattern as saltos.app.check_required)
+            let first_invalid = null;
+            for (const {prefixed_id, required} of field_ids) {
+                if (!required) {
+                    continue;
+                }
+                const el = document.getElementById(prefixed_id);
+                if (!el) {
+                    continue;
+                }
+                const value = ['checkbox', 'switch'].includes(el.type)
+                    ? parseInt(el.value, 10) : el.value;
+                el.classList.remove('is-valid', 'is-invalid');
+                if (value === '' || value === undefined || value === null) {
+                    el.classList.add('is-invalid');
+                    if (!first_invalid) {
+                        first_invalid = el;
+                    }
+                } else {
+                    el.classList.add('is-valid');
+                }
+            }
+            if (first_invalid) {
+                first_invalid.focus();
+                saltos.app.toast(T('Warning'), T('Please fill in all required fields'), {color: 'danger'});
+                return;
+            }
+
+            // Collect values from all rendered fields
+            const next = {};
+            if (data.id !== undefined && data.id !== null) {
+                next.id = data.id;
+            }
+            for (const {original_id, prefixed_id} of field_ids) {
+                const el = document.getElementById(prefixed_id);
+                if (el) {
+                    next[original_id] = el.value;
+                    // For select fields, also store display text using _id suffix convention
+                    if (el.tagName === 'SELECT' && el.selectedIndex >= 0) {
+                        const base_id = original_id.replace(/_id$/, '');
+                        if (base_id !== original_id) {
+                            next[base_id] = el.options[el.selectedIndex].text;
+                        }
+                    }
+                }
+            }
+
+            // Apply onsave callback if registered (for normalization)
+            let final_row = next;
+            if (typeof input.onsave === 'function') {
+                try {
+                    final_row = input.onsave(next) || next;
+                } catch (e) {
+                    saltos.app.toast(T('Error'), T('Error processing row data'), {color: 'danger'});
+                    console.error('subtable onsave error:', e);
+                    return;
+                }
+            }
+
+            if (final_row.id !== undefined && final_row.id !== null) {
+                input.update_row(final_row);
+            } else {
+                input.add_row(final_row);
+            }
+            saltos.bootstrap.modal('close');
+        });
+
+        cancel_btn.addEventListener('click', () => {
+            saltos.bootstrap.modal('close');
+        });
+
+        saltos.bootstrap.modal({
+            id: `${field.id}_modal`,
+            title: modal_config.title,
+            close: modal_config.close,
+            body,
+            footer,
+            color: modal_config.color,
+            class: modal_config.class,
+        });
+    };
+
+    // Build toolbar and initialize empty
+    build_toolbar();
+    input.set([], true);
+
+    return saltos.core.optimize(obj);
+};

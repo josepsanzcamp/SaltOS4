@@ -21,6 +21,9 @@
         <screen>type2modal</screen>
         <gettext eval="true">T()</gettext>
         <navbar eval="true">xmlfile2array('apps/common/xml/navbar.xml')['navbar']</navbar>
+        <javascript>
+            <file eval="true">file_with_hash(file_with_min('apps/common/js/notes.js'))</file>
+        </javascript>
     </main>
 
     <!-- List part -->
@@ -143,6 +146,7 @@
         <data><perms eval="true">xmlfile2array('apps/users/xml/groups.xml')['_perms']</perms></data>
         <javascript>
             <inline>saltos.driver.init('create')</inline>
+            <inline>saltos.common.notes_init('create')</inline>
         </javascript>
     </create>
 
@@ -187,7 +191,7 @@
         <javascript>
             <inline>saltos.driver.init('view')</inline>
             <inline>saltos.common.allfiles()</inline>
-            <inline>saltos.common.allnotes()</inline>
+            <inline>saltos.common.notes_init('view')</inline>
         </javascript>
     </view>
 
@@ -232,7 +236,7 @@
         <javascript>
             <inline>saltos.driver.init('edit')</inline>
             <inline>saltos.common.allfiles()</inline>
-            <inline>saltos.common.allnotes()</inline>
+            <inline>saltos.common.notes_init('edit')</inline>
         </javascript>
     </edit>
 

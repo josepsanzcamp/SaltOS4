@@ -54,11 +54,17 @@ function insert($app, $data)
         ];
     }
 
+    // Decode allnotes from subtable control into addnotes/delnotes/updatenotes
+    if (app2notes($app) && isset($data['allnotes'])) {
+        require_once 'php/lib/notes.php';
+        $data = notes_decode($data);
+    }
+
     $table = app2table($app);
     $fields = array_flip(array_column(get_fields($table), 'name'));
     $subtables = array_flip(array_diff(array_column(app2subtables($app), 'alias'), ['']));
     $files = app2files($app) ? array_flip(['addfiles']) : [];
-    $notes = app2notes($app) ? array_flip(['addnotes']) : [];
+    $notes = app2notes($app) ? array_flip(['addnotes', 'updatenotes']) : [];
     $error = array_diff_key($data, $fields, $subtables, $files, $notes);
     if (count($error)) {
         return [
@@ -106,14 +112,23 @@ function insert($app, $data)
 
     // Prepare notes
     if (app2notes($app) && isset($notesdata['addnotes'])) {
-        $temp = [
-            'user_id' => current_user(),
-            'datetime' => current_datetime(),
-            'reg_id' => $id,
-            'note' => $notesdata['addnotes'],
-        ];
-        $query = prepare_insert_query("{$table}_notes", $temp);
-        db_query(...$query);
+        $notes_list = $notesdata['addnotes'];
+        if (is_string($notes_list)) {
+            $notes_list = [$notes_list];
+        }
+        foreach ($notes_list as $note_text) {
+            if (!is_string($note_text) || $note_text === '') {
+                continue;
+            }
+            $temp = [
+                'user_id' => current_user(),
+                'datetime' => current_datetime(),
+                'reg_id' => $id,
+                'note' => $note_text,
+            ];
+            $query = prepare_insert_query("{$table}_notes", $temp);
+            db_query(...$query);
+        }
     }
 
     // Prepare files
@@ -179,11 +194,17 @@ function update($app, $id, $data)
         ];
     }
 
+    // Decode allnotes from subtable control into addnotes/delnotes/updatenotes
+    if (app2notes($app) && isset($data['allnotes'])) {
+        require_once 'php/lib/notes.php';
+        $data = notes_decode($data);
+    }
+
     $table = app2table($app);
     $fields = array_flip(array_column(get_fields($table), 'name'));
     $subtables = array_flip(array_diff(array_column(app2subtables($app), 'alias'), ['']));
     $files = app2files($app) ? array_flip(['addfiles', 'delfiles']) : [];
-    $notes = app2notes($app) ? array_flip(['addnotes', 'delnotes']) : [];
+    $notes = app2notes($app) ? array_flip(['addnotes', 'delnotes', 'updatenotes']) : [];
     $error = array_diff_key($data, $fields, $subtables, $files, $notes);
     if (count($error)) {
         return [
@@ -259,16 +280,38 @@ function update($app, $id, $data)
         }
     }
 
+    // Update existing notes
+    if (app2notes($app) && isset($notesdata['updatenotes'])) {
+        $updates = is_array($notesdata['updatenotes']) ? $notesdata['updatenotes'] : [];
+        foreach ($updates as $upd) {
+            if (!is_array($upd) || !isset($upd['id']) || !isset($upd['note'])) {
+                continue;
+            }
+            $id2 = intval($upd['id']);
+            $query = "UPDATE {$table}_notes SET note = ?, user_id = ?, datetime = ? WHERE id = ? AND reg_id = ?";
+            db_query($query, [strval($upd['note']), current_user(), current_datetime(), $id2, $id]);
+        }
+    }
+
     // Prepare notes
     if (app2notes($app) && isset($notesdata['addnotes'])) {
-        $temp = [
-            'user_id' => current_user(),
-            'datetime' => current_datetime(),
-            'reg_id' => $id,
-            'note' => $notesdata['addnotes'],
-        ];
-        $query = prepare_insert_query("{$table}_notes", $temp);
-        db_query(...$query);
+        $notes_list = $notesdata['addnotes'];
+        if (is_string($notes_list)) {
+            $notes_list = [$notes_list];
+        }
+        foreach ($notes_list as $note_text) {
+            if (!is_string($note_text) || $note_text === '') {
+                continue;
+            }
+            $temp = [
+                'user_id' => current_user(),
+                'datetime' => current_datetime(),
+                'reg_id' => $id,
+                'note' => $note_text,
+            ];
+            $query = prepare_insert_query("{$table}_notes", $temp);
+            db_query(...$query);
+        }
     }
 
     // Remove selected files

@@ -80,7 +80,6 @@ to_edit_this_register: Editar aquest registre
 to_delete_the_register: Eliminar el registre
 to_save_the_changes_of_this_register: Desar els canvis d'aquest registre
 to_close_the_detail_of_this_register: Tancar el detall d'aquest registre
-notes: Notes
 load_more: Carregar més
 to_cancel_the_register_modification: Cancel·lar la modificació del registre
 to_view_the_register: Veure el registre
@@ -127,9 +126,19 @@ attention: Atenció
 do_you_want_to_close_this_screen: Vols tancar aquesta pantalla?
 no_data_found: No s'han trobat dades
 data_restored_from_the_previous_session: Dades restaurades de la sessió anterior
+notes: Notes
+note: Nota
+no_notes: No hi ha notes
+total: Total
+filtered: Filtrat
+search_notes: Buscar nota...
+search_in_notes: Buscar a les notes
+add_a_new_note: Afegir una nova nota
+edit_note: Editar nota
 new_note: Nova nota
-delete_note: Esborrar nota
+delete_note: Eliminar nota
 download_file: Descarregar fitxer
+delete_this_note: Vols eliminar aquesta nota?
 delete_file: Esborrar fitxer
 files: Fitxers
 view_file: Veure fitxer

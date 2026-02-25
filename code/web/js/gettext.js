@@ -217,8 +217,94 @@ saltos.gettext.bootstrap.field = field => {
             }
         }
     }
+    // Only for subtable widgets
+    if ('type' in field && field.type == 'subtable') {
+        if ('header' in field) {
+            for (const key in field.header) {
+                field.header[key] = saltos.core.join_attr_value(field.header[key]);
+                const val = field.header[key];
+                if (typeof val == 'object' && val !== null) {
+                    field.header[key].label = T(val.label);
+                } else {
+                    field.header[key] = T(val);
+                }
+            }
+        }
+        if ('actions' in field) {
+            for (const key in field.actions) {
+                field.actions[key] = saltos.core.join_attr_value(field.actions[key]);
+                const val = field.actions[key];
+                const props = ['label', 'tooltip'];
+                for (const i in props) {
+                    if (props[i] in val) {
+                        field.actions[key][props[i]] =
+                            T(field.actions[key][props[i]]);
+                    }
+                }
+            }
+        }
+        if ('toolbar' in field) {
+            for (const key in field.toolbar) {
+                const item = field.toolbar[key];
+                const item_def = saltos.core.is_attr_value(item)
+                    ? item['#attr'] || {} : (typeof item == 'object' ? item : {});
+                const type = saltos.core.fix_key(key);
+                const props = ['label', 'tooltip', 'placeholder'];
+                for (const i in props) {
+                    if (props[i] in item_def) {
+                        item_def[props[i]] = T(item_def[props[i]]);
+                    }
+                }
+            }
+        }
+        if ('modal' in field) {
+            const modal_def = field.modal;
+            if (typeof modal_def == 'object' && modal_def !== null) {
+                // Translate modal attributes (title, close)
+                if (saltos.core.is_attr_value(modal_def)) {
+                    const attrs = modal_def['#attr'] || {};
+                    const modal_props = ['title', 'close'];
+                    for (const i in modal_props) {
+                        if (modal_props[i] in attrs) {
+                            attrs[modal_props[i]] = T(attrs[modal_props[i]]);
+                        }
+                    }
+                    // Translate fields inside value
+                    const fields_def = (typeof modal_def.value == 'object'
+                        && modal_def.value !== null) ? modal_def.value : {};
+                    for (const key in fields_def) {
+                        if (key === '#attr') {
+                            continue;
+                        }
+                        const item = fields_def[key];
+                        const item_def = saltos.core.is_attr_value(item)
+                            ? item['#attr'] || {} : (typeof item == 'object' ? item : {});
+                        const props = ['label', 'tooltip', 'placeholder'];
+                        for (const i in props) {
+                            if (props[i] in item_def) {
+                                item_def[props[i]] = T(item_def[props[i]]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if ('footer' in field) {
+            const footer_def = field.footer;
+            if (typeof footer_def == 'object' && footer_def !== null) {
+                for (const key in footer_def) {
+                    const item = footer_def[key];
+                    const item_def = saltos.core.is_attr_value(item)
+                        ? item['#attr'] || {} : (typeof item == 'object' ? item : {});
+                    if ('label' in item_def) {
+                        item_def.label = T(item_def.label);
+                    }
+                }
+            }
+        }
+    }
     // Only for table and list widgets
-    if ('type' in field && ['table', 'list', 'jstree'].includes(field.type)) {
+    if ('type' in field && ['table', 'list', 'jstree', 'subtable'].includes(field.type)) {
         const props = ['nodata'];
         for (const i in props) {
             if (props[i] in field) {
