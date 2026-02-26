@@ -1,12 +1,9 @@
 
 npm install sourcemapped-stacktrace
-
-cd node_modules/sourcemapped-stacktrace/
-npm run prepublish
-cd ../../
+npm run prepublish --prefix node_modules/sourcemapped-stacktrace
 
 cat node_modules/sourcemapped-stacktrace/package.json | jq -r .version > VERSION
-mv node_modules/sourcemapped-stacktrace/dist/sourcemapped-stacktrace.js sourcemapped-stacktrace.min.js
+cat node_modules/sourcemapped-stacktrace/dist/sourcemapped-stacktrace.js > sourcemapped-stacktrace.min.js
 
 rm -rf node_modules
 rm -f package*.json
