@@ -396,3 +396,41 @@ saltos.emails.forward = () => {
     const id = saltos.hash.get().split('/').at(3);
     saltos.driver.open(`app/emails/create/forward/${id}`);
 };
+
+/**
+ * Driver search
+ *
+ * This function implement the search feature associated to tables and lists
+ * using the filters fields
+ *
+ * Additionally, translates the `body_text` field of each result
+ * before rendering the list.
+ *
+ * @arg => unused at this scope
+ */
+saltos.driver.search = arg => {
+    document.getElementById('page').value = '0';
+    saltos.backup.restore('top+one');
+    const data = saltos.app.get_data(true);
+    saltos.filter.update('last', data);
+    const app = saltos.hash.get().split('/').at(1);
+    // Restore the more button
+    const obj = document.getElementById('more');
+    if (obj && 'set_disabled' in obj && typeof obj.set_disabled == 'function') {
+        obj.set_disabled(false);
+    }
+    // Continue
+    saltos.app.ajax({
+        url: `app/${app}/list/data`,
+        data: data,
+        success: response => {
+            for (const i in response.data) {
+                if (response.data[i].body_text != '') {
+                    response.data[i].body_text = T(response.data[i].body_text);
+                }
+            }
+            document.getElementById('list').set(response);
+            document.getElementById('one').scrollTop = 0;
+        },
+    });
+};
