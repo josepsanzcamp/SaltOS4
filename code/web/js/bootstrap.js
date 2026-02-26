@@ -4006,13 +4006,14 @@ saltos.bootstrap.__field.list = field => {
             if (saltos.core.eval_bool(field.truncate)) {
                 temp.querySelector('h5').classList.add('text-truncate');
             }
-            if (val.header_color == '') {
-                val.header_color = 'secondary';
+            let color = 'bg-secondary-subtle text-secondary-emphasis'
+            if (val.header_color != '') {
+                color = `text-bg-${val.header_color}`;
             }
             if (val.header_text != '' && val.header_icon != '') {
                 temp.append(saltos.core.html(`
                     <div class="text-nowrap ms-1">
-                        <span class="badge rounded-pill text-bg-${val.header_color}">
+                        <span class="badge rounded-pill ${color}">
                             ${val.header_text}
                             <i class="bi bi-${val.header_icon}"></i>
                         </span>
@@ -4021,7 +4022,7 @@ saltos.bootstrap.__field.list = field => {
             } else if (val.header_text != '') {
                 temp.append(saltos.core.html(`
                     <div class="text-nowrap ms-1">
-                        <span class="badge rounded-pill text-bg-${val.header_color}">
+                        <span class="badge rounded-pill ${color}">
                             ${val.header_text}
                         </span>
                     </div>
@@ -4029,7 +4030,7 @@ saltos.bootstrap.__field.list = field => {
             } else if (val.header_icon != '') {
                 temp.append(saltos.core.html(`
                     <div class="text-nowrap ms-1">
-                        <span class="badge rounded-pill text-bg-${val.header_color}">
+                        <span class="badge rounded-pill ${color}">
                             <i class="bi bi-${val.header_icon}"></i>
                         </span>
                     </div>
@@ -4047,13 +4048,14 @@ saltos.bootstrap.__field.list = field => {
             if (saltos.core.eval_bool(field.truncate)) {
                 temp.querySelector('p').classList.add('text-truncate');
             }
-            if (val.body_color == '') {
-                val.body_color = 'secondary';
+            let color = 'bg-secondary-subtle text-secondary-emphasis'
+            if (val.body_color != '') {
+                color = `text-bg-${val.body_color}`;
             }
             if (val.body_text != '' && val.body_icon != '') {
                 temp.append(saltos.core.html(`
                     <div class="text-nowrap ms-1">
-                        <span class="badge rounded-pill text-bg-${val.body_color}">
+                        <span class="badge rounded-pill ${color}">
                             ${val.body_text}
                             <i class="bi bi-${val.body_icon}"></i>
                         </span>
@@ -4062,7 +4064,7 @@ saltos.bootstrap.__field.list = field => {
             } else if (val.body_text != '') {
                 temp.append(saltos.core.html(`
                     <div class="text-nowrap ms-1">
-                        <span class="badge rounded-pill text-bg-${val.body_color}">
+                        <span class="badge rounded-pill ${color}">
                             ${val.body_text}
                         </span>
                     </div>
@@ -4070,7 +4072,7 @@ saltos.bootstrap.__field.list = field => {
             } else if (val.body_icon != '') {
                 temp.append(saltos.core.html(`
                     <div class="text-nowrap ms-1">
-                        <span class="badge rounded-pill text-bg-${val.body_color}">
+                        <span class="badge rounded-pill ${color}">
                             <i class="bi bi-${val.body_icon}"></i>
                         </span>
                     </div>
@@ -4088,13 +4090,14 @@ saltos.bootstrap.__field.list = field => {
             if (saltos.core.eval_bool(field.truncate)) {
                 temp.querySelector('small').classList.add('text-truncate');
             }
-            if (val.footer_color == '') {
-                val.footer_color = 'secondary';
+            let color = 'bg-secondary-subtle text-secondary-emphasis'
+            if (val.footer_color != '') {
+                color = `text-bg-${val.footer_color}`;
             }
             if (val.footer_text != '' && val.footer_icon != '') {
                 temp.append(saltos.core.html(`
                     <div class="text-nowrap ms-1">
-                        <span class="badge rounded-pill text-bg-${val.footer_color}">
+                        <span class="badge rounded-pill ${color}">
                             ${val.footer_text}
                             <i class="bi bi-${val.footer_icon}"></i>
                         </span>
@@ -4103,7 +4106,7 @@ saltos.bootstrap.__field.list = field => {
             } else if (val.footer_text != '') {
                 temp.append(saltos.core.html(`
                     <div class="text-nowrap ms-1">
-                        <span class="badge rounded-pill text-bg-${val.footer_color}">
+                        <span class="badge rounded-pill ${color}">
                             ${val.footer_text}
                         </span>
                     </div>
@@ -4111,7 +4114,7 @@ saltos.bootstrap.__field.list = field => {
             } else if (val.footer_icon != '') {
                 temp.append(saltos.core.html(`
                     <div class="text-nowrap ms-1">
-                        <span class="badge rounded-pill text-bg-${val.footer_color}">
+                        <span class="badge rounded-pill ${color}">
                             <i class="bi bi-${val.footer_icon}"></i>
                         </span>
                     </div>

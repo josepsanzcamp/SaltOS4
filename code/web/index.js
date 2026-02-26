@@ -275,77 +275,77 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
             <div id="${l.id}" class="list-group ${t} ${e} ${l.class}"></div>
         `):saltos.core.html(`
             <ul id="${l.id}" class="list-group ${t} ${e} ${l.class}"></ul>
-        `),l.data){const a=l.data[s];saltos.core.check_params(a,["header","body","footer","class","header_text","header_icon","header_color","body_text","body_icon","body_color","footer_text","footer_icon","footer_color","onclick","arg","active","disabled","actions","id"]);let e;if(saltos.core.eval_bool(l.onclick)){if(e=saltos.core.html(`<button
-                class="list-group-item list-group-item-action ${a.class}"></button>`),Object.keys(l.actions).length){"actions"in a||(a.actions={});const n={...saltos.core.join_attr_value(Object.values(l.actions)[0]),...Object.values(a.actions)[0]};"onclick"in n&&"arg"in n&&(a.onclick=n.onclick,a.arg=n.arg)}""!=a.arg&&(a.onclick=`${a.onclick}("${a.arg}")`),saltos.bootstrap.__onclick_helper(e,a.onclick),saltos.core.eval_bool(l.checkbox)&&(""==a.id&&(a.id=saltos.core.uniqid()),e.setAttribute("id","button_"+a.id))}else e=saltos.core.html(`<li class="list-group-item ${a.class}"></li>`);if(""!=a.header){const i=saltos.core.html(`
+        `),l.data){const a=l.data[s];saltos.core.check_params(a,["header","body","footer","class","header_text","header_icon","header_color","body_text","body_icon","body_color","footer_text","footer_icon","footer_color","onclick","arg","active","disabled","actions","id"]);let t;if(saltos.core.eval_bool(l.onclick)){if(t=saltos.core.html(`<button
+                class="list-group-item list-group-item-action ${a.class}"></button>`),Object.keys(l.actions).length){"actions"in a||(a.actions={});const n={...saltos.core.join_attr_value(Object.values(l.actions)[0]),...Object.values(a.actions)[0]};"onclick"in n&&"arg"in n&&(a.onclick=n.onclick,a.arg=n.arg)}""!=a.arg&&(a.onclick=`${a.onclick}("${a.arg}")`),saltos.bootstrap.__onclick_helper(t,a.onclick),saltos.core.eval_bool(l.checkbox)&&(""==a.id&&(a.id=saltos.core.uniqid()),t.setAttribute("id","button_"+a.id))}else t=saltos.core.html(`<li class="list-group-item ${a.class}"></li>`);if(""!=a.header){const i=saltos.core.html(`
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1 fw-normal ${a.class}"></h5>
                 </div>
-            `);i.querySelector("h5").append(a.header),saltos.core.eval_bool(l.truncate)&&i.querySelector("h5").classList.add("text-truncate"),""==a.header_color&&(a.header_color="secondary"),""!=a.header_text&&""!=a.header_icon?i.append(saltos.core.html(`
+            `);i.querySelector("h5").append(a.header),saltos.core.eval_bool(l.truncate)&&i.querySelector("h5").classList.add("text-truncate");let e="bg-secondary-subtle text-secondary-emphasis";""!=a.header_color&&(e="text-bg-"+a.header_color),""!=a.header_text&&""!=a.header_icon?i.append(saltos.core.html(`
                     <div class="text-nowrap ms-1">
-                        <span class="badge rounded-pill text-bg-${a.header_color}">
+                        <span class="badge rounded-pill ${e}">
                             ${a.header_text}
                             <i class="bi bi-${a.header_icon}"></i>
                         </span>
                     </div>
                 `)):""!=a.header_text?i.append(saltos.core.html(`
                     <div class="text-nowrap ms-1">
-                        <span class="badge rounded-pill text-bg-${a.header_color}">
+                        <span class="badge rounded-pill ${e}">
                             ${a.header_text}
                         </span>
                     </div>
                 `)):""!=a.header_icon&&i.append(saltos.core.html(`
                     <div class="text-nowrap ms-1">
-                        <span class="badge rounded-pill text-bg-${a.header_color}">
+                        <span class="badge rounded-pill ${e}">
                             <i class="bi bi-${a.header_icon}"></i>
                         </span>
                     </div>
-                `)),e.append(i)}if(""!=a.body){const c=saltos.core.html(`
+                `)),t.append(i)}if(""!=a.body){const c=saltos.core.html(`
                 <div class="d-flex w-100 justify-content-between">
                     <p class="mb-1"></p>
                 </div>
-            `);c.querySelector("p").append(a.body),saltos.core.eval_bool(l.truncate)&&c.querySelector("p").classList.add("text-truncate"),""==a.body_color&&(a.body_color="secondary"),""!=a.body_text&&""!=a.body_icon?c.append(saltos.core.html(`
+            `);c.querySelector("p").append(a.body),saltos.core.eval_bool(l.truncate)&&c.querySelector("p").classList.add("text-truncate");let e="bg-secondary-subtle text-secondary-emphasis";""!=a.body_color&&(e="text-bg-"+a.body_color),""!=a.body_text&&""!=a.body_icon?c.append(saltos.core.html(`
                     <div class="text-nowrap ms-1">
-                        <span class="badge rounded-pill text-bg-${a.body_color}">
+                        <span class="badge rounded-pill ${e}">
                             ${a.body_text}
                             <i class="bi bi-${a.body_icon}"></i>
                         </span>
                     </div>
                 `)):""!=a.body_text?c.append(saltos.core.html(`
                     <div class="text-nowrap ms-1">
-                        <span class="badge rounded-pill text-bg-${a.body_color}">
+                        <span class="badge rounded-pill ${e}">
                             ${a.body_text}
                         </span>
                     </div>
                 `)):""!=a.body_icon&&c.append(saltos.core.html(`
                     <div class="text-nowrap ms-1">
-                        <span class="badge rounded-pill text-bg-${a.body_color}">
+                        <span class="badge rounded-pill ${e}">
                             <i class="bi bi-${a.body_icon}"></i>
                         </span>
                     </div>
-                `)),e.append(c)}if(""!=a.footer){const d=saltos.core.html(`
+                `)),t.append(c)}if(""!=a.footer){const d=saltos.core.html(`
                 <div class="d-flex w-100 justify-content-between">
                     <small></small>
                 </div>
-            `);d.querySelector("small").append(a.footer),saltos.core.eval_bool(l.truncate)&&d.querySelector("small").classList.add("text-truncate"),""==a.footer_color&&(a.footer_color="secondary"),""!=a.footer_text&&""!=a.footer_icon?d.append(saltos.core.html(`
+            `);d.querySelector("small").append(a.footer),saltos.core.eval_bool(l.truncate)&&d.querySelector("small").classList.add("text-truncate");let e="bg-secondary-subtle text-secondary-emphasis";""!=a.footer_color&&(e="text-bg-"+a.footer_color),""!=a.footer_text&&""!=a.footer_icon?d.append(saltos.core.html(`
                     <div class="text-nowrap ms-1">
-                        <span class="badge rounded-pill text-bg-${a.footer_color}">
+                        <span class="badge rounded-pill ${e}">
                             ${a.footer_text}
                             <i class="bi bi-${a.footer_icon}"></i>
                         </span>
                     </div>
                 `)):""!=a.footer_text?d.append(saltos.core.html(`
                     <div class="text-nowrap ms-1">
-                        <span class="badge rounded-pill text-bg-${a.footer_color}">
+                        <span class="badge rounded-pill ${e}">
                             ${a.footer_text}
                         </span>
                     </div>
                 `)):""!=a.footer_icon&&d.append(saltos.core.html(`
                     <div class="text-nowrap ms-1">
-                        <span class="badge rounded-pill text-bg-${a.footer_color}">
+                        <span class="badge rounded-pill ${e}">
                             <i class="bi bi-${a.footer_icon}"></i>
                         </span>
                     </div>
-                `)),e.append(d)}saltos.core.eval_bool(a.active)&&(e.classList.add("active"),e.setAttribute("aria-current","true")),saltos.core.eval_bool(a.disabled)&&(e.classList.add("disabled"),e.setAttribute("aria-disabled","true")),r.append(e)}return r.lastElementChild&&r.lastElementChild.classList.add(o),r.append(saltos.core.html(`
+                `)),t.append(d)}saltos.core.eval_bool(a.active)&&(t.classList.add("active"),t.setAttribute("aria-current","true")),saltos.core.eval_bool(a.disabled)&&(t.classList.add("disabled"),t.setAttribute("aria-disabled","true")),r.append(t)}return r.lastElementChild&&r.lastElementChild.classList.add(o),r.append(saltos.core.html(`
         <style>
             .list-group {
                 --bs-list-group-action-hover-bg: #fbec88;
