@@ -67,7 +67,6 @@ city_region_country_using_ip_ip_and_network_of_isp: $city, $region, $country usa
 a_connection_has_been_detected_from_geoip_on_a_browser: Se ha detectado una conexión desde $geoip con $browser.
 to_see_the_history_of_the_changes: Para ver el historial de cambios
 information_of_this_register: Información de este registro
-read: Leer
 history: Historial
 show_and_hide_the_search_form: Mostrar y ocultar el formulario de búsqueda
 pdf_options: Opciones de PDF

@@ -54,6 +54,7 @@ to_delete_this_email: To delete this email
 to_close_this_email: To close this email
 source: Source
 to_see_the_source_of_this_email: To see the source of this email
+read: Read
 to_mark_this_email_as_new: To mark this email as new
 wait: Wait
 to_mark_this_email_as_wait: To mark this email as pending
