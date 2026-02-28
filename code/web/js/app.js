@@ -250,10 +250,16 @@ saltos.app.get_data = full => {
             case 'codemirror':
                 val = val.replace(/\r\n|\r/g, '\n');
                 old = old.replace(/\r\n|\r/g, '\n');
+                if (field.type === 'joditeditor' && val === '<p><br></p>') {
+                    val = '';
+                }
                 break;
             case 'file':
                 val = obj.data;
                 old = field.data;
+                if (!Array.isArray(old)) {
+                    old = [];
+                }
                 break;
             case 'integer':
             case 'checkbox':
@@ -307,7 +313,7 @@ saltos.app.get_data = full => {
                 data[field.id] = val;
             }
         } else {
-            if (val !== old || full) {
+            if (val != old || full) {
                 data[field.id] = val;
             }
         }

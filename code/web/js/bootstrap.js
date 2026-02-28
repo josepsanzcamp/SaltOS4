@@ -2353,13 +2353,15 @@ saltos.bootstrap.__field.excel = field => {
     `);
     obj.prepend(saltos.bootstrap.__field.hidden(saltos.core.copy_object(field)));
     const input = obj.querySelector('input');
-    field.numcols = parseInt(field.numcols, 10);
-    field.numrows = parseInt(field.numrows, 10);
     if (field.numcols === '') {
         field.numcols = 26;
+    } else {
+        field.numcols = parseInt(field.numcols, 10);
     }
     if (field.numrows === '') {
         field.numrows = 20;
+    } else {
+        field.numrows = parseInt(field.numrows, 10);
     }
     if (field.data === '') {
         field.data = [...Array(field.numrows)].map(e => Array(field.numcols));
