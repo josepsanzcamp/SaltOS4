@@ -48,11 +48,11 @@ saltos.authenticate.authtoken = async (user, pass) => {
             pass: pass,
         },
         success: response => {
-            if (response.status == 'ok') {
+            if (response.status === 'ok') {
                 saltos.token.set(response);
                 return;
             }
-            if (response.status == 'ko') {
+            if (response.status === 'ko') {
                 saltos.token.unset();
                 return;
             }
@@ -70,11 +70,11 @@ saltos.authenticate.checktoken = async () => {
     await saltos.app.ajax({
         url: 'auth/check',
         success: response => {
-            if (response.status == 'ok') {
+            if (response.status === 'ok') {
                 saltos.token.set(response);
                 return;
             }
-            if (response.status == 'ko') {
+            if (response.status === 'ko') {
                 saltos.token.unset();
                 return;
             }
@@ -93,11 +93,11 @@ saltos.authenticate.deauthtoken = async () => {
     await saltos.app.ajax({
         url: 'auth/logout',
         success: response => {
-            if (response.status == 'ok') {
+            if (response.status === 'ok') {
                 saltos.token.unset();
                 return;
             }
-            if (response.status == 'ko') {
+            if (response.status === 'ko') {
                 saltos.token.unset();
                 return;
             }
@@ -125,7 +125,7 @@ saltos.authenticate.authupdate = (oldpass, newpass, renewpass) => {
             renewpass: renewpass,
         },
         success: response => {
-            if (response.status == 'ok') {
+            if (response.status === 'ok') {
                 saltos.app.modal('Response', 'Password updated successfully');
                 saltos.hash.trigger();
                 return;

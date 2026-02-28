@@ -57,7 +57,7 @@ saltos.hash.get = () => {
  */
 saltos.hash.set = hash => {
     hash = saltos.hash.__helper(hash);
-    if (saltos.hash.get() == hash) {
+    if (saltos.hash.get() === hash) {
         return false;
     }
     window.history.replaceState(null, null, '.#/' + hash);
@@ -81,7 +81,7 @@ saltos.hash.set = hash => {
  */
 saltos.hash.add = hash => {
     hash = saltos.hash.__helper(hash);
-    if (saltos.hash.get() == hash) {
+    if (saltos.hash.get() === hash) {
         return false;
     }
     window.history.pushState(null, null, '.#/' + hash);
@@ -96,10 +96,10 @@ saltos.hash.add = hash => {
  * @hash => the hash that you want to check and clean
  */
 saltos.hash.__helper = hash => {
-    if (hash.length && hash.substr(0, 1) == '#') {
+    if (hash.length && hash.substr(0, 1) === '#') {
         hash = hash.substr(1);
     }
-    if (hash.length && hash.substr(0, 1) == '/') {
+    if (hash.length && hash.substr(0, 1) === '/') {
         hash = hash.substr(1);
     }
     return hash;
@@ -131,7 +131,7 @@ saltos.hash.trigger = () => {
  * This function allow to SaltOS to update the contents when hash change
  */
 window.addEventListener('hashchange', event => {
-    if (event.oldURL != '') {
+    if (event.oldURL !== '') {
         const hash = saltos.hash.url2hash(event.oldURL);
         saltos.autosave.save('two,one', hash);
         saltos.autosave.purge('two,one', hash);

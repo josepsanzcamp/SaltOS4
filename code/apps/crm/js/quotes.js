@@ -63,7 +63,7 @@ saltos.quotes.init = arg => {
  * Returns the width in pixels
  */
 saltos.quotes.colWidths_lines = index => {
-    if (index == 0) {
+    if (index === 0) {
         const width = document.getElementById('lines').parentElement.offsetWidth - 2;
         return Math.floor(width - 500);
     }
@@ -85,13 +85,13 @@ saltos.quotes.colWidths_lines = index => {
  * Returns the configuration object
  */
 saltos.quotes.cells_lines = (row, column, prop) => {
-    if (column == 4) {
+    if (column === 4) {
         return {
             type: 'dropdown',
             source: document.getElementById('alltaxes').data.map(row => row.value),
         };
     }
-    if (column == 5) {
+    if (column === 5) {
         return {
             readOnly: true,
         };
@@ -110,7 +110,7 @@ saltos.quotes.cells_lines = (row, column, prop) => {
  * Returns the width in pixels
  */
 saltos.quotes.colWidths_taxes = index => {
-    if (index == 0) {
+    if (index === 0) {
         const width = document.getElementById('taxes').parentElement.offsetWidth - 2;
         return Math.floor(width - 200);
     }
@@ -191,7 +191,7 @@ saltos.quotes.cells_totals = (row, column, prop) => {
  * @source  => Source of the change event (only `'edit'` triggers processing)
  */
 saltos.quotes.afterChange_lines = (changes, source) => {
-    if (source == 'loadData') {
+    if (source === 'loadData') {
         return;
     }
 
@@ -240,7 +240,7 @@ saltos.quotes.afterChange_lines = (changes, source) => {
             continue;
         }
         if (!(tax in taxes)) {
-            const temp = alltaxes.find(row => row.value == tax);
+            const temp = alltaxes.find(row => row.value === tax);
             if (!temp) {
                 continue;
             }

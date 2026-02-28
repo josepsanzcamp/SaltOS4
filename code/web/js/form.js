@@ -69,7 +69,7 @@ saltos.form.data = (data, sync = true) => {
             continue;
         }
         // Check to prevent objects in value
-        if (typeof val != 'object') {
+        if (typeof val !== 'object') {
             obj.value = val;
         }
         // Special case for iframes
@@ -80,7 +80,7 @@ saltos.form.data = (data, sync = true) => {
             obj.srcdoc = val;
         }
         // Special case for widgets with set
-        if ('set' in obj && typeof obj.set == 'function') {
+        if ('set' in obj && typeof obj.set === 'function') {
             obj.set(val);
         }
         if (!sync) {
@@ -89,11 +89,11 @@ saltos.form.data = (data, sync = true) => {
         // This updates the field spec searching in all backups
         for (const i in saltos.backup.__forms) {
             saltos.backup.__forms[i].fields.forEach(item => {
-                if (item.id == key) {
-                    if ('value' in item && typeof val != 'object') {
+                if (item.id === key) {
+                    if ('value' in item && typeof val !== 'object') {
                         item.value = val;
                     }
-                    if ('data' in item && typeof val == 'object') {
+                    if ('data' in item && typeof val === 'object') {
                         if (Array.isArray(val)) {
                             item.data = val;
                         } else if ('data' in val) {
@@ -180,11 +180,11 @@ saltos.form.layout = (layout, extra) => {
                 obj.append(temp[i]);
             }
             arr.push(obj);
-        } else if (key == 'widget') {
+        } else if (key === 'widget') {
             const obj = saltos.form.__widget_helper(attr);
             arr.push(obj);
         } else {
-            if (typeof value == 'object') {
+            if (typeof value === 'object') {
                 for (const key2 in value) {
                     if (!(key2 in attr)) {
                         attr[key2] = value[key2];
@@ -194,7 +194,7 @@ saltos.form.layout = (layout, extra) => {
                 attr.value = value;
             }
             saltos.core.check_params(attr, ['id']);
-            if (attr.id == '') {
+            if (attr.id === '') {
                 attr.id = saltos.core.uniqid();
             }
             saltos.form.__form.fields.push(attr);
@@ -203,7 +203,7 @@ saltos.form.layout = (layout, extra) => {
         }
     }
     // Some extra features to allow that returns only the array
-    if (extra == 'arr') {
+    if (extra === 'arr') {
         return arr;
     }
     let div = saltos.core.html('<div></div>');
@@ -212,12 +212,12 @@ saltos.form.layout = (layout, extra) => {
     }
     div = saltos.core.optimize(div);
     // Some extra features to allow that returns only the div
-    if (extra == 'div') {
+    if (extra === 'div') {
         return div;
     }
     // Defaut feature that add the div to the body's document
     let obj = null;
-    if (append != '') {
+    if (append !== '') {
         // Do a backup of the fields using the append key
         saltos.backup.save(append);
         // Continue
@@ -354,7 +354,7 @@ saltos.form.__layout_auto_helper.col = layout => {
             }
         }
         // This trick allow to hide the hidden fields
-        if (saltos.core.fix_key(item[0]) == 'hidden') {
+        if (saltos.core.fix_key(item[0]) === 'hidden') {
             col_class = 'col d-none';
             col_style = '';
         }
@@ -401,14 +401,14 @@ saltos.form.__widget_helper = field => {
             for (let key in response) {
                 const val = response[key];
                 key = saltos.core.fix_key(key);
-                if (typeof saltos.form[key] != 'function') {
+                if (typeof saltos.form[key] !== 'function') {
                     throw new Error(`Response type ${key} not found`);
                 }
-                if (key == 'layout') {
+                if (key === 'layout') {
                     const obj = document.getElementById(field.id);
                     obj.replaceWith(saltos.form.layout(val, 'div'));
                 } else {
-                    if (saltos.form[key].constructor.name == 'AsyncFunction') {
+                    if (saltos.form[key].constructor.name === 'AsyncFunction') {
                         await saltos.form[key](val);
                     } else {
                         saltos.form[key](val);
@@ -446,12 +446,12 @@ saltos.form.style = async data => {
     for (let key in data) {
         const val = data[key];
         key = saltos.core.fix_key(key);
-        if (key == 'inline') {
+        if (key === 'inline') {
             const style = document.createElement('style');
             style.innerHTML = val;
             document.head.append(style);
         }
-        if (key == 'file') {
+        if (key === 'file') {
             if (val in saltos.form.__style) {
                 continue;
             }
@@ -496,12 +496,12 @@ saltos.form.javascript = async data => {
     for (let key in data) {
         const val = data[key];
         key = saltos.core.fix_key(key);
-        if (key == 'inline') {
+        if (key === 'inline') {
             const script = document.createElement('script');
             script.innerHTML = val;
             document.head.append(script);
         }
-        if (key == 'file') {
+        if (key === 'file') {
             if (val in saltos.form.__javascript) {
                 continue;
             }
@@ -542,14 +542,14 @@ saltos.form.title = title => {
         if ('append' in attr) {
             const append = attr.append.split(',');
             for (const i in append) {
-                if (append[i] == 'modal') {
+                if (append[i] === 'modal') {
                     // Try for modal
                     const obj = document.querySelector('.modal-title');
                     if (obj) {
                         obj.innerHTML = T(title.value);
                         return;
                     }
-                } else if (append[i] == 'offcanvas') {
+                } else if (append[i] === 'offcanvas') {
                     // Try for offcanvas
                     const obj = document.querySelector('.offcanvas-title');
                     if (obj) {
@@ -709,7 +709,7 @@ saltos.form.navbar = navbar => {
     if ('items' in navbar) {
         for (const key in navbar.items) {
             let val = navbar.items[key];
-            if (saltos.core.fix_key(key) == 'menu') {
+            if (saltos.core.fix_key(key) === 'menu') {
                 let _class = '';
                 const menu = [];
                 if (saltos.core.is_attr_value(val)) {
@@ -721,12 +721,12 @@ saltos.form.navbar = navbar => {
                 for (const key2 in val) {
                     const val2 = val[key2];
                     // Trick to allow to put attr in the value node intended to use the eval=true
-                    { // This curly brackets allow to create a block for the temp const
+                    { // This curly brackets allow to limit the scope of the temp const
                         const temp = ['label', 'id', 'icon', 'disabled',
                                       'active', 'onclick', 'dropdown_menu_end'];
                         for (const i in temp) {
                             const j = temp[i];
-                            if (typeof val2.value == 'object' &&
+                            if (typeof val2.value === 'object' &&
                                 j in val2.value && !(j in val2['#attr'])) {
                                 val2['#attr'][j] = val2.value[j];
                                 delete val2.value[j];
@@ -734,7 +734,7 @@ saltos.form.navbar = navbar => {
                         }
                     } // Here the temp const disapear!!!
                     // Continue
-                    if (typeof val2.value == 'string') {
+                    if (typeof val2.value === 'string') {
                         menu.push(val2['#attr']);
                     } else if ('menu' in val2.value) {
                         const menu2 = [];
@@ -744,7 +744,7 @@ saltos.form.navbar = navbar => {
                             const temp = ['label', 'id', 'icon', 'disabled', 'active', 'onclick', 'divider'];
                             for (const i in temp) {
                                 const j = temp[i];
-                                if (typeof val3.value == 'object' &&
+                                if (typeof val3.value === 'object' &&
                                     j in val3.value && !(j in val3['#attr'])) {
                                     val3['#attr'][j] = val3.value[j];
                                     delete val3.value[j];
@@ -763,7 +763,7 @@ saltos.form.navbar = navbar => {
                     class: _class,
                     menu: menu,
                 });
-            } else if (saltos.core.fix_key(key) == 'form') {
+            } else if (saltos.core.fix_key(key) === 'form') {
                 let _class = '';
                 if (saltos.core.is_attr_value(val)) {
                     if ('class' in val['#attr']) {

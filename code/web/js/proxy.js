@@ -185,7 +185,7 @@ const proxy = async request => {
                         size: `${size}/${size2}`,
                     };
                 } catch (error) {
-                    if (error.name == 'AbortError') {
+                    if (error.name === 'AbortError') {
                         status = 598;
                         statusText = 'Timeout exceded';
                         timeout = timeout_min;
@@ -391,7 +391,7 @@ const request_serialize = async request => {
         referrerPolicy: request.referrerPolicy,
         mode: request.mode,
     };
-    if (request.method == 'POST') {
+    if (request.method === 'POST') {
         result.body = await request.clone().text();
     }
     return result;
@@ -413,7 +413,7 @@ const request_unserialize = request => {
         referrerPolicy: request.referrerPolicy,
         mode: request.mode,
     };
-    if (request.method == 'POST') {
+    if (request.method === 'POST') {
         options.body = request.body;
     }
     return new Request(request.url, options);
@@ -531,7 +531,7 @@ self.addEventListener('message', async event => {
     //console.log('message ' + event.data);
 
     // Reset cache feature
-    if (event.data == 'resetcache') {
+    if (event.data === 'resetcache') {
         (await caches.keys()).forEach(key => {
             caches.delete(key);
         });
@@ -539,7 +539,7 @@ self.addEventListener('message', async event => {
     }
 
     // Reset queue feature
-    if (event.data == 'resetqueue') {
+    if (event.data === 'resetqueue') {
         queue_open().then(store => {
             store.clear();
         }).catch(error => {
@@ -549,18 +549,18 @@ self.addEventListener('message', async event => {
     }
 
     // Stop feature
-    if (event.data == 'stop') {
+    if (event.data === 'stop') {
         registration.unregister();
         event.source.postMessage('ok');
     }
 
     // Hello feature
-    if (event.data == 'hello') {
+    if (event.data === 'hello') {
         event.source.postMessage('hello');
     }
 
     // Sync feature
-    if (event.data == 'sync' && !sync_in_progress) {
+    if (event.data === 'sync' && !sync_in_progress) {
         sync_in_progress = true;
         let total = 0;
         let count = 0;
@@ -588,7 +588,7 @@ self.addEventListener('message', async event => {
                 const size2 = human_size(JSON.stringify([headers, body]).length);
                 const array = debug('sync', request.url, type, Date.now() - start, `${size}/${size2}`);
                 event.source.postMessage(array);
-                if (type == 'error') {
+                if (type === 'error') {
                     break;
                 }
                 queue_delete(result[i].key);

@@ -115,7 +115,7 @@ saltos.filter.save = (name, data) => {
     // Check for detect if the filter is saved or deleted
     if (data !== null) {
         if (name in saltos.filter.__cache) {
-            if (JSON.stringify(saltos.filter.__cache[name]) == JSON.stringify(data)) {
+            if (JSON.stringify(saltos.filter.__cache[name]) === JSON.stringify(data)) {
                 // In this case, the filter exists and contains the same data, nothing to do
                 return;
             }
@@ -221,7 +221,7 @@ saltos.filter.select = arg => {
     }
     select.replaceChildren(saltos.core.html(`<option value=""></option>`));
     for (const key in saltos.filter.__cache) {
-        if (key == 'last') {
+        if (key === 'last') {
             continue;
         }
         const val = saltos.filter.__cache[key];
@@ -233,7 +233,7 @@ saltos.filter.select = arg => {
     }
     const data = [];
     for (const key in saltos.filter.__cache) {
-        if (key == 'last') {
+        if (key === 'last') {
             continue;
         }
         const val = saltos.filter.__cache[key];

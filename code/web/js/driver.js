@@ -60,12 +60,12 @@ saltos.driver.init = async arg => {
         ['py-3', 'pt-3', 'pb-3'].forEach(item2 => {
             item.classList.remove(item2);
         });
-        if (new_class != '') {
+        if (new_class !== '') {
             item.classList.add(new_class);
         }
     });
     // To check the list preferences
-    if (arg == 'list') {
+    if (arg === 'list') {
         await saltos.filter.init();
         saltos.filter.select();
         saltos.filter.load('last');
@@ -118,7 +118,7 @@ saltos.driver.close = arg => {
     window.history.back();
     setTimeout(() => {
         const url2 = window.location.href;
-        if (url1 == url2) {
+        if (url1 === url2) {
             // Old feature
             const type = document.getElementById('screen').dataset.type;
             saltos.driver.__types[type].close(arg);
@@ -193,7 +193,7 @@ saltos.driver.search = arg => {
     const app = saltos.hash.get().split('/').at(1);
     // Restore the more button
     const obj = document.getElementById('more');
-    if (obj && 'set_disabled' in obj && typeof obj.set_disabled == 'function') {
+    if (obj && 'set_disabled' in obj && typeof obj.set_disabled === 'function') {
         obj.set_disabled(false);
     }
     // Continue
@@ -227,11 +227,11 @@ saltos.driver.reset = arg => {
             continue;
         }
         // Check to prevent objects in value
-        if (typeof field.value != 'object') {
+        if (typeof field.value !== 'object') {
             obj.value = field.value;
         }
         // Special case for widgets with set
-        if ('set' in obj && typeof obj.set == 'function') {
+        if ('set' in obj && typeof obj.set === 'function') {
             obj.set(field.value);
         }
     }
@@ -259,7 +259,7 @@ saltos.driver.more = arg => {
                 saltos.app.toast('Response', 'There is no more data', {color: 'warning'});
                 // Disable the more button
                 const obj = document.getElementById('more');
-                if (obj && 'set_disabled' in obj && typeof obj.set_disabled == 'function') {
+                if (obj && 'set_disabled' in obj && typeof obj.set_disabled === 'function') {
                     obj.set_disabled(true);
                 }
                 // Continue
@@ -294,7 +294,7 @@ saltos.driver.insert = arg => {
         data: data,
         proxy: 'network,queue',
         success: response => {
-            if (response.status == 'ok') {
+            if (response.status === 'ok') {
                 if ('text' in response) {
                     saltos.app.toast('Response', response.text);
                 }
@@ -303,7 +303,7 @@ saltos.driver.insert = arg => {
                 saltos.driver.close();
                 return;
             }
-            if (response.status == 'ko') {
+            if (response.status === 'ko') {
                 if ('text' in response) {
                     saltos.app.toast('Response', response.text, {color: 'danger'});
                 }
@@ -339,7 +339,7 @@ saltos.driver.update = arg => {
         data: data,
         proxy: 'network,queue',
         success: response => {
-            if (response.status == 'ok') {
+            if (response.status === 'ok') {
                 if ('text' in response) {
                     saltos.app.toast('Response', response.text);
                 }
@@ -348,7 +348,7 @@ saltos.driver.update = arg => {
                 saltos.driver.close();
                 return;
             }
-            if (response.status == 'ko') {
+            if (response.status === 'ko') {
                 if ('text' in response) {
                     saltos.app.toast('Response', response.text, {color: 'danger'});
                 }
@@ -387,7 +387,7 @@ saltos.driver.delete = async arg => {
             onclick: () => {
                 let app = saltos.hash.get().split('/').at(1);
                 let id = saltos.hash.get().split('/').at(-1);
-                if (typeof arg == 'string') {
+                if (typeof arg === 'string') {
                     app = arg.split('/').at(1);
                     id = arg.split('/').at(-1);
                 }
@@ -395,7 +395,7 @@ saltos.driver.delete = async arg => {
                     url: `app/${app}/delete/${id}`,
                     proxy: 'network',
                     success: response => {
-                        if (response.status == 'ok') {
+                        if (response.status === 'ok') {
                             if ('text' in response) {
                                 saltos.app.toast('Response', response.text);
                             }
@@ -407,7 +407,7 @@ saltos.driver.delete = async arg => {
                             }
                             return;
                         }
-                        if (response.status == 'ko') {
+                        if (response.status === 'ko') {
                             if ('text' in response) {
                                 saltos.app.toast('Response', response.text, {color: 'danger'});
                             }
@@ -540,7 +540,7 @@ saltos.driver.resizable = () => {
             }
         </style>
     `));
-    if (saltos.core.get_browser() == 'chrome') {
+    if (saltos.core.get_browser() === 'chrome') {
         // The follow fix tries to hide the scrollbar
         // but allowing to scroll at the same time
         document.getElementById('screen').append(saltos.core.html(`
@@ -593,7 +593,7 @@ saltos.driver.__resizable_2cols = () => {
         const data = saltos.storage.getItem(key);
         try {
             const parsed = JSON.parse(data);
-            if (Array.isArray(parsed) && parsed.length == 2) {
+            if (Array.isArray(parsed) && parsed.length === 2) {
                 return parsed;
             }
         } catch (error) {
@@ -712,7 +712,7 @@ saltos.driver.__resizable_3cols = () => {
         const data = saltos.storage.getItem(key);
         try {
             const parsed = JSON.parse(data);
-            if (Array.isArray(parsed) && parsed.length == 3) {
+            if (Array.isArray(parsed) && parsed.length === 3) {
                 return parsed;
             }
         } catch (error) {
@@ -848,7 +848,7 @@ saltos.driver.search_if_needed = arg => {
     setTimeout(() => {
         const action2 = saltos.hash.get().split('/').at(2);
         //~ console.log(action1 + ' => ' + action2);
-        if (action1 == action2) {
+        if (action1 === action2) {
             // Old feature
             saltos.driver.search();
             saltos.favicon.run();
@@ -856,7 +856,7 @@ saltos.driver.search_if_needed = arg => {
         }
         for (const key in arg) {
             const val = arg[key];
-            if (action1 == val[0] && action2 == val[1]) {
+            if (action1 === val[0] && action2 === val[1]) {
                 // Old feature
                 saltos.driver.search();
                 saltos.favicon.run();
@@ -920,7 +920,7 @@ saltos.driver.__types.type1.template = arg => {
  * @arg => the desired action to do
  */
 saltos.driver.__types.type1.init = arg => {
-    if (arg == 'list') {
+    if (arg === 'list') {
         // Program the update event
         const app = saltos.hash.get().split('/').at(1);
         saltos.window.set_listener(`saltos.${app}.update`, event => {
@@ -928,7 +928,7 @@ saltos.driver.__types.type1.init = arg => {
             saltos.favicon.run();
         });
     }
-    if (arg == 'view') {
+    if (arg === 'view') {
         // Program the update event
         const app = saltos.hash.get().split('/').at(1);
         saltos.window.set_listener(`saltos.${app}.update`, event => {
@@ -936,7 +936,7 @@ saltos.driver.__types.type1.init = arg => {
             saltos.favicon.run();
         });
     }
-    if (arg == 'view') {
+    if (arg === 'view') {
         // This disable the fields to use as readonly
         saltos.backup.restore('two,one');
         saltos.app.form_disabled(true);
@@ -1013,7 +1013,7 @@ saltos.driver.__types.type2.template = arg => {
  * @arg => the desired action to do
  */
 saltos.driver.__types.type2.init = arg => {
-    if (arg == 'list') {
+    if (arg === 'list') {
         const action = saltos.hash.get().split('/').at(2);
         if (!['create', 'view', 'edit'].includes(action)) {
             saltos.driver.placeholder({
@@ -1036,7 +1036,7 @@ saltos.driver.__types.type2.init = arg => {
             saltos.app.send_request(temp);
         }
     }
-    if (arg == 'view') {
+    if (arg === 'view') {
         // This disable the fields to use as readonly
         saltos.backup.restore('two,one');
         saltos.app.form_disabled(true);
@@ -1138,7 +1138,7 @@ saltos.driver.__types.type3.template = arg => {
  * @arg => the desired action to do
  */
 saltos.driver.__types.type3.init = arg => {
-    if (arg == 'list') {
+    if (arg === 'list') {
         const action = saltos.hash.get().split('/').at(2);
         if (!['create', 'view', 'edit'].includes(action)) {
             saltos.driver.placeholder({
@@ -1177,7 +1177,7 @@ saltos.driver.__types.type3.init = arg => {
             });
         }
     }
-    if (arg == 'view') {
+    if (arg === 'view') {
         // This disable the fields to use as readonly
         saltos.backup.restore('two,one');
         saltos.app.form_disabled(true);
@@ -1218,7 +1218,7 @@ saltos.driver.__types.type3.open = saltos.driver.__types.type2.open;
 saltos.driver.__types.type3.close = arg => {
     const arr = saltos.hash.get().split('/');
     const action = saltos.hash.get().split('/').at(2);
-    if (arr.length >= 5 && action == 'view') {
+    if (arr.length >= 5 && action === 'view') {
         saltos.driver.placeholder({
             id: 'three',
             color: 'secondary',
@@ -1272,7 +1272,7 @@ saltos.driver.__types.type1modal.template = arg => {
  * @arg => the desired action to do
  */
 saltos.driver.__types.type1modal.init = arg => {
-    if (arg == 'list') {
+    if (arg === 'list') {
         const action = saltos.hash.get().split('/').at(2);
         if (!['create', 'view', 'edit'].includes(action)) {
             saltos.bootstrap.modal('close');
@@ -1303,7 +1303,7 @@ saltos.driver.__types.type1modal.init = arg => {
             }
         }
     }
-    if (arg == 'view') {
+    if (arg === 'view') {
         // This disable the fields to use as readonly
         saltos.backup.restore('two,one');
         saltos.app.form_disabled(true);
@@ -1437,7 +1437,7 @@ saltos.driver.__types.type2modal.template = arg => {
  * @arg => the desired action to do
  */
 saltos.driver.__types.type2modal.init = arg => {
-    if (arg == 'list') {
+    if (arg === 'list') {
         const action = saltos.hash.get().split('/').at(2);
         if (!['create', 'view', 'edit'].includes(action)) {
             saltos.driver.placeholder({
@@ -1478,7 +1478,7 @@ saltos.driver.__types.type2modal.init = arg => {
             }
         }
     }
-    if (arg == 'view') {
+    if (arg === 'view') {
         // This disable the fields to use as readonly
         saltos.backup.restore('two,one');
         saltos.app.form_disabled(true);
@@ -1519,7 +1519,7 @@ saltos.driver.__types.type2modal.open = saltos.driver.__types.type2.open;
 saltos.driver.__types.type2modal.close = arg => {
     const arr = saltos.hash.get().split('/');
     const action = saltos.hash.get().split('/').at(2);
-    if (arr.length >= 5 && action == 'view') {
+    if (arr.length >= 5 && action === 'view') {
         saltos.bootstrap.modal('close');
         // Hash part
         let temp = saltos.hash.get().split('/');

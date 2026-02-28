@@ -246,7 +246,7 @@ saltos.common.delete = file => {
     const obj = document.getElementById(del_id);
     let value = obj.value.split(',');
     value.push(file.split('/').at(-1));
-    obj.value = value.filter(arg => arg != '').join(',');
+    obj.value = value.filter(arg => arg !== '').join(',');
 };
 
 /**

@@ -77,7 +77,7 @@ saltos.dashboard_widgets.init = arg => {
                 if (item.id.startsWith('id')) {
                     return;
                 }
-                if (item.id == '') {
+                if (item.id === '') {
                     return;
                 }
                 ids.push(item.id);

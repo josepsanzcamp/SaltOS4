@@ -79,18 +79,18 @@ saltos.emails.init = arg => {
     // Handle initialization for viewing emails
     if (['view'].includes(arg)) {
         // Remove unnecessary fields
-        if (document.getElementById('cc').value == '') {
+        if (document.getElementById('cc').value === '') {
             document.getElementById('cc').closest('.mb-3').remove();
         }
-        if (document.getElementById('bcc').value == '') {
+        if (document.getElementById('bcc').value === '') {
             document.getElementById('bcc').closest('.mb-3').remove();
         }
-        if (document.getElementById('state_error').value == '') {
+        if (document.getElementById('state_error').value === '') {
             document.getElementById('state_error').closest('.mb-3').remove();
         }
 
         // Remove unnecessary switches and buttons
-        if (document.getElementById('is_outbox').value == '1') {
+        if (document.getElementById('is_outbox').value === '1') {
             document.getElementById('state_new').closest('.mb-3').remove();
             document.getElementById('state_reply').closest('.mb-3').remove();
             document.getElementById('state_spam').closest('.mb-3').remove();
@@ -102,25 +102,25 @@ saltos.emails.init = arg => {
         } else {
             document.getElementById('state_sent').closest('.mb-3').remove();
             document.getElementById('forward').closest('.col-auto').remove();
-            if (document.getElementById('state_new').value == '1') {
+            if (document.getElementById('state_new').value === '1') {
                 document.getElementById('new1').closest('li').remove();
             } else {
                 document.getElementById('new0').closest('li').remove();
             }
-            if (document.getElementById('state_spam').value == '1') {
+            if (document.getElementById('state_spam').value === '1') {
                 document.getElementById('spam1').closest('li').remove();
             } else {
                 document.getElementById('spam0').closest('li').remove();
             }
         }
-        if (document.getElementById('state_wait').value == '1') {
+        if (document.getElementById('state_wait').value === '1') {
             document.getElementById('wait1').closest('li').remove();
         } else {
             document.getElementById('wait0').closest('li').remove();
         }
 
         // Remove unnecessary table if no files exist
-        if (document.getElementById('num_files').value == '0') {
+        if (document.getElementById('num_files').value === '0') {
             document.getElementById('files').closest('.mb-3').remove();
         }
 
@@ -148,7 +148,7 @@ saltos.emails.init = arg => {
                     if (!saltos.core.is_number(id2)) {
                         id2 = saltos.hash.get().split('/').at(4);
                     }
-                    if (id1 != id2) {
+                    if (id1 !== id2) {
                         return;
                     }
                     const iframe = document.getElementById('body');
@@ -289,14 +289,14 @@ saltos.emails.send = () => {
         data: data,
         proxy: 'network,queue',
         success: response => {
-            if (response.status == 'ok') {
+            if (response.status === 'ok') {
                 saltos.app.toast('Response', response.text);
                 saltos.window.send('saltos.emails.update');
                 saltos.autosave.clear('two,one');
                 saltos.driver.close();
                 return;
             }
-            if (response.status == 'ko') {
+            if (response.status === 'ko') {
                 saltos.app.toast('Response', response.text, {color: 'danger'});
                 return;
             }
@@ -416,7 +416,7 @@ saltos.driver.search = arg => {
     const app = saltos.hash.get().split('/').at(1);
     // Restore the more button
     const obj = document.getElementById('more');
-    if (obj && 'set_disabled' in obj && typeof obj.set_disabled == 'function') {
+    if (obj && 'set_disabled' in obj && typeof obj.set_disabled === 'function') {
         obj.set_disabled(false);
     }
     // Continue
@@ -425,7 +425,7 @@ saltos.driver.search = arg => {
         data: data,
         success: response => {
             for (const i in response.data) {
-                if (response.data[i].body_text != '') {
+                if (response.data[i].body_text !== '') {
                     response.data[i].body_text = T(response.data[i].body_text);
                 }
             }

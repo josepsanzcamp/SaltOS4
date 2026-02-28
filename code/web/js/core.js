@@ -186,13 +186,13 @@ saltos.core.uniqid = () => {
  */
 saltos.core.when_visible = (obj, fn, args) => {
     let id;
-    if (typeof obj == 'object') {
+    if (typeof obj === 'object') {
         // Check for the id existence
         if (!obj.getAttribute('id')) {
             obj.setAttribute('id', saltos.core.uniqid());
         }
         id = obj.getAttribute('id');
-    } else if (typeof obj == 'string') {
+    } else if (typeof obj === 'string') {
         id = obj;
     } else {
         throw new Error('Unknown when_visible obj typeof ' + typeof obj);
@@ -203,14 +203,14 @@ saltos.core.when_visible = (obj, fn, args) => {
     let step = 1;
     const interval = setInterval(() => {
         const obj2 = document.getElementById(id);
-        if (step == 1) {
+        if (step === 1) {
             // Maintain the state machine in the first state until found
             // the object in the document
             if (obj2) {
                 step++;
             }
         }
-        if (step == 2) {
+        if (step === 2) {
             // Here, the object is found in the document, we can continue
             if (!obj2) {
                 // Here, the object has disappeared, we can stop the timer
@@ -285,10 +285,10 @@ saltos.core.get_keyname = event => {
 saltos.core.html = (...args) => {
     let type = 'div';
     let html = '';
-    if (args.length == 1) {
+    if (args.length === 1) {
         html = args[0];
     }
-    if (args.length == 2) {
+    if (args.length === 2) {
         type = args[0];
         html = args[1];
     }
@@ -336,29 +336,29 @@ saltos.core.__ajax = [];
 saltos.core.ajax = args => {
     saltos.core.check_params(args, ['url', 'data', 'method', 'success', 'error',
         'abort', 'abortable', 'content_type', 'proxy', 'token', 'lang', 'headers']);
-    if (args.data == '') {
+    if (args.data === '') {
         args.data = null;
     }
-    if (args.method == '') {
+    if (args.method === '') {
         args.method = 'GET';
     }
     args.method = args.method.toUpperCase();
     if (!['GET', 'POST'].includes(args.method)) {
         throw new Error(`Unknown ${args.method} method`);
     }
-    if (args.headers == '') {
+    if (args.headers === '') {
         args.headers = {};
     }
-    if (args.content_type != '') {
+    if (args.content_type !== '') {
         args.headers['Content-Type'] = args.content_type;
     }
-    if (args.proxy != '') {
+    if (args.proxy !== '') {
         args.headers['X-Proxy-Order'] = args.proxy;
     }
-    if (args.token != '') {
+    if (args.token !== '') {
         args.headers[`Authorization`] = 'Bearer ' + args.token;
     }
-    if (args.lang != '') {
+    if (args.lang !== '') {
         args.headers['Accept-Language'] = args.lang;
     }
     const options = {
@@ -374,7 +374,7 @@ saltos.core.ajax = args => {
         saltos.core.__ajax.push(controller);
         options.signal = controller.signal;
     }
-    if (args.method == 'POST') {
+    if (args.method === 'POST') {
         options.body = args.data;
     }
     const start = Date.now();
@@ -390,7 +390,7 @@ saltos.core.ajax = args => {
             if (!('about' in saltos.core)) {
                 saltos.core.about = about;
             }
-            if (saltos.core.about != about) {
+            if (saltos.core.about !== about) {
                 window.location.reload();
             }
         }
@@ -423,13 +423,13 @@ saltos.core.ajax = args => {
             console.log(...array);
         }
         // Finish with success or return;
-        if (typeof args.success == 'function') {
+        if (typeof args.success === 'function') {
             args.success(data, response);
         }
     }).catch(error => {
-        if (error.name == 'AbortError' && typeof args.abort == 'function') {
+        if (error.name === 'AbortError' && typeof args.abort === 'function') {
             args.abort(error);
-        } else if (error.name == 'TypeError' && typeof args.error == 'function') {
+        } else if (error.name === 'TypeError' && typeof args.error === 'function') {
             args.error(error);
         } else {
             throw error;
@@ -458,14 +458,14 @@ saltos.core.ajax = args => {
  * @arg => can be an string or an array of strings and returns the same structure with the keys fixed
  */
 saltos.core.fix_key = arg => {
-    if (typeof arg == 'object') {
+    if (typeof arg === 'object') {
         for (const key in arg) {
             arg[key] = saltos.core.fix_key(arg[key]);
         }
         return arg;
     }
     let pos = arg.indexOf('#');
-    if (pos != -1) {
+    if (pos !== -1) {
         arg = arg.substr(0, pos);
     }
     return arg;
@@ -492,7 +492,7 @@ saltos.core.copy_object = arg => {
  * @obj => the object to check and optimize
  */
 saltos.core.optimize = obj => {
-    if (obj.children.length == 1) {
+    if (obj.children.length === 1) {
         return obj.firstElementChild;
     }
     return obj;
@@ -524,7 +524,7 @@ saltos.core.require = (files, callback) => {
         return promiseChain.then(async () => {
             // To prevent duplicates
             if (file in saltos.core.__require) {
-                while (saltos.core.__require[file] != 'load') {
+                while (saltos.core.__require[file] !== 'load') {
                     await new Promise(resolve => setTimeout(resolve, 1));
                 }
                 return;
@@ -543,24 +543,24 @@ saltos.core.require = (files, callback) => {
                 const data = await response.text();
                 // Hash check if exists
                 const pos = file.indexOf('?');
-                if (pos != -1) {
+                if (pos !== -1) {
                     const hash = file.substr(pos + 1);
-                    if (md5(data) != hash) {
+                    if (md5(data) !== hash) {
                         throw new Error(`Hash error loading ${file}`);
                     }
                 }
                 // Now, add the tag to load the resource (previously prefetched)
-                if (file.substr(-4) == '.css' || file.includes('.css?')) {
+                if (file.substr(-4) === '.css' || file.includes('.css?')) {
                     const style = document.createElement('style');
                     style.innerHTML = data;
                     document.head.append(style);
                 }
-                if (file.substr(-3) == '.js' || file.includes('.js?')) {
+                if (file.substr(-3) === '.js' || file.includes('.js?')) {
                     const script = document.createElement('script');
                     script.innerHTML = data;
                     document.head.append(script);
                 }
-                if (file.substr(-4) == '.mjs' || file.includes('.mjs?')) {
+                if (file.substr(-4) === '.mjs' || file.includes('.mjs?')) {
                     const script = document.createElement('script');
                     script.type = 'module';
                     script.innerHTML = data;
@@ -599,14 +599,14 @@ saltos.core.eval_bool = arg => {
     if (arg === null) {
         return false;
     }
-    if (typeof arg == 'boolean') {
+    if (typeof arg === 'boolean') {
         return arg;
     }
-    if (typeof arg == 'number') {
+    if (typeof arg === 'number') {
         return arg ? true : false;
     }
-    if (typeof arg == 'string') {
-        if (arg == '') {
+    if (typeof arg === 'string') {
+        if (arg === '') {
             return false;
         }
         const bools = {
@@ -640,13 +640,13 @@ saltos.core.toString = arg => {
     if (arg === null) {
         return 'null';
     }
-    if (typeof arg == 'boolean') {
+    if (typeof arg === 'boolean') {
         return arg ? 'true' : 'false';
     }
-    if (typeof arg == 'number') {
+    if (typeof arg === 'number') {
         return arg.toString();
     }
-    if (typeof arg == 'string') {
+    if (typeof arg === 'string') {
         return arg;
     }
     throw new Error('Unknown toString typeof ' + typeof arg);
@@ -660,7 +660,7 @@ saltos.core.toString = arg => {
  * @data => the data that wants to check
  */
 saltos.core.is_attr_value = data => {
-    return (typeof data == 'object') && (data !== null) && ('#attr' in data) && ('value' in data);
+    return (typeof data === 'object') && (data !== null) && ('#attr' in data) && ('value' in data);
 };
 
 /**
@@ -678,15 +678,14 @@ saltos.core.is_attr_value = data => {
  */
 saltos.core.join_attr_value = data => {
     if (saltos.core.is_attr_value(data)) {
-        if (typeof data.value == 'string' && data.value != '') {
-            data.value = {
-                value: data.value,
-            };
+        if (typeof data.value === 'string') {
+            if (data.value.trim() === '') {
+                data.value = {};
+            } else {
+                data.value = {value: data.value};
+            }
         }
-        data = {
-            ...data.value,
-            ...data['#attr'],
-        };
+        data = {...data.value, ...data['#attr']};
     }
     return data;
 };
@@ -778,7 +777,7 @@ saltos.core.prepare_words = (cad, pad = ' ') => {
  * This is the code that must to be executed to initialize all requirements of this module
  */
 document.addEventListener('DOMContentLoaded', event => {
-    if ('serviceWorker' in navigator && window.location.protocol == 'https:') {
+    if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
         navigator.serviceWorker.register('./proxy.js', {
             updateViaCache: 'none',
         }).then(async registration => {
@@ -808,7 +807,7 @@ document.addEventListener('DOMContentLoaded', event => {
             const black = 'color:white;background:dimgrey';
             const reset = 'color:inherit;background:inherit';
             let array;
-            if (typeof event.data == 'object') {
+            if (typeof event.data === 'object') {
                 array = ['%cPROXY%c ' + event.data[0], black, reset, ...event.data.slice(1)];
             } else {
                 array = ['%cPROXY%c %s', black, reset, event.data];
@@ -944,12 +943,12 @@ saltos.core.check_network = async () => {
  * @arg => the argument to validate
  */
 saltos.core.is_number = arg => {
-    if (typeof arg == 'number') {
+    if (typeof arg === 'number') {
         return isFinite(arg);
     }
-    if (typeof arg == 'string') {
+    if (typeof arg === 'string') {
         arg = arg.trim();
-        if (arg == '') {
+        if (arg === '') {
             return false;
         }
         return isFinite(Number(arg));
@@ -969,10 +968,10 @@ saltos.core.is_number = arg => {
  * Returns true if the string is a valid function, false otherwise.
  */
 saltos.core.is_function = arg => {
-    if (typeof arg == 'function') {
+    if (typeof arg === 'function') {
         return true;
     }
-    if (typeof arg == 'string') {
+    if (typeof arg === 'string') {
         try {
             let fn = eval(`(${arg})`);
             if (typeof fn === 'function') {

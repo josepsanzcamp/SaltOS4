@@ -174,7 +174,7 @@ saltos.autosave.save = (key, hash = saltos.hash.get()) => {
         for (const i in data) {
             for (const j in saltos.form.__form.fields) {
                 const field = saltos.form.__form.fields[j];
-                if (i == field.id) {
+                if (i === field.id) {
                     if ('autosave' in field && !saltos.core.eval_bool(field.autosave)) {
                         delete data[i];
                     }

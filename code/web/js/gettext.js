@@ -95,7 +95,7 @@ saltos.gettext.unset = () => {
  * the same feature that old SaltOS provides
  */
 saltos.gettext.T = text => {
-    if (typeof text != 'string') {
+    if (typeof text !== 'string') {
         throw new Error('Unknown gettext typeof ' + typeof text);
     }
     const app = saltos.gettext.cache.app;
@@ -146,7 +146,7 @@ saltos.gettext.bootstrap.field = field => {
     // Fix when some attributes need the fix_key feature
     for (const key in field) {
         const new_key = saltos.core.fix_key(key);
-        if (new_key != key && !(new_key in field)) {
+        if (new_key !== key && !(new_key in field)) {
             field[new_key] = field[key];
             delete field[key];
         }
@@ -159,12 +159,12 @@ saltos.gettext.bootstrap.field = field => {
         }
     }
     // Only for table widgets
-    if ('type' in field && field.type == 'table') {
+    if ('type' in field && field.type === 'table') {
         if ('header' in field) {
             for (const key in field.header) {
                 field.header[key] = saltos.core.join_attr_value(field.header[key]);
                 const val = field.header[key];
-                if (typeof val == 'object' && val !== null) {
+                if (typeof val === 'object' && val !== null) {
                     field.header[key].label = T(val.label);
                 } else {
                     field.header[key] = T(val);
@@ -202,17 +202,17 @@ saltos.gettext.bootstrap.field = field => {
             }
         }
         if ('footer' in field) {
-            if (typeof field.footer == 'object') {
+            if (typeof field.footer === 'object') {
                 for (const key in field.footer) {
                     const val = field.footer[key];
-                    if (typeof val == 'object' && val !== null) {
+                    if (typeof val === 'object' && val !== null) {
                         field.footer[key].value = T(val.value);
                     } else {
                         field.footer[key] = T(val);
                     }
                 }
             }
-            if (typeof field.footer == 'string') {
+            if (typeof field.footer === 'string') {
                 field.footer = T(field.footer);
             }
         }
@@ -239,7 +239,7 @@ saltos.gettext.bootstrap.field = field => {
         }
     }
     // Only for alert widgets
-    if ('type' in field && field.type == 'alert') {
+    if ('type' in field && field.type === 'alert') {
         const props = ['title', 'text', 'body'];
         for (const i in props) {
             if (props[i] in field) {
@@ -248,7 +248,7 @@ saltos.gettext.bootstrap.field = field => {
         }
     }
     // Only for dropdown widgets
-    if ('type' in field && field.type == 'dropdown') {
+    if ('type' in field && field.type === 'dropdown') {
         if ('menu' in field) {
             for (const key in field.menu) {
                 field.menu[key] = saltos.core.join_attr_value(field.menu[key]);
@@ -277,7 +277,7 @@ saltos.gettext.bootstrap.modal = args => {
     const props = ['title', 'close', 'body', 'footer'];
     for (const i in props) {
         if (props[i] in args) {
-            if (typeof args[props[i]] == 'string') {
+            if (typeof args[props[i]] === 'string') {
                 args[props[i]] = T(args[props[i]]);
             }
         }
@@ -297,7 +297,7 @@ saltos.gettext.bootstrap.toast = args => {
     const props = ['title', 'subtitle', 'close', 'body'];
     for (const i in props) {
         if (props[i] in args) {
-            if (typeof args[props[i]] == 'string') {
+            if (typeof args[props[i]] === 'string') {
                 args[props[i]] = T(args[props[i]]);
             }
         }
@@ -345,7 +345,7 @@ saltos.gettext.bootstrap.offcanvas = args => {
     const props = ['title', 'close', 'body'];
     for (const i in props) {
         if (props[i] in args) {
-            if (typeof args[props[i]] == 'string') {
+            if (typeof args[props[i]] === 'string') {
                 args[props[i]] = T(args[props[i]]);
             }
         }

@@ -109,7 +109,7 @@ saltos.app.toast = (title, message, extra = {}) => {
  * This function allow to show a modal dialog with de details of an error
  */
 saltos.app.show_error = error => {
-    if (typeof error != 'object') {
+    if (typeof error !== 'object') {
         document.body.append(saltos.core.html(`<pre class="m-3">${error}</pre>`));
         return;
     }
@@ -129,12 +129,12 @@ saltos.app.show_error = error => {
  * if an error is detected in the response.
  */
 saltos.app.check_response = response => {
-    if (typeof response != 'object') {
+    if (typeof response !== 'object') {
         saltos.app.show_error(response);
         return false;
     }
     let bool = true;
-    if ('error' in response && typeof response.error == 'object') {
+    if ('error' in response && typeof response.error === 'object') {
         saltos.app.show_error(response.error);
         bool = false;
     }
@@ -176,7 +176,7 @@ saltos.app.prefetch_cache = (responses) => {
         const response = responses[i];
         for (const key in response) {
             const key2 = saltos.core.fix_key(key);
-            if (key2 == 'cache') {
+            if (key2 === 'cache') {
                 const val = response[key];
                 if (!(val in saltos.app.__cache)) {
                     saltos.app.ajax({
@@ -204,10 +204,10 @@ saltos.app.process_response = async response => {
     for (let key in response) {
         const val = response[key];
         key = saltos.core.fix_key(key);
-        if (typeof saltos.form[key] != 'function') {
+        if (typeof saltos.form[key] !== 'function') {
             throw new Error(`Response type ${key} not found`);
         }
-        if (saltos.form[key].constructor.name == 'AsyncFunction') {
+        if (saltos.form[key].constructor.name === 'AsyncFunction') {
             await saltos.form[key](val);
         } else {
             saltos.form[key](val);
@@ -284,10 +284,10 @@ saltos.app.get_data = full => {
                         old = old.split(field.separator).sort().join(field.separator);
                     }
                 }
-                if (val == '0' && old == '') {
+                if (val === '0' && old === '') {
                     old = val;
                 }
-                if (val == '' && old == '0') {
+                if (val === '' && old === '0') {
                     val = old;
                 }
                 break;
@@ -302,12 +302,12 @@ saltos.app.get_data = full => {
                 old = field.data;
                 break;
         }
-        if (typeof val == 'object' && typeof old == 'object') {
-            if (JSON.stringify(val) != JSON.stringify(old) || full) {
+        if (typeof val === 'object' && typeof old === 'object') {
+            if (JSON.stringify(val) !== JSON.stringify(old) || full) {
                 data[field.id] = val;
             }
         } else {
-            if (val != old || full) {
+            if (val !== old || full) {
                 data[field.id] = val;
             }
         }
@@ -336,7 +336,7 @@ saltos.app.get_data = full => {
 saltos.app.__get_data_parser_helper = data => {
     for (const key in data) {
         const id = key.split('.');
-        if (id.length == 2) {
+        if (id.length === 2) {
             const id0 = id[0];
             const id1 = id[1];
             const val = data[key];
@@ -346,7 +346,7 @@ saltos.app.__get_data_parser_helper = data => {
             data[id0][id1] = val;
             delete data[key];
         }
-        if (id.length == 3) {
+        if (id.length === 3) {
             const id0 = id[0];
             const id1 = id[1];
             const id2 = id[2];
@@ -412,24 +412,24 @@ saltos.app.check_required = () => {
             obj_focus = item.nextElementSibling.querySelector('input');
         }
         // to detect the color and focus of the joditeditor fields
-        if (field.type == 'joditeditor') {
-            if (value == '<p><br></p>') {
+        if (field.type === 'joditeditor') {
+            if (value === '<p><br></p>') {
                 value = '';
             }
             obj_color = item.previousElementSibling;
             obj_focus = item.joditeditor;
         }
         // to detect the color and focus of the codemirror fields
-        if (field.type == 'codemirror') {
+        if (field.type === 'codemirror') {
             obj_color = item.nextElementSibling;
             obj_focus = item.codemirror;
         }
         // to detect the value of the file fields
-        if (field.type == 'file') {
+        if (field.type === 'file') {
             value = item.data.length;
         }
         // to detect the color and focus of the multiselects fields
-        if (field.type == 'multiselect') {
+        if (field.type === 'multiselect') {
             const abc = document.getElementById(field.id + '_abc');
             obj_color = abc;
             obj_focus = abc;
@@ -439,7 +439,7 @@ saltos.app.check_required = () => {
             value = parseInt(value, 10);
         }
         // to detect the color, focus and value of the excel fields
-        if (field.type == 'excel') {
+        if (field.type === 'excel') {
             value = item.data.join().replaceAll(',', '');
             obj_color = item.parentElement;
         }
@@ -448,11 +448,11 @@ saltos.app.check_required = () => {
         obj_color.classList.remove('is-invalid');
         obj_color.classList.remove('border');
         obj_color.classList.forEach(item2 => {
-            if (item2.substr(0, 7) == 'border-') {
+            if (item2.substr(0, 7) === 'border-') {
                 obj_color.classList.remove(item2);
             }
         });
-        if (value == '') {
+        if (value === '') {
             if (obj_color === obj_focus) {
                 obj_color.classList.add('is-invalid');
             } else {
@@ -471,32 +471,32 @@ saltos.app.check_required = () => {
             }
         }
         // to detect the color of the button in the password fields
-        if (field.type == 'password') {
+        if (field.type === 'password') {
             const button = item.nextElementSibling;
             button.classList.forEach(item2 => {
-                if (item2.substr(0, 4) == 'btn-') {
+                if (item2.substr(0, 4) === 'btn-') {
                     button.classList.remove(item2);
                 }
             });
-            if (value == '') {
+            if (value === '') {
                 button.classList.add('btn-danger');
             } else {
                 button.classList.add('btn-success');
             }
         }
         // to detect the color of the multiselects fields (the other select + buttons)
-        if (field.type == 'multiselect') {
+        if (field.type === 'multiselect') {
             const xyz = document.getElementById(field.id + '_xyz');
             obj_color = xyz;
             obj_color.classList.remove('is-valid');
             obj_color.classList.remove('is-invalid');
             obj_color.classList.remove('border');
             obj_color.classList.forEach(item2 => {
-                if (item2.substr(0, 7) == 'border-') {
+                if (item2.substr(0, 7) === 'border-') {
                     obj_color.classList.remove(item2);
                 }
             });
-            if (value == '') {
+            if (value === '') {
                 obj_color.classList.add('is-invalid');
             } else {
                 obj_color.classList.add('is-valid');
@@ -504,11 +504,11 @@ saltos.app.check_required = () => {
             const temp = document.getElementById(field.id).parentElement.parentElement;
             temp.querySelectorAll('button').forEach(item2 => {
                 item2.classList.forEach(item3 => {
-                    if (item3.substr(0, 4) == 'btn-') {
+                    if (item3.substr(0, 4) === 'btn-') {
                         item2.classList.remove(item3);
                     }
                 });
-                if (value == '') {
+                if (value === '') {
                     item2.classList.add('btn-danger');
                 } else {
                     item2.classList.add('btn-success');
@@ -581,7 +581,7 @@ saltos.app.ajax = args => {
                 saltos.form.screen('unloading');
             }
             const proxy = response.headers.get('x-proxy-type');
-            if (proxy == 'cache') {
+            if (proxy === 'cache') {
                 if (navigator.onLine) {
                     saltos.app.toast(T('Warning'),
                         T('Content served from cache because there is an issue with the server'),
@@ -595,7 +595,7 @@ saltos.app.ajax = args => {
             if (!saltos.app.check_response(data)) {
                 return;
             }
-            if (typeof args.success == 'function') {
+            if (typeof args.success === 'function') {
                 args.success(data);
             }
         },
@@ -613,7 +613,7 @@ saltos.app.ajax = args => {
                 text: text,
                 code: saltos.core.__get_code_from_file_and_line(error.fileName, error.lineNumber),
             });
-            if (typeof args.error == 'function') {
+            if (typeof args.error === 'function') {
                 args.error(error);
             }
         },
@@ -621,7 +621,7 @@ saltos.app.ajax = args => {
             if (args.loading) {
                 saltos.form.screen('unloading');
             }
-            if (typeof args.abort == 'function') {
+            if (typeof args.abort === 'function') {
                 args.abort(error);
             }
         },
