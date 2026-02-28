@@ -21,6 +21,12 @@
         <file eval="true">getcwd()."/data/files/saltos.sqlite"</file><!-- for SQLite -->
         <semaphoretimeout>10000000</semaphoretimeout><!-- in microseconds, for SQLite -->
     </db>
+    <brand>
+        <image>img/logo_saltos.png</image>
+        <alt>SaltOS</alt>
+        <width>182</width>
+        <height>56</height>
+    </brand>
     <auth>
         <tokenshortexpires eval="true">86400*1</tokenshortexpires><!-- in seconds, one day -->
         <tokenlongexpires eval="true">86400*30</tokenlongexpires><!-- in seconds, around one month -->

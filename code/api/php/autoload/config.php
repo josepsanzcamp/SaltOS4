@@ -187,12 +187,16 @@ function get_config_array($prefix, $user_id)
 function prepare_config_files($array)
 {
     foreach ($array as $key => $val) {
-        foreach ($val as $key2 => $val2) {
-            $key3 = fix_key($key2);
-            if ($key2 !== $key3) {
-                unset($array[$key][$key2]);
-                $array[$key][$key3] = $val2;
+        if (is_array($val)) {
+            foreach ($val as $key2 => $val2) {
+                $key3 = fix_key($key2);
+                if ($key2 !== $key3) {
+                    unset($array[$key][$key2]);
+                    $array[$key][$key3] = $val2;
+                }
             }
+        } else {
+            $array[$key] = $val;
         }
     }
     return $array;

@@ -22,7 +22,8 @@
         <screen>type1fluid</screen>
         <gettext eval="true">T()</gettext>
 
-        <navbar id="navbar" append="header" pos="sticky-top" brand.image="img/logo_saltos.png" brand.alt="SaltOS" brand.width="182" brand.height="56">
+        <navbar id="navbar" append="header" pos="sticky-top">
+            <brand eval="true">get_config('brand')</brand>
             <items>
                 <menu class="navbar-nav me-auto">
                     <item label="Dashboard" onclick="saltos.window.open('app/dashboard')"/>

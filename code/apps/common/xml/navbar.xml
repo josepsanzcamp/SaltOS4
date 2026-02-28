@@ -15,7 +15,8 @@
 -->
 
 <root>
-    <navbar id="navbar" append="header" brand.image="img/logo_saltos.png" brand.alt="SaltOS" brand.width="182" brand.height="56">
+    <navbar id="navbar" append="header">
+        <brand eval="true">get_config('brand')</brand>
         <items>
             <menu class="navbar-nav me-auto">
                 <item label="Dashboard" onclick="saltos.window.open('app/dashboard')"/>
