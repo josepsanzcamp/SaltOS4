@@ -20,6 +20,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>SaltOS v4.0</title>
         <link rel="icon" type="image/svg+xml" href="img/logo_red.svg">
+        <meta name="color-scheme" content="dark light">
+        <script>
+            (() => {
+                const is_dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.documentElement.dataset.bsTheme = is_dark ? 'dark' : '';
+            })();
+        </script>
         <link href="lib/bootstrap/bootstrap.min.css" rel="stylesheet" integrity="">
         <link href="lib/index.css" rel="stylesheet" integrity="">
     </head>
