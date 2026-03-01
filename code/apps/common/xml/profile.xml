@@ -28,7 +28,7 @@
                 <select id="css_theme" label="Theme style" onchange="saltos.bootstrap.set_css_theme(this.value)">
                     <rows eval="true">xmlfile2array('xml/css_theme.xml')['rows']</rows>
                 </select>
-                <select id="lang" label="Language" onchange="saltos.gettext.set(this.value)">
+                <select id="lang" label="Language" onchange="saltos.gettext.set(this.value);window.location.reload()">
                     <rows eval="true">xmlfile2array('xml/locale.xml')['rows']</rows>
                 </select>
             </row>
