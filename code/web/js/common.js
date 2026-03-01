@@ -121,7 +121,7 @@ saltos.common.about = () => {
                 type: 'table',
                 label: 'WEB libraries',
                 header: header,
-                data: response.libraries.web,
+                data: Object.values(response.libraries.web),
                 parentClass: 'mb-3'
             }));
             body.append(saltos.gettext.bootstrap.field({
@@ -133,7 +133,7 @@ saltos.common.about = () => {
                 type: 'table',
                 label: 'API libraries',
                 header: header,
-                data: response.libraries.api,
+                data: Object.values(response.libraries.api),
                 parentClass: 'mb-3'
             }));
             body.append(saltos.gettext.bootstrap.field({
@@ -145,7 +145,7 @@ saltos.common.about = () => {
                 type: 'table',
                 label: 'APPS libraries',
                 header: header,
-                data: response.libraries.apps,
+                data: Object.values(response.libraries.apps),
                 parentClass: 'mb-3'
             }));
             body.append(saltos.gettext.bootstrap.field({

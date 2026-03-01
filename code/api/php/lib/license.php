@@ -94,6 +94,8 @@ function get_libraries()
         $libraries[$key] = [];
         foreach ($files as $file) {
             $items = yaml_parse_file($file);
+            $keys = array_column($items, 'id');
+            $items = array_combine($keys, $items);
             foreach ($items as $key2 => $val2) {
                 $dir = dirname($file) . '/' . $val2['id'];
                 if (file_exists($dir . '/VERSION')) {
@@ -105,7 +107,7 @@ function get_libraries()
             $libraries[$key] = array_merge($libraries[$key], $items);
         }
         $stats[$key] = count($libraries[$key]);
-        usort($libraries[$key], function ($a, $b) {
+        uasort($libraries[$key], function ($a, $b) {
             return strcasecmp($a['name'], $b['name']);
         });
     }

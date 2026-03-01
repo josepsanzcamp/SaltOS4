@@ -24,12 +24,18 @@ declare(strict_types=1);
  */
 
 require_once 'php/lib/license.php';
-
-output_handler_json([
+$about = [
     'about' => get_name_version_revision(),
     'copyright' => get_copyright(),
     ...get_license(),
     'header' => get_header(),
     ...get_libraries(),
     'legal' => get_legal(),
-]);
+];
+
+$path = array_slice(get_data('rest'), 1);
+if (count($path)) {
+    $about = __array_getnode($path, $about);
+}
+
+output_handler_json($about);
