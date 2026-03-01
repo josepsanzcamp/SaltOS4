@@ -447,7 +447,7 @@ function sendmail_prepare($action, $email_id)
             $finded = null;
             if (isset($finded_replyto)) {
                 $finded = $finded_replyto;
-            } elseif (isset($finded_from)) {
+            } else {
                 $finded = $finded_from;
             }
             if ($finded['name'] !== '') {
