@@ -88,7 +88,7 @@ if (count($files)) {
     //~ if (!file_exists("/tmp/mssql.stop")) {
         //~ return;
     //~ }
-    //~ if (file_get_contents("/tmp/mssql.stop") != getmypid()) {
+    //~ if (file_get_contents("/tmp/mssql.stop") !== getmypid()) {
         //~ return;
     //~ }
     //~ echo "\033[0;31mSQL Server found and started by utest\033[0m\n";

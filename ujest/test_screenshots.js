@@ -215,7 +215,7 @@ describe('Screenshots', () => {
         await page.goto(`https://127.0.0.1/saltos/code4/#/app/${info.app}/${info.action}`);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
 
-        if (info.app == 'emails' && info.action == 'create') {
+        if (info.app === 'emails' && info.action === 'create') {
             await page.waitForFunction(id => document.getElementById(id).joditeditor, timeout, 'body');
             await mypause(page, 1);
         } else if (info.action.includes('viewpdf')) {

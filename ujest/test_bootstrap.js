@@ -111,27 +111,27 @@ describe('Bootstrap', () => {
         }, {mode, field});
 
         const id = field.id;
-        if (field.type == 'joditeditor') {
+        if (field.type === 'joditeditor') {
             await page.waitForFunction(id => document.getElementById(id).joditeditor, timeout, id);
             await mypause(page, 100);
-        } else if (field.type == 'codemirror') {
+        } else if (field.type === 'codemirror') {
             await page.waitForFunction(id => document.getElementById(id).codemirror, timeout, id);
             await mypause(page, 100);
         } else if (['tags', 'onetag'].includes(field.type)) {
             await page.waitForFunction(id => document.getElementById(id).tomselect, timeout, id);
-        } else if (field.type == 'jstree') {
+        } else if (field.type === 'jstree') {
             await page.waitForFunction(id => document.getElementById(id).instance, timeout, id);
-        } else if (field.type == 'excel') {
+        } else if (field.type === 'excel') {
             await mypause(page, 500);
             await page.waitForFunction(id => document.getElementById(id).excel, timeout, id);
-        } else if (field.type == 'chartjs') {
+        } else if (field.type === 'chartjs') {
             await mypause(page, 1000);
-        } else if (field.type == 'gallery') {
+        } else if (field.type === 'gallery') {
             await mypause(page, 500);
-        } else if (field.type == 'image') {
+        } else if (field.type === 'image') {
             await mypause(page, 100);
-        } else if (field.type == 'pdfjs') {
-            await page.waitForFunction(() => { return typeof pdfjsLib == 'object'; }, timeout);
+        } else if (field.type === 'pdfjs') {
+            await page.waitForFunction(() => { return typeof pdfjsLib === 'object'; }, timeout);
             await mypause(page, 500);
         } else {
             await mypause(page, 1);

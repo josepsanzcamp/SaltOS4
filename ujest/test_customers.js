@@ -119,10 +119,10 @@ describe('App Customers', () => {
      * This part of the test tries to validate the correctness of the more feature
      */
     test('Action More', async () => {
-        await page.waitForFunction(() => document.querySelectorAll('#list tbody tr').length == 25, timeout);
+        await page.waitForFunction(() => document.querySelectorAll('#list tbody tr').length === 25, timeout);
         await page.$$eval('#one button', buttons => buttons[buttons.length - 1].click());
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForFunction(() => document.querySelectorAll('#list tbody tr').length == 50, timeout);
+        await page.waitForFunction(() => document.querySelectorAll('#list tbody tr').length === 50, timeout);
 
         const screenshot = await sharp(await page.screenshot()).png({
             compressionLevel: 9,
@@ -143,7 +143,7 @@ describe('App Customers', () => {
     test('Action Reset', async () => {
         await page.$$eval('#one button', buttons => buttons[3].click());
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForFunction(() => document.querySelectorAll('#list tbody tr').length == 25, timeout);
+        await page.waitForFunction(() => document.querySelectorAll('#list tbody tr').length === 25, timeout);
 
         const screenshot = await sharp(await page.screenshot()).png({
             compressionLevel: 9,
