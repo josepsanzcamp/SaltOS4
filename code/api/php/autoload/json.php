@@ -29,10 +29,10 @@ declare(strict_types=1);
  */
 define('__COLORS_MAP__', [
     'reset' => "\e[0m",
-    'red' => "\e[31m",
+    'grey'  => "\e[90m",
     'green' => "\e[32m",
-    'blue' => "\e[34m",
-    'magenta' => "\e[35m",
+    'blue'  => "\e[1;34m",
+    'white' => "\e[97m",
 ]);
 
 /**
@@ -53,34 +53,38 @@ define('__COLORS_MAP__', [
 function json_colorize($json)
 {
     extract(__COLORS_MAP__);
+
+    $stringPattern = '"(?:\\\\.|[^"\\\\])*"';
+    $numberPattern = '[+-]?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?';
+
     $patterns = [
-        '/(".*?")(:\s)/' => "$green$1$reset$2", // keys in green
-        '/(:\s)(".*")/' => "$1$blue$2$reset", // strings in blue
-        '/(:\s)(true|false|null)/' => "$1$red$2$reset", // booleans and null in red
-        '/^(\s*?)(".*")/m' => "$1$blue$2$reset", // strings in blue
-        '/^(\s*?)(true|false|null)/m' => "$1$red$2$reset", // booleans and null in red
+        "/($stringPattern)(\\s*:)/"  => "$blue$1$reset$2", // keys
+        "/(:\\s*)($stringPattern)/"  => "$1$green$2$reset", // strings value
+        "/^(\\s*)($stringPattern)/m" => "$1$green$2$reset", // strings in array
+        "/(:\\s*)(null)\\b/"         => "$1$grey$2$reset",
+        "/^(\\s*)(null)\\b/m"        => "$1$grey$2$reset",
+        "/(:\\s*)(true|false)\\b/"   => "$1$white$2$reset",
+        "/^(\\s*)(true|false)\\b/m"  => "$1$white$2$reset",
     ];
+
     foreach ($patterns as $pattern => $replacement) {
-        $temp = preg_replace($pattern, $replacement, $json);
-        if ($temp) {
-            $json = $temp;
-        }
+        $json = preg_replace($pattern, $replacement, $json);
     }
+
     // Trick for numbers with scientific notation
     $patterns = [
-        '/(:\s)([+-]?\d+(\.\d+)?([eE][+-]?\d+)?)/' => "$1$magenta$2$reset", // numbers in magenta
-        '/^(\s*?)([+-]?\d+(\.\d+)?([eE][+-]?\d+)?)/m' => "$1$magenta$2$reset", // numbers in magenta
+        "/(:\\s*)($numberPattern)/"  => "$1$white$2$reset",
+        "/^(\\s*)($numberPattern)/m" => "$1$white$2$reset",
     ];
+
     foreach ($patterns as $pattern => $replacement) {
-        $temp = preg_replace_callback($pattern, function ($matches) use ($replacement) {
-            if (is_numeric($matches[2]) && stripos($matches[2], 'e') !== false) {
-                $matches[2] = rtrim(sprintf('%.16f', $matches[2]), '0');
+        $json = preg_replace_callback($pattern, function ($m) use ($replacement) {
+            if (stripos($m[2], 'e') !== false) {
+                $m[2] = rtrim(rtrim(sprintf('%.16f', (float)$m[2]), '0'), '.');
             }
-            return str_replace(['$1', '$2'], [$matches[1], $matches[2]], $replacement);
+            return str_replace(['$1', '$2'], [$m[1], $m[2]], $replacement);
         }, $json);
-        if ($temp) {
-            $json = $temp;
-        }
     }
+
     return $json;
 }

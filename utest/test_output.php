@@ -107,13 +107,13 @@ final class test_output extends TestCase
 
         extract(__COLORS_MAP__);
 
-        $this->assertStringContainsString("{$green}\"text\"{$reset}", $buffer);
-        $this->assertStringContainsString("{$blue}\"josep sanz\"{$reset}", $buffer);
-        $this->assertStringContainsString("{$magenta}123{$reset}", $buffer);
-        $this->assertStringContainsString("{$magenta}123.456{$reset}", $buffer);
-        $this->assertStringContainsString("{$red}true{$reset}", $buffer);
-        $this->assertStringContainsString("{$red}false{$reset}", $buffer);
-        $this->assertStringContainsString("{$red}null{$reset}", $buffer);
-        $this->assertStringContainsString("{$magenta}0.00003{$reset}", $buffer);
+        $this->assertStringContainsString("{$blue}\"text\"{$reset}", $buffer);
+        $this->assertStringContainsString("{$green}\"josep sanz\"{$reset}", $buffer);
+        $this->assertStringContainsString("{$white}123{$reset}", $buffer);
+        $this->assertStringContainsString("{$white}123.456{$reset}", $buffer);
+        $this->assertStringContainsString("{$white}true{$reset}", $buffer);
+        $this->assertStringContainsString("{$white}false{$reset}", $buffer);
+        $this->assertStringContainsString("{$grey}null{$reset}", $buffer);
+        $this->assertStringContainsString("{$white}0.00003{$reset}", $buffer);
     }
 }
