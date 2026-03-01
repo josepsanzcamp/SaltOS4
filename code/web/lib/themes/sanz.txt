@@ -11,6 +11,9 @@ for i in black blue cyan gray green indigo orange pink purple red teal yellow; d
     sass scss/$i.scss dist/bootstrap.$i.min.css --style=compressed --no-source-map
 done
 
+# to remove the BOM header
+sed -i '1s/^\xEF\xBB\xBF//' dist/*.min.css
+
 rm -rf node_modules
 rm -f package*.json
 

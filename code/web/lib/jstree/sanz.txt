@@ -2,7 +2,9 @@
 # https://github.com/vakata/jstree/tree/v.4.0
 
 git clone https://github.com/vakata/jstree.git
+cd jstree
 git checkout v.4.0
+cd ..
 rsync -va jstree/dist/jstree.min.* .
 rm -rf jstree
 

@@ -6,7 +6,10 @@
 #https://web.archive.org/web/20230530194208/https://handsontable.com/docs/6.2.2/
 #https://josepsanzcamp.github.io/handsontable-6.2.2-docs/
 
+rm -f handsontable.full.min.js
 wget https://cdnjs.cloudflare.com/ajax/libs/handsontable/6.2.2/handsontable.full.min.js
+
+rm -f handsontable.full.min.css
 wget https://cdnjs.cloudflare.com/ajax/libs/handsontable/6.2.2/handsontable.full.min.css
 
 #wget https://raw.githubusercontent.com/handsontable/handsontable/refs/tags/6.2.2/CHANGELOG.md

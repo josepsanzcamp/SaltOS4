@@ -5824,6 +5824,25 @@ saltos.bootstrap.get_bs_theme = () => {
 };
 
 /**
+ * TODO
+ */
+saltos.bootstrap.css_themes = {
+    default: 'lib/bootstrap/bootstrap.min.css',
+    black:   'lib/themes/dist/bootstrap.black.min.css',
+    blue:    'lib/themes/dist/bootstrap.blue.min.css',
+    cyan:    'lib/themes/dist/bootstrap.cyan.min.css',
+    gray:    'lib/themes/dist/bootstrap.gray.min.css',
+    green:   'lib/themes/dist/bootstrap.green.min.css',
+    indigo:  'lib/themes/dist/bootstrap.indigo.min.css',
+    orange:  'lib/themes/dist/bootstrap.orange.min.css',
+    pink:    'lib/themes/dist/bootstrap.pink.min.css',
+    purple:  'lib/themes/dist/bootstrap.purple.min.css',
+    red:     'lib/themes/dist/bootstrap.red.min.css',
+    teal:    'lib/themes/dist/bootstrap.teal.min.css',
+    yellow:  'lib/themes/dist/bootstrap.yellow.min.css',
+};
+
+/**
  * Check css theme
  *
  * This function checks the css theme
@@ -5831,11 +5850,10 @@ saltos.bootstrap.get_bs_theme = () => {
  * @theme => Can be default or one of the themes
  */
 saltos.bootstrap.check_css_theme = theme => {
-    const themes = ['default',
-        'black', 'blue', 'cyan', 'gray', 'green', 'indigo',
-        'orange', 'pink', 'purple', 'red', 'teal', 'yellow',
-    ];
-    return themes.includes(theme);
+    if (theme in saltos.bootstrap.css_themes) {
+        return saltos.bootstrap.css_themes[theme];
+    }
+    return '';
 };
 
 /**
@@ -5846,24 +5864,31 @@ saltos.bootstrap.check_css_theme = theme => {
  * @theme => Can be default or one of the themes
  */
 saltos.bootstrap.set_css_theme = theme => {
-    if (!saltos.bootstrap.check_css_theme(theme)) {
+    const file = saltos.bootstrap.check_css_theme(theme);
+    if (file === '') {
         throw new Error(`css_theme ${theme} not found`);
     }
-    let file;
-    if (theme === 'default') {
-        file = 'lib/bootstrap/bootstrap.min.css';
-    } else {
-        file = `lib/themes/dist/bootstrap.${theme}.min.css`;
-    }
+    document.querySelectorAll('link[rel=preload][as=style]').forEach(item => {
+        item.remove();
+    });
     document.querySelectorAll('link[rel=stylesheet]').forEach(item => {
         const found1 = item.href.includes('bootstrap/bootstrap.min.css');
         const found2 = item.href.includes('themes/dist/bootstrap.') && item.href.includes('.min.css');
         if (found1 || found2) {
-            item.removeAttribute('integrity');
-            item.href = item.href.replace(item.href, file);
+            const link = document.createElement('link');
+            //~ link.rel = 'stylesheet';
+            link.rel = 'preload';
+            link.as = 'style';
+            link.href = file;
+            link.onload = () => {
+                link.rel = 'stylesheet';
+                link.removeAttribute('as');
+                item.remove();
+                saltos.storage.setItem('saltos.bootstrap.css_theme', theme);
+            };
+            document.head.appendChild(link);
         }
     });
-    saltos.storage.setItem('saltos.bootstrap.css_theme', theme);
 };
 
 /**
