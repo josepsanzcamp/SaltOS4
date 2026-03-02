@@ -33,10 +33,10 @@
   license: SIL Open Font License 1.1
   license_id: OFL-1.1
 
-- id: html2markdown
-  name: HTML to Markdown
-  package: league/html-to-markdown
-  homepage: https://github.com/thephpleague/html-to-markdown
+- id: html2text
+  name: HTML to Text
+  package: soundasleep/html2text
+  homepage: https://github.com/soundasleep/html2text
   license: MIT License
   license_id: MIT
 

@@ -232,23 +232,12 @@ function normalize_value($value)
  */
 function html2text($html)
 {
-    // Convert to markdown
-    require_once 'lib/html2markdown/vendor/autoload.php';
-    $converter = new League\HTMLToMarkdown\HtmlConverter();
-    libxml_use_internal_errors(true);
-    $text = $converter->convert((string) $html);
-    libxml_clear_errors();
-
-    // remove the two spaces that appear between text and <br/>
-    $text = preg_replace("/[ \t]+\n/", "\n", $text);
-
-    // Decode html entities
-    $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5);
-
-    // Remove html entities
-    $text = strip_tags($text);
-
-    return trim($text);
+    require_once 'lib/html2text/vendor/autoload.php';
+    $text = Soundasleep\Html2Text::convert((string) $html, [
+        'ignore_errors' => true,
+        'drop_links' => false,
+    ]);
+    return $text;
 }
 
 /**

@@ -1,0 +1,6 @@
+
+rm -rf vendor
+rm -f composer.*
+composer require soundasleep/html2text
+
+composer show soundasleep/html2text --format=json | jq -r '.versions[0]' | sed 's/^v//' > VERSION
