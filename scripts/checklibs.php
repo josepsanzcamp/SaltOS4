@@ -73,6 +73,7 @@ foreach ($libs as $key => $lib) {
         $iserror = ($temp === '');
         $temp = str_replace('><svg', ">\n<svg", $temp); // FIX FOR SOURCEFORGE.NET
         $temp = str_replace('<title>Tags from', '', $temp); // FIX FOR GITHUB.COM
+        $temp = str_replace('>Linux', ">\nLinux", $temp); // FIX FOR LIBREOFFICE.ORG
         $temp = grep($temp, $lib[2]);
         $temp = head($temp, 1);
         $temp = trim($temp);
@@ -89,7 +90,7 @@ foreach ($libs as $key => $lib) {
             echo "{$lib[0]}: {$red}KO{$reset} ($temp)\n";
             $lib[3] = base64_encode($temp);
         } else {
-            echo "{$lib[0]}: {$green}OK{$reset}\n";
+            echo "{$lib[0]}: {$green}OK{$reset} ($temp)\n";
             $lib[3] = base64_encode($temp);
         }
     }
