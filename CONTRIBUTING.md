@@ -39,7 +39,7 @@ php api/index.php setup
 
 # 4. Start development server
 cd web
-ln -s index.htm index.php
+ln -s index.html index.php
 php -S localhost:8000
 ```
 
@@ -211,7 +211,7 @@ SaltOS4/
 │   │   ├── common/             # Shared functionality
 │   │   └── tester/             # Internal testing tools
 │   ├── web/                    # Frontend (PWA)
-│   │   ├── index.htm           # Entry point
+│   │   ├── index.html          # Entry point
 │   │   ├── js/                 # TypeScript/JavaScript core
 │   │   ├── lib/                # External JS libraries
 │   │   │   ├── bootstrap/
@@ -220,7 +220,7 @@ SaltOS4/
 │   │   │   ├── codemirror/
 │   │   │   ├── pdfjs/
 │   │   │   └── ...
-│   │   ├── htm/                # HTML templates
+│   │   ├── html/               # HTML templates
 │   │   └── img/                # Images/icons
 │   └── data/                   # Runtime data (gitignored)
 │       ├── files/              # User uploads

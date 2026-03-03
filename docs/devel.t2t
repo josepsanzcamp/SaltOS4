@@ -1,6 +1,6 @@
 Devel Documentation
-SaltOS 4.1 r2321
-February 2026
+SaltOS 4.1 r2348
+March 2026
 
 
 
@@ -696,7 +696,7 @@ These security measures collectively ensure that only valid users can perform ac
 
 Frontend is a JavaScript SPA in the `web/` folder.
 
-- `index.htm`: loads Bootstrap, SaltOS scripts
+- `index.html`: loads Bootstrap, SaltOS scripts
 - `web/js/`: client-side modules
 - `web/lib/`: JS libraries
 
@@ -879,13 +879,13 @@ The build process must be executed from the project root using the Makefile. In 
 - **Production Mode (`make web`)**:
   - Combines and minifies all JavaScript into `index.js`.
   - Combines the service worker proxy and MD5 loader into `proxy.js`.
-  - Generates a minified `index.htm` with `integrity` hashes and MD5-based cache busting.
+  - Generates a minified `index.html` with `integrity` hashes and MD5-based cache busting.
   - Loads minimal assets, optimized for performance and security.
 
 - **Development Mode (`make devel`)**:
   - Loads all source files individually from the `js/` folder.
   - Skips minification, hashing, and integrity checks.
-  - Generates an `index.htm` with expanded script references for direct debugging.
+  - Generates an `index.html` with expanded script references for direct debugging.
   - `proxy.js` becomes a lightweight loader with `importScripts(...)`.
 
 
@@ -893,22 +893,22 @@ The build process must be executed from the project root using the Makefile. In 
 
 - `make web`:
   - Uses scripts such as `fixpath.php`, `md5sum.php`, `uglifyjs`, `sha384.php`.
-  - Populates `index.htm` based on the `web/htm/index.htm` template, inserting hashes and integrity attributes.
+  - Populates `index.html` based on the `web/html/index.html` template, inserting hashes and integrity attributes.
 
 - `make devel`:
   - Uses `debug.php` to create a loader that references unminified files directly.
   - Generates a simplified `proxy.js` pointing to the original sources.
 
 
-Both modes are based on the same HTML loader template found in `web/htm/index.htm`, which is dynamically populated depending on the mode.
+Both modes are based on the same HTML loader template found in `web/html/index.html`, which is dynamically populated depending on the mode.
 
 +++Web Directory Overview+++
 
 - `api/`: symlink to the backend API (`code/api`)
 - `apps/`: symlink to application code (`code/apps`)
-- `htm/`: loader templates for generating `index.htm` and `ping.htm`
+- `html/`: loader templates for generating `index.html` and `ping.html`
 - `img/`: interface images and logos
-- `index.htm`: main entry point, minified in production, expanded in development
+- `index.html`: main entry point, minified in production, expanded in development
 - `index.js`: combined JavaScript (production only)
 - `index.js.map`: sourcemap for `index.js` (production only)
 - `proxy.js`: combined service worker or loader depending on mode
@@ -922,7 +922,7 @@ Both modes are based on the same HTML loader template found in `web/htm/index.ht
 || Feature | Production Mode (`make web`) | Development Mode (`make devel`) |
 | Main JS | Combined in `index.js` | Loaded as individual source files |
 | Proxy | Minified `proxy.js` | Lightweight `importScripts(...)` loader |
-| HTML Loader | Minified `index.htm` with `integrity` | Expanded `index.htm` with raw script tags |
+| HTML Loader | Minified `index.html` with `integrity` | Expanded `index.html` with raw script tags |
 | Integrity Check | Enabled (SRI hashes) | Disabled (empty `integrity` attributes) |
 | Cache Busting | Enabled (MD5 hashes) | Disabled |
 | Sourcemaps | Included for debugging | Uses original sources directly |

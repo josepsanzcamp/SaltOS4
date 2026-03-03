@@ -47,7 +47,7 @@ RUN cd /opt/saltos4 \
     && mkdir instance \
     && cd instance \
     && bash /opt/saltos4/scripts/make_instance.sh \
-    && mv web/index.htm web/index.php \
+    && mv web/index.html web/index.php \
     && echo '<root><db><type>pdo_sqlite</type></db></root>' > data/files/config.xml
 
 # SaltOS setup

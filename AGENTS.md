@@ -112,7 +112,7 @@ Important:
 
 Agents must NOT:
 
-- Modify index.htm manually for logic
+- Modify index.html manually for logic
 - Break service worker registration
 - Introduce server dependencies in frontend
 

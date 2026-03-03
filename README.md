@@ -246,7 +246,7 @@ user=admin php api/index.php setup/sales
 
 # 5. Start web server
 cd web
-ln -s index.htm index.php
+ln -s index.html index.php
 php -S 0.0.0.0:8080
 
 # 6. Open browser

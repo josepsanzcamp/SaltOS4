@@ -1,5 +1,5 @@
 Options -Indexes
-DirectoryIndex index.htm
+DirectoryIndex index.html
 
 <Files "*">
     Require all granted

@@ -904,7 +904,7 @@ saltos.core.check_network = async () => {
         const url = new URL(window.location.href);
         const uniqid = saltos.core.uniqid();
         url.protocol = protocol;
-        url.pathname += 'htm/ping.htm';
+        url.pathname += 'html/ping.html';
         url.search = uniqid;
         url.hash = '';
         const options = 'popup,width=100,height=100,left=9999,top=9999';

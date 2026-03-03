@@ -14,8 +14,10 @@ function ob_passthru($cmd)
 $files = glob('code/apps/*/locale/*/*.t2t');
 foreach ($files as $file) {
     $file = str_replace('.t2t', '', $file);
-    if (file_exists("$file.pdf") && filemtime("$file.t2t") <= filemtime("$file.pdf")) {
-        continue;
+    if (!file_exists("$file.pdf") || filemtime("$file.t2t") > filemtime("$file.pdf")) {
+        ob_passthru("php scripts/makepdf.php $file.t2t");
     }
-    ob_passthru("php scripts/makepdf.php $file.t2t");
+    //~ if (!file_exists("$file.html") || filemtime("$file.t2t") > filemtime("$file.html")) {
+        //~ ob_passthru("php scripts/makehtml.php $file.t2t");
+    //~ }
 }

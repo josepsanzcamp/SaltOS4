@@ -43,7 +43,7 @@ web: clean
 	uglifyjs code/web/js/.js/{$(FILES)}.js -c reduce_vars=false -m -o code/web/index.js --source-map filename=code/web/index.js.map,url=index.js.map
 	rm -f code/web/js/.js/*.js
 	rmdir code/web/js/.js
-	cat code/web/htm/index.htm | php scripts/sha384.php | minify --html > code/web/index.htm
+	cat code/web/html/index.html | php scripts/sha384.php | minify --html > code/web/index.html
 
 	@for i in code/apps/*/js/*.js; do \
 	j=$${i%.*};  # file with path without extension    \
@@ -55,7 +55,7 @@ web: clean
 	uglifyjs code/web/lib/md5/md5.min.js code/web/js/proxy.js -c reduce_vars=false -m -o code/web/proxy.js --source-map filename=code/web/proxy.js.map,url=proxy.js.map
 
 devel: clean
-	cat code/web/htm/index.htm | \
+	cat code/web/html/index.html | \
 	php scripts/debug.php lib/index.css lib/icons/bootstrap-icons.min.css lib/atkinson/atkinson.min.css | \
 	php scripts/debug.php \
 		lib/index.js lib/bootstrap/bootstrap.bundle.min.js \
@@ -63,12 +63,12 @@ devel: clean
 		lib/sourcemap/sourcemapped-stacktrace.min.js \
 		lib/interactjs/interact.min.js \
 		lib/topbar/topbar.min.js | \
-	php scripts/debug.php index.js js/{$(FILES)}.js > code/web/index.htm
+	php scripts/debug.php index.js js/{$(FILES)}.js > code/web/index.html
 
 	echo "importScripts('lib/md5/md5.min.js','js/proxy.js');" > code/web/proxy.js
 
 clean:
-	rm -f code/web/index.{htm,js,js.map}
+	rm -f code/web/index.{html,js,js.map}
 	rm -f code/web/lib/index.{js,css}
 	rm -f code/apps/*/js/*.min.{js,js.map}
 	rm -f code/web/proxy.{js,js.map}
@@ -256,7 +256,7 @@ endif
 ################################################################################
 
 cloc:
-	find scripts utest ujest code/api/{index.php,php,xml,locale} code/web/{js,htm} code/apps/*/{js,php,xml,locale,sample} > /tmp/cloc.include
+	find scripts utest ujest code/api/{index.php,php,xml,locale} code/web/{js,html} code/apps/*/{js,php,xml,locale,sample} > /tmp/cloc.include
 	find code/apps/*/js/*.min.* utest/files/* > /tmp/cloc.exclude
 	cloc --list-file=/tmp/cloc.include --exclude-list-file=/tmp/cloc.exclude
 
