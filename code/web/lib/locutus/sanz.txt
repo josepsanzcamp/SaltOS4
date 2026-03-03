@@ -1,11 +1,14 @@
 
 npm install locutus
+
+cat node_modules/locutus/package.json | jq -r .version > VERSION
+
 browserify main.js -o locutus.js
 minify locutus.js > locutus.min.js
 rm -f locutus.js
+
 rm -rf node_modules
-rm -f package-lock.json
-rm -f package.json
+rm -f package*.json
 
 #wget https://raw.githubusercontent.com/locutusjs/locutus/refs/heads/main/CHANGELOG.md
 #wget https://raw.githubusercontent.com/locutusjs/locutus/refs/heads/main/CONTRIBUTING.md
