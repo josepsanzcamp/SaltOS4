@@ -1,6 +1,6 @@
 Web Client Documentation
-SaltOS 4.1 r2321
-February 2026
+SaltOS 4.1 r2349
+March 2026
 
 
 
@@ -2367,6 +2367,13 @@ saltos.bootstrap.get_bs_theme = ()
 ```
 
 Retrieve the bs_theme stored in the localStorage
+
+
++++TODO+++
+
+```
+saltos.bootstrap.css_themes = {
+```
 
 
 +++Check css theme+++

@@ -1,6 +1,6 @@
 Applications Documentation
-SaltOS 4.1 r2321
-February 2026
+SaltOS 4.1 r2349
+March 2026
 
 
 
@@ -1029,6 +1029,21 @@ saltos.emails.forward = ()
 ```
 
 This function opens the forward form for the currently selected email.
+
+
++++Driver search+++
+
+```
+saltos.driver.search = arg
+```
+
+This function implement the search feature associated to tables and lists
+using the filters fields
+
+Additionally, translates the `body_text` field of each result
+before rendering the list.
+
+- @arg => unused at this scope
 
 
 ++Email Query Builder++

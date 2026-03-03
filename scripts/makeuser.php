@@ -92,5 +92,5 @@ foreach ($array as $lang => $groups) {
         }
     }
     ob_passthru("php scripts/makepdf.php $output");
-    ob_passthru("php scripts/makehtml.php $output");
+    //~ ob_passthru("php scripts/makehtml.php $output");
 }

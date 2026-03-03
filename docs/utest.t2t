@@ -1,6 +1,6 @@
 Phpunit Test Documentation
-SaltOS 4.1 r2321
-February 2026
+SaltOS 4.1 r2349
+March 2026
 
 
 
@@ -1941,10 +1941,10 @@ This test performs some tests to validate the correctness
 of the html functions
 
 
-++Test html2markdown library++
+++Test html2text library++
 
 ```
-test_html2markdown.php
+test_html2text.php
 ```
 
 
@@ -1958,7 +1958,7 @@ use PHPUnit\Framework\TestCase;
 +++Main class of this unit test+++
 
 ```
-final class test_html2markdown extends TestCase
+final class test_html2text extends TestCase
 ```
 
 
@@ -1969,7 +1969,7 @@ public function test_html2text(): void
 ```
 
 This function checks the correctness of the html2text method provided by the
-html2markdown library.
+soundasleep/html2text library.
 
 
 ++Test IDs++

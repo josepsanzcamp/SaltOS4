@@ -33,8 +33,8 @@ $buffer = file_get_contents("${file}.html");
 $buffer = explode("\n", $buffer);
 
 // /Add some pre style
-$line = 28;
-if ($buffer[$line] !== '</style>') {
+$line = array_search('</style>', $buffer);
+if ($line === false) {
     echo "Internal error!!!\n";
     die();
 }
@@ -46,25 +46,25 @@ $buffer2 = array_slice($buffer, $line);
 $buffer = array_merge($buffer0, $buffer1, $buffer2);
 
 // Embed images
-//~ foreach ($buffer as $key => $val) {
-    //~ if (substr($val, 0, 5) !== '<img ') {
-        //~ continue;
-    //~ }
-    //~ $val = explode(' ', $val);
-    //~ foreach ($val as $key2 => $val2) {
-        //~ $val2 = explode('=', $val2);
-        //~ if ($val2[0] !== 'src') {
-            //~ continue;
-        //~ }
-        //~ if (substr($val2[1], 0, 1) === '"' && substr($val2[1], -1, 1) === '"') {
-            //~ $image = substr($val2[1], 1, -1);
-            //~ $type = 'image/png';
-            //~ $data = base64_encode(file_get_contents($image));
-            //~ $inline = "data:$type;base64,$data";
-            //~ $buffer[$key] = str_replace($image, $inline, $buffer[$key]);
-        //~ }
-    //~ }
-//~ }
+foreach ($buffer as $key => $val) {
+    if (substr($val, 0, 5) !== '<img ') {
+        continue;
+    }
+    $val = explode(' ', $val);
+    foreach ($val as $key2 => $val2) {
+        $val2 = explode('=', $val2);
+        if ($val2[0] !== 'src') {
+            continue;
+        }
+        if (substr($val2[1], 0, 1) === '"' && substr($val2[1], -1, 1) === '"') {
+            $image = substr($val2[1], 1, -1);
+            $type = 'image/png';
+            $data = base64_encode(file_get_contents($image));
+            $inline = "data:$type;base64,$data";
+            $buffer[$key] = str_replace($image, $inline, $buffer[$key]);
+        }
+    }
+}
 
 // Finish
 $buffer = implode("\n", $buffer);

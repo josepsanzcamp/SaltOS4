@@ -68,7 +68,9 @@ $buffer1 = [
     '\\usepackage{ucs}',
     '\\usepackage{eurosym}',
     '\\usepackage{sans}',
-    '\\usepackage{fullpage}',
+    //~ '\\usepackage{fullpage}',
+    //~ '\\usepackage[a4paper,margin=1cm]{geometry}',
+    '\\usepackage[a4paper,margin=1cm,includefoot,footskip=1cm]{geometry}',
     '\\usepackage{listings}',
     '\\usepackage{xcolor}',
     '\\usepackage{sectsty}',
@@ -118,5 +120,7 @@ for ($i = 0; $i < 3; $i++) {
 }
 $exts = ['aux', 'log', 'out', 'toc', 'tex'];
 foreach ($exts as $ext) {
-    unlink("${file}.${ext}");
+    if (file_exists("${file}.${ext}")) {
+        unlink("${file}.${ext}");
+    }
 }
