@@ -709,6 +709,7 @@ saltos.bootstrap.__field.joditeditor = field => {
             language: saltos.gettext.get_short(),
             minHeight: field.height,
             disabled: false,
+            addNewLine: false,
         });
         element.joditeditor = editor;
     });
