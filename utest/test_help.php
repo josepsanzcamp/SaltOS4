@@ -40,7 +40,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once 'php/lib/help.php';
+require_once 'apps/common/php/help.php';
 
 /**
  * Main class of this unit test
@@ -60,13 +60,13 @@ final class test_help extends TestCase
         $this->assertStringContainsString('notfound.pdf', $file);
 
         $file = detect_help_file('nada', 'en_US');
-        $this->assertStringContainsString('api/locale/en_US/notfound.pdf', $file);
+        $this->assertStringContainsString('apps/common/locale/en_US/notfound.pdf', $file);
 
         $file = detect_help_file('nada', 'es_ES');
-        $this->assertStringContainsString('api/locale/es_ES/notfound.pdf', $file);
+        $this->assertStringContainsString('apps/common/locale/es_ES/notfound.pdf', $file);
 
         $file = detect_help_file('nada', 'ca_ES');
-        $this->assertStringContainsString('api/locale/ca_ES/notfound.pdf', $file);
+        $this->assertStringContainsString('apps/common/locale/ca_ES/notfound.pdf', $file);
 
         $file = detect_help_file('emails', 'nada');
         $this->assertStringContainsString('emails.pdf', $file);
