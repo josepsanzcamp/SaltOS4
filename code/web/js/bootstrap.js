@@ -2570,6 +2570,7 @@ saltos.bootstrap.__field.pdfjs = field => {
     } else {
         src = new URL(src, window.location.href).href;
     }
+    obj.src = src;
     const element = obj;
     // Add the placeholder
     const placeholder = saltos.bootstrap.__field.placeholder({

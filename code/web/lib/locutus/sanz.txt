@@ -14,3 +14,6 @@ rm -f package*.json
 #wget https://raw.githubusercontent.com/locutusjs/locutus/refs/heads/main/CONTRIBUTING.md
 #wget https://raw.githubusercontent.com/locutusjs/locutus/refs/heads/main/LICENSE
 #wget https://raw.githubusercontent.com/locutusjs/locutus/refs/heads/main/README.md
+
+rm -f locutus.min.js
+touch locutus.min.js
