@@ -42,16 +42,12 @@ function detect_help_file($app, $lang)
         $files = glob("apps/$dir/locale/*/$app.pdf");
     }
     if (!count($files)) {
-        $files = glob("locale/$lang/notfound.pdf");
-        if (isset($files[0])) {
-            $files[0] = 'api/' . $files[0];
-        }
+        $dir = 'common';
+        $app = 'notfound';
+        $files = glob("apps/$dir/locale/$lang/$app.pdf");
     }
     if (!count($files)) {
-        $files = glob('locale/*/notfound.pdf');
-        if (isset($files[0])) {
-            $files[0] = 'api/' . $files[0];
-        }
+        $files = glob("apps/$dir/locale/*/$app.pdf");
     }
     if (!count($files)) {
         show_php_error(['phperror' => 'Help not found']);
