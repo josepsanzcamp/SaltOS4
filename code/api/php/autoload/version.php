@@ -29,7 +29,7 @@ declare(strict_types=1);
  */
 function get_name_version_revision()
 {
-    return __name_version_revision('SaltOS', '4.1', svnversion());
+    return __name_version_revision('SaltOS', '4.1', gitversion());
 }
 
 /**
