@@ -79,7 +79,7 @@ clean:
 
 test:
 ifeq ($(file),) # default behaviour
-	$(eval files := $(shell svn st code/api/index.php code/api/php scripts utest code/apps/*/php code/apps/*/sample | grep -e ^A -e ^M -e ^? | grep '\.'php$$ | gawk '{print $$2}' | sort))
+	$(eval files := $(shell git ls-files -m -o --exclude-standard code/api/index.php code/api/php scripts utest code/apps/*/php code/apps/*/sample -- '*.php' | sort))
 else ifeq ($(file),all) # file=all
 	$(eval files := $(shell find code/api/index.php code/api/php scripts utest code/apps/*/php code/apps/*/sample -name *.php | sort))
 else # file=path
@@ -91,7 +91,7 @@ endif
 	phpstan -cscripts/phpstan.neon analyse ${files}; )
 
 ifeq ($(file),) # default behaviour
-	$(eval files := $(shell svn st code/web/js scripts ujest code/apps/*/js | grep -e ^A -e ^M -e ^? | grep '\.'js$$ | grep -v '\.'min'\.'js$$ | gawk '{print $$2}' | sort))
+	$(eval files := $(shell git ls-files -m -o --exclude-standard code/web/js scripts ujest code/apps/*/js -- '*.js' | grep -v '\.min\.js$$' | sort))
 else ifeq ($(file),all) # file=all
 	$(eval files := $(shell find code/web/js scripts ujest code/apps/*/js -name *.js | grep -v '\.'min'\.'js$$ | sort))
 else # file=path
@@ -221,7 +221,7 @@ checkprod:
 
 utest:
 ifeq ($(file), ) # default behaviour
-	@phpunit -c scripts/phpunit.xml $(shell svn st utest/test_*.php | grep -e ^A -e ^M -e ^? | grep '\.'php$$ | gawk '{print "../../"$$2}' | sort | paste -s -d' ')
+	@phpunit -c scripts/phpunit.xml $(shell git ls-files -m -o --exclude-standard -- 'utest/test_*.php' | gawk '{print "../../"$$0}' | sort | paste -s -d' ')
 else ifeq ($(file), all) # file=all
 	@phpunit -c scripts/phpunit.xml
 else # file=xxx,yyy,zzz
@@ -234,7 +234,7 @@ ujest:
 	rm -f ujest/snaps/__diff_output__/*
 	rmdir ujest/snaps/__diff_output__ || true
 ifeq ($(file), ) # default behaviour
-	-@jest $(JEST_OPTIONS) --config=scripts/jest.config.js $(shell svn st ujest/test_*.js | grep -e ^A -e ^M -e ^? | grep '\.'js$$ | gawk '{print "../"$$2}' | sort | paste -s -d' ')
+	-@jest $(JEST_OPTIONS) --config=scripts/jest.config.js $(shell git ls-files -m -o --exclude-standard -- 'ujest/test_*.js' | gawk '{print "../"$$0}' | sort | paste -s -d' ')
 else ifeq ($(file), all) # file=all
 	-@jest $(JEST_OPTIONS) --config=scripts/jest.config.js
 else # file=xxx,yyy,zzz

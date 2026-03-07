@@ -65,6 +65,9 @@ function svnversion($dir = null)
     $version = __svnversion_helper($dir);
     if (!$version) {
         $file = get_server('SCRIPT_FILENAME');
+        if (!file_exists($file)) {
+            $file = basename($file);
+        }
         if (is_link($file)) {
             $dir = dirname(readlink($file));
             $version = __svnversion_helper($dir);
@@ -110,6 +113,9 @@ function gitversion($dir = null)
     $version = __gitversion_helper($dir);
     if (!$version) {
         $file = get_server('SCRIPT_FILENAME');
+        if (!file_exists($file)) {
+            $file = basename($file);
+        }
         if (is_link($file)) {
             $dir = dirname(readlink($file));
             $version = __gitversion_helper($dir);
