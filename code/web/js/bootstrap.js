@@ -4031,7 +4031,7 @@ saltos.bootstrap.__field.list = field => {
             if (saltos.core.eval_bool(field.truncate)) {
                 temp.querySelector('h5').classList.add('text-truncate');
             }
-            let color = 'bg-secondary-subtle text-secondary-emphasis';
+            let color = 'bg-secondary-subtle text-secondary-emphasis fw-normal';
             if (val.header_color !== '') {
                 color = `text-bg-${val.header_color}`;
             }
@@ -4073,7 +4073,7 @@ saltos.bootstrap.__field.list = field => {
             if (saltos.core.eval_bool(field.truncate)) {
                 temp.querySelector('p').classList.add('text-truncate');
             }
-            let color = 'bg-secondary-subtle text-secondary-emphasis';
+            let color = 'bg-secondary-subtle text-secondary-emphasis fw-normal';
             if (val.body_color !== '') {
                 color = `text-bg-${val.body_color}`;
             }
@@ -4115,7 +4115,7 @@ saltos.bootstrap.__field.list = field => {
             if (saltos.core.eval_bool(field.truncate)) {
                 temp.querySelector('small').classList.add('text-truncate');
             }
-            let color = 'bg-secondary-subtle text-secondary-emphasis';
+            let color = 'bg-secondary-subtle text-secondary-emphasis fw-normal';
             if (val.footer_color !== '') {
                 color = `text-bg-${val.footer_color}`;
             }

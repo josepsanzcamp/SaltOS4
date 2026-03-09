@@ -280,7 +280,7 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1 fw-normal ${a.class}"></h5>
                 </div>
-            `);i.querySelector("h5").append(a.header),saltos.core.eval_bool(l.truncate)&&i.querySelector("h5").classList.add("text-truncate");let e="bg-secondary-subtle text-secondary-emphasis";""!==a.header_color&&(e="text-bg-"+a.header_color),""!==a.header_text&&""!==a.header_icon?i.append(saltos.core.html(`
+            `);i.querySelector("h5").append(a.header),saltos.core.eval_bool(l.truncate)&&i.querySelector("h5").classList.add("text-truncate");let e="bg-secondary-subtle text-secondary-emphasis fw-normal";""!==a.header_color&&(e="text-bg-"+a.header_color),""!==a.header_text&&""!==a.header_icon?i.append(saltos.core.html(`
                     <div class="text-nowrap ms-1">
                         <span class="badge rounded-pill ${e}">
                             ${a.header_text}
@@ -303,7 +303,7 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
                 <div class="d-flex w-100 justify-content-between">
                     <p class="mb-1"></p>
                 </div>
-            `);c.querySelector("p").append(a.body),saltos.core.eval_bool(l.truncate)&&c.querySelector("p").classList.add("text-truncate");let e="bg-secondary-subtle text-secondary-emphasis";""!==a.body_color&&(e="text-bg-"+a.body_color),""!==a.body_text&&""!==a.body_icon?c.append(saltos.core.html(`
+            `);c.querySelector("p").append(a.body),saltos.core.eval_bool(l.truncate)&&c.querySelector("p").classList.add("text-truncate");let e="bg-secondary-subtle text-secondary-emphasis fw-normal";""!==a.body_color&&(e="text-bg-"+a.body_color),""!==a.body_text&&""!==a.body_icon?c.append(saltos.core.html(`
                     <div class="text-nowrap ms-1">
                         <span class="badge rounded-pill ${e}">
                             ${a.body_text}
@@ -326,7 +326,7 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
                 <div class="d-flex w-100 justify-content-between">
                     <small></small>
                 </div>
-            `);d.querySelector("small").append(a.footer),saltos.core.eval_bool(l.truncate)&&d.querySelector("small").classList.add("text-truncate");let e="bg-secondary-subtle text-secondary-emphasis";""!==a.footer_color&&(e="text-bg-"+a.footer_color),""!==a.footer_text&&""!==a.footer_icon?d.append(saltos.core.html(`
+            `);d.querySelector("small").append(a.footer),saltos.core.eval_bool(l.truncate)&&d.querySelector("small").classList.add("text-truncate");let e="bg-secondary-subtle text-secondary-emphasis fw-normal";""!==a.footer_color&&(e="text-bg-"+a.footer_color),""!==a.footer_text&&""!==a.footer_icon?d.append(saltos.core.html(`
                     <div class="text-nowrap ms-1">
                         <span class="badge rounded-pill ${e}">
                             ${a.footer_text}

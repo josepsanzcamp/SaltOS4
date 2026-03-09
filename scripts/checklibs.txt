@@ -20,7 +20,7 @@ imaskjs|https://github.com/uNmAnNeR/imaskjs/tags.atom|<title>|PHRpdGxlPnY3LjYuMT
 interactjs|https://github.com/taye/interact.js/tags.atom|<title>|PHRpdGxlPnYxLjEwLjI3PC90aXRsZT4=
 joditeditor|https://github.com/xdan/jodit/tags.atom|<title>|PHRpdGxlPjQuMTEuMzwvdGl0bGU+
 jstree|https://github.com/vakata/jstree/commits/v.4.0.atom|<updated>|PHVwZGF0ZWQ+MjAyMy0wMS0xNlQxMTo1MzoyMFo8L3VwZGF0ZWQ+
-locutus|https://github.com/locutusjs/locutus/tags.atom|<title>|PHRpdGxlPnYzLjAuOTwvdGl0bGU+
+locutus|https://github.com/locutusjs/locutus/tags.atom|<title>|PHRpdGxlPnYzLjAuMTA8L3RpdGxlPg==
 masonry|https://github.com/desandro/masonry/tags.atom|<title>|PHRpdGxlPnY0LjIuMiAtIGZsb2F0IHBvc2l0aW9uIHZhbHVlczwvdGl0bGU+
 md5|https://github.com/blueimp/JavaScript-MD5/tags.atom|<title>|PHRpdGxlPnYyLjE5LjA8L3RpdGxlPg==
 pdfjs|https://github.com/mozilla/pdf.js/tags.atom|<title>|PHRpdGxlPnY1LjUuMjA3PC90aXRsZT4=
