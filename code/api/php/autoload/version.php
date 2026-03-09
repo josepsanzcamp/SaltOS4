@@ -69,7 +69,7 @@ function svnversion($dir = null)
             $file = basename($file);
         }
         if (is_link($file)) {
-            $dir = dirname(readlink($file));
+            $dir = dirname(realpath(readlink($file)));
             $version = __svnversion_helper($dir);
         }
     }
@@ -91,8 +91,9 @@ function __svnversion_helper($dir)
     }
     // Using svnversion
     if (check_commands('svnversion')) {
+        $cmd = "cd $dir; svnversion 2>/dev/null";
         $expires = get_config('server/commandexpires') ?? 60;
-        return intval(ob_passthru("cd $dir; svnversion 2>/dev/null", $expires));
+        return intval(ob_passthru($cmd, $expires));
     }
     // Nothing to do
     return 0;
@@ -117,7 +118,7 @@ function gitversion($dir = null)
             $file = basename($file);
         }
         if (is_link($file)) {
-            $dir = dirname(readlink($file));
+            $dir = dirname(realpath(readlink($file)));
             $version = __gitversion_helper($dir);
         }
     }
@@ -139,8 +140,18 @@ function __gitversion_helper($dir)
     }
     // Using git
     if (check_commands('git')) {
+        for ($i = 0; $i < 10; $i++) {
+            if (file_exists("$dir/.git")) {
+                break;
+            }
+            $dir = dirname($dir);
+        }
+        if (in_array($dir, [false, '', '/'])) {
+            return 0;
+        }
+        $cmd = "cd $dir; git -c safe.directory=$dir rev-list HEAD --count 2>/dev/null";
         $expires = get_config('server/commandexpires') ?? 60;
-        return intval(ob_passthru("cd $dir; git rev-list HEAD --count 2>/dev/null", $expires));
+        return intval(ob_passthru($cmd, $expires));
     }
     // Nothing to do
     return 0;
