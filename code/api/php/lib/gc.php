@@ -51,8 +51,8 @@ function gc_exec()
         }
         $files1 = glob_protected($dir . '*'); // Visible files
         $files2 = glob_protected($dir . '.*'); // Hidden files
-        $files2 = array_diff($files2, [$dir . '.', $dir . '..', $dir . '.htaccess']); // Exceptions
-        $files = array_merge($files1, $files2);
+        $exceptions = [$dir . '.', $dir . '..', $dir . '.htaccess', $dir . '.gitignore']; // Exceptions
+        $files = array_merge($files1, array_diff($files2, $exceptions));
         $delta = time() - intval($timeout);
         foreach ($files as $file) {
             if (file_exists($file) && is_file($file) && filemtime($file) < $delta) {

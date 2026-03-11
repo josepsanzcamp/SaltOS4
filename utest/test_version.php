@@ -55,17 +55,17 @@ final class test_version extends TestCase
         $this->assertStringStartsWith('v', $temp[1]);
         $this->assertStringStartsWith('r', $temp[2]);
 
-        $this->assertSame(svnversion() > 0, true);
-        $this->assertSame(svnversion(getenv('HOME')), 0);
-        file_put_contents('/tmp/svnversion', '123');
-        $this->assertSame(svnversion('/tmp/'), 123);
-        unlink('/tmp/svnversion');
-
-        $this->assertSame(gitversion() === 0, true);
+        $this->assertSame(gitversion() > 0, true);
         $this->assertSame(gitversion(getenv('HOME')), 0);
         file_put_contents('/tmp/gitversion', '123');
         $this->assertSame(gitversion('/tmp/'), 123);
         unlink('/tmp/gitversion');
+
+        $this->assertSame(svnversion() === 0, true);
+        $this->assertSame(svnversion(getenv('HOME')), 0);
+        file_put_contents('/tmp/svnversion', '123');
+        $this->assertSame(svnversion('/tmp/'), 123);
+        unlink('/tmp/svnversion');
 
         // This trick allow to execute the is_link part of the version.php file
         $old = get_server('SCRIPT_FILENAME');
