@@ -77,6 +77,10 @@ function unmake_matrix_data($json, $invoice_id)
     // Concepts box
     $count = count($lines);
     foreach ($lines as $key => $val) {
+        foreach ($val as $key2 => $val2) {
+            $val[$key2] = $val2 ?? '';
+        }
+
         $concept_id = 0;
         if (isset($lines_array[$key])) {
             $concept_id = $lines_array[$key]['id'];
@@ -179,6 +183,10 @@ function unmake_matrix_data($json, $invoice_id)
     // Taxes box
     $count = count($taxes);
     foreach ($taxes as $key => $val) {
+        foreach ($val as $key2 => $val2) {
+            $val[$key2] = $val2 ?? '';
+        }
+
         $reg_id = 0;
         if (isset($taxes_array[$key])) {
             $reg_id = $taxes_array[$key]['id'];
