@@ -18,7 +18,7 @@ icons|https://github.com/twbs/icons/tags.atom|<title>|PHRpdGxlPnYxLjEzLjE8L3RpdG
 imagesloaded|https://github.com/desandro/imagesloaded/tags.atom|<title>|PHRpdGxlPnY1LjAuMDwvdGl0bGU+
 imaskjs|https://github.com/uNmAnNeR/imaskjs/tags.atom|<title>|PHRpdGxlPnY3LjYuMTwvdGl0bGU+
 interactjs|https://github.com/taye/interact.js/tags.atom|<title>|PHRpdGxlPnYxLjEwLjI3PC90aXRsZT4=
-joditeditor|https://github.com/xdan/jodit/tags.atom|<title>|PHRpdGxlPjQuMTEuODwvdGl0bGU+
+joditeditor|https://github.com/xdan/jodit/tags.atom|<title>|PHRpdGxlPjQuMTEuMTE8L3RpdGxlPg==
 jstree|https://github.com/vakata/jstree/commits/v.4.0.atom|<updated>|PHVwZGF0ZWQ+MjAyMy0wMS0xNlQxMTo1MzoyMFo8L3VwZGF0ZWQ+
 locutus|https://github.com/locutusjs/locutus/tags.atom|<title>|PHRpdGxlPnYzLjAuMTE8L3RpdGxlPg==
 masonry|https://github.com/desandro/masonry/tags.atom|<title>|PHRpdGxlPnY0LjIuMiAtIGZsb2F0IHBvc2l0aW9uIHZhbHVlczwvdGl0bGU+
@@ -45,7 +45,7 @@ minify|https://github.com/coderaiser/minify/tags.atom|<title>|PHRpdGxlPm1pbmlmeS
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|PHRpdGxlPk1yb29uZ2EgMTUuMjUgLSAyMDI2LTAyLTA2PC90aXRsZT4=
 node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjYtMDMtMDUsIFZlcnNpb24gMjIuMjIuMSAmIzM5O0pvZCYjMzk7IChMVFMpPC90aXRsZT4=
 pcov|https://github.com/krakjoe/pcov/tags.atom|<title>|PHRpdGxlPnYxLjAuMTI8L3RpdGxlPg==
-php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjQuMTk8L3RpdGxlPg==
+php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjUuNDwvdGl0bGU+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|PHRpdGxlPjQuMC4xIC0gMjAyNS0xMS0xMDwvdGl0bGU+
 phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjEuMTIuMzM8L3RpdGxlPg==
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|PHRpdGxlPlBIUFVuaXQgMTMuMC41PC90aXRsZT4=
