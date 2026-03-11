@@ -82,13 +82,6 @@
   license: MIT License
   license_id: MIT
 
-- id: locutus
-  name: Locutus
-  package: locutusjs/locutus
-  homepage: https://locutus.io/
-  license: MIT License (BC Math components under LGPL-2.1)
-  license_id: MIT
-
 - id: masonry
   name: Masonry
   package: desandro/masonry
