@@ -14,7 +14,7 @@ NONE=\033[0m
 
 FILES=object,core,bootstrap,storage,hash,token,auth,window,polyfill,gettext,driver,filter,backup,form,push,common,app
 
-export NODE_PATH := $(shell npm -g root)
+export NODE_PATH := $(shell npm -g root 2>/dev/null)
 export NODE_OPTIONS := --no-deprecation
 #export JEST_OPTIONS := -u
 
