@@ -5129,7 +5129,7 @@ saltos.bootstrap.menu = args => {
     obj.append(saltos.core.html(`
         <style>
             .dropdown-menu-scroll {
-                max-height: 90vh;
+                max-height: calc(100vh - 100px);
                 overflow-y: auto;
             }
         </style>
