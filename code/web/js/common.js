@@ -88,12 +88,13 @@ saltos.common.about = () => {
                 response.about,
             ].join(' - ');
             const body = document.querySelector('.modal-body');
-            body.append(saltos.gettext.bootstrap.field({
+            const temp = saltos.core.html('<div></div>');
+            temp.append(saltos.gettext.bootstrap.field({
                 id: 'header',
                 type: 'codemirror',
                 value: response.header.join('\n'),
             }));
-            body.append(saltos.gettext.bootstrap.field({
+            temp.append(saltos.gettext.bootstrap.field({
                 type: 'div',
                 class: 'mb-3',
             }));
@@ -116,7 +117,7 @@ saltos.common.about = () => {
                     width: '45%',
                 },
             };
-            body.append(saltos.gettext.bootstrap.field({
+            temp.append(saltos.gettext.bootstrap.field({
                 id: 'web-libs',
                 type: 'table',
                 label: 'WEB libraries',
@@ -124,11 +125,11 @@ saltos.common.about = () => {
                 data: Object.values(response.libraries.web),
                 parentClass: 'mb-3'
             }));
-            body.append(saltos.gettext.bootstrap.field({
+            temp.append(saltos.gettext.bootstrap.field({
                 type: 'div',
                 class: 'mb-3',
             }));
-            body.append(saltos.gettext.bootstrap.field({
+            temp.append(saltos.gettext.bootstrap.field({
                 id: 'api-libs',
                 type: 'table',
                 label: 'API libraries',
@@ -136,11 +137,11 @@ saltos.common.about = () => {
                 data: Object.values(response.libraries.api),
                 parentClass: 'mb-3'
             }));
-            body.append(saltos.gettext.bootstrap.field({
+            temp.append(saltos.gettext.bootstrap.field({
                 type: 'div',
                 class: 'mb-3',
             }));
-            body.append(saltos.gettext.bootstrap.field({
+            temp.append(saltos.gettext.bootstrap.field({
                 id: 'apps-libs',
                 type: 'table',
                 label: 'APPS libraries',
@@ -148,16 +149,17 @@ saltos.common.about = () => {
                 data: Object.values(response.libraries.apps),
                 parentClass: 'mb-3'
             }));
-            body.append(saltos.gettext.bootstrap.field({
+            temp.append(saltos.gettext.bootstrap.field({
                 type: 'div',
                 class: 'mb-3',
             }));
-            body.append(saltos.gettext.bootstrap.field({
+            temp.append(saltos.gettext.bootstrap.field({
                 id: 'legal',
                 type: 'codemirror',
                 label: 'Legal',
                 value: response.legal.join('\n'),
             }));
+            body.append(temp);
         },
     });
 };
