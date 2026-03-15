@@ -90,7 +90,7 @@ The invoicing application (`invoices`) publishes several widgets on the main das
 
 The available widgets are:
 
-- **Table `last_7_invoices`**: shows the 7 most recent invoices, including key information such as customer, total amount, and payment status.
+- **Table `last_n_invoices`**: shows the latest recent invoices, including key information such as customer, total amount, and payment status.
 - **Chart `invoice_total_by_day`**: displays the total amount invoiced per day, highlighting peaks and activity trends.
 - **Chart `invoice_avg_by_day`**: shows the average daily invoice amount, useful for evaluating consistency or seasonality.
 - **Chart `top5_customers_by_total`**: highlights the top 5 customers by billing volume, helping identify key accounts.

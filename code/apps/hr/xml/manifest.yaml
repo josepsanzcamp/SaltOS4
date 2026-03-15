@@ -1,0 +1,81 @@
+#  ____        _ _    ___  ____    _  _    ___
+# / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+# \___ \ / _` | | __| | | \___ \  | || |_| | | |
+#  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+# |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+#
+# SaltOS: Framework to develop Rich Internet Applications
+# Copyright (c) 2007-2026 Josep Sanz Campderrós
+# SPDX-License-Identifier: MIT
+# Licensed under the MIT License.
+# See the LICENSE file in the project root for full license information.
+
+groups:
+    - active: 1
+      code: hr
+      name: HR
+      description: Human Resources
+      color: danger
+      position: 4
+
+apps:
+    - id: 58
+      active: 1
+      group: hr
+      position: 1
+      color: danger
+      fontsize: 1
+      colsize: 4
+      code: employees
+      name: Employees
+      description: Employees management
+      table: app_employees
+      field: name
+      has_index: 1
+      has_control: 1
+      has_version: 1
+      has_files: 1
+      has_notes: 1
+      has_log: 1
+      perms: "*"
+
+    - id: 59
+      active: 1
+      group: hr
+      position: 1
+      color: danger
+      fontsize: 1
+      colsize: 4
+      code: departments
+      name: Departments
+      description: Departments management
+      table: app_departments
+      field: name
+      has_index: 1
+      has_control: 1
+      has_version: 1
+      has_files: 1
+      has_notes: 1
+      has_log: 1
+      perms: "*"
+
+    - id: 69
+      active: 1
+      group: hr
+      color: danger
+      position: 2
+      opacity: 75
+      fontsize: 3
+      colsize: 4
+      code: employees_types
+      name: Employee Types
+      description: Types of employees
+      table: app_employees_types
+      field: name
+      has_index: 1
+      has_control: 1
+      has_version: 1
+      has_files: 0
+      has_notes: 0
+      has_log: 0
+      perms: "*"

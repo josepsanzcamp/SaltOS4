@@ -1,0 +1,241 @@
+#  ____        _ _    ___  ____    _  _    ___
+# / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+# \___ \ / _` | | __| | | \___ \  | || |_| | | |
+#  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+# |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+#
+# SaltOS: Framework to develop Rich Internet Applications
+# Copyright (c) 2007-2026 Josep Sanz Campderrós
+# SPDX-License-Identifier: MIT
+# Licensed under the MIT License.
+# See the LICENSE file in the project root for full license information.
+
+groups:
+    - active: 1
+      code: sales
+      name: Sales
+      description: Sales & Billing Management
+      color: info
+      position: 2
+
+apps:
+    - id: 53
+      active: 1
+      group: sales
+      color: info
+      position: 1
+      fontsize: 1
+      colsize: 4
+      code: invoices
+      name: Invoices
+      description: Invoices management
+      table: app_invoices
+      field: IF(is_closed, invoice_code, proforma_code)
+      subtables: lines:app_invoices_lines(invoice_id),taxes:app_invoices_taxes(invoice_id)
+      has_index: 1
+      has_control: 1
+      has_version: 1
+      has_files: 1
+      has_notes: 1
+      has_log: 1
+      perms: "*"
+
+    - id: 54
+      active: 1
+      group: sales
+      color: info
+      position: 1
+      fontsize: 1
+      colsize: 4
+      code: products
+      name: Products
+      description: Products management
+      table: app_products
+      field: name
+      has_index: 1
+      has_control: 1
+      has_version: 1
+      has_files: 1
+      has_notes: 1
+      has_log: 1
+      perms: "*"
+
+    - id: 55
+      active: 1
+      group: sales
+      color: info
+      position: 2
+      opacity: 75
+      fontsize: 3
+      colsize: 4
+      code: taxes
+      name: Taxes
+      description: Taxes management
+      table: app_taxes
+      field: name
+      has_index: 1
+      has_control: 1
+      has_version: 1
+      has_files: 1
+      has_notes: 1
+      has_log: 1
+      perms: "*"
+
+    - id: 60
+      active: 1
+      group: sales
+      color: info
+      position: 1
+      fontsize: 1
+      colsize: 4
+      code: workorders
+      name: Workorders
+      description: Workorders management
+      table: app_workorders
+      field: date
+      has_index: 1
+      has_control: 1
+      has_version: 1
+      has_files: 1
+      has_notes: 1
+      has_log: 1
+      perms: "*"
+
+    - id: 62
+      active: 1
+      group: sales
+      color: info
+      position: 2
+      opacity: 75
+      fontsize: 3
+      colsize: 4
+      code: payment_methods
+      name: Payment methods
+      description: Payment methods management
+      table: app_payment_methods
+      field: name
+      has_index: 1
+      has_control: 1
+      has_version: 1
+      has_files: 1
+      has_notes: 1
+      has_log: 1
+      perms: "*"
+
+    - id: 66
+      active: 1
+      group: sales
+      color: info
+      position: 2
+      opacity: 75
+      fontsize: 3
+      colsize: 4
+      code: invoices_status
+      name: Invoice Status
+      description: Status values for invoices
+      table: app_invoices_status
+      field: name
+      has_index: 1
+      has_control: 1
+      has_version: 1
+      has_files: 0
+      has_notes: 0
+      has_log: 0
+      perms: "*"
+
+    - id: 67
+      active: 1
+      group: sales
+      color: info
+      position: 2
+      opacity: 75
+      fontsize: 3
+      colsize: 4
+      code: products_types
+      name: Product Types
+      description: Types of products
+      table: app_products_types
+      field: name
+      has_index: 1
+      has_control: 1
+      has_version: 1
+      has_files: 0
+      has_notes: 0
+      has_log: 0
+      perms: "*"
+
+    - id: 68
+      active: 1
+      group: sales
+      color: info
+      position: 2
+      opacity: 75
+      fontsize: 3
+      colsize: 4
+      code: products_categories
+      name: Product Categories
+      description: Categories of products
+      table: app_products_categories
+      field: name
+      has_index: 1
+      has_control: 1
+      has_version: 1
+      has_files: 0
+      has_notes: 0
+      has_log: 0
+      perms: "*"
+
+widgets:
+    - active: 1
+      code: last_n_invoices
+      name: Last invoices
+      description: Shows the latest created invoices
+      app: invoices
+      group: sales
+      position: 1
+      colsize: 6
+
+    - active: 1
+      code: invoice_total_by_day
+      name: Invoice total by day
+      description: Displays total invoiced amount grouped by day
+      app: invoices
+      group: sales
+      position: 2
+      colsize: 6
+
+    - active: 1
+      code: invoice_avg_by_day
+      name: Invoice average by day
+      description: Shows average invoice amount per day
+      app: invoices
+      group: sales
+      position: 3
+      colsize: 6
+
+    - active: 1
+      code: top5_customers_by_total
+      name: Top 5 customers
+      description: Displays top 5 customers by invoiced total
+      app: invoices
+      group: sales
+      position: 4
+      colsize: 6
+
+    - active: 1
+      code: invoice_paid_vs_pending
+      name: Paid vs pending invoices
+      description: Compares paid invoices against pending ones
+      app: invoices
+      group: sales
+      position: 5
+      colsize: 6
+
+    - active: 1
+      code: invoice_avg_days_to_pay
+      name: Average days to pay
+      description: Shows the average number of days customers take to pay
+      app: invoices
+      group: sales
+      position: 6
+      colsize: 6

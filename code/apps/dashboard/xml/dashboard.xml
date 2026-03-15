@@ -23,12 +23,12 @@
         <navbar eval="true">xmlfile2array('apps/common/xml/navbar.xml')['navbar']</navbar>
         <title>Dashboard</title>
         <layout append="top">
-            <row auto="true" row_class="row position-absolute end-0 me-0 mt-3">
+            <row auto="true" row_class="row position-absolute end-0 me-0 mt-3 z-1">
                 <button onclick="saltos.window.open('app/dashboard_widgets')" tooltip="To configure the dashboard widgets" icon="gear"/>
             </row>
         </layout>
         <layout append="one">
-            <row auto="true" id="catalog" col_class="col-xl-4 col-md-6 mb-3" row_class="row mt-3"
+            <row auto="true" id="catalog" col_class="col mb-3" row_class="row mt-3"
                 require="apps/dashboard/php/dashboard.php" eval="true">__dashboard_config()</row>
         </layout>
         <javascript>

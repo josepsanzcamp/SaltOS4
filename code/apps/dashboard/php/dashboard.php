@@ -48,8 +48,8 @@ declare(strict_types=1);
 function __dashboard_helper()
 {
     // Create the apps list by groups
-    $query = 'SELECT code, `group`, name, description, color, opacity, fontsize, widgets
-        FROM tbl_apps WHERE active = 1 ORDER BY position DESC,name ASC';
+    $query = 'SELECT code, name, description, `group`, color, opacity, fontsize, colsize
+        FROM tbl_apps WHERE active = 1 ORDER BY position ASC, name ASC';
     $rows = execute_query_array($query);
     $groups = [];
     foreach ($rows as $row) {
@@ -63,32 +63,25 @@ function __dashboard_helper()
         $groups[$group][] = $row;
     }
 
-    // Create the widgets list by group
+    // Create the widgets list by groups
+    $query = 'SELECT code, name, description, app, `group`, colsize
+        FROM tbl_apps_widgets WHERE active = 1 ORDER BY position ASC, name ASC';
+    $rows = execute_query_array($query);
     $widgets = [];
     foreach ($rows as $row) {
-        if (!$row['widgets']) {
-            continue;
-        }
-        if (!check_user($row['code'], 'widget')) {
+        if (!check_user($row['app'], 'widget')) {
             continue;
         }
         $group = $row['group'];
         if (!isset($widgets[$group])) {
             $widgets[$group] = [];
         }
-        $temp = explode(',', $row['widgets']);
-        foreach ($temp as $key => $val) {
-            $temp[$key] = [
-                'code' => $row['code'],
-                'widget' => $val,
-            ];
-        }
-        $widgets[$group] = array_merge($widgets[$group], $temp);
+        $widgets[$group][] = $row;
     }
 
     // Prepare the mapping
     $query = 'SELECT code, name, description, color
-        FROM tbl_apps_groups ORDER BY position DESC, name ASC';
+        FROM tbl_apps_groups WHERE active = 1 ORDER BY position ASC, name ASC';
     $rows = execute_query_array($query);
     $mapping = array_combine(array_column($rows, 'code'), $rows);
     $mapping = array_intersect_key($mapping, $groups);
@@ -113,7 +106,8 @@ function __dashboard_helper()
         foreach ($groups[$group] as $row) {
             $xml = '<button id="app/{$code}" onclick="saltos.window.open(\'app/{$code}\')"
                 class="w-100 h-100 fs-{$fontsize} opacity-{$opacity}" label="{$name}"
-                rounded="rounded" tooltip="{$description}" color="{$color}"/>';
+                col_class="col-{$colsize} mb-3" rounded="rounded"
+                tooltip="{$description}" color="{$color}"/>';
             $xml = str_replace_assoc([
                 '{$code}' => $row['code'],
                 '{$name}' => T($row['name'], $row['code']),
@@ -121,6 +115,7 @@ function __dashboard_helper()
                 '{$color}' => $row['color'],
                 '{$opacity}' => $row['opacity'],
                 '{$fontsize}' => $row['fontsize'],
+                '{$colsize}' => $row['colsize'],
             ], $xml);
             $array = xml2array($xml);
             set_array($items, 'button', $array['button']);
@@ -133,12 +128,13 @@ function __dashboard_helper()
 
         // Add the widgets
         if (isset($widgets[$group])) {
-            foreach ($widgets[$group] as $widget) {
-                $xml = '<widget id="widget/{$widget}" source="app/{$code}/widget/{$widget}"
-                    col_class="col-xl-6 col-md-12 mb-3"/>';
+            foreach ($widgets[$group] as $row) {
+                $xml = '<widget id="widget/{$code}" source="app/{$app}/widget/{$code}"
+                    col_class="col-{$colsize} mb-3"/>';
                 $xml = str_replace_assoc([
-                    '{$code}' => $widget['code'],
-                    '{$widget}' => $widget['widget'],
+                    '{$code}' => $row['code'],
+                    '{$app}' => $row['app'],
+                    '{$colsize}' => $row['colsize'],
                 ], $xml);
                 $array = xml2array($xml);
                 set_array($items, 'widget', $array['widget']);
@@ -216,8 +212,8 @@ function __dashboard_config()
 function __navbar_helper()
 {
     // Create the groups apps list
-    $query = 'SELECT code, `group`, name, description, color, opacity
-        FROM tbl_apps WHERE active = 1 ORDER BY position DESC,name ASC';
+    $query = 'SELECT code, name, description, `group`
+        FROM tbl_apps WHERE active = 1 ORDER BY position ASC, name ASC';
     $rows = execute_query_array($query);
     $groups = [];
     foreach ($rows as $row) {
@@ -232,8 +228,8 @@ function __navbar_helper()
     }
 
     // Prepare the mapping
-    $query = 'SELECT code, name, description, color
-        FROM tbl_apps_groups ORDER BY position DESC, name ASC';
+    $query = 'SELECT code, name, description
+        FROM tbl_apps_groups WHERE active = 1 ORDER BY position ASC, name ASC';
     $rows = execute_query_array($query);
     $mapping = array_combine(array_column($rows, 'code'), $rows);
     $mapping = array_intersect_key($mapping, $groups);
@@ -249,6 +245,7 @@ function __navbar_helper()
         ], $xml);
         $array = xml2array($xml);
         set_array($items, 'item', $array['item']);
+
         // Add all items of the group
         foreach ($groups[$group] as $row) {
             $xml = '<item label="{$name}" onclick="saltos.window.open(\'app/{$code}\')"/>';

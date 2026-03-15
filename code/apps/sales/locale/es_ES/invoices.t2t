@@ -88,7 +88,7 @@ La aplicación de facturación (`invoices`) publica varios widgets en el panel p
 
 Los widgets disponibles son:
 
-- **Tabla `last_7_invoices`**: muestra las 7 últimas facturas emitidas, incluyendo información clave como el cliente, el importe total y el estado (pagada o pendiente).
+- **Tabla `last_n_invoices`**: muestra las últimas facturas emitidas, incluyendo información clave como el cliente, el importe total y el estado (pagada o pendiente).
 - **Gráfica `invoice_total_by_day`**: representa el importe total facturado por día, permitiendo detectar picos o tendencias en la actividad.
 - **Gráfica `invoice_avg_by_day`**: muestra el importe medio diario de las facturas emitidas, útil para evaluar la regularidad o estacionalidad.
 - **Gráfica `top5_customers_by_total`**: destaca los 5 clientes que más volumen de facturación han generado, facilitando la identificación de clientes clave.

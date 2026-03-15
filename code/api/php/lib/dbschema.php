@@ -138,7 +138,7 @@ function __dbschema_hash()
     $files = array_merge(
         detect_apps_files('xml/dbschema.xml'),
         detect_apps_files('xml/dbstatic.xml'),
-        detect_apps_files('xml/manifest.xml')
+        detect_apps_files('xml/manifest.yaml')
     );
     foreach ($files as $key => $val) {
         if (!isset($cache[$val])) {
@@ -175,7 +175,7 @@ function db_static()
 {
     $dbstatic = eval_attr(arrays2array(
         xmlfiles2array(detect_apps_files('xml/dbstatic.xml')),
-        __manifest2dbstatic(detect_apps_files('xml/manifest.xml')),
+        __manifest2dbstatic(detect_apps_files('xml/manifest.yaml')),
     ));
     $output = [];
     if (is_array($dbstatic) && isset($dbstatic['tables']) && is_array($dbstatic['tables'])) {
@@ -251,7 +251,7 @@ function __dbstatic_hash()
     static $cache = [];
     $files = array_merge(
         detect_apps_files('xml/dbstatic.xml'),
-        detect_apps_files('xml/manifest.xml')
+        detect_apps_files('xml/manifest.yaml')
     );
     foreach ($files as $key => $val) {
         if (!isset($cache[$val])) {
@@ -748,7 +748,7 @@ function __dbstatic_helper($fn, $table, $field)
         $tables = [];
         $dbstatic = eval_attr(arrays2array(
             xmlfiles2array(detect_apps_files('xml/dbstatic.xml')),
-            __manifest2dbstatic(detect_apps_files('xml/manifest.xml')),
+            __manifest2dbstatic(detect_apps_files('xml/manifest.yaml')),
         ));
         if (is_array($dbstatic) && isset($dbstatic['tables']) && is_array($dbstatic['tables'])) {
             foreach ($dbstatic['tables'] as $data) {
@@ -793,12 +793,11 @@ function __manifest2dbstatic($files)
 {
     $dbstatic = ['tables' => []];
     foreach ($files as $file) {
-        $data = xmlfile2array($file);
+        $data = yaml_parse_file($file);
         if (!is_array($data) || !isset($data['apps']) || !is_array($data['apps'])) {
             show_php_error(['phperror' => "File $file must contains a valid apps node"]);
         }
         foreach ($data['apps'] as $app) {
-            $app = join_attr_value($app);
             $perms = '';
             if (isset($app['perms'])) {
                 $perms = $app['perms'];
@@ -816,9 +815,10 @@ function __manifest2dbstatic($files)
             }
             // Add the apps data package
             $xml = '<table name="tbl_apps">
-                        <row id="" active="" code="" name="" description="" table="" subtables="" field=""
-                            has_index="0" has_control="0" has_version="0" has_files="0" has_notes="0"
-                                has_log="0"/>
+                        <row id="" active="" code="" name="" description=""
+                            group="" table="" subtables="" field=""
+                            has_index="0" has_control="0" has_version="0"
+                            has_files="0" has_notes="0" has_log="0"/>
                     </table>';
             $array = xml2array($xml);
             foreach ($app as $key => $val) {
@@ -836,20 +836,31 @@ function __manifest2dbstatic($files)
             $array['table']['value']['row']['#attr']['deny'] = $deny;
             set_array($dbstatic['tables'], 'table', $array['table']);
         }
-        if (!isset($data['groups']) || !is_array($data['groups'])) {
-            continue;
-        }
-        foreach ($data['groups'] as $group) {
-            $group = join_attr_value($group);
-            // Add the apps data package
-            $xml = '<table name="tbl_apps_groups">
-                        <row code="" name="" description=""/>
-                    </table>';
-            $array = xml2array($xml);
-            foreach ($group as $key => $val) {
-                $array['table']['value']['row']['#attr'][$key] = $val;
+        if (isset($data['groups']) && is_array($data['groups'])) {
+            foreach ($data['groups'] as $group) {
+                // Add the apps data package
+                $xml = '<table name="tbl_apps_groups">
+                            <row active="" code="" name="" description=""/>
+                        </table>';
+                $array = xml2array($xml);
+                foreach ($group as $key => $val) {
+                    $array['table']['value']['row']['#attr'][$key] = $val;
+                }
+                set_array($dbstatic['tables'], 'table', $array['table']);
             }
-            set_array($dbstatic['tables'], 'table', $array['table']);
+        }
+        if (isset($data['widgets']) && is_array($data['widgets'])) {
+            foreach ($data['widgets'] as $widget) {
+                // Add the apps data package
+                $xml = '<table name="tbl_apps_widgets">
+                            <row active="" code="" name="" description="" group=""/>
+                        </table>';
+                $array = xml2array($xml);
+                foreach ($widget as $key => $val) {
+                    $array['table']['value']['row']['#attr'][$key] = $val;
+                }
+                set_array($dbstatic['tables'], 'table', $array['table']);
+            }
         }
     }
     return $dbstatic;

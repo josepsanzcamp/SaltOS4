@@ -125,34 +125,50 @@ that maintain the database using as reference this file
             <fields>
                 <field name="id" type="INTEGER" pkey="true"/>
                 <field name="active" type="INTEGER"/>
-                <field name="group" type="VARCHAR(255)"/>
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
-                <field name="color" type="VARCHAR(100)"/>
-                <field name="position" type="INTEGER"/>
-                <field name="opacity" type="VARCHAR(100)"/>
-                <field name="fontsize" type="VARCHAR(100)"/>
+                <field name="group" type="VARCHAR(255)"/>
                 <field name="table" type="VARCHAR(255)"/>
                 <field name="subtables" type="VARCHAR(255)"/>
                 <field name="field" type="VARCHAR(255)"/>
-                <field name="widgets" type="VARCHAR(255)"/>
                 <field name="has_index" type="INTEGER"/>
                 <field name="has_control" type="INTEGER"/>
                 <field name="has_version" type="INTEGER"/>
                 <field name="has_files" type="INTEGER"/>
                 <field name="has_notes" type="INTEGER"/>
                 <field name="has_log" type="INTEGER"/>
+                <field name="color" type="VARCHAR(100)"/>
+                <field name="position" type="INTEGER"/>
+                <field name="opacity" type="VARCHAR(100)"/>
+                <field name="fontsize" type="VARCHAR(100)"/>
+                <field name="colsize" type="VARCHAR(100)"/>
+                <field name="widgets" type="VARCHAR(255)"/>
             </fields>
         </table>
         <table name="tbl_apps_groups">
             <fields>
                 <field name="id" type="INTEGER" pkey="true"/>
+                <field name="active" type="INTEGER"/>
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
                 <field name="color" type="VARCHAR(100)"/>
                 <field name="position" type="INTEGER"/>
+                <field name="colsize" type="VARCHAR(100)"/>
+            </fields>
+        </table>
+        <table name="tbl_apps_widgets">
+            <fields>
+                <field name="id" type="INTEGER" pkey="true"/>
+                <field name="active" type="INTEGER"/>
+                <field name="code" type="VARCHAR(255)"/>
+                <field name="name" type="VARCHAR(255)"/>
+                <field name="description" type="TEXT"/>
+                <field name="app" type="VARCHAR(255)"/>
+                <field name="group" type="VARCHAR(255)"/>
+                <field name="position" type="INTEGER"/>
+                <field name="colsize" type="VARCHAR(100)"/>
             </fields>
         </table>
         <table name="tbl_perms">
@@ -160,9 +176,9 @@ that maintain the database using as reference this file
                 <field name="id" type="INTEGER" pkey="true"/>
                 <field name="active" type="INTEGER"/>
                 <field name="code" type="VARCHAR(255)"/>
-                <field name="owner" type="VARCHAR(255)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
+                <field name="owner" type="VARCHAR(255)"/>
             </fields>
         </table>
         <table name="tbl_apps_perms">

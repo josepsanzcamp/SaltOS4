@@ -88,7 +88,7 @@ L'aplicació de facturació (`invoices`) publica diversos ginys al tauler princi
 
 Els ginys disponibles són:
 
-- **Taula `last_7_invoices`**: mostra les 7 últimes factures emeses, incloent-hi informació clau com el client, l'import total i l'estat (pagada o pendent).
+- **Taula `last_n_invoices`**: mostra les darreres factures emeses, incloent-hi informació clau com el client, l'import total i l'estat (pagada o pendent).
 - **Gràfic `invoice_total_by_day`**: representa l'import total facturat per dia, permetent detectar pics o tendències en l'activitat.
 - **Gràfic `invoice_avg_by_day`**: mostra l'import mitjà diari de les factures emeses, útil per avaluar la regularitat o estacionalitat.
 - **Gràfic `top5_customers_by_total`**: destaca els 5 clients amb més volum de facturació, facilitant la identificació dels clients clau.

@@ -1,0 +1,27 @@
+#  ____        _ _    ___  ____    _  _    ___
+# / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+# \___ \ / _` | | __| | | \___ \  | || |_| | | |
+#  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+# |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+#
+# SaltOS: Framework to develop Rich Internet Applications
+# Copyright (c) 2007-2026 Josep Sanz Campderrós
+# SPDX-License-Identifier: MIT
+# Licensed under the MIT License.
+# See the LICENSE file in the project root for full license information.
+
+apps:
+    - id: 3
+      active: 1
+      group: core
+      color: primary
+      position: 2
+      opacity: 75
+      fontsize: 3
+      colsize: 4
+      code: tester
+      name: Tester
+      description: Tester app
+      perms: main,menu
+      allow: 1
+      deny: 0

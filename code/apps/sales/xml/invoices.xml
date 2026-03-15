@@ -359,11 +359,11 @@
     </delete>
 
     <!-- Widgets part -->
-    <widget id="last_7_invoices">
+    <widget id="last_n_invoices">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <layout>
-            <table id="widget/last_7_invoices" nodata="Data not found">
+            <table id="widget/last_n_invoices" nodata="Data not found">
                 <header>
                     <customer_name label="Customer"/>
                     <date label="Date"/>
@@ -393,8 +393,8 @@
             <inline>
                 saltos.window.set_listener('saltos.invoices.update', event => {
                     saltos.form.__widget_helper({
-                        id: 'widget/last_7_invoices',
-                        source: 'app/invoices/widget/last_7_invoices',
+                        id: 'widget/last_n_invoices',
+                        source: 'app/invoices/widget/last_n_invoices',
                     });
                     saltos.favicon.run();
                 });
