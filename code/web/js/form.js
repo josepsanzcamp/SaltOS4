@@ -170,15 +170,11 @@ saltos.form.layout = (layout, extra) => {
         ) {
             val = saltos.form.__layout_auto_helper[key](val);
             const temp = saltos.form.layout(val, 'arr');
-            for (const i in temp) {
-                arr.push(temp[i]);
-            }
+            arr.push(...temp);
         } else if (['container', 'col', 'row', 'div'].includes(key)) {
             const obj = saltos.gettext.bootstrap.field(attr);
             const temp = saltos.form.layout(value, 'arr');
-            for (const i in temp) {
-                obj.append(temp[i]);
-            }
+            obj.append(...temp);
             arr.push(obj);
         } else if (key === 'widget') {
             const obj = saltos.form.__widget_helper(attr);
@@ -207,9 +203,7 @@ saltos.form.layout = (layout, extra) => {
         return arr;
     }
     let div = saltos.core.html('<div></div>');
-    for (const i in arr) {
-        div.append(arr[i]);
-    }
+    div.append(...arr);
     div = saltos.core.optimize(div);
     // Some extra features to allow that returns only the div
     if (extra === 'div') {
@@ -220,12 +214,11 @@ saltos.form.layout = (layout, extra) => {
     if (append !== '') {
         // Do a backup of the fields using the append key
         saltos.backup.save(append);
-        // Continue
         obj = document.getElementById(append);
         obj.replaceChildren(div);
     } else {
         obj = document.body;
-        document.body.append(div);
+        obj.append(div);
     }
     obj.querySelectorAll('[autofocus]').forEach(item => {
         item.focus();
