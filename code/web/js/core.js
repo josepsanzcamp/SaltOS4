@@ -493,7 +493,7 @@ saltos.core.copy_object = arg => {
  */
 saltos.core.optimize = obj => {
     if (obj.children.length === 1) {
-        return obj.firstElementChild;
+        return obj.children[0];
     }
     return obj;
 };
@@ -982,6 +982,32 @@ saltos.core.is_function = arg => {
         }
     }
     return false;
+};
+
+/**
+ * Checks whether a value is an iterable object.
+ *
+ * An iterable is any non-null object that implements the Symbol.iterator
+ * method (e.g. Array, String, Map, Set, NodeList, HTMLCollection, etc.).
+ *
+ * @arg => The value to evaluate.
+ *
+ * Returns true if the value is an iterable object, false otherwise.
+ */
+saltos.core.is_iterable = arg => {
+    if (arg === null) {
+        return false;
+    }
+    if (typeof arg !== 'object') {
+        return false;
+    }
+    if (!(Symbol.iterator in arg)) {
+        return false;
+    }
+    if (typeof arg[Symbol.iterator] !== 'function') {
+        return false;
+    }
+    return true;
 };
 
 /**

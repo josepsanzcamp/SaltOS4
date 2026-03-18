@@ -615,7 +615,9 @@ saltos.driver.__resizable_2cols = () => {
         return [col1, col2];
     };
 
-    let [col1, col2] = load_handle_cols();
+    const temp = load_handle_cols();
+    let col1 = temp[0];
+    let col2 = temp[1];
 
     const apply_handle_cols = () => {
         for (let i = 1; i <= 12; i++) {
@@ -738,7 +740,10 @@ saltos.driver.__resizable_3cols = () => {
         return [col1, col2, col3];
     };
 
-    let [col1, col2, col3] = load_handle_cols();
+    const temp = load_handle_cols();
+    let col1 = temp[0];
+    let col2 = temp[1];
+    let col3 = temp[2];
 
     const apply_handle_cols = () => {
         for (let i = 1; i <= 12; i++) {
@@ -1291,7 +1296,7 @@ saltos.driver.__types.type1modal.init = arg => {
             saltos.app.send_request(temp);
         }
         if (document.getElementById('two').textContent.trim().length) {
-            const obj = document.getElementById('two').firstElementChild;
+            const obj = document.getElementById('two').children;
             if (!saltos.bootstrap.modal('isopen')) {
                 saltos.gettext.bootstrap.modal({
                     close: 'Close',
@@ -1299,7 +1304,7 @@ saltos.driver.__types.type1modal.init = arg => {
                     class: 'modal-xl',
                 });
             } else {
-                document.querySelector('.modal-body').replaceChildren(obj);
+                document.querySelector('.modal-body').replaceChildren(...obj);
             }
         }
     }
@@ -1466,7 +1471,7 @@ saltos.driver.__types.type2modal.init = arg => {
             saltos.app.send_request(temp);
         }
         if (document.getElementById('three').textContent.trim().length) {
-            const obj = document.getElementById('three').firstElementChild;
+            const obj = document.getElementById('three').children;
             if (!saltos.bootstrap.modal('isopen')) {
                 saltos.gettext.bootstrap.modal({
                     close: 'Close',
@@ -1474,7 +1479,7 @@ saltos.driver.__types.type2modal.init = arg => {
                     class: 'modal-xl',
                 });
             } else {
-                document.querySelector('.modal-body').replaceChildren(obj);
+                document.querySelector('.modal-body').replaceChildren(...obj);
             }
         }
     }

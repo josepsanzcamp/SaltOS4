@@ -5406,6 +5406,8 @@ saltos.bootstrap.modal = args => {
         if (args.body !== '') {
             obj.querySelector('.modal-body').append(saltos.core.html(args.body));
         }
+    } else if (saltos.core.is_iterable(args.body)) {
+        obj.querySelector('.modal-body').append(...args.body);
     } else {
         obj.querySelector('.modal-body').append(args.body);
     }

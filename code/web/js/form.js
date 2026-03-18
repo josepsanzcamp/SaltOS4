@@ -128,8 +128,8 @@ saltos.form.data = (data, sync = true) => {
  * This function add the fields to the saltos.form.__form.fields, this allow to the saltos.app.get_data
  * can retrieve the desired information of the fields.
  */
-saltos.form.layout = (layout, extra) => {
-    if (extra === undefined) {
+saltos.form.layout = (layout, return_as_array) => {
+    if (!return_as_array) {
         saltos.form.__form.fields = [];
     }
     // This code fix a problem when layout contains the append element
@@ -169,12 +169,10 @@ saltos.form.layout = (layout, extra) => {
             'auto' in attr && saltos.core.eval_bool(attr.auto)
         ) {
             val = saltos.form.__layout_auto_helper[key](val);
-            const temp = saltos.form.layout(val, 'arr');
-            arr.push(...temp);
+            arr.push(...saltos.form.layout(val, true));
         } else if (['container', 'col', 'row', 'div'].includes(key)) {
             const obj = saltos.gettext.bootstrap.field(attr);
-            const temp = saltos.form.layout(value, 'arr');
-            obj.append(...temp);
+            obj.append(...saltos.form.layout(value, true));
             arr.push(obj);
         } else if (key === 'widget') {
             const obj = saltos.form.__widget_helper(attr);
@@ -199,15 +197,8 @@ saltos.form.layout = (layout, extra) => {
         }
     }
     // Some extra features to allow that returns only the array
-    if (extra === 'arr') {
+    if (return_as_array) {
         return arr;
-    }
-    let div = saltos.core.html('<div></div>');
-    div.append(...arr);
-    div = saltos.core.optimize(div);
-    // Some extra features to allow that returns only the div
-    if (extra === 'div') {
-        return div;
     }
     // Defaut feature that add the div to the body's document
     let obj = null;
@@ -215,10 +206,10 @@ saltos.form.layout = (layout, extra) => {
         // Do a backup of the fields using the append key
         saltos.backup.save(append);
         obj = document.getElementById(append);
-        obj.replaceChildren(div);
+        obj.replaceChildren(...arr);
     } else {
         obj = document.body;
-        obj.append(div);
+        obj.append(...arr);
     }
     obj.querySelectorAll('[autofocus]').forEach(item => {
         item.focus();
@@ -399,7 +390,7 @@ saltos.form.__widget_helper = field => {
                 }
                 if (key === 'layout') {
                     const obj = document.getElementById(field.id);
-                    obj.replaceWith(saltos.form.layout(val, 'div'));
+                    obj.replaceWith(...saltos.form.layout(val, true));
                 } else {
                     if (saltos.form[key].constructor.name === 'AsyncFunction') {
                         await saltos.form[key](val);
