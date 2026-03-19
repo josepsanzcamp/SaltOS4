@@ -106,7 +106,7 @@ function __dashboard_helper()
         foreach ($groups[$group] as $row) {
             $xml = '<button id="app/{$code}" onclick="saltos.window.open(\'app/{$code}\')"
                 class="w-100 h-100 fs-{$fontsize} opacity-{$opacity}" label="{$name}"
-                col_class="col-{$colsize} mb-3" rounded="rounded"
+                col_class="col-xl-{$colsize} col-md-6 mb-3" rounded="rounded"
                 tooltip="{$description}" color="{$color}"/>';
             $xml = str_replace_assoc([
                 '{$code}' => $row['code'],
@@ -130,7 +130,7 @@ function __dashboard_helper()
         if (isset($widgets[$group])) {
             foreach ($widgets[$group] as $row) {
                 $xml = '<widget id="widget/{$code}" source="app/{$app}/widget/{$code}"
-                    col_class="col-{$colsize} mb-3"/>';
+                    col_class="col-xl-{$colsize} col-md-6 mb-3"/>';
                 $xml = str_replace_assoc([
                     '{$code}' => $row['code'],
                     '{$app}' => $row['app'],
