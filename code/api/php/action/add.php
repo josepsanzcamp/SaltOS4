@@ -36,8 +36,7 @@ declare(strict_types=1);
  * @backtrace => array with the backtrace used in the error report
  */
 
-$action = get_data('rest/1');
-switch ($action) {
+switch (get_data('rest/1')) {
     case 'log':
         if (get_data('json/msg') === null) {
             show_json_error('msg not found');
@@ -57,7 +56,7 @@ switch ($action) {
         ], get_config('debug/jserrorfile') ?? 'jserror.log');
         break;
     default:
-        show_php_error(['phperror' => "Unknown action $action"]);
+        show_php_error(['phperror' => 'Unknown action']);
 }
 
 output_handler_json([

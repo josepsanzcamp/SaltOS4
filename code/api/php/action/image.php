@@ -99,9 +99,8 @@ if (!in_array($format, ['png', 'json'])) {
 }
 
 $output = [];
-$action = get_data('rest/1');
-$image = null;
-switch ($action) {
+$image = '';
+switch (get_data('rest/1')) {
     case 'barcode':
         // Check parameters
         $msg = get_data('json/msg');
@@ -207,7 +206,7 @@ switch ($action) {
         ];
         break;
     default:
-        show_php_error(['phperror' => "Unknown action $action"]);
+        show_php_error(['phperror' => 'Unknown action']);
 }
 
 // Check image

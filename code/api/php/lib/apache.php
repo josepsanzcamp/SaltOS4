@@ -47,7 +47,7 @@ function check_apache($url)
 
     if (!isset($response['headers']['X-About']) || !words_exists('saltos', $response['headers']['X-About'])) {
         $result[] = [
-            'error' => 'X-About header not detected',
+            'error' => 'X-About header not found',
             'details' => "Check that $url is a valid access to the API",
         ];
         return $result;
@@ -56,7 +56,7 @@ function check_apache($url)
     // expose_php = Off
     if (isset($response['headers']['X-Powered-By'])) {
         $result[] = [
-            'warning' => "X-Powered-By {$response['headers']['X-Powered-By']} header detected",
+            'warning' => "X-Powered-By {$response['headers']['X-Powered-By']} header found",
             'details' => 'Set expose_php = Off in your php.ini configuration',
         ];
     }
@@ -65,11 +65,26 @@ function check_apache($url)
     // ServerTokens Prod
     if (isset($response['headers']['Server']) && $response['headers']['Server'] !== 'Apache') {
         $result[] = [
-            'warning' => "Server {$response['headers']['Server']} header detected",
+            'warning' => "Server {$response['headers']['Server']} header found",
             'details' => 'Set ServerSignature = Off and ServerTokens = Prod in your apache configuration',
         ];
     }
 
+    // token part
+    $token = get_unique_token();
+    $response = __url_get_contents("$url/?/auth/test", [
+        'headers' => ['Authorization' => "Bearer $token"],
+    ]);
+    $array = json_decode($response['body'], true);
+    if (!is_array($array) || !isset($array['token']) || $array['token'] !== $token) {
+        $result[] = [
+            'error' => 'Authorization Bearer header not found',
+            'details' => 'Check web server or proxy configuration for Authorization header support',
+        ];
+        return $result;
+    }
+
+    // forbidden part
     $urls = [
         "$url/apps/",
         "$url/data/",

@@ -24,6 +24,12 @@ declare(strict_types=1);
  * to control it.
  */
 
+// fast echo test
+if (get_data('rest/1') === 'test') {
+    output_handler_json(['token' => get_data('server/token')]);
+}
+
+// normal operation
 if (!semaphore_acquire('auth')) {
     show_php_error(['phperror' => 'Could not acquire the semaphore']);
 }
@@ -33,8 +39,7 @@ crontab_users();
 
 require_once 'php/lib/auth.php';
 $array = [];
-$action = get_data('rest/1');
-switch ($action) {
+switch (get_data('rest/1')) {
     case 'login':
         $array = authtoken(get_data('json/user'), get_data('json/pass'));
         break;
@@ -48,7 +53,7 @@ switch ($action) {
         $array = authupdate(get_data('json/oldpass'), get_data('json/newpass'), get_data('json/renewpass'));
         break;
     default:
-        show_php_error(['phperror' => "Unknown action $action"]);
+        show_php_error(['phperror' => 'Unknown action']);
 }
 
 semaphore_release('auth');

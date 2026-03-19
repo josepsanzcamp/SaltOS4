@@ -27,8 +27,7 @@ db_connect();
 require_once 'php/lib/push.php';
 
 $rows = [];
-$action = get_data('rest/1');
-switch ($action) {
+switch (get_data('rest/1')) {
     case 'get':
         if (!current_user()) {
             show_json_error('Permission denied', true);
@@ -48,7 +47,7 @@ switch ($action) {
         $rows = push_select($timestamp);
         break;
     default:
-        show_php_error(['phperror' => "Unknown action $action"]);
+        show_php_error(['phperror' => 'Unknown action']);
 }
 
 output_handler_json($rows);

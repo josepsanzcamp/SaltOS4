@@ -50,7 +50,6 @@ if (!$user_id) {
     show_json_error('Permission denied');
 }
 
-$action = get_data('rest/1');
 $file = get_data('json');
 if (!count($file)) {
     show_json_error('file not found');
@@ -72,7 +71,7 @@ if ($file['error'] !== '') {
 }
 
 // Do the action
-switch ($action) {
+switch (get_data('rest/1')) {
     case 'addfile':
         $file = add_upload_file($file);
         break;
@@ -80,7 +79,7 @@ switch ($action) {
         $file = del_upload_file($file);
         break;
     default:
-        show_php_error(['phperror' => "Unknown action $action"]);
+        show_php_error(['phperror' => 'Unknown action']);
 }
 
 output_handler_json($file);

@@ -256,7 +256,7 @@ endif
 ################################################################################
 
 cloc:
-	find scripts utest ujest code/api/{index.php,php,xml,locale} code/web/{js,html} code/apps/*/{js,php,xml,locale,sample} > /tmp/cloc.include
+	find scripts utest ujest code/api/{index.php,php,xml,locale} code/web/{js,html} code/apps/*/{js,php,xml,locale,sample} code/*/lib/*.yaml > /tmp/cloc.include
 	find code/apps/*/js/*.min.* utest/files/* > /tmp/cloc.exclude
 	cloc --list-file=/tmp/cloc.include --exclude-list-file=/tmp/cloc.exclude
 
