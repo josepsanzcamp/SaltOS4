@@ -128,7 +128,7 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
                     ${e} ${o} ${s} ${a}
                     data-bs-accesskey="${t.accesskey}" data-bs-title="${t.tooltip}" />
             </div>
-            <div class="form-control p-0 border-0 ${i} table-responsive mt-3 d-none">
+            <div class="form-control ${c} p-0 border-0 ${i} table-responsive mt-3 d-none">
                 <table class="table table-striped table-hover ${n} mb-0">
                     <tbody>
                     </tbody>

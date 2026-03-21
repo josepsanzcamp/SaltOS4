@@ -1944,7 +1944,7 @@ saltos.bootstrap.__field.file = field => {
                     ${disabled} ${required} ${autofocus} ${multiple}
                     data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
             </div>
-            <div class="form-control p-0 border-0 ${shadow} table-responsive mt-3 d-none">
+            <div class="form-control ${rounded} p-0 border-0 ${shadow} table-responsive mt-3 d-none">
                 <table class="table table-striped table-hover ${border2} mb-0">
                     <tbody>
                     </tbody>
