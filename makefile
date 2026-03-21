@@ -12,7 +12,10 @@ NONE=\033[0m
 
 .PHONY: utest docs ujest
 
-FILES=object,core,bootstrap,storage,hash,token,auth,window,polyfill,gettext,driver,filter,backup,form,push,common,app
+JS_OBJ  := code/web/js/object.js
+JS_APP  := code/web/js/app.js
+JS_ROOT := $(filter-out code/web/js/proxy.js $(JS_OBJ) $(JS_APP),$(wildcard code/web/js/*.js))
+JS_BOOT := $(wildcard code/web/js/bootstrap/*.js)
 
 export NODE_PATH := $(shell npm -g root 2>/dev/null)
 export NODE_OPTIONS := --no-deprecation
@@ -37,10 +40,22 @@ web: clean
 		code/web/lib/topbar/topbar.min.js > code/web/lib/index.js
 
 	mkdir -p code/web/js/.js
-	@for i in code/web/js/*.js; do \
-	cat $$i | php scripts/md5sum.php > code/web/js/.js/$${i##*/}; \
+	@for i in $(JS_OBJ) $(JS_APP) $(JS_ROOT); do \
+		f=$${i##*/}; \
+		cat $$i | php scripts/md5sum.php > code/web/js/.js/$$f; \
 	done
-	uglifyjs code/web/js/.js/{$(FILES)}.js -c reduce_vars=false -m -o code/web/index.js --source-map filename=code/web/index.js.map,url=index.js.map
+	@for i in $(JS_BOOT); do \
+		f=$${i##*/}; \
+		cat $$i | php scripts/md5sum.php > code/web/js/.js/bootstrap.$$f; \
+	done
+	uglifyjs \
+		$(patsubst code/web/js/%.js,code/web/js/.js/%.js,$(JS_OBJ)) \
+		$(patsubst code/web/js/%.js,code/web/js/.js/%.js,$(JS_ROOT)) \
+		$(patsubst code/web/js/bootstrap/%.js,code/web/js/.js/bootstrap.%.js,$(JS_BOOT)) \
+		$(patsubst code/web/js/%.js,code/web/js/.js/%.js,$(JS_APP)) \
+		-c reduce_vars=false -m \
+		-o code/web/index.js \
+		--source-map filename=code/web/index.js.map,url=index.js.map
 	rm -f code/web/js/.js/*.js
 	rmdir code/web/js/.js
 	cat code/web/html/index.html | php scripts/sha384.php | minify --html > code/web/index.html
@@ -56,14 +71,21 @@ web: clean
 
 devel: clean
 	cat code/web/html/index.html | \
-	php scripts/debug.php lib/index.css lib/icons/bootstrap-icons.min.css lib/atkinson/atkinson.min.css | \
+	php scripts/debug.php \
+		lib/index.css lib/icons/bootstrap-icons.min.css \
+		lib/atkinson/atkinson.min.css | \
 	php scripts/debug.php \
 		lib/index.js lib/bootstrap/bootstrap.bundle.min.js \
 		lib/md5/md5.min.js \
 		lib/sourcemap/sourcemapped-stacktrace.min.js \
 		lib/interactjs/interact.min.js \
 		lib/topbar/topbar.min.js | \
-	php scripts/debug.php index.js js/{$(FILES)}.js > code/web/index.html
+	php scripts/debug.php index.js \
+		$(patsubst code/web/js/%.js,js/%.js,$(JS_OBJ)) \
+		$(patsubst code/web/js/%.js,js/%.js,$(JS_ROOT)) \
+		$(patsubst code/web/js/%.js,js/%.js,$(JS_BOOT)) \
+		$(patsubst code/web/js/%.js,js/%.js,$(JS_APP)) \
+	> code/web/index.html
 
 	echo "importScripts('lib/md5/md5.min.js','js/proxy.js');" > code/web/proxy.js
 
