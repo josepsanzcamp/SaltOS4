@@ -107,10 +107,9 @@ saltos.bootstrap.__field.file = field => {
             </div>
         </div>
     `);
+    const element = obj.querySelector('input');
     if (field.tooltip !== '') {
-        obj.querySelectorAll('input').forEach(item => {
-            saltos.bootstrap.__tooltip_helper(item);
-        });
+        saltos.bootstrap.__tooltip_helper(element);
     }
     // This helper programs the input file data update
     const __update_data_input_file = input => {
@@ -121,7 +120,7 @@ saltos.bootstrap.__field.file = field => {
         });
         input.data = data;
     };
-    __update_data_input_file(obj.querySelector('input'));
+    __update_data_input_file(element);
     // This helper programs the delete file button
     const __button_remove_file = event => {
         const row = event.target.parentElement.parentElement;
@@ -180,7 +179,7 @@ saltos.bootstrap.__field.file = field => {
         return row;
     };
     // Program the automatic upload
-    obj.querySelector('input').addEventListener('change', async event => {
+    element.addEventListener('change', async event => {
         const input = event.target;
         const files = event.target.files;
         const table = event.target.parentElement.nextElementSibling.querySelector('table');
@@ -261,29 +260,25 @@ saltos.bootstrap.__field.file = field => {
         input.value = '';
     });
     // Program the set function
-    obj.querySelector('input').set = data => {
-        const input = obj.querySelector('input');
-        const tabla = input.parentElement.nextElementSibling.querySelector('table');
+    element.set = data => {
+        const tabla = element.parentElement.nextElementSibling.querySelector('table');
         tabla.querySelectorAll('tr').forEach(item => {
             item.remove();
         });
-        __update_data_input_file(input);
+        __update_data_input_file(element);
         for (const i in data) {
-            const input = obj.querySelector('input');
-            const table = input.parentElement.nextElementSibling.querySelector('table');
-            const row = __add_row_file(input, table, data[i]);
+            const table = element.parentElement.nextElementSibling.querySelector('table');
+            const row = __add_row_file(element, table, data[i]);
             const percent = 100;
             row.querySelector('.progress-bar').style.width = percent + '%';
             row.querySelector('.progress').setAttribute('aria-valuenow', percent);
         }
     };
     // Initialize the input with the previous function
-    obj.querySelector('input').set(field.data);
+    element.set(field.data);
     // Added the onchange event
     if (field.onchange !== '') {
-        obj.querySelectorAll('input[type=file]').forEach(item => {
-            saltos.bootstrap.__onchange_helper(item, field.onchange);
-        });
+        saltos.bootstrap.__onchange_helper(element, field.onchange);
     }
     // Continue
     obj.prepend(saltos.bootstrap.__label_helper(field));

@@ -87,27 +87,25 @@ saltos.bootstrap.__field.checkbox = field => {
                 data-bs-title="${field.tooltip}">${field.label}</label>
         </div>
     `);
+    const element = obj.querySelector('input');
     if (field.tooltip !== '') {
         obj.querySelectorAll('input, label').forEach(item => {
             saltos.bootstrap.__tooltip_helper(item);
         });
     }
     if (field.onchange !== '') {
-        obj.querySelectorAll('input').forEach(item => {
-            saltos.bootstrap.__onchange_helper(item, field.onchange);
-        });
+        saltos.bootstrap.__onchange_helper(element, field.onchange);
     }
-    obj.querySelector('input').addEventListener('change', event => {
+    element.addEventListener('change', event => {
         event.target.value = event.target.checked ? 1 : 0;
     });
-    obj.querySelector('input').set = bool => {
-        const input = obj.querySelector('input');
+    element.set = bool => {
         if (saltos.core.eval_bool(bool)) {
-            input.checked = true;
-            input.value = 1;
+            element.checked = true;
+            element.value = 1;
         } else {
-            input.checked = false;
-            input.value = 0;
+            element.checked = false;
+            element.value = 0;
         }
     };
     // This add the colorized feature to the checkbox and switch

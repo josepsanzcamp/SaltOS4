@@ -12,10 +12,11 @@ NONE=\033[0m
 
 .PHONY: utest docs ujest
 
-JS_OBJ  := code/web/js/object.js
-JS_APP  := code/web/js/app.js
-JS_ROOT := $(filter-out code/web/js/proxy.js $(JS_OBJ) $(JS_APP),$(wildcard code/web/js/*.js))
-JS_BOOT := $(wildcard code/web/js/bootstrap/*.js)
+JS_OBJ   := code/web/js/object.js
+JS_APP   := code/web/js/app.js
+JS_PROXY := code/web/js/proxy.js
+JS_ROOT  := $(filter-out $(JS_PROXY) $(JS_OBJ) $(JS_APP),$(wildcard code/web/js/*.js))
+JS_BOOT  := $(wildcard code/web/js/bootstrap/*.js)
 
 export NODE_PATH := $(shell npm -g root 2>/dev/null)
 export NODE_OPTIONS := --no-deprecation
@@ -67,7 +68,7 @@ web: clean
 	uglifyjs $$i -c reduce_vars=false -m -o $$j.min.js --source-map url=$$m.min.js.map; \
 	done
 
-	uglifyjs code/web/lib/md5/md5.min.js code/web/js/proxy.js -c reduce_vars=false -m -o code/web/proxy.js --source-map filename=code/web/proxy.js.map,url=proxy.js.map
+	uglifyjs code/web/lib/md5/md5.min.js $(JS_PROXY) -c reduce_vars=false -m -o code/web/proxy.js --source-map filename=code/web/proxy.js.map,url=proxy.js.map
 
 devel: clean
 	cat code/web/html/index.html | \
@@ -113,7 +114,7 @@ endif
 	phpstan -cscripts/phpstan.neon analyse ${files}; )
 
 ifeq ($(file),) # default behaviour
-	$(eval files := $(shell git ls-files -m -o --exclude-standard code/web/js/*.js scripts/*.js ujest/*.js code/apps/*/js/*.js | grep -v '\.min\.js$$' | grep -v '\.min\.js.map$$' | sort))
+	$(eval files := $(shell git ls-files -m -o --exclude-standard code/web/js/*.js code/web/js/*/*.js scripts/*.js ujest/*.js code/apps/*/js/*.js | grep -v '\.min\.js$$' | grep -v '\.min\.js.map$$' | sort))
 else ifeq ($(file),all) # file=all
 	$(eval files := $(shell find code/web/js scripts ujest code/apps/*/js -name *.js | grep -v '\.'min'\.'js$$ | sort))
 else # file=path
