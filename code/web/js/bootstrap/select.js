@@ -98,12 +98,12 @@ saltos.bootstrap.__field.select = field => {
                 data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}"></select>
         </div>
     `);
-    const select = obj.querySelector('select');
+    const element = obj.querySelector('select');
     if (field.onchange !== '') {
-        saltos.bootstrap.__onchange_helper(select, field.onchange);
+        saltos.bootstrap.__onchange_helper(element, field.onchange);
     }
     if (field.tooltip !== '') {
-        saltos.bootstrap.__tooltip_helper(select);
+        saltos.bootstrap.__tooltip_helper(element);
     }
     if (!field.separator) {
         field.separator = ',';
@@ -122,7 +122,7 @@ saltos.bootstrap.__field.select = field => {
             }
             const option = saltos.core.html(`<option value="${val.value}" ${selected}></option>`);
             option.append(val.label);
-            select.append(option);
+            element.append(option);
         } else {
             let selected = '';
             if (values.includes(val.toString())) {
@@ -130,15 +130,15 @@ saltos.bootstrap.__field.select = field => {
             }
             const option = saltos.core.html(`<option value="${val}" ${selected}></option>`);
             option.append(val);
-            select.append(option);
+            element.append(option);
         }
     }
     // Program the disabled feature
-    select.set_disabled = bool => {
+    element.set_disabled = bool => {
         if (bool) {
-            select.setAttribute('disabled', '');
+            element.setAttribute('disabled', '');
         } else {
-            select.removeAttribute('disabled');
+            element.removeAttribute('disabled');
         }
     };
     obj = saltos.bootstrap.__label_combine(field, obj);
@@ -256,7 +256,8 @@ saltos.bootstrap.__field.multiselect = field => {
         });
     });
     // Program the set feature
-    obj.querySelector('input[type=hidden]').set = value => {
+    const element = obj.querySelector('input[type=hidden]');
+    element.set = value => {
         const values = value.toString().split(field.separator);
         for (const key in values) {
             values[key] = values[key].trim();
@@ -275,11 +276,11 @@ saltos.bootstrap.__field.multiselect = field => {
         obj.querySelectorAll('#' + field.id + '_xyz option').forEach(option => {
             val.push(option.value);
         });
-        obj.querySelector('input[type=hidden]').value = val.join(field.separator);
+        element.value = val.join(field.separator);
     };
-    obj.querySelector('input[type=hidden]').set(field.value);
+    element.set(field.value);
     // Program the disabled feature
-    obj.querySelector('input[type=hidden]').set_disabled = bool => {
+    element.set_disabled = bool => {
         const temp = obj.querySelector('#' + field.id).closest('.row');
         temp.querySelectorAll('select, button').forEach(item => {
             item.set_disabled(bool);
