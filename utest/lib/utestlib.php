@@ -131,7 +131,7 @@ function test_web_helper($rest, $data, $token, $lang)
     }
     test_pcov_stop(2);
     $json = $response['body'];
-    if (in_array(substr($json, 0, 1), ['{', '['])) {
+    if (in_array(substr($json, 0, 1), ['{', '['], true)) {
         $json = json_decode($json, true);
     }
     return $json;
@@ -172,7 +172,7 @@ function test_cli_helper($rest, $data, $token, $lang, $user)
     }
     test_pcov_stop(2);
     $json = $response;
-    if (in_array(substr($json, 0, 1), ['{', '['])) {
+    if (in_array(substr($json, 0, 1), ['{', '['], true)) {
         $json = json_decode($json, true);
     }
     return $json;

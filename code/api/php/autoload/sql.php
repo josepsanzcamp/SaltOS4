@@ -526,7 +526,7 @@ function escape_reserved_word($word)
         'key', 'value', 'field', 'table', 'default', 'order', 'group',
         'from', 'to', 'in', 'out', 'start', 'stop', 'begin', 'end',
     ];
-    if (in_array($word, $words)) {
+    if (in_array($word, $words, true)) {
         return "`$word`";
     }
     return $word;
@@ -574,7 +574,7 @@ function make_like_query($keys, $values, $args = [])
     foreach ($values as $key => $val) {
         $val = get_string_from_quotes($val);
         $types[$key] = '+';
-        while (isset($val[0]) && in_array($val[0], ['+', '-'])) {
+        while (isset($val[0]) && in_array($val[0], ['+', '-'], true)) {
             $types[$key] = $val[0];
             $val = substr($val, 1);
         }
@@ -636,7 +636,7 @@ function __make_fulltext_query_helper($values, $args = [])
     foreach ($values as $key => $val) {
         $val = get_string_from_quotes($val);
         $type = '+';
-        while (isset($val[0]) && in_array($val[0], ['+', '-'])) {
+        while (isset($val[0]) && in_array($val[0], ['+', '-'], true)) {
             $type = $val[0];
             $val = substr($val, 1);
         }
@@ -870,11 +870,11 @@ function check_order($order, $fields)
             unset($order[$key]);
             continue;
         }
-        if (!in_array($val[0], $fields)) {
+        if (!in_array($val[0], $fields, true)) {
             unset($order[$key]);
             continue;
         }
-        if (!in_array(strtoupper($val[1]), ['ASC', 'DESC'])) {
+        if (!in_array(strtoupper($val[1]), ['ASC', 'DESC'], true)) {
             unset($order[$key]);
             continue;
         }

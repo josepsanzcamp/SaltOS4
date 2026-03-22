@@ -145,7 +145,7 @@ function mime_extract($data)
     if (preg_match('/^data:(.*?);base64,(.*)$/', $data, $matches)) {
         return [
             'type' => $matches[1],
-            'data' => base64_decode($matches[2]),
+            'data' => base64_decode($matches[2], true),
         ];
     }
     return [

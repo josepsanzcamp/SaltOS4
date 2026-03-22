@@ -60,7 +60,7 @@ function get_header()
     $fd = fopen(__FILE__, 'r');
     for ($i = 0; $i < 15; $i++) {
         $line = fgets($fd);
-        if (in_array(substr($line, 0, 3), [' * ', " *\n"])) {
+        if (in_array(substr($line, 0, 3), [' * ', " *\n"], true)) {
             $header[] = substr($line, 3, -1);
         }
     }

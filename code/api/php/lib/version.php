@@ -249,7 +249,7 @@ function get_version($app, $reg_id, $ver_id = null)
             show_php_error(['phperror' => "Blockchain integrity break for $app:$reg_id:$ver_id"]);
         }
         // Merge the new data with the data of the previous versions
-        $data_new = unserialize(base64_decode($row['data']));
+        $data_new = unserialize(base64_decode($row['data'], true));
         foreach ($data_new as $table => $temp) {
             if (!isset($data[$table])) {
                 $data[$table] = [];

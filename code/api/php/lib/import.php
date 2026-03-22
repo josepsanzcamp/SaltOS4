@@ -582,8 +582,8 @@ function __import_array2tree($array, $nodes, $nohead, $noletter)
             }
             $nodes[$key] = [];
             foreach ($val as $key2 => $val2) {
-                if (in_array($val2, $head)) {
-                    $nodes[$key][$key2] = array_search($val2, $head);
+                if (in_array($val2, $head, true)) {
+                    $nodes[$key][$key2] = array_search($val2, $head, true);
                 } elseif (__import_isname($val2)) {
                     $nodes[$key][$key2] = __import_name2col($val2);
                 } elseif (!is_numeric($val2)) {

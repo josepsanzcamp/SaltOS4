@@ -244,7 +244,7 @@ function __libsqlite_repeat($str, $count)
  */
 function __libsqlite_find_in_set($str, $strlist)
 {
-    $index = array_search($str, explode(',', strval($strlist)));
+    $index = array_search(strval($str), explode(',', strval($strlist)), true);
     return $index !== false ? $index + 1 : 0;
 }
 

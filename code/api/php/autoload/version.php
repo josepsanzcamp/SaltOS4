@@ -146,7 +146,7 @@ function __gitversion_helper($dir)
             }
             $dir = dirname($dir);
         }
-        if (in_array($dir, [false, '', '/'])) {
+        if (in_array($dir, [false, '', '/'], true)) {
             return 0;
         }
         $cmd = "cd $dir; git -c safe.directory=$dir rev-list HEAD --count 2>/dev/null";

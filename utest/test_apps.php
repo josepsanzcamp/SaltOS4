@@ -92,6 +92,10 @@ final class test_apps extends TestCase
 
         $files = glob('apps/*/xml/*.yaml');
         foreach ($files as $file) {
+            if (basename($file) === 'manifest.yaml') {
+                continue;
+            }
+
             $temp = explode('/', $file);
             $dir = $temp[1];
             $app = str_replace('.yaml', '', $temp[3]);

@@ -261,7 +261,7 @@ function __inline_img_helper($src)
 {
     $src = trim($src);
     $scheme = parse_url($src, PHP_URL_SCHEME);
-    if (!in_array($scheme, ['https', 'http'])) {
+    if (!in_array($scheme, ['https', 'http'], true)) {
         return $src;
     }
     $cache = get_cache_file($src, '.b64');
@@ -289,7 +289,7 @@ function __inline_img_helper($src)
             $type = saltos_content_type_from_string($data['body']);
         }
         $type0 = saltos_content_type0($type);
-        if (in_array($type0, ['image', 'application'])) {
+        if (in_array($type0, ['image', 'application'], true)) {
             $hash1 = md5($data['body']);
             require_once 'php/lib/gdlib.php';
             $data['body'] = image_resize($data['body'], 1000);
@@ -446,7 +446,7 @@ function fix_img_tag($html)
     foreach ($items as $item) {
         $src = $item->getAttribute('src');
         $scheme = parse_url($src, PHP_URL_SCHEME);
-        if (in_array($scheme, ['data'])) {
+        if (in_array($scheme, ['data'], true)) {
             continue; // Skip inline images
         }
         $froms = [
@@ -491,7 +491,7 @@ function fix_img_style($html)
         foreach ($matches[1] as $src) {
             $src = trim($src, '"\''); // Remove surrounding quotes
             $scheme = parse_url($src, PHP_URL_SCHEME);
-            if (in_array($scheme, ['data'])) {
+            if (in_array($scheme, ['data'], true)) {
                 continue; // Skip inline images
             }
             $froms = [
@@ -534,7 +534,7 @@ function fix_img_background($html)
             continue;
         }
         $scheme = parse_url($src, PHP_URL_SCHEME);
-        if (in_array($scheme, ['data'])) {
+        if (in_array($scheme, ['data'], true)) {
             continue; // Skip inline images
         }
         $froms = [

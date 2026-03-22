@@ -76,7 +76,10 @@ foreach ($files as $file => $temp) {
             } elseif (substr($val, 0, 2) === '* ') {
                 $val = substr($val, 2);
             }
-            if (in_array(substr($val, 0, 1), ['@', '+', '-']) && !in_array(substr($val, 1, 1), ['', ' '])) {
+            if (
+                in_array(substr($val, 0, 1), ['@', '+', '-'], true) &&
+                !in_array(substr($val, 1, 1), ['', ' '], true)
+            ) {
                 $val = "- $val";
             }
             $b[$key] = $val;

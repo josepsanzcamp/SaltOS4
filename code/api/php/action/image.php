@@ -94,7 +94,7 @@ if (!$user_id) {
 
 // Check parameters
 $format = get_data('json/format');
-if (!in_array($format, ['png', 'json'])) {
+if (!in_array($format, ['png', 'json'], true)) {
     show_json_error("Unknown format $format");
 }
 
@@ -150,7 +150,7 @@ switch (get_data('rest/1')) {
     case 'captcha':
         // Check parameters
         $type = get_data('json/type');
-        if (!in_array($type, ['number', 'math'])) {
+        if (!in_array($type, ['number', 'math'], true)) {
             show_json_error("Unknown type $type");
         }
         // Prepare parameters

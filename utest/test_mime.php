@@ -74,7 +74,9 @@ final class test_mime extends TestCase
         $array = mime_extract(__GIF_IMAGE__);
         $this->assertCount(2, $array);
         $this->assertSame($array['type'], 'image/gif');
-        $this->assertSame($array['data'], base64_decode('R0lGODlhCgABAIABAOns7////ywAAAAACgABAAACA4SPBQA7'));
+        $this->assertSame($array['data'], base64_decode(
+            'R0lGODlhCgABAIABAOns7////ywAAAAACgABAAACA4SPBQA7', true
+        ));
 
         $array = mime_extract('nada');
         $this->assertCount(2, $array);

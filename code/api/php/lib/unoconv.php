@@ -41,8 +41,8 @@ function unoconv2pdf($input)
         if ($type === 'application/pdf') {
             copy($input, $output);
         } elseif (
-            (in_array($ext, __unoconv_list()) && !in_array($type0, ['audio', 'video'])) ||
-            in_array($type0, ['text', 'message', 'image'])
+            (in_array($ext, __unoconv_list(), true) && !in_array($type0, ['audio', 'video'], true)) ||
+            in_array($type0, ['text', 'message', 'image'], true)
         ) {
             __unoconv_all2pdf($input, $output);
         }
@@ -68,7 +68,7 @@ function unoconv2txt($input)
         $type = saltos_content_type($input);
         $ext = strtolower(extension($input));
         $type0 = saltos_content_type0($type);
-        if (in_array($type, ['text/plain', 'application/json'])) {
+        if (in_array($type, ['text/plain', 'application/json'], true)) {
             copy($input, $output);
         } elseif ($type === 'text/html') {
             file_put_contents($output, html2text(file_get_contents($input)));
@@ -78,8 +78,10 @@ function unoconv2txt($input)
                 file_put_contents($output, __unoconv_pdf2ocr($input));
             }
         } elseif (
-            (in_array($ext, __unoconv_list()) && !in_array($type0, ['image', 'audio', 'video'])) ||
-            in_array($type0, ['text', 'message'])
+            (in_array($ext, __unoconv_list(), true) && !in_array($type0, [
+                'image', 'audio', 'video',
+            ], true)) ||
+            in_array($type0, ['text', 'message'], true)
         ) {
             $pdf = get_cache_file($input, '.pdf');
             if (!file_exists($pdf)) {

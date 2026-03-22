@@ -42,7 +42,7 @@ function db_schema()
         $tables2 = array_diff(get_tables_from_dbschema(), $ignores);
         foreach ($tables1 as $table) {
             $isbackup = (substr($table, 0, 2) === '__' && substr($table, -2, 2) === '__');
-            if (!$isbackup && !in_array($table, $tables2)) {
+            if (!$isbackup && !in_array($table, $tables2, true)) {
                 $backup = "__{$table}__";
                 db_query(__dbschema_alter_table($table, $backup));
                 $output[] = "Rename $table to $backup";
@@ -50,11 +50,11 @@ function db_schema()
         }
         foreach ($dbschema['tables'] as $tablespec) {
             $table = $tablespec['#attr']['name'];
-            if (!in_array($table, $tables2)) {
+            if (!in_array($table, $tables2, true)) {
                 continue;
             }
             $backup = "__{$table}__";
-            if (in_array($table, $tables1)) {
+            if (in_array($table, $tables1, true)) {
                 $fields1 = get_fields($table);
                 $fields2 = get_fields_from_dbschema($table);
                 $hash3 = md5(serialize($fields1));
@@ -69,7 +69,7 @@ function db_schema()
                     db_query(__dbschema_drop_table($backup));
                     $output[] = "Alter $table";
                 }
-            } elseif (in_array($backup, $tables1)) {
+            } elseif (in_array($backup, $tables1, true)) {
                 $fields1 = get_fields($backup);
                 $fields2 = get_fields_from_dbschema($table);
                 $hash3 = md5(serialize($fields1));
@@ -623,7 +623,7 @@ function __dbschema_auto_fkey($dbschema)
             }
             foreach ($tablespec['value']['fields'] as $fieldkey => $fieldspec) {
                 if (isset($fieldspec['#attr']['fkey']) && $fieldspec['#attr']['fkey'] !== '') {
-                    if (in_array($fieldspec['#attr']['name'], $indexes)) {
+                    if (in_array($fieldspec['#attr']['name'], $indexes, true)) {
                         continue;
                     }
                     if (!isset($dbschema['tables'][$tablekey]['value']['indexes'])) {
@@ -931,7 +931,7 @@ function __dbschema_create_table($tablespec)
     }
     $fields = implode(',', $fields);
     $post = '/*MYSQL ENGINE=MyISAM CHARSET=utf8mb4 */';
-    if (in_array($table, get_fulltext_from_dbschema()) && __has_engine('mroonga')) {
+    if (in_array($table, get_fulltext_from_dbschema(), true) && __has_engine('mroonga')) {
         $post = '/*MYSQL ENGINE=Mroonga CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci */';
     } elseif (__has_engine('aria')) {
         $post = '/*MYSQL ENGINE=Aria CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci */';
@@ -1002,7 +1002,7 @@ function __dbschema_insert_from_select($dest, $orig)
         $def = $defs[$key];
         $l2 = escape_reserved_word($l);
         $keys[] = $l2;
-        $vals[] = in_array($l, $lorig) ? $l2 : "'$def'";
+        $vals[] = in_array($l, $lorig, true) ? $l2 : "'$def'";
     }
     $keys = implode(',', $keys);
     $vals = implode(',', $vals);

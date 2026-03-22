@@ -46,7 +46,7 @@ function __files_list($search, $order, $offset, $limit)
     foreach ($search as $key => $val) {
         $val = get_string_from_quotes($val);
         $type = '+';
-        while (isset($val[0]) && in_array($val[0], ['+', '-'])) {
+        while (isset($val[0]) && in_array($val[0], ['+', '-'], true)) {
             $type = $val[0];
             $val = substr($val, 1);
         }

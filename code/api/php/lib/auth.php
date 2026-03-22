@@ -75,7 +75,7 @@ function authtoken($user, $pass)
     } elseif (password_verify($pass, $row2['password'])) {
         // Nothing to do, password is correct!!!
     } elseif (
-        in_array($row2['password'], [md5($pass), sha1($pass)]) ||
+        in_array($row2['password'], [md5($pass), sha1($pass)], true) ||
         password_verify_phpass($pass, $row2['password'])
     ) {
         // Convert from MD5/SHA1/PHPASS to password_hash format

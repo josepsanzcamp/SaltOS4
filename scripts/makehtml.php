@@ -33,7 +33,7 @@ $buffer = file_get_contents("${file}.html");
 $buffer = explode("\n", $buffer);
 
 // /Add some pre style
-$line = array_search('</style>', $buffer);
+$line = array_search('</style>', $buffer, true);
 if ($line === false) {
     echo "Internal error!!!\n";
     die();

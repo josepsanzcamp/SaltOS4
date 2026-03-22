@@ -35,7 +35,7 @@ declare(strict_types=1);
 function check_notes_old($app, $action, $id = null)
 {
     // Check for action
-    if (!in_array($action, ['view', 'edit'])) {
+    if (!in_array($action, ['view', 'edit'], true)) {
         return false;
     }
     // Check the app table
@@ -71,7 +71,7 @@ function check_notes_old($app, $action, $id = null)
 function check_notes_new($app, $action)
 {
     // Check for action
-    if (!in_array($action, ['create', 'edit'])) {
+    if (!in_array($action, ['create', 'edit'], true)) {
         return false;
     }
     // Check the app table

@@ -135,7 +135,7 @@ function is_disabled_function($fn)
         }
         return;
     }
-    return in_array($fn, $array);
+    return in_array($fn, $array, true);
 }
 
 /**

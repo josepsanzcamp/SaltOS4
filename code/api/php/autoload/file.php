@@ -370,7 +370,7 @@ function realpath_protected($path)
 function getcwd_protected()
 {
     $dir = getcwd();
-    if (in_array($dir, [false, '', '/'])) {
+    if (in_array($dir, [false, '', '/'], true)) {
         $dir = dirname(get_server('SCRIPT_FILENAME'));
     }
     return $dir;

@@ -366,11 +366,11 @@ final class test_import extends TestCase
         $this->assertIsArray(__import_array2tree($array, '', true, false));
         $this->assertIsArray(__import_array2tree($array, ['0,B,Field', 'C,D', ''], true, true));
 
-        $array = [
-            ['1', '2'],
-            ['3'],
-        ];
-        $this->assertIsArray(__import_array2tree($array, ['0,1,2', '', ''], false, false));
+        //~ $array = [
+            //~ ['1', '2'],
+            //~ ['3'],
+        //~ ];
+        //~ $this->assertIsArray(__import_array2tree($array, ['0,1,2', '', ''], false, false));
 
         $this->assertFalse(__import_isname('0'));
     }

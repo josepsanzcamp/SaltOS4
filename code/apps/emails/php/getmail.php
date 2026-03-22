@@ -100,7 +100,7 @@ function __getmail_processmessage($disp, $type)
  */
 function __getmail_processplainhtml($disp, $type)
 {
-    return (in_array($type, ['plain', 'html']) && $disp === 'inline');
+    return (in_array($type, ['plain', 'html'], true) && $disp === 'inline');
 }
 
 /**
@@ -116,7 +116,9 @@ function __getmail_processfile($disp, $type)
 {
     return (
         $disp === 'attachment' ||
-        ($disp === 'inline' && !in_array($type, ['plain', 'html', 'message', 'alternative', 'multipart']))
+        ($disp === 'inline' && !in_array($type, [
+            'plain', 'html', 'message', 'alternative', 'multipart',
+        ], true))
     );
 }
 
@@ -825,7 +827,7 @@ function __getmail_getcid($array, $hash)
                     md5(serialize([md5($temp), $cid, $cname, $ctype, $csize])),
                     md5(serialize([md5($temp), null, $cname, $ctype, $csize])),
                     md5(json_encode([md5($temp), $cid, $cname, $ctype, $csize])),
-                ])
+                ], true)
             ) {
                 $hsize = get_human_size($csize, ' ', 'bytes');
                 return [
@@ -1534,7 +1536,7 @@ function getmail_server()
             foreach ($result2 as $row2) {
                 $time2 = strtotime($row2['datetime']);
                 if ($time1 - $time2 >= $row['pop3_days'] * 86400) {
-                    $index2 = array_search($row2['uidl'], $uidls);
+                    $index2 = array_search($row2['uidl'], $uidls, true);
                     $error = $pop3->DeleteMessage($index2);
                     unset($uidls[$index2]);
                     $uidls = array_combine(range(1, count($uidls)), array_values($uidls));

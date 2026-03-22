@@ -208,7 +208,7 @@ function unmake_matrix_data($perms, $apps, $main, $json)
             $key = "$app_id|$perm_id";
             if (isset($main[$key])) {
                 $case = $main[$key]['allow'] . $main[$key]['deny'] . $allow . $deny;
-                if (in_array($case, ['0010', '0001', '1001'])) {
+                if (in_array($case, ['0010', '0001', '1001'], true)) {
                     $matrix[] = [
                         'app_id' => $app_id,
                         'perm_id' => $perm_id,

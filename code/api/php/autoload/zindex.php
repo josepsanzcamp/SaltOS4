@@ -150,7 +150,7 @@ if (get_data('rest/0') === '') {
 }
 
 // Check for a valid request_method
-if (!in_array(get_data('server/request_method'), ['GET', 'POST', 'CLI'])) {
+if (!in_array(get_data('server/request_method'), ['GET', 'POST', 'CLI'], true)) {
     show_json_error('Unknown request');
 }
 

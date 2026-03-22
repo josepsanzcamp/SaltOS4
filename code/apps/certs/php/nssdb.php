@@ -170,7 +170,7 @@ function __nssdb_info($nick, $shortnames = false)
         return ['error' => 'openssl_pkey_get_details output error'];
     }
     $remove = ['-----BEGIN PUBLIC KEY-----', '-----END PUBLIC KEY-----'];
-    $binkey = base64_decode(str_replace($remove, '', $details['key']));
+    $binkey = base64_decode(str_replace($remove, '', $details['key']), true);
     return [
         'subject' => $array['subject'],
         'info' => [

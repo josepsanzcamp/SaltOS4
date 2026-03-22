@@ -63,7 +63,7 @@ $red = "\e[31m";
 $green = "\e[32m";
 foreach ($libs as $key => $lib) {
     $lib = explode('|', $lib);
-    if (count($lib) === 4 && $lib[0][0] !== '#' && (count($argv) === 0 || in_array($lib[0], $argv))) {
+    if (count($lib) === 4 && $lib[0][0] !== '#' && (count($argv) === 0 || in_array($lib[0], $argv, true))) {
         //~ $temp=@file_get_contents($lib[1]);
         $start = microtime(true);
         $temp = curl($lib[1], 5);
@@ -78,7 +78,7 @@ foreach ($libs as $key => $lib) {
         $temp = head($temp, 1);
         $temp = trim($temp);
         $isvoid = ($temp === '');
-        $temp2 = grep($temp, base64_decode($lib[3]));
+        $temp2 = grep($temp, base64_decode($lib[3], true));
         $isko = ($temp2 === '');
         if ($istimeout) {
             echo "{$lib[0]}: {$red}timeout curl({$lib[1]}){$reset}\n";

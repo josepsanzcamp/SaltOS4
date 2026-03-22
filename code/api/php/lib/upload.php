@@ -40,7 +40,7 @@ function add_upload_file($val)
         return $val;
     }
     // Check for the data size
-    $data = base64_decode(substr($data, $len));
+    $data = base64_decode(substr($data, $len), true);
     if (strlen($data) !== $val['size']) {
         return $val;
     }

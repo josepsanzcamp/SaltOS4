@@ -147,7 +147,7 @@ function sprintr($array)
     $buffer = print_r($array, true);
     $buffer = explode("\n", $buffer);
     foreach ($buffer as $key => $val) {
-        if (in_array(trim($val), ['(', ')', ''])) {
+        if (in_array(trim($val), ['(', ')', ''], true)) {
             unset($buffer[$key]);
         }
     }
@@ -187,7 +187,7 @@ function intelligence_cut($txt, $max, $end = '...')
             }
         }
         if ($max > 0) {
-            if (in_array($txt[$max - 1], [',', '.', '-', '('])) {
+            if (in_array($txt[$max - 1], [',', '.', '-', '('], true)) {
                 $max--;
             }
         }
@@ -409,7 +409,7 @@ function str_replace_one($from, $to, $cad)
 function get_string_from_quotes($val)
 {
     $open = substr($val, 0, 1);
-    if (in_array($open, ['"', "'"])) {
+    if (in_array($open, ['"', "'"], true)) {
         $close = substr($val, -1, 1);
         if ($open === $close) {
             $val = substr($val, 1, -1);

@@ -447,10 +447,10 @@ function detect_recursion($fn)
     $temp = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
     foreach ($temp as $key => $val) {
         // @phpstan-ignore isset.offset
-        if (isset($val['function']) && in_array($val['function'], $fn)) {
+        if (isset($val['function']) && in_array($val['function'], $fn, true)) {
             continue;
         }
-        if (isset($val['file']) && in_array(basename($val['file']), $fn)) {
+        if (isset($val['file']) && in_array(basename($val['file']), $fn, true)) {
             continue;
         }
         unset($temp[$key]);

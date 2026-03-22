@@ -32,7 +32,7 @@ declare(strict_types=1);
  */
 function push_insert($type, $message)
 {
-    if (!in_array($type, ['success', 'danger', 'event'])) {
+    if (!in_array($type, ['success', 'danger', 'event'], true)) {
         show_php_error(['phperror' => "Unknown type $type"]);
     }
     $query = prepare_insert_query('tbl_push', [

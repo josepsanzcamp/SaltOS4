@@ -536,7 +536,7 @@ function __pdf_all2pdf($input)
     $type1 = saltos_content_type1($type);
 
     // For plain and html text
-    if (in_array($type0, ['text', 'message'])) {
+    if (in_array($type0, ['text', 'message'], true)) {
         $pdf = new TCPDF('P', 'mm', 'A4');
         $pdf->SetCreator(get_name_version_revision());
         $pdf->SetDisplayMode('fullwidth', 'continuous');
@@ -558,10 +558,10 @@ function __pdf_all2pdf($input)
     // For images
     if ($type0 === 'image') {
         list($width, $height) = getimagesize($input);
-        if (in_array($type1, ['jpeg', 'tiff'])) {
+        if (in_array($type1, ['jpeg', 'tiff'], true)) {
             $exif = exif_read_data($input);
             $orientation = $exif['Orientation'] ?? 1;
-            if (in_array($orientation, [6, 8])) {
+            if (in_array($orientation, [6, 8], true)) {
                 list($width, $height) = [$height, $width];
             }
         }

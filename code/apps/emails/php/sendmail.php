@@ -90,7 +90,7 @@ function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
     ];
     $mail->set('SMTPOptions', $options);
     $mail->IsHTML();
-    if (!in_array($host, ['mail', 'sendmail', 'qmail', ''])) {
+    if (!in_array($host, ['mail', 'sendmail', 'qmail', ''], true)) {
         $mail->IsSMTP();
         $mail->set('Host', $host);
         if ($port !== '') {
@@ -402,7 +402,7 @@ function sendmail_prepare($action, $email_id)
     $body_extra = '';
 
     // Adjust account ID if replying, replying all, or forwarding
-    if (in_array($action, ['reply', 'replyall', 'forward'])) {
+    if (in_array($action, ['reply', 'replyall', 'forward'], true)) {
         $query = 'SELECT account_id FROM app_emails WHERE id = ?';
         $result2 = execute_query($query, [$email_id]);
         if ($result2 && $account_id !== $result2) {
@@ -431,7 +431,7 @@ function sendmail_prepare($action, $email_id)
     }
 
     // Handle "reply" and "replyall" actions
-    if (in_array($action, ['reply', 'replyall'])) {
+    if (in_array($action, ['reply', 'replyall'], true)) {
         $query = 'SELECT * FROM app_emails_address WHERE email_id = ?';
         $result2 = execute_query_array($query, [$email_id]);
         foreach ($result2 as $addr) {
@@ -511,7 +511,7 @@ function sendmail_prepare($action, $email_id)
     }
 
     // Append original email metadata for reply, replyall, or forward
-    if (in_array($action, ['reply', 'replyall', 'forward'])) {
+    if (in_array($action, ['reply', 'replyall', 'forward'], true)) {
         $query = 'SELECT * FROM app_emails WHERE id = ?';
         $row2 = execute_query($query, [$email_id]);
         if ($row2 && isset($row2['subject'])) {
@@ -695,7 +695,7 @@ function sendmail_action($json, $action, $email_id)
     }
 
     // Update states for reply, replyall, or forward actions
-    if (in_array($action, ['reply', 'replyall', 'forward'])) {
+    if (in_array($action, ['reply', 'replyall', 'forward'], true)) {
         __getmail_update('email_id', $email_id, $last_id);
         $campo = null;
         if ($action === 'reply') {
@@ -824,7 +824,7 @@ function sendmail_server()
 
             // Update SMTP settings if necessary
             if (!$idem) {
-                if (!in_array($current_host, ['mail', 'sendmail', 'qmail', ''])) {
+                if (!in_array($current_host, ['mail', 'sendmail', 'qmail', ''], true)) {
                     $mail->IsSMTP();
                     $mail->set('Host', $current_host);
                     $mail->set('Port', $current_port);
