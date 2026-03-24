@@ -622,7 +622,7 @@ saltos.form.screen = action => {
                         '0.8': '#20c997', // teal
                         '0.9': '#0dcaf0', // cyan
                     },
-                    className: 'tolbar',
+                    className: 'topbar',
                 });
                 saltos.form.__form.init = true;
             }
@@ -647,8 +647,8 @@ saltos.form.screen = action => {
             return true;
         }
         case 'isloading': {
-            const tolbar = document.querySelector('.tolbar');
-            return tolbar && tolbar.style.opacity > 0.05;
+            const _topbar = document.querySelector('.topbar');
+            return _topbar && _topbar.style.opacity > 0.05;
         }
         case 'clear':
             const obj = document.getElementById('screen');
