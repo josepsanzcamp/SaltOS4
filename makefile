@@ -102,7 +102,7 @@ clean:
 
 test:
 ifeq ($(file),) # default behaviour
-	$(eval files := $(shell git ls-files -m -o --exclude-standard code/api/*.php code/api/php scripts utest code/apps/*/php code/apps/*/sample | grep '\.php$$' | sort))
+	$(eval files := $(shell git ls-files -m -o --exclude-standard code/api/*.php code/api/php/*/*.php scripts/*.php utest/*.php utest/*/*.php code/apps/*/php/*.php code/apps/*/sample/*.php | sort))
 else ifeq ($(file),all) # file=all
 	$(eval files := $(shell find code/api/index.php code/api/php scripts utest code/apps/*/php code/apps/*/sample -name *.php | sort))
 else # file=path
@@ -114,7 +114,7 @@ endif
 	phpstan -cscripts/phpstan.neon analyse ${files}; )
 
 ifeq ($(file),) # default behaviour
-	$(eval files := $(shell git ls-files -m -o --exclude-standard code/web/js/*.js code/web/js/*/*.js scripts/*.js ujest/*.js code/apps/*/js/*.js | grep -v '\.min\.js$$' | grep -v '\.min\.js.map$$' | sort))
+	$(eval files := $(shell git ls-files -m -o --exclude-standard code/web/js/*.js code/web/js/*/*.js scripts/*.js ujest/*.js code/apps/*/js/*.js | grep -v '\.min\.js$$' | sort))
 else ifeq ($(file),all) # file=all
 	$(eval files := $(shell find code/web/js scripts ujest code/apps/*/js -name *.js | grep -v '\.'min'\.'js$$ | sort))
 else # file=path
