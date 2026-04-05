@@ -304,7 +304,7 @@ saltos.core.html = (...args) => {
  * This array allow to the ajax feature to manage the active request, intended to abort
  * if it is needed when onhashchange.
  */
-saltos.core.__ajax = [];
+saltos.core.__ajax = new Set();
 
 /**
  * AJAX
@@ -371,7 +371,7 @@ saltos.core.ajax = args => {
     let controller = null;
     if (saltos.core.eval_bool(args.abortable)) {
         controller = new AbortController();
-        saltos.core.__ajax.push(controller);
+        saltos.core.__ajax.add(controller);
         options.signal = controller.signal;
     }
     if (args.method === 'POST') {
@@ -437,11 +437,7 @@ saltos.core.ajax = args => {
     }).finally(() => {
         // Remove the element of the ajax request list
         if (saltos.core.eval_bool(args.abortable)) {
-            for (const i in saltos.core.__ajax) {
-                if (saltos.core.__ajax[i] === controller) {
-                    delete saltos.core.__ajax[i];
-                }
-            }
+            saltos.core.__ajax.delete(controller);
         }
     });
 };
@@ -795,8 +791,8 @@ document.addEventListener('DOMContentLoaded', event => {
             }
             // In this scope, a certificate issue was found and a reload is neeced
             saltos.core.proxy('stop');
-            for (const i in saltos.core.__ajax) {
-                saltos.core.__ajax[i].abort();
+            for (const controller of saltos.core.__ajax) {
+                controller.abort();
             }
             setTimeout(() => {
                 window.location.reload();

@@ -137,8 +137,8 @@ window.addEventListener('hashchange', event => {
         saltos.autosave.purge('two,one', hash);
     }
     // Ajax part
-    for (const i in saltos.core.__ajax) {
-        saltos.core.__ajax[i].abort();
+    for (const controller of saltos.core.__ajax) {
+        controller.abort();
     }
     // Autoclose part
     document.querySelectorAll('[autoclose]').forEach(item => {
