@@ -28,7 +28,7 @@ declare(strict_types=1);
  */
 use SebastianBergmann\CodeCoverage\Data\RawCodeCoverageData;
 use PHPUnit\Runner\CodeCoverage;
-use SebastianBergmann\CodeCoverage\Test\TestStatus\TestStatus;
+use SebastianBergmann\CodeCoverage\Test\TestStatus;
 use PHPUnit\Framework\Assert;
 
 /**
@@ -88,7 +88,7 @@ function test_pcov_stop($index): void
         $coverage,
         $method,
         true,
-        TestStatus::unknown(),
+        TestStatus::Unknown,
     );
 }
 
