@@ -1,6 +1,6 @@
-- id: sortablejs
-  name: SortableJS
-  package: sortablejs/Sortable
-  homepage: https://sortablejs.github.io/Sortable/
+- id: gridstack
+  name: GridStack.js
+  package: gridstack/gridstack.js
+  homepage: https://gridstackjs.com/
   license: MIT License
   license_id: MIT

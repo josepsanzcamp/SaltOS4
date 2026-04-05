@@ -1,0 +1,18 @@
+
+#https://github.com/gridstack/gridstack.js
+#https://www.jsdelivr.com/package/npm/gridstack
+
+version=$(curl -s https://data.jsdelivr.com/v1/packages/npm/gridstack/resolved | jq -r .version)
+echo $version > VERSION
+
+rm -f gridstack-all.min.js
+wget https://cdn.jsdelivr.net/npm/gridstack@$version/dist/gridstack-all.min.js
+
+rm -f gridstack.min.css
+wget https://cdn.jsdelivr.net/npm/gridstack@$version/dist/gridstack.min.css
+
+cat gridstack-all.min.js | grep -v sourceMappingURL > gridstack-all.min.js.new
+mv gridstack-all.min.js.new gridstack-all.min.js
+
+#wget https://raw.githubusercontent.com/gridstack/gridstack.js/refs/heads/master/LICENSE
+#wget https://raw.githubusercontent.com/gridstack/gridstack.js/refs/heads/master/README.md

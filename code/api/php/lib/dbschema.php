@@ -816,7 +816,7 @@ function __manifest2dbstatic($files)
             // Add the apps data package
             $xml = '<table name="tbl_apps">
                         <row id="" active="" code="" name="" description=""
-                            group="" table="" subtables="" field=""
+                            table="" subtables="" field=""
                             has_index="0" has_control="0" has_version="0"
                             has_files="0" has_notes="0" has_log="0"/>
                     </table>';
@@ -853,7 +853,7 @@ function __manifest2dbstatic($files)
             foreach ($data['widgets'] as $widget) {
                 // Add the apps data package
                 $xml = '<table name="tbl_apps_widgets">
-                            <row active="" code="" name="" description="" group=""/>
+                            <row active="" code="" name="" description=""/>
                         </table>';
                 $array = xml2array($xml);
                 foreach ($widget as $key => $val) {

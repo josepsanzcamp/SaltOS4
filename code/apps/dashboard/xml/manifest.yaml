@@ -20,13 +20,3 @@ apps:
       perms: main,config,help
       allow: 1
       deny: 0
-
-    - id: 6
-      active: 1
-      group: core
-      code: dashboard_widgets
-      name: Dashboard widgets
-      description: Dashboard widgets configuration app
-      perms: main,config,help
-      allow: 1
-      deny: 0

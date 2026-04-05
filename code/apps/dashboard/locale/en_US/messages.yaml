@@ -10,7 +10,4 @@
 # Licensed under the MIT License.
 # See the LICENSE file in the project root for full license information.
 
-dashboard_widgets: Dashboard widgets
 dashboard_app: Dashboard app
-dashboard_widgets_configuration_app: Dashboard widgets configuration app
-to_configure_the_dashboard_widgets: To configure the dashboard widgets

@@ -47,149 +47,97 @@ declare(strict_types=1);
  */
 function __dashboard_helper()
 {
-    // Create the apps list by groups
-    $query = 'SELECT code, name, description, `group`, color, opacity, fontsize, colsize
-        FROM tbl_apps WHERE active = 1 ORDER BY position ASC, name ASC';
+    // Create the apps list
+    $query = 'SELECT code, name, description, color, layout
+        FROM tbl_apps WHERE active = 1';
+    $rows = execute_query_array($query);
+    $apps = [];
+    foreach ($rows as $row) {
+        if (check_user($row['code'], 'menu')) {
+            [$row['x'], $row['y'], $row['w'], $row['h']] = explode(',', $row['layout']);
+            $apps[] = $row;
+        }
+    }
+
+    // Prepare the groups list
+    $query = 'SELECT code, name, description, color, layout
+        FROM tbl_apps_groups WHERE active = 1';
     $rows = execute_query_array($query);
     $groups = [];
     foreach ($rows as $row) {
-        if (!check_user($row['code'], 'menu')) {
-            continue;
-        }
-        $group = $row['group'];
-        if (!isset($groups[$group])) {
-            $groups[$group] = [];
-        }
-        $groups[$group][] = $row;
+        [$row['x'], $row['y'], $row['w'], $row['h']] = explode(',', $row['layout']);
+        $groups[] = $row;
     }
 
-    // Create the widgets list by groups
-    $query = 'SELECT code, name, description, app, `group`, colsize
-        FROM tbl_apps_widgets WHERE active = 1 ORDER BY position ASC, name ASC';
+    // Create the widgets list
+    $query = 'SELECT code, name, description, app, layout
+        FROM tbl_apps_widgets WHERE active = 1';
     $rows = execute_query_array($query);
     $widgets = [];
     foreach ($rows as $row) {
-        if (!check_user($row['app'], 'widget')) {
-            continue;
+        if (check_user($row['app'], 'widget')) {
+            [$row['x'], $row['y'], $row['w'], $row['h']] = explode(',', $row['layout']);
+            $widgets[] = $row;
         }
-        $group = $row['group'];
-        if (!isset($widgets[$group])) {
-            $widgets[$group] = [];
-        }
-        $widgets[$group][] = $row;
     }
 
-    // Prepare the mapping
-    $query = 'SELECT code, name, description, color
-        FROM tbl_apps_groups WHERE active = 1 ORDER BY position ASC, name ASC';
-    $rows = execute_query_array($query);
-    $mapping = array_combine(array_column($rows, 'code'), $rows);
-    $mapping = array_intersect_key($mapping, $groups);
-
-    // Create the lineal apps list
+    // Create the lineal items list
     $items = [];
-    foreach ($mapping as $group => $ginfo) {
-        // Add the alert
-        $xml = '<alert id="group/{$code}" title="{$name}" text="{$description}"
-            col_class="col-12 mb-3" color="{$color}"/>';
+
+    // Add the alert
+    foreach ($groups as $row) {
+        $xml = '<alert id="alert_{$code}" title="{$name}" text="{$description}" class="h-100"
+            color="{$color}" x="{$x}" y="{$y}" w="{$w}" h="{$h}"/>';
         $xml = str_replace_assoc([
-            '{$code}' => $ginfo['code'],
-            '{$name}' => T($ginfo['name'], $groups[$group][0]['code']),
-            '{$description}' =>
-                str_replace('&', '&amp;', T($ginfo['description'], $groups[$group][0]['code'])),
-            '{$color}' => $ginfo['color'],
+            '{$code}' => $row['code'],
+            '{$name}' => T($row['name'], $row['code']),
+            '{$description}' => str_replace('&', '&amp;', T($row['description'], $row['code'])),
+            '{$color}' => $row['color'],
+            '{$x}' => $row['x'],
+            '{$y}' => $row['y'],
+            '{$w}' => $row['w'],
+            '{$h}' => $row['h'],
         ], $xml);
         $array = xml2array($xml);
         set_array($items, 'alert', $array['alert']);
+    }
 
-        // Add the buttons
-        foreach ($groups[$group] as $row) {
-            $xml = '<button id="app/{$code}" onclick="saltos.window.open(\'app/{$code}\')"
-                class="w-100 h-100 fs-{$fontsize} opacity-{$opacity}" label="{$name}"
-                col_class="col-xl-{$colsize} col-md-6 mb-3" rounded="rounded"
-                tooltip="{$description}" color="{$color}"/>';
-            $xml = str_replace_assoc([
-                '{$code}' => $row['code'],
-                '{$name}' => T($row['name'], $row['code']),
-                '{$description}' => T($row['description'], $row['code']),
-                '{$color}' => $row['color'],
-                '{$opacity}' => $row['opacity'],
-                '{$fontsize}' => $row['fontsize'],
-                '{$colsize}' => $row['colsize'],
-            ], $xml);
-            $array = xml2array($xml);
-            set_array($items, 'button', $array['button']);
-        }
-
-        // Add the hr
-        $xml = '<hr id="separator" col_class="col-12 clonable" class="mt-0 border-3"/>';
+    // Add the buttons
+    foreach ($apps as $row) {
+        $xml = '<button id="button_{$code}" onclick="saltos.window.open(\'app/{$code}\')"
+            class="w-100 h-100" label="{$name}" tooltip="{$description}"
+            color="{$color}" x="{$x}" y="{$y}" w="{$w}" h="{$h}"/>';
+        $xml = str_replace_assoc([
+            '{$code}' => $row['code'],
+            '{$name}' => T($row['name'], $row['code']),
+            '{$description}' => T($row['description'], $row['code']),
+            '{$color}' => $row['color'],
+            '{$x}' => $row['x'],
+            '{$y}' => $row['y'],
+            '{$w}' => $row['w'],
+            '{$h}' => $row['h'],
+        ], $xml);
         $array = xml2array($xml);
-        set_array($items, 'hr', $array['hr']);
-
-        // Add the widgets
-        if (isset($widgets[$group])) {
-            foreach ($widgets[$group] as $row) {
-                $xml = '<widget id="widget/{$code}" source="app/{$app}/widget/{$code}"
-                    col_class="col-xl-{$colsize} col-md-6 mb-3"/>';
-                $xml = str_replace_assoc([
-                    '{$code}' => $row['code'],
-                    '{$app}' => $row['app'],
-                    '{$colsize}' => $row['colsize'],
-                ], $xml);
-                $array = xml2array($xml);
-                set_array($items, 'widget', $array['widget']);
-            }
-
-            // Add the hr
-            $xml = '<hr id="separator" col_class="col-12 clonable" class="mt-0 border-3"/>';
-            $array = xml2array($xml);
-            set_array($items, 'hr', $array['hr']);
-        }
+        set_array($items, 'button', $array['button']);
     }
 
-    array_pop($items);
+    // Add the widgets
+    foreach ($widgets as $row) {
+        $xml = '<widget id="widget_{$code}" source="app/{$app}/widget/{$code}"
+            x="{$x}" y="{$y}" w="{$w}" h="{$h}"/>';
+        $xml = str_replace_assoc([
+            '{$code}' => $row['code'],
+            '{$app}' => $row['app'],
+            '{$x}' => $row['x'],
+            '{$y}' => $row['y'],
+            '{$w}' => $row['w'],
+            '{$h}' => $row['h'],
+        ], $xml);
+        $array = xml2array($xml);
+        set_array($items, 'widget', $array['widget']);
+    }
+
     return $items;
-}
-
-/**
- * Build a personalized dashboard layout based on user config.
- *
- * This function loads the full list of dashboard items using `__dashboard_helper()`
- * and then tries to fetch the widget configuration saved by the current user
- * under the path `app/dashboard/widgets/default`.
- *
- * If configuration is found, it reconstructs the dashboard by preserving only
- * the items selected by the user, in the specified order. Otherwise, it returns
- * the default layout.
- *
- * @return array The personalized or default dashboard widget list
- */
-function __dashboard_config()
-{
-    $items = __dashboard_helper();
-    $mapping = [];
-    foreach ($items as $key => $val) {
-        $mapping[$val['#attr']['id']] = $key;
-    }
-
-    $config = get_config_array('app/dashboard/widgets/default', current_user());
-    if (isset($config['app/dashboard/widgets/default'])) {
-        $config = json_decode($config['app/dashboard/widgets/default'], true);
-    }
-    if (!is_array($config) || !count($config)) {
-        return $items;
-    }
-
-    $result = [];
-    foreach ($config as $item) {
-        if (!isset($mapping[$item])) {
-            continue;
-        }
-        $key = $mapping[$item];
-        $val = $items[$key];
-        set_array($result, $key, $val);
-    }
-    return $result;
 }
 
 /**

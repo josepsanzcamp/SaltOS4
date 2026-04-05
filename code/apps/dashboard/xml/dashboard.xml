@@ -15,26 +15,54 @@
 -->
 
 <root>
-    <main>
+    <main default="true">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <gettext eval="true">T()</gettext>
-        <screen>type1</screen>
+        <screen>type1fluid</screen>
         <navbar eval="true">xmlfile2array('apps/common/xml/navbar.xml')['navbar']</navbar>
         <title>Dashboard</title>
-        <layout append="top">
-            <row auto="true" row_class="row position-absolute end-0 me-0 mt-3 z-1">
-                <button onclick="saltos.window.open('app/dashboard_widgets')" tooltip="To configure the dashboard widgets" icon="gear"/>
-            </row>
-        </layout>
-        <layout append="one">
-            <row auto="true" id="catalog" col_class="col mb-3" row_class="row mt-3"
-                require="apps/dashboard/php/dashboard.php" eval="true">__dashboard_config()</row>
-        </layout>
         <javascript>
+            <file eval="true">file_with_hash('apps/dashboard/lib/gridstack/gridstack-all.min.js')</file>
             <file eval="true">file_with_hash(file_with_min('apps/dashboard/js/dashboard.js'))</file>
             <inline>saltos.driver.init('main')</inline>
-            <inline>saltos.dashboard.init()</inline>
         </javascript>
+        <style>
+            <file eval="true">file_with_hash('apps/dashboard/lib/gridstack/gridstack.min.css')</file>
+            <inline>
+                .widget-drag-handle {
+                    position: absolute;
+                    top: 6px;
+                    left: 8px;
+                    z-index: 1000;
+                    cursor: grab;
+                    padding: 2px;
+                    transition: opacity .2s;
+                    color: #666;
+                    text-shadow:
+                        0.5px 0 0 #666,
+                        0 0.5px 0 #666,
+                        0.5px 0.5px 0 #666;
+                    opacity: 0;
+                }
+                .grid-stack-item:hover .widget-drag-handle {
+                    opacity: 1;
+                }
+                .grid-stack {
+                    margin: -6px -8px;
+                }
+            </inline>
+        </style>
+        <dashboard append="one">
+            <widgets require="apps/dashboard/php/dashboard.php" eval="true">__dashboard_helper()</widgets>
+            <configs eval="true">get_config_array('app/dashboard/widgets/', current_user())</configs>
+        </dashboard>
     </main>
+
+    <config>
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <output ifeval="get_data('server/request_method')=='GET'" eval="true">get_config_array('app/dashboard/widgets/', current_user())</output>
+        <output ifeval="get_data('server/request_method')=='POST'" eval="true">set_config('app/dashboard/widgets/'.get_data('json/name'), get_data('json/val'), current_user())</output>
+    </config>
 </root>

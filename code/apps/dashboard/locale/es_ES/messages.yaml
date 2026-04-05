@@ -10,7 +10,4 @@
 # Licensed under the MIT License.
 # See the LICENSE file in the project root for full license information.
 
-dashboard_widgets: Widgets del panel
 dashboard_app: Aplicación del panel
-dashboard_widgets_configuration_app: Aplicación de configuración de widgets del panel
-to_configure_the_dashboard_widgets: Para configurar los widgets del panel

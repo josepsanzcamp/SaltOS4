@@ -10,7 +10,4 @@
 # Licensed under the MIT License.
 # See the LICENSE file in the project root for full license information.
 
-dashboard_widgets: Ginys del tauler
 dashboard_app: Aplicació del tauler
-dashboard_widgets_configuration_app: Aplicació de configuració dels ginys del tauler
-to_configure_the_dashboard_widgets: Per configurar els ginys del tauler
