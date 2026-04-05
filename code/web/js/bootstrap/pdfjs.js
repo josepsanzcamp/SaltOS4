@@ -136,6 +136,7 @@ saltos.bootstrap.__field.pdfjs = field => {
                             }
                         }
                         if (num < pdf.numPages) {
+                            div.classList.add('mb-3');
                             render(num + 1);
                         }
                     });
