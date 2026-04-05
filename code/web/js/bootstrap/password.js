@@ -87,7 +87,7 @@ saltos.bootstrap.__field.password = field => {
     if (!saltos.core.eval_bool(field.autocomplete)) {
         autocomplete = 'autocomplete="new-password"';
     }
-    let shadow = 'shadow';
+    let shadow = 'shadow-sm';
     if (field.shadow !== '') {
         shadow = field.shadow;
     }

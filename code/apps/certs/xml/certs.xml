@@ -36,7 +36,7 @@
         <cache>app/certs/main</cache>
         <title eval="true">T('List') . ' - ' . T(app2name(get_data('rest/1')))</title>
         <layout append="one">
-            <row auto="true" row_class="row g-1" col_class="col-auto">
+            <row auto="true" row_class="row g-1 mb-3" col_class="col-auto">
                 <button onclick="saltos.common.filter()" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
                 <button ifeval="check_user('certs', 'create')" onclick="saltos.common.create()" label="New" tooltip="To create a new register" icon="plus-lg" color="success"/>
                 <div col_class="col"/>
@@ -48,7 +48,7 @@
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
             </row>
             <div eval="true">xmlfile2array('apps/common/xml/filter.xml')['div']</div>
-            <row auto="true" col_class="col-md-12 my-3">
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-12">
                 <table id="list" nodata="There are no certificates available" dropdown="false">
                     <header>
                         <name label="Certificate nicknames available" order="true"/>
@@ -110,9 +110,9 @@
         <cache>app/certs/main</cache>
         <title eval="true">T('New') . ' - ' . T(app2name(get_data('rest/1')))</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-6 mb-3">
-                <file id="certfile" label="Certificate file (.p12, .pfx)" multiple="true" required="true" col_class="col-md-8 mb-3"/>
-                <password id="passfile" label="Password file" required="true" autofocus="true" autocomplete="false" col_class="col-md-4 mb-3"/>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6">
+                <file id="certfile" label="Certificate file (.p12, .pfx)" multiple="true" required="true" col_class="col-md-8"/>
+                <password id="passfile" label="Password file" required="true" autofocus="true" autocomplete="false" col_class="col-md-4"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
@@ -148,10 +148,10 @@
         <cache>app/certs/main</cache>
         <title eval="true">T('Detail') . ' - ' . T(app2name(get_data('rest/1')))</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-6 mb-3">
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6">
                 <text id="name" label="Name"/>
-                <codemirror id="subject" label="Subject" height="5em" col_class="col-md-12 mb-3"/>
-                <codemirror id="info" label="Info" height="5em" col_class="col-md-12 mb-3"/>
+                <codemirror id="subject" label="Subject" height="5em" col_class="col-md-12"/>
+                <codemirror id="info" label="Info" height="5em" col_class="col-md-12"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>

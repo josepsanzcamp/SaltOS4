@@ -36,7 +36,7 @@
         <cache eval="true">'app/' . get_data('rest/1') . '/main'</cache>
         <title eval="true">T('List') . ' - ' . T(app2name(get_data('rest/1')))</title>
         <layout append="one">
-            <row auto="true" row_class="row g-1" col_class="col-auto">
+            <row auto="true" row_class="row g-1 mb-3" col_class="col-auto">
                 <button onclick="saltos.common.filter()" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
                 <button onclick="saltos.common.create()" label="New" tooltip="To create a new register" icon="plus-lg" color="success" ifeval="check_user(get_data('rest/1'), 'create')"/>
                 <div col_class="col"/>
@@ -54,7 +54,7 @@
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
             </row>
             <div eval="true">xmlfile2array('apps/common/xml/filter.xml')['div']</div>
-            <row auto="true" col_class="col-md-12 my-3">
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-12">
                 <table id="list" nodata="Data not found" dropdown="TODO">
                     <checkbox require="apps/common/php/pdf.php" eval="true">exists_pdf_file(get_data('rest/1'))</checkbox>
                     <header>TODO</header>
@@ -139,9 +139,9 @@
         <cache eval="true">'app/' . get_data('rest/1') . '/main'</cache>
         <title eval="true">T('New') . ' - ' . T(app2name(get_data('rest/1')))</title>
         <layout append="two,one">
-            <row auto="true" col_class="TODO" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_form']</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="TODO" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.insert()" label="Create" tooltip="To create the new register" icon="check-lg" color="success"/>
@@ -179,9 +179,9 @@
         <cache eval="true">'app/' . get_data('rest/1') . '/main'</cache>
         <title eval="true">T('Detail') . ' - ' . T(app2name(get_data('rest/1')))</title>
         <layout append="two,one">
-            <row auto="true" col_class="TODO" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_form']</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="TODO" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <dropdown label="Info" icon="file-text" tooltip="Information of this register" ifeval="check_user(get_data('rest/1'), 'info')">
                     <menu>
@@ -229,9 +229,9 @@
         <cache eval="true">'app/' . get_data('rest/1') . '/main'</cache>
         <title eval="true">T('Modify') . ' - ' . T(app2name(get_data('rest/1')))</title>
         <layout append="two,one">
-            <row auto="true" col_class="TODO" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_form']</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="TODO" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.update()" label="Save" tooltip="To save the changes of this register" icon="check-lg" color="success"/>

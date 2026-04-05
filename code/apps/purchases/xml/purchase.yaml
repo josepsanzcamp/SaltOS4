@@ -15,7 +15,7 @@ require: apps/common/php/default.php
 template: apps/common/xml/default.xml
 indent: true
 screen: type2modal
-col_class: col-md-6 mb-3
+col_class: col-md-6
 dropdown: true
 list:
     # [id, type, label]
@@ -47,30 +47,30 @@ attr:
     order_date:
         required: true
         autofocus: true
-        col_class: col-md-3 mb-3
+        col_class: col-md-3
     supplier_id:
         required: true
-        col_class: col-md-6 mb-3
+        col_class: col-md-6
     invoice_code:
-        col_class: col-md-3 mb-3
+        col_class: col-md-3
     description:
         required: true
-        col_class: col-md-12 mb-3
+        col_class: col-md-12
         height: 5em
     notes:
-        col_class: col-md-12 mb-3
+        col_class: col-md-12
         height: 5em
     subtotal:
-        col_class: col-md-3 mb-3
+        col_class: col-md-3
     tax:
-        col_class: col-md-3 mb-3
+        col_class: col-md-3
     total:
-        col_class: col-md-3 mb-3
+        col_class: col-md-3
     paid:
-        col_class: col-md-3 mb-3
+        col_class: col-md-3
     status_id:
-        col_class: col-md-3 mb-3
+        col_class: col-md-3
     invoice_date:
-        col_class: col-md-3 mb-3
+        col_class: col-md-3
     paid_date:
-        col_class: col-md-3 mb-3
+        col_class: col-md-3

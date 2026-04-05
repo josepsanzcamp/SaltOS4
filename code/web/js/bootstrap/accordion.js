@@ -47,7 +47,7 @@ saltos.bootstrap.__field.accordion = field => {
     if (saltos.core.eval_bool(field.flush)) {
         field.flush = 'accordion-flush';
     }
-    let shadow = 'shadow';
+    let shadow = 'shadow-sm';
     if (field.shadow !== '') {
         shadow = field.shadow;
     }

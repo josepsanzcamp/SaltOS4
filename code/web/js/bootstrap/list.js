@@ -90,7 +90,7 @@ saltos.bootstrap.__field.list = field => {
         return obj;
     }
     // Continue
-    let shadow = 'shadow';
+    let shadow = 'shadow-sm';
     if (field.shadow !== '') {
         shadow = field.shadow;
     }

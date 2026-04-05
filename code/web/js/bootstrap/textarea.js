@@ -141,7 +141,7 @@ saltos.bootstrap.__textarea_helper = field => {
         saltos.bootstrap.__onchange_helper(obj, field.onchange);
     }
     // add shadow feature
-    let shadow = 'shadow';
+    let shadow = 'shadow-sm';
     if (field.shadow !== '') {
         shadow = field.shadow;
     }

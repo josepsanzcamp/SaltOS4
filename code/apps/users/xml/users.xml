@@ -36,7 +36,7 @@
         <cache>app/users/main</cache>
         <title>Users list</title>
         <layout append="one">
-            <row auto="true" row_class="row g-1" col_class="col-auto">
+            <row auto="true" row_class="row g-1 mb-3" col_class="col-auto">
                 <button onclick="saltos.common.filter()" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
                 <button ifeval="check_user('users', 'create')" onclick="saltos.common.create()" label="New user" tooltip="To create a new user" icon="plus-lg" color="success"/>
                 <div col_class="col"/>
@@ -48,7 +48,7 @@
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
             </row>
             <div eval="true">xmlfile2array('apps/common/xml/filter.xml')['div']</div>
-            <row auto="true" col_class="col-12 my-3">
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-12">
                 <table id="list" nodata="Data not found" dropdown="false">
                     <header>
                         <login label="Username" order="true"/>
@@ -118,26 +118,26 @@
     <!-- Form part -->
     <_form>
         <switch id="active" label="Active"/>
-        <div col_class="col-12"/><!-- this act as break line -->
+        <div col_class="col-12 m-0"/><!-- this act as break line -->
 
         <text id="login" label="Username" required="true" autofocus="true"/>
         <select id="group_id" label="Group" required="true">
             <rows eval="true">execute_query_array("SELECT CONCAT(name,' (',code,')') label, id value
                 FROM tbl_groups WHERE active = 1 ORDER BY code ASC")</rows>
         </select>
-        <div col_class="col-12"/><!-- this act as break line -->
+        <div col_class="col-12 m-0"/><!-- this act as break line -->
 
         <text id="name" label="Name" required="true"/>
         <password id="newpass" label="New password" autocomplete="false"/>
         <password id="renewpass" label="Retype password" autocomplete="false"/>
 
-        <textarea id="description" label="Description" required="true" height="5em" col_class="col-12 mb-3"/>
+        <textarea id="description" label="Description" required="true" height="5em" col_class="col-12"/>
 
         <time id="start" label="Start" required="true"/>
         <time id="end" label="End" required="true"/>
-        <div col_class="col-12"/><!-- this act as break line -->
+        <div col_class="col-12 m-0"/><!-- this act as break line -->
 
-        <multiselect id="days" label="Days" size="7" col_class="col-md-6 mb-3">
+        <multiselect id="days" label="Days" size="7" col_class="col-md-6">
             <rows>
                 <row label="Monday" value="64"></row>
                 <row label="Tuesday" value="32"></row>
@@ -148,14 +148,14 @@
                 <row label="Sunday" value="1"></row>
             </rows>
         </multiselect>
-        <multiselect id="groups_id" label="Groups" size="7" col_class="col-md-6 mb-3">
+        <multiselect id="groups_id" label="Groups" size="7" col_class="col-md-6">
             <rows eval="true">execute_query_array("SELECT CONCAT(name,' (',code,')') label, id value
                 FROM tbl_groups WHERE active = 1 ORDER BY code ASC")</rows>
         </multiselect>
 
-        <excel id="perms" label="Applications and permissions" col_class="col-12 mb-3" rowHeaderWidth="200" colWidths="100"/>
+        <excel id="perms" label="Applications and permissions" col_class="col-12" rowHeaderWidth="200" colWidths="100"/>
 
-        <table id="passwords" label="Passwords history" col_class="col-12 mb-3" ifeval="get_data('rest/2')=='view'">
+        <table id="passwords" label="Passwords history" col_class="col-12" ifeval="get_data('rest/2')=='view'">
             <header>
                 <created_at label="Created at"/>
                 <expires_at label="Expires at"/>
@@ -191,9 +191,9 @@
         <cache>app/users/main</cache>
         <title>New user</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array('apps/users/xml/users.xml')['_form']</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-4" eval="true">xmlfile2array('apps/users/xml/users.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.insert()" label="Create" tooltip="To create the new user" icon="check-lg" color="success"/>
@@ -238,9 +238,9 @@
         <cache>app/users/main</cache>
         <title>Detail of the user</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array('apps/users/xml/users.xml')['_form']</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-4" eval="true">xmlfile2array('apps/users/xml/users.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <dropdown label="Info" icon="file-text" tooltip="Information of this register" ifeval="check_user(get_data('rest/1'), 'info')">
                     <menu>
@@ -283,9 +283,9 @@
         <cache>app/users/main</cache>
         <title>Modify this user</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array('apps/users/xml/users.xml')['_form']</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-4" eval="true">xmlfile2array('apps/users/xml/users.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.update()" label="Save" tooltip="To save the user changes" icon="check-lg" color="success"/>

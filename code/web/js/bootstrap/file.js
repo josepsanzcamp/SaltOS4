@@ -84,7 +84,7 @@ saltos.bootstrap.__field.file = field => {
         border1 = 'border-0';
         border2 = '';
     }
-    let shadow = 'shadow';
+    let shadow = 'shadow-sm';
     if (field.shadow !== '') {
         shadow = field.shadow;
     }

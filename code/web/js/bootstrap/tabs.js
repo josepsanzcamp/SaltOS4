@@ -46,7 +46,7 @@ saltos.bootstrap.__field.tabs = field => {
     saltos.core.check_params(field, ['id', 'type']);
     saltos.core.check_params(field, ['items'], []);
     let obj = saltos.core.html(`
-        <ul class="nav nav-${field.type} mb-3" id="${field.id}-tab" role="tablist"></ul>
+        <ul class="nav nav-${field.type}" id="${field.id}-tab" role="tablist"></ul>
         <div class="tab-content" id="${field.id}-content"></div>
     `);
     for (const key in field.items) {

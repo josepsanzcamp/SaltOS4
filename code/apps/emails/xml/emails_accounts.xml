@@ -36,7 +36,7 @@
         <cache>app/emails_accounts/main</cache>
         <title>Emails accounts list</title>
         <layout append="one">
-            <row auto="true" row_class="row g-1" col_class="col-auto">
+            <row auto="true" row_class="row g-1 mb-3" col_class="col-auto">
                 <button onclick="saltos.common.filter()" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
                 <button ifeval="check_user('emails_accounts', 'create')" onclick="saltos.common.create()" label="New email account" tooltip="To create a new email account" icon="plus-lg" color="success"/>
                 <div col_class="col"/>
@@ -48,7 +48,7 @@
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
             </row>
             <div eval="true">xmlfile2array('apps/common/xml/filter.xml')['div']</div>
-            <row auto="true" col_class="col-12 my-3">
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-12">
                 <table id="list" nodata="Data not found" checkbox="true" dropdown="false" >
                     <header>
                         <user label="User" ifeval="__user_is_admin(get_data('rest/1'))" order="true"/>
@@ -116,7 +116,7 @@
 
     <!-- Form part -->
     <_form>
-        <alert title="Main configuration" col_class="col-12 mb-3"/>
+        <alert title="Main configuration" col_class="col-12"/>
         <select id="user_id" label="User" required="true" autofocus="true" ifeval="__user_is_admin(get_data('rest/1'))">
             <rows eval="true">execute_query_array("
                 SELECT CONCAT(name,' (',login,')') label, id value
@@ -125,53 +125,53 @@
                 ORDER BY login ASC')</rows>
             <value eval="true">current_user()</value>
         </select>
-        <div col_class="col-12"/><!-- this act as break line -->
+        <div col_class="col-12 m-0"/><!-- this act as break line -->
         <text id="email_name" label="Name" required="true"/>
         <text id="email_from" label="Email" required="true"/>
-        <joditeditor id="email_signature" label="Signature" height="5em" col_class="col-12 mb-3"/>
+        <joditeditor id="email_signature" label="Signature" height="5em" col_class="col-12"/>
 
-        <alert title="POP3 server configuration" col_class="col-12 mb-3"/>
+        <alert title="POP3 server configuration" col_class="col-12"/>
         <text id="pop3_host" label="Host"/>
-        <onetag id="pop3_port" label="Port" col_class="col-md-2 mb-3">
+        <onetag id="pop3_port" label="Port" col_class="col-md-2">
             <datalist eval="true">['110','995']</datalist>
         </onetag>
-        <select id="pop3_extra" label="Extra" col_class="col-md-2 mb-3">
+        <select id="pop3_extra" label="Extra" col_class="col-md-2">
             <rows>
                 <row label="" value=""/>
                 <row label="SSL" value="ssl"/>
                 <row label="TLS" value="tls"/>
             </rows>
         </select>
-        <div col_class="col-12"/><!-- this act as break line -->
+        <div col_class="col-12 m-0"/><!-- this act as break line -->
         <text id="pop3_user" label="User"/>
         <password id="pop3_pass" label="Password" autocomplete="false"/>
-        <div col_class="col-12"/><!-- this act as break line -->
+        <div col_class="col-12 m-0"/><!-- this act as break line -->
         <div col_class="col-4"/><!-- this act as a spacer -->
-        <select id="pop3_delete" label="Delete" value="0" col_class="col-md-2 mb-3">
+        <select id="pop3_delete" label="Delete" value="0" col_class="col-md-2">
             <rows>
                 <row label="No" value="0"/>
                 <row label="Yes" value="1"/>
             </rows>
         </select>
-        <integer id="pop3_days" label="Days" col_class="col-md-2 mb-3"/>
+        <integer id="pop3_days" label="Days" col_class="col-md-2"/>
 
-        <alert title="SMTP server configuration" col_class="col-12 mb-3"/>
+        <alert title="SMTP server configuration" col_class="col-12"/>
         <text id="smtp_host" label="Host"/>
-        <onetag id="smtp_port" label="Port" col_class="col-md-2 mb-3">
+        <onetag id="smtp_port" label="Port" col_class="col-md-2">
             <datalist eval="true">['25','465','587']</datalist>
         </onetag>
-        <select id="smtp_extra" label="Extra" col_class="col-md-2 mb-3">
+        <select id="smtp_extra" label="Extra" col_class="col-md-2">
             <rows>
                 <row label="" value=""/>
                 <row label="SSL" value="ssl"/>
                 <row label="TLS" value="tls"/>
             </rows>
         </select>
-        <div col_class="col-12"/><!-- this act as break line -->
+        <div col_class="col-12 m-0"/><!-- this act as break line -->
         <text id="smtp_user" label="User"/>
         <password id="smtp_pass" label="Password" autocomplete="false"/>
 
-        <alert title="Extra configuration" col_class="col-12 mb-3"/>
+        <alert title="Extra configuration" col_class="col-12"/>
         <switch id="email_disabled" label="Disabled"/>
         <switch id="email_privated" label="Privated"/>
         <switch id="email_default" label="Default"/>
@@ -195,9 +195,9 @@
         <cache>app/emails_accounts/main</cache>
         <title>New email account</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array('apps/emails/xml/emails_accounts.xml')['_form']</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-4" eval="true">xmlfile2array('apps/emails/xml/emails_accounts.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.insert()" label="Create" tooltip="To create the new email account" icon="check-lg" color="success"/>
@@ -236,9 +236,9 @@
         <cache>app/emails_accounts/main</cache>
         <title>Detail of the email account</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array('apps/emails/xml/emails_accounts.xml')['_form']</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-4" eval="true">xmlfile2array('apps/emails/xml/emails_accounts.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <dropdown label="Info" icon="file-text" tooltip="Information of this register" ifeval="check_user(get_data('rest/1'), 'info')">
                     <menu>
@@ -280,9 +280,9 @@
         <cache>app/emails_accounts/main</cache>
         <title>Modify this email account</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array('apps/emails/xml/emails_accounts.xml')['_form']</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-4" eval="true">xmlfile2array('apps/emails/xml/emails_accounts.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.update()" label="Save" tooltip="To save the email account changes" icon="check-lg" color="success"/>

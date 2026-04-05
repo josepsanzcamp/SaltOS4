@@ -55,7 +55,7 @@ saltos.bootstrap.__field.iframe = field => {
     if (field.color !== '') {
         color = field.color;
     }
-    let shadow = 'shadow';
+    let shadow = 'shadow-sm';
     if (field.shadow !== '') {
         shadow = field.shadow;
     }

@@ -57,7 +57,7 @@ saltos.bootstrap.__field.button = field => {
     let opacity = '';
     if (saltos.core.eval_bool(field.disabled)) {
         disabled = 'disabled';
-        opacity = 'opacity-25';
+        opacity = '25';
     }
     let autofocus = '';
     if (saltos.core.eval_bool(field.autofocus)) {
@@ -69,7 +69,13 @@ saltos.bootstrap.__field.button = field => {
     }
     let color = 'primary';
     if (field.color !== '') {
-        color = field.color;
+        if (field.color.includes('-')) {
+            const temp = field.color.split('-');
+            color = temp[0];
+            opacity = temp[1];
+        } else {
+            color = field.color;
+        }
     }
     let collapse = '';
     if (saltos.core.eval_bool(field.collapse)) {
@@ -84,7 +90,7 @@ saltos.bootstrap.__field.button = field => {
     if (field.class.includes('h-100')) {
         height = 'h-100';
     }
-    let shadow = 'shadow';
+    let shadow = 'shadow-sm';
     if (field.shadow !== '') {
         shadow = field.shadow;
     }
@@ -95,7 +101,8 @@ saltos.bootstrap.__field.button = field => {
     const obj = saltos.core.html(`
         <div class="${shadow} ${rounded} d-inline-block ${width} ${height}">
             <button type="button" id="${field.id}" ${disabled} ${autofocus} ${autoclose}
-                class="btn btn-${color} ${rounded} focus-ring focus-ring-${color} ${field.class} ${opacity}"
+                class="btn btn-${color} ${rounded} focus-ring focus-ring-${color} ${field.class}
+                       opacity-${opacity} text-nowrap text-truncate"
                 data-bs-accesskey="${field.accesskey}" ${collapse}
                 data-bs-title="${field.tooltip}">${field.label}</button>
         </div>

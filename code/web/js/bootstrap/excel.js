@@ -82,7 +82,7 @@ saltos.bootstrap.__field.excel = field => {
     if (field.height !== '') {
         height = field.height;
     }
-    let shadow = 'shadow';
+    let shadow = 'shadow-sm';
     if (field.shadow !== '') {
         shadow = field.shadow;
     }

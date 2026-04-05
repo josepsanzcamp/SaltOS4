@@ -15,17 +15,13 @@ groups:
       code: purchases
       name: Purchases
       description: Supplier & Purchase Management
-      color: warning
       position: 3
+      color: warning
+      layout: "8,0,4,2"
 
 apps:
     - id: 56
       active: 1
-      group: purchases
-      position: 1
-      color: warning
-      fontsize: 1
-      colsize: 4
       code: suppliers
       name: Suppliers
       description: Suppliers management
@@ -38,14 +34,13 @@ apps:
       has_notes: 1
       has_log: 1
       perms: "*"
-
-    - id: 57
-      active: 1
       group: purchases
       position: 1
       color: warning
-      fontsize: 1
-      colsize: 4
+      layout: "8,2,1,1"
+
+    - id: 57
+      active: 1
       code: purchase
       name: Purchase
       description: Purchase management
@@ -58,15 +53,13 @@ apps:
       has_notes: 1
       has_log: 1
       perms: "*"
+      group: purchases
+      position: 1
+      color: warning
+      layout: "9,2,1,1"
 
     - id: 70
       active: 1
-      group: purchases
-      color: warning
-      position: 2
-      opacity: 75
-      fontsize: 3
-      colsize: 4
       code: suppliers_types
       name: Supplier Types
       description: Types of suppliers
@@ -79,15 +72,13 @@ apps:
       has_notes: 0
       has_log: 0
       perms: "*"
+      group: purchases
+      position: 2
+      color: warning-75
+      layout: "10,2,1,1"
 
     - id: 71
       active: 1
-      group: purchases
-      color: warning
-      position: 2
-      opacity: 75
-      fontsize: 3
-      colsize: 4
       code: purchase_status
       name: Purchase Status
       description: Status values for purchases
@@ -100,3 +91,7 @@ apps:
       has_notes: 0
       has_log: 0
       perms: "*"
+      group: purchases
+      position: 2
+      color: warning-75
+      layout: "11,2,1,1"

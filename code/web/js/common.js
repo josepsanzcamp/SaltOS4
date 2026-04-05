@@ -122,7 +122,6 @@ saltos.common.about = () => {
                 label: 'WEB libraries',
                 header: header,
                 data: Object.values(response.libraries.web),
-                parentClass: 'mb-3'
             }));
             body.append(saltos.gettext.bootstrap.field({
                 type: 'div',
@@ -134,7 +133,6 @@ saltos.common.about = () => {
                 label: 'API libraries',
                 header: header,
                 data: Object.values(response.libraries.api),
-                parentClass: 'mb-3'
             }));
             body.append(saltos.gettext.bootstrap.field({
                 type: 'div',
@@ -146,7 +144,6 @@ saltos.common.about = () => {
                 label: 'APPS libraries',
                 header: header,
                 data: Object.values(response.libraries.apps),
-                parentClass: 'mb-3'
             }));
             body.append(saltos.gettext.bootstrap.field({
                 type: 'div',
@@ -319,7 +316,7 @@ saltos.common.__remove_helper = id => {
     if (obj) {
         const len = obj.querySelector('tbody').innerText.trim().length;
         if (!len) {
-            const row = obj.closest('.mb-3');
+            const row = obj.closest('.col-12');
             if (row) {
                 row.remove();
             }

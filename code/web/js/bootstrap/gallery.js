@@ -65,7 +65,7 @@ saltos.bootstrap.__field.gallery = field => {
             </div>
         </div>
     `);
-    let shadow = 'shadow';
+    let shadow = 'shadow-sm';
     if (field.shadow !== '') {
         shadow = field.shadow;
     }

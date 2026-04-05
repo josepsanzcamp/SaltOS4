@@ -23,8 +23,8 @@
         <cache eval="true">'app/'.get_data('rest/1').'/main'</cache>
         <title append="modal">History of changes</title>
         <layout append="three,two,one">
-            <row auto="true" col_class="col-12 mb-3">
-                <excel id="version" col_class="col-12 mb-3" disabled="true" height="calc(100vh - 200px)"
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-12">
+                <excel id="version" col_class="col-12" disabled="true" height="calc(100vh - 200px)"
                     require="apps/common/php/matrix.php" eval="true">make_matrix_version(get_data('rest/1'), get_data('rest/4'))
                 </excel>
             </row>

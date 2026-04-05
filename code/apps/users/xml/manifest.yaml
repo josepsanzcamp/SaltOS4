@@ -13,7 +13,6 @@
 apps:
     - id: 1
       active: 1
-      group: core
       code: login
       name: Login
       description: Login screen
@@ -23,10 +22,6 @@ apps:
 
     - id: 4
       active: 1
-      group: core
-      position: 1
-      fontsize: 1
-      colsize: 4
       code: users
       name: Users
       description: Users management
@@ -40,13 +35,13 @@ apps:
       has_notes: 1
       has_log: 1
       perms: "*"
+      group: core
+      position: 1
+      color: primary
+      layout: "8,10,1,1"
 
     - id: 5
       active: 1
-      group: core
-      position: 1
-      fontsize: 1
-      colsize: 4
       code: groups
       name: Groups
       description: Groups management
@@ -60,3 +55,7 @@ apps:
       has_notes: 1
       has_log: 1
       perms: "*"
+      group: core
+      position: 1
+      color: primary
+      layout: "9,10,1,1"

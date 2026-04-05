@@ -83,7 +83,7 @@ saltos.bootstrap.__field.select = field => {
     if (field.color === 'none') {
         border = 'border-0';
     }
-    let shadow = 'shadow';
+    let shadow = 'shadow-sm';
     if (field.shadow !== '') {
         shadow = field.shadow;
     }

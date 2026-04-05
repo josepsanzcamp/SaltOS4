@@ -72,7 +72,7 @@ saltos.bootstrap.__field.dropdown = field => {
         color = field.color;
     }
     // Create the main object
-    let shadow = 'shadow';
+    let shadow = 'shadow-sm';
     if (field.shadow !== '') {
         shadow = field.shadow;
     }

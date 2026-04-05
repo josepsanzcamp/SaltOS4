@@ -13,11 +13,6 @@
 apps:
     - id: 73
       active: 1
-      group: core
-      color: primary
-      position: 1
-      fontsize: 1
-      colsize: 4
       code: company
       name: Company Info
       description: Your own company information
@@ -30,3 +25,7 @@ apps:
       has_notes: 1
       has_log: 1
       perms: "*"
+      group: core
+      position: 1
+      color: primary
+      layout: "11,10,1,1"

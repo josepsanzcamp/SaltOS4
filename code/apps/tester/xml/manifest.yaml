@@ -13,15 +13,13 @@
 apps:
     - id: 3
       active: 1
-      group: core
-      color: primary
-      position: 2
-      opacity: 75
-      fontsize: 3
-      colsize: 4
       code: tester
       name: Tester
       description: Tester app
       perms: main,menu
       allow: 1
       deny: 0
+      group: core
+      position: 2
+      color: primary-75
+      layout: "11,9,1,1"

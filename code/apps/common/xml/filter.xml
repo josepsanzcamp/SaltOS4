@@ -25,8 +25,8 @@
     <div id="filter" class="d-none" title="Search form">
         <!-- Begin of the search form -->
         <div id="search_form">
-            <row auto="true" col_class="col-6 mb-3">
-                <text id="search_extra" label="Search" col_class="col-12 mb-3" onchange="document.getElementById('search').value=this.value" autofocus="true" onenter="document.getElementById('search').value=this.value;saltos.driver.search()"/>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-6">
+                <text id="search_extra" label="Search" col_class="col-12" onchange="document.getElementById('search').value=this.value" autofocus="true" onenter="document.getElementById('search').value=this.value;saltos.driver.search()"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
@@ -39,9 +39,9 @@
         <hr/>
         <!-- Begin of the filter form -->
         <div id="filter_form">
-            <row auto="true" col_class="col-6 mb-3">
-                <jstree id="jstree" label="Old filters" col_class="col-12 mb-3" onclick="saltos.filter.load(this)" nodata="Filters not found"/>
-                <select label="Manage filters" col_class="col-12 mb-3" ignore="true"/>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-6">
+                <jstree id="jstree" label="Old filters" col_class="col-12" onclick="saltos.filter.load(this)" nodata="Filters not found"/>
+                <select label="Manage filters" col_class="col-12" ignore="true"/>
             </row>
             <row auto="true" row_class="row g-1 mb-3" col_class="col-auto">
                 <div col_class="col"/>
@@ -49,8 +49,8 @@
                 <button onclick="saltos.filter.button('update')" label="Update" tooltip="To update the selected filter" icon="bookmark-check"/>
                 <button onclick="saltos.filter.button('delete')" label="Delete" tooltip="To delete the selected filter" icon="bookmark-x"/>
             </row>
-            <row auto="true" col_class="col-6 mb-3">
-                <text label="New filter name" col_class="col-12 mb-3" ignore="true"/>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-6">
+                <text label="New filter name" col_class="col-12" ignore="true"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>

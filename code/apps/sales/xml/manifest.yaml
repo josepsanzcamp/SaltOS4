@@ -15,17 +15,13 @@ groups:
       code: sales
       name: Sales
       description: Sales & Billing Management
-      color: info
       position: 2
+      color: info
+      layout: "4,0,4,2"
 
 apps:
     - id: 53
       active: 1
-      group: sales
-      color: info
-      position: 1
-      fontsize: 1
-      colsize: 4
       code: invoices
       name: Invoices
       description: Invoices management
@@ -39,14 +35,13 @@ apps:
       has_notes: 1
       has_log: 1
       perms: "*"
+      group: sales
+      position: 1
+      color: info
+      layout: "4,2,1,1"
 
     - id: 54
       active: 1
-      group: sales
-      color: info
-      position: 1
-      fontsize: 1
-      colsize: 4
       code: products
       name: Products
       description: Products management
@@ -59,15 +54,13 @@ apps:
       has_notes: 1
       has_log: 1
       perms: "*"
+      group: sales
+      position: 1
+      color: info
+      layout: "5,2,1,1"
 
     - id: 55
       active: 1
-      group: sales
-      color: info
-      position: 2
-      opacity: 75
-      fontsize: 3
-      colsize: 4
       code: taxes
       name: Taxes
       description: Taxes management
@@ -80,14 +73,13 @@ apps:
       has_notes: 1
       has_log: 1
       perms: "*"
+      group: sales
+      position: 2
+      color: info-75
+      layout: "7,2,1,1"
 
     - id: 60
       active: 1
-      group: sales
-      color: info
-      position: 1
-      fontsize: 1
-      colsize: 4
       code: workorders
       name: Workorders
       description: Workorders management
@@ -100,15 +92,13 @@ apps:
       has_notes: 1
       has_log: 1
       perms: "*"
+      group: sales
+      position: 1
+      color: info
+      layout: "6,2,1,1"
 
     - id: 62
       active: 1
-      group: sales
-      color: info
-      position: 2
-      opacity: 75
-      fontsize: 3
-      colsize: 4
       code: payment_methods
       name: Payment methods
       description: Payment methods management
@@ -121,15 +111,13 @@ apps:
       has_notes: 1
       has_log: 1
       perms: "*"
+      group: sales
+      position: 2
+      color: info-75
+      layout: "4,3,1,1"
 
     - id: 66
       active: 1
-      group: sales
-      color: info
-      position: 2
-      opacity: 75
-      fontsize: 3
-      colsize: 4
       code: invoices_status
       name: Invoice Status
       description: Status values for invoices
@@ -142,15 +130,13 @@ apps:
       has_notes: 0
       has_log: 0
       perms: "*"
+      group: sales
+      position: 2
+      color: info-75
+      layout: "5,3,1,1"
 
     - id: 67
       active: 1
-      group: sales
-      color: info
-      position: 2
-      opacity: 75
-      fontsize: 3
-      colsize: 4
       code: products_types
       name: Product Types
       description: Types of products
@@ -163,15 +149,13 @@ apps:
       has_notes: 0
       has_log: 0
       perms: "*"
+      group: sales
+      position: 2
+      color: info-75
+      layout: "6,3,1,1"
 
     - id: 68
       active: 1
-      group: sales
-      color: info
-      position: 2
-      opacity: 75
-      fontsize: 3
-      colsize: 4
       code: products_categories
       name: Product Categories
       description: Categories of products
@@ -184,6 +168,10 @@ apps:
       has_notes: 0
       has_log: 0
       perms: "*"
+      group: sales
+      position: 2
+      color: info-75
+      layout: "7,3,1,1"
 
 widgets:
     - active: 1
@@ -191,51 +179,46 @@ widgets:
       name: Last invoices
       description: Shows the latest created invoices
       app: invoices
-      group: sales
-      position: 1
-      colsize: 6
+      layout: "0,12,4,7"
 
     - active: 1
       code: invoice_total_by_day
       name: Invoice total by day
       description: Displays total invoiced amount grouped by day
       app: invoices
-      group: sales
-      position: 2
-      colsize: 6
+      layout: "4,4,4,5"
 
     - active: 1
       code: invoice_avg_by_day
       name: Invoice average by day
       description: Shows average invoice amount per day
       app: invoices
-      group: sales
-      position: 3
-      colsize: 6
-
-    - active: 1
-      code: top5_customers_by_total
-      name: Top 5 customers
-      description: Displays top 5 customers by invoiced total
-      app: invoices
-      group: sales
-      position: 4
-      colsize: 6
-
-    - active: 1
-      code: invoice_paid_vs_pending
-      name: Paid vs pending invoices
-      description: Compares paid invoices against pending ones
-      app: invoices
-      group: sales
-      position: 5
-      colsize: 6
+      layout: "4,9,4,5"
 
     - active: 1
       code: invoice_avg_days_to_pay
       name: Average days to pay
       description: Shows the average number of days customers take to pay
       app: invoices
-      group: sales
-      position: 6
-      colsize: 6
+      layout: "4,14,4,5"
+
+    - active: 1
+      code: top5_customers_by_total
+      name: Top 5 customers
+      description: Displays top 5 customers by invoiced total
+      app: invoices
+      layout: "8,11,4,5"
+
+    - active: 1
+      code: invoice_paid_vs_pending
+      name: Paid vs pending invoices
+      description: Compares paid invoices against pending ones
+      app: invoices
+      layout: "8,16,2,3"
+
+    - active: 1
+      code: invoice_open_vs_closed
+      name: Open vs closed invoices
+      description: Compares open invoices against closed ones
+      app: invoices
+      layout: "10,16,2,3"

@@ -56,7 +56,7 @@ saltos.bootstrap.navbar = args => {
     if (!args.color) {
         args.color = 'primary';
     }
-    let shadow = 'shadow';
+    let shadow = 'shadow-sm';
     if (args.shadow) {
         shadow = args.shadow;
     }
@@ -131,7 +131,7 @@ saltos.bootstrap.menu = args => {
             }
         </style>
     `));
-    let shadow = 'shadow';
+    let shadow = 'shadow-sm';
     if (args.shadow) {
         shadow = args.shadow;
     }

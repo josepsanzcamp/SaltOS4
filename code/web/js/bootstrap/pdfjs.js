@@ -63,7 +63,7 @@ saltos.bootstrap.__field.pdfjs = field => {
     if (field.rounded !== '') {
         rounded = field.rounded;
     }
-    let shadow = 'shadow';
+    let shadow = 'shadow-sm';
     if (field.shadow !== '') {
         shadow = field.shadow;
     }
@@ -136,7 +136,6 @@ saltos.bootstrap.__field.pdfjs = field => {
                             }
                         }
                         if (num < pdf.numPages) {
-                            div.classList.add('mb-3');
                             render(num + 1);
                         }
                     });

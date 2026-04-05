@@ -15,7 +15,7 @@ require: apps/common/php/default.php
 template: apps/common/xml/default.xml
 indent: true
 screen: type2modal
-col_class: col-md-6 mb-3
+col_class: col-md-6
 dropdown: true
 list:
     # [id, type, label]
@@ -43,28 +43,28 @@ attr:
     #     attr: value
     start_time:
         required: true
-        col_class: col-md-4 mb-3
+        col_class: col-md-4
     end_time:
-        col_class: col-md-4 mb-3
+        col_class: col-md-4
     customer_id:
-        col_class: col-md-4 mb-3
+        col_class: col-md-4
     title:
         required: true
         autofocus: true
     participants:
-        col_class: col-md-12 mb-3
+        col_class: col-md-12
         height: 5em
         required: true
     agenda:
-        col_class: col-md-12 mb-3
+        col_class: col-md-12
         height: 5em
         required: true
     topics_approved:
-        col_class: col-md-12 mb-3
+        col_class: col-md-12
         height: 5em
     topics_rejected:
-        col_class: col-md-12 mb-3
+        col_class: col-md-12
         height: 5em
     topics_pending:
-        col_class: col-md-12 mb-3
+        col_class: col-md-12
         height: 5em

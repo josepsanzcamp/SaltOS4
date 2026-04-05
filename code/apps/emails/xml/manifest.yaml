@@ -13,11 +13,6 @@
 apps:
     - id: 13
       active: 1
-      group: core
-      color: primary
-      position: 1
-      fontsize: 1
-      colsize: 4
       code: emails
       name: Emails
       description: Emails app client
@@ -28,10 +23,13 @@ apps:
       has_control: 1
       has_files: 1
       perms: main,menu,create,widget,action,config,help,list*,view*,delete*
+      group: core
+      position: 1
+      color: primary
+      layout: "3,3,1,1"
 
     - id: 15
       active: 1
-      group: core
       code: emails_accounts
       name: Emails accounts
       description: Emails accounts app
@@ -51,6 +49,4 @@ widgets:
       name: Last emails
       description: Shows the latest received or sent emails
       app: emails
-      group: core
-      position: 1
-      colsize: 6
+      layout: "0,4,4,8"

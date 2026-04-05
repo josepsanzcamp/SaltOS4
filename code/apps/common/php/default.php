@@ -285,10 +285,10 @@ function make_app_file($data)
                 $xml[] = '</multiselect>';
                 break;
             case 'newline':
-                $xml[] = "<div col_class='col-12'/>";
+                $xml[] = "<div col_class='col-12 m-0'/>";
                 break;
             case 'hrline':
-                $xml[] = "<hr col_class='col-12'/>";
+                $xml[] = "<hr col_class='col-12' class='border-3 m-0'/>";
                 break;
             default:
                 show_php_error(['phperror' => "$type not found"]);
@@ -299,7 +299,7 @@ function make_app_file($data)
 
     // set the col_class if needed
     foreach ($col_class as $key => $val) {
-        $col_class[$key] = $data['col_class'] ?? 'col-md-6 mb-3';
+        $col_class[$key] = $data['col_class'] ?? 'col-md-6';
     }
 
     if (isset($data['overload'])) {

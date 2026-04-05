@@ -440,7 +440,7 @@ saltos.driver.placeholder = arg => {
     if (!arg.color) {
         arg.color = 'primary';
     }
-    let shadow = 'shadow';
+    let shadow = 'shadow-sm';
     if (arg.shadow) {
         shadow = arg.shadow;
     }
@@ -901,13 +901,13 @@ saltos.driver.__types.type1.template = arg => {
         <div id="screen" data-type="type1">
             <div id="header" class="sticky-top"></div>
             <div class="container-xl">
-                <div class="row">
+                <div class="row g-3">
                     <div id="top" class="col-12"></div>
                 </div>
-                <div class="row">
+                <div class="row g-3">
                     <div id="one" class="col-12"></div>
                 </div>
-                <div class="row">
+                <div class="row g-3">
                     <div id="bottom" class="col-12"></div>
                 </div>
             </div>
@@ -993,14 +993,14 @@ saltos.driver.__types.type2.template = arg => {
         <div id="screen" data-type="type2">
             <div id="header"></div>
             <div class="container-fluid">
-                <div class="row">
+                <div class="row g-3">
                     <div id="top" class="col-12"></div>
                 </div>
-                <div class="row">
+                <div class="row g-3">
                     <div id="one" class="col-xl-6 overflow-auto-xl"></div>
                     <div id="two" class="col-xl-6 overflow-auto-xl"></div>
                 </div>
-                <div class="row">
+                <div class="row g-3">
                     <div id="bottom" class="col-12"></div>
                 </div>
             </div>
@@ -1117,15 +1117,15 @@ saltos.driver.__types.type3.template = arg => {
         <div id="screen" data-type="type3">
             <div id="header"></div>
             <div class="container-fluid">
-                <div class="row">
+                <div class="row g-3">
                     <div id="top" class="col-12"></div>
                 </div>
-                <div class="row">
+                <div class="row g-3">
                     <div id="one" class="col-xl-4 overflow-auto-xl"></div>
                     <div id="two" class="col-xl-4 overflow-auto-xl"></div>
                     <div id="three" class="col-xl-4 overflow-auto-xl"></div>
                 </div>
-                <div class="row">
+                <div class="row g-3">
                     <div id="bottom" class="col-12"></div>
                 </div>
             </div>

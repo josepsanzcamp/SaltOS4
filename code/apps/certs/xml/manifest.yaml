@@ -13,12 +13,11 @@
 apps:
     - id: 27
       active: 1
-      group: core
-      color: primary
-      position: 1
-      fontsize: 1
-      colsize: 4
       code: certs
       name: Certificates
       description: Certificates manager
       perms: main,menu,create,help,listall,viewall,deleteall
+      group: core
+      position: 1
+      color: primary
+      layout: "10,10,1,1"

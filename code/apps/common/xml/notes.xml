@@ -17,7 +17,7 @@
 <root>
     <_form>
         <hidden id="delnotes" require="php/lib/notes.php" ifeval="check_notes_old(get_data('rest/1'), get_data('rest/2'))" autosave="false"/>
-        <table id="allnotes" label="Notes" col_class="col-12 mb-3" require="php/lib/notes.php" ifeval="check_notes_old(get_data('rest/1'), get_data('rest/2'))" dropdown="false" first_action="false">
+        <table id="allnotes" label="Notes" col_class="col-12" require="php/lib/notes.php" ifeval="check_notes_old(get_data('rest/1'), get_data('rest/2'))" dropdown="false" first_action="false">
             <header>
                 <user>User</user>
                 <datetime>Datetime</datetime>
@@ -27,7 +27,7 @@
                 <delete icon="trash" tooltip="Delete note" onclick="saltos.common.delete"/>
             </actions>
         </table>
-        <textarea id="addnotes" label="New note" height="5em" col_class="col-12 mb-3" require="php/lib/notes.php" ifeval="check_notes_new(get_data('rest/1'), get_data('rest/2'))"/>
+        <textarea id="addnotes" label="New note" height="5em" col_class="col-12" require="php/lib/notes.php" ifeval="check_notes_new(get_data('rest/1'), get_data('rest/2'))"/>
     </_form>
 
     <_data>

@@ -15,16 +15,13 @@ groups:
       code: crm
       name: CRM
       description: Customer Relationship Management
-      color: success
       position: 1
+      color: success
+      layout: "0,0,4,2"
+
 apps:
     - id: 50
       active: 1
-      group: crm
-      color: success
-      position: 1
-      fontsize: 1
-      colsize: 4
       code: customers
       name: Customers
       description: Customers management
@@ -37,14 +34,13 @@ apps:
       has_notes: 1
       has_log: 1
       perms: "*"
+      group: crm
+      position: 1
+      color: success
+      layout: "0,2,1,1"
 
     - id: 51
       active: 1
-      group: crm
-      color: success
-      position: 1
-      fontsize: 1
-      colsize: 4
       code: leads
       name: Leads
       description: Leads management
@@ -57,14 +53,13 @@ apps:
       has_notes: 1
       has_log: 1
       perms: "*"
+      group: crm
+      position: 1
+      color: success
+      layout: "1,2,1,1"
 
     - id: 61
       active: 1
-      group: crm
-      color: success
-      position: 1
-      fontsize: 1
-      colsize: 4
       code: meetings
       name: Meetings
       description: Meetings management
@@ -77,14 +72,13 @@ apps:
       has_notes: 1
       has_log: 1
       perms: "*"
+      group: crm
+      position: 1
+      color: success
+      layout: "2,2,1,1"
 
     - id: 52
       active: 1
-      group: crm
-      color: success
-      position: 1
-      fontsize: 1
-      colsize: 4
       code: quotes
       name: Quotes
       description: Quotes management
@@ -98,15 +92,13 @@ apps:
       has_notes: 1
       has_log: 1
       perms: "*"
+      group: crm
+      position: 1
+      color: success
+      layout: "3,2,1,1"
 
     - id: 63
       active: 1
-      group: crm
-      color: success
-      position: 2
-      opacity: 75
-      fontsize: 3
-      colsize: 4
       code: customers_types
       name: Customer Types
       description: Types of customers
@@ -119,15 +111,13 @@ apps:
       has_notes: 0
       has_log: 0
       perms: "*"
+      group: crm
+      position: 2
+      color: success-75
+      layout: "0,3,1,1"
 
     - id: 64
       active: 1
-      group: crm
-      color: success
-      position: 2
-      opacity: 75
-      fontsize: 3
-      colsize: 4
       code: leads_status
       name: Lead Status
       description: Status values for leads
@@ -140,15 +130,13 @@ apps:
       has_notes: 0
       has_log: 0
       perms: "*"
+      group: crm
+      position: 2
+      color: success-75
+      layout: "1,3,1,1"
 
     - id: 65
       active: 1
-      group: crm
-      color: success
-      position: 2
-      opacity: 75
-      fontsize: 3
-      colsize: 4
       code: quotes_status
       name: Quote Status
       description: Status values for quotes
@@ -161,3 +149,7 @@ apps:
       has_notes: 0
       has_log: 0
       perms: "*"
+      group: crm
+      position: 2
+      color: success-75
+      layout: "2,3,1,1"

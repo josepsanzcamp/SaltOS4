@@ -14,8 +14,6 @@
  - See the LICENSE file in the project root for full license information.
 -->
 
-<!-- source: apps/sales/xml/quotes.yaml -->
-
 <root>
     <main>
         <check eval="true" logout="true">current_user()</check>
@@ -41,7 +39,7 @@
         <cache eval="true">'app/' . get_data('rest/1') . '/main'</cache>
         <title eval="true">T('List') . ' - ' . T(app2name(get_data('rest/1')))</title>
         <layout append="one">
-            <row auto="true" row_class="row g-1" col_class="col-auto">
+            <row auto="true" row_class="row g-1 mb-3" col_class="col-auto">
                 <button onclick="saltos.common.filter()" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
                 <button onclick="saltos.common.create()" label="New" tooltip="To create a new register" icon="plus-lg" color="success" ifeval="check_user(get_data('rest/1'), 'create')"/>
                 <div col_class="col"/>
@@ -59,7 +57,7 @@
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
             </row>
             <div eval="true">xmlfile2array('apps/common/xml/filter.xml')['div']</div>
-            <row auto="true" col_class="col-md-12 my-3">
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-12">
                 <table id="list" nodata="Data not found" checkbox="true">
                     <header>
                         <customer_name label="Customer" order="true"/>
@@ -132,22 +130,22 @@
 
     <!-- Form part -->
     <_form>
-        <text id="code" label="Quote" col_class="col-md-3 mb-3" disabled="true"/>
-        <date id="date" label="Date" col_class="col-md-3 mb-3" disabled="true"/>
+        <text id="code" label="Quote" col_class="col-md-3" disabled="true"/>
+        <date id="date" label="Date" col_class="col-md-3" disabled="true"/>
         <div col_class="col-6"/>
 
-        <text id="customer_name" label="Customer" col_class="col-md-6 mb-3" required="true" autofocus="true"/>
-        <text id="customer_code" label="CIF" col_class="col-md-3 mb-3" required="true"/>
+        <text id="customer_name" label="Customer" col_class="col-md-6" required="true" autofocus="true"/>
+        <text id="customer_code" label="CIF" col_class="col-md-3" required="true"/>
 
-        <text id="customer_address" label="Address" col_class="col-md-6 mb-3" required="true"/>
-        <text id="customer_city" label="City" col_class="col-md-3 mb-3" required="true"/>
-        <text id="customer_province" label="Province / State" col_class="col-md-3 mb-3" required="true"/>
-        <text id="customer_zip" label="Zip" col_class="col-md-3 mb-3" required="true"/>
-        <text id="customer_country" label="Country" col_class="col-md-3 mb-3" required="true"/>
+        <text id="customer_address" label="Address" col_class="col-md-6" required="true"/>
+        <text id="customer_city" label="City" col_class="col-md-3" required="true"/>
+        <text id="customer_province" label="Province / State" col_class="col-md-3" required="true"/>
+        <text id="customer_zip" label="Zip" col_class="col-md-3" required="true"/>
+        <text id="customer_country" label="Country" col_class="col-md-3" required="true"/>
 
-        <textarea id="description" label="Notes" height="5em" col_class="col-md-12 mb-3"/>
+        <textarea id="description" label="Notes" height="5em" col_class="col-md-12"/>
 
-        <excel id="lines" label="Concepts" col_class="col-md-12 mb-3" required="true">
+        <excel id="lines" label="Concepts" col_class="col-md-12" required="true">
             <colHeaders eval="true">['Description', 'Quantity', 'Price', 'Discount', 'Tax', 'Total']</colHeaders>
             <rowHeaders eval="true">null</rowHeaders>
             <colWidths>saltos.quotes.colWidths_lines</colWidths>
@@ -159,7 +157,7 @@
             <autoWrapRow>true</autoWrapRow>
         </excel>
 
-        <excel id="taxes" label="Taxes" col_class="col-md-6 mb-3">
+        <excel id="taxes" label="Taxes" col_class="col-md-6">
             <colHeaders eval="true">['Tax', 'Base', 'Total']</colHeaders>
             <rowHeaders eval="true">null</rowHeaders>
             <colWidths>saltos.quotes.colWidths_taxes</colWidths>
@@ -171,7 +169,7 @@
             <data eval="true">execute_query_array("SELECT name, value FROM app_taxes WHERE active=1")</data>
         </hidden>
 
-        <excel id="totals" label="Totals" col_class="col-md-6 mb-3">
+        <excel id="totals" label="Totals" col_class="col-md-6">
             <colHeaders eval="true">['Subtotal', 'Tax', 'Total']</colHeaders>
             <rowHeaders eval="true">null</rowHeaders>
             <colWidths>saltos.quotes.colWidths_totals</colWidths>
@@ -180,16 +178,16 @@
             <cells>saltos.quotes.cells_totals</cells>
         </excel>
 
-        <select id="payment_method_id" label="Payment method" col_class="col-md-3 mb-3">
+        <select id="payment_method_id" label="Payment method" col_class="col-md-3">
             <rows eval="true">execute_query_array("
                     SELECT '' label, '0' value UNION
                     SELECT name label, id value FROM app_payment_methods
                     WHERE active = 1")</rows>
         </select>
 
-        <date id="valid_until" label="Valid until" col_class="col-md-3 mb-3"/>
+        <date id="valid_until" label="Valid until" col_class="col-md-3"/>
 
-        <select id="status_id" label="Status" col_class="col-md-3 mb-3">
+        <select id="status_id" label="Status" col_class="col-md-3">
             <rows eval="true">execute_query_array("
                     SELECT '' label, '0' value UNION
                     SELECT name label, id value FROM app_quotes_status")</rows>
@@ -224,9 +222,9 @@
         <cache eval="true">'app/' . get_data('rest/1') . '/main'</cache>
         <title eval="true">T('New') . ' - ' . T(app2name(get_data('rest/1')))</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_form']</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.insert()" label="Create" tooltip="To create the new register" icon="check-lg" color="success"/>
@@ -268,9 +266,9 @@
         <cache eval="true">'app/' . get_data('rest/1') . '/main'</cache>
         <title eval="true">T('Detail') . ' - ' . T(app2name(get_data('rest/1')))</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_form']</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <dropdown label="Info" icon="file-text" tooltip="Information of this register" ifeval="check_user(get_data('rest/1'), 'info')">
                     <menu>
@@ -319,9 +317,9 @@
         <cache eval="true">'app/' . get_data('rest/1') . '/main'</cache>
         <title eval="true">T('Modify') . ' - ' . T(app2name(get_data('rest/1')))</title>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_form']</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array(detect_app_file(get_data('rest/1')))['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.update()" label="Save" tooltip="To save the changes of this register" icon="check-lg" color="success"/>

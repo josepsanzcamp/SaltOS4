@@ -412,7 +412,7 @@ saltos.bootstrap.__text_helper = field => {
         return obj;
     }
     // add shadow feature
-    let shadow = 'shadow';
+    let shadow = 'shadow-sm';
     if (field.shadow !== '') {
         shadow = field.shadow;
     }

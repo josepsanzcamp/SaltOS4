@@ -91,7 +91,7 @@ saltos.bootstrap.modal = args => {
     if (!args.color) {
         args.color = 'primary';
     }
-    let shadow = 'shadow';
+    let shadow = 'shadow-sm';
     if (args.shadow) {
         shadow = args.shadow;
     }

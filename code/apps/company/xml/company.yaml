@@ -15,7 +15,7 @@ require: apps/common/php/default.php
 template: apps/common/xml/default.xml
 indent: true
 screen: type2modal
-col_class: col-md-6 mb-3
+col_class: col-md-6
 dropdown: false
 list:
     # [id, type, label]
@@ -52,29 +52,29 @@ attr:
         required: true
         autofocus: true
     notes:
-        col_class: col-md-12 mb-3
+        col_class: col-md-12
         height: 5em
     city:
-        col_class: col-md-3 mb-3
+        col_class: col-md-3
     province:
-        col_class: col-md-3 mb-3
+        col_class: col-md-3
     zip:
-        col_class: col-md-3 mb-3
+        col_class: col-md-3
     country:
-        col_class: col-md-3 mb-3
+        col_class: col-md-3
     code:
-        col_class: col-md-3 mb-3
+        col_class: col-md-3
     email:
-        col_class: col-md-4 mb-3
+        col_class: col-md-4
     phone:
-        col_class: col-md-4 mb-3
+        col_class: col-md-4
     website:
-        col_class: col-md-4 mb-3
+        col_class: col-md-4
     iban:
-        col_class: col-md-4 mb-3
+        col_class: col-md-4
     swift:
-        col_class: col-md-3 mb-3
+        col_class: col-md-3
     fiscal_regime:
-        col_class: col-md-3 mb-3
+        col_class: col-md-3
     activity_code:
-        col_class: col-md-2 mb-3
+        col_class: col-md-2

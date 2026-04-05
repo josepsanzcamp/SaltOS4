@@ -83,7 +83,7 @@ saltos.bootstrap.__field.table = field => {
     }
     // This creates a responsive table (a table inside a div with table-responsive class)
     // We are using the same div to put inside the overlodaded styles of the table
-    let shadow = 'shadow';
+    let shadow = 'shadow-sm';
     if (field.shadow !== '') {
         shadow = field.shadow;
     }

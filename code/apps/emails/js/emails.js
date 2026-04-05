@@ -81,27 +81,27 @@ saltos.emails.init = arg => {
     if (['view'].includes(arg)) {
         // Remove unnecessary fields
         if (document.getElementById('cc').value === '') {
-            document.getElementById('cc').closest('.mb-3').remove();
+            document.getElementById('cc').closest('.col-12').remove();
         }
         if (document.getElementById('bcc').value === '') {
-            document.getElementById('bcc').closest('.mb-3').remove();
+            document.getElementById('bcc').closest('.col-12').remove();
         }
         if (document.getElementById('state_error').value === '') {
-            document.getElementById('state_error').closest('.mb-3').remove();
+            document.getElementById('state_error').closest('.col-12').remove();
         }
 
         // Remove unnecessary switches and buttons
         if (document.getElementById('is_outbox').value === '1') {
-            document.getElementById('state_new').closest('.mb-3').remove();
-            document.getElementById('state_reply').closest('.mb-3').remove();
-            document.getElementById('state_spam').closest('.mb-3').remove();
+            document.getElementById('state_new').closest('.col-md-2').remove();
+            document.getElementById('state_reply').closest('.col-md-2').remove();
+            document.getElementById('state_spam').closest('.col-md-2').remove();
             document.getElementById('reply').closest('.col-auto').remove();
             document.getElementById('new0').closest('li').remove();
             document.getElementById('new1').closest('li').remove();
             document.getElementById('spam0').closest('li').remove();
             document.getElementById('spam1').closest('li').remove();
         } else {
-            document.getElementById('state_sent').closest('.mb-3').remove();
+            document.getElementById('state_sent').closest('.col-md-2').remove();
             document.getElementById('forward').closest('.col-auto').remove();
             if (document.getElementById('state_new').value === '1') {
                 document.getElementById('new1').closest('li').remove();
@@ -122,7 +122,7 @@ saltos.emails.init = arg => {
 
         // Remove unnecessary table if no files exist
         if (document.getElementById('num_files').value === '0') {
-            document.getElementById('files').closest('.mb-3').remove();
+            document.getElementById('files').closest('.col-12').remove();
         }
 
         // Load the email body with images

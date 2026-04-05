@@ -15,17 +15,13 @@ groups:
       code: hr
       name: HR
       description: Human Resources
-      color: danger
       position: 4
+      color: danger
+      layout: "8,3,4,2"
 
 apps:
     - id: 58
       active: 1
-      group: hr
-      position: 1
-      color: danger
-      fontsize: 1
-      colsize: 4
       code: employees
       name: Employees
       description: Employees management
@@ -38,14 +34,13 @@ apps:
       has_notes: 1
       has_log: 1
       perms: "*"
-
-    - id: 59
-      active: 1
       group: hr
       position: 1
       color: danger
-      fontsize: 1
-      colsize: 4
+      layout: "8,5,1,1"
+
+    - id: 59
+      active: 1
       code: departments
       name: Departments
       description: Departments management
@@ -58,15 +53,13 @@ apps:
       has_notes: 1
       has_log: 1
       perms: "*"
+      group: hr
+      position: 1
+      color: danger
+      layout: "9,5,1,1"
 
     - id: 69
       active: 1
-      group: hr
-      color: danger
-      position: 2
-      opacity: 75
-      fontsize: 3
-      colsize: 4
       code: employees_types
       name: Employee Types
       description: Types of employees
@@ -79,3 +72,7 @@ apps:
       has_notes: 0
       has_log: 0
       perms: "*"
+      group: hr
+      position: 2
+      color: danger-75
+      layout: "10,5,1,1"
