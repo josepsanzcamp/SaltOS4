@@ -19,19 +19,19 @@
   license: MIT License
   license_id: MIT
 
-- id: chartjs
-  name: Chart.js
-  package: chart.js
-  homepage: https://www.chartjs.org/
-  license: MIT License
-  license_id: MIT
-
 - id: codemirror
   name: CodeMirror
   package: codemirror/dev
   homepage: https://codemirror.net/
   license: MIT License
   license_id: MIT
+
+- id: echarts
+  name: Apache ECharts
+  package: echarts
+  homepage: https://echarts.apache.org/
+  license: Apache License 2.0
+  license_id: Apache-2.0
 
 - id: handsontable
   name: Handsontable

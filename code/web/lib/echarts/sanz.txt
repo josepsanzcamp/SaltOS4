@@ -1,0 +1,14 @@
+
+# https://echarts.apache.org/en/index.html
+# https://github.com/apache/echarts
+# https://www.jsdelivr.com/package/npm/echarts
+
+version=$(curl -s https://data.jsdelivr.com/v1/packages/npm/echarts/resolved | jq -r .version)
+echo $version > VERSION
+
+rm -f echarts.min.js
+wget https://cdn.jsdelivr.net/npm/echarts@$version/dist/echarts.min.js
+
+#wget https://raw.githubusercontent.com/apache/echarts/refs/heads/master/LICENSE
+#wget https://raw.githubusercontent.com/apache/echarts/refs/heads/master/NOTICE
+#wget https://raw.githubusercontent.com/apache/echarts/refs/heads/master/README.md

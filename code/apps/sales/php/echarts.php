@@ -23,7 +23,7 @@ declare(strict_types=1);
  * datasets for visualizing invoice-related data within SaltOS4.
  *
  * Each function returns an associative array with 'labels' and 'datasets',
- * directly usable by `<chartjs>` widgets in the XML layout system.
+ * directly usable by `<echarts>` widgets in the XML layout system.
  *
  * The metrics provided include:
  * - Daily total invoicing
@@ -68,11 +68,18 @@ SQL;
     }
 
     return [
-        'labels' => $labels,
-        'datasets' => [[
-            'label' => 'Total invoiced per day',
-            'data' => $values,
-        ],],
+        'xAxis' => [
+            'type' => 'category',
+            'data' => $labels,
+        ],
+        'yAxis' => ['type' => 'value'],
+        'series' => [
+            [
+                'name' => 'Total invoiced per day',
+                'type' => 'line',
+                'data' => $values,
+            ],
+        ],
     ];
 }
 
@@ -108,85 +115,18 @@ SQL;
     }
 
     return [
-        'labels' => $labels,
-        'datasets' => [[
-            'label' => 'Average invoice per day',
-            'data' => $values,
-        ],],
-    ];
-}
-
-/**
- * compute_top5_customers_by_total
- *
- * Retrieves the top 5 customers based on total invoiced amount for closed invoices.
- * Cuts customer names using `intelligence_cut()` for chart readability.
- *
- * Returns a Chart.js-compatible array: labels (customer names) and one dataset (total invoiced).
- */
-function compute_top5_customers_by_total()
-{
-    $sql = <<<SQL
-    SELECT customer_name, SUM(total) AS total
-    FROM app_invoices
-    WHERE is_closed = 1
-    GROUP BY customer_name
-    ORDER BY total DESC
-    LIMIT 5;
-SQL;
-
-    $data = execute_query_array($sql);
-
-    $labels = [];
-    $values = [];
-
-    foreach ($data as $row) {
-        $labels[] = intelligence_cut($row['customer_name'], 20); // usa lógica interna
-        $values[] = floatval($row['total']);
-    }
-
-    return [
-        'labels' => $labels,
-        'datasets' => [[
-            'label' => 'Top 5 customers',
-            'data' => $values,
-        ],],
-    ];
-}
-
-/**
- * compute_invoice_paid_vs_pending
- *
- * Counts how many closed invoices have been paid or are still unpaid.
- * Produces a pie chart data structure separating "Paid" and "Unpaid".
- *
- * Returns a Chart.js-compatible array: labels (Paid/Unpaid) and one dataset (count of invoices).
- */
-function compute_invoice_paid_vs_pending()
-{
-    $sql = <<<SQL
-    SELECT is_paid, COUNT(*) AS count
-    FROM app_invoices
-    WHERE is_closed = 1
-    GROUP BY is_paid;
-SQL;
-
-    $data = execute_query_array($sql);
-
-    $labels = [];
-    $values = [];
-
-    foreach ($data as $row) {
-        $labels[] = $row['is_paid'] === 1 ? 'Paid' : 'Unpaid';
-        $values[] = intval($row['count']);
-    }
-
-    return [
-        'labels' => $labels,
-        'datasets' => [[
-            'label' => 'Invoices by payment status',
-            'data' => $values,
-        ],],
+        'xAxis' => [
+            'type' => 'category',
+            'data' => $labels,
+        ],
+        'yAxis' => ['type' => 'value'],
+        'series' => [
+            [
+                'name' => 'Average invoice per day',
+                'type' => 'line',
+                'data' => $values,
+            ],
+        ],
     ];
 }
 
@@ -223,10 +163,139 @@ SQL;
     }
 
     return [
-        'labels' => $labels,
-        'datasets' => [[
-            'label' => 'Average days to get paid',
-            'data' => $values,
-        ],],
+        'xAxis' => [
+            'type' => 'category',
+            'data' => $labels,
+        ],
+        'yAxis' => ['type' => 'value'],
+        'series' => [
+            [
+                'name' => 'Average days to get paid',
+                'type' => 'line',
+                'data' => $values,
+            ],
+        ],
+    ];
+}
+
+/**
+ * compute_top5_customers_by_total
+ *
+ * Retrieves the top 5 customers based on total invoiced amount for closed invoices.
+ * Cuts customer names using `intelligence_cut()` for chart readability.
+ *
+ * Returns a Chart.js-compatible array: labels (customer names) and one dataset (total invoiced).
+ */
+function compute_top5_customers_by_total()
+{
+    $sql = <<<SQL
+    SELECT customer_name, SUM(total) AS total
+    FROM app_invoices
+    WHERE is_closed = 1
+    GROUP BY customer_name
+    ORDER BY total DESC
+    LIMIT 5;
+SQL;
+
+    $data = execute_query_array($sql);
+
+    $labels = [];
+    $values = [];
+
+    foreach ($data as $row) {
+        $labels[] = intelligence_cut($row['customer_name'], 20); // usa lógica interna
+        $values[] = floatval($row['total']);
+    }
+
+    return [
+        'xAxis' => [
+            'type' => 'category',
+            'data' => $labels,
+        ],
+        'yAxis' => ['type' => 'value'],
+        'series' => [
+            [
+                'name' => 'Top 5 customers',
+                'type' => 'bar',
+                'data' => $values,
+            ],
+        ],
+    ];
+}
+
+/**
+ * compute_invoice_paid_vs_pending
+ *
+ * Counts how many closed invoices have been paid or are still unpaid.
+ * Produces a pie chart data structure separating "Paid" and "Unpaid".
+ *
+ * Returns a Chart.js-compatible array: labels (Paid/Unpaid) and one dataset (count of invoices).
+ */
+function compute_invoice_paid_vs_pending()
+{
+    $sql = <<<SQL
+    SELECT is_paid, COUNT(*) AS count
+    FROM app_invoices
+    WHERE is_closed = 1
+    GROUP BY is_paid;
+SQL;
+
+    $data = execute_query_array($sql);
+
+    $values = [];
+
+    foreach ($data as $row) {
+        $values[] = [
+            'name' => $row['is_paid'] === 1 ? 'Paid' : 'Unpaid',
+            'value' => intval($row['count']),
+        ];
+    }
+
+    return [
+        'series' => [
+            [
+                'name' => 'Invoices by payment status',
+                'type' => 'doughnut',
+                'data' => $values,
+            ],
+        ],
+    ];
+}
+
+/**
+ * compute_invoice_open_vs_closed
+ *
+ * Counts how many invoices are currently open or closed.
+ * Produces a pie chart data structure separating "Open" and "Closed".
+ *
+ * Returns an ECharts-compatible array with one pie series.
+ */
+function compute_invoice_open_vs_closed()
+{
+    $sql = <<<SQL
+    SELECT is_closed, COUNT(*) AS count
+    FROM app_invoices
+    GROUP BY is_closed;
+SQL;
+
+    $data = execute_query_array($sql);
+
+    $values = [];
+
+    foreach ($data as $row) {
+        $values[] = [
+            'name' => intval($row['is_closed']) === 1 ? 'Closed' : 'Open',
+            'value' => intval($row['count']),
+        ];
+    }
+
+    return [
+        'series' => [
+            [
+                'name' => 'Invoices by open / closed status',
+                'type' => 'doughnut',
+                'data' => $values,
+            ],
+        ],
     ];
 }
