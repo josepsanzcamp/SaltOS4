@@ -110,9 +110,7 @@ saltos.driver.close = arg => {
         return;
     }
     // Disable all autoclose
-    document.querySelectorAll('[autoclose]').forEach(item => {
-        item.removeAttribute('autoclose');
-    });
+    saltos.driver.__disable_all_autoclose();
     // Continue
     const url1 = window.location.href;
     window.history.back();
@@ -124,6 +122,18 @@ saltos.driver.close = arg => {
             saltos.driver.__types[type].close(arg);
         }
     }, 100);
+};
+
+/**
+ * Disable all autoclose attributes
+ *
+ * This function removes the autoclose attribute from all elements
+ * that currently have it.
+ */
+saltos.driver.__disable_all_autoclose = () => {
+    document.querySelectorAll('[autoclose]').forEach(item => {
+        item.removeAttribute('autoclose');
+    });
 };
 
 /**
@@ -369,9 +379,7 @@ saltos.driver.update = arg => {
 saltos.driver.delete = async arg => {
     if (saltos.bootstrap.modal('isopen')) {
         // Disable all autoclose
-        document.querySelectorAll('[autoclose]').forEach(item => {
-            item.removeAttribute('autoclose');
-        });
+        saltos.driver.__disable_all_autoclose();
         // Continue
         saltos.bootstrap.modal('close');
         while (saltos.bootstrap.modal('isopen')) {

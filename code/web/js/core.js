@@ -443,6 +443,19 @@ saltos.core.ajax = args => {
 };
 
 /**
+ * Abort all active AJAX requests
+ *
+ * This function aborts all active ajax requests stored in the queue
+ * and clears the queue immediately to avoid duplicate abort calls.
+ */
+saltos.core.__abort_all_ajax = () => {
+    for (const controller of saltos.core.__ajax) {
+        controller.abort();
+    }
+    saltos.core.__ajax.clear();
+};
+
+/**
  * Fix key
  *
  * This function is intended to fix the keys of the objects, this is caused because you can not
@@ -791,9 +804,7 @@ document.addEventListener('DOMContentLoaded', event => {
             }
             // In this scope, a certificate issue was found and a reload is neeced
             saltos.core.proxy('stop');
-            for (const controller of saltos.core.__ajax) {
-                controller.abort();
-            }
+            saltos.core.__abort_all_ajax();
             setTimeout(() => {
                 window.location.reload();
             }, 1000);

@@ -137,13 +137,9 @@ window.addEventListener('hashchange', event => {
         saltos.autosave.purge('two,one', hash);
     }
     // Ajax part
-    for (const controller of saltos.core.__ajax) {
-        controller.abort();
-    }
+    saltos.core.__abort_all_ajax();
     // Autoclose part
-    document.querySelectorAll('[autoclose]').forEach(item => {
-        item.removeAttribute('autoclose');
-    });
+    saltos.driver.__disable_all_autoclose();
     // Modal and offcanvas part
     saltos.bootstrap.modal('close');
     saltos.bootstrap.offcanvas('close');
