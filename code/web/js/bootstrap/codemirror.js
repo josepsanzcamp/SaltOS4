@@ -108,9 +108,7 @@ saltos.bootstrap.__field.codemirror = field => {
             theme: detect_theme(),
         });
         element.codemirror = cm;
-        element.parentElement.classList.add('form-control');
-        element.parentElement.classList.add('p-0');
-        element.parentElement.classList.add(...border);
+        element.parentElement.classList.add('form-control', 'p-0', ...border);
         element.nextElementSibling.style.height = 'auto';
         cm.on('change', cm.save);
         if (field.height !== '') {

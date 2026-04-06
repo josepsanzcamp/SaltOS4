@@ -123,12 +123,8 @@ saltos.bootstrap.__field.pdfjs = field => {
                         div.append(canvas);
                         element.append(div);
                         canvas.style.width = '100%';
-                        div.classList.add('form-control');
-                        div.classList.add(rounded);
+                        div.classList.add('form-control', rounded, 'p-0', shadow, ...border);
                         canvas.classList.add(rounded);
-                        div.classList.add('p-0');
-                        div.classList.add(shadow);
-                        div.classList.add(...border);
                         if (saltos.core.eval_bool(field.invert)) {
                             const button_value = saltos.bootstrap.__button_value_helper(field.id);
                             if (button_value) {

@@ -80,9 +80,7 @@ saltos.bootstrap.__field.alert = field => {
         obj.append(saltos.core.html(field.body));
     }
     if (saltos.core.eval_bool(field.close)) {
-        obj.classList.add('alert-dismissible');
-        obj.classList.add('fade');
-        obj.classList.add('show');
+        obj.classList.add('alert-dismissible', 'fade', 'show');
         obj.append(saltos.core.html(`
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         `));

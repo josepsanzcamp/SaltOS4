@@ -176,11 +176,7 @@ saltos.bootstrap.__field.excel = field => {
         'lib/handsontable/handsontable.dark.min.css',
     ], () => {
         placeholder.remove();
-        element.parentElement.classList.add('form-control');
-        element.parentElement.classList.add('p-0');
-        element.parentElement.classList.add(shadow);
-        element.parentElement.classList.add(rounded);
-        element.parentElement.classList.add(...border);
+        element.parentElement.classList.add('form-control', 'p-0', shadow, rounded, ...border);
         element.parentElement.style.height = height;
         element.parentElement.style.overflow = 'auto';
         const excel = new Handsontable(element, options);
