@@ -95,7 +95,7 @@ if (php_sapi_name() === 'cli') {
     set_server('QUERY_STRING', implode('/', array_slice(get_server('argv'), 1)));
     stream_set_blocking(STDIN, false); // Important if stdin is not used
     $_DATA = [
-        'rest' => array_values(array_diff(explode('/', get_server('QUERY_STRING')), [''])),
+        'rest' => array_values(array_diff(explode('/', strval(get_server('QUERY_STRING'))), [''])),
         'json' => array_protected(json_decode(strval(file_get_contents_protected('php://stdin')), true)),
         'server' => [
             'request_method' => 'CLI',
@@ -124,14 +124,14 @@ if (php_sapi_name() === 'cli') {
         set_server('HTTP_AUTHORIZATION_TOKEN', substr($auth, 7));
     }
     $_DATA = [
-        'rest' => array_values(array_diff(explode('/', get_server('QUERY_STRING')), [''])),
+        'rest' => array_values(array_diff(explode('/', strval(get_server('QUERY_STRING'))), [''])),
         'json' => array_protected(json_decode(strval(file_get_contents('php://input')), true)),
         'server' => [
             'request_method' => strtoupper(strval(get_server('REQUEST_METHOD'))),
             'content_type' => strtolower(strval(get_server('CONTENT_TYPE'))),
             'token' => check_token_format(get_server('HTTP_AUTHORIZATION_TOKEN')),
             'remote_addr' => check_ip_addr(get_server('REMOTE_ADDR')),
-            'user_agent' => get_server('HTTP_USER_AGENT'),
+            'user_agent' => strval(get_server('HTTP_USER_AGENT')),
             'lang' => check_lang_format(get_server('HTTP_ACCEPT_LANGUAGE')),
         ],
     ];
