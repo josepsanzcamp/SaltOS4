@@ -56,12 +56,12 @@ final class test_ping extends TestCase
      */
     public function test_ping(): void
     {
-        $response = __url_get_contents('https://127.0.0.1/saltos/code4/html/ping.html');
+        $response = __url_get_contents('http://127.0.0.1:8092/html/ping.html');
         $this->assertSame('<script>close()</script>', $response['body']);
 
         $key = array_key_search('content-type', $response['headers']);
         $value = $response['headers'][$key];
-        $this->assertSame('text/html', $value);
+        $this->assertStringContainsString('text/html', $value);
 
         $key = array_key_search('content-length', $response['headers']);
         $value = $response['headers'][$key];

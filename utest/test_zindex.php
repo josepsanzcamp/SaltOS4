@@ -60,7 +60,7 @@ final class test_zindex extends TestCase
         $this->assertArrayHasKey('error', $json);
 
         test_pcov_start();
-        $response = __url_get_contents('https://127.0.0.1/saltos/code4/api/?/nada', [
+        $response = __url_get_contents('http://127.0.0.1:8092/api/?/nada', [
             'method' => 'put',
         ]);
         test_pcov_stop(1);
@@ -68,7 +68,7 @@ final class test_zindex extends TestCase
         $this->assertArrayHasKey('error', $json);
 
         test_pcov_start();
-        $response = __url_get_contents('https://127.0.0.1/saltos/code4/api/?/nada', [
+        $response = __url_get_contents('http://127.0.0.1:8092/api/?/nada', [
             'method' => 'get',
             'headers' => [
                 'Content-Type' => 'application/json',
@@ -79,7 +79,7 @@ final class test_zindex extends TestCase
         $this->assertArrayHasKey('error', $json);
 
         test_pcov_start();
-        $response = __url_get_contents('https://127.0.0.1/saltos/code4/api/?/nada', [
+        $response = __url_get_contents('http://127.0.0.1:8092/api/?/nada', [
             'method' => 'post',
         ]);
         test_pcov_stop(1);
@@ -87,7 +87,7 @@ final class test_zindex extends TestCase
         $this->assertArrayHasKey('error', $json);
 
         test_pcov_start();
-        $response = __url_get_contents('https://127.0.0.1/saltos/code4/api/?/nada');
+        $response = __url_get_contents('http://127.0.0.1:8092/api/?/nada');
         test_pcov_stop(1);
         $json = json_decode($response['body'], true);
         $this->assertArrayHasKey('error', $json);

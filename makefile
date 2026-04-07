@@ -381,6 +381,18 @@ teststatus:
 	cd scripts && docker compose --profile test ps
 
 ################################################################################
+# HTTP TEST PART
+################################################################################
+
+httpstart:
+	cd code/web/ && ln -s index.html index.php || true
+	php -S 127.0.0.1:8092 -t code/web/ 2>/dev/null &
+
+httpstop:
+	cd code/web/ && rm -f index.php || true
+	killall php || true
+
+################################################################################
 # DOCKER SERVER PART
 ################################################################################
 
