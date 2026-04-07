@@ -52,6 +52,7 @@ let page;
  */
 beforeAll(async () => {
     browser = await puppeteer.launch({
+        executablePath: '/usr/bin/chromium',
         args: ['--ignore-certificate-errors'],
     });
     page = await browser.newPage();
@@ -111,7 +112,7 @@ describe('Screenshots', () => {
         await page.$$eval('button', buttons => buttons[1].click());
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
-        await page.waitForSelector('#catalog', timeout);
+        await page.waitForSelector('.grid-stack', timeout);
     });
 
     const apps = {
@@ -139,7 +140,6 @@ describe('Screenshots', () => {
         },
         'dashboard': {
             'dashboard': [''],
-            'dashboard_widgets': ['']
         },
         'emails': {
             'emails': ['list', 'create', 'view/100', 'view/viewpdf/100'],

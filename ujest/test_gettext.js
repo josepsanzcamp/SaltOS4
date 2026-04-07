@@ -25,9 +25,12 @@
  * Load all needed files of the project
  */
 const files = `bootstrap,core,gettext,storage`.split(',');
-for (const i in files) {
-    const file = files[i].trim();
+for (const file of files) {
     require(`../code/web/js/${file}.js`);
+}
+const files2 = `input,table,button,select,alert,modal,toast,navbar,offcanvas,dropdown`.split(',');
+for (const file of files2) {
+    require(`../code/web/js/bootstrap/${file}.js`);
 }
 
 /**

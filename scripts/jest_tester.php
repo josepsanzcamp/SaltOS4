@@ -18,7 +18,7 @@ $_CONFIG = eval_attr(prepare_config_files(xmlfiles2array(detect_config_files('xm
 db_connect();
 
 $orig = 'apps/tester/xml/tester.xml';
-$path = 'main/layout/container';
+$path = 'main/layout/row';
 $dest = '/tmp/tester.json';
 
 $reset = "\e[0m";

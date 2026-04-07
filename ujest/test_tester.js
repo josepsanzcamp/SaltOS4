@@ -52,6 +52,7 @@ let page;
  */
 beforeAll(async () => {
     browser = await puppeteer.launch({
+        executablePath: '/usr/bin/chromium',
         args: ['--ignore-certificate-errors'],
     });
     page = await browser.newPage();

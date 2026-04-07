@@ -57,6 +57,7 @@ describe('Bootstrap', () => {
      */
     beforeAll(async () => {
         browser = await puppeteer.launch({
+            executablePath: '/usr/bin/chromium',
             args: ['--ignore-certificate-errors'],
         });
         page = await browser.newPage();
@@ -124,7 +125,7 @@ describe('Bootstrap', () => {
         } else if (field.type === 'excel') {
             await mypause(page, 500);
             await page.waitForFunction(id => document.getElementById(id).excel, timeout, id);
-        } else if (field.type === 'chartjs') {
+        } else if (field.type === 'echarts') {
             await mypause(page, 1000);
         } else if (field.type === 'gallery') {
             await mypause(page, 500);

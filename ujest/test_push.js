@@ -25,7 +25,7 @@
 /**
  * Load all needed files of the project
  */
-const files = `app,bootstrap,core,gettext,push,storage,token`.split(',');
+const files = `app,bootstrap,bootstrap/toast,core,gettext,push,storage,token`.split(',');
 for (const i in files) {
     const file = files[i].trim();
     require(`../code/web/js/${file}.js`);

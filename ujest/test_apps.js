@@ -52,6 +52,7 @@ let page;
  */
 beforeAll(async () => {
     browser = await puppeteer.launch({
+        executablePath: '/usr/bin/chromium',
         args: ['--ignore-certificate-errors'],
     });
     page = await browser.newPage();
@@ -176,7 +177,7 @@ describe('App Login', () => {
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#one', timeout);
-        // Special case to allow the chartjs render
+        // Special case to allow the echarts render
         await mypause(page, 1000);
         await page.waitForFunction(() => !document.querySelector('.toast'), timeout);
 
@@ -202,7 +203,7 @@ describe('App Login', () => {
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#one', timeout);
-        // Special case to allow the chartjs render
+        // Special case to allow the echarts render
         await mypause(page, 1000);
 
         const screenshot = await sharp(await page.screenshot()).png({
