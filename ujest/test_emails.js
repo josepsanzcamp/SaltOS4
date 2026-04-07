@@ -93,7 +93,7 @@ describe('App Emails', () => {
      * appear in the screen
      */
     test('Action List', async () => {
-        await page.goto('https://127.0.0.1/saltos/code4/#/app/emails');
+        await page.goto('http://127.0.0.1:8092/#/app/emails');
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#user', timeout);

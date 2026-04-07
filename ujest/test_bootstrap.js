@@ -36,52 +36,54 @@ const timeout = {timeout: 3000};
 const sharp = require('sharp');
 
 /**
+ * Global variables
+ *
+ * This variables contains the browser and page links
+ */
+let browser;
+let page;
+
+/**
+ * Before All
+ *
+ * This function contains all code executed before all tests, in this case the
+ * features provided by this function includes the launch of the browser, set
+ * the screen size and start the javascript coverage
+ */
+beforeAll(async () => {
+    browser = await puppeteer.launch({
+        executablePath: '/usr/bin/chromium',
+        args: ['--ignore-certificate-errors'],
+    });
+    page = await browser.newPage();
+    await page.coverage.startJSCoverage({
+        resetOnNavigation: false,
+        reportAnonymousScripts: false,
+        includeRawScriptCoverage: false,
+        useBlockCoverage: true,
+    });
+    await page.goto('http://127.0.0.1:8092/#/app/emails');
+    await page.waitForFunction(() => document.getElementById('user'), timeout);
+});
+
+/**
+ * After All
+ *
+ * This function contains all code executed after all tests
+ */
+afterAll(async () => {
+    const jsCoverage = await page.coverage.stopJSCoverage();
+    pti.write(jsCoverage, {storagePath: '/tmp/nyc_output/bootstrap'});
+    await browser.close();
+});
+
+/**
  * Bootstrap
  *
  * This test contains the code needed to create all widgets and validate the
  * correctness of them
  */
 describe('Bootstrap', () => {
-    /**
-     * Global variables
-     *
-     * This variables contains the browser and page links
-     */
-    let browser;
-    let page;
-
-    /**
-     * Before All
-     *
-     * This function contains all code executed before all tests
-     */
-    beforeAll(async () => {
-        browser = await puppeteer.launch({
-            executablePath: '/usr/bin/chromium',
-            args: ['--ignore-certificate-errors'],
-        });
-        page = await browser.newPage();
-        await page.coverage.startJSCoverage({
-            resetOnNavigation: false,
-            reportAnonymousScripts: false,
-            includeRawScriptCoverage: false,
-            useBlockCoverage: true,
-        });
-        await page.goto('https://127.0.0.1/saltos/code4/#/app/emails');
-        await page.waitForFunction(() => document.getElementById('user'), timeout);
-    });
-
-    /**
-     * After All
-     *
-     * This function contains all code executed after all tests
-     */
-    afterAll(async () => {
-        const jsCoverage = await page.coverage.stopJSCoverage();
-        pti.write(jsCoverage, {storagePath: '/tmp/nyc_output/bootstrap'});
-        await browser.close();
-    });
-
     /**
      * Prepare the test.each iterator
      */
