@@ -306,6 +306,9 @@ saltos.app.get_data = full => {
             case 'excel':
                 val = obj.data;
                 old = field.data;
+                if (val.length > 0 && val.at(-1).every(item => item === null)) {
+                    val.pop();
+                }
                 break;
         }
         if (typeof val === 'object' && typeof old === 'object') {

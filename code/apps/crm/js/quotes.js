@@ -30,28 +30,6 @@
 saltos.quotes = {};
 
 /**
- * Initialize the quotes application
- *
- * This method handles initialization tasks based on the type of operation (`view`, `create`, or `edit`).
- * It updates UI elements and attaches appropriate event listeners.
- *
- * @arg => Specifies the type of operation to initialize.
- */
-saltos.quotes.init = arg => {
-    if (['edit'].includes(arg)) {
-        // Remove the original data to force that get_data get this fields
-        for (const i in saltos.backup.__forms) {
-            for (const j in saltos.backup.__forms[i].fields) {
-                const k = saltos.backup.__forms[i].fields[j];
-                if (['lines', 'taxes', 'totals'].includes(k.id)) {
-                    k.data = [];
-                }
-            }
-        }
-    }
-};
-
-/**
  * Calculate the dynamic width for each column in the "lines" table.
  *
  * This function returns the width for each column. For the first column (index 0),
