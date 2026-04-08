@@ -90,7 +90,7 @@ final class test_file extends TestCase
         unlink($file2);
         unlink($file3);
 
-        $json0 = url_get_contents('127.0.0.1/saltos/code4/api/?/auth/check');
+        $json0 = url_get_contents('127.0.0.1:8092/api/?/auth/check');
         $json = url_get_contents('http://127.0.0.1:8092/api/?/auth/check');
         $this->assertSame($json0, $json);
         $json = json_decode($json, true);
@@ -150,7 +150,7 @@ final class test_file extends TestCase
         $fd = fsockopen_protected('127.0.0.1', 80, $errno, $errstr, null);
         $this->assertSame(is_resource($fd), true);
 
-        $buffer = __url_get_contents('https://127.0.0.1nada/saltos/code4/api/?/auth/check');
+        $buffer = __url_get_contents('http://127.0.0.1nada:8092/api/?/auth/check');
         $this->assertSame($buffer, [
             'body' => '',
             'headers' => [],
@@ -159,7 +159,7 @@ final class test_file extends TestCase
             'error' => 'error 6: Could not resolve host: 127.0.0.1nada',
         ]);
 
-        $buffer = __url_get_contents('nada://127.0.0.1/saltos/code4/api/?/auth/check');
+        $buffer = __url_get_contents('nada://127.0.0.1:8092/api/?/auth/check');
         $this->assertSame($buffer, [
             'body' => '',
             'headers' => [],

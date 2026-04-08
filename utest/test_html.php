@@ -62,7 +62,7 @@ final class test_html extends TestCase
         $this->assertSame(remove_meta_tag('<meta nada>'), '');
         $this->assertSame(remove_link_tag('<link nada>'), '');
 
-        $src = 'https://127.0.0.1/favicon.ico';
+        $src = 'http://127.0.0.1:8092/img/logo_red.svg';
         $cache = get_cache_file($src, '.b64');
         if (file_exists($cache)) {
             unlink($cache);
@@ -136,7 +136,7 @@ final class test_html extends TestCase
             inline_img_background("<table background=\"$src\">")
         ));
 
-        $src = 'https://127.0.0.1/nada';
+        $src = 'http://127.0.0.1:8092/nada';
         $this->assertTrue(words_exists(
             'data image base64',
             inline_img_tag("<img src='$src'>")
@@ -271,7 +271,7 @@ final class test_html extends TestCase
             fix_img_background("<table background='$src'>")
         ));
 
-        $src = 'https://127.0.0.1/nada';
+        $src = 'http://127.0.0.1:8092/nada';
         $cache = get_cache_file($src, '.err');
         if (file_exists($cache)) {
             unlink($cache);

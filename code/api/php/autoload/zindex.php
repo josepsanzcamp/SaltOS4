@@ -30,7 +30,7 @@ declare(strict_types=1);
  * This kind of requests requires that you send a GET request with a querystring of the follow
  * form:
  *
- * @https://127.0.0.1/saltos/code4/?app/invoices/view/2
+ * @http://127.0.0.1:8092/?/app/invoices/view/2
  *
  * And the system process it of the follow form:
  *

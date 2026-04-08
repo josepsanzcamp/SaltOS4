@@ -1103,8 +1103,8 @@ describe('Core Module Tests', () => {
     test('Registers service worker if supported and on HTTPS', async () => {
         Object.defineProperty(window, 'location', {
             value: {
-                protocol: 'https:',
-                href: 'https://127.0.0.1/saltos/code4',
+                protocol: 'http:',
+                href: 'http://127.0.0.1:8092',
             },
             writable: true,
         });
