@@ -126,7 +126,7 @@ if (isset($map[$title])) {
 }
 $title .= ' documentation';
 echo ucwords($title) . "\n";
-$rev = intval(ob_passthru('svnversion'));
+$rev = intval(ob_passthru('git rev-list HEAD --count'));
 echo "SaltOS 4.1 r$rev\n";
 $date = date('F Y');
 echo "$date\n";

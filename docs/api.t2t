@@ -1,6 +1,6 @@
 Api Documentation
-SaltOS 4.1 r2349
-March 2026
+SaltOS 4.1 r2408
+April 2026
 
 
 
@@ -4297,7 +4297,7 @@ use it, you can use the follow methods:
 This kind of requests requires that you send a GET request with a querystring of the follow
 form:
 
-- @https://127.0.0.1/saltos/code4/?app/invoices/view/2
+- @http://127.0.0.1:8092/?/app/invoices/view/2
 
 
 And the system process it of the follow form:
@@ -6657,31 +6657,6 @@ function get_geoip_string($remote_addr)
 ```
 
 This function gets the geoip information an returns it
-
-
-++Help feature++
-
-```
-api/php/lib/help.php
-```
-
-This file contains the help functions used by SaltOS
-
-
-+++Detect Help File+++
-
-```
-function detect_help_file($app, $lang)
-```
-
-This function is intended to return the name of the pdf file used as help
-for the app and lang, they use 4 checks to search the correct file that must
-to returns, the first in to search in the app folder for the specified lang,
-otherwise search for some othe lang, and if no app file is found, then the
-same process is used for the notfound.pdf file.
-
-- @app  => the application to search
-- @lang => the prefered lang to search
 
 
 ++Import file helper module++

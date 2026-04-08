@@ -1,6 +1,6 @@
 Manual de usuario
-SaltOS 4.1 r2349
-March 2026
+SaltOS 4.1 r2408
+April 2026
 
 
 
@@ -10,10 +10,13 @@ March 2026
 
 ++Descripción++
 
-El panel de control o **dashboard** es la pantalla inicial de SaltOS4, donde se pueden mostrar accesos rápidos, separadores, widgets, gráficos y otros elementos visuales.
-No se trata de una aplicación clásica con formularios o registros, sino de una vista dinámica y personalizable pensada para ofrecer una visión general rápida y acceso directo a funcionalidades frecuentes.
+El panel de control o **dashboard** es la pantalla inicial de SaltOS4, donde se pueden mostrar accesos rápidos, widgets, gráficos y otros elementos visuales.
+
+No se trata de una aplicación clásica con formularios o registros, sino de una vista dinámica y totalmente personalizable pensada para ofrecer una visión general rápida y acceso directo a funcionalidades frecuentes.
 
 Esta vista centraliza acciones comunes y muestra información relevante de forma resumida.
+
+A diferencia de la versión anterior, el dashboard ahora ocupa el **100% de la pantalla disponible** y utiliza **GridStack** para gestionar la distribución y organización de los elementos.
 
 ++Vista principal++
 
@@ -23,71 +26,26 @@ El dashboard puede incluir:
 
 - Botones de acceso rápido a aplicaciones o acciones frecuentes
 - Títulos que agrupan secciones
-- Separadores visuales para organizar la información
 - Widgets que muestran contenido en tiempo real (ej: calendario, correos, gráficos)
+- Gráficos y paneles informativos
 
+Todos los elementos pueden reorganizarse fácilmente mediante **arrastrar y soltar**.
 
-++Configuración del dashboard++
+++Personalización del dashboard++
 
-En la **parte superior derecha de la pantalla**, hay un botón con un icono de engranaje que abre la aplicación de configuración del dashboard.
+La configuración del dashboard ahora está integrada en la propia aplicación **Dashboard**.
 
-Desde allí se pueden personalizar los elementos mostrados:
+Ya no existe una aplicación independiente de configuración ni el botón con icono de engranaje en la parte superior derecha.
 
-- Seleccionar el dashboard activo
-- Añadir o quitar **botones**
-- Crear **títulos** y **separadores** visuales
-- Agrupar elementos en bloques
-- Incluir **widgets** disponibles (ej: estadísticas, recordatorios, correos)
+La organización de los elementos se realiza directamente sobre la vista principal usando **GridStack**, permitiendo:
 
+- Mover widgets y bloques mediante arrastrar y soltar
+- Redimensionar elementos según el espacio disponible
+- Reorganizar libremente la disposición visual
 
-Esta configuración es específica para cada usuario y se guarda automáticamente.
+Los cambios realizados se **guardan automáticamente** en la configuración del usuario, sin necesidad de acciones adicionales.
 
-
-
-+Configuración del dashboard+
-
-++Descripción++
-
-Esta aplicación permite configurar el contenido que se muestra en el **dashboard** de SaltOS4.
-No se trata de una aplicación con registros clásicos, sino de una interfaz visual centrada en el usuario donde se pueden personalizar accesos rápidos, secciones y widgets que aparecen en el panel de control.
-
-Cada usuario puede tener su propio dashboard personalizado, y esta herramienta es su gestor visual.
-
-++Vista de configuración++
-
-[../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-widgets-es-es-light-1-snap.png]
-
-La pantalla muestra una vista en forma de lienzo donde los elementos del dashboard pueden organizarse de forma dinámica y visual.
-
-Los tipos de elementos que pueden añadirse incluyen:
-
-- **Botones**: Enlaces rápidos a aplicaciones o funcionalidades.
-- **Separadores**: Líneas o espacios para estructurar visualmente el dashboard.
-- **Títulos**: Textos destacados para agrupar secciones.
-- **Widgets**: Componentes dinámicos como calendario, correo electrónico, gráficos, estadísticas, etc.
-
-
-También es posible agrupar elementos, ordenarlos mediante arrastrar y soltar, y reorganizar grupos o columnas.
-
-++Funcionalidades++
-
-- Añadir o eliminar elementos
-- Reordenar mediante arrastrar y soltar
-- Editar títulos y textos de sección
-- Seleccionar qué widgets mostrar
-- Organizar elementos en varias columnas o bloques
-
-
-Los cambios se guardan automáticamente y afectan solo al dashboard del usuario activo.
-
-++Uso avanzado++
-
-Este módulo es ideal para:
-
-- Crear paneles específicos por perfil (comercial, técnico, administración…)
-- Mostrar solo herramientas y datos consultados con frecuencia
-- Mejorar la eficiencia y claridad visual de la pantalla de inicio
-
+Esta configuración es específica para cada usuario y se aplica automáticamente en futuros accesos.
 
 
 
@@ -596,7 +554,7 @@ La aplicación de facturación (`invoices`) publica varios widgets en el panel p
 
 Los widgets disponibles son:
 
-- **Tabla `last_7_invoices`**: muestra las 7 últimas facturas emitidas, incluyendo información clave como el cliente, el importe total y el estado (pagada o pendiente).
+- **Tabla `last_n_invoices`**: muestra las últimas facturas emitidas, incluyendo información clave como el cliente, el importe total y el estado (pagada o pendiente).
 - **Gráfica `invoice_total_by_day`**: representa el importe total facturado por día, permitiendo detectar picos o tendencias en la actividad.
 - **Gráfica `invoice_avg_by_day`**: muestra el importe medio diario de las facturas emitidas, útil para evaluar la regularidad o estacionalidad.
 - **Gráfica `top5_customers_by_total`**: destaca los 5 clientes que más volumen de facturación han generado, facilitando la identificación de clientes clave.

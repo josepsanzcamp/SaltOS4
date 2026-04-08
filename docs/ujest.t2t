@@ -1,6 +1,6 @@
 Jest Test Documentation
-SaltOS 4.1 r2349
-March 2026
+SaltOS 4.1 r2408
+April 2026
 
 
 
@@ -267,16 +267,6 @@ const puppeteer = require('puppeteer');
 This lines contain the needed setup for run puppeteer and take screenshots
 
 
-+++Bootstrap+++
-
-```
-describe('Bootstrap', ()
-```
-
-This test contains the code needed to create all widgets and validate the
-correctness of them
-
-
 +++Global variables+++
 
 ```
@@ -292,7 +282,9 @@ This variables contains the browser and page links
 beforeAll(async ()
 ```
 
-This function contains all code executed before all tests
+This function contains all code executed before all tests, in this case the
+features provided by this function includes the launch of the browser, set
+the screen size and start the javascript coverage
 
 
 +++After All+++
@@ -302,6 +294,16 @@ afterAll(async ()
 ```
 
 This function contains all code executed after all tests
+
+
++++Bootstrap+++
+
+```
+describe('Bootstrap', ()
+```
+
+This test contains the code needed to create all widgets and validate the
+correctness of them
 
 
 +++Prepare the test.each iterator+++
@@ -2137,7 +2139,7 @@ and favicon status updates in the SaltOS framework.
 +++Load all needed files of the project+++
 
 ```
-const files = `app,bootstrap,core,gettext,push,storage,token`.split(',');
+const files = `app,bootstrap,bootstrap/toast,core,gettext,push,storage,token`.split(',');
 ```
 
 

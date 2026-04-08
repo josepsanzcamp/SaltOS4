@@ -26,8 +26,8 @@ if (!file_exists($outdir)) {
 }
 chdir($outdir);
 
-// Compute the svnversion and date
-$rev = intval(ob_passthru('svnversion'));
+// Compute the gitversion and date
+$rev = intval(ob_passthru('git rev-list HEAD --count'));
 $date = date('F Y');
 
 // Get the source and process it

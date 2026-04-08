@@ -1,6 +1,6 @@
 User Manual
-SaltOS 4.1 r2349
-March 2026
+SaltOS 4.1 r2408
+April 2026
 
 
 
@@ -10,84 +10,42 @@ March 2026
 
 ++Description++
 
-The **dashboard** is the main landing screen in SaltOS4, where users can display quick access buttons, separators, widgets, charts, and other visual elements.
-It is not a traditional app with forms or records, but rather a dynamic, customizable view designed to provide an overview and fast access to frequent actions.
+The **dashboard** is the main home screen of SaltOS4, where quick access buttons, widgets, charts, and other visual elements can be displayed.
 
-This screen centralizes commonly used tools and relevant system information.
+It is not a classic application with forms or records, but a dynamic and fully customizable view designed to provide a quick overview and direct access to frequently used features.
+
+This view centralizes common actions and displays relevant information in a summarized way.
+
+Unlike the previous version, the dashboard now uses **100% of the available screen space** and relies on **GridStack** to manage the layout and organization of its elements.
 
 ++Main view++
 
 [../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-en-us-light-1-snap.png]
 
-The dashboard can include:
+The dashboard may include:
 
-- Quick access **buttons** to apps or actions
-- **Titles** grouping sections of content
-- **Separators** to visually organize the layout
-- **Widgets** displaying live content (e.g., calendar, email, statistics)
+- Quick access buttons to applications or frequent actions
+- Titles used to group sections
+- Widgets that display real-time content (e.g. calendar, emails, charts)
+- Charts and information panels
 
+All elements can be easily reorganized using **drag and drop**.
 
-++Dashboard configuration++
+++Dashboard customization++
 
-In the **top right corner**, there is a gear icon that opens the **dashboard configuration app**.
+Dashboard configuration is now integrated directly into the **Dashboard** application itself.
 
-From there, users can customize their dashboard:
+There is no longer a separate configuration application or a gear icon button in the top-right corner.
 
-- Select the active dashboard
-- Add or remove **buttons**
-- Create **titles** and **visual separators**
-- Group elements together in logical blocks
-- Include any available **widgets** (e.g., mail, analytics, alerts)
+The layout is managed directly from the main view using **GridStack**, allowing users to:
 
+- Move widgets and blocks using drag and drop
+- Resize elements according to the available space
+- Freely reorganize the visual layout
 
-This configuration is user-specific and saved automatically.
+Any changes made are **saved automatically** in the user's own configuration, with no additional action required.
 
-
-
-+Dashboard configuration+
-
-++Description++
-
-This application allows users to configure the content shown on the **SaltOS4 dashboard**.
-It is not a traditional app with records, but a visual, user-focused interface for customizing quick access buttons, sections, and widgets that appear on the home dashboard.
-
-Each user can have their own personalized dashboard, and this tool is its visual editor.
-
-++Configuration view++
-
-[../ujest/snaps/test-screenshots-js-screenshots-dashboard-dashboard-widgets-en-us-light-1-snap.png]
-
-The screen displays a canvas-style layout where dashboard elements can be added, arranged, and grouped visually.
-
-Available elements include:
-
-- **Buttons**: Quick access links to apps or features.
-- **Separators**: Visual lines or spaces to structure the layout.
-- **Titles**: Headers to organize sections of the dashboard.
-- **Widgets**: Dynamic components such as calendar, email, charts, stats, etc.
-
-
-Elements can be grouped, reordered via drag and drop, and arranged into multiple blocks or columns.
-
-++Features++
-
-- Add or remove dashboard elements
-- Reorder using drag and drop
-- Edit section titles and labels
-- Choose which widgets to display
-- Organize layout in multiple columns or groups
-
-
-Changes are saved automatically and apply only to the active user’s dashboard.
-
-++Advanced usage++
-
-This module is ideal for:
-
-- Creating role-specific dashboards (e.g., sales, tech, admin)
-- Displaying only frequently used tools and information
-- Improving clarity and efficiency on the SaltOS4 start screen
-
+This configuration is user-specific and is automatically applied on future accesses.
 
 
 
@@ -600,7 +558,7 @@ The invoicing application (`invoices`) publishes several widgets on the main das
 
 The available widgets are:
 
-- **Table `last_7_invoices`**: shows the 7 most recent invoices, including key information such as customer, total amount, and payment status.
+- **Table `last_n_invoices`**: shows the latest recent invoices, including key information such as customer, total amount, and payment status.
 - **Chart `invoice_total_by_day`**: displays the total amount invoiced per day, highlighting peaks and activity trends.
 - **Chart `invoice_avg_by_day`**: shows the average daily invoice amount, useful for evaluating consistency or seasonality.
 - **Chart `top5_customers_by_total`**: highlights the top 5 customers by billing volume, helping identify key accounts.

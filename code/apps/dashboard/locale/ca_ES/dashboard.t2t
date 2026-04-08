@@ -5,10 +5,13 @@
 
 ==Descripció==
 
-El tauler de control o **dashboard** és la pantalla inicial de SaltOS4, on es poden mostrar enllaços ràpids, separadors, widgets, gràfics i altres elements visuals.
-No es tracta d'una aplicació clàssica amb formularis o registres, sinó d'una vista dinàmica i personalitzable pensada per oferir una panoràmica ràpida i accés directe a funcionalitats habituals.
+El tauler de control o **dashboard** és la pantalla inicial de SaltOS4, on es poden mostrar accessos ràpids, widgets, gràfics i altres elements visuals.
 
-Aquesta vista centralitza accions freqüents i mostra informació rellevant de forma resumida.
+No es tracta d'una aplicació clàssica amb formularis o registres, sinó d'una vista dinàmica i totalment personalitzable pensada per oferir una visió general ràpida i accés directe a funcionalitats freqüents.
+
+Aquesta vista centralitza accions comunes i mostra informació rellevant de forma resumida.
+
+A diferència de la versió anterior, el dashboard ara ocupa el **100% de la pantalla disponible** i utilitza **GridStack** per gestionar la distribució i organització dels elements.
 
 ==Vista principal==
 
@@ -16,23 +19,25 @@ Aquesta vista centralitza accions freqüents i mostra informació rellevant de f
 
 El dashboard pot incloure:
 
-- Botons d'accés ràpid a aplicacions o accions habituals
-- Titulars que agrupen seccions
-- Separadors visuals per ordenar la informació
-- Widgets que mostren contingut en viu (ex: calendari, emails, gràfics)
+- Botons d'accés ràpid a aplicacions o accions freqüents
+- Títols que agrupen seccions
+- Widgets que mostren contingut en temps real (ex: calendari, correus, gràfics)
+- Gràfics i panells informatius
 
+Tots els elements es poden reorganitzar fàcilment mitjançant **arrossegar i deixar anar**.
 
-==Configuració del dashboard==
+==Personalització del dashboard==
 
-A la **part superior dreta de la pantalla**, hi ha un botó amb icona d'engranatge que obre l'aplicació de configuració del dashboard.
+La configuració del dashboard ara està integrada a la mateixa aplicació **Dashboard**.
 
-Des d'allà es poden personalitzar els elements mostrats:
+Ja no existeix una aplicació independent de configuració ni el botó amb icona d'engranatge a la part superior dreta.
 
-- Escollir el dashboard actiu
-- Afegir o treure **botons**
-- Crear **titulars** i **separadors** visuals
-- Agrupar elements en blocs
-- Incorporar **widgets** disponibles (ex: estadístiques, recordatoris, correus)
+L'organització dels elements es fa directament sobre la vista principal utilitzant **GridStack**, permetent:
 
+- Moure widgets i blocs mitjançant arrossegar i deixar anar
+- Redimensionar elements segons l'espai disponible
+- Reorganitzar lliurement la disposició visual
 
-Aquesta configuració és específica per a cada usuari i es desa automàticament.
+Els canvis realitzats es **guarden automàticament** a la configuració de l'usuari, sense necessitat de cap acció addicional.
+
+Aquesta configuració és específica per a cada usuari i s'aplica automàticament en futurs accessos.

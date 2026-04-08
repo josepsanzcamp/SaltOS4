@@ -1,6 +1,6 @@
 Phpunit Test Documentation
-SaltOS 4.1 r2349
-March 2026
+SaltOS 4.1 r2408
+April 2026
 
 
 
@@ -1875,7 +1875,7 @@ use PHPUnit\Framework\TestCase;
 +++Loading helper function+++
 
 ```
-require_once 'php/lib/help.php';
+require_once 'apps/common/php/help.php';
 ```
 
 This file contains the needed function used by the unit tests

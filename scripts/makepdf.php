@@ -113,6 +113,10 @@ while ($pos !== false) {
     $buffer = substr_replace($buffer, $latex, $pos, $pos2 - $pos + 1);
     $pos = strpos($buffer, '\\includegraphics{', $pos);
 }
+// FIX FOR NOTFOUND
+if ($file === 'notfound') {
+    $buffer = str_replace('a4paper', 'a5paper,landscape', $buffer);
+}
 // CONTINUE
 file_put_contents("${file}.tex", $buffer);
 for ($i = 0; $i < 3; $i++) {

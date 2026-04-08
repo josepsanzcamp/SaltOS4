@@ -19,6 +19,11 @@ foreach ($files as $file) {
     $lang = $temp[4];
     $group = $temp[2];
     $app = $temp[5];
+    // Fix for notfound 
+    if ($app === 'notfound.t2t') {
+        continue;
+    }
+    // Continue
     if (!isset($array[$lang])) {
         $array[$lang] = [];
     }
@@ -63,7 +68,7 @@ $titles = [
 ];
 foreach ($array as $lang => $groups) {
     $output = strtolower("docs/user_$lang.t2t");
-    $rev = intval(ob_passthru('svnversion'));
+    $rev = intval(ob_passthru('git rev-list HEAD --count'));
     $date = date('F Y');
     $header = implode("\n", [
         $titles[$lang],

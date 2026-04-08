@@ -5,10 +5,13 @@
 
 ==Descripción==
 
-El panel de control o **dashboard** es la pantalla inicial de SaltOS4, donde se pueden mostrar accesos rápidos, separadores, widgets, gráficos y otros elementos visuales.
-No se trata de una aplicación clásica con formularios o registros, sino de una vista dinámica y personalizable pensada para ofrecer una visión general rápida y acceso directo a funcionalidades frecuentes.
+El panel de control o **dashboard** es la pantalla inicial de SaltOS4, donde se pueden mostrar accesos rápidos, widgets, gráficos y otros elementos visuales.
+
+No se trata de una aplicación clásica con formularios o registros, sino de una vista dinámica y totalmente personalizable pensada para ofrecer una visión general rápida y acceso directo a funcionalidades frecuentes.
 
 Esta vista centraliza acciones comunes y muestra información relevante de forma resumida.
+
+A diferencia de la versión anterior, el dashboard ahora ocupa el **100% de la pantalla disponible** y utiliza **GridStack** para gestionar la distribución y organización de los elementos.
 
 ==Vista principal==
 
@@ -18,21 +21,23 @@ El dashboard puede incluir:
 
 - Botones de acceso rápido a aplicaciones o acciones frecuentes
 - Títulos que agrupan secciones
-- Separadores visuales para organizar la información
 - Widgets que muestran contenido en tiempo real (ej: calendario, correos, gráficos)
+- Gráficos y paneles informativos
 
+Todos los elementos pueden reorganizarse fácilmente mediante **arrastrar y soltar**.
 
-==Configuración del dashboard==
+==Personalización del dashboard==
 
-En la **parte superior derecha de la pantalla**, hay un botón con un icono de engranaje que abre la aplicación de configuración del dashboard.
+La configuración del dashboard ahora está integrada en la propia aplicación **Dashboard**.
 
-Desde allí se pueden personalizar los elementos mostrados:
+Ya no existe una aplicación independiente de configuración ni el botón con icono de engranaje en la parte superior derecha.
 
-- Seleccionar el dashboard activo
-- Añadir o quitar **botones**
-- Crear **títulos** y **separadores** visuales
-- Agrupar elementos en bloques
-- Incluir **widgets** disponibles (ej: estadísticas, recordatorios, correos)
+La organización de los elementos se realiza directamente sobre la vista principal usando **GridStack**, permitiendo:
 
+- Mover widgets y bloques mediante arrastrar y soltar
+- Redimensionar elementos según el espacio disponible
+- Reorganizar libremente la disposición visual
 
-Esta configuración es específica para cada usuario y se guarda automáticamente.
+Los cambios realizados se **guardan automáticamente** en la configuración del usuario, sin necesidad de acciones adicionales.
+
+Esta configuración es específica para cada usuario y se aplica automáticamente en futuros accesos.

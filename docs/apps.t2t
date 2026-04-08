@@ -1,6 +1,6 @@
 Applications Documentation
-SaltOS 4.1 r2349
-March 2026
+SaltOS 4.1 r2408
+April 2026
 
 
 
@@ -419,6 +419,31 @@ regular files and gzip-compressed files. The returned data includes the file nam
 Returns metadata and content of the file. If the file is not found, it returns an error response.
 
 
+++Help feature++
+
+```
+apps/common/php/help.php
+```
+
+This file contains the help functions used by SaltOS
+
+
++++Detect Help File+++
+
+```
+function detect_help_file($app, $lang)
+```
+
+This function is intended to return the name of the pdf file used as help
+for the app and lang, they use 4 checks to search the correct file that must
+to returns, the first in to search in the app folder for the specified lang,
+otherwise search for some othe lang, and if no app file is found, then the
+same process is used for the notfound.pdf file.
+
+- @app  => the application to search
+- @lang => the prefered lang to search
+
+
 ++Matrix functions++
 
 ```
@@ -736,52 +761,14 @@ This module implements the typical features associated with a dashboard,
 allowing dynamic interaction with various elements and functionalities.
 
 
-+++Main object+++
-
-```
-saltos.dashboard = {};
-```
-
-Contains all the logic and code for the SaltOS framework related to the dashboard.
-
-
 +++Initialization of dashboard+++
 
 ```
-saltos.dashboard.init = arg
+saltos.form.dashboard = data
 ```
 
 This method sets up listeners, configures the catalog layout, and initializes
 the dashboard widgets based on user-defined or default configurations.
-
-
-++Dashboard widgets application++
-
-```
-apps/dashboard/js/dashboard_widgets.js
-```
-
-This module implements the typical features associated with a widget dashboard,
-allowing interaction and customization of elements in a dynamic environment.
-
-
-+++Main object+++
-
-```
-saltos.dashboard_widgets = {};
-```
-
-Contains all the logic and code for the SaltOS framework related to the dashboard widgets.
-
-
-+++Initialization of dashboard widgets+++
-
-```
-saltos.dashboard_widgets.init = arg
-```
-
-This method sets up the interactive elements of the dashboard, including assigning style classes
-and configuring drag-and-drop functionality between different containers.
 
 
 ++Dashboard and navbar generation logic.++
@@ -819,23 +806,6 @@ Each group of apps is preceded by an alert (group title and description),
 followed by buttons for each app, and a horizontal rule (`<hr>`) at the end.
 
 - @return array An array of widgets (alerts, buttons, hr) to render the dashboard
-
-
-+++Build a personalized dashboard layout based on user config.+++
-
-```
-function __dashboard_config()
-```
-
-This function loads the full list of dashboard items using `__dashboard_helper()`
-and then tries to fetch the widget configuration saved by the current user
-under the path `app/dashboard/widgets/default`.
-
-If configuration is found, it reconstructs the dashboard by preserving only
-the items selected by the user, in the specified order. Otherwise, it returns
-the default layout.
-
-- @return array The personalized or default dashboard widget list
 
 
 +++Build the application menu for the navbar.+++
@@ -2324,14 +2294,14 @@ This function is triggered after the user modifies any cell in the "lines" matri
 ++ChartJS widgets for invoices++
 
 ```
-apps/sales/php/chartjs.php
+apps/sales/php/echarts.php
 ```
 
 This file contains helper functions that generate Chart.js-compatible
 datasets for visualizing invoice-related data within SaltOS4.
 
 Each function returns an associative array with 'labels' and 'datasets',
-directly usable by `<chartjs>` widgets in the XML layout system.
+directly usable by `<echarts>` widgets in the XML layout system.
 
 The metrics provided include:
 - Daily total invoicing
@@ -2369,6 +2339,18 @@ This helps analyze how invoice sizes vary over time.
 Returns a Chart.js-compatible array with labels (dates) and a single dataset (average amount).
 
 
++++compute_invoice_avg_days_to_pay+++
+
+```
+function compute_invoice_avg_days_to_pay()
+```
+
+Calculates the average number of days it takes to get paid, based on the difference
+between invoice and payment dates, grouped by payment day.
+
+Returns a Chart.js-compatible array: labels (payment dates) and one dataset (average days to pay).
+
+
 +++compute_top5_customers_by_total+++
 
 ```
@@ -2393,16 +2375,16 @@ Produces a pie chart data structure separating "Paid" and "Unpaid".
 Returns a Chart.js-compatible array: labels (Paid/Unpaid) and one dataset (count of invoices).
 
 
-+++compute_invoice_avg_days_to_pay+++
++++compute_invoice_open_vs_closed+++
 
 ```
-function compute_invoice_avg_days_to_pay()
+function compute_invoice_open_vs_closed()
 ```
 
-Calculates the average number of days it takes to get paid, based on the difference
-between invoice and payment dates, grouped by payment day.
+Counts how many invoices are currently open or closed.
+Produces a pie chart data structure separating "Open" and "Closed".
 
-Returns a Chart.js-compatible array: labels (payment dates) and one dataset (average days to pay).
+Returns an ECharts-compatible array with one pie series.
 
 
 ++Reverses the process of `make_matrix_data()` for the `invoices` app.++
