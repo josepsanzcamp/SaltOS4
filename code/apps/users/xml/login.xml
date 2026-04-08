@@ -23,7 +23,7 @@
         <screen>clear</screen>
         <layout>
             <div id="screen" class="vh-100 d-flex bg-body-secondary">
-                <container auto="true" container_class="container m-auto bg-body rounded-4 shadow" col_class="col-12 mb-3 px-5" container_style="max-width:400px">
+                <container auto="true" container_class="container m-auto bg-body rounded-4 shadow-sm" col_class="col-12 mb-3 px-5" container_style="max-width:400px">
                     <image col_class="col-12 mb-5 px-0" color="none" class="bg-primary img-fluid" shadow="shadow-0" rounded="rounded-top-4">
                         <value eval="true">get_config('brand/image')</value>
                     </image>
