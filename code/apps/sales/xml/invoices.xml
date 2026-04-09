@@ -358,7 +358,7 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <layout>
-            <table id="widget_last_n_invoices" nodata="Data not found">
+            <table id="last_n_invoices" nodata="Data not found">
                 <header>
                     <customer_name label="Customer"/>
                     <date label="Date"/>
@@ -388,7 +388,7 @@
             <inline>
                 saltos.window.set_listener('saltos.invoices.update', event => {
                     saltos.form.__widget_helper({
-                        id: 'widget/last_n_invoices',
+                        id: 'last_n_invoices',
                         source: 'app/invoices/widget/last_n_invoices',
                     });
                     saltos.favicon.run();
@@ -401,7 +401,7 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <layout>
-            <echarts id="widget_invoice_total_by_day">
+            <echarts id="invoice_total_by_day">
                 <data require="apps/sales/php/echarts.php" eval="true">compute_invoice_total_by_day()</data>
             </echarts>
         </layout>
@@ -409,7 +409,7 @@
             <inline>
                 saltos.window.set_listener('saltos.invoices.update', event => {
                     saltos.form.__widget_helper({
-                        id: 'widget/invoice_total_by_day',
+                        id: 'invoice_total_by_day',
                         source: 'app/invoices/widget/invoice_total_by_day',
                     });
                     saltos.favicon.run();
@@ -422,7 +422,7 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <layout>
-            <echarts id="widget_invoice_avg_by_day">
+            <echarts id="invoice_avg_by_day">
                 <data require="apps/sales/php/echarts.php" eval="true">compute_invoice_avg_by_day()</data>
             </echarts>
         </layout>
@@ -430,7 +430,7 @@
             <inline>
                 saltos.window.set_listener('saltos.invoices.update', event => {
                     saltos.form.__widget_helper({
-                        id: 'widget/invoice_avg_by_day',
+                        id: 'invoice_avg_by_day',
                         source: 'app/invoices/widget/invoice_avg_by_day',
                     });
                     saltos.favicon.run();
@@ -443,7 +443,7 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <layout>
-            <echarts id="widget_top5_customers_by_total">
+            <echarts id="top5_customers_by_total">
                 <data require="apps/sales/php/echarts.php" eval="true">compute_top5_customers_by_total()</data>
             </echarts>
         </layout>
@@ -451,7 +451,7 @@
             <inline>
                 saltos.window.set_listener('saltos.invoices.update', event => {
                     saltos.form.__widget_helper({
-                        id: 'widget/top5_customers_by_total',
+                        id: 'top5_customers_by_total',
                         source: 'app/invoices/widget/top5_customers_by_total',
                     });
                     saltos.favicon.run();
@@ -464,7 +464,7 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <layout>
-            <echarts id="widget_invoice_paid_vs_pending">
+            <echarts id="invoice_paid_vs_pending">
                 <data require="apps/sales/php/echarts.php" eval="true">compute_invoice_paid_vs_pending()</data>
             </echarts>
         </layout>
@@ -472,7 +472,7 @@
             <inline>
                 saltos.window.set_listener('saltos.invoices.update', event => {
                     saltos.form.__widget_helper({
-                        id: 'widget/invoice_paid_vs_pending',
+                        id: 'invoice_paid_vs_pending',
                         source: 'app/invoices/widget/invoice_paid_vs_pending',
                     });
                     saltos.favicon.run();
@@ -485,7 +485,7 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <layout>
-            <echarts id="widget_invoice_avg_days_to_pay">
+            <echarts id="invoice_avg_days_to_pay">
                 <data require="apps/sales/php/echarts.php" eval="true">compute_invoice_avg_days_to_pay()</data>
             </echarts>
         </layout>
@@ -493,7 +493,7 @@
             <inline>
                 saltos.window.set_listener('saltos.invoices.update', event => {
                     saltos.form.__widget_helper({
-                        id: 'widget/invoice_avg_days_to_pay',
+                        id: 'invoice_avg_days_to_pay',
                         source: 'app/invoices/widget/invoice_avg_days_to_pay',
                     });
                     saltos.favicon.run();
@@ -506,7 +506,7 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <layout>
-            <echarts id="widget_invoice_open_vs_closed">
+            <echarts id="invoice_open_vs_closed">
                 <data require="apps/sales/php/echarts.php" eval="true">compute_invoice_open_vs_closed()</data>
             </echarts>
         </layout>
@@ -514,7 +514,7 @@
             <inline>
                 saltos.window.set_listener('saltos.invoices.update', event => {
                     saltos.form.__widget_helper({
-                        id: 'widget/invoice_open_vs_closed',
+                        id: 'invoice_open_vs_closed',
                         source: 'app/invoices/widget/invoice_open_vs_closed',
                     });
                     saltos.favicon.run();

@@ -333,8 +333,8 @@ setupclean:
 	rm -f code/data/temp/*
 	rm -f code/data/trash/*
 	rm -f code/data/upload/*
-	echo "DROP DATABASE saltos;" | mariadb
-	echo "CREATE DATABASE saltos;" | mariadb
+	echo "DROP DATABASE saltos;" | mariadb || true
+	echo "CREATE DATABASE saltos;" | mariadb || true
 
 setupdemo:
 	php code/api/index.php setup
@@ -391,7 +391,7 @@ httpstart:
 
 httpstop:
 	cd code/web/ && rm -f index.php || true
-	killall php || true
+	pkill -f "^php -S 127.0.0.1:8092" || true
 
 ################################################################################
 # DOCKER SERVER PART

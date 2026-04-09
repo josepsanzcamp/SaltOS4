@@ -499,7 +499,7 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <layout>
-            <list id="widget_last_n_emails" nodata="Data not found" onclick="true" truncate="true">
+            <list id="last_n_emails" nodata="Data not found" onclick="true" truncate="true">
                 <data require="apps/emails/php/filter.php" eval="true">merge_data_actions(
                     execute_query_array("
                         SELECT id, IF(is_outbox, IF(`to` != '', `to`, '-'), IF(`from` != '', `from`, '-')) header,
@@ -544,7 +544,7 @@
             <inline>
                 saltos.window.set_listener('saltos.emails.update', event => {
                     saltos.form.__widget_helper({
-                        id: 'widget/last_n_emails',
+                        id: 'last_n_emails',
                         source: 'app/emails/widget/last_n_emails',
                     });
                     saltos.favicon.run();
