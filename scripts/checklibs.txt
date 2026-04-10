@@ -5,7 +5,7 @@ fpdi|https://github.com/Setasign/FPDI/tags.atom|<title>|PHRpdGxlPkZQREkgMi42LjY8
 html2text|https://github.com/soundasleep/html2text/tags.atom|<updated>|PHVwZGF0ZWQ+MjAyMy0wMS0wNlQwOToyODoxNVo8L3VwZGF0ZWQ+
 phpass|https://github.com/openwall/phpass/commits/main.atom|<updated>|PHVwZGF0ZWQ+MjAyNC0xMS0yMlQyMDozODoxNlo8L3VwZGF0ZWQ+
 phpgeoip|https://github.com/Webklex/php-geoip/tags.atom|<title>|PHRpdGxlPjEuMC4wPC90aXRsZT4=
-phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<title>|PHRpdGxlPjUuNS4wPC90aXRsZT4=
+phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<title>|PHRpdGxlPjUuNi4wPC90aXRsZT4=
 tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<title>|PHRpdGxlPjYuMTEuMjwvdGl0bGU+
 yaml|https://github.com/symfony/yaml/tags.atom|<title>|PHRpdGxlPnY4LjAuODwvdGl0bGU+
 zxcvbn|https://github.com/bjeavons/zxcvbn-php/tags.atom|<title>|PHRpdGxlPjEuNC4yPC90aXRsZT4=
@@ -44,7 +44,7 @@ minify|https://github.com/coderaiser/minify/tags.atom|<title>|PHRpdGxlPm1pbmlmeS
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|PHRpdGxlPk1yb29uZ2EgMTYuMDEgLSAyMDI2LTAzLTMwPC90aXRsZT4=
 node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjYtMDQtMDEsIFZlcnNpb24gMjUuOS4wIChDdXJyZW50KSwgQGFkdWg5NTwvdGl0bGU+
 pcov|https://github.com/krakjoe/pcov/tags.atom|<title>|PHRpdGxlPnYxLjAuMTI8L3RpdGxlPg==
-php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjQuMjA8L3RpdGxlPg==
+php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPlBIUCA4LjQuMjA8L3RpdGxlPg==
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|PHRpdGxlPjQuMC4xIC0gMjAyNS0xMS0xMDwvdGl0bGU+
 phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjIuMS40NjwvdGl0bGU+
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|PHRpdGxlPlBIUFVuaXQgMTMuMS4xPC90aXRsZT4=

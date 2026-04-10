@@ -278,17 +278,17 @@
         },
         {
             "name": "phpoffice/phpspreadsheet",
-            "version": "5.5.0",
-            "version_normalized": "5.5.0.0",
+            "version": "5.6.0",
+            "version_normalized": "5.6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-                "reference": "eecd31b885a1c8192f12738130f85bbc6e8906ba"
+                "reference": "9b90dee03deb0d28761479c4a3a06fba5f7e012e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/eecd31b885a1c8192f12738130f85bbc6e8906ba",
-                "reference": "eecd31b885a1c8192f12738130f85bbc6e8906ba",
+                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/9b90dee03deb0d28761479c4a3a06fba5f7e012e",
+                "reference": "9b90dee03deb0d28761479c4a3a06fba5f7e012e",
                 "shasum": ""
             },
             "require": {
@@ -335,7 +335,7 @@
                 "mpdf/mpdf": "Option for rendering PDF with PDF Writer",
                 "tecnickcom/tcpdf": "Option for rendering PDF with PDF Writer"
             },
-            "time": "2026-03-01T00:58:56+00:00",
+            "time": "2026-04-10T03:00:03+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -384,7 +384,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHPOffice/PhpSpreadsheet/issues",
-                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/5.5.0"
+                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/5.6.0"
             },
             "install-path": "../phpoffice/phpspreadsheet"
         },
