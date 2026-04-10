@@ -66,7 +66,7 @@ saltos.form.dashboard = data => {
     }
 
     for (const i in _widgets) {
-        const id = 'widget_' + _widgets[i]['#attr'].id;
+        const id = _widgets[i]['#attr'].id;
         const x = _widgets[i]['#attr'].x;
         const y = _widgets[i]['#attr'].y;
         const w = _widgets[i]['#attr'].w;
