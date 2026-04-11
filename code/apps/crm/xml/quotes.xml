@@ -145,7 +145,7 @@
 
         <textarea id="description" label="Notes" height="5em" col_class="col-md-12"/>
 
-        <excel id="lines" label="Concepts" col_class="col-md-12" required="true">
+        <handsontable id="lines" label="Concepts" col_class="col-md-12" required="true">
             <colHeaders eval="true">['Description', 'Quantity', 'Price', 'Discount', 'Tax', 'Total']</colHeaders>
             <rowHeaders eval="true">null</rowHeaders>
             <colWidths>saltos.quotes.colWidths_lines</colWidths>
@@ -155,28 +155,28 @@
             <cells>saltos.quotes.cells_lines</cells>
             <afterChange>saltos.quotes.afterChange_lines</afterChange>
             <autoWrapRow>true</autoWrapRow>
-        </excel>
+        </handsontable>
 
-        <excel id="taxes" label="Taxes" col_class="col-md-6">
+        <handsontable id="taxes" label="Taxes" col_class="col-md-6">
             <colHeaders eval="true">['Tax', 'Base', 'Total']</colHeaders>
             <rowHeaders eval="true">null</rowHeaders>
             <colWidths>saltos.quotes.colWidths_taxes</colWidths>
             <numcols>3</numcols>
             <numrows>1</numrows>
             <cells>saltos.quotes.cells_taxes</cells>
-        </excel>
+        </handsontable>
         <hidden id="alltaxes">
             <data eval="true">execute_query_array("SELECT name, value FROM app_taxes WHERE active=1")</data>
         </hidden>
 
-        <excel id="totals" label="Totals" col_class="col-md-6">
+        <handsontable id="totals" label="Totals" col_class="col-md-6">
             <colHeaders eval="true">['Subtotal', 'Tax', 'Total']</colHeaders>
             <rowHeaders eval="true">null</rowHeaders>
             <colWidths>saltos.quotes.colWidths_totals</colWidths>
             <numcols>3</numcols>
             <numrows>1</numrows>
             <cells>saltos.quotes.cells_totals</cells>
-        </excel>
+        </handsontable>
 
         <select id="payment_method_id" label="Payment method" col_class="col-md-3">
             <rows eval="true">execute_query_array("

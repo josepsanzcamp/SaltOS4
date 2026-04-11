@@ -21,16 +21,16 @@
  * This fie contains useful functions related to the bootstrap widgets, allow to create widgets and
  * other plugins suck as plots or rich editors
  *
- * @excel       => id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth,
- *                 colWidths, label, color
+ * @handsontable => id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth,
+ *                  colWidths, label, color
  */
 
 /**
- * Excel constructor helper
+ * Handsontable constructor helper
  *
- * This function creates and returns an excel object, to do this they use the handsontable library,
- * currently this library uses a privative license, by this reason, we are using the version 6.2.2
- * that is the latest release published using the MIT license.
+ * This function creates and returns an handsontable object, to do this they use the handsontable
+ * library, currently this library uses a privative license, by this reason, we are using the
+ * version 6.2.2 that is the latest release published using the MIT license.
  *
  * This widget can receive the following arguments:
  *
@@ -64,7 +64,7 @@
  * @lib/handsontable/handsontable.full.min.css
  * @lib/handsontable/handsontable.full.min.js
  */
-saltos.bootstrap.__field.excel = field => {
+saltos.bootstrap.__field.handsontable = field => {
     saltos.core.check_params(field, ['id', 'class', 'value', 'data', 'required', 'disabled',
                                      'rowHeaders', 'colHeaders', 'minSpareRows', 'height',
                                      'contextMenu', 'rowHeaderWidth', 'colWidths', 'color',
@@ -179,16 +179,16 @@ saltos.bootstrap.__field.excel = field => {
         element.parentElement.classList.add('form-control', 'p-0', shadow, rounded, ...border);
         element.parentElement.style.height = height;
         element.parentElement.style.overflow = 'auto';
-        const excel = new Handsontable(element, options);
-        input.excel = excel;
+        const handsontable = new Handsontable(element, options);
+        input.handsontable = handsontable;
     });
     // Program the disabled feature
     input.set_disabled = bool => {
-        if (!('excel' in input)) {
+        if (!('handsontable' in input)) {
             setTimeout(() => input.set_disabled(bool), 1);
             return;
         }
-        input.excel.updateSettings({
+        input.handsontable.updateSettings({
             cells: (row, col, prop) => {
                 let cell = {};
                 for (let key in field.cell) {
@@ -220,14 +220,14 @@ saltos.bootstrap.__field.excel = field => {
     }
     // Program the set in the input first
     input.set = value => {
-        if (!('excel' in input)) {
+        if (!('handsontable' in input)) {
             if (!('queue' in input)) {
                 input.queue = [];
             }
             input.queue.push(value);
             if (!('timer' in input)) {
                 input.timer = setInterval(() => {
-                    if (!('excel' in input)) {
+                    if (!('handsontable' in input)) {
                         return;
                     }
                     clearInterval(input.timer);
@@ -242,11 +242,11 @@ saltos.bootstrap.__field.excel = field => {
         if (Array.isArray(value)) {
             input.data = saltos.core.copy_object(value);
             options = {...options, data: input.data};
-            input.excel.updateSettings(options);
+            input.handsontable.updateSettings(options);
         } else {
             input.data = saltos.core.copy_object(value.data);
             options = {...options, ...value, data: input.data};
-            input.excel.updateSettings(options);
+            input.handsontable.updateSettings(options);
         }
     };
     obj = saltos.bootstrap.__label_combine(field, obj);

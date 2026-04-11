@@ -153,7 +153,7 @@
                 FROM tbl_groups WHERE active = 1 ORDER BY code ASC")</rows>
         </multiselect>
 
-        <excel id="perms" label="Applications and permissions" col_class="col-12" rowHeaderWidth="200" colWidths="100"/>
+        <handsontable id="perms" label="Applications and permissions" col_class="col-12" rowHeaderWidth="200" colWidths="100"/>
 
         <table id="passwords" label="Passwords history" col_class="col-12" ifeval="get_data('rest/2')=='view'">
             <header>
