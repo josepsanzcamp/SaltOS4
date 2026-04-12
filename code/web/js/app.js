@@ -303,7 +303,7 @@ saltos.app.get_data = full => {
                     old = old.split(field.separator).sort().join(field.separator);
                 }
                 break;
-            case 'excel':
+            case 'handsontable':
                 val = obj.data;
                 old = field.data;
                 if (val.length > 0 && val.at(-1).every(item => item === null)) {
@@ -448,7 +448,7 @@ saltos.app.check_required = () => {
             value = parseInt(value, 10);
         }
         // to detect the color, focus and value of the excel fields
-        if (field.type === 'excel') {
+        if (field.type === 'handsontable') {
             value = item.data.join().replaceAll(',', '');
             obj_color = item.parentElement;
         }
