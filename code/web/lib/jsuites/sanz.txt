@@ -1,0 +1,16 @@
+
+#https://jspreadsheet.com/
+#https://jsuites.net/
+#https://github.com/jsuites/jsuites
+
+version=$(curl -s https://data.jsdelivr.com/v1/packages/npm/jsuites/resolved | jq -r .version)
+echo $version > VERSION
+
+rm -f jsuites.min.js
+wget https://cdn.jsdelivr.net/npm/jsuites@$version/dist/jsuites.min.js
+
+rm -f jsuites.min.css
+wget https://cdn.jsdelivr.net/npm/jsuites@$version/dist/jsuites.min.css
+
+#wget https://raw.githubusercontent.com/jsuites/jsuites/refs/heads/master/LICENSE
+#wget https://raw.githubusercontent.com/jsuites/jsuites/refs/heads/master/README.md

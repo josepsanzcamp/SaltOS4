@@ -1,0 +1,20 @@
+
+#https://jspreadsheet.com/
+#https://bossanova.uk/jspreadsheet/
+#https://github.com/jspreadsheet/ce
+
+version=$(curl -s https://data.jsdelivr.com/v1/packages/npm/jspreadsheet-ce/resolved | jq -r .version)
+echo $version > VERSION
+
+rm -f jspreadsheet.min.js
+wget -O jspreadsheet.min.js https://cdn.jsdelivr.net/npm/jspreadsheet-ce@$version/dist/index.min.js
+
+rm -f jspreadsheet.min.css
+wget https://cdn.jsdelivr.net/npm/jspreadsheet-ce@$version/dist/jspreadsheet.min.css
+
+rm -f jspreadsheet.themes.min.css
+wget https://cdn.jsdelivr.net/npm/jspreadsheet-ce@$version/dist/jspreadsheet.themes.min.css
+
+#wget https://raw.githubusercontent.com/jspreadsheet/ce/refs/heads/master/contributing.md
+#wget https://raw.githubusercontent.com/jspreadsheet/ce/refs/heads/master/LICENSE
+#wget https://raw.githubusercontent.com/jspreadsheet/ce/refs/heads/master/README.md

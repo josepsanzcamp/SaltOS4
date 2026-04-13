@@ -75,10 +75,24 @@
   license: MIT License
   license_id: MIT
 
+- id: jspreadsheet
+  name: Jspreadsheet CE
+  package: jspreadsheet-ce@5
+  homepage: https://bossanova.uk/jspreadsheet/
+  license: MIT License
+  license_id: MIT
+
 - id: jstree
   name: jsTree
   package: vakata/jstree
   homepage: https://www.jstree.com/
+  license: MIT License
+  license_id: MIT
+
+- id: jsuites
+  name: jSuites
+  package: jsuites@5
+  homepage: https://jsuites.net/
   license: MIT License
   license_id: MIT
 
