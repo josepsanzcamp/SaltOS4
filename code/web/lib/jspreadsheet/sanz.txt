@@ -18,3 +18,5 @@ wget https://cdn.jsdelivr.net/npm/jspreadsheet-ce@$version/dist/jspreadsheet.the
 #wget https://raw.githubusercontent.com/jspreadsheet/ce/refs/heads/master/contributing.md
 #wget https://raw.githubusercontent.com/jspreadsheet/ce/refs/heads/master/LICENSE
 #wget https://raw.githubusercontent.com/jspreadsheet/ce/refs/heads/master/README.md
+
+#minify jspreadsheet.dark.css > jspreadsheet.dark.min.css

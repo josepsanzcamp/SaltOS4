@@ -1,0 +1,66 @@
+
+:root {
+    --header_color: var(--bs-emphasis-color);
+    --header_color_highlighted: var(--bs-emphasis-color);
+    --header_background: var(--bs-tertiary-bg);
+    --header_background_highlighted: var(--bs-secondary-bg);
+    --content_color: var(--bs-body-color);
+    --content_color_highlighted: var(--bs-body-color);
+    --content_background: var(--bs-body-bg);
+    --content_background_highlighted: var(--bs-secondary-bg);
+    --menu_background: var(--bs-body-bg);
+    --menu_background_highlighted: var(--bs-secondary-bg);
+    --menu_color: var(--bs-body-color);
+    --menu_color_highlighted: var(--bs-emphasis-color);
+    --menu_box_shadow: 2px 2px 2px 0px rgba(143, 144, 145, 1);
+    --border_color: var(--bs-border-color);
+    --border_color_highlighted: var(--bs-primary);
+    --cursor: rgba(var(--bs-primary-rgb), 0.10);
+    --selection: rgba(var(--bs-primary-rgb), 0.08);
+    .jss_worksheet {
+        background-color: var(--bs-body-bg);
+        border-bottom-color: var(--bs-border-color);
+        border-right-color: var(--bs-border-color);
+    }
+    .jss_worksheet .highlight-top.highlight-left,
+    .jss_worksheet .highlight-top,
+    .jss_worksheet .highlight-left {
+        box-shadow: none;
+    }
+    .jss_worksheet .readonly {
+        color: rgba(var(--bs-body-color-rgb), .6);
+    }
+}
+
+:root[data-bs-theme="dark"] {
+    --header_color: var(--bs-emphasis-color);
+    --header_color_highlighted: var(--bs-white);
+    --header_background: var(--bs-tertiary-bg);
+    --header_background_highlighted: var(--bs-primary);
+    --content_color: var(--bs-body-color);
+    --content_color_highlighted: var(--bs-body-color);
+    --content_background: var(--bs-body-bg);
+    --content_background_highlighted: var(--bs-secondary-bg);
+    --menu_background: var(--bs-body-bg);
+    --menu_background_highlighted: var(--bs-secondary-bg);
+    --menu_color: var(--bs-body-color);
+    --menu_color_highlighted: var(--bs-emphasis-color);
+    --menu_box_shadow: none;
+    --border_color: var(--bs-border-color);
+    --border_color_highlighted: var(--bs-primary);
+    --cursor: rgba(var(--bs-primary-rgb), 0.15);
+    --selection: rgba(var(--bs-primary-rgb), 0.20);
+    .jss_worksheet {
+        background-color: var(--bs-body-bg);
+        border-bottom-color: var(--bs-border-color);
+        border-right-color: var(--bs-border-color);
+    }
+    .jss_worksheet .highlight-top.highlight-left,
+    .jss_worksheet .highlight-top,
+    .jss_worksheet .highlight-left {
+        box-shadow: none;
+    }
+    .jss_worksheet .readonly {
+        color: var(--bs-secondary-color);
+    }
+}
