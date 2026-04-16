@@ -106,7 +106,9 @@ class UnicodeString extends AbstractUnicodeString
             return false;
         }
 
-        $grapheme = grapheme_extract($this->string, \strlen($suffix), \GRAPHEME_EXTR_MAXBYTES, \strlen($this->string) - \strlen($suffix)) ?: '';
+        if (false === $grapheme = grapheme_extract($this->string, \strlen($suffix), \GRAPHEME_EXTR_MAXBYTES, \strlen($this->string) - \strlen($suffix))) {
+            $grapheme = '';
+        }
 
         if ($this->ignoreCase) {
             return 0 === mb_stripos($grapheme, $suffix, 0, 'UTF-8');
@@ -357,13 +359,53 @@ class UnicodeString extends AbstractUnicodeString
             return false;
         }
 
-        $grapheme = grapheme_extract($this->string, \strlen($prefix), \GRAPHEME_EXTR_MAXBYTES) ?: '';
+        if (false === $grapheme = grapheme_extract($this->string, \strlen($prefix), \GRAPHEME_EXTR_MAXBYTES)) {
+            $grapheme = '';
+        }
 
         if ($this->ignoreCase) {
             return 0 === mb_stripos($grapheme, $prefix, 0, 'UTF-8');
         }
 
         return $prefix === $grapheme;
+    }
+
+    public function trimPrefix($prefix): static
+    {
+        if (\is_array($prefix) || $prefix instanceof \Traversable) {
+            return parent::trimPrefix($prefix);
+        }
+
+        if ($prefix instanceof AbstractString) {
+            $prefix = $prefix->string;
+        } else {
+            $prefix = (string) $prefix;
+        }
+
+        if (!normalizer_is_normalized($prefix, \Normalizer::NFC)) {
+            $prefix = normalizer_normalize($prefix, \Normalizer::NFC);
+        }
+
+        return parent::trimPrefix($prefix);
+    }
+
+    public function trimSuffix($suffix): static
+    {
+        if (\is_array($suffix) || $suffix instanceof \Traversable) {
+            return parent::trimSuffix($suffix);
+        }
+
+        if ($suffix instanceof AbstractString) {
+            $suffix = $suffix->string;
+        } else {
+            $suffix = (string) $suffix;
+        }
+
+        if (!normalizer_is_normalized($suffix, \Normalizer::NFC)) {
+            $suffix = normalizer_normalize($suffix, \Normalizer::NFC);
+        }
+
+        return parent::trimSuffix($suffix);
     }
 
     public function __unserialize(array $data): void

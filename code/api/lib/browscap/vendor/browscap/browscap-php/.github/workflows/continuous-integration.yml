@@ -6,7 +6,8 @@ on:
 
 env:
   PHP_EXTENSIONS: "json, curl, opcache, mbstring"
-  PHP_INI_VALUES: "opcache.enable=1, opcache.enable_cli=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On"
+  # opcache.enable_cli=0 avoids PHP 8.5 CLI + Opcache segfaults (e.g. PHPUnit exit 139) in CI.
+  PHP_INI_VALUES: "opcache.enable=1, opcache.enable_cli=0, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On"
   COMPOSER_OPTIONS: "--optimize-autoloader --prefer-dist -v"
   TOOLS: "composer:v2"
 
@@ -36,7 +37,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.36.0"
+        uses: "shivammathur/setup-php@2.37.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -75,7 +76,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.36.0"
+        uses: "shivammathur/setup-php@2.37.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -84,7 +85,7 @@ jobs:
           tools: "${{ env.TOOLS }}"
 
       - name: "Lint PHP"
-        uses: "overtrue/phplint@9.6"
+        uses: "overtrue/phplint@10.0"
 
   install:
     name: "Install dependencies"
@@ -137,7 +138,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.36.0"
+        uses: "shivammathur/setup-php@2.37.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -147,28 +148,28 @@ jobs:
 
       - name: "Install lowest dependencies"
         if: "${{ matrix.dependencies == 'lowest' }}"
-        uses: "ramsey/composer-install@v3"
+        uses: "ramsey/composer-install@v4"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "${{ env.COMPOSER_OPTIONS }} --prefer-stable"
 
       - name: "Install highest dependencies"
         if: "${{ matrix.dependencies == 'highest' && matrix.experimental == false }}"
-        uses: "ramsey/composer-install@v3"
+        uses: "ramsey/composer-install@v4"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "${{ env.COMPOSER_OPTIONS }} --prefer-stable"
 
       - name: "Install highest dependencies (Experimental)"
         if: "${{ matrix.dependencies == 'highest' && matrix.experimental == true }}"
-        uses: "ramsey/composer-install@v3"
+        uses: "ramsey/composer-install@v4"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "${{ env.COMPOSER_OPTIONS }} --prefer-stable --ignore-platform-reqs"
 
       - name: "Install locked dependencies"
         if: "${{ matrix.dependencies == 'locked' }}"
-        uses: "ramsey/composer-install@v3"
+        uses: "ramsey/composer-install@v4"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "${{ env.COMPOSER_OPTIONS }}"
@@ -203,7 +204,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.36.0"
+        uses: "shivammathur/setup-php@2.37.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -212,7 +213,7 @@ jobs:
           tools: "${{ env.TOOLS }}, cs2pr"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v3"
+        uses: "ramsey/composer-install@v4"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "${{ env.COMPOSER_OPTIONS }} --prefer-stable"
@@ -251,7 +252,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.36.0"
+        uses: "shivammathur/setup-php@2.37.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -260,7 +261,7 @@ jobs:
           tools: "${{ env.TOOLS }}"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v3"
+        uses: "ramsey/composer-install@v4"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "${{ env.COMPOSER_OPTIONS }}"
@@ -299,7 +300,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.36.0"
+        uses: "shivammathur/setup-php@2.37.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -308,7 +309,7 @@ jobs:
           tools: "${{ env.TOOLS }}"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v3"
+        uses: "ramsey/composer-install@v4"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "${{ env.COMPOSER_OPTIONS }} --prefer-stable"
@@ -347,7 +348,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.36.0"
+        uses: "shivammathur/setup-php@2.37.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -356,7 +357,7 @@ jobs:
           tools: "${{ env.TOOLS }}"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v3"
+        uses: "ramsey/composer-install@v4"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "${{ env.COMPOSER_OPTIONS }} --prefer-stable"
@@ -365,7 +366,7 @@ jobs:
         run: "vendor/bin/phpunit -c phpunit.xml.dist --exclude-group compare --coverage-clover=coverage.clover --coverage-text --colors"
 
       - name: "Upload coverage to Codecov"
-        uses: "codecov/codecov-action@v5.5.1"
+        uses: "codecov/codecov-action@v6.0.0"
         with:
           file: "coverage.clover"
           flags: "phpunit"
@@ -402,7 +403,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.36.0"
+        uses: "shivammathur/setup-php@2.37.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -411,7 +412,7 @@ jobs:
           tools: "${{ env.TOOLS }}"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v3"
+        uses: "ramsey/composer-install@v4"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "${{ env.COMPOSER_OPTIONS }} --prefer-stable"
@@ -452,7 +453,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.36.0"
+        uses: "shivammathur/setup-php@2.37.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -464,7 +465,7 @@ jobs:
         run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable \"roave/backward-compatibility-check:^8\""
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v3"
+        uses: "ramsey/composer-install@v4"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "${{ env.COMPOSER_OPTIONS }} --prefer-stable"

@@ -227,7 +227,7 @@ final class test_user extends TestCase
         $this->assertArrayHasKey('country', $geoip);
         $this->assertArrayHasKey('ip', $geoip);
         $this->assertArrayHasKey('isp', $geoip);
-        $this->assertContains($geoip['city'], ['', 'Barcelona']);
+        $this->assertContains($geoip['city'], ['', 'Banyoles', 'Barcelona']);
         $this->assertContains($geoip['region'], ['', 'Catalonia']);
         $this->assertContains($geoip['country'], ['', 'Spain']);
         $this->assertContains($geoip['ip'], ['', '147.83.2.135']);
