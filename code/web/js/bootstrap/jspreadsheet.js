@@ -31,7 +31,8 @@
 saltos.bootstrap.__field.jspreadsheet = field => {
     saltos.core.check_params(field, ['id', 'class', 'value', 'data', 'required', 'disabled',
                                      'color', 'height', 'shadow', 'rounded', 'autowidth',
-                                     'numcols', 'numrows', 'minSpareRows', 'contextMenu']);
+                                     'numcols', 'numrows', 'minSpareRows', 'contextMenu',
+                                     'parseFormulas', 'columnResize', 'columnSorting', 'allowComments']);
     let color = 'primary';
     if (field.color !== '') {
         color = field.color;
@@ -58,6 +59,7 @@ saltos.bootstrap.__field.jspreadsheet = field => {
         </div>
     `);
     obj.prepend(saltos.bootstrap.__field.hidden(saltos.core.copy_object(field)));
+    // data parameters
     const input = obj.querySelector('input');
     let numcols = 26;
     if (field.numcols !== '') {
@@ -70,8 +72,9 @@ saltos.bootstrap.__field.jspreadsheet = field => {
     if (field.data !== '') {
         input.data = saltos.core.copy_object(field.data);
     } else {
-        input.data = [...Array(field.numrows)].map(e => Array(field.numcols));
+        input.data = [...Array(numrows)].map(e => Array(numcols));
     }
+    // jspreadsheet parameters
     let minSpareRows = 0;
     if (field.minSpareRows !== '') {
         minSpareRows = field.minSpareRows;
@@ -80,6 +83,23 @@ saltos.bootstrap.__field.jspreadsheet = field => {
     if (field.contextMenu !== '') {
         contextMenu = field.contextMenu;
     }
+    let parseFormulas = false;
+    if (field.parseFormulas !== '') {
+        parseFormulas = field.parseFormulas;
+    }
+    let columnResize = false;
+    if (field.columnResize !== '') {
+        columnResize = field.columnResize;
+    }
+    let columnSorting = false;
+    if (field.columnSorting !== '') {
+        columnSorting = field.columnSorting;
+    }
+    let allowComments = false;
+    if (field.allowComments !== '') {
+        allowComments = field.allowComments;
+    }
+    // autowidth parameter
     let autowidth = true;
     if (field.autowidth !== '') {
         autowidth = saltos.core.eval_bool(field.autowidth);
@@ -137,14 +157,14 @@ saltos.bootstrap.__field.jspreadsheet = field => {
         const _jspreadsheet = jspreadsheet(element, {
             tabs: false,
             toolbar: false,
-            parseFormulas: false,
+            parseFormulas: parseFormulas,
             worksheets: [{
                 data: input.data,
                 tableHeight: height,
                 minSpareRows: minSpareRows,
-                columnResize: false,
-                columnSorting: false,
-                allowComments: false,
+                columnResize: columnResize,
+                columnSorting: columnSorting,
+                allowComments: allowComments,
             }],
             contextMenu: () => {
                 return contextMenu;
@@ -209,6 +229,9 @@ saltos.bootstrap.__field.jspreadsheet = field => {
             input.data = saltos.core.copy_object(value.data);
         }
         input.jspreadsheet[0].setData(input.data);
+        if (autowidth) {
+            _autowidth_helper();
+        }
     };
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
