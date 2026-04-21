@@ -19,7 +19,7 @@ foreach ($files as $file) {
     $lang = $temp[4];
     $group = $temp[2];
     $app = $temp[5];
-    // Fix for notfound 
+    // Fix for notfound
     if ($app === 'notfound.t2t') {
         continue;
     }
