@@ -82,11 +82,21 @@ class GeoIP {
         do {
             $ch = curl_init();
 
+            // Added by sanz
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_SSL_ENABLE_ALPN, false); // to solve cloudflare 403 forbidden
+            // End of the addition
+
             curl_setopt($ch, CURLOPT_URL, $this->endpoint.'/'.$type.'/'.$ip);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
             $output = curl_exec($ch);
+
+            // Replaced by sanz
+            //curl_close($ch);
             curl_close_deprecated($ch);
+            // End of the replacement
 
             if($output == false) {
                 sleep(1);
