@@ -6,7 +6,7 @@ html2text|https://github.com/soundasleep/html2text/tags.atom|<updated>|PHVwZGF0Z
 phpass|https://github.com/openwall/phpass/commits/main.atom|<updated>|PHVwZGF0ZWQ+MjAyNC0xMS0yMlQyMDozODoxNlo8L3VwZGF0ZWQ+
 phpgeoip|https://github.com/Webklex/php-geoip/tags.atom|<title>|PHRpdGxlPjEuMC4wPC90aXRsZT4=
 phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<title>|PHRpdGxlPjUuNy4wPC90aXRsZT4=
-tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<title>|PHRpdGxlPjYuMTEuMjwvdGl0bGU+
+tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<title>|PHRpdGxlPjYuMTEuMzwvdGl0bGU+
 yaml|https://github.com/symfony/yaml/tags.atom|<title>|PHRpdGxlPnY4LjAuODwvdGl0bGU+
 zxcvbn|https://github.com/bjeavons/zxcvbn-php/tags.atom|<title>|PHRpdGxlPjEuNC4yPC90aXRsZT4=
 
@@ -46,7 +46,7 @@ node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjYtMDQtMTUsIF
 pcov|https://github.com/krakjoe/pcov/tags.atom|<title>|PHRpdGxlPnYxLjAuMTI8L3RpdGxlPg==
 php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjQuMjFSQzE8L3RpdGxlPg==
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|PHRpdGxlPjQuMC4xIC0gMjAyNS0xMS0xMDwvdGl0bGU+
-phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjIuMS41MDwvdGl0bGU+
+phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjIuMS41MTwvdGl0bGU+
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|PHRpdGxlPlBIUFVuaXQgMTMuMS43PC90aXRsZT4=
 uglifyjs|https://github.com/mishoo/UglifyJS/tags.atom|<title>|PHRpdGxlPnYzLjE5LjM8L3RpdGxlPg==
 wpcs|https://github.com/WordPress/WordPress-Coding-Standards/tags.atom|<title>|PHRpdGxlPjMuMy4wPC90aXRsZT4=
