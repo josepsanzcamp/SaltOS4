@@ -71,9 +71,7 @@ foreach ($libs as $key => $lib) {
         $istimeout = (($end - $start) >= 5);
         $temp = trim($temp);
         $iserror = ($temp === '');
-        $temp = str_replace('><svg', ">\n<svg", $temp); // FIX FOR SOURCEFORGE.NET
         $temp = str_replace('<title>Tags from', '', $temp); // FIX FOR GITHUB.COM
-        $temp = str_replace('>Linux', ">\nLinux", $temp); // FIX FOR LIBREOFFICE.ORG
         $temp = grep($temp, $lib[2]);
         $temp = head($temp, 1);
         $temp = trim($temp);
