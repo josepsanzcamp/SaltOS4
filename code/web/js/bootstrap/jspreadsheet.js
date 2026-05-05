@@ -29,8 +29,8 @@
  * TODO
  */
 saltos.bootstrap.__field.jspreadsheet = field => {
-    saltos.core.check_params(field, ['id', 'class', 'value', 'data', 'required', 'disabled',
-                                     'color', 'height', 'shadow', 'rounded', 'autowidth',
+    saltos.core.check_params(field, ['id', 'class', 'value', 'data', 'required', 'disabled', 'columns',
+                                     'color', 'height', 'shadow', 'rounded', 'autoWidth', 'rowHeaders',
                                      'numcols', 'numrows', 'minSpareRows', 'contextMenu',
                                      'parseFormulas', 'columnResize', 'columnSorting', 'allowComments']);
     let color = 'primary';
@@ -99,10 +99,13 @@ saltos.bootstrap.__field.jspreadsheet = field => {
     if (field.allowComments !== '') {
         allowComments = field.allowComments;
     }
-    // autowidth parameter
-    let autowidth = true;
-    if (field.autowidth !== '') {
-        autowidth = saltos.core.eval_bool(field.autowidth);
+    let autoWidth = true;
+    if (field.autoWidth !== '') {
+        autoWidth = saltos.core.eval_bool(field.autoWidth);
+    }
+    let rowHeaders = true;
+    if (field.rowHeaders !== '') {
+        rowHeaders = saltos.core.eval_bool(field.rowHeaders);
     }
     const element = obj.querySelector('div');
     // Add the placeholder
@@ -116,7 +119,7 @@ saltos.bootstrap.__field.jspreadsheet = field => {
     const style = window.getComputedStyle(document.body);
     ctx.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
     input._ctx = ctx;
-    const _autowidth_helper = index => {
+    const _autoWidth_helper = index => {
         if (saltos.core.is_number(index)) {
             let maxwidth = 50;
             for (let j = 0; j < input.data.length; j++) {
@@ -165,18 +168,39 @@ saltos.bootstrap.__field.jspreadsheet = field => {
                 columnResize: columnResize,
                 columnSorting: columnSorting,
                 allowComments: allowComments,
+                defaultColAlign: 'left',
+                columns: (() => {
+                    if (Array.isArray(field.columns)) {
+                        for (const i in field.columns) {
+                            if ('width' in field.columns[i] &&
+                                saltos.core.is_function(field.columns[i].width)) {
+                                field.columns[i].width = eval(field.columns[i].width)();
+                            }
+                        }
+                    }
+                    return field.columns;
+                })(),
             }],
             contextMenu: () => {
                 return contextMenu;
             },
             onload: () => {
-                if (autowidth) {
-                    _autowidth_helper();
+                const content = input.jspreadsheet[0].content;
+                content.querySelectorAll('table thead td').forEach(item => {
+                    if ('textAlign' in item.style) {
+                        item.style.textAlign = 'center';
+                    }
+                });
+                if (!rowHeaders) {
+                    content.querySelector('table col').width = 0;
+                }
+                if (autoWidth) {
+                    _autoWidth_helper();
                 }
             },
             onchange: (instance, cell, x, y, value) => {
-                if (autowidth) {
-                    _autowidth_helper(x);
+                if (autoWidth) {
+                    _autoWidth_helper(x);
                 }
             },
         });
@@ -229,8 +253,8 @@ saltos.bootstrap.__field.jspreadsheet = field => {
             input.data = saltos.core.copy_object(value.data);
         }
         input.jspreadsheet[0].setData(input.data);
-        if (autowidth) {
-            _autowidth_helper();
+        if (autoWidth) {
+            _autoWidth_helper();
         }
     };
     obj = saltos.bootstrap.__label_combine(field, obj);
