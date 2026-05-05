@@ -21,18 +21,17 @@
  * This fie contains useful functions related to the bootstrap widgets, allow to create widgets and
  * other plugins suck as plots or rich editors
  *
- * @handsontable => id, class, data, label, required, disabled, height, contextMenu, color,
- *                  numcols, numrows, shadow, rounded
+ * @handsontable => id, class, label, required, disabled, height, color, shadow, rounded,
+ *                  data, numcols, numrows, autoWidth, rowHeaders, minSpareRows, minSpareCols
  */
 
 /**
  * TODO
  */
 saltos.bootstrap.__field.jspreadsheet = field => {
-    saltos.core.check_params(field, ['id', 'class', 'value', 'data', 'required', 'disabled', 'columns',
-                                     'color', 'height', 'shadow', 'rounded', 'autoWidth', 'rowHeaders',
-                                     'numcols', 'numrows', 'minSpareRows', 'contextMenu',
-                                     'parseFormulas', 'columnResize', 'columnSorting', 'allowComments']);
+    saltos.core.check_params(field, ['id', 'class', 'data', 'required', 'disabled', 'columns',
+                                     'color', 'height', 'shadow', 'rounded', 'numcols', 'numrows',
+                                     'autoWidth', 'rowHeaders', 'minSpareRows', 'minSpareCols']);
     let color = 'primary';
     if (field.color !== '') {
         color = field.color;
@@ -79,25 +78,9 @@ saltos.bootstrap.__field.jspreadsheet = field => {
     if (field.minSpareRows !== '') {
         minSpareRows = field.minSpareRows;
     }
-    let contextMenu = false;
-    if (field.contextMenu !== '') {
-        contextMenu = field.contextMenu;
-    }
-    let parseFormulas = false;
-    if (field.parseFormulas !== '') {
-        parseFormulas = field.parseFormulas;
-    }
-    let columnResize = false;
-    if (field.columnResize !== '') {
-        columnResize = field.columnResize;
-    }
-    let columnSorting = false;
-    if (field.columnSorting !== '') {
-        columnSorting = field.columnSorting;
-    }
-    let allowComments = false;
-    if (field.allowComments !== '') {
-        allowComments = field.allowComments;
+    let minSpareCols = 0;
+    if (field.minSpareCols !== '') {
+        minSpareCols = field.minSpareCols;
     }
     let autoWidth = true;
     if (field.autoWidth !== '') {
@@ -160,15 +143,20 @@ saltos.bootstrap.__field.jspreadsheet = field => {
         const _jspreadsheet = jspreadsheet(element, {
             tabs: false,
             toolbar: false,
-            parseFormulas: parseFormulas,
+            parseFormulas: false,
             worksheets: [{
                 data: input.data,
-                tableHeight: height,
                 minSpareRows: minSpareRows,
-                columnResize: columnResize,
-                columnSorting: columnSorting,
-                allowComments: allowComments,
+                minSpareCols: minSpareCols,
+                //~ tableHeight: height,
+                tableOverflow: false,
+                columnResize: false,
+                columnSorting: false,
+                allowComments: false,
                 defaultColAlign: 'left',
+                //allowDeleteColumn: false,
+                rowResize: false,
+                allowDeleteRow: false,
                 columns: (() => {
                     if (Array.isArray(field.columns)) {
                         for (const i in field.columns) {
@@ -182,7 +170,7 @@ saltos.bootstrap.__field.jspreadsheet = field => {
                 })(),
             }],
             contextMenu: () => {
-                return contextMenu;
+                return false;
             },
             onload: () => {
                 const content = input.jspreadsheet[0].content;
@@ -257,6 +245,15 @@ saltos.bootstrap.__field.jspreadsheet = field => {
             _autoWidth_helper();
         }
     };
+    // Some fixes
+    obj.append(saltos.core.html(`
+        <style>
+            .jss_content {
+                padding-right: 0;
+                padding-bottom: 0;
+            }
+        </style>
+    `));
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
