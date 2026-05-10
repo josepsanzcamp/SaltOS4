@@ -29,9 +29,9 @@
  * TODO
  */
 saltos.bootstrap.__field.jspreadsheet = field => {
-    saltos.core.check_params(field, ['id', 'class', 'data', 'required', 'disabled', 'columns',
-                                     'color', 'height', 'shadow', 'rounded', 'numcols', 'numrows',
-                                     'autoWidth', 'rowHeaders', 'minSpareRows', 'minSpareCols']);
+    saltos.core.check_params(field, ['id', 'class', 'data', 'required', 'disabled', 'columns', 'rows',
+                                     'color', 'height', 'shadow', 'rounded', 'numcols', 'numrows', 'rowHeaderWidth',
+                                     'autoWidth', 'fitWidth', 'rowHeaders', 'minSpareRows', 'minSpareCols']);
     let color = 'primary';
     if (field.color !== '') {
         color = field.color;
@@ -82,13 +82,21 @@ saltos.bootstrap.__field.jspreadsheet = field => {
     if (field.minSpareCols !== '') {
         minSpareCols = field.minSpareCols;
     }
-    let autoWidth = true;
+    let autoWidth = false;
     if (field.autoWidth !== '') {
         autoWidth = saltos.core.eval_bool(field.autoWidth);
+    }
+    let fitWidth = false;
+    if (field.fitWidth !== '') {
+        fitWidth = saltos.core.eval_bool(field.fitWidth);
     }
     let rowHeaders = true;
     if (field.rowHeaders !== '') {
         rowHeaders = saltos.core.eval_bool(field.rowHeaders);
+    }
+    let rowHeaderWidth = 50;
+    if (field.rowHeaderWidth !== '') {
+        rowHeaderWidth = field.rowHeaderWidth;
     }
     const element = obj.querySelector('div');
     // Add the placeholder
@@ -148,7 +156,7 @@ saltos.bootstrap.__field.jspreadsheet = field => {
                 data: input.data,
                 minSpareRows: minSpareRows,
                 minSpareCols: minSpareCols,
-                //~ tableHeight: height,
+                //tableHeight: height,
                 tableOverflow: false,
                 columnResize: false,
                 columnSorting: false,
@@ -157,6 +165,7 @@ saltos.bootstrap.__field.jspreadsheet = field => {
                 //allowDeleteColumn: false,
                 rowResize: false,
                 allowDeleteRow: false,
+                allowManualInsertColumn: false,
                 columns: (() => {
                     if (Array.isArray(field.columns)) {
                         for (const i in field.columns) {
@@ -167,6 +176,9 @@ saltos.bootstrap.__field.jspreadsheet = field => {
                         }
                     }
                     return field.columns;
+                })(),
+                rows: (() => {
+                    return field.rows;
                 })(),
             }],
             contextMenu: () => {
@@ -181,9 +193,21 @@ saltos.bootstrap.__field.jspreadsheet = field => {
                 });
                 if (!rowHeaders) {
                     content.querySelector('table col').width = 0;
+                } else if (rowHeaderWidth) {
+                    content.querySelector('table col').width = rowHeaderWidth;
                 }
                 if (autoWidth) {
                     _autoWidth_helper();
+                }
+                if (fitWidth) {
+                    const width = content.parentElement.offsetWidth;
+                    let total = 0;
+                    if ('0' in input.data) {
+                        total = input.data[0].length;
+                    }
+                    for (let i = 0; i < total; i++) {
+                        input.jspreadsheet[0].setWidth(i, width / total);
+                    }
                 }
             },
             onchange: (instance, cell, x, y, value) => {
@@ -200,10 +224,8 @@ saltos.bootstrap.__field.jspreadsheet = field => {
             setTimeout(() => input.set_disabled(bool), 1);
             return;
         }
-
         const rows = input.data.length;
         const cols = input.data[0] ? input.data[0].length : 0;
-
         for (let y = 0; y < rows; y++) {
             for (let x = 0; x < cols; x++) {
                 const coord = input.jspreadsheet[0].getCellFromCoords(x, y);
