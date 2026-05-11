@@ -30,8 +30,9 @@
  */
 saltos.bootstrap.__field.jspreadsheet = field => {
     saltos.core.check_params(field, ['id', 'class', 'data', 'required', 'disabled', 'columns', 'rows',
-                                     'color', 'height', 'shadow', 'rounded', 'numcols', 'numrows', 'rowHeaderWidth',
-                                     'autoWidth', 'fitWidth', 'rowHeaders', 'minSpareRows', 'minSpareCols']);
+                                     'color', 'height', 'shadow', 'rounded', 'numcols', 'numrows',
+                                     'autoWidth', 'fitWidth', 'rowHeaders', 'rowHeaderWidth',
+                                     'minSpareRows', 'minSpareCols']);
     let color = 'primary';
     if (field.color !== '') {
         color = field.color;
@@ -200,7 +201,10 @@ saltos.bootstrap.__field.jspreadsheet = field => {
                     _autoWidth_helper();
                 }
                 if (fitWidth) {
-                    const width = content.parentElement.offsetWidth;
+                    let width = content.parentElement.offsetWidth;
+                    if (rowHeaders) {
+                        width -= content.querySelector('table col').width;
+                    }
                     let total = 0;
                     if ('0' in input.data) {
                         total = input.data[0].length;
