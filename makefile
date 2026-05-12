@@ -387,11 +387,11 @@ teststatus:
 
 httpstart:
 	cd code/web/ && ln -s index.html index.php || true
-	php -S 127.0.0.1:8092 -t code/web/ 2>/dev/null &
+	php -S 0.0.0.0:8092 -t code/web/ 2>/dev/null &
 
 httpstop:
 	cd code/web/ && rm -f index.php || true
-	pkill -f "^php -S 127.0.0.1:8092" || true
+	pkill -f "^php -S 0.0.0.0:8092" || true
 
 ################################################################################
 # DOCKER SERVER PART
