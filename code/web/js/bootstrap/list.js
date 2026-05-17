@@ -120,7 +120,7 @@ saltos.bootstrap.__field.list = field => {
         let item;
         if (saltos.core.eval_bool(field.onclick)) {
             item = saltos.core.html(`<button
-                class="list-group-item list-group-item-action ${val.class}"></button>`);
+                class="list-group-item list-group-item-action border-0 ${val.class}"></button>`);
             if (Object.keys(field.actions).length) {
                 if (!('actions' in val)) {
                     val.actions = {};
@@ -145,7 +145,7 @@ saltos.bootstrap.__field.list = field => {
                 item.setAttribute('id', `button_${val.id}`);
             }
         } else {
-            item = saltos.core.html(`<li class="list-group-item ${val.class}"></li>`);
+            item = saltos.core.html(`<li class="list-group-item border-0 ${val.class}"></li>`);
         }
         if (val.header !== '') {
             const temp = saltos.core.html(`
