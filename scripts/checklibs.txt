@@ -13,7 +13,7 @@ zxcvbn|https://github.com/bjeavons/zxcvbn-php/tags.atom|<title>|PHRpdGxlPjEuNC4y
 autoheight|https://github.com/kamilkp/autoheight/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAxNi0wOC0wN1QyMzo0MToxMVo8L3VwZGF0ZWQ+
 bootstrap|https://github.com/twbs/bootstrap/tags.atom|<title>|PHRpdGxlPnY1LjMuODwvdGl0bGU+
 codemirror|https://api.cdnjs.com/libraries/codemirror?fields=name,version|version|eyJuYW1lIjoiY29kZW1pcnJvciIsInZlcnNpb24iOiI2LjY1LjcifQ==
-echarts|https://github.com/apache/echarts/tags.atom|<title>|PHRpdGxlPjYuMS4wLXJjLjI8L3RpdGxlPg==
+echarts|https://github.com/apache/echarts/tags.atom|<title>|PHRpdGxlPjYuMS4wPC90aXRsZT4=
 icons|https://github.com/twbs/icons/tags.atom|<title>|PHRpdGxlPnYxLjEzLjE8L3RpdGxlPg==
 imagesloaded|https://github.com/desandro/imagesloaded/tags.atom|<title>|PHRpdGxlPnY1LjAuMDwvdGl0bGU+
 imaskjs|https://github.com/uNmAnNeR/imaskjs/tags.atom|<title>|PHRpdGxlPnY3LjYuMTwvdGl0bGU+
@@ -44,7 +44,7 @@ minify|https://github.com/coderaiser/minify/tags.atom|<title>|PHRpdGxlPm1pbmlmeS
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|PHRpdGxlPk1yb29uZ2EgMTYuMDEgLSAyMDI2LTAzLTMwPC90aXRsZT4=
 node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjYtMDUtMTMsIFZlcnNpb24gMjIuMjIuMyAmIzM5O0pvZCYjMzk7IChMVFMpLCBAbWFyY28taXBwb2xpdG88L3RpdGxlPg==
 pcov|https://github.com/krakjoe/pcov/tags.atom|<title>|PHRpdGxlPnYxLjAuMTI8L3RpdGxlPg==
-php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPlBIUCA4LjUuNjwvdGl0bGU+
+php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjUuN1JDMTwvdGl0bGU+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|PHRpdGxlPjQuMC4xIC0gMjAyNS0xMS0xMDwvdGl0bGU+
 phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjIuMS41NTwvdGl0bGU+
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|PHRpdGxlPlBIUFVuaXQgMTMuMS4xMDwvdGl0bGU+
