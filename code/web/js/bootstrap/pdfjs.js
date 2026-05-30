@@ -78,7 +78,7 @@ saltos.bootstrap.__field.pdfjs = field => {
     if (field.srcdoc !== '') {
         src = {data: atob(field.srcdoc)};
     } else {
-        src = new URL(src, window.location.href).href;
+        src = {url: new URL(src, window.location.href).href};
     }
     obj.src = src;
     const element = obj;
