@@ -136,6 +136,32 @@ saltos.bootstrap.__field.jspreadsheet = field => {
             input.jspreadsheet[0].setWidth(i, maxwidth);
         }
     };
+    const _fitWidth_helper = () => {
+        const content = input.jspreadsheet[0].content;
+        let width = content.parentElement.offsetWidth - 6;
+        if (rowHeaders) {
+            width -= content.querySelector('table col').width;
+        }
+        let total = 0;
+        if ('0' in input.data) {
+            total = input.data[0].length;
+        }
+        let hiddens = 0;
+        for (let i = 0; i < total; i++) {
+            if (input.jspreadsheet[0].getConfig().columns[i].type === 'hidden') {
+                hiddens++;
+            }
+        }
+        total -= hiddens;
+        for (let i = 0; i < total; i++) {
+            const percentSize = input.jspreadsheet[0].getConfig().columns[i].percentSize;
+            if (percentSize) {
+                input.jspreadsheet[0].setWidth(i, width * parseFloat(percentSize, 10) * 0.01);
+            } else {
+                input.jspreadsheet[0].setWidth(i, width / total);
+            }
+        }
+    };
     // Continue
     saltos.core.require([
         'lib/jspreadsheet/jspreadsheet.min.css',
@@ -201,17 +227,7 @@ saltos.bootstrap.__field.jspreadsheet = field => {
                     _autoWidth_helper();
                 }
                 if (fitWidth) {
-                    let width = content.parentElement.offsetWidth;
-                    if (rowHeaders) {
-                        width -= content.querySelector('table col').width;
-                    }
-                    let total = 0;
-                    if ('0' in input.data) {
-                        total = input.data[0].length;
-                    }
-                    for (let i = 0; i < total; i++) {
-                        input.jspreadsheet[0].setWidth(i, width / total);
-                    }
+                    _fitWidth_helper();
                 }
             },
             onchange: (instance, cell, x, y, value) => {
@@ -221,6 +237,17 @@ saltos.bootstrap.__field.jspreadsheet = field => {
             },
         });
         input.jspreadsheet = _jspreadsheet;
+        if (fitWidth) {
+            const resizeObserver = new ResizeObserver(() => {
+                if (input.jspreadsheet && input.jspreadsheet[0]) {
+                    window.requestAnimationFrame(() => {
+                        _fitWidth_helper();
+                    });
+                }
+            });
+            resizeObserver.observe(element.parentElement);
+            input._resizeObserver = resizeObserver;
+        }
     });
     // Program the disabled feature
     input.set_disabled = bool => {
