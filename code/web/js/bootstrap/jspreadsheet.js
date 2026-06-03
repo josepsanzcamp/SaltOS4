@@ -138,7 +138,7 @@ saltos.bootstrap.__field.jspreadsheet = field => {
     };
     const _fitWidth_helper = () => {
         const content = input.jspreadsheet[0].content;
-        let width = content.parentElement.offsetWidth - 6;
+        let width = content.parentElement.offsetWidth - 3;
         if (rowHeaders) {
             width -= content.querySelector('table col').width;
         }
