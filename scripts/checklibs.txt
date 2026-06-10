@@ -18,7 +18,7 @@ icons|https://github.com/twbs/icons/tags.atom|<title>|PHRpdGxlPnYxLjEzLjE8L3RpdG
 imagesloaded|https://github.com/desandro/imagesloaded/tags.atom|<title>|PHRpdGxlPnY1LjAuMDwvdGl0bGU+
 imaskjs|https://github.com/uNmAnNeR/imaskjs/tags.atom|<title>|PHRpdGxlPnY3LjYuMTwvdGl0bGU+
 interactjs|https://github.com/taye/interact.js/tags.atom|<title>|PHRpdGxlPnYxLjEwLjI3PC90aXRsZT4=
-joditeditor|https://github.com/xdan/jodit/tags.atom|<title>|PHRpdGxlPjQuMTIuMTg8L3RpdGxlPg==
+joditeditor|https://github.com/xdan/jodit/tags.atom|<title>|PHRpdGxlPjQuMTIuMjE8L3RpdGxlPg==
 jstree|https://github.com/vakata/jstree/commits/v.4.0.atom|<updated>|PHVwZGF0ZWQ+MjAyMy0wMS0xNlQxMTo1MzoyMFo8L3VwZGF0ZWQ+
 masonry|https://github.com/desandro/masonry/tags.atom|<title>|PHRpdGxlPnY0LjIuMiAtIGZsb2F0IHBvc2l0aW9uIHZhbHVlczwvdGl0bGU+
 md5|https://github.com/blueimp/JavaScript-MD5/tags.atom|<title>|PHRpdGxlPnYyLjE5LjA8L3RpdGxlPg==
