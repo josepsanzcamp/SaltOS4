@@ -75,6 +75,7 @@ foreach ($libs as $key => $lib) {
         $temp = grep($temp, $lib[2]);
         $temp = head($temp, 1);
         $temp = trim($temp);
+        $temp = substr($temp, 0, 80);
         $isvoid = ($temp === '');
         $temp2 = grep($temp, base64_decode($lib[3], true));
         $isko = ($temp2 === '');
