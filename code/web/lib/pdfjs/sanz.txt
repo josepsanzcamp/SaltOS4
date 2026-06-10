@@ -25,7 +25,13 @@ rm -f pdf.min.mjs
 wget https://cdn.jsdelivr.net/npm/pdfjs-dist@$version/build/pdf.min.mjs
 
 rm -f pdf.worker.min.mjs
-wget  https://cdn.jsdelivr.net/npm/pdfjs-dist@$version/build/pdf.worker.min.mjs
+wget https://cdn.jsdelivr.net/npm/pdfjs-dist@$version/build/pdf.worker.min.mjs
+
+rm -f pdf_viewer.min.mjs
+wget https://cdn.jsdelivr.net/npm/pdfjs-dist@$version/web/pdf_viewer.min.mjs
+
+rm -f pdf_viewer.min.css
+wget https://cdn.jsdelivr.net/npm/pdfjs-dist@$version/web/pdf_viewer.min.css
 
 #wget -O AGENTS.md https://raw.githubusercontent.com/mozilla/pdf.js/refs/heads/master/AGENTS.md
 #wget -O EXPORT    https://raw.githubusercontent.com/mozilla/pdf.js/refs/heads/master/EXPORT

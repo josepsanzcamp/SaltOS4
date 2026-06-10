@@ -72,7 +72,9 @@ saltos.bootstrap.__field.pdfjs = field => {
         border = ['border-0'];
     }
     let obj = saltos.core.html(`
-        <div id="${field.id}" class="${field.class}"></div>
+        <div id="${field.id}" class="${field.class}">
+            <div class="pdfViewer"></div>
+        </div>
     `);
     let src = field.src;
     if (field.srcdoc !== '') {
@@ -89,65 +91,74 @@ saltos.bootstrap.__field.pdfjs = field => {
     obj.append(placeholder);
     saltos.core.require([
         'lib/pdfjs/pdf.min.mjs',
+        'lib/pdfjs/pdf_viewer.min.mjs',
+        'lib/pdfjs/pdf_viewer.min.css',
     ], async () => {
         // To guarantee that the mjs is ready, this bug only appear in google chrome.
-        while (typeof pdfjsLib !== 'object') {
+        while (typeof pdfjsLib !== 'object' || typeof pdfjsViewer !== 'object') {
             await new Promise(resolve => setTimeout(resolve, 1));
         }
         // Continue
+        placeholder.remove();
+        element.style.position = 'absolute';
+        //~ element.style.width = 'calc(100% + 1px)';
+        //~ element.style.height = '100%';
         const url = new URL('lib/pdfjs/pdf.worker.min.mjs', window.location.href).href;
         pdfjsLib.GlobalWorkerOptions.workerSrc = url;
+        const eventBus = new pdfjsViewer.EventBus();
+        const pdfViewer = new pdfjsViewer.PDFViewer({
+            container: element,
+            eventBus: eventBus,
+        });
         pdfjsLib.getDocument(src).promise.then(pdf => {
             if (!pdf.numPages) {
                 return;
             }
-            const render = num => {
-                pdf.getPage(num).then(page => {
-                    const width = element.clientWidth;
-                    let viewport = page.getViewport({scale: 1});
-                    const scale = 2 * width / viewport.width;
-                    viewport = page.getViewport({scale: scale});
-                    const canvas = document.createElement('canvas');
-                    const context = canvas.getContext('2d');
-                    canvas.width = viewport.width;
-                    canvas.height = viewport.height;
-                    page.render({
-                        canvasContext: context,
-                        viewport: viewport
-                    }).promise.then(() => {
-                        if (num === 1) {
-                            placeholder.remove();
-                        }
-                        const div = document.createElement('div');
-                        div.style.lineHeight = 0;
-                        div.append(canvas);
-                        element.append(div);
-                        canvas.style.width = '100%';
-                        div.classList.add('form-control', rounded, 'p-0', shadow, ...border);
-                        canvas.classList.add(rounded);
-                        if (saltos.core.eval_bool(field.invert)) {
-                            const button_value = saltos.bootstrap.__button_value_helper(field.id);
-                            if (button_value) {
-                                canvas.style.filter = 'invert(.9)';
-                            }
-                        }
-                        if (num < pdf.numPages) {
-                            div.classList.add('mb-3');
-                            render(num + 1);
-                        }
-                    });
-                });
-            };
-            render(1);
+            pdfViewer.removePageBorders=true;
+            pdfViewer.setDocument(pdf);
+            eventBus.on('pagesinit', arg => {
+                //~ console.log('pagesinit');
+                element.style.position = 'relative';
+                pdfViewer.currentScaleValue = "page-width";
+            });
+            eventBus.on('pagerendered', arg => {
+                //~ console.log('pagerendered');
+                const div = arg.source.div;
+                const canvas = arg.source.canvas;
+                div.classList.add('form-control', rounded, 'p-0', shadow, ...border);
+                canvas.classList.add(rounded);
+                if(arg.pageNumber < pdf.numPages) {
+                    div.classList.add('mb-3');
+                }
+            });
+            eventBus.on('pagesloaded', arg => {
+                //~ console.log('pagesloaded');
+            });
+            window.addEventListener('resize', () => {
+                if (pdfViewer.pdfDocument) {
+                    pdfViewer.currentScaleValue = "page-width";
+                }
+            });
         }, error => {
             throw error;
         });
     });
+    // Fix for dark mode switch
+    if (saltos.core.eval_bool(field.invert)) {
+        saltos.core.check_params(field, ['label']);
+        if (field.label === '') {
+            field.label = '&nbsp;';
+        }
+    }
+    // Continue
     obj = saltos.bootstrap.__label_combine(field, obj);
-    // Fix for dark mode
+    // Fix for dark mode feature
     if (saltos.core.eval_bool(field.invert)) {
         const button_id = field.id + '_dark';
         const button_value = saltos.bootstrap.__button_value_helper(field.id);
+        if (button_value) {
+            element.style.filter = 'invert(.9) hue-rotate(180deg)';
+        }
         const button = saltos.bootstrap.field({
             id: button_id,
             type: 'switch',
@@ -156,13 +167,11 @@ saltos.bootstrap.__field.pdfjs = field => {
             value: button_value,
             onchange: event => {
                 const bool = button.querySelector('input').checked;
-                element.querySelectorAll('canvas').forEach(item => {
-                    if (bool) {
-                        item.style.filter = 'invert(.9)';
-                    } else {
-                        item.style.filter = '';
-                    }
-                });
+                if (bool) {
+                    element.style.filter = 'invert(.9) hue-rotate(180deg)';
+                } else {
+                    element.style.filter = '';
+                }
                 if (event.isTrusted) {
                     const button_key = saltos.bootstrap.__button_key_helper(field.id);
                     saltos.storage.setItem(button_key, bool);

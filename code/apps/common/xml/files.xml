@@ -84,12 +84,6 @@
         </layout>
         <javascript>
             <inline>saltos.driver.init('view')</inline>
-            <inline>(() => {
-                const button = document.getElementById('pdfjs_dark').parentElement;
-                button.style.position = 'absolute';
-                button.style.top = '-44px';
-                button.style.right = '66px';
-            })()</inline>
         </javascript>
     </view>
 

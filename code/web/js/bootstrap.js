@@ -433,8 +433,7 @@ saltos.bootstrap.__label_helper = field => {
  */
 saltos.bootstrap.__label_combine = (field, old) => {
     let obj = saltos.core.html(`<div></div>`);
-    obj.append(saltos.bootstrap.__label_helper(field));
-    obj.append(old);
+    obj.append(saltos.bootstrap.__label_helper(field), old);
     obj = saltos.core.optimize(obj);
     return obj;
 };

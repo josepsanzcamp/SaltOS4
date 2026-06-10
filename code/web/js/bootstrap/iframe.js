@@ -126,14 +126,22 @@ saltos.bootstrap.__field.iframe = field => {
             }
         }
     };
+    // Fix for dark mode switch
+    if (saltos.core.eval_bool(field.invert)) {
+        saltos.core.check_params(field, ['label']);
+        if (field.label === '') {
+            field.label = '&nbsp;';
+        }
+    }
+    // Continue
     obj = saltos.bootstrap.__label_combine(field, obj);
-    // Fix for dark mode
+    // Fix for dark mode feature
     if (saltos.core.eval_bool(field.invert)) {
         const button_id = field.id + '_dark';
         const button_value = saltos.bootstrap.__button_value_helper(field.id);
         if (button_value) {
             element.style.background = '#fff';
-            element.style.filter = 'invert(.9)';
+            element.style.filter = 'invert(.9) hue-rotate(180deg)';
         }
         const button = saltos.bootstrap.field({
             id: button_id,
@@ -145,7 +153,7 @@ saltos.bootstrap.__field.iframe = field => {
                 const bool = button.querySelector('input').checked;
                 if (bool) {
                     element.style.background = '#fff';
-                    element.style.filter = 'invert(.9)';
+                    element.style.filter = 'invert(.9) hue-rotate(180deg)';
                 } else {
                     element.style.background = '';
                     element.style.filter = '';
