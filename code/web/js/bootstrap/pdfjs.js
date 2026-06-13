@@ -114,7 +114,9 @@ saltos.bootstrap.__field.pdfjs = field => {
             if (!pdf.numPages) {
                 return;
             }
-            pdfViewer.removePageBorders=true;
+            pdfViewer.removePageBorders = true;
+            //~ pdfViewer.scrollMode = pdfjsViewer.ScrollMode.WRAPPED;
+            pdfViewer.scrollPageIntoView = (args) => {};
             pdfViewer.setDocument(pdf);
             eventBus.on('pagesinit', arg => {
                 //~ console.log('pagesinit');
