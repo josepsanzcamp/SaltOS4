@@ -295,7 +295,7 @@ saltos.core.html = (...args) => {
     let obj = document.createElement(type);
     // Suppress warning: This is a low-level framework utility.
     // Input is trusted and intentionally allows scripts/styles.
-    // codeql[js/xss-through-dom]
+    // lgtm[js/xss-through-dom]
     obj.innerHTML = html.trim();
     obj = saltos.core.optimize(obj);
     return obj;
