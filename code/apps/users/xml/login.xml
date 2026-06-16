@@ -36,11 +36,11 @@
         </layout>
         <javascript>
             <file eval="true">file_with_hash('apps/users/js/login.js')</file>
-            <inline>
+            <inline>(() => {
                 const params = new URLSearchParams(window.location.search);
                 document.getElementById('user').value = params.get('user') ?? '';
                 document.getElementById('pass').value = params.get('pass') ?? '';
-            </inline>
+            })()</inline>
         </javascript>
     </main>
 </root>
