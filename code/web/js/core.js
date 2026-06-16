@@ -293,9 +293,8 @@ saltos.core.html = (...args) => {
         html = args[1];
     }
     let obj = document.createElement(type);
-    // Suppress warning: This is a low-level framework utility.
+    // This innerHTML feature is a low-level framework utility.
     // Input is trusted and intentionally allows scripts/styles.
-    // lgtm[js/xss-through-dom]
     obj.innerHTML = html.trim();
     obj = saltos.core.optimize(obj);
     return obj;
