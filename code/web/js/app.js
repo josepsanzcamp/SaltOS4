@@ -243,7 +243,10 @@ saltos.app.get_data = full => {
         }
         // Continue
         let val = obj.value;
-        let old = field.value.toString();
+        let old = '';
+        if ('value' in field) {
+            old = field.value.toString();
+        }
         switch (field.type) {
             case 'textarea':
             case 'joditeditor':
@@ -307,7 +310,7 @@ saltos.app.get_data = full => {
             case 'jspreadsheet':
                 val = obj.data;
                 old = field.data;
-                if (val.length > 0 && val.at(-1).every(item => item === null)) {
+                if (val.length > 0 && val.at(-1).every(item => [null, ''].includes(item))) {
                     val.pop();
                 }
                 break;

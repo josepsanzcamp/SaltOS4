@@ -32,7 +32,7 @@ saltos.bootstrap.__field.jspreadsheet = field => {
     saltos.core.check_params(field, ['id', 'class', 'data', 'required', 'disabled', 'columns', 'rows',
                                      'color', 'height', 'shadow', 'rounded', 'numcols', 'numrows',
                                      'autoWidth', 'fitWidth', 'rowHeaders', 'rowHeaderWidth',
-                                     'minSpareRows', 'minSpareCols']);
+                                     'minSpareRows', 'minSpareCols', 'onload', 'onchange', 'onselection']);
     let color = 'primary';
     if (field.color !== '') {
         color = field.color;
@@ -105,12 +105,14 @@ saltos.bootstrap.__field.jspreadsheet = field => {
         color: color,
     });
     obj.append(placeholder);
+
     // Define auto_width helper
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     const style = window.getComputedStyle(document.body);
     ctx.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
     input._ctx = ctx;
+
     const _autoWidth_helper = index => {
         if (saltos.core.is_number(index)) {
             let maxwidth = 50;
@@ -136,32 +138,70 @@ saltos.bootstrap.__field.jspreadsheet = field => {
             input.jspreadsheet[0].setWidth(i, maxwidth);
         }
     };
+
     const _fitWidth_helper = () => {
         const content = input.jspreadsheet[0].content;
         let width = content.parentElement.offsetWidth - 3;
         if (rowHeaders) {
             width -= content.querySelector('table col').width;
         }
+
         let total = 0;
         if ('0' in input.data) {
             total = input.data[0].length;
         }
-        let hiddens = 0;
+
+        const columns = input.jspreadsheet[0].getConfig().columns;
         for (let i = 0; i < total; i++) {
-            if (input.jspreadsheet[0].getConfig().columns[i].type === 'hidden') {
-                hiddens++;
+            if (!('originalWidth' in columns[i])) {
+                columns[i].originalWidth = columns[i].width;
+                continue;
             }
         }
-        total -= hiddens;
+
+        const hiddens = [];
+        const widths1 = [];
         for (let i = 0; i < total; i++) {
-            const percentSize = input.jspreadsheet[0].getConfig().columns[i].percentSize;
-            if (percentSize) {
-                input.jspreadsheet[0].setWidth(i, width * parseFloat(percentSize, 10) * 0.01);
-            } else {
-                input.jspreadsheet[0].setWidth(i, width / total);
+            if (columns[i].type === 'hidden') {
+                hiddens.push(i);
+                continue;
             }
+            if (columns[i].originalWidth && !String(columns[i].originalWidth).endsWith('%')) {
+                widths1.push(parseFloat(columns[i].originalWidth, 10));
+            }
+        }
+
+        const sum = (array) => array.reduce((acc, val) => acc + val, 0);
+
+        const width2 = width - sum(widths1);
+        const widths2 = [];
+        for (let i = 0; i < total; i++) {
+            if (hiddens.includes(i)) {
+                continue;
+            }
+            if (columns[i].originalWidth && String(columns[i].originalWidth).endsWith('%')) {
+                widths2.push(width2 * parseFloat(columns[i].originalWidth, 10) * 0.01);
+            }
+        }
+
+        const width3 = (width - sum(widths1) - sum(widths2)) /
+            (total - hiddens.length - widths1.length - widths2.length);
+
+        for (let i = 0; i < total; i++) {
+            if (hiddens.includes(i)) {
+                continue;
+            }
+            if (columns[i].originalWidth && !String(columns[i].originalWidth).endsWith('%')) {
+                continue;
+            }
+            if (columns[i].originalWidth && String(columns[i].originalWidth).endsWith('%')) {
+                input.jspreadsheet[0].setWidth(i, widths2.shift());
+                continue;
+            }
+            input.jspreadsheet[0].setWidth(i, width3);
         }
     };
+
     // Continue
     saltos.core.require([
         'lib/jspreadsheet/jspreadsheet.min.css',
@@ -194,14 +234,14 @@ saltos.bootstrap.__field.jspreadsheet = field => {
                 allowDeleteRow: false,
                 allowManualInsertColumn: false,
                 columns: (() => {
-                    if (Array.isArray(field.columns)) {
-                        for (const i in field.columns) {
-                            if ('width' in field.columns[i] &&
-                                saltos.core.is_function(field.columns[i].width)) {
-                                field.columns[i].width = eval(field.columns[i].width)();
-                            }
-                        }
-                    }
+                    //~ if (Array.isArray(field.columns)) {
+                        //~ for (const i in field.columns) {
+                            //~ if ('width' in field.columns[i] &&
+                                //~ saltos.core.is_function(field.columns[i].width)) {
+                                //~ field.columns[i].width = eval(field.columns[i].width)();
+                            //~ }
+                        //~ }
+                    //~ }
                     return field.columns;
                 })(),
                 rows: (() => {
@@ -211,7 +251,7 @@ saltos.bootstrap.__field.jspreadsheet = field => {
             contextMenu: () => {
                 return false;
             },
-            onload: () => {
+            onload: instance => {
                 const content = input.jspreadsheet[0].content;
                 content.querySelectorAll('table thead td').forEach(item => {
                     if ('textAlign' in item.style) {
@@ -229,12 +269,32 @@ saltos.bootstrap.__field.jspreadsheet = field => {
                 if (fitWidth) {
                     _fitWidth_helper();
                 }
+                if (typeof field.onload === 'string' && field.onload !== '') {
+                    eval(field.onload)(instance);
+                }
+                if (typeof field.onload === 'function') {
+                    field.onload(instance);
+                }
             },
             onchange: (instance, cell, x, y, value) => {
                 if (autoWidth) {
                     _autoWidth_helper(x);
                 }
+                if (typeof field.onchange === 'string' && field.onchange !== '') {
+                    eval(field.onchange)(instance, cell, x, y, value);
+                }
+                if (typeof field.onchange === 'function') {
+                    field.onchange(instance, cell, x, y, value);
+                }
             },
+            onselection: function(instance, x1, y1, x2, y2) {
+                if (typeof field.onselection === 'string' && field.onselection !== '') {
+                    eval(field.onselection)(instance, x1, y1, x2, y2);
+                }
+                if (typeof field.onselection === 'function') {
+                    field.onselection(instance, x1, y1, x2, y2);
+                }
+            }
         });
         input.jspreadsheet = _jspreadsheet;
         if (fitWidth) {
@@ -249,6 +309,7 @@ saltos.bootstrap.__field.jspreadsheet = field => {
             input._resizeObserver = resizeObserver;
         }
     });
+
     // Program the disabled feature
     input.set_disabled = bool => {
         if (!('jspreadsheet' in input)) {
@@ -267,6 +328,7 @@ saltos.bootstrap.__field.jspreadsheet = field => {
     if (saltos.core.eval_bool(field.disabled)) {
         input.set_disabled(true);
     }
+
     // Program the set in the input first
     input.set = value => {
         if (!('jspreadsheet' in input)) {
@@ -298,6 +360,7 @@ saltos.bootstrap.__field.jspreadsheet = field => {
             _autoWidth_helper();
         }
     };
+
     // Some fixes
     obj.append(saltos.core.html(`
         <style>
