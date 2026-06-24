@@ -128,7 +128,11 @@
                 FROM tbl_users WHERE active = 1 ORDER BY login ASC")</rows>
         </multiselect>
 
-        <handsontable id="perms" label="Applications and permissions" col_class="col-12" rowHeaderWidth="200" colWidths="100"/>
+        <jspreadsheet id="perms" label="Applications and permissions" col_class="col-12" rowHeaderWidth="200">
+            <columns require="apps/users/php/matrix.php" eval="true">make_matrix_columns()</columns>
+            <rows require="apps/users/php/matrix.php" eval="true">make_matrix_rows()</rows>
+            <data eval="true">[]</data>
+        </jspreadsheet>
     </_form>
 
     <_data require="php/lib/log.php" eval="true">make_log_bypass(get_data('rest/1'), get_data('rest/2'), execute_query('

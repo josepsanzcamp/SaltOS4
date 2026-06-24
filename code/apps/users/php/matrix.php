@@ -92,7 +92,7 @@ function make_matrix_data($perms, $apps, $main, $user)
  * This function generates matrix cells with additional attributes such as column and row indices,
  * and dropdown options for editing cell values. Read-only attributes are applied to specific cells.
  */
-function make_matrix_cell($perms, $apps, $main, $user)
+function make_matrix_cells($perms, $apps, $main, $user)
 {
     $perms = array_flip($perms);
     $apps = array_flip($apps);
@@ -120,23 +120,10 @@ function make_matrix_cell($perms, $apps, $main, $user)
         $perm_pos = $perms[$cell['perm_id']];
         $app_pos = $apps[$cell['app_id']];
         if ($cell['deny']) {
-            $matrix[$app_pos][$perm_pos] = [
-                'col' => $perm_pos,
-                'row' => $app_pos,
-                'type' => 'dropdown',
-                'source' => ['Allow', 'Deny'],
-                'readOnly' => true,
-            ];
+            // nothing to do
         } else {
-            $matrix[$app_pos][$perm_pos] = [
-                'col' => $perm_pos,
-                'row' => $app_pos,
-                'type' => 'dropdown',
-                'source' => ['Allow', 'Deny'],
-            ];
+            unset($matrix[$app_pos][$perm_pos]);
         }
-        //~ print_r($cell);
-        //~ die();
     }
 
     // Update cell attributes with user data
@@ -144,14 +131,7 @@ function make_matrix_cell($perms, $apps, $main, $user)
     foreach ($user as $cell) {
         $perm_pos = $perms[$cell['perm_id']];
         $app_pos = $apps[$cell['app_id']];
-        $matrix[$app_pos][$perm_pos] = [
-            'col' => $perm_pos,
-            'row' => $app_pos,
-            'type' => 'dropdown',
-            'source' => ['Allow', 'Deny'],
-        ];
-        //~ print_r($cell);
-        //~ die();
+        unset($matrix[$app_pos][$perm_pos]);
     }
 
     $matrix = array_merge(...$matrix);
@@ -233,21 +213,75 @@ function unmake_matrix_data($perms, $apps, $main, $json)
  */
 function make_matrix_perms($table, $field, $id)
 {
-    $perms = execute_query_array("SELECT id, CONCAT_WS('/',code,NULLIF(owner,'')) code
-        FROM tbl_perms WHERE active = 1 ORDER BY id ASC");
-    $apps = execute_query_array('SELECT id, code FROM tbl_apps WHERE active = 1 ORDER BY id ASC');
-    $perms_code = array_column($perms, 'code');
-    $apps_code = array_column($apps, 'code');
+    $perms = _get_db_perms();
+    $apps = _get_db_apps();
     $perms_id = array_column($perms, 'id');
     $apps_id = array_column($apps, 'id');
     $apps_perms = execute_query_array('SELECT * FROM tbl_apps_perms');
     $reg_apps_perms = execute_query_array("SELECT * FROM $table WHERE $field = ?", [$id]);
     $data = make_matrix_data($perms_id, $apps_id, $apps_perms, $reg_apps_perms);
-    $cell = make_matrix_cell($perms_id, $apps_id, $apps_perms, $reg_apps_perms);
+    $cells = make_matrix_cells($perms_id, $apps_id, $apps_perms, $reg_apps_perms);
     return [
-        'colHeaders' => $perms_code,
-        'rowHeaders' => $apps_code,
         'data' => $data,
-        'cell' => $cell,
+        'cells' => $cells,
     ];
+}
+
+/**
+ * TODO
+ */
+function _get_db_perms()
+{
+    static $perms = null;
+    if (!$perms) {
+        $perms = execute_query_array("SELECT id, CONCAT_WS('/',code,NULLIF(owner,'')) code
+            FROM tbl_perms WHERE active = 1 ORDER BY id ASC");
+    }
+    return $perms;
+}
+
+/**
+ * TODO
+ */
+function _get_db_apps()
+{
+    static $apps = null;
+    if (!$apps) {
+        $apps = execute_query_array('SELECT id, code FROM tbl_apps WHERE active = 1 ORDER BY id ASC');
+    }
+    return $apps;
+}
+
+/**
+ * TODO
+ */
+function make_matrix_columns()
+{
+    $perms = _get_db_perms();
+    $perms_code = [];
+    foreach ($perms as $key => $val) {
+        $perms_code[] = [
+            'title' => $val['code'],
+            'width' => 100,
+            'type' => 'dropdown',
+            'source' => ['Allow', 'Deny'],
+            'autocomplete' => true,
+        ];
+    }
+    return $perms_code;
+}
+
+/**
+ * TODO
+ */
+function make_matrix_rows()
+{
+    $apps = _get_db_apps();
+    $apps_code = [];
+    foreach ($apps as $key => $val) {
+        $apps_code[] = [
+            'title' => $val['code'],
+        ];
+    }
+    return $apps_code;
 }

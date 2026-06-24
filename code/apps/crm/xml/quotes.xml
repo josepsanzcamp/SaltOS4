@@ -145,38 +145,78 @@
 
         <textarea id="description" label="Notes" height="5em" col_class="col-md-12"/>
 
-        <handsontable id="lines" label="Concepts" col_class="col-md-12" required="true">
-            <colHeaders eval="true">['Description', 'Quantity', 'Price', 'Discount', 'Tax', 'Total']</colHeaders>
-            <rowHeaders eval="true">null</rowHeaders>
-            <colWidths>saltos.quotes.colWidths_lines</colWidths>
-            <numcols>6</numcols>
-            <numrows>5</numrows>
-            <minSpareRows>1</minSpareRows>
-            <cells>saltos.quotes.cells_lines</cells>
-            <afterChange>saltos.quotes.afterChange_lines</afterChange>
-            <autoWrapRow>true</autoWrapRow>
-        </handsontable>
+        <jspreadsheet id="lines" label="Concepts" col_class="col-md-12" required="true" rowHeaders="false" numcols="6" numrows="5" minSpareRows="1" fitWidth="true">
+            <columns eval="true">[[
+                'title' => 'Description',
+                'align' => 'left',
+            ],[
+                'title' => 'Quantity',
+                'width' => 100,
+                'align' => 'right',
+            ],[
+                'title' => 'Price',
+                'width' => 100,
+                'align' => 'right',
+            ],[
+                'title' => 'Discount',
+                'width' => 100,
+                'align' => 'right',
+            ],[
+                'title' => 'Tax',
+                'width' => 100,
+                'align' => 'center',
+                'type' => 'dropdown',
+                'source' => execute_query_array("SELECT CONCAT(value, '') FROM app_taxes WHERE active=1"),
+                'autocomplete' => true,
+            ],[
+                'title' => 'Total',
+                'width' => 100,
+                'align' => 'right',
+                'readOnly' => true,
+            ]]</columns>
+            <onload>saltos.quotes.onload</onload>
+            <onchange>saltos.quotes.onchange</onchange>
+        </jspreadsheet>
 
-        <handsontable id="taxes" label="Taxes" col_class="col-md-6">
-            <colHeaders eval="true">['Tax', 'Base', 'Total']</colHeaders>
-            <rowHeaders eval="true">null</rowHeaders>
-            <colWidths>saltos.quotes.colWidths_taxes</colWidths>
-            <numcols>3</numcols>
-            <numrows>1</numrows>
-            <cells>saltos.quotes.cells_taxes</cells>
-        </handsontable>
+        <jspreadsheet id="taxes" label="Taxes" col_class="col-md-6" rowHeaders="false" numcols="3" numrows="1" fitWidth="true">
+            <columns eval="true">[[
+                'title' => 'Tax',
+                'align' => 'left',
+                'readOnly' => true,
+            ],[
+                'title' => 'Base',
+                'width' => 100,
+                'align' => 'right',
+                'readOnly' => true,
+            ],[
+                'title' => 'Total',
+                'width' => 100,
+                'align' => 'right',
+                'readOnly' => true,
+            ]]</columns>
+        </jspreadsheet>
         <hidden id="alltaxes">
             <data eval="true">execute_query_array("SELECT name, value FROM app_taxes WHERE active=1")</data>
         </hidden>
 
-        <handsontable id="totals" label="Totals" col_class="col-md-6">
-            <colHeaders eval="true">['Subtotal', 'Tax', 'Total']</colHeaders>
-            <rowHeaders eval="true">null</rowHeaders>
-            <colWidths>saltos.quotes.colWidths_totals</colWidths>
-            <numcols>3</numcols>
-            <numrows>1</numrows>
-            <cells>saltos.quotes.cells_totals</cells>
-        </handsontable>
+        <jspreadsheet id="totals" label="Totals" col_class="col-md-6" rowHeaders="false" numcols="3" numrows="1" fitWidth="true">
+            <columns eval="true">[[
+                'title' => 'Subtotal',
+                'width' => '33.3%',
+                'align' => 'right',
+                'readOnly' => true,
+            ],[
+                'title' => 'Tax',
+                'width' => '33.3%',
+                'align' => 'right',
+                'readOnly' => true,
+            ],[
+                'title' => 'Total',
+                'width' => '33.3%',
+                'align' => 'right',
+                'readOnly' => true,
+            ]]</columns>
+        </jspreadsheet>
 
         <select id="payment_method_id" label="Payment method" col_class="col-md-3">
             <rows eval="true">execute_query_array("

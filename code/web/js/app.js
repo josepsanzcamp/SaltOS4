@@ -306,7 +306,6 @@ saltos.app.get_data = full => {
                     old = old.split(field.separator).sort().join(field.separator);
                 }
                 break;
-            case 'handsontable':
             case 'jspreadsheet':
                 val = obj.data;
                 old = field.data;
@@ -452,7 +451,7 @@ saltos.app.check_required = () => {
             value = parseInt(value, 10);
         }
         // to detect the color, focus and value of the excel fields
-        if (['handsontable', 'jspreadsheet'].includes(field.type)) {
+        if (field.type === 'jspreadsheet') {
             value = item.data.join().replaceAll(',', '');
             obj_color = item.parentElement;
         }

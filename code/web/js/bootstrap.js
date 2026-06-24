@@ -584,6 +584,6 @@ window.addEventListener('keydown', event => {
  */
 saltos.bootstrap.__field_types = [
     'text', 'hidden', 'integer', 'float', 'color', 'date', 'time', 'datetime',
-    'select', 'multiselect', 'checkbox', 'switch', 'password', 'file', 'jspreadsheet',
-    'textarea', 'joditeditor', 'codemirror', 'handsontable', 'tags', 'onetag',
+    'select', 'multiselect', 'checkbox', 'switch', 'password', 'file',
+    'textarea', 'joditeditor', 'codemirror', 'jspreadsheet', 'tags', 'onetag',
 ];

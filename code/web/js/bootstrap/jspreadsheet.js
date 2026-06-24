@@ -21,8 +21,9 @@
  * This fie contains useful functions related to the bootstrap widgets, allow to create widgets and
  * other plugins suck as plots or rich editors
  *
- * @handsontable => id, class, label, required, disabled, height, color, shadow, rounded,
- *                  data, numcols, numrows, autoWidth, rowHeaders, minSpareRows, minSpareCols
+ * @jspreadsheet => id, class, label, required, disabled, height, color, shadow, rounded,
+ *                  data, numcols, numrows, autoWidth, fitWidth, rowHeaders, rowHeaderWidth,
+ *                  columns, rows, cells, minSpareRows, minSpareCols, onload, onchange, onselection
  */
 
 /**
@@ -31,7 +32,7 @@
 saltos.bootstrap.__field.jspreadsheet = field => {
     saltos.core.check_params(field, ['id', 'class', 'data', 'required', 'disabled', 'columns', 'rows',
                                      'color', 'height', 'shadow', 'rounded', 'numcols', 'numrows',
-                                     'autoWidth', 'fitWidth', 'rowHeaders', 'rowHeaderWidth',
+                                     'autoWidth', 'fitWidth', 'rowHeaders', 'rowHeaderWidth', 'cells',
                                      'minSpareRows', 'minSpareCols', 'onload', 'onchange', 'onselection']);
     let color = 'primary';
     if (field.color !== '') {
@@ -202,6 +203,24 @@ saltos.bootstrap.__field.jspreadsheet = field => {
         }
     };
 
+    const _cells_helper = cells => {
+        for (const i in cells) {
+            const cell = cells[i];
+            const coord = input.jspreadsheet[0].getCellFromCoords(cell.col, cell.row);
+            delete cell.col;
+            delete cell.row;
+            for (const j in cell) {
+                if (j === 'readOnly') {
+                    input.jspreadsheet[0].setReadOnly(coord, true);
+                    coord.classList.remove('jss_dropdown');
+                }
+                if (j === 'className') {
+                    coord.classList.add(...cell[j].split(' '));
+                }
+            }
+        }
+    };
+
     // Continue
     saltos.core.require([
         'lib/jspreadsheet/jspreadsheet.min.css',
@@ -234,14 +253,14 @@ saltos.bootstrap.__field.jspreadsheet = field => {
                 allowDeleteRow: false,
                 allowManualInsertColumn: false,
                 columns: (() => {
-                    //~ if (Array.isArray(field.columns)) {
-                        //~ for (const i in field.columns) {
-                            //~ if ('width' in field.columns[i] &&
-                                //~ saltos.core.is_function(field.columns[i].width)) {
-                                //~ field.columns[i].width = eval(field.columns[i].width)();
-                            //~ }
-                        //~ }
-                    //~ }
+                    /*if (Array.isArray(field.columns)) {
+                        for (const i in field.columns) {
+                            if ('width' in field.columns[i] &&
+                                saltos.core.is_function(field.columns[i].width)) {
+                                field.columns[i].width = eval(field.columns[i].width)();
+                            }
+                        }
+                    }*/
                     return field.columns;
                 })(),
                 rows: (() => {
@@ -268,6 +287,9 @@ saltos.bootstrap.__field.jspreadsheet = field => {
                 }
                 if (fitWidth) {
                     _fitWidth_helper();
+                }
+                if (field.cells) {
+                    _cells_helper(field.cells);
                 }
                 if (typeof field.onload === 'string' && field.onload !== '') {
                     eval(field.onload)(instance);
@@ -352,10 +374,16 @@ saltos.bootstrap.__field.jspreadsheet = field => {
         }
         if (Array.isArray(value)) {
             input.data = saltos.core.copy_object(value);
+            input.jspreadsheet[0].setData(input.data);
         } else {
-            input.data = saltos.core.copy_object(value.data);
+            if ('data' in value) {
+                input.data = saltos.core.copy_object(value.data);
+                input.jspreadsheet[0].setData(input.data);
+            }
+            if ('cells' in value) {
+                _cells_helper(value.cells);
+            }
         }
-        input.jspreadsheet[0].setData(input.data);
         if (autoWidth) {
             _autoWidth_helper();
         }

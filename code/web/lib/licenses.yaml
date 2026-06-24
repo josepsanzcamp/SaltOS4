@@ -33,13 +33,6 @@
   license: Apache License 2.0
   license_id: Apache-2.0
 
-- id: handsontable
-  name: Handsontable
-  package: handsontable@6.2.2
-  homepage: https://handsontable.com/
-  license: MIT License
-  license_id: MIT
-
 - id: icons
   name: Bootstrap Icons
   package: twbs/icons

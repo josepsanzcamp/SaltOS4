@@ -24,9 +24,9 @@
         <title append="modal">Access log</title>
         <layout append="three,two,one">
             <row auto="true" row_class="row g-3 mb-3" col_class="col-12">
-                <handsontable id="log" col_class="col-12" disabled="true" height="calc(100vh - 200px)"
+                <jspreadsheet id="log" col_class="col-12" disabled="true" height="calc(100vh - 200px)"
                     require="apps/common/php/matrix.php" eval="true">make_matrix_log(get_data('rest/1'), get_data('rest/4'))
-                </handsontable>
+                </jspreadsheet>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>

@@ -30,117 +30,13 @@
 saltos.quotes = {};
 
 /**
- * Calculate the dynamic width for each column in the "lines" table.
+ * Fix tax dropdown visibility.
  *
- * This function returns the width for each column. For the first column (index 0),
- * it dynamically calculates the remaining space based on the container width minus
- * a fixed width (500px) reserved for other columns. For all other columns, it returns 100px.
- *
- * @index => Column index
- *
- * Returns the width in pixels
+ * Reset the parent's overflow property to prevent the tax dropdown
+ * from being clipped or hidden inside the container.
  */
-saltos.quotes.colWidths_lines = index => {
-    if (index === 0) {
-        const width = document.getElementById('lines').parentElement.offsetWidth - 2;
-        return Math.floor(width - 500);
-    }
-    return 100;
-};
-
-/**
- * Define cell configuration for each column in the "lines" table.
- *
- * This function provides per-column behavior:
- * - Column 4: renders a dropdown with available tax values (from #alltaxes).
- * - Column 5: sets the cell as read-only (used for calculated values).
- * - Other columns: no special config.
- *
- * @row    => Row index
- * @column => Column index
- * @prop   => Column property name
- *
- * Returns the configuration object
- */
-saltos.quotes.cells_lines = (row, column, prop) => {
-    if (column === 4) {
-        return {
-            type: 'dropdown',
-            source: document.getElementById('alltaxes').data.map(row => row.value),
-        };
-    }
-    if (column === 5) {
-        return {
-            readOnly: true,
-        };
-    }
-    return {};
-};
-
-/**
- * Calculate the dynamic width for each column in the "taxes" table.
- *
- * The first column (index 0) fills the available space minus 200px reserved for other columns.
- * All other columns get a fixed width of 100px.
- *
- * @index => Column index
- *
- * Returns the width in pixels
- */
-saltos.quotes.colWidths_taxes = index => {
-    if (index === 0) {
-        const width = document.getElementById('taxes').parentElement.offsetWidth - 2;
-        return Math.floor(width - 200);
-    }
-    return 100;
-};
-
-/**
- * Define cell configuration for each column in the "taxes" table.
- *
- * All cells in this table are read-only.
- *
- * @row    => Row index
- * @column => Column index
- * @prop   => Column property name
- *
- * Returns the configuration object
- */
-saltos.quotes.cells_taxes = (row, column, prop) => {
-    return {
-        readOnly: true,
-    };
-};
-
-/**
- * Calculate equal column widths for the "totals" table.
- *
- * The table is divided into 3 equal columns, based on the container width.
- *
- * @index => Column index
- *
- * Returns the width in pixels
- */
-saltos.quotes.colWidths_totals = index => {
-    const width = document.getElementById('taxes').parentElement.offsetWidth - 2;
-    return Math.floor(width / 3);
-};
-
-/**
- * Define cell configuration for the "totals" table.
- *
- * All cells in this table are read-only.
- *
- * @row    => Row index
- * @column => Column index
- * @prop   => Column property name
- *
- * Returns the configuration object
- */
-saltos.quotes.cells_totals = (row, column, prop) => {
-    return {
-        readOnly: true,
-    };
+saltos.quotes.onload = instance => {
+    instance.element.parentElement.style.overflow = '';
 };
 
 /**
@@ -168,11 +64,7 @@ saltos.quotes.cells_totals = (row, column, prop) => {
  * @changes => Array of cell changes from the spreadsheet component
  * @source  => Source of the change event (only `'edit'` triggers processing)
  */
-saltos.quotes.afterChange_lines = (changes, source) => {
-    if (source === 'loadData') {
-        return;
-    }
-
+saltos.quotes.onchange = (instance, cell, x, y, value) => {
     // Check, validate and compute the lines matrix
     const lines = document.getElementById('lines').data;
     for (const i in lines) {
@@ -194,14 +86,18 @@ saltos.quotes.afterChange_lines = (changes, source) => {
             line[3] = 0;
         }
         line[3] = parseFloat(line[3]);
+        // Prepare tax (for next step when compute the taxes matrix)
+        if (!saltos.core.is_number(line[4])) {
+            line[4] = 0;
+        }
+        line[4] = parseFloat(line[4]);
         // Computes the total for this line
         line[5] = line[1] * line[2] * (1 - line[3] / 100);
         // Round using two decimals
         line[5] = Math.round(line[5] * 100) / 100;
     }
-
-    // This trigger a lines refresh
-    document.getElementById('lines').excel.updateSettings({});
+    // Update the entire matrix
+    document.getElementById('lines').set(lines);
 
     // Compute the taxes matrix
     const taxes = {};

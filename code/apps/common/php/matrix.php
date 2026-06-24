@@ -46,7 +46,7 @@ function make_matrix_version($app, $id)
         $val['user'] = $val['user'] ?? '-';
         $val['datetime'] = datetime_format($val['datetime']);
         $val['ver_id'] = 'v' . $val['ver_id'];
-        $versions[$key] = implode('<br/>', $val);
+        $versions[$key] = implode(' | ', $val);
     }
 
     // Convert tree-like data into a flat matrix format
@@ -184,7 +184,6 @@ function make_matrix_version($app, $id)
         $widths[0] = max($widths[0], $width + $margin);
     }
     foreach ($versions as $key => $val) {
-        $val = str_replace('<br/>', "\n", $val);
         $width = compute_width($val, $size);
         $widths[$key + 1] = $width + $margin;
     }
@@ -202,14 +201,28 @@ function make_matrix_version($app, $id)
     // Convert matrix to single-dimensional array
     $matrix = array_merge(...$matrix);
 
+    // Combine version and width in a columns expected array
+    $columns = array_map(function ($version, $width) {
+        return [
+            'title' => $version,
+            'width' => $width,
+        ];
+    }, $versions, array_slice($widths, 1));
+
+    // Convert header in a rows expected array
+    $rows = array_map(function ($header) {
+        return [
+            'title' => $header,
+        ];
+    }, $headers);
+
     // Return the Excel field with headers, data, and formatting information
     return [
-        'colHeaders' => $versions,
-        'rowHeaders' => $headers,
+        'columns' => $columns,
+        'rows' => $rows,
         'data' => $data,
-        'cell' => $matrix,
+        'cells' => $matrix,
         'rowHeaderWidth' => $widths[0],
-        'colWidths' => array_slice($widths, 1),
     ];
 }
 
@@ -268,10 +281,17 @@ function make_matrix_log($app, $id)
         $widths[$key] = min($maxwidth, $val);
     }
 
+    // Combine header and width in a columns expected array
+    $columns = array_map(function ($header, $width) {
+        return [
+            'title' => $header,
+            'width' => $width,
+        ];
+    }, $headers, array_slice(array_values($widths), 1));
+
     // Return the Excel field
     return [
-        'colHeaders' => array_values($headers),
+        'columns' => $columns,
         'data' => $data,
-        'colWidths' => array_slice(array_values($widths), 1),
     ];
 }
