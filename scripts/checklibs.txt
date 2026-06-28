@@ -6,9 +6,9 @@ html2text|https://github.com/soundasleep/html2text/tags.atom|<updated>|PHVwZGF0Z
 phpass|https://github.com/openwall/phpass/commits/main.atom|<updated>|PHVwZGF0ZWQ+MjAyNC0xMS0yMlQyMDozODoxNlo8L3VwZGF0ZWQ+
 phpgeoip|https://github.com/Webklex/php-geoip/tags.atom|<title>|PHRpdGxlPjEuMC4wPC90aXRsZT4=
 phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<title>|PHRpdGxlPjUuOC4wPC90aXRsZT4=
-tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<title>|PHRpdGxlPjcuMC4xPC90aXRsZT4=
-tc-lib-pdf|https://github.com/tecnickcom/tc-lib-pdf/tags.atom|<title>|PHRpdGxlPjguNjUuMDwvdGl0bGU+
-yaml|https://github.com/symfony/yaml/tags.atom|<title>|PHRpdGxlPnY4LjEuMDwvdGl0bGU+
+tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<title>|PHRpdGxlPjcuMC4yPC90aXRsZT4=
+tc-lib-pdf|https://github.com/tecnickcom/tc-lib-pdf/tags.atom|<title>|PHRpdGxlPjguNjUuMjwvdGl0bGU+
+yaml|https://github.com/symfony/yaml/tags.atom|<title>|PHRpdGxlPnY4LjEuMTwvdGl0bGU+
 zxcvbn|https://github.com/bjeavons/zxcvbn-php/tags.atom|<title>|PHRpdGxlPjEuNC4yPC90aXRsZT4=
 
 autoheight|https://github.com/kamilkp/autoheight/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAxNi0wOC0wN1QyMzo0MToxMVo8L3VwZGF0ZWQ+
@@ -23,7 +23,7 @@ joditeditor|https://github.com/xdan/jodit/tags.atom|<title>|PHRpdGxlPjQuMTIuMzI8
 jstree|https://github.com/vakata/jstree/commits/v.4.0.atom|<updated>|PHVwZGF0ZWQ+MjAyMy0wMS0xNlQxMTo1MzoyMFo8L3VwZGF0ZWQ+
 masonry|https://github.com/desandro/masonry/tags.atom|<title>|PHRpdGxlPnY0LjIuMiAtIGZsb2F0IHBvc2l0aW9uIHZhbHVlczwvdGl0bGU+
 md5|https://github.com/blueimp/JavaScript-MD5/tags.atom|<title>|PHRpdGxlPnYyLjE5LjA8L3RpdGxlPg==
-pdfjs|https://github.com/mozilla/pdf.js/tags.atom|<title>|PHRpdGxlPnY2LjAuMjI3PC90aXRsZT4=
+pdfjs|https://github.com/mozilla/pdf.js/tags.atom|<title>|PHRpdGxlPnY2LjEuMjAwPC90aXRsZT4=
 sourcemap|https://github.com/novocaine/sourcemapped-stacktrace/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAxOS0wOS0wMVQwODowNTo1Mlo8L3VwZGF0ZWQ+
 tomselect|https://github.com/orchidjs/tom-select/tags.atom|<title>|PHRpdGxlPjIuNi4xPC90aXRsZT4=
 topbar|https://github.com/buunguyen/topbar/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAyNi0wMi0yM1QwNToxMjoyOFo8L3VwZGF0ZWQ+
