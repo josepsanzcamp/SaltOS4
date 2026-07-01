@@ -273,7 +273,6 @@ function __import_xls2array($file, $sheet)
     //~ }
     // libxml_use_internal_errors is a trick to prevent the simplexml_load_string error when gets binary data
     libxml_use_internal_errors(true); // Trick
-    // @phpstan-ignore method.notFound
     $sheets = $objReader->listWorksheetNames($file);
     libxml_clear_errors(); // Trick
     if (is_numeric($sheet)) {

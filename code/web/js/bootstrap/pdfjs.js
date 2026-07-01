@@ -121,7 +121,7 @@ saltos.bootstrap.__field.pdfjs = field => {
             eventBus.on('pagesinit', arg => {
                 //~ console.log('pagesinit');
                 element.style.position = 'relative';
-                pdfViewer.currentScaleValue = "page-width";
+                pdfViewer.currentScaleValue = 'page-width';
             });
             eventBus.on('pagerendered', arg => {
                 //~ console.log('pagerendered');
@@ -129,7 +129,7 @@ saltos.bootstrap.__field.pdfjs = field => {
                 const canvas = arg.source.canvas;
                 div.classList.add('form-control', rounded, 'p-0', shadow, ...border);
                 canvas.classList.add(rounded);
-                if(arg.pageNumber < pdf.numPages) {
+                if (arg.pageNumber < pdf.numPages) {
                     div.classList.add('mb-3');
                 }
             });
@@ -138,7 +138,7 @@ saltos.bootstrap.__field.pdfjs = field => {
             });
             window.addEventListener('resize', () => {
                 if (pdfViewer.pdfDocument) {
-                    pdfViewer.currentScaleValue = "page-width";
+                    pdfViewer.currentScaleValue = 'page-width';
                 }
             });
         }, error => {
