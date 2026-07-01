@@ -12,6 +12,6 @@
 # You can get a copy of a license here:
 # https://brailleinstitute.org/wp-content/uploads/2020/11/Atkinson-Hyperlegible-Font-License-2020-1104.pdf
 
-for i in fonts/*.ttf; do
-    php ../tcpdf/vendor/tecnickcom/tcpdf/tools/tcpdf_addfont.php -i $i
-done
+#for i in fonts/*.ttf; do
+#    php ../tcpdf/vendor/tecnickcom/tcpdf/tools/tcpdf_addfont.php -i $i
+#done

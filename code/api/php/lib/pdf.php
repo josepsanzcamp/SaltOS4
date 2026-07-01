@@ -30,115 +30,9 @@ declare(strict_types=1);
 define('K_TCPDF_EXTERNAL_CONFIG', true);// to prevent the load of tcpdf_config.php
 define('K_TCPDF_THROW_EXCEPTION_ERROR', true); // to force a throw exception on error
 define('K_PATH_IMAGES', ''); // to prevent open_basedir restriction
+define('K_PATH_FONTS', realpath('lib/tcpdf/vendor/tecnickcom/tc-lib-pdf-font/target/fonts'));
+define('K_ALLOWED_PATHS', [dirname(dirname(getcwd()))]); // to allow the utest execution
 require_once 'lib/tcpdf/vendor/autoload.php';
-
-/**
- * Custom PDF class extending TCPDF
- *
- * Provides enhanced functionality for header/footer management and page checks
- */
-class MyPDF extends TCPDF
-{
-    private $arr_header;
-    private $row_header;
-    private $arr_footer;
-    private $row_footer;
-    private $check_bool;
-    private $list_pages;
-
-    /**
-     * Initialize PDF document settings
-     *
-     * Resets all internal variables to their default state
-     */
-    public function Init()
-    {
-        $this->arr_header = [];
-        $this->row_header = [];
-        $this->arr_footer = [];
-        $this->row_footer = [];
-        $this->check_bool = true;
-        $this->list_pages = [];
-    }
-
-    /**
-     * Set header content and data
-     *
-     * @arr => Header template array
-     * @row => Data row for header evaluation
-     */
-    public function set_header($arr, $row)
-    {
-        $this->arr_header = $arr;
-        $this->row_header = $row;
-    }
-
-    /**
-     * Set footer content and data
-     *
-     * @arr => Footer template array
-     * @row => Data row for footer evaluation
-     */
-    public function set_footer($arr, $row)
-    {
-        $this->arr_footer = $arr;
-        $this->row_footer = $row;
-    }
-
-    /**
-     * Override TCPDF header method
-     *
-     * Processes and renders the header content while temporarily disabling Y checks
-     */
-    public function Header()
-    {
-        [$oldenable, $this->check_bool] = [$this->check_bool, false];
-        __pdf_eval_pdftag($this->arr_header, $this->row_header);
-        $this->check_bool = $oldenable;
-    }
-
-    /**
-     * Override TCPDF footer method
-     *
-     * Tracks page numbers where footers need to be rendered
-     */
-    public function Footer()
-    {
-        $this->list_pages[] = $this->getPage();
-    }
-
-    /**
-     * Render all accumulated footers
-     *
-     * Processes footer content on all tracked pages while temporarily disabling Y checks
-     */
-    public function render_footers()
-    {
-        [$oldenable, $this->check_bool] = [$this->check_bool, false];
-        foreach ($this->list_pages as $page) {
-            $this->setPage($page);
-            __pdf_eval_pdftag($this->arr_footer, $this->row_footer);
-        }
-        $this->check_bool = $oldenable;
-    }
-
-    /**
-     * Check Y position and add new page if needed
-     *
-     * @offset => Additional offset to consider in Y position check
-     */
-    public function check_y($offset = 0)
-    {
-        if (!$this->check_bool) {
-            return;
-        }
-        if (floatval($this->y + $offset) > floatval(($this->hPt / $this->k) - $this->bMargin)) {
-            $oldx = $this->GetX();
-            $this->AddPage();
-            $this->SetXY($oldx, $this->tMargin);
-        }
-    }
-}
 
 /**
  * Evaluate dynamic value in PDF context
@@ -219,6 +113,22 @@ function __pdf_eval_explode($separator, $str, $limit = 0)
 }
 
 /**
+ * TODO
+ *
+ * TODO
+ */
+function __pdf_check_y($pdf, $offset = 0)
+{
+    if (floatval($pdf->y + $offset) > floatval($pdf->h - $pdf->bMargin)) {
+        $oldx = $pdf->GetX();
+        $pdf->AddPage();
+        $pdf->SetXY($oldx, $pdf->tMargin);
+        return true;
+    }
+    return false;
+}
+
+/**
  * Process PDF template tags and generate PDF content
  *
  * @array => PDF template definition array
@@ -230,19 +140,28 @@ function __pdf_eval_pdftag($array, $row = [])
 {
     require_once 'php/lib/color.php';
     static $pdf = null;
+
+    static $arr_header = [];
+    static $row_header = [];
+    static $arr_footer = [];
+    static $row_footer = [];
+    static $list_pages = [];
+
     // Support for ltr and rtl langs
     $dir = 'ltr';
     if (isset($row['dir'])) {
         $dir = $row['dir'];
     }
     $rtl = ['ltr' => ['L' => 'L', 'C' => 'C', 'R' => 'R'], 'rtl' => ['L' => 'R', 'C' => 'C', 'R' => 'L']];
+
     $fonts = ['normal' => 'atkinsonhyperlegiblenext', 'mono' => 'atkinsonhyperlegiblemono'];
+
     if (!is_array($array)) {
         show_php_error(['phperror' => 'Array not found']);
     }
     foreach ($array as $key => $val) {
         $key = fix_key($key);
-        static $bool = 1;
+        static $bool = true;
         switch ($key) {
             case 'eval':
                 $bool = __pdf_eval_value($val, $row, $pdf);
@@ -253,11 +172,12 @@ function __pdf_eval_pdftag($array, $row = [])
                     break;
                 }
                 $temp = __pdf_eval_array(__pdf_eval_explode(',', $val), $row, $pdf);
-                $pdf = new MyPDF($temp[0], $temp[1], $temp[2]);
+                $pdf = new TCPDF($temp[0], $temp[1], $temp[2]);
+                $pdf->setPrintHeader(false);
+                $pdf->setPrintFooter(false);
                 $pdf->SetCreator(get_name_version_revision());
                 $pdf->SetDisplayMode('fullwidth', 'continuous');
                 $pdf->setRTL($dir === 'rtl');
-                $pdf->Init();
                 break;
             case 'margins':
                 // format => top, right, bottom, left
@@ -289,8 +209,11 @@ function __pdf_eval_pdftag($array, $row = [])
                 if (!$bool) {
                     break;
                 }
-                $pdf->Footer();
-                $pdf->render_footers();
+                $num_pages = $pdf->getNumPages();
+                for ($page = 1; $page <= $num_pages; $page++) {
+                    $pdf->setPage($page);
+                    __pdf_eval_pdftag($arr_footer, $row_footer);
+                }
                 $name = __pdf_eval_value($val, $row, $pdf);
                 $buffer = $pdf->Output($name, 'S');
                 return [
@@ -302,14 +225,16 @@ function __pdf_eval_pdftag($array, $row = [])
                 if (!$bool) {
                     break;
                 }
-                $pdf->set_header($val, $row);
+                $arr_header = $val;
+                $row_header = $row;
                 break;
             case 'footer':
                 // format => node
                 if (!$bool) {
                     break;
                 }
-                $pdf->set_footer($val, $row);
+                $arr_footer = $val;
+                $row_footer = $row;
                 break;
             case 'newpage':
                 // format => [orientation]
@@ -321,6 +246,7 @@ function __pdf_eval_pdftag($array, $row = [])
                 } else {
                     $pdf->AddPage();
                 }
+                __pdf_eval_pdftag($arr_header, $row_header);
                 break;
             case 'font':
                 // format => family, style, size, color
@@ -383,7 +309,10 @@ function __pdf_eval_pdftag($array, $row = [])
                 }
                 $pdf->SetXY($temp[0], $temp[1]);
                 if (!isset($temp[6])) {
-                    $pdf->check_y($temp[3]);
+                    if (__pdf_check_y($pdf, $temp[3])) {
+                        __pdf_eval_pdftag($arr_header, $row_header);
+                        $pdf->SetXY($temp[0], $temp[1]);
+                    }
                 }
                 $pdf->MultiCell($temp[2], $temp[3], strval($temp[5]), 0, $rtl[$dir][$temp[4]]);
                 if (isset($temp[6])) {
@@ -435,7 +364,9 @@ function __pdf_eval_pdftag($array, $row = [])
                 }
                 $temp = __pdf_eval_array(__pdf_eval_explode(',', $val, 2), $row, $pdf);
                 $pdf->SetXY($temp[0], $temp[1]);
-                $pdf->check_y();
+                if (__pdf_check_y($pdf)) {
+                    __pdf_eval_pdftag($arr_header, $row_header);
+                }
                 break;
             case 'getxy':
                 // format => index for x, index for y
@@ -466,7 +397,10 @@ function __pdf_eval_pdftag($array, $row = [])
                         $temp[5] = '%s/%s';
                     }
                     $temp[5] = sprintf($temp[5], $pdf->PageNo(), $pdf->getNumPages());
-                    $pdf->check_y($temp[3]);
+                    if (__pdf_check_y($pdf, $temp[3])) {
+                        __pdf_eval_pdftag($arr_header, $row_header);
+                        $pdf->SetXY($temp[0], $temp[1]);
+                    }
                     $pdf->MultiCell($temp[2], $temp[3], strval($temp[5]), 0, $rtl[$dir][$temp[4]]);
                 }
                 break;
@@ -476,7 +410,9 @@ function __pdf_eval_pdftag($array, $row = [])
                     break;
                 }
                 $temp = __pdf_eval_array(__pdf_eval_explode(',', $val, 1), $row, $pdf);
-                $pdf->check_y($temp[0]);
+                if (__pdf_check_y($pdf, $temp[0])) {
+                    __pdf_eval_pdftag($arr_header, $row_header);
+                }
                 break;
             case 'link':
                 // format => left, top, text, url
@@ -511,7 +447,7 @@ function pdf($file, $row = [])
     }
     $xml = xmlfile2array($file);
     $pdf = __pdf_eval_pdftag($xml, $row);
-    if ($pdf instanceof MyPDF) {
+    if ($pdf instanceof TCPDF) {
         show_php_error(['phperror' => 'Output node not found in template']);
     }
     $cache[$hash] = [

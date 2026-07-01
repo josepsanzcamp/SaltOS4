@@ -79,12 +79,13 @@ function __qrcode_image($msg, $s, $m, $l)
 function __qrcode_image_png($msg, $s, $l)
 {
     require_once 'lib/tcpdf/vendor/autoload.php';
-    $barcode = new TCPDF2DBarcode($msg, "QRCODE,$l");
-    $array = $barcode->getBarcodeArray();
-    if (!isset($array['num_cols']) || !isset($array['num_rows'])) {
+    $barcode = new \Com\Tecnick\Barcode\Barcode();
+    try {
+        $bobj = $barcode->getBarcodeObj("QRCODE,$l", $msg, -$s, -$s);
+    } catch (\Exception $e) {
         return '';
     }
-    $buffer = $barcode->getBarcodePngData($s, $s);
+    $buffer = $bobj->getPngData();
     return $buffer;
 }
 
@@ -107,11 +108,12 @@ function __qrcode_image_png($msg, $s, $l)
 function __qrcode_image_svg($msg, $s, $l)
 {
     require_once 'lib/tcpdf/vendor/autoload.php';
-    $barcode = new TCPDF2DBarcode($msg, "QRCODE,$l");
-    $array = $barcode->getBarcodeArray();
-    if (!isset($array['num_cols']) || !isset($array['num_rows'])) {
+    $barcode = new \Com\Tecnick\Barcode\Barcode();
+    try {
+        $bobj = $barcode->getBarcodeObj("QRCODE,$l", $msg, -$s, -$s);
+    } catch (\Exception $e) {
         return '';
     }
-    $buffer = $barcode->getBarcodeSVGcode($s, $s);
+    $buffer = $bobj->getInlineSvgCode();
     return $buffer;
 }

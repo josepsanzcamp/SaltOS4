@@ -68,6 +68,13 @@
   license: MIT License
   license_id: MIT
 
+- id: tc-lib-pdf
+  name: tc-lib-pdf
+  package: tecnickcom/tc-lib-pdf
+  homepage: https://tcpdf.org/
+  license: GNU Lesser General Public License v3 (LGPL-3.0)
+  license_id: LGPL-3.0-only
+
 - id: tcpdf
   name: TCPDF
   package: tecnickcom/tcpdf

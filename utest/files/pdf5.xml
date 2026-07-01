@@ -16,5 +16,6 @@
 
 <root>
     <constructor>"P","mm","A4"</constructor>
+    <newpage></newpage>
     <text>1,2,"nada"</text>
 </root>

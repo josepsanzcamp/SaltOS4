@@ -95,12 +95,13 @@ function __barcode_image($msg, $w, $h, $m, $s, $t)
 function __barcode_image_png($msg, $w, $h, $t)
 {
     require_once 'lib/tcpdf/vendor/autoload.php';
-    $barcode = new TCPDFBarcode($msg, $t);
-    $array = $barcode->getBarcodeArray();
-    if (!isset($array['maxw'])) {
+    $barcode = new \Com\Tecnick\Barcode\Barcode();
+    try {
+        $bobj = $barcode->getBarcodeObj($t, $msg, -$w, $h);
+    } catch (\Exception $e) {
         return '';
     }
-    $buffer = $barcode->getBarcodePngData($w, $h);
+    $buffer = $bobj->getPngData();
     return $buffer;
 }
 
@@ -124,11 +125,12 @@ function __barcode_image_png($msg, $w, $h, $t)
 function __barcode_image_svg($msg, $w, $h, $t)
 {
     require_once 'lib/tcpdf/vendor/autoload.php';
-    $barcode = new TCPDFBarcode($msg, $t);
-    $array = $barcode->getBarcodeArray();
-    if (!isset($array['maxw'])) {
+    $barcode = new \Com\Tecnick\Barcode\Barcode();
+    try {
+        $bobj = $barcode->getBarcodeObj($t, $msg, -$w, $h);
+    } catch (\Exception $e) {
         return '';
     }
-    $buffer = $barcode->getBarcodeSVGcode($w, $h);
+    $buffer = $bobj->getInlineSvgCode();
     return $buffer;
 }

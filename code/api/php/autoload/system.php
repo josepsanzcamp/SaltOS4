@@ -38,6 +38,7 @@ function check_system()
         ['extension', 'xml', 'error', 'php-xml'], // core module
         ['extension', 'gd', 'error', 'php-gd'], // core module
         ['extension', 'mbstring', 'error', 'php-mbstring'], // core module
+        ['extension', 'bcmath', 'error', 'php-bcmath'], // tcpdf library
         ['extension', 'yaml', 'warning', 'php-yaml'], // core module
         ['program', 'timeout', 'warning', 'coreutils'], // core module
         ['program', 'svnversion', 'warning', 'subversion'], // core module

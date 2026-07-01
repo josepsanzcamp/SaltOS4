@@ -91,6 +91,7 @@
             <line>185,60,0,180</line>
             <margins>67,10,56,10</margins>
             <setxy>10,67</setxy>
+            <font>"normal","",8,$row["color_text2"]</font>
         </header>
         <footer>
             <margins>0,0,0,0</margins>
@@ -172,6 +173,7 @@
         <font>"normal","",8,$row["color_text2"]</font>
         <textarea>100,265,100,4,"L",$row["description"]</textarea>
         <!--<rect>100,268,100,6,"D",0.15</rect>-->
+        <margins>67,10,52,10</margins>
     </foreach>
     <eval>strpos($row["id"],",")===false</eval>
     <output>encode_bad_chars(execute_query("SELECT
