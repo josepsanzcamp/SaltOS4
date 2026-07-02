@@ -16,7 +16,6 @@
 
 <root>
     <constructor>"L","mm","A5"</constructor>
-    <margins>10,10,10,10</margins>
 
     <foreach>
         <query>"SELECT *,
@@ -41,6 +40,7 @@
             <margins>10,10,10,10</margins>
         </footer>
 
+        <margins>10,10,10,10</margins>
         <newpage></newpage>
         <setxy>10,10</setxy>
         <getxy>"x","y"</getxy>

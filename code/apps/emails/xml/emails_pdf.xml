@@ -16,7 +16,6 @@
 
 <root>
     <constructor>'P','mm','A4'</constructor>
-    <margins>25,10,10,10</margins>
     <foreach>
         <query>"SELECT *,
             CASE WHEN `to` != '' THEN `to`
@@ -48,7 +47,6 @@
         <!-- template -->
         <header>
             <margins>10,10,10,10</margins>
-            <setxy>10,10</setxy>
         </header>
         <footer>
             <margins>0,0,0,0</margins>
@@ -58,6 +56,7 @@
             <margins>10,10,10,10</margins>
         </footer>
         <!-- begin -->
+        <margins>10,10,10,10</margins>
         <newpage></newpage>
         <color>$row['color_line'],'#000000'</color>
         <!-- email header -->
@@ -125,7 +124,7 @@
         <font>'normal','B',8,$row['color_text1']</font>
         <textarea>10,$row['y'],25,4,'R',T('body')</textarea>
         <font>'mono','',8,$row['color_text2']</font>
-        <textarea>35,$row['y'],165,4,'L',trim($row['body'])</textarea>
+        <textarea>35,$row['y'],165,0,'L',trim($row['body'])</textarea>
     </foreach>
     <eval>strpos($row['id'],',')===false</eval>
     <output>encode_bad_chars(execute_query("SELECT CONCAT('".T('Email')."',' ',id,' ',
