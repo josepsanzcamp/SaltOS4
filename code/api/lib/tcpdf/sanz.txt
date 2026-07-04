@@ -11,7 +11,7 @@ make -C vendor/tecnickcom/tc-lib-pdf-font clean
 find vendor/|grep composer.lock | xargs rm -f
 mv target vendor/tecnickcom/tc-lib-pdf-font/target
 
-php atkinson.php
+php import-atkinson.php
 
 #cd ../atkinson/
 #source sanz.txt

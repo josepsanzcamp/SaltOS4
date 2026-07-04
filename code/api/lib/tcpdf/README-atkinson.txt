@@ -1,20 +1,15 @@
-Atkinson Hyperlegible Fonts for TCPDF
-=====================================
+Atkinson Hyperlegible Fonts for tc-lib-pdf
+==========================================
 
-The files starting with:
+The font files in this directory are prepared for use with tc-lib-pdf using
+the automated import script:
 
-    atkinsonhyperlegible*
+    import-atkinson.php
 
-are generated using the official TCPDF tool:
+This script processes the original Atkinson Hyperlegible TrueType font files
+(.ttf) and places the generated native font definition artifacts into:
 
-    tcpdf_addfont.php
-
-These generated font definition files are placed in:
-
-    vendor/tecnickcom/tcpdf/fonts/
-
-They were created from the original Atkinson Hyperlegible TrueType
-font files (.ttf).
+    vendor/tecnickcom/tc-lib-pdf-font/target/fonts/atkinson/
 
 Font Information
 ----------------
@@ -37,11 +32,11 @@ License Notes
 
 - The font is distributed under the SIL Open Font License.
 - No modifications were made to the original font files.
-- The TCPDF font definition files inside vendor/tecnickcom/tcpdf/fonts/
-  are generated artifacts.
+- The font definitions inside vendor/tecnickcom/tc-lib-pdf-font/ are
+  generated artifacts.
 - The font is not distributed as a standalone product.
 
-TCPDF itself is distributed under the LGPL-3.0-only license.
-This file does not modify or alter the licensing terms of TCPDF.
+tc-lib-pdf itself is distributed under the LGPL-3.0-only license.
+This file does not modify or alter the licensing terms of tc-lib-pdf.
 
 For full license details, refer to the included OFL-1.1 license text.
