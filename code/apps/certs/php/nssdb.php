@@ -248,6 +248,68 @@ function __nssdb_reset()
 }
 
 /**
+ * FPDI and FPDF Extensions Bootstrapper
+ *
+ * Automatically loads the external dependencies managed via Composer, ensuring
+ * that the setasign/fpdi and setasign/fpdf core classes are available in memory.
+ */
+require_once 'lib/fpdi/vendor/autoload.php';
+
+/**
+ * FPDI Canvas Extended with Text Rotation Capabilities
+ *
+ * Implements native PDF coordinate manipulation vectors via template processing
+ * primitives, adding arbitrary text angle rotations using canvas transformation matrices.
+ */
+class FpdiWithRotation extends \setasign\Fpdi\Fpdi
+{
+    protected $angle = 0;
+
+    function Rotate($angle, $x = -1, $y = -1)
+    {
+        if ($x == -1) {
+            $x = $this->x;
+        }
+        if ($y == -1) {
+            $y = $this->y;
+        }
+        if ($this->angle != 0) {
+            $this->_out('Q');
+        }
+        $this->angle = $angle;
+        if ($angle != 0) {
+            $angle *= M_PI / 180;
+            $c = cos($angle);
+            $s = sin($angle);
+            $cx = $x * $this->k;
+            $cy = ($this->h - $y) * $this->k;
+            $this->_out(sprintf('q %.5F %.5F %.5F %.5F %.2F %.2F cm 1 0 0 1 %.2F %.2F cm', $c, $s, -$s, $c, $cx, $cy, -$cx, -$cy));
+        }
+    }
+
+    function StartTransform()
+    {
+        $this->_out('q');
+    }
+
+    function StopTransform()
+    {
+        if ($this->angle != 0) {
+            $this->Rotate(0);
+        }
+        $this->_out('Q');
+    }
+
+    function _endpage()
+    {
+        if ($this->angle != 0) {
+            $this->Rotate(0);
+        }
+        parent::_endpage();
+    }
+}
+
+/**
  * Update pdf
  *
  * This function creates a new pdf document using input as source and adding to
@@ -259,8 +321,6 @@ function __nssdb_reset()
  */
 function __nssdb_update($nick, $input)
 {
-    require_once 'lib/tcpdf/vendor/autoload.php';
-    require_once 'lib/fpdi/vendor/autoload.php';
     require_once 'php/lib/color.php';
 
     $info = __nssdb_info($nick, true);
@@ -290,11 +350,10 @@ function __nssdb_update($nick, $input)
     $image_height = 9 * $image_size[1] / $image_size[0];
     $image_sep = $image_height / 9;
 
-    $pdf = new setasign\Fpdi\Tcpdf\Fpdi();
-    $pdf->setPrintHeader(false);
-    $pdf->setPrintFooter(false);
+    $pdf = new FpdiWithRotation();
     $pdf->SetAutoPageBreak(false, 0);
     $pdf->setMargins(0, 0, 0);
+    $pdf->AddFont('atkinsonhyperlegiblenext','','AtkinsonHyperlegibleNext-Regular.json');
     $pdf->SetFont('atkinsonhyperlegiblenext', '', 6);
     $pdf->SetTextColor(0, 0, 0);
 
@@ -311,7 +370,8 @@ function __nssdb_update($nick, $input)
     for ($page_num = 1; $page_num <= $total_pages; $page_num++) {
         $page_id = $pdf->importPage($page_num);
         $page_size = $pdf->getTemplateSize($page_id);
-        $pdf->AddPage($page_size['orientation'], [$page_size['width'], $page_size['height']]);
+        $orientation = ($page_size['width'] > $page_size['height']) ? 'L' : 'P';
+        $pdf->AddPage($orientation, [$page_size['width'], $page_size['height']]);
         $pdf->useTemplate($page_id);
 
         $page_height = $page_size['height'];
@@ -329,14 +389,14 @@ function __nssdb_update($nick, $input)
         $pdf->StartTransform();
         $pdf->Rotate(90, 0, $page_height);
         $pdf->SetXY(0, $page_height);
-        $pdf->Cell(0, 0, $info0, 0, 1);
-        $pdf->Cell(0, 0, $info1, 0, 1);
-        $pdf->Cell(0, 0, $info2, 0, 1);
+        $pdf->Cell(0, 3, $info0, 0, 1);
+        $pdf->Cell(0, 3, $info1, 0, 1);
+        $pdf->Cell(0, 3, $info2, 0, 1);
         $pdf->StopTransform();
     }
 
     $output = get_cache_file($input, '.pdf');
-    $pdf->Output($output, 'F');
+    $pdf->Output('F', $output);
     chmod_protected($output, 0666);
     return $output;
 }

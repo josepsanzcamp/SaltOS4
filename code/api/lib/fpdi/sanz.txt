@@ -1,6 +1,9 @@
 
 rm -rf vendor
 rm -f composer.*
-composer require setasign/fpdi
+composer require setasign/fpdi setasign/fpdf
 
 composer show setasign/fpdi --format=json | jq -r '.versions[0]' | sed 's/^v//' > VERSION
+composer show setasign/fpdf --format=json | jq -r '.versions[0]' | sed 's/^v//' > ../fpdf/VERSION
+
+bash import-atkinson.sh

@@ -67,11 +67,11 @@ final class test_common extends TestCase
 
         $json = test_cli_helper('app/customers/view/version/100', [], '', '', 'admin');
         $this->assertIsArray($json);
-        $this->assertStringContainsString('excel', sprintr($json));
+        $this->assertStringContainsString('jspreadsheet', sprintr($json));
 
         $json = test_cli_helper('app/customers/view/log/100', [], '', '', 'admin');
         $this->assertIsArray($json);
-        $this->assertStringContainsString('excel', sprintr($json));
+        $this->assertStringContainsString('jspreadsheet', sprintr($json));
 
         $this->assertSame(del_version('customers', 100), 1);
         $this->assertSame(del_version('customers', 100), 1);
