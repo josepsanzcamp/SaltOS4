@@ -64,6 +64,7 @@ function output_handler($array)
         show_php_error(['phperror' => 'output_handler requires the cache parameter']);
     }
     __output_header('X-About: ' . get_name_version_revision());
+    $hash2 = '';
     if ($cache) {
         $hash1 = get_server('HTTP_IF_NONE_MATCH');
         if ($file !== '' && $data === '') {

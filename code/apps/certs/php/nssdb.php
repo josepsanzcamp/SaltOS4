@@ -16,6 +16,10 @@
 
 declare(strict_types=1);
 
+// phpcs:disable PSR1.Files.SideEffects
+// phpcs:disable PSR1.Classes.ClassDeclaration
+// phpcs:disable PSR1.Methods.CamelCapsMethodName
+
 /**
  * Directory helper
  *
@@ -265,44 +269,48 @@ class FpdiWithRotation extends \setasign\Fpdi\Fpdi
 {
     protected $angle = 0;
 
-    function Rotate($angle, $x = -1, $y = -1)
+    public function Rotate($angle, $x = -1, $y = -1)
     {
-        if ($x == -1) {
+        if ($x === -1) {
             $x = $this->x;
         }
-        if ($y == -1) {
+        if ($y === -1) {
             $y = $this->y;
         }
-        if ($this->angle != 0) {
+        if ($this->angle !== 0) {
             $this->_out('Q');
         }
         $this->angle = $angle;
-        if ($angle != 0) {
+        if ($angle !== 0) {
             $angle *= M_PI / 180;
             $c = cos($angle);
             $s = sin($angle);
             $cx = $x * $this->k;
             $cy = ($this->h - $y) * $this->k;
-            $this->_out(sprintf('q %.5F %.5F %.5F %.5F %.2F %.2F cm 1 0 0 1 %.2F %.2F cm', $c, $s, -$s, $c, $cx, $cy, -$cx, -$cy));
+            $this->_out(sprintf(
+                'q %.5F %.5F %.5F %.5F %.2F %.2F cm 1 0 0 1 %.2F %.2F cm',
+                $c, $s, -$s, $c, $cx, $cy, -$cx, -$cy
+            ));
         }
     }
 
-    function StartTransform()
+    public function StartTransform()
     {
         $this->_out('q');
     }
 
-    function StopTransform()
+    public function StopTransform()
     {
-        if ($this->angle != 0) {
+        if ($this->angle !== 0) {
             $this->Rotate(0);
         }
         $this->_out('Q');
     }
 
-    function _endpage()
+    // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore
+    public function _endpage()
     {
-        if ($this->angle != 0) {
+        if ($this->angle !== 0) {
             $this->Rotate(0);
         }
         parent::_endpage();
@@ -353,7 +361,7 @@ function __nssdb_update($nick, $input)
     $pdf = new FpdiWithRotation();
     $pdf->SetAutoPageBreak(false, 0);
     $pdf->setMargins(0, 0, 0);
-    $pdf->AddFont('atkinsonhyperlegiblenext','','AtkinsonHyperlegibleNext-Regular.json');
+    $pdf->AddFont('atkinsonhyperlegiblenext', '', 'AtkinsonHyperlegibleNext-Regular.json');
     $pdf->SetFont('atkinsonhyperlegiblenext', '', 6);
     $pdf->SetTextColor(0, 0, 0);
 
