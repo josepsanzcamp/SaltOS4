@@ -257,7 +257,7 @@ function __nssdb_reset()
  * Automatically loads the external dependencies managed via Composer, ensuring
  * that the setasign/fpdi and setasign/fpdf core classes are available in memory.
  */
-require_once 'lib/fpdi/vendor/autoload.php';
+require_once 'apps/certs/lib/fpdi/vendor/autoload.php';
 
 /**
  * FPDI Canvas Extended with Text Rotation Capabilities

@@ -19,20 +19,6 @@
   license: GNU Lesser General Public License v3 (LGPL-3.0)
   license_id: LGPL-3.0-only
 
-- id: fpdf
-  name: FPDF
-  package: setasign/fpdf
-  homepage: http://www.fpdf.org/
-  license: FPDF License (Permissive / Freeware)
-  license_id: FPDF
-
-- id: fpdi
-  name: FPDI
-  package: setasign/fpdi
-  homepage: https://www.setasign.com/products/fpdi/
-  license: MIT License
-  license_id: MIT
-
 - id: gorrisans
   name: Gorri Sans
   package: null
