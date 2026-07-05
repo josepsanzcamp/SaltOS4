@@ -397,9 +397,9 @@ function __nssdb_update($nick, $input)
         $pdf->StartTransform();
         $pdf->Rotate(90, 0, $page_height);
         $pdf->SetXY(0, $page_height);
-        $pdf->Cell(0, 3, $info0, 0, 1);
-        $pdf->Cell(0, 3, $info1, 0, 1);
-        $pdf->Cell(0, 3, $info2, 0, 1);
+        $pdf->Cell(0, 2.7, $info0, 0, 1);
+        $pdf->Cell(0, 2.7, $info1, 0, 1);
+        $pdf->Cell(0, 2.7, $info2, 0, 1);
         $pdf->StopTransform();
     }
 
