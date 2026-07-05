@@ -14,7 +14,7 @@ set -e
 
 # Relative path definitions based on the project structure
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-INPUT_DIR="$BASE_DIR/../atkinson/fonts"
+INPUT_DIR="$BASE_DIR/../../../../api/lib/atkinson/fonts/"
 MAKEFONT_PHP="$BASE_DIR/vendor/setasign/fpdf/makefont/makefont.php"
 FONT_OUTPUT_DIR="$BASE_DIR/vendor/setasign/fpdf/font"
 
