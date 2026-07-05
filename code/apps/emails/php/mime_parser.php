@@ -21,15 +21,21 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Methods.CamelCapsMethodName
 
 /**
- * This class replaces the legacy phpclasses.org implementations
- * `mime_parser` and `rfc822_addresses` with PHP's built-in `mailparse`
- * extension. The goal is to keep the output structure compatible with
- * the old classes (`Headers`, `DecodedHeaders`, `ExtractedAddresses`,
- * `Body`, `BodyLength`, and `Parts`) while leveraging `mailparse` for
- * parsing and RFC822 address extraction. It accepts input either as a
- * whole message in memory (`Data`) or via a stream wrapper (`File`),
- * builds a recursive part tree using `mailparse_msg_get_structure()`,
- * and (optionally) extracts decoded bodies for non-multipart parts.
+ * SaltOS MIME Parser Component
+ *
+ * PURPOSE:
+ * Replaces legacy phpclasses.org implementations (`mime_parser` and `rfc822_addresses`)
+ * with native PHP `mailparse` functionality for improved performance and maintenance.
+ *
+ * COMPATIBILITY:
+ * Maintains output structure (`Headers`, `DecodedHeaders`, `ExtractedAddresses`,
+ * `Body`, `BodyLength`, `Parts`) to ensure seamless integration with existing
+ * SaltOS codebase.
+ *
+ * ARCHITECTURE:
+ * - Recursive tree building via `mailparse_msg_get_structure()`.
+ * - Supports memory (`Data`) or stream-based (`File`) input.
+ * - Optional body extraction for non-multipart nodes.
  */
 final class mime_parser_class
 {

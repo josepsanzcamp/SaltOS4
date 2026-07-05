@@ -21,24 +21,25 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Methods.CamelCapsMethodName
 
 /**
- * pop3_class: cURL/POP3 compatible replacement.
+ * SaltOS POP3 Client Component
  *
- * Requirements:
- * - PHP cURL extension (ext-curl).
+ * PURPOSE:
+ * Replaces legacy phpclasses.org POP3 implementations with a modern, cURL-based
+ * architecture to eliminate dependency on obsolete external code.
  *
- * Design:
- * - Stateless per-command operation: every POP3 verb is executed via a fresh
- *   cURL transfer (as needed) rather than maintaining an app-level session.
- * - Implicit TLS (POP3S) via $ssl=1, or opportunistic STARTTLS via $tls=1 when
- *   using plain POP3.
- * - Command execution is centralized in exec(), which handles multi-line vs
- *   single-line responses and basic error detection.
+ * ARCHITECTURE & DESIGN:
+ * - Stateless per-command operation: Executes verbs via fresh cURL transfers
+ * instead of maintaining persistent app-level TCP sessions.
+ * - Transport: Supports implicit TLS (POP3S) or opportunistic STARTTLS.
+ * - Centralized execution: `exec()` handles protocol multi-line/single-line
+ * responses and error normalization.
  *
- * Security note:
- * - Certificate verification is disabled here for compatibility. In production,
- *   you should enable peer/host verification and configure CA bundle paths.
+ * SECURITY & CONFIGURATION:
+ * - Warning: Certificate verification is currently disabled for compatibility.
+ * Production environments should enable peer/host verification.
+ * - Requirement: PHP cURL extension (ext-curl).
  */
-class pop3_class
+final class pop3_class
 {
     /** @var string POP3 server hostname or IP (required). */
     public $hostname = '';

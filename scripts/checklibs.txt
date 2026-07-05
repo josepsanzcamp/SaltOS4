@@ -1,8 +1,6 @@
 
 browscap|https://github.com/browscap/browscap-php/tags.atom|<title>|PHRpdGxlPjcuNy4xPC90aXRsZT4=
 edifact|https://github.com/php-edifact/edifact/tags.atom|<title>|PHRpdGxlPjEuMy4wPC90aXRsZT4=
-fpdf|https://github.com/Setasign/FPDF/tags.atom|<title>|PHRpdGxlPkZQREYgMS45ICgxLjkuMCk8L3RpdGxlPg==
-fpdi|https://github.com/Setasign/FPDI/tags.atom|<title>|PHRpdGxlPkZQREkgMi42Ljg8L3RpdGxlPg==
 html2text|https://github.com/soundasleep/html2text/tags.atom|<updated>|PHVwZGF0ZWQ+MjAyMy0wMS0wNlQwOToyODoxNVo8L3VwZGF0ZWQ+
 phpass|https://github.com/openwall/phpass/commits/main.atom|<updated>|PHVwZGF0ZWQ+MjAyNC0xMS0yMlQyMDozODoxNlo8L3VwZGF0ZWQ+
 phpgeoip|https://github.com/Webklex/php-geoip/tags.atom|<title>|PHRpdGxlPjEuMC4wPC90aXRsZT4=
@@ -31,8 +29,10 @@ topbar|https://github.com/buunguyen/topbar/commits/master.atom|<updated>|PHVwZGF
 venobox|https://github.com/nicolafranchini/VenoBox/tags.atom|<title>|PHRpdGxlPlZlbm9Cb3ggMjwvdGl0bGU+
 vkbeautify|https://github.com/vkiryukhin/vkBeautify/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAxOC0wNi0yOFQwNTowMjoyNlo8L3VwZGF0ZWQ+
 
-phpmailer|https://github.com/PHPMailer/PHPMailer/tags.atom|<title>|PHRpdGxlPlBIUE1haWxlciA3LjEuMTwvdGl0bGU+
+fpdf|https://github.com/Setasign/FPDF/tags.atom|<title>|PHRpdGxlPkZQREYgMS45ICgxLjkuMCk8L3RpdGxlPg==
+fpdi|https://github.com/Setasign/FPDI/tags.atom|<title>|PHRpdGxlPkZQREkgMi42Ljg8L3RpdGxlPg==
 gridstack|https://github.com/gridstack/gridstack.js/tags.atom|<title>|PHRpdGxlPnYxMi42LjA8L3RpdGxlPg==
+phpmailer|https://github.com/PHPMailer/PHPMailer/tags.atom|<title>|PHRpdGxlPlBIUE1haWxlciA3LjEuMTwvdGl0bGU+
 
 acorn|https://github.com/acornjs/acorn/tags.atom|<title>|PHRpdGxlPlZlcnNpb24gOC4xNy4wPC90aXRsZT4=
 brotli|https://github.com/kjdev/php-ext-brotli/tags.atom|<title>|PHRpdGxlPjAuMjAuMDwvdGl0bGU+
