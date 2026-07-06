@@ -62,7 +62,7 @@
   license_id: MIT
 
 - id: joditeditor
-  name: Jodit
+  name: Jodit Editor
   package: xdan/jodit
   homepage: https://xdsoft.net/jodit/
   license: MIT License
