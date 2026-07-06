@@ -19,12 +19,12 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-        'setasign/fpdi' => array(
-            'pretty_version' => 'v2.6.8',
-            'version' => '2.6.8.0',
-            'reference' => '881945be29a4996ad3d008eb18ddc01fa3df890c',
+        'setasign/fpdf' => array(
+            'pretty_version' => '1.9.0',
+            'version' => '1.9.0.0',
+            'reference' => '051b70e4c57dedc88df41b1eff1c62894e5f9ed0',
             'type' => 'library',
-            'install_path' => __DIR__ . '/../setasign/fpdi',
+            'install_path' => __DIR__ . '/../setasign/fpdf',
             'aliases' => array(),
             'dev_requirement' => false,
         ),

@@ -1,1 +1,1 @@
-../fpdi/vendor/setasign/fpdf/README.md
+vendor/setasign/fpdf/README.md

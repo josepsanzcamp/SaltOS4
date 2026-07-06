@@ -1,1 +1,1 @@
-../fpdi/vendor/setasign/fpdf/license.txt
+vendor/setasign/fpdf/license.txt
