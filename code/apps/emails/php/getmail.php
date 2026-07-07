@@ -1780,7 +1780,7 @@ function getmail_pdf($ids)
     }
 
     // Check if the required command is available
-    if (!check_commands('chromium')) {
+    if (!check_commands('chromium') && !check_commands('google-chrome')) {
         require_once 'php/lib/pdf.php';
         return pdf('apps/emails/xml/emails_pdf.xml', ['id' => check_ids($ids)]);
     }
@@ -1813,7 +1813,12 @@ function getmail_pdf($ids)
         $output = get_cache_file([__FUNCTION__, $id], '.pdf');
         if (!file_exists($output)) {
             $opts = '--headless --no-pdf-header-footer';
-            ob_passthru("chromium $opts --print-to-pdf=$output file://$input 2>&1");
+            if (check_commands('chromium')) {
+                ob_passthru("chromium $opts --print-to-pdf=$output file://$input 2>&1");
+            }
+            if (!file_exists($output) && check_commands('google-chrome')) {
+                ob_passthru("google-chrome $opts --print-to-pdf=$output file://$input 2>&1");
+            }
             if (!file_exists($output)) {
                 // Some thing was wrong, falling back to old style
                 require_once 'php/lib/pdf.php';
