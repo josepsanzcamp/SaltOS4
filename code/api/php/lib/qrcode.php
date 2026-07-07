@@ -78,7 +78,7 @@ function __qrcode_image($msg, $s, $m, $l)
  */
 function __qrcode_image_png($msg, $s, $l)
 {
-    require_once 'lib/tcpdf/vendor/autoload.php';
+    require_once 'lib/tc-lib-pdf/vendor/autoload.php';
     $barcode = new \Com\Tecnick\Barcode\Barcode();
     try {
         $bobj = $barcode->getBarcodeObj("QRCODE,$l", $msg, -$s, -$s);
@@ -107,7 +107,7 @@ function __qrcode_image_png($msg, $s, $l)
  */
 function __qrcode_image_svg($msg, $s, $l)
 {
-    require_once 'lib/tcpdf/vendor/autoload.php';
+    require_once 'lib/tc-lib-pdf/vendor/autoload.php';
     $barcode = new \Com\Tecnick\Barcode\Barcode();
     try {
         $bobj = $barcode->getBarcodeObj("QRCODE,$l", $msg, -$s, -$s);

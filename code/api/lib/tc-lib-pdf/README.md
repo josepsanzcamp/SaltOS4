@@ -1,1 +1,1 @@
-../tcpdf/vendor/tecnickcom/tc-lib-pdf/README.md
+vendor/tecnickcom/tc-lib-pdf/README.md

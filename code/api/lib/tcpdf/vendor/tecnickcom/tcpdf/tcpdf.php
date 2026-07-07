@@ -2,7 +2,7 @@
 
 //============================================================+
 // File name    : tcpdf.php
-// Version      : 7.0.2
+// Version      : 7.0.3
 // Author       : Nicola Asuni - Tecnick.com LTD - www.tecnick.com - info@tecnick.com
 // License      : GNU-LGPL v3 (https://www.gnu.org/copyleft/lesser.html)
 // Copyright (C): 2002-2026 Nicola Asuni - Tecnick.com LTD
@@ -15,7 +15,7 @@
  * See: https://tcpdf.org
  * @package com.tecnick.tcpdf
  * @author Nicola Asuni
- * @version 7.0.2
+ * @version 7.0.3
  */
 
 // TCPDF configuration

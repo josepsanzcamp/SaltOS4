@@ -94,7 +94,7 @@ function __barcode_image($msg, $w, $h, $m, $s, $t)
  */
 function __barcode_image_png($msg, $w, $h, $t)
 {
-    require_once 'lib/tcpdf/vendor/autoload.php';
+    require_once 'lib/tc-lib-pdf/vendor/autoload.php';
     $barcode = new \Com\Tecnick\Barcode\Barcode();
     try {
         $bobj = $barcode->getBarcodeObj($t, $msg, -$w, $h);
@@ -124,7 +124,7 @@ function __barcode_image_png($msg, $w, $h, $t)
  */
 function __barcode_image_svg($msg, $w, $h, $t)
 {
-    require_once 'lib/tcpdf/vendor/autoload.php';
+    require_once 'lib/tc-lib-pdf/vendor/autoload.php';
     $barcode = new \Com\Tecnick\Barcode\Barcode();
     try {
         $bobj = $barcode->getBarcodeObj($t, $msg, -$w, $h);

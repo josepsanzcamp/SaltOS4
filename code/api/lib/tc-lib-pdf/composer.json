@@ -1,0 +1,5 @@
+{
+    "require": {
+        "tecnickcom/tc-lib-pdf": "^8.65"
+    }
+}

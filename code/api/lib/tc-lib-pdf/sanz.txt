@@ -1,0 +1,18 @@
+
+rm -rf vendor
+rm -f composer.*
+composer require tecnickcom/tc-lib-pdf
+
+#composer show tecnickcom/tcpdf --format=json | jq -r '.versions[0]' | sed 's/^v//' > VERSION
+
+make -C vendor/tecnickcom/tc-lib-pdf-font deps fonts
+mv vendor/tecnickcom/tc-lib-pdf-font/target target
+make -C vendor/tecnickcom/tc-lib-pdf-font clean
+find vendor/|grep composer.lock | xargs rm -f
+mv target vendor/tecnickcom/tc-lib-pdf-font/target
+
+php import-atkinson.php
+
+#cd ../atkinson/
+#source sanz.txt
+#cd -
