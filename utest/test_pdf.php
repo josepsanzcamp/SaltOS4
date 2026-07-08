@@ -117,16 +117,6 @@ final class test_pdf extends TestCase
             "'y','z'",
         ]);
 
-        // @phpstan-ignore method.alreadyNarrowedType
-        $this->assertTrue(
-            defined('K_TCPDF_THROW_EXCEPTION_ERROR'),
-            'K_TCPDF_THROW_EXCEPTION_ERROR not found'
-        );
-        $this->assertTrue(
-            K_TCPDF_THROW_EXCEPTION_ERROR,
-            'tcpdf_config.php contains K_TCPDF_THROW_EXCEPTION_ERROR as false instead of true'
-        );
-
         $buffer = __pdf_all2pdf('../../utest/files/lorem.txt');
         $this->assertStringContainsString('PDF document', get_mime($buffer));
         $this->assertEqualsWithDelta(26000, strlen($buffer), 1000);

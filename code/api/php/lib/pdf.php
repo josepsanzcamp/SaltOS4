@@ -27,9 +27,6 @@ declare(strict_types=1);
  * including custom PDF class extensions and various PDF manipulation utilities
  */
 
-define('K_TCPDF_EXTERNAL_CONFIG', true);// to prevent the load of tcpdf_config.php
-define('K_TCPDF_THROW_EXCEPTION_ERROR', true); // to force a throw exception on error
-define('K_PATH_IMAGES', ''); // to prevent open_basedir restriction
 define('K_PATH_FONTS', realpath('lib/tc-lib-pdf/vendor/tecnickcom/tc-lib-pdf-font/target/fonts'));
 define('K_ALLOWED_PATHS', [dirname(dirname(getcwd()))]); // to allow the utest execution
 require_once 'lib/tc-lib-pdf/vendor/autoload.php';
