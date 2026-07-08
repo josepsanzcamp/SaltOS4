@@ -226,16 +226,16 @@ def extract_keys_js(path):
 def extract_keys_manifest(path):
     keys = set()
     try:
-        tree = ET.parse(path)
-        root = tree.getroot()
-        for tag in root.iter():
-            if tag.tag in {"group", "app"}:
-                for attr in ("name", "description"):
-                    val = tag.attrib.get(attr)
-                    if val:
-                        keys.add(("manifest", val))
-    except ET.ParseError:
-        print(f"[ERROR] {os.path.basename(path)} Error parsing manifest.xml")
+        with open(path, encoding="utf-8") as f:
+            data = yaml.safe_load(f) or {}
+            for section in ("groups", "apps"):
+                for entry in data.get(section, []):
+                    for attr in ("name", "description"):
+                        val = entry.get(attr)
+                        if val:
+                            keys.add(("manifest", val))
+    except Exception:
+        print(f"[ERROR] {os.path.basename(path)} Error parsing manifest.yaml")
     return keys
 
 def extract_keys_js_extended(path):
@@ -289,9 +289,7 @@ for group in os.listdir(APPS_PATH):
     if os.path.isdir(xml_dir):
         for xml_file in glob(os.path.join(xml_dir, "*.xml")):
             base = os.path.basename(xml_file)
-            if base == "manifest.xml":
-                entries = extract_keys_manifest(xml_file)
-            elif base.endswith("_pdf.xml"):
+            if base.endswith("_pdf.xml"):
                 entries = extract_keys_pdf(xml_file)
             else:
                 try:
@@ -322,7 +320,10 @@ for group in os.listdir(APPS_PATH):
 
         for yaml_file in glob(os.path.join(xml_dir, "*.yaml")):
             base = os.path.basename(yaml_file)
-            entries = extract_keys_yaml(yaml_file)
+            if base == "manifest.yaml":
+                entries = extract_keys_manifest(yaml_file)
+            else:
+                entries = extract_keys_yaml(yaml_file)
             for origin, text in entries:
                 key = text_to_key(text)
                 all_used_keys.add(key)
