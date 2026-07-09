@@ -106,6 +106,11 @@ function check_apache($url)
         "$url/xml/",
         "$url/xml/config.xml",
     ];
+    $dirs = glob('lib/tc-lib-pdf/vendor/tecnickcom/*/example*', GLOB_ONLYDIR);
+    foreach ($dirs as $dir) {
+        $urls[] = "$url/$dir/";
+        $urls[] = "$url/$dir/index.php";
+    }
     foreach ($urls as $temp) {
         $response = __url_get_contents($temp);
         $forbidden1 = words_exists('403 Forbidden', $response['body']);
