@@ -27,8 +27,11 @@ declare(strict_types=1);
  * including custom PDF class extensions and various PDF manipulation utilities
  */
 
+/**
+ * Define the fonts path used by TCPDF and load the tc-lib-pdf and tcpdf
+ * vendor autoloaders required by this module
+ */
 define('K_PATH_FONTS', realpath('lib/tc-lib-pdf/vendor/tecnickcom/tc-lib-pdf-font/target/fonts'));
-define('K_ALLOWED_PATHS', [dirname(dirname(getcwd()))]); // to allow the utest execution
 require_once 'lib/tc-lib-pdf/vendor/autoload.php';
 require_once 'lib/tcpdf/vendor/autoload.php';
 
