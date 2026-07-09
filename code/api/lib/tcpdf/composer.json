@@ -1,4 +1,7 @@
 {
+    "replace": {
+        "tecnickcom/tc-lib-pdf": "*"
+    },
     "require": {
         "tecnickcom/tcpdf": "^7.0"
     }

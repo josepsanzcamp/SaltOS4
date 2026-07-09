@@ -1,8 +1,17 @@
 
 rm -rf vendor
 rm -f composer.*
+
+cat << 'EOF' > composer.json
+{
+    "replace": {
+        "tecnickcom/tc-lib-pdf": "*"
+    }
+}
+EOF
+
 composer require tecnickcom/tcpdf
 
 #composer show tecnickcom/tcpdf --format=json | jq -r '.versions[0]' | sed 's/^v//' > VERSION
 
-rm -rf vendor/tecnickcom/tc-lib-*
+#rm -rf vendor/tecnickcom/tc-lib-*
