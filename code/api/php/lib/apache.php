@@ -17,11 +17,19 @@
 declare(strict_types=1);
 
 /**
- * TODO
+ * Apache helper module
+ *
+ * This file contains functions to check that the apache/web server serving
+ * the API is properly configured
  */
 
 /**
- * TODO
+ * Check apache configuration
+ *
+ * This function requests the given URL to verify that the API is reachable and that
+ * the apache/php configuration follows the security recommendations (exposed headers,
+ * forbidden paths, Authorization Bearer header support, ...), returning an array of
+ * errors and warnings found.
  */
 function check_apache($url)
 {

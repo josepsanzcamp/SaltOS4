@@ -114,9 +114,13 @@ function __pdf_eval_explode($separator, $str, $limit = 0)
 }
 
 /**
- * TODO
+ * Check if a new PDF page is needed
  *
- * TODO
+ * @pdf    => PDF object being generated
+ * @offset => Additional vertical space to add to the current y position before checking it
+ *
+ * Adds a new page and resets the cursor to the top margin if the current y position
+ * plus the offset exceeds the page height, returning true in that case or false otherwise
  */
 function __pdf_check_y($pdf, $offset = 0)
 {

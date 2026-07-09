@@ -228,7 +228,10 @@ function make_matrix_perms($table, $field, $id)
 }
 
 /**
- * TODO
+ * Get permissions from database
+ *
+ * This function returns the active permissions (id and code) from tbl_perms,
+ * caching the result in a static variable to avoid repeated queries.
  */
 function _get_db_perms()
 {
@@ -241,7 +244,10 @@ function _get_db_perms()
 }
 
 /**
- * TODO
+ * Get applications from database
+ *
+ * This function returns the active applications (id and code) from tbl_apps,
+ * caching the result in a static variable to avoid repeated queries.
  */
 function _get_db_apps()
 {
@@ -253,7 +259,10 @@ function _get_db_apps()
 }
 
 /**
- * TODO
+ * Create matrix columns
+ *
+ * This function builds the column definitions for the Excel widget, one dropdown
+ * column ("Allow"/"Deny") per permission returned by _get_db_perms.
  */
 function make_matrix_columns()
 {
@@ -272,7 +281,10 @@ function make_matrix_columns()
 }
 
 /**
- * TODO
+ * Create matrix rows
+ *
+ * This function builds the row definitions for the Excel widget, one row
+ * per application returned by _get_db_apps.
  */
 function make_matrix_rows()
 {
