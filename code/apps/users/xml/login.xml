@@ -26,6 +26,7 @@
                 <container auto="true" container_class="container m-auto bg-body rounded-4 shadow-sm" col_class="col-12 mb-3 px-5" container_style="max-width:400px">
                     <image col_class="col-12 mb-5 px-0" color="none" class="bg-primary img-fluid" shadow="shadow-0" rounded="rounded-top-4">
                         <value eval="true">get_config('brand/image')</value>
+                        <onclick eval="true">get_config('brand/onclick')</onclick>
                     </image>
                     <label class="fs-2 w-100 text-center" label="Please login"/>
                     <text id="user" label="Username" required="true" autofocus="true" rounded="rounded-pill" onenter="document.getElementById('pass').focus()"/>

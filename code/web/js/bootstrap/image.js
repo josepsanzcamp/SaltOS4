@@ -39,10 +39,11 @@
  * @height  => this parameter is used as height for the image
  * @color   => the color of the widget (primary, secondary, success, danger, warning, info, none)
  * @invert  => enable the invert feature in the widget contents
+ * @onclick   => callback function that is executed when the button is pressed
  */
 saltos.bootstrap.__field.image = field => {
     saltos.core.check_params(field, ['id', 'class', 'value', 'alt', 'tooltip', 'invert',
-                                     'width', 'height', 'color', 'shadow', 'rounded']);
+                                     'width', 'height', 'color', 'shadow', 'rounded', 'onclick']);
     let _class = 'img-fluid';
     if (field.class !== '') {
         _class = field.class;
@@ -72,6 +73,10 @@ saltos.bootstrap.__field.image = field => {
     const element = obj.querySelector('img');
     if (field.tooltip !== '') {
         saltos.bootstrap.__tooltip_helper(element);
+    }
+    if (field.onclick !== '') {
+        saltos.bootstrap.__onclick_helper(element, field.onclick);
+        element.style.cursor = 'pointer';
     }
     // Fix for dark mode switch
     if (saltos.core.eval_bool(field.invert)) {

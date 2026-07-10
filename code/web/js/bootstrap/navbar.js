@@ -28,7 +28,7 @@
  * This component creates a navbar intended to be used as header
  *
  * @id    => the id used by the object
- * @brand => contains an object with the label, image, width and height to be used
+ * @brand => contains an object with the label, image, width, height and onclick to be used
  * @color => the color of the widget (primary, secondary, success, danger, warning, info, none)
  * @pos   => position of the navbar, can be fixed-top, fixed-bottom, sticky-top, sticky-bottom
  * @class => class added to the navbar item
@@ -39,6 +39,7 @@
  * @width  => width of the brand image
  * @height => height of the brand image
  * @class  => class added to the navbar-brand item
+ * @onclick   => callback function that is executed when the button is pressed
  *
  * @items => contains an array with the objects that will be added to the collapse
  *
@@ -51,7 +52,7 @@
 saltos.bootstrap.navbar = args => {
     saltos.core.check_params(args, ['id', 'color', 'pos', 'class', 'shadow']);
     saltos.core.check_params(args, ['brand'], {});
-    saltos.core.check_params(args.brand, ['label', 'image', 'alt', 'width', 'height', 'class']);
+    saltos.core.check_params(args.brand, ['label', 'image', 'alt', 'width', 'height', 'class', 'onclick']);
     saltos.core.check_params(args, ['items'], []);
     if (!args.color) {
         args.color = 'primary';
@@ -81,6 +82,11 @@ saltos.bootstrap.navbar = args => {
                 width="${args.brand.width}" height="${args.brand.height}"
                 class="bg-${args.color}"/>
         `));
+        if (args.brand.onclick !== '') {
+            const img = obj.querySelector('img');
+            saltos.bootstrap.__onclick_helper(img, args.brand.onclick);
+            img.style.cursor = 'pointer';
+        }
     }
     if (args.brand.label !== '') {
         obj.querySelector('.navbar-brand').append(saltos.core.html(`

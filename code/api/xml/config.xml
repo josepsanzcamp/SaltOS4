@@ -26,6 +26,7 @@
         <alt>SaltOS</alt>
         <width>182</width>
         <height>56</height>
+        <onclick>saltos.common.about()</onclick>
     </brand>
     <auth>
         <tokenshortexpires eval="true">86400*1</tokenshortexpires><!-- in seconds, one day -->
