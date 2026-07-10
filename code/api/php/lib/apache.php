@@ -114,7 +114,7 @@ function check_apache($url)
     foreach ($urls as $temp) {
         $response = __url_get_contents($temp);
         $forbidden1 = words_exists('403 Forbidden', $response['body']);
-        $forbidden2 = words_exists('403 Forbidden', array_keys($response['headers'])[0]);
+        $forbidden2 = words_exists('403 Forbidden', array_keys($response['headers'])[0] ?? '');
         if (!$forbidden1 || !$forbidden2) {
             $result[] = [
                 'warning' => "Access allowed to $temp",
