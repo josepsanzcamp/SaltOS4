@@ -140,7 +140,7 @@
                 '#666666' color_text2
                 FROM app_invoices_taxes
                 WHERE {$row["filtro"]}
-                ORDER BY id ASC"</query>
+                ORDER BY tax_value ASC"</query>
             <getxy>"x","y"</getxy>
             <color>$row["color_line"],"#000000"</color>
             <line>10,$row["y"]+1,80,0,0.15</line>
