@@ -26,10 +26,10 @@ PROJECT=tcpdf
 VERSION=$(shell sed -E 's/\\n$$//' VERSION | tr -d '\r\n')
 
 # Current directory
-CURRENTDIR=$(dir $(realpath $(firstword $(MAKEFILE_LIST))))
+CURRENTDIR=$(CURDIR)/
 
 # Target directory
-TARGETDIR=$(CURRENTDIR)target
+TARGETDIR=target
 
 # sed argument for in-place substitutions
 SEDINPLACE=-i
@@ -84,7 +84,7 @@ buildall: deps
 ## Delete vendor and generated directories
 .PHONY: clean
 clean:
-	rm -rf ./vendor ./tests/vendor $(TARGETDIR) ./build ./cache
+	rm -rf ./vendor ./tests/vendor "$(TARGETDIR)" ./build ./cache
 
 ## Clean all artifacts and download all dependencies
 .PHONY: deps
@@ -96,29 +96,29 @@ deps: ensuretarget
 ## Initialize tc-lib-pdf font assets if needed
 .PHONY: fonts
 fonts:
-	@if [ ! -d $(TCPDF_FONT_PKGDIR) ]; then \
+	@if [ ! -d "$(TCPDF_FONT_PKGDIR)" ]; then \
 		echo "tc-lib-pdf-font is not installed. Run composer install first."; \
 		exit 1; \
 	fi
-	@if [ -f $(TCPDF_FONT_SENTINEL) ]; then \
+	@if [ -f "$(TCPDF_FONT_SENTINEL)" ]; then \
 		echo "tc-lib-pdf font assets already initialized."; \
 	else \
 		echo "Initializing tc-lib-pdf font assets..."; \
-		$(MAKE) -C $(TCPDF_FONT_PKGDIR) clean; \
-		$(COMPOSER) --working-dir=$(TCPDF_FONT_PKGDIR) install --no-interaction; \
-		$(MAKE) -C $(TCPDF_FONT_PKGDIR) fonts; \
+		$(MAKE) -C "$(TCPDF_FONT_PKGDIR)" clean; \
+		$(COMPOSER) --working-dir="$(TCPDF_FONT_PKGDIR)" install --no-interaction; \
+		$(MAKE) -C "$(TCPDF_FONT_PKGDIR)" fonts; \
 	fi
 
 ## Rebuild tc-lib-pdf font assets from scratch
 .PHONY: fonts-rebuild
 fonts-rebuild:
-	@if [ ! -d $(TCPDF_FONT_PKGDIR) ]; then \
+	@if [ ! -d "$(TCPDF_FONT_PKGDIR)" ]; then \
 		echo "tc-lib-pdf-font is not installed. Run composer install first."; \
 		exit 1; \
 	fi
-	$(MAKE) -C $(TCPDF_FONT_PKGDIR) clean
-	$(COMPOSER) --working-dir=$(TCPDF_FONT_PKGDIR) install --no-interaction
-	$(MAKE) -C $(TCPDF_FONT_PKGDIR) fonts
+	$(MAKE) -C "$(TCPDF_FONT_PKGDIR)" clean
+	$(COMPOSER) --working-dir="$(TCPDF_FONT_PKGDIR)" install --no-interaction
+	$(MAKE) -C "$(TCPDF_FONT_PKGDIR)" fonts
 
 ## Generate source code documentation with Doctum if available
 .PHONY: doc
@@ -133,9 +133,9 @@ doc:
 ## Create missing target directories for test and build artifacts
 .PHONY: ensuretarget
 ensuretarget:
-	mkdir -p $(TARGETDIR)/test
-	mkdir -p $(TARGETDIR)/report
-	mkdir -p $(TARGETDIR)/doc
+	mkdir -p "$(TARGETDIR)/test"
+	mkdir -p "$(TARGETDIR)/report"
+	mkdir -p "$(TARGETDIR)/doc"
 
 ## Format the source code
 .PHONY: format
