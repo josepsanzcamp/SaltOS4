@@ -11,6 +11,7 @@ class ComposerStaticInit602e295e7e81956d72119c976bf38aa9
         array (
             'Com\\Tecnick\\Unicode\\Data\\' => 25,
             'Com\\Tecnick\\Unicode\\' => 20,
+            'Com\\Tecnick\\Pdf\\Sign\\' => 21,
             'Com\\Tecnick\\Pdf\\Parser\\' => 23,
             'Com\\Tecnick\\Pdf\\Page\\' => 21,
             'Com\\Tecnick\\Pdf\\Image\\' => 22,
@@ -33,6 +34,10 @@ class ComposerStaticInit602e295e7e81956d72119c976bf38aa9
         'Com\\Tecnick\\Unicode\\' =>
         array (
             0 => __DIR__ . '/..' . '/tecnickcom/tc-lib-unicode/src',
+        ),
+        'Com\\Tecnick\\Pdf\\Sign\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/tecnickcom/tc-lib-pdf-sign/src',
         ),
         'Com\\Tecnick\\Pdf\\Parser\\' =>
         array (
