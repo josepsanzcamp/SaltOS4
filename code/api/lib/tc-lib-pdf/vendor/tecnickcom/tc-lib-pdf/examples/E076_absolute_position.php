@@ -8,7 +8,7 @@
  * @package     Pdf
  * @author      Nicola Asuni <info@tecnick.com>
  * @copyright   2002-2026 Nicola Asuni - Tecnick.com LTD
- * @license     https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE.TXT)
+ * @license     https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
  * @link        https://github.com/tecnickcom/tc-lib-pdf
  *
  * This file is part of tc-lib-pdf software library.
@@ -29,7 +29,7 @@ $pdf->setCreator('tc-lib-pdf');
 $pdf->setAuthor('Nicola Asuni');
 $pdf->setSubject('tc-lib-pdf example: 076');
 $pdf->setTitle('Minimal Example');
-$pdf->setKeywords('TCPDF tc-lib-pdf absolute positon');
+$pdf->setKeywords('TCPDF tc-lib-pdf absolute position');
 $pdf->setPDFFilename('076_absolute_position.pdf');
 
 // Line style

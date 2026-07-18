@@ -8,7 +8,7 @@
  * @package     Pdf
  * @author      Nicola Asuni <info@tecnick.com>
  * @copyright   2002-2026 Nicola Asuni - Tecnick.com LTD
- * @license     https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE.TXT)
+ * @license     https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
  * @link        https://github.com/tecnickcom/tc-lib-pdf
  *
  * This file is part of tc-lib-pdf software library.
@@ -29,11 +29,11 @@ require __DIR__ . '/../vendor/autoload.php';
 
 // main TCPDF object
 $pdf = new \Com\Tecnick\Pdf\Tcpdf(
-    unit: 'mm',
+    unit: \Com\Tecnick\Pdf\Page\Unit::Millimeter,
     isunicode: true,
     subsetfont: false,
     compress: true,
-    mode: '',
+    mode: \Com\Tecnick\Pdf\PdfConformance::None,
     objEncrypt: null,
 );
 
@@ -128,8 +128,8 @@ foreach ($sections as $index => $section) {
             height: 0,
             offset: 0,
             linespace: 1,
-            valign: 'T',
-            halign: 'L',
+            valign: \Com\Tecnick\Pdf\TextVAlign::Top,
+            halign: \Com\Tecnick\Pdf\TextHAlign::Left,
         ),
         $page['pid'],
     );
@@ -144,8 +144,8 @@ foreach ($sections as $index => $section) {
             height: 0,
             offset: 0,
             linespace: 1,
-            valign: 'T',
-            halign: 'L',
+            valign: \Com\Tecnick\Pdf\TextVAlign::Top,
+            halign: \Com\Tecnick\Pdf\TextHAlign::Left,
         ),
         $page['pid'],
     );
@@ -158,8 +158,8 @@ foreach ($sections as $index => $section) {
             height: 0,
             offset: 0,
             linespace: 1,
-            valign: 'T',
-            halign: 'L',
+            valign: \Com\Tecnick\Pdf\TextVAlign::Top,
+            halign: \Com\Tecnick\Pdf\TextHAlign::Left,
         ),
         $page['pid'],
     );
@@ -172,8 +172,8 @@ foreach ($sections as $index => $section) {
             height: 0,
             offset: 0,
             linespace: 1,
-            valign: 'T',
-            halign: 'L',
+            valign: \Com\Tecnick\Pdf\TextVAlign::Top,
+            halign: \Com\Tecnick\Pdf\TextHAlign::Left,
         ),
         $page['pid'],
     );
@@ -194,8 +194,8 @@ $pdf->page->addContent(
         height: 0,
         offset: 0,
         linespace: 1,
-        valign: 'T',
-        halign: 'L',
+        valign: \Com\Tecnick\Pdf\TextVAlign::Top,
+        halign: \Com\Tecnick\Pdf\TextHAlign::Left,
     ),
     $pageTOC['pid'],
 );

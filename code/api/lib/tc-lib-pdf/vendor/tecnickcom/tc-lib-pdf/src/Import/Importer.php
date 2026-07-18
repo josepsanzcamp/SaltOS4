@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @package   Pdf
  * @author    Nicola Asuni <info@tecnick.com>
  * @copyright 2002-2026 Nicola Asuni - Tecnick.com LTD
- * @license   https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE.TXT)
+ * @license   https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
  * @link      https://github.com/tecnickcom/tc-lib-pdf
  *
  * This file is part of tc-lib-pdf software library.
@@ -32,7 +32,7 @@ use Com\Tecnick\File\File as ObjFile;
  * @package   Pdf
  * @author    Nicola Asuni <info@tecnick.com>
  * @copyright 2002-2026 Nicola Asuni - Tecnick.com LTD
- * @license   https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE.TXT)
+ * @license   https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
  * @link      https://github.com/tecnickcom/tc-lib-pdf
  *
  * @phpstan-import-type TXOBject from \Com\Tecnick\Pdf\Base
@@ -208,7 +208,7 @@ class Importer implements ImporterInterface
      *
      * @param string        $sourceId  Source document identifier.
      * @param int           $pageNum   1-based page number.
-     * @param array<string, mixed> $options Import options (box, groupXObject, cache).
+     * @param array<string, mixed> $options Import options (box, groupXObject, cache, respectRotation).
      *
      * @return PageTemplateInterface Imported page template.
      *
@@ -407,7 +407,7 @@ class Importer implements ImporterInterface
 
     /**
      * Release parser memory and cached resources.
-     * Should be called after getOutPDFBody() completes.
+     * Should be called after getOutImportedObjects() completes.
      */
     public function cleanUp(): void
     {

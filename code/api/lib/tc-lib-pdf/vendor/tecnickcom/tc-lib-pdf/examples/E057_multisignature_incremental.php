@@ -8,7 +8,7 @@
  * @package     Pdf
  * @author      Nicola Asuni <info@tecnick.com>
  * @copyright   2002-2026 Nicola Asuni - Tecnick.com LTD
- * @license     https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE.TXT)
+ * @license     https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
  * @link        https://github.com/tecnickcom/tc-lib-pdf
  *
  * This file is part of tc-lib-pdf software library.
@@ -55,11 +55,11 @@ $cert = 'file://' . $certPath;
 
 // main TCPDF object
 $pdf = new \Com\Tecnick\Pdf\Tcpdf(
-    unit: 'mm',
+    unit: \Com\Tecnick\Pdf\Page\Unit::Millimeter,
     isunicode: true,
     subsetfont: false,
     compress: true,
-    mode: '',
+    mode: \Com\Tecnick\Pdf\PdfConformance::None,
     objEncrypt: null,
 );
 
@@ -88,8 +88,8 @@ $pdf->page->addContent($pdf->getTextCell(
     height: 0,
     offset: 0,
     linespace: 1,
-    valign: 'T',
-    halign: 'C',
+    valign: \Com\Tecnick\Pdf\TextVAlign::Top,
+    halign: \Com\Tecnick\Pdf\TextHAlign::Center,
 ));
 $pdf->page->addContent($bfont['out']);
 $pdf->font->insert($pdf->pon, 'helvetica', '', 10);
@@ -130,8 +130,8 @@ $pdf->page->addContent($pdf->getTextCell(
     height: 0,
     offset: 0,
     linespace: 1,
-    valign: 'T',
-    halign: 'C',
+    valign: \Com\Tecnick\Pdf\TextVAlign::Top,
+    halign: \Com\Tecnick\Pdf\TextHAlign::Center,
 ));
 $pdf->page->addContent($bfont['out']);
 $pdf->font->insert($pdf->pon, 'helvetica', '', 10);
@@ -144,8 +144,8 @@ $pdf->page->addContent($pdf->getTextCell(
     height: 0,
     offset: 0,
     linespace: 1,
-    valign: 'T',
-    halign: 'L',
+    valign: \Com\Tecnick\Pdf\TextVAlign::Top,
+    halign: \Com\Tecnick\Pdf\TextHAlign::Left,
 ));
 
 // Signature box helper labels (rendered as PDF text cells)
@@ -165,8 +165,8 @@ foreach ($labels as $lbl) {
         height: 0,
         offset: 0,
         linespace: 1,
-        valign: 'T',
-        halign: 'L',
+        valign: \Com\Tecnick\Pdf\TextVAlign::Top,
+        halign: \Com\Tecnick\Pdf\TextHAlign::Left,
     ));
     $pdf->page->addContent($bfont['out']);
     $pdf->page->addContent($pdf->getTextCell(
@@ -177,8 +177,8 @@ foreach ($labels as $lbl) {
         height: 0,
         offset: 0,
         linespace: 1,
-        valign: 'T',
-        halign: 'L',
+        valign: \Com\Tecnick\Pdf\TextVAlign::Top,
+        halign: \Com\Tecnick\Pdf\TextHAlign::Left,
     ));
     $pdf->page->addContent($pdf->getTextCell(
         txt: 'Date: ___________________',
@@ -188,8 +188,8 @@ foreach ($labels as $lbl) {
         height: 0,
         offset: 0,
         linespace: 1,
-        valign: 'T',
-        halign: 'L',
+        valign: \Com\Tecnick\Pdf\TextVAlign::Top,
+        halign: \Com\Tecnick\Pdf\TextHAlign::Left,
     ));
 }
 
@@ -211,11 +211,11 @@ $pdf->setSignature([
 ]);
 
 // Primary signature appearance – placed on page 2 at the first slot.
-$pdf->setSignatureAppearance(posx: 100, posy: 45, width: 90, heigth: 35, page: $page2['pid'], name: 'Author');
+$pdf->setSignatureAppearance(posx: 100, posy: 45, width: 90, height: 35, page: $page2['pid'], name: 'Author');
 
 // Empty approval fields for the remaining approvers.
-$pdf->addEmptySignatureAppearance(posx: 100, posy: 90, width: 90, heigth: 35, page: $page2['pid'], name: 'Reviewer');
-$pdf->addEmptySignatureAppearance(posx: 100, posy: 135, width: 90, heigth: 35, page: $page2['pid'], name: 'Manager');
+$pdf->addEmptySignatureAppearance(posx: 100, posy: 90, width: 90, height: 35, page: $page2['pid'], name: 'Reviewer');
+$pdf->addEmptySignatureAppearance(posx: 100, posy: 135, width: 90, height: 35, page: $page2['pid'], name: 'Manager');
 
 // -----------------------------------------------------------------------
 // Page 3 – Workflow guide
@@ -230,8 +230,8 @@ $pdf->page->addContent($pdf->getTextCell(
     height: 0,
     offset: 0,
     linespace: 1,
-    valign: 'T',
-    halign: 'L',
+    valign: \Com\Tecnick\Pdf\TextVAlign::Top,
+    halign: \Com\Tecnick\Pdf\TextHAlign::Left,
 ));
 $pdf->page->addContent($bfont['out']);
 $pdf->font->insert($pdf->pon, 'helvetica', '', 10);

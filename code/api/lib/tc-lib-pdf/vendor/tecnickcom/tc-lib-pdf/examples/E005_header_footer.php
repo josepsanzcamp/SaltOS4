@@ -8,7 +8,7 @@
  * @package     Pdf
  * @author      Nicola Asuni <info@tecnick.com>
  * @copyright   2002-2026 Nicola Asuni - Tecnick.com LTD
- * @license     https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE.TXT)
+ * @license     https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
  * @link        https://github.com/tecnickcom/tc-lib-pdf
  *
  * This file is part of tc-lib-pdf software library.
@@ -122,8 +122,8 @@ class PdfWithHeaderFooter extends \Com\Tecnick\Pdf\Tcpdf
                 height: self::HEADER_H,
                 offset: 0,
                 linespace: 0,
-                valign: 'C',
-                halign: 'L',
+                valign: \Com\Tecnick\Pdf\TextVAlign::Center,
+                halign: \Com\Tecnick\Pdf\TextHAlign::Left,
             );
             $headerOut .= $this->defaultfont['out'];
         }
@@ -139,8 +139,8 @@ class PdfWithHeaderFooter extends \Com\Tecnick\Pdf\Tcpdf
                 height: self::HEADER_H,
                 offset: 0,
                 linespace: 0,
-                valign: 'C',
-                halign: 'R',
+                valign: \Com\Tecnick\Pdf\TextVAlign::Center,
+                halign: \Com\Tecnick\Pdf\TextHAlign::Right,
             );
         }
 
@@ -172,8 +172,8 @@ class PdfWithHeaderFooter extends \Com\Tecnick\Pdf\Tcpdf
             height: self::FOOTER_H,
             offset: 0,
             linespace: 0,
-            valign: 'C',
-            halign: 'C',
+            valign: \Com\Tecnick\Pdf\TextVAlign::Center,
+            halign: \Com\Tecnick\Pdf\TextHAlign::Center,
         );
         $footerOut .= $this->graph->getStopTransform();
 
@@ -240,8 +240,8 @@ $title1 = $pdf->getTextCell(
     height: 0,
     offset: 0,
     linespace: 0,
-    valign: 'T',
-    halign: 'L',
+    valign: \Com\Tecnick\Pdf\TextVAlign::Top,
+    halign: \Com\Tecnick\Pdf\TextHAlign::Left,
 );
 $pdf->page->addContent($title1);
 
@@ -263,8 +263,8 @@ $txt1 = $pdf->getTextCell(
     height: 0,
     offset: 15,
     linespace: 2,
-    valign: 'T',
-    halign: 'J',
+    valign: \Com\Tecnick\Pdf\TextVAlign::Top,
+    halign: \Com\Tecnick\Pdf\TextHAlign::Justify,
 );
 $pdf->page->addContent($txt1);
 
@@ -284,8 +284,8 @@ $title2 = $pdf->getTextCell(
     height: 0,
     offset: 0,
     linespace: 0,
-    valign: 'T',
-    halign: 'L',
+    valign: \Com\Tecnick\Pdf\TextVAlign::Top,
+    halign: \Com\Tecnick\Pdf\TextHAlign::Left,
 );
 $pdf->page->addContent($title2);
 
@@ -303,8 +303,8 @@ $txt2 = $pdf->getTextCell(
     height: 0,
     offset: 15,
     linespace: 2,
-    valign: 'T',
-    halign: 'J',
+    valign: \Com\Tecnick\Pdf\TextVAlign::Top,
+    halign: \Com\Tecnick\Pdf\TextHAlign::Justify,
 );
 $pdf->page->addContent($txt2);
 
