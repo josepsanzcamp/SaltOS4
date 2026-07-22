@@ -236,17 +236,17 @@
         },
         {
             "name": "tecnickcom/tc-lib-pdf",
-            "version": "8.67.0",
-            "version_normalized": "8.67.0.0",
+            "version": "8.67.2",
+            "version_normalized": "8.67.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/tc-lib-pdf.git",
-                "reference": "2c8df69476e6140d4ec7a3555fbcac4a6f1a329b"
+                "reference": "f001da787064da712104f88250db6a6af66929f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/tc-lib-pdf/zipball/2c8df69476e6140d4ec7a3555fbcac4a6f1a329b",
-                "reference": "2c8df69476e6140d4ec7a3555fbcac4a6f1a329b",
+                "url": "https://api.github.com/repos/tecnickcom/tc-lib-pdf/zipball/f001da787064da712104f88250db6a6af66929f4",
+                "reference": "f001da787064da712104f88250db6a6af66929f4",
                 "shasum": ""
             },
             "require": {
@@ -268,7 +268,7 @@
                 "pdepend/pdepend": "^2.16",
                 "phpunit/phpunit": "^11.5 || ^12.5 || ^13.2"
             },
-            "time": "2026-07-17T21:39:15+00:00",
+            "time": "2026-07-22T12:58:58+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
