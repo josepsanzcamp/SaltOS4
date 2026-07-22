@@ -167,9 +167,14 @@ saltos.app.send_request = hash => {
 saltos.app.__cache = {};
 
 /**
- * Process response helper
+ * Prefetch cache helper
  *
- * This function process the responses received by the send request
+ * A response can depend on a shared cache entry (navbar, app javascript...)
+ * instead of embedding its own content. This function resolves those cache
+ * keys recursively, fetching and appending any unresolved one to responses
+ * and marking it as loading until it arrives, so a concurrent call for the
+ * same val waits instead of requesting it again (see saltos.form.cache).
+ * Once every key is resolved, process_response is called with responses[0].
  */
 saltos.app.prefetch_cache = (responses) => {
     for (const i in responses) {
@@ -179,6 +184,7 @@ saltos.app.prefetch_cache = (responses) => {
             if (key2 === 'cache') {
                 const val = response[key];
                 if (!(val in saltos.app.__cache)) {
+                    saltos.app.__cache[val] = 'loading';
                     saltos.app.ajax({
                         url: val,
                         success: response2 => {
@@ -198,7 +204,9 @@ saltos.app.prefetch_cache = (responses) => {
 /**
  * Process response helper
  *
- * This function process the responses received by the send request
+ * Iterates the response items, each key identifies the saltos.form.*
+ * function to execute with its value as argument, running it synchronously
+ * or asynchronously (awaiting it) depending on the function's type.
  */
 saltos.app.process_response = async response => {
     for (let key in response) {

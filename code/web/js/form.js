@@ -805,6 +805,9 @@ saltos.form.cache = async val => {
     if (!(val in saltos.app.__cache)) {
         throw new Error(`Cache ${val} not found`);
     }
+    while (saltos.app.__cache[val] === 'loading') {
+        await new Promise(resolve => setTimeout(resolve, 1));
+    }
     const response = saltos.core.copy_object(saltos.app.__cache[val]);
     await saltos.app.process_response(response);
 };
