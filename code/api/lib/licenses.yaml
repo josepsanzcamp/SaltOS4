@@ -14,8 +14,8 @@
 
 - id: edifact
   name: edifact
-  package: sabas/edifact
-  homepage: https://github.com/sabas/edifact
+  package: php-edifact/edifact
+  homepage: https://github.com/php-edifact/edifact
   license: GNU Lesser General Public License v3 (LGPL-3.0)
   license_id: LGPL-3.0-only
 

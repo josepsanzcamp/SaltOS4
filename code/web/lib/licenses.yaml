@@ -6,9 +6,9 @@
   license_id: OFL-1.1
 
 - id: autoheight
-  name: Autosize
-  package: jackmoore/autosize
-  homepage: https://github.com/jackmoore/autosize
+  name: autoheight
+  package: kamilkp/autoheight
+  homepage: https://github.com/kamilkp/autoheight
   license: MIT License
   license_id: MIT
 
@@ -111,11 +111,11 @@
   license_id: Apache-2.0
 
 - id: sourcemap
-  name: source-map
-  package: mozilla/source-map
-  homepage: https://github.com/mozilla/source-map
-  license: BSD 2-Clause License
-  license_id: BSD-2-Clause
+  name: sourcemapped-stacktrace
+  package: novocaine/sourcemapped-stacktrace
+  homepage: https://github.com/novocaine/sourcemapped-stacktrace
+  license: BSD 3-Clause License
+  license_id: BSD-3-Clause
 
 - id: themes
   name: Bootstrap Themes
