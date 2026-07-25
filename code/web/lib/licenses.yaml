@@ -97,9 +97,9 @@
   license_id: MIT
 
 - id: md5
-  name: JavaScript MD5
-  package: blueimp/JavaScript-MD5
-  homepage: https://github.com/blueimp/JavaScript-MD5
+  name: JS-MD5
+  package: emn178/js-md5
+  homepage: https://github.com/emn178/js-md5
   license: MIT License
   license_id: MIT
 

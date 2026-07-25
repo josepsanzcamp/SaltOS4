@@ -1,134 +1,128 @@
-# JavaScript MD5
+# js-md5
+[![CI](https://github.com/emn178/js-md5/actions/workflows/ci.yml/badge.svg)](https://github.com/emn178/js-md5/actions/workflows/ci.yml)
+[![Coverage Status](https://coveralls.io/repos/emn178/js-md5/badge.svg?branch=master)](https://coveralls.io/r/emn178/js-md5?branch=master)  
+[![NPM](https://nodei.co/npm/js-md5.png?stars&downloads)](https://nodei.co/npm/js-md5/)
 
-## Contents
+A simple and fast MD5 hash function for JavaScript supports UTF-8 encoding.
 
-- [Demo](https://blueimp.github.io/JavaScript-MD5/)
-- [Description](#description)
-- [Usage](#usage)
-  - [Client-side](#client-side)
-  - [Server-side](#server-side)
-- [Requirements](#requirements)
-- [API](#api)
-- [Tests](#tests)
-- [License](#license)
+## Demo
+[MD5 Online](http://emn178.github.io/online-tools/md5.html)  
+[MD5 File Checksum Online](http://emn178.github.io/online-tools/md5_checksum.html)
 
-## Description
+## Download
+- [Compress](https://raw.github.com/emn178/js-md5/master/build/md5.min.js)
+- [Uncompressed build](https://raw.github.com/emn178/js-md5/master/build/md5.js)
+- [Modern](https://raw.github.com/emn178/js-md5/master/build/md5.modern.min.js)
+- [Modern uncompressed](https://raw.github.com/emn178/js-md5/master/build/md5.modern.js)
+- [Lite](https://raw.github.com/emn178/js-md5/master/build/md5-lite.min.js)
+- [Lite uncompressed](https://raw.github.com/emn178/js-md5/master/build/md5-lite.js)
+- [Uncompress](https://raw.github.com/emn178/js-md5/master/src/md5.js)
 
-JavaScript [MD5](https://en.wikipedia.org/wiki/MD5) implementation.  
-Compatible with server-side environments like [Node.js](https://nodejs.org/),
-module loaders like [RequireJS](https://requirejs.org/) or
-[webpack](https://webpack.js.org/) and all web browsers.
+### Builds
+
+| Build | Legacy fallbacks | Node acceleration | HMAC | Base64 | Deprecated `buffer` |
+| --- | --- | --- | --- | --- | --- |
+| `md5.js` / `md5.min.js` | Yes | Yes | Yes | Yes | Yes |
+| `md5.modern.js` / `md5.modern.min.js` | No | Yes | Yes | Yes | Yes |
+| `md5-lite.js` / `md5-lite.min.js` | No | No | No | No | No |
+
+The modern and lite builds require `Array.isArray`, `ArrayBuffer`, typed arrays,
+and `ArrayBuffer.isView`. The lite build keeps the one-shot and streaming MD5
+APIs, including `hex`, `array`, `digest`, and `arrayBuffer` output.
+
+## Benchmark
+- [Benchmark (measurethat.net) - Short String](https://measurethat.net/Benchmarks/Show/29171/0/md5-performance-comparison-v2)
+- [Benchmark (measurethat.net) - Long String](https://measurethat.net/Benchmarks/Show/29172/0/md5-performance-comparison-long-text-v2)
+- [Benchmark (jsperf.app) - Long String](https://jsperf.app/jonuhi/6)
+- [Benchmark (measurethat.net) - Very Long String](https://measurethat.net/Benchmarks/Show/29173/0/md5-performance-comparison-very-long-text)
+- [Benchmark (jsperf.app) - Very Long String](https://jsperf.app/jonuhi/8)
+- [Async Benchmark (measurethat.net)](https://measurethat.net/Benchmarks/Show/29176/0/md5-performance-comparison-very-long-text-v6)
+- [Async Benchmark (jsperf.app)](https://jsperf.app/jonuhi/9)
+
+* js-md5 is the fastest synchronous MD5 library, but slower than Hash-WASM 
+
+- [File Benchmark - Issue #19](https://github.com/emn178/js-md5/issues/19)
+- [File Benchmark - Issue #42](https://github.com/emn178/js-md5/issues/42)
+
+## Installation
+You can also install js-md5 by using Bower.
+
+    bower install md5
+
+For node.js, you can use this command to install:
+
+    npm install js-md5
+
+## Notice
+`buffer` method is deprecated. This maybe confuse with Buffer in node.js. Please use `arrayBuffer` instead.
 
 ## Usage
+You could use like this:
+```JavaScript
+md5('Message to hash');
+var hash = md5.create();
+hash.update('Message to hash');
+hash.hex();
 
-### Client-side
+// HMAC
+md5.hmac('key', 'Message to hash');
 
-Install the **blueimp-md5** package with [NPM](https://www.npmjs.org/):
-
-```sh
-npm install blueimp-md5
+var hash = md5.hmac.create('key');
+hash.update('Message to hash');
+hash.hex();
 ```
 
-Include the (minified) JavaScript [MD5](https://en.wikipedia.org/wiki/MD5)
-script in your HTML markup:
-
-```html
-<script src="js/md5.min.js"></script>
+### Node.js
+If you use node.js, you should require the module first:
+```JavaScript
+var md5 = require('js-md5');
 ```
 
-In your application code, calculate the
-([hex](https://en.wikipedia.org/wiki/Hexadecimal)-encoded)
-[MD5](https://en.wikipedia.org/wiki/MD5) hash of a string by calling the **md5**
-method with the string as argument:
-
-```js
-var hash = md5('value') // "2063c1608d6e0baf80249c42e2be5804"
+### TypeScript
+If you use TypeScript, you can import like this:
+```TypeScript
+import { md5 } from 'js-md5';
 ```
 
-### Server-side
-
-The following is an example how to use the JavaScript MD5 module on the
-server-side with [Node.js](https://nodejs.org/).
-
-Install the **blueimp-md5** package with [NPM](https://www.npmjs.org/):
-
-```sh
-npm install blueimp-md5
+## RequireJS
+It supports AMD:
+```JavaScript
+require(['your/path/md5.js'], function(md5) {
+// ...
+});
 ```
+[See document](https://emn178.github.com/js-md5/doc/)
 
-Add a file **server.js** with the following content:
+## Example
+```JavaScript
+md5(''); // d41d8cd98f00b204e9800998ecf8427e
+md5('The quick brown fox jumps over the lazy dog'); // 9e107d9d372bb6826bd81d3542a419d6
+md5('The quick brown fox jumps over the lazy dog.'); // e4d909c290d0fb1ca068ffaddf22cbd0
 
-```js
-require('http')
-  .createServer(function (req, res) {
-    // The md5 module exports the md5() function:
-    var md5 = require('./md5'),
-      // Use the following version if you installed the package with npm:
-      // var md5 = require("blueimp-md5"),
-      url = require('url'),
-      query = url.parse(req.url).query
-    res.writeHead(200, { 'Content-Type': 'text/plain' })
-    // Calculate and print the MD5 hash of the url query:
-    res.end(md5(query))
-  })
-  .listen(8080, 'localhost')
-console.log('Server running at http://localhost:8080/')
+// It also supports UTF-8 encoding
+md5('中文'); // a7bac2239fcdcb3a067903d8077c4a07
+
+// It also supports byte `Array`, `Uint8Array`, `ArrayBuffer`
+md5([]); // d41d8cd98f00b204e9800998ecf8427e
+md5(new Uint8Array([])); // d41d8cd98f00b204e9800998ecf8427e
+
+// Different output
+md5(''); // d41d8cd98f00b204e9800998ecf8427e
+md5.hex(''); // d41d8cd98f00b204e9800998ecf8427e
+md5.array(''); // [212, 29, 140, 217, 143, 0, 178, 4, 233, 128, 9, 152, 236, 248, 66, 126]
+md5.digest(''); // [212, 29, 140, 217, 143, 0, 178, 4, 233, 128, 9, 152, 236, 248, 66, 126]
+md5.arrayBuffer(''); // ArrayBuffer
+md5.base64(''); // 1B2M2Y8AsgTpgAmY7PhCfg==
+
+// HMAC
+md5.hmac.hex('key', 'Message to hash');
+md5.hmac.array('key', 'Message to hash');
+// ...
 ```
-
-Run the application with the following command:
-
-```sh
-node server.js
-```
-
-## Requirements
-
-The JavaScript MD5 script has zero dependencies.
-
-## API
-
-Calculate the ([hex](https://en.wikipedia.org/wiki/Hexadecimal)-encoded)
-[MD5](https://en.wikipedia.org/wiki/MD5) hash of a given string value:
-
-```js
-var hash = md5('value') // "2063c1608d6e0baf80249c42e2be5804"
-```
-
-Calculate the ([hex](https://en.wikipedia.org/wiki/Hexadecimal)-encoded)
-[HMAC](https://en.wikipedia.org/wiki/HMAC)-MD5 hash of a given string value and
-key:
-
-```js
-var hash = md5('value', 'key') // "01433efd5f16327ea4b31144572c67f6"
-```
-
-Calculate the raw [MD5](https://en.wikipedia.org/wiki/MD5) hash of a given
-string value:
-
-```js
-var hash = md5('value', null, true)
-```
-
-Calculate the raw [HMAC](https://en.wikipedia.org/wiki/HMAC)-MD5 hash of a given
-string value and key:
-
-```js
-var hash = md5('value', 'key', true)
-```
-
-## Tests
-
-The JavaScript MD5 project comes with
-[Unit Tests](https://en.wikipedia.org/wiki/Unit_testing).  
-There are two different ways to run the tests:
-
-- Open test/index.html in your browser or
-- run `npm test` in the Terminal in the root path of the repository package.
-
-The first one tests the browser integration, the second one the
-[Node.js](https://nodejs.org/) integration.
 
 ## License
+The project is released under the [MIT license](https://opensource.org/license/mit/).
 
-The JavaScript MD5 script is released under the
-[MIT license](https://opensource.org/licenses/MIT).
+## Contact
+The project's website is located at https://github.com/emn178/js-md5  
+Author: Chen, Yi-Cyuan (emn178@gmail.com)
