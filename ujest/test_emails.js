@@ -28,7 +28,6 @@
  *
  * This lines contain the needed setup for run puppeteer and take screenshots
  */
-const puppeteer = require('puppeteer');
 const pti = require('puppeteer-to-istanbul');
 const toMatchImageSnapshot = require('jest-image-snapshot').toMatchImageSnapshot;
 expect.extend({toMatchImageSnapshot});
@@ -40,6 +39,7 @@ const sharp = require('sharp');
  *
  * This variables contains the browser and page links
  */
+let puppeteer;
 let browser;
 let page;
 
@@ -49,8 +49,12 @@ let page;
  * This function contains all code executed before all tests, in this case the
  * features provided by this function includes the launch of the browser, set
  * the screen size and start the javascript coverage
+ *
+ * puppeteer is loaded here via dynamic import because since v25 it ships
+ * as an ESM-only package and require() can no longer load it
  */
 beforeAll(async () => {
+    puppeteer = (await import('puppeteer')).default;
     browser = await puppeteer.launch({
         executablePath: '/usr/bin/chromium',
         args: ['--ignore-certificate-errors'],

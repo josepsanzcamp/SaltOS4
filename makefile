@@ -19,7 +19,7 @@ JS_ROOT  := $(filter-out $(JS_PROXY) $(JS_OBJ) $(JS_APP),$(wildcard code/web/js/
 JS_BOOT  := $(wildcard code/web/js/bootstrap/*.js)
 
 export NODE_PATH := $(shell npm -g root 2>/dev/null)
-export NODE_OPTIONS := --no-deprecation
+export NODE_OPTIONS := --no-deprecation --experimental-vm-modules
 #export JEST_OPTIONS := -u
 
 all:
