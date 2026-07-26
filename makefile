@@ -20,7 +20,7 @@ JS_BOOT  := $(wildcard code/web/js/bootstrap/*.js)
 
 export NODE_PATH := $(shell npm -g root 2>/dev/null)
 export NODE_OPTIONS := --no-deprecation --experimental-vm-modules
-#export JEST_OPTIONS := -u
+export JEST_OPTIONS := -u
 
 all:
 	@echo Nothing to do by default
