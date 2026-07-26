@@ -1,0 +1,55 @@
+# jest-image-snapshot local patch (saltos4, ujest)
+#
+# Upstream treats "write diff image" and "update baseline" as mutually
+# exclusive in diffImageToSnapshot() (src/diff-snapshot.js): isFailure()
+# is false whenever updateSnapshot is true, so `-u` runs silently
+# overwrite a changed baseline without ever producing a __diff_output__
+# image to review.
+#
+# This patch decouples the two decisions: a pixel mismatch during an
+# `-u` run now both writes the diff PNG and updates the baseline, so
+# `make ujest` (JEST_OPTIONS=-u) leaves a visual record of what changed.
+#
+# Targets jest-image-snapshot 6.5.2, installed globally (see NODE_PATH
+# in the makefile). Applied automatically by the `ujest` makefile target
+# via `patch`; safe to re-run (no-ops if already applied or if the
+# installed version's context lines no longer match).
+--- a/src/diff-snapshot.js
++++ b/src/diff-snapshot.js
+@@ -331,7 +331,13 @@
+       failureThreshold,
+     });
+ 
+-    if (isFailure({ pass, updateSnapshot })) {
++    // Always generate the diff image on mismatch, even when updateSnapshot is
++    // set, so `-u` runs leave a visual record of what changed alongside the
++    // accepted update (saltos4 local patch).
++    const needsDiff = !pass;
++    const willUpdate = shouldUpdate({ pass, updateSnapshot, updatePassedSnapshot });
++
++    if (needsDiff) {
+       if (storeReceivedOnFailure) {
+         fs.mkdirSync(path.dirname(receivedSnapshotPath), { recursive: true });
+         writeFileWithHooks({
+@@ -384,7 +390,9 @@
+         diffPixelCount,
+         imgSrcString: `data:image/png;base64,${pngBuffer.toString('base64')}`,
+       };
+-    } else if (shouldUpdate({ pass, updateSnapshot, updatePassedSnapshot })) {
++    }
++
++    if (willUpdate) {
+       fs.mkdirSync(path.dirname(baselineSnapshotPath), { recursive: true });
+       writeFileWithHooks({
+         pathToFile: baselineSnapshotPath,
+@@ -393,8 +401,8 @@
+         testPath,
+         currentTestName,
+       });
+-      result = { updated: true };
+-    } else {
++      result = { ...result, updated: true };
++    } else if (!needsDiff) {
+       result = {
+         pass,
+         diffSize,

@@ -275,6 +275,9 @@ else ifeq ($(part),3)
 	$(MAKE) ujest file=screenshots
 endif
 
+ujest_patch:
+	patch -p1 -d $(NODE_PATH)/jest-image-snapshot -N -r /dev/null < scripts/jest-image-snapshot-diff-on-update.patch || true
+
 ################################################################################
 # METRICS PART
 ################################################################################
