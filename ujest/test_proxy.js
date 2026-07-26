@@ -191,13 +191,40 @@ describe('debug', () => {
 });
 
 describe('proxy', () => {
+    /**
+     * service-worker-mock@2.0.5's Headers stub deviates from the spec in two ways
+     * that proxy.js relies on:
+     * - Headers[Symbol.iterator] returns .values() instead of .entries(), so
+     *   spreading a Headers instance (e.g. [...response.headers]) yields plain
+     *   values instead of [key, value] pairs.
+     * - its constructor can't parse an array of [key, value] pairs (only plain
+     *   objects or another Headers instance), which is the format
+     *   request_serialize()/request_unserialize() round-trip through IndexedDB.
+     * Patch the shared Headers class in the require cache before requiring
+     * service-worker-mock, so its own Request/Response classes (which capture
+     * their own internal reference via require('./Headers')) pick up the fix too.
+     */
+    const headersPath = require.resolve('service-worker-mock/models/Headers');
+    const OriginalHeaders = require(headersPath);
+    class SpecCompliantHeaders extends OriginalHeaders {
+        constructor(init) {
+            if (Array.isArray(init)) {
+                super({});
+                init.forEach(([key, value]) => this.set(key, value));
+            } else {
+                super(init);
+            }
+        }
+        [Symbol.iterator]() {
+            return this.entries();
+        }
+    }
+    require.cache[headersPath].exports = SpecCompliantHeaders;
+
     const makeServiceWorkerEnv = require('service-worker-mock');
     const environment = makeServiceWorkerEnv();
     environment.location = global.location;
     Object.assign(global, environment);
-
-    const fetchMock = require('jest-fetch-mock');
-    global.Headers = fetchMock.Headers;
 
     global.fetch = jest.fn();
 
@@ -337,9 +364,9 @@ describe('Request Serialization', () => {
                 url: 'https://example.com/api',
                 method: 'GET',
                 headers: [['content-type', 'application/json']],
-                //~ credentials: 'include',
-                //~ referrerPolicy: 'no-referrer',
-                //~ mode: 'cors',
+                credentials: 'include',
+                //~ referrerPolicy: 'no-referrer', // not tracked by the service-worker-mock Request stub
+                mode: 'cors',
             });
         });
 
@@ -357,16 +384,17 @@ describe('Request Serialization', () => {
                 url: 'https://example.com/api',
                 method: 'POST',
                 headers: [['content-type', 'application/json']],
-                //~ credentials: 'same-origin',
-                //~ referrerPolicy: 'no-referrer-when-downgrade', // default
-                //~ mode: 'cors', // default
+                credentials: 'same-origin',
+                //~ referrerPolicy: 'no-referrer-when-downgrade', // not tracked by the service-worker-mock Request stub
+                mode: 'same-origin', // default used by the service-worker-mock Request stub
                 body: '{"key":"value"}',
             });
         });
 
         test('should handle empty headers', async () => {
             const request = new Request('https://example.com/api', {
-                method: 'GET'
+                method: 'GET',
+                headers: {},
             });
 
             const serialized = await request_serialize(request);
