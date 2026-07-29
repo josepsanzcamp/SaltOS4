@@ -33,6 +33,7 @@ const toMatchImageSnapshot = require('jest-image-snapshot').toMatchImageSnapshot
 expect.extend({toMatchImageSnapshot});
 const timeout = {timeout: 3000};
 const sharp = require('sharp');
+const load_puppeteer = require('./lib/puppeteer.setup.js');
 
 /**
  * Global variables
@@ -49,12 +50,9 @@ let page;
  * This function contains all code executed before all tests, in this case the
  * features provided by this function includes the launch of the browser, set
  * the screen size and start the javascript coverage
- *
- * puppeteer is loaded here via dynamic import because since v25 it ships
- * as an ESM-only package and require() can no longer load it
  */
 beforeAll(async () => {
-    puppeteer = (await import('puppeteer')).default;
+    puppeteer = await load_puppeteer();
     browser = await puppeteer.launch({
         executablePath: '/usr/bin/chromium',
         args: ['--ignore-certificate-errors'],
@@ -128,9 +126,9 @@ describe('Bootstrap', () => {
             await page.waitForFunction(id => document.getElementById(id).tomselect, timeout, id);
         } else if (field.type === 'jstree') {
             await page.waitForFunction(id => document.getElementById(id).instance, timeout, id);
-        } else if (field.type === 'excel') {
-            await mypause(page, 500);
-            await page.waitForFunction(id => document.getElementById(id).excel, timeout, id);
+        } else if (field.type === 'jspreadsheet') {
+            await page.waitForFunction(id => document.getElementById(id).jspreadsheet, timeout, id);
+            await mypause(page, 100);
         } else if (field.type === 'echarts') {
             await mypause(page, 1000);
         } else if (field.type === 'gallery') {

@@ -1,5 +1,6 @@
 {
     "preset": "google",
+    "excludeFiles": ["ujest/lib/puppeteer.setup.js"],
     "requireCamelCaseOrUpperCaseIdentifiers": false,
     "maximumLineLength": 110,
     "validateIndentation": 4,
