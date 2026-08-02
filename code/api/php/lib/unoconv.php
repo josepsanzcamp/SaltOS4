@@ -303,6 +303,13 @@ function __unoconv_pdf2ocr($pdf)
  * This function calculates a representative value from a histogram based on given usage thresholds.
  * It finds the highest percentage where at least a certain portion of values and unique values are included.
  *
+ * Used by __unoconv_hocr2txt to find the dominant reading-angle of a page from many noisy per-word
+ * angle samples: it rounds each value to an integer bin, then starts by requiring a bin to contain
+ * 100% of the samples to be considered "the" value, and relaxes that requirement by 1% at a time
+ * until enough samples (usage1) and/or enough distinct bins (usage2) are covered. The qualifying
+ * bins are then combined as a frequency-weighted average. This behaves like a robust mode/average
+ * that ignores stray outlier values instead of being skewed by them.
+ *
  * @values => array of values to analyze
  * @usage1 => minimum percentage of total values to include (0-1)
  * @usage2 => minimum percentage of unique values to include (0-1)
@@ -355,6 +362,11 @@ function __unoconv_histogram($values, $usage1, $usage2)
  *
  * This function rotates a point around the origin by a given angle in degrees.
  *
+ * Implemented via polar coordinates (atan2 + hypot-like modulus) instead of the usual
+ * sin/cos rotation matrix: convert the point to an angle+distance from the origin, add
+ * the rotation angle, then convert back to cartesian. Mathematically equivalent, just
+ * written this way in the original implementation.
+ *
  * @posx  => x coordinate of the point
  * @posy  => y coordinate of the point
  * @angle => rotation angle in degrees
@@ -377,9 +389,20 @@ function __unoconv_rotate($posx, $posy, $angle)
  * This function processes a node from OCR output to extract its attributes,
  * specifically focusing on the bounding box information.
  *
+ * hOCR nodes carry a title attribute that can list several "; " separated properties,
+ * e.g. `bbox 10 20 30 40; x_wconf 95` on words. Only the bbox part is kept, the rest
+ * (like the OCR confidence) is discarded.
+ *
+ * hOCR ids are of the form `word_1_3`, `line_1_2`, `par_1`, `block_1`, `page_1`: the
+ * prefix before the first "_" identifies the element type (word/line/par/block/page),
+ * the numbers are just hOCR's own counters and are not used here. Keeping only that
+ * prefix repurposes the "id" as a type tag: the rest of the hocr2txt pipeline branches
+ * on this value (`$line[0] === 'word'`, `'line'`, ...) instead of on the original id.
+ *
  * @node => the OCR node to process
  *
- * Returns the array containing node ID and bounding box coordinates
+ * Returns [type, x1, y1, x2, y2], where type is 'page'|'block'|'par'|'line'|'word'
+ * and x1,y1,x2,y2 are the bbox corners taken from the title attribute
  */
 function __unoconv_node2attr($node)
 {
@@ -393,6 +416,7 @@ function __unoconv_node2attr($node)
     }
     $temp = explode('_', $node['#attr']['id']);
     $node['#attr']['id'] = $temp[0];
+    // Drop the "bbox" word itself from the title, keep only the 4 numbers
     $temp = array_merge([$node['#attr']['id']], array_slice(explode(' ', $node['#attr']['title']), 1));
     return $temp;
 }
@@ -401,6 +425,11 @@ function __unoconv_node2attr($node)
  * Extract text value from OCR node
  *
  * This function extracts the text content from an OCR node, handling nested arrays.
+ *
+ * The XML-to-array parser (see __import_xml2array/struct2array) turns any nested inline
+ * markup inside a word (e.g. hOCR wrapping part of the word text in a sub-tag) into a
+ * nested array instead of a plain string. This walks down through that nesting via
+ * array_pop (last child) until a scalar is reached, which is then trimmed.
  *
  * @node => the OCR node to process
  *
@@ -421,11 +450,32 @@ function __unoconv_node2value($node)
  * This function converts OCR-detected lines and words into a 2D character matrix
  * for text reconstruction and analysis.
  *
+ * $lines is the flat, type-tagged list built by __unoconv_hocr2txt (see __unoconv_node2attr):
+ * every 'line' entry that appears sets the "current row" for the 'word' entries that follow it,
+ * until the next 'line' entry changes it again. $width/$height are the pixel size of one grid
+ * cell (page bbox divided by the "size" being tried by the caller's loop), used to convert
+ * pixel bounding boxes into row/column indexes on the character grid.
+ *
+ * For each word: if hOCR gave no text at all (a detected word box with empty content), it is
+ * replaced by a single '~' placeholder so the box still leaves a visible trace in the output
+ * ("makebox" case) instead of silently disappearing. Otherwise, the word's pixel width is
+ * divided by its character count to estimate a per-character width (`$bias` centers the first
+ * character instead of aligning it to the box's left edge), and each subsequent character just
+ * advances one column — this assumes roughly monospaced character widths within a word, which
+ * is only an approximation but good enough at typical OCR resolutions.
+ *
+ * Collision handling is what drives the grid-size search in __unoconv_hocr2txt: '_' is treated
+ * as a transparent filler (never overwrites, never conflicts), but if two different non-'_'
+ * characters land on the same cell, the grid is too coarse for this page, and the function
+ * aborts by returning the offending $index (an int) instead of the matrix (an array) — the
+ * caller detects this with is_array() and retries with a finer grid.
+ *
  * @lines  => array of OCR-detected lines and words
  * @width  => width divisor for coordinate normalization
  * @height => height divisor for coordinate normalization
  *
- * Returns the 2D character matrix or index of problematic line if error occurs
+ * Returns the 2D character matrix, or the index of the colliding line/word if the current
+ * grid resolution is too coarse to place all characters without overlap
  */
 function __unoconv_lines2matrix($lines, $width, $height)
 {
@@ -452,6 +502,8 @@ function __unoconv_lines2matrix($lines, $width, $height)
                 if (isset($matrix[$posy][$posx])) {
                     if ($letter !== '_') {
                         if ($matrix[$posy][$posx] !== '_') {
+                            // Real collision: two different characters want the same cell,
+                            // signal failure to the caller so it retries with a finer grid
                             return $index;
                         }
                         $matrix[$posy][$posx] = $letter;
@@ -472,11 +524,18 @@ function __unoconv_lines2matrix($lines, $width, $height)
  * This function reorders the coordinates of a line based on specified positions,
  * used for correcting orientation in OCR results.
  *
+ * Rotating a bbox's two corners independently (see __unoconv_rotate) can leave the corners
+ * in the "wrong" order once the dominant angle is close to a 90/180/270 degree multiple: what
+ * was (x1,y1)=top-left/(x2,y2)=bottom-right may come out flipped on one or both axes. This
+ * takes the 4 original values [x1,y1,x2,y2] (indexes 1-4 of a __unoconv_node2attr line) and
+ * permutes them according to the quadrant detected by the caller, so every node ends up with
+ * a consistent x1<x2, y1<y2 orientation again.
+ *
  * @line => original line coordinates
- * @pos1 => target position for first coordinate
- * @pos2 => target position for second coordinate
- * @pos3 => target position for third coordinate
- * @pos4 => target position for fourth coordinate
+ * @pos1 => source index (into $line) for the corrected x1
+ * @pos2 => source index (into $line) for the corrected y1
+ * @pos3 => source index (into $line) for the corrected x2
+ * @pos4 => source index (into $line) for the corrected y2
  *
  * Returns the reordered line coordinates
  */
@@ -496,6 +555,29 @@ function __unoconv_fixline($line, $pos1, $pos2, $pos3, $pos4)
  * This function processes HOCR (HTML OCR) output to extract and reconstruct
  * the text content while maintaining spatial relationships.
  *
+ * tesseract's hOCR output gives every page/block/paragraph/line/word a pixel bounding box,
+ * but no ready-made plain text layout. Simply concatenating word texts would lose all spatial
+ * structure (columns, tables, indentation). This function rebuilds that structure by placing
+ * every word onto a 2D grid of characters according to its pixel position, so the resulting
+ * plain text roughly preserves the visual layout of the page. Overview of the steps below,
+ * each one marked in the code:
+ *
+ * 1. LOAD XML: parse the hOCR (which is XHTML) into a PHP array and drill down to <body>.
+ * 2. PARSE XML: flatten the page/block/par/line/word tree into one linear, type-tagged list
+ *    (see __unoconv_node2attr), since the algorithm doesn't need the hierarchy, only bboxes
+ *    and reading order. Bail out early if no words were found.
+ * 3. COMPUTE ANGLE: measure the direction (angle) between consecutive word centers within
+ *    each line, then use __unoconv_histogram to find the dominant angle across the page,
+ *    i.e. how much the whole page appears to be rotated/skewed.
+ * 4. APPLY ANGLE CORRECTION: rotate every bbox by the opposite of that angle, and normalize
+ *    corner order in case the rotation flipped the page into a different quadrant (see
+ *    __unoconv_fixline).
+ * 5. COMPUTE MATRIX: try placing all words onto a character grid (see __unoconv_lines2matrix),
+ *    starting from a coarse grid and refining it until no two characters collide.
+ * 6. MAKE OUTPUT: walk the final grid row by row/column by column (using the page's own bbox,
+ *    in grid units, as the boundaries) and join it into a plain text block, using spaces for
+ *    empty cells.
+ *
  * @hocr => HOCR content to process
  *
  * Returns the extracted plain text
@@ -506,7 +588,9 @@ function __unoconv_hocr2txt($hocr)
     require_once 'php/lib/import.php';
     $array = __import_xml2array($hocr);
     $array = __array_getnode('html/body', $array);
-    // PARTE XML
+    // PARSE XML: walk page > block > par > line > word and flatten everything into $lines,
+    // tagging each entry with its type via __unoconv_node2attr (see that function for why the
+    // hOCR "id" ends up being reused as a type tag instead of an identifier)
     $lines = [];
     $words = 0;
     if (is_array($array)) {
@@ -542,7 +626,11 @@ function __unoconv_hocr2txt($hocr)
         return '';
     }
     //~ echo "<pre>".sprintr($lines)."</pre>";
-    // COMPUTE ANGLE
+    // COMPUTE ANGLE: for each line, walk its words in order and measure the angle between
+    // the centers of consecutive words (this is the actual "reading direction" on the page,
+    // which will differ from 0 degrees if the source was scanned skewed/rotated). $pos1 is
+    // reset to null on every 'line' entry so angles are only measured within the same line,
+    // never across a line break.
     $angles = [];
     $pos1 = null;
     foreach ($lines as $line) {
@@ -559,9 +647,13 @@ function __unoconv_hocr2txt($hocr)
             $pos1 = $pos2;
         }
     }
+    // Robust "dominant angle" of the page: at least 25% of all word-to-word angle samples
+    // must agree (see __unoconv_histogram) to avoid being thrown off by a few noisy words
     $angle = count($angles) ? __unoconv_histogram($angles, 0.25, 0) : 0;
     //~ echo "<pre>".sprintr(array($angle))."</pre>";
-    // APPLY ANGLE CORRECTION
+    // APPLY ANGLE CORRECTION: rotate every node's bbox corners by -$angle to undo the page
+    // skew. Coordinates exactly at 0 are left untouched since rotating the origin point is
+    // meaningless (angle undefined) and would otherwise just introduce rounding noise.
     $quadrant = null;
     foreach ($lines as $index => $line) {
         if ($line[1] !== 0 && $line[2] !== 0) {
@@ -571,6 +663,11 @@ function __unoconv_hocr2txt($hocr)
             list($line[3], $line[4]) = __unoconv_rotate($line[3], $line[4], -$angle);
         }
         if ($index === 0) {
+            // $lines[0] is always the page node itself (first thing pushed above): use the
+            // direction of its own diagonal, after rotation, to detect whether the rotation
+            // effectively flipped the page into a different quadrant (this can happen when
+            // the dominant angle is near a 90/180/270 degree multiple), independently of the
+            // fine-grained angle correction already applied above.
             $incrx = $line[3] - $line[1];
             $incry = $line[4] - $line[2];
             if ($incrx >= 0 && $incry >= 0) {
@@ -584,6 +681,9 @@ function __unoconv_hocr2txt($hocr)
             }
             //~ echo "<pre>".sprintr(array($incrx,$incry,$quadrant))."</pre>";
         }
+        // Quadrant 0 is already in the expected x1<x2, y1<y2 order and needs no fix.
+        // Quadrants 1/2/3 permute the corners (see __unoconv_fixline) to bring every node
+        // back to that same order, applied uniformly to page/block/par/line/word alike.
         if ($quadrant === 1) {
             $line = __unoconv_fixline($line, 1, 4, 3, 2);
         } elseif ($quadrant === 2) {
@@ -593,7 +693,10 @@ function __unoconv_hocr2txt($hocr)
         }
         $lines[$index] = $line;
     }
-    // COMPUTE MATRIX
+    // COMPUTE MATRIX: try increasingly finer grids (size = number of cells across the page
+    // width/height) starting from a coarse 10x10-ish grid, until __unoconv_lines2matrix can
+    // place every character without two different characters landing on the same cell. A
+    // coarser grid is preferred when it works, since it keeps the output more compact/readable.
     $matrix = null;
     for ($size = 10; $size < 1000; $size += 10) {
         $width = ($lines[0][3] - $lines[0][1]) / $size;
@@ -607,7 +710,8 @@ function __unoconv_hocr2txt($hocr)
     if (!is_array($matrix)) {
         return '';
     }
-    // MAKE OUTPUT
+    // MAKE OUTPUT: the page bbox (in the same grid units used above) defines the row/column
+    // bounds; any cell without a character placed in it becomes a plain space.
     $buffer = [];
     $minx = (int)round($lines[0][1] / $width, 0);
     $maxx = (int)round($lines[0][3] / $width, 0);
@@ -629,6 +733,20 @@ function __unoconv_hocr2txt($hocr)
  *
  * This function extracts a substring based on proportional positions relative
  * to a reference length, useful for working with scaled text representations.
+ *
+ * $string is treated as if it were exactly $reference characters long (e.g. a 0-100
+ * scale representing percentages across a line), and $start/$length are expressed in
+ * that same scale. factor = mb_strlen($string) / $reference converts them to real
+ * character offsets before delegating to mb_substr(). This exists because the plain
+ * text pages built by __unoconv_hocr2txt don't have a fixed character width: the grid
+ * resolution chosen by its "COMPUTE MATRIX" retry loop can vary between runs/pages, so
+ * a caller that wants "roughly the right half of this line" cannot rely on fixed
+ * absolute character offsets and needs proportional ones instead.
+ *
+ * Important: $length here is a LENGTH, exactly like PHP's own mb_substr($string, $start,
+ * $length) - it is added to $start to know how many characters to take, it is NOT an end
+ * position. Compare with __unoconv_substr2d, whose y1/y2 use a different (start,end)
+ * convention for rows.
  *
  * @string    => input string to extract from
  * @start     => starting position (relative to reference)
@@ -652,12 +770,27 @@ function __unoconv_substr($string, $start, $length, $reference)
  * This function extracts a 2D region from a text page based on proportional
  * coordinates, maintaining spatial relationships in the extracted content.
  *
+ * Crops a page (an array of text lines, as returned by __unoconv_hocr2txt) to a
+ * proportional rectangle, e.g. "rows 30-70 out of 100, columns 30-70 out of 100" to
+ * grab roughly the center of a page while ignoring scanned margins/headers/footers.
+ *
+ * The two axes are NOT handled the same way, which is easy to miss because the call
+ * signature looks symmetric:
+ * - Rows (y1,y2,y3): factor = count($page) / $y3, then y1/y2 are scaled and used
+ *   directly as a real [start, end) range in the for loop below.
+ * - Columns (x1,x2,x3): forwarded as-is to __unoconv_substr($page[$i], $x1, $x2, $x3),
+ *   where the second value is a LENGTH, not an end column (see __unoconv_substr).
+ * So $y2 is "where to stop" but $x2 is "how many (proportional) characters to take from
+ * $x1" - passing the same pair of numbers for both (e.g. 30/70) does not crop the same
+ * relative region on both axes; getting a symmetric crop on x requires passing a length
+ * ($x2 - $x1), not an end position.
+ *
  * @page => array of text lines representing the page
  * @x1   => starting x position (relative to x3)
- * @x2   => width to extract (relative to x3)
+ * @x2   => width to extract (relative to x3) - forwarded as a LENGTH, see above
  * @x3   => reference width for x coordinates
- * @y1   => starting y position (relative to y3)
- * @y2   => height to extract (relative to y3)
+ * @y1   => starting row (relative to y3)
+ * @y2   => ending row, exclusive (relative to y3)
  * @y3   => reference height for y coordinates
  *
  * Returns the array of extracted lines
@@ -682,6 +815,23 @@ function __unoconv_substr2d($page, $x1, $x2, $x3, $y1, $y2, $y3)
  *
  * This function trims empty margins from a text page, removing leading/trailing
  * whitespace and empty lines from the top and bottom.
+ *
+ * Two bounds are computed in a single pass: $max is the length of the longest line once
+ * right-trimmed (the right edge of the content), and $min is the smallest leading-whitespace
+ * count seen across all lines (the left edge). Together they crop every line to
+ * mb_substr($line, $min, $max - $min) below. $first/$last track the first and last
+ * non-blank line indexes, and anything outside that range is dropped entirely (empty
+ * lines at the top/bottom of the page).
+ *
+ * `if ($min === 0) { $min = $max; }` bootstraps $min on the first line, where it would
+ * otherwise be compared against its placeholder starting value of 0 instead of a proper
+ * "nothing seen yet" sentinel. Because 0 is also a legitimate indent (a line with no
+ * leading whitespace), this same check re-triggers on any later line whose *cumulative*
+ * $min had already reached exactly 0, resetting it back up to that line's $max before
+ * re-narrowing it — which can discard an already-found zero-indent minimum. In practice
+ * this tends to self-correct if further unindented lines follow, but a page where an
+ * unindented line is followed only by indented ones can end up with $min > 0 even though
+ * a real 0-indent line exists earlier on the page.
  *
  * @page => text content to process (multiple lines separated by newlines)
  *
