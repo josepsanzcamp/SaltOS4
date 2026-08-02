@@ -7,7 +7,9 @@ services:
             ACCEPT_EULA: "Y"
             MSSQL_SA_PASSWORD: "asd123ASD"
         ports:
-            - "1433:1433"
+            - "0.0.0.0:1433:1433"
+        volumes:
+            - ../volumes/test/mssql:/var/opt/mssql
         profiles: ["test"]
         restart: unless-stopped
 
@@ -19,7 +21,9 @@ services:
             POSTGRES_USER: saltos
             POSTGRES_DB: saltos
         ports:
-            - "5432:5432"
+            - "0.0.0.0:5432:5432"
+        volumes:
+            - ../volumes/test/postgres:/var/lib/postgresql/data
         profiles: ["test"]
         restart: unless-stopped
 
@@ -38,8 +42,8 @@ services:
                 -Dgreenmail.verbose
             JAVA_OPTS: -Djava.net.preferIPv4Stack=true
         ports:
-            - "995:995"
-            - "587:587"
+            - "0.0.0.0:995:995"
+            - "0.0.0.0:587:587"
         profiles: ["test"]
         restart: unless-stopped
 
@@ -49,8 +53,11 @@ services:
             dockerfile: Dockerfile.server
         container_name: saltos4server
         ports:
-            - "8080:80"
-            - "8443:443"
+            - "0.0.0.0:8080:80"
+            - "0.0.0.0:8443:443"
+        volumes:
+            - ../volumes/server/mysql:/var/lib/mysql
+            - ../volumes/server/data:/opt/saltos4/instance/data
         profiles: ["server"]
         restart: unless-stopped
 
@@ -60,6 +67,8 @@ services:
             dockerfile: Dockerfile.devel
         container_name: saltos4devel
         ports:
-            - "8080:8080"
+            - "0.0.0.0:8080:8080"
+        volumes:
+            - ../volumes/devel/data:/opt/saltos4/instance/data
         profiles: ["devel"]
         restart: unless-stopped

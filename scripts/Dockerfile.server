@@ -13,7 +13,7 @@ RUN apt update && apt install -y \
 
 # Enable external repos like sury and official mariadb
 RUN extrepo enable sury \
-    && extrepo enable mariadb-11.8
+    && extrepo enable mariadb-12.3
 
 # Install MariaDB, Apache and PHP
 RUN apt update && apt install -y \
@@ -22,6 +22,7 @@ RUN apt update && apt install -y \
     apache2 \
     libapache2-mod-php8.5 \
     php8.5 \
+    php8.5-bcmath \
     php8.5-cli \
     php8.5-common \
     php8.5-curl \
@@ -108,6 +109,27 @@ RUN service mariadb start \
     && user=admin php /opt/saltos4/instance/api/index.php setup/sales \
     && service mariadb stop
 
-CMD service mariadb start \
-    && service apache2 start \
-    && /bin/tail -f /dev/null
+# Seed data used to populate the bind-mounted volumes on first boot
+RUN mv /var/lib/mysql /var/lib/mysql-seed \
+    && mv /opt/saltos4/instance/data /opt/saltos4/instance/data-seed
+
+# Entrypoint: populate empty volumes from the seed data, then start services
+RUN cat <<'EOF' > /usr/local/bin/docker-entrypoint.sh
+#!/bin/bash
+set -e
+
+if [ -z "$(ls -A /var/lib/mysql)" ]; then
+    cp -a /var/lib/mysql-seed/. /var/lib/mysql/
+fi
+
+if [ -z "$(ls -A /opt/saltos4/instance/data)" ]; then
+    cp -a /opt/saltos4/instance/data-seed/. /opt/saltos4/instance/data/
+fi
+
+service mariadb start
+service apache2 start
+exec /bin/tail -f /dev/null
+EOF
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+CMD ["/usr/local/bin/docker-entrypoint.sh"]

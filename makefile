@@ -371,12 +371,12 @@ setupall:
 ################################################################################
 
 teststart:
+	mkdir -p volumes/test/mssql && sudo chown 10001:0 volumes/test/mssql || true
 	cd scripts && docker compose --profile test up -d
 
 teststop:
 	cd scripts && docker compose --profile test kill
 	cd scripts && docker compose --profile test down
-	cd scripts && yes | docker volume prune
 
 testlogs:
 	cd scripts && docker compose --profile test logs
