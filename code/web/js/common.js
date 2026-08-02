@@ -82,6 +82,9 @@ saltos.common.about = () => {
     saltos.core.ajax({
         url: 'api/?/about',
         success: response => {
+            if (!saltos.bootstrap.modal('isopen')) {
+                return;
+            }
             const title = document.querySelector('.modal-title');
             title.innerHTML = [
                 T('About'),
