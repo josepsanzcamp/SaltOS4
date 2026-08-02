@@ -385,7 +385,7 @@ describe('Request Serialization', () => {
                 method: 'POST',
                 headers: [['content-type', 'application/json']],
                 credentials: 'same-origin',
-                //~ referrerPolicy: 'no-referrer-when-downgrade', // not tracked by the service-worker-mock Request stub
+                //~ referrerPolicy: 'no-referrer-when-downgrade', // not tracked by the mock Request stub
                 mode: 'same-origin', // default used by the service-worker-mock Request stub
                 body: '{"key":"value"}',
             });
