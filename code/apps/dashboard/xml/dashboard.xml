@@ -32,8 +32,8 @@
             <inline>
                 .widget-drag-handle {
                     position: absolute;
-                    top: 6px;
-                    left: 8px;
+                    top: 1px;
+                    right: 8px;
                     z-index: 1000;
                     cursor: grab;
                     padding: 2px;
