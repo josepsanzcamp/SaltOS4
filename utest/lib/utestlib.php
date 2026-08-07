@@ -74,7 +74,7 @@ function test_pcov_stop($index): void
     }
     $collected = unserialize($buffer);
 
-    $coverage = RawCodeCoverageData::fromXdebugWithoutPathCoverage($collected);
+    $coverage = RawCodeCoverageData::fromLineCoverage($collected);
     $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
     $method = 'unknown::unknown';
     if (isset($backtrace[$index])) {
