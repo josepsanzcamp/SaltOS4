@@ -53,6 +53,7 @@ use OpenSSLAsymmetricKey;
  * @phpstan-import-type PageData from \Com\Tecnick\Pdf\Page\Box
  *
  * @phpstan-import-type TFourFloat from \Com\Tecnick\Pdf\Base
+ * @phpstan-import-type TPdfUaStructElem from \Com\Tecnick\Pdf\Base
  * @phpstan-import-type TAnnotQuadPoint from \Com\Tecnick\Pdf\Base
  * @phpstan-import-type TAnnotBorderStyle from \Com\Tecnick\Pdf\Base
  * @phpstan-import-type TAnnotBorderEffect from \Com\Tecnick\Pdf\Base
@@ -137,11 +138,11 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
      *
      * A page is flagged transparent when its content blends (a sub-1 alpha, a
      * non-Normal blend mode or a soft mask), paints a soft-masked image, draws
-     * an imported page, or paints a Form XObject that itself blends. The actual
+     * an imported page, or paints a Form XObject that itself blends. The
      * emission policy ('auto'/'always'/'never', set via
-     * Tcpdf::setPageTransparencyGroup()) and the PDF/A suppression are applied by
-     * the page layer; this method only supplies the facts it needs. Called once,
-     * just before the page objects are serialized.
+     * Tcpdf::setPageTransparencyGroup()) and the PDF/A suppression are applied
+     * by the page layer. Called once, just before the page objects are
+     * serialized.
      *
      * @throws PageException
      */
@@ -1006,6 +1007,8 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
 
             //$out .= ' /CO ';
 
+            $fontIndex = $this->getAcroFormDefaultFontIndex();
+
             if ($this->annotation_fonts !== []) {
                 $out .= ' /DR << /Font <<';
                 foreach ($this->annotation_fonts as $fontkey => $fontid) {
@@ -1017,9 +1020,10 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
                 $out .= ' >> >>';
             }
 
-            $font = $this->font->getFont('helvetica');
-            $fontIndex = (int) $font['i'];
-            $out .= ' /DA ' . $this->encrypt->escapeDataString('/F' . $fontIndex . ' 0 Tf 0 g', $oid);
+            if ($fontIndex > 0) {
+                $out .= ' /DA ' . $this->encrypt->escapeDataString('/F' . $fontIndex . ' 0 Tf 0 g', $oid);
+            }
+
             $out .= ' /Q ' . ($this->rtl ? '2' : '0');
             //$out .= ' /XFA ';
             $out .= ' >>';
@@ -1044,6 +1048,43 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
 
         $out .= ' >>' . "\n" . 'endobj' . "\n";
         return $out;
+    }
+
+    /**
+     * Returns the font index to use in the AcroForm default appearance (/DA), or 0 if no font is loaded.
+     *
+     * The selected font is registered as an annotation font, so that it is always
+     * listed in the AcroForm default resource dictionary (/DR).
+     * The first annotation font is used when available, otherwise 'helvetica',
+     * the current font, or the first loaded font.
+     *
+     * @throws FontException
+     */
+    protected function getAcroFormDefaultFontIndex(): int
+    {
+        if ($this->annotation_fonts !== []) {
+            return (int) \reset($this->annotation_fonts);
+        }
+
+        $fontkey = '';
+        if ($this->font->isValidKey('helvetica')) {
+            $fontkey = 'helvetica';
+        } elseif ($this->font->hasCurrentFont()) {
+            $fontkey = $this->font->getCurrentFontKey();
+        } else {
+            $fonts = $this->font->getFonts();
+            if ($fonts !== []) {
+                $fontkey = \array_key_first($fonts);
+            }
+        }
+
+        if ($fontkey === '') {
+            return 0;
+        }
+
+        $fontIndex = (int) $this->font->getFont($fontkey)['i'];
+        $this->annotation_fonts[$fontkey] = $fontIndex;
+        return $fontIndex;
     }
 
     /**
@@ -1889,7 +1930,7 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
 
         foreach ($entryOrder as $entryIdx) {
             $entry = $structLog[$entryIdx];
-            $entry += ['annots' => [], 'alt' => '', 'attr' => []];
+            $entry += ['annots' => [], 'alt' => '', 'attr' => [], 'bbox' => []];
             $entryPageOid = $pidToOid[$entry['pid']] ?? 0;
             $kidsOut = '';
             foreach ($entry['kids'] as $kid) {
@@ -1927,11 +1968,25 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
                 $altOut = ' /Alt ' . $this->getOutTextString($entry['alt'], $elemOids[$entryIdx] ?? 0, true);
             }
 
+            // The /BBox Layout attribute only applies to elements laid out on a single
+            // page, so it is skipped when the element content is split by a page break.
+            $bboxPairs = '';
+            $bbox = $entry['bbox'];
+            if (\count($bbox) === 4 && $this->isSinglePageStructElem($structLog, $entryIdx)) {
+                [$bllx, $blly, $burx, $bury] = $bbox;
+                $bboxPairs = \sprintf(' /O /Layout /BBox [%F %F %F %F]', $bllx, $blly, $burx, $bury);
+            }
+
             $attrOut = '';
             $idOut = '';
+            $attrPairs = $bboxPairs;
             if ($entry['attr'] !== []) {
-                $attrPairs = '';
                 foreach ($entry['attr'] as $akey => $aval) {
+                    if ($akey === 'O' && $bboxPairs !== '') {
+                        // The Layout owner is already set by the bounding box.
+                        continue;
+                    }
+
                     if ($akey === '' || $aval === '') {
                         continue;
                     }
@@ -1973,10 +2028,10 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
 
                     $attrPairs .= ' /' . $akey . ' /' . $aval;
                 }
+            }
 
-                if ($attrPairs !== '') {
-                    $attrOut = ' /A <<' . $attrPairs . ' >>';
-                }
+            if ($attrPairs !== '') {
+                $attrOut = ' /A <<' . $attrPairs . ' >>';
             }
 
             $parentOid = $entryParentOid[$entryIdx] ?? $documentStructElemOid;
@@ -2070,6 +2125,39 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
             . $namespaceOut
             . $structElemsOut
         );
+    }
+
+    /**
+     * Returns true when a structure element and its whole subtree sit on a single page.
+     *
+     * @param array<int, TPdfUaStructElem> $structLog Completed structure elements.
+     * @param int $entryIdx Index of the element to inspect in $structLog.
+     */
+    protected function isSinglePageStructElem(array $structLog, int $entryIdx): bool
+    {
+        $pids = [];
+        $seen = [];
+        $stack = [$entryIdx];
+        while ($stack !== []) {
+            $idx = (int) \array_pop($stack);
+            $entry = $structLog[$idx] ?? null;
+            if ($entry === null || isset($seen[$idx])) {
+                continue;
+            }
+
+            $seen[$idx] = true;
+            $pids[$entry['pid']] = true;
+            foreach ($entry['kids'] as $kid) {
+                if ($kid['type'] === 'elem') {
+                    $stack[] = $kid['id'];
+                    continue;
+                }
+
+                $pids[$kid['pid'] ?? $entry['pid']] = true;
+            }
+        }
+
+        return \count($pids) <= 1;
     }
 
     /**
@@ -3329,8 +3417,8 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
             return '';
         }
 
-        // Limited support: currently writes sound file reference and icon name.
-        // Extended sound parameters (R, C, B, E, CO, CP) are intentionally not serialized yet.
+        // Writes the sound file reference and the icon name. The extended sound
+        // parameters (R, C, B, E, CO, CP) are not serialized.
         $out = ' /Sound ' . $this->embeddedfiles[$filename]['f'] . ' 0 R';
         $iconsapp = ['Speaker', 'Mic'];
         if (isset($annot['opt']['name']) && \in_array($annot['opt']['name'], $iconsapp, true)) {
@@ -4319,11 +4407,11 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
 
     /**
      * Build the detached CMS (CAdES) signature over the ByteRange content using
-     * the native tc-lib-pdf-sign builder, replacing the temp-file PKCS#7 path.
+     * the tc-lib-pdf-sign builder.
      *
      * The produced CMS carries the ESS signing-certificate-v2 signed attribute,
-     * so it is a CAdES-BES structure for every profile; the legacy profile keeps
-     * the /SubFilter /adbe.pkcs7.detached wrapper and stays verifiable.
+     * making it a CAdES-BES structure for every profile. The ISO 32000-1 profile
+     * keeps the /SubFilter /adbe.pkcs7.detached wrapper.
      *
      * @param string $content ByteRange-covered document bytes to sign.
      *
@@ -4546,9 +4634,8 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
      *
      * A signature timestamp embeds a full RFC 3161 token in the CMS, roughly
      * tripling its size, so extra room is reserved when timestamping is enabled;
-     * otherwise the legacy SIGMAXLEN is kept so existing output is unchanged. The
-     * placeholder emission, the ByteRange computation, and the hex padding all
-     * read this so they stay in agreement.
+     * otherwise SIGMAXLEN is used. The placeholder emission, the ByteRange
+     * computation and the hex padding all read this value.
      */
     protected function signatureContentsLength(): int
     {
@@ -4736,8 +4823,8 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
      * Extract the raw signature /Contents bytes from a signed document.
      *
      * The signature /Contents is a hexadecimal string padded with zeros to the
-     * reserved placeholder length; the decoded bytes (the CMS plus that padding)
-     * are what a reader hashes for the DSS VRI key, so they are returned verbatim.
+     * reserved placeholder length. The decoded bytes (the CMS plus that padding)
+     * are returned verbatim, as hashed by a reader for the DSS VRI key.
      *
      * @param string $pdf The signed PDF document.
      *
@@ -4765,13 +4852,14 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
      * Append the PAdES B-LTA archive document timestamp as a further incremental
      * revision, then timestamp it.
      *
-     * For the `pades-b-lta` profile (which requires a configured TSA), a
+     * For the `pades-b-lta` profile, which requires a configured TSA, a
      * `/Type /DocTimeStamp` value object plus an invisible signature-field widget
-     * are emitted through the tc-lib-pdf-sign `Output\DocTimeStamp` / `Output\Widget`
-     * emitters; the catalog is re-emitted with the timestamp field added to the
-     * AcroForm `/Fields` (and the existing `/DSS` reference kept). A second signing
-     * pass then covers the whole document up to that point with a bare RFC 3161
-     * token (not a CAdES CMS), exactly like the main signature's ByteRange machinery.
+     * are emitted through the tc-lib-pdf-sign `Output\DocTimeStamp` and
+     * `Output\Widget` emitters. The catalog is re-emitted with the timestamp
+     * field added to the AcroForm `/Fields`, keeping the existing `/DSS`
+     * reference. A second signing pass then covers the whole document up to that
+     * point with a bare RFC 3161 token instead of a CAdES CMS, through the same
+     * ByteRange machinery as the main signature.
      *
      * @param string $pdf The signed, DSS-augmented PDF document.
      *

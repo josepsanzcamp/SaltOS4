@@ -31,10 +31,8 @@
     "require": {
         "php": ">=8.2",
         "ext-hash": "*",
-        "ext-openssl": "*"
-    },
-    "suggest": {
-        "ext-posix": "*"
+        "ext-openssl": "*",
+        "ext-pcre": "*"
     },
     "minimum-stability": "stable",
     "prefer-stable": true,

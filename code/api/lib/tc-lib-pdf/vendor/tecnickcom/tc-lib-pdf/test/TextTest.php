@@ -1768,6 +1768,12 @@ class TextTest extends TestUtil
         // A leading neutral run is skipped until the first strong (R) character.
         $this->assertTrue($obj->exposeIsOrdArrBaseRtl([...$neutral, ...$hebrew], ''));
 
+        // Latin letters are not listed in the bidirectional type table, so a mixed
+        // paragraph that starts with them stays left-to-right.
+        $this->assertFalse($obj->exposeIsOrdArrBaseRtl([...$latin, 0x20, ...$hebrew], ''));
+        // The same holds for the other characters of type L that are not listed.
+        $this->assertFalse($obj->exposeIsOrdArrBaseRtl([0x4E00, 0x20, ...$hebrew], ''));
+
         // No strong character: fall back to the document default ($this->rtl).
         $this->assertFalse($obj->exposeIsOrdArrBaseRtl($neutral, ''));
         $this->setObjectProperty($obj, 'rtl', true);
@@ -1778,6 +1784,27 @@ class TextTest extends TestUtil
         $this->assertTrue($baseRtl);
         [, , , $baseLtr] = $obj->exposePrepareTextWithDir('abc', '');
         $this->assertFalse($baseLtr);
+    }
+
+    /**
+     * The text level hyphenation collects the words by bidirectional type L, so it must
+     * hyphenate them exactly like the word level pass.
+     *
+     * @throws \Throwable
+     */
+    public function testHyphenateTextOrdArrHyphenatesLatinWords(): void
+    {
+        $obj = $this->getInternalTestObject();
+        $this->initUnicodeFont($obj);
+        $obj->addPage();
+
+        $patterns = ['hyphen' => 'hy3phen'];
+        $hypWord = $obj->exposeHyphenateWordOrdArr($patterns, $obj->exposeStrToOrdArr('hyphen'));
+        $hypText = $obj->exposeHyphenateTextOrdArr($patterns, $obj->exposeStrToOrdArr('hyphen,test'));
+
+        $this->assertContains(0x00AD, $hypWord);
+        $this->assertSame($hypWord, \array_slice($hypText, 0, \count($hypWord)));
+        $this->assertContains(0x00AD, $hypText);
     }
 
     /**
@@ -2425,6 +2452,48 @@ class TextTest extends TestUtil
         $this->assertIsArray($last);
         $this->assertSame('Link', $last['role'] ?? null);
         $this->assertSame([77], $last['annots'] ?? null);
+    }
+
+    /** @throws \Throwable */
+    public function testPdfUaFigureBoundingBoxIsRecordedAndMerged(): void
+    {
+        $obj = new TestableText('mm', true, false, true, 'pdfua');
+        $this->initFont($obj);
+        $page = $obj->addPage();
+        $pid = $this->requirePageId($page);
+
+        // A standalone figure records the box it was given, normalized to [llx, lly, urx, ury].
+        $obj->exposeTagPdfUaFigureContent("q\nQ\n", $pid, 'Standalone', [30.0, 80.0, 10.0, 20.0]);
+
+        /** @var array<int, array<string, mixed>> $log */
+        $log = $this->getObjectProperty($obj, 'pdfuaStructLog');
+        $lastKey = \array_key_last($log);
+        $last = \is_int($lastKey) && isset($log[$lastKey]) ? $log[$lastKey] : null;
+        $this->assertIsArray($last);
+        $this->assertSame([10.0, 20.0, 30.0, 80.0], $last['bbox'] ?? null);
+
+        // Content added to an open Figure bracket grows the box to the union of both.
+        $obj->beginStructElem('Figure', $pid, 'Open figure');
+        $obj->exposeTagPdfUaFigureContent("q\nQ\n", $pid, '', [10.0, 20.0, 30.0, 40.0]);
+        $obj->exposeTagPdfUaFigureContent("q\nQ\n", $pid, '', [25.0, 5.0, 50.0, 35.0]);
+
+        /** @var array<int, array<string, mixed>> $stack */
+        $stack = $this->getObjectProperty($obj, 'pdfuaStructStack');
+        $topKey = \array_key_last($stack);
+        $top = \is_int($topKey) && isset($stack[$topKey]) ? $stack[$topKey] : null;
+        $this->assertIsArray($top);
+        $this->assertSame([10.0, 5.0, 50.0, 40.0], $top['bbox'] ?? null);
+
+        // A figure tagged without a box gets no bbox entry.
+        $obj->endStructElem();
+        $obj->exposeTagPdfUaFigureContent("q\nQ\n", $pid, 'No box');
+
+        /** @var array<int, array<string, mixed>> $log */
+        $log = $this->getObjectProperty($obj, 'pdfuaStructLog');
+        $lastKey = \array_key_last($log);
+        $last = \is_int($lastKey) && isset($log[$lastKey]) ? $log[$lastKey] : null;
+        $this->assertIsArray($last);
+        $this->assertArrayNotHasKey('bbox', $last);
     }
 
     /** @throws \Throwable */

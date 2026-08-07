@@ -2276,6 +2276,100 @@ class OutputTest extends TestUtil
     /**
      * @throws \Throwable
      */
+    public function testGetOutPDFBodySerializesFigureBoundingBox(): void
+    {
+        $obj = $this->getInternalUncompressedTestObject();
+        $page = $this->initFontAndPage($obj);
+        $this->setObjectProperty($obj, 'pdfuaMode', 'pdfua1');
+
+        $obj->addTaggedFigureContent("q\nQ\n", $page['pid'], 'Boxed figure', [10.0, 20.0, 110.0, 70.0]);
+
+        $out = $obj->exposeGetOutPDFBody();
+
+        $this->assertStringContainsString('/Type /StructElem /S /Figure', $out);
+        $this->assertStringContainsString('/A << /O /Layout /BBox [10.000000 20.000000 110.000000 70.000000] >>', $out);
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    public function testGetOutPDFBodySerializesTableBoundingBox(): void
+    {
+        $obj = $this->getInternalUncompressedTestObject();
+        $this->initFontAndPage($obj);
+        $this->setObjectProperty($obj, 'pdfuaMode', 'pdfua1');
+
+        $html = '<table border="1"><tr><th>A</th><th>B</th></tr><tr><td>1</td><td>2</td></tr></table>';
+        $htmlOut = $obj->getHTMLCell($html, 15, 20, 100, 0);
+
+        /** @var \Com\Tecnick\Pdf\Page\Page $page */
+        $page = $this->getObjectProperty($obj, 'page');
+        $page->addContent($htmlOut, $page->getPageId());
+
+        $out = $obj->exposeGetOutPDFBody();
+
+        $this->assertMatchesRegularExpression(
+            '#/Type /StructElem /S /Table .*?/A << /O /Layout /BBox \[[0-9. ]+\] >>#s',
+            $out,
+        );
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    public function testGetOutPDFBodySkipsTableBoundingBoxAcrossPageBreak(): void
+    {
+        $obj = $this->getInternalUncompressedTestObject();
+        $this->initFontAndPage($obj);
+        $this->setObjectProperty($obj, 'pdfuaMode', 'pdfua1');
+
+        $rows = '';
+        for ($idx = 0; $idx < 120; ++$idx) {
+            $rows .= '<tr><td>row ' . $idx . '</td><td>value ' . $idx . '</td></tr>';
+        }
+
+        $htmlOut = $obj->getHTMLCell('<table border="1">' . $rows . '</table>', 15, 20, 100, 0);
+
+        /** @var \Com\Tecnick\Pdf\Page\Page $page */
+        $page = $this->getObjectProperty($obj, 'page');
+        $page->addContent($htmlOut, $page->getPageId());
+
+        $out = $obj->exposeGetOutPDFBody();
+
+        $this->assertStringContainsString('/Type /StructElem /S /Table', $out);
+        $this->assertDoesNotMatchRegularExpression('#/Type /StructElem /S /Table .*?/BBox#s', $out);
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    public function testGetOutPDFBodySkipsFigureBoundingBoxAcrossPageBreak(): void
+    {
+        $obj = $this->getInternalUncompressedTestObject();
+        $page = $this->initFontAndPage($obj);
+        $this->setObjectProperty($obj, 'pdfuaMode', 'pdfua1');
+        $secondPage = $obj->addPage();
+        if (!isset($secondPage['pid']) || !\is_int($secondPage['pid'])) {
+            $this->fail('Expected addPage to return an integer pid');
+        }
+
+        $secondPid = $secondPage['pid'];
+
+        // A single Figure holding content emitted on two different pages.
+        $obj->beginStructElem('Figure', $page['pid'], 'Split figure');
+        $obj->addTaggedFigureContent("q\nQ\n", $page['pid'], '', [10.0, 20.0, 110.0, 70.0]);
+        $obj->addTaggedFigureContent("q\nQ\n", $secondPid, '', [10.0, 20.0, 110.0, 70.0]);
+        $obj->endStructElem();
+
+        $out = $obj->exposeGetOutPDFBody();
+
+        $this->assertStringContainsString('/Type /StructElem /S /Figure', $out);
+        $this->assertStringNotContainsString('/BBox [10.000000 20.000000 110.000000 70.000000]', $out);
+    }
+
+    /**
+     * @throws \Throwable
+     */
     public function testGetOutPDFBodyPromotesStructElemIdAttributeToIdEntry(): void
     {
         $obj = $this->getInternalUncompressedTestObject();
@@ -3766,6 +3860,67 @@ class OutputTest extends TestUtil
             '/SigFlags 3',
             '/Perms << /DocMDP 41 0 R >>',
         ]);
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    public function testGetOutCatalogAcroformDefaultAppearanceWithoutHelvetica(): void
+    {
+        self::setUpFontsPath();
+        $obj = $this->getInternalTestObject();
+        /** @var \Com\Tecnick\Pdf\Font\Stack $font */
+        $font = $this->getObjectProperty($obj, 'font');
+        /** @var int $pon */
+        $pon = $this->getObjectProperty($obj, 'pon');
+        $fontfile = (string) \realpath(__DIR__
+        . '/../vendor/tecnickcom/tc-lib-pdf-font/target/fonts/dejavu/dejavusans.json');
+        $inserted = $font->insert($pon, 'dejavusans', '', 10, null, null, $fontfile);
+        $this->assertFalse($font->isValidKey('helvetica'));
+
+        $this->addRawPageWithObjectNumber($obj, 6);
+        $obj->setOutputState(9, ['pages' => 3, 'xmp' => 4, 'signature' => 40, 'form' => []]);
+        $this->setObjectProperty($obj, 'sign', true);
+        $this->setObjectProperty($obj, 'signature', [
+            'cert_type' => 2,
+            'approval' => 'P',
+            'appearance' => [
+                'empty' => [],
+            ],
+        ]);
+
+        $out = $obj->exposeGetOutCatalog();
+
+        $fontIndex = (int) $font->getFont($inserted['key'])['i'];
+        $this->assertContainsAllFragments($out, [
+            '/AcroForm <<',
+            '/DR << /Font << /F' . $fontIndex . ' ',
+            '/DA (/F' . $fontIndex . ' 0 Tf 0 g)',
+        ]);
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    public function testGetOutCatalogAcroformDefaultAppearanceWithoutFonts(): void
+    {
+        $obj = $this->getInternalTestObject();
+        $this->addRawPageWithObjectNumber($obj, 6);
+        $obj->setOutputState(9, ['pages' => 3, 'xmp' => 4, 'signature' => 40, 'form' => []]);
+        $this->setObjectProperty($obj, 'sign', true);
+        $this->setObjectProperty($obj, 'signature', [
+            'cert_type' => 2,
+            'approval' => 'P',
+            'appearance' => [
+                'empty' => [],
+            ],
+        ]);
+
+        $out = $obj->exposeGetOutCatalog();
+
+        $this->assertStringContainsString('/AcroForm <<', $out);
+        $this->assertStringNotContainsString('/DA ', $out);
+        $this->assertStringNotContainsString('/DR ', $out);
     }
 
     /**

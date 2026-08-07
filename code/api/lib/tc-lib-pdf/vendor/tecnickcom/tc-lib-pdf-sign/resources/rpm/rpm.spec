@@ -19,8 +19,6 @@ Requires:  php-date
 Requires:  php-hash
 Requires:  php-openssl
 Requires:  php-pcre
-Requires:  php-posix
-Requires:  openssl
 
 Provides:  php-composer(%{c_vendor}/%{gh_project}) = %{version}
 Provides:  php-%{gh_project} = %{version}

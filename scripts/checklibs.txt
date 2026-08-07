@@ -6,7 +6,7 @@ phpass|https://github.com/openwall/phpass/commits/main.atom|<updated>|PHVwZGF0ZW
 phpgeoip|https://github.com/Webklex/php-geoip/tags.atom|<title>|PHRpdGxlPjEuMC4wPC90aXRsZT4=
 phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<title>|PHRpdGxlPjUuOS4wPC90aXRsZT4=
 tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<title>|PHRpdGxlPjcuMC40PC90aXRsZT4=
-tc-lib-pdf|https://github.com/tecnickcom/tc-lib-pdf/tags.atom|<title>|PHRpdGxlPjguNjcuMjwvdGl0bGU+
+tc-lib-pdf|https://github.com/tecnickcom/tc-lib-pdf/tags.atom|<title>|PHRpdGxlPjguNjguMjwvdGl0bGU+
 yaml|https://github.com/symfony/yaml/tags.atom|<title>|PHRpdGxlPnY4LjEuMjwvdGl0bGU+
 zxcvbn|https://github.com/bjeavons/zxcvbn-php/tags.atom|<title>|PHRpdGxlPjEuNC4yPC90aXRsZT4=
 
