@@ -68,6 +68,7 @@ RUN apt update && apt install -y \
     zlib1g \
     expat \
     libminizip1 \
+    cron \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy xlsxio built binaries/libs from the builder stage
@@ -154,6 +155,11 @@ RUN service mariadb start \
 RUN mv /var/lib/mysql /var/lib/mysql-seed \
     && mv /opt/saltos4/instance/data /opt/saltos4/instance/data-seed
 
+# Configure crontab
+RUN echo "* * * * * www-data /usr/bin/php /opt/saltos4/instance/user/api/index.php cron" \
+    > /etc/cron.d/saltos4 \
+    && chmod 0644 /etc/cron.d/saltos4
+
 # Entrypoint: populate empty volumes from the seed data, then start services
 RUN cat <<'EOF' > /usr/local/bin/docker-entrypoint.sh
 #!/bin/bash
@@ -169,6 +175,7 @@ fi
 
 service mariadb start
 service apache2 start
+service cron start
 exec /bin/tail -f /dev/null
 EOF
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh

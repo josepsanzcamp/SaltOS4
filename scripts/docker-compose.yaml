@@ -54,7 +54,6 @@ services:
         container_name: saltos4server
         ports:
             - "0.0.0.0:8080:80"
-            - "0.0.0.0:8443:443"
         volumes:
             - ../volumes/server/mysql:/var/lib/mysql
             - ../volumes/server/data:/opt/saltos4/instance/data
