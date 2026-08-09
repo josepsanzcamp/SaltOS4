@@ -69,6 +69,7 @@ RUN apt update && apt install -y \
     expat \
     libminizip1 \
     cron \
+    tini \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy xlsxio built binaries/libs from the builder stage
@@ -186,4 +187,5 @@ exec /bin/tail -f /dev/null
 EOF
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
+ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["/usr/local/bin/docker-entrypoint.sh"]
