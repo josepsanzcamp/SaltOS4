@@ -34,7 +34,7 @@ RUN apt update && apt install -y \
 RUN extrepo enable sury \
     && extrepo enable mariadb-12.3
 
-# Install MariaDB, Apache, PHP and extra tools
+# Install MariaDB, Apache, PHP
 RUN apt update && apt install -y \
     mariadb-server \
     mariadb-client \
@@ -56,6 +56,21 @@ RUN apt update && apt install -y \
     php8.5-yaml \
     php8.5-zip \
     php8.5-zstd \
+    && rm -rf /var/lib/apt/lists/*
+
+# Runtime deps for xlsxio (built from source below)
+RUN apt update && apt install -y \
+    zlib1g \
+    expat \
+    libminizip1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy xlsxio built binaries/libs from the builder stage
+COPY --from=xlsxio-builder /opt/xlsxio-install/usr/local /usr/local
+RUN ldconfig
+
+# OCR / office / document processing tools
+RUN apt update && apt install -y \
     tesseract-ocr \
     tesseract-ocr-eng \
     tesseract-ocr-spa \
@@ -65,29 +80,13 @@ RUN apt update && apt install -y \
     subversion \
     libreoffice \
     imagemagick \
-    zlib1g \
-    expat \
-    libminizip1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install cron and tini
+RUN apt update && apt install -y \
     cron \
     tini \
     && rm -rf /var/lib/apt/lists/*
-
-# Copy xlsxio built binaries/libs from the builder stage
-COPY --from=xlsxio-builder /opt/xlsxio-install/usr/local /usr/local
-RUN ldconfig
-
-# Add the apache ssl support
-#RUN a2enmod rewrite \
-#    && a2enmod ssl \
-#    && a2enmod headers \
-#    && a2enmod expires \
-#    && a2enmod deflate \
-#    && mkdir -p /etc/apache2/ssl \
-#    && openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-#    -keyout /etc/apache2/ssl/apache-selfsigned.key \
-#    -out /etc/apache2/ssl/apache-selfsigned.crt \
-#    -subj "/C=ES/ST=Madrid/L=Madrid/O=SaltOS4/OU=Development/CN=localhost" \
-#    && a2ensite default-ssl.conf
 
 # Enable required apache modules
 RUN a2enmod rewrite \
