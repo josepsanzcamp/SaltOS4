@@ -52,6 +52,7 @@ RUN extrepo enable mariadb-12.3 \
 
 RUN apt update && apt install -y \
     libgroonga-dev \
+    groonga-normalizer-mysql \
     libmariadb-dev \
     && apt build-dep -y mariadb-server \
     && rm -rf /var/lib/apt/lists/*
@@ -75,6 +76,7 @@ RUN MARIA_SRC=$(ls -d /tmp/mariadb-12.3*) \
        -GNinja \
        -DCMAKE_BUILD_TYPE=Release \
        -DMRN_WITH_DOC=OFF \
+       -DWITH_GROONGA_NORMALIZER_MYSQL=ON \
        -DMYSQL_SOURCE_DIR="${MARIA_SRC}" \
        -DMYSQL_BUILD_DIR="${MARIA_SRC}/builddir" \
        -DMYSQL_CONFIG=/usr/bin/mariadb_config \
@@ -176,6 +178,7 @@ RUN curl -fsSL https://packages.groonga.org/debian/groonga-apt-source-latest-tri
 
 RUN apt update && apt install -y \
     libgroonga0 \
+    groonga-normalizer-mysql \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=mroonga-builder /opt/mroonga-install/ /usr/lib/mysql/plugin/
