@@ -34,14 +34,9 @@ RUN apt update && apt install -y \
     php8.5-zstd \
     && rm -rf /var/lib/apt/lists/*
 
-# Checkout saltos4 code
-RUN cd /opt \
-    && mkdir saltos4 \
-    && cd saltos4 \
-    && wget -q -O - https://download.saltos.org/ | tar xvz \
-    && mv SaltOS4-master/code code \
-    && mv SaltOS4-master/scripts scripts \
-    && rm -rf SaltOS4-master
+# Copy saltos4 codebase
+COPY code /opt/saltos4/code
+COPY scripts /opt/saltos4/scripts
 
 # Create the saltos4 instance
 RUN cd /opt/saltos4 \

@@ -49,8 +49,8 @@ services:
 
     saltos4server:
         build:
-            context: .
-            dockerfile: Dockerfile.server
+            context: ..
+            dockerfile: scripts/Dockerfile.server
         container_name: saltos4server
         ports:
             - "0.0.0.0:8080:80"
@@ -62,8 +62,8 @@ services:
 
     saltos4devel:
         build:
-            context: .
-            dockerfile: Dockerfile.devel
+            context: ..
+            dockerfile: scripts/Dockerfile.devel
         container_name: saltos4devel
         ports:
             - "0.0.0.0:8080:8080"
