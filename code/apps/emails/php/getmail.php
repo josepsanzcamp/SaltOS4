@@ -1812,7 +1812,7 @@ function getmail_pdf($ids)
         // Generate PDF file from the HTML content
         $output = get_cache_file([__FUNCTION__, $id], '.pdf');
         if (!file_exists($output)) {
-            $opts = '--headless --no-pdf-header-footer';
+            $opts = '--headless=new --no-sandbox --no-pdf-header-footer';
             ob_passthru("chromium $opts --print-to-pdf=$output file://$input 2>&1");
             if (!file_exists($output)) {
                 // Some thing was wrong, falling back to old style
