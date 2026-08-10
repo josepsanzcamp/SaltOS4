@@ -76,7 +76,6 @@ RUN MARIA_SRC=$(ls -d /tmp/mariadb-12.3*) \
        -GNinja \
        -DCMAKE_BUILD_TYPE=Release \
        -DMRN_WITH_DOC=OFF \
-       -DWITH_GROONGA_NORMALIZER_MYSQL=ON \
        -DMYSQL_SOURCE_DIR="${MARIA_SRC}" \
        -DMYSQL_BUILD_DIR="${MARIA_SRC}/builddir" \
        -DMYSQL_CONFIG=/usr/bin/mariadb_config \
