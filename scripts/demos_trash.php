@@ -14,7 +14,7 @@ $maximum = 86400 * 7;
 $hashs = glob('*');
 foreach ($hashs as $hash) {
     $hash = trim($hash);
-    if (strlen($hash) != 32) {
+    if (strlen($hash) !== 32) {
         continue;
     }
     if (!file_exists("$hash/data/files/saltos.sqlite")) {

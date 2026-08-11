@@ -25,7 +25,8 @@ echo <<<HTML
 HTML;
 
 // Flush output immediately
-@ob_end_flush(); @flush();
+@ob_end_flush();
+@flush();
 
 function ob_passthru($cmd)
 {
@@ -43,7 +44,7 @@ if (!file_exists('code')) {
     die();
 }
 
-$hash = md5($_SERVER['REMOTE_ADDR']);
+$hash = md5($_SERVER['HTTP_X_REAL_IP'] ?? $_SERVER['REMOTE_ADDR']);
 if (!file_exists($hash)) {
     // Create the hash directory
     if (!mkdir($hash)) {

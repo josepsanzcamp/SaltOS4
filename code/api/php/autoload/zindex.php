@@ -130,7 +130,7 @@ if (php_sapi_name() === 'cli') {
             'request_method' => strtoupper(strval(get_server('REQUEST_METHOD'))),
             'content_type' => strtolower(strval(get_server('CONTENT_TYPE'))),
             'token' => check_token_format(get_server('HTTP_AUTHORIZATION_TOKEN')),
-            'remote_addr' => check_ip_addr(get_server('REMOTE_ADDR')),
+            'remote_addr' => check_ip_addr(get_server('HTTP_X_REAL_IP') ?? get_server('REMOTE_ADDR')),
             'user_agent' => strval(get_server('HTTP_USER_AGENT')),
             'lang' => check_lang_format(get_server('HTTP_ACCEPT_LANGUAGE')),
         ],
