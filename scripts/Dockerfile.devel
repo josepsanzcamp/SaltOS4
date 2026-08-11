@@ -1,6 +1,5 @@
 FROM debian:trixie
 
-# Preform first update and install dependencies
 RUN apt update && apt install -y \
     extrepo \
     wget \
@@ -11,10 +10,9 @@ RUN apt update && apt install -y \
     libnss3-tools \
     && rm -rf /var/lib/apt/lists/*
 
-# Enable external repos like sury and official mariadb
 RUN extrepo enable sury
 
-# Install PHP
+# php
 RUN apt update && apt install -y \
     php8.5 \
     php8.5-bcmath \
@@ -34,11 +32,11 @@ RUN apt update && apt install -y \
     php8.5-zstd \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy saltos4 codebase
+# saltos4 codebase
 COPY code /opt/saltos4/code
 COPY scripts /opt/saltos4/scripts
 
-# Create the saltos4 instance
+# instance setup
 RUN cd /opt/saltos4 \
     && mkdir instance \
     && cd instance \
@@ -46,7 +44,6 @@ RUN cd /opt/saltos4 \
     && mv web/index.html web/index.php \
     && echo '<root><db><type>pdo_sqlite</type></db></root>' > data/files/config.xml
 
-# SaltOS setup
 RUN php /opt/saltos4/instance/api/index.php setup \
     && user=admin php /opt/saltos4/instance/api/index.php setup/certs \
     && user=admin php /opt/saltos4/instance/api/index.php setup/company \
@@ -56,10 +53,10 @@ RUN php /opt/saltos4/instance/api/index.php setup \
     && user=admin php /opt/saltos4/instance/api/index.php setup/purchases \
     && user=admin php /opt/saltos4/instance/api/index.php setup/sales
 
-# Seed data used to populate the bind-mounted volume on first boot
+# seed data used to populate the bind-mounted volume on first boot
 RUN mv /opt/saltos4/instance/data /opt/saltos4/instance/data-seed
 
-# Entrypoint: populate an empty volume from the seed data, then start the server
+# entrypoint: populate an empty volume from the seed data, then start the server
 RUN cat <<'EOF' > /usr/local/bin/docker-entrypoint.sh
 #!/bin/bash
 set -e

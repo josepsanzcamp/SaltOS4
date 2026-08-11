@@ -27,7 +27,6 @@ RUN cd /tmp \
 
 FROM debian:trixie
 
-# Preform first update and install dependencies
 RUN apt update && apt install -y \
     extrepo \
     wget \
@@ -38,13 +37,10 @@ RUN apt update && apt install -y \
     libnss3-tools \
     && rm -rf /var/lib/apt/lists/*
 
-# Enable external repos like sury
 RUN extrepo enable sury
 
-# Install Apache, PHP (no mariadb/mysql ext, demos are sqlite-only)
+# php (no mariadb/mysql ext needed logically, but package kept for pattern consistency)
 RUN apt update && apt install -y \
-    apache2 \
-    libapache2-mod-php8.5 \
     php8.5 \
     php8.5-bcmath \
     php8.5-cli \
@@ -63,18 +59,36 @@ RUN apt update && apt install -y \
     php8.5-zstd \
     && rm -rf /var/lib/apt/lists/*
 
-# Runtime deps for xlsxio (built from source below)
+RUN sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 50M/' /etc/php/8.5/apache2/php.ini && \
+    sed -i 's/post_max_size = 8M/post_max_size = 50M/' /etc/php/8.5/apache2/php.ini && \
+    sed -i 's/memory_limit = 128M/memory_limit = 256M/' /etc/php/8.5/apache2/php.ini && \
+    sed -i 's/max_execution_time = 30/max_execution_time = 300/' /etc/php/8.5/apache2/php.ini
+
+# apache
+RUN apt update && apt install -y \
+    apache2 \
+    libapache2-mod-php8.5 \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN a2enmod rewrite \
+    && a2enmod headers \
+    && a2enmod expires \
+    && a2enmod deflate
+
+RUN echo "<Directory /var/www/html>\n\tAllowOverride All\n\tRequire all granted\n</Directory>" \
+    > /etc/apache2/conf-enabled/saltos.conf
+
+# xlsxio
 RUN apt update && apt install -y \
     zlib1g \
     expat \
     libminizip1 \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy xlsxio built binaries/libs from the builder stage
 COPY --from=xlsxio-builder /opt/xlsxio-install/usr/local /usr/local
 RUN ldconfig
 
-# OCR / office / document processing tools
+# ocr / office tools
 RUN apt update && apt install -y \
     tesseract-ocr \
     tesseract-ocr-eng \
@@ -87,33 +101,17 @@ RUN apt update && apt install -y \
     imagemagick \
     && rm -rf /var/lib/apt/lists/*
 
-# Install cron and tini
+# cron & tini
 RUN apt update && apt install -y \
     cron \
     tini \
     && rm -rf /var/lib/apt/lists/*
 
-# Enable required apache modules
-RUN a2enmod rewrite \
-    && a2enmod headers \
-    && a2enmod expires \
-    && a2enmod deflate
-
-# Configure apache
-RUN echo "<Directory /var/www/html>\n\tAllowOverride All\n\tRequire all granted\n</Directory>" \
-    > /etc/apache2/conf-enabled/saltos.conf
-
-# Configure PHP
-RUN sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 50M/' /etc/php/8.5/apache2/php.ini && \
-    sed -i 's/post_max_size = 8M/post_max_size = 50M/' /etc/php/8.5/apache2/php.ini && \
-    sed -i 's/memory_limit = 128M/memory_limit = 256M/' /etc/php/8.5/apache2/php.ini && \
-    sed -i 's/max_execution_time = 30/max_execution_time = 300/' /etc/php/8.5/apache2/php.ini
-
-# Copy saltos4 codebase
+# saltos4 codebase
 COPY code /opt/saltos4/code
 COPY scripts /opt/saltos4/scripts
 
-# Point the apache docroot at instances
+# instance setup: point the apache docroot at instances
 RUN cd /opt/saltos4 \
     && mkdir instances \
     && cd instances \
@@ -129,18 +127,18 @@ RUN cd /opt/saltos4 \
     && mv html html.old \
     && ln -s /opt/saltos4/instances html
 
-# Seed data used to populate the bind-mounted volumes on first boot
+# seed data used to populate the bind-mounted volumes on first boot
 RUN mv /opt/saltos4/instances /opt/saltos4/instances-seed \
     && mkdir /opt/saltos4/instances
 
-# Configure crontab: purge demos older than 7 days, running trash.php locally (no apache involved)
+# crontab: purge demos older than 7 days, running trash.php locally (no apache involved)
 RUN cat <<'EOF' > /etc/cron.d/saltos4
 MAILTO=""
 0 * * * * www-data cd /opt/saltos4/instances && php /opt/saltos4/scripts/demos_trash.php
 EOF
 RUN chmod 0644 /etc/cron.d/saltos4
 
-# Entrypoint: populate the bind-mounted instances dir with symlinks on first boot, then start services
+# entrypoint: populate the bind-mounted instances dir with symlinks on first boot, then start services
 RUN cat <<'EOF' > /usr/local/bin/docker-entrypoint.sh
 #!/bin/bash
 set -e

@@ -91,7 +91,6 @@ RUN mkdir -p /opt/mroonga-install \
 
 FROM debian:trixie
 
-# Preform first update and install dependencies
 RUN apt update && apt install -y \
     extrepo \
     wget \
@@ -102,16 +101,10 @@ RUN apt update && apt install -y \
     libnss3-tools \
     && rm -rf /var/lib/apt/lists/*
 
-# Enable external repos like sury and official mariadb
-RUN extrepo enable sury \
-    && extrepo enable mariadb-12.3
+RUN extrepo enable sury
 
-# Install MariaDB, Apache, PHP
+# php
 RUN apt update && apt install -y \
-    mariadb-server \
-    mariadb-client \
-    apache2 \
-    libapache2-mod-php8.5 \
     php8.5 \
     php8.5-bcmath \
     php8.5-cli \
@@ -130,37 +123,33 @@ RUN apt update && apt install -y \
     php8.5-zstd \
     && rm -rf /var/lib/apt/lists/*
 
-# Runtime deps for xlsxio (built from source below)
+RUN sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 50M/' /etc/php/8.5/apache2/php.ini && \
+    sed -i 's/post_max_size = 8M/post_max_size = 50M/' /etc/php/8.5/apache2/php.ini && \
+    sed -i 's/memory_limit = 128M/memory_limit = 256M/' /etc/php/8.5/apache2/php.ini && \
+    sed -i 's/max_execution_time = 30/max_execution_time = 300/' /etc/php/8.5/apache2/php.ini
+
+# apache
 RUN apt update && apt install -y \
-    zlib1g \
-    expat \
-    libminizip1 \
+    apache2 \
+    libapache2-mod-php8.5 \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy xlsxio built binaries/libs from the builder stage
-COPY --from=xlsxio-builder /opt/xlsxio-install/usr/local /usr/local
-RUN ldconfig
+RUN a2enmod rewrite \
+    && a2enmod headers \
+    && a2enmod expires \
+    && a2enmod deflate
 
-# OCR / office / document processing tools
+RUN echo "<Directory /var/www/html>\n\tAllowOverride All\n\tRequire all granted\n</Directory>" \
+    > /etc/apache2/conf-enabled/saltos.conf
+
+# mariadb + mroonga
+RUN extrepo enable mariadb-12.3
+
 RUN apt update && apt install -y \
-    tesseract-ocr \
-    tesseract-ocr-eng \
-    tesseract-ocr-spa \
-    tesseract-ocr-osd \
-    chromium \
-    git \
-    subversion \
-    libreoffice \
-    imagemagick \
+    mariadb-server \
+    mariadb-client \
     && rm -rf /var/lib/apt/lists/*
 
-# Install cron and tini
-RUN apt update && apt install -y \
-    cron \
-    tini \
-    && rm -rf /var/lib/apt/lists/*
-
-# For mroonga
 RUN apt update && apt install -y \
     curl \
     ca-certificates \
@@ -181,46 +170,56 @@ RUN apt update && apt install -y \
 
 COPY --from=mroonga-builder /opt/mroonga-install/ /usr/lib/mysql/plugin/
 
-# Enable required apache modules
-RUN a2enmod rewrite \
-    && a2enmod headers \
-    && a2enmod expires \
-    && a2enmod deflate
-
-# Configure apache
-RUN echo "<Directory /var/www/html>\n\tAllowOverride All\n\tRequire all granted\n</Directory>" \
-    > /etc/apache2/conf-enabled/saltos.conf
-
-# Configure MariaDB
 RUN sed -i 's/^bind-address.*/bind-address = 127.0.0.1/' /etc/mysql/mariadb.conf.d/50-server.cnf && \
     echo "[mysqld]" >> /etc/mysql/mariadb.conf.d/99-custom.cnf && \
     echo "character-set-server = utf8mb4" >> /etc/mysql/mariadb.conf.d/99-custom.cnf && \
     echo "collation-server = utf8mb4_unicode_ci" >> /etc/mysql/mariadb.conf.d/99-custom.cnf && \
     echo "max_allowed_packet = 256M" >> /etc/mysql/mariadb.conf.d/99-custom.cnf
 
-# Configure DB credentials
 RUN service mariadb start \
     && echo "CREATE DATABASE saltos CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;" | mariadb \
     && echo "CREATE USER 'saltos'@'localhost' IDENTIFIED BY 'saltos';" | mariadb \
     && echo "GRANT ALL PRIVILEGES ON saltos.* TO 'saltos'@'localhost';" | mariadb \
     && service mariadb stop
 
-# Enable mroonga engine
 RUN service mariadb start \
     && cat /usr/lib/mysql/plugin/install.sql | mariadb \
     && service mariadb stop
 
-# Configure PHP
-RUN sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 50M/' /etc/php/8.5/apache2/php.ini && \
-    sed -i 's/post_max_size = 8M/post_max_size = 50M/' /etc/php/8.5/apache2/php.ini && \
-    sed -i 's/memory_limit = 128M/memory_limit = 256M/' /etc/php/8.5/apache2/php.ini && \
-    sed -i 's/max_execution_time = 30/max_execution_time = 300/' /etc/php/8.5/apache2/php.ini
+# xlsxio
+RUN apt update && apt install -y \
+    zlib1g \
+    expat \
+    libminizip1 \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy saltos4 codebase
+COPY --from=xlsxio-builder /opt/xlsxio-install/usr/local /usr/local
+RUN ldconfig
+
+# ocr / office tools
+RUN apt update && apt install -y \
+    tesseract-ocr \
+    tesseract-ocr-eng \
+    tesseract-ocr-spa \
+    tesseract-ocr-osd \
+    chromium \
+    git \
+    subversion \
+    libreoffice \
+    imagemagick \
+    && rm -rf /var/lib/apt/lists/*
+
+# cron & tini
+RUN apt update && apt install -y \
+    cron \
+    tini \
+    && rm -rf /var/lib/apt/lists/*
+
+# saltos4 codebase
 COPY code /opt/saltos4/code
 COPY scripts /opt/saltos4/scripts
 
-# Create the saltos4 instance
+# instance setup
 RUN cd /opt/saltos4 \
     && mkdir instance \
     && cd instance \
@@ -233,7 +232,6 @@ RUN cd /opt/saltos4 \
     && mv html html.old \
     && ln -s /opt/saltos4/instance/web html
 
-# SaltOS setup
 RUN service mariadb start \
     && php /opt/saltos4/instance/api/index.php setup \
     && user=admin php /opt/saltos4/instance/api/index.php setup/certs \
@@ -245,18 +243,18 @@ RUN service mariadb start \
     && user=admin php /opt/saltos4/instance/api/index.php setup/sales \
     && service mariadb stop
 
-# Seed data used to populate the bind-mounted volumes on first boot
+# seed data used to populate the bind-mounted volumes on first boot
 RUN mv /var/lib/mysql /var/lib/mysql-seed \
     && mv /opt/saltos4/instance/data /opt/saltos4/instance/data-seed
 
-# Configure crontab
+# crontab
 RUN cat <<'EOF' > /etc/cron.d/saltos4
 MAILTO=""
 * * * * * saltos /usr/bin/php /opt/saltos4/instance/api/index.php cron
 EOF
 RUN chmod 0644 /etc/cron.d/saltos4
 
-# Entrypoint: populate empty volumes from the seed data, then start services
+# entrypoint: populate empty volumes from the seed data, then start services
 RUN cat <<'EOF' > /usr/local/bin/docker-entrypoint.sh
 #!/bin/bash
 set -e
