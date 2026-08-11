@@ -1,4 +1,3 @@
-
 ####################################################################################################
 # xlsxio builder
 ####################################################################################################
@@ -228,7 +227,7 @@ RUN cd /opt/saltos4 \
     && bash /opt/saltos4/scripts/make_instance.sh \
     && cd .. \
     && chown -R www-data:www-data instance \
-    && chmod -R 755 instance \
+    && chmod -R 0755 instance \
     && chown www-data:www-data /var/www \
     && cd /var/www \
     && mv html html.old \

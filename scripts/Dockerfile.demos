@@ -1,0 +1,159 @@
+####################################################################################################
+# xlsxio builder
+####################################################################################################
+
+FROM debian:trixie AS xlsxio-builder
+
+RUN apt update && apt install -y \
+    build-essential \
+    cmake \
+    git \
+    zlib1g-dev \
+    expat \
+    libexpat1-dev \
+    libminizip-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN cd /tmp \
+    && git clone --depth 1 https://github.com/brechtsanders/xlsxio.git \
+    && cd xlsxio \
+    && cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_STATIC=NO . \
+    && make \
+    && make install DESTDIR=/opt/xlsxio-install
+
+####################################################################################################
+# default builder
+####################################################################################################
+
+FROM debian:trixie
+
+# Preform first update and install dependencies
+RUN apt update && apt install -y \
+    extrepo \
+    wget \
+    vim \
+    net-tools \
+    iputils-ping \
+    poppler-utils \
+    libnss3-tools \
+    && rm -rf /var/lib/apt/lists/*
+
+# Enable external repos like sury
+RUN extrepo enable sury
+
+# Install Apache, PHP (no mariadb/mysql ext, demos are sqlite-only)
+RUN apt update && apt install -y \
+    apache2 \
+    libapache2-mod-php8.5 \
+    php8.5 \
+    php8.5-bcmath \
+    php8.5-cli \
+    php8.5-common \
+    php8.5-curl \
+    php8.5-gd \
+    php8.5-imap \
+    php8.5-mailparse \
+    php8.5-mbstring \
+    php8.5-mysql \
+    php8.5-readline \
+    php8.5-sqlite3 \
+    php8.5-xml \
+    php8.5-yaml \
+    php8.5-zip \
+    php8.5-zstd \
+    && rm -rf /var/lib/apt/lists/*
+
+# Runtime deps for xlsxio (built from source below)
+RUN apt update && apt install -y \
+    zlib1g \
+    expat \
+    libminizip1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy xlsxio built binaries/libs from the builder stage
+COPY --from=xlsxio-builder /opt/xlsxio-install/usr/local /usr/local
+RUN ldconfig
+
+# OCR / office / document processing tools
+RUN apt update && apt install -y \
+    tesseract-ocr \
+    tesseract-ocr-eng \
+    tesseract-ocr-spa \
+    tesseract-ocr-osd \
+    chromium \
+    git \
+    subversion \
+    libreoffice \
+    imagemagick \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install cron and tini
+RUN apt update && apt install -y \
+    cron \
+    tini \
+    && rm -rf /var/lib/apt/lists/*
+
+# Enable required apache modules
+RUN a2enmod rewrite \
+    && a2enmod headers \
+    && a2enmod expires \
+    && a2enmod deflate
+
+# Configure apache
+RUN echo "<Directory /var/www/html>\n\tAllowOverride All\n\tRequire all granted\n</Directory>" \
+    > /etc/apache2/conf-enabled/saltos.conf
+
+# Configure PHP
+RUN sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 50M/' /etc/php/8.5/apache2/php.ini && \
+    sed -i 's/post_max_size = 8M/post_max_size = 50M/' /etc/php/8.5/apache2/php.ini && \
+    sed -i 's/memory_limit = 128M/memory_limit = 256M/' /etc/php/8.5/apache2/php.ini && \
+    sed -i 's/max_execution_time = 30/max_execution_time = 300/' /etc/php/8.5/apache2/php.ini
+
+# Copy saltos4 codebase
+COPY code /opt/saltos4/code
+COPY scripts /opt/saltos4/scripts
+
+# Point the apache docroot at instances
+RUN cd /opt/saltos4 \
+    && mkdir instances \
+    && cd instances \
+    && ln -s ../code code \
+    && ln -s ../scripts scripts \
+    && ln -s scripts/demos_index.php index.php \
+    && mkdir removed \
+    && cd .. \
+    && chown -R www-data:www-data instances \
+    && chmod -R 0755 instances \
+    && chown www-data:www-data /var/www \
+    && cd /var/www \
+    && mv html html.old \
+    && ln -s /opt/saltos4/instances html
+
+# Seed data used to populate the bind-mounted volumes on first boot
+RUN mv /opt/saltos4/instances /opt/saltos4/instances-seed \
+    && mkdir /opt/saltos4/instances
+
+# Configure crontab: purge demos older than 7 days, running trash.php locally (no apache involved)
+RUN cat <<'EOF' > /etc/cron.d/saltos4
+MAILTO=""
+0 * * * * www-data cd /opt/saltos4/instances && php /opt/saltos4/scripts/demos_trash.php
+EOF
+RUN chmod 0644 /etc/cron.d/saltos4
+
+# Entrypoint: populate the bind-mounted instances dir with symlinks on first boot, then start services
+RUN cat <<'EOF' > /usr/local/bin/docker-entrypoint.sh
+#!/bin/bash
+set -e
+
+if [ -z "$(ls -A /opt/saltos4/instances)" ]; then
+    cp -a /opt/saltos4/instances-seed/. /opt/saltos4/instances/
+fi
+
+service apache2 start
+service cron start
+exec /bin/tail -f /dev/null
+EOF
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+ENTRYPOINT ["/usr/bin/tini", "--"]
+CMD ["/usr/local/bin/docker-entrypoint.sh"]

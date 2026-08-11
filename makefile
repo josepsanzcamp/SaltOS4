@@ -441,3 +441,26 @@ develstatus:
 
 develbash:
 	cd scripts && docker compose --profile devel exec saltos4devel bash
+
+################################################################################
+# DOCKER DEMOS PART
+################################################################################
+
+demosbuild:
+	cd scripts && docker compose --profile demos build
+
+demosstart:
+	cd scripts && docker compose --profile demos up -d
+
+demosstop:
+	cd scripts && docker compose --profile demos kill
+	cd scripts && docker compose --profile demos down
+
+demoslogs:
+	cd scripts && docker compose --profile demos logs
+
+demosstatus:
+	cd scripts && docker compose --profile demos ps
+
+demosbash:
+	cd scripts && docker compose --profile demos exec saltos4demos bash

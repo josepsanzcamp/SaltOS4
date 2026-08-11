@@ -71,3 +71,15 @@ services:
             - ../volumes/devel/data:/opt/saltos4/instance/data
         profiles: ["devel"]
         restart: unless-stopped
+
+    saltos4demos:
+        build:
+            context: ..
+            dockerfile: scripts/Dockerfile.demos
+        container_name: saltos4demos
+        ports:
+            - "0.0.0.0:8080:80"
+        volumes:
+            - ../volumes/demos/instances:/opt/saltos4/instances
+        profiles: ["demos"]
+        restart: unless-stopped
