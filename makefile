@@ -389,11 +389,9 @@ teststatus:
 ################################################################################
 
 httpstart:
-	cd code/web/ && ln -s index.html index.php || true
 	php -S 0.0.0.0:8092 -t code/web/ 2>/dev/null &
 
 httpstop:
-	cd code/web/ && rm -f index.php || true
 	pkill -f "^php -S 0.0.0.0:8092" || true
 
 ################################################################################
