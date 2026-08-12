@@ -48,6 +48,7 @@ services:
         restart: unless-stopped
 
     saltos4server:
+        image: saltos4server
         build:
             context: ..
             dockerfile: scripts/Dockerfile.server
@@ -61,6 +62,7 @@ services:
         restart: unless-stopped
 
     saltos4devel:
+        image: saltos4devel
         build:
             context: ..
             dockerfile: scripts/Dockerfile.devel
@@ -73,6 +75,7 @@ services:
         restart: unless-stopped
 
     saltos4demos:
+        image: saltos4demos
         build:
             context: ..
             dockerfile: scripts/Dockerfile.demos
