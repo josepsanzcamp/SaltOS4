@@ -6,7 +6,7 @@ phpass|https://github.com/openwall/phpass/commits/main.atom|<updated>|PHVwZGF0ZW
 phpgeoip|https://github.com/Webklex/php-geoip/tags.atom|<title>|PHRpdGxlPjEuMC4wPC90aXRsZT4=
 phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<title>|PHRpdGxlPjUuOS4wPC90aXRsZT4=
 tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<title>|PHRpdGxlPjcuMC40PC90aXRsZT4=
-tc-lib-pdf|https://github.com/tecnickcom/tc-lib-pdf/tags.atom|<title>|PHRpdGxlPjguNjguMzwvdGl0bGU+
+tc-lib-pdf|https://github.com/tecnickcom/tc-lib-pdf/tags.atom|<title>|PHRpdGxlPjguNjguNDwvdGl0bGU+
 yaml|https://github.com/symfony/yaml/tags.atom|<title>|PHRpdGxlPnY4LjEuMjwvdGl0bGU+
 zxcvbn|https://github.com/bjeavons/zxcvbn-php/tags.atom|<title>|PHRpdGxlPjEuNC4yPC90aXRsZT4=
 
@@ -18,7 +18,7 @@ icons|https://github.com/twbs/icons/tags.atom|<title>|PHRpdGxlPnYxLjEzLjE8L3RpdG
 imagesloaded|https://github.com/desandro/imagesloaded/tags.atom|<title>|PHRpdGxlPnY1LjAuMDwvdGl0bGU+
 imaskjs|https://github.com/uNmAnNeR/imaskjs/tags.atom|<title>|PHRpdGxlPnY3LjYuMTwvdGl0bGU+
 interactjs|https://github.com/taye/interact.js/tags.atom|<title>|PHRpdGxlPnYxLjEwLjI4PC90aXRsZT4=
-joditeditor|https://github.com/xdan/jodit/tags.atom|<title>|PHRpdGxlPjQuMTMuMTc8L3RpdGxlPg==
+joditeditor|https://github.com/xdan/jodit/tags.atom|<title>|PHRpdGxlPjQuMTMuMjI8L3RpdGxlPg==
 jspreadsheet|https://data.jsdelivr.com/v1/packages/npm/jspreadsheet-ce/resolved|version|InZlcnNpb24iOiAiNS4wLjQiLA==
 jstree|https://github.com/vakata/jstree/commits/v.4.0.atom|<updated>|PHVwZGF0ZWQ+MjAyMy0wMS0xNlQxMTo1MzoyMFo8L3VwZGF0ZWQ+
 jsuites|https://data.jsdelivr.com/v1/packages/npm/jsuites/resolved|version|InZlcnNpb24iOiAiNi40LjIiLA==
@@ -48,7 +48,7 @@ minify|https://github.com/coderaiser/minify/tags.atom|<title>|PHRpdGxlPm1pbmlmeS
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|PHRpdGxlPk1yb29uZ2EgMTYuMDggLSAyMDI2LTA4LTA0PC90aXRsZT4=
 node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjYtMDgtMDUsIFZlcnNpb24gMjYuNy4wIChDdXJyZW50KSwgQGFkdWg5NTwvdGl0bGU+
 pcov|https://github.com/krakjoe/pcov/tags.atom|<title>|PHRpdGxlPnYxLjAuMTI8L3RpdGxlPg==
-php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPlBIUCA4LjQuMjQ8L3RpdGxlPg==
+php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjYuMGJldGExPC90aXRsZT4=
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|PHRpdGxlPjQuMC40IC0gMjAyNi0wOC0wNjwvdGl0bGU+
 phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjIuMi44PC90aXRsZT4=
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|PHRpdGxlPlBIUFVuaXQgOS42LjM2PC90aXRsZT4=
