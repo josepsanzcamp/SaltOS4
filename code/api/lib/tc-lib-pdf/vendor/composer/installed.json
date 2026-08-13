@@ -246,17 +246,17 @@
         },
         {
             "name": "tecnickcom/tc-lib-pdf",
-            "version": "8.68.3",
-            "version_normalized": "8.68.3.0",
+            "version": "8.68.4",
+            "version_normalized": "8.68.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/tc-lib-pdf.git",
-                "reference": "6b056239c0d9781319a4d009e8ca33d48e94e0ea"
+                "reference": "9d37df70f9b04e4ec4885da054fb43eada248ef0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/tc-lib-pdf/zipball/6b056239c0d9781319a4d009e8ca33d48e94e0ea",
-                "reference": "6b056239c0d9781319a4d009e8ca33d48e94e0ea",
+                "url": "https://api.github.com/repos/tecnickcom/tc-lib-pdf/zipball/9d37df70f9b04e4ec4885da054fb43eada248ef0",
+                "reference": "9d37df70f9b04e4ec4885da054fb43eada248ef0",
                 "shasum": ""
             },
             "require": {
@@ -291,7 +291,7 @@
                 "ext-curl": "Required to contact a Timestamp Authority (RFC 3161) when timestamping signatures",
                 "ext-intl": "Enables Unicode NFC normalization of the PDF file name"
             },
-            "time": "2026-08-07T08:11:00+00:00",
+            "time": "2026-08-11T15:32:13+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
