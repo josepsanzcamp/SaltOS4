@@ -33,8 +33,6 @@ RUN apt update && apt install -y \
     vim \
     net-tools \
     iputils-ping \
-    poppler-utils \
-    libnss3-tools \
     && rm -rf /var/lib/apt/lists/*
 
 RUN extrepo enable sury
@@ -99,6 +97,8 @@ RUN apt update && apt install -y \
     subversion \
     libreoffice \
     imagemagick \
+    poppler-utils \
+    libnss3-tools \
     && rm -rf /var/lib/apt/lists/*
 
 # cron & tini

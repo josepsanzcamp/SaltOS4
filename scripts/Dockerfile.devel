@@ -6,8 +6,6 @@ RUN apt update && apt install -y \
     vim \
     net-tools \
     iputils-ping \
-    poppler-utils \
-    libnss3-tools \
     && rm -rf /var/lib/apt/lists/*
 
 RUN extrepo enable sury
@@ -30,6 +28,12 @@ RUN apt update && apt install -y \
     php8.5-yaml \
     php8.5-zip \
     php8.5-zstd \
+    && rm -rf /var/lib/apt/lists/*
+
+# pdf tools & certutils
+RUN apt update && apt install -y \
+    poppler-utils \
+    libnss3-tools \
     && rm -rf /var/lib/apt/lists/*
 
 # saltos4 codebase
