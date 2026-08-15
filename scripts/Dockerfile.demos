@@ -110,6 +110,7 @@ RUN apt update && apt install -y \
 # saltos4 codebase
 COPY code /opt/saltos4/code
 COPY scripts /opt/saltos4/scripts
+COPY .git /opt/saltos4/.git
 
 # instance setup: point the apache docroot at instances
 RUN cd /opt/saltos4 \
