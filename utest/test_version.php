@@ -61,23 +61,11 @@ final class test_version extends TestCase
         $this->assertSame(gitversion('/tmp/'), 123);
         unlink('/tmp/gitversion');
 
-        $this->assertSame(svnversion() === 0, true);
-        $this->assertSame(svnversion(getenv('HOME')), 0);
-        file_put_contents('/tmp/svnversion', '123');
-        $this->assertSame(svnversion('/tmp/'), 123);
-        unlink('/tmp/svnversion');
-
         // This trick allow to execute the is_link part of the version.php file
         $old = get_server('SCRIPT_FILENAME');
         $new = '/tmp/' . basename($old);
         $this->assertTrue(symlink($old, $new));
         set_server('SCRIPT_FILENAME', $new);
-
-        // This part allow to execute the otherwise check_command part
-        $cache = get_cache_file('which svnversion', '.out');
-        $this->assertNotFalse(file_put_contents($cache, ''));
-        $this->assertSame(svnversion() === 0, true);
-        $this->assertTrue(unlink($cache));
 
         // This part allow to execute the otherwise check_command part
         $cache = get_cache_file('which git', '.out');

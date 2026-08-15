@@ -41,7 +41,6 @@ function check_system()
         ['extension', 'bcmath', 'error', 'php-bcmath'], // tcpdf library
         ['extension', 'yaml', 'warning', 'php-yaml'], // core module
         ['program', 'timeout', 'warning', 'coreutils'], // core module
-        ['program', 'svnversion', 'warning', 'subversion'], // core module
         ['program', 'git', 'warning', 'git'], // core module
         ['class', 'pdo', 'warning', 'php-pdo'], // database driver
         ['class', 'mysqli', 'warning', 'php-mysql'], // database driver

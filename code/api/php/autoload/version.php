@@ -51,55 +51,6 @@ function __name_version_revision($name, $version, $revision)
 }
 
 /**
- * SVN Version
- *
- * This function tries to return the svn version of the project
- *
- * @dir => allow to specify where do you want to execute the svnversion command
- */
-function svnversion($dir = null)
-{
-    if ($dir === null) {
-        $dir = getcwd_protected();
-    }
-    $version = __svnversion_helper($dir);
-    if (!$version) {
-        $file = get_server('SCRIPT_FILENAME');
-        if (!file_exists($file)) {
-            $file = basename($file);
-        }
-        if (is_link($file)) {
-            $dir = dirname(realpath(readlink($file)));
-            $version = __svnversion_helper($dir);
-        }
-    }
-    return $version;
-}
-
-/**
- * SVN Version helper
- *
- * This function tries to return the svn version of the project
- *
- * @dir => allow to specify where do you want to execute the svnversion command
- */
-function __svnversion_helper($dir)
-{
-    // Using regular file
-    if (file_exists("$dir/svnversion")) {
-        return intval(file_get_contents("$dir/svnversion"));
-    }
-    // Using svnversion
-    if (check_commands('svnversion')) {
-        $cmd = "cd $dir; svnversion 2>/dev/null";
-        $expires = get_config('server/commandexpires') ?? 60;
-        return intval(ob_passthru($cmd, $expires));
-    }
-    // Nothing to do
-    return 0;
-}
-
-/**
  * GIT Version
  *
  * This function tries to return the git version of the project
