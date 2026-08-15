@@ -51,7 +51,7 @@ TCPDF_FONT_PKGDIR=./vendor/tecnickcom/tc-lib-pdf-font
 TCPDF_FONT_SENTINEL=$(TCPDF_FONT_PKGDIR)/target/fonts/core/helvetica.json
 
 # Mago version
-MAGOVERSION=1.43.0
+MAGOVERSION=1.46.0
 
 # --- MAKE TARGETS ---
 

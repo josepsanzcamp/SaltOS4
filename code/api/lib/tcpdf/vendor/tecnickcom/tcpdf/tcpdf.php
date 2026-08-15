@@ -2,7 +2,7 @@
 
 //============================================================+
 // File name    : tcpdf.php
-// Version      : 7.0.4
+// Version      : 7.0.5
 // Author       : Nicola Asuni - Tecnick.com LTD - www.tecnick.com - info@tecnick.com
 // License      : GNU-LGPL v3 (https://www.gnu.org/copyleft/lesser.html)
 // Copyright (C): 2002-2026 Nicola Asuni - Tecnick.com LTD
@@ -15,7 +15,7 @@
  * See: https://tcpdf.org
  * @package com.tecnick.tcpdf
  * @author Nicola Asuni
- * @version 7.0.4
+ * @version 7.0.5
  */
 
 // TCPDF configuration
@@ -8449,7 +8449,6 @@ class TCPDF_ENGINE extends \Com\Tecnick\Pdf\Tcpdf
         $this->anchorPageRegionsToContentTop($pid);
         // The engine declares the protected implementation through a public
         // @method tag, which the analyzer resolves before the real method.
-        // @mago-expect analysis:possibly-non-existent-method
         parent::setPageContext($pid);
         if ($this->pagecontexthook instanceof \Closure) {
             // The hook is a public property: the cast defensively coerces a
