@@ -1780,7 +1780,7 @@ function getmail_pdf($ids)
     }
 
     // Check if the required command is available
-    if (!check_commands('chromium')) {
+    if (!check_commands(['chromium', 'pdfunite'])) {
         require_once 'php/lib/pdf.php';
         return pdf('apps/emails/xml/emails_pdf.xml', ['id' => check_ids($ids)]);
     }
