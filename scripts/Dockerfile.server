@@ -202,8 +202,10 @@ RUN apt update && apt install -y \
     tesseract-ocr-osd \
     chromium \
     git \
-    subversion \
-    libreoffice \
+    libreoffice-writer \
+    libreoffice-calc \
+    libreoffice-impress \
+    libreoffice-draw \
     imagemagick \
     poppler-utils \
     libnss3-tools \
@@ -233,6 +235,7 @@ RUN cd /opt/saltos4 \
     && mv html html.old \
     && ln -s /opt/saltos4/instance/web html
 
+# seed data used to populate the bind-mounted volumes on first boot
 RUN service mariadb start \
     && php /opt/saltos4/instance/api/index.php setup \
     && user=admin php /opt/saltos4/instance/api/index.php setup/certs \
@@ -242,10 +245,8 @@ RUN service mariadb start \
     && user=admin php /opt/saltos4/instance/api/index.php setup/hr \
     && user=admin php /opt/saltos4/instance/api/index.php setup/purchases \
     && user=admin php /opt/saltos4/instance/api/index.php setup/sales \
-    && service mariadb stop
-
-# seed data used to populate the bind-mounted volumes on first boot
-RUN mv /var/lib/mysql /var/lib/mysql-seed \
+    && service mariadb stop \
+    && mv /var/lib/mysql /var/lib/mysql-seed \
     && mv /opt/saltos4/instance/data /opt/saltos4/instance/data-seed
 
 # crontab

@@ -48,6 +48,7 @@ RUN cd /opt/saltos4 \
     && bash /opt/saltos4/scripts/make_instance.sh \
     && echo '<root><db><type>pdo_sqlite</type></db></root>' > data/files/config.xml
 
+# seed data used to populate the bind-mounted volume on first boot
 RUN php /opt/saltos4/instance/api/index.php setup \
     && user=admin php /opt/saltos4/instance/api/index.php setup/certs \
     && user=admin php /opt/saltos4/instance/api/index.php setup/company \
@@ -55,10 +56,8 @@ RUN php /opt/saltos4/instance/api/index.php setup \
     && user=admin php /opt/saltos4/instance/api/index.php setup/crm \
     && user=admin php /opt/saltos4/instance/api/index.php setup/hr \
     && user=admin php /opt/saltos4/instance/api/index.php setup/purchases \
-    && user=admin php /opt/saltos4/instance/api/index.php setup/sales
-
-# seed data used to populate the bind-mounted volume on first boot
-RUN mv /opt/saltos4/instance/data /opt/saltos4/instance/data-seed
+    && user=admin php /opt/saltos4/instance/api/index.php setup/sales \
+    && mv /opt/saltos4/instance/data /opt/saltos4/instance/data-seed
 
 # entrypoint: populate an empty volume from the seed data, then start the server
 RUN cat <<'EOF' > /usr/local/bin/docker-entrypoint.sh

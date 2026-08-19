@@ -94,8 +94,10 @@ RUN apt update && apt install -y \
     tesseract-ocr-osd \
     chromium \
     git \
-    subversion \
-    libreoffice \
+    libreoffice-writer \
+    libreoffice-calc \
+    libreoffice-impress \
+    libreoffice-draw \
     imagemagick \
     poppler-utils \
     libnss3-tools \
@@ -113,6 +115,7 @@ COPY scripts /opt/saltos4/scripts
 COPY .git /opt/saltos4/.git
 
 # instance setup: point the apache docroot at instances
+# seed data used to populate the bind-mounted volumes on first boot
 RUN cd /opt/saltos4 \
     && mkdir instances \
     && cd instances \
@@ -126,10 +129,8 @@ RUN cd /opt/saltos4 \
     && chown www-data:www-data /var/www \
     && cd /var/www \
     && mv html html.old \
-    && ln -s /opt/saltos4/instances html
-
-# seed data used to populate the bind-mounted volumes on first boot
-RUN mv /opt/saltos4/instances /opt/saltos4/instances-seed \
+    && ln -s /opt/saltos4/instances html \
+    && mv /opt/saltos4/instances /opt/saltos4/instances-seed \
     && mkdir /opt/saltos4/instances
 
 # crontab: purge demos older than 7 days, running trash.php locally (no apache involved)
