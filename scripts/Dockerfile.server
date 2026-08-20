@@ -147,6 +147,8 @@ RUN apt update && apt install -y \
     mariadb-server \
     mariadb-client \
     && mv /var/lib/mysql /var/lib/mysql-seed \
+    && mkdir /var/lib/mysql \
+    && chown mysql:mysql /var/lib/mysql \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt update && apt install -y \
@@ -260,7 +262,10 @@ if [ -z "$(ls -A /var/lib/mysql)" ] && [ -z "$(ls -A /opt/saltos4/instance/data)
     php /opt/saltos4/instance/api/index.php setup
 fi
 
-service mariadb start
+if [ -n "$(ls -A /var/lib/mysql)" ]; then
+    service mariadb start
+fi
+
 service apache2 start
 service cron start
 exec /bin/tail -f /dev/null
