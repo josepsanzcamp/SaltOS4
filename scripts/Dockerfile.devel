@@ -1,5 +1,11 @@
 FROM debian:trixie
 
+RUN echo 'path-exclude /usr/share/doc/*' > /etc/dpkg/dpkg.cfg.d/01_nodoc && \
+    echo 'path-exclude /usr/share/man/*' >> /etc/dpkg/dpkg.cfg.d/01_nodoc && \
+    echo 'path-exclude /usr/share/locale/*' >> /etc/dpkg/dpkg.cfg.d/01_nodoc && \
+    echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/00_nofilters && \
+    echo 'APT::Install-Suggests "false";' >> /etc/apt/apt.conf.d/00_nofilters
+
 RUN apt update && apt install -y \
     extrepo \
     wget \
