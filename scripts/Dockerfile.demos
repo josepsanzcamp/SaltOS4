@@ -134,14 +134,13 @@ RUN cd /opt/saltos4 \
     && mkdir /opt/saltos4/instances
 
 # crontab: purge demos older than 7 days, running trash.php locally (no apache involved)
-RUN cat <<'EOF' > /etc/cron.d/saltos4
+RUN cat <<'EOF' > /etc/cron.d/saltos4 && chmod 0644 /etc/cron.d/saltos4
 MAILTO=""
 0 * * * * www-data cd /opt/saltos4/instances && php /opt/saltos4/scripts/demos_trash.php
 EOF
-RUN chmod 0644 /etc/cron.d/saltos4
 
 # entrypoint: populate the bind-mounted instances dir with symlinks on first boot, then start services
-RUN cat <<'EOF' > /usr/local/bin/docker-entrypoint.sh
+RUN cat <<'EOF' > /usr/local/bin/docker-entrypoint.sh && chmod +x /usr/local/bin/docker-entrypoint.sh
 #!/bin/bash
 set -e
 
@@ -153,7 +152,6 @@ service apache2 start
 service cron start
 exec /bin/tail -f /dev/null
 EOF
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["/usr/local/bin/docker-entrypoint.sh"]

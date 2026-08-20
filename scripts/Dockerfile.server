@@ -146,6 +146,7 @@ RUN extrepo enable mariadb-12.3
 RUN apt update && apt install -y \
     mariadb-server \
     mariadb-client \
+    && mv /var/lib/mysql /var/lib/mysql-seed \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt update && apt install -y \
@@ -173,16 +174,6 @@ RUN sed -i 's/^bind-address.*/bind-address = 127.0.0.1/' /etc/mysql/mariadb.conf
     echo "character-set-server = utf8mb4" >> /etc/mysql/mariadb.conf.d/99-custom.cnf && \
     echo "collation-server = utf8mb4_unicode_ci" >> /etc/mysql/mariadb.conf.d/99-custom.cnf && \
     echo "max_allowed_packet = 256M" >> /etc/mysql/mariadb.conf.d/99-custom.cnf
-
-RUN service mariadb start \
-    && echo "CREATE DATABASE saltos CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;" | mariadb \
-    && echo "CREATE USER 'saltos'@'localhost' IDENTIFIED BY 'saltos';" | mariadb \
-    && echo "GRANT ALL PRIVILEGES ON saltos.* TO 'saltos'@'localhost';" | mariadb \
-    && service mariadb stop
-
-RUN service mariadb start \
-    && cat /usr/lib/mysql/plugin/install.sql | mariadb \
-    && service mariadb stop
 
 # xlsxio
 RUN apt update && apt install -y \
@@ -227,6 +218,8 @@ RUN cd /opt/saltos4 \
     && mkdir instance \
     && cd instance \
     && bash /opt/saltos4/scripts/make_instance.sh \
+    && mv data data-seed \
+    && mkdir data \
     && cd .. \
     && chown -R www-data:www-data instance \
     && chmod -R 0755 instance \
@@ -235,42 +228,36 @@ RUN cd /opt/saltos4 \
     && mv html html.old \
     && ln -s /opt/saltos4/instance/web html
 
-# seed data used to populate the bind-mounted volumes on first boot
-RUN service mariadb start \
-    && php /opt/saltos4/instance/api/index.php setup \
-    && user=admin php /opt/saltos4/instance/api/index.php setup/certs \
-    && user=admin php /opt/saltos4/instance/api/index.php setup/company \
-    && user=admin php /opt/saltos4/instance/api/index.php setup/emails \
-    && user=admin php /opt/saltos4/instance/api/index.php setup/crm \
-    && user=admin php /opt/saltos4/instance/api/index.php setup/hr \
-    && user=admin php /opt/saltos4/instance/api/index.php setup/purchases \
-    && user=admin php /opt/saltos4/instance/api/index.php setup/sales \
-    && service mariadb stop \
-    && mv /var/lib/mysql /var/lib/mysql-seed \
-    && mv /opt/saltos4/instance/data /opt/saltos4/instance/data-seed
-
 # crontab
-RUN cat <<'EOF' > /etc/cron.d/saltos4
+RUN cat <<'EOF' > /etc/cron.d/saltos4 && chmod 0644 /etc/cron.d/saltos4
 MAILTO=""
 * * * * * saltos /usr/bin/php /opt/saltos4/instance/api/index.php cron
 EOF
-RUN chmod 0644 /etc/cron.d/saltos4
 
 # entrypoint: populate empty volumes from the seed data, then start services
-RUN cat <<'EOF' > /usr/local/bin/docker-entrypoint.sh
+RUN cat <<'EOF' > /usr/local/bin/docker-entrypoint.sh && chmod +x /usr/local/bin/docker-entrypoint.sh
 #!/bin/bash
 set -e
 
-if [ -z "$(ls -A /var/lib/mysql)" ]; then
-    cp -a /var/lib/mysql-seed/. /var/lib/mysql/
-fi
-
-if [ -z "$(ls -A /opt/saltos4/instance/data)" ]; then
-    cp -a /opt/saltos4/instance/data-seed/. /opt/saltos4/instance/data/
-fi
-
 if ! id saltos > /dev/null 2>&1; then
     useradd -u "${CODE_UID:-33}" -o -M -s /usr/sbin/nologin saltos
+fi
+
+if [ -z "$(ls -A /var/lib/mysql)" ] && [ -z "$(ls -A /opt/saltos4/instance/data)" ]; then
+    cp -a /var/lib/mysql-seed/. /var/lib/mysql/
+    chown -R mysql:mysql /var/lib/mysql
+
+    cp -a /opt/saltos4/instance/data-seed/. /opt/saltos4/instance/data/
+    chown -R www-data:www-data /opt/saltos4/instance/data
+
+    service mariadb start
+
+    echo "CREATE DATABASE saltos CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;" | mariadb
+    echo "CREATE USER 'saltos'@'localhost' IDENTIFIED BY 'saltos';" | mariadb
+    echo "GRANT ALL PRIVILEGES ON saltos.* TO 'saltos'@'localhost';" | mariadb
+    cat /usr/lib/mysql/plugin/install.sql | mariadb
+
+    php /opt/saltos4/instance/api/index.php setup
 fi
 
 service mariadb start
@@ -278,7 +265,6 @@ service apache2 start
 service cron start
 exec /bin/tail -f /dev/null
 EOF
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["/usr/local/bin/docker-entrypoint.sh"]

@@ -46,30 +46,29 @@ RUN cd /opt/saltos4 \
     && mkdir instance \
     && cd instance \
     && bash /opt/saltos4/scripts/make_instance.sh \
-    && echo '<root><db><type>pdo_sqlite</type></db></root>' > data/files/config.xml
-
-# seed data used to populate the bind-mounted volume on first boot
-RUN php /opt/saltos4/instance/api/index.php setup \
-    && user=admin php /opt/saltos4/instance/api/index.php setup/certs \
-    && user=admin php /opt/saltos4/instance/api/index.php setup/company \
-    && user=admin php /opt/saltos4/instance/api/index.php setup/emails \
-    && user=admin php /opt/saltos4/instance/api/index.php setup/crm \
-    && user=admin php /opt/saltos4/instance/api/index.php setup/hr \
-    && user=admin php /opt/saltos4/instance/api/index.php setup/purchases \
-    && user=admin php /opt/saltos4/instance/api/index.php setup/sales \
-    && mv /opt/saltos4/instance/data /opt/saltos4/instance/data-seed
+    && echo '<root><db><type>pdo_sqlite</type></db></root>' > data/files/config.xml \
+    && mv data data-seed \
+    && mkdir data
 
 # entrypoint: populate an empty volume from the seed data, then start the server
-RUN cat <<'EOF' > /usr/local/bin/docker-entrypoint.sh
+RUN cat <<'EOF' > /usr/local/bin/docker-entrypoint.sh && chmod +x /usr/local/bin/docker-entrypoint.sh
 #!/bin/bash
 set -e
 
 if [ -z "$(ls -A /opt/saltos4/instance/data)" ]; then
     cp -a /opt/saltos4/instance/data-seed/. /opt/saltos4/instance/data/
+
+    php /opt/saltos4/instance/api/index.php setup
+    user=admin php /opt/saltos4/instance/api/index.php setup/certs
+    user=admin php /opt/saltos4/instance/api/index.php setup/company
+    user=admin php /opt/saltos4/instance/api/index.php setup/emails
+    user=admin php /opt/saltos4/instance/api/index.php setup/crm
+    user=admin php /opt/saltos4/instance/api/index.php setup/hr
+    user=admin php /opt/saltos4/instance/api/index.php setup/purchases
+    user=admin php /opt/saltos4/instance/api/index.php setup/sales
 fi
 
 exec /usr/bin/php -S 0.0.0.0:8080 -t /opt/saltos4/instance/web/
 EOF
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 CMD ["/usr/local/bin/docker-entrypoint.sh"]
