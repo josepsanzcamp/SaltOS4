@@ -16,7 +16,10 @@
 
 namespace Test\Import;
 
+use Com\Tecnick\Pdf\Encrypt\Decrypt;
+use Com\Tecnick\Pdf\Encrypt\Encrypt;
 use Com\Tecnick\Pdf\Import\ImportCorruptedSourceException;
+use Com\Tecnick\Pdf\Import\ImportUnsupportedFeatureException;
 use Com\Tecnick\Pdf\Import\ObjectMap;
 use Com\Tecnick\Pdf\Import\ResourceCloner;
 use Com\Tecnick\Pdf\Import\SourceDocument;
@@ -57,6 +60,7 @@ class ResourceClonerTest extends TestCase
     // getPon
     // -------------------------------------------------------------------------
 
+    /** @throws \Throwable */
     public function testGetPonReturnsInitialValue(): void
     {
         $cloner = new ResourceCloner(10);
@@ -335,6 +339,106 @@ class ResourceClonerTest extends TestCase
         $single = $cloner->getContentStream(['Contents' => '1_0'], $src);
 
         $this->assertSame('/FlateDecode', $single['filter']);
+    }
+
+    /** @throws \Throwable */
+    public function testGetContentStreamKeepsUndecodableLzwChainOutsidePdfaMode(): void
+    {
+        $src = $this->makeMockSourceDocument([
+            '1_0' => [
+                [
+                    '<<',
+                    [
+                        ['/', 'Filter'],
+                        [
+                            '[',
+                            [
+                                ['/', 'CCITTFaxDecode'],
+                                ['/', 'LZWDecode'],
+                            ],
+                        ],
+                    ],
+                ],
+                ['stream', 'alpha'],
+            ],
+        ]);
+        $cloner = new ResourceCloner(0);
+
+        $single = $cloner->getContentStream(['Contents' => '1_0'], $src);
+
+        $this->assertSame('[ /CCITTFaxDecode /LZWDecode ]', $single['filter']);
+        $this->assertSame('alpha', $single['bytes']);
+    }
+
+    /** @throws \Throwable */
+    public function testGetContentStreamThrowsWhenLzwCannotBeReencodedInPdfaMode(): void
+    {
+        $src = $this->makeMockSourceDocument([
+            '1_0' => [
+                [
+                    '<<',
+                    [
+                        ['/', 'Filter'],
+                        [
+                            '[',
+                            [
+                                ['/', 'CCITTFaxDecode'],
+                                ['/', 'LZWDecode'],
+                            ],
+                        ],
+                    ],
+                ],
+                ['stream', 'alpha'],
+            ],
+        ]);
+        $cloner = new ResourceCloner(0, 3);
+
+        $this->expectException(ImportUnsupportedFeatureException::class);
+        $cloner->getContentStream(['Contents' => '1_0'], $src);
+    }
+
+    /** @throws \Throwable */
+    public function testGetContentStreamRejectsJpxStreamsInPdfa1(): void
+    {
+        $src = $this->makeMockSourceDocument([
+            '1_0' => [
+                [
+                    '<<',
+                    [
+                        ['/', 'Filter'],
+                        ['/', 'JPXDecode'],
+                    ],
+                ],
+                ['stream', 'alpha'],
+            ],
+        ]);
+        $cloner = new ResourceCloner(0, 1);
+
+        $this->expectException(ImportUnsupportedFeatureException::class);
+        $cloner->getContentStream(['Contents' => '1_0'], $src);
+    }
+
+    /** @throws \Throwable */
+    public function testGetContentStreamKeepsJpxStreamsInPdfa3(): void
+    {
+        $src = $this->makeMockSourceDocument([
+            '1_0' => [
+                [
+                    '<<',
+                    [
+                        ['/', 'Filter'],
+                        ['/', 'JPXDecode'],
+                    ],
+                ],
+                ['stream', 'alpha'],
+            ],
+        ]);
+        $cloner = new ResourceCloner(0, 3);
+
+        $single = $cloner->getContentStream(['Contents' => '1_0'], $src);
+
+        $this->assertSame('/JPXDecode', $single['filter']);
+        $this->assertSame('alpha', $single['bytes']);
     }
 
     /** @throws \Throwable */
@@ -841,6 +945,120 @@ class ResourceClonerTest extends TestCase
         $flushed = $map->flush();
 
         $this->assertStringContainsString("\nnull\n", $flushed);
+    }
+
+    // -------------------------------------------------------------------------
+    // Encryption of cloned objects
+    // -------------------------------------------------------------------------
+
+    /** @throws \Throwable */
+    public function testEnqueueObjectEncryptsStreamsAndStrings(): void
+    {
+        $src = $this->makeMockSourceDocument([
+            '1_0' => [
+                [
+                    '<<',
+                    [
+                        ['/', 'Registry'],
+                        ['(', 'Adobe'],
+                        ['/', 'Digest'],
+                        ['<', '414243'],
+                    ],
+                ],
+                ['stream', 'CLEARTEXT_STREAM'],
+            ],
+        ]);
+        $map = new ObjectMap();
+        $encrypt = new Encrypt(enabled: true, mode: 3, permissions: ['print']);
+        $cloner = new ResourceCloner(0, 0, $encrypt);
+
+        $destNum = $cloner->enqueueObject('1_0', $src, $map);
+        $flushed = $map->flush();
+
+        $this->assertStringNotContainsString('(Adobe)', $flushed);
+        $this->assertStringNotContainsString('CLEARTEXT_STREAM', $flushed);
+
+        $decrypt = new Decrypt($encrypt->getEncryptionData());
+        $this->assertTrue($decrypt->authenticate(''));
+
+        $matches = [];
+        $this->assertSame(1, \preg_match('/\/Registry <([0-9a-f]*)>/', $flushed, $matches));
+        $this->assertSame('Adobe', $decrypt->decryptString((string) \hex2bin($matches[1] ?? ''), $destNum));
+
+        $this->assertSame(1, \preg_match('/\/Digest <([0-9a-f]*)>/', $flushed, $matches));
+        $this->assertSame('ABC', $decrypt->decryptString((string) \hex2bin($matches[1] ?? ''), $destNum));
+
+        $this->assertSame(1, \preg_match('/\nstream\n(.*)\nendstream/s', $flushed, $matches));
+        $this->assertSame('CLEARTEXT_STREAM', $decrypt->decryptString($matches[1] ?? '', $destNum));
+    }
+
+    /** @throws \Throwable */
+    public function testEnqueueObjectKeepsMetadataStreamInClearTextWhenNotEncrypted(): void
+    {
+        $src = $this->makeMockSourceDocument([
+            '1_0' => [
+                [
+                    '<<',
+                    [
+                        ['/', 'Type'],
+                        ['/', 'Metadata'],
+                    ],
+                ],
+                ['stream', 'CLEARTEXT_METADATA'],
+            ],
+        ]);
+        $map = new ObjectMap();
+        $encrypt = new Encrypt(enabled: true, mode: 3, permissions: ['print'], encryptMetadata: false);
+        $cloner = new ResourceCloner(0, 0, $encrypt);
+
+        $cloner->enqueueObject('1_0', $src, $map);
+
+        $this->assertStringContainsString('CLEARTEXT_METADATA', $map->flush());
+    }
+
+    /** @throws \Throwable */
+    public function testEnqueueObjectKeepsStringsVerbatimWithoutEncryption(): void
+    {
+        $src = $this->makeMockSourceDocument([
+            '1_0' => [
+                [
+                    '<<',
+                    [
+                        ['/', 'Registry'],
+                        ['(', 'Adobe'],
+                    ],
+                ],
+                ['stream', 'CLEARTEXT_STREAM'],
+            ],
+        ]);
+        $map = new ObjectMap();
+        $cloner = new ResourceCloner(0);
+
+        $cloner->enqueueObject('1_0', $src, $map);
+        $flushed = $map->flush();
+
+        $this->assertStringContainsString('/Registry (Adobe)', $flushed);
+        $this->assertStringContainsString('CLEARTEXT_STREAM', $flushed);
+    }
+
+    /** @throws \Throwable */
+    public function testCloneResourcesEncryptsInlineStrings(): void
+    {
+        $src = $this->makeMockSourceDocument([]);
+        $map = new ObjectMap();
+        $encrypt = new Encrypt(enabled: true, mode: 3, permissions: ['print']);
+        $cloner = new ResourceCloner(0, 0, $encrypt);
+
+        $output = $cloner->cloneResources(['ColorSpace' => ['CS1' => '(PALETTE)']], $src, $map, 7);
+
+        $this->assertStringNotContainsString('(PALETTE)', $output);
+
+        $matches = [];
+        $this->assertSame(1, \preg_match('/\/CS1 <([0-9a-f]*)>/', $output, $matches));
+
+        $decrypt = new Decrypt($encrypt->getEncryptionData());
+        $this->assertTrue($decrypt->authenticate(''));
+        $this->assertSame('PALETTE', $decrypt->decryptString((string) \hex2bin($matches[1] ?? ''), 7));
     }
 
     // -------------------------------------------------------------------------

@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "tecnickcom/tcpdf",
-            "version": "7.0.5",
+            "version": "7.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/TCPDF.git",
-                "reference": "03139a56abfbc4a60cf1aa143a29214d5da5d28b"
+                "reference": "0c77bbf08ce1607fee2f60f86c5385da57939db0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/03139a56abfbc4a60cf1aa143a29214d5da5d28b",
-                "reference": "03139a56abfbc4a60cf1aa143a29214d5da5d28b",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/0c77bbf08ce1607fee2f60f86c5385da57939db0",
+                "reference": "0c77bbf08ce1607fee2f60f86c5385da57939db0",
                 "shasum": ""
             },
             "require": {
@@ -74,7 +74,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-08-15T08:22:12+00:00"
+            "time": "2026-08-21T15:13:46+00:00"
         }
     ],
     "packages-dev": [],

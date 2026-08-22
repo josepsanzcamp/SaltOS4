@@ -2,7 +2,7 @@
 
 //============================================================+
 // File name    : tcpdf.php
-// Version      : 7.0.5
+// Version      : 7.0.6
 // Author       : Nicola Asuni - Tecnick.com LTD - www.tecnick.com - info@tecnick.com
 // License      : GNU-LGPL v3 (https://www.gnu.org/copyleft/lesser.html)
 // Copyright (C): 2002-2026 Nicola Asuni - Tecnick.com LTD
@@ -15,7 +15,7 @@
  * See: https://tcpdf.org
  * @package com.tecnick.tcpdf
  * @author Nicola Asuni
- * @version 7.0.5
+ * @version 7.0.6
  */
 
 // TCPDF configuration
@@ -667,11 +667,15 @@ class TCPDF
         $this->curorientation = $orientation;
         $this->curformat = $format;
 
+        // In column mode the current margins are the column edges: the page
+        // margins are the document ones, the columns are the page regions.
+        $incolumns = $this->pagecolumns > 1 || $this->pageregions !== [];
+
         $data = [
             'orientation' => $orientation,
             'margin' => [
-                'PL' => $this->lmargin,
-                'PR' => $this->rmargin,
+                'PL' => $incolumns ? $this->orig_lmargin : $this->lmargin,
+                'PR' => $incolumns ? $this->orig_rmargin : $this->rmargin,
                 'PT' => 0.0,
                 'HB' => 0.0,
                 'CT' => $this->tmargin,
@@ -1217,26 +1221,65 @@ class TCPDF
     }
 
     /**
+     * Whether the content can be moved to another column or page when it does
+     * not fit below the current position.
+     */
+    protected function canBreakPage(): bool
+    {
+        return $this->autopagebreak && !$this->inheaderfooter && $this->xobjtid === '' && $this->docstate === 2;
+    }
+
+    /**
      * Trigger an automatic page break when the given height does not fit.
      */
     protected function breakIfNeeded(float $height): void
     {
-        if (
-            $this->inheaderfooter
-            || $this->xobjtid !== ''
-            || !$this->autopagebreak
-            || $this->docstate !== 2
-            || !$this->AcceptPageBreak()
-        ) {
+        if (!$this->canBreakPage()) {
             return;
         }
 
         $limit = $this->getPageHeight() - $this->bmargin;
-        if (($this->posy + $height - $limit) > 0.0001) {
-            $posx = $this->posx;
-            $this->AddPage($this->curorientation);
+        if (($this->posy + $height - $limit) <= 0.0001) {
+            return;
+        }
+
+        // Legacy consults AcceptPageBreak() only for content that does not
+        // fit, so an override with side effects runs once per real break.
+        if (!$this->AcceptPageBreak()) {
+            return;
+        }
+
+        if ($this->advanceToNextColumn()) {
+            return;
+        }
+
+        // Legacy: a break past the last column restarts at the first column
+        // of the new page (startPage() selects it), so the abscissa is only
+        // preserved outside column mode.
+        $posx = $this->posx;
+        $this->AddPage($this->curorientation);
+        if ($this->getNumberOfColumns() < 2) {
             $this->posx = $posx;
         }
+    }
+
+    /**
+     * Move the cursor to the top of the next column, when column mode is
+     * active and the current column is not the last one.
+     *
+     * Legacy AcceptPageBreak() flows the content through the remaining
+     * columns before adding a page.
+     */
+    protected function advanceToNextColumn(): bool
+    {
+        $numcols = $this->getNumberOfColumns();
+        $column = $this->getColumn();
+        if ($numcols < 2 || $column >= ($numcols - 1)) {
+            return false;
+        }
+
+        $this->selectColumn($column + 1);
+        return true;
     }
 
     /**
@@ -1261,6 +1304,9 @@ class TCPDF
 
         $this->posy = $this->tmargin;
         $this->posx = $posx;
+        if ($this->getNumberOfColumns() > 1) {
+            $this->selectColumn(0);
+        }
     }
 
     /**
@@ -2517,6 +2563,11 @@ class TCPDF
         ];
         $this->posx = $this->rtlmode ? $this->getPageWidth() - $this->rmargin : $this->lmargin;
         $this->posy = $this->tmargin;
+        if ($this->inColumnMode()) {
+            // Legacy: the columns of the new page carry the column margins
+            // and the cursor of the selected (first) column.
+            $this->selectColumn();
+        }
 
         // The new page content stream already starts with the ambient text
         // state: the engine re-emits the current font and the page context
@@ -3594,14 +3645,14 @@ class TCPDF
             // bottom), so trigger the first-line break here.
             $firstrow = $pitch + $this->cellpadding['T'];
             if (
-                $this->autopagebreak
-                && !$this->inheaderfooter
-                && $this->xobjtid === ''
-                && $this->docstate === 2
-                && $this->AcceptPageBreak()
+                $this->canBreakPage()
                 && ($this->posy + $firstrow - ($this->getPageHeight() - $this->bmargin)) > 0.0001
+                && $this->AcceptPageBreak()
             ) {
-                $this->advanceToNextPage();
+                if (!$this->advanceToNextColumn()) {
+                    $this->advanceToNextPage();
+                }
+
                 $startx = $this->posx;
                 $starty = $this->posy;
                 $startpid = $this->getPage();
@@ -3890,6 +3941,11 @@ class TCPDF
             return 0;
         }
 
+        $pitch = max((float) $_h, $this->getCellHeight($this->getFontSize()));
+        // Break before measuring the flow origin: the region and the cursor
+        // both belong to the page the text starts on.
+        $this->breakIfNeeded($pitch);
+
         // In column mode the text flows inside the current column region
         // (and through the following columns/pages inside the engine call).
         $incolumns = $this->inColumnMode();
@@ -3907,40 +3963,73 @@ class TCPDF
             $styles['all']['fillColor'] = $this->fillcolorspec;
         }
 
-        $pitch = max((float) $_h, $this->getCellHeight($this->getFontSize()));
         $row = $this->legacyRowPitch($pitch);
 
         $this->emitToPage($eng->color->getPdfFillColor($this->textcolorspec));
-        $eng->addTextCellXY(
-            $txt,
-            -1,
-            $originx,
-            $this->posy,
-            $width,
-            0,
-            $offset,
-            $row['linespace'],
-            'T',
-            $this->halignToEngine($_align),
-            $row['cell'],
-            $styles,
-            $this->textrendermode['stroke'],
-            0,
-            0,
-            0,
-            // Justify the last line too (legacy getCellCode behavior; lines
-            // ending with an explicit line break are still excluded).
-            false,
-            $this->textrendermode['fill'],
-            $this->textrendermode['stroke'] > 0,
-            $this->fontdecor['U'],
-            $this->fontdecor['D'],
-            $this->fontdecor['O'],
-            $this->textrendermode['clip'],
-            (bool) $_fill,
-            $this->forcedTextDir(),
-            $this->engineShadow(),
-        );
+        if ($this->canBreakPage()) {
+            $eng->addTextCellXY(
+                $txt,
+                -1,
+                $originx,
+                $this->posy,
+                $width,
+                0,
+                $offset,
+                $row['linespace'],
+                'T',
+                $this->halignToEngine($_align),
+                $row['cell'],
+                $styles,
+                $this->textrendermode['stroke'],
+                0,
+                0,
+                0,
+                // Justify the last line too (legacy getCellCode behavior; lines
+                // ending with an explicit line break are still excluded).
+                false,
+                $this->textrendermode['fill'],
+                $this->textrendermode['stroke'] > 0,
+                $this->fontdecor['U'],
+                $this->fontdecor['D'],
+                $this->fontdecor['O'],
+                $this->textrendermode['clip'],
+                (bool) $_fill,
+                $this->forcedTextDir(),
+                $this->engineShadow(),
+            );
+        } else {
+            // Without a page to flow into, the flowing call renders only the
+            // lines that fit in the region and drops the rest. Legacy keeps
+            // writing line by line past the bottom margin, so place the whole
+            // text at the cursor instead.
+            $this->emitToPage($eng->getTextCell(
+                $txt,
+                $originx,
+                $this->posy,
+                $width,
+                0,
+                $offset,
+                $row['linespace'],
+                'T',
+                $this->halignToEngine($_align),
+                $row['cell'],
+                $styles,
+                $this->textrendermode['stroke'],
+                0,
+                0,
+                0,
+                false,
+                $this->textrendermode['fill'],
+                $this->textrendermode['stroke'] > 0,
+                $this->fontdecor['U'],
+                $this->fontdecor['D'],
+                $this->fontdecor['O'],
+                $this->textrendermode['clip'],
+                (bool) $_fill,
+                $this->forcedTextDir(),
+                $this->engineShadow(),
+            ));
+        }
 
         $textbbox = $eng->getLastBBox();
         $cellbbox = $eng->getLastCellBBox();
@@ -4034,8 +4123,9 @@ class TCPDF
             ? $this->mergeImageAlphaMask($file, $this->imagemasks[$maskhandle])
             : null;
 
+        $autoposy = $_y === null || (string) $_y === '';
         $posx = $_x === null || (string) $_x === '' ? $this->posx : (float) $_x;
-        $posy = $_y === null || (string) $_y === '' ? $this->posy : (float) $_y;
+        $posy = $autoposy ? $this->posy : (float) $_y;
         $width = (float) $_w;
         $height = (float) $_h;
 
@@ -4095,9 +4185,12 @@ class TCPDF
             $posx = $this->lmargin;
         }
 
-        $this->breakIfNeeded($posy === $this->posy ? $height : 0.0);
-        if ($posy === $this->posy && $this->posy !== ($posy = max($posy, $this->posy))) {
-            $posy = $this->posy;
+        // An implicit ordinate follows the cursor across an automatic break,
+        // keeping the fitbox vertical alignment shift relative to it.
+        $posyshift = $autoposy ? $posy - $this->posy : 0.0;
+        $this->breakIfNeeded($autoposy ? $posyshift + $height : 0.0);
+        if ($autoposy) {
+            $posy = $this->posy + $posyshift;
         }
 
         if ((bool) $_hidden) {
@@ -6731,23 +6824,28 @@ class TCPDF
      */
     protected function fitBarcodeBlock(float $posx, float $posy, float $boxh): float
     {
-        if (
-            $this->inheaderfooter
-            || $this->xobjtid !== ''
-            || !$this->autopagebreak
-            || $this->docstate !== 2
-            || !$this->AcceptPageBreak()
-        ) {
+        if (!$this->canBreakPage()) {
             return $posy;
         }
 
-        if (($posy + $boxh - ($this->getPageHeight() - $this->bmargin)) > 0.0001) {
-            $this->AddPage($this->curorientation);
-            $this->posx = $posx;
+        if (($posy + $boxh - ($this->getPageHeight() - $this->bmargin)) <= 0.0001) {
+            return $posy;
+        }
+
+        if (!$this->AcceptPageBreak()) {
+            return $posy;
+        }
+
+        if ($this->advanceToNextColumn()) {
             return $this->posy;
         }
 
-        return $posy;
+        $this->AddPage($this->curorientation);
+        if ($this->getNumberOfColumns() < 2) {
+            $this->posx = $posx;
+        }
+
+        return $this->posy;
     }
 
     /**
@@ -7992,6 +8090,13 @@ class TCPDF
         if ($col !== $current) {
             // Legacy: switching columns moves the cursor to the column top.
             $this->posy = $region['RY'];
+        }
+
+        if (count($regions) > 1) {
+            // Legacy: the column edges become the current margins, so the
+            // cursor-based methods wrap and return inside the column.
+            $this->lmargin = $region['RX'];
+            $this->rmargin = $this->getPageWidth() - $region['RX'] - $region['RW'];
         }
 
         $this->posx = $this->rtlmode ? $region['RX'] + $region['RW'] : $region['RX'];
