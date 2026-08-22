@@ -151,7 +151,7 @@ saltos.bootstrap.set_css_theme = theme => {
                 item.remove();
                 saltos.storage.setItem('saltos.bootstrap.css_theme', theme);
             };
-            document.head.appendChild(link);
+            item.parentNode.insertBefore(link, item.nextSibling);
         }
     });
 };
