@@ -36,22 +36,6 @@ saltos.form.dashboard = data => {
     const div = saltos.core.html(`<div class="grid-stack"></div>`);
     document.getElementById(_append).append(div);
 
-    const grid = GridStack.init({
-        column: 12,
-        margin: '6 8',
-        cellHeight: 50,
-        columnOpts: {
-            breakpoints: [
-                {w: 1200, c: 8},
-                {w: 768,  c: 4},
-                {w: 480,  c: 1}
-            ]
-        },
-        handle: '.widget-drag-handle',
-    });
-    div.grid = grid;
-    grid.batchUpdate();
-
     const extra = {};
     const key = 'app/dashboard/widgets/default';
     if (key in _configs) {
@@ -64,6 +48,14 @@ saltos.form.dashboard = data => {
             // nothing to do
         }
     }
+
+    // Precompute the four possible layouts (one per breakpoint), all
+    // derived from the same base x,y,w,h (default or saved config), so
+    // the initial render and any later resize use the same source.
+    const options12 = {};
+    const options8 = {};
+    const options4 = {};
+    const options1 = {};
 
     for (const i in _widgets) {
         const id = _widgets[i]['#attr'].id;
@@ -83,48 +75,63 @@ saltos.form.dashboard = data => {
             option = extra[id];
         }
 
-        if (grid.getColumn() === 1) {
-            let offset = 0;
-            if ([0,1,2,3].includes(option.x)) {
-                option.y = option.y * 4 + option.x;
-                option.x = 0;
-            } else if ([4,5,6,7].includes(option.x)) {
-                option.y = 1000 + option.y * 4 + option.x;
-                option.x = 0;
-            } else if ([8,9,10,11].includes(option.x)) {
-                option.y = 2000 + option.y * 4 + option.x;
-                option.x = 0;
-            } else {
-                console.error('Internal error!!!');
-            }
+        const baseX = Number(option.x);
+        const baseY = Number(option.y);
+        const baseW = Number(option.w);
+        const baseH = Number(option.h);
+
+        options12[id] = {id: id, x: baseX, y: baseY, w: baseW, h: baseH};
+
+        if ([0,1,2,3,4,5,6,7].includes(baseX)) {
+            options8[id] = {id: id, x: baseX, y: baseY, w: baseW, h: baseH};
+        } else if ([8,9,10,11].includes(baseX)) {
+            options8[id] = {id: id, x: baseX - 8, y: baseY + 1000, w: baseW, h: baseH};
+        } else {
+            console.error('Internal error!!!');
         }
 
-        if (grid.getColumn() === 4) {
-            let offset = 0;
-            if ([0,1,2,3].includes(option.x)) {
-                // Nothing to do
-            } else if ([4,5,6,7].includes(option.x)) {
-                option.x -= 4;
-                option.y += 1000;
-            } else if ([8,9,10,11].includes(option.x)) {
-                option.x -= 8;
-                option.y += 2000;
-            } else {
-                console.error('Internal error!!!');
-            }
+        if ([0,1,2,3].includes(baseX)) {
+            options4[id] = {id: id, x: baseX, y: baseY, w: baseW, h: baseH};
+        } else if ([4,5,6,7].includes(baseX)) {
+            options4[id] = {id: id, x: baseX - 4, y: baseY + 1000, w: baseW, h: baseH};
+        } else if ([8,9,10,11].includes(baseX)) {
+            options4[id] = {id: id, x: baseX - 8, y: baseY + 2000, w: baseW, h: baseH};
+        } else {
+            console.error('Internal error!!!');
         }
 
-        if (grid.getColumn() === 8) {
-            let offset = 0;
-            if ([0,1,2,3,4,5,6,7].includes(option.x)) {
-                // Nothing to do
-            } else if ([8,9,10,11].includes(option.x)) {
-                option.x -= 8;
-                option.y += 1000;
-            } else {
-                console.error('Internal error!!!');
-            }
+        if ([0,1,2,3].includes(baseX)) {
+            options1[id] = {id: id, x: 0, y: baseY * 4 + baseX, w: 1, h: baseH};
+        } else if ([4,5,6,7].includes(baseX)) {
+            options1[id] = {id: id, x: 0, y: 1000 + baseY * 4 + baseX, w: 1, h: baseH};
+        } else if ([8,9,10,11].includes(baseX)) {
+            options1[id] = {id: id, x: 0, y: 2000 + baseY * 4 + baseX, w: 1, h: baseH};
+        } else {
+            console.error('Internal error!!!');
         }
+    }
+
+    const optionsByColumn = {12: options12, 8: options8, 4: options4, 1: options1};
+
+    const grid = GridStack.init({
+        column: 12,
+        margin: '6 8',
+        cellHeight: 50,
+        columnOpts: {
+            breakpoints: [
+                {w: 1200, c: 8},
+                {w: 768,  c: 4},
+                {w: 480,  c: 1}
+            ]
+        },
+        handle: '.widget-drag-handle',
+    });
+    div.grid = grid;
+    grid.batchUpdate();
+
+    for (const i in _widgets) {
+        const id = _widgets[i]['#attr'].id;
+        const option = optionsByColumn[grid.getColumn()][id];
 
         const widget = grid.addWidget(option);
 
@@ -156,7 +163,7 @@ saltos.form.dashboard = data => {
 
     grid.batchUpdate(false);
 
-    const save =  (event, element) => {
+    const save = (event, element) => {
         if (grid.getColumn() != 12) {
             return;
         }
