@@ -74,6 +74,13 @@ $pdf->page->addContent($bfont['out']);
 // - nested OL/UL interactions
 // - li::marker styling (color, font-weight, font-style)
 // - list-style-image CSS property parsing
+// - vector unordered markers, drawn when the font has no glyph for them
+// - decimal fallback for counter styles the font cannot render
+// - the presentational type attribute on OL, UL and LI
+// - alphabetic counters wrapping past the end of the alphabet
+// - additive counter styles (hebrew, armenian, georgian, cjk-ideographic)
+// - decimal fallback for counters outside the range of their counter style
+// - right-to-left lists
 
 $html = <<<HTML
     <style>
@@ -95,7 +102,7 @@ $html = <<<HTML
       color: #5b5b5b;
     }
     .panel {
-      background-color: #f7fbff;
+      background-color: #edf9ff;
       padding: 2mm;
       margin-bottom: 2.5mm;
     }
@@ -111,6 +118,7 @@ $html = <<<HTML
     /* Variation set: list-style-position */
     .pos-inside { list-style-position: inside; }
     .pos-outside { list-style-position: outside; }
+    .narrow { margin-right: 110mm; }
 
     /* Variation set: margin/padding on containers and items */
     .list-shift-a {
@@ -138,33 +146,59 @@ $html = <<<HTML
     .marker-blue li::marker { color: blue; }
     .marker-green li::marker { color: #008000; }
 
+    /* Variation set: marker glyph availability */
+    .core-font { font-family: helvetica; }
+    .jp-font { font-family: unifont_jp; }
+    .ol-hiragana { list-style-type: hiragana; }
+    .ol-katakana-iroha { list-style-type: katakana-iroha; }
+    .ol-cjk { list-style-type: cjk-ideographic; }
+
+    /* Variation set: counter ranges and additive counter styles */
+    .ol-lower-alpha { list-style-type: lower-alpha; }
+    .ol-upper-roman { list-style-type: upper-roman; }
+    .ol-lower-greek { list-style-type: lower-greek; }
+    .ol-hebrew { list-style-type: hebrew; }
+    .ol-armenian { list-style-type: upper-armenian; }
+    .ol-georgian { list-style-type: georgian; }
+
     /* Variation set: list-style-image (custom bullets) */
     .list-img-svg { list-style-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPjxjaXJjbGUgY3g9IjQiIGN5PSI0IiByPSI0IiBmaWxsPSIjRkY2NjAwIi8+PC9zdmc+); }
 
-    /* Visual hint only */
-    .marker-guide,
-    .marker-line {
+    /* Position guides, visual hints only: they do not change the layout.
+       red   = list container box edge
+       blue  = list item box edge
+       green = item text column, the edge the marker is anchored to */
+    .marker-guide {
       border-left: 0.2mm solid #ff0000;
-      padding-left: 1.5mm;
+    }
+    .item-guide li {
+      border-left: 0.2mm solid #0000ff;
+    }
+    .col {
+      background-color: #ddffdd;
     }
     </style>
 
     <h1>HTML List Item CSS Variations (Current Support)</h1>
 
+    <p class="note">Position guides: the red rule is the list container box edge, the blue rule is
+    the list item box edge, and the green highlight is the item text column. An `outside` marker is
+    placed one space to the left of the text column, so it hangs in the list indentation.</p>
+
     <div class="panel">
       <h2>1) Unordered list styles (`list-style-type`)</h2>
-      <ul class="ul-disc marker-guide">
-        <li>Disc marker</li>
-        <li>Nested sample
+      <ul class="ul-disc marker-guide item-guide">
+        <li><span class="col">Disc marker</span></li>
+        <li><span class="col">Nested sample</span>
           <ul class="ul-circle">
-            <li>Circle marker</li>
-            <li>Another nested item</li>
+            <li><span class="col">Circle marker</span></li>
+            <li><span class="col">Another nested item</span></li>
           </ul>
         </li>
       </ul>
-      <ul class="ul-square marker-guide">
-        <li>Square marker</li>
-        <li>Second square marker item</li>
+      <ul class="ul-square marker-guide item-guide">
+        <li><span class="col">Square marker</span></li>
+        <li><span class="col">Second square marker item</span></li>
       </ul>
     </div>
 
@@ -186,19 +220,37 @@ $html = <<<HTML
 
     <div class="panel">
       <h2>3) Marker position (`list-style-position`)</h2>
-      <ul class="ul-disc pos-outside marker-guide">
-        <li>Outside marker with long text to show wrap behavior for this rendering path in the PDF engine.</li>
-        <li>Second outside item</li>
+      <p class="note">Note: an outside marker hangs before the item content edge, an inside marker
+      sits on it and shifts the first line only. Wrapped lines and nested lists start at the content
+      edge in both cases. The lists below are narrowed to force the text to wrap.</p>
+      <ul class="ul-disc pos-outside marker-guide item-guide narrow">
+        <li><span class="col">Outside marker with text long enough to wrap onto a second line</span></li>
+        <li><span class="col">Second outside item</span></li>
       </ul>
-      <ul class="ul-disc pos-inside marker-guide">
-        <li>Inside marker with long text to show wrap behavior for this rendering path in the PDF engine.</li>
-        <li>Second inside item</li>
+      <ul class="ul-disc pos-inside marker-guide item-guide narrow">
+        <li><span class="col">Inside marker with text long enough to wrap onto a second line</span></li>
+        <li><span class="col">Second inside item</span></li>
       </ul>
+      <p class="note">A wide counter keeps the same marker column: the item text moves, the marker
+      does not.</p>
+      <ol class="pos-inside marker-guide item-guide" start="3998">
+        <li><span class="col">Wide inside counter</span></li>
+        <li><span class="col">Second item</span></li>
+      </ol>
+      <ol class="ol-upper-roman pos-inside marker-guide item-guide" start="3">
+        <li><span class="col">Roman inside counter</span></li>
+        <li><span class="col">Item with a nested list</span>
+          <ol class="pos-inside">
+            <li><span class="col">Nested item under an inside marker</span></li>
+            <li><span class="col">Second nested item</span></li>
+          </ol>
+        </li>
+      </ol>
     </div>
 
     <div class="panel">
       <h2>4) Container and item indentation (`margin-left` / `padding-left`)</h2>
-      <ul class="ul-disc list-shift-a marker-guide">
+      <ul class="ul-disc list-shift-a marker-guide item-guide">
         <li>Shift A</li>
         <li>Shift A nested
           <ol class="ol-decimal">
@@ -207,7 +259,7 @@ $html = <<<HTML
         </li>
       </ul>
 
-      <ul class="ul-disc list-shift-b marker-guide">
+      <ul class="ul-disc list-shift-b marker-guide item-guide">
         <li>Shift B</li>
         <li>Shift B nested
           <ol class="ol-upper-alpha">
@@ -216,7 +268,7 @@ $html = <<<HTML
         </li>
       </ul>
 
-      <ul class="ul-disc list-shift-c marker-guide">
+      <ul class="ul-disc list-shift-c marker-guide item-guide">
         <li>Shift C</li>
         <li>Shift C nested
           <ol class="ol-lower-roman">
@@ -273,7 +325,37 @@ $html = <<<HTML
     </div>
 
     <div class="panel">
-      <h2>8) Custom bullet images (`list-style-image`)</h2>
+      <h2>8) Vector markers (core font)</h2>
+      <p class="note">Note: a core font has no Unicode bullet glyphs, so the markers are drawn as
+      vector shapes. All three occupy the same marker slot: one space before the item text.</p>
+      <ul class="ul-disc core-font marker-guide item-guide">
+        <li><span class="col">Disc marker drawn as a filled circle</span></li>
+      </ul>
+      <ul class="ul-circle core-font marker-guide item-guide">
+        <li><span class="col">Circle marker drawn as a stroked circle</span></li>
+      </ul>
+      <ul class="ul-square core-font marker-guide item-guide">
+        <li><span class="col">Square marker drawn as a filled rectangle</span></li>
+      </ul>
+    </div>
+
+    <div class="panel">
+      <h2>9) Missing glyph fallback (`list-style-type`)</h2>
+      <p class="note">Note: DejaVu Sans covers neither the Hiragana nor the CJK block, so these two
+      counter styles fall back to the decimal counter instead of being dropped. Section 14 renders
+      the same styles with a font that covers them.</p>
+      <ol class="ol-hiragana marker-guide">
+        <li>Hiragana counter style</li>
+        <li>Second item</li>
+      </ol>
+      <ol class="ol-cjk marker-guide">
+        <li>CJK ideographic counter style</li>
+        <li>Second item</li>
+      </ol>
+    </div>
+
+    <div class="panel">
+      <h2>10) Custom bullet images (`list-style-image`)</h2>
       <p class="note">Note: Image bullet rendering is subject to image loading availability and fallback behavior.</p>
       <ul class="list-img-svg marker-guide">
         <li>Custom SVG bullet marker image</li>
@@ -286,9 +368,250 @@ $html = <<<HTML
         </li>
       </ul>
     </div>
+
+    <div class="panel">
+      <h2>11) Presentational list type attribute</h2>
+      <p class="note">Note: the OL type attribute is case-sensitive, `1`, `a`, `A`, `i` and `I` are
+      five distinct counters. The UL keywords disc, circle and square are case-insensitive.</p>
+      <ol type="1" class="marker-guide">
+        <li>type="1" decimal counter</li>
+        <li>Second item</li>
+      </ol>
+      <ol type="a" class="marker-guide">
+        <li>type="a" lowercase alphabetic counter</li>
+        <li>Second item</li>
+      </ol>
+      <ol type="A" class="marker-guide">
+        <li>type="A" uppercase alphabetic counter</li>
+        <li>Second item</li>
+      </ol>
+      <ol type="i" class="marker-guide">
+        <li>type="i" lowercase roman counter</li>
+        <li>Second item</li>
+      </ol>
+      <ol type="I" class="marker-guide">
+        <li>type="I" uppercase roman counter</li>
+        <li>Second item</li>
+      </ol>
+      <ul type="DISC">
+        <li>type="DISC" resolves to the disc marker</li>
+      </ul>
+      <ul type="Square">
+        <li>type="Square" resolves to the square marker</li>
+      </ul>
+      <p class="note">The attribute and the equivalent CSS keyword render the same markers:</p>
+      <ol type="A">
+        <li>type="A"</li>
+      </ol>
+      <ol class="ol-upper-alpha">
+        <li>list-style-type: upper-alpha</li>
+      </ol>
+      <ol type="I">
+        <li>type="I"</li>
+      </ol>
+      <ol class="ol-upper-roman">
+        <li>list-style-type: upper-roman</li>
+      </ol>
+      <p class="note">The attribute combines with `start`, is inherited by a nested list that asks
+      for it, is overridden by a list-style-type declared on the same element, and can be set on a
+      single item:</p>
+      <ol type="A" start="3">
+        <li>type="A" start="3"</li>
+        <li>Second item</li>
+      </ol>
+      <ol type="I">
+        <li>type="I" with a nested inherited list
+          <ol style="list-style-type: inherit">
+            <li>Nested item</li>
+            <li>Another nested item</li>
+          </ol>
+        </li>
+      </ol>
+      <ol type="A" style="list-style-type: lower-roman">
+        <li>type="A" with list-style-type: lower-roman</li>
+        <li>Second item</li>
+      </ol>
+      <ol type="1">
+        <li>Item with the list type</li>
+        <li type="a">Item with its own type attribute</li>
+        <li>Item with the list type again</li>
+      </ol>
+    </div>
+
+    <div class="panel">
+      <h2>12) Counter ranges and wrapping</h2>
+      <p class="note">Note: an alphabetic counter continues past the last symbol with two-symbol
+      sequences. A counter outside the range of its counter style uses the decimal counter.</p>
+      <ol type="a" start="25" class="marker-guide">
+        <li>Item 25</li>
+        <li>Item 26, the last single-letter counter</li>
+        <li>Item 27, the first two-letter counter</li>
+        <li>Item 28</li>
+      </ol>
+      <ol type="A" start="25">
+        <li>Item 25</li>
+        <li>Item 26</li>
+        <li>Item 27</li>
+      </ol>
+      <ol class="ol-lower-alpha" start="701">
+        <li>Item 701</li>
+        <li>Item 702, the last two-letter counter</li>
+        <li>Item 703, the first three-letter counter</li>
+      </ol>
+      <ol class="ol-lower-greek" start="17">
+        <li>Item 17</li>
+        <li>Item 18, sigma follows rho: the final sigma is not a counter symbol</li>
+      </ol>
+      <ol class="ol-lower-greek" start="24">
+        <li>Item 24, the last Greek symbol</li>
+        <li>Item 25, the first two-symbol counter</li>
+      </ol>
+      <ol class="ol-upper-roman" start="3998">
+        <li>Item 3998</li>
+        <li>Item 3999, the last standard Roman numeral</li>
+        <li>Item 4000, written with the vinculum overline</li>
+      </ol>
+      <ol class="ol-lower-alpha">
+        <li value="0">Item with value="0", outside the alphabetic range</li>
+        <li value="-3">Item with value="-3"</li>
+      </ol>
+    </div>
+
+    <div class="panel">
+      <h2>13) Additive counter styles</h2>
+      <p class="note">Note: these styles are additive, the counter is composed from the symbols that
+      add up to the number rather than being the n-th letter of the alphabet.</p>
+      <ol class="ol-hebrew marker-guide" start="9">
+        <li>Item 9</li>
+        <li>Item 10</li>
+        <li>Item 11</li>
+        <li>Item 12</li>
+      </ol>
+      <ol class="ol-armenian" start="1987">
+        <li>Item 1987</li>
+        <li>Item 1988</li>
+      </ol>
+      <ol class="ol-georgian" start="1987">
+        <li>Item 1987</li>
+        <li>Item 1988</li>
+      </ol>
+    </div>
+
+    <div class="panel">
+      <h2>14) Japanese counter styles</h2>
+      <p class="note">Note: this panel uses GNU Unifont JP, which covers the Kana and CJK blocks.
+      The Hiragana and Katakana styles are alphabetic, the CJK ideographic style is additive.</p>
+      <ol class="ol-hiragana jp-font">
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+      </ol>
+      <ol class="ol-katakana-iroha jp-font">
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+      </ol>
+      <ol class="ol-cjk jp-font" start="9">
+        <li>Item 9</li>
+        <li>Item 10</li>
+        <li>Item 11</li>
+      </ol>
+    </div>
     HTML;
 
 $pdf->addHTMLCell(html: $html, posx: 10, posy: 20, width: 190);
+
+$rtlhtml = <<<HTML
+    <style>
+    body {
+      color: #222222;
+      font-size: 10pt;
+    }
+    h1 {
+      color: #0f2b46;
+      margin-bottom: 3mm;
+    }
+    h2 {
+      color: #1e4f80;
+      margin-top: 4mm;
+      margin-bottom: 2mm;
+    }
+    .note {
+      font-size: 8pt;
+      color: #5b5b5b;
+    }
+    .panel {
+      background-color: #edf9ff;
+      padding: 2mm;
+      margin-bottom: 2.5mm;
+    }
+    .ul-disc { list-style-type: disc; }
+    .ul-circle { list-style-type: circle; }
+    .ul-square { list-style-type: square; }
+    .ol-decimal { list-style-type: decimal; }
+    .core-font { font-family: helvetica; }
+    </style>
+
+    <h1 style="direction:ltr;">Right-To-Left Lists</h1>
+    <p class="note" style="direction:ltr;">Note: in right-to-left mode the markers hang off the right edge of the item,
+    one space from the item text, and nested lists indent towards the left.</p>
+
+    <div class="panel">
+      <h2 style="direction:ltr;">1) Glyph markers</h2>
+      <ul class="ul-disc">
+        <li>Disc marker</li>
+        <li>Second item</li>
+      </ul>
+      <ul class="ul-circle">
+        <li>Circle marker</li>
+      </ul>
+      <ul class="ul-square">
+        <li>Square marker</li>
+      </ul>
+    </div>
+
+    <div class="panel">
+      <h2 style="direction:ltr;">2) Vector markers (core font)</h2>
+      <ul class="ul-disc core-font">
+        <li>Disc marker</li>
+      </ul>
+      <ul class="ul-circle core-font">
+        <li>Circle marker</li>
+      </ul>
+      <ul class="ul-square core-font">
+        <li>Square marker</li>
+      </ul>
+    </div>
+
+    <div class="panel">
+      <h2 style="direction:ltr;">3) Ordered and nested lists</h2>
+      <ol class="ol-decimal">
+        <li>Decimal marker</li>
+        <li>Nested sample
+          <ul class="ul-circle">
+            <li>Nested unordered item</li>
+          </ul>
+        </li>
+      </ol>
+      <ol type="I">
+        <li>Uppercase roman marker from the type attribute</li>
+        <li>Second item</li>
+      </ol>
+      <ol type="a" start="25">
+        <li>Item 25</li>
+        <li>Item 26</li>
+        <li>Item 27, the first two-letter counter</li>
+      </ol>
+    </div>
+    HTML;
+
+$pdf->addPage();
+$pdf->setBookmark(name: 'Right-to-left lists', link: '', level: 0, page: -1, posx: 0, posy: 0, fstyle: 'B', color: '');
+$pdf->page->addContent($bfont['out']);
+
+$pdf->setRTL(true);
+$pdf->addHTMLCell(html: $rtlhtml, posx: 10, posy: 20, width: 190);
+$pdf->setRTL(false);
 
 // get PDF document as raw string
 $rawpdf = $pdf->getOutPDFString();

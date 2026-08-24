@@ -162,6 +162,18 @@ class TestableHTML extends \Com\Tecnick\Pdf\Tcpdf
     }
 
     /** @throws \Throwable */
+    public function exposeIsTextInCurrentFont(string $txt): bool
+    {
+        return $this->isTextInCurrentFont($txt);
+    }
+
+    /** @throws \Throwable */
+    public function exposeGetHTMLliBulletGlyph(string $type): string
+    {
+        return $this->getHTMLliBulletGlyph($type);
+    }
+
+    /** @throws \Throwable */
     public function exposePageBreak(): int
     {
         return $this->pageBreak();
@@ -990,10 +1002,12 @@ class TestableHTML extends \Com\Tecnick\Pdf\Tcpdf
             'linebottom' => 0.0,
             'linewordspacing' => 0.0,
             'linewrapped' => false,
+            'margin' => ['T' => 0.0, 'R' => 0.0, 'B' => 0.0, 'L' => 0.0],
             'maxheight' => 0.0,
             'maxwidth' => 0.0,
             'originx' => 0.0,
             'originy' => 0.0,
+            'padding' => ['T' => 0.0, 'R' => 0.0, 'B' => 0.0, 'L' => 0.0],
             'rowspan' => 1,
             'rowtop' => 0.0,
             'valign' => 'top',
