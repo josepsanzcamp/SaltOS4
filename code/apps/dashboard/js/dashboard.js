@@ -82,6 +82,50 @@ saltos.form.dashboard = data => {
         if (id in extra) {
             option = extra[id];
         }
+
+        if (grid.getColumn() === 1) {
+            let offset = 0;
+            if ([0,1,2,3].includes(option.x)) {
+                option.y = option.y * 4 + option.x;
+                option.x = 0;
+            } else if ([4,5,6,7].includes(option.x)) {
+                option.y = 1000 + option.y * 4 + option.x;
+                option.x = 0;
+            } else if ([8,9,10,11].includes(option.x)) {
+                option.y = 2000 + option.y * 4 + option.x;
+                option.x = 0;
+            } else {
+                console.error('Internal error!!!');
+            }
+        }
+
+        if (grid.getColumn() === 4) {
+            let offset = 0;
+            if ([0,1,2,3].includes(option.x)) {
+                // Nothing to do
+            } else if ([4,5,6,7].includes(option.x)) {
+                option.x -= 4;
+                option.y += 1000;
+            } else if ([8,9,10,11].includes(option.x)) {
+                option.x -= 8;
+                option.y += 2000;
+            } else {
+                console.error('Internal error!!!');
+            }
+        }
+
+        if (grid.getColumn() === 8) {
+            let offset = 0;
+            if ([0,1,2,3,4,5,6,7].includes(option.x)) {
+                // Nothing to do
+            } else if ([8,9,10,11].includes(option.x)) {
+                option.x -= 8;
+                option.y += 1000;
+            } else {
+                console.error('Internal error!!!');
+            }
+        }
+
         const widget = grid.addWidget(option);
 
         const content = widget.querySelector('.grid-stack-item-content');
@@ -96,15 +140,27 @@ saltos.form.dashboard = data => {
             content.classList.replace('rounded', 'rounded-pill');
         }
 
-        const handle = document.createElement('div');
-        handle.className = 'widget-drag-handle';
-        handle.innerHTML = '<i class="bi bi-arrows-move"></i>';
-        widget.append(handle);
+        if (grid.getColumn() === 12) {
+            const handle = document.createElement('div');
+            handle.className = 'widget-drag-handle';
+            handle.innerHTML = '<i class="bi bi-arrows-move"></i>';
+            widget.append(handle);
+        }
+    }
+
+    if (grid.getColumn() === 12) {
+        grid.enable();
+    } else {
+        grid.disable();
     }
 
     grid.batchUpdate(false);
 
     const save =  (event, element) => {
+        if (grid.getColumn() != 12) {
+            return;
+        }
+
         element.querySelectorAll('*').forEach(item => {
             if (item.chart) {
                 item.chart.resize();
