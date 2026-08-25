@@ -140,6 +140,7 @@ class Tcpdf extends \Com\Tecnick\Pdf\Output
      *                            backend, its (de)serialization, expiration and size limits. Null
      *                            (default) disables external caching. No backend is shipped.
      *
+     * @throws \Com\Tecnick\File\Exception
      * @throws \Com\Tecnick\Pdf\Exception
      * @throws \Com\Tecnick\Pdf\Encrypt\Exception
      * @throws \Com\Tecnick\Pdf\Font\Exception
@@ -364,29 +365,17 @@ class Tcpdf extends \Com\Tecnick\Pdf\Output
     }
 
     /**
-     * Controls emission of the per-page transparency /Group entry on standard
+     * Controls emission of the per-page transparency /Group entry
+     * (/Group << /Type /Group /S /Transparency /CS /DeviceRGB >>) on standard
      * (non PDF/A) pages.
      *
-     * Every standard tc-lib-pdf page declares a transparency group
-     * (/Group << /Type /Group /S /Transparency /CS /DeviceRGB >>). This makes
-     * blending color-managed and portable, but a conforming interpreter must
-     * composite such a page through the transparency pipeline even when every
-     * mark is fully opaque. Conservative print firmware does this at device
-     * resolution, which can add a flat per-page cost. Omitting the group on
-     * pages that contain no actual transparency removes that cost without
-     * changing the appearance of opaque pages.
-     *
      * Modes:
-     * - 'auto'   : (default) emit the group only on pages that actually use
-     *              transparency (a fill/stroke alpha below 1, a non-Normal blend
-     *              mode, a soft mask, a soft-masked image, an imported page, or a
-     *              referenced transparency-group XObject). Fully-opaque pages are
-     *              flattened.
-     * - 'always' : always emit the group on every standard page (legacy
-     *              behaviour, maximally portable for blended content).
-     * - 'never'  : never emit the group. Use only for print targets known to be
-     *              free of transparency; blending becomes implementation-defined,
-     *              like classic TCPDF output.
+     * - 'auto'   : (default) emit the group only on pages that use transparency
+     *              (a fill/stroke alpha below 1, a non-Normal blend mode, a soft
+     *              mask, a soft-masked image, an imported page, or a referenced
+     *              transparency-group XObject).
+     * - 'always' : emit the group on every standard page.
+     * - 'never'  : never emit the group; blending becomes implementation-defined.
      *
      * Has no effect in PDF/A mode, where the group is already suppressed.
      *
@@ -839,6 +828,10 @@ class Tcpdf extends \Com\Tecnick\Pdf\Output
      *        - nonce_enabled (bool) Add nonce to the timestamp request.
      *        - timeout (int) Request timeout in seconds.
      *        - verify_peer (bool) Validate TSA TLS certificate.
+     *        - allow_sha1 (bool) Accept a token that uses SHA-1 for its signature, its
+     *          message digest, or its ESS signing-certificate attribute. Off by default;
+     *          needed by a TSA that still emits the RFC 2634 signing-certificate (v1)
+     *          attribute, which is SHA-1 by definition.
      *
      * @throws PdfException
      *
@@ -854,6 +847,10 @@ class Tcpdf extends \Com\Tecnick\Pdf\Output
 
         if (\array_key_exists('verify_peer', $rawData) && !\is_bool($rawData['verify_peer'])) {
             throw new PdfException('Invalid TSA verify peer setting');
+        }
+
+        if (\array_key_exists('allow_sha1', $rawData) && !\is_bool($rawData['allow_sha1'])) {
+            throw new PdfException('Invalid TSA SHA-1 setting');
         }
 
         $this->sigtimestamp = \array_merge($this->sigtimestamp, $data);
@@ -944,7 +941,8 @@ class Tcpdf extends \Com\Tecnick\Pdf\Output
         $sigapp['name'] = $name === '' ? 'Signature' : $name;
 
         $pntx = $this->toPoints($posx);
-        $pnty = $this->toYUnit($posy + $height, $this->page->getPage($sigapp['page'])['pheight']);
+        // The rectangle is emitted in points, so the ordinate is flipped in points as well.
+        $pnty = $this->page->getPage($sigapp['page'])['pheight'] - $this->toPoints($posy + $height);
         $pntw = $this->toPoints($width);
         $pnth = $this->toPoints($height);
 

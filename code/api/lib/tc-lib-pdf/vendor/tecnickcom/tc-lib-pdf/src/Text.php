@@ -2472,6 +2472,13 @@ abstract class Text extends \Com\Tecnick\Pdf\Cell
             $bidi = new Bidi($txt, null, $ordarr, $forcedir);
             /** @var array<int, int> $bidiarr */
             $bidiarr = \array_values($bidi->getOrdArray());
+            if ($baseRtl && $bidiarr === $ordarr) {
+                // An RTL paragraph whose content is a single left-to-right run is left
+                // in logical order by the reordering, so the line breaking runs forward
+                // over it like an LTR paragraph.
+                $baseRtl = false;
+            }
+
             $ordarr = $this->replaceUnicodeChars($bidiarr);
         }
 
@@ -2768,7 +2775,7 @@ abstract class Text extends \Com\Tecnick\Pdf\Cell
         // text object must select the font the string was encoded with: a font selected
         // earlier on the page would resolve those codes to the wrong glyphs.
         // The codes of any other font are independent of it, so the font selection is
-        // left to the page, as before.
+        // left to the page.
         if ($this->font->isCurrentGidEncoded()) {
             $out = $curfont['outraw'] . ' ' . $out;
         }

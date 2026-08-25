@@ -29,14 +29,16 @@
         }
     ],
     "require": {
-        "php": ">=8.2",
+        "php": "^8.2",
         "ext-hash": "*",
+        "ext-json": "*",
         "ext-openssl": "*",
         "ext-pcre": "*"
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require-dev": {
+        "carthage-software/mago": "^1.47",
         "pdepend/pdepend": "^2.16",
         "phpunit/phpunit": "^11.5 || ^12.5 || ^13.3"
     },
@@ -56,15 +58,33 @@
     },
     "scripts": {
         "test": "@php -d xdebug.mode=coverage vendor/bin/phpunit --stderr test",
-        "analyse": ["@analyse:src", "@analyse:test"],
+        "analyse": [
+            "@analyse:src",
+            "@analyse:test"
+        ],
         "analyse:src": "vendor/bin/mago --config mago.src.toml analyze src",
         "analyse:test": "vendor/bin/mago --config mago.test.toml analyze test",
-        "cs-check": ["@cs-check:src", "@cs-check:test"],
+        "cs-check": [
+            "@cs-check:src",
+            "@cs-check:test"
+        ],
         "cs-check:src": "vendor/bin/mago --config mago.src.toml lint src",
         "cs-check:test": "vendor/bin/mago --config mago.test.toml lint test",
-        "cs-fix": ["@cs-fix:src", "@cs-fix:test"],
+        "cs-fix": [
+            "@cs-fix:src",
+            "@cs-fix:test"
+        ],
         "cs-fix:src": "vendor/bin/mago --config mago.src.toml fmt src",
         "cs-fix:test": "vendor/bin/mago --config mago.test.toml fmt test",
-        "qa": ["@cs-check", "@analyse", "@test"]
+        "qa": [
+            "@check-deps",
+            "@cs-check",
+            "@analyse",
+            "@test"
+        ],
+        "check-deps": [
+            "@composer validate --strict",
+            "@composer audit"
+        ]
     }
 }
