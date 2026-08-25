@@ -36,6 +36,11 @@ RUN apt update && apt install -y \
     ninja-build \
     build-essential \
     pkg-config \
+    bison \
+    flex \
+    libncurses-dev \
+    zlib1g-dev \
+    libpcre2-dev \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSL https://packages.apache.org/artifactory/arrow/debian/apache-arrow-apt-source-latest-trixie.deb -o /tmp/arrow.deb \
@@ -46,37 +51,34 @@ RUN curl -fsSL https://packages.groonga.org/debian/groonga-apt-source-latest-tri
     && apt update && apt install -y /tmp/groonga.deb \
     && rm /tmp/groonga.deb
 
-RUN extrepo enable mariadb-12.3 \
-    && sed -i 's/^Types: deb$/Types: deb deb-src/' /etc/apt/sources.list.d/extrepo_mariadb-12.3.sources
+RUN extrepo enable mariadb-12.3
 
 RUN apt update && apt install -y \
     libgroonga-dev \
     groonga-normalizer-mysql \
     libmariadb-dev \
-    && apt build-dep -y mariadb-server \
+    mariadb-client \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp
 
-RUN apt update && apt source mariadb-server \
-    && MARIA_SRC=$(ls -d /tmp/mariadb-12.3*) \
-    && mkdir -p ${MARIA_SRC}/builddir \
-    && cd ${MARIA_SRC}/builddir \
-    && cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release \
-    && ninja GenError \
-    && rm -rf /var/lib/apt/lists/*
+RUN VERSION=$(mariadb --version | grep -oP '\d+\.\d+\.\d+') && \
+    git clone --depth 1 --branch "mariadb-${VERSION}" https://github.com/MariaDB/server.git mariadb-src && \
+    mkdir -p mariadb-src/builddir && \
+    cd mariadb-src/builddir && \
+    cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release && \
+    ninja GenError
 
 RUN git clone https://github.com/mroonga/mroonga.git /tmp/mroonga
 
 WORKDIR /tmp/mroonga
 
-RUN MARIA_SRC=$(ls -d /tmp/mariadb-12.3*) \
-    && cmake . \
+RUN cmake . \
        -GNinja \
        -DCMAKE_BUILD_TYPE=Release \
        -DMRN_WITH_DOC=OFF \
-       -DMYSQL_SOURCE_DIR="${MARIA_SRC}" \
-       -DMYSQL_BUILD_DIR="${MARIA_SRC}/builddir" \
+       -DMYSQL_SOURCE_DIR="/tmp/mariadb-src" \
+       -DMYSQL_BUILD_DIR="/tmp/mariadb-src/builddir" \
        -DMYSQL_CONFIG=/usr/bin/mariadb_config \
     && cmake --build .
 

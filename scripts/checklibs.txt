@@ -43,7 +43,7 @@ cloc|https://github.com/AlDanial/cloc/tags.atom|<title>|PHRpdGxlPnYyLjEwPC90aXRs
 jest|https://github.com/jestjs/jest/tags.atom|<title>|PHRpdGxlPnYzMC40LjI8L3RpdGxlPg==
 jscs|https://github.com/jscs-dev/node-jscs/tags.atom|<title>|PHRpdGxlPjMuMC43PC90aXRsZT4=
 libreoffice|https://www.libreoffice.org/download/|latest|PG9wdGlvbiB2YWx1ZT0ibGF0ZXN0IiBkYXRhLXZlcnNpb24tZGlyPSIyNi4yLjUiIGRhdGEtdmVyc2lvbi1maWxlPSIyNi4yLjUiPkxpYnI=
-mariadb|https://github.com/MariaDB/server/tags.atom|<title>|PHRpdGxlPm1hcmlhZGItMTIuMy4zPC90aXRsZT4=
+mariadb|https://github.com/MariaDB/server/tags.atom|<title>|PHRpdGxlPk1hcmlhREIgQ29tbXVuaXR5IFNlcnZlciAxMi4zLjM8L3RpdGxlPg==
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|PHRpdGxlPm1pbmlmeSB2MTUuMy4xPC90aXRsZT4=
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|PHRpdGxlPk1yb29uZ2EgMTYuMDkgLSAyMDI2LTA4LTE0PC90aXRsZT4=
 node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjYtMDgtMDUsIFZlcnNpb24gMjYuNy4wIChDdXJyZW50KSwgQGFkdWg5NTwvdGl0bGU+
