@@ -256,6 +256,12 @@ RUN cd /opt/saltos4 \
     && mv html html.old \
     && ln -s /opt/saltos4/instance/web html
 
+# wait setup
+RUN cd /opt/saltos4 \
+    && mkdir wait \
+    && cd wait \
+    && ln -s ../scripts/wait_index.html index.html
+
 # crontab
 RUN cat <<'EOF' > /etc/cron.d/saltos4 && chmod 0644 /etc/cron.d/saltos4
 MAILTO=""
@@ -272,6 +278,9 @@ if ! id saltos > /dev/null 2>&1; then
 fi
 
 if [ -z "$(ls -A /var/lib/mysql)" ] && [ -z "$(ls -A /opt/saltos4/instance/data)" ]; then
+    php -S 0.0.0.0:80 -t /opt/saltos4/wait &
+    WAIT_PID=$!
+
     cp -a /var/lib/mysql-seed/. /var/lib/mysql/
     chown -R mysql:mysql /var/lib/mysql
 
@@ -286,6 +295,16 @@ if [ -z "$(ls -A /var/lib/mysql)" ] && [ -z "$(ls -A /opt/saltos4/instance/data)
     cat /usr/lib/mysql/plugin/install.sql | mariadb
 
     php /opt/saltos4/instance/api/index.php setup
+    user=admin php /opt/saltos4/instance/api/index.php setup/certs
+    user=admin php /opt/saltos4/instance/api/index.php setup/company
+    user=admin php /opt/saltos4/instance/api/index.php setup/emails
+    user=admin php /opt/saltos4/instance/api/index.php setup/crm
+    user=admin php /opt/saltos4/instance/api/index.php setup/hr
+    user=admin php /opt/saltos4/instance/api/index.php setup/purchases
+    user=admin php /opt/saltos4/instance/api/index.php setup/sales
+
+    kill "$WAIT_PID" || true
+    wait "$WAIT_PID" || true
 fi
 
 if [ -n "$(ls -A /var/lib/mysql)" ]; then

@@ -56,12 +56,21 @@ RUN cd /opt/saltos4 \
     && mv data data-seed \
     && mkdir data
 
+# wait setup
+RUN cd /opt/saltos4 \
+    && mkdir wait \
+    && cd wait \
+    && ln -s ../scripts/wait_index.html index.html
+
 # entrypoint: populate an empty volume from the seed data, then start the server
 RUN cat <<'EOF' > /usr/local/bin/docker-entrypoint.sh && chmod +x /usr/local/bin/docker-entrypoint.sh
 #!/bin/bash
 set -e
 
 if [ -z "$(ls -A /opt/saltos4/instance/data)" ]; then
+    php -S 0.0.0.0:8080 -t /opt/saltos4/wait &
+    WAIT_PID=$!
+
     cp -a /opt/saltos4/instance/data-seed/. /opt/saltos4/instance/data/
 
     php /opt/saltos4/instance/api/index.php setup
@@ -72,6 +81,9 @@ if [ -z "$(ls -A /opt/saltos4/instance/data)" ]; then
     user=admin php /opt/saltos4/instance/api/index.php setup/hr
     user=admin php /opt/saltos4/instance/api/index.php setup/purchases
     user=admin php /opt/saltos4/instance/api/index.php setup/sales
+
+    kill "$WAIT_PID" || true
+    wait "$WAIT_PID" || true
 fi
 
 exec /usr/bin/php -S 0.0.0.0:8080 -t /opt/saltos4/instance/web/
