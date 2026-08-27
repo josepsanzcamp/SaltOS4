@@ -54,13 +54,10 @@ RUN cd /opt/saltos4 \
     && bash /opt/saltos4/scripts/make_instance.sh \
     && echo '<root><db><type>pdo_sqlite</type></db></root>' > data/files/config.xml \
     && mv data data-seed \
-    && mkdir data
-
-# wait setup
-RUN cd /opt/saltos4 \
+    && mkdir data \
     && mkdir wait \
     && cd wait \
-    && ln -s ../scripts/wait_index.html index.html
+    && ln -s /opt/saltos4/scripts/wait_index.html index.html
 
 # entrypoint: populate an empty volume from the seed data, then start the server
 RUN cat <<'EOF' > /usr/local/bin/docker-entrypoint.sh && chmod +x /usr/local/bin/docker-entrypoint.sh
@@ -68,7 +65,7 @@ RUN cat <<'EOF' > /usr/local/bin/docker-entrypoint.sh && chmod +x /usr/local/bin
 set -e
 
 if [ -z "$(ls -A /opt/saltos4/instance/data)" ]; then
-    php -S 0.0.0.0:8080 -t /opt/saltos4/wait &
+    php -S 0.0.0.0:8080 -t /opt/saltos4/instance/wait &
     WAIT_PID=$!
 
     cp -a /opt/saltos4/instance/data-seed/. /opt/saltos4/instance/data/

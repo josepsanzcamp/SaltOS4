@@ -248,6 +248,10 @@ RUN cd /opt/saltos4 \
     && bash /opt/saltos4/scripts/make_instance.sh \
     && mv data data-seed \
     && mkdir data \
+    && mkdir wait \
+    && cd wait \
+    && ln -s /opt/saltos4/scripts/wait_index.html index.html \
+    && cd .. \
     && cd .. \
     && chown -R www-data:www-data instance \
     && chmod -R 0755 instance \
@@ -255,12 +259,6 @@ RUN cd /opt/saltos4 \
     && cd /var/www \
     && mv html html.old \
     && ln -s /opt/saltos4/instance/web html
-
-# wait setup
-RUN cd /opt/saltos4 \
-    && mkdir wait \
-    && cd wait \
-    && ln -s ../scripts/wait_index.html index.html
 
 # crontab
 RUN cat <<'EOF' > /etc/cron.d/saltos4 && chmod 0644 /etc/cron.d/saltos4
@@ -278,7 +276,7 @@ if ! id saltos > /dev/null 2>&1; then
 fi
 
 if [ -z "$(ls -A /var/lib/mysql)" ] && [ -z "$(ls -A /opt/saltos4/instance/data)" ]; then
-    php -S 0.0.0.0:80 -t /opt/saltos4/wait &
+    php -S 0.0.0.0:80 -t /opt/saltos4/instance/wait &
     WAIT_PID=$!
 
     cp -a /var/lib/mysql-seed/. /var/lib/mysql/
