@@ -23,6 +23,8 @@ use Com\Tecnick\Barcode\Exception as BarcodeException;
 /**
  * Com\Tecnick\Barcode\Type\Square\QrCode\Init
  *
+ * Reed-Solomon codec initialization methods for QrCode Barcode type class
+ *
  * @since       2015-02-21
  * @category    Library
  * @package     Barcode

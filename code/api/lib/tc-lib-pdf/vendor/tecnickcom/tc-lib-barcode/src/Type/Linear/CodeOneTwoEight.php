@@ -164,7 +164,7 @@ class CodeOneTwoEight extends \Com\Tecnick\Barcode\Type\Linear\CodeOneTwoEight\P
      */
     protected function processSequenceBA(array &$sequence, array &$code_data, int &$startid, int $key, array $seq): void
     {
-        $tmpchr = \ord($seq[1][0]);
+        $tmpchr = \ord($seq[1][0] ?? "\x00");
         $next_mode = $this->getSequenceMode($sequence, $key + 1);
         $startid = 104;
         if ($seq[2] === 1 && $tmpchr >= 241 && $tmpchr <= 244 && $next_mode !== '' && $next_mode !== 'B') {

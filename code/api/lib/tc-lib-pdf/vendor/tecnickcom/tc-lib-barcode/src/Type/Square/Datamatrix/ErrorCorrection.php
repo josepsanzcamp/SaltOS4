@@ -112,8 +112,9 @@ class ErrorCorrection
 
         \ksort($plc);
 
-        // total number of data codewords
-        $num_wd = $nbk * $ncw;
+        // total number of data codewords: the last blocks are one codeword shorter when
+        // the data codewords do not divide evenly between the interleaved blocks
+        $num_wd = \min(\count($wdc), $nbk * $ncw);
         // total number of error codewords
         $num_we = $nbk * $ncc;
         // for each block
@@ -126,8 +127,9 @@ class ErrorCorrection
 
             // initialize error codewords
             $wec = \array_fill(0, \max(0, $ncc + 1), 0);
+            $blocklen = \count($block);
             // calculate error correction codewords for this block
-            for ($i = 0; $i < $ncw; ++$i) {
+            for ($i = 0; $i < $blocklen; ++$i) {
                 $ker = $this->getArrayInt($wec, 0) ^ $this->getArrayInt($block, $i);
                 for ($j = 0; $j < $ncc; ++$j) {
                     $wec[$j] =

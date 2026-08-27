@@ -110,11 +110,6 @@ class StandardTwoOfFiveCheck extends \Com\Tecnick\Barcode\Type\Linear
     protected function setBars(): void
     {
         $this->formatCode();
-        if ((\strlen($this->extcode) % 2) !== 0) {
-            // add leading zero if code-length is odd
-            $this->extcode = '0' . $this->extcode;
-        }
-
         $seq = '1110111010';
         $clen = \strlen($this->extcode);
         for ($idx = 0; $idx < $clen; ++$idx) {

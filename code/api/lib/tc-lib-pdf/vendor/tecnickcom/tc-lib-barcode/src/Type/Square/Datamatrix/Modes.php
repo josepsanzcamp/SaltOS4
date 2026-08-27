@@ -62,6 +62,22 @@ abstract class Modes extends \Com\Tecnick\Barcode\Type\Square\Datamatrix\Placeme
     public string $shape;
 
     /**
+     * True when the GS1 variant is selected and FNC1 separators are encoded as codeword 232.
+     */
+    public bool $gsonemode = false;
+
+    /**
+     * Tell if the character is a GS1 separator: FNC1 (232) or GS (29).
+     * Only meaningful when the GS1 variant is selected.
+     *
+     * @param int $chr Character (byte) to check.
+     */
+    public function isGsOneChar(int $chr): bool
+    {
+        return $this->gsonemode && ($chr === 232 || $chr === 29);
+    }
+
+    /**
      * Return the 253-state codeword
      *
      * @param int $cdwpad Pad codeword.

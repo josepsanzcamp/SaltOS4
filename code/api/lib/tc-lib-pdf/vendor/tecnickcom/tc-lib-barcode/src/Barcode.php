@@ -5,13 +5,13 @@ declare(strict_types=1);
 /**
  * Barcode.php
  *
- * @since     2015-02-21
- * @category  Library
- * @package   Barcode
- * @author    Nicola Asuni <info@tecnick.com>
- * @copyright 2015-2026 Nicola Asuni - Tecnick.com LTD
- * @license   https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
- * @link      https://github.com/tecnickcom/tc-lib-barcode
+ * @since       2015-02-21
+ * @category    Library
+ * @package     Barcode
+ * @author      Nicola Asuni <info@tecnick.com>
+ * @copyright   2015-2026 Nicola Asuni - Tecnick.com LTD
+ * @license     https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
+ * @link        https://github.com/tecnickcom/tc-lib-barcode
  *
  * This file is part of tc-lib-barcode software library.
  */
@@ -23,25 +23,21 @@ use Com\Tecnick\Barcode\Exception as BarcodeException;
 /**
  * Com\Tecnick\Barcode\Barcode
  *
- * Barcode Barcode class
+ * Barcode factory class
  *
- * @since     2015-02-21
- * @category  Library
- * @package   Barcode
- * @author    Nicola Asuni <info@tecnick.com>
- * @copyright 2010-2026 Nicola Asuni - Tecnick.com LTD
- * @license   https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
- * @link      https://github.com/tecnickcom/tc-lib-barcode
+ * @since       2015-02-21
+ * @category    Library
+ * @package     Barcode
+ * @author      Nicola Asuni <info@tecnick.com>
+ * @copyright   2015-2026 Nicola Asuni - Tecnick.com LTD
+ * @license     https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
+ * @link        https://github.com/tecnickcom/tc-lib-barcode
  */
 class Barcode
 {
     /**
-     * Maximum accepted length of the barcode payload.
-     *
-     * No single barcode symbology can encode anywhere near this much data
-     * (the densest, QR version 40-L, tops out at ~7089 numeric digits), so
-     * this is a defensive upper bound to reject abusive inputs early, before
-     * any encoder spends time and memory on data it can never represent.
+     * Maximum accepted length in bytes of the barcode payload.
+     * Longer payloads are rejected by getBarcodeObj().
      */
     public const MAX_CODE_LENGTH = 30_000;
 
@@ -104,6 +100,7 @@ class Barcode
      *                                           factor for each row.
      * @param string                    $color   Foreground color in Web notation
      *                                           (color name, or hexadecimal code, or CSS syntax)
+     *                                           or PDF spot color name
      * @param array{int, int, int, int} $padding Additional padding to add around the barcode
      *                                           (top, right, bottom, left) in user units. A
      *                                           negative value indicates the multiplication

@@ -21,6 +21,8 @@ namespace Com\Tecnick\Barcode\Type\Square\QrCode;
 /**
  * Com\Tecnick\Barcode\Type\Square\QrCode\EncodingMode
  *
+ * Encoding mode detection methods for QrCode Barcode type class
+ *
  * @since       2015-02-21
  * @category    Library
  * @package     Barcode
@@ -161,7 +163,7 @@ abstract class EncodingMode extends \Com\Tecnick\Barcode\Type\Square\QrCode\Inpu
     protected function appendNum(array $bitstream, int $bits, int $num): array
     {
         if ($bits === 0) {
-            return [];
+            return $bitstream;
         }
 
         return $this->appendBitstream($bitstream, $this->newFromNum($bits, $num));
@@ -179,7 +181,7 @@ abstract class EncodingMode extends \Com\Tecnick\Barcode\Type\Square\QrCode\Inpu
     protected function appendBytes(array $bitstream, int $size, array $data): array
     {
         if ($size === 0) {
-            return [];
+            return $bitstream;
         }
 
         return $this->appendBitstream($bitstream, $this->newFromBytes($size, $data));
