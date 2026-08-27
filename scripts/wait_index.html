@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Starting SaltOS4...</title>
-  <meta http-equiv="refresh" content="2">
   <style>
     body { font-family: sans-serif; text-align: center; padding-top: 100px; background: #f8f9fa; }
     .loader { font-size: 1.5em; animation: blink 1s steps(1, start) infinite; }
@@ -12,6 +11,21 @@
 </head>
 <body>
   <h1>SaltOS4 - Starting up</h1>
-  <p class="loader">The instance is being prepared, please wait...</p>
+  <p class="loader">The instance is being prepared, please wait a few seconds...</p>
+  <p>You will be redirected automatically in a few seconds.</p>
+  <script>
+    let interval = setInterval(async () => {
+      try {
+        const response = await fetch('/api/?/' + Date.now(), { method: 'GET' });
+        const contentType = response.headers.get('content-type');
+        if (response.ok && contentType.includes('application/json')) {
+          clearInterval(interval);
+          window.location.reload();
+        }
+      } catch (error) {
+        // nothing to do
+      }
+    }, 1000);
+  </script>
 </body>
 </html>

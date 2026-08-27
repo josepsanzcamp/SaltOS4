@@ -11,7 +11,6 @@ echo <<<HTML
 <head>
   <meta charset="UTF-8">
   <title>Generating demo...</title>
-  <meta http-equiv="refresh" content="10;url=app/">
   <style>
     body { font-family: sans-serif; text-align: center; padding-top: 100px; background: #f8f9fa; }
     .loader { font-size: 1.5em; animation: blink 1s steps(1, start) infinite; }
