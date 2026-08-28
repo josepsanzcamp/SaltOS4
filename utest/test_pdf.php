@@ -44,12 +44,6 @@ require_once 'php/lib/pdf.php';
 require_once 'lib/utestlib.php';
 
 /**
- * Define the variable used to add this directory to the list of allowed paths,
- * needed to allow the utest execution
- */
-define('K_ALLOWED_PATHS', [dirname(dirname(getcwd()))]);
-
-/**
  * Main class of this unit test
  */
 final class test_pdf extends TestCase

@@ -32,6 +32,12 @@ use SebastianBergmann\CodeCoverage\Test\TestStatus;
 use PHPUnit\Framework\Assert;
 
 /**
+ * Define the variable used to add this directory to the list of allowed paths,
+ * needed to allow the utest execution
+ */
+define('K_ALLOWED_PATHS', [dirname(dirname(getcwd()))]);
+
+/**
  * Test PCOV start helper
  *
  * This function puts the flag needed to enable the pcov feature, to do it,
