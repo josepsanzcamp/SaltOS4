@@ -254,16 +254,16 @@
         },
         {
             "name": "tecnickcom/tc-lib-pdf",
-            "version": "8.72.0",
+            "version": "8.72.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/tc-lib-pdf.git",
-                "reference": "96c4acfb0baaefece694d5a9969582cb0bf11d1f"
+                "reference": "ec07274c07cbae4866f5b672b1c3d4be5f66f53d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/tc-lib-pdf/zipball/96c4acfb0baaefece694d5a9969582cb0bf11d1f",
-                "reference": "96c4acfb0baaefece694d5a9969582cb0bf11d1f",
+                "url": "https://api.github.com/repos/tecnickcom/tc-lib-pdf/zipball/ec07274c07cbae4866f5b672b1c3d4be5f66f53d",
+                "reference": "ec07274c07cbae4866f5b672b1c3d4be5f66f53d",
                 "shasum": ""
             },
             "require": {
@@ -335,7 +335,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-08-27T21:41:18+00:00"
+            "time": "2026-08-28T18:26:18+00:00"
         },
         {
             "name": "tecnickcom/tc-lib-pdf-encrypt",

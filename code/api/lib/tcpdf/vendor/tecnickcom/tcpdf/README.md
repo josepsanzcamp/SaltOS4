@@ -35,7 +35,7 @@ It has been widely used across many PHP stacks and still provides a complete fea
 
 ## Architecture: Compatibility Facade over tc-lib-pdf
 
-Starting with this version, the `TCPDF` class no longer contains its own PDF engine.
+Starting with version 7, the `TCPDF` class no longer contains its own PDF engine.
 It is a **compatibility facade**: every public TCPDF method is a thin wrapper that
 delegates the actual PDF generation to the modern `tecnickcom/tc-lib-pdf` engine
 (`\Com\Tecnick\Pdf\Tcpdf`), while a small internal state layer reproduces the legacy
@@ -44,7 +44,7 @@ breaks, headers/footers).
 
 What this means in practice:
 
-- **The public API is unchanged.** All 291 public method signatures (names, parameters,
+- **The public API is (mostly) unchanged.** All 291 public method signatures (names, parameters,
   defaults) are identical to legacy TCPDF; existing integrations keep calling `new TCPDF(...)`,
   `AddPage()`, `SetFont()`, `Cell()`, `writeHTML()`, `Output()` exactly as before.
 - **Rendering is done by the modern engine.** Text layout, HTML/CSS, fonts, graphics,
@@ -139,6 +139,7 @@ Safe migration checklist:
 
 ### Why Migrate to tc-lib-pdf
 
+- Larger feature set: tc-lib-pdf offers many more features than TCPDF, and it is where new ones are added.
 - Modern architecture: modular libraries and cleaner component boundaries improve maintainability.
 - Better extensibility: new features are easier to add without patching a monolithic legacy core.
 - Stronger tooling fit: modern package structure works better with static analysis, CI, and automated tests.
