@@ -18,7 +18,6 @@ RUN extrepo enable sury
 
 # php
 RUN apt update && apt install -y \
-    php8.5 \
     php8.5-bcmath \
     php8.5-cli \
     php8.5-common \

@@ -108,10 +108,10 @@ RUN apt update && apt install -y \
     && rm -rf /var/lib/apt/lists/*
 
 RUN extrepo enable sury
+RUN extrepo enable mariadb-12.3
 
 # php
 RUN apt update && apt install -y \
-    php8.5 \
     php8.5-bcmath \
     php8.5-cli \
     php8.5-common \
@@ -129,20 +129,18 @@ RUN apt update && apt install -y \
     php8.5-zstd \
     && rm -rf /var/lib/apt/lists/*
 
-RUN sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 50M/' /etc/php/8.5/apache2/php.ini && \
-    sed -i 's/post_max_size = 8M/post_max_size = 50M/' /etc/php/8.5/apache2/php.ini && \
-    sed -i 's/memory_limit = 128M/memory_limit = 256M/' /etc/php/8.5/apache2/php.ini && \
-    sed -i 's/max_execution_time = 30/max_execution_time = 300/' /etc/php/8.5/apache2/php.ini
-
 # apache
 RUN apt update && apt install -y \
     apache2 \
     libapache2-mod-php8.5 \
     && rm -rf /var/lib/apt/lists/*
 
-RUN a2dismod mpm_event \
-    && a2enmod mpm_prefork \
-    && a2enmod rewrite \
+RUN sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 50M/' /etc/php/8.5/apache2/php.ini && \
+    sed -i 's/post_max_size = 8M/post_max_size = 50M/' /etc/php/8.5/apache2/php.ini && \
+    sed -i 's/memory_limit = 128M/memory_limit = 256M/' /etc/php/8.5/apache2/php.ini && \
+    sed -i 's/max_execution_time = 30/max_execution_time = 300/' /etc/php/8.5/apache2/php.ini
+
+RUN a2enmod rewrite \
     && a2enmod headers \
     && a2enmod expires \
     && a2enmod deflate \
@@ -152,8 +150,6 @@ RUN echo "<Directory /var/www/html>\n\tAllowOverride All\n\tRequire all granted\
     > /etc/apache2/conf-enabled/saltos.conf
 
 # mariadb + mroonga
-RUN extrepo enable mariadb-12.3
-
 RUN apt update && apt install -y \
     mariadb-server \
     mariadb-client \
