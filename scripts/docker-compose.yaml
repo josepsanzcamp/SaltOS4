@@ -58,6 +58,9 @@ services:
         volumes:
             - ../volumes/server/mysql:/var/lib/mysql
             - ../volumes/server/data:/opt/saltos4/instance/data
+            - ../code:/opt/saltos4/code:ro
+            - ../scripts:/opt/saltos4/scripts:ro
+            - ../.git:/opt/saltos4/.git:ro
         profiles: ["server"]
         restart: unless-stopped
 
@@ -71,6 +74,9 @@ services:
             - "0.0.0.0:8080:8080"
         volumes:
             - ../volumes/devel/data:/opt/saltos4/instance/data
+            - ../code:/opt/saltos4/code:ro
+            - ../scripts:/opt/saltos4/scripts:ro
+            - ../.git:/opt/saltos4/.git:ro
         profiles: ["devel"]
         restart: unless-stopped
 
@@ -84,5 +90,8 @@ services:
             - "0.0.0.0:8080:80"
         volumes:
             - ../volumes/demos/instances:/opt/saltos4/instances
+            - ../code:/opt/saltos4/code:ro
+            - ../scripts:/opt/saltos4/scripts:ro
+            - ../.git:/opt/saltos4/.git:ro
         profiles: ["demos"]
         restart: unless-stopped
