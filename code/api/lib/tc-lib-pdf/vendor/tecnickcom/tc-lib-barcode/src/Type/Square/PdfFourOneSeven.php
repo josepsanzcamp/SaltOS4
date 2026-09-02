@@ -64,6 +64,12 @@ class PdfFourOneSeven extends \Com\Tecnick\Barcode\Type\Square\PdfFourOneSeven\C
     protected const FORMAT = 'PDF417';
 
     /**
+     * Truncated symbol: the right row indicator and the stop pattern are
+     * replaced by a single narrow bar.
+     */
+    protected bool $truncated = false;
+
+    /**
      * Row height respect X dimension of single module
      */
     protected int $row_height = 2;
@@ -394,7 +400,11 @@ class PdfFourOneSeven extends \Com\Tecnick\Barcode\Type\Square\PdfFourOneSeven\C
         // add horizontal quiet zones to start and stop patterns
         $pstart = \str_repeat('0', \max(0, $this->quiet_horizontal)) . Data::START_PATTERN;
         $this->nrows = ($rows * $this->row_height) + (2 * $this->quiet_vertical);
-        $this->ncols = (($cols + 2) * 17) + 35 + (2 * $this->quiet_horizontal);
+        // start pattern, left row indicator, data columns and, unless truncated,
+        // the right row indicator and the stop pattern
+        $this->ncols = $this->truncated
+            ? (($cols + 1) * 17) + 18 + (2 * $this->quiet_horizontal)
+            : (($cols + 2) * 17) + 35 + (2 * $this->quiet_horizontal);
         // build rows for vertical quiet zone
         $empty_row = ',' . \str_repeat('0', \max(0, $this->ncols));
         $empty_rows = \str_repeat($empty_row, \max(0, $this->quiet_vertical));
@@ -433,10 +443,12 @@ class PdfFourOneSeven extends \Com\Tecnick\Barcode\Type\Square\PdfFourOneSeven\C
                 ++$kcw;
             }
 
-            // right row indicator
-            $row .= \sprintf('%17b', $this->getClusterCodewordValue($cid, $cval));
-            // row stop code
-            $row .= Data::STOP_PATTERN . \str_repeat('0', \max(0, $this->quiet_horizontal));
+            // right row indicator and row stop code, or the single bar that
+            // terminates a truncated row
+            $row .= $this->truncated
+                ? '1'
+                : \sprintf('%17b' . Data::STOP_PATTERN, $this->getClusterCodewordValue($cid, $cval));
+            $row .= \str_repeat('0', \max(0, $this->quiet_horizontal));
             // each codeword row is repeated over $row_height rows of modules
             $barcode .= \str_repeat(',' . $row, \max(0, $this->row_height));
             ++$cid;

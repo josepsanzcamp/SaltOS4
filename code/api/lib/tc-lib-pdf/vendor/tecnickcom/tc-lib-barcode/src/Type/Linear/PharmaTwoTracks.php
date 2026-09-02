@@ -26,6 +26,8 @@ use Com\Tecnick\Barcode\Exception as BarcodeException;
  * PharmaTwoTracks Barcode type class
  * PHARMACODE TWO-TRACKS
  *
+ * PHARMA-CODE is a trademark of Laetus GmbH.
+ *
  * @since       2015-02-21
  * @category    Library
  * @package     Barcode

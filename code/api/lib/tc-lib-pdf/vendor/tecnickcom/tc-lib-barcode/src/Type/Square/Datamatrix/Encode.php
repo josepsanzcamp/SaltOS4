@@ -46,11 +46,13 @@ class Encode extends \Com\Tecnick\Barcode\Type\Square\Datamatrix\EncodeTxt
      *
      * @param string $shape     Datamatrix shape key (S=square, R=rectangular)
      * @param bool   $gsonemode True to encode the FNC1 and GS characters as the FNC1 codeword
+     * @param string $size      Requested symbol size as rows by columns, empty for the smallest that fits
      */
-    public function __construct(string $shape = 'S', bool $gsonemode = false)
+    public function __construct(string $shape = 'S', bool $gsonemode = false, string $size = '')
     {
         $this->shape = $shape;
         $this->gsonemode = $gsonemode;
+        $this->size = $size;
     }
 
     /**
@@ -176,7 +178,7 @@ class Encode extends \Com\Tecnick\Barcode\Type\Square\Datamatrix\EncodeTxt
     ): bool {
         if ($epos === $data_length) {
             $enc = Data::ENC_ASCII;
-            $params = Data::getPaddingSize($this->shape, $cdw_num + $field_length);
+            $params = Data::getPaddingSize($this->shape, $cdw_num + $field_length, $this->size);
             if (($params[11] - $cdw_num) > 2) {
                 $cdw[] = $this->getSwitchEncodingCodeword($enc);
                 ++$cdw_num;
@@ -191,6 +193,7 @@ class Encode extends \Com\Tecnick\Barcode\Type\Square\Datamatrix\EncodeTxt
             $params = Data::getPaddingSize(
                 $this->shape,
                 $cdw_num + $field_length + $this->getAsciiCodewordCount($data, $epos, $data_length),
+                $this->size,
             );
             if (($params[11] - $cdw_num) <= 2) {
                 return true;

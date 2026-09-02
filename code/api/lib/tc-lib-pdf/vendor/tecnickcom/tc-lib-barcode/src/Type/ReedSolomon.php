@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * ErrorCorrection.php
+ * ReedSolomon.php
  *
  * @since       2023-10-13
  * @category    Library
@@ -16,12 +16,12 @@ declare(strict_types=1);
  * This file is part of tc-lib-barcode software library.
  */
 
-namespace Com\Tecnick\Barcode\Type\Square\Aztec;
+namespace Com\Tecnick\Barcode\Type;
 
 /**
- * Com\Tecnick\Barcode\Type\Square\Aztec\ErrorCorrection
+ * Com\Tecnick\Barcode\Type\ReedSolomon
  *
- * ErrorCorrection for Aztec Barcode type class
+ * Reed-Solomon error correction over GF(2^n)
  *
  * @since       2023-10-13
  * @category    Library
@@ -31,7 +31,7 @@ namespace Com\Tecnick\Barcode\Type\Square\Aztec;
  * @license     https://www.gnu.org/copyleft/lesser.html GNU-LGPL v3 (see LICENSE)
  * @link        https://github.com/tecnickcom/tc-lib-barcode
  */
-class ErrorCorrection
+class ReedSolomon
 {
     /**
      * Galois Field primitive by word size.
@@ -39,12 +39,22 @@ class ErrorCorrection
      * @var array<int>
      */
     protected const GF = [
-        4 => 19, // 10011  GF(16) (x^4 + x + 1) Mode message
-        6 => 67, // 1000011  GF(64) (x^6 + x + 1) 01-02 layers
-        8 => 301, // 100101101  GF(256) (x^8 + x^5 + x^3 + x^2 + 1) 03-08 layers
-        10 => 1033, // 10000001001  GF(1024) (x^10 + x^3 + 1) 09-22 layers
-        12 => 4201, // 1000001101001  GF(4096) (x^12 + x^6 + x^5 + x^3 + 1) 23-32 layers
+        4 => 19, // 10011  GF(16) (x^4 + x + 1) Aztec mode message
+        5 => 37, // 100101  GF(32) (x^5 + x^2 + 1) Royal Mail Mailmark
+        6 => 67, // 1000011  GF(64) (x^6 + x + 1) Aztec 01-02 layers, Australia Post 4-State
+        8 => 301, // 100101101  GF(256) (x^8 + x^5 + x^3 + x^2 + 1) Aztec 03-08 layers
+        10 => 1033, // 10000001001  GF(1024) (x^10 + x^3 + 1) Aztec 09-22 layers
+        12 => 4201, // 1000001101001  GF(4096) (x^12 + x^6 + x^5 + x^3 + 1) Aztec 23-32 layers
     ];
+
+    /**
+     * Primitive polynomial of the GF(256) of QR Code and Micro QR Code:
+     * x^8 + x^4 + x^3 + x^2 + 1. The word size 8 entry of GF is the Aztec one,
+     * over a different polynomial, so this field is named on its own.
+     *
+     * @var int
+     */
+    public const GF_QRCODE = 285; // 100011101
 
     /**
      * Map the log and exp (inverse log) tables by word size.
@@ -54,6 +64,7 @@ class ErrorCorrection
      */
     protected const TSIZE = [
         4 => 16,
+        5 => 32,
         6 => 64,
         8 => 256,
         10 => 1024,
@@ -80,40 +91,62 @@ class ErrorCorrection
     protected int $tsize = 0;
 
     /**
+     * Generator polynomial coefficients, keyed by the number of error
+     * correction codewords.
+     *
+     * @var array<int, array<int>>
+     */
+    protected array $gen = [];
+
+    /**
+     * Exponent of the first root of the generator polynomial.
+     */
+    protected int $firstroot = 1;
+
+    /**
      * Initialize the Reed-Solomon Error Correction.
      *
-     * @param int $wsize Size of a word in bits.
+     * @param int $wsize     Size of a word in bits.
+     * @param int $primitive Primitive polynomial of the Galois field, or zero
+     *                       for the one the word size selects in GF.
+     * @param int $firstroot Exponent of the first root of the generator
+     *                       polynomial, which is the product of x + a^i over
+     *                       the roots. Aztec, Australia Post and Mailmark count
+     *                       from 1, QR Code and Micro QR Code from 0.
      */
-    public function __construct(int $wsize)
+    public function __construct(int $wsize, int $primitive = 0, int $firstroot = 1)
     {
-        $this->genTables($wsize);
+        $this->firstroot = $firstroot;
+        $this->genTables($wsize, $primitive);
     }
 
     /**
-     * Returns the Reed-Solomon Error Correction Codewords added to the input data.
+     * Returns the Reed-Solomon Error Correction Codewords for the input data.
      *
      * @param array<int> $data   Array of data codewords to process.
      * @param int   $necc   Number of error correction bytes.
      *
-     * @return array<int>
+     * @return list<int> Array of $necc error correction codewords.
      */
     public function checkwords(array $data, int $necc): array
     {
         $coeff = $this->getCoefficients($data, $necc);
-        return \array_pad($coeff, -$necc, 0); // @phpstan-ignore return.type
+        return \array_values(\array_pad($coeff, -$necc, 0));
     }
 
     /**
      * Generates log and exp (inverse log) tables.
      *
-     * @param int $wsize Size of the word in bits.
+     * @param int $wsize     Size of the word in bits.
+     * @param int $primitive Primitive polynomial of the Galois field, or zero
+     *                       for the one the word size selects in GF.
      */
-    protected function genTables(int $wsize): void
+    protected function genTables(int $wsize, int $primitive = 0): void
     {
         $this->tsize = self::TSIZE[$wsize] ?? 0;
         $this->tlog = \array_fill(0, \max(0, $this->tsize), 0);
         $this->texp = $this->tlog;
-        $primitive = self::GF[$wsize] ?? 0;
+        $primitive = $primitive > 0 ? $primitive : self::GF[$wsize] ?? 0;
         $val = 1;
         $sizeminusone = $this->tsize - 1;
         for ($idx = 0; $idx < $this->tsize; ++$idx) {
@@ -141,11 +174,7 @@ class ErrorCorrection
      */
     protected function getCoefficients(array $data, int $necc): array
     {
-        $gen = [1];
-        for ($idx = 1; $idx <= $necc; ++$idx) {
-            $gen = $this->multiplyCoeff([1, $this->texp[$idx] ?? 0], $gen);
-        }
-
+        $gen = $this->getGenerator($necc);
         $deg = $necc + 1;
         $coeff = $this->multiplyByMonomial($data, 1, $necc);
         $len = \count($coeff);
@@ -157,6 +186,29 @@ class ErrorCorrection
         }
 
         return $coeff;
+    }
+
+    /**
+     * Returns the coefficients of the generator polynomial, the product of
+     * x + a^i over the roots. The result is cached per number of error
+     * correction codewords.
+     *
+     * @param int $necc Number of error correction bytes.
+     *
+     * @return array<int> Array of coefficients.
+     */
+    protected function getGenerator(int $necc): array
+    {
+        if (isset($this->gen[$necc])) {
+            return $this->gen[$necc];
+        }
+
+        $gen = [1];
+        for ($idx = 0; $idx < $necc; ++$idx) {
+            $gen = $this->multiplyCoeff([1, $this->texp[$this->firstroot + $idx] ?? 0], $gen);
+        }
+
+        return $this->gen[$necc] = $gen;
     }
 
     /**
@@ -230,9 +282,6 @@ class ErrorCorrection
      */
     protected function multiplyByMonomial(array $coeff, int $mon, int $deg): array
     {
-        // if ($mon == 0) {
-        //     return array(0);
-        // }
         $ncf = \count($coeff);
         $prod = \array_fill(0, \max(0, $ncf + $deg), 0);
         for ($idx = 0; $idx < $ncf; ++$idx) {
@@ -252,19 +301,8 @@ class ErrorCorrection
      */
     protected function addOrSubtract(array $smaller, array $larger): array
     {
-        // if ($smaller[0] == 0) {
-        //     return $larger;
-        // }
-        // if ($larger[0] == 0) {
-        //     return $smaller;
-        // }
         $slen = \count($smaller);
         $llen = \count($larger);
-        // if ($slen > $llen) {
-        //     // swap arrays
-        //     list($smaller, $larger) = array($larger, $smaller);
-        //     list($slen, $llen) = array($llen, $slen);
-        // }
         $lendiff = $llen - $slen;
         $coeff = \array_slice($larger, 0, $lendiff);
         for ($idx = $lendiff; $idx < $llen; ++$idx) {

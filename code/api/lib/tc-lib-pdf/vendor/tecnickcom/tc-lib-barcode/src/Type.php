@@ -300,7 +300,7 @@ abstract class Type extends \Com\Tecnick\Barcode\Type\Convert implements Model
      */
     protected function getHTTPFile(string $data, string $mime, string $fileext, ?string $filename = null): void
     {
-        if (\is_null($filename) || \preg_match('/^[a-zA-Z0-9_\-]{1,250}$/', $filename) !== 1) {
+        if (\is_null($filename) || \preg_match('/^[a-zA-Z0-9_\-]{1,250}\z/', $filename) !== 1) {
             $filename = \md5($data);
         }
 

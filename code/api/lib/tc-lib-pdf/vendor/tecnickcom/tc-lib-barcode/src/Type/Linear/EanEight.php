@@ -49,6 +49,12 @@ class EanEight extends \Com\Tecnick\Barcode\Type\Linear\EanOneThree
     protected int $code_length = 8;
 
     /**
+     * The GS1 General Specifications define the add-on symbol for EAN-13,
+     * UPC-A and UPC-E only.
+     */
+    protected int $addon_separation = 0;
+
+    /**
      * Set the bars array.
      *
      * @throws BarcodeException in case of error

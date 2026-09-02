@@ -279,7 +279,7 @@ abstract class Convert
      */
     protected function convertDecToHex(string $number): string
     {
-        if (!\preg_match('/^[0-9]+$/', $number)) {
+        if (!\preg_match('/^[0-9]+\z/', $number)) {
             return '00';
         }
 

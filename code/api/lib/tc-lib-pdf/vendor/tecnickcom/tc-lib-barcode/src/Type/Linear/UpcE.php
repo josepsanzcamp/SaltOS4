@@ -71,6 +71,12 @@ class UpcE extends \Com\Tecnick\Barcode\Type\Linear\UpcA
     protected int $code_length = 12;
 
     /**
+     * Separation in modules between the main symbol and the add-on symbol,
+     * equal to the right quiet zone of the main symbol.
+     */
+    protected int $addon_separation = 7;
+
+    /**
      * Map parities
      *
      * @var array<int|string, array<int|string, array<string>>>
@@ -160,7 +166,7 @@ class UpcE extends \Com\Tecnick\Barcode\Type\Linear\UpcA
      */
     protected function formatCode(): void
     {
-        $code = $this->code;
+        $code = $this->maincode;
         if (\strlen($code) === 6) {
             $code = $this->convertUpceToUpca($code);
         }
@@ -197,7 +203,7 @@ class UpcE extends \Com\Tecnick\Barcode\Type\Linear\UpcA
         // digits, so compare the manufacturer and product digits only
         $upca = \substr($this->convertUpceToUpca($upcecode), 1);
         if ($upca !== \substr($extcode, 2, \strlen($upca))) {
-            throw new BarcodeException('The code cannot be represented as a UPC-E symbol: ' . $this->code);
+            throw new BarcodeException('The code cannot be represented as a UPC-E symbol: ' . $this->maincode);
         }
     }
 
@@ -205,6 +211,7 @@ class UpcE extends \Com\Tecnick\Barcode\Type\Linear\UpcA
      * Set the bars array.
      *
      * @throws BarcodeException in case of error
+     * @throws \Com\Tecnick\Color\Exception in case of color error
      */
     protected function setBars(): void
     {
@@ -219,6 +226,8 @@ class UpcE extends \Com\Tecnick\Barcode\Type\Linear\UpcA
         }
 
         $seq .= '010101'; // right guard bar
+        $seq .= $this->getAddonSequence();
         $this->processBinarySequence($this->getRawCodeRows($seq));
+        $this->appendAddonToExtendedCode();
     }
 }

@@ -124,18 +124,28 @@ class Aztec extends \Com\Tecnick\Barcode\Type\Square
     }
 
     /**
+     * Get the character sequence to encode.
+     * Subclasses that build the payload from the input code override this.
+     */
+    protected function getEncodedPayload(): string
+    {
+        return $this->code;
+    }
+
+    /**
      * Get the bars array
      *
      * @throws BarcodeException in case of error
      */
     protected function setBars(): void
     {
-        if (\strlen($this->code) === 0) {
+        $code = $this->getEncodedPayload();
+        if (\strlen($code) === 0) {
             throw new BarcodeException('Empty input');
         }
 
         try {
-            $encode = new Encode($this->code, $this->ecc, $this->eci, $this->hint, $this->mode);
+            $encode = new Encode($code, $this->ecc, $this->eci, $this->hint, $this->mode);
             $grid = $encode->getGrid();
             $this->processBinarySequence($grid);
         } catch (BarcodeException $barcodeException) {

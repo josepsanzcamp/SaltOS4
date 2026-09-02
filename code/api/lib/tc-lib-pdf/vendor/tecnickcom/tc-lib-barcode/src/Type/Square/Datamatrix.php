@@ -48,6 +48,13 @@ class Datamatrix extends \Com\Tecnick\Barcode\Type\Square
     protected const FORMAT = 'DATAMATRIX';
 
     /**
+     * Number of data codewords of the largest symbol of the shape.
+     *
+     * @var int
+     */
+    protected const MAXCDW = 1558;
+
+    /**
      * Array of codewords.
      *
      * @var array<int, int>
@@ -70,6 +77,11 @@ class Datamatrix extends \Com\Tecnick\Barcode\Type\Square
      * Datamatrix shape key (S=square, R=rectangular)
      */
     protected string $shape = 'S';
+
+    /**
+     * Symbol size as rows by columns, empty for the smallest size that fits
+     */
+    protected string $size = '';
 
     /**
      * Datamatrix variant (N=default, GS1=FNC1 codeword in first place)
@@ -95,14 +107,24 @@ class Datamatrix extends \Com\Tecnick\Barcode\Type\Square
         // shape
         $this->shape = DatamatrixShape::fromLoose(\strval($this->params[0] ?? ''))->value;
 
+        $this->setModeAndEncoding(1);
+    }
+
+    /**
+     * Set the mode and the encoding from the parameters starting at the given index.
+     *
+     * @param int $idx Index of the mode parameter.
+     */
+    protected function setModeAndEncoding(int $idx): void
+    {
         // mode
-        $this->gsonemode = ($this->params[1] ?? null) === 'GS1';
+        $this->gsonemode = ($this->params[$idx] ?? null) === 'GS1';
 
         // encoding
-        if (($this->params[2] ?? null) !== null) {
-            $this->defenc =
-                Data::ENCOPTS[DatamatrixEncoding::fromLoose(\strval($this->params[2]))->value] ?? Data::ENC_ASCII;
-        }
+        $encoding = $this->params[$idx + 1] ?? null;
+        $this->defenc = $encoding === null
+            ? Data::ENC_ASCII
+            : Data::ENCOPTS[DatamatrixEncoding::fromLoose(\strval($encoding))->value] ?? Data::ENC_ASCII;
     }
 
     /**
@@ -156,11 +178,21 @@ class Datamatrix extends \Com\Tecnick\Barcode\Type\Square
             // add first pad
             $this->cdw[] = 129;
             ++$ncw;
-            // add remaining pads
+            // add remaining pads, randomised by their position in the codeword
+            // stream, which is one more than their index in it
             for ($i = $ncw; $i < $size; ++$i) {
-                $this->cdw[] = $this->dmx->get253StateCodeword(129, $i);
+                $this->cdw[] = $this->dmx->get253StateCodeword(129, $i + 1);
             }
         }
+    }
+
+    /**
+     * Get the character sequence to encode.
+     * Subclasses that build the payload from the input code override this.
+     */
+    protected function getEncodedPayload(): string
+    {
+        return $this->code;
     }
 
     /**
@@ -172,23 +204,24 @@ class Datamatrix extends \Com\Tecnick\Barcode\Type\Square
      */
     protected function getCodewords(): array
     {
-        if (\strlen($this->code) === 0) {
+        $code = $this->getEncodedPayload();
+        if (\strlen($code) === 0) {
             throw new BarcodeException('Empty input');
         }
 
         // get data codewords
-        $this->cdw = $this->getHighLevelEncoding($this->code);
+        $this->cdw = $this->getHighLevelEncoding($code);
 
         // number of data codewords
         $ncw = \count($this->cdw);
 
         // check size
-        if ($ncw > 1558) {
+        if ($ncw > static::MAXCDW) {
             throw new BarcodeException('the input is too large to fit the barcode');
         }
 
-        // get minimum required matrix size.
-        $params = Data::getPaddingSize($this->shape, $ncw);
+        // get the requested matrix size, or the minimum required one.
+        $params = Data::getPaddingSize($this->shape, $ncw, $this->size);
         $this->addPadding($params[11], $ncw);
 
         $errorCorrection = new \Com\Tecnick\Barcode\Type\Square\Datamatrix\ErrorCorrection();
@@ -348,7 +381,7 @@ class Datamatrix extends \Com\Tecnick\Barcode\Type\Square
      */
     protected function setBars(): void
     {
-        $this->dmx = new Encode($this->shape, $this->gsonemode);
+        $this->dmx = new Encode($this->shape, $this->gsonemode, $this->size);
         $params = $this->getCodewords();
         // get placement map
         $places = $this->dmx->getPlacementMap($params[2], $params[3]);
