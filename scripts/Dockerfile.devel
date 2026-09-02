@@ -1,4 +1,13 @@
+
+ARG PHP_VERSION=8.5
+
+####################################################################################################
+# default builder
+####################################################################################################
+
 FROM debian:trixie
+
+ARG PHP_VERSION
 
 RUN echo 'path-exclude /usr/share/doc/*' > /etc/dpkg/dpkg.cfg.d/01_nodoc && \
     echo 'path-exclude /usr/share/man/*' >> /etc/dpkg/dpkg.cfg.d/01_nodoc && \
@@ -18,21 +27,21 @@ RUN extrepo enable sury
 
 # php
 RUN apt update && apt install -y \
-    php8.5-bcmath \
-    php8.5-cli \
-    php8.5-common \
-    php8.5-curl \
-    php8.5-gd \
-    php8.5-imap \
-    php8.5-mailparse \
-    php8.5-mbstring \
-    php8.5-mysql \
-    php8.5-readline \
-    php8.5-sqlite3 \
-    php8.5-xml \
-    php8.5-yaml \
-    php8.5-zip \
-    php8.5-zstd \
+    php${PHP_VERSION}-bcmath \
+    php${PHP_VERSION}-cli \
+    php${PHP_VERSION}-common \
+    php${PHP_VERSION}-curl \
+    php${PHP_VERSION}-gd \
+    php${PHP_VERSION}-imap \
+    php${PHP_VERSION}-mailparse \
+    php${PHP_VERSION}-mbstring \
+    php${PHP_VERSION}-mysql \
+    php${PHP_VERSION}-readline \
+    php${PHP_VERSION}-sqlite3 \
+    php${PHP_VERSION}-xml \
+    php${PHP_VERSION}-yaml \
+    php${PHP_VERSION}-zip \
+    php${PHP_VERSION}-zstd \
     && rm -rf /var/lib/apt/lists/*
 
 # pdf tools & certutils
