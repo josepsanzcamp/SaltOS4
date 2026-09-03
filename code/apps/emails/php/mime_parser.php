@@ -159,7 +159,6 @@ final class mime_parser_class
         if ($decodeBodies && !$isMultipart) {
             // extract from the full in-memory string
             overload_error_handler('mailparse_msg_extract_part');
-            // @phpstan-ignore argument.type,function.void
             $node['Body'] = (string)mailparse_msg_extract_part($p, $raw, null);
             restore_error_handler();
             $node['BodyLength'] = strlen($node['Body']);

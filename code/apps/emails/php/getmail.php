@@ -29,6 +29,7 @@ declare(strict_types=1);
  *
  * This requires loads the external libraries needed to run this library.
  */
+require_once 'apps/emails/php/mailparse.php';
 require_once 'apps/emails/php/mime_parser.php';
 require_once 'apps/emails/php/pop3.php';
 
