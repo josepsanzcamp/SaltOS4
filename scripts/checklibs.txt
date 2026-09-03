@@ -34,6 +34,7 @@ vkbeautify|https://github.com/vkiryukhin/vkBeautify/commits/master.atom|<updated
 fpdf|https://github.com/Setasign/FPDF/tags.atom|<title>|PHRpdGxlPkZQREYgMS45ICgxLjkuMCk8L3RpdGxlPg==
 fpdi|https://github.com/Setasign/FPDI/tags.atom|<title>|PHRpdGxlPkZQREkgMi42Ljg8L3RpdGxlPg==
 gridstack|https://github.com/gridstack/gridstack.js/tags.atom|<title>|PHRpdGxlPnYxMy4yLjA8L3RpdGxlPg==
+mailmimeparser|https://github.com/zbateson/mail-mime-parser/tags.atom|<title>|PHRpdGxlPjQuMC4zPC90aXRsZT4=
 phpmailer|https://github.com/PHPMailer/PHPMailer/tags.atom|<title>|PHRpdGxlPlBIUE1haWxlciA3LjEuMTwvdGl0bGU+
 
 acorn|https://github.com/acornjs/acorn/tags.atom|<title>|PHRpdGxlPlZlcnNpb24gOC4xOC4wPC90aXRsZT4=
@@ -50,7 +51,7 @@ node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjYtMDgtMjYsIF
 pcov|https://github.com/krakjoe/pcov/tags.atom|<title>|PHRpdGxlPnYxLjAuMTI8L3RpdGxlPg==
 php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjYuMGJldGEyPC90aXRsZT4=
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|PHRpdGxlPjQuMC40IC0gMjAyNi0wOC0wNjwvdGl0bGU+
-phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjIuMi4xMjwvdGl0bGU+
+phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjIuMi4xMzwvdGl0bGU+
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|PHRpdGxlPlBIUFVuaXQgMTMuMy4yPC90aXRsZT4=
 uglifyjs|https://github.com/mishoo/UglifyJS/tags.atom|<title>|PHRpdGxlPnYzLjE5LjM8L3RpdGxlPg==
 wpcs|https://github.com/WordPress/WordPress-Coding-Standards/tags.atom|<title>|PHRpdGxlPjMuNC4xIC0gMjAyNi0wNy0yNzwvdGl0bGU+
