@@ -259,6 +259,14 @@ final class test_nssdb extends TestCase
 
         $this->assertSame(__nssdb_reset(), []);
         $this->assertSame(__nssdb_list(), []);
+
+        $pdf = new fpdi_with_rotation();
+        $pdf->AddPage();
+        $pdf->Rotate(45, 0, 0);
+        $angle = new ReflectionProperty(fpdi_with_rotation::class, 'angle');
+        $this->assertSame(45, $angle->getValue($pdf));
+        $pdf->_endpage();
+        $this->assertSame(0, $angle->getValue($pdf));
     }
 
     #[testdox('certs functions')]

@@ -18,6 +18,7 @@ declare(strict_types=1);
 
 // phpcs:disable PSR1.Files.SideEffects
 // phpcs:disable PSR1.Classes.ClassDeclaration
+// phpcs:disable Squiz.Classes.ValidClassName
 // phpcs:disable PSR1.Methods.CamelCapsMethodName
 
 /**
@@ -266,7 +267,7 @@ require_once 'apps/certs/lib/fpdi/vendor/autoload.php';
  * Implements native PDF coordinate manipulation vectors via template processing
  * primitives, adding arbitrary text angle rotations using canvas transformation matrices.
  */
-class FpdiWithRotation extends \setasign\Fpdi\Fpdi
+class fpdi_with_rotation extends \setasign\Fpdi\Fpdi
 {
     protected $angle = 0;
 
@@ -359,7 +360,7 @@ function __nssdb_update($nick, $input)
     $image_height = 9 * $image_size[1] / $image_size[0];
     $image_sep = $image_height / 9;
 
-    $pdf = new FpdiWithRotation();
+    $pdf = new fpdi_with_rotation();
     $pdf->SetAutoPageBreak(false, 0);
     $pdf->setMargins(0, 0, 0);
     $pdf->AddFont('atkinsonhyperlegiblenext', '', 'AtkinsonHyperlegibleNext-Regular.json');

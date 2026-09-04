@@ -42,6 +42,7 @@ use PHPUnit\Framework\Attributes\Depends;
  */
 require_once 'lib/utestlib.php';
 require_once 'php/lib/version.php';
+require_once 'apps/common/php/pdf.php';
 
 /**
  * Main class of this unit test
@@ -75,5 +76,11 @@ final class test_common extends TestCase
 
         $this->assertSame(del_version('customers', 100), 1);
         $this->assertSame(del_version('customers', 100), 1);
+
+        $this->assertSame('apps/sales/xml/invoices_pdf.xml', detect_pdf_file('invoices'));
+        $this->assertTrue(exists_pdf_file('invoices'));
+
+        $this->assertSame('apps/crm/xml/customers_pdf.xml', detect_pdf_file('customers'));
+        $this->assertFalse(exists_pdf_file('customers'));
     }
 }

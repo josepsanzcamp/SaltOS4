@@ -577,5 +577,89 @@ final class test_emails extends TestCase
         test_external_exec('php/emails11.php', 'phperror.log', 'could not decode de message');
 
         unlink($cache);
+
+        $mime = new mime_parser_class();
+        $decoded = [];
+        $raw = "From: a@example.com\r\nTo: b@example.com\r\nSubject: test\r\n\r\nHello world\r\n";
+        $this->assertTrue($mime->Decode(['Data' => $raw], $decoded));
+        $this->assertNotEmpty($decoded);
+
+        $decoded = [];
+        $raw = "From: a@example.com\r\nTo: b@example.com\r\nSubject: test\r\nMIME-Version: 1.0\r\n" .
+            "Content-Type: multipart/mixed; boundary=\"XYZ\"\r\n\r\n" .
+            "--XYZ\r\nContent-Type: text/plain\r\n\r\nbody\r\n" .
+            "--XYZ\r\nContent-Type: application/octet-stream; name=\"file.bin\"\r\n\r\nsomedata\r\n" .
+            "--XYZ--\r\n";
+        $mime->Decode(['Data' => $raw], $decoded);
+        $this->assertSame('file.bin', $decoded[0]['Parts'][1]['FileName']);
+
+        $decoded = [];
+        set_error_handler(fn() => true);
+        try {
+            $mime->Decode(['File' => 'data/temp/does_not_exist_' . uniqid()], $decoded);
+            $this->fail('Expected RuntimeException was not thrown');
+        } catch (RuntimeException $e) {
+            $this->assertStringContainsString('No se pudo leer', $e->getMessage());
+        } finally {
+            restore_error_handler();
+        }
+
+        $pop3 = new pop3_class();
+        $this->assertSame('Open failed: empty host', $pop3->Open());
+
+        $pop3 = new pop3_class();
+        $pop3->hostname = 'example.com';
+        $pop3->ssl = 1;
+        $pop3->port = 0;
+        $this->assertSame('', $pop3->Open());
+        $this->assertSame(995, $pop3->port);
+
+        $pop3 = new pop3_class();
+        $pop3->hostname = 'example.com';
+        $pop3->port = 0;
+        $this->assertSame('', $pop3->Open());
+        $this->assertSame(110, $pop3->port);
+
+        $pop3 = new pop3_class();
+        $pop3->hostname = 'example.com';
+        $pop3->tls = 1;
+        $this->assertSame('', $pop3->Open());
+
+        $out = null;
+        $pop3 = new pop3_class();
+        $this->assertSame('OpenMessage failed: bad index', $pop3->GetMessage(0, $out));
+        $this->assertSame('DeleteMessage failed: bad index', $pop3->DeleteMessage(0));
+
+        // Real GreenMail server (make teststart), deliberately using ssl on its plain POP3 port
+        $pop3 = new pop3_class();
+        $pop3->hostname = 'example.com';
+        $pop3->port = 995;
+        $pop3->ssl = 1;
+        $pop3->user = 'admin';
+        $pop3->pass = 'admin';
+        $this->assertSame('', $pop3->Open());
+        $this->assertStringContainsString('TLS connect error', $pop3->ListMessages());
+        $out = null;
+        $this->assertStringContainsString('TLS connect error', $pop3->GetMessage(1, $out));
+
+        // Real GreenMail server, matching its actual plain POP3 config
+        $pop3 = new pop3_class();
+        $pop3->hostname = 'example.com';
+        $pop3->port = 995;
+        $pop3->user = 'admin';
+        $pop3->pass = 'admin';
+        $this->assertSame('', $pop3->Open());
+
+        $uidls = $pop3->ListMessages();
+        $this->assertIsArray($uidls);
+        $this->assertNotEmpty($uidls);
+        $lastIndex = max(array_keys($uidls));
+
+        $out = null;
+        $this->assertSame('', $pop3->GetMessage($lastIndex, $out));
+        $this->assertNotEmpty($out);
+
+        $this->assertSame('', $pop3->DeleteMessage($lastIndex));
+        $this->assertSame('', $pop3->Close());
     }
 }

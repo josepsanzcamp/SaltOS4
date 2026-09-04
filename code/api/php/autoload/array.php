@@ -698,6 +698,9 @@ function matrix_values($matrix)
  */
 function check_real_matrix($array)
 {
+    if (!is_array($array)) {
+        return false;
+    }
     foreach ($array as $key => $val) {
         if (!is_numeric($key)) {
             return false;
