@@ -26,6 +26,14 @@ This document is intended for AI agents assisting humans in:
 - Understanding architectural responsibilities
 - Running tests and builds correctly
 
+**Scope of this document.** This file covers agent-specific behavior and
+known pitfalls only. It intentionally does not restate everything —
+[CONTRIBUTING.md](CONTRIBUTING.md) is the canonical, complete reference for
+setup steps, the full command reference (including less common variants),
+coding standards, and project structure; [README.md](README.md) is the
+product overview. When this file and CONTRIBUTING.md disagree, trust
+CONTRIBUTING.md and flag the discrepancy — don't silently pick one.
+
 ---
 
 ## Project Structure
@@ -59,10 +67,14 @@ SaltOS is declarative-first.
 
 Apps are defined by:
 
-- manifest.xml
-- dbschema.xml
-- dbstatic.xml (optional)
-- *.yaml or *.xml (UI definition)
+- manifest.yaml (registration: id, code, name, table, features)
+- dbschema.xml (table/field definitions, auto-migrated)
+- dbstatic.xml (optional; bulk-loads master-data rows into a table and
+  re-syncs them whenever the file changes — used by the core, not by the
+  example apps)
+- *.yaml or *.xml (UI definition: list/form/select; YAML is compiled to XML
+  and cached — see `detect_app_file()` in
+  code/api/php/autoload/apps.php)
 
 AI agents must prefer editing declarative definitions instead of writing imperative controller logic.
 
@@ -124,7 +136,7 @@ To create or modify an app:
 
 1. Edit YAML or XML definition
 2. Update dbschema.xml if schema changes
-3. Update manifest.xml if features change
+3. Update manifest.yaml if features change
 4. Run setup/sync
 5. Test via UI and API
 
@@ -134,17 +146,54 @@ Never write manual SQL migrations.
 
 ---
 
+## Common Pitfalls
+
+Concrete traps in this codebase, verified against the current code (not
+generic advice):
+
+- **Multi-database SQL.** MySQL/MariaDB and SQLite are the supported
+  deployment targets; PostgreSQL and MSSQL drivers also ship
+  (`code/api/php/database/pdo_{mysql,sqlite,pgsql,mssql}.php`) but for
+  targeted integration work, not general deployment. Regardless, never
+  write engine-specific SQL inline. `parse_query()`
+  (`code/api/php/autoload/sql.php:46`) strips or keeps fragments wrapped in
+  `/*MYSQL*/ ... /*SQLITE*/ ... /*PGSQL*/ ... /*MSSQL*/ ...` comment blocks
+  depending on the active driver — put engine-specific SQL there, not in
+  plain string concatenation.
+- **`code/web/index.html` is a static shell**, not a template — all view
+  logic lives in `code/web/js/`. Don't add logic to it.
+- **Autoload modules** (`code/api/php/autoload/*.php`, ~30 files: `sql.php`,
+  `tokens.php`, `user.php`, `apps.php`, `perms.php`, ...) are all loaded
+  automatically by `zindex.php` on every request. Don't require them
+  manually or duplicate their logic elsewhere.
+- **Token binding** is checked against `remote_addr` + `user_agent` on every
+  request (`code/api/php/autoload/user.php:38-52`) — don't relax or bypass
+  this check.
+- **Version/audit chain** lives in `code/api/php/lib/version.php`
+  (`make_version()`) — it stores deltas plus a hash of the previous version
+  per register. Never write to version rows directly; always go through
+  this function.
+- **Vendored libraries** under `code/api/lib/*/` each carry their own
+  `composer.lock`. `check_composer()` (`code/api/php/autoload/system.php:154`)
+  validates the running PHP against each lib's `require.php` constraint at
+  setup time. If you update a vendored lib, its constraint may raise the
+  effective PHP floor above the hard-coded minimum of 7.1
+  (`code/api/index.php:25`) — check `make setuponly` / `check_composer()`
+  output after doing so.
+
+---
+
 ## Setup & Installation
 
 SQLite setup:
 
 make setupsqlite
-make setupfull
+make setupall
 
 MySQL setup:
 
 make setupmysql
-make setupfull
+make setupall
 
 Manual setup:
 
@@ -188,23 +237,31 @@ Docker (production profile):
 make serverbuild
 make serverstart
 
+Container management (status/logs/shell for devel and server profiles) and
+the `test` Docker profile (MSSQL, PostgreSQL, GreenMail for integration
+tests) are documented in CONTRIBUTING.md — not repeated here.
+
 ---
 
 ## Testing Model
 
 Backend:
 
-- PHPUnit
-- Located in utest/
+- PHPUnit, located in `utest/`
+- `make utest` runs modified tests only; `make utest file=all` runs
+  everything; `make utest file=core` runs one file by name
 
 Frontend:
 
-- Jest
-- Located in ujest/
+- Jest, located in `ujest/`
+- `make ujest` runs modified tests only; `make ujest file=all` runs
+  everything; `make ujest file=<filter>` runs a subset
 
 AI agents should:
 
-- Always run relevant test suite after modifying core behavior
+- Prefer the scoped `file=` form while iterating, and run `file=all` before
+  considering a change done
+- Always run the relevant test suite after modifying core behavior
 - Prefer writing new tests when introducing new features
 - Avoid changing snapshots unless behavior intentionally changed
 

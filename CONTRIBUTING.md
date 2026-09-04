@@ -2,6 +2,11 @@
 
 Thank you for your interest in contributing to SaltOS 4! This document provides guidelines and instructions for contributing to the project.
 
+This is the canonical reference for setup, commands, coding standards and
+project structure. If you are an AI coding agent, also read
+[AGENTS.md](AGENTS.md) for agent-specific behavior rules and known
+pitfalls — it defers to this file for anything not agent-specific.
+
 ## 🌟 Ways to Contribute
 
 - **Report bugs** via [GitHub Issues](https://github.com/josepsanzcamp/SaltOS4/issues)
@@ -17,7 +22,9 @@ Thank you for your interest in contributing to SaltOS 4! This document provides 
 
 ### Prerequisites
 
-- PHP 7.0-8.3
+- PHP 7.1-8.5 (7.1 is the hard floor enforced in `api/index.php`; some
+  vendored libraries under `code/api/lib/*/composer.lock` may demand a
+  newer PHP in practice — `setup` runs `check_composer()` to catch this)
 - Node.js (for frontend testing)
 - MySQL/MariaDB or PostgreSQL (SQLite for development)
 - Git
@@ -38,9 +45,7 @@ bash ../scripts/make_instance.sh
 php api/index.php setup
 
 # 4. Start development server
-cd web
-ln -s index.html index.php
-php -S localhost:8000
+php -S localhost:8000 -t web
 ```
 
 ### Verify Installation
@@ -52,6 +57,60 @@ make check
 # Expected output:
 # ✓ All required commands available
 # ✓ Directory structure correct
+```
+
+---
+
+## 🐳 Docker
+
+Two runtime profiles (see README.md for the quick "build and start" steps):
+
+```bash
+# devel: PHP built-in server + SQLite
+make develbuild && make develstart
+make develstatus   # Show container status
+make devellogs     # Show logs
+make develbash     # Open shell inside container
+make develstop     # Stop and remove container
+
+# server: Apache + PHP + MariaDB
+make serverbuild && make serverstart
+make serverstatus  # Show container status
+make serverlogs    # Show logs
+make serverbash    # Open shell inside container
+make serverstop    # Stop and remove containers
+```
+
+A third profile, `test`, doesn't build SaltOS — it only starts the external
+services the test suite needs for integration testing: Microsoft SQL Server
+2022, PostgreSQL 17, and GreenMail (SMTP/POP3 simulation).
+
+```bash
+make teststart     # Start test dependencies
+make teststatus    # Show running containers
+make testlogs      # View service logs
+make teststop      # Stop and cleanup
+```
+
+### The `demos` profile (maintainer-only)
+
+`Dockerfile.demos` builds the image behind
+[demos.saltos.org](https://demos.saltos.org/) — an intermediate between
+`devel` and `server`: Apache + the full toolchain (chromium, LibreOffice,
+tesseract, xlsxio) like `server`, but SQLite like `devel`. Unlike the other
+profiles it doesn't serve a single instance: its entry point
+(`scripts/demos_index.php`) hashes each visitor's IP and provisions a fresh,
+fully set-up instance per hash on first visit, and a cron job
+(`scripts/demos_trash.php`) retires instances untouched for 7 days. Most
+contributors will never need this profile — it exists to run the public
+demo site, not for local development.
+
+```bash
+make demosbuild && make demosstart
+make demosstatus   # Show container status
+make demoslogs     # Show logs
+make demosbash     # Open shell inside container
+make demosstop     # Stop and remove container
 ```
 
 ---
@@ -147,7 +206,7 @@ function calculate_customer_total(int $customer_id): float {
 - snake_case for functions and variables
 
 ```javascript
-function calculateTotal(items) {
+function calculate_total(items) {
     let total = 0;
     for (let i = 0; i < items.length; i++) {
         total += items[i].price;
@@ -199,7 +258,11 @@ SaltOS4/
 │   │   │   ├── php/            # Custom logic
 │   │   │   ├── js/             # Custom frontend
 │   │   │   ├── locale/         # Translations
-│   │   │   └── sample/         # Sample data
+│   │   │   ├── sample/         # Sample data
+│   │   │   └── lib/            # Optional: app-specific vendored deps
+│   │   │                       # (e.g. emails/lib/mailmimeparser,
+│   │   │                       #  certs/lib/fpdi) — same idea as
+│   │   │                       #  code/api/lib/, scoped to this app
 │   │   ├── sales/              # Sales (products, invoices)
 │   │   ├── purchases/          # Purchases (suppliers)
 │   │   ├── hr/                 # HR (employees, departments)
@@ -212,7 +275,7 @@ SaltOS4/
 │   │   └── tester/             # Internal testing tools
 │   ├── web/                    # Frontend (PWA)
 │   │   ├── index.html          # Entry point
-│   │   ├── js/                 # TypeScript/JavaScript core
+│   │   ├── js/                 # JavaScript core
 │   │   ├── lib/                # External JS libraries
 │   │   │   ├── bootstrap/
 │   │   │   ├── joditeditor/
@@ -339,16 +402,19 @@ form:
     - [name, text, Name]
 ```
 
-### 3. Manifest (`apps/myapp/xml/manifest.xml`)
+### 3. Manifest (`apps/myapp/xml/manifest.yaml`)
 
-```xml
-<root>
-    <apps>
-        <app id="100" code="myapp" name="My App"
-             table="app_myapp" field="name"
-             has_version="1" has_files="1" has_notes="1"/>
-    </apps>
-</root>
+```yaml
+apps:
+    - id: 100
+      active: 1
+      code: myapp
+      name: My App
+      table: app_myapp
+      field: name
+      has_version: 1
+      has_files: 1
+      has_notes: 1
 ```
 
 [📖 Read the full Apps Guide](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/apps.pdf)
@@ -396,13 +462,13 @@ Supported languages:
 
 ### Translation System
 
-Despite using YAML, the code uses gettext-compatible functions:
+Despite using YAML instead of `.po`/`.mo` files, translation is a single
+short function call, `T()` (`code/api/php/autoload/gettext.php`):
 ```php
-echo gettext("Hello");        // Returns translated string
-echo _("Goodbye");            // Shorthand for gettext()
+echo T("Hello");        // Returns the translated string
 ```
 
-This provides gettext-like API with YAML flexibility.
+The same `T()` call is available in JS and in YAML/XML app definitions.
 
 ---
 

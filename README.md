@@ -6,7 +6,7 @@
 **Structured Business Systems — 10x Faster Than Traditional Frameworks**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
-[![PHP](https://img.shields.io/badge/PHP-7.0%20to%208.5-777BB4.svg)](https://www.php.net/)
+[![PHP](https://img.shields.io/badge/PHP-7.1%20to%208.5-777BB4.svg)](https://www.php.net/)
 [![Demo](https://img.shields.io/badge/Demo-Live-success)](https://demos.saltos.org/)
 [![Docs](https://img.shields.io/badge/Docs-9%20PDFs-orange)](https://github.com/josepsanzcamp/SaltOS4/tree/master/docs)
 
@@ -66,7 +66,7 @@ attr:
         height: 5em
 ```
 
-Plus **database schema** (dbschema.xml) and **app manifest** (manifest.xml).
+Plus **database schema** (dbschema.xml) and **app manifest** (manifest.yaml).
 👉 [See complete CRM example](https://github.com/josepsanzcamp/SaltOS4/tree/master/code/apps/crm/xml)
 
 **You automatically get:**
@@ -113,13 +113,15 @@ Defines list views, forms, and field types.
 
 ```xml
 <table name="app_customers">
-  <field name="id"
-         type="INTEGER"
-         pkey="true"/>
-  <field name="name"
-         type="VARCHAR(255)"/>
-  <field name="email"
-         type="VARCHAR(255)"/>
+  <fields>
+    <field name="id"
+           type="INTEGER"
+           pkey="true"/>
+    <field name="name"
+           type="VARCHAR(255)"/>
+    <field name="email"
+           type="VARCHAR(255)"/>
+  </fields>
 </table>
 ```
 
@@ -129,16 +131,17 @@ Defines tables, fields, and relationships.
 <td width="33%">
 
 **3. App Manifest**
-`manifest.xml`
+`manifest.yaml`
 
-```xml
-<app id="50"
-     code="customers"
-     name="Customers"
-     table="app_customers"
-     has_version="1"
-     has_files="1"
-     has_notes="1"/>
+```yaml
+apps:
+    - id: 50
+      code: customers
+      name: Customers
+      table: app_customers
+      has_version: 1
+      has_files: 1
+      has_notes: 1
 ```
 
 Registers the app with metadata and features.
@@ -173,7 +176,7 @@ From these definitions, SaltOS automatically creates:
 - **🔐 Blockchain-Verified Versioning**: Every change tracked with cryptographic integrity
 - **📱 PWA-Ready**: Works offline with service workers
 - **🧪 Fully Tested**: PHPUnit + Jest with comprehensive coverage
-- **🌍 Multi-Database**: MySQL, PostgreSQL, SQLite, MSSQL
+- **🌍 Multi-Database**: MySQL/MariaDB and SQLite are the supported deployment targets; PostgreSQL and MSSQL drivers also ship, for targeted integration work rather than general deployment
 
 ### For Businesses
 - **💰 Zero Licensing Costs**: MIT open source
@@ -245,9 +248,7 @@ user=admin php api/index.php setup/purchases
 user=admin php api/index.php setup/sales
 
 # 5. Start web server
-cd web
-ln -s index.html index.php
-php -S 0.0.0.0:8080
+php -S 0.0.0.0:8080 -t web
 
 # 6. Open browser
 open http://localhost:8080
@@ -264,95 +265,30 @@ The server profile installs and initializes SaltOS automatically during the imag
 
 ### Development with Docker (SQLite + PHP Built-in Server)
 
-SaltOS 4 provides a lightweight development environment using:
-
-- PHP built-in server
-- SQLite database
-- Minimal dependencies
-- Fast startup
-
-#### Build and start development container
-
-```
+```bash
 make develbuild
 make develstart
 ```
-
-#### Access
 
 - http://localhost:8080
 - Username: `admin`
 - Password: `admin`
 
-#### Development container management
-
-```
-make develstatus   # Show container status
-make devellogs     # Show logs
-make develbash     # Open shell inside container
-make develstop     # Stop and remove container
-```
-
-This profile is optimized for fast development and testing.
-
 ### Production Server with Docker (Apache + MariaDB)
-
-The server profile installs and initializes SaltOS automatically during the image build.
-
-#### Build and start the server
 
 ```bash
 make serverbuild
 make serverstart
 ```
 
-#### Access
-
 - HTTP: http://localhost:8080
-- HTTPS: https://localhost:8443
+- HTTPS: https://localhost:8443 (self-signed certificate, generated automatically)
 - Username: `admin`
 - Password: `admin`
 
-A self-signed SSL certificate is generated automatically.
-
-#### Server management
-
-```bash
-make serverstatus   # Show container status
-make serverlogs     # Show logs
-make serverbash     # Open shell inside container
-make serverstop     # Stop and remove containers
-```
-
-#### Docker Compose profiles
-
-Docker Compose defines three profiles:
-
-- `devel`: builds and runs SaltOS using `Dockerfile.devel`
-  (PHP built-in server + SQLite).
-
-- `server`: builds and runs SaltOS using `Dockerfile.server`
-  (Apache + PHP + MariaDB).
-
-- `test`: starts external service containers used for unit testing:
-    - Microsoft SQL Server 2022
-    - PostgreSQL 17
-    - GreenMail (SMTP / POP3 mail server simulation)
-
-The `test` profile does not build SaltOS itself.
-It only provides the external dependencies required by the test suite.
-
-#### Test services (unit testing)
-
-The optional `test` profile starts SQL Server, PostgreSQL and GreenMail
-required for running the unit test suite.
-
-```bash
-make teststart     # Start test dependencies
-make teststatus    # Show running containers
-make testlogs      # View service logs
-make teststop      # Stop and cleanup
-```
+Container management (status/logs/shell), the `test` Docker profile (MSSQL +
+PostgreSQL + GreenMail for integration tests), and the full command
+reference are in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
@@ -361,7 +297,7 @@ make teststop      # Stop and cleanup
 ```
 ┌─────────────────────────────────────────────────────┐
 │                  Web Browser (PWA)                  │
-│  TypeScript · Bootstrap 5 · Service Worker          │
+│  Vanilla JavaScript · Bootstrap 5 · Service Worker  │
 └─────────────────┬───────────────────────────────────┘
                   │ REST/JSON
 ┌─────────────────▼───────────────────────────────────┐
@@ -375,7 +311,7 @@ make teststop      # Stop and cleanup
 └─────────────────┬───────────────────────────────────┘
                   │
 ┌─────────────────▼───────────────────────────────────┐
-│     MySQL · PostgreSQL · SQLite · MSSQL             │
+│               MySQL/MariaDB · SQLite                │
 └─────────────────────────────────────────────────────┘
 ```
 
@@ -383,9 +319,13 @@ make teststop      # Stop and cleanup
 Development uses SQLite + PHP built-in server.
 Production uses Apache + MariaDB.
 
+MySQL/MariaDB and SQLite are the supported deployment targets. PostgreSQL
+and MSSQL drivers also ship, but for targeted integration work rather than
+general deployment.
+
 ### Core Technologies
-- **Backend**: PHP 7.0-8.5 (strict types, tested)
-- **Frontend**: TypeScript, Bootstrap 5, TomSelect, Jodit Editor, Chart.js
+- **Backend**: PHP 7.1-8.5 (strict types, tested)
+- **Frontend**: Vanilla JavaScript, Bootstrap 5, TomSelect, Jodit Editor, Chart.js
 - **Storage**: Multi-database abstraction layer (PDO)
 - **Testing**: PHPUnit (backend) + Jest (frontend)
 - **i18n**: YAML-based translations
@@ -452,7 +392,7 @@ Comprehensive docs in 3 languages (English, Spanish, Catalan):
 
 ## 🤝 Contributing
 
-We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. Using an AI coding agent on this repo? See [AGENTS.md](AGENTS.md).
 
 ### Development Setup
 ```bash
