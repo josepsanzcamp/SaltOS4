@@ -462,3 +462,26 @@ demosstatus:
 
 demosbash:
 	cd scripts && docker compose --profile demos exec saltos4demos bash
+
+################################################################################
+# DOCKER DB PART
+################################################################################
+
+dbbuild:
+	cd scripts && docker compose --profile db build
+
+dbstart:
+	cd scripts && docker compose --profile db up -d
+
+dbstop:
+	cd scripts && docker compose --profile db kill
+	cd scripts && docker compose --profile db down
+
+dblogs:
+	cd scripts && docker compose --profile db logs
+
+dbstatus:
+	cd scripts && docker compose --profile db ps
+
+dbbash:
+	cd scripts && docker compose --profile db exec saltos4db bash

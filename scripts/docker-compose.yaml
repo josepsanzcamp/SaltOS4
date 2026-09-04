@@ -47,6 +47,19 @@ services:
         profiles: ["test"]
         restart: unless-stopped
 
+    saltos4db:
+        image: saltos4db
+        build:
+            context: ..
+            dockerfile: scripts/Dockerfile.db
+        container_name: saltos4db
+        network_mode: host
+        volumes:
+            - /var/lib/mysql:/var/lib/mysql
+            - /run/mysqld:/run/mysqld
+        profiles: ["db"]
+        restart: unless-stopped
+
     saltos4server:
         image: saltos4server
         build:

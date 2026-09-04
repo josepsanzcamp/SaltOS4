@@ -1,0 +1,161 @@
+
+ARG MARIADB_VERSION=12.3
+ARG MROONGA_VERSION=16.11
+
+####################################################################################################
+# mroonga builder
+####################################################################################################
+
+FROM debian:trixie AS mroonga-builder
+
+ARG MARIADB_VERSION
+ARG MROONGA_VERSION
+
+RUN apt update && apt install -y \
+    curl \
+    ca-certificates \
+    extrepo \
+    git \
+    cmake \
+    ninja-build \
+    build-essential \
+    pkg-config \
+    bison \
+    flex \
+    libncurses-dev \
+    zlib1g-dev \
+    libpcre2-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSL https://packages.apache.org/artifactory/arrow/debian/apache-arrow-apt-source-latest-trixie.deb -o /tmp/arrow.deb \
+    && apt update && apt install -y /tmp/arrow.deb \
+    && rm /tmp/arrow.deb
+
+RUN curl -fsSL https://packages.groonga.org/debian/groonga-apt-source-latest-trixie.deb -o /tmp/groonga.deb \
+    && apt update && apt install -y /tmp/groonga.deb \
+    && rm /tmp/groonga.deb
+
+RUN extrepo enable mariadb-${MARIADB_VERSION}
+
+RUN apt update && apt install -y \
+    libgroonga-dev \
+    groonga-normalizer-mysql \
+    libmariadb-dev \
+    mariadb-client \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /tmp
+
+RUN VERSION=$(mariadb --version | grep -oP '\d+\.\d+\.\d+') && \
+    git clone --depth 1 --branch "mariadb-${VERSION}" https://github.com/MariaDB/server.git mariadb-src && \
+    mkdir -p mariadb-src/builddir && \
+    cd mariadb-src/builddir && \
+    cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release && \
+    ninja GenError
+
+RUN git clone --depth 1 --branch "v${MROONGA_VERSION}" https://github.com/mroonga/mroonga.git /tmp/mroonga
+
+WORKDIR /tmp/mroonga
+
+RUN cmake . \
+       -GNinja \
+       -DCMAKE_BUILD_TYPE=Release \
+       -DMRN_WITH_DOC=OFF \
+       -DMYSQL_SOURCE_DIR="/tmp/mariadb-src" \
+       -DMYSQL_BUILD_DIR="/tmp/mariadb-src/builddir" \
+       -DMYSQL_CONFIG=/usr/bin/mariadb_config \
+    && cmake --build .
+
+RUN mkdir -p /opt/mroonga-install \
+    && cp ha_mroonga.so /opt/mroonga-install/ \
+    && cat data/install.sql data/update.sql | grep -v source > /opt/mroonga-install/install.sql \
+    && cp data/uninstall.sql /opt/mroonga-install/
+
+####################################################################################################
+# default builder
+####################################################################################################
+
+FROM debian:trixie
+
+ARG MARIADB_VERSION
+
+RUN echo 'path-exclude /usr/share/doc/*' > /etc/dpkg/dpkg.cfg.d/01_nodoc && \
+    echo 'path-exclude /usr/share/man/*' >> /etc/dpkg/dpkg.cfg.d/01_nodoc && \
+    echo 'path-exclude /usr/share/locale/*' >> /etc/dpkg/dpkg.cfg.d/01_nodoc && \
+    echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/00_nofilters && \
+    echo 'APT::Install-Suggests "false";' >> /etc/apt/apt.conf.d/00_nofilters
+
+RUN apt update && apt install -y \
+    extrepo \
+    wget \
+    vim \
+    net-tools \
+    iputils-ping \
+    && rm -rf /var/lib/apt/lists/*
+
+# mariadb + mroonga
+RUN extrepo enable mariadb-${MARIADB_VERSION}
+
+RUN apt update && apt install -y \
+    mariadb-server \
+    mariadb-client \
+    && mv /var/lib/mysql /var/lib/mysql-seed \
+    && mkdir /var/lib/mysql \
+    && chown mysql:mysql /var/lib/mysql \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN apt update && apt install -y \
+    curl \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSL https://packages.apache.org/artifactory/arrow/debian/apache-arrow-apt-source-latest-trixie.deb -o /tmp/arrow.deb \
+    && apt update && apt install -y /tmp/arrow.deb \
+    && rm /tmp/arrow.deb
+
+RUN curl -fsSL https://packages.groonga.org/debian/groonga-apt-source-latest-trixie.deb -o /tmp/groonga.deb \
+    && apt update && apt install -y /tmp/groonga.deb \
+    && rm /tmp/groonga.deb
+
+RUN apt update && apt install -y \
+    libgroonga0 \
+    groonga-normalizer-mysql \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=mroonga-builder /opt/mroonga-install/ /usr/lib/mysql/plugin/
+
+RUN sed -i 's/^bind-address.*/bind-address = 0.0.0.0/' /etc/mysql/mariadb.conf.d/50-server.cnf && \
+    echo "[mysqld]" >> /etc/mysql/mariadb.conf.d/99-custom.cnf && \
+    echo "character-set-server = utf8mb4" >> /etc/mysql/mariadb.conf.d/99-custom.cnf && \
+    echo "collation-server = utf8mb4_unicode_ci" >> /etc/mysql/mariadb.conf.d/99-custom.cnf && \
+    echo "max_allowed_packet = 256M" >> /etc/mysql/mariadb.conf.d/99-custom.cnf
+
+# entrypoint: populate an empty bind-mounted volume from the seed data on first
+# boot, then exec mariadbd as PID 1
+RUN cat <<'EOF' > /usr/local/bin/docker-entrypoint.sh && chmod +x /usr/local/bin/docker-entrypoint.sh
+#!/bin/bash
+set -e
+
+if [ -z "$(ls -A /var/lib/mysql)" ]; then
+    cp -a /var/lib/mysql-seed/. /var/lib/mysql/
+    chown -R mysql:mysql /var/lib/mysql
+
+    service mariadb start
+
+    echo "CREATE DATABASE saltos CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;" | mariadb
+    echo "CREATE USER 'saltos'@'localhost' IDENTIFIED BY 'saltos';" | mariadb
+    echo "GRANT ALL PRIVILEGES ON saltos.* TO 'saltos'@'localhost';" | mariadb
+    cat /usr/lib/mysql/plugin/install.sql | mariadb
+
+    service mariadb stop
+fi
+
+chown -R mysql:mysql /var/lib/mysql
+chown -R mysql:mysql /run/mysqld
+
+exec mariadbd-safe --user=mysql
+EOF
+
+ENV TZ=Europe/Madrid
+
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
