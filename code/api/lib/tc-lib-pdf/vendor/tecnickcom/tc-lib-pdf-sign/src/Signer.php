@@ -348,13 +348,10 @@ final class Signer
             throw new Exception('Profile ' . $config->profile . ' requires a timestamp client and transport');
         }
 
-        return (
-            /** @throws Exception */
-            static fn(string $signature): string => $timestamp->requestToken(
-                $signature,
-                $timestampTransport,
-                $timestampNow,
-            )
+        return /** @throws Exception */ static fn(string $signature): string => $timestamp->requestToken(
+            $signature,
+            $timestampTransport,
+            $timestampNow,
         );
     }
 

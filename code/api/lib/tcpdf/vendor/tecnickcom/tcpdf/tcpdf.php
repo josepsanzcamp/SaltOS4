@@ -2,7 +2,7 @@
 
 //============================================================+
 // File name    : tcpdf.php
-// Version      : 7.0.7
+// Version      : 7.0.8
 // Author       : Nicola Asuni - Tecnick.com LTD - www.tecnick.com - info@tecnick.com
 // License      : GNU-LGPL v3 (https://www.gnu.org/copyleft/lesser.html)
 // Copyright (C): 2002-2026 Nicola Asuni - Tecnick.com LTD
@@ -15,7 +15,7 @@
  * See: https://tcpdf.org
  * @package com.tecnick.tcpdf
  * @author Nicola Asuni
- * @version 7.0.7
+ * @version 7.0.8
  */
 
 // TCPDF configuration
@@ -3950,13 +3950,15 @@ class TCPDF
         // (and through the following columns/pages inside the engine call).
         $incolumns = $this->inColumnMode();
         $region = $eng->page->getRegion();
-        $originx = $incolumns ? $region['RX'] : $this->lmargin;
+        $flowx = $incolumns ? $region['RX'] : $this->lmargin;
         $width = $incolumns ? $region['RW'] : $this->getPageWidth() - $this->rmargin - $this->lmargin;
         // Legacy wraps the lines inside the horizontal cell padding and
         // starts them at the padded edge.
-        $originx += $this->cellpadding['L'];
+        $originx = $flowx + $this->cellpadding['L'];
         $width = max(0.0, $width - $this->cellpadding['L'] - $this->cellpadding['R']);
-        $offset = max(0.0, $this->posx - $originx);
+        // The cursor carries the padding too, so it is measured from the
+        // unpadded flow origin.
+        $offset = max(0.0, $this->posx - $flowx);
 
         $styles = ['all' => ['lineWidth' => 0.0]];
         if ((bool) $_fill) {

@@ -62,4 +62,39 @@ abstract class TcpdfTestCase extends TestCase
     {
         return $this->popplerTool('pdfinfo', $pdf);
     }
+
+    /**
+     * Return the bounding box in PDF points of the first word matching $word.
+     *
+     * @return array{xmin: float, xmax: float, ymin: float, ymax: float}
+     */
+    protected function wordBox(TCPDF $pdf, string $word): array
+    {
+        $out = $this->popplerTool('pdftotext', $pdf, '-bbox -');
+        $match = [];
+        $found = preg_match(
+            '/<word xMin="([\d.]+)" yMin="([\d.]+)" xMax="([\d.]+)" yMax="([\d.]+)">'
+            . preg_quote($word, '/')
+            . '<\/word>/',
+            $out,
+            $match,
+        );
+        $this->assertSame(1, $found, 'word "' . $word . '" must be present');
+
+        return [
+            'xmin' => $this->toFloat($match[1] ?? ''),
+            'ymin' => $this->toFloat($match[2] ?? ''),
+            'xmax' => $this->toFloat($match[3] ?? ''),
+            'ymax' => $this->toFloat($match[4] ?? ''),
+        ];
+    }
+
+    /**
+     * Parse a decimal number, defaulting to zero.
+     */
+    private function toFloat(string $value): float
+    {
+        $number = filter_var($value, FILTER_VALIDATE_FLOAT);
+        return $number === false ? 0.0 : $number;
+    }
 }

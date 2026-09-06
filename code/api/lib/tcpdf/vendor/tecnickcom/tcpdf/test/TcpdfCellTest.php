@@ -112,4 +112,46 @@ class TcpdfCellTest extends TcpdfTestCase
         $pdf->Text(25, 120, 'absolutely positioned');
         $this->assertStringContainsString('absolutely positioned', $this->extractText($pdf));
     }
+
+    public function testWriteAppliesTheLeftCellPaddingWhereverTheCursorIs(): void
+    {
+        $pdf = $this->newPdf();
+        $pdf->setFont('helvetica', '', 11);
+        $pdf->setMargins(20, 20, 20);
+        $pdf->setCellPaddings(1, 0, 1, 0);
+        $pdf->AddPage();
+
+        $pdf->Write(5, "first\n");
+        $pdf->setX(40.0);
+        $pdf->Write(5, "second\n");
+
+        $padding = $pdf->getCellPaddings()['L'];
+        $this->assertGreaterThan(0.0, $padding);
+
+        // Both lines start one left padding to the right of their cursor.
+        $topt = 72.0 / 25.4;
+        $margin = $this->wordBox($pdf, 'first');
+        $indented = $this->wordBox($pdf, 'second');
+        $this->assertEqualsWithDelta((20.0 + $padding) * $topt, $margin['xmin'], 0.01);
+        $this->assertEqualsWithDelta((40.0 + $padding) * $topt, $indented['xmin'], 0.01);
+    }
+
+    public function testWriteRightAlignsToTheRightMarginWhereverTheCursorIs(): void
+    {
+        $pdf = $this->newPdf();
+        $pdf->setFont('helvetica', '', 9);
+        $pdf->setMargins(11, 11, 11);
+        $pdf->AddPage();
+
+        $height = $pdf->getCellHeight($pdf->getFontSize());
+        $pdf->Write($height, 'alpha', '', false, 'R', true);
+        $pdf->setX(107.95);
+        $pdf->Write($height, 'bravo', '', false, 'R', true);
+
+        // The cursor limits where a right aligned line may start, it does not
+        // move the edge the line is aligned to.
+        $plain = $this->wordBox($pdf, 'alpha');
+        $moved = $this->wordBox($pdf, 'bravo');
+        $this->assertEqualsWithDelta($plain['xmax'], $moved['xmax'], 0.01);
+    }
 }

@@ -84,5 +84,21 @@ $pdf->Write(0, $txt, '', 0, 'C', true, 0, false, false, 0);
 
 // ---------------------------------------------------------
 
+// The cursor set by setX() only says where a line may start: it carries the
+// left cell padding like a line starting at the margin, and it does not move
+// the right margin a right aligned line is flush with.
+$pdf->setFont('times', '', 12);
+$pdf->Ln(10);
+
+$pdf->Write(0, 'left aligned from the left margin', '', 0, 'L', true);
+$pdf->setX(80);
+$pdf->Write(0, 'left aligned from setX(80)', '', 0, 'L', true);
+
+$pdf->Write(0, 'right aligned from the left margin', '', 0, 'R', true);
+$pdf->setX(80);
+$pdf->Write(0, 'right aligned from setX(80)', '', 0, 'R', true);
+
+// ---------------------------------------------------------
+
 //Close and output PDF document
 $pdf->Output('example_002.pdf', 'I');
