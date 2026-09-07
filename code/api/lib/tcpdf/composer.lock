@@ -8,22 +8,22 @@
     "packages": [
         {
             "name": "tecnickcom/tcpdf",
-            "version": "7.0.8",
+            "version": "7.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/TCPDF.git",
-                "reference": "f5a39267ee767c1bd716aef6672993927f30ae4b"
+                "reference": "7bec5bd24154dd4331a22af7bed2b2890be74df4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/f5a39267ee767c1bd716aef6672993927f30ae4b",
-                "reference": "f5a39267ee767c1bd716aef6672993927f30ae4b",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/7bec5bd24154dd4331a22af7bed2b2890be74df4",
+                "reference": "7bec5bd24154dd4331a22af7bed2b2890be74df4",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "php": ">=8.2",
-                "tecnickcom/tc-lib-pdf": "^8.73.5"
+                "tecnickcom/tc-lib-pdf": "^8.73.6"
             },
             "require-dev": {
                 "carthage-software/mago": "1.47.6",
@@ -75,7 +75,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-09-05T09:07:49+00:00"
+            "time": "2026-09-07T09:57:02+00:00"
         }
     ],
     "packages-dev": [],

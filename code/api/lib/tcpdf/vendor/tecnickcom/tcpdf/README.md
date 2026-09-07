@@ -99,7 +99,38 @@ How to migrate custom font usage:
 3. Keep using `SetFont()`/`AddFont()` from TCPDF, but validate that each custom family resolves from tc-lib assets or from your explicit font path.
 4. Update deployment packaging so `vendor/` font assets are shipped in production.
 
-Font generation procedure (Makefile):
+Font generation procedure:
+
+Font assets are generated at install time and are not shipped in the package. Composer runs the scripts declared by the root project only, so a project that requires TCPDF as a dependency must run the generation itself.
+
+In a project that requires TCPDF, add the step to its own `composer.json`:
+
+```json
+{
+  "scripts": {
+    "tc-lib-pdf-fonts": [
+      "[ -d vendor/tecnickcom/tc-lib-pdf-font ] && make -C vendor/tecnickcom/tc-lib-pdf-font deps fonts || true"
+    ],
+    "post-install-cmd": [
+      "@tc-lib-pdf-fonts"
+    ],
+    "post-update-cmd": [
+      "@tc-lib-pdf-fonts"
+    ],
+    "post-autoload-dump": [
+      "@tc-lib-pdf-fonts"
+    ]
+  }
+}
+```
+
+This covers `composer install`, `composer update`, `composer require` and `composer dump-autoload`. To generate them once instead, run the build from the project root:
+
+```bash
+make -C vendor/tecnickcom/tc-lib-pdf-font deps fonts
+```
+
+In a checkout of this repository, use the Makefile targets:
 
 1. Run `make deps` to install Composer dependencies and initialize tc-lib font assets.
 2. Run `make fonts` to initialize fonts only when missing.
@@ -108,6 +139,8 @@ Font generation procedure (Makefile):
 Expected generated asset sentinel:
 
 - `vendor/tecnickcom/tc-lib-pdf-font/target/fonts/core/helvetica.json`
+
+A missing asset directory is reported as `unable to read file: helvetica.json` on the first page. The full font documentation is at [tcpdf.org/docs/fonts](https://tcpdf.org/docs/fonts/).
 
 Compatibility notes:
 
@@ -122,8 +155,9 @@ Example:
 ```php
 require __DIR__.'/vendor/autoload.php';
 
-// Optional: override only if you need a non-default path.
-define('K_PATH_FONTS', __DIR__.'/vendor/tecnickcom/tc-lib-pdf-font/target/fonts/');
+// Optional: TCPDF resolves the installed tc-lib-pdf-font package on its own.
+// Define the constant only to use font assets from another directory.
+define('K_PATH_FONTS', '/opt/app/fonts/');
 
 $pdf->SetFont('helvetica', '', 11);
 ```

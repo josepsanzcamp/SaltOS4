@@ -55,6 +55,10 @@ make -C vendor/tecnickcom/tc-lib-pdf-font deps fonts
 
 Generated fonts are kept in `vendor/tecnickcom/tc-lib-pdf-font/target/fonts/` and are not regenerated unless explicitly rebuilt.
 
+A missing asset directory is reported as `unable to read file: helvetica.json` when the first page is written.
+
+`tecnickcom/tcpdf` 7.x is a compatibility facade over this package and uses the same font assets, so it needs the same generation step.
+
 Custom fonts can be converted to PHP font data with `tc-lib-pdf-font`. For shared or immutable environments, generate them once into a persistent directory outside `vendor/` and point `K_PATH_FONTS` to that location.
 
 Runnable custom font workflow: [examples/E072_import_new_font.php](../examples/E072_import_new_font.php).

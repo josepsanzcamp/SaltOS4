@@ -71,7 +71,33 @@ if (!defined('K_TCPDF_LIB_PDF_PATH')) {
 }
 
 if (!defined('K_PATH_FONTS')) {
-    define('K_PATH_FONTS', K_PATH_MAIN . 'vendor/tecnickcom/tc-lib-pdf-font/target/fonts/');
+    $tcpdf_fonts_dirs = [];
+    if (class_exists('Composer\InstalledVersions', false)) {
+        try {
+            $tcpdf_fonts_pkg = Composer\InstalledVersions::getInstallPath('tecnickcom/tc-lib-pdf-font');
+            if (is_string($tcpdf_fonts_pkg) && $tcpdf_fonts_pkg !== '') {
+                $tcpdf_fonts_dirs[] = rtrim($tcpdf_fonts_pkg, '/\\') . '/target/fonts/';
+            }
+        } catch (Throwable) {
+            // tc-lib-pdf-font is not installed through Composer
+        }
+    }
+
+    // TCPDF as the root project: the package is under its own vendor directory.
+    $tcpdf_fonts_dirs[] = K_PATH_MAIN . 'vendor/tecnickcom/tc-lib-pdf-font/target/fonts/';
+    // TCPDF as a dependency: the package is a sibling in the same vendor directory.
+    $tcpdf_fonts_dirs[] = dirname(K_PATH_MAIN) . '/tc-lib-pdf-font/target/fonts/';
+
+    $tcpdf_fonts_path = $tcpdf_fonts_dirs[0];
+    foreach ($tcpdf_fonts_dirs as $tcpdf_fonts_dir) {
+        if (!@is_dir($tcpdf_fonts_dir)) {
+            continue;
+        }
+
+        $tcpdf_fonts_path = $tcpdf_fonts_dir;
+        break;
+    }
+    define('K_PATH_FONTS', $tcpdf_fonts_path);
 }
 
 if (!defined('K_PATH_URL')) {
