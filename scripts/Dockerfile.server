@@ -116,6 +116,7 @@ RUN apt update && apt install -y \
     vim \
     net-tools \
     iputils-ping \
+    tini \
     && rm -rf /var/lib/apt/lists/*
 
 RUN extrepo enable sury
@@ -237,10 +238,9 @@ RUN apt update && apt install -y \
     libnss3-tools \
     && rm -rf /var/lib/apt/lists/*
 
-# cron & tini
+# cron
 RUN apt update && apt install -y \
     cron \
-    tini \
     && rm -rf /var/lib/apt/lists/*
 
 # saltos4 codebase
@@ -299,6 +299,9 @@ if [ -z "$(ls -A /var/lib/mysql)" ] && [ -z "$(ls -A /opt/saltos4/instance/data)
     echo "GRANT ALL PRIVILEGES ON saltos.* TO 'saltos'@'localhost';" | mariadb
     cat /usr/lib/mysql/plugin/install.sql | mariadb
 
+    mv /opt/saltos4/instance/api/index.php /opt/saltos4/instance/api/index.old.php
+    echo "<?php include('index.old.php');" > /opt/saltos4/instance/api/index.php
+
     php /opt/saltos4/instance/api/index.php setup
     user=admin php /opt/saltos4/instance/api/index.php setup/certs
     user=admin php /opt/saltos4/instance/api/index.php setup/company
@@ -307,6 +310,9 @@ if [ -z "$(ls -A /var/lib/mysql)" ] && [ -z "$(ls -A /opt/saltos4/instance/data)
     user=admin php /opt/saltos4/instance/api/index.php setup/hr
     user=admin php /opt/saltos4/instance/api/index.php setup/purchases
     user=admin php /opt/saltos4/instance/api/index.php setup/sales
+
+    rm -f /opt/saltos4/instance/api/index.php
+    mv /opt/saltos4/instance/api/index.old.php /opt/saltos4/instance/api/index.php
 
     kill "$WAIT_PID" || true
     wait "$WAIT_PID" || true

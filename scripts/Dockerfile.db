@@ -91,6 +91,7 @@ RUN apt update && apt install -y \
     vim \
     net-tools \
     iputils-ping \
+    tini \
     && rm -rf /var/lib/apt/lists/*
 
 # mariadb + mroonga
@@ -138,13 +139,14 @@ set -e
 
 if [ -z "$(ls -A /var/lib/mysql)" ]; then
     cp -a /var/lib/mysql-seed/. /var/lib/mysql/
+
     chown -R mysql:mysql /var/lib/mysql
+    chown -R mysql:mysql /run/mysqld
 
     service mariadb start
 
-    echo "CREATE DATABASE saltos CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;" | mariadb
-    echo "CREATE USER 'saltos'@'localhost' IDENTIFIED BY 'saltos';" | mariadb
-    echo "GRANT ALL PRIVILEGES ON saltos.* TO 'saltos'@'localhost';" | mariadb
+    mariadb-admin -u root password 'toor'
+
     cat /usr/lib/mysql/plugin/install.sql | mariadb
 
     service mariadb stop
@@ -153,9 +155,11 @@ fi
 chown -R mysql:mysql /var/lib/mysql
 chown -R mysql:mysql /run/mysqld
 
-exec mariadbd-safe --user=mysql
+service mariadb start
+exec /bin/tail -f /dev/null
 EOF
 
 ENV TZ=Europe/Madrid
 
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/bin/tini", "--"]
+CMD ["/usr/local/bin/docker-entrypoint.sh"]

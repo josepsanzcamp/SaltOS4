@@ -405,7 +405,6 @@ serverstart:
 	cd scripts && docker compose --profile server up -d
 
 serverstop:
-	cd scripts && docker compose --profile server kill
 	cd scripts && docker compose --profile server down
 
 serverlogs:
@@ -428,7 +427,6 @@ develstart:
 	cd scripts && docker compose --profile devel up -d
 
 develstop:
-	cd scripts && docker compose --profile devel kill
 	cd scripts && docker compose --profile devel down
 
 devellogs:
@@ -451,7 +449,6 @@ demosstart:
 	cd scripts && docker compose --profile demos up -d
 
 demosstop:
-	cd scripts && docker compose --profile demos kill
 	cd scripts && docker compose --profile demos down
 
 demoslogs:
@@ -474,7 +471,6 @@ dbstart:
 	cd scripts && docker compose --profile db up -d
 
 dbstop:
-	cd scripts && docker compose --profile db kill
 	cd scripts && docker compose --profile db down
 
 dblogs:
