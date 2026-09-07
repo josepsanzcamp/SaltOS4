@@ -85,7 +85,7 @@ RUN a2enmod rewrite \
     && a2enmod deflate \
     && a2enmod php${PHP_VERSION}
 
-RUN echo "<Directory /var/www/html>\n\tAllowOverride All\n\tRequire all granted\n</Directory>" \
+RUN echo "ServerName localhost\n<Directory /var/www/html>\n\tAllowOverride All\n\tRequire all granted\n</Directory>" \
     > /etc/apache2/conf-enabled/saltos.conf
 
 # xlsxio
