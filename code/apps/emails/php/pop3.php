@@ -143,10 +143,6 @@ final class pop3_class
         $lines = preg_split('~\r?\n~', trim($out));
         $result = [];
         foreach ($lines as $line) {
-            // Skip status lines such as +OK or -ERR
-            if ($line === '' || $line[0] === '+' || stripos($line, '-ERR') === 0) {
-                continue;
-            }
             if (preg_match('~^(\d+)\s+(\S+)~', trim($line), $m)) {
                 $n = (int)$m[1];
                 $v = $m[2];
@@ -224,9 +220,9 @@ final class pop3_class
      *   observed on some distributions (e.g., Debian 12).
      *
      * Error handling:
-     * - On transport failure, returns a "cURL: ..." message.
-     * - On multi-line responses, scans for "-ERR" and returns a "POP3 error: ..."
-     *   message when found.
+     * - On transport failure (including a protocol-level "-ERR" reply, which
+     *   libcurl's POP3 client rejects before returning it as body), returns
+     *   a "cURL: ..." message.
      *
      * @param  string       $cmd       POP3 command (verbatim), e.g., "UIDL", "RETR 1", "DELE 3".
      * @param  string|null  $out       Filled with response body when $withBody is true; otherwise ''.
@@ -261,11 +257,6 @@ final class pop3_class
         }
 
         $out = $withBody ? (string)$resp : '';
-
-        // Basic POP3 error detection from response payload (multi-line cases)
-        if ($withBody && preg_match('~^-ERR~mi', $out)) {
-            return 'POP3 error: ' . trim($out);
-        }
         return '';
     }
 }
