@@ -88,7 +88,7 @@ final class test_system extends TestCase
         rmdir('data/nada');
         $this->assertDirectoryDoesNotExist('data/nada');
 
-        $json = test_cli_helper('setup/apache http://127.0.0.1:8092/api', [], '', '', '');
+        $json = test_cli_helper('setup/apache http://127.0.0.1:8080/api', [], '', '', '');
         $this->assertCount(1, $json);
         $this->assertArrayHasKey('apache', $json);
         $this->assertCount(3, $json['apache']);

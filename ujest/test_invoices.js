@@ -94,7 +94,7 @@ describe('App Invoices', () => {
      * This part of the test tries to load the list screen
      */
     test('Action List', async () => {
-        await page.goto('http://127.0.0.1:8092/#/app/invoices');
+        await page.goto('http://127.0.0.1:8080/#/app/invoices');
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#user', timeout);

@@ -1104,7 +1104,7 @@ describe('Core Module Tests', () => {
         Object.defineProperty(window, 'location', {
             value: {
                 protocol: 'http:',
-                href: 'http://127.0.0.1:8092',
+                href: 'http://127.0.0.1:8080',
             },
             writable: true,
         });

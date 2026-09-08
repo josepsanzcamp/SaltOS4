@@ -94,7 +94,7 @@ describe('App Customers', () => {
      * This part of the test tries to load the list screen
      */
     test('Action List', async () => {
-        await page.goto('http://127.0.0.1:8092/#/app/customers');
+        await page.goto('http://127.0.0.1:8080/#/app/customers');
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#user', timeout);
@@ -299,7 +299,7 @@ describe('App Customers', () => {
      * This part of the test tries to validate the correctness of the insert feature
      */
     test('Action Insert (first part)', async () => {
-        await page.goto('http://127.0.0.1:8092/#/app/customers/create');
+        await page.goto('http://127.0.0.1:8080/#/app/customers/create');
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#name', timeout);
@@ -348,7 +348,7 @@ describe('App Customers', () => {
      */
     test('Action Update (first part)', async () => {
         const id = await page.$eval('#list tbody tr', el => el.id.split('_')[1]);
-        await page.goto(`http://127.0.0.1:8092/#/app/customers/edit/${id}`);
+        await page.goto(`http://127.0.0.1:8080/#/app/customers/edit/${id}`);
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#name', timeout);

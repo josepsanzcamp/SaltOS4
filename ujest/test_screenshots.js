@@ -94,7 +94,7 @@ describe('Screenshots', () => {
      * This part of the test tries to load the list screen
      */
     test('users login', async () => {
-        await page.goto('http://127.0.0.1:8092/#/app/login');
+        await page.goto('http://127.0.0.1:8080/#/app/login');
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#user', timeout);
@@ -214,7 +214,7 @@ describe('Screenshots', () => {
             });
         }
 
-        await page.goto(`http://127.0.0.1:8092/#/app/${info.app}/${info.action}`);
+        await page.goto(`http://127.0.0.1:8080/#/app/${info.app}/${info.action}`);
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
 
         if (info.app === 'emails' && info.action === 'create') {

@@ -118,7 +118,7 @@ function test_web_helper($rest, $data, $token, $lang)
 {
     test_pcov_start();
     if ($data) {
-        $response = __url_get_contents("http://127.0.0.1:8092/api/?/$rest", [
+        $response = __url_get_contents("http://127.0.0.1:8080/api/?/$rest", [
             'body' => json_encode($data),
             'method' => 'post',
             'headers' => [
@@ -128,7 +128,7 @@ function test_web_helper($rest, $data, $token, $lang)
             ],
         ]);
     } else {
-        $response = __url_get_contents("http://127.0.0.1:8092/api/?/$rest", [
+        $response = __url_get_contents("http://127.0.0.1:8080/api/?/$rest", [
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,
                 'Accept-Language' => $lang,

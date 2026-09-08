@@ -64,7 +64,7 @@ beforeAll(async () => {
         includeRawScriptCoverage: false,
         useBlockCoverage: true,
     });
-    await page.goto('http://127.0.0.1:8092/#/app/emails');
+    await page.goto('http://127.0.0.1:8080/#/app/emails');
     await page.waitForFunction(() => document.getElementById('user'), timeout);
 });
 

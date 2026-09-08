@@ -95,7 +95,7 @@ describe('App Login', () => {
      * correctly without issues
      */
     test('Action Login', async () => {
-        await page.goto('http://127.0.0.1:8092');
+        await page.goto('http://127.0.0.1:8080');
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#user', timeout);
