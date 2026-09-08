@@ -54,9 +54,13 @@ services:
             dockerfile: scripts/Dockerfile.db
         container_name: saltos4db
         network_mode: host
+        environment:
+            - TZ=Europe/Madrid
         volumes:
             - /var/lib/mysql:/var/lib/mysql
             - /run/mysqld:/run/mysqld
+            - /etc/localtime:/etc/localtime:ro
+            - /etc/timezone:/etc/timezone:ro
         profiles: ["db"]
         restart: unless-stopped
 

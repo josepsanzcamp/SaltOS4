@@ -159,7 +159,5 @@ service mariadb start
 exec /bin/tail -f /dev/null
 EOF
 
-ENV TZ=Europe/Madrid
-
 ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["/usr/local/bin/docker-entrypoint.sh"]
