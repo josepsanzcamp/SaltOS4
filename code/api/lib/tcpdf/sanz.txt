@@ -15,3 +15,5 @@ composer require tecnickcom/tcpdf
 #composer show tecnickcom/tcpdf --format=json | jq -r '.versions[0]' | sed 's/^v//' > VERSION
 
 #rm -rf vendor/tecnickcom/tc-lib-*
+
+php import-atkinson.php

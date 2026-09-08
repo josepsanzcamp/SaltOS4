@@ -123,7 +123,7 @@ define('PDF_MARGIN_RIGHT', 15);
 /**
  * Default main font name.
  */
-define('PDF_FONT_NAME_MAIN', 'helvetica');
+define('PDF_FONT_NAME_MAIN', 'atkinsonhyperlegiblenext');
 
 /**
  * Default main font size.
@@ -133,7 +133,7 @@ define('PDF_FONT_SIZE_MAIN', 10);
 /**
  * Default data font name.
  */
-define('PDF_FONT_NAME_DATA', 'helvetica');
+define('PDF_FONT_NAME_DATA', 'atkinsonhyperlegiblenext');
 
 /**
  * Default data font size.
@@ -143,7 +143,7 @@ define('PDF_FONT_SIZE_DATA', 8);
 /**
  * Default monospaced font name.
  */
-define('PDF_FONT_MONOSPACED', 'courier');
+define('PDF_FONT_MONOSPACED', 'atkinsonhyperlegiblemono');
 
 /**
  * Ratio used to adjust the conversion of pixels to user units.
