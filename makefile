@@ -375,7 +375,6 @@ teststart:
 	cd scripts && docker compose --profile test up -d
 
 teststop:
-	cd scripts && docker compose --profile test kill
 	cd scripts && docker compose --profile test down
 
 testlogs:
@@ -393,6 +392,9 @@ httpstart:
 
 httpstop:
 	pkill -f "^php -S 0.0.0.0:8080" || true
+
+httpstatus:
+	pgrep -f "^php -S 0.0.0.0:8080" || true
 
 ################################################################################
 # DOCKER SERVER PART
