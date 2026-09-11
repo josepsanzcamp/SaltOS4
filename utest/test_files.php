@@ -208,6 +208,22 @@ final class test_files extends TestCase
         $id0 = $json['data'][0]['id'];
         $id1 = $json['data'][1]['id'];
 
+        // Cover the order feature of the __files_list function
+        $orders = [
+            'name ASC', 'name DESC',
+            'type ASC', 'type DESC',
+            'size ASC', 'size DESC',
+            'datetime ASC', 'datetime DESC',
+        ];
+        foreach ($orders as $order) {
+            $json = test_cli_helper('app/fileslog/list/data', [
+                'search' => '+nada +',
+                'order' => $order,
+            ], '', '', 'admin');
+            $this->assertArrayHasKey('data', $json);
+            $this->assertSame(2, count($json['data']));
+        }
+
         $json = test_cli_helper('app/fileslog/view/nada', '', '', '', 'admin');
         $this->assertArrayHasKey('error', $json);
         $this->assertSame($json['error']['text'], 'Permission denied');

@@ -314,4 +314,198 @@ final class test_sales extends TestCase
         $query = "DELETE FROM app_invoices WHERE id IN ($id1, $id2, $id3, $id4)";
         db_query($query);
     }
+
+    #[Depends('test_authtoken')]
+    #[testdox('invoices matrix edge cases')]
+    /**
+     * invoices matrix edge cases test
+     *
+     * This test performs some tests to validate the correctness of the
+     * unmake_matrix_data function when it receives edge case inputs: an
+     * empty payload, a payload missing the taxes/totals keys, a fully
+     * blank new row (must be dropped silently), a blank existing row
+     * (must become a deletion marker), a leftover row beyond the
+     * submitted matrix (must also become a deletion marker) and a new
+     * row that is only partially blank (per-field unset branches)
+     */
+    public function test_invoices_matrix_edge_cases(array $json): void
+    {
+        $token = $json['token'];
+
+        // Submitting a completely empty payload must hit the early
+        // return of unmake_matrix_data
+        $json0 = test_web_helper('app/invoices/insert', [], $token, '');
+        $this->assertSame('ko', $json0['status']);
+
+        // Submitting a payload with a "lines" matrix but no "taxes" or
+        // "totals" keys must hit the check_real_matrix guard early
+        // return; since the matrix doesn't get emptied by the guard,
+        // set_proforma_invoice still fills in a proforma_code and the
+        // main row ends up inserted before the (still raw) lines
+        // matrix fails its own field validation, so the stray row
+        // must be cleaned up too
+        $before_id = execute_query('SELECT MAX(id) FROM app_invoices');
+        $json0b = test_web_helper('app/invoices/insert', [
+            'lines' => [['Item', '1', '1', '0', '21', '1']],
+        ], $token, '');
+        $this->assertSame('ko', $json0b['status']);
+        $after_id = execute_query('SELECT MAX(id) FROM app_invoices');
+        if ($after_id > $before_id) {
+            db_query("DELETE FROM app_invoices WHERE id = $after_id");
+        }
+
+        // Setup a second master tax used by the extra taxes row below
+        $query = make_insert_query('app_taxes', [
+            'name' => 'IVA test sales 2',
+            'value' => 10,
+            'active' => 1,
+        ]);
+        db_query($query);
+        $tax_id2 = execute_query('SELECT MAX(id) FROM app_taxes');
+
+        $query = make_insert_query('app_taxes', [
+            'name' => 'IVA test sales 3',
+            'value' => 21,
+            'active' => 1,
+        ]);
+        db_query($query);
+        $tax_id3 = execute_query('SELECT MAX(id) FROM app_taxes');
+
+        // Insert an invoice with one line and two taxes
+        $json1 = test_web_helper('app/invoices/insert', [
+            'customer_name' => 'Test sales edge customer',
+            'lines' => [
+                ['Keep item', '1', '100', '0', '21', '100'],
+            ],
+            'taxes' => [
+                ['IVA test sales 3', '100', '21'],
+                ['IVA test sales 2', '50', '5'],
+            ],
+            'totals' => [
+                [150, 26, 176],
+            ],
+        ], $token, '');
+        $this->assertSame('ok', $json1['status']);
+        $invoice_id = $json1['created_id'];
+
+        $lines_array = execute_query_array(
+            'SELECT * FROM app_invoices_lines WHERE invoice_id = ? ORDER BY id ASC',
+            [$invoice_id]
+        );
+        $taxes_array = execute_query_array(
+            'SELECT * FROM app_invoices_taxes WHERE invoice_id = ? ORDER BY id ASC',
+            [$invoice_id]
+        );
+        $this->assertCount(1, $lines_array);
+        $this->assertCount(2, $taxes_array);
+
+        $invoice = execute_query('SELECT * FROM app_invoices WHERE id = ?', [$invoice_id]);
+
+        // Update: blank out the existing line (deletion marker), add a
+        // fully blank new line (dropped silently), drop the second tax
+        // by not resubmitting it (leftover deletion marker), and
+        // resubmit the exact same totals as currently stored, to hit
+        // the "no change" branches of the totals box
+        $json2 = test_web_helper("app/invoices/update/$invoice_id", [
+            'proforma_code' => $invoice['proforma_code'],
+            'lines' => [
+                ['', '', '', '', '', ''],
+                ['', '', '', '', '', ''],
+            ],
+            'taxes' => [
+                [
+                    $taxes_array[0]['tax_name'],
+                    $taxes_array[0]['base'],
+                    $taxes_array[0]['tax'],
+                ],
+            ],
+            'totals' => [
+                [$invoice['subtotal'], $invoice['tax'], $invoice['total']],
+            ],
+        ], $token, '');
+        $this->assertSame('ok', $json2['status']);
+
+        $lines_array2 = execute_query_array(
+            'SELECT * FROM app_invoices_lines WHERE invoice_id = ? ORDER BY id ASC',
+            [$invoice_id]
+        );
+        $this->assertCount(0, $lines_array2);
+
+        $taxes_array2 = execute_query_array(
+            'SELECT * FROM app_invoices_taxes WHERE invoice_id = ? ORDER BY id ASC',
+            [$invoice_id]
+        );
+        $this->assertCount(1, $taxes_array2);
+        $this->assertSame($taxes_array[0]['id'], $taxes_array2[0]['id']);
+
+        // Update again: submit two brand new lines that are only
+        // partially blank (one field left non-blank to avoid the
+        // fully-blank early drop), to hit the remaining per-field unset
+        // branches of the new-line case; blank out the remaining
+        // existing tax (deletion marker), add two brand new partially
+        // blank taxes (per-field unset branches) and a brand new fully
+        // blank tax (dropped silently)
+        $json3 = test_web_helper("app/invoices/update/$invoice_id", [
+            'proforma_code' => $invoice['proforma_code'],
+            'lines' => [
+                ['', '', '', '', '', '30'],
+                ['New item', '', '', '', '', ''],
+            ],
+            'taxes' => [
+                ['', '', ''],
+                ['', '50', '10'],
+                ['Unknown tax name', '', ''],
+                ['', '', ''],
+            ],
+            'totals' => [
+                [180, 30, 210],
+            ],
+        ], $token, '');
+        $this->assertSame('ok', $json3['status']);
+
+        $lines_array3 = execute_query_array(
+            'SELECT * FROM app_invoices_lines WHERE invoice_id = ? ORDER BY id ASC',
+            [$invoice_id]
+        );
+        $this->assertCount(2, $lines_array3);
+
+        $taxes_array3 = execute_query_array(
+            'SELECT * FROM app_invoices_taxes WHERE invoice_id = ? ORDER BY id ASC',
+            [$invoice_id]
+        );
+        $this->assertCount(2, $taxes_array3);
+
+        // Close the invoice explicitly once
+        $json4 = test_web_helper("app/invoices/update/$invoice_id", [
+            'proforma_code' => $invoice['proforma_code'],
+            'is_closed' => true,
+        ], $token, '');
+        $this->assertSame('ok', $json4['status']);
+
+        // Update again without specifying is_closed: since the invoice
+        // is already closed in the DB, this must hit the "set
+        // is_closed=1 from the DB" fallback branch of
+        // set_proforma_invoice; submitting is_paid together with a
+        // total and no explicit paid amount must hit the "paid =
+        // total" fallback branch too
+        $json5 = test_web_helper("app/invoices/update/$invoice_id", [
+            'proforma_code' => $invoice['proforma_code'],
+            'is_paid' => true,
+            'total' => 999,
+        ], $token, '');
+        $this->assertSame('ok', $json5['status']);
+
+        $invoice2 = execute_query('SELECT * FROM app_invoices WHERE id = ?', [$invoice_id]);
+        $this->assertEquals(1, $invoice2['is_closed']);
+        $this->assertEquals(999, $invoice2['paid']);
+
+        $query = "DELETE FROM app_invoices WHERE id = $invoice_id";
+        db_query($query);
+        $query = "DELETE FROM app_invoices_lines WHERE invoice_id = $invoice_id";
+        db_query($query);
+        $query = "DELETE FROM app_invoices_taxes WHERE invoice_id = $invoice_id";
+        db_query($query);
+        $query = "DELETE FROM app_taxes WHERE id IN ($tax_id2, $tax_id3)";
+        db_query($query);
+    }
 }

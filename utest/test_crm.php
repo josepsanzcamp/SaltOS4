@@ -193,4 +193,172 @@ final class test_crm extends TestCase
         $query = "DELETE FROM app_taxes WHERE id = $tax_id";
         db_query($query);
     }
+
+    #[Depends('test_authtoken')]
+    #[testdox('quotes matrix edge cases')]
+    /**
+     * quotes matrix edge cases test
+     *
+     * This test performs some tests to validate the correctness of the
+     * unmake_matrix_data and set_quote functions when they receive edge
+     * case inputs: an empty payload, a fully blank new row (must be
+     * dropped silently), a blank existing row (must become a deletion
+     * marker) and a leftover row beyond the submitted matrix (must also
+     * become a deletion marker)
+     */
+    public function test_quotes_matrix_edge_cases(array $json): void
+    {
+        $token = $json['token'];
+
+        // Submitting a completely empty payload must hit the early
+        // returns of unmake_matrix_data and set_quote
+        $json0 = test_web_helper('app/quotes/insert', [], $token, '');
+        $this->assertSame('ko', $json0['status']);
+
+        // Submitting a payload with a "lines" matrix but no "taxes" or
+        // "totals" keys must hit the check_real_matrix guard early
+        // return; since the matrix doesn't get emptied by the guard,
+        // set_quote still fills in a code and the main row ends up
+        // inserted before the (still raw) lines matrix fails its own
+        // field validation, so the stray row must be cleaned up too
+        $before_id = execute_query('SELECT MAX(id) FROM app_quotes');
+        $json0b = test_web_helper('app/quotes/insert', [
+            'lines' => [['Item', '1', '1', '0', '21', '1']],
+        ], $token, '');
+        $this->assertSame('ko', $json0b['status']);
+        $after_id = execute_query('SELECT MAX(id) FROM app_quotes');
+        if ($after_id > $before_id) {
+            db_query("DELETE FROM app_quotes WHERE id = $after_id");
+        }
+
+        // Setup a second master tax used by the extra taxes row below
+        $query = make_insert_query('app_taxes', [
+            'name' => 'IVA test crm 2',
+            'value' => 10,
+            'active' => 1,
+        ]);
+        db_query($query);
+        $tax_id2 = execute_query('SELECT MAX(id) FROM app_taxes');
+
+        $query = make_insert_query('app_taxes', [
+            'name' => 'IVA test crm 3',
+            'value' => 21,
+            'active' => 1,
+        ]);
+        db_query($query);
+        $tax_id3 = execute_query('SELECT MAX(id) FROM app_taxes');
+
+        // Insert a quote with one line and two taxes
+        $json1 = test_web_helper('app/quotes/insert', [
+            'customer_name' => 'Test crm edge customer',
+            'lines' => [
+                ['Keep item', '1', '100', '0', '21', '100'],
+            ],
+            'taxes' => [
+                ['IVA test crm 3', '100', '21'],
+                ['IVA test crm 2', '50', '5'],
+            ],
+            'totals' => [
+                [150, 26, 176],
+            ],
+        ], $token, '');
+        $this->assertSame('ok', $json1['status']);
+        $quote_id = $json1['created_id'];
+
+        $lines_array = execute_query_array(
+            'SELECT * FROM app_quotes_lines WHERE quote_id = ? ORDER BY id ASC',
+            [$quote_id]
+        );
+        $taxes_array = execute_query_array(
+            'SELECT * FROM app_quotes_taxes WHERE quote_id = ? ORDER BY id ASC',
+            [$quote_id]
+        );
+        $this->assertCount(1, $lines_array);
+        $this->assertCount(2, $taxes_array);
+
+        $quote = execute_query('SELECT * FROM app_quotes WHERE id = ?', [$quote_id]);
+
+        // Update: blank out the existing line (deletion marker), add a
+        // fully blank new line (dropped silently), drop the second tax
+        // by not resubmitting it (leftover deletion marker), and
+        // resubmit the exact same totals as currently stored, to hit
+        // the "no change" branches of the totals box
+        $json2 = test_web_helper("app/quotes/update/$quote_id", [
+            'code' => $quote['code'],
+            'lines' => [
+                ['', '', '', '', '', ''],
+                ['', '', '', '', '', ''],
+            ],
+            'taxes' => [
+                [
+                    $taxes_array[0]['tax_name'],
+                    $taxes_array[0]['base'],
+                    $taxes_array[0]['tax'],
+                ],
+            ],
+            'totals' => [
+                [$quote['subtotal'], $quote['tax'], $quote['total']],
+            ],
+        ], $token, '');
+        $this->assertSame('ok', $json2['status']);
+
+        $lines_array2 = execute_query_array(
+            'SELECT * FROM app_quotes_lines WHERE quote_id = ? ORDER BY id ASC',
+            [$quote_id]
+        );
+        $this->assertCount(0, $lines_array2);
+
+        $taxes_array2 = execute_query_array(
+            'SELECT * FROM app_quotes_taxes WHERE quote_id = ? ORDER BY id ASC',
+            [$quote_id]
+        );
+        $this->assertCount(1, $taxes_array2);
+        $this->assertSame($taxes_array[0]['id'], $taxes_array2[0]['id']);
+
+        // Update again: submit two brand new lines that are only
+        // partially blank (one field left non-blank to avoid the
+        // fully-blank early drop), to hit the remaining per-field unset
+        // branches of the new-line case; blank out the remaining
+        // existing tax (deletion marker), add two brand new partially
+        // blank taxes (per-field unset branches) and a brand new fully
+        // blank tax (dropped silently)
+        $json3 = test_web_helper("app/quotes/update/$quote_id", [
+            'code' => $quote['code'],
+            'lines' => [
+                ['', '', '', '', '', '30'],
+                ['New item', '', '', '', '', ''],
+            ],
+            'taxes' => [
+                ['', '', ''],
+                ['', '50', '10'],
+                ['Unknown tax name', '', ''],
+                ['', '', ''],
+            ],
+            'totals' => [
+                [180, 30, 210],
+            ],
+        ], $token, '');
+        $this->assertSame('ok', $json3['status']);
+
+        $lines_array3 = execute_query_array(
+            'SELECT * FROM app_quotes_lines WHERE quote_id = ? ORDER BY id ASC',
+            [$quote_id]
+        );
+        $this->assertCount(2, $lines_array3);
+
+        $taxes_array3 = execute_query_array(
+            'SELECT * FROM app_quotes_taxes WHERE quote_id = ? ORDER BY id ASC',
+            [$quote_id]
+        );
+        $this->assertCount(2, $taxes_array3);
+
+        $query = "DELETE FROM app_quotes WHERE id = $quote_id";
+        db_query($query);
+        $query = "DELETE FROM app_quotes_lines WHERE quote_id = $quote_id";
+        db_query($query);
+        $query = "DELETE FROM app_quotes_taxes WHERE quote_id = $quote_id";
+        db_query($query);
+        $query = "DELETE FROM app_taxes WHERE id IN ($tax_id2, $tax_id3)";
+        db_query($query);
+    }
 }
