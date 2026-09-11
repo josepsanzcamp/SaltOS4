@@ -74,6 +74,32 @@ final class test_indexing extends TestCase
         __make_index_helper('app_invoices_lines', 1);
         __make_index_helper('app_invoices_lines', -1);
 
+        // Force a main-table row without an index row (id=-1, first
+        // loop), and an index-table row without a main-table row
+        // (id=1, second loop), so indexing_apps() must repair both
+        // via make_index()
+        make_index('customers', 1);
+        $query = 'UPDATE app_customers SET id=-1 WHERE id=1';
+        db_query($query);
+
+        $total = indexing_apps();
+        $this->assertGreaterThanOrEqual(2, $total);
+
+        // id=1's stale index row must have been removed
+        $this->assertSame(make_index('customers', 1), -3);
+        // id=-1's index row must have been created
+        $this->assertSame(make_index('customers', -1), 2);
+
+        // Restore: move the row back to id=1, drop the now-stale
+        // id=-1 index row, and resync id=1's index row so the DB is
+        // left exactly as synced as it was found
+        $query = 'UPDATE app_customers SET id=1 WHERE id=-1';
+        db_query($query);
+        $query = "DELETE FROM app_customers_index WHERE id='-1'";
+        db_query($query);
+        $this->assertSame(make_index('customers', 1), 1);
+        $this->assertSame(make_index('customers', 1), 2);
+
         $json = test_cli_helper('indexing', [], '', '', '');
         $this->assertCount(2, $json);
         $this->assertArrayHasKey('indexing_files', $json);

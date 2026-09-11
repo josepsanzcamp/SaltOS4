@@ -121,6 +121,20 @@ final class test_users extends TestCase
             $result1['data']
         );
 
+        // Cover the make_matrix_columns and make_matrix_rows functions,
+        // used by the Excel widget of the groups/users permissions view
+        $columns = make_matrix_columns();
+        $this->assertIsArray($columns);
+        $this->assertNotEmpty($columns);
+        $this->assertArrayHasKey('title', $columns[0]);
+        $this->assertArrayHasKey('type', $columns[0]);
+        $this->assertSame('dropdown', $columns[0]['type']);
+
+        $rows = make_matrix_rows();
+        $this->assertIsArray($rows);
+        $this->assertNotEmpty($rows);
+        $this->assertArrayHasKey('title', $rows[0]);
+
         $query = 'UPDATE tbl_apps_perms SET deny = 0 WHERE id = 1';
         db_query($query);
         $query = 'UPDATE tbl_users_apps_perms SET deny = 0 WHERE id = 1';

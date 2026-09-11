@@ -166,4 +166,43 @@ final class test_control extends TestCase
         // This is for get coverage in the subtables part
         $this->assertSame(make_index('invoices', 1), 2);
     }
+
+    #[testdox('integrity functions')]
+    /**
+     * integrity test
+     *
+     * This test performs some tests to validate the correctness of the
+     * integrity function, that periodically scans every app table
+     * looking for drift against its control table and repairs it via
+     * make_control()
+     */
+    public function test_integrity(): void
+    {
+        // Ensure a known-synced starting point
+        make_control('customers', 1);
+
+        // Desync: the main row moves to id=-1, leaving a stale control
+        // row at id=1 (main table orphan, second loop) and a main row
+        // without a control row at id=-1 (control table orphan, first loop)
+        $query = 'UPDATE app_customers SET id=-1 WHERE id=1';
+        db_query($query);
+
+        $total = integrity();
+        $this->assertGreaterThanOrEqual(2, $total);
+
+        // id=1's stale control row must have been removed
+        $this->assertSame(make_control('customers', 1), -3);
+        // id=-1's control row must have been created
+        $this->assertSame(make_control('customers', -1), -4);
+
+        // Restore: move the row back to id=1, drop the now-stale id=-1
+        // control row, and recreate id=1's control row so the DB is
+        // left exactly as synced as it was found
+        $query = 'UPDATE app_customers SET id=1 WHERE id=-1';
+        db_query($query);
+        $query = 'DELETE FROM app_customers_control WHERE id=-1';
+        db_query($query);
+        $this->assertSame(make_control('customers', 1), 1);
+        $this->assertSame(make_control('customers', 1), -4);
+    }
 }
