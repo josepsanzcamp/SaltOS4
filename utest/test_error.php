@@ -67,7 +67,7 @@ final class test_error extends TestCase
         ]);
         $this->assertSame(is_array($buffer), true);
 
-        $this->assertSame(__get_code_from_trace(0), __FUNCTION__ . ':' . __LINE__);
+        $this->assertSame(__get_code_from_trace(0), __get_code_from_file_and_line(__FILE__, __LINE__));
 
         $this->assertSame(detect_recursion('test_error,test_error.php'), 2);
 
