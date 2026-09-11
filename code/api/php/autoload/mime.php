@@ -55,12 +55,17 @@ function saltos_content_type($file)
     if (function_exists('mime_content_type')) {
         return mime_content_type($file);
     }
+    // @codeCoverageIgnoreStart
+    // finfo_file() comes from the same fileinfo extension as
+    // mime_content_type() above, so whenever it exists, the branch
+    // above already returned first, making this one unreachable
     if (function_exists('finfo_file')) {
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $type = finfo_file($finfo, $file);
         finfo_close_deprecated($finfo);
         return $type;
     }
+    // @codeCoverageIgnoreEnd
     return 'application/octet-stream';
 }
 

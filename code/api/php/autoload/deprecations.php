@@ -28,7 +28,9 @@ declare(strict_types=1);
 function xml_parser_free_deprecated($parser)
 {
     if (version_compare(PHP_VERSION, '8.0.0', '<')) {
+        // @codeCoverageIgnoreStart
         xml_parser_free($parser);
+        // @codeCoverageIgnoreEnd
     }
 }
 
@@ -36,7 +38,9 @@ function xml_parser_free_deprecated($parser)
 function curl_close_deprecated($handle)
 {
     if (version_compare(PHP_VERSION, '8.0.0', '<')) {
+        // @codeCoverageIgnoreStart
         curl_close($handle);
+        // @codeCoverageIgnoreEnd
     }
 }
 
@@ -44,7 +48,9 @@ function curl_close_deprecated($handle)
 function imagedestroy_deprecated($image)
 {
     if (version_compare(PHP_VERSION, '8.0.0', '<')) {
+        // @codeCoverageIgnoreStart
         imagedestroy($image);
+        // @codeCoverageIgnoreEnd
     }
 }
 
@@ -52,6 +58,8 @@ function imagedestroy_deprecated($image)
 function finfo_close_deprecated($finfo)
 {
     if (version_compare(PHP_VERSION, '8.0.0', '<')) {
+        // @codeCoverageIgnoreStart
         finfo_close($finfo);
+        // @codeCoverageIgnoreEnd
     }
 }

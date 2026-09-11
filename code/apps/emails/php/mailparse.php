@@ -360,7 +360,9 @@ if (!function_exists('mailparse_msg_create')) {
      */
     function mailparse_msg_create()
     {
+        // @codeCoverageIgnoreStart
         return __mailparse_msg_create_helper();
+        // @codeCoverageIgnoreEnd
     }
 }
 
@@ -370,7 +372,9 @@ if (!function_exists('mailparse_msg_parse')) {
      */
     function mailparse_msg_parse($msg, string $data): bool
     {
+        // @codeCoverageIgnoreStart
         return __mailparse_msg_parse_helper($msg, $data);
+        // @codeCoverageIgnoreEnd
     }
 }
 
@@ -380,7 +384,9 @@ if (!function_exists('mailparse_msg_get_structure')) {
      */
     function mailparse_msg_get_structure($msg): array
     {
+        // @codeCoverageIgnoreStart
         return __mailparse_msg_get_structure_helper($msg);
+        // @codeCoverageIgnoreEnd
     }
 }
 
@@ -390,7 +396,9 @@ if (!function_exists('mailparse_msg_get_part')) {
      */
     function mailparse_msg_get_part($msg, string $partId)
     {
+        // @codeCoverageIgnoreStart
         return __mailparse_msg_get_part_helper($msg, $partId);
+        // @codeCoverageIgnoreEnd
     }
 }
 
@@ -400,7 +408,9 @@ if (!function_exists('mailparse_msg_get_part_data')) {
      */
     function mailparse_msg_get_part_data($part): array
     {
+        // @codeCoverageIgnoreStart
         return __mailparse_msg_get_part_data_helper($part);
+        // @codeCoverageIgnoreEnd
     }
 }
 
@@ -410,7 +420,9 @@ if (!function_exists('mailparse_msg_extract_part')) {
      */
     function mailparse_msg_extract_part($part, string $data, $callback = null): string
     {
+        // @codeCoverageIgnoreStart
         return __mailparse_msg_extract_part_helper($part, $data, $callback);
+        // @codeCoverageIgnoreEnd
     }
 }
 
@@ -420,7 +432,9 @@ if (!function_exists('mailparse_msg_free')) {
      */
     function mailparse_msg_free($msg): bool
     {
+        // @codeCoverageIgnoreStart
         return __mailparse_msg_free_helper($msg);
+        // @codeCoverageIgnoreEnd
     }
 }
 
@@ -430,6 +444,8 @@ if (!function_exists('mailparse_rfc822_parse_addresses')) {
      */
     function mailparse_rfc822_parse_addresses(string $addresses): array
     {
+        // @codeCoverageIgnoreStart
         return __mailparse_rfc822_parse_addresses_helper($addresses);
+        // @codeCoverageIgnoreEnd
     }
 }

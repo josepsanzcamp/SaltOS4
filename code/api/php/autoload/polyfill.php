@@ -105,7 +105,9 @@ if (!function_exists('array_key_last')) {
      */
     function array_key_last(array $array)
     {
+        // @codeCoverageIgnoreStart
         return __array_key_last_helper($array);
+        // @codeCoverageIgnoreEnd
     }
 }
 
@@ -115,7 +117,9 @@ if (!function_exists('array_key_first')) {
      */
     function array_key_first(array $arr)
     {
+        // @codeCoverageIgnoreStart
         return __array_key_first_helper($arr);
+        // @codeCoverageIgnoreEnd
     }
 }
 
@@ -125,6 +129,8 @@ if (!function_exists('posix_getuid')) {
      */
     function posix_getuid()
     {
+        // @codeCoverageIgnoreStart
         return __posix_getuid_helper();
+        // @codeCoverageIgnoreEnd
     }
 }

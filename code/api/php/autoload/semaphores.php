@@ -109,7 +109,9 @@ function __semaphore_helper($fn, $name, $timeout)
         $fds[$file] = fopen($file, 'a');
         // This part of code is redundant because fopen never fails
         if (!$fds[$file]) {
+            // @codeCoverageIgnoreStart
             return false;
+            // @codeCoverageIgnoreEnd
         }
         // Continue
         chmod_protected($file, 0666);
@@ -178,8 +180,12 @@ function __semaphore_usleep($usec)
         $time2 = microtime(true);
         return ($time2 - $time1) * 1000000;
     }
+    // @codeCoverageIgnoreStart
+    // sockets extension is always loaded in every supported environment,
+    // this plain usleep() fallback only applies otherwise
     $time1 = microtime(true);
     usleep($usec);
     $time2 = microtime(true);
     return ($time2 - $time1) * 1000000;
+    // @codeCoverageIgnoreEnd
 }
