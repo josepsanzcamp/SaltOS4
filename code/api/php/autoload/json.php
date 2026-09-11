@@ -27,6 +27,10 @@ declare(strict_types=1);
  *
  * This define sets the colors array used in the next functions
  */
+// @codeCoverageIgnoreStart
+// this only runs once, during the phpunit bootstrap require of every
+// autoload/*.php file, before coverage recording starts, so it can
+// never show as covered no matter what calls json_colorize() later
 define('__COLORS_MAP__', [
     'reset' => "\e[0m",
     'grey'  => "\e[90m",
@@ -34,6 +38,7 @@ define('__COLORS_MAP__', [
     'blue'  => "\e[1;34m",
     'white' => "\e[97m",
 ]);
+// @codeCoverageIgnoreEnd
 
 /**
  * Json colorize

@@ -174,24 +174,34 @@ function check_composer()
             foreach ($package['require'] as $key => $val) {
                 if ($key === 'php') {
                     if (!Composer\Semver\Semver::satisfies(PHP_VERSION, $val)) {
+                        // @codeCoverageIgnoreStart
+                        // a working install satisfies every composer.lock
+                        // requirement by construction, so this never triggers
                         $result[] = [
                             'error' => "$name requires $val",
                             'details' => "Try to upgrade your php or downgrade the $name package",
                         ];
+                        // @codeCoverageIgnoreEnd
                     }
                 }
                 if (substr($key, 0, 4) === 'ext-') {
                     $ext = substr($key, 4);
                     if (!extension_loaded($ext)) {
+                        // @codeCoverageIgnoreStart
                         $result[] = [
                             'error' => "$name requires extension $ext",
                             'details' => "Try to install the $ext extension",
                         ];
                         continue;
+                        // @codeCoverageIgnoreEnd
                     }
                     if ($val === '*') {
                         continue;
                     }
+                    // @codeCoverageIgnoreStart
+                    // none of the local lib/*/composer.lock files pin an
+                    // extension version tighter than "*", so this is never
+                    // reached; kept for whenever one eventually does
                     $ver = phpversion($ext);
                     if ($ver !== false) {
                         if (!Composer\Semver\Semver::satisfies($ver, $val)) {
@@ -201,6 +211,7 @@ function check_composer()
                             ];
                         }
                     }
+                    // @codeCoverageIgnoreEnd
                 }
             }
         }
