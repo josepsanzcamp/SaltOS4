@@ -80,13 +80,13 @@ final class test_mailparse extends TestCase
         $this->assertNotEmpty($files);
 
         $addrKeys = [
-            'from:',
-            'to:',
-            'cc:',
-            'bcc:',
-            'return-path:',
-            'reply-to:',
-            'disposition-notification-to:',
+            'from',
+            'to',
+            'cc',
+            'bcc',
+            'return-path',
+            'reply-to',
+            'disposition-notification-to',
         ];
 
         foreach ($files as $file) {
@@ -147,8 +147,8 @@ final class test_mailparse extends TestCase
                     if (!is_string($rawVal) || $rawVal === '') {
                         continue;
                     }
-                    $addrNative = mailparse_rfc822_parse_addresses($rawVal);
-                    $addrPolyfill = __mailparse_rfc822_parse_addresses_helper($rawVal);
+                    $addrNative = array_map([$this, 'scoped_address'], mailparse_rfc822_parse_addresses($rawVal));
+                    $addrPolyfill = array_map([$this, 'scoped_address'], __mailparse_rfc822_parse_addresses_helper($rawVal));
                     $this->assertSame($addrNative, $addrPolyfill, "$label header $k");
                 }
             }
@@ -156,6 +156,98 @@ final class test_mailparse extends TestCase
             mailparse_msg_free($hNative);
             __mailparse_msg_free_helper($hPolyfill);
         }
+    }
+
+    #[testdox('mailparse polyfill edge cases')]
+    /**
+     * Mailparse edge cases test
+     *
+     * Covers branches that the real-inbox sample in test_mailparse()
+     * never happens to exercise: a message/rfc822 part (a forwarded
+     * email carried as an attachment), a header repeated more than
+     * once, a non-ASCII display/filename value, a null part, and the
+     * legacy "addr@host (Display Name)" address form
+     */
+    public function test_mailparse_edge_cases(): void
+    {
+        // A message/rfc822 part must be recursed into, splicing the
+        // embedded message in as this part's single child, matching
+        // the native extension's own recursion into it
+        $embedded = "From: inner@example.com\r\n"
+            . "To: innerto@example.com\r\n"
+            . "Subject: Inner\r\n"
+            . "Content-Type: text/plain\r\n\r\n"
+            . "Inner body\r\n";
+        $boundary = 'BOUNDARY123';
+        $raw = "From: outer@example.com\r\n"
+            . "To: outerto@example.com\r\n"
+            . "Subject: Outer with attachment\r\n"
+            . "X-Custom-Header: first\r\n"
+            . "X-Custom-Header: second\r\n"
+            . "X-Custom-Header: third\r\n"
+            . "MIME-Version: 1.0\r\n"
+            . "Content-Type: multipart/mixed; boundary=\"$boundary\"\r\n\r\n"
+            . "--$boundary\r\n"
+            . "Content-Type: text/plain\r\n\r\n"
+            . "Outer body\r\n"
+            . "--$boundary\r\n"
+            . "Content-Type: message/rfc822\r\n\r\n"
+            . $embedded
+            . "--$boundary--\r\n";
+
+        $hNative = mailparse_msg_create();
+        mailparse_msg_parse($hNative, $raw);
+        $structNative = mailparse_msg_get_structure($hNative);
+
+        $hPolyfill = __mailparse_msg_create_helper();
+        __mailparse_msg_parse_helper($hPolyfill, $raw);
+        $structPolyfill = __mailparse_msg_get_structure_helper($hPolyfill);
+
+        $this->assertSame($structNative, $structPolyfill);
+        // "1.2" is the message/rfc822 attachment, "1.2.1" its embedded body
+        $this->assertContains('1.2.1', $structPolyfill);
+
+        $pPolyfill = __mailparse_msg_get_part_helper($hPolyfill, '1.2.1');
+        $dataPolyfill = __mailparse_msg_get_part_data_helper($pPolyfill);
+        $this->assertSame('text/plain', $dataPolyfill['content-type']);
+        $this->assertSame('Inner', $dataPolyfill['headers']['subject']);
+
+        // A header repeated 3 times must be collected into an array,
+        // both the native extension and the polyfill agree on this
+        $pNative = mailparse_msg_get_part($hNative, '1');
+        $pPolyfill1 = __mailparse_msg_get_part_helper($hPolyfill, '1');
+        $metaNative = mailparse_msg_get_part_data($pNative);
+        $metaPolyfill = __mailparse_msg_get_part_data_helper($pPolyfill1);
+        $this->assertSame($metaNative['headers']['x-custom-header'], $metaPolyfill['headers']['x-custom-header']);
+        $this->assertSame(['first', 'second', 'third'], $metaPolyfill['headers']['x-custom-header']);
+
+        mailparse_msg_free($hNative);
+        __mailparse_msg_free_helper($hPolyfill);
+
+        // A non-ASCII display/filename value must be re-encoded as an
+        // RFC 2047 encoded-word, matching what mb_decode_mimeheader()
+        // downstream in mime_parser_class.php expects to unwrap
+        $this->assertSame('', __mailparse_encode_display_helper(''));
+        $this->assertSame('Plain ASCII', __mailparse_encode_display_helper('Plain ASCII'));
+        $encoded = __mailparse_encode_display_helper('Ñoño');
+        $this->assertStringStartsWith('=?UTF-8?B?', $encoded);
+        $this->assertSame('Ñoño', mb_decode_mimeheader($encoded));
+
+        // A null part (id not found) must return the same empty value
+        // as the native extension on both accessors
+        $this->assertSame([], __mailparse_msg_get_part_data_helper(null));
+        $this->assertSame('', __mailparse_msg_extract_part_helper(null, ''));
+
+        // The legacy "addr@host (Display Name)" form: there is no real
+        // display name before the address, but both the native
+        // extension and this polyfill pick up the trailing
+        // parenthesized comment as if it were one
+        $addrRaw = 'legacy@example.com (Legacy Display Name)';
+        $addrNative = mailparse_rfc822_parse_addresses($addrRaw);
+        $addrPolyfill = __mailparse_rfc822_parse_addresses_helper($addrRaw);
+        $this->assertSame($addrNative[0]['display'], $addrPolyfill[0]['display']);
+        $this->assertSame('Legacy Display Name', $addrPolyfill[0]['display']);
+        $this->assertSame('legacy@example.com', $addrPolyfill[0]['address']);
     }
 
     /**
@@ -176,6 +268,35 @@ final class test_mailparse extends TestCase
             'content-type' => $data['content-type'] ?? '',
             'disposition-filename' => $data['disposition-filename'] ?? '',
             'content-name' => $data['content-name'] ?? '',
+        ];
+    }
+
+    /**
+     * Scoped address
+     *
+     * Reduces a mailparse_rfc822_parse_addresses()/
+     * __mailparse_rfc822_parse_addresses_helper() entry to what
+     * mime_parser_class.php actually derives from it. Two differences
+     * are normalized away here rather than chased in the polyfill:
+     *
+     * - 'is_group': never read by mime_parser_class.php, so it's just
+     *   dropped from both sides.
+     * - 'display' when there is no real display name: the native
+     *   extension echoes the address itself as 'display' in that case,
+     *   while the underlying library (and this polyfill) leaves it as
+     *   '''. mime_parser_class.php already collapses both to '' via its
+     *   own `strcasecmp($disp, $email) !== 0` check, so that's exactly
+     *   what's replicated here.
+     *
+     * @entry => one entry as returned by either side
+     */
+    private function scoped_address(array $entry): array
+    {
+        $email = strtolower($entry['address'] ?? '');
+        $display = $entry['display'] ?? '';
+        return [
+            'display' => (strcasecmp($display, $email) === 0) ? '' : $display,
+            'address' => $entry['address'] ?? '',
         ];
     }
 }

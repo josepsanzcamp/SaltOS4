@@ -43,8 +43,18 @@ declare(strict_types=1);
  * original charset bytes as-is). Review any code that re-converts
  * Body's charset by hand before relying on this polyfill in production.
  *
- * Two known, deliberately-not-chased differences, verified harmless
+ * Three known, deliberately-not-chased differences, verified harmless
  * against a large real-inbox sample compared via utest/test_mailparse.php:
+ *
+ * - mailparse_rfc822_parse_addresses(): for an address with no display
+ *   name (e.g. a bare "user@host", no "Name <user@host>"), the real
+ *   extension echoes the address itself back as 'display' and adds an
+ *   'is_group' key (always false in every sample seen). The library
+ *   leaves 'display' as '' and this polyfill never sets 'is_group' at
+ *   all. Neither is chased because mime_parser_class.php already
+ *   collapses both shapes to the same result: it drops 'display' via
+ *   `strcasecmp($disp, $email) !== 0` (true only when there's a real
+ *   name) and never reads 'is_group' at all.
  *
  * - Trailing whitespace on a header's value: the library trims it during
  *   its own header parsing (Parser/HeaderParserService.php), before it is
