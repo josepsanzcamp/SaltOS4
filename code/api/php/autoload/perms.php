@@ -282,6 +282,34 @@ function check_app_perm_id($app, $perm, $id = null)
 }
 
 /**
+ * Check App Perm Ids
+ *
+ * This function returns the subset of the ids argument that accomplishes the expected
+ * level of permissions for the app and the perm, it is the batched equivalent of
+ * check_app_perm_id, intended to check many ids with a single query instead of one
+ * query per id
+ *
+ * @app  => the app to check
+ * @perm => the perm to check
+ * @ids  => the ids to check
+ */
+function check_app_perm_ids($app, $perm, $ids)
+{
+    if (!check_user($app, $perm)) {
+        return [];
+    }
+    $ids = check_ids_array($ids);
+    if (!count($ids)) {
+        return [];
+    }
+    $table = app2table($app);
+    $sql = check_sql($app, $perm);
+    $in = implode(',', array_fill(0, count($ids), '?'));
+    $query = "SELECT id FROM $table WHERE id IN ($in) AND $sql";
+    return execute_query_array($query, $ids);
+}
+
+/**
  * User is admin
  *
  * This function returns true if the current user has all perms for the app
@@ -329,13 +357,22 @@ function merge_data_actions($data, $actions)
             unset($actions[$key]);
         }
     }
+    // Resolve the allowed ids of each action once, instead of once per row
+    $ids = [];
+    foreach ($data as $row) {
+        $ids[] = get_part_from_string(strval($row['id']), '/', 0);
+    }
+    $allowed = [];
+    foreach ($actions as $key2 => $action) {
+        $action0 = get_part_from_string($action['action'], '/', 0);
+        $allowed[$key2] = check_app_perm_ids($action['app'], $action0, $ids);
+    }
     // Add the actions to each row checking each permissions's row
     foreach ($data as $key => $row) {
         $merge = [];
+        $id0 = get_part_from_string(strval($row['id']), '/', 0);
         foreach ($actions as $key2 => $action) {
-            $action0 = get_part_from_string($action['action'], '/', 0);
-            $id0 = get_part_from_string(strval($row['id']), '/', 0);
-            if (check_app_perm_id($action['app'], $action0, $id0)) {
+            if (in_array($id0, $allowed[$key2])) {
                 $action['arg'] = "app/{$action["app"]}/{$action["action"]}/{$row["id"]}";
             } else {
                 $action['arg'] = '';
