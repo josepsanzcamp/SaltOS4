@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ -  ____        _ _    ___  ____  _  _
+ - / ___|  __ _| | |_ / _ \/ ___|| || |
+ - \___ \ / _` | | __| | | \___ \| || |_
+ -  ___) | (_| | | |_| |_| |___) |__   _|
+ - |____/ \__,_|_|\__|\___/|____/   |_|
+ -
+ - SaltOS: Framework to develop Rich Internet Applications
+ - Copyright (c) 2007-2026 Josep Sanz Campderrós
+ - SPDX-License-Identifier: MIT
+ - Licensed under the MIT License.
+ - See the LICENSE file in the project root for full license information.
+-->
+
+<root>
+    <main>
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <screen>type2</screen>
+        <gettext eval="true">T()</gettext>
+        <navbar eval="true">xmlfile2array('apps/common/xml/navbar.xml')['navbar']</navbar>
+    </main>
+
+    <!-- List part -->
+    <list default="true">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <cache>app/dbstats/list/cache</cache>
+    </list>
+
+    <list id="cache">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <cache>app/dbstats/main</cache>
+        <title eval="true">T('List') . ' - ' . T(app2name(get_data('rest/1')))</title>
+        <layout append="one">
+            <row auto="true" row_class="row g-1 mb-3" col_class="col-auto">
+                <button onclick="saltos.common.filter()" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
+                <div col_class="col"/>
+                <hidden id="page" value="0"/>
+                <hidden id="order" value="avg DESC" onchange="saltos.driver.search();"/>
+                <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+shift+f" autofocus="true" rounded="rounded-pill"
+                    onenter="document.getElementById('search_extra').value=this.value;saltos.driver.search()" onchange="document.getElementById('search_extra').value=this.value"/>
+                <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
+                <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
+            </row>
+            <div eval="true">xmlfile2array('apps/common/xml/filter.xml')['div']</div>
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-12">
+                <table id="list" nodata="There are no database statistics available" dropdown="false">
+                    <header>
+                        <source label="Source" order="true"/>
+                        <count label="Count" order="true"/>
+                        <avg label="Avg" order="true"/>
+                        <sum label="Sum" order="true"/>
+                        <datetime label="Datetime" order="true"/>
+                    </header>
+                    <actions>
+                        <view icon="search" tooltip="View" onclick="saltos.driver.open"/>
+                    </actions>
+                </table>
+            </row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button id="more" onclick="saltos.driver.more()" label="Load more" tooltip="To load more registers to the list" icon="plus-lg"/>
+            </row>
+        </layout>
+        <javascript>
+            <inline>saltos.driver.init('list')</inline>
+        </javascript>
+    </list>
+
+    <list id="data">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <temp eval="true">[
+            set_config('app/'.get_data('rest/1').'/filter/last', json_encode(get_data('json'), JSON_FORCE_OBJECT), current_user()),
+            set_data('json/search', strval(get_data('json/search'))),
+            set_data('json/page', intval(get_data('json/page'))),
+            set_data('json/order', check_order(strval(get_data('json/order')), ['id', 'source', 'count', 'min', 'max', 'avg', 'sum', 'datetime'])),
+            set_data('json/limit', 25),
+            set_data('json/offset', intval(get_data('json/page') * get_data('json/limit'))),
+        ]</temp>
+        <data require="apps/common/php/actions.php,apps/common/php/dbstats.php" eval="true">__merge_data_actions(
+            __dbstats_list(get_data('json/search'), get_data('json/order'), get_data('json/offset'), get_data('json/limit')),
+            xpath_search_first_value('list[id=data]/actions', xmlfile2array(detect_app_file(get_data('rest/1'))))
+        )</data>
+        <actions ifeval="false">
+            <view app="dbstats" action="view"/>
+        </actions>
+        <temp ifeval="!get_data('json/page')" eval="true">set_data('json/total', count(
+            __dbstats_list(get_data('json/search'), '', 0, INF)
+        ))</temp>
+        <footer ifeval="!get_data('json/page')" eval="true">get_data('json/total') ? sprintf(T('Total: %d'), get_data('json/total')) : ''</footer>
+        <order eval="true">str_replace('`', '', get_data('json/order'))</order>
+    </list>
+
+    <list id="filter" eval="true">xmlfile2array('apps/common/xml/filter.xml')['list']</list>
+
+    <!-- Form part -->
+    <view>
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check require="apps/common/php/dbstats.php" eval="true">__dbstats_check(get_data('rest/3'))</check>
+        <cache>app/dbstats/view/cache</cache>
+        <data require="apps/common/php/dbstats.php" eval="true">__dbstats_view(get_data('rest/3'))</data>
+        <javascript>
+            <inline>saltos.driver.init('view')</inline>
+        </javascript>
+    </view>
+
+    <view id="cache">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <cache>app/dbstats/main</cache>
+        <title eval="true">T('Detail') . ' - ' . T(app2name(get_data('rest/1')))</title>
+        <layout append="two,one">
+            <row auto="true" row_class="row g-3 mb-3" col_class="col-md-4">
+                <text id="source" label="Source" col_class="col-md-12"/>
+                <text id="count" label="Count"/>
+                <text id="min" label="Min"/>
+                <text id="max" label="Max"/>
+                <text id="avg" label="Avg"/>
+                <text id="sum" label="Sum"/>
+                <text id="datetime" label="Datetime"/>
+            </row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button onclick="saltos.driver.close()" label="Close" tooltip="To close the detail of this register" icon="x-lg" autoclose="true"/>
+                <button onclick="saltos.driver.close(true)" col_class="d-none" accesskey="escape"/>
+            </row>
+        </layout>
+    </view>
+</root>

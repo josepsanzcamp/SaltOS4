@@ -70,6 +70,8 @@
         <maxfilesize>100M</maxfilesize>
         <slowquerydebug>true</slowquerydebug>
         <slowquerytime>15</slowquerytime><!-- in seconds -->
+        <slowquerystats>false</slowquerystats>
+        <slowqueryfile>dbstats.sqlite</slowqueryfile>
     </debug>
     <iniset>
         <memory_limit>128M</memory_limit>

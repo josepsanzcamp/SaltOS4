@@ -66,3 +66,12 @@ stop: Aturar
 out: Sortida
 err: Error
 there_are_no_files_logs_available: No hi ha fitxers disponibles
+db_stats: DB stats
+database_usage_statistics_application: Aplicació d'estadístiques d'ús de la base de dades
+source: Origen
+count: Recompte
+min: Mín
+max: Màx
+avg: Mitjana
+sum: Suma
+there_are_no_database_statistics_available: No hi ha estadístiques de base de dades disponibles

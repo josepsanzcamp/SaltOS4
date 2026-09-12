@@ -66,3 +66,12 @@ stop: Stop
 out: Out
 err: Err
 there_are_no_files_logs_available: There are no files available
+db_stats: DB stats
+database_usage_statistics_application: Database usage statistics application
+source: Source
+count: Count
+min: Min
+max: Max
+avg: Avg
+sum: Sum
+there_are_no_database_statistics_available: There are no database statistics available

@@ -1,0 +1,46 @@
+
+
+
+=DB Stats=
+
+==Descripción==
+
+La aplicación DB Stats muestra las estadísticas de uso por consulta que recopila SaltOS4 cuando se activa el parámetro de configuración
+debug/slowquerystats. Registra, para cada punto de llamada de consulta distinto, cuántas veces se ejecutó y cuánto tiempo tardó,
+permitiendo detectar patrones de uso como consultas repetidas (problemas de N+1) durante la depuración.
+
+Estos datos se guardan en su propio fichero SQLite aislado, separado de la base de datos principal de la aplicación, y el listado
+aparece vacío hasta que se activa el parámetro debug/slowquerystats y la aplicación procesa algunas consultas.
+
+==Vista de listado==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-dbstats-list-es-es-light-1-snap.png]
+
+Los siguientes campos se muestran en la vista de listado:
+
+- Origen: Punto de llamada (fichero, línea y función) que ejecutó la consulta.
+- Recuento: Número de veces que se ha ejecutado esta consulta.
+- Media: Tiempo medio de ejecución, en segundos.
+- Suma: Tiempo total acumulado de ejecución, en segundos.
+
+
+==Vista de entrada==
+
+Esta vista muestra información detallada sobre un punto de llamada de consulta concreto.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-dbstats-view-1-es-es-light-1-snap.png]
+
+Incluye:
+
+- Origen: Punto de llamada (fichero, línea y función) que ejecutó la consulta.
+- Recuento: Número de veces que se ha ejecutado esta consulta.
+- Mín: Tiempo de ejecución más rápido registrado, en segundos.
+- Máx: Tiempo de ejecución más lento registrado, en segundos.
+- Media: Tiempo medio de ejecución, en segundos.
+- Suma: Tiempo total acumulado de ejecución, en segundos.
+- Fecha y hora: Fecha y hora de la última ejecución registrada.
+
+
+==Eliminar==
+
+Las entradas de DB Stats no se pueden eliminar individualmente desde esta aplicación; solo se reinician al vaciar el fichero SQLite subyacente.

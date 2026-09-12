@@ -145,12 +145,11 @@ function db_query($query, ...$args)
     if (!get_config('db/obj') || !method_exists(get_config('db/obj'), 'db_query')) {
         show_php_error(['dberror' => 'Unknown database connector']);
     }
-    if (eval_bool(get_config('debug/slowquerydebug'))) {
-        $curtime = microtime(true);
-    }
+    $curtime = microtime(true);
     $result = get_config('db/obj')->db_query($query, ...$args);
-    if (eval_bool(get_config('debug/slowquerydebug'))) {
-        $curtime = microtime(true) - $curtime;
+    $curtime = microtime(true) - $curtime;
+    $debug = eval_bool(get_config('debug/slowquerydebug'));
+    if ($debug) {
         $maxtime = get_config('debug/slowquerytime');
         if ($curtime > $maxtime) {
             $params = [];
@@ -165,6 +164,11 @@ function db_query($query, ...$args)
                 'params' => $params,
             ], get_config('debug/dbwarningfile') ?? 'dbwarning.log');
         }
+    }
+    $stats = eval_bool(get_config('debug/slowquerystats'));
+    if ($stats) {
+        require_once 'php/lib/dbstats.php';
+        __db_query_stats($curtime);
     }
     return $result;
 }

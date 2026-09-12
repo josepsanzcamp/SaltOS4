@@ -1,0 +1,46 @@
+
+
+
+=DB Stats=
+
+==Description==
+
+The DB Stats application shows the per-query usage statistics collected by SaltOS4 when the debug/slowquerystats configuration flag is enabled.
+It tracks, for each distinct query call site, how many times it was executed and how much time it took, allowing developers to spot usage
+patterns such as repeated queries (N+1 issues) while debugging.
+
+This data is stored in its own isolated SQLite file, separate from the main application database, and the list is empty until the
+debug/slowquerystats flag has been enabled and the application has processed some queries.
+
+==List view==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-dbstats-list-en-us-light-1-snap.png]
+
+The following fields are displayed in the list view:
+
+- Source: Call site (file, line and function) that executed the query.
+- Count: Number of times this query was executed.
+- Avg: Average execution time, in seconds.
+- Sum: Total accumulated execution time, in seconds.
+
+
+==View entry==
+
+This view shows detailed information about a single query call site.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-dbstats-view-1-en-us-light-1-snap.png]
+
+It includes:
+
+- Source: Call site (file, line and function) that executed the query.
+- Count: Number of times this query was executed.
+- Min: Fastest recorded execution time, in seconds.
+- Max: Slowest recorded execution time, in seconds.
+- Avg: Average execution time, in seconds.
+- Sum: Total accumulated execution time, in seconds.
+- Datetime: Date and time of the last recorded execution.
+
+
+==Delete==
+
+DB stats entries cannot be deleted individually from this application; they are only reset by clearing the underlying SQLite file.

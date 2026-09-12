@@ -1,0 +1,46 @@
+
+
+
+=DB Stats=
+
+==Descripció==
+
+L'aplicació DB Stats mostra les estadístiques d'ús per consulta que recull SaltOS4 quan s'activa el paràmetre de configuració
+debug/slowquerystats. Registra, per a cada punt de crida de consulta diferent, quantes vegades s'ha executat i quant de temps ha trigat,
+permetent detectar patrons d'ús com consultes repetides (problemes d'N+1) durant la depuració.
+
+Aquestes dades es guarden en el seu propi fitxer SQLite aïllat, separat de la base de dades principal de l'aplicació, i el llistat
+apareix buit fins que s'activa el paràmetre debug/slowquerystats i l'aplicació processa algunes consultes.
+
+==Vista de llistat==
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-dbstats-list-ca-es-light-1-snap.png]
+
+Els següents camps es mostren a la vista de llistat:
+
+- Origen: Punt de crida (fitxer, línia i funció) que ha executat la consulta.
+- Recompte: Nombre de vegades que s'ha executat aquesta consulta.
+- Mitjana: Temps mitjà d'execució, en segons.
+- Suma: Temps total acumulat d'execució, en segons.
+
+
+==Vista d'entrada==
+
+Aquesta vista mostra informació detallada sobre un punt de crida de consulta concret.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-dbstats-view-1-ca-es-light-1-snap.png]
+
+Inclou:
+
+- Origen: Punt de crida (fitxer, línia i funció) que ha executat la consulta.
+- Recompte: Nombre de vegades que s'ha executat aquesta consulta.
+- Mín: Temps d'execució més ràpid registrat, en segons.
+- Màx: Temps d'execució més lent registrat, en segons.
+- Mitjana: Temps mitjà d'execució, en segons.
+- Suma: Temps total acumulat d'execució, en segons.
+- Data i hora: Data i hora de l'última execució registrada.
+
+
+==Eliminar==
+
+Les entrades de DB Stats no es poden eliminar individualment des d'aquesta aplicació; només es reinicien buidant el fitxer SQLite subjacent.

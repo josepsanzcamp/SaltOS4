@@ -1033,6 +1033,26 @@ final class test_database extends TestCase
             unlink('data/logs/dbwarning.log');
         }
 
+        // Slow query stats part
+        set_config('debug/slowquerystats', true);
+        $do_query = function () {
+            db_query('SELECT * FROM tbl_users_tokens');
+        };
+        $do_query();
+        $stats_file = get_directory('dirs/filesdir') . (get_config('debug/slowqueryfile') ?? 'dbstats.sqlite');
+        $stats_obj = db_connect(['type' => 'pdo_sqlite', 'file' => $stats_file]);
+        $source = $stats_obj->db_query(
+            'SELECT source FROM tbl_slowqueries WHERE source LIKE ?',
+            ['%test_database%{closure%']
+        )['rows'][0]['source'];
+        $query = 'SELECT count FROM tbl_slowqueries WHERE source = ?';
+        $before = $stats_obj->db_query($query, [$source])['rows'][0]['count'];
+        $do_query();
+        $do_query();
+        $after = $stats_obj->db_query($query, [$source])['rows'][0]['count'];
+        $this->assertSame($after - $before, 2);
+        set_config('debug/slowquerystats', false);
+
         // Last Insert Id part
         $query = prepare_insert_query('tbl_config', [
             'user_id' => 1,

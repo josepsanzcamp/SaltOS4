@@ -66,3 +66,12 @@ stop: Detener
 out: Salida
 err: Error
 there_are_no_files_logs_available: No hay archivos disponibles
+db_stats: DB stats
+database_usage_statistics_application: Aplicación de estadísticas de uso de la base de datos
+source: Origen
+count: Recuento
+min: Mín
+max: Máx
+avg: Media
+sum: Suma
+there_are_no_database_statistics_available: No hay estadísticas de base de datos disponibles
