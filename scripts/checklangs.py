@@ -11,7 +11,8 @@ from collections import defaultdict
 
 TRANSLATABLE_ATTRS = {
     "label", "tooltip", "placeholder",
-    "title", "subtitle", "close", "body", "footer"
+    "title", "subtitle", "close", "body", "footer",
+    "nodata"
 }
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))

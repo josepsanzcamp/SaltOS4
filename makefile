@@ -245,11 +245,11 @@ checkprod:
 
 utest:
 ifeq ($(file), ) # default behaviour
-	@phpunit -c scripts/phpunit.xml $(shell git ls-files -m -o --exclude-standard -- 'utest/test_*.php' | gawk '{print "../../"$$0}' | sort | paste -s -d' ')
+	phpunit -c scripts/phpunit.xml $(shell git ls-files -m -o --exclude-standard -- 'utest/test_*.php' | gawk '{print "../../"$$0}' | sort | paste -s -d' ')
 else ifeq ($(file), all) # file=all
-	@phpunit -c scripts/phpunit.xml
+	phpunit -c scripts/phpunit.xml
 else # file=xxx,yyy,zzz
-	@phpunit -c scripts/phpunit.xml $(shell echo ${file} | tr ',' '\n' | gawk '{print "../../utest/test_"$$0".php"}' | paste -s -d' ')
+	phpunit -c scripts/phpunit.xml $(shell echo ${file} | tr ',' '\n' | gawk '{print "../../utest/test_"$$0".php"}' | paste -s -d' ')
 endif
 
 ujest:
@@ -258,11 +258,11 @@ ujest:
 	rm -f ujest/snaps/__diff_output__/*
 	rmdir ujest/snaps/__diff_output__ || true
 ifeq ($(file), ) # default behaviour
-	-@jest $(JEST_OPTIONS) --config=scripts/jest.config.js $(shell git ls-files -m -o --exclude-standard -- 'ujest/test_*.js' | gawk '{print "../"$$0}' | sort | paste -s -d' ')
+	cd scripts && jest $(JEST_OPTIONS) --config=jest.config.js $(shell git ls-files -m -o --exclude-standard -- 'ujest/test_*.js' | gawk '{print "../"$$0}' | sort | paste -s -d' ') && true
 else ifeq ($(file), all) # file=all
-	-@jest $(JEST_OPTIONS) --config=scripts/jest.config.js
+	cd scripts && jest $(JEST_OPTIONS) --config=jest.config.js && true
 else # file=xxx,yyy,zzz
-	-@jest $(JEST_OPTIONS) --config=scripts/jest.config.js $(shell echo ${file} | tr ',' '\n' | gawk '{print "../ujest/test_"$$0".js"}' | paste -s -d' ')
+	cd scripts && jest $(JEST_OPTIONS) --config=jest.config.js $(shell echo ${file} | tr ',' '\n' | gawk '{print "../ujest/test_"$$0".js"}' | paste -s -d' ') && true
 endif
 	php scripts/jest_coverage.php
 
