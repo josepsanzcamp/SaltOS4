@@ -163,7 +163,8 @@ describe('Screenshots', () => {
             'configlog': ['list', 'create', 'view/10', 'edit/10'],
             'trashlog': ['list'],
             'tokenslog': ['list', 'view/1'],
-            'fileslog': ['list']
+            'fileslog': ['list'],
+            'dbstats': ['list', 'view/1']
         },
         'purchases': {
             'suppliers': ['list', 'create', 'view/100', 'edit/100'],
