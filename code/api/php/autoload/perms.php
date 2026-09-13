@@ -302,11 +302,11 @@ function check_app_perm_ids($app, $perm, $ids)
     if (!count($ids)) {
         return [];
     }
+    $ids = implode(',', $ids);
     $table = app2table($app);
     $sql = check_sql($app, $perm);
-    $in = implode(',', array_fill(0, count($ids), '?'));
-    $query = "SELECT id FROM $table WHERE id IN ($in) AND $sql";
-    return execute_query_array($query, $ids);
+    $query = "SELECT id FROM $table WHERE id IN ($ids) AND $sql";
+    return array_map('intval', execute_query_array($query));
 }
 
 /**
@@ -370,7 +370,7 @@ function merge_data_actions($data, $actions)
     // Add the actions to each row checking each permissions's row
     foreach ($data as $key => $row) {
         $merge = [];
-        $id0 = get_part_from_string(strval($row['id']), '/', 0);
+        $id0 = intval(get_part_from_string(strval($row['id']), '/', 0));
         foreach ($actions as $key2 => $action) {
             if (in_array($id0, $allowed[$key2], true)) {
                 $action['arg'] = "app/{$action["app"]}/{$action["action"]}/{$row["id"]}";
