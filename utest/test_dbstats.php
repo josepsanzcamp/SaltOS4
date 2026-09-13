@@ -67,7 +67,7 @@ final class test_dbstats extends TestCase
         }
 
         // Without a stats file, all functions must degrade gracefully
-        $this->assertSame([], __dbstats_list('', '', 0, INF));
+        $this->assertCount(0, __dbstats_list('', '', 0, INF));
         $this->assertFalse(__dbstats_check(1));
 
         // Populate the stats table using the real recording function
