@@ -372,7 +372,7 @@ function merge_data_actions($data, $actions)
         $merge = [];
         $id0 = get_part_from_string(strval($row['id']), '/', 0);
         foreach ($actions as $key2 => $action) {
-            if (in_array($id0, $allowed[$key2])) {
+            if (in_array($id0, $allowed[$key2], true)) {
                 $action['arg'] = "app/{$action["app"]}/{$action["action"]}/{$row["id"]}";
             } else {
                 $action['arg'] = '';

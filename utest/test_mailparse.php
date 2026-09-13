@@ -147,8 +147,14 @@ final class test_mailparse extends TestCase
                     if (!is_string($rawVal) || $rawVal === '') {
                         continue;
                     }
-                    $addrNative = array_map([$this, 'scoped_address'], mailparse_rfc822_parse_addresses($rawVal));
-                    $addrPolyfill = array_map([$this, 'scoped_address'], __mailparse_rfc822_parse_addresses_helper($rawVal));
+                    $addrNative = array_map(
+                        [$this, 'scoped_address'],
+                        mailparse_rfc822_parse_addresses($rawVal)
+                    );
+                    $addrPolyfill = array_map(
+                        [$this, 'scoped_address'],
+                        __mailparse_rfc822_parse_addresses_helper($rawVal)
+                    );
                     $this->assertSame($addrNative, $addrPolyfill, "$label header $k");
                 }
             }
@@ -218,7 +224,10 @@ final class test_mailparse extends TestCase
         $pPolyfill1 = __mailparse_msg_get_part_helper($hPolyfill, '1');
         $metaNative = mailparse_msg_get_part_data($pNative);
         $metaPolyfill = __mailparse_msg_get_part_data_helper($pPolyfill1);
-        $this->assertSame($metaNative['headers']['x-custom-header'], $metaPolyfill['headers']['x-custom-header']);
+        $this->assertSame(
+            $metaNative['headers']['x-custom-header'],
+            $metaPolyfill['headers']['x-custom-header']
+        );
         $this->assertSame(['first', 'second', 'third'], $metaPolyfill['headers']['x-custom-header']);
 
         mailparse_msg_free($hNative);

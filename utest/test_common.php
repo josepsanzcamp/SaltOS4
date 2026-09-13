@@ -112,13 +112,19 @@ final class test_common extends TestCase
 
         $array = make_app_file($data);
         $this->assertIsArray($array);
-        $this->assertSame('true', $array['list#1']['value']['layout']['value']['row#1']['value']['table']['#attr']['dropdown']);
+        $this->assertSame(
+            'true',
+            $array['list#1']['value']['layout']['value']['row#1']['value']['table']['#attr']['dropdown']
+        );
         $this->assertArrayHasKey('navbar', $array);
 
         // Cover the auto detection of the dropdown attr
         $data2 = yaml_parse_file('apps/crm/xml/meetings.yaml');
         unset($data2['dropdown']);
         $array2 = make_app_file($data2);
-        $this->assertSame('true', $array2['list#1']['value']['layout']['value']['row#1']['value']['table']['#attr']['dropdown']);
+        $this->assertSame(
+            'true',
+            $array2['list#1']['value']['layout']['value']['row#1']['value']['table']['#attr']['dropdown']
+        );
     }
 }
