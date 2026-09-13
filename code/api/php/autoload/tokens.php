@@ -49,9 +49,7 @@ function check_token_format($token)
     }
     // Check the number of parts and the length of each parts
     $parts = explode('-', $token);
-    $lengths = array_map(function ($val) {
-        return strlen($val);
-    }, $parts);
+    $lengths = array_map('strlen', $parts);
     if (implode('-', $lengths) !== '8-4-4-4-12') {
         return null;
     }
