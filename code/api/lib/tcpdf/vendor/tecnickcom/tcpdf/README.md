@@ -46,7 +46,8 @@ What this means in practice:
 
 - **The public API is (mostly) unchanged.** All 291 public method signatures (names, parameters,
   defaults) are identical to legacy TCPDF; existing integrations keep calling `new TCPDF(...)`,
-  `AddPage()`, `SetFont()`, `Cell()`, `writeHTML()`, `Output()` exactly as before.
+  `AddPage()`, `SetFont()`, `Cell()`, `writeHTML()`, `Output()` exactly as before. One method is
+  new: `getPDFFilename()` returns the file name `Output()` used, which the engine sanitizes.
 - **Rendering is done by the modern engine.** Text layout, HTML/CSS, fonts, graphics,
   barcodes, encryption, signatures and output generation come from the `tc-lib-*` libraries.
 - **Per-method delegation status is documented.** See [MAPPING.md](MAPPING.md) for the

@@ -2,7 +2,7 @@
 
 //============================================================+
 // File name    : tcpdf.php
-// Version      : 7.0.9
+// Version      : 7.0.10
 // Author       : Nicola Asuni - Tecnick.com LTD - www.tecnick.com - info@tecnick.com
 // License      : GNU-LGPL v3 (https://www.gnu.org/copyleft/lesser.html)
 // Copyright (C): 2002-2026 Nicola Asuni - Tecnick.com LTD
@@ -15,7 +15,7 @@
  * See: https://tcpdf.org
  * @package com.tecnick.tcpdf
  * @author Nicola Asuni
- * @version 7.0.9
+ * @version 7.0.10
  */
 
 // TCPDF configuration
@@ -2414,7 +2414,10 @@ class TCPDF
     {
         $this->pdfraw = '';
         if (defined('K_TCPDF_THROW_EXCEPTION_ERROR') && !constant('K_TCPDF_THROW_EXCEPTION_ERROR')) {
-            die('<strong>TCPDF ERROR: </strong>' . (string) $_msg);
+            // die() is a language construct before PHP 8.4: no trailing comma,
+            // so the message is built before the call.
+            $out = htmlspecialchars((string) $_msg, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+            die('<strong>TCPDF ERROR: </strong>' . $out);
         }
 
         throw new \Exception('TCPDF ERROR: ' . (string) $_msg);
@@ -4416,23 +4419,43 @@ class TCPDF
     // Output.
     // ===================================================================
 
+    /**
+     * Send the document to the given destination: string, local file or browser.
+     *
+     * For 'F', 'FI' and 'FD' the name is a full or relative file path, unlike
+     * \Com\Tecnick\Pdf\Output::savePDF(), which takes a directory. The file name
+     * is sanitized by the engine, so the file written may differ from the name
+     * given: getPDFFilename() returns the name actually used. The output
+     * directory must be inside an allowed path (K_ALLOWED_PATHS).
+     *
+     * @param mixed $_name File name.
+     * @param mixed $_dest Destination: I, D, F, S, FI, FD or E. A boolean is
+     *                     accepted for legacy callers: true is D, false is F.
+     *
+     * @return string
+     */
     public function Output($_name = 'doc.pdf', $_dest = 'I')
     {
         $this->Close();
         $name = (string) $_name === '' ? 'doc.pdf' : (string) $_name;
+        if (is_bool($_dest)) {
+            $_dest = $_dest ? 'D' : 'F';
+        }
+
         $dest = strtoupper((string) $_dest);
         if ($dest === '') {
             $dest = 'I';
         }
 
         $eng = $this->engine();
+        // The engine sanitizes the name, so the value in use may differ: the
+        // 'F' destinations read it back through savePDF().
+        $eng->setPDFFilename(basename($name));
         switch ($dest) {
             case 'I':
-                $eng->setPDFFilename(basename($name));
                 $eng->renderPDF($this->pdfraw);
                 return '';
             case 'D':
-                $eng->setPDFFilename(basename($name));
                 if (PHP_SAPI === 'cli') {
                     $eng->renderPDF($this->pdfraw);
                     return '';
@@ -4443,15 +4466,34 @@ class TCPDF
             case 'F':
             case 'FI':
             case 'FD':
-                $eng->savePDF($name, $this->pdfraw);
-                if ($dest !== 'F') {
-                    $eng->setPDFFilename(basename($name));
+                // savePDF() takes the directory and appends the engine file
+                // name, so the caller's path is split rather than forwarded.
+                try {
+                    $eng->savePDF(dirname($name), $this->pdfraw);
+                } catch (\Throwable $e) {
+                    $this->Error(
+                        'Unable to create output file: '
+                        . $name
+                        . ' - '
+                        . $e->getMessage()
+                        . ' - the output directory must exist and be inside an allowed path;'
+                        . ' add it to K_ALLOWED_PATHS before loading tcpdf.php',
+                    );
+                    return '';
+                }
+
+                if ($dest === 'FI') {
                     $eng->renderPDF($this->pdfraw);
+                } elseif ($dest === 'FD') {
+                    if (PHP_SAPI === 'cli') {
+                        $eng->renderPDF($this->pdfraw);
+                    } else {
+                        $eng->downloadPDF($this->pdfraw);
+                    }
                 }
 
                 return '';
             case 'E':
-                $eng->setPDFFilename(basename($name));
                 return $eng->getMIMEAttachmentPDF($this->pdfraw);
             case 'S':
                 return $this->pdfraw;
@@ -4465,6 +4507,20 @@ class TCPDF
     {
         $this->Close();
         return $this->pdfraw;
+    }
+
+    /**
+     * Return the PDF file name in use, as sanitized by the engine.
+     *
+     * Not part of the legacy TCPDF API. After Output() with the 'F', 'FI' or
+     * 'FD' destination this is the base name of the file that was written,
+     * which may differ from the name passed in.
+     *
+     * @return string
+     */
+    public function getPDFFilename()
+    {
+        return $this->engine()->getPDFFilename();
     }
 
     public function setExtraXMP($_xmp)

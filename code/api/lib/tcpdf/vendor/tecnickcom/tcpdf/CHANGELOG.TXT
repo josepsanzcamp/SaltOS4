@@ -1,3 +1,13 @@
+7.0.10 (2026-09-14)
+	- Fixed Output() with the 'F', 'FI' and 'FD' destinations, which failed for every call: the caller's file path was passed to `Output::savePDF()`, which takes a directory. The path is now split into the directory and the file name.
+		- The file name is sanitized by the engine, so the file written may differ from the name given ('my_report.final.pdf' is written as 'my_report_final.pdf'). Use `TCPDF::getPDFFilename()` for the effective name.
+		- The output directory is subject to the same allowlist as local reads: directories outside the built-in defaults (system temp dir, K_PATH_MAIN, the working directory, K_PATH_FONTS, K_PATH_IMAGES, the script directory) must be added to K_ALLOWED_PATHS before tcpdf.php is loaded. Failures now report that instead of 'invalid file'.
+	- Fixed Output() with a boolean destination: true is 'D' and false is 'F', as in TCPDF 6. `Output($name, false)` previously streamed the document to the browser instead of saving it.
+	- Fixed the 'FD' destination to send download headers instead of rendering inline.
+	- Requires `tecnickcom/tc-lib-pdf` ^8.75.
+
+*************************************************
+
 7.0.0 (2026-06-18) [BREAKING CHANGE]
 	- TCPDF IS DEPRECATED AND IN MAINTENANCE-ONLY MODE
 	- TCPDF is now a compatibility facade over the modern `tecnickcom/tc-lib-pdf` engine. It does not reproduce legacy output exactly, and some methods are adapters, shims, or no-ops (see MAPPING.md); both new and existing projects are encouraged to migrate to `tecnickcom/tc-lib-pdf`.

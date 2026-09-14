@@ -287,11 +287,14 @@ if (!defined('K_TIMEZONE')) {
 // asset directories readable.
 // ----------------------------------------------------------------------------
 
-// Additional trusted local directories the library may read files from.
+// Additional trusted local directories the library may read files from, and
+// write to for the Output() 'F', 'FI' and 'FD' destinations.
 // Array of absolute path prefixes, merged on top of the built-in defaults
 // (system temp dir, K_PATH_MAIN, the bundled vendor dir, the working
 // directory, K_PATH_FONTS, K_PATH_IMAGES and the running script directory).
 // The built-in defaults are always included; this only ever widens access.
+// Must be defined before this file is loaded. Entries that do not resolve to
+// an existing directory are ignored.
 if (!defined('K_ALLOWED_PATHS')) {
     define('K_ALLOWED_PATHS', []);
 }

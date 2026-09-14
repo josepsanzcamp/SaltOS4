@@ -192,7 +192,9 @@ define('K_ALLOWED_TCPDF_TAGS', '');
 /**
  * If true and PHP version is greater than 5, then the Error() method throw new exception instead of terminating the execution.
  */
-define('K_TCPDF_THROW_EXCEPTION_ERROR', false);
+if (!defined('K_TCPDF_THROW_EXCEPTION_ERROR')) {
+    define('K_TCPDF_THROW_EXCEPTION_ERROR', false);
+}
 
 /**
  * Default timezone for datetime functions
@@ -238,9 +240,11 @@ define('K_TIMEZONE', 'UTC');
  */
 
 /**
- * Extra trusted local directories the library may read files from.
+ * Extra trusted local directories the library may read files from, and write
+ * to for the Output() 'F', 'FI' and 'FD' destinations.
  * Array of absolute path prefixes, merged on top of the built-in defaults
- * (the defaults are always kept; this only ever widens local read access).
+ * (the defaults are always kept; this only ever widens local access).
+ * Entries that do not resolve to an existing directory are ignored.
  */
 //define('K_ALLOWED_PATHS', ['/var/www/shared/assets/']);
 

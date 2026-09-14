@@ -10,7 +10,7 @@ Statuses: `stub` (not implemented), `delegated`, `adapter`, `shim`,
 
 | Family | Total | Delegated | Adapter | Shim | Noop | Blocked | Stub |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Bootstrap/Lifecycle/Output | 33 | 10 | 8 | 12 | 3 | 0 | 0 |
+| Bootstrap/Lifecycle/Output | 34 | 11 | 8 | 12 | 3 | 0 | 0 |
 | Document/Page state | 60 | 0 | 20 | 40 | 0 | 0 | 0 |
 | Header/Footer | 19 | 0 | 0 | 17 | 2 | 0 | 0 |
 | Text/Font/metrics | 45 | 5 | 21 | 19 | 0 | 0 | 0 |
@@ -20,7 +20,7 @@ Statuses: `stub` (not implemented), `delegated`, `adapter`, `shim`,
 | Signatures/Security | 6 | 0 | 6 | 0 | 0 | 0 | 0 |
 | Barcodes | 4 | 0 | 2 | 2 | 0 | 0 | 0 |
 | Columns/TOC/Templates/Regions | 17 | 0 | 9 | 6 | 0 | 2 | 0 |
-| **Total** | **293** | **24** | **142** | **115** | **9** | **3** | **0** |
+| **Total** | **294** | **25** | **142** | **115** | **9** | **3** | **0** |
 
 ## Bootstrap/Lifecycle/Output
 
@@ -33,8 +33,9 @@ Statuses: `stub` (not implemented), `delegated`, `adapter`, `shim`,
 | Error | `-` | shim | throw/die per K_TCPDF_THROW_EXCEPTION_ERROR |
 | Open | `-` | shim | legacy state flag only |
 | Close | `-` | adapter | renders deferred header/footer decorations for all pages, then builds the PDF |
-| Output | `Output::getOutPDFString/savePDF/renderPDF/downloadPDF` | adapter | dest switch I/D/F/S/FI/FD/E |
+| Output | `Output::getOutPDFString/savePDF/renderPDF/downloadPDF` | adapter | dest switch I/D/F/S/FI/FD/E; F/FI/FD split the path into directory + sanitized file name |
 | getPDFData | `Output::getOutPDFString` | delegated |  |
+| getPDFFilename | `Tcpdf::getPDFFilename` | delegated | not in legacy TCPDF; returns the sanitized name Output() actually used |
 | setCompression | `Tcpdf::$compress` | intentional-noop | compression is always enabled at engine construction; legacy off-switch dropped |
 | setSRGBmode | `MetaInfo::setSRGB` | delegated |  |
 | setDocInfoUnicode | `-` | intentional-noop | tc-lib handles doc-info encoding internally |

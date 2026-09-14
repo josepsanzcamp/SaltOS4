@@ -78,9 +78,15 @@ const TCPDF_METHOD_MAP = [
         'bootstrap',
         'Output::getOutPDFString/savePDF/renderPDF/downloadPDF',
         'adapter',
-        'dest switch I/D/F/S/FI/FD/E',
+        'dest switch I/D/F/S/FI/FD/E; F/FI/FD split the path into directory + sanitized file name',
     ],
     'getPDFData' => ['bootstrap', 'Output::getOutPDFString', 'delegated', ''],
+    'getPDFFilename' => [
+        'bootstrap',
+        'Tcpdf::getPDFFilename',
+        'delegated',
+        'not in legacy TCPDF; returns the sanitized name Output() actually used',
+    ],
     'setCompression' => [
         'bootstrap',
         'Tcpdf::$compress',
