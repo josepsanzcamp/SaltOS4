@@ -34,7 +34,7 @@ vkbeautify|https://github.com/vkiryukhin/vkBeautify/commits/master.atom|<updated
 fpdf|https://github.com/Setasign/FPDF/tags.atom|<title>|PHRpdGxlPkZQREYgMS45ICgxLjkuMCk8L3RpdGxlPg==
 fpdi|https://github.com/Setasign/FPDI/tags.atom|<title>|PHRpdGxlPkZQREkgMi42Ljg8L3RpdGxlPg==
 gridstack|https://github.com/gridstack/gridstack.js/tags.atom|<title>|PHRpdGxlPnYxMy4zLjA8L3RpdGxlPg==
-mailmimeparser|https://github.com/zbateson/mail-mime-parser/tags.atom|<title>|PHRpdGxlPjQuMC40PC90aXRsZT4=
+mailmimeparser|https://github.com/zbateson/mail-mime-parser/tags.atom|<title>|PHRpdGxlPjQuMC41PC90aXRsZT4=
 phpmailer|https://github.com/PHPMailer/PHPMailer/tags.atom|<title>|PHRpdGxlPlBIUE1haWxlciA3LjEuMTwvdGl0bGU+
 
 acorn|https://github.com/acornjs/acorn/tags.atom|<title>|PHRpdGxlPlZlcnNpb24gOC4xOC4wPC90aXRsZT4=
@@ -44,7 +44,7 @@ cloc|https://github.com/AlDanial/cloc/tags.atom|<title>|PHRpdGxlPnYyLjEwPC90aXRs
 jest|https://github.com/jestjs/jest/tags.atom|<title>|PHRpdGxlPnYzMC41LjE8L3RpdGxlPg==
 jscs|https://github.com/jscs-dev/node-jscs/tags.atom|<title>|PHRpdGxlPjMuMC43PC90aXRsZT4=
 libreoffice|https://www.libreoffice.org/download/|latest|PG9wdGlvbiB2YWx1ZT0ibGF0ZXN0IiBkYXRhLXZlcnNpb24tZGlyPSIyNi44LjAiIGRhdGEtdmVyc2lvbi1maWxlPSIyNi44LjAiPkxpYnI=
-mariadb|https://github.com/MariaDB/server/tags.atom|<title>|PHRpdGxlPk1hcmlhREIgQ29tbXVuaXR5IFNlcnZlciAxMi4zLjM8L3RpdGxlPg==
+mariadb|https://github.com/MariaDB/server/tags.atom|<title>|PHRpdGxlPk1hcmlhREIgQ29tbXVuaXR5IFNlcnZlciAxMy4xLjEgUkM8L3RpdGxlPg==
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|PHRpdGxlPm1pbmlmeSB2MTUuMy4xPC90aXRsZT4=
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|PHRpdGxlPk1yb29uZ2EgMTYuMTEgLSAyMDI2LTA5LTAyPC90aXRsZT4=
 node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjYtMDktMDksIFZlcnNpb24gMjYuOC4yIChDdXJyZW50KSwgQGFkdWg5NTwvdGl0bGU+
@@ -52,7 +52,7 @@ pcov|https://github.com/krakjoe/pcov/tags.atom|<title>|PHRpdGxlPnYxLjAuMTI8L3Rpd
 php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjYuMGJldGEzPC90aXRsZT4=
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|PHRpdGxlPjQuMC40IC0gMjAyNi0wOC0wNjwvdGl0bGU+
 phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjIuMi4xNDwvdGl0bGU+
-phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|PHRpdGxlPlBIUFVuaXQgMTMuMy4zPC90aXRsZT4=
+phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|PHRpdGxlPlBIUFVuaXQgMTMuMy40PC90aXRsZT4=
 uglifyjs|https://github.com/mishoo/UglifyJS/tags.atom|<title>|PHRpdGxlPnYzLjE5LjM8L3RpdGxlPg==
 wpcs|https://github.com/WordPress/WordPress-Coding-Standards/tags.atom|<title>|PHRpdGxlPjMuNC4xIC0gMjAyNi0wNy0yNzwvdGl0bGU+
 semver|https://github.com/composer/semver/tags.atom|<title>|PHRpdGxlPjMuNC40PC90aXRsZT4=
