@@ -23,7 +23,7 @@
         <screen>clear</screen>
         <layout>
             <div id="screen" class="vh-100 d-flex bg-body-secondary">
-                <container auto="true" container_class="container m-auto bg-body rounded-4 shadow-sm" col_class="col-12 mb-3 px-5" container_style="max-width:400px">
+                <container id="login-box" auto="true" container_class="container m-auto bg-body rounded-4 shadow-sm" col_class="col-12 mb-3 px-5" container_style="max-width:400px">
                     <image col_class="col-12 mb-5 px-0" color="none" class="bg-primary img-fluid" shadow="shadow-0" rounded="rounded-top-4">
                         <value eval="true">get_config('brand/image')</value>
                         <onclick eval="true">get_config('brand/onclick')</onclick>
@@ -32,6 +32,17 @@
                     <text id="user" label="Username" required="true" autofocus="true" rounded="rounded-pill" onenter="document.getElementById('pass').focus()"/>
                     <password id="pass" label="Password" required="true" rounded="rounded-pill" onenter="saltos.login.authenticate()"/>
                     <button class="w-100" onclick="saltos.login.authenticate()" label="Login" icon="box-arrow-in-right" col_class="col-12 my-3 px-5 pb-5"/>
+                </container>
+                <container id="renew-box" auto="true" container_class="container m-auto bg-body rounded-4 shadow-sm d-none" col_class="col-12 mb-3 px-5" container_style="max-width:400px">
+                    <image col_class="col-12 mb-5 px-0" color="none" class="bg-primary img-fluid" shadow="shadow-0" rounded="rounded-top-4">
+                        <value eval="true">get_config('brand/image')</value>
+                        <onclick eval="true">get_config('brand/onclick')</onclick>
+                    </image>
+                    <label class="fs-2 w-100 text-center" label="Password expired"/>
+                    <label class="w-100 text-center text-body-secondary mb-3" label="Your password has expired, please set a new one to continue"/>
+                    <password id="newpass" label="New password" rounded="rounded-pill" onenter="document.getElementById('renewpass').focus()" autocomplete="false"/>
+                    <password id="renewpass" label="Retype password" rounded="rounded-pill" onenter="saltos.login.renew()" autocomplete="false"/>
+                    <button class="w-100" onclick="saltos.login.renew()" label="Set new password" icon="check-lg" col_class="col-12 my-3 px-5 pb-5"/>
                 </container>
             </div>
         </layout>

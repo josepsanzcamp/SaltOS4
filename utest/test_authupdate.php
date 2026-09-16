@@ -94,7 +94,8 @@ final class test_authupdate extends TestCase
         $this->assertSame($json['status'], 'ko');
         $this->assertSame(count($json), 3);
 
-        // Check for internal error
+        // A duplicated active row (a broken data state that must never happen) must not to
+        // crash the request, oldpass_check just returns false like the rest of the checks
         $file = 'data/logs/phperror.log';
         $this->assertFileDoesNotExist($file);
 
@@ -108,13 +109,13 @@ final class test_authupdate extends TestCase
             'newpass' => 'admin',
             'renewpass' => 'admin',
         ], $json2['token'], '');
-        $this->assertArrayHasKey('error', $json);
+        $this->assertArrayHasKey('status', $json);
+        $this->assertSame($json['status'], 'ko');
+        $this->assertSame(count($json), 3);
 
         db_query("DELETE FROM tbl_users_passwords WHERE id='$id'");
 
-        $this->assertFileExists($file);
-        $this->assertTrue(words_exists('internal error', file_get_contents($file)));
-        unlink($file);
+        $this->assertFileDoesNotExist($file);
 
         // Continue with the other checks
         $json = test_web_helper('auth/update', [
@@ -135,6 +136,8 @@ final class test_authupdate extends TestCase
         $this->assertSame($json['status'], 'ko');
         $this->assertSame(count($json), 3);
 
+        // A successful update now returns the same shape as authtoken, including a fresh
+        // token (the previous token is revoked as part of issuing the new one)
         $json = test_web_helper('auth/update', [
             'oldpass' => 'admin',
             'newpass' => 'asd123ASD.',
@@ -142,16 +145,28 @@ final class test_authupdate extends TestCase
         ], $json2['token'], '');
         $this->assertArrayHasKey('status', $json);
         $this->assertSame($json['status'], 'ok');
-        $this->assertSame(count($json), 3);
+        $this->assertSame(count($json), 4);
+        $this->assertArrayHasKey('token', $json);
 
-        $json = test_web_helper('auth/update', [
+        // The old token must not to work anymore, as it was revoked by the previous update
+        $json2 = test_web_helper('auth/update', [
             'oldpass' => 'asd123ASD.',
             'newpass' => 'asd123ASD.',
             'renewpass' => 'asd123ASD.',
         ], $json2['token'], '');
-        $this->assertArrayHasKey('status', $json);
-        $this->assertSame($json['status'], 'ko');
-        $this->assertSame(count($json), 3);
+        $this->assertArrayHasKey('status', $json2);
+        $this->assertSame($json2['status'], 'ko');
+        $this->assertSame(count($json2), 3);
+
+        // Using the fresh token, reusing the same password must still to be rejected
+        $json2 = test_web_helper('auth/update', [
+            'oldpass' => 'asd123ASD.',
+            'newpass' => 'asd123ASD.',
+            'renewpass' => 'asd123ASD.',
+        ], $json['token'], '');
+        $this->assertArrayHasKey('status', $json2);
+        $this->assertSame($json2['status'], 'ko');
+        $this->assertSame(count($json2), 3);
 
         // Check for old MD5
         $hash = md5('admin');

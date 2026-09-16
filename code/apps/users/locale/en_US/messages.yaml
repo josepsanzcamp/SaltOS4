@@ -17,6 +17,9 @@ language: Language
 login: Login
 access_denied: Access denied
 incorrect_user_or_password_try_again: Incorrect username or password, please try again
+password_expired: Password expired
+your_password_has_expired_please_set_a_new_one_to_continue: Your password has expired, please set a new one to continue
+set_new_password: Set new password
 monday: Monday
 tuesday: Tuesday
 wednesday: Wednesday

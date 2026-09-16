@@ -17,6 +17,9 @@ language: Idioma
 login: Accès
 access_denied: Accès denegat
 incorrect_user_or_password_try_again: Usuari o clau incorrecte, torni-ho a probar
+password_expired: Clau caducada
+your_password_has_expired_please_set_a_new_one_to_continue: La seva clau ha caducat, indiqui'n una de nova per continuar
+set_new_password: Establir nova clau
 monday: Dilluns
 tuesday: Dimarts
 wednesday: Dimecres

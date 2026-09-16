@@ -37,10 +37,14 @@ saltos.authenticate = {};
  * This function uses the authtoken action to try to authenticate an user with the user/pass
  * credentials passed by argument.
  *
+ * This function returns the response of the action, useful to detect the 'expired' status,
+ * that requires a different treatment than the usual 'ok'/'ko' pair
+ *
  * @user => username used to the authentication process
  * @pass => password used to the authentication process
  */
 saltos.authenticate.authtoken = async (user, pass) => {
+    let result = null;
     await saltos.app.ajax({
         url: 'auth/login',
         data: {
@@ -48,17 +52,19 @@ saltos.authenticate.authtoken = async (user, pass) => {
             pass: pass,
         },
         success: response => {
+            result = response;
             if (response.status === 'ok') {
                 saltos.token.set(response);
                 return;
             }
-            if (response.status === 'ko') {
+            if (['ko', 'expired'].includes(response.status)) {
                 saltos.token.unset();
                 return;
             }
             saltos.app.show_error(response);
         },
     });
+    return result;
 };
 
 /**
@@ -110,14 +116,17 @@ saltos.authenticate.deauthtoken = async () => {
  * Authenticate update function
  *
  * This function is intended to be used in the profile feature to allow the password change
- * by the user.
+ * by the user. On success, the response contains a fresh valid token, exactly as the
+ * authtoken and authrenew functions do, so that changing the password always ends in the
+ * same atomic outcome: a new session issued for the new password.
  *
  * @oldpass   => old password used to validate the correctness of the transaction
  * @newpass   => new password used to update the old password
  * @renewpass => repite the new password used to update the old password
  */
-saltos.authenticate.authupdate = (oldpass, newpass, renewpass) => {
-    saltos.app.ajax({
+saltos.authenticate.authupdate = async (oldpass, newpass, renewpass) => {
+    let result = null;
+    await saltos.app.ajax({
         url: 'auth/update',
         data: {
             oldpass: oldpass,
@@ -125,12 +134,49 @@ saltos.authenticate.authupdate = (oldpass, newpass, renewpass) => {
             renewpass: renewpass,
         },
         success: response => {
+            result = response;
             if (response.status === 'ok') {
-                saltos.app.modal('Response', 'Password updated successfully');
-                saltos.hash.trigger();
+                saltos.token.set(response);
                 return;
             }
             saltos.app.show_error(response);
         },
     });
+    return result;
+};
+
+/**
+ * Authenticate renew function
+ *
+ * This function is intended to be used in the login screen, exclusively after a login
+ * attempt returns the 'expired' status, to allow setting a new password without an active
+ * session, using the expired password as the proof of identity.
+ *
+ * On success, the response contains a valid token, exactly as the authtoken function does.
+ *
+ * @user      => username used in the authentication process
+ * @oldpass   => the expired password used to validate the transaction
+ * @newpass   => new password used to update the old password
+ * @renewpass => repeats the new password used to update the old password
+ */
+saltos.authenticate.authrenew = async (user, oldpass, newpass, renewpass) => {
+    let result = null;
+    await saltos.app.ajax({
+        url: 'auth/renew',
+        data: {
+            user: user,
+            oldpass: oldpass,
+            newpass: newpass,
+            renewpass: renewpass,
+        },
+        success: response => {
+            result = response;
+            if (response.status === 'ok') {
+                saltos.token.set(response);
+                return;
+            }
+            saltos.app.show_error(response);
+        },
+    });
+    return result;
 };

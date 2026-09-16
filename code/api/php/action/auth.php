@@ -41,7 +41,10 @@ require_once 'php/lib/auth.php';
 $array = [];
 switch (get_data('rest/1')) {
     case 'login':
-        $array = authtoken(get_data('json/user'), get_data('json/pass'));
+        $array = authtoken(
+            get_data('json/user'),
+            get_data('json/pass')
+        );
         break;
     case 'logout':
         $array = deauthtoken();
@@ -50,7 +53,19 @@ switch (get_data('rest/1')) {
         $array = checktoken();
         break;
     case 'update':
-        $array = authupdate(get_data('json/oldpass'), get_data('json/newpass'), get_data('json/renewpass'));
+        $array = authupdate(
+            get_data('json/oldpass'),
+            get_data('json/newpass'),
+            get_data('json/renewpass')
+        );
+        break;
+    case 'renew':
+        $array = authrenew(
+            get_data('json/user'),
+            get_data('json/oldpass'),
+            get_data('json/newpass'),
+            get_data('json/renewpass')
+        );
         break;
     default:
         show_php_error(['phperror' => 'Unknown action']);

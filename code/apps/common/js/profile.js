@@ -47,12 +47,34 @@ saltos.profile.init = arg => {
  * This method restores the previous state of the application if necessary,
  * validates required fields, and then updates the authentication credentials
  * using the provided old password, new password, and its confirmation.
+ *
+ * A successful update replaces the current token with a fresh one, exactly as a new login
+ * would, so besides the success message this also triggers the same saltos.app.login event
+ * used by the login and renew screens, to refresh the current view with the new session.
+ *
+ * Note: the outcome must to be checked using the response status instead of the token
+ * presence, because unlike login/renew, here a valid token already exists before calling
+ * this function, so it would stay valid (and truthy) even when the update itself fails
+ *
+ * Note: the success message uses saltos.app.toast instead of saltos.app.modal, following
+ * the same convention used elsewhere in the app (see driver.js) for successful actions;
+ * every hashchange event unconditionally closes any open modal (see hash.js), and the
+ * saltos.app.login event triggered right below fires exactly that, so a modal here would
+ * close itself before ever being seen
  */
-saltos.profile.authupdate = () => {
+saltos.profile.authupdate = async () => {
     saltos.backup.restore('right');
     if (!saltos.app.check_required()) {
         return;
     }
     const data = saltos.app.get_data(true);
-    saltos.authenticate.authupdate(data.oldpass, data.newpass, data.renewpass);
+    const response = await saltos.authenticate.authupdate(data.oldpass, data.newpass, data.renewpass);
+    if (!response || response.status !== 'ok') {
+        return;
+    }
+    saltos.app.toast('Response', 'Password updated successfully');
+    if (['', 'app/login'].includes(saltos.hash.get())) {
+        saltos.hash.set('app/dashboard');
+    }
+    saltos.window.send('saltos.app.login');
 };

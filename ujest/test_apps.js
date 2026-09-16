@@ -147,8 +147,8 @@ describe('App Login', () => {
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('.is-valid', timeout);
-        await page.waitForSelector('.toast', timeout);
-        // Special case because the previous toast detection not works as expected
+        await page.waitForSelector('.modal', timeout);
+        // Special case because the previous modal detection not works as expected
         await mypause(page, 1000);
 
         const screenshot = await sharp(await page.screenshot()).png({
@@ -161,8 +161,8 @@ describe('App Login', () => {
             customSnapshotsDir: `${__dirname}/snaps`,
         });
 
-        await page.$eval('.toast', el => el.remove());
-        await page.waitForFunction(() => !document.querySelector('.toast'), timeout);
+        await page.$eval('.modal-footer button', button => button.click());
+        await page.waitForFunction(() => !document.querySelector('.modal'), timeout);
     });
 
     /**

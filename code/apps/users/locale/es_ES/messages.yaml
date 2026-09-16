@@ -17,6 +17,9 @@ language: Idioma
 login: Acceso
 access_denied: Acceso denegado
 incorrect_user_or_password_try_again: Usuario o contraseña incorrectos, inténtalo de nuevo
+password_expired: Contraseña caducada
+your_password_has_expired_please_set_a_new_one_to_continue: Tu contraseña ha caducado, indica una nueva para continuar
+set_new_password: Establecer nueva contraseña
 monday: Lunes
 tuesday: Martes
 wednesday: Miércoles
