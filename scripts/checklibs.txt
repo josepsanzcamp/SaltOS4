@@ -4,7 +4,7 @@ edifact|https://github.com/php-edifact/edifact/tags.atom|<title>|PHRpdGxlPjEuMy4
 html2text|https://github.com/soundasleep/html2text/tags.atom|<updated>|PHVwZGF0ZWQ+MjAyMy0wMS0wNlQwOToyODoxNVo8L3VwZGF0ZWQ+
 phpass|https://github.com/openwall/phpass/commits/main.atom|<updated>|PHVwZGF0ZWQ+MjAyNC0xMS0yMlQyMDozODoxNlo8L3VwZGF0ZWQ+
 phpgeoip|https://github.com/Webklex/php-geoip/tags.atom|<title>|PHRpdGxlPjEuMC4wPC90aXRsZT4=
-phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<title>|PHRpdGxlPjUuOS4wPC90aXRsZT4=
+phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<title>|PHRpdGxlPjUuMTAuMDwvdGl0bGU+
 tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<title>|PHRpdGxlPjcuMC4xMDwvdGl0bGU+
 tc-lib-pdf|https://github.com/tecnickcom/tc-lib-pdf/tags.atom|<title>|PHRpdGxlPjguNzUuMDwvdGl0bGU+
 yaml|https://github.com/symfony/yaml/tags.atom|<title>|PHRpdGxlPnY4LjEuNjwvdGl0bGU+
@@ -47,7 +47,7 @@ libreoffice|https://www.libreoffice.org/download/|latest|PG9wdGlvbiB2YWx1ZT0ibGF
 mariadb|https://github.com/MariaDB/server/tags.atom|<title>|PHRpdGxlPk1hcmlhREIgQ29tbXVuaXR5IFNlcnZlciAxMy4xLjEgUkM8L3RpdGxlPg==
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|PHRpdGxlPm1pbmlmeSB2MTUuMy4xPC90aXRsZT4=
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|PHRpdGxlPk1yb29uZ2EgMTYuMTEgLSAyMDI2LTA5LTAyPC90aXRsZT4=
-node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjYtMDktMDksIFZlcnNpb24gMjYuOC4yIChDdXJyZW50KSwgQGFkdWg5NTwvdGl0bGU+
+node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjYtMDktMTYsIFZlcnNpb24gMjYuOS4wIChDdXJyZW50KSwgQGFkdWg5NTwvdGl0bGU+
 pcov|https://github.com/krakjoe/pcov/tags.atom|<title>|PHRpdGxlPnYxLjAuMTI8L3RpdGxlPg==
 php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjYuMGJldGEzPC90aXRsZT4=
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|PHRpdGxlPjQuMC40IC0gMjAyNi0wOC0wNjwvdGl0bGU+
