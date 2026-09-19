@@ -64,9 +64,10 @@ function authtoken($user, $pass)
 
     if (password_expired_check($user_id, $pass)) {
         return [
-            'status' => 'expired',
+            'status' => 'ko',
             'text' => 'Password expired',
             'code' => __get_code_from_trace(),
+            'expired' => true,
         ];
     }
 
@@ -246,7 +247,7 @@ function authupdate($oldpass, $newpass, $renewpass)
  * Authentication renew action
  *
  * This file implements the renew password action, intended to be used only when a login
- * attempt reports that the password is correct but expired (see the 'expired' status
+ * attempt reports that the password is correct but expired (see the expired flag
  * returned by the authtoken function). It allows setting a new password without an active
  * session, using the expired password itself as the proof of identity.
  *

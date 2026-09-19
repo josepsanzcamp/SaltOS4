@@ -86,6 +86,7 @@ final class test_authrenew extends TestCase
         ], '', '');
         $this->assertArrayHasKey('status', $json);
         $this->assertSame($json['status'], 'ko');
+        $this->assertArrayNotHasKey('expired', $json);
         $this->assertSame(count($json), 3);
 
         // The correct but expired password must to be reported as expired
@@ -94,8 +95,10 @@ final class test_authrenew extends TestCase
             'pass' => 'admin',
         ], '', '');
         $this->assertArrayHasKey('status', $json);
-        $this->assertSame($json['status'], 'expired');
-        $this->assertSame(count($json), 3);
+        $this->assertSame($json['status'], 'ko');
+        $this->assertArrayHasKey('expired', $json);
+        $this->assertTrue($json['expired']);
+        $this->assertSame(count($json), 4);
 
         // Regression: an expired password that was never migrated from a legacy hash
         // (because the user never logged in again after it was set) must still to be
@@ -110,8 +113,10 @@ final class test_authrenew extends TestCase
             'pass' => 'admin',
         ], '', '');
         $this->assertArrayHasKey('status', $json);
-        $this->assertSame($json['status'], 'expired');
-        $this->assertSame(count($json), 3);
+        $this->assertSame($json['status'], 'ko');
+        $this->assertArrayHasKey('expired', $json);
+        $this->assertTrue($json['expired']);
+        $this->assertSame(count($json), 4);
 
         // Renew with a wrong old password must to fail
         $json = test_web_helper('auth/renew', [

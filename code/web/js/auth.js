@@ -37,8 +37,8 @@ saltos.authenticate = {};
  * This function uses the authtoken action to try to authenticate an user with the user/pass
  * credentials passed by argument.
  *
- * This function returns the response of the action, useful to detect the 'expired' status,
- * that requires a different treatment than the usual 'ok'/'ko' pair
+ * This function returns the response of the action, useful to detect the expired flag
+ * of a 'ko' response, that requires a different treatment than a plain access denied
  *
  * @user => username used to the authentication process
  * @pass => password used to the authentication process
@@ -57,7 +57,7 @@ saltos.authenticate.authtoken = async (user, pass) => {
                 saltos.token.set(response);
                 return;
             }
-            if (['ko', 'expired'].includes(response.status)) {
+            if (response.status === 'ko') {
                 saltos.token.unset();
                 return;
             }
@@ -149,7 +149,7 @@ saltos.authenticate.authupdate = async (oldpass, newpass, renewpass) => {
  * Authenticate renew function
  *
  * This function is intended to be used in the login screen, exclusively after a login
- * attempt returns the 'expired' status, to allow setting a new password without an active
+ * attempt returns the expired flag, to allow setting a new password without an active
  * session, using the expired password as the proof of identity.
  *
  * On success, the response contains a valid token, exactly as the authtoken function does.

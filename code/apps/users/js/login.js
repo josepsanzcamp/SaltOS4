@@ -34,7 +34,7 @@ saltos.login = {};
  * This function tries to authenticate the user using the user and pass fields of the form, to do
  * it uses the authenticate function that send data to the authtoken action
  *
- * If the response of the authtoken action is 'expired', this function switches the screen to
+ * If the response of the authtoken action contains the expired flag, this function switches the screen to
  * the renew box instead of showing the usual access denied message, allowing the user to set
  * a new password without needing a valid session
  */
@@ -52,7 +52,7 @@ saltos.login.authenticate = async () => {
         saltos.window.send('saltos.app.login');
         return;
     }
-    if (response && response.status === 'expired') {
+    if (response && 'expired' in response && saltos.core.eval_bool(response.expired)) {
         document.getElementById('login-box').classList.add('d-none');
         document.getElementById('renew-box').classList.remove('d-none');
         document.getElementById('newpass').focus();
