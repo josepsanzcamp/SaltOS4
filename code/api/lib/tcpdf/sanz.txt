@@ -17,3 +17,6 @@ composer require tecnickcom/tcpdf
 #rm -rf vendor/tecnickcom/tc-lib-*
 
 php import-atkinson.php
+
+rm -rf vendor/tecnickcom/tcpdf/test
+rm -rf vendor/tecnickcom/tcpdf/examples
