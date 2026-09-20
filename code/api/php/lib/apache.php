@@ -105,6 +105,8 @@ function check_apache($url)
         "$url/lib/browscap/update.php",
         "$url/xml/",
         "$url/xml/config.xml",
+        "$url/api/lib/tc-lib-pdf/import-atkinson.php",
+        "$url/api/lib/tcpdf/import-atkinson.php",
     ];
     $dirs = glob('lib/tc-lib-pdf/vendor/tecnickcom/*/example*', GLOB_ONLYDIR);
     foreach ($dirs as $dir) {

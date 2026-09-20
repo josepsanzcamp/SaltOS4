@@ -52,7 +52,7 @@ function __barcode_image($msg, $w, $h, $m, $s, $t)
     $height = imagesy($im1);
     $extra = $s;
     if ($s) {
-        $font = getcwd() . '/lib/atkinson/fonts/AtkinsonHyperlegibleNext-Regular.ttf';
+        $font = realpath('lib/atkinson/fonts/AtkinsonHyperlegibleNext-Regular.ttf');
         $bbox = imagettfbbox($s, 0, $font, $msg);
         $extra = abs($bbox[5] - $bbox[1]) + $m;
     }
