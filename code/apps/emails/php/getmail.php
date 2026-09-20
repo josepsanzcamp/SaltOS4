@@ -1797,6 +1797,9 @@ function getmail_pdf($ids)
     foreach ($ids as $id) {
         // Generate HTML content for the email
         $input = get_cache_file([__FUNCTION__, $id], '.html');
+        //~ if (file_exists($input)) {
+            //~ unlink($input);
+        //~ }
         if (!file_exists($input)) {
             $decoded = __getmail_getmime($id);
             if (!$decoded) {
@@ -1812,6 +1815,9 @@ function getmail_pdf($ids)
 
         // Generate PDF file from the HTML content
         $output = get_cache_file([__FUNCTION__, $id], '.pdf');
+        //~ if (file_exists($output)) {
+            //~ unlink($output);
+        //~ }
         if (!file_exists($output)) {
             $opts = '--headless=new --no-sandbox --no-pdf-header-footer';
             ob_passthru("chromium $opts --print-to-pdf=$output file://$input 2>&1");
@@ -1876,16 +1882,17 @@ function getmail_pdf($ids)
  */
 function __iframe_srcdoc_helper($html)
 {
+    $font = realpath('../web/lib/atkinson/atkinson.min.css');
+
     // Generate the iframe content with styles and security policies
     $html = '<!doctype html><html><head><meta charset="utf-8">
     <style>body { margin: 0; padding: 0; }</style>
-    <style>:root { --bs-font-sans-serif: "Atkinson Hyperlegible Next", sans-serif;
-        --bs-font-monospace: "Atkinson Hyperlegible Mono", monospace; }</style>
+    <link href="' . $font . '" rel="stylesheet">
     <style>:root { font-family: var(--bs-font-sans-serif); }</style>
     <meta http-equiv="Content-Security-Policy" content="default-src \'self\';
-        style-src \'self\' \'unsafe-inline\' ${window.location.origin};
-        font-src \'self\' ${window.location.origin};
-        img-src \'self\' data: ${window.location.origin};">
+        style-src \'self\' \'unsafe-inline\';
+        font-src \'self\';
+        img-src \'self\' data:;">
     </head><body>' . $html . '</body></html>';
 
     // Return the complete HTML document string
