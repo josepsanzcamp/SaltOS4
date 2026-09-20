@@ -5,13 +5,6 @@
   license: SIL Open Font License 1.1
   license_id: OFL-1.1
 
-- id: browscap
-  name: browscap-php
-  package: browscap/browscap-php
-  homepage: https://github.com/browscap/browscap-php
-  license: MIT License
-  license_id: MIT
-
 - id: edifact
   name: edifact
   package: php-edifact/edifact
@@ -39,13 +32,6 @@
   homepage: https://www.openwall.com/phpass/
   license: Creative Commons Public Domain Dedication
   license_id: CC0-1.0
-
-- id: phpgeoip
-  name: php-geoip
-  package: webklex/php-geoip
-  homepage: https://github.com/Webklex/php-geoip
-  license: MIT License
-  license_id: MIT
 
 - id: phpspreadsheet
   name: PhpSpreadsheet

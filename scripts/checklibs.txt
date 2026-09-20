@@ -1,9 +1,7 @@
 
-browscap|https://github.com/browscap/browscap-php/tags.atom|<title>|PHRpdGxlPjcuNy4xPC90aXRsZT4=
 edifact|https://github.com/php-edifact/edifact/tags.atom|<title>|PHRpdGxlPjEuMy4wPC90aXRsZT4=
 html2text|https://github.com/soundasleep/html2text/tags.atom|<updated>|PHVwZGF0ZWQ+MjAyMy0wMS0wNlQwOToyODoxNVo8L3VwZGF0ZWQ+
 phpass|https://github.com/openwall/phpass/commits/main.atom|<updated>|PHVwZGF0ZWQ+MjAyNC0xMS0yMlQyMDozODoxNlo8L3VwZGF0ZWQ+
-phpgeoip|https://github.com/Webklex/php-geoip/tags.atom|<title>|PHRpdGxlPjEuMC4wPC90aXRsZT4=
 phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<title>|PHRpdGxlPjUuMTAuMDwvdGl0bGU+
 tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<title>|PHRpdGxlPjcuMC4xMDwvdGl0bGU+
 tc-lib-pdf|https://github.com/tecnickcom/tc-lib-pdf/tags.atom|<title>|PHRpdGxlPjguNzUuMDwvdGl0bGU+
@@ -41,7 +39,7 @@ acorn|https://github.com/acornjs/acorn/tags.atom|<title>|PHRpdGxlPlZlcnNpb24gOC4
 brotli|https://github.com/kjdev/php-ext-brotli/tags.atom|<title>|PHRpdGxlPjAuMjEuMDwvdGl0bGU+
 browserify|https://github.com/browserify/browserify/tags.atom|<title>|PHRpdGxlPnYxNy4wLjE8L3RpdGxlPg==
 cloc|https://github.com/AlDanial/cloc/tags.atom|<title>|PHRpdGxlPnYyLjEwPC90aXRsZT4=
-jest|https://github.com/jestjs/jest/tags.atom|<title>|PHRpdGxlPnYzMC41LjE8L3RpdGxlPg==
+jest|https://github.com/jestjs/jest/tags.atom|<title>|PHRpdGxlPnYzMC41LjI8L3RpdGxlPg==
 jscs|https://github.com/jscs-dev/node-jscs/tags.atom|<title>|PHRpdGxlPjMuMC43PC90aXRsZT4=
 libreoffice|https://www.libreoffice.org/download/|latest|PG9wdGlvbiB2YWx1ZT0ibGF0ZXN0IiBkYXRhLXZlcnNpb24tZGlyPSIyNi44LjAiIGRhdGEtdmVyc2lvbi1maWxlPSIyNi44LjAiPkxpYnI=
 mariadb|https://github.com/MariaDB/server/tags.atom|<title>|PHRpdGxlPk1hcmlhREIgQ29tbXVuaXR5IFNlcnZlciAxMy4xLjEgUkM8L3RpdGxlPg==

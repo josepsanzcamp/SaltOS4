@@ -1,5 +1,5 @@
 Devel Documentation
-SaltOS 4.1 r2616
+SaltOS 4.1 r2664
 September 2026
 
 
@@ -385,7 +385,6 @@ Not autoloaded; provide extra functionality:
 - `lib/ascii.php`: * Make Table ASCII
 - `lib/auth.php`: * Login functions
 - `lib/barcode.php`: * Barcode helper module
-- `lib/browser.php`: * Browser helper module
 - `lib/captcha.php`: * Captcha helper module
 - `lib/color.php`: * Color helper module
 - `lib/control.php`: * Control helper module
@@ -396,7 +395,6 @@ Not autoloaded; provide extra functionality:
 - `lib/files.php`: * Files module
 - `lib/gc.php`: * Garbage collector helper module
 - `lib/gdlib.php`: * GD utils helper module
-- `lib/geoip.php`: * GeoIP helper module
 - `lib/import.php`: * Import file helper module
 - `lib/indexing.php`: * Make index helper module
 - `lib/license.php`: * License and legal information helpers for SaltOS framework
@@ -408,7 +406,6 @@ Not autoloaded; provide extra functionality:
 - `lib/push.php`: * Push utils helper module
 - `lib/qrcode.php`: * QRCode helper module
 - `lib/score.php`: * Score image helper module
-- `lib/security.php`: * Security helper module
 - `lib/setup.php`: * Setup helper module
 - `lib/trash.php`: * Send file to trash
 - `lib/unoconv.php`: * Unoconv library
@@ -444,11 +441,9 @@ This section lists complementary elements in the backend that support the main A
 - `xml/`: Holds static configuration files (e.g. schema, themes, locales).
 - `lib/`: Contains third-party or integrated libraries used across the backend logic. Includes:
   - `atkinson`, `gorrisans`: font support
-  - `browscap`: browser capability detection
   - `edifact`: EDI message parsing
   - `html2text`: HTML-to-plain-text conversion (used for email and document processing)
   - `phpass`: legacy password hashing for compatibility with older PHP installs
-  - `phpgeoip`: IP geolocation
   - `phpspreadsheet`: spreadsheet creation and parsing
   - `semver`: version constraint checking (used by `check_composer()` to validate vendored libraries against the running PHP)
   - `tc-lib-pdf`: used to import the Atkinson Hyperlegible font into the PDFs generated with TCPDF

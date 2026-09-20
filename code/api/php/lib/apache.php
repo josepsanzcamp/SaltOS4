@@ -102,7 +102,6 @@ function check_apache($url)
         "$url/lib/",
         "$url/lib/tcpdf/vendor/tecnickcom/tcpdf/examples/",
         "$url/lib/tcpdf/vendor/tecnickcom/tcpdf/examples/index.php",
-        "$url/lib/browscap/update.php",
         "$url/xml/",
         "$url/xml/config.xml",
         "$url/api/lib/tc-lib-pdf/import-atkinson.php",
