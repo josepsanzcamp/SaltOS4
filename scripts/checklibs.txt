@@ -31,7 +31,7 @@ vkbeautify|https://github.com/vkiryukhin/vkBeautify/commits/master.atom|<updated
 
 fpdf|https://github.com/Setasign/FPDF/tags.atom|<title>|PHRpdGxlPkZQREYgMS45ICgxLjkuMCk8L3RpdGxlPg==
 fpdi|https://github.com/Setasign/FPDI/tags.atom|<title>|PHRpdGxlPkZQREkgMi42Ljg8L3RpdGxlPg==
-gridstack|https://github.com/gridstack/gridstack.js/tags.atom|<title>|PHRpdGxlPnYxMy4zLjA8L3RpdGxlPg==
+gridstack|https://github.com/gridstack/gridstack.js/tags.atom|<title>|PHRpdGxlPnYxNC4wLjA8L3RpdGxlPg==
 mailmimeparser|https://github.com/zbateson/mail-mime-parser/tags.atom|<title>|PHRpdGxlPjQuMC41PC90aXRsZT4=
 phpmailer|https://github.com/PHPMailer/PHPMailer/tags.atom|<title>|PHRpdGxlPlBIUE1haWxlciA3LjEuMTwvdGl0bGU+
 
