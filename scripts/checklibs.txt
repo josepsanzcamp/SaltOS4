@@ -3,8 +3,8 @@ edifact|https://github.com/php-edifact/edifact/tags.atom|<title>|PHRpdGxlPjEuMy4
 html2text|https://github.com/soundasleep/html2text/tags.atom|<updated>|PHVwZGF0ZWQ+MjAyMy0wMS0wNlQwOToyODoxNVo8L3VwZGF0ZWQ+
 phpass|https://github.com/openwall/phpass/commits/main.atom|<updated>|PHVwZGF0ZWQ+MjAyNC0xMS0yMlQyMDozODoxNlo8L3VwZGF0ZWQ+
 phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<title>|PHRpdGxlPjUuMTAuMDwvdGl0bGU+
-tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<title>|PHRpdGxlPjcuMC4xMDwvdGl0bGU+
-tc-lib-pdf|https://github.com/tecnickcom/tc-lib-pdf/tags.atom|<title>|PHRpdGxlPjguNzUuMDwvdGl0bGU+
+tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<title>|PHRpdGxlPjcuMC4xMTwvdGl0bGU+
+tc-lib-pdf|https://github.com/tecnickcom/tc-lib-pdf/tags.atom|<title>|PHRpdGxlPjguNzYuMTwvdGl0bGU+
 yaml|https://github.com/symfony/yaml/tags.atom|<title>|PHRpdGxlPnY4LjEuNjwvdGl0bGU+
 zxcvbn|https://github.com/bjeavons/zxcvbn-php/tags.atom|<title>|PHRpdGxlPjEuNC4yPC90aXRsZT4=
 

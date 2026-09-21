@@ -29,10 +29,10 @@
     "require": {
         "php": ">=8.2",
         "ext-curl": "*",
-        "tecnickcom/tc-lib-pdf": "^8.75"
+        "tecnickcom/tc-lib-pdf": "^8.76"
     },
     "require-dev": {
-        "carthage-software/mago": "1.47.6",
+        "carthage-software/mago": "1.49.0",
         "pdepend/pdepend": "^2.16",
         "phpunit/phpunit": "^11.5 || ^12.5 || ^13.3"
     },
