@@ -64,6 +64,8 @@ $buffer0 = str_replace(
     $buffer0
 );
 $buffer1 = [
+    "\\usepackage[sfdefault]{atkinson}",
+    "\\usepackage[T1]{fontenc}",
     "\\usepackage[$lang]{babel}",
     '\\usepackage{ucs}',
     '\\usepackage{eurosym}',
@@ -99,6 +101,7 @@ if ($is_locale) {
 }
 $buffer = array_merge($buffer0, $buffer1, $buffer2);
 $buffer = implode("\n", $buffer);
+
 // FIX FOR THE IMAGE POSITION
 $pos = strpos($buffer, '\\includegraphics{');
 while ($pos !== false) {
@@ -106,17 +109,19 @@ while ($pos !== false) {
     $data = substr($buffer, $pos + 17, $pos2 - $pos - 17);
     $size = getimagesize($data);
     if ($size[0] >= 800) {
-        $latex = "\\begin{center}\\includegraphics[width=1\\textwidth]{" . $data . "}\\end{center}";
+        $latex = "\\begin{center}\\includegraphics[width=1\\textwidth]{$data}\\end{center}";
     } else {
-        $latex = "\\begin{center}\\includegraphics[width=0.5\\textwidth]{" . $data . "}\\end{center}";
+        $latex = "\\begin{center}\\includegraphics[width=0.5\\textwidth]{$data}\\end{center}";
     }
     $buffer = substr_replace($buffer, $latex, $pos, $pos2 - $pos + 1);
     $pos = strpos($buffer, '\\includegraphics{', $pos);
 }
+
 // FIX FOR NOTFOUND
 if ($file === 'notfound') {
     $buffer = str_replace('a4paper', 'a5paper,landscape', $buffer);
 }
+
 // CONTINUE
 file_put_contents("${file}.tex", $buffer);
 for ($i = 0; $i < 3; $i++) {
@@ -126,5 +131,16 @@ $exts = ['aux', 'log', 'out', 'toc', 'tex'];
 foreach ($exts as $ext) {
     if (file_exists("${file}.${ext}")) {
         unlink("${file}.${ext}");
+    }
+}
+
+// GHOSTSCRIPT PART
+ob_passthru('gs -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -dNOPAUSE -dBATCH -dSAFER' .
+    " -sOutputFile=$file.min.pdf $file.pdf");
+if (file_exists("$file.min.pdf")) {
+    if (filesize("$file.min.pdf") < filesize("$file.pdf")) {
+        rename("$file.min.pdf", "$file.pdf");
+    } else {
+        unlink("$file.min.pdf");
     }
 }
