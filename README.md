@@ -2,8 +2,8 @@
 
 # SaltOS 4
 
-### Build Enterprise Business Apps Declaratively in YAML/XML
-**Structured Business Systems — 10x Faster Than Traditional Frameworks**
+### A Modular ERP/CRM Suite, Extensible Declaratively in YAML/XML
+**Ready-to-use business apps - and the framework to build your own**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 [![PHP](https://img.shields.io/badge/PHP-7.1%20to%208.5-777BB4.svg)](https://www.php.net/)
@@ -19,14 +19,14 @@
 ## 🎯 The Problem
 
 Building custom business applications is expensive and slow:
-- Traditional development: **6-12 months** for a basic business application
+- Traditional development: months of work for a basic business application
 - Proprietary enterprise platforms: High recurring licensing costs + vendor lock-in
 - Customizing platforms: Expensive and complex
 - No-code tools: Limited power for complex business logic
 
 ## ✨ The Solution
 
-**Define your business app declaratively in YAML/XML.** SaltOS 4 automatically generates:
+**Start with the built-in apps (CRM, sales, purchases, HR, emails) and extend them, or define new ones, declaratively in YAML/XML.** SaltOS 4 automatically generates:
 - ✅ Full REST API with authentication
 - ✅ Responsive web UI (desktop + mobile)
 - ✅ Complete audit trail with blockchain integrity
@@ -70,7 +70,7 @@ Plus **database schema** (dbschema.xml) and **app manifest** (manifest.yaml).
 👉 [See complete CRM example](https://github.com/josepsanzcamp/SaltOS4/tree/master/code/apps/crm/xml)
 
 **You automatically get:**
-- ✅ Full REST API (`GET/POST/PUT/DELETE /api/app/customers`)
+- ✅ Full REST/JSON API (`app/customers/list`, `app/customers/view/123`, ...)
 - ✅ Responsive web UI with search/filter/pagination
 - ✅ Create/Edit/Delete forms with validation
 - ✅ Blockchain-verified version history
@@ -156,7 +156,7 @@ From these definitions, SaltOS automatically creates:
 
 | Component | Generated From | Example |
 |-----------|----------------|---------|
-| **REST API** | YAML + Schema | `GET /api/app/customers/list` |
+| **REST API** | YAML + Schema | `app/customers/list` |
 | **Web UI** | YAML fields | Responsive list + modal forms |
 | **SQL Migrations** | Schema changes | `ALTER TABLE app_customers ADD COLUMN...` |
 | **Search Index** | Text fields | Full-text search on name, email, notes |
@@ -171,7 +171,7 @@ From these definitions, SaltOS automatically creates:
 ## 🔥 Key Features
 
 ### For Developers
-- **🚀 10x Faster Development**: Define apps declaratively, not imperatively
+- **🚀 Declarative Development**: Define apps declaratively, not imperatively
 - **🏗️ Automatic Schema Migrations**: Edit XML → Database updates automatically
 - **🔐 Blockchain-Verified Versioning**: Every change tracked with cryptographic integrity
 - **📱 PWA-Ready**: Works offline with service workers
@@ -182,7 +182,7 @@ From these definitions, SaltOS automatically creates:
 - **💰 Zero Licensing Costs**: MIT open source
 - **🔒 Self-Hosted**: Your data stays on your servers
 - **📊 Audit Compliance**: Every action logged with user/timestamp
-- **🌐 Multilingual**: Built-in i18n (YAML-based translations)
+- **🌐 Multilingual**: Built-in i18n (gettext-style API with YAML catalogs)
 - **📄 PDF Generation**: Custom templates for invoices/reports
 - **🔄 Import/Export**: CSV, Excel, SQL
 
@@ -235,7 +235,7 @@ cd instance
 bash ../scripts/make_instance.sh
 
 # 3. Configure database (SQLite or MySQL)
-# Edit code/api/data/config.xml
+# Create data/files/config.xml to override the defaults in code/api/xml/config.xml
 
 # 4. Run setup (creates tables + sample data)
 php api/index.php setup
@@ -325,10 +325,10 @@ general deployment.
 
 ### Core Technologies
 - **Backend**: PHP 7.1-8.5 (strict types, tested)
-- **Frontend**: Vanilla JavaScript, Bootstrap 5, TomSelect, Jodit Editor, Chart.js
+- **Frontend**: Vanilla JavaScript, Bootstrap 5, TomSelect, Jodit Editor, ECharts
 - **Storage**: Multi-database abstraction layer (PDO)
 - **Testing**: PHPUnit (backend) + Jest (frontend)
-- **i18n**: YAML-based translations
+- **i18n**: gettext-style API with YAML catalogs
 - **PDFs**: TCPDF with XML templates
 - **Excel**: PHPSpreadsheet (import/export)
 
@@ -341,11 +341,13 @@ SaltOS 4 ships with production-ready apps:
 | App | Description |
 |-----|-------------|
 | **CRM** | Customers, Leads, Quotes, Meetings |
-| **Sales** | Products, Invoices, Orders, Taxes |
+| **Sales** | Products, Invoices, Work Orders, Taxes, Payment Methods |
 | **Purchases** | Suppliers, Purchase Orders |
 | **HR** | Employees, Departments |
 | **Emails** | POP3/SMTP integration, inbox management |
 | **Company** | Company profile, settings |
+| **Certificates** | Digital certificate management |
+| **Dashboard** | Configurable widgets home screen |
 | **Users** | User & group management, permissions |
 
 ---
@@ -381,12 +383,12 @@ Every change is stored with **cryptographic chain-of-custody**:
 
 Comprehensive docs in 3 languages (English, Spanish, Catalan):
 
-- 📘 **User Manual** — End-user guide [English](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/user_en_us.pdf) [Spanish](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/user_es_es.pdf) [Catalan](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/user_ca_es.pdf)
-- 🔧 [**Developer Guide**](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/devel.pdf) — Architecture & customization
-- 🌐 [**API Reference**](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/api.pdf) — REST endpoints
-- 💻 [**Web Client**](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/web.pdf) — Frontend architecture
-- 📦 [**Apps Guide**](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/apps.pdf) — Building custom apps
-- 🧪 **Testing** — [PHPUnit](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/utest.pdf) & [Jest](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/ujest.pdf) guides
+- 📘 **User Manual** - End-user guide [English](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/user_en_us.pdf) [Spanish](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/user_es_es.pdf) [Catalan](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/user_ca_es.pdf)
+- 🔧 [**Developer Guide**](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/devel.pdf) - Architecture & customization
+- 🌐 [**API Reference**](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/api.pdf) - REST endpoints
+- 💻 [**Web Client**](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/web.pdf) - Frontend architecture
+- 📦 [**Apps Guide**](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/apps.pdf) - Building custom apps
+- 🧪 **Testing** - [PHPUnit](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/utest.pdf) & [Jest](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/ujest.pdf) guides
 
 ---
 
@@ -431,25 +433,25 @@ Starting from version 4.1, the project is licensed under MIT.
 SaltOS 4 is built on top of excellent open source projects:
 
 **Backend:**
-- [TCPDF](https://tcpdf.org/) — PDF generation
-- [PHPSpreadsheet](https://phpspreadsheet.readthedocs.io/) — Excel import/export
-- [PHP EDIFACT](https://github.com/php-edifact/edifact) — EDI message parsing
-- [PHPMailer](https://github.com/PHPMailer/PHPMailer) — Email sending
-- [Symfony YAML](https://symfony.com/components/Yaml) — YAML parser
-- [FPDI](https://www.setasign.com/fpdi) — PDF manipulation
+- [TCPDF](https://tcpdf.org/) - PDF generation
+- [PHPSpreadsheet](https://phpspreadsheet.readthedocs.io/) - Excel import/export
+- [PHP EDIFACT](https://github.com/php-edifact/edifact) - EDI message parsing
+- [PHPMailer](https://github.com/PHPMailer/PHPMailer) - Email sending
+- [Symfony YAML](https://symfony.com/components/Yaml) - YAML parser
+- [FPDI](https://www.setasign.com/fpdi) - PDF manipulation
 
 **Frontend:**
-- [Bootstrap](https://getbootstrap.com/) — UI framework
-- [Jodit Editor](https://xdsoft.net/jodit/) — Rich text editor
-- [Chart.js](https://www.chartjs.org/) — Data visualization
-- [PDF.js](https://mozilla.github.io/pdf.js/) — PDF viewer (Mozilla)
-- [CodeMirror](https://codemirror.net/) — Code editor
-- [TomSelect](https://tom-select.js.org/) — Enhanced select boxes
-- [Interact.js](https://interactjs.io/) — Drag and drop
+- [Bootstrap](https://getbootstrap.com/) - UI framework
+- [Jodit Editor](https://xdsoft.net/jodit/) - Rich text editor
+- [Apache ECharts](https://echarts.apache.org/) - Data visualization
+- [PDF.js](https://mozilla.github.io/pdf.js/) - PDF viewer (Mozilla)
+- [CodeMirror](https://codemirror.net/) - Code editor
+- [TomSelect](https://tom-select.js.org/) - Enhanced select boxes
+- [Interact.js](https://interactjs.io/) - Drag and drop
 
 **Testing:**
-- [PHPUnit](https://phpunit.de/) — PHP testing framework
-- [Jest](https://jestjs.io/) — JavaScript testing
+- [PHPUnit](https://phpunit.de/) - PHP testing framework
+- [Jest](https://jestjs.io/) - JavaScript testing
 
 **Full list:** [View all 30+ dependencies in checklibs.txt](https://github.com/josepsanzcamp/SaltOS4/blob/master/scripts/checklibs.txt)
 
