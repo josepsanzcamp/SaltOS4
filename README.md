@@ -7,10 +7,11 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 [![PHP](https://img.shields.io/badge/PHP-7.1%20to%208.5-777BB4.svg)](https://www.php.net/)
+[![Release](https://img.shields.io/github/v/release/josepsanzcamp/SaltOS4)](https://github.com/josepsanzcamp/SaltOS4/releases/latest)
 [![Demo](https://img.shields.io/badge/Demo-Live-success)](https://demos.saltos.org/)
 [![Docs](https://img.shields.io/badge/Docs-9%20PDFs-orange)](https://github.com/josepsanzcamp/SaltOS4/tree/master/docs)
 
-[**🚀 Try Demo**](https://demos.saltos.org/) • [**📖 Documentation**](https://github.com/josepsanzcamp/SaltOS4/tree/master/docs) • [**💬 Discussions**](https://github.com/josepsanzcamp/SaltOS4/discussions)
+[**🚀 Try Demo**](https://demos.saltos.org/) • [**📖 Documentation**](https://github.com/josepsanzcamp/SaltOS4/tree/master/docs) • [**💬 Discussions**](https://github.com/josepsanzcamp/SaltOS4/discussions) • [**📝 Changelog**](CHANGELOG.md)
 
 </div>
 
