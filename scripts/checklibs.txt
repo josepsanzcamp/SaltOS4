@@ -45,7 +45,7 @@ libreoffice|https://www.libreoffice.org/download/|latest|PG9wdGlvbiB2YWx1ZT0ibGF
 mariadb|https://github.com/MariaDB/server/tags.atom|<title>|PHRpdGxlPk1hcmlhREIgQ29tbXVuaXR5IFNlcnZlciAxMy4xLjEgUkM8L3RpdGxlPg==
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|PHRpdGxlPm1pbmlmeSB2MTUuMy4xPC90aXRsZT4=
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|PHRpdGxlPk1yb29uZ2EgMTYuMTEgLSAyMDI2LTA5LTAyPC90aXRsZT4=
-node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjYtMDktMjIsIFZlcnNpb24gMjYuMTAuMCAoQ3VycmVudCksIEBhZHVoOTU8L3RpdGxlPg==
+node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjYtMDktMjMsIFZlcnNpb24gMjIuMjMuMyAmIzM5O0pvZCYjMzk7IChMVFMpLCBAYWR1aDk1IHByZXBhcmVkIGJ5IEBqdWE=
 pcov|https://github.com/krakjoe/pcov/tags.atom|<title>|PHRpdGxlPnYxLjAuMTI8L3RpdGxlPg==
 php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjYuMFJDMjwvdGl0bGU+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|PHRpdGxlPjQuMC40IC0gMjAyNi0wOC0wNjwvdGl0bGU+
@@ -53,4 +53,4 @@ phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjIuMi4xNTw
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|PHRpdGxlPlBIUFVuaXQgMTAuNS42NTwvdGl0bGU+
 uglifyjs|https://github.com/mishoo/UglifyJS/tags.atom|<title>|PHRpdGxlPnYzLjE5LjM8L3RpdGxlPg==
 wpcs|https://github.com/WordPress/WordPress-Coding-Standards/tags.atom|<title>|PHRpdGxlPjMuNC4xIC0gMjAyNi0wNy0yNzwvdGl0bGU+
-semver|https://github.com/composer/semver/tags.atom|<title>|PHRpdGxlPjMuNC40PC90aXRsZT4=
+semver|https://github.com/composer/semver/tags.atom|<title>|PHRpdGxlPjMuNS4wPC90aXRsZT4=

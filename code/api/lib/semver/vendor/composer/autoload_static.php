@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInit89e6d1db86aae9069c1e730f3ae518e2
 {
     public static $prefixLengthsPsr4 = array (
-        'C' => 
+        'C' =>
         array (
             'Composer\\Semver\\' => 16,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Composer\\Semver\\' => 
+        'Composer\\Semver\\' =>
         array (
             0 => __DIR__ . '/..' . '/composer/semver/src',
         ),
