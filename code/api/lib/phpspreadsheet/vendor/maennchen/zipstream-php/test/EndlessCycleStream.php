@@ -97,7 +97,7 @@ class EndlessCycleStream implements StreamInterface
         throw new RuntimeException('Infinite Stream!');
     }
 
-    public function getMetadata(?string $key = null): ?array
+    public function getMetadata(?string $key = null): array|null
     {
         return $key !== null ? null : [];
     }

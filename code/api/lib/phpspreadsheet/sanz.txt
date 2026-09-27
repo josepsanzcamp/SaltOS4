@@ -3,7 +3,10 @@
 
 rm -rf vendor
 rm -f composer.*
+echo '{}' > composer.json
+composer config platform.php 8.2.0
 composer require phpoffice/phpspreadsheet
+composer outdated --direct --ignore-platform-reqs
 
 composer show phpoffice/phpspreadsheet --format=json | jq -r '.versions[0]' | sed 's/^v//' > VERSION
 
