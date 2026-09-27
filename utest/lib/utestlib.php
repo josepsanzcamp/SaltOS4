@@ -47,6 +47,9 @@ define('K_ALLOWED_PATHS', [dirname(dirname(getcwd()))]);
  */
 function test_pcov_start(): void
 {
+    if (!CodeCoverage::instance()->isActive()) {
+        return;
+    }
     if (file_exists('data/temp/pcov.out')) {
         throw new Error('Coverage pipe found');
     }
@@ -67,6 +70,9 @@ function test_pcov_start(): void
  */
 function test_pcov_stop($index): void
 {
+    if (!CodeCoverage::instance()->isActive()) {
+        return;
+    }
     for ($i = 0; $i < 1000; $i++) {
         $buffer = file_get_contents('data/temp/pcov.out');
         if (substr($buffer, -1, 1) === '}') {
@@ -77,9 +83,6 @@ function test_pcov_stop($index): void
     unlink('data/temp/pcov.out');
     if ($buffer === '') {
         throw new Error('Coverage pipe is void');
-    }
-    if (!CodeCoverage::instance()->isActive()) {
-        return;
     }
     $collected = unserialize($buffer);
 

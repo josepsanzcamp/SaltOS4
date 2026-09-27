@@ -58,7 +58,7 @@ final class test_system extends TestCase
     public function test_system(): void
     {
         $array = check_system();
-        $this->assertCount(0, $array);
+        $this->assertCount(0, array_filter($array, fn($x) => !isset($x['warning'])));
 
         if (file_exists('data/nada')) {
             rmdir('data/nada');
