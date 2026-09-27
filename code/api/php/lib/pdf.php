@@ -28,6 +28,8 @@ declare(strict_types=1);
  */
 
 /**
+ * TCPDF settings
+ *
  * Define the TCPDF settings used by SaltOS, instead of loading the vendor
  * tcpdf_config.php, and load the tc-lib-pdf and tcpdf vendor autoloaders
  * required by this module

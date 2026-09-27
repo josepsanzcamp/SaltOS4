@@ -1,5 +1,5 @@
 Api Documentation
-SaltOS 4.1 r2678
+SaltOS 4.1 r2684
 September 2026
 
 
@@ -3745,8 +3745,9 @@ function check_composer()
 Checks PHP version and PHP extension requirements defined in composer.lock files of local packages,
 including extension version constraints when available.
 
-This function scans all composer.lock files under lib directory and verifies if:
-- The current PHP version satisfies "require['php']" constraints.
+This function defines an array with the directory of each local package and the trigger used
+when its requirements are not satisfied (error or warning), and verifies if:
+- The current PHP version satisfies "require['php']" and "require['php-64bit']" constraints.
 - The required PHP extensions (marked as "require['ext-xxx']") are loaded.
 - The extension versions (when specified and detectable) satisfy the given constraints.
 
@@ -7430,11 +7431,15 @@ This file contains useful functions related to PDF generation using TCPDF librar
 including custom PDF class extensions and various PDF manipulation utilities
 
 
-+++Define the fonts path used by TCPDF and load the tc-lib-pdf and tcpdf+++
++++TCPDF settings+++
 
 ```
-define('K_PATH_FONTS', realpath('lib/tc-lib-pdf/vendor/tecnickcom/tc-lib-pdf-font/target/fonts'));
+define('K_TCPDF_EXTERNAL_CONFIG', true); // to prevent the load of tcpdf_config.php
 ```
+
+Define the TCPDF settings used by SaltOS, instead of loading the vendor
+tcpdf_config.php, and load the tc-lib-pdf and tcpdf vendor autoloaders
+required by this module
 
 
 +++Evaluate dynamic value in PDF context+++
