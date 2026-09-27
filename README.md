@@ -6,7 +6,7 @@
 **Ready-to-use business apps - and the framework to build your own**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
-[![PHP](https://img.shields.io/badge/PHP-7.1%20to%208.5-777BB4.svg)](https://www.php.net/)
+[![PHP](https://img.shields.io/badge/PHP-8.1%20to%208.5-777BB4.svg)](https://www.php.net/)
 [![Release](https://img.shields.io/github/v/release/josepsanzcamp/SaltOS4)](https://github.com/josepsanzcamp/SaltOS4/releases/latest)
 [![Demo](https://img.shields.io/badge/Demo-Live-success)](https://demos.saltos.org/)
 [![Docs](https://img.shields.io/badge/Docs-9%20PDFs-orange)](https://github.com/josepsanzcamp/SaltOS4/tree/master/docs)
@@ -160,9 +160,9 @@ From these definitions, SaltOS automatically creates:
 | **REST API** | YAML + Schema | `app/customers/list` |
 | **Web UI** | YAML fields | Responsive list + modal forms |
 | **SQL Migrations** | Schema changes | `ALTER TABLE app_customers ADD COLUMN...` |
-| **Search Index** | Text fields | Full-text search on name, email, notes |
-| **Version Tracking** | manifest `has_version="1"` | Blockchain-verified history |
-| **File Uploads** | manifest `has_files="1"` | Attachment management |
+| **Search Index** | manifest `has_index: 1` | Full-text search on name, email, notes |
+| **Version Tracking** | manifest `has_version: 1` | Blockchain-verified history |
+| **File Uploads** | manifest `has_files: 1` | Attachment management |
 | **Permissions** | manifest `perms` | User/group access control |
 
 [📖 Learn more in the Developer Guide](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/devel.pdf)
@@ -174,7 +174,7 @@ From these definitions, SaltOS automatically creates:
 ### For Developers
 - **🚀 Declarative Development**: Define apps declaratively, not imperatively
 - **🏗️ Automatic Schema Migrations**: Edit XML → Database updates automatically
-- **🔐 Blockchain-Verified Versioning**: Every change tracked with cryptographic integrity
+- **🔐 Blockchain-Verified Versioning**: Every change tracked in a hash chain
 - **📱 PWA-Ready**: Works offline with service workers
 - **🧪 Fully Tested**: PHPUnit + Jest with comprehensive coverage
 - **🌍 Multi-Database**: MySQL/MariaDB and SQLite are the supported deployment targets; PostgreSQL and MSSQL drivers also ship, for targeted integration work rather than general deployment
@@ -185,7 +185,7 @@ From these definitions, SaltOS automatically creates:
 - **📊 Audit Compliance**: Every action logged with user/timestamp
 - **🌐 Multilingual**: Built-in i18n (gettext-style API with YAML catalogs)
 - **📄 PDF Generation**: Custom templates for invoices/reports
-- **🔄 Import/Export**: CSV, Excel, SQL
+- **🔄 Import/Export**: CSV, Excel (XLS/XLSX/ODS), XML, JSON, EDI
 
 ---
 
@@ -325,7 +325,7 @@ and MSSQL drivers also ship, but for targeted integration work rather than
 general deployment.
 
 ### Core Technologies
-- **Backend**: PHP 7.1-8.5 (strict types, tested)
+- **Backend**: PHP 8.1-8.5 (strict types, tested)
 - **Frontend**: Vanilla JavaScript, Bootstrap 5, TomSelect, Jodit Editor, ECharts
 - **Storage**: Multi-database abstraction layer (PDO)
 - **Testing**: PHPUnit (backend) + Jest (frontend)
@@ -355,34 +355,40 @@ SaltOS 4 ships with production-ready apps:
 
 ## 🔐 Blockchain-Verified Versioning
 
-Every change is stored with **cryptographic chain-of-custody**:
+Every change is stored as a new version in a **hash chain**:
 ```php
 // Version 1 (created)
 {
+  "reg_id": 123,
   "ver_id": 1,
   "user_id": 1,
   "datetime": "2025-01-01 10:00:00",
   "data": {"app_customers": {"123": {"name": "Acme Corp", ...}}},
-  "hash": ""  // First version
+  "hash": "9f2c..."  // md5 of this version, computed with an empty previous hash
 }
 
 // Version 2 (updated - only deltas)
 {
+  "reg_id": 123,
   "ver_id": 2,
   "user_id": 2,
   "datetime": "2025-01-05 14:30:00",
   "data": {"app_customers": {"123": {"email": "new@acme.com"}}},
-  "hash": "abc123..."  // Hash of version 1
+  "hash": "4b7e..."  // md5 of this version, including the hash of version 1
 }
 ```
 
-**Tamper-proof**: Any modification to historical data breaks the chain.
+`data` is stored serialized and base64-encoded; it is shown decoded here.
+
+**Tamper-evident**: changing any stored version breaks the hashes of every
+later version, and SaltOS reports a blockchain integrity break when that
+history is read.
 
 ---
 
 ## 📖 Documentation
 
-Comprehensive docs in 3 languages (English, Spanish, Catalan):
+9 PDFs; the user manual is available in English, Spanish and Catalan:
 
 - 📘 **User Manual** - End-user guide [English](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/user_en_us.pdf) [Spanish](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/user_es_es.pdf) [Catalan](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/user_ca_es.pdf)
 - 🔧 [**Developer Guide**](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/devel.pdf) - Architecture & customization
@@ -425,7 +431,7 @@ Starting from version 4.1, the project is licensed under MIT.
 - 🌐 **Website**: [saltos.org](https://www.saltos.org)
 - 💬 **Discussions**: [GitHub Discussions](https://github.com/josepsanzcamp/SaltOS4/discussions)
 - 🐛 **Issues**: [GitHub Issues](https://github.com/josepsanzcamp/SaltOS4/issues)
-- 📧 **Email**: info@saltos.org
+- 📧 **Email**: josep.sanz@saltos.org
 
 ---
 
@@ -434,12 +440,15 @@ Starting from version 4.1, the project is licensed under MIT.
 SaltOS 4 is built on top of excellent open source projects:
 
 **Backend:**
-- [TCPDF](https://tcpdf.org/) - PDF generation
+- [TCPDF](https://tcpdf.org/) and [tc-lib-pdf](https://github.com/tecnickcom/tc-lib-pdf) - PDF generation
 - [PHPSpreadsheet](https://phpspreadsheet.readthedocs.io/) - Excel import/export
 - [PHP EDIFACT](https://github.com/php-edifact/edifact) - EDI message parsing
 - [PHPMailer](https://github.com/PHPMailer/PHPMailer) - Email sending
 - [Symfony YAML](https://symfony.com/components/Yaml) - YAML parser
 - [FPDI](https://www.setasign.com/fpdi) - PDF manipulation
+- [MailMimeParser](https://github.com/zbateson/mail-mime-parser) - Email parsing
+- [zxcvbn-php](https://github.com/bjeavons/zxcvbn-php) - Password strength
+- [html2text](https://github.com/soundasleep/html2text) - HTML to text conversion
 
 **Frontend:**
 - [Bootstrap](https://getbootstrap.com/) - UI framework
@@ -449,6 +458,9 @@ SaltOS 4 is built on top of excellent open source projects:
 - [CodeMirror](https://codemirror.net/) - Code editor
 - [TomSelect](https://tom-select.js.org/) - Enhanced select boxes
 - [Interact.js](https://interactjs.io/) - Drag and drop
+- [Jspreadsheet CE](https://github.com/jspreadsheet/ce) - Spreadsheet widget
+- [jsTree](https://www.jstree.com/) - Tree widget
+- [Gridstack](https://gridstackjs.com/) - Dashboard layout
 
 **Testing:**
 - [PHPUnit](https://phpunit.de/) - PHP testing framework

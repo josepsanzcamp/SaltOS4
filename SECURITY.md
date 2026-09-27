@@ -17,7 +17,7 @@ We actively provide security updates **only for the latest release** of SaltOS 4
 If you discover a security flaw in SaltOS 4, we ask that you report it securely and privately so we can address it before it becomes public knowledge:
 
 1. **Via GitHub Private Report (Recommended):** Go to the **Security** tab of this repository, click on **Advisories**, and then click **Report a vulnerability**.
-2. **Via Email:** Alternatively, you can send a detailed encrypted or plain email to: **info@saltos.org**
+2. **Via Email:** Alternatively, you can send a detailed encrypted or plain email to: **josep.sanz@saltos.org**
 
 ### What to include in your report:
 * **Description:** A clear and concise overview of the vulnerability.

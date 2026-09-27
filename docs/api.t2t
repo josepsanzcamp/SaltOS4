@@ -1,6 +1,6 @@
 Api Documentation
-SaltOS 4.1 r2408
-April 2026
+SaltOS 4.1 r2678
+September 2026
 
 
 
@@ -1528,15 +1528,6 @@ This function returns the datetime using the europe format for d/m/Y instead of 
 - @x => the datetime string that you want to convert
 
 
-++Deprecated helper module++
-
-```
-api/php/autoload/deprecations.php
-```
-
-This file add some functions used by SaltOS that are deprecated in new versions of PHP
-
-
 ++Error helper module++
 
 ```
@@ -2283,7 +2274,7 @@ This fie contains useful functions related to colors
 +++Terminal colors+++
 
 ```
-define('__COLORS_MAP__', [
+// @codeCoverageIgnoreStart
 ```
 
 This define sets the colors array used in the next functions
@@ -2802,6 +2793,22 @@ of each action, to guarantee the security
 - @id   => the id to check, if needed, you can omit in the create case
 
 
++++Check App Perm Ids+++
+
+```
+function check_app_perm_ids($app, $perm, $ids)
+```
+
+This function returns the subset of the ids argument that accomplishes the expected
+level of permissions for the app and the perm, it is the batched equivalent of
+check_app_perm_id, intended to check many ids with a single query instead of one
+query per id
+
+- @app  => the app to check
+- @perm => the perm to check
+- @ids  => the ids to check
+
+
 +++User is admin+++
 
 ```
@@ -2835,71 +2842,6 @@ application.
 
 - @app  => the app to check
 - @perm => the perm to check
-
-
-++Compatibility Layer / Polyfill Module++
-
-```
-api/php/autoload/polyfill.php
-```
-
-This file provides fallback implementations for native PHP functions and
-extension-specific logic that may be missing in older PHP versions or
-specific operating system environments supported by SaltOS.
-
-Features:
-- Backports for PHP 7.3+ array functions (array_key_first, array_key_last).
-- Compatibility shims for POSIX functions on non-Unix (Windows) systems.
-
-
-Note: Each function is wrapped in a !function_exists() check to prevent
-redeclaration conflicts with native implementations or other libraries.
-
-
-+++Array Key Last+++
-
-```
-function array_key_last(array $array)
-```
-
-This function appear in PHP 7.3, and for previous version SaltOS
-uses this code
-
-- @array => the array where you want to obtain the last key
-
-
-Notes:
-
-Code copied from the follow web:
-https://www.php.net/manual/es/function.array-key-last.php#124007
-
-
-+++Array Key First+++
-
-```
-function array_key_first(array $arr)
-```
-
-This function appear in PHP 7.3, and for previous version SaltOS
-uses this code
-
-- @array => the array where you want to obtain the first key
-
-
-Notes:
-
-Code copied from the follow web:
-https://www.php.net/manual/es/function.array-key-last.php#124007
-
-
-+++Posix GetUID+++
-
-```
-function posix_getuid()
-```
-
-This function only is available in posix compilant systems like unix,
-linux and mac, and for windows this is a short circuit
 
 
 ++Random helper module++
@@ -3956,28 +3898,6 @@ Notes:
 This function only tries to formalize the about string used in SaltOS
 
 
-+++SVN Version+++
-
-```
-function svnversion($dir = null)
-```
-
-This function tries to return the svn version of the project
-
-- @dir => allow to specify where do you want to execute the svnversion command
-
-
-+++SVN Version helper+++
-
-```
-function __svnversion_helper($dir)
-```
-
-This function tries to return the svn version of the project
-
-- @dir => allow to specify where do you want to execute the svnversion command
-
-
 +++GIT Version+++
 
 ```
@@ -4230,11 +4150,22 @@ api/php/autoload/yaml.php
 This file provide the functions provided by the php-yaml package, intended
 to be used by setups that can not install this package.
 
+Layout: the actual polyfill logic lives in the __yaml_*_helper()
+functions below (never guarded: they can't collide with anything the
+extension provides). Every yaml_* function is just a thin delegate to
+its same-named helper, grouped at the end of this file and guarded
+with function_exists() so it's only defined when the real extension
+is missing. That split exists so utest/test_yaml.php can call the
+helper directly and exercise this polyfill's actual code even on
+machines that do have the native extension installed, where the
+plain yaml_* names are already taken by the extension and can't be
+used to reach this file's code.
 
-+++Yaml Parse+++
+
++++Yaml Parse Helper+++
 
 ```
-function yaml_parse(string $yaml)
+function __yaml_parse_helper(string $yaml)
 ```
 
 Parse a YAML string into a PHP array.
@@ -4242,10 +4173,10 @@ Parse a YAML string into a PHP array.
 - @yaml => The YAML string.
 
 
-+++Yaml Parse File+++
++++Yaml Parse File Helper+++
 
 ```
-function yaml_parse_file(string $filename)
+function __yaml_parse_file_helper(string $filename)
 ```
 
 Parse a YAML file into a PHP array
@@ -4253,10 +4184,10 @@ Parse a YAML file into a PHP array
 - @filename => The path to the YAML file
 
 
-+++Yaml Emit+++
++++Yaml Emit Helper+++
 
 ```
-function yaml_emit(array $data, int $inline = 2, int $indent = 4)
+function __yaml_emit_helper(array $data, int $inline = 2, int $indent = 4)
 ```
 
 Emit an array as a YAML string.
@@ -4266,10 +4197,10 @@ Emit an array as a YAML string.
 - @indent => The number of spaces to use for indentation (default: 4).
 
 
-+++Yaml Emit File+++
++++Yaml Emit File Helper+++
 
 ```
-function yaml_emit_file(string $filename, array $data, int $inline = 2, int $indent = 4)
+function __yaml_emit_file_helper(string $filename, array $data, int $inline = 2, int $indent = 4)
 ```
 
 Emit an array as a YAML file
@@ -4278,6 +4209,39 @@ Emit an array as a YAML file
 - @data     => The data to convert to YAML
 - @inline   => The level at which to start inlining YAML (default: 2)
 - @indent   => The number of spaces to use for indentation (default: 4)
+
+
++++Thin yaml_* delegates: only defined when the real extension is+++
+
+__yaml_*_helper() above.
+
+
++++Yaml Parse+++
+
+```
+function yaml_parse(string $yaml)
+```
+
+
++++Yaml Parse File+++
+
+```
+function yaml_parse_file(string $filename)
+```
+
+
++++Yaml Emit+++
+
+```
+function yaml_emit(array $data, int $inline = 2, int $indent = 4)
+```
+
+
++++Yaml Emit File+++
+
+```
+function yaml_emit_file(string $filename, array $data, int $inline = 2, int $indent = 4)
+```
 
 
 ++Main execution module++
@@ -4297,7 +4261,7 @@ use it, you can use the follow methods:
 This kind of requests requires that you send a GET request with a querystring of the follow
 form:
 
-- @http://127.0.0.1:8092/?/app/invoices/view/2
+- @http://127.0.0.1:8080/?/app/invoices/view/2
 
 
 And the system process it of the follow form:
@@ -5417,18 +5381,26 @@ be moved to the trash folder to allow the previous recovery from the
 version table
 
 
-++TODO++
+++Apache helper module++
 
 ```
 api/php/lib/apache.php
 ```
 
+This file contains functions to check that the apache/web server serving
+the API is properly configured
 
-+++TODO+++
+
++++Check apache configuration+++
 
 ```
 function check_apache($url)
 ```
+
+This function requests the given URL to verify that the API is reachable and that
+the apache/php configuration follows the security recommendations (exposed headers,
+forbidden paths, Authorization Bearer header support, ...), returning an array of
+errors and warnings found.
 
 
 ++Array to XML helper module++
@@ -5591,6 +5563,40 @@ users by a token, and providing the old password to update a new password
 This action requires a valid token associated to the user that wants to do
 the password update
 
+Notes:
+
+On success, this function returns the same response shape as a successful authtoken call
+(via token_issue), exactly as the authrenew function does, so that changing the password
+always ends in the same atomic, self-explanatory outcome: a fresh session issued for the
+new password, replacing the token used to authorize the update
+
+
++++Authentication renew action+++
+
+```
+function authrenew($user, $oldpass, $newpass, $renewpass)
+```
+
+This file implements the renew password action, intended to be used only when a login
+attempt reports that the password is correct but expired (see the expired flag
+returned by the authtoken function). It allows setting a new password without an active
+session, using the expired password itself as the proof of identity.
+
+- @user      => username used in the authentication process
+- @oldpass   => the expired password, must validate against the last password entry of the user
+- @newpass   => New password, must to be new, must to pass the score check and
+              never must to be used in the system for the user
+- @renewpass => The repeated new password, to prevent writing errors
+
+
+This action not requires a valid token, as it's intended to be used exactly when the
+standard login has failed because the password has expired
+
+Notes:
+
+On success, this function returns the same response shape as a successful authtoken call
+(via token_issue), to allow a seamless login using the new password
+
 
 +++Score check+++
 
@@ -5653,6 +5659,81 @@ This function inserts a new password record to the database
 Notes:
 
 This function returns the created and expires timestamps
+
+
++++Password expired check+++
+
+```
+function password_expired_check($user_id, $pass)
+```
+
+This function checks that the provided password matches the last password entry of the
+user_id, and that this last entry is not active (expired), this is used by the login
+workflow to distinguish a wrong password from an expired one
+
+Notes:
+
+This uses password_row_check instead of a plain password_verify, so a user whose last
+password was never migrated from the legacy MD5/SHA1/PHPASS formats (because it expired
+before they ever logged in again) can still be recognized as expired instead of just ko
+
+- @user_id => the user_id to use in the check task
+- @pass    => the password to use in the check task
+
+
++++User check+++
+
+```
+function user_check($user)
+```
+
+This function checks that the given login belongs to an active user
+
+- @user => the login to use in the check task
+
+
+Notes:
+
+This function returns the user_id on success or false otherwise
+
+
++++Password row check+++
+
+```
+function password_row_check($row, $pass)
+```
+
+This function checks if the given password matches the hash stored in the given
+tbl_users_passwords row, supporting the current password_hash format and, for backward
+compatibility, the legacy MD5/SHA1/PHPASS formats used by old SaltOS3 installations; when
+a legacy format matches, the row is migrated in place to the current password_hash format
+
+- @row  => the tbl_users_passwords row to check, requires at least the id and password keys
+- @pass => the password to use in the check task
+
+
++++Password check+++
+
+```
+function password_check($user_id, $pass)
+```
+
+This function checks that the given password matches the active password of the user_id
+
+- @user_id => the user_id to use in the check task
+- @pass    => the password to use in the check task
+
+
++++Token issue+++
+
+```
+function token_issue($user_id)
+```
+
+This function revokes any previous active tokens of the user_id and issues a new one,
+this is the common final step shared by the login, update and renew workflows
+
+- @user_id => the user_id to use in the issue task
 
 
 ++Barcode helper module++
@@ -5730,33 +5811,6 @@ Notes:
 
 The normal behavior is returns a svg image without margins and text,
 but if something was wrong, the function can returns an empty string
-
-
-++Browser helper module++
-
-```
-api/php/lib/browser.php
-```
-
-This file contain useful browser helper functions
-
-
-+++Get Browser Platform Device Type+++
-
-```
-function get_browser_array($user_agent = null)
-```
-
-This function gets the browser, platform and device_type form the user_agent header
-
-
-+++Get Browser Platform Device Type+++
-
-```
-function get_browser_string($user_agent = null)
-```
-
-This function gets the browser, platform and device_type form the user_agent header
 
 
 ++Captcha helper module++
@@ -6341,6 +6395,46 @@ This function returns the drop index command
 - @table => table where the indes is part of
 
 
+++DB Stats module++
+
+```
+api/php/lib/dbstats.php
+```
+
+This file contains the function used to record per-query usage statistics (call count,
+min/max/total execution time) when the debug/slowquerystats config flag is enabled,
+useful to spot usage patterns like N+1 queries while debugging
+
+This file is intentionally kept out of the autoload set and is only require_once'd by
+db_query() when the flag is active, since it is a debugging feature that does not need
+to be loaded in memory on every request
+
+
++++DB Query Stats+++
+
+```
+function __db_query_stats($curtime)
+```
+
+This private function is intended to record usage statistics for every executed query,
+used for reporting/debugging purposes (not to filter or flag queries as slow)
+
+- @curtime => the elapsed time, in seconds, that the query took to execute
+
+
+Notes:
+
+This function uses its own isolated SQLite connection (a plain db_connect() call that
+is never stored in the global config), so it never shares the main app connection and
+never affects db_last_insert_id() of the real database. The stats table is created by
+hand the first time (file_exists() detects a first run, since the SQLite driver itself
+creates an empty file when one does not exist yet), without any dependency on
+dbschema.xml/dbschema.php, to avoid any reentrant call back into db_query()
+
+Each query is identified by its call-site (file:line:function), obtained by walking the
+backtrace until a frame outside this file is found
+
+
 ++Dependencies feature++
 
 ```
@@ -6630,33 +6724,6 @@ parameter
 
 - @data => the data of the image
 - @size => the size used in the control (size x size)
-
-
-++GeoIP helper module++
-
-```
-api/php/lib/geoip.php
-```
-
-This file contain useful geoip helper functions
-
-
-+++Get GeoIP information+++
-
-```
-function get_geoip_array($remote_addr)
-```
-
-This function gets the geoip information an returns it
-
-
-+++Get GeoIP information+++
-
-```
-function get_geoip_string($remote_addr)
-```
-
-This function gets the geoip information an returns it
 
 
 ++Import file helper module++
@@ -7363,78 +7430,11 @@ This file contains useful functions related to PDF generation using TCPDF librar
 including custom PDF class extensions and various PDF manipulation utilities
 
 
-+++Custom PDF class extending TCPDF+++
++++Define the fonts path used by TCPDF and load the tc-lib-pdf and tcpdf+++
 
 ```
-class MyPDF extends TCPDF
+define('K_PATH_FONTS', realpath('lib/tc-lib-pdf/vendor/tecnickcom/tc-lib-pdf-font/target/fonts'));
 ```
-
-Provides enhanced functionality for header/footer management and page checks
-
-
-+++Initialize PDF document settings+++
-
-```
-public function Init()
-```
-
-Resets all internal variables to their default state
-
-
-+++Set header content and data+++
-
-```
-public function set_header($arr, $row)
-```
-
-- @arr => Header template array
-- @row => Data row for header evaluation
-
-
-+++Set footer content and data+++
-
-```
-public function set_footer($arr, $row)
-```
-
-- @arr => Footer template array
-- @row => Data row for footer evaluation
-
-
-+++Override TCPDF header method+++
-
-```
-public function Header()
-```
-
-Processes and renders the header content while temporarily disabling Y checks
-
-
-+++Override TCPDF footer method+++
-
-```
-public function Footer()
-```
-
-Tracks page numbers where footers need to be rendered
-
-
-+++Render all accumulated footers+++
-
-```
-public function render_footers()
-```
-
-Processes footer content on all tracked pages while temporarily disabling Y checks
-
-
-+++Check Y position and add new page if needed+++
-
-```
-public function check_y($offset = 0)
-```
-
-- @offset => Additional offset to consider in Y position check
 
 
 +++Evaluate dynamic value in PDF context+++
@@ -7477,6 +7477,20 @@ function __pdf_eval_explode($separator, $str, $limit = 0)
 
 
 Returns array of exploded parts
+
+
++++Check if a new PDF page is needed+++
+
+```
+function __pdf_check_y($pdf, $offset = 0)
+```
+
+- @pdf    => PDF object being generated
+- @offset => Additional vertical space to add to the current y position before checking it
+
+
+Adds a new page and resets the cursor to the top margin if the current y position
+plus the offset exceeds the page height, returning true in that case or false otherwise
 
 
 +++Process PDF template tags and generate PDF content+++
@@ -7653,24 +7667,6 @@ write the score percent
 - @width  => the width of the generated image
 - @height => the height of the generated image
 - @size   => the size of the font of the generated image
-
-
-++Security helper module++
-
-```
-api/php/lib/security.php
-```
-
-This file contain useful securiry helper functions
-
-
-+++Get Browser Platform Device Type+++
-
-```
-function get_connection_detected($remote_addr, $user_agent = null)
-```
-
-This function gets the browser, platform and device_type form the user_agent header
 
 
 ++Setup helper module++
@@ -7854,6 +7850,13 @@ function __unoconv_histogram($values, $usage1, $usage2)
 This function calculates a representative value from a histogram based on given usage thresholds.
 It finds the highest percentage where at least a certain portion of values and unique values are included.
 
+Used by __unoconv_hocr2txt to find the dominant reading-angle of a page from many noisy per-word
+angle samples: it rounds each value to an integer bin, then starts by requiring a bin to contain
+100% of the samples to be considered "the" value, and relaxes that requirement by 1% at a time
+until enough samples (usage1) and/or enough distinct bins (usage2) are covered. The qualifying
+bins are then combined as a frequency-weighted average. This behaves like a robust mode/average
+that ignores stray outlier values instead of being skewed by them.
+
 - @values => array of values to analyze
 - @usage1 => minimum percentage of total values to include (0-1)
 - @usage2 => minimum percentage of unique values to include (0-1)
@@ -7869,6 +7872,11 @@ function __unoconv_rotate($posx, $posy, $angle)
 ```
 
 This function rotates a point around the origin by a given angle in degrees.
+
+Implemented via polar coordinates (atan2 + hypot-like modulus) instead of the usual
+sin/cos rotation matrix: convert the point to an angle+distance from the origin, add
+the rotation angle, then convert back to cartesian. Mathematically equivalent, just
+written this way in the original implementation.
 
 - @posx  => x coordinate of the point
 - @posy  => y coordinate of the point
@@ -7887,10 +7895,21 @@ function __unoconv_node2attr($node)
 This function processes a node from OCR output to extract its attributes,
 specifically focusing on the bounding box information.
 
+hOCR nodes carry a title attribute that can list several "; " separated properties,
+e.g. `bbox 10 20 30 40; x_wconf 95` on words. Only the bbox part is kept, the rest
+(like the OCR confidence) is discarded.
+
+hOCR ids are of the form `word_1_3`, `line_1_2`, `par_1`, `block_1`, `page_1`: the
+prefix before the first "_" identifies the element type (word/line/par/block/page),
+the numbers are just hOCR's own counters and are not used here. Keeping only that
+prefix repurposes the "id" as a type tag: the rest of the hocr2txt pipeline branches
+on this value (`$line[0] === 'word'`, `'line'`, ...) instead of on the original id.
+
 - @node => the OCR node to process
 
 
-Returns the array containing node ID and bounding box coordinates
+Returns [type, x1, y1, x2, y2], where type is 'page'|'block'|'par'|'line'|'word'
+and x1,y1,x2,y2 are the bbox corners taken from the title attribute
 
 
 +++Extract text value from OCR node+++
@@ -7900,6 +7919,11 @@ function __unoconv_node2value($node)
 ```
 
 This function extracts the text content from an OCR node, handling nested arrays.
+
+The XML-to-array parser (see __import_xml2array/struct2array) turns any nested inline
+markup inside a word (e.g. hOCR wrapping part of the word text in a sub-tag) into a
+nested array instead of a plain string. This walks down through that nesting via
+array_pop (last child) until a scalar is reached, which is then trimmed.
 
 - @node => the OCR node to process
 
@@ -7916,12 +7940,33 @@ function __unoconv_lines2matrix($lines, $width, $height)
 This function converts OCR-detected lines and words into a 2D character matrix
 for text reconstruction and analysis.
 
+$lines is the flat, type-tagged list built by __unoconv_hocr2txt (see __unoconv_node2attr):
+every 'line' entry that appears sets the "current row" for the 'word' entries that follow it,
+until the next 'line' entry changes it again. $width/$height are the pixel size of one grid
+cell (page bbox divided by the "size" being tried by the caller's loop), used to convert
+pixel bounding boxes into row/column indexes on the character grid.
+
+For each word: if hOCR gave no text at all (a detected word box with empty content), it is
+replaced by a single '~' placeholder so the box still leaves a visible trace in the output
+("makebox" case) instead of silently disappearing. Otherwise, the word's pixel width is
+divided by its character count to estimate a per-character width (`$bias` centers the first
+character instead of aligning it to the box's left edge), and each subsequent character just
+advances one column — this assumes roughly monospaced character widths within a word, which
+is only an approximation but good enough at typical OCR resolutions.
+
+Collision handling is what drives the grid-size search in __unoconv_hocr2txt: '_' is treated
+as a transparent filler (never overwrites, never conflicts), but if two different non-'_'
+characters land on the same cell, the grid is too coarse for this page, and the function
+aborts by returning the offending $index (an int) instead of the matrix (an array) — the
+caller detects this with is_array() and retries with a finer grid.
+
 - @lines  => array of OCR-detected lines and words
 - @width  => width divisor for coordinate normalization
 - @height => height divisor for coordinate normalization
 
 
-Returns the 2D character matrix or index of problematic line if error occurs
+Returns the 2D character matrix, or the index of the colliding line/word if the current
+grid resolution is too coarse to place all characters without overlap
 
 
 +++Reorder line coordinates+++
@@ -7933,11 +7978,18 @@ function __unoconv_fixline($line, $pos1, $pos2, $pos3, $pos4)
 This function reorders the coordinates of a line based on specified positions,
 used for correcting orientation in OCR results.
 
+Rotating a bbox's two corners independently (see __unoconv_rotate) can leave the corners
+in the "wrong" order once the dominant angle is close to a 90/180/270 degree multiple: what
+was (x1,y1)=top-left/(x2,y2)=bottom-right may come out flipped on one or both axes. This
+takes the 4 original values [x1,y1,x2,y2] (indexes 1-4 of a __unoconv_node2attr line) and
+permutes them according to the quadrant detected by the caller, so every node ends up with
+a consistent x1<x2, y1<y2 orientation again.
+
 - @line => original line coordinates
-- @pos1 => target position for first coordinate
-- @pos2 => target position for second coordinate
-- @pos3 => target position for third coordinate
-- @pos4 => target position for fourth coordinate
+- @pos1 => source index (into $line) for the corrected x1
+- @pos2 => source index (into $line) for the corrected y1
+- @pos3 => source index (into $line) for the corrected x2
+- @pos4 => source index (into $line) for the corrected y2
 
 
 Returns the reordered line coordinates
@@ -7951,6 +8003,29 @@ function __unoconv_hocr2txt($hocr)
 
 This function processes HOCR (HTML OCR) output to extract and reconstruct
 the text content while maintaining spatial relationships.
+
+tesseract's hOCR output gives every page/block/paragraph/line/word a pixel bounding box,
+but no ready-made plain text layout. Simply concatenating word texts would lose all spatial
+structure (columns, tables, indentation). This function rebuilds that structure by placing
+every word onto a 2D grid of characters according to its pixel position, so the resulting
+plain text roughly preserves the visual layout of the page. Overview of the steps below,
+each one marked in the code:
+
+1. LOAD XML: parse the hOCR (which is XHTML) into a PHP array and drill down to <body>.
+2. PARSE XML: flatten the page/block/par/line/word tree into one linear, type-tagged list
+   (see __unoconv_node2attr), since the algorithm doesn't need the hierarchy, only bboxes
+   and reading order. Bail out early if no words were found.
+3. COMPUTE ANGLE: measure the direction (angle) between consecutive word centers within
+   each line, then use __unoconv_histogram to find the dominant angle across the page,
+   i.e. how much the whole page appears to be rotated/skewed.
+4. APPLY ANGLE CORRECTION: rotate every bbox by the opposite of that angle, and normalize
+   corner order in case the rotation flipped the page into a different quadrant (see
+   __unoconv_fixline).
+5. COMPUTE MATRIX: try placing all words onto a character grid (see __unoconv_lines2matrix),
+   starting from a coarse grid and refining it until no two characters collide.
+6. MAKE OUTPUT: walk the final grid row by row/column by column (using the page's own bbox,
+   in grid units, as the boundaries) and join it into a plain text block, using spaces for
+   empty cells.
 
 - @hocr => HOCR content to process
 
@@ -7966,6 +8041,20 @@ function __unoconv_substr($string, $start, $length, $reference)
 
 This function extracts a substring based on proportional positions relative
 to a reference length, useful for working with scaled text representations.
+
+$string is treated as if it were exactly $reference characters long (e.g. a 0-100
+scale representing percentages across a line), and $start/$length are expressed in
+that same scale. factor = mb_strlen($string) / $reference converts them to real
+character offsets before delegating to mb_substr(). This exists because the plain
+text pages built by __unoconv_hocr2txt don't have a fixed character width: the grid
+resolution chosen by its "COMPUTE MATRIX" retry loop can vary between runs/pages, so
+a caller that wants "roughly the right half of this line" cannot rely on fixed
+absolute character offsets and needs proportional ones instead.
+
+Important: $length here is a LENGTH, exactly like PHP's own mb_substr($string, $start,
+$length) - it is added to $start to know how many characters to take, it is NOT an end
+position. Compare with __unoconv_substr2d, whose y1/y2 use a different (start,end)
+convention for rows.
 
 - @string    => input string to extract from
 - @start     => starting position (relative to reference)
@@ -7985,12 +8074,28 @@ function __unoconv_substr2d($page, $x1, $x2, $x3, $y1, $y2, $y3)
 This function extracts a 2D region from a text page based on proportional
 coordinates, maintaining spatial relationships in the extracted content.
 
+Crops a page (an array of text lines, as returned by __unoconv_hocr2txt) to a
+proportional rectangle, e.g. "rows 30-70 out of 100, columns 30-70 out of 100" to
+grab roughly the center of a page while ignoring scanned margins/headers/footers.
+
+The two axes are NOT handled the same way, which is easy to miss because the call
+signature looks symmetric:
+- Rows (y1,y2,y3): factor = count($page) / $y3, then y1/y2 are scaled and used
+  directly as a real [start, end) range in the for loop below.
+- Columns (x1,x2,x3): forwarded as-is to __unoconv_substr($page[$i], $x1, $x2, $x3),
+  where the second value is a LENGTH, not an end column (see __unoconv_substr).
+So $y2 is "where to stop" but $x2 is "how many (proportional) characters to take from
+$x1" - passing the same pair of numbers for both (e.g. 30/70) does not crop the same
+relative region on both axes; getting a symmetric crop on x requires passing a length
+($x2 - $x1), not an end position.
+
+
 - @page => array of text lines representing the page
 - @x1   => starting x position (relative to x3)
-- @x2   => width to extract (relative to x3)
+- @x2   => width to extract (relative to x3) - forwarded as a LENGTH, see above
 - @x3   => reference width for x coordinates
-- @y1   => starting y position (relative to y3)
-- @y2   => height to extract (relative to y3)
+- @y1   => starting row (relative to y3)
+- @y2   => ending row, exclusive (relative to y3)
 - @y3   => reference height for y coordinates
 
 
@@ -8005,6 +8110,23 @@ function __unoconv_remove_margins($page)
 
 This function trims empty margins from a text page, removing leading/trailing
 whitespace and empty lines from the top and bottom.
+
+Two bounds are computed in a single pass: $max is the length of the longest line once
+right-trimmed (the right edge of the content), and $min is the smallest leading-whitespace
+count seen across all lines (the left edge). Together they crop every line to
+mb_substr($line, $min, $max - $min) below. $first/$last track the first and last
+non-blank line indexes, and anything outside that range is dropped entirely (empty
+lines at the top/bottom of the page).
+
+`if ($min === 0) { $min = $max; }` bootstraps $min on the first line, where it would
+otherwise be compared against its placeholder starting value of 0 instead of a proper
+"nothing seen yet" sentinel. Because 0 is also a legitimate indent (a line with no
+leading whitespace), this same check re-triggers on any later line whose *cumulative*
+$min had already reached exactly 0, resetting it back up to that line's $max before
+re-narrowing it — which can discard an already-found zero-indent minimum. In practice
+this tends to self-correct if further unindented lines follow, but a page where an
+unindented line is followed only by indented ones can end up with $min > 0 even though
+a real 0-indent line exists earlier on the page.
 
 - @page => text content to process (multiple lines separated by newlines)
 

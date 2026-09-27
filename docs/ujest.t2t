@@ -1,6 +1,6 @@
 Jest Test Documentation
-SaltOS 4.1 r2408
-April 2026
+SaltOS 4.1 r2678
+September 2026
 
 
 
@@ -128,6 +128,18 @@ in a comment before the next page.evaluate, but I prefer to use a string
 in the page.evaluate because it is more simple for me
 
 
+++Puppeteer loader++
+
+```
+lib/puppeteer.setup.js
+```
+
+puppeteer is loaded here via dynamic import because since v25 it ships as
+an ESM-only package and require() can no longer load it, this file is the
+only place using that syntax because jscs still relies on an old parser
+that can not tokenize the dynamic import() expression
+
+
 +Jest Code+
 
 ++Apps unit tests++
@@ -142,7 +154,7 @@ This file contains the apps unit tests
 +++Puppeteer setup+++
 
 ```
-const puppeteer = require('puppeteer');
+const pti = require('puppeteer-to-istanbul');
 ```
 
 This lines contain the needed setup for run puppeteer and take screenshots
@@ -151,7 +163,7 @@ This lines contain the needed setup for run puppeteer and take screenshots
 +++Global variables+++
 
 ```
-let browser;
+let puppeteer;
 ```
 
 This variables contains the browser and page links
@@ -261,7 +273,7 @@ This file contains the bootstrap unit tests
 +++Puppeteer setup+++
 
 ```
-const puppeteer = require('puppeteer');
+const pti = require('puppeteer-to-istanbul');
 ```
 
 This lines contain the needed setup for run puppeteer and take screenshots
@@ -270,7 +282,7 @@ This lines contain the needed setup for run puppeteer and take screenshots
 +++Global variables+++
 
 ```
-let browser;
+let puppeteer;
 ```
 
 This variables contains the browser and page links
@@ -947,7 +959,7 @@ This file contains the customers unit tests
 +++Puppeteer setup+++
 
 ```
-const puppeteer = require('puppeteer');
+const pti = require('puppeteer-to-istanbul');
 ```
 
 This lines contain the needed setup for run puppeteer and take screenshots
@@ -956,7 +968,7 @@ This lines contain the needed setup for run puppeteer and take screenshots
 +++Global variables+++
 
 ```
-let browser;
+let puppeteer;
 ```
 
 This variables contains the browser and page links
@@ -1142,7 +1154,7 @@ This file contains the emails unit tests
 +++Puppeteer setup+++
 
 ```
-const puppeteer = require('puppeteer');
+const pti = require('puppeteer-to-istanbul');
 ```
 
 This lines contain the needed setup for run puppeteer and take screenshots
@@ -1151,7 +1163,7 @@ This lines contain the needed setup for run puppeteer and take screenshots
 +++Global variables+++
 
 ```
-let browser;
+let puppeteer;
 ```
 
 This variables contains the browser and page links
@@ -1974,7 +1986,7 @@ This file contains the invoices unit tests
 +++Puppeteer setup+++
 
 ```
-const puppeteer = require('puppeteer');
+const pti = require('puppeteer-to-istanbul');
 ```
 
 This lines contain the needed setup for run puppeteer and take screenshots
@@ -1983,7 +1995,7 @@ This lines contain the needed setup for run puppeteer and take screenshots
 +++Global variables+++
 
 ```
-let browser;
+let puppeteer;
 ```
 
 This variables contains the browser and page links
@@ -2124,6 +2136,23 @@ test('human_size', ()
 ```
 
 This function performs the test of the human_size function
+
+
++++service-worker-mock@2.0.5's Headers stub deviates from the spec in two ways+++
+
+```
+const headersPath = require.resolve('service-worker-mock/models/Headers');
+```
+
+- Headers[Symbol.iterator] returns .values() instead of .entries(), so
+  spreading a Headers instance (e.g. [...response.headers]) yields plain
+  values instead of [key, value] pairs.
+- its constructor can't parse an array of [key, value] pairs (only plain
+  objects or another Headers instance), which is the format
+  request_serialize()/request_unserialize() round-trip through IndexedDB.
+Patch the shared Headers class in the require cache before requiring
+service-worker-mock, so its own Request/Response classes (which capture
+their own internal reference via require('./Headers')) pick up the fix too.
 
 
 ++Push unit tests++
@@ -2283,7 +2312,7 @@ This file contains the screenshots unit tests
 +++Puppeteer setup+++
 
 ```
-const puppeteer = require('puppeteer');
+const pti = require('puppeteer-to-istanbul');
 ```
 
 This lines contain the needed setup for run puppeteer and take screenshots
@@ -2292,7 +2321,7 @@ This lines contain the needed setup for run puppeteer and take screenshots
 +++Global variables+++
 
 ```
-let browser;
+let puppeteer;
 ```
 
 This variables contains the browser and page links
@@ -2391,7 +2420,7 @@ This file contains the tester unit tests
 +++Puppeteer setup+++
 
 ```
-const puppeteer = require('puppeteer');
+const pti = require('puppeteer-to-istanbul');
 ```
 
 This lines contain the needed setup for run puppeteer and take screenshots
@@ -2400,7 +2429,7 @@ This lines contain the needed setup for run puppeteer and take screenshots
 +++Global variables+++
 
 ```
-let browser;
+let puppeteer;
 ```
 
 This variables contains the browser and page links

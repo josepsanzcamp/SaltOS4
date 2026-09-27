@@ -1,5 +1,5 @@
 Devel Documentation
-SaltOS 4.1 r2664
+SaltOS 4.1 r2678
 September 2026
 
 
@@ -237,22 +237,26 @@ make check
 
 Then initialize the system with SQLite:
 
-
 ```
 make setupsqlite
-make setupall
+make setupdemo
 ```
 
 If you prefer MariaDB/MySQL:
 
 ```
 make setupmysql
-make setupall
+make setupdemo
 ```
 
-`make setupall` performs a full clean installation (reset + MySQL + SQLite,
-both with demo data) regardless of which engine you selected above — it is
-the same target either way.
+Use `make setuponly` instead of `make setupdemo` to install only the core
+schema and static data, without demo data.
+
+`make setupall` is a full reset, not an alternative install: it drops the
+`saltos` MariaDB database, empties `data/*`, installs demo data on both
+MySQL and SQLite, and finally removes `config.xml` (back to the default
+engine, MySQL). It ignores any engine selected before, and it destroys
+existing data.
 
 If you prefer manual CLI execution instead of Make:
 
@@ -1780,6 +1784,10 @@ Testing is divided into static analysis and unit testing.
   - Supports full or filtered runs
   - Generates coverage reports
 
+- `make ujest_by_parts part=1|2|3`:
+  Runs the Jest suites in three batches: core modules (`part=1`), apps and
+  widgets (`part=2`), and screenshots (`part=3`).
+
 
 ++Environment Checks++
 
@@ -1910,6 +1918,29 @@ These targets trigger internal maintenance operations in SaltOS4. They execute s
   Executes scheduled tasks defined in `cron.xml`, simulating periodic background execution.
 
 
+++Local Web Server++
+
+These targets run the PHP built-in web server on `0.0.0.0:8080`, serving
+`code/web/`, in the background.
+
+- `make httpstart`: Starts the server.
+- `make httpstop`: Stops the server.
+- `make httpstatus`: Shows the PID of the running server, if any.
+
+
+++Docker++
+
+All Docker targets run `docker compose` from `scripts/`, one profile per
+group of targets. See `CONTRIBUTING.md` for details.
+
+|| Profile | Targets | Purpose |
+| `devel` | `develbuild`, `develstart`, `develstop`, `devellogs`, `develstatus`, `develbash` | SQLite + PHP built-in server, for development |
+| `server` | `serverbuild`, `serverstart`, `serverstop`, `serverlogs`, `serverstatus`, `serverbash` | Apache + PHP + MariaDB, production stack |
+| `demos` | `demosbuild`, `demosstart`, `demosstop`, `demoslogs`, `demosstatus`, `demosbash` | Public demo site, one SQLite instance per visitor |
+| `test` | `teststart`, `teststop`, `testlogs`, `teststatus` | MSSQL, PostgreSQL and GreenMail for integration tests |
+| `db` | `dbbuild`, `dbstart`, `dbstop`, `dblogs`, `dbstatus`, `dbbash` | MariaDB + Mroonga as a host service on `localhost:3306` |
+
+
 ++System langs++
 
 This rule runs the `scripts/checklangs.py` script to validate the integrity of all translation files across languages and groups.
@@ -1975,7 +2006,7 @@ This section describes the purpose of each file in the `scripts/` directory, gro
 - `makepdf.php`: Converts a `.t2t` documentation file into a `.pdf` using LaTeX.
 - `imagest2t.php`: Processes image resources for inclusion in `.t2t` documentation outputs.
 - `updatet2t.php`: Updates the version and date lines of a `.t2t` documentation file (used, for example, in `devel.t2t`).
-- `makelocale.php`: Generates or processes locale-related files used for translations and language management.
+- `makelocale.php`: Generates the per-app help PDFs from `apps/<app>/locale/<lang>/*.t2t`, only for the sources newer than their PDF.
 - `makeuser.php`: Assembles the per-language user manuals (`docs/user_*.t2t`) by concatenating each app's hand-written help snippets (`apps/<app>/locale/<lang>/*.t2t`), then generates their PDFs.
 - `make_instance.sh`: Creates a new runnable SaltOS4 instance by linking required files (such as `.htaccess`), preparing directories like `data/` and `tmp/`, and applying correct permissions.
 

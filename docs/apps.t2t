@@ -1,6 +1,6 @@
 Applications Documentation
-SaltOS 4.1 r2408
-April 2026
+SaltOS 4.1 r2678
+September 2026
 
 
 
@@ -213,6 +213,26 @@ function __nssdb_reset()
 This function removes the nssdb repo, is the inverted of the init function
 
 
++++FPDI and FPDF Extensions Bootstrapper+++
+
+```
+require_once 'apps/certs/lib/fpdf/vendor/autoload.php';
+```
+
+Automatically loads the external dependencies managed via Composer, ensuring
+that the setasign/fpdi and setasign/fpdf core classes are available in memory.
+
+
++++FPDI Canvas Extended with Text Rotation Capabilities+++
+
+```
+class fpdi_with_rotation extends \setasign\Fpdi\Fpdi
+```
+
+Implements native PDF coordinate manipulation vectors via template processing
+primitives, adding arbitrary text angle rotations using canvas transformation matrices.
+
+
 +++Update pdf+++
 
 ```
@@ -261,12 +281,26 @@ custom CSS theme, and language preferences in the respective input fields.
 +++Update authentication settings+++
 
 ```
-saltos.profile.authupdate = ()
+saltos.profile.authupdate = async ()
 ```
 
 This method restores the previous state of the application if necessary,
 validates required fields, and then updates the authentication credentials
 using the provided old password, new password, and its confirmation.
+
+A successful update replaces the current token with a fresh one, exactly as a new login
+would, so besides the success message this also triggers the same saltos.app.login event
+used by the login and renew screens, to refresh the current view with the new session.
+
+Note: the outcome must to be checked using the response status instead of the token
+presence, because unlike login/renew, here a valid token already exists before calling
+this function, so it would stay valid (and truthy) even when the update itself fails
+
+Note: the success message uses saltos.app.toast instead of saltos.app.modal, following
+the same convention used elsewhere in the app (see driver.js) for successful actions;
+every hashchange event unconditionally closes any open modal (see hash.js), and the
+saltos.app.login event triggered right below fires exactly that, so a modal here would
+close itself before ever being seen
 
 
 ++Data Actions Merger++
@@ -296,6 +330,91 @@ permitted actions to each data row.
 Returns the modified dataset with actions attached to each row
 
 Throws error if actions parameter is not an array
+
+
+++DB stats management functions++
+
+```
+apps/common/php/dbstats.php
+```
+
+These functions expose the tbl_slowqueries table collected by __db_query_stats()
+(see php/lib/dbstats.php) as a read-only list/view application. The table lives in
+its own isolated SQLite file, not in the main application database, so the queries
+here connect to it directly instead of going through db_query()/get_config('db/obj')
+
+
++++Get the DB stats connection+++
+
+```
+function __dbstats_connect()
+```
+
+This function returns the isolated connection to the stats database, or null when
+the file does not exist yet (debug/slowquerystats never enabled, or nothing recorded)
+
+Returns the database connector object, or null if the stats file does not exist
+
+
++++List DB stats+++
+
+```
+function __dbstats_list($search, $order, $offset, $limit)
+```
+
+This function retrieves a list of rows from the tbl_slowqueries table, applies search
+filters over the source column, and paginates the results based on offset and limit
+
+- @search => Search term or query to filter rows by source.
+- @order  => Column and direction to order by, already validated by check_order().
+- @offset => Offset for pagination.
+- @limit  => Maximum number of rows to retrieve.
+
+
+Return the list of rows with their id, source and aggregated timing stats.
+
+
++++Format a DB stats row+++
+
+```
+function __dbstats_format($row)
+```
+
+This function is a helper used by __dbstats_list and __dbstats_view to format a raw
+tbl_slowqueries row into the fields shown by the application, adding the average time
+
+- @row => the raw row, as returned by the database driver.
+
+
+Return the formatted row.
+
+
++++Check DB stats row existence+++
+
+```
+function __dbstats_check($id)
+```
+
+This function checks if a row with the given id exists in the tbl_slowqueries table.
+
+- @id => Id of the row to check.
+
+
+Return true if the row exists, false otherwise.
+
+
++++View DB stats row+++
+
+```
+function __dbstats_view($id)
+```
+
+This function retrieves the detailed information of a single tbl_slowqueries row.
+
+- @id => Id of the row to view.
+
+
+Return the formatted row, or a JSON error if the row is not found.
 
 
 ++Apps helper module++
@@ -561,119 +680,20 @@ saltos.quotes = {};
 This object contains all SaltOS code related to quote operations.
 
 
-+++Initialize the quotes application+++
++++Fix tax dropdown visibility.+++
 
 ```
-saltos.quotes.init = arg
+saltos.quotes.onload = instance
 ```
 
-This method handles initialization tasks based on the type of operation (`view`, `create`, or `edit`).
-It updates UI elements and attaches appropriate event listeners.
-
-- @arg => Specifies the type of operation to initialize.
-
-
-+++Calculate the dynamic width for each column in the "lines" table.+++
-
-```
-saltos.quotes.colWidths_lines = index
-```
-
-This function returns the width for each column. For the first column (index 0),
-it dynamically calculates the remaining space based on the container width minus
-a fixed width (500px) reserved for other columns. For all other columns, it returns 100px.
-
-- @index => Column index
-
-
-Returns the width in pixels
-
-
-+++Define cell configuration for each column in the "lines" table.+++
-
-```
-saltos.quotes.cells_lines = (row, column, prop)
-```
-
-This function provides per-column behavior:
-- Column 4: renders a dropdown with available tax values (from #alltaxes).
-- Column 5: sets the cell as read-only (used for calculated values).
-- Other columns: no special config.
-
-
-- @row    => Row index
-- @column => Column index
-- @prop   => Column property name
-
-
-Returns the configuration object
-
-
-+++Calculate the dynamic width for each column in the "taxes" table.+++
-
-```
-saltos.quotes.colWidths_taxes = index
-```
-
-The first column (index 0) fills the available space minus 200px reserved for other columns.
-All other columns get a fixed width of 100px.
-
-- @index => Column index
-
-
-Returns the width in pixels
-
-
-+++Define cell configuration for each column in the "taxes" table.+++
-
-```
-saltos.quotes.cells_taxes = (row, column, prop)
-```
-
-All cells in this table are read-only.
-
-- @row    => Row index
-- @column => Column index
-- @prop   => Column property name
-
-
-Returns the configuration object
-
-
-+++Calculate equal column widths for the "totals" table.+++
-
-```
-saltos.quotes.colWidths_totals = index
-```
-
-The table is divided into 3 equal columns, based on the container width.
-
-- @index => Column index
-
-
-Returns the width in pixels
-
-
-+++Define cell configuration for the "totals" table.+++
-
-```
-saltos.quotes.cells_totals = (row, column, prop)
-```
-
-All cells in this table are read-only.
-
-- @row    => Row index
-- @column => Column index
-- @prop   => Column property name
-
-
-Returns the configuration object
+Reset the parent's overflow property to prevent the tax dropdown
+from being clipped or hidden inside the container.
 
 
 +++Handle and recalculate quote line totals and tax breakdowns after user edits.+++
 
 ```
-saltos.quotes.afterChange_lines = (changes, source)
+saltos.quotes.onchange = (instance, cell, x, y, value)
 ```
 
 This function is triggered after the user modifies any cell in the "lines" matrix
@@ -1054,7 +1074,7 @@ This library provides the necesary functions to download, parse and manage email
 +++Requires section+++
 
 ```
-require_once 'apps/emails/php/mime_parser.php';
+require_once 'apps/emails/php/mailparse.php';
 ```
 
 This requires loads the external libraries needed to run this library.
@@ -1788,19 +1808,323 @@ This fie contains useful functions related to the indexing action that internall
 mroonga engine to search in the fulltext string generated by this action
 
 
-++This class replaces the legacy phpclasses.org implementations++
+++Mailparse helper module++
+
+```
+apps/emails/php/mailparse.php
+```
+
+This file provides the subset of functions of the `mailparse` PECL
+extension that mime_parser_class.php actually uses, intended to be
+used by setups that can not install this extension. Backed by the
+pure PHP composer package zbateson/mail-mime-parser.
+
+Scope: only mailparse_msg_create, mailparse_msg_parse,
+mailparse_msg_get_structure, mailparse_msg_get_part,
+mailparse_msg_get_part_data, mailparse_msg_extract_part,
+mailparse_msg_free and mailparse_rfc822_parse_addresses are provided,
+because those are the only ones consumed by mime_parser_class.php.
+The 'headers'/'content-type'/'disposition-filename'/'content-name'
+keys of mailparse_msg_get_part_data() are the only ones populated
+(the real extension returns a richer array).
+
+Note: unlike the real extension, the Body extracted here is
+charset-normalized to UTF-8 by the underlying library (it only
+reverses the Content-Transfer-Encoding, mailparse leaves the
+original charset bytes as-is). Review any code that re-converts
+Body's charset by hand before relying on this polyfill in production.
+
+Three known, deliberately-not-chased differences, verified harmless
+against a large real-inbox sample compared via utest/test_mailparse.php:
+
+- mailparse_rfc822_parse_addresses(): for an address with no display
+  name (e.g. a bare "user@host", no "Name <user@host>"), the real
+  extension echoes the address itself back as 'display' and adds an
+  'is_group' key (always false in every sample seen). The library
+  leaves 'display' as '' and this polyfill never sets 'is_group' at
+  all. Neither is chased because mime_parser_class.php already
+  collapses both shapes to the same result: it drops 'display' via
+  `strcasecmp($disp, $email) !== 0` (true only when there's a real
+  name) and never reads 'is_group' at all.
+
+
+- Trailing whitespace on a header's value: the library trims it during
+  its own header parsing (Parser/HeaderParserService.php), before it is
+  exposed through any public method, so it can not be recovered here.
+  The real extension keeps it. Purely cosmetic (e.g. a Subject ending
+  in one extra space), never observed to affect parsing logic.
+
+
+- Two adjacent RFC 2047 encoded-words in a display name (a name split
+  across encoded-words for line-length reasons): the real extension's
+  mb_decode_mimeheader() collapses the whitespace between them, which
+  can glue two words together (eg. "SerniRibó"). The library decodes
+  each encoded-word independently and keeps the whitespace between
+  them (eg. "Serni Ribó"), which reads as the more correct behaviour
+  and is what this polyfill produces.
+
+
+Layout: the actual polyfill logic lives in the __mailparse_*_helper()
+functions/class below (never guarded: they can't collide with
+anything the extension provides). Every mailparse_* function is just
+a thin delegate to its same-named helper, grouped at the end of this
+file and guarded with function_exists() so it's only defined when the
+real extension is missing. That split exists so
+utest/test_mailparse.php can call the helper directly and exercise
+this polyfill's actual code even on machines that do have the native
+extension installed, where the plain mailparse_* names are already
+taken by the extension and can't be used to reach this file's code.
+
+
++++Internal handle used by the functions below to keep the parsed+++
+
+```
+final class __mailparse_handle_helper
+```
+
+together, emulating the resource returned by mailparse_msg_create().
+
+Not part of the mailparse extension's API: naming follows the
+project's convention for internal/helper symbols (leading "__",
+trailing "_helper"), same as __getmail_head_helper() elsewhere in
+this app, so it reads at a glance as "not a drop-in replacement".
+
+
++++Mailparse Index Parts Helper+++
+
+```
+function __mailparse_index_parts_helper($part, string $id, array &$out): void
+```
+
+Walks the part tree returned by zbateson/mail-mime-parser and
+assigns it mailparse-style dot-notation ids ("1", "1.1", "1.2",
+"1.1.1"...), matching what mime_parser_class.php expects to find
+in the array returned by mailparse_msg_get_structure().
+
+A message/rfc822 part (a forwarded email carried as an attachment)
+does not expose its inner structure through getChildParts(): the
+library treats it as an opaque leaf whose content happens to be a
+full embedded message. mailparse_msg_get_structure() from the real
+extension does recurse into it, so we parse that embedded content
+separately here and splice the result in as this part's single
+child, matching the native behaviour.
+
+- @part => current part being indexed
+- @id   => dot-notation id to assign to this part
+- @out  => output map, id => part, built by reference
+
+
++++Mailparse Unfold Helper+++
+
+```
+function __mailparse_unfold_helper(string $value): string
+```
+
+getRawValue() de la libreria conserva el folding (RFC 5322) de la
+cabecera tal cual aparece en el mensaje original (con el CRLF/LF
+antes del espacio de continuacion). La extension mailparse real
+desdobla la cabecera (unfolding), quitando esos saltos de linea y
+dejandola en una sola linea. Replicamos ese mismo comportamiento
+aqui para que el resultado sea comparable.
+
+- @value => valor crudo de la cabecera, potencialmente con folding
+
+
++++Mailparse Encode Display Helper+++
+
+```
+function __mailparse_encode_display_helper(string $name): string
+```
+
+getName() de la libreria ya devuelve el nombre mostrado con el
+RFC 2047 (encoded-word) decodificado a UTF-8. La extension mailparse
+real, en cambio, devuelve ese display name tal cual aparece en el
+mensaje (todavia codificado si el remitente uso encoded-words), ya
+que quien llama a mailparse_rfc822_parse_addresses() en SaltOS
+(mime_parser_class) pasa siempre ese valor por mb_decode_mimeheader()
+despues. Para mantener el mismo contrato aqui, si el nombre ya
+decodificado contiene bytes no-ASCII lo volvemos a codificar como
+encoded-word: mb_decode_mimeheader() no toca el texto ASCII plano
+pero corrompe UTF-8 crudo que no venga envuelto en "=?...?=".
+
+Se reutiliza igual para disposition-filename/content-name, que
+getHeaderParameter() tambien devuelve ya decodificados y que
+mime_parser_class.php tambien pasa por mb_decode_mimeheader().
+
+- @name => nombre ya decodificado devuelto por AddressPart::getName()
+         o por getHeaderParameter()
+
+
++++Mailparse Msg Create Helper+++
+
+```
+function __mailparse_msg_create_helper()
+```
+
+- @path => adjust to wherever your lib/ layout puts this package,
+following the same convention as lib/yaml/vendor/autoload.php
+
+
++++Mailparse Msg Parse Helper+++
+
+```
+function __mailparse_msg_parse_helper($msg, string $data): bool
+```
+
+- @msg  => handle returned by mailparse_msg_create()
+- @data => the full raw message
+
+
++++Mailparse Msg Get Structure Helper+++
+
+```
+function __mailparse_msg_get_structure_helper($msg): array
+```
+
+- @msg => handle previously passed to mailparse_msg_parse()
+
+
++++Mailparse Msg Get Part Helper+++
+
+```
+function __mailparse_msg_get_part_helper($msg, string $partId)
+```
+
+- @msg    => handle previously passed to mailparse_msg_parse()
+- @partId => one of the ids returned by mailparse_msg_get_structure()
+
+
++++Mailparse Msg Get Part Data Helper+++
+
+```
+function __mailparse_msg_get_part_data_helper($part): array
+```
+
+Only fills the keys that mime_parser_class.php reads: headers,
+content-type, disposition-filename and content-name.
+
+- @part => part returned by mailparse_msg_get_part()
+
+
++++Mailparse Msg Extract Part Helper+++
+
+```
+function __mailparse_msg_extract_part_helper($part, string $data, $callback = null): string
+```
+
+- @part     => part returned by mailparse_msg_get_part()
+- @data     => full raw message (unused here, the library already
+             keeps its own reference to the content while parsing)
+- @callback => decoding callback (unused, always fully decoded)
+
+
++++Mailparse Msg Free Helper+++
+
+```
+function __mailparse_msg_free_helper($msg): bool
+```
+
+- @msg => handle previously returned by mailparse_msg_create()
+
+
++++Mailparse Rfc822 Parse Addresses Helper+++
+
+```
+function __mailparse_rfc822_parse_addresses_helper(string $addresses): array
+```
+
+Parses a raw address header value (e.g. the content of a "To:"
+header) into a list of ['display' => ..., 'address' => ...].
+
+Builds a throwaway one-header message under a made-up header name
+so the value is run through the library's own RFC-822 address
+consumer, then forces it to be read as an AddressHeader via
+getHeaderAs() regardless of whether that header name is one of
+the library's pre-registered address headers.
+
+- @addresses => raw header value, e.g. '"Doe, John" <john@example.com>'
+
+
++++Thin mailparse_* delegates: only defined when the real extension is+++
+
+__mailparse_*_helper() above.
+
+
++++Mailparse Msg Create+++
+
+```
+function mailparse_msg_create()
+```
+
+
++++Mailparse Msg Parse+++
+
+```
+function mailparse_msg_parse($msg, string $data): bool
+```
+
+
++++Mailparse Msg Get Structure+++
+
+```
+function mailparse_msg_get_structure($msg): array
+```
+
+
++++Mailparse Msg Get Part+++
+
+```
+function mailparse_msg_get_part($msg, string $partId)
+```
+
+
++++Mailparse Msg Get Part Data+++
+
+```
+function mailparse_msg_get_part_data($part): array
+```
+
+
++++Mailparse Msg Extract Part+++
+
+```
+function mailparse_msg_extract_part($part, string $data, $callback = null): string
+```
+
+
++++Mailparse Msg Free+++
+
+```
+function mailparse_msg_free($msg): bool
+```
+
+
++++Mailparse Rfc822 Parse Addresses+++
+
+```
+function mailparse_rfc822_parse_addresses(string $addresses): array
+```
+
+
+++SaltOS MIME Parser Component++
 
 ```
 apps/emails/php/mime_parser.php
 ```
 
-extension. The goal is to keep the output structure compatible with
-the old classes (`Headers`, `DecodedHeaders`, `ExtractedAddresses`,
-`Body`, `BodyLength`, and `Parts`) while leveraging `mailparse` for
-parsing and RFC822 address extraction. It accepts input either as a
-whole message in memory (`Data`) or via a stream wrapper (`File`),
-builds a recursive part tree using `mailparse_msg_get_structure()`,
-and (optionally) extracts decoded bodies for non-multipart parts.
+PURPOSE:
+Replaces legacy phpclasses.org implementations (`mime_parser` and `rfc822_addresses`)
+with native PHP `mailparse` functionality for improved performance and maintenance.
+
+COMPATIBILITY:
+Maintains output structure (`Headers`, `DecodedHeaders`, `ExtractedAddresses`,
+`Body`, `BodyLength`, `Parts`) to ensure seamless integration with existing
+SaltOS codebase.
+
+ARCHITECTURE:
+- Recursive tree building via `mailparse_msg_get_structure()`.
+- Supports memory (`Data`) or stream-based (`File`) input.
+- Optional body extraction for non-multipart nodes.
 
 
 +++- @param  array $input Must be an array with 'File' or 'Data'+++
@@ -1823,28 +2147,28 @@ private function buildNode($msg, string $partId, array $struct, string $raw, boo
 - @param bool     $decodeBodies
 
 
-++pop3_class: cURL/POP3 compatible replacement.++
+++SaltOS POP3 Client Component++
 
 ```
 apps/emails/php/pop3.php
 ```
 
-Requirements:
-- PHP cURL extension (ext-curl).
+PURPOSE:
+Replaces legacy phpclasses.org POP3 implementations with a modern, cURL-based
+architecture to eliminate dependency on obsolete external code.
+
+ARCHITECTURE & DESIGN:
+- Stateless per-command operation: Executes verbs via fresh cURL transfers
+instead of maintaining persistent app-level TCP sessions.
+- Transport: Supports implicit TLS (POP3S) or opportunistic STARTTLS.
+- Centralized execution: `exec()` handles protocol multi-line/single-line
+responses and error normalization.
 
 
-Design:
-- Stateless per-command operation: every POP3 verb is executed via a fresh
-  cURL transfer (as needed) rather than maintaining an app-level session.
-- Implicit TLS (POP3S) via $ssl=1, or opportunistic STARTTLS via $tls=1 when
-  using plain POP3.
-- Command execution is centralized in exec(), which handles multi-line vs
-  single-line responses and basic error detection.
-
-
-Security note:
-- Certificate verification is disabled here for compatibility. In production,
-  you should enable peer/host verification and configure CA bundle paths.
+SECURITY & CONFIGURATION:
+- Warning: Certificate verification is currently disabled for compatibility.
+Production environments should enable peer/host verification.
+- Requirement: PHP cURL extension (ext-curl).
 
 
 +++Prepare the cURL handle and compute the base URL based on configuration.+++
@@ -1933,9 +2257,9 @@ Behavior:
 
 
 Error handling:
-- On transport failure, returns a "cURL: ..." message.
-- On multi-line responses, scans for "-ERR" and returns a "POP3 error: ..."
-  message when found.
+- On transport failure (including a protocol-level "-ERR" reply, which
+  libcurl's POP3 client rejects before returning it as body), returns
+  a "cURL: ..." message.
 
 
 - @param  string       $cmd       POP3 command (verbatim), e.g., "UIDL", "RETR 1", "DELE 3".
@@ -2152,119 +2476,20 @@ saltos.invoices = {};
 This object contains all SaltOS code related to invoice operations.
 
 
-+++Initialize the invoices application+++
++++Fix tax dropdown visibility.+++
 
 ```
-saltos.invoices.init = arg
+saltos.invoices.onload = instance
 ```
 
-This method handles initialization tasks based on the type of operation (`view`, `create`, or `edit`).
-It updates UI elements and attaches appropriate event listeners.
-
-- @arg => Specifies the type of operation to initialize.
-
-
-+++Calculate the dynamic width for each column in the "lines" table.+++
-
-```
-saltos.invoices.colWidths_lines = index
-```
-
-This function returns the width for each column. For the first column (index 0),
-it dynamically calculates the remaining space based on the container width minus
-a fixed width (500px) reserved for other columns. For all other columns, it returns 100px.
-
-- @index => Column index
-
-
-Returns the width in pixels
-
-
-+++Define cell configuration for each column in the "lines" table.+++
-
-```
-saltos.invoices.cells_lines = (row, column, prop)
-```
-
-This function provides per-column behavior:
-- Column 4: renders a dropdown with available tax values (from #alltaxes).
-- Column 5: sets the cell as read-only (used for calculated values).
-- Other columns: no special config.
-
-
-- @row    => Row index
-- @column => Column index
-- @prop   => Column property name
-
-
-Returns the configuration object
-
-
-+++Calculate the dynamic width for each column in the "taxes" table.+++
-
-```
-saltos.invoices.colWidths_taxes = index
-```
-
-The first column (index 0) fills the available space minus 200px reserved for other columns.
-All other columns get a fixed width of 100px.
-
-- @index => Column index
-
-
-Returns the width in pixels
-
-
-+++Define cell configuration for each column in the "taxes" table.+++
-
-```
-saltos.invoices.cells_taxes = (row, column, prop)
-```
-
-All cells in this table are read-only.
-
-- @row    => Row index
-- @column => Column index
-- @prop   => Column property name
-
-
-Returns the configuration object
-
-
-+++Calculate equal column widths for the "totals" table.+++
-
-```
-saltos.invoices.colWidths_totals = index
-```
-
-The table is divided into 3 equal columns, based on the container width.
-
-- @index => Column index
-
-
-Returns the width in pixels
-
-
-+++Define cell configuration for the "totals" table.+++
-
-```
-saltos.invoices.cells_totals = (row, column, prop)
-```
-
-All cells in this table are read-only.
-
-- @row    => Row index
-- @column => Column index
-- @prop   => Column property name
-
-
-Returns the configuration object
+Reset the parent's overflow property to prevent the tax dropdown
+from being clipped or hidden inside the container.
 
 
 +++Handle and recalculate invoice line totals and tax breakdowns after user edits.+++
 
 ```
-saltos.invoices.afterChange_lines = (changes, source)
+saltos.invoices.onchange = (instance, cell, x, y, value)
 ```
 
 This function is triggered after the user modifies any cell in the "lines" matrix
@@ -2548,6 +2773,29 @@ saltos.login.authenticate = async ()
 This function tries to authenticate the user using the user and pass fields of the form, to do
 it uses the authenticate function that send data to the authtoken action
 
+If the response of the authtoken action contains the expired flag, this function switches the screen to
+the renew box instead of showing the usual access denied message, allowing the user to set
+a new password without needing a valid session
+
+
++++Renew function+++
+
+```
+saltos.login.renew = async ()
+```
+
+This function is intended to be used by the renew box shown after an expired login
+attempt, it collects the new password and its confirmation and, together with the user
+and the expired password (still held by the hidden user/pass fields of the login box),
+tries to renew the password using the authrenew action, that returns a valid token on
+success
+
+Note: the success message uses saltos.app.toast instead of saltos.app.modal, because it
+is immediately followed by the saltos.app.login event, which fires a hashchange, and
+every hashchange unconditionally closes any open modal (see hash.js) - a modal here
+would close itself before ever being seen. The error case above has no screen change
+after it, so a modal is fine there
+
 
 ++Days functions++
 
@@ -2669,7 +2917,7 @@ application with its respective permissions and their assigned values ("Allow", 
 +++Create matrix cells+++
 
 ```
-function make_matrix_cell($perms, $apps, $main, $user)
+function make_matrix_cells($perms, $apps, $main, $user)
 ```
 
 This function generates matrix cells with additional attributes such as column and row indices,
@@ -2694,6 +2942,46 @@ function make_matrix_perms($table, $field, $id)
 
 This function generates the complete matrix data and metadata for use in
 the Excel widget, including column headers, row headers, data values, and cell details.
+
+
++++Get permissions from database+++
+
+```
+function _get_db_perms()
+```
+
+This function returns the active permissions (id and code) from tbl_perms,
+caching the result in a static variable to avoid repeated queries.
+
+
++++Get applications from database+++
+
+```
+function _get_db_apps()
+```
+
+This function returns the active applications (id and code) from tbl_apps,
+caching the result in a static variable to avoid repeated queries.
+
+
++++Create matrix columns+++
+
+```
+function make_matrix_columns()
+```
+
+This function builds the column definitions for the Excel widget, one dropdown
+column ("Allow"/"Deny") per permission returned by _get_db_perms.
+
+
++++Create matrix rows+++
+
+```
+function make_matrix_rows()
+```
+
+This function builds the row definitions for the Excel widget, one row
+per application returned by _get_db_apps.
 
 
 ++Users functions++

@@ -1,6 +1,6 @@
 Web Client Documentation
-SaltOS 4.1 r2408
-April 2026
+SaltOS 4.1 r2678
+September 2026
 
 
 
@@ -90,13 +90,18 @@ saltos.app.__cache = {};
 This object allow to the app to store the data of the prefetch feature
 
 
-+++Process response helper+++
++++Prefetch cache helper+++
 
 ```
 saltos.app.prefetch_cache = (responses)
 ```
 
-This function process the responses received by the send request
+A response can depend on a shared cache entry (navbar, app javascript...)
+instead of embedding its own content. This function resolves those cache
+keys recursively, fetching and appending any unresolved one to responses
+and marking it as loading until it arrives, so a concurrent call for the
+same val waits instead of requesting it again (see saltos.form.cache).
+Once every key is resolved, process_response is called with responses[0].
 
 
 +++Process response helper+++
@@ -105,7 +110,9 @@ This function process the responses received by the send request
 saltos.app.process_response = async response
 ```
 
-This function process the responses received by the send request
+Iterates the response items, each key identifies the saltos.form.*
+function to execute with its value as argument, running it synchronously
+or asynchronously (awaiting it) depending on the function's type.
 
 
 +++Get data+++
@@ -254,6 +261,9 @@ saltos.authenticate.authtoken = async (user, pass)
 This function uses the authtoken action to try to authenticate an user with the user/pass
 credentials passed by argument.
 
+This function returns the response of the action, useful to detect the expired flag
+of a 'ko' response, that requires a different treatment than a plain access denied
+
 - @user => username used to the authentication process
 - @pass => password used to the authentication process
 
@@ -280,15 +290,35 @@ credentials.
 +++Authenticate update function+++
 
 ```
-saltos.authenticate.authupdate = (oldpass, newpass, renewpass)
+saltos.authenticate.authupdate = async (oldpass, newpass, renewpass)
 ```
 
 This function is intended to be used in the profile feature to allow the password change
-by the user.
+by the user. On success, the response contains a fresh valid token, exactly as the
+authtoken and authrenew functions do, so that changing the password always ends in the
+same atomic outcome: a new session issued for the new password.
 
 - @oldpass   => old password used to validate the correctness of the transaction
 - @newpass   => new password used to update the old password
 - @renewpass => repite the new password used to update the old password
+
+
++++Authenticate renew function+++
+
+```
+saltos.authenticate.authrenew = async (user, oldpass, newpass, renewpass)
+```
+
+This function is intended to be used in the login screen, exclusively after a login
+attempt returns the expired flag, to allow setting a new password without an active
+session, using the expired password as the proof of identity.
+
+On success, the response contains a valid token, exactly as the authtoken function does.
+
+- @user      => username used in the authentication process
+- @oldpass   => the expired password used to validate the transaction
+- @newpass   => new password used to update the old password
+- @renewpass => repeats the new password used to update the old password
 
 
 ++Backup & Autosave helper module++
@@ -1213,65 +1243,6 @@ feature:
 ++Bootstrap helper module++
 
 ```
-web/js/bootstrap/excel.js
-```
-
-This fie contains useful functions related to the bootstrap widgets, allow to create widgets and
-other plugins suck as plots or rich editors
-
-- @excel       => id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth,
-                colWidths, label, color
-
-
-+++Excel constructor helper+++
-
-```
-saltos.bootstrap.__field.excel = field
-```
-
-[../code/data/cache/53ac1d21af224907f86d7326830d9b7b.png]
-
-This function creates and returns an excel object, to do this they use the handsontable library,
-currently this library uses a privative license, by this reason, we are using the version 6.2.2
-that is the latest release published using the MIT license.
-
-This widget can receive the following arguments:
-
-- @id             => the id used to set the reference for to the object
-- @class          => allow to set the class to the div object used to allocate the widget
-- @data           => this parameter must contain a 2D matrix with the data that you want to show
-                   in the sheet
-- @rowHeaders     => can be an array with the headers that you want to use instead the def numbers
-- @colHeaders     => can be an array with the headers that you want to use instead the def letters
-- @minSpareRows   => can be a number with the void rows at the end of the sheet
-- @contextMenu    => can be a boolean with the desired value to allow or not the provided
-                   context menu of the widget
-- @rowHeaderWidth => can be a number with the width of the headers rows
-- @colWidths      => can be an array with the widths of the headers cols
-- @label          => this parameter is used as text for the label
-- @color          => the color of the widget (primary, secondary, success, danger, warning, info, none)
-- @afterChange    => the afterChange function that receives one argument (changes), a 2D array containing
-                   information about each of the edited cells [[row, prop, oldVal, newVal], ...],
-                   you can do something like changes.forEach(([row, prop, oldValue, newValue])
-- @autoWrapCol    => used as autoWrapCol in the handsontable widget
-- @autoWrapRow    => used as autoWrapRow in the handsontable widget
-
-
-Notes:
-
-You can get the values after to do changes by accessing to the data of the div used to create
-the widget.
-
-This widget requires the handsontable library and can be loaded automatically using the require
-feature:
-
-- @lib/handsontable/handsontable.full.min.css
-- @lib/handsontable/handsontable.full.min.js
-
-
-++Bootstrap helper module++
-
-```
 web/js/bootstrap/file.js
 ```
 
@@ -1446,6 +1417,7 @@ This function returns an image object, you can pass some arguments as:
 - @height  => this parameter is used as height for the image
 - @color   => the color of the widget (primary, secondary, success, danger, warning, info, none)
 - @invert  => enable the invert feature in the widget contents
+- @onclick   => callback function that is executed when the button is pressed
 
 
 ++Bootstrap helper module++
@@ -1796,6 +1768,29 @@ value of the joditeditor, intended to load new data.
 ++Bootstrap helper module++
 
 ```
+web/js/bootstrap/jspreadsheet.js
+```
+
+This fie contains useful functions related to the bootstrap widgets, allow to create widgets and
+other plugins suck as plots or rich editors
+
+- @jspreadsheet => id, class, label, required, disabled, height, color, shadow, rounded,
+                 data, numcols, numrows, autoWidth, fitWidth, rowHeaders, rowHeaderWidth,
+                 columns, rows, cells, minSpareRows, minSpareCols, onload, onchange, onselection
+
+
++++TODO+++
+
+```
+saltos.bootstrap.__field.jspreadsheet = field
+```
+
+[../code/data/cache/8405a5cfed05054c87fa669035134459.png]
+
+
+++Bootstrap helper module++
+
+```
 web/js/bootstrap/jstree.js
 ```
 
@@ -1975,7 +1970,7 @@ saltos.bootstrap.navbar = args
 This component creates a navbar intended to be used as header
 
 - @id    => the id used by the object
-- @brand => contains an object with the label, image, width and height to be used
+- @brand => contains an object with the label, image, width, height and onclick to be used
 - @color => the color of the widget (primary, secondary, success, danger, warning, info, none)
 - @pos   => position of the navbar, can be fixed-top, fixed-bottom, sticky-top, sticky-bottom
 - @class => class added to the navbar item
@@ -1987,6 +1982,7 @@ This component creates a navbar intended to be used as header
 - @width  => width of the brand image
 - @height => height of the brand image
 - @class  => class added to the navbar-brand item
+- @onclick   => callback function that is executed when the button is pressed
 
 
 - @items => contains an array with the objects that will be added to the collapse

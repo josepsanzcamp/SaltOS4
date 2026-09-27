@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Each release is identified by its version and by its revision (`rN`, the
 git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 
+## [Unreleased]
+
+### Changed
+- Minimum PHP version raised from 7.1 to 8.1, the lowest version the code already required.
+- Third-party libraries updated to their latest releases (joditeditor 4.15.14, tcpdf 7.0.12, tc-lib-pdf 8.76.2, semver 3.5.0).
+
+### Removed
+- Compatibility wrappers and polyfills for PHP versions older than 8.1.
+
+### Security
+- Removed the posix_getuid() polyfill, which made the CLI `user=` owner check always pass when the posix extension was missing; posix is now a required extension.
+
 ## [4.1] - 2026-09-23
 
 ### Added
@@ -53,7 +65,7 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 - Security alerts in guzzlehttp dependencies.
 
 ### Testing
-- PHPUnit coverage raised to about 89% of classes and 96% of methods.
+- PHPUnit line coverage raised to over 96%.
 - Jest screenshot tests for the dbstats app, and fixes for puppeteer ESM-only releases.
 
 ## [4.0] - 2026-02-17

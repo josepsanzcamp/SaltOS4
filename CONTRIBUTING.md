@@ -22,11 +22,13 @@ pitfalls — it defers to this file for anything not agent-specific.
 
 ### Prerequisites
 
-- PHP 7.1-8.5 (7.1 is the hard floor enforced in `api/index.php`; some
-  vendored libraries under `code/api/lib/*/composer.lock` may demand a
-  newer PHP in practice — `setup` runs `check_composer()` to catch this)
+- PHP 8.1-8.5 (8.1 is the hard floor enforced in `api/index.php`; the
+  vendored libraries under `code/api/lib/*/` are resolved for the PHP that
+  ran `composer require`, so on an older PHP rerun that lib's `sanz.txt`
+  to get a compatible version - `setup` runs `check_composer()` to catch
+  any mismatch)
 - Node.js (for frontend testing)
-- MySQL/MariaDB or PostgreSQL (SQLite for development)
+- MySQL/MariaDB or SQLite
 - Git
 
 ### Installation
@@ -45,19 +47,19 @@ bash ../scripts/make_instance.sh
 php api/index.php setup
 
 # 4. Start development server
-php -S localhost:8000 -t web
+php -S localhost:8080 -t web
 ```
 
 ### Verify Installation
 
 ```bash
-# Run all checks
+# Check directories and available commands
 make check
-
-# Expected output:
-# ✓ All required commands available
-# ✓ Directory structure correct
 ```
+
+It lists the instance directories and the development and production
+commands, each one marked as `OK` or `KO`. A `KO` only matters for the
+features that need that command.
 
 ---
 
@@ -117,7 +119,7 @@ make demosstop     # Stop and remove container
 
 ## 🧪 Testing
 
-SaltOS 4 has comprehensive test coverage (90%+) using PHPUnit and Jest.
+SaltOS 4 has comprehensive test coverage (over 96% of lines in PHPUnit) using PHPUnit and Jest.
 
 ### Running Tests
 
@@ -153,10 +155,15 @@ jscs --config=scripts/jscs.json path/to/file.js
 **Backend (PHPUnit):**
 ```php
 // utest/test_myfeature.php
-class TestMyFeature extends PHPUnit\Framework\TestCase {
-    public function test_my_function() {
-        $result = my_function('input');
-        $this->assertEquals('expected', $result);
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\TestDox;
+
+final class test_myfeature extends TestCase
+{
+    #[testdox('myfeature functions')]
+    public function test_myfeature(): void
+    {
+        $this->assertSame(my_function('input'), 'expected');
     }
 }
 ```
@@ -166,7 +173,7 @@ class TestMyFeature extends PHPUnit\Framework\TestCase {
 // ujest/test_myfeature.js
 describe('MyFeature', () => {
     test('should work correctly', () => {
-        const result = myFunction('input');
+        const result = my_function('input');
         expect(result).toBe('expected');
     });
 });
@@ -190,10 +197,12 @@ declare(strict_types=1);
 /**
  * Calculate customer total invoices
  *
- * @param int $customer_id Customer ID
- * @return float Total amount
+ * This function returns the total amount of the invoices of a customer
+ *
+ * @customer_id => the id of the customer
  */
-function calculate_customer_total(int $customer_id): float {
+function calculate_customer_total(int $customer_id): float
+{
     // Implementation
 }
 ```
@@ -266,7 +275,7 @@ SaltOS4/
 │   │   ├── sales/              # Sales (products, invoices)
 │   │   ├── purchases/          # Purchases (suppliers)
 │   │   ├── hr/                 # HR (employees, departments)
-│   │   ├── emails/             # Email integration (IMAP/SMTP)
+│   │   ├── emails/             # Email integration (POP3/SMTP)
 │   │   ├── company/            # Company settings
 │   │   ├── users/              # User & permission management
 │   │   ├── dashboard/          # Main dashboard
@@ -279,7 +288,7 @@ SaltOS4/
 │   │   ├── lib/                # External JS libraries
 │   │   │   ├── bootstrap/
 │   │   │   ├── joditeditor/
-│   │   │   ├── chartjs/
+│   │   │   ├── echarts/
 │   │   │   ├── codemirror/
 │   │   │   ├── pdfjs/
 │   │   │   └── ...
@@ -310,7 +319,7 @@ SaltOS4/
 │   ├── test_*.js               # Test files
 │   ├── snaps/                  # Jest snapshots
 │   └── lib/                    # Test utilities
-├── Makefile                    # Build automation
+├── makefile                    # Build automation
 └── README.md
 ```
 
@@ -430,7 +439,7 @@ SaltOS 4 uses **YAML-based translations** (not GNU gettext, despite function nam
 Translations are stored in YAML format:
 ```
 code/api/locale/{lang}/messages.yaml
-code/apps/{app}/locale/{lang}/{app}.yaml
+code/apps/{app}/locale/{lang}/messages.yaml
 ```
 
 Supported languages:
@@ -447,12 +456,7 @@ Supported languages:
    Goodbye: "Adiós"
 ```
 
-2. **Generate translation files**
-```bash
-   make docs file=locale
-```
-
-3. **Check translation status**
+2. **Check translation status**
 ```bash
    make langs
 
@@ -485,12 +489,14 @@ make docs file=api      # API reference
 make docs file=web      # Web client
 make docs file=devel    # Developer guide
 make docs file=user     # User manual
+make docs file=locale   # Per-app help PDFs
 ```
 
 ### Documentation Sources
 
 - **API/Web/Apps docs**: Auto-generated from code comments
 - **Developer/User guides**: `docs/*.t2t` (txt2tags format)
+- **Per-app help**: `code/apps/*/locale/*/*.t2t`, one PDF per app and language
 
 ---
 
@@ -498,7 +504,7 @@ make docs file=user     # User manual
 
 When reporting bugs, please include:
 
-- **SaltOS version**: Run `git describe --tags` or `svnversion`
+- **SaltOS version**: Run `git describe --tags`, or check the About dialog
 - **PHP version**: `php -v`
 - **Database**: MySQL/PostgreSQL/SQLite + version
 - **Browser**: Chrome/Firefox/Safari + version
@@ -512,8 +518,8 @@ When reporting bugs, please include:
 
 - **GitHub Discussions**: General questions and ideas
 - **GitHub Issues**: Bug reports and feature requests
-- **Email**: info@saltos.org
-- **Documentation**: [9 PDFs in 3 languages](https://github.com/josepsanzcamp/SaltOS4/tree/master/docs)
+- **Email**: josep.sanz@saltos.org
+- **Documentation**: [9 PDFs (the user manual in 3 languages)](https://github.com/josepsanzcamp/SaltOS4/tree/master/docs)
 
 ---
 

@@ -1,6 +1,6 @@
 Phpunit Test Documentation
-SaltOS 4.1 r2408
-April 2026
+SaltOS 4.1 r2678
+September 2026
 
 
 
@@ -42,6 +42,13 @@ to get the coverage, too contains the pcov and mime helpers.
 
 ```
 use SebastianBergmann\CodeCoverage\Data\RawCodeCoverageData;
+```
+
+
++++Define the variable used to add this directory to the list of allowed paths,+++
+
+```
+define('K_ALLOWED_PATHS', [dirname(dirname(getcwd()))]);
 ```
 
 
@@ -145,6 +152,49 @@ suck as errors, that are not allowed from the phpunit tests
 
 
 +Phpunit Code+
+
+++Test about++
+
+```
+test_about.php
+```
+
+This test performs some tests to validate the correctness
+of the about feature
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_about extends TestCase
+```
+
+
++++about test+++
+
+```
+public function test_about(): void
+```
+
+This test performs some tests to validate the correctness
+of the about feature
+
 
 ++Test actions++
 
@@ -389,6 +439,49 @@ public function test_ascii(): void
 
 This test performs some tests to validate the correctness
 of the ascii functions
+
+
+++Test authrenew++
+
+```
+test_authrenew.php
+```
+
+This test performs some tests to validate the correctness
+of the authrenew functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_authrenew extends TestCase
+```
+
+
++++authrenew test+++
+
+```
+public function test_authrenew(): void
+```
+
+This test performs some tests to validate the correctness
+of the authrenew functions
 
 
 ++Test authupdate++
@@ -825,6 +918,17 @@ This test performs some tests to validate the correctness
 of the common functions
 
 
++++make_app_file test+++
+
+```
+public function test_make_app_file(): void
+```
+
+This test performs some tests to validate the correctness of the
+make_app_file function, used to convert a quick app yaml spec into
+its equivalent xml file
+
+
 ++Test config++
 
 ```
@@ -941,6 +1045,89 @@ This test performs some tests to validate the correctness
 of the indexing functions
 
 
++++integrity test+++
+
+```
+public function test_integrity(): void
+```
+
+This test performs some tests to validate the correctness of the
+integrity function, that periodically scans every app table
+looking for drift against its control table and repairs it via
+make_control()
+
+
+++Test crm++
+
+```
+test_crm.php
+```
+
+This test performs some tests to validate the correctness of the quotes
+app functions (unmake_matrix_data and set_quote), using the web interface
+since these functions are loaded on demand by the XML router and can't be
+required directly (their name clashes with other apps that define a
+function with the same name, such as apps/users/php/matrix.php)
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_crm extends TestCase
+```
+
+
++++Authtoken+++
+
+```
+public function test_authtoken(): array
+```
+
+This function execute the authtoken rest request, and must to get the
+json with the valid token to continue in the nexts unit tests
+
+
++++quotes test+++
+
+```
+public function test_quotes(array $json): void
+```
+
+This test performs some tests to validate the correctness of the
+unmake_matrix_data and set_quote functions, exercised through the
+insert and update rest actions of the quotes app
+
+
++++quotes matrix edge cases test+++
+
+```
+public function test_quotes_matrix_edge_cases(array $json): void
+```
+
+This test performs some tests to validate the correctness of the
+unmake_matrix_data and set_quote functions when they receive edge
+case inputs: an empty payload, a fully blank new row (must be
+dropped silently), a blank existing row (must become a deletion
+marker) and a leftover row beyond the submitted matrix (must also
+become a deletion marker)
+
+
 ++Test cron++
 
 ```
@@ -1034,6 +1221,70 @@ public function test_customers(): void
 
 This test performs some tests to validate the correctness
 of the customers functions
+
+
+++Test dashboard++
+
+```
+test_dashboard.php
+```
+
+This test performs some tests to validate the correctness
+of the dashboard functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_dashboard extends TestCase
+```
+
+
++++Authtoken+++
+
+```
+public function test_authtoken(): array
+```
+
+This function execute the authtoken rest request, and must to get the
+json with the valid token to continue in the nexts unit tests
+
+
++++dashboard test+++
+
+```
+public function test_dashboard(array $json): void
+```
+
+This test performs some tests to validate the correctness
+of the dashboard functions
+
+
++++Collect helper+++
+
+```
+private function collect(array $items, string $name): array
+```
+
+xml2array()/set_array() store repeated elements as "name", "name#1",
+"name#2", ... instead of a plain list, this helper flattens them back
+into a plain list of their #attr arrays, to ease the assertions above
 
 
 ++Test database drivers++
@@ -1278,6 +1529,52 @@ public function test_sql(): void
 
 This test performs some tests to validate the correctness
 of the sql functions
+
+
+++Test dbstats++
+
+```
+test_dbstats.php
+```
+
+This test performs some tests to validate the correctness of the dbstats
+functions, it covers both the recording side (php/lib/dbstats.php, loaded
+on demand by db_query() when debug/slowquerystats is enabled) and the app
+side that exposes the recorded rows (apps/common/php/dbstats.php), since
+both files work over the same isolated tbl_slowqueries sqlite table
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_dbstats extends TestCase
+```
+
+
++++dbstats test+++
+
+```
+public function test_dbstats(): void
+```
+
+This test performs some tests to validate the correctness
+of the dbstats functions
 
 
 ++Test emails++
@@ -2375,6 +2672,118 @@ This test performs some tests to validate the correctness
 of the log functions
 
 
+++Test mailparse++
+
+```
+test_mailparse.php
+```
+
+This test performs some tests to validate the correctness of the
+apps/emails/php/mailparse.php polyfill against the real mailparse
+PECL extension. It does NOT go through mime_parser_class: it calls
+the mailparse_* functions (native, since this machine has the real
+extension) and the polyfill's own __mailparse_*_helper functions
+side by side, on the same sample emails, and asserts each pair
+returns the same thing. That keeps this test independent from
+mime_parser_class.php's own transformation logic, which is free to
+change without this test needing to track it.
+
+Calling the *_helper functions directly (instead of the plain
+mailparse_* names) is what lets this run on a machine that has the
+native extension installed: mailparse.php only defines the plain
+mailparse_* names when the extension is missing, so on a machine
+that does have it, those names are already the native functions and
+can't be used to reach the polyfill's own code. See the header
+comment of apps/emails/php/mailparse.php for details.
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_mailparse extends TestCase
+```
+
+
++++Mailparse test+++
+
+```
+public function test_mailparse(): void
+```
+
+This function performs some tests to validate the correctness
+of the apps/emails/php/mailparse.php polyfill by comparing its
+output against the real mailparse extension, function by
+function, over a batch of sample emails
+
+
++++Mailparse edge cases test+++
+
+```
+public function test_mailparse_edge_cases(): void
+```
+
+Covers branches that the real-inbox sample in test_mailparse()
+never happens to exercise: a message/rfc822 part (a forwarded
+email carried as an attachment), a header repeated more than
+once, a non-ASCII display/filename value, a null part, and the
+legacy "addr@host (Display Name)" address form
+
+
++++Scoped part data+++
+
+```
+private function scoped_part_data(array $data): array
+```
+
+Reduces a mailparse_msg_get_part_data()/__mailparse_msg_get_part_data_helper()
+result to the keys mime_parser_class.php actually reads, defaulting the
+optional ones to '' so an omitted key (native, when absent) and an
+empty-string key (polyfill, always present) compare equal, matching how
+mime_parser_class.php treats them via !empty() either way
+
+- @data => raw result from either side
+
+
++++Scoped address+++
+
+```
+private function scoped_address(array $entry): array
+```
+
+Reduces a mailparse_rfc822_parse_addresses()/
+__mailparse_rfc822_parse_addresses_helper() entry to what
+mime_parser_class.php actually derives from it. Two differences
+are normalized away here rather than chased in the polyfill:
+
+- 'is_group': never read by mime_parser_class.php, so it's just
+  dropped from both sides.
+- 'display' when there is no real display name: the native
+  extension echoes the address itself as 'display' in that case,
+  while the underlying library (and this polyfill) leaves it as
+  '''. mime_parser_class.php already collapses both to '' via its
+  own `strcasecmp($disp, $email) !== 0` check, so that's exactly
+  what's replicated here.
+
+
+- @entry => one entry as returned by either side
+
+
 ++Test math++
 
 ```
@@ -2904,6 +3313,89 @@ This test performs some tests to validate the correctness
 of the str_replace_assoc instead of the replace function
 
 
+++Test sales++
+
+```
+test_sales.php
+```
+
+This test performs some tests to validate the correctness of the sales
+functions. The invoices app functions (unmake_matrix_data and
+set_proforma_invoice) are exercised through the web interface, since these
+functions are loaded on demand by the XML router and can't be required
+directly (their name clashes with other apps that define a function with
+the same name, such as apps/crm/php/quotes.php or apps/users/php/matrix.php)
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_sales extends TestCase
+```
+
+
++++Authtoken+++
+
+```
+public function test_authtoken(): array
+```
+
+This function execute the authtoken rest request, and must to get the
+json with the valid token to continue in the nexts unit tests
+
+
++++invoices test+++
+
+```
+public function test_invoices(array $json): void
+```
+
+This test performs some tests to validate the correctness of the
+unmake_matrix_data and set_proforma_invoice functions, exercised
+through the insert and update rest actions of the invoices app
+
+
++++echarts test+++
+
+```
+public function test_echarts(): void
+```
+
+This test performs some tests to validate the correctness
+of the echarts functions
+
+
++++invoices matrix edge cases test+++
+
+```
+public function test_invoices_matrix_edge_cases(array $json): void
+```
+
+This test performs some tests to validate the correctness of the
+unmake_matrix_data function when it receives edge case inputs: an
+empty payload, a payload missing the taxes/totals keys, a fully
+blank new row (must be dropped silently), a blank existing row
+(must become a deletion marker), a leftover row beyond the
+submitted matrix (must also become a deletion marker) and a new
+row that is only partially blank (per-field unset branches)
+
+
 ++Test semaphore++
 
 ```
@@ -3392,36 +3884,6 @@ This test performs some tests to validate the correctness
 of the users functions
 
 
-+++browser test+++
-
-```
-public function test_browser(): void
-```
-
-This test performs some tests to validate the correctness
-of the browser functions
-
-
-+++geoip test+++
-
-```
-public function test_geoip(): void
-```
-
-This test performs some tests to validate the correctness
-of the geoip functions
-
-
-+++security test+++
-
-```
-public function test_security(): void
-```
-
-This test performs some tests to validate the correctness
-of the security functions
-
-
 ++Test users++
 
 ```
@@ -3873,8 +4335,19 @@ of the xml related functions
 test_yaml.php
 ```
 
-This test performs some tests to validate the correctness
-of the yaml related functions
+This test performs some tests to validate the correctness of the
+api/php/autoload/yaml.php polyfill against the real yaml PECL
+extension: it calls the yaml_* functions (native, since this
+machine has the real extension) and the polyfill's own
+__yaml_*_helper functions side by side, on the same sample files,
+and asserts each pair returns the same thing.
+
+Calling the *_helper functions directly (instead of the plain
+yaml_* names) is what lets this run on a machine that has the
+native extension installed: yaml.php only defines the plain
+yaml_* names when the extension is missing, so on a machine that
+does have it, those names are already the native functions and
+can't be used to reach the polyfill's own code.
 
 
 +++Importing namespaces+++
@@ -3898,7 +4371,9 @@ public function test_yaml(): void
 ```
 
 This function performs some tests to validate the correctness
-of the yaml related functions
+of the api/php/autoload/yaml.php polyfill by comparing its
+output against the real yaml extension, function by function,
+over a batch of sample YAML files
 
 
 ++Test zindex++

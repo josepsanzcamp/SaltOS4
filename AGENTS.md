@@ -27,11 +27,12 @@ This document is intended for AI agents assisting humans in:
 - Running tests and builds correctly
 
 **Scope of this document.** This file covers agent-specific behavior and
-known pitfalls only. It intentionally does not restate everything —
-[CONTRIBUTING.md](CONTRIBUTING.md) is the canonical, complete reference for
-setup steps, the full command reference (including less common variants),
-coding standards, and project structure; [README.md](README.md) is the
-product overview. When this file and CONTRIBUTING.md disagree, trust
+known pitfalls only. It intentionally does not restate everything -
+[CONTRIBUTING.md](CONTRIBUTING.md) is the canonical reference for setup
+steps, Docker profiles, coding standards, and project structure; the
+complete make target reference (including less common variants) is the
+"Makefile Overview" chapter of `docs/devel.t2t` (`docs/devel.pdf`);
+[README.md](README.md) is the product overview. When this file and CONTRIBUTING.md disagree, trust
 CONTRIBUTING.md and flag the discrepancy — don't silently pick one.
 
 ---
@@ -176,24 +177,34 @@ generic advice):
 - **Vendored libraries** under `code/api/lib/*/` each carry their own
   `composer.lock`. `check_composer()` (`code/api/php/autoload/system.php:154`)
   validates the running PHP against each lib's `require.php` constraint at
-  setup time. If you update a vendored lib, its constraint may raise the
-  effective PHP floor above the hard-coded minimum of 7.1
-  (`code/api/index.php:25`) — check `make setuponly` / `check_composer()`
-  output after doing so.
+  setup time. Libs are resolved for the PHP that ran `composer require`,
+  so their constraint can be above the hard-coded minimum of 8.1
+  (`code/api/index.php:25`); on an older PHP, rerun the lib's `sanz.txt`
+  to get a compatible version instead of raising the minimum. Check
+  `make setuponly` / `check_composer()` output after updating a lib.
 
 ---
 
 ## Setup & Installation
 
-SQLite setup:
+Select the database engine (only writes data/files/config.xml):
 
 make setupsqlite
-make setupall
-
-MySQL setup:
-
 make setupmysql
+
+Initialize the selected engine:
+
+make setuponly     # core schema + static data
+make setupdemo     # setuponly + demo data for all apps
+
+Full reset (maintainer only, destructive):
+
 make setupall
+
+Drops the `saltos` MariaDB database and empties code/data/*, installs demo
+data on both MySQL and SQLite, and finally removes config.xml (back to the
+default engine, pdo_mysql). Never run it without the user's explicit OK,
+and don't precede it with setupsqlite/setupmysql - it ignores them.
 
 Manual setup:
 
@@ -313,6 +324,8 @@ Contains:
 - cache
 - logs
 - files
+- inbox
+- outbox
 - upload
 - temp
 - trash
