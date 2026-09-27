@@ -145,8 +145,9 @@ function check_directories()
  * Checks PHP version and PHP extension requirements defined in composer.lock files of local packages,
  * including extension version constraints when available.
  *
- * This function scans all composer.lock files under lib directory and verifies if:
- * - The current PHP version satisfies "require['php']" constraints.
+ * This function defines an array with the directory of each local package and the trigger used
+ * when its requirements are not satisfied (error or warning), and verifies if:
+ * - The current PHP version satisfies "require['php']" and "require['php-64bit']" constraints.
  * - The required PHP extensions (marked as "require['ext-xxx']") are loaded.
  * - The extension versions (when specified and detectable) satisfy the given constraints.
  *
@@ -156,11 +157,29 @@ function check_composer()
 {
     require_once 'lib/semver/vendor/autoload.php';
     $result = [];
-    $files = glob('lib/*/composer.lock');
-    foreach ($files as $file) {
-        $dir = dirname($file);
-        if (substr($dir, -4, 4) === '.old') {
+    // PACKAGE CHECKS
+    $items = [
+        ['lib/edifact', 'error'], // import and export modules
+        ['lib/html2text', 'error'], // core module
+        ['lib/phpspreadsheet', 'error'], // import and export modules
+        ['lib/semver', 'error'], // setup module
+        ['lib/tc-lib-pdf', 'error'], // pdf, barcode and qrcode modules
+        ['lib/tcpdf', 'error'], // pdf module
+        ['lib/yaml', 'warning'], // only used when php-yaml is missing
+        ['lib/zxcvbn', 'error'], // password module
+        ['apps/certs/lib/fpdf', 'error'], // certs module
+        ['apps/certs/lib/fpdi', 'error'], // certs module
+        ['apps/emails/lib/mailmimeparser', 'warning'], // only used when php-mailparse is missing
+        ['apps/emails/lib/phpmailer', 'error'], // emails module
+    ];
+    foreach ($items as $item) {
+        [$dir, $trigger] = $item;
+        $file = "$dir/composer.lock";
+        if (!file_exists($file)) {
+            // @codeCoverageIgnoreStart
+            // the app that ships this package is not installed
             continue;
+            // @codeCoverageIgnoreEnd
         }
         $json = file_get_contents($file);
         $array = json_decode($json, true);
@@ -173,13 +192,14 @@ function check_composer()
             }
             $name = $package['name'];
             foreach ($package['require'] as $key => $val) {
-                if ($key === 'php') {
+                if (in_array($key, ['php', 'php-64bit'], true)) {
                     if (!Composer\Semver\Semver::satisfies(PHP_VERSION, $val)) {
                         // @codeCoverageIgnoreStart
                         // a working install satisfies every composer.lock
-                        // requirement by construction, so this never triggers
+                        // requirement by construction, except for the packages
+                        // resolved for a newer php than the running one
                         $result[] = [
-                            'error' => "$name requires $val",
+                            $trigger => "$name requires $val",
                             'details' => "Try to upgrade your php or downgrade the $name package",
                         ];
                         // @codeCoverageIgnoreEnd
@@ -190,7 +210,7 @@ function check_composer()
                     if (!extension_loaded($ext)) {
                         // @codeCoverageIgnoreStart
                         $result[] = [
-                            'error' => "$name requires extension $ext",
+                            $trigger => "$name requires extension $ext",
                             'details' => "Try to install the $ext extension",
                         ];
                         continue;
@@ -200,14 +220,14 @@ function check_composer()
                         continue;
                     }
                     // @codeCoverageIgnoreStart
-                    // none of the local lib/*/composer.lock files pin an
+                    // none of the local composer.lock files pin an
                     // extension version tighter than "*", so this is never
                     // reached; kept for whenever one eventually does
                     $ver = phpversion($ext);
                     if ($ver !== false) {
                         if (!Composer\Semver\Semver::satisfies($ver, $val)) {
                             $result[] = [
-                                'error' => "$name requires $ext $val (current: $ver)",
+                                $trigger => "$name requires $ext $val (current: $ver)",
                                 'details' => "Upgrade your $ext extension or downgrade the $name package",
                             ];
                         }

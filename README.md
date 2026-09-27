@@ -6,7 +6,7 @@
 **Ready-to-use business apps - and the framework to build your own**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
-[![PHP](https://img.shields.io/badge/PHP-8.1%20to%208.5-777BB4.svg)](https://www.php.net/)
+[![PHP](https://img.shields.io/badge/PHP-8.2%20to%208.5-777BB4.svg)](https://www.php.net/)
 [![Release](https://img.shields.io/github/v/release/josepsanzcamp/SaltOS4)](https://github.com/josepsanzcamp/SaltOS4/releases/latest)
 [![Demo](https://img.shields.io/badge/Demo-Live-success)](https://demos.saltos.org/)
 [![Docs](https://img.shields.io/badge/Docs-9%20PDFs-orange)](https://github.com/josepsanzcamp/SaltOS4/tree/master/docs)
@@ -325,7 +325,7 @@ and MSSQL drivers also ship, but for targeted integration work rather than
 general deployment.
 
 ### Core Technologies
-- **Backend**: PHP 8.1-8.5 (strict types, tested)
+- **Backend**: PHP 8.2-8.5 (strict types, tested)
 - **Frontend**: Vanilla JavaScript, Bootstrap 5, TomSelect, Jodit Editor, ECharts
 - **Storage**: Multi-database abstraction layer (PDO)
 - **Testing**: PHPUnit (backend) + Jest (frontend)

@@ -174,13 +174,16 @@ generic advice):
   (`make_version()`) — it stores deltas plus a hash of the previous version
   per register. Never write to version rows directly; always go through
   this function.
-- **Vendored libraries** under `code/api/lib/*/` each carry their own
-  `composer.lock`. `check_composer()` (`code/api/php/autoload/system.php:154`)
-  validates the running PHP against each lib's `require.php` constraint at
-  setup time. Libs are resolved for the PHP that ran `composer require`,
-  so their constraint can be above the hard-coded minimum of 8.1
-  (`code/api/index.php:25`); on an older PHP, rerun the lib's `sanz.txt`
-  to get a compatible version instead of raising the minimum. Check
+- **Vendored libraries** under `code/api/lib/*/` and `code/apps/*/lib/*/`
+  each carry their own `composer.lock`. `check_composer()`
+  (`code/api/php/autoload/system.php:156`) validates the running PHP
+  against the `php` / `php-64bit` constraints of each lib in its `$items`
+  list at setup time, as an error or as a warning (libs only used when a
+  PHP extension is missing, like `lib/yaml`). Libs are resolved for the
+  PHP that ran `composer require`, so a lib whose latest release needs
+  more than the hard-coded minimum of 8.2 (`code/api/index.php:25`) is
+  pinned with `composer config platform.php 8.2.0` in its `sanz.txt`
+  (see `lib/phpspreadsheet`) instead of raising the minimum. Check
   `make setuponly` / `check_composer()` output after updating a lib.
 
 ---

@@ -22,11 +22,11 @@ pitfalls — it defers to this file for anything not agent-specific.
 
 ### Prerequisites
 
-- PHP 8.1-8.5 (8.1 is the hard floor enforced in `api/index.php`; the
-  vendored libraries under `code/api/lib/*/` are resolved for the PHP that
-  ran `composer require`, so on an older PHP rerun that lib's `sanz.txt`
-  to get a compatible version - `setup` runs `check_composer()` to catch
-  any mismatch)
+- PHP 8.2-8.5 (8.2 is the hard floor enforced in `api/index.php`; every
+  vendored library must work on it, so a library whose latest release
+  needs a newer PHP is pinned with `composer config platform.php 8.2.0`
+  in its `sanz.txt` - `setup` runs `check_composer()` to catch any
+  mismatch)
 - Node.js (for frontend testing)
 - MySQL/MariaDB or SQLite
 - Git

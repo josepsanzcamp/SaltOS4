@@ -78,6 +78,9 @@ function test_pcov_stop($index): void
     if ($buffer === '') {
         throw new Error('Coverage pipe is void');
     }
+    if (!CodeCoverage::instance()->isActive()) {
+        return;
+    }
     $collected = unserialize($buffer);
 
     $coverage = RawCodeCoverageData::fromLineCoverage($collected);

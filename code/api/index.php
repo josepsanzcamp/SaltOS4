@@ -22,8 +22,8 @@ declare(strict_types=1);
  * This php comparison must be placed here to detect old versions that
  * breaks by the syntax found in other php scripts
  */
-if (version_compare(PHP_VERSION, '8.1', '<')) {
-    die('PHP 8.1 is required, currently installed version is ' . PHP_VERSION);
+if (version_compare(PHP_VERSION, '8.2', '<')) {
+    die('PHP 8.2 is required, currently installed version is ' . PHP_VERSION);
 }
 
 /**
