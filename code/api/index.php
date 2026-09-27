@@ -20,10 +20,10 @@ declare(strict_types=1);
 
 /**
  * This php comparison must be placed here to detect old versions that
- * breaks by the null coalescing operator found in other php scripts
+ * breaks by the syntax found in other php scripts
  */
-if (version_compare(PHP_VERSION, '7.1', '<')) {
-    die('PHP 7.1 is required, currently installed version is ' . PHP_VERSION);
+if (version_compare(PHP_VERSION, '8.1', '<')) {
+    die('PHP 8.1 is required, currently installed version is ' . PHP_VERSION);
 }
 
 /**

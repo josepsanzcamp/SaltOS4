@@ -62,7 +62,6 @@ function saltos_content_type($file)
     if (function_exists('finfo_file')) {
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $type = finfo_file($finfo, $file);
-        finfo_close_deprecated($finfo);
         return $type;
     }
     // @codeCoverageIgnoreEnd
@@ -131,7 +130,6 @@ function saltos_content_type_from_string($buffer)
     if (function_exists('finfo_file')) {
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $type = finfo_buffer($finfo, $buffer);
-        finfo_close_deprecated($finfo);
         return $type;
     }
     return 'application/octet-stream';

@@ -70,6 +70,5 @@ function __score_image($score, $width, $height, $size)
     ob_start();
     imagepng($im);
     $buffer = ob_get_clean();
-    imagedestroy_deprecated($im);
     return $buffer;
 }

@@ -258,7 +258,6 @@ function xml2struct($xml, $file = '')
             'xmlerror' => "Error $code: $error (on file $file at line $linea,$fila)",
         ]);
     }
-    xml_parser_free_deprecated($parser);
     return $array;
 }
 

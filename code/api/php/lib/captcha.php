@@ -168,8 +168,6 @@ function __captcha_image($code, $args = [])
     ob_start();
     imagepng($im);
     $buffer = ob_get_clean();
-    imagedestroy_deprecated($im);
-    imagedestroy_deprecated($im2);
     return $buffer;
 }
 
