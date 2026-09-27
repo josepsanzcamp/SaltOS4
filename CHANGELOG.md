@@ -15,6 +15,9 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 ### Removed
 - Compatibility wrappers and polyfills for PHP versions older than 8.1.
 
+### Fixed
+- open_basedir error when generating PDFs with TCPDF on restricted hostings, and TCPDF errors reported as exceptions again instead of stopping the execution.
+
 ### Security
 - Removed the posix_getuid() polyfill, which made the CLI `user=` owner check always pass when the posix extension was missing; posix is now a required extension.
 

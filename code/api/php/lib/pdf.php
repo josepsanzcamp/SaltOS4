@@ -28,9 +28,17 @@ declare(strict_types=1);
  */
 
 /**
- * Define the fonts path used by TCPDF and load the tc-lib-pdf and tcpdf
- * vendor autoloaders required by this module
+ * Define the TCPDF settings used by SaltOS, instead of loading the vendor
+ * tcpdf_config.php, and load the tc-lib-pdf and tcpdf vendor autoloaders
+ * required by this module
  */
+define('K_TCPDF_EXTERNAL_CONFIG', true); // to prevent the load of tcpdf_config.php
+define('K_TCPDF_THROW_EXCEPTION_ERROR', true); // to force a throw exception on error
+define('K_PATH_IMAGES', ''); // to prevent open_basedir restriction
+define('K_TIMEZONE', 'UTC');
+define('PDF_FONT_NAME_MAIN', 'atkinsonhyperlegiblenext');
+define('PDF_FONT_NAME_DATA', 'atkinsonhyperlegiblenext');
+define('PDF_FONT_MONOSPACED', 'atkinsonhyperlegiblemono');
 define('K_PATH_FONTS', realpath('lib/tc-lib-pdf/vendor/tecnickcom/tc-lib-pdf-font/target/fonts'));
 require_once 'lib/tc-lib-pdf/vendor/autoload.php';
 require_once 'lib/tcpdf/vendor/autoload.php';
