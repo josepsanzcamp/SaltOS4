@@ -77,8 +77,25 @@ class Dumper
                 }
 
                 if (Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK & $flags && \is_string($value) && str_contains($value, "\n") && !str_contains($value, "\r")) {
-                    $output .= \sprintf('%s%s%s |%s%s', $prefix, $dumpAsMap ? Inline::dump($key, $flags).':' : '-', '', $this->getBlockIndentationIndicator($value), $this->getBlockChompingIndicator($value));
-                    $output .= $this->dumpBlockScalarLines($value, $prefix);
+                    $blockIndentationIndicator = $this->getBlockIndentationIndicator($value);
+
+                    if (isset($value[-2]) && "\n" === $value[-2] && "\n" === $value[-1]) {
+                        $blockChompingIndicator = '+';
+                    } elseif ("\n" === $value[-1]) {
+                        $blockChompingIndicator = '';
+                    } else {
+                        $blockChompingIndicator = '-';
+                    }
+
+                    $output .= \sprintf('%s%s%s |%s%s', $prefix, $dumpAsMap ? Inline::dump($key, $flags).':' : '-', '', $blockIndentationIndicator, $blockChompingIndicator);
+
+                    foreach (explode("\n", $value) as $row) {
+                        if ('' === $row) {
+                            $output .= "\n";
+                        } else {
+                            $output .= \sprintf("\n%s%s%s", $prefix, str_repeat(' ', $this->indentation), $row);
+                        }
+                    }
 
                     continue;
                 }
@@ -86,9 +103,13 @@ class Dumper
                 if ($value instanceof TaggedValue) {
                     $output .= \sprintf('%s%s !%s', $prefix, $dumpAsMap ? Inline::dump($key, $flags).':' : '-', $value->getTag());
 
-                    if (Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK & $flags && \is_string($value->getValue()) && str_contains($value->getValue(), "\n") && !str_contains($value->getValue(), "\r")) {
-                        $output .= \sprintf(' |%s%s', $this->getBlockIndentationIndicator($value->getValue()), $this->getBlockChompingIndicator($value->getValue()));
-                        $output .= $this->dumpBlockScalarLines($value->getValue(), $prefix);
+                    if (Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK & $flags && \is_string($value->getValue()) && str_contains($value->getValue(), "\n") && !str_contains($value->getValue(), "\r\n")) {
+                        $blockIndentationIndicator = $this->getBlockIndentationIndicator($value->getValue());
+                        $output .= \sprintf(' |%s', $blockIndentationIndicator);
+
+                        foreach (explode("\n", $value->getValue()) as $row) {
+                            $output .= \sprintf("\n%s%s%s", $prefix, str_repeat(' ', $this->indentation), $row);
+                        }
 
                         continue;
                     }
@@ -127,9 +148,13 @@ class Dumper
     {
         $output = \sprintf('%s!%s', $prefix ? $prefix.' ' : '', $value->getTag());
 
-        if (Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK & $flags && \is_string($value->getValue()) && str_contains($value->getValue(), "\n") && !str_contains($value->getValue(), "\r")) {
-            $output .= \sprintf(' |%s%s', $this->getBlockIndentationIndicator($value->getValue()), $this->getBlockChompingIndicator($value->getValue()));
-            $output .= $this->dumpBlockScalarLines($value->getValue(), $prefix);
+        if (Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK & $flags && \is_string($value->getValue()) && str_contains($value->getValue(), "\n") && !str_contains($value->getValue(), "\r\n")) {
+            $blockIndentationIndicator = $this->getBlockIndentationIndicator($value->getValue());
+            $output .= \sprintf(' |%s', $blockIndentationIndicator);
+
+            foreach (explode("\n", $value->getValue()) as $row) {
+                $output .= \sprintf("\n%s%s%s", $prefix, str_repeat(' ', $this->indentation), $row);
+            }
 
             return $output;
         }
@@ -139,34 +164,6 @@ class Dumper
         }
 
         return $output."\n".$this->doDump($value->getValue(), $inline - 1, $indent, $flags, $nestingLevel + 1);
-    }
-
-    private function getBlockChompingIndicator(string $value): string
-    {
-        if (isset($value[-2]) && "\n" === $value[-2] && "\n" === $value[-1]) {
-            return '+';
-        }
-
-        if ("\n" === $value[-1]) {
-            return '';
-        }
-
-        return '-';
-    }
-
-    private function dumpBlockScalarLines(string $value, string $prefix): string
-    {
-        $output = '';
-
-        foreach (explode("\n", $value) as $row) {
-            if ('' === $row) {
-                $output .= "\n";
-            } else {
-                $output .= \sprintf("\n%s%s%s", $prefix, str_repeat(' ', $this->indentation), $row);
-            }
-        }
-
-        return $output;
     }
 
     private function getBlockIndentationIndicator(string $value): string

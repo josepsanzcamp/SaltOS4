@@ -68,11 +68,6 @@ final class test_yaml extends TestCase
         $files = glob('apps/*/xml/*.yaml');
         $this->assertNotEmpty($files);
 
-        $issues = array_filter(check_composer(), fn($x) => str_starts_with($x['warning'] ?? '', 'symfony/yaml '));
-        if ($issues) {
-            $this->markTestSkipped(reset($issues)['warning']);
-        }
-
         require_once 'lib/yaml/vendor/autoload.php';
 
         foreach ($files as $file) {

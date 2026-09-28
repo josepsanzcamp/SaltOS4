@@ -10,7 +10,7 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 
 ### Changed
 - Minimum PHP version raised from 7.1 to 8.2, the lowest version supported by tcpdf 7 and tc-lib-pdf.
-- phpspreadsheet dependencies pinned to PHP 8.2 (zipstream-php 3.1.2).
+- phpspreadsheet and symfony/yaml dependencies pinned to PHP 8.2 (zipstream-php 3.1.2, symfony/yaml 7.4 LTS).
 - Setup checks the requirements of the apps libraries too, and reports as warnings the libraries only used when a PHP extension is missing (yaml, mailmimeparser).
 - Third-party libraries updated to their latest releases (joditeditor 4.15.14, tcpdf 7.0.12, tc-lib-pdf 8.76.2, semver 3.5.0).
 
