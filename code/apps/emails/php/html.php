@@ -307,7 +307,7 @@ function __inline_img_helper($src)
         'src' => $src,
         'data' => $data,
     ]));
-    chmod_protected($cache, 0666);
+    chmod_protected($error, 0666);
     return __GIF_IMAGE__;
 }
 
