@@ -19,7 +19,7 @@ interactjs|https://github.com/taye/interact.js/tags.atom|<title>|PHRpdGxlPnYxLjE
 joditeditor|https://github.com/xdan/jodit/tags.atom|<title>|PHRpdGxlPjQuMTYuMDwvdGl0bGU+
 jspreadsheet|https://data.jsdelivr.com/v1/packages/npm/jspreadsheet-ce/resolved|version|InZlcnNpb24iOiAiNS4wLjQiLA==
 jstree|https://github.com/vakata/jstree/commits/v.4.0.atom|<updated>|PHVwZGF0ZWQ+MjAyMy0wMS0xNlQxMTo1MzoyMFo8L3VwZGF0ZWQ+
-jsuites|https://data.jsdelivr.com/v1/packages/npm/jsuites/resolved|version|InZlcnNpb24iOiAiNi40LjMiLA==
+jsuites|https://data.jsdelivr.com/v1/packages/npm/jsuites/resolved|version|InZlcnNpb24iOiAiNi41LjAiLA==
 masonry|https://github.com/desandro/masonry/tags.atom|<title>|PHRpdGxlPnY0LjIuMiAtIGZsb2F0IHBvc2l0aW9uIHZhbHVlczwvdGl0bGU+
 md5|https://github.com/emn178/js-md5/tags.atom|<title>|PHRpdGxlPnYwLjkuMjwvdGl0bGU+
 pdfjs|https://github.com/mozilla/pdf.js/tags.atom|<title>|PHRpdGxlPnY2LjMuMjg5PC90aXRsZT4=
