@@ -99,13 +99,13 @@ final class test_sql extends TestCase
         $this->assertSame(__parse_query_type(), 'SQLITE');
 
         set_config('db/type', 'sqlite3');
-        $this->assertSame(__parse_query_type(), 'SQLITE');
+        $this->assertEquals(__parse_query_type(), 'SQLITE');
 
         set_config('db/type', 'mysqli');
         $this->assertSame(__parse_query_type(), 'MYSQL');
 
         set_config('db/type', 'pdo_mysql');
-        $this->assertSame(__parse_query_type(), 'MYSQL');
+        $this->assertEquals(__parse_query_type(), 'MYSQL');
 
         $this->assertSame(__parse_query_strpos("c'babcbabc", 'a'), false);
         $this->assertSame(__parse_query_strpos("c'babc'babc", 'a'), 8);

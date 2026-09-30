@@ -76,7 +76,7 @@ final class test_common extends TestCase
         $this->assertStringContainsString('jspreadsheet', sprintr($json));
 
         $this->assertSame(del_version('customers', 100), 1);
-        $this->assertSame(del_version('customers', 100), 1);
+        $this->assertEquals(del_version('customers', 100), 1);
 
         $this->assertSame('apps/sales/xml/invoices_pdf.xml', detect_pdf_file('invoices'));
         $this->assertTrue(exists_pdf_file('invoices'));

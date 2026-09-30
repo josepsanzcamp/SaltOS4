@@ -147,7 +147,7 @@ final class test_file extends TestCase
 
         $errno = 0;
         $errstr = '';
-        $fd = fsockopen_protected('127.0.0.1', 80, $errno, $errstr, null);
+        $fd = fsockopen_protected('127.0.0.1', 8080, $errno, $errstr, null);
         $this->assertSame(is_resource($fd), true);
 
         $buffer = __url_get_contents('http://127.0.0.1nada:8080/api/?/auth/check');

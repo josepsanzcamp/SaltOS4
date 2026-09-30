@@ -72,7 +72,7 @@ final class test_semaphore extends TestCase
 
         $file = semaphore_file();
         chmod($file, 0444);
-        $this->assertSame(semaphore_acquire(), false);
+        $this->assertFalse(semaphore_acquire());
         chmod($file, 0666);
 
         $fd = @fopen($file, 'a');

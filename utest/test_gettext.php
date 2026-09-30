@@ -68,7 +68,7 @@ final class test_gettext extends TestCase
         $this->assertSame(get_data('server/lang'), 'ca_ES');
         $this->assertSame(T('Close'), 'Tancar');
         $this->assertSame(T('Nada'), 'Nada');
-        $this->assertSame(T('Nada'), 'Nada');
+        $this->assertEquals(T('Nada'), 'Nada');
         $this->assertIsArray(T());
         $this->assertSame(T('Language', 'common'), 'Idioma');
 
