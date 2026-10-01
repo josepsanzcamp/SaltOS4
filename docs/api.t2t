@@ -1,6 +1,6 @@
 Api Documentation
-SaltOS 4.1 r2684
-September 2026
+SaltOS 4.1 r2696
+October 2026
 
 
 
@@ -5382,28 +5382,6 @@ be moved to the trash folder to allow the previous recovery from the
 version table
 
 
-++Apache helper module++
-
-```
-api/php/lib/apache.php
-```
-
-This file contains functions to check that the apache/web server serving
-the API is properly configured
-
-
-+++Check apache configuration+++
-
-```
-function check_apache($url)
-```
-
-This function requests the given URL to verify that the API is reachable and that
-the apache/php configuration follows the security recommendations (exposed headers,
-forbidden paths, Authorization Bearer header support, ...), returning an array of
-errors and warnings found.
-
-
 ++Array to XML helper module++
 
 ```
@@ -7672,6 +7650,28 @@ write the score percent
 - @width  => the width of the generated image
 - @height => the height of the generated image
 - @size   => the size of the font of the generated image
+
+
+++Server helper module++
+
+```
+api/php/lib/server.php
+```
+
+This file contains functions to check that the web server serving
+the API is properly configured
+
+
++++Check server configuration+++
+
+```
+function check_server($url)
+```
+
+This function requests the given URL to verify that the API is reachable and that
+the web server/php configuration follows the security recommendations (exposed headers,
+forbidden paths, Authorization Bearer header support, ...), returning an array of
+errors and warnings found.
 
 
 ++Setup helper module++

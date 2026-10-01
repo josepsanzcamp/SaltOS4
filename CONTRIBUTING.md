@@ -47,7 +47,7 @@ bash ../scripts/make_instance.sh
 php api/index.php setup
 
 # 4. Start development server
-php -S localhost:8080 -t web
+php -S localhost:8080 -t web ../scripts/router.php
 ```
 
 ### Verify Installation
@@ -60,6 +60,19 @@ make check
 It lists the instance directories and the development and production
 commands, each one marked as `OK` or `KO`. A `KO` only matters for the
 features that need that command.
+
+```bash
+# Check the web server configuration (from the instance directory)
+php api/index.php setup/server http://localhost:8080/api
+```
+
+It requests the API through the web server and returns the errors and
+warnings found: API not reachable, `Authorization` header not forwarded,
+`X-Powered-By` or a detailed `Server` header exposed, and sensitive paths
+(`config.xml`, `saltos.sqlite`, libraries, ...) that can be downloaded or
+executed. A `count` of 0 means that the installation is correct, with any
+web server (Apache with the `.htaccess` files enabled, or `php -S` with
+`scripts/router.php`).
 
 ---
 

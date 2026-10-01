@@ -249,9 +249,12 @@ user=admin php api/index.php setup/purchases
 user=admin php api/index.php setup/sales
 
 # 5. Start web server
-php -S 0.0.0.0:8080 -t web
+php -S 0.0.0.0:8080 -t web ../scripts/router.php
 
-# 6. Open browser
+# 6. Check the web server configuration (from another terminal)
+php api/index.php setup/server http://localhost:8080/api
+
+# 7. Open browser
 open http://localhost:8080
 ```
 

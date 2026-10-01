@@ -35,17 +35,17 @@ db_connect();
 require_once 'php/lib/dbschema.php';
 require_once 'php/lib/setup.php';
 
-// This part allow request to the setup/apache
-if (get_data('rest/1') === 'apache') {
+// This part allow request to the setup/server
+if (get_data('rest/1') === 'server') {
     $argv = get_server('argv');
     $url = array_pop($argv);
-    require_once 'php/lib/apache.php';
+    require_once 'php/lib/server.php';
     $time0 = microtime(true);
-    $output = check_apache($url);
+    $output = check_server($url);
     $time1 = microtime(true);
     semaphore_release('setup');
     output_handler_json([
-        'apache' => [
+        'server' => [
             'time' => round($time1 - $time0, 6),
             'output' => $output,
             'count' => count($output),

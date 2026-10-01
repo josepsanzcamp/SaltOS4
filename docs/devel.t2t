@@ -1,6 +1,6 @@
 Devel Documentation
-SaltOS 4.1 r2678
-September 2026
+SaltOS 4.1 r2696
+October 2026
 
 
 
@@ -384,7 +384,6 @@ Supports:
 Not autoloaded; provide extra functionality:
 
 - `lib/actions.php`: * Actions module
-- `lib/apache.php`: * Apache helper module
 - `lib/array2xml.php`: * Array to XML helper module
 - `lib/ascii.php`: * Make Table ASCII
 - `lib/auth.php`: * Login functions
@@ -410,6 +409,7 @@ Not autoloaded; provide extra functionality:
 - `lib/push.php`: * Push utils helper module
 - `lib/qrcode.php`: * QRCode helper module
 - `lib/score.php`: * Score image helper module
+- `lib/server.php`: * Server helper module
 - `lib/setup.php`: * Setup helper module
 - `lib/trash.php`: * Send file to trash
 - `lib/unoconv.php`: * Unoconv library
@@ -1921,7 +1921,9 @@ These targets trigger internal maintenance operations in SaltOS4. They execute s
 ++Local Web Server++
 
 These targets run the PHP built-in web server on `0.0.0.0:8080`, serving
-`code/web/`, in the background.
+`code/web/`, in the background. The server uses `scripts/router.php`, which
+applies the access rules of the `.htaccess` files like apache does, because
+`php -S` ignores them.
 
 - `make httpstart`: Starts the server.
 - `make httpstop`: Stops the server.

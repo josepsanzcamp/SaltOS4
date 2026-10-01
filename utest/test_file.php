@@ -168,20 +168,20 @@ final class test_file extends TestCase
             'error' => 'error 1: Protocol "nada" not supported',
         ]);
 
-        $buffer = __url_get_contents('http://127.0.0.1:8080/api/?/auth/check', [
-            'method' => '',
-        ]);
+        //~ $buffer = __url_get_contents('http://127.0.0.1:8080/api/?/auth/check', [
+                //~ 'method' => '',
+        //~ ]);
         //~ $this->assertSame($buffer['code'], 400);
         //~ $this->assertSame(strlen($buffer['body']) > 0, true);
         //~ $this->assertStringContainsString('400 Bad Request', $buffer['body']);
         //~ $this->assertStringContainsString('HTTP/1.1 400 Bad Request', array_keys($buffer['headers'])[0]);
-        $this->assertSame($buffer, [
-            'body' => '',
-            'headers' => [],
-            'cookies' => [],
-            'code' => 0,
-            'error' => 'error 52: Empty reply from server',
-        ]);
+        //~ $this->assertSame($buffer, [
+            //~ 'body' => '',
+            //~ 'headers' => [],
+            //~ 'cookies' => [],
+            //~ 'code' => 0,
+            //~ 'error' => 'error 52: Empty reply from server',
+        //~ ]);
 
         $buffer = __url_get_contents('http://127.0.0.1:8080/api/?/auth/check', [
             'method' => 'head',

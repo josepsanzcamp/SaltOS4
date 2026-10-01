@@ -17,21 +17,21 @@
 declare(strict_types=1);
 
 /**
- * Apache helper module
+ * Server helper module
  *
- * This file contains functions to check that the apache/web server serving
+ * This file contains functions to check that the web server serving
  * the API is properly configured
  */
 
 /**
- * Check apache configuration
+ * Check server configuration
  *
  * This function requests the given URL to verify that the API is reachable and that
- * the apache/php configuration follows the security recommendations (exposed headers,
+ * the web server/php configuration follows the security recommendations (exposed headers,
  * forbidden paths, Authorization Bearer header support, ...), returning an array of
  * errors and warnings found.
  */
-function check_apache($url)
+function check_server($url)
 {
     $result = [];
 
@@ -71,7 +71,7 @@ function check_apache($url)
 
     // ServerSignature Off
     // ServerTokens Prod
-    if (isset($response['headers']['Server']) && $response['headers']['Server'] !== 'Apache') {
+    if (isset($response['headers']['Server']) && str_starts_with($response['headers']['Server'], 'Apache/')) {
         $result[] = [
             'warning' => "Server {$response['headers']['Server']} header found",
             'details' => 'Set ServerSignature = Off and ServerTokens = Prod in your apache configuration',
@@ -95,30 +95,37 @@ function check_apache($url)
     // forbidden part
     $urls = [
         "$url/apps/",
+        "$url/apps/common/manifest.yaml",
+        "$url/apps/crm/sample/",
         "$url/data/",
+        "$url/data/cache/",
+        "$url/data/cron/",
         "$url/data/files/",
         "$url/data/files/config.xml",
+        "$url/data/files/dbstats.sqlite",
         "$url/data/files/saltos.sqlite",
+        "$url/data/inbox/",
+        "$url/data/logs/",
+        "$url/data/logs/phperror.log",
+        "$url/data/logs/saltos.log",
+        "$url/data/outbox/",
+        "$url/data/temp/",
+        "$url/data/trash/",
+        "$url/data/upload/",
         "$url/lib/",
-        "$url/lib/tcpdf/vendor/tecnickcom/tcpdf/examples/",
-        "$url/lib/tcpdf/vendor/tecnickcom/tcpdf/examples/index.php",
+        "$url/lib/tc-lib-pdf/import-atkinson.php",
+        "$url/lib/tcpdf/vendor/tecnickcom/tcpdf/tcpdf.php",
+        "$url/php/",
+        "$url/php/action/setup.php",
         "$url/xml/",
         "$url/xml/config.xml",
-        "$url/api/lib/tc-lib-pdf/import-atkinson.php",
     ];
-    $dirs = glob('lib/tc-lib-pdf/vendor/tecnickcom/*/example*', GLOB_ONLYDIR);
-    foreach ($dirs as $dir) {
-        $urls[] = "$url/$dir/";
-        $urls[] = "$url/$dir/index.php";
-    }
     foreach ($urls as $temp) {
         $response = __url_get_contents($temp);
-        $forbidden1 = words_exists('403 Forbidden', $response['body']);
-        $forbidden2 = words_exists('403 Forbidden', array_keys($response['headers'])[0] ?? '');
-        if (!$forbidden1 || !$forbidden2) {
+        if ($response['code'] !== 403) {
             $result[] = [
                 'warning' => "Access allowed to $temp",
-                'details' => 'Enable the .htaccess files in your apache configuration',
+                'details' => 'Deny the access to this path in your web server configuration',
             ];
         }
     }

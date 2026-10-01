@@ -386,7 +386,7 @@ teststatus:
 ################################################################################
 
 httpstart:
-	php -S 0.0.0.0:8080 -t code/web/ 2>/dev/null &
+	php -S 0.0.0.0:8080 -t code/web/ scripts/router.php 2>/dev/null &
 
 httpstop:
 	pkill -f "^php -S 0.0.0.0:8080" || true
