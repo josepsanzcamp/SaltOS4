@@ -112,12 +112,11 @@ final class test_system extends TestCase
         $this->assertSame('X-About header not found', $result[0]['error']);
 
         // Cover the "non 200 OK" error branch of check_server(), by
-        // pointing it at a real directory with no index file, which
-        // 403s under the built-in PHP web server too thanks to the
-        // Options -Indexes applied by scripts/router.php
-        $result = check_server('http://127.0.0.1:8080/img');
+        // pointing it at a directory that does not exist, which 404s
+        // under the built-in PHP web server too thanks to scripts/router.php
+        $result = check_server('http://127.0.0.1:8080/zzz_not_found');
         $this->assertCount(1, $result);
-        $this->assertStringContainsString('403', $result[0]['error']);
+        $this->assertStringContainsString('404', $result[0]['error']);
 
         // Cover the "Authorization Bearer header not found" error
         // branch of check_server(): a url that already carries a
@@ -137,15 +136,18 @@ final class test_system extends TestCase
         // enough of the real API to pass the earlier checks (X-About
         // header, echoing back the Bearer token). Apache and nginx
         // replace the Server header of the script by their own, so the
-        // expected Server warning depends on the header really received
-        mkdir('../web/zzz_server_test');
-        file_put_contents('../web/zzz_server_test/.htaccess', "DirectoryIndex index.php\n");
+        // expected Server warning depends on the header really received.
+        // The directory too publishes an xml directory with a config.xml
+        // file, two of the urls that check_server() expects as not found
+        mkdir('../web/zzz_server_test/xml', 0777, true);
+        file_put_contents('../web/zzz_server_test/xml/index.html', '<html></html>');
+        file_put_contents('../web/zzz_server_test/xml/config.xml', '<root></root>');
         file_put_contents('../web/zzz_server_test/index.php', <<<'PHP'
             <?php
             header('X-About: SaltOS test');
             if (str_contains($_SERVER['QUERY_STRING'] ?? '', 'auth/test')) {
                 header('Content-Type: application/json');
-                $auth = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+                $auth = $_SERVER['HTTP_AUTHORIZATION'] ?? getallheaders()['Authorization'] ?? '';
                 echo json_encode(['token' => trim(str_ireplace('Bearer', '', $auth))]);
             } else {
                 header('X-Powered-By: PHP/test');
@@ -156,7 +158,9 @@ final class test_system extends TestCase
         $response = __url_get_contents('http://127.0.0.1:8080/zzz_server_test/');
         $server = $response['headers']['Server'] ?? '';
         unlink('../web/zzz_server_test/index.php');
-        unlink('../web/zzz_server_test/.htaccess');
+        unlink('../web/zzz_server_test/xml/index.html');
+        unlink('../web/zzz_server_test/xml/config.xml');
+        rmdir('../web/zzz_server_test/xml');
         rmdir('../web/zzz_server_test');
         $serverWarnings = array_values(array_filter(
             $result,
@@ -175,18 +179,26 @@ final class test_system extends TestCase
         $this->assertCount(1, $poweredWarnings);
         $this->assertSame('X-Powered-By PHP/test header found', $poweredWarnings[0]['warning']);
 
-        // The throwaway directory does not contain any of the forbidden
-        // urls (all of them return 404 instead of 403), so check_server()
-        // must report all of them
-        $accessWarnings = array_values(array_filter(
+        // The throwaway directory publishes two of the forbidden urls
+        // (they return 200 instead of 404), so check_server() must
+        // report only these two urls
+        $codeWarnings = array_values(array_filter(
             $result,
-            fn($r) => isset($r['warning']) && str_starts_with($r['warning'], 'Access allowed to ')
+            fn($r) => isset($r['warning']) && str_starts_with($r['warning'], 'Code ')
         ));
-        $this->assertCount(25, $accessWarnings);
-        $this->assertCount(26 + count($serverWarnings), $result);
+        $this->assertCount(2, $codeWarnings);
+        $this->assertSame(
+            'Code 200 found in http://127.0.0.1:8080/zzz_server_test/xml/, expected 404',
+            $codeWarnings[0]['warning']
+        );
+        $this->assertSame(
+            'Code 200 found in http://127.0.0.1:8080/zzz_server_test/xml/config.xml, expected 404',
+            $codeWarnings[1]['warning']
+        );
+        $this->assertCount(3 + count($serverWarnings), $result);
 
-        // The real API protects all the forbidden urls, so check_server()
-        // must not report anything
+        // The real API does not publish any of the forbidden urls, so
+        // check_server() must not report anything
         $result = check_server('http://127.0.0.1:8080/api');
         $this->assertSame([], $result);
 

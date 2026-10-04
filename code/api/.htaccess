@@ -1,10 +1,2 @@
-Options -Indexes
-DirectoryIndex index.php
-
-<Files "*">
-    Require all denied
-</Files>
-
-<FilesMatch "^(index\.php)?$">
-    Require all granted
-</FilesMatch>
+# Minimum security: this directory must not be published, only the web directory
+Require all denied

@@ -55,6 +55,7 @@ RUN apt update && apt install -y \
     php${PHP_VERSION}-cli \
     php${PHP_VERSION}-common \
     php${PHP_VERSION}-curl \
+    php${PHP_VERSION}-fpm \
     php${PHP_VERSION}-gd \
     php${PHP_VERSION}-imap \
     php${PHP_VERSION}-mailparse \
@@ -68,25 +69,16 @@ RUN apt update && apt install -y \
     php${PHP_VERSION}-zstd \
     && rm -rf /var/lib/apt/lists/*
 
-# apache
+# nginx
 RUN apt update && apt install -y \
-    apache2 \
-    libapache2-mod-php${PHP_VERSION} \
+    nginx \
     && rm -rf /var/lib/apt/lists/*
 
-RUN sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 50M/' /etc/php/${PHP_VERSION}/apache2/php.ini && \
-    sed -i 's/post_max_size = 8M/post_max_size = 50M/' /etc/php/${PHP_VERSION}/apache2/php.ini && \
-    sed -i 's/memory_limit = 128M/memory_limit = 256M/' /etc/php/${PHP_VERSION}/apache2/php.ini && \
-    sed -i 's/max_execution_time = 30/max_execution_time = 300/' /etc/php/${PHP_VERSION}/apache2/php.ini
-
-RUN a2enmod rewrite \
-    && a2enmod headers \
-    && a2enmod expires \
-    && a2enmod deflate \
-    && a2enmod php${PHP_VERSION}
-
-RUN echo "ServerName localhost\n<Directory /var/www/html>\n\tAllowOverride All\n\tRequire all granted\n</Directory>" \
-    > /etc/apache2/conf-enabled/saltos.conf
+RUN sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 50M/' /etc/php/${PHP_VERSION}/fpm/php.ini && \
+    sed -i 's/post_max_size = 8M/post_max_size = 50M/' /etc/php/${PHP_VERSION}/fpm/php.ini && \
+    sed -i 's/memory_limit = 128M/memory_limit = 256M/' /etc/php/${PHP_VERSION}/fpm/php.ini && \
+    sed -i 's/max_execution_time = 30/max_execution_time = 300/' /etc/php/${PHP_VERSION}/fpm/php.ini && \
+    sed -i 's/expose_php = On/expose_php = Off/' /etc/php/${PHP_VERSION}/fpm/php.ini
 
 # xlsxio
 RUN apt update && apt install -y \
@@ -140,29 +132,32 @@ COPY code /opt/saltos4/code
 COPY scripts /opt/saltos4/scripts
 COPY .git /opt/saltos4/.git
 
-# instance setup: point the apache docroot at instances
+# instance setup: the private directory contains the full instances and the
+# public directory is the document root and only contains the index.php and
+# one link to the web directory of each instance
 # seed data used to populate the bind-mounted volumes on first boot
 RUN cd /opt/saltos4 \
-    && mkdir instances \
+    && mkdir -p instances/private/removed instances/public \
     && cd instances \
-    && ln -s ../code code \
-    && ln -s ../scripts scripts \
-    && ln -s scripts/demos_index.php index.php \
-    && mkdir removed \
+    && ln -s ../../code private/code \
+    && ln -s ../../scripts private/scripts \
+    && ln -s ../../scripts/demos_index.php public/index.php \
     && cd .. \
     && chown -R www-data:www-data instances \
     && chmod -R 0755 instances \
-    && chown www-data:www-data /var/www \
-    && cd /var/www \
-    && mv html html.old \
-    && ln -s /opt/saltos4/instances html \
     && mv /opt/saltos4/instances /opt/saltos4/instances-seed \
     && mkdir /opt/saltos4/instances
 
-# crontab: purge demos older than 7 days, running trash.php locally (no apache involved)
+# nginx site: the recipe of scripts/server.nginx.conf with the public directory
+RUN rm -f /etc/nginx/sites-enabled/default \
+    && sed -e 's|/path/to/saltos4/code/web|/opt/saltos4/instances/public|' \
+        -e "s|php[0-9.]*-fpm.sock|php${PHP_VERSION}-fpm.sock|" \
+        /opt/saltos4/scripts/server.nginx.conf > /etc/nginx/sites-enabled/saltos4
+
+# crontab: purge demos older than 7 days, running trash.php locally (no web server involved)
 RUN cat <<'EOF' > /etc/cron.d/saltos4 && chmod 0644 /etc/cron.d/saltos4
 MAILTO=""
-0 * * * * www-data cd /opt/saltos4/instances && php /opt/saltos4/scripts/demos_trash.php
+0 * * * * www-data cd /opt/saltos4/instances/private && php /opt/saltos4/scripts/demos_trash.php
 EOF
 
 # entrypoint: populate the bind-mounted instances dir with symlinks on first boot, then start services
@@ -174,7 +169,8 @@ if [ -z "$(ls -A /opt/saltos4/instances)" ]; then
     cp -a /opt/saltos4/instances-seed/. /opt/saltos4/instances/
 fi
 
-service apache2 start
+/etc/init.d/php*-fpm start
+service nginx start
 service cron start
 exec /bin/tail -f /dev/null
 EOF

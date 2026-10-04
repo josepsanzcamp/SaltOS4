@@ -60,7 +60,7 @@ final class test_zindex extends TestCase
         $this->assertArrayHasKey('error', $json);
 
         test_pcov_start();
-        $response = __url_get_contents('http://127.0.0.1:8080/api/?/nada', [
+        $response = __url_get_contents('http://127.0.0.1:8080/api/index.php?/nada', [
             'method' => 'put',
         ]);
         test_pcov_stop(1);

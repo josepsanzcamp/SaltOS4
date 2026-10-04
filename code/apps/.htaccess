@@ -1,17 +1,2 @@
-Options -Indexes
-
-<Files "*">
-    Require all denied
-</Files>
-
-<Files "*.js">
-    Require all granted
-</Files>
-
-<Files "*.css">
-    Require all granted
-</Files>
-
-<Files "*.pdf">
-    Require all granted
-</Files>
+# Minimum security: this directory must not be published, only the web directory
+Require all denied

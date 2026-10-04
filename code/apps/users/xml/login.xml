@@ -47,7 +47,7 @@
             </div>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash('apps/users/js/login.js')</file>
+            <file eval="true">file_with_hash(file_with_min('apps/users/js/login.js'))</file>
             <inline>(() => {
                 const params = new URLSearchParams(window.location.search);
                 document.getElementById('user').value = params.get('user') ?? '';

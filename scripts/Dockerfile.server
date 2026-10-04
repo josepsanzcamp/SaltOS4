@@ -128,6 +128,7 @@ RUN apt update && apt install -y \
     php${PHP_VERSION}-cli \
     php${PHP_VERSION}-common \
     php${PHP_VERSION}-curl \
+    php${PHP_VERSION}-fpm \
     php${PHP_VERSION}-gd \
     php${PHP_VERSION}-imap \
     php${PHP_VERSION}-mailparse \
@@ -141,25 +142,16 @@ RUN apt update && apt install -y \
     php${PHP_VERSION}-zstd \
     && rm -rf /var/lib/apt/lists/*
 
-# apache
+# nginx
 RUN apt update && apt install -y \
-    apache2 \
-    libapache2-mod-php${PHP_VERSION} \
+    nginx \
     && rm -rf /var/lib/apt/lists/*
 
-RUN sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 50M/' /etc/php/${PHP_VERSION}/apache2/php.ini && \
-    sed -i 's/post_max_size = 8M/post_max_size = 50M/' /etc/php/${PHP_VERSION}/apache2/php.ini && \
-    sed -i 's/memory_limit = 128M/memory_limit = 256M/' /etc/php/${PHP_VERSION}/apache2/php.ini && \
-    sed -i 's/max_execution_time = 30/max_execution_time = 300/' /etc/php/${PHP_VERSION}/apache2/php.ini
-
-RUN a2enmod rewrite \
-    && a2enmod headers \
-    && a2enmod expires \
-    && a2enmod deflate \
-    && a2enmod php${PHP_VERSION}
-
-RUN echo "ServerName localhost\n<Directory /var/www/html>\n\tAllowOverride All\n\tRequire all granted\n</Directory>" \
-    > /etc/apache2/conf-enabled/saltos.conf
+RUN sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 50M/' /etc/php/${PHP_VERSION}/fpm/php.ini && \
+    sed -i 's/post_max_size = 8M/post_max_size = 50M/' /etc/php/${PHP_VERSION}/fpm/php.ini && \
+    sed -i 's/memory_limit = 128M/memory_limit = 256M/' /etc/php/${PHP_VERSION}/fpm/php.ini && \
+    sed -i 's/max_execution_time = 30/max_execution_time = 300/' /etc/php/${PHP_VERSION}/fpm/php.ini && \
+    sed -i 's/expose_php = On/expose_php = Off/' /etc/php/${PHP_VERSION}/fpm/php.ini
 
 # mariadb + mroonga
 RUN apt update && apt install -y \
@@ -261,11 +253,13 @@ RUN cd /opt/saltos4 \
     && cd .. \
     && cd .. \
     && chown -R www-data:www-data instance \
-    && chmod -R 0755 instance \
-    && chown www-data:www-data /var/www \
-    && cd /var/www \
-    && mv html html.old \
-    && ln -s /opt/saltos4/instance/web html
+    && chmod -R 0755 instance
+
+# nginx site: the recipe of scripts/server.nginx.conf with the paths of the instance
+RUN rm -f /etc/nginx/sites-enabled/default \
+    && sed -e 's|/path/to/saltos4/code/web|/opt/saltos4/instance/web|' \
+        -e "s|php[0-9.]*-fpm.sock|php${PHP_VERSION}-fpm.sock|" \
+        /opt/saltos4/scripts/server.nginx.conf > /etc/nginx/sites-enabled/saltos4
 
 # crontab
 RUN cat <<'EOF' > /etc/cron.d/saltos4 && chmod 0644 /etc/cron.d/saltos4
@@ -322,7 +316,8 @@ if [ -n "$(ls -A /var/lib/mysql)" ]; then
     service mariadb start
 fi
 
-service apache2 start
+/etc/init.d/php*-fpm start
+service nginx start
 service cron start
 exec /bin/tail -f /dev/null
 EOF

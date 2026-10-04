@@ -258,12 +258,29 @@ php api/index.php setup/server http://localhost:8080/api
 open http://localhost:8080
 ```
 
+### Web Server
+
+Only the `web` directory must be published by the web server. The `api`,
+`apps` and `data` directories must stay outside of the document root: the
+web reaches the API through `web/api/index.php` and only the public files
+of the apps are linked inside `web/apps`.
+
+`scripts/` provides one recipe for each web server, ready to adapt:
+
+- `scripts/server.nginx.conf`: nginx with PHP-FPM
+- `scripts/server.apache.conf`: Apache with access to the global configuration
+- `scripts/server.htaccess`: Apache on shared hostings, where all the code is
+  published and only a `.htaccess` file can be used
+
+After any change in the web server, validate it with `setup/server` (step 6):
+a `count` of 0 means that nothing private is exposed.
+
 ### Docker Profiles Overview
 
 SaltOS 4 provides two main runtime Docker profiles:
 
 - `devel`: lightweight development environment (SQLite + PHP built-in server)
-- `server`: production-ready stack (Apache + PHP + MariaDB)
+- `server`: production-ready stack (nginx + PHP-FPM + MariaDB)
 
 The server profile installs and initializes SaltOS automatically during the image build.
 
@@ -278,17 +295,20 @@ make develstart
 - Username: `admin`
 - Password: `admin`
 
-### Production Server with Docker (Apache + MariaDB)
+### Production Server with Docker (nginx + MariaDB)
 
 ```bash
 make serverbuild
 make serverstart
 ```
 
-- HTTP: http://localhost:8080
-- HTTPS: https://localhost:8443 (self-signed certificate, generated automatically)
+- http://localhost:8080
 - Username: `admin`
 - Password: `admin`
+
+The containers only publish plain HTTP on their port 80, mapped to the port
+8080 of the host. HTTPS must be provided by an external layer, for example a
+reverse proxy like Traefik.
 
 Container management (status/logs/shell), the `test` Docker profile (MSSQL +
 PostgreSQL + GreenMail for integration tests), and the full command
@@ -321,7 +341,7 @@ reference are in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 **Docker profiles:**
 Development uses SQLite + PHP built-in server.
-Production uses Apache + MariaDB.
+Production uses nginx + PHP-FPM + MariaDB.
 
 MySQL/MariaDB and SQLite are the supported deployment targets. PostgreSQL
 and MSSQL drivers also ship, but for targeted integration work rather than

@@ -45,6 +45,8 @@ RUN apt update && apt install -y \
     php${PHP_VERSION}-zstd \
     && rm -rf /var/lib/apt/lists/*
 
+RUN sed -i 's/expose_php = On/expose_php = Off/' /etc/php/${PHP_VERSION}/cli/php.ini
+
 # pdf tools & certutils
 RUN apt update && apt install -y \
     poppler-utils \

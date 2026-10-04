@@ -1,9 +1,0 @@
-Options -Indexes
-
-<Files "*">
-    Require all denied
-</Files>
-
-<Files "*.pdf">
-    Require all granted
-</Files>

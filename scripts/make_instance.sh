@@ -1,16 +1,19 @@
 #!/bin/bash
 
-ln -s ../code/.htaccess
-
 mkdir web
 cd web
-for i in ../../code/web/.htaccess ../../code/web/*; do
+for i in ../../code/web/*; do
     ln -s $i
 done
-for i in api apps; do
-    rm -f $i
-    ln -s ../$i
+rm -f api apps
+mkdir api
+ln -s ../../../code/web/api/index.php api/index.php
+mkdir apps
+cd apps
+for i in ../../../code/web/apps/*; do
+    ln -s $i
 done
+cd ..
 cd ..
 
 mkdir api

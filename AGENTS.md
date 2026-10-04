@@ -163,6 +163,22 @@ generic advice):
   plain string concatenation.
 - **`code/web/index.html` is a static shell**, not a template — all view
   logic lives in `code/web/js/`. Don't add logic to it.
+- **Only `code/web/` is published** by the web server; `api/`, `apps/` and
+  `data/` stay outside of the document root. `code/web/api/index.php` is a
+  two-line jump to the real `api/index.php`, and `code/web/apps/` is
+  generated: `make web` fills it with links to the public files of the apps
+  (`scripts/makeapps.php`: js, mjs, js.map, css, pdf and `tester/files`),
+  `make devel` replaces it by a link to the full `apps/`. Never publish a
+  new kind of file by adding web server rules: the web server recipes
+  (`scripts/server.nginx.conf`, `server.apache.conf`, `server.htaccess`)
+  have no access rules, and the `.htaccess` files of `api/`, `apps/` and
+  `data/` only contain `Require all denied` as a safety net. After touching
+  any of this, `php api/index.php setup/server <api url>` must return
+  `count` 0 (`check_server()` in `code/api/php/lib/server.php`).
+- **`api/index.php` locates the instance with `$_SERVER['SCRIPT_FILENAME']`**,
+  never `__DIR__`: instances created by `scripts/make_instance.sh` link the
+  files of `code/`, and `__DIR__` would resolve them to `code/` and use
+  the wrong `data/`.
 - **Autoload modules** (`code/api/php/autoload/*.php`, ~30 files: `sql.php`,
   `tokens.php`, `user.php`, `apps.php`, `perms.php`, ...) are all loaded
   automatically by `zindex.php` on every request. Don't require them

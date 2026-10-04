@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 // phpcs:disable PSR1.Files.SideEffects
 
+// Disable the buffering of nginx to show the waiting page immediately
+header('X-Accel-Buffering: no');
+
 // Send waiting page
 echo <<<HTML
 <!DOCTYPE html>
@@ -34,34 +37,39 @@ function ob_passthru($cmd)
     return ob_get_clean();
 }
 
-if (!file_exists('scripts')) {
+// The public directory is the document root and only contains this script and
+// the links to the web directory of each instance, the instances live in the
+// private directory that is not accessible from the web
+$public = getcwd();
+$private = dirname($public) . '/private';
+if (!file_exists("$private/scripts")) {
     echo 'scripts not found';
     die();
 }
-if (!file_exists('code')) {
+if (!file_exists("$private/code")) {
     echo 'code not found';
     die();
 }
 
 $hash = md5($_SERVER['HTTP_X_REAL_IP'] ?? $_SERVER['REMOTE_ADDR']);
-if (!file_exists($hash)) {
+if (!file_exists("$private/$hash")) {
     // Create the hash directory
-    if (!mkdir($hash)) {
+    if (!mkdir("$private/$hash")) {
         echo 'mkdir error';
         die();
     }
     // Set permissions to the hash directory
-    if (!chmod($hash, 0777)) {
+    if (!chmod("$private/$hash", 0777)) {
         echo 'chmod error';
         die();
     }
     // Create the instance inside the hash directory
-    if (!chdir($hash)) {
+    if (!chdir("$private/$hash")) {
         echo 'chdir error';
         die();
     }
     ob_passthru('bash ../scripts/make_instance.sh');
-    // The api/index.php will be replaced by a new file owned by apache
+    // The api/index.php will be replaced by a new file owned by the web server
     rename('api/index.php', 'api/index.old.php');
     file_put_contents('api/index.php', "<?php include('index.old.php');");
     // Setting the sqlite configuration
@@ -79,12 +87,17 @@ if (!file_exists($hash)) {
     // Restore the old api/index.php
     unlink('api/index.php');
     rename('api/index.old.php', 'api/index.php');
+    chdir($public);
 }
+
+// Publish the web directory of the instance
+require __DIR__ . '/demos_sync.php';
+demos_sync($private, $public);
 
 // Redirects to the real access url
 echo <<<HTML
   <script>
-    window.location.href = "$hash/web/?user=admin&pass=admin";
+    window.location.href = "$hash/?user=admin&pass=admin";
   </script>
 </body>
 </html>

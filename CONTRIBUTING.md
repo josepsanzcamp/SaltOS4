@@ -68,11 +68,34 @@ php api/index.php setup/server http://localhost:8080/api
 
 It requests the API through the web server and returns the errors and
 warnings found: API not reachable, `Authorization` header not forwarded,
-`X-Powered-By` or a detailed `Server` header exposed, and sensitive paths
+`X-Powered-By` or a detailed `Server` header exposed, private paths
 (`config.xml`, `saltos.sqlite`, libraries, ...) that can be downloaded or
-executed. A `count` of 0 means that the installation is correct, with any
-web server (Apache with the `.htaccess` files enabled, or `php -S` with
-`scripts/router.php`).
+executed, directories that show their contents, wrong content types and
+the full code published instead of only the `web` directory. A `count` of
+0 means that the installation is correct, with any web server.
+
+### Web server
+
+Only the `web` directory must be published. The `api`, `apps` and `data`
+directories live outside of the document root, so the web server does not
+need any rule to protect them:
+
+- `web/api/index.php` is the only entry to the API, it jumps to the real
+  `api/index.php`.
+- `web/apps` only contains links to the public files of the apps (js, css
+  and pdf). `make web` generates it with `scripts/makeapps.php`, and
+  `make devel` replaces it by a link to the full `apps` directory.
+- `scripts/router.php` makes `php -S` return the same 403 and 404 errors
+  that Apache or nginx.
+
+`scripts/` contains one recipe for each web server: `server.nginx.conf`,
+`server.apache.conf` and `server.htaccess` (for shared hostings where all
+the code is published). The `.htaccess` files of `api`, `apps` and `data`
+only deny everything: they are a minimum security for Apache when the full
+code is published by mistake, and nginx ignores them.
+
+Instances created with an old `make_instance.sh` publish the full `api`
+and `apps` directories, migrate them with `scripts/migrate_instance.sh`.
 
 ---
 
@@ -88,7 +111,7 @@ make devellogs     # Show logs
 make develbash     # Open shell inside container
 make develstop     # Stop and remove container
 
-# server: Apache + PHP + MariaDB
+# server: nginx + PHP-FPM + MariaDB
 make serverbuild && make serverstart
 make serverstatus  # Show container status
 make serverlogs    # Show logs
@@ -111,12 +134,17 @@ make teststop      # Stop and cleanup
 
 `Dockerfile.demos` builds the image behind
 [demos.saltos.org](https://demos.saltos.org/) — an intermediate between
-`devel` and `server`: Apache + the full toolchain (chromium, LibreOffice,
-tesseract, xlsxio) like `server`, but SQLite like `devel`. Unlike the other
-profiles it doesn't serve a single instance: its entry point
+`devel` and `server`: nginx + PHP-FPM + the full toolchain (chromium,
+LibreOffice, tesseract, xlsxio) like `server`, but SQLite like `devel`.
+Unlike the other profiles it doesn't serve a single instance: its entry point
 (`scripts/demos_index.php`) hashes each visitor's IP and provisions a fresh,
 fully set-up instance per hash on first visit, and a cron job
-(`scripts/demos_trash.php`) retires instances untouched for 7 days. Most
+(`scripts/demos_trash.php`) retires instances untouched for 7 days. The
+`instances` volume contains two directories: `private`, with the full
+instances, and `public`, the document root, that only contains one link per
+hash to the `web` directory of its instance, so the `api`, `apps` and `data`
+of each visitor are never published. `scripts/demos_sync.php` keeps `public`
+in sync with `private` each time that an instance is created or retired. Most
 contributors will never need this profile — it exists to run the public
 demo site, not for local development.
 
@@ -306,7 +334,9 @@ SaltOS4/
 │   │   │   ├── pdfjs/
 │   │   │   └── ...
 │   │   ├── html/               # HTML templates
-│   │   └── img/                # Images/icons
+│   │   ├── img/                # Images/icons
+│   │   ├── api/                # index.php that jumps to the real API
+│   │   └── apps/               # Links to the public files of the apps
 │   └── data/                   # Runtime data (gitignored)
 │       ├── files/              # User uploads
 │       ├── cache/              # Cache files
@@ -320,6 +350,12 @@ SaltOS4/
 ├── docs/                       # Documentation (9 PDFs)
 ├── scripts/                    # Build and utility scripts
 │   ├── make_instance.sh        # Create new instance
+│   ├── migrate_instance.sh     # Migrate an old instance
+│   ├── makeapps.php            # Generate web/apps
+│   ├── router.php              # Router for php -S
+│   ├── server.nginx.conf       # nginx recipe
+│   ├── server.apache.conf      # Apache recipe
+│   ├── server.htaccess         # Apache recipe for shared hostings
 │   ├── phpcs.xml               # PHP CodeSniffer config
 │   ├── phpstan.neon            # PHPStan config
 │   ├── jest.config.js          # Jest config

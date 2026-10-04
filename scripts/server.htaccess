@@ -1,0 +1,31 @@
+# SaltOS recipe for apache using a .htaccess file
+#
+# Use this recipe only when you can not change the apache configuration and
+# all the code directory is published (shared hostings), copy this file as
+# .htaccess to the code directory, next to the api, apps, data and web
+# directories, and validate it with the follow command:
+#
+# php api/index.php setup/server http://localhost/web/api
+#
+# This recipe needs AllowOverride All and the rewrite module of apache
+
+# Does not show the contents of the directories
+Options -Indexes
+
+# Only the web directory is public, the rest (api, apps and data) is forbidden
+RewriteEngine On
+RewriteRule !^web/ - [F]
+
+# Content types for the servers that do not know it
+AddType text/html .htm .html
+AddType application/javascript .js .mjs
+AddType text/css .css
+AddType application/json .map
+AddType image/svg+xml .svg
+AddType image/png .png
+AddType image/jpeg .jpg .jpeg
+AddType application/pdf .pdf
+
+# Pass the Authorization header to php
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+CGIPassAuth On

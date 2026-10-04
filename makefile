@@ -70,6 +70,8 @@ web: clean
 
 	uglifyjs code/web/lib/md5/md5.min.js $(JS_PROXY) -c reduce_vars=false -m -o code/web/proxy.js --source-map filename=code/web/proxy.js.map,url=proxy.js.map
 
+	php scripts/makeapps.php code/apps code/web/apps > /dev/null
+
 devel: clean
 	cat code/web/html/index.html | \
 	php scripts/debug.php \
@@ -90,11 +92,14 @@ devel: clean
 
 	echo "importScripts('lib/md5/md5.min.js','js/proxy.js');" > code/web/proxy.js
 
+	ln -s ../apps code/web/apps
+
 clean:
 	rm -f code/web/index.{html,js,js.map}
 	rm -f code/web/lib/index.{js,css}
 	rm -f code/apps/*/js/*.min.{js,js.map}
 	rm -f code/web/proxy.{js,js.map}
+	rm -rf code/web/apps
 
 ################################################################################
 # TEST PART

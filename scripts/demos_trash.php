@@ -34,4 +34,8 @@ foreach ($hashs as $hash) {
     rename($hash, "removed/$hash$extra");
 }
 
+// remove the links of the public directory that point to removed instances
+require __DIR__ . '/demos_sync.php';
+demos_sync('.', '../public');
+
 die();

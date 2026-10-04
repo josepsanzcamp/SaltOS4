@@ -92,40 +92,71 @@ function check_server($url)
         return $result;
     }
 
-    // forbidden part
-    $urls = [
-        "$url/apps/",
-        "$url/apps/common/manifest.yaml",
-        "$url/apps/crm/sample/",
-        "$url/data/",
-        "$url/data/cache/",
-        "$url/data/cron/",
-        "$url/data/files/",
-        "$url/data/files/config.xml",
-        "$url/data/files/dbstats.sqlite",
-        "$url/data/files/saltos.sqlite",
-        "$url/data/inbox/",
-        "$url/data/logs/",
-        "$url/data/logs/phperror.log",
-        "$url/data/logs/saltos.log",
-        "$url/data/outbox/",
-        "$url/data/temp/",
-        "$url/data/trash/",
-        "$url/data/upload/",
-        "$url/lib/",
-        "$url/lib/tc-lib-pdf/import-atkinson.php",
-        "$url/lib/tcpdf/vendor/tecnickcom/tcpdf/tcpdf.php",
-        "$url/php/",
-        "$url/php/action/setup.php",
-        "$url/xml/",
-        "$url/xml/config.xml",
+    // access part, each url with the code that the web server must return:
+    // 404 for the contents that must not be published in the web directory,
+    // 403 for the directories of the web that must not show its contents and
+    // 200 for the public contents, that too can define the content type that
+    // the web server must return, the last urls detect when all the code is
+    // published instead of only the web directory, they must return 404 or
+    // 403 if they are protected by the web server, the ../api/index.php url
+    // only can be checked when the web directory is not the root of the
+    // server, otherwise it is the same url that the public api
+    $web = dirname($url);
+    $root = trim(strval(parse_url($web, PHP_URL_PATH)), '/') === '';
+    $items = [
+        ["$url/apps/", 404],
+        ["$url/apps/common/xml/manifest.yaml", 404],
+        ["$url/apps/crm/sample/", 404],
+        ["$url/data/", 404],
+        ["$url/data/cache/", 404],
+        ["$url/data/cron/", 404],
+        ["$url/data/files/", 404],
+        ["$url/data/files/config.xml", 404],
+        ["$url/data/files/dbstats.sqlite", 404],
+        ["$url/data/files/saltos.sqlite", 404],
+        ["$url/data/inbox/", 404],
+        ["$url/data/logs/", 404],
+        ["$url/data/logs/phperror.log", 404],
+        ["$url/data/logs/saltos.log", 404],
+        ["$url/data/outbox/", 404],
+        ["$url/data/temp/", 404],
+        ["$url/data/trash/", 404],
+        ["$url/data/upload/", 404],
+        ["$url/lib/", 404],
+        ["$url/lib/tc-lib-pdf/import-atkinson.php", 404],
+        ["$url/lib/tcpdf/vendor/tecnickcom/tcpdf/tcpdf.php", 404],
+        ["$url/php/", 404],
+        ["$url/php/action/setup.php", 404],
+        ["$url/xml/", 404],
+        ["$url/xml/config.xml", 404],
+        ["$web/apps/", 403],
+        ["$web/apps/common/js/", 403],
+        ["$web/img/", 403],
+        ["$web/js/", 403],
+        ["$web/lib/", 403],
+        ["$web/lib/pdfjs/pdf.worker.min.mjs", 200, 'javascript'],
+        ["$web/../api/index.php", $root ? 200 : [403, 404]],
+        ["$web/../api/xml/config.xml", [403, 404]],
+        ["$web/../apps/common/xml/manifest.yaml", [403, 404]],
+        ["$web/../data/files/config.xml", [403, 404]],
+        ["$web/../data/files/saltos.sqlite", [403, 404]],
+        ["$web/../data/logs/", [403, 404]],
     ];
-    foreach ($urls as $temp) {
+    foreach ($items as $item) {
+        [$temp, $code, $type] = array_pad($item, 3, '');
         $response = __url_get_contents($temp);
-        if ($response['code'] !== 403) {
+        $key = array_key_search('content-type', $response['headers']);
+        $value = $response['headers'][$key] ?? '';
+        if (!in_array($response['code'], (array) $code, true)) {
+            $code = implode(' or ', (array) $code);
             $result[] = [
-                'warning' => "Access allowed to $temp",
-                'details' => 'Deny the access to this path in your web server configuration',
+                'warning' => "Code {$response['code']} found in $temp, expected $code",
+                'details' => 'Check the access to this path in your web server configuration',
+            ];
+        } elseif (!str_contains($value, $type)) {
+            $result[] = [
+                'warning' => "Content-Type $value found in $temp, expected $type",
+                'details' => 'Check the content type of this path in your web server configuration',
             ];
         }
     }
