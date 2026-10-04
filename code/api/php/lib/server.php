@@ -131,6 +131,7 @@ function check_server($url)
         ["$url/xml/config.xml", 404],
         ["$web/apps/", 403],
         ["$web/apps/common/js/", 403],
+        ["$web/apps/common/xml/manifest.yaml", 404],
         ["$web/img/", 403],
         ["$web/js/", 403],
         ["$web/lib/", 403],
