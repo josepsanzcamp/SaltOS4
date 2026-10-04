@@ -32,4 +32,4 @@ init_random();
 
 $file = '../../utest/files/numbers.xml';
 semaphore_acquire($file);
-xmlfile2array($file);
+xmlfile2array($file, false);

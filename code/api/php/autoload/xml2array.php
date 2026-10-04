@@ -140,6 +140,10 @@ function xmlfiles2array($files, $usecache = true)
  * multiple instances of the same execution with the same file, too uses a cache
  * management to optimize the usage
  *
+ * The semaphore is only used to build the cache, a valid cache is returned
+ * without acquiring it, and this is safe because the cache file is written
+ * using a temporary file and a rename, that is an atomic operation
+ *
  * @file     => the file that you want to convert from xml to array
  * @usecache => if do you want to enable the cache feature
  */
@@ -148,24 +152,32 @@ function xmlfile2array($file, $usecache = true)
     if (!file_exists($file)) {
         show_php_error(['xmlerror' => "File not found: $file"]);
     }
-    if (!semaphore_acquire($file)) {
-        show_php_error(['xmlerror' => 'Could not acquire the semaphore']);
-    }
     if ($usecache) {
         $cache = get_cache_file($file, '.arr');
         if (cache_exists($cache, $file)) {
             $array = unserialize(file_get_contents($cache));
             if (isset($array['root'])) {
-                semaphore_release($file);
                 return $array['root'];
             }
+        }
+    }
+    if (!semaphore_acquire($file)) {
+        show_php_error(['xmlerror' => 'Could not acquire the semaphore']);
+    }
+    // Check again, another process could build the cache while this was waiting
+    if ($usecache && cache_exists($cache, $file)) {
+        $array = unserialize(file_get_contents($cache));
+        if (isset($array['root'])) {
+            semaphore_release($file);
+            return $array['root'];
         }
     }
     $xml = file_get_contents($file);
     $array = xml2array($xml, $file);
     if ($usecache) {
-        file_put_contents($cache, serialize($array));
-        chmod_protected($cache, 0666);
+        file_put_contents("$cache.tmp", serialize($array));
+        chmod_protected("$cache.tmp", 0666);
+        rename("$cache.tmp", $cache);
     }
     semaphore_release($file);
     return $array['root'];

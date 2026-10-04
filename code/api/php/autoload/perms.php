@@ -62,8 +62,6 @@ function check_user($app, $perm)
         foreach ($from_apps_perms as $row) {
             $key = $row['app_id'] . '|' . $row['perm_id'];
             $array[$key] = $row;
-            $array[$key]['app'] = id2app($row['app_id']);
-            $array[$key]['perm'] = id2perm($row['perm_id']);
         }
         foreach (array_merge($from_users_apps_perms, $from_groups_apps_perms) as $row) {
             $key = $row['app_id'] . '|' . $row['perm_id'];
