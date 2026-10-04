@@ -1,6 +1,6 @@
 
 ARG MARIADB_VERSION=12.3
-ARG MROONGA_VERSION=16.11
+ARG MROONGA_VERSION=16.12
 
 ####################################################################################################
 # mroonga builder
