@@ -28,7 +28,6 @@ foreach (glob('php/autoload/*.php') as $file) {
 pcov_start();
 program_handlers();
 init_timer();
-init_random();
 
 xmlfiles2array([
     '../../utest/files/nada.xml',

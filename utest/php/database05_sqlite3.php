@@ -28,7 +28,6 @@ foreach (glob('php/autoload/*.php') as $file) {
 pcov_start();
 program_handlers();
 init_timer();
-init_random();
 
 $file = semaphore_file('db_query');
 $fd = @fopen($file, 'a');

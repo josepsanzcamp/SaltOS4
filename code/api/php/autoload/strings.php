@@ -158,11 +158,17 @@ function sprintr($array)
 /**
  * Get Unique ID MD5
  *
- * This function returns an unique hash using the random generator
+ * This function returns an unique id using the random generator
+ *
+ * Notes:
+ *
+ * The md5 of the name comes from the first version of this function, that
+ * used the md5 function to format the output, and it is maintained because
+ * the output has the same format, an hexadecimal string of 32 characters
  */
 function get_unique_id_md5()
 {
-    return md5(uniqid(strval(rand()), true));
+    return bin2hex(random_bytes(16));
 }
 
 /**

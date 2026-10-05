@@ -28,7 +28,6 @@ foreach (glob('php/autoload/*.php') as $file) {
 pcov_start();
 program_handlers();
 init_timer();
-init_random();
 
 $xml = '<a require="nada"></a>';
 $array = eval_attr(xml2array($xml));

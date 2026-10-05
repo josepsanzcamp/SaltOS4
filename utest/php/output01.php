@@ -28,7 +28,6 @@ foreach (glob('php/autoload/*.php') as $file) {
 pcov_start();
 program_handlers();
 init_timer();
-init_random();
 
 set_server('HTTP_IF_NONE_MATCH', md5_file('../../utest/files/numbers.json'));
 output_handler([

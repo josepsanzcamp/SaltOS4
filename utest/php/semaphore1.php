@@ -28,6 +28,5 @@ foreach (glob('php/autoload/*.php') as $file) {
 pcov_start();
 program_handlers();
 init_timer();
-init_random();
 
 __semaphore_helper('nada', '', '');

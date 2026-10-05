@@ -28,7 +28,6 @@ foreach (glob('php/autoload/*.php') as $file) {
 pcov_start();
 program_handlers();
 init_timer();
-init_random();
 
 require_once 'php/lib/import.php';
 require_once 'php/lib/export.php';

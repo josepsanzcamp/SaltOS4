@@ -81,7 +81,6 @@ pcov_start();
 // @codeCoverageIgnoreEnd
 program_handlers();
 init_timer();
-init_random();
 
 // Normal operation
 $_CONFIG = eval_attr(prepare_config_files(xmlfiles2array(detect_config_files('xml/config.xml'))));

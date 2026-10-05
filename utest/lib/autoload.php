@@ -33,7 +33,7 @@ use PHPUnit\Framework\Assert;
  * Main autoloader code
  *
  * This code emmulates the index.php by loading all autoload files excep
- * the zindex.php, initialize the timer and the random generator
+ * the zindex.php and initialize the timer
  */
 
 set_include_path(get_include_path() . ':' . getcwd() . '/' . 'utest');
@@ -47,7 +47,6 @@ foreach (glob('php/autoload/*.php') as $file) {
 }
 
 init_timer();
-init_random();
 
 global $_CONFIG;
 $_CONFIG = eval_attr(prepare_config_files(xmlfiles2array(detect_config_files('xml/config.xml'))));

@@ -28,7 +28,6 @@ foreach (glob('php/autoload/*.php') as $file) {
 pcov_start();
 program_handlers();
 init_timer();
-init_random();
 
 set_server('HTTP_ACCEPT_ENCODING', 'br');
 output_handler([

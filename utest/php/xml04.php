@@ -28,7 +28,6 @@ foreach (glob('php/autoload/*.php') as $file) {
 pcov_start();
 program_handlers();
 init_timer();
-init_random();
 
 $xml = '<?xml version="1.0" encoding="asd" ?><a b="c" b="d"></a>';
 xml2struct($xml);

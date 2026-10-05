@@ -11,7 +11,6 @@ foreach (glob('php/autoload/*.php') as $file) {
 }
 
 init_timer();
-init_random();
 
 global $_CONFIG;
 $_CONFIG = eval_attr(prepare_config_files(xmlfiles2array(detect_config_files('xml/config.xml'))));
