@@ -1,5 +1,5 @@
 Api Documentation
-SaltOS 4.1 r2696
+SaltOS 4.1 r2703
 October 2026
 
 
@@ -2844,31 +2844,6 @@ application.
 - @perm => the perm to check
 
 
-++Random helper module++
-
-```
-api/php/autoload/random.php
-```
-
-This fie contains useful functions related to random number generator, currently only initialize
-the internal generator, but in the future we can add more features if it is needed
-
-
-+++Init Random+++
-
-```
-function init_random()
-```
-
-This function initialize the random number generator
-
-Notes:
-
-This function previously sets the seed using the microtime, but reading
-the srand php documentation, I see that the seed is not needed because
-if it is not provided, a randomly seed is used by default
-
-
 ++Semaphore helper module++
 
 ```
@@ -3527,7 +3502,13 @@ are removed, optimizing the output string
 function get_unique_id_md5()
 ```
 
-This function returns an unique hash using the random generator
+This function returns an unique id using the random generator
+
+Notes:
+
+The md5 of the name comes from the first version of this function, that
+used the md5 function to format the output, and it is maintained because
+the output has the same format, an hexadecimal string of 32 characters
 
 
 +++Intelligence Cut+++
@@ -4016,6 +3997,10 @@ optimize repetitive calls of the same file
 As an special mention, this function internally uses semaphores to prevent
 multiple instances of the same execution with the same file, too uses a cache
 management to optimize the usage
+
+The semaphore is only used to build the cache, a valid cache is returned
+without acquiring it, and this is safe because the cache file is written
+using a temporary file and a rename, that is an atomic operation
 
 - @file     => the file that you want to convert from xml to array
 - @usecache => if do you want to enable the cache feature

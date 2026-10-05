@@ -16,9 +16,9 @@
 'use strict';
 
 /**
- * Token helper module
+ * Storage helper module
  *
- * This module provides the needed tools to manage the tokens
+ * This module provides the needed tools to manage the local storage
  */
 
 /**

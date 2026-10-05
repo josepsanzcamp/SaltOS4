@@ -1,6 +1,6 @@
 Phpunit Test Documentation
-SaltOS 4.1 r2678
-September 2026
+SaltOS 4.1 r2703
+October 2026
 
 
 
@@ -25,7 +25,7 @@ use PHPUnit\Framework\Assert;
 +++Main autoloader code+++
 
 This code emmulates the index.php by loading all autoload files excep
-the zindex.php, initialize the timer and the random generator
+the zindex.php and initialize the timer
 
 
 ++Unit test helper functions++
@@ -3243,40 +3243,6 @@ public function test_push(): void
 
 This test performs some tests to validate the correctness
 of the push functions
-
-
-++Test random++
-
-```
-test_random.php
-```
-
-This test performs some tests to validate the correctness
-of the random functions
-
-
-+++Importing namespaces+++
-
-```
-use PHPUnit\Framework\TestCase;
-```
-
-
-+++Main class of this unit test+++
-
-```
-final class test_random extends TestCase
-```
-
-
-+++random test+++
-
-```
-public function test_random(): void
-```
-
-This test performs some tests to validate the correctness
-of the random functions
 
 
 ++Test mime++

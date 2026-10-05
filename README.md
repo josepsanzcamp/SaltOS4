@@ -41,6 +41,7 @@ Building custom business applications is expensive and slow:
 ```yaml
 # apps/crm/xml/customers.yaml
 app: customers
+require: apps/common/php/default.php
 template: apps/common/xml/default.xml
 
 list:
@@ -282,7 +283,7 @@ SaltOS 4 provides two main runtime Docker profiles:
 - `devel`: lightweight development environment (SQLite + PHP built-in server)
 - `server`: production-ready stack (nginx + PHP-FPM + MariaDB)
 
-The server profile installs and initializes SaltOS automatically during the image build.
+The server profile installs and initializes SaltOS automatically on the first boot of the container, and shows a wait page meanwhile.
 
 ### Development with Docker (SQLite + PHP Built-in Server)
 
@@ -489,7 +490,7 @@ SaltOS 4 is built on top of excellent open source projects:
 - [PHPUnit](https://phpunit.de/) - PHP testing framework
 - [Jest](https://jestjs.io/) - JavaScript testing
 
-**Full list:** [View all 30+ dependencies in checklibs.txt](https://github.com/josepsanzcamp/SaltOS4/blob/master/scripts/checklibs.txt)
+**Full list:** [View all 50+ dependencies in checklibs.txt](https://github.com/josepsanzcamp/SaltOS4/blob/master/scripts/checklibs.txt)
 
 ---
 

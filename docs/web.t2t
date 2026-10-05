@@ -1,6 +1,6 @@
 Web Client Documentation
-SaltOS 4.1 r2678
-September 2026
+SaltOS 4.1 r2703
+October 2026
 
 
 
@@ -5041,13 +5041,13 @@ saltos.favicon.run = ()
 This function run the favicon animation of the app is not visible
 
 
-++Token helper module++
+++Storage helper module++
 
 ```
 web/js/storage.js
 ```
 
-This module provides the needed tools to manage the tokens
+This module provides the needed tools to manage the local storage
 
 
 +++Storage helper object+++

@@ -33,7 +33,7 @@ steps, Docker profiles, coding standards, and project structure; the
 complete make target reference (including less common variants) is the
 "Makefile Overview" chapter of `docs/devel.t2t` (`docs/devel.pdf`);
 [README.md](README.md) is the product overview. When this file and CONTRIBUTING.md disagree, trust
-CONTRIBUTING.md and flag the discrepancy — don't silently pick one.
+CONTRIBUTING.md and flag the discrepancy - don't silently pick one.
 
 ---
 
@@ -71,10 +71,10 @@ Apps are defined by:
 - manifest.yaml (registration: id, code, name, table, features)
 - dbschema.xml (table/field definitions, auto-migrated)
 - dbstatic.xml (optional; bulk-loads master-data rows into a table and
-  re-syncs them whenever the file changes — used by the core, not by the
+  re-syncs them whenever the file changes - used by the core, not by the
   example apps)
 - *.yaml or *.xml (UI definition: list/form/select; YAML is compiled to XML
-  and cached — see `detect_app_file()` in
+  and cached - see `detect_app_file()` in
   code/api/php/autoload/apps.php)
 
 AI agents must prefer editing declarative definitions instead of writing imperative controller logic.
@@ -159,9 +159,9 @@ generic advice):
   write engine-specific SQL inline. `parse_query()`
   (`code/api/php/autoload/sql.php:46`) strips or keeps fragments wrapped in
   `/*MYSQL*/ ... /*SQLITE*/ ... /*PGSQL*/ ... /*MSSQL*/ ...` comment blocks
-  depending on the active driver — put engine-specific SQL there, not in
+  depending on the active driver - put engine-specific SQL there, not in
   plain string concatenation.
-- **`code/web/index.html` is a static shell**, not a template — all view
+- **`code/web/index.html` is a static shell**, not a template - all view
   logic lives in `code/web/js/`. Don't add logic to it.
 - **Only `code/web/` is published** by the web server; `api/`, `apps/` and
   `data/` stay outside of the document root. `code/web/api/index.php` is a
@@ -184,10 +184,10 @@ generic advice):
   automatically by `zindex.php` on every request. Don't require them
   manually or duplicate their logic elsewhere.
 - **Token binding** is checked against `remote_addr` + `user_agent` on every
-  request (`code/api/php/autoload/user.php:38-52`) — don't relax or bypass
+  request (`code/api/php/autoload/user.php:38-52`) - don't relax or bypass
   this check.
 - **Version/audit chain** lives in `code/api/php/lib/version.php`
-  (`make_version()`) — it stores deltas plus a hash of the previous version
+  (`make_version()`) - it stores deltas plus a hash of the previous version
   per register. Never write to version rows directly; always go through
   this function.
 - **Vendored libraries** under `code/api/lib/*/` and `code/apps/*/lib/*/`
@@ -269,7 +269,7 @@ make serverstart
 
 Container management (status/logs/shell for devel and server profiles) and
 the `test` Docker profile (MSSQL, PostgreSQL, GreenMail for integration
-tests) are documented in CONTRIBUTING.md — not repeated here.
+tests) are documented in CONTRIBUTING.md - not repeated here.
 
 ---
 

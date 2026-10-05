@@ -5,7 +5,7 @@ Thank you for your interest in contributing to SaltOS 4! This document provides 
 This is the canonical reference for setup, commands, coding standards and
 project structure. If you are an AI coding agent, also read
 [AGENTS.md](AGENTS.md) for agent-specific behavior rules and known
-pitfalls — it defers to this file for anything not agent-specific.
+pitfalls - it defers to this file for anything not agent-specific.
 
 ## 🌟 Ways to Contribute
 
@@ -43,10 +43,13 @@ mkdir dev-instance
 cd dev-instance
 bash ../scripts/make_instance.sh
 
-# 3. Setup database (uses SQLite by default)
+# 3. Select the database (MySQL/MariaDB by default, this line selects SQLite)
+echo '<root><db><type>pdo_sqlite</type></db></root>' > data/files/config.xml
+
+# 4. Setup database
 php api/index.php setup
 
-# 4. Start development server
+# 5. Start development server
 php -S localhost:8080 -t web ../scripts/router.php
 ```
 
@@ -119,7 +122,7 @@ make serverbash    # Open shell inside container
 make serverstop    # Stop and remove containers
 ```
 
-A third profile, `test`, doesn't build SaltOS — it only starts the external
+A third profile, `test`, doesn't build SaltOS - it only starts the external
 services the test suite needs for integration testing: Microsoft SQL Server
 2022, PostgreSQL 17, and GreenMail (SMTP/POP3 simulation).
 
@@ -133,7 +136,7 @@ make teststop      # Stop and cleanup
 ### The `demos` profile (maintainer-only)
 
 `Dockerfile.demos` builds the image behind
-[demos.saltos.org](https://demos.saltos.org/) — an intermediate between
+[demos.saltos.org](https://demos.saltos.org/) - an intermediate between
 `devel` and `server`: nginx + PHP-FPM + the full toolchain (chromium,
 LibreOffice, tesseract, xlsxio) like `server`, but SQLite like `devel`.
 Unlike the other profiles it doesn't serve a single instance: its entry point
@@ -145,7 +148,7 @@ instances, and `public`, the document root, that only contains one link per
 hash to the `web` directory of its instance, so the `api`, `apps` and `data`
 of each visitor are never published. `scripts/demos_sync.php` keeps `public`
 in sync with `private` each time that an instance is created or retired. Most
-contributors will never need this profile — it exists to run the public
+contributors will never need this profile - it exists to run the public
 demo site, not for local development.
 
 ```bash
@@ -311,7 +314,7 @@ SaltOS4/
 │   │   │   ├── sample/         # Sample data
 │   │   │   └── lib/            # Optional: app-specific vendored deps
 │   │   │                       # (e.g. emails/lib/mailmimeparser,
-│   │   │                       #  certs/lib/fpdi) — same idea as
+│   │   │                       #  certs/lib/fpdi) - same idea as
 │   │   │                       #  code/api/lib/, scoped to this app
 │   │   ├── sales/              # Sales (products, invoices)
 │   │   ├── purchases/          # Purchases (suppliers)
@@ -415,7 +418,7 @@ SaltOS4/
 3. Wait for review
    - Maintainers will review your code
    - Address any feedback
-   - CI tests must pass
+   - All tests must pass
 
 ### PR Guidelines
 
@@ -451,7 +454,12 @@ To create a new app, you need 3 files:
 
 ```yaml
 app: myapp
+require: apps/common/php/default.php
 template: apps/common/xml/default.xml
+indent: true
+screen: type2modal
+col_class: col-md-6
+dropdown: false
 
 list:
     - [name, text, Name]
@@ -473,6 +481,7 @@ apps:
       has_version: 1
       has_files: 1
       has_notes: 1
+      perms: "*"
 ```
 
 [📖 Read the full Apps Guide](https://raw.githubusercontent.com/josepsanzcamp/SaltOS4/master/docs/apps.pdf)
@@ -492,9 +501,9 @@ code/apps/{app}/locale/{lang}/messages.yaml
 ```
 
 Supported languages:
-- `en_US` — English (US)
-- `es_ES` — Spanish (Spain)
-- `ca_ES` — Catalan
+- `en_US` - English (US)
+- `es_ES` - Spanish (Spain)
+- `ca_ES` - Catalan
 
 ### Adding Translations
 
