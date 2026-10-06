@@ -1,5 +1,5 @@
 Devel Documentation
-SaltOS 4.1 r2703
+SaltOS 4.1 r2706
 October 2026
 
 
@@ -13,7 +13,7 @@ It is composed of:
 - A PHP backend (`api/`)
 - A JavaScript frontend (`web/`)
 - REST/JSON API with support for CLI execution
-- Offline operation through a Service Worker proxy
+- Offline support through a Service Worker proxy
 - Declarative and dynamic app definitions via XML and/or YAML
 - Shared templates and logic to reduce boilerplate
 

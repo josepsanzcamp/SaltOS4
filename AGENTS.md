@@ -12,7 +12,7 @@ The system auto-generates:
 - Version tracking with blockchain-style integrity
 - Audit logging
 - Multi-database support
-- Offline-first behavior via Service Worker
+- Offline support via Service Worker (cache and request queueing)
 
 SaltOS is structured as a layered architecture with strict separation between frontend, backend, declarative definitions, and persistence.
 

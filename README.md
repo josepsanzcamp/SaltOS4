@@ -32,7 +32,7 @@ Building custom business applications is expensive and slow:
 - ✅ Responsive web UI (desktop + mobile)
 - ✅ Complete audit trail with blockchain integrity
 - ✅ Multi-language support (EN/ES/CA)
-- ✅ Offline-first Progressive Web App
+- ✅ Progressive Web App with offline support
 - ✅ PDF generation from templates
 - ✅ Full-text search indexing
 
@@ -176,7 +176,7 @@ From these definitions, SaltOS automatically creates:
 - **🚀 Declarative Development**: Define apps declaratively, not imperatively
 - **🏗️ Automatic Schema Migrations**: Edit XML → Database updates automatically
 - **🔐 Blockchain-Verified Versioning**: Every change tracked in a hash chain
-- **📱 PWA-Ready**: Works offline with service workers
+- **📱 PWA-Ready**: Offline support with a service worker (cache and request queueing)
 - **🧪 Fully Tested**: PHPUnit + Jest with comprehensive coverage
 - **🌍 Multi-Database**: MySQL/MariaDB and SQLite are the supported deployment targets; PostgreSQL and MSSQL drivers also ship, for targeted integration work rather than general deployment
 
