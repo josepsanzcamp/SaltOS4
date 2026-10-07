@@ -167,7 +167,8 @@ generic advice):
   `data/` stay outside of the document root. `code/web/api/index.php` is a
   two-line jump to the real `api/index.php`, and `code/web/apps/` is
   generated: `make web` fills it with links to the public files of the apps
-  (`scripts/makeapps.php`: js, mjs, js.map, css, pdf and `tester/files`),
+  (`scripts/makeapps.php`: js, mjs, js.map, css, pdf and `tester/files`,
+  skipping the composer `vendor` directories),
   `make devel` replaces it by a link to the full `apps/`. Never publish a
   new kind of file by adding web server rules: the web server recipes
   (`scripts/server.nginx.conf`, `server.apache.conf`, `server.htaccess`)

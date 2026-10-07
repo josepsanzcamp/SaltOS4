@@ -870,7 +870,7 @@ The build process must be executed from the project root using the Makefile. In 
 - `make web`:
   - Uses scripts such as `fixpath.php`, `md5sum.php`, `uglifyjs`, `sha384.php`.
   - Populates `index.html` based on the `web/html/index.html` template, inserting hashes and integrity attributes.
-  - Uses `makeapps.php` to create `web/apps/` with one link for each js, mjs, js.map, css and pdf file of the apps (a js file is skipped when its min.js exists) and a link to the `files` directory of the tester app.
+  - Uses `makeapps.php` to create `web/apps/` with one link for each js, mjs, js.map, css and pdf file of the apps (a js file is skipped when its min.js exists, and the composer `vendor` directories are skipped too) and one link for each file of the `files` directory of the tester app.
 
 - `make devel`:
   - Uses `debug.php` to create a loader that references unminified files directly.

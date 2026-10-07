@@ -86,7 +86,8 @@ need any rule to protect them:
 - `web/api/index.php` is the only entry to the API, it jumps to the real
   `api/index.php`.
 - `web/apps` only contains links to the public files of the apps (js, css
-  and pdf). `make web` generates it with `scripts/makeapps.php`, and
+  and pdf, skipping the composer `vendor` directories). `make web`
+  generates it with `scripts/makeapps.php`, and
   `make devel` replaces it by a link to the full `apps` directory.
 - `scripts/router.php` makes `php -S` return the same 403 and 404 errors
   that Apache or nginx.

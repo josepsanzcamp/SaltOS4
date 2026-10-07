@@ -9,9 +9,12 @@ declare(strict_types=1);
  *
  * This script creates the apps directory of the web using symbolic links to
  * the public contents of the real apps directory, the public contents are
- * all the js, mjs, js.map, css and pdf files, that are linked one by one, and the
- * files directory of the tester app, that is linked as a full directory, a
- * js file is not published when its min.js equivalent exists
+ * all the js, mjs, js.map, css and pdf files and all the files of the files
+ * directory of the tester app, they are linked one by one, in this way the
+ * result only contains regular directories and links to files, a js file
+ * is not published when its min.js equivalent exists, and the files
+ * of the vendor directories are never published because they belong to the
+ * php libraries installed by composer
  *
  * Usage: php scripts/makeapps.php code/apps code/web/apps
  */
@@ -58,7 +61,7 @@ if (is_link($target)) {
 mkdir($target);
 $target = realpath($target);
 
-$files = glob("$source/tester/files", GLOB_ONLYDIR);
+$files = [];
 $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(
     $source,
     FilesystemIterator::SKIP_DOTS | FilesystemIterator::FOLLOW_SYMLINKS
@@ -66,6 +69,10 @@ $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(
 foreach ($iterator as $file) {
     $file = strval($file);
     if (str_starts_with($file, "$source/tester/files/")) {
+        $files[] = $file;
+        continue;
+    }
+    if (str_contains($file, '/vendor/')) {
         continue;
     }
     if (!preg_match('~\.(js|mjs|js\.map|css|pdf)$~', $file)) {
