@@ -145,6 +145,12 @@ final class test_file extends TestCase
         $this->assertSame(false, file_get_contents_protected($file));
         $this->assertSame(false, file_get_contents_protected($file2));
 
+        $file = get_temp_file();
+        $this->assertSame(4, file_put_contents_with_pid($file, 'test'));
+        $this->assertSame('test', file_get_contents($file));
+        $this->assertFileDoesNotExist($file . '.' . getmypid());
+        unlink($file);
+
         $errno = 0;
         $errstr = '';
         $fd = fsockopen_protected('127.0.0.1', 8080, $errno, $errstr, null);

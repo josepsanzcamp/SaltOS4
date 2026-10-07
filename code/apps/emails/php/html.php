@@ -298,7 +298,7 @@ function __inline_img_helper($src)
                 $type = 'image/jpeg';
             }
             $img = mime_inline($type, $data['body']);
-            file_put_contents($cache, $img);
+            file_put_contents_with_pid($cache, $img);
             chmod_protected($cache, 0666);
             return mime_inline('file/b64', basename($cache));
         }

@@ -520,3 +520,31 @@ function get_human_size($size, $pre = '', $post = '')
     }
     return $size;
 }
+
+/**
+ * File put contents with pid
+ *
+ * This function is an equivalent of the file_put_contents but writing the data
+ * in a temporary file and renaming it to the requested file, the rename is an
+ * atomic operation, and this guarantees that other processes that read the file
+ * at the same time get the old contents or the new contents, never a partial
+ * file
+ *
+ * The temporary file uses the pid of the process as suffix, this allow that
+ * multiple processes write the same file at the same time without a semaphore,
+ * because each process uses their own temporary file
+ *
+ * @file => the file that you want to write
+ * @data => the contents that you want to write to the file
+ *
+ * Notes:
+ *
+ * This function returns the same result that the file_put_contents function
+ */
+function file_put_contents_with_pid($file, $data)
+{
+    $pid = getmypid();
+    $bytes = file_put_contents("$file.$pid", $data);
+    rename("$file.$pid", $file);
+    return $bytes;
+}

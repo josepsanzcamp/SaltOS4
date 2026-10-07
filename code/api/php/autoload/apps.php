@@ -599,7 +599,7 @@ function make_app_file_helper($yamlfile)
     }
     require_once 'php/lib/array2xml.php';
     $xml .= array2xml(['root' => $array], $data['indent']);
-    file_put_contents($xmlfile, $xml);
+    file_put_contents_with_pid($xmlfile, $xml);
     chmod_protected($xmlfile, 0666);
     return $xmlfile;
 }

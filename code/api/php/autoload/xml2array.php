@@ -142,7 +142,7 @@ function xmlfiles2array($files, $usecache = true)
  *
  * The semaphore is only used to build the cache, a valid cache is returned
  * without acquiring it, and this is safe because the cache file is written
- * using a temporary file and a rename, that is an atomic operation
+ * using the file_put_contents_with_pid, that does an atomic operation
  *
  * @file     => the file that you want to convert from xml to array
  * @usecache => if do you want to enable the cache feature
@@ -175,9 +175,8 @@ function xmlfile2array($file, $usecache = true)
     $xml = file_get_contents($file);
     $array = xml2array($xml, $file);
     if ($usecache) {
-        file_put_contents("$cache.tmp", serialize($array));
-        chmod_protected("$cache.tmp", 0666);
-        rename("$cache.tmp", $cache);
+        file_put_contents_with_pid($cache, serialize($array));
+        chmod_protected($cache, 0666);
     }
     semaphore_release($file);
     return $array['root'];
