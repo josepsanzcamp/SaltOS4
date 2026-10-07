@@ -117,26 +117,20 @@ final class test_pdf extends TestCase
             "'y','z'",
         ]);
 
-        $buffer = __pdf_all2pdf('../../utest/files/lorem.txt');
-        $this->assertStringContainsString('PDF document', get_mime($buffer));
-        $this->assertEqualsWithDelta(23000, strlen($buffer), 1000);
-
-        $buffer = __pdf_all2pdf('../../utest/files/lorem.html');
-        $this->assertStringContainsString('PDF document', get_mime($buffer));
-        $this->assertEqualsWithDelta(38000, strlen($buffer), 1000);
-
-        $buffer = __pdf_all2pdf('../../utest/files/lorem.png');
-        $this->assertStringContainsString('PDF document', get_mime($buffer));
-        $this->assertEqualsWithDelta(113000, strlen($buffer), 1000);
-
-        // Note: this file has the exif rotation to 90º: exiftool -n -Orientation=6 lorem.jpg
-        $buffer = __pdf_all2pdf('../../utest/files/lorem.jpg');
-        $this->assertStringContainsString('PDF document', get_mime($buffer));
-        $this->assertEqualsWithDelta(303000, strlen($buffer), 1000);
-
-        $buffer = __pdf_all2pdf('../../utest/files/lorem.odt');
-        $this->assertStringContainsString('PDF document', get_mime($buffer));
-        $this->assertEqualsWithDelta(21000, strlen($buffer), 1000);
+        // Each file defines the size in bytes expected for the pdf
+        // Note: the jpg file has the exif rotation to 90º: exiftool -n -Orientation=6 lorem.jpg
+        $files = [
+            '../../utest/files/lorem.txt' => 23000,
+            '../../utest/files/lorem.html' => 38000,
+            '../../utest/files/lorem.png' => 113000,
+            '../../utest/files/lorem.jpg' => 303000,
+            '../../utest/files/lorem.odt' => 21000,
+        ];
+        foreach ($files as $file => $size) {
+            $buffer = __pdf_all2pdf($file);
+            $this->assertStringContainsString('PDF document', get_mime($buffer), $file);
+            $this->assertEqualsWithDelta($size, strlen($buffer), $size * 0.1, $file);
+        }
 
         test_external_exec('php/pdf1.php', 'phperror.log', 'array not found');
         test_external_exec('php/pdf2.php', 'phperror.log', 'foreach without query');

@@ -42,6 +42,7 @@ use PHPUnit\Framework\Attributes\Depends;
  */
 require_once 'php/lib/unoconv.php';
 require_once 'php/lib/import.php';
+require_once 'lib/utestlib.php';
 
 /**
  * Main class of this unit test
@@ -56,8 +57,19 @@ final class test_unoconv extends TestCase
      * the correctness of the function
      *
      * @input => the input file to use in the test
+     * @size  => the size in bytes expected for the output
+     *
+     * Notes:
+     *
+     * The output is not removed here, it is used as cache by the txt
+     * test helper to prevent a second conversion of the same file, and
+     * is removed by the caller
+     *
+     * The size of the output is checked using a delta because the
+     * functions always create the output, that is a void file when the
+     * conversion fails
      */
-    private function test_pdf($input): void
+    private function test_pdf($input, $size): void
     {
         $output = get_cache_file($input, '.pdf');
         if (file_exists($output)) {
@@ -67,7 +79,10 @@ final class test_unoconv extends TestCase
 
         $buffer = unoconv2pdf($input);
         $this->assertFileExists($output);
-        unlink($output);
+        if ($size) {
+            $this->assertStringContainsString('PDF document', get_mime($buffer), $input);
+        }
+        $this->assertEqualsWithDelta($size, strlen($buffer), $size * 0.1, $input);
     }
 
     /**
@@ -78,8 +93,9 @@ final class test_unoconv extends TestCase
      * the correctness of the function
      *
      * @input => the input file to use in the test
+     * @size  => the size in bytes expected for the output
      */
-    private function test_txt($input): void
+    private function test_txt($input, $size): void
     {
         $output = get_cache_file($input, '.txt');
         if (file_exists($output)) {
@@ -89,6 +105,7 @@ final class test_unoconv extends TestCase
 
         $buffer = unoconv2txt($input);
         $this->assertFileExists($output);
+        $this->assertEqualsWithDelta($size, strlen($buffer), $size * 0.1, $input);
         unlink($output);
     }
 
@@ -101,30 +118,40 @@ final class test_unoconv extends TestCase
      */
     public function test_unoconv(): void
     {
+        // Each file defines the size in bytes expected for the pdf and for
+        // the txt, the void outputs are the cases where the conversion is
+        // not supported
         $files = [
-            '../../utest/files/bigsize.xlsx',
-            '../../utest/files/blank.odt',
-            '../../utest/files/image.pdf',
-            '../../utest/files/lorem.html',
-            '../../utest/files/lorem.odt',
-            '../../utest/files/lorem.pdf',
-            '../../utest/files/lorem.png',
-            '../../utest/files/multipages.odt',
-            '../../utest/files/multipages.pdf',
-            '../../utest/files/numbers.bytes',
-            '../../utest/files/numbers.csv',
-            '../../utest/files/numbers.edi',
-            '../../utest/files/numbers.json',
-            '../../utest/files/numbers.ods',
-            '../../utest/files/numbers.xls',
-            '../../utest/files/numbers.xlsx',
-            '../../utest/files/numbers.xml',
-            '../../utest/files/repeat.pdf',
-            '../../utest/files/saltos.sqlite',
+            //'../../utest/files/bigsize.xlsx',
+            '../../utest/files/blank.odt' => [6500, 0],
+            '../../utest/files/image.pdf' => [97000, 17000],
+            '../../utest/files/lorem.html' => [17000, 750],
+            '../../utest/files/lorem.odt' => [17000, 750],
+            '../../utest/files/lorem.pdf' => [13000, 750],
+            '../../utest/files/lorem.png' => [230000, 20000],
+            '../../utest/files/multipages.odt' => [23000, 2900],
+            '../../utest/files/multipages.pdf' => [460000, 69000],
+            '../../utest/files/numbers.bytes' => [260000, 91000],
+            '../../utest/files/numbers.csv' => [390000, 47000],
+            '../../utest/files/numbers.edi' => [220000, 47000],
+            '../../utest/files/numbers.json' => [0, 203000],
+            '../../utest/files/numbers.ods' => [230000, 8000],
+            '../../utest/files/numbers.xls' => [240000, 8000],
+            '../../utest/files/numbers.xlsx' => [240000, 8000],
+            '../../utest/files/numbers.xml' => [2400000, 69000],
+            '../../utest/files/repeat.pdf' => [6800, 17000],
+            '../../utest/files/saltos.sqlite' => [0, 0],
         ];
-        foreach ($files as $file) {
-            $this->test_pdf($file);
-            $this->test_txt($file);
+        foreach ($files as $file => $sizes) {
+            $this->test_pdf($file, $sizes[0]);
+            $pdf = get_cache_file($file, '.pdf');
+            // This file is used to cover the conversion without the pdf cache
+            if (basename($file) === 'blank.odt') {
+                unlink($pdf);
+            }
+            $this->test_txt($file, $sizes[1]);
+            $this->assertFileExists($pdf);
+            unlink($pdf);
         }
 
         $array = ['value' => ['value' => ['a']]];
