@@ -24,7 +24,7 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 - Minimum PHP version raised from 7.1 to 8.2, the lowest version supported by tcpdf 7 and tc-lib-pdf.
 - phpspreadsheet and symfony/yaml dependencies pinned to PHP 8.2 (zipstream-php 3.1.2, symfony/yaml 7.4 LTS).
 - Setup checks the requirements of the apps libraries too, and reports as warnings the libraries only used when a PHP extension is missing (yaml, mailmimeparser).
-- Third-party libraries updated to their latest releases (joditeditor, tcpdf, tc-lib-pdf, pdfjs, jsuites, symfony/yaml, mailmimeparser, semver, mroonga).
+- Third-party libraries updated to their latest releases (joditeditor, bootstrap icons, tcpdf, tc-lib-pdf, pdfjs, jsuites, symfony/yaml, mailmimeparser, semver, mroonga).
 - Faster API requests: the permissions check no longer resolves the name of every app and permission in each request, and the cache of the xml files is read without acquiring a semaphore.
 - The caches of the yaml app files, the commands output and the inline images of the emails are written using a temporary file and a rename, so a partial file is never read.
 - `get_unique_id_md5()` uses `random_bytes()`, so the names of the temporary files are no longer predictable.
