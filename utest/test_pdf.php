@@ -121,7 +121,7 @@ final class test_pdf extends TestCase
         // Note: the jpg file has the exif rotation to 90º: exiftool -n -Orientation=6 lorem.jpg
         $files = [
             '../../utest/files/lorem.txt' => 23000,
-            '../../utest/files/lorem.html' => 38000,
+            '../../utest/files/lorem.html' => 23000,
             '../../utest/files/lorem.png' => 113000,
             '../../utest/files/lorem.jpg' => 303000,
             '../../utest/files/lorem.odt' => 21000,
