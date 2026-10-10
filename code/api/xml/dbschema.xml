@@ -60,7 +60,7 @@ that maintain the database using as reference this file
         <table name="tbl_users">
             <fields>
                 <field name="id" type="INTEGER" pkey="true"/>
-                <field name="active" type="INTEGER"/>
+                <field name="active" type="INTEGER" null="false" default="0"/>
                 <field name="group_id" type="INTEGER" fkey="tbl_groups"/>
                 <field name="login" type="VARCHAR(255)"/>
                 <field name="name" type="VARCHAR(255)"/>
@@ -74,7 +74,7 @@ that maintain the database using as reference this file
         <table name="tbl_users_passwords">
             <fields>
                 <field name="id" type="INTEGER" pkey="true"/>
-                <field name="active" type="INTEGER"/>
+                <field name="active" type="INTEGER" null="false" default="0"/>
                 <field name="user_id" type="INTEGER" fkey="tbl_users"/>
                 <field name="created_at" type="DATETIME"/>
                 <field name="remote_addr" type="VARCHAR(255)"/>
@@ -86,7 +86,7 @@ that maintain the database using as reference this file
         <table name="tbl_users_tokens">
             <fields>
                 <field name="id" type="INTEGER" pkey="true"/>
-                <field name="active" type="INTEGER"/>
+                <field name="active" type="INTEGER" null="false" default="0"/>
                 <field name="user_id" type="INTEGER" fkey="tbl_users"/>
                 <field name="created_at" type="DATETIME"/>
                 <field name="updated_at" type="DATETIME"/>
@@ -104,7 +104,7 @@ that maintain the database using as reference this file
         <table name="tbl_groups">
             <fields>
                 <field name="id" type="INTEGER" pkey="true"/>
-                <field name="active" type="INTEGER"/>
+                <field name="active" type="INTEGER" null="false" default="0"/>
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
@@ -124,19 +124,19 @@ that maintain the database using as reference this file
         <table name="tbl_apps">
             <fields>
                 <field name="id" type="INTEGER" pkey="true"/>
-                <field name="active" type="INTEGER"/>
+                <field name="active" type="INTEGER" null="false" default="0"/>
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
                 <field name="table" type="VARCHAR(255)"/>
                 <field name="subtables" type="VARCHAR(255)"/>
                 <field name="field" type="VARCHAR(255)"/>
-                <field name="has_index" type="INTEGER"/>
-                <field name="has_control" type="INTEGER"/>
-                <field name="has_version" type="INTEGER"/>
-                <field name="has_files" type="INTEGER"/>
-                <field name="has_notes" type="INTEGER"/>
-                <field name="has_log" type="INTEGER"/>
+                <field name="has_index" type="INTEGER" null="false" default="0"/>
+                <field name="has_control" type="INTEGER" null="false" default="0"/>
+                <field name="has_version" type="INTEGER" null="false" default="0"/>
+                <field name="has_files" type="INTEGER" null="false" default="0"/>
+                <field name="has_notes" type="INTEGER" null="false" default="0"/>
+                <field name="has_log" type="INTEGER" null="false" default="0"/>
                 <field name="group" type="VARCHAR(255)"/>
                 <field name="position" type="INTEGER"/>
                 <field name="color" type="VARCHAR(100)"/>
@@ -146,7 +146,7 @@ that maintain the database using as reference this file
         <table name="tbl_apps_groups">
             <fields>
                 <field name="id" type="INTEGER" pkey="true"/>
-                <field name="active" type="INTEGER"/>
+                <field name="active" type="INTEGER" null="false" default="0"/>
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
@@ -158,7 +158,7 @@ that maintain the database using as reference this file
         <table name="tbl_apps_widgets">
             <fields>
                 <field name="id" type="INTEGER" pkey="true"/>
-                <field name="active" type="INTEGER"/>
+                <field name="active" type="INTEGER" null="false" default="0"/>
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
@@ -169,7 +169,7 @@ that maintain the database using as reference this file
         <table name="tbl_perms">
             <fields>
                 <field name="id" type="INTEGER" pkey="true"/>
-                <field name="active" type="INTEGER"/>
+                <field name="active" type="INTEGER" null="false" default="0"/>
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
@@ -181,8 +181,8 @@ that maintain the database using as reference this file
                 <field name="id" type="INTEGER" pkey="true"/>
                 <field name="app_id" type="INTEGER" fkey="tbl_apps"/>
                 <field name="perm_id" type="INTEGER" fkey="tbl_perms"/>
-                <field name="allow" type="INTEGER"/>
-                <field name="deny" type="INTEGER"/>
+                <field name="allow" type="INTEGER" null="false" default="0"/>
+                <field name="deny" type="INTEGER" null="false" default="0"/>
                 <field name="perms" type="VARCHAR(250)"/>
             </fields>
         </table>
@@ -192,8 +192,8 @@ that maintain the database using as reference this file
                 <field name="user_id" type="INTEGER" fkey="tbl_users"/>
                 <field name="app_id" type="INTEGER" fkey="tbl_apps"/>
                 <field name="perm_id" type="INTEGER" fkey="tbl_perms"/>
-                <field name="allow" type="INTEGER"/>
-                <field name="deny" type="INTEGER"/>
+                <field name="allow" type="INTEGER" null="false" default="0"/>
+                <field name="deny" type="INTEGER" null="false" default="0"/>
             </fields>
         </table>
         <table name="tbl_groups_apps_perms">
@@ -202,8 +202,8 @@ that maintain the database using as reference this file
                 <field name="group_id" type="INTEGER" fkey="tbl_groups"/>
                 <field name="app_id" type="INTEGER" fkey="tbl_apps"/>
                 <field name="perm_id" type="INTEGER" fkey="tbl_perms"/>
-                <field name="allow" type="INTEGER"/>
-                <field name="deny" type="INTEGER"/>
+                <field name="allow" type="INTEGER" null="false" default="0"/>
+                <field name="deny" type="INTEGER" null="false" default="0"/>
             </fields>
         </table>
 

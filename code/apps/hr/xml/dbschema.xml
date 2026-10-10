@@ -19,7 +19,7 @@
         <table name="app_employees">
             <fields>
                 <field name="id" type="INTEGER" pkey="true"/>
-                <field name="active" type="INTEGER"/>
+                <field name="active" type="INTEGER" null="false" default="0"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="address" type="VARCHAR(255)"/>
                 <field name="city" type="VARCHAR(255)"/>
@@ -41,7 +41,7 @@
         <table name="app_employees_types">
             <fields>
                 <field name="id" type="INTEGER" pkey="true"/>
-                <field name="active" type="INTEGER"/>
+                <field name="active" type="INTEGER" null="false" default="0"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
             </fields>
@@ -49,7 +49,7 @@
         <table name="app_departments">
             <fields>
                 <field name="id" type="INTEGER" pkey="true"/>
-                <field name="active" type="INTEGER"/>
+                <field name="active" type="INTEGER" null="false" default="0"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="parent_id" type="INTEGER" fkey="app_departments"/>

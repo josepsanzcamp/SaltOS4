@@ -100,7 +100,13 @@ final class test_config extends TestCase
         $array = get_config_array('nada', '');
         $this->assertCount(0, $array);
 
+        // The xml prefix contains the hashes of the dbschema and dbstatic files,
+        // and the hashes of the fields and the indexes of each table
         $array = get_config_array('xml/', '');
+        $this->assertArrayHasKey('xml/dbschema.xml', $array);
+        $this->assertArrayHasKey('xml/dbstatic.xml', $array);
+
+        $array = get_config_array('xml/dbschema.xml/tbl_config/', '');
         $this->assertCount(2, $array);
     }
 }

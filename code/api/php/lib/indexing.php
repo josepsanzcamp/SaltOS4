@@ -262,7 +262,7 @@ function indexing_files()
         }
         // Search all pending files
         $query = "SELECT id, reg_id, file FROM {$table}_files
-            WHERE IFNULL(indexed,0) = 0 AND IFNULL(retries,0) < 3 AND file != '' LIMIT 1000";
+            WHERE indexed = 0 AND IFNULL(retries,0) < 3 AND file != '' LIMIT 1000";
         $result = db_query($query);
         while ($row = db_fetch_row($result)) {
             if (time_get_usage() > get_config('server/percentstop')) {

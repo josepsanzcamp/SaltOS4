@@ -32,16 +32,16 @@ This file allow to define the database needed by this application
                 <field name="size" type="INTEGER"/>
                 <field name="subject" type="TEXT"/>
                 <field name="body" type="MEDIUMTEXT"/>
-                <field name="state_new" type="INTEGER"/>
-                <field name="state_reply" type="INTEGER"/>
-                <field name="state_forward" type="INTEGER"/>
-                <field name="state_wait" type="INTEGER"/>
-                <field name="state_spam" type="INTEGER"/>
+                <field name="state_new" type="INTEGER" null="false" default="0"/>
+                <field name="state_reply" type="INTEGER" null="false" default="0"/>
+                <field name="state_forward" type="INTEGER" null="false" default="0"/>
+                <field name="state_wait" type="INTEGER" null="false" default="0"/>
+                <field name="state_spam" type="INTEGER" null="false" default="0"/>
                 <field name="email_id" type="INTEGER"/>
-                <field name="is_outbox" type="INTEGER"/>
-                <field name="state_sent" type="INTEGER"/>
+                <field name="is_outbox" type="INTEGER" null="false" default="0"/>
+                <field name="state_sent" type="INTEGER" null="false" default="0"/>
                 <field name="state_error" type="TEXT"/>
-                <field name="state_crt" type="INTEGER"/>
+                <field name="state_crt" type="INTEGER" null="false" default="0"/>
                 <field name="priority" type="INTEGER"/>
                 <field name="sensitivity" type="INTEGER"/>
                 <field name="from" type="TEXT"/>
@@ -83,18 +83,18 @@ This file allow to define the database needed by this application
 				<field name="pop3_extra" type="VARCHAR(255)"/>
 				<field name="pop3_user" type="VARCHAR(255)"/>
 				<field name="pop3_pass" type="VARCHAR(255)"/>
-				<field name="pop3_delete" type="INTEGER"/>
+				<field name="pop3_delete" type="INTEGER" null="false" default="0"/>
 				<field name="pop3_days" type="INTEGER"/>
 				<field name="smtp_host" type="VARCHAR(255)"/>
 				<field name="smtp_port" type="VARCHAR(255)"/>
 				<field name="smtp_extra" type="VARCHAR(255)"/>
 				<field name="smtp_user" type="VARCHAR(255)"/>
 				<field name="smtp_pass" type="VARCHAR(255)"/>
-				<field name="email_disabled" type="INTEGER"/>
-				<field name="email_privated" type="INTEGER"/>
-				<field name="email_default" type="INTEGER"/>
-				<field name="email_addmetocc" type="INTEGER"/>
-				<field name="email_crt" type="INTEGER"/>
+				<field name="email_disabled" type="INTEGER" null="false" default="0"/>
+				<field name="email_privated" type="INTEGER" null="false" default="0"/>
+				<field name="email_default" type="INTEGER" null="false" default="0"/>
+				<field name="email_addmetocc" type="INTEGER" null="false" default="0"/>
+				<field name="email_crt" type="INTEGER" null="false" default="0"/>
 			</fields>
 		</table>
 

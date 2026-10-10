@@ -143,8 +143,8 @@ function __getmail_checkperm($id)
         LEFT JOIN tbl_users d ON e.user_id = d.id
         WHERE a.id = ?
             AND (
-                IFNULL(email_privated, 0) = 0 OR
-                (IFNULL(email_privated, 0) = 1 AND e.user_id = ?)
+                email_privated = 0 OR
+                (email_privated = 1 AND e.user_id = ?)
             )
             AND ' . check_sql('emails', 'view');
     return execute_query($query, [abs(intval($id)), current_user()]);
@@ -1430,7 +1430,7 @@ function getmail_server()
         ]);
     }
     // datos pop3
-    $query = 'SELECT * FROM app_emails_accounts WHERE user_id = ? AND IFNULL(email_disabled, 0) = 0';
+    $query = 'SELECT * FROM app_emails_accounts WHERE user_id = ? AND email_disabled = 0';
     $result = execute_query_array($query, [current_user()]);
     if (!count($result)) {
         semaphore_release($semaphore);

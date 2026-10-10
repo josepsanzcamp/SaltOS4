@@ -988,6 +988,104 @@ final class test_database extends TestCase
         test_external_exec('php/database02_pdo_pgsql.php', 'dberror.log', 'undefined table error relation nada does not exist');
     }
 
+    /**
+     * Not null helper
+     *
+     * This function validates how the rows of a table that allows nulls are
+     * copied to a table that not allows nulls and have a default value, as
+     * the dbschema does when the structure of a table changes, the copy of
+     * the field as is only works in some engines, and by this reason the
+     * dbschema uses the ifnull to convert the nulls to the default value.
+     *
+     * @obj   => the database object used to send the queries
+     * @extra => the sql fragment added to the create table sentences
+     * @asis  => the expected result when the field is copied as is
+     */
+    private function not_null_helper($obj, $extra, $asis): void
+    {
+        $obj->db_query('DROP TABLE IF EXISTS tbl_utest_orig');
+        $obj->db_query('DROP TABLE IF EXISTS tbl_utest_dest');
+        try {
+            // The source table allows nulls and contains a null
+            $obj->db_query("CREATE TABLE tbl_utest_orig (id INTEGER PRIMARY KEY, val INTEGER NULL) $extra");
+            $obj->db_query('INSERT INTO tbl_utest_orig(id,val) VALUES(1,1)');
+            $obj->db_query('INSERT INTO tbl_utest_orig(id,val) VALUES(2,NULL)');
+            $obj->db_query('INSERT INTO tbl_utest_orig(id,val) VALUES(3,0)');
+
+            // The destination table not allows nulls and have a default value
+            $obj->db_query(
+                "CREATE TABLE tbl_utest_dest (id INTEGER PRIMARY KEY, val INTEGER NOT NULL DEFAULT 0) $extra"
+            );
+
+            // Copy the field as is, db_check returns false if the query fails
+            $query = 'INSERT INTO tbl_utest_dest(id,val) SELECT id,val FROM tbl_utest_orig';
+            $this->assertSame($asis, $obj->db_check($query));
+            $obj->db_query('DELETE FROM tbl_utest_dest');
+
+            // Copy the field using the ifnull, as the dbschema does
+            $query = "INSERT INTO tbl_utest_dest(id,val) SELECT id,IFNULL(val,'0') FROM tbl_utest_orig";
+            $this->assertTrue($obj->db_check($query));
+
+            // The null must be converted to the default value
+            $query = 'SELECT id, val FROM tbl_utest_dest ORDER BY id ASC';
+            $result = $obj->db_query($query);
+            $this->assertEquals([
+                ['id' => 1, 'val' => 1],
+                ['id' => 2, 'val' => 0],
+                ['id' => 3, 'val' => 0],
+            ], $result['rows']);
+        } finally {
+            $obj->db_query('DROP TABLE IF EXISTS tbl_utest_orig');
+            $obj->db_query('DROP TABLE IF EXISTS tbl_utest_dest');
+        }
+    }
+
+    #[testdox('pdo_mysql not null')]
+    /**
+     * PDO MySQL not null
+     *
+     * This function checks that the pdo_mysql driver can copy the rows of a table
+     * with nulls to a table with a not null default 0 field, this engine converts
+     * the nulls to the default value when the field is copied as is.
+     */
+    public function test_pdo_mysql_not_null(): void
+    {
+        $obj = db_connect([
+            'type' => 'pdo_mysql',
+            'name' => 'saltos',
+            'user' => 'saltos',
+            'pass' => 'saltos',
+        ]);
+        $this->assertSame($obj instanceof database_pdo_mysql, true);
+        try {
+            $this->not_null_helper($obj, 'ENGINE=Aria CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci', true);
+        } finally {
+            $obj->db_disconnect();
+        }
+    }
+
+    #[testdox('pdo_sqlite not null')]
+    /**
+     * PDO SQLite not null
+     *
+     * This function checks that the pdo_sqlite driver can copy the rows of a table
+     * with nulls to a table with a not null default 0 field, this engine fails
+     * when the field is copied as is.
+     */
+    public function test_pdo_sqlite_not_null(): void
+    {
+        $obj = db_connect([
+            'type' => 'pdo_sqlite',
+            'file' => 'data/files/saltos.sqlite',
+        ]);
+        $this->assertSame($obj instanceof database_pdo_sqlite, true);
+        try {
+            $this->not_null_helper($obj, '', false);
+        } finally {
+            $obj->db_disconnect();
+        }
+    }
+
     #[testdox('database driver')]
     /**
      * Database driver

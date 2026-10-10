@@ -48,8 +48,8 @@
                 <field name="paid" type="DECIMAL(9,2)"/>
                 <field name="paid_date" type="DATE"/>
                 <field name="status_id" type="INTEGER" fkey="app_invoices_status"/>
-                <field name="is_closed" type="INTEGER"/>
-                <field name="is_paid" type="INTEGER"/>
+                <field name="is_closed" type="INTEGER" null="false" default="0"/>
+                <field name="is_paid" type="INTEGER" null="false" default="0"/>
             </fields>
         </table>
         <table name="app_invoices_lines">
@@ -80,7 +80,7 @@
         <table name="app_invoices_status">
             <fields>
                 <field name="id" type="INTEGER" pkey="true"/>
-                <field name="active" type="INTEGER"/>
+                <field name="active" type="INTEGER" null="false" default="0"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
             </fields>
@@ -90,8 +90,8 @@
                 <field name="id" type="INTEGER" pkey="true"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
-                <field name="active" type="INTEGER"/>
-                <field name="default" type="INTEGER"/>
+                <field name="active" type="INTEGER" null="false" default="0"/>
+                <field name="default" type="INTEGER" null="false" default="0"/>
             </fields>
         </table>
         <table name="app_products">
@@ -103,7 +103,7 @@
                 <field name="price" type="DECIMAL(9,2)"/>
                 <field name="tax_id" type="INTEGER" fkey="app_taxes"/>
                 <field name="type_id" type="INTEGER" fkey="app_products_types"/>
-                <field name="active" type="INTEGER"/>
+                <field name="active" type="INTEGER" null="false" default="0"/>
                 <field name="unit" type="VARCHAR(255)"/>
                 <field name="cost" type="DECIMAL(9,2)"/>
                 <field name="margin" type="DECIMAL(9,2)"/>
@@ -121,7 +121,7 @@
         <table name="app_products_types">
             <fields>
                 <field name="id" type="INTEGER" pkey="true"/>
-                <field name="active" type="INTEGER"/>
+                <field name="active" type="INTEGER" null="false" default="0"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
             </fields>
@@ -129,7 +129,7 @@
         <table name="app_products_categories">
             <fields>
                 <field name="id" type="INTEGER" pkey="true"/>
-                <field name="active" type="INTEGER"/>
+                <field name="active" type="INTEGER" null="false" default="0"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
             </fields>
@@ -140,8 +140,8 @@
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
                 <field name="value" type="FLOAT"/>
-                <field name="active" type="INTEGER"/>
-                <field name="default" type="INTEGER"/>
+                <field name="active" type="INTEGER" null="false" default="0"/>
+                <field name="default" type="INTEGER" null="false" default="0"/>
             </fields>
         </table>
         <table name="app_workorders">

@@ -67,15 +67,20 @@ final class test_dbschema extends TestCase
             ') ENGINE=Aria CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci';
         db_query($query);
 
+        // The changes are detected using the hashes of each table, by this
+        // reason the hash of each modified table is invalidated too
+
         $query = 'ALTER TABLE tbl_config
             ADD nada INTEGER';
         db_query($query);
+        set_config('xml/dbschema.xml/tbl_config/fields', 'nada', 0);
 
         $query = 'DROP INDEX token ON tbl_users_tokens';
         db_query($query);
 
         $query = 'CREATE INDEX token ON tbl_users_tokens(expires_at)';
         db_query($query);
+        set_config('xml/dbschema.xml/tbl_users_tokens/indexes', 'nada', 0);
 
         $query = 'ALTER TABLE tbl_users
             RENAME TO __tbl_users__';
@@ -88,12 +93,14 @@ final class test_dbschema extends TestCase
         $query = 'ALTER TABLE tbl_perms
             RENAME TO __tbl_perms__';
         db_query($query);
+        set_config('xml/dbschema.xml/tbl_perms/fields', 'nada', 0);
 
         $query = 'DROP TABLE tbl_apps';
         db_query($query);
 
         $query = 'CREATE INDEX nada ON tbl_groups(active)';
         db_query($query);
+        set_config('xml/dbschema.xml/tbl_groups/indexes', 'nada', 0);
 
         set_config('xml/dbschema.xml', 'nada', 0);
         set_config('xml/dbstatic.xml', 'nada', 0);
@@ -105,6 +112,23 @@ final class test_dbschema extends TestCase
         db_static();
         $this->assertTrue(__dbschema_check());
         $this->assertTrue(__dbstatic_check());
+
+        // The hash of the fields must force the regeneration of the table and
+        // their indexes, and the hash of the indexes only the indexes
+        set_config('xml/dbschema.xml/tbl_groups/fields', 'nada', 0);
+        $output = db_schema();
+        $this->assertContains('Alter tbl_groups', $output);
+        $this->assertSame(strlen(get_config('xml/dbschema.xml/tbl_groups/fields', 0)), 32);
+        $this->assertSame([], db_schema());
+
+        $indexes = get_indexes('tbl_users_tokens');
+        $this->assertTrue(count($indexes) > 0);
+        set_config('xml/dbschema.xml/tbl_users_tokens/indexes', 'nada', 0);
+        $output = db_schema();
+        $this->assertContains('Create token on tbl_users_tokens', $output);
+        $this->assertNotContains('Alter tbl_users_tokens', $output);
+        $this->assertEquals($indexes, get_indexes('tbl_users_tokens'));
+        $this->assertSame([], db_schema());
         $this->assertSame(strlen(__dbschema_hash()), 32);
         $this->assertSame(strlen(__dbstatic_hash()), 32);
 
@@ -275,6 +299,44 @@ final class test_dbschema extends TestCase
 
         $query = __dbschema_drop_table('a');
         $this->assertSame($query, 'DROP TABLE a');
+
+        // The new fields must use the default value defined in the dbschema,
+        // and the nulls of the source table must be replaced by this value in
+        // the fields that not allow nulls, tbl_groups is used because their
+        // active field is not null default 0
+        $this->assertSame(['active' => '0'], get_defaults_from_dbschema('tbl_groups'));
+        $this->assertSame([], get_defaults_from_dbschema('nada'));
+        $this->assertSame(['active'], get_notnulls_from_dbschema('tbl_groups'));
+        $this->assertSame([], get_notnulls_from_dbschema('nada'));
+
+        $xml = '<table name="tbl_utest">
+            <fields>
+                <field name="id" type="/*MYSQL INTEGER *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="active" type="INTEGER"/>
+                <field name="name" type="VARCHAR(255)"/>
+            </fields>
+        </table>';
+        $tablespec = xml2array($xml);
+        db_query(__dbschema_create_table($tablespec['table']));
+
+        $id = intval(execute_query('SELECT MAX(id) FROM tbl_groups'));
+        $id1 = $id + 1;
+        $id2 = $id + 2;
+        db_query("INSERT INTO tbl_utest(id,active,name) VALUES($id1,NULL,'utest null')");
+        db_query("INSERT INTO tbl_utest(id,active,name) VALUES($id2,1,'utest one')");
+
+        $query = __dbschema_insert_from_select('tbl_groups', 'tbl_utest');
+        $this->assertSame($query, 'INSERT INTO tbl_groups(id,active,code,name,description,users_id) ' .
+            "SELECT id,IFNULL(active,'0'),'',name,'','' FROM tbl_utest");
+        db_query($query);
+
+        $rows = execute_query_array("SELECT active FROM tbl_groups WHERE id IN ($id1,$id2) ORDER BY id ASC");
+        $this->assertCount(2, $rows);
+        $this->assertEquals(0, $rows[0]);
+        $this->assertEquals(1, $rows[1]);
+
+        db_query("DELETE FROM tbl_groups WHERE id IN ($id1,$id2)");
+        db_query('DROP TABLE tbl_utest');
 
         $xml = '<indexes name="tbl_config" table="tbl_config" fields="user_id,key"/>';
         $indexspec = xml2array($xml);

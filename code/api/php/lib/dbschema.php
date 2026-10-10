@@ -28,6 +28,10 @@ declare(strict_types=1);
  *
  * This function try to maintain the database structure, to do it, this feature uses the dbschema.xml
  * file to store the database structure.
+ *
+ * The changes are detected using two hashes for each table, one for the fields and another for the
+ * indexes, they are computed from the dbschema.xml file and are stored in the config table when the
+ * table or their indexes are created, a table without hashes or with different hashes is regenerated.
  */
 function db_schema()
 {
@@ -36,6 +40,7 @@ function db_schema()
     $dbschema = __dbschema_auto_fkey($dbschema);
     $dbschema = __dbschema_auto_name($dbschema);
     $output = [];
+    $hashes = [];
     if (is_array($dbschema) && isset($dbschema['tables']) && is_array($dbschema['tables'])) {
         $ignores = get_ignores_from_dbschema();
         $tables1 = array_diff(get_tables(), $ignores);
@@ -54,74 +59,65 @@ function db_schema()
                 continue;
             }
             $backup = "__{$table}__";
+            $indexes = [];
+            if (isset($tablespec['value']['indexes']) && is_array($tablespec['value']['indexes'])) {
+                $indexes = $tablespec['value']['indexes'];
+            }
+            // These hashes identify the structure of the fields and the indexes
+            // used to create the table, a table or their indexes are regenerated
+            // when their hash is not found or is different to the stored hash
+            $key1 = "xml/dbschema.xml/$table/fields";
+            $key2 = "xml/dbschema.xml/$table/indexes";
+            $hash1 = md5(serialize($tablespec['value']['fields']));
+            $hash2 = md5(serialize($indexes));
+            $bool1 = get_config($key1, 0) !== $hash1;
+            $bool2 = get_config($key2, 0) !== $hash2;
             if (in_array($table, $tables1, true)) {
-                $fields1 = get_fields($table);
-                $fields2 = get_fields_from_dbschema($table);
-                $hash3 = md5(serialize($fields1));
-                $hash4 = md5(serialize($fields2));
-                if ($hash3 !== $hash4) {
+                if ($bool1) {
                     db_query(__dbschema_alter_table($table, $backup));
                     db_query(__dbschema_create_table($tablespec));
-                    foreach (get_indexes($table) as $index => $fields) {
-                        db_query(__dbschema_drop_index($index, $table));
-                    }
                     db_query(__dbschema_insert_from_select($table, $backup));
                     db_query(__dbschema_drop_table($backup));
                     $output[] = "Alter $table";
+                    $bool2 = true;
                 }
             } elseif (in_array($backup, $tables1, true)) {
-                $fields1 = get_fields($backup);
-                $fields2 = get_fields_from_dbschema($table);
-                $hash3 = md5(serialize($fields1));
-                $hash4 = md5(serialize($fields2));
-                if ($hash3 !== $hash4) {
+                if ($bool1) {
                     db_query(__dbschema_create_table($tablespec));
-                    foreach (get_indexes($table) as $index => $fields) {
-                        db_query(__dbschema_drop_index($index, $table));
-                    }
                     db_query(__dbschema_insert_from_select($table, $backup));
                     db_query(__dbschema_drop_table($backup));
                     $output[] = "Alter $table from $backup";
+                    $bool2 = true;
                 } else {
                     db_query(__dbschema_alter_table($backup, $table));
                     $output[] = "Rename $backup to $table";
                 }
             } else {
                 db_query(__dbschema_create_table($tablespec));
+                $output[] = "Create $table";
+                $bool2 = true;
+            }
+            if ($bool2) {
                 foreach (get_indexes($table) as $index => $fields) {
                     db_query(__dbschema_drop_index($index, $table));
                 }
-                $output[] = "Create $table";
-            }
-            $indexes1 = get_indexes($table);
-            $indexes2 = get_indexes_from_dbschema($table);
-            foreach ($indexes1 as $index => $fields) {
-                if (!array_key_exists($index, $indexes2)) {
-                    db_query(__dbschema_drop_index($index, $table));
-                    $output[] = "Drop $index on $table";
-                }
-            }
-            if (isset($tablespec['value']['indexes']) && is_array($tablespec['value']['indexes'])) {
-                foreach ($tablespec['value']['indexes'] as $indexspec) {
+                foreach ($indexes as $indexspec) {
                     $indexspec['#attr']['table'] = $table;
                     $index = $indexspec['#attr']['name'];
-                    if (array_key_exists($index, $indexes1)) {
-                        $fields1 = $indexes1[$index];
-                        $fields2 = $indexes2[$index];
-                        $hash3 = md5(serialize($fields1));
-                        $hash4 = md5(serialize($fields2));
-                        if ($hash3 !== $hash4) {
-                            db_query(__dbschema_drop_index($index, $table));
-                            db_query(__dbschema_create_index($indexspec));
-                            $output[] = "Alter $index on $table";
-                        }
-                    } else {
-                        db_query(__dbschema_create_index($indexspec));
-                        $output[] = "Create $index on $table";
-                    }
+                    db_query(__dbschema_create_index($indexspec));
+                    $output[] = "Create $index on $table";
                 }
             }
+            if ($bool1) {
+                $hashes[$key1] = $hash1;
+            }
+            if ($bool2) {
+                $hashes[$key2] = $hash2;
+            }
         }
+    }
+    foreach ($hashes as $key => $hash) {
+        set_config($key, $hash, 0);
     }
     set_config('xml/dbschema.xml', __dbschema_hash(), 0);
     return $output;
@@ -375,6 +371,31 @@ function get_fkeys_from_dbschema($table)
 }
 
 /**
+ * Get Defaults from DB Schema
+ *
+ * This function returns the defaults from the DB Schema file, the fields
+ * that not define a default value are not returned
+ *
+ * @table => the table that you want to request the defaults
+ */
+function get_defaults_from_dbschema($table)
+{
+    return __dbschema_helper(__FUNCTION__, $table);
+}
+
+/**
+ * Get Not Nulls from DB Schema
+ *
+ * This function returns the fields that not allow nulls from the DB Schema file
+ *
+ * @table => the table that you want to request the not nulls
+ */
+function get_notnulls_from_dbschema($table)
+{
+    return __dbschema_helper(__FUNCTION__, $table);
+}
+
+/**
  * DB Schema helper
  *
  * This function is a helper for the previous functions, is intended to be used
@@ -390,6 +411,8 @@ function __dbschema_helper($fn, $table)
     static $ignores = null;
     static $fulltext = null;
     static $fkeys = null;
+    static $defaults = null;
+    static $notnulls = null;
     if ($tables === null) {
         $dbschema = eval_attr(xmlfiles2array(detect_apps_files('xml/dbschema.xml')));
         $dbschema = __dbschema_auto_apps($dbschema);
@@ -400,6 +423,8 @@ function __dbschema_helper($fn, $table)
         $ignores = [];
         $fulltext = [];
         $fkeys = [];
+        $defaults = [];
+        $notnulls = [];
         if (is_array($dbschema) && isset($dbschema['tables']) && is_array($dbschema['tables'])) {
             foreach ($dbschema['tables'] as $tablespec) {
                 if (isset($tablespec['#attr']['ignore']) && eval_bool($tablespec['#attr']['ignore'])) {
@@ -415,6 +440,13 @@ function __dbschema_helper($fn, $table)
                     if (isset($fieldspec['#attr']['fkey']) && $fieldspec['#attr']['fkey'] !== '') {
                         $fkeys[$tablespec['#attr']['name']][$fieldspec['#attr']['name']]
                             = $fieldspec['#attr']['fkey'];
+                    }
+                    if (isset($fieldspec['#attr']['default'])) {
+                        $defaults[$tablespec['#attr']['name']][$fieldspec['#attr']['name']]
+                            = $fieldspec['#attr']['default'];
+                    }
+                    if (isset($fieldspec['#attr']['null']) && !eval_bool($fieldspec['#attr']['null'])) {
+                        $notnulls[$tablespec['#attr']['name']][] = $fieldspec['#attr']['name'];
                     }
                 }
                 if (isset($tablespec['value']['indexes'])) {
@@ -452,6 +484,16 @@ function __dbschema_helper($fn, $table)
     } elseif (stripos($fn, 'get_fkeys') !== false) {
         if (isset($fkeys[$table])) {
             return $fkeys[$table];
+        }
+        return [];
+    } elseif (stripos($fn, 'get_defaults') !== false) {
+        if (isset($defaults[$table])) {
+            return $defaults[$table];
+        }
+        return [];
+    } elseif (stripos($fn, 'get_notnulls') !== false) {
+        if (isset($notnulls[$table])) {
+            return $notnulls[$table];
         }
         return [];
     }
@@ -549,7 +591,7 @@ function __dbschema_auto_apps($dbschema)
                                 <field name="file" type="VARCHAR(255)"/>
                                 <field name="hash" type="VARCHAR(255)"/>
                                 <field name="search" type="MEDIUMTEXT"/>
-                                <field name="indexed" type="INTEGER"/>
+                                <field name="indexed" type="INTEGER" null="false" default="0"/>
                                 <field name="retries" type="INTEGER"/>
                             </fields>
                         </table>';
@@ -961,6 +1003,13 @@ function __dbschema_alter_table($orig, $dest)
  *
  * @orig => source table
  * @dest => destination table
+ *
+ * Notes:
+ *
+ * The new fields uses the default value defined in the dbschema, or the
+ * void value of their type if the default is not defined, and the same
+ * value is used to replace the nulls of the source table in the fields
+ * that not allow nulls, otherwise the copy fails when the source has nulls
  */
 function __dbschema_insert_from_select($dest, $orig)
 {
@@ -996,13 +1045,21 @@ function __dbschema_insert_from_select($dest, $orig)
             // @codeCoverageIgnoreEnd
         }
     }
+    $defaults = get_defaults_from_dbschema($dest);
+    $notnulls = get_notnulls_from_dbschema($dest);
     $keys = [];
     $vals = [];
     foreach ($ldest as $key => $l) {
-        $def = $defs[$key];
+        $def = $defaults[$l] ?? $defs[$key];
         $l2 = escape_reserved_word($l);
         $keys[] = $l2;
-        $vals[] = in_array($l, $lorig, true) ? $l2 : "'$def'";
+        if (!in_array($l, $lorig, true)) {
+            $vals[] = "'$def'";
+        } elseif (in_array($l, $notnulls, true)) {
+            $vals[] = "IFNULL($l2,'$def')";
+        } else {
+            $vals[] = $l2;
+        }
     }
     $keys = implode(',', $keys);
     $vals = implode(',', $vals);
