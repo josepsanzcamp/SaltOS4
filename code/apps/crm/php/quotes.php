@@ -171,34 +171,34 @@ function unmake_matrix_data($json, $quote_id)
                 unset($row['total']);
             }
         } else {
-            if ($lines_array[$key]['product_id'] === $product_id) {
+            if (intval($lines_array[$key]['product_id']) === $product_id) {
                 unset($row['product_id']);
             }
-            if ($lines_array[$key]['description'] === $val['description']) {
+            if (strval($lines_array[$key]['description']) === strval($val['description'])) {
                 unset($row['description']);
             }
-            if ($lines_array[$key]['quantity'] === $val['quantity']) {
+            if (floatval($lines_array[$key]['quantity']) === floatval($val['quantity'])) {
                 unset($row['quantity']);
             }
-            if ($lines_array[$key]['price'] === $val['price']) {
+            if (floatval($lines_array[$key]['price']) === floatval($val['price'])) {
                 unset($row['price']);
             }
-            if ($lines_array[$key]['discount'] === $val['discount']) {
+            if (floatval($lines_array[$key]['discount']) === floatval($val['discount'])) {
                 unset($row['discount']);
             }
-            if ($lines_array[$key]['tax_id'] === $tax_id) {
+            if (intval($lines_array[$key]['tax_id']) === $tax_id) {
                 unset($row['tax_id']);
             }
-            if ($lines_array[$key]['tax_value'] === $val['tax']) {
+            if (floatval($lines_array[$key]['tax_value']) === floatval($val['tax'])) {
                 unset($row['tax_value']);
             }
-            if ($lines_array[$key]['withholding_id'] === $withholding_id) {
+            if (intval($lines_array[$key]['withholding_id']) === $withholding_id) {
                 unset($row['withholding_id']);
             }
             if (floatval($lines_array[$key]['withholding_value']) === floatval($val['withholding'])) {
                 unset($row['withholding_value']);
             }
-            if ($lines_array[$key]['total'] === $val['total']) {
+            if (floatval($lines_array[$key]['total']) === floatval($val['total'])) {
                 unset($row['total']);
             }
             if (count($row) === 1) {
@@ -281,19 +281,19 @@ function unmake_matrix_data($json, $quote_id)
             if (intval($taxes_array[$key]['type']) === $type) {
                 unset($row['type']);
             }
-            if ($taxes_array[$key]['tax_id'] === $tax_id) {
+            if (intval($taxes_array[$key]['tax_id']) === $tax_id) {
                 unset($row['tax_id']);
             }
-            if ($taxes_array[$key]['tax_name'] === $val['name']) {
+            if (strval($taxes_array[$key]['tax_name']) === strval($val['name'])) {
                 unset($row['tax_name']);
             }
-            if ($taxes_array[$key]['tax_value'] === $tax_value) {
+            if (floatval($taxes_array[$key]['tax_value']) === floatval($tax_value)) {
                 unset($row['tax_value']);
             }
-            if ($taxes_array[$key]['base'] === $val['base']) {
+            if (floatval($taxes_array[$key]['base']) === floatval($val['base'])) {
                 unset($row['base']);
             }
-            if ($taxes_array[$key]['tax'] === $val['tax']) {
+            if (floatval($taxes_array[$key]['tax']) === floatval($val['tax'])) {
                 unset($row['tax']);
             }
             if (count($row) === 1) {
@@ -324,22 +324,45 @@ function unmake_matrix_data($json, $quote_id)
         $json['withholding'] = $totals['withholding'];
         $json['total'] = $totals['total'];
         if (isset($totals_array[0])) {
-            if ($totals_array[0]['subtotal'] === $totals['subtotal']) {
+            if (floatval($totals_array[0]['subtotal']) === floatval($totals['subtotal'])) {
                 unset($json['subtotal']);
             }
-            if ($totals_array[0]['tax'] === $totals['tax']) {
+            if (floatval($totals_array[0]['tax']) === floatval($totals['tax'])) {
                 unset($json['tax']);
             }
-            if ($totals_array[0]['withholding'] === $totals['withholding']) {
+            if (floatval($totals_array[0]['withholding']) === floatval($totals['withholding'])) {
                 unset($json['withholding']);
             }
-            if ($totals_array[0]['total'] === $totals['total']) {
+            if (floatval($totals_array[0]['total']) === floatval($totals['total'])) {
                 unset($json['total']);
             }
         }
     }
 
     return $json;
+}
+
+/**
+ * Get next code
+ *
+ * This function returns the next code of a serie, the codes are composed by
+ * a prefix that contains the year and a correlative number, the number is
+ * computed using the numeric value of the codes that begin by the prefix,
+ * by this reason the serie is restarted when the year changes.
+ *
+ * @table  => the table that contains the codes
+ * @field  => the field that contains the codes
+ * @prefix => the prefix of the serie, for example PF2026-
+ */
+function get_next_code($table, $field, $prefix)
+{
+    $query = "SELECT $field FROM $table WHERE $field LIKE ?";
+    $codes = execute_query_array($query, ["$prefix%"]);
+    $last = 0;
+    foreach ($codes as $code) {
+        $last = max($last, intval(substr($code, strlen($prefix))));
+    }
+    return $prefix . ($last + 1);
 }
 
 /**
@@ -362,31 +385,31 @@ function set_quote($json, $quote_id)
         return $json;
     }
 
+    // The form only sends the modified fields, by this reason the stored
+    // quote is used to know the value of the fields that not are received
+    $query = 'SELECT * FROM app_quotes WHERE id = ?';
+    $quote = execute_query($query, [$quote_id]);
+
+    // The code and their date are set here and never by the client
+    unset($json['code']);
+    unset($json['date']);
+
     // Set code and date
-    if (!$quote_id || !isset($json['code']) || !$json['code']) {
-        $query = 'SELECT MAX(code) FROM app_quotes';
-        $last = execute_query($query);
-        if ($last) {
-            $last = explode('-', $last);
-            $last = array_reverse($last);
-            $last = intval($last[0]);
-        } else {
-            $last = 0;
-        }
-        $next = $last + 1;
-        $year = date('Y');
-        $json['code'] = "Q$year-$next";
+    if (!$quote_id || !($quote['code'] ?? '')) {
+        $json['code'] = get_next_code('app_quotes', 'code', 'Q' . date('Y') . '-');
         $json['date'] = current_date();
     }
 
     // Set the valid_until if needed
-    if (!isset($json['due_date']) || !$json['due_date']) {
+    $valid_until = $quote['valid_until'] ?? '';
+    if (array_key_exists('valid_until', $json)) {
+        $valid_until = $json['valid_until'];
+    }
+    if (in_array(strval($valid_until), ['', '0000-00-00'], true)) {
         $json['valid_until'] = current_date();
     }
 
     // Set the company
-    $query = 'SELECT * FROM app_quotes WHERE id = ?';
-    $quote = execute_query($query, [$quote_id]);
     $query = 'SELECT * FROM app_company WHERE id = ?';
     $company = execute_query($query, [1]);
     $fields = [

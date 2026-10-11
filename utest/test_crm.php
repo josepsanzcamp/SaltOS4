@@ -186,6 +186,28 @@ final class test_crm extends TestCase
         $this->assertSame($quote['code'], $quote2['code']);
         $this->assertSame($quote['date'], $quote2['date']);
 
+        // The valid_until received must be stored instead of the current date
+        $json4 = test_web_helper("app/quotes/update/$quote_id", [
+            'valid_until' => '2030-01-01',
+        ], $token, '');
+        $this->assertSame('ok', $json4['status']);
+
+        $quote3 = execute_query('SELECT * FROM app_quotes WHERE id = ?', [$quote_id]);
+        $this->assertSame('2030-01-01', $quote3['valid_until']);
+
+        // The form only sends the modified fields, by this reason an update
+        // without the code and the valid_until must maintain their values
+        $json5 = test_web_helper("app/quotes/update/$quote_id", [
+            'description' => 'Test crm description',
+        ], $token, '');
+        $this->assertSame('ok', $json5['status']);
+
+        $quote4 = execute_query('SELECT * FROM app_quotes WHERE id = ?', [$quote_id]);
+        $this->assertSame('Test crm description', $quote4['description']);
+        $this->assertSame($quote['code'], $quote4['code']);
+        $this->assertSame($quote['date'], $quote4['date']);
+        $this->assertSame('2030-01-01', $quote4['valid_until']);
+
         $query = "DELETE FROM app_quotes WHERE id = $quote_id";
         db_query($query);
         $query = "DELETE FROM app_quotes_lines WHERE quote_id = $quote_id";
@@ -494,6 +516,56 @@ final class test_crm extends TestCase
         $query = "DELETE FROM app_quotes_taxes WHERE quote_id = $quote_id";
         db_query($query);
         $query = "DELETE FROM app_taxes WHERE id IN ($tax_id, $withholding_id)";
+        db_query($query);
+    }
+
+    #[Depends('test_authtoken')]
+    #[testdox('quotes numbering')]
+    /**
+     * quotes numbering test
+     *
+     * This test performs some tests to validate the correctness of the
+     * numbering of the quotes, the next code must be computed using the
+     * numeric value of the codes of the current year, and not their text
+     */
+    public function test_quotes_numbering(array $json): void
+    {
+        $token = $json['token'];
+        $year = date('Y');
+
+        // Setup a code with a big number in the serie of the current year,
+        // and another code with a bigger number in the serie of an old year
+        $query = make_insert_query('app_quotes', [
+            'code' => "Q$year-999999",
+        ]);
+        db_query($query);
+        $id1 = execute_query('SELECT MAX(id) FROM app_quotes');
+
+        $query = make_insert_query('app_quotes', [
+            'code' => 'Q2000-5000000',
+        ]);
+        db_query($query);
+        $id2 = execute_query('SELECT MAX(id) FROM app_quotes');
+
+        // The next code must continue the serie of the current year, the text
+        // comparison fails here because 999999 is greater than 1000000
+        $json2 = test_web_helper('app/quotes/insert', [
+            'customer_name' => 'Test crm numbering customer',
+        ], $token, '');
+        $this->assertSame('ok', $json2['status']);
+        $id3 = $json2['created_id'];
+        $code = execute_query('SELECT code FROM app_quotes WHERE id = ?', [$id3]);
+        $this->assertSame("Q$year-1000000", $code);
+
+        $json3 = test_web_helper('app/quotes/insert', [
+            'customer_name' => 'Test crm numbering customer',
+        ], $token, '');
+        $this->assertSame('ok', $json3['status']);
+        $id4 = $json3['created_id'];
+        $code = execute_query('SELECT code FROM app_quotes WHERE id = ?', [$id4]);
+        $this->assertSame("Q$year-1000001", $code);
+
+        $query = "DELETE FROM app_quotes WHERE id IN ($id1, $id2, $id3, $id4)";
         db_query($query);
     }
 }

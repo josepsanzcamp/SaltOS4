@@ -207,6 +207,26 @@ final class test_sales extends TestCase
         $this->assertSame(current_date(), $invoice3['paid_date']);
         $this->assertEquals($invoice3['total'], $invoice3['paid']);
 
+        // The form only sends the modified fields, by this reason an update
+        // without the proforma_code and the due_date must maintain their values
+        $query = make_update_query('app_invoices', [
+            'due_date' => '2020-01-01',
+        ], [
+            'id' => $invoice_id,
+        ]);
+        db_query($query);
+        $json5 = test_web_helper("app/invoices/update/$invoice_id", [
+            'description' => 'Test sales description',
+        ], $token, '');
+        $this->assertSame('ok', $json5['status']);
+
+        $invoice4 = execute_query('SELECT * FROM app_invoices WHERE id = ?', [$invoice_id]);
+        $this->assertSame('Test sales description', $invoice4['description']);
+        $this->assertSame($invoice['proforma_code'], $invoice4['proforma_code']);
+        $this->assertSame($invoice['proforma_date'], $invoice4['proforma_date']);
+        $this->assertSame($invoice3['invoice_code'], $invoice4['invoice_code']);
+        $this->assertSame('2020-01-01', $invoice4['due_date']);
+
         // The two lines from the previous update must still be there untouched
         $lines_array3 = execute_query_array(
             'SELECT * FROM app_invoices_lines WHERE invoice_id = ? ORDER BY id ASC',
@@ -781,6 +801,56 @@ final class test_sales extends TestCase
         ], [
             'id' => 1,
         ]);
+        db_query($query);
+    }
+
+    #[Depends('test_authtoken')]
+    #[testdox('invoices numbering')]
+    /**
+     * invoices numbering test
+     *
+     * This test performs some tests to validate the correctness of the
+     * numbering of the invoices, the next code must be computed using the
+     * numeric value of the codes of the current year, and not their text
+     */
+    public function test_invoices_numbering(array $json): void
+    {
+        $token = $json['token'];
+        $year = date('Y');
+
+        // Setup a code with a big number in the serie of the current year,
+        // and another code with a bigger number in the serie of an old year
+        $query = make_insert_query('app_invoices', [
+            'proforma_code' => "PF$year-999999",
+        ]);
+        db_query($query);
+        $id1 = execute_query('SELECT MAX(id) FROM app_invoices');
+
+        $query = make_insert_query('app_invoices', [
+            'proforma_code' => 'PF2000-5000000',
+        ]);
+        db_query($query);
+        $id2 = execute_query('SELECT MAX(id) FROM app_invoices');
+
+        // The next code must continue the serie of the current year, the text
+        // comparison fails here because 999999 is greater than 1000000
+        $json2 = test_web_helper('app/invoices/insert', [
+            'customer_name' => 'Test sales numbering customer',
+        ], $token, '');
+        $this->assertSame('ok', $json2['status']);
+        $id3 = $json2['created_id'];
+        $code = execute_query('SELECT proforma_code FROM app_invoices WHERE id = ?', [$id3]);
+        $this->assertSame("PF$year-1000000", $code);
+
+        $json3 = test_web_helper('app/invoices/insert', [
+            'customer_name' => 'Test sales numbering customer',
+        ], $token, '');
+        $this->assertSame('ok', $json3['status']);
+        $id4 = $json3['created_id'];
+        $code = execute_query('SELECT proforma_code FROM app_invoices WHERE id = ?', [$id4]);
+        $this->assertSame("PF$year-1000001", $code);
+
+        $query = "DELETE FROM app_invoices WHERE id IN ($id1, $id2, $id3, $id4)";
         db_query($query);
     }
 }

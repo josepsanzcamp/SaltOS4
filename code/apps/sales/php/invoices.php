@@ -171,34 +171,34 @@ function unmake_matrix_data($json, $invoice_id)
                 unset($row['total']);
             }
         } else {
-            if ($lines_array[$key]['product_id'] === $product_id) {
+            if (intval($lines_array[$key]['product_id']) === $product_id) {
                 unset($row['product_id']);
             }
-            if ($lines_array[$key]['description'] === $val['description']) {
+            if (strval($lines_array[$key]['description']) === strval($val['description'])) {
                 unset($row['description']);
             }
-            if ($lines_array[$key]['quantity'] === $val['quantity']) {
+            if (floatval($lines_array[$key]['quantity']) === floatval($val['quantity'])) {
                 unset($row['quantity']);
             }
-            if ($lines_array[$key]['price'] === $val['price']) {
+            if (floatval($lines_array[$key]['price']) === floatval($val['price'])) {
                 unset($row['price']);
             }
-            if ($lines_array[$key]['discount'] === $val['discount']) {
+            if (floatval($lines_array[$key]['discount']) === floatval($val['discount'])) {
                 unset($row['discount']);
             }
-            if ($lines_array[$key]['tax_id'] === $tax_id) {
+            if (intval($lines_array[$key]['tax_id']) === $tax_id) {
                 unset($row['tax_id']);
             }
-            if ($lines_array[$key]['tax_value'] === $val['tax']) {
+            if (floatval($lines_array[$key]['tax_value']) === floatval($val['tax'])) {
                 unset($row['tax_value']);
             }
-            if ($lines_array[$key]['withholding_id'] === $withholding_id) {
+            if (intval($lines_array[$key]['withholding_id']) === $withholding_id) {
                 unset($row['withholding_id']);
             }
             if (floatval($lines_array[$key]['withholding_value']) === floatval($val['withholding'])) {
                 unset($row['withholding_value']);
             }
-            if ($lines_array[$key]['total'] === $val['total']) {
+            if (floatval($lines_array[$key]['total']) === floatval($val['total'])) {
                 unset($row['total']);
             }
             if (count($row) === 1) {
@@ -281,19 +281,19 @@ function unmake_matrix_data($json, $invoice_id)
             if (intval($taxes_array[$key]['type']) === $type) {
                 unset($row['type']);
             }
-            if ($taxes_array[$key]['tax_id'] === $tax_id) {
+            if (intval($taxes_array[$key]['tax_id']) === $tax_id) {
                 unset($row['tax_id']);
             }
-            if ($taxes_array[$key]['tax_name'] === $val['name']) {
+            if (strval($taxes_array[$key]['tax_name']) === strval($val['name'])) {
                 unset($row['tax_name']);
             }
-            if ($taxes_array[$key]['tax_value'] === $tax_value) {
+            if (floatval($taxes_array[$key]['tax_value']) === floatval($tax_value)) {
                 unset($row['tax_value']);
             }
-            if ($taxes_array[$key]['base'] === $val['base']) {
+            if (floatval($taxes_array[$key]['base']) === floatval($val['base'])) {
                 unset($row['base']);
             }
-            if ($taxes_array[$key]['tax'] === $val['tax']) {
+            if (floatval($taxes_array[$key]['tax']) === floatval($val['tax'])) {
                 unset($row['tax']);
             }
             if (count($row) === 1) {
@@ -324,22 +324,45 @@ function unmake_matrix_data($json, $invoice_id)
         $json['withholding'] = $totals['withholding'];
         $json['total'] = $totals['total'];
         if (isset($totals_array[0])) {
-            if ($totals_array[0]['subtotal'] === $totals['subtotal']) {
+            if (floatval($totals_array[0]['subtotal']) === floatval($totals['subtotal'])) {
                 unset($json['subtotal']);
             }
-            if ($totals_array[0]['tax'] === $totals['tax']) {
+            if (floatval($totals_array[0]['tax']) === floatval($totals['tax'])) {
                 unset($json['tax']);
             }
-            if ($totals_array[0]['withholding'] === $totals['withholding']) {
+            if (floatval($totals_array[0]['withholding']) === floatval($totals['withholding'])) {
                 unset($json['withholding']);
             }
-            if ($totals_array[0]['total'] === $totals['total']) {
+            if (floatval($totals_array[0]['total']) === floatval($totals['total'])) {
                 unset($json['total']);
             }
         }
     }
 
     return $json;
+}
+
+/**
+ * Get next code
+ *
+ * This function returns the next code of a serie, the codes are composed by
+ * a prefix that contains the year and a correlative number, the number is
+ * computed using the numeric value of the codes that begin by the prefix,
+ * by this reason the serie is restarted when the year changes.
+ *
+ * @table  => the table that contains the codes
+ * @field  => the field that contains the codes
+ * @prefix => the prefix of the serie, for example PF2026-
+ */
+function get_next_code($table, $field, $prefix)
+{
+    $query = "SELECT $field FROM $table WHERE $field LIKE ?";
+    $codes = execute_query_array($query, ["$prefix%"]);
+    $last = 0;
+    foreach ($codes as $code) {
+        $last = max($last, intval(substr($code, strlen($prefix))));
+    }
+    return $prefix . ($last + 1);
 }
 
 /**
@@ -370,37 +393,26 @@ function set_proforma_invoice($json, $invoice_id)
         return $json;
     }
 
+    // The form only sends the modified fields, by this reason the stored
+    // invoice is used to know the value of the fields that not are received
+    $query = 'SELECT * FROM app_invoices WHERE id = ?';
+    $invoice = execute_query($query, [$invoice_id]);
+
+    // The codes and their dates are set here and never by the client
+    unset($json['proforma_code']);
+    unset($json['proforma_date']);
+    unset($json['invoice_code']);
+    unset($json['invoice_date']);
+
     // Set proforma_code and proforma_date
-    if (!$invoice_id || !isset($json['proforma_code']) || !$json['proforma_code']) {
-        $query = 'SELECT MAX(proforma_code) FROM app_invoices';
-        $last = execute_query($query);
-        if ($last) {
-            $last = explode('-', $last);
-            $last = array_reverse($last);
-            $last = intval($last[0]);
-        } else {
-            $last = 0;
-        }
-        $next = $last + 1;
-        $year = date('Y');
-        $json['proforma_code'] = "PF$year-$next";
+    if (!$invoice_id || !($invoice['proforma_code'] ?? '')) {
+        $json['proforma_code'] = get_next_code('app_invoices', 'proforma_code', 'PF' . date('Y') . '-');
         $json['proforma_date'] = current_date();
     }
 
     // Set invoice_code and invoice_date
-    if (isset($json['is_closed']) && $json['is_closed']) {
-        $query = 'SELECT MAX(invoice_code) FROM app_invoices';
-        $last = execute_query($query);
-        if ($last) {
-            $last = explode('-', $last);
-            $last = array_reverse($last);
-            $last = intval($last[0]);
-        } else {
-            $last = 0;
-        }
-        $next = $last + 1;
-        $year = date('Y');
-        $json['invoice_code'] = "F$year-$next";
+    if (isset($json['is_closed']) && $json['is_closed'] && !($invoice['invoice_code'] ?? '')) {
+        $json['invoice_code'] = get_next_code('app_invoices', 'invoice_code', 'F' . date('Y') . '-');
         $json['invoice_date'] = current_date();
     }
 
@@ -431,14 +443,16 @@ function set_proforma_invoice($json, $invoice_id)
 
     // Set the due_date if needed
     if (isset($json['is_closed']) && $json['is_closed']) {
-        if (!isset($json['due_date']) || !$json['due_date']) {
+        $due_date = $invoice['due_date'] ?? '';
+        if (array_key_exists('due_date', $json)) {
+            $due_date = $json['due_date'];
+        }
+        if (in_array(strval($due_date), ['', '0000-00-00'], true)) {
             $json['due_date'] = current_date();
         }
     }
 
     // Set the company
-    $query = 'SELECT * FROM app_invoices WHERE id = ?';
-    $invoice = execute_query($query, [$invoice_id]);
     $query = 'SELECT * FROM app_company WHERE id = ?';
     $company = execute_query($query, [1]);
     $fields = ['id', 'name', 'code', 'address', 'city', 'province', 'zip', 'country'];
