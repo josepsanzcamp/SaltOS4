@@ -46,6 +46,7 @@ El formulari inclou els següents camps:
 - Cost: El cost intern de compra o fabricació, utilitzat per calcular marges.
 - Marge: Marge de benefici calculat a partir del preu i el cost.
 - Impost: Tipus impositiu per defecte aplicat en vendes.
+- Retenció: Retenció per defecte aplicada en vendes.
 - Descripció: Explicació detallada o especificacions del producte.
 - Categoria: Família o grup del producte, per classificació o filtratge.
 - Unitat de mesura: Unitat de mesura (p. ex., unitat, kg, hora).

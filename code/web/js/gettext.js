@@ -238,6 +238,17 @@ saltos.gettext.bootstrap.field = field => {
             }
         }
     }
+    // Only for jspreadsheet widgets
+    if ('type' in field && field.type === 'jspreadsheet') {
+        if ('columns' in field) {
+            for (const key in field.columns) {
+                const val = field.columns[key];
+                if (typeof val === 'object' && 'title' in val) {
+                    field.columns[key].title = T(val.title);
+                }
+            }
+        }
+    }
     // Only for alert widgets
     if ('type' in field && field.type === 'alert') {
         const props = ['title', 'text', 'body'];

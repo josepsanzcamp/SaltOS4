@@ -17,6 +17,7 @@ The following fields are displayed in the list view:
 
 - Name: Name or label used to identify the tax (e.g., VAT 21%).
 - Description: Optional explanation or additional details about the tax rule or context of use.
+- Type: Indicates whether the register is a tax, that is added to the total (e.g., VAT), or a withholding, that is subtracted from the total (e.g., income tax withholding).
 - Value: Percentage value of the tax to be applied (e.g., 21 for 21%).
 - Active: Indicates whether this tax is available for selection in documents.
 - Default: Indicates whether this tax is selected automatically when creating new documents.
@@ -43,6 +44,7 @@ The form includes the following fields:
 - Active: Indicates whether this tax is available for selection in documents.
 - Default: Indicates whether this tax is selected automatically when creating new documents.
 - Name: Name or label used to identify the tax (e.g., VAT 21%).
+- Type: Indicates whether the register is a tax, that is added to the total (e.g., VAT), or a withholding, that is subtracted from the total (e.g., income tax withholding).
 - Value: Percentage value of the tax to be applied (e.g., 21 for 21%).
 - Description: Optional explanation or additional details about the tax rule or context of use.
 

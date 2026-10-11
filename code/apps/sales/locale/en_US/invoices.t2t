@@ -57,9 +57,11 @@ The form includes the following fields:
 - Zip: Postal code in the billing address.
 - Country: Country included in the customer's billing information.
 - Notes: Internal comments or conditions attached to the invoice.
+- Tax: Tax applied to the entire document, only shown when the tax mode of the company is one by document.
+- Withholding: Withholding applied to the entire document, only shown when the withholding mode of the company is one by document.
 - Concepts: List of items or services included in the invoice.
-- Taxes: Breakdown of taxes applied to the invoice.
-- Totals: Final financial summary: subtotal, tax, and grand total.
+- Taxes: Breakdown of the taxes and the withholdings applied, grouped by type and value.
+- Totals: Subtotal, taxes, withholdings and final total, that is the subtotal plus the taxes minus the withholdings.
 - Payment method: The method of payment selected for the invoice.
 - Due date: The date by which the invoice should be paid.
 - Amount paid: Amount received.

@@ -50,9 +50,11 @@ El formulari inclou els següents camps:
 - Codi postal: Codi postal del client.
 - País: País de residència o registre.
 - Notes: Observacions internes o condicions especials.
+- Impost: Impost aplicat a tot el document, només es mostra quan el mode d'impost de l'empresa és un per document.
+- Retenció: Retenció aplicada a tot el document, només es mostra quan el mode de retenció de l'empresa és una per document.
 - Conceptes: Línies de detall amb quantitats i imports.
-- Impostos: Impostos aplicables.
-- Totals: Resum d'import, impostos i total.
+- Impostos: Desglossament dels impostos i les retencions aplicats, agrupats per tipus i valor.
+- Totals: Subtotal, impostos, retencions i total final, que és el subtotal més els impostos menys les retencions.
 - Mètode de pagament: Forma de cobrament prevista.
 - Vàlid fins: Data de validesa del pressupost.
 - Estat: Estat actual del pressupost (pendent, acceptat, rebutjat, etc.).

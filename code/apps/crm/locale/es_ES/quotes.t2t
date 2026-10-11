@@ -50,9 +50,11 @@ El formulario incluye los siguientes campos:
 - Código postal: Código postal del cliente.
 - País: País de residencia o registro.
 - Notas: Observaciones internas o condiciones especiales.
+- Impuesto: Impuesto aplicado a todo el documento, solo se muestra cuando el modo de impuesto de la empresa es uno por documento.
+- Retención: Retención aplicada a todo el documento, solo se muestra cuando el modo de retención de la empresa es una por documento.
 - Conceptos: Líneas detalladas con cantidades e importes.
-- Impuestos: Impuestos aplicables.
-- Totales: Resumen de importe, impuestos y total.
+- Impuestos: Desglose de los impuestos y las retenciones aplicados, agrupados por tipo y valor.
+- Totales: Subtotal, impuestos, retenciones y total final, que es el subtotal más los impuestos menos las retenciones.
 - Método de pago: Forma de cobro prevista.
 - Válido hasta: Fecha de validez del presupuesto.
 - Estado: Estado actual del presupuesto (pendiente, aceptado, rechazado, etc.).

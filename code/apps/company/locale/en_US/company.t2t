@@ -56,6 +56,8 @@ The form includes the following fields:
 - SWIFT/BIC: SWIFT/BIC code identifying the bank of the company for international transfers.
 - Fiscal Regime: Tax regime under which the company operates (e.g., general, simplified, small business).
 - Activity Code: Economic activity classification code (e.g., CNAE, NACE).
+- Tax mode: Defines how the taxes are requested in the invoices and quotes: by line, one by document or not used.
+- Withholding mode: Defines how the withholdings are requested in the invoices and quotes: not used, one by document or by line.
 - Additional Notes: Internal remarks or additional information about the company.
 
 

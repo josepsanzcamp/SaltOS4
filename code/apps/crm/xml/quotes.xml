@@ -145,8 +145,17 @@
 
         <textarea id="description" label="Notes" height="5em" col_class="col-md-12"/>
 
-        <jspreadsheet id="lines" label="Concepts" col_class="col-md-12" required="true" rowHeaders="false" numcols="6" numrows="5" minSpareRows="1" fitWidth="true">
-            <columns eval="true">[[
+        <select id="tax_document" label="Tax" col_class="col-md-3" onchange="saltos.quotes.onselect('tax')" require="apps/sales/php/taxes.php" ifeval="get_taxes_modes()['tax'] === 1">
+            <rows eval="true">get_taxes_rows('tax')</rows>
+            <value eval="true">get_taxes_default('tax')</value>
+        </select>
+        <select id="withholding_document" label="Withholding" col_class="col-md-3" onchange="saltos.quotes.onselect('withholding')" require="apps/sales/php/taxes.php" ifeval="get_taxes_modes()['withholding'] === 1">
+            <rows eval="true">get_taxes_rows('withholding')</rows>
+            <value eval="true">get_taxes_default('withholding')</value>
+        </select>
+
+        <jspreadsheet id="lines" label="Concepts" col_class="col-md-12" required="true" rowHeaders="false" numcols="7" numrows="5" minSpareRows="1" fitWidth="true">
+            <columns require="apps/sales/php/taxes.php" eval="true">[[
                 'title' => 'Description',
                 'align' => 'left',
             ],[
@@ -161,14 +170,10 @@
                 'title' => 'Discount',
                 'width' => 100,
                 'align' => 'right',
-            ],[
-                'title' => 'Tax',
-                'width' => 100,
-                'align' => 'center',
-                'type' => 'dropdown',
-                'source' => execute_query_array("SELECT CONCAT(value, '') FROM app_taxes WHERE active=1"),
-                'autocomplete' => true,
-            ],[
+            ],
+                get_taxes_column('tax', 'Tax'),
+                get_taxes_column('withholding', 'Withholding'),
+            [
                 'title' => 'Total',
                 'width' => 100,
                 'align' => 'right',
@@ -178,9 +183,14 @@
             <onchange>saltos.quotes.onchange</onchange>
         </jspreadsheet>
 
-        <jspreadsheet id="taxes" label="Taxes" col_class="col-md-6" rowHeaders="false" numcols="3" numrows="1" fitWidth="true">
+        <jspreadsheet id="taxes" label="Taxes" col_class="col-md-6" rowHeaders="false" numcols="4" numrows="1" fitWidth="true" require="apps/sales/php/taxes.php" ifeval="array_sum(get_taxes_modes())">
             <columns eval="true">[[
-                'title' => 'Tax',
+                'title' => 'Type',
+                'width' => 100,
+                'align' => 'left',
+                'readOnly' => true,
+            ],[
+                'title' => 'Name',
                 'align' => 'left',
                 'readOnly' => true,
             ],[
@@ -196,23 +206,21 @@
             ]]</columns>
         </jspreadsheet>
         <hidden id="alltaxes">
-            <data eval="true">execute_query_array("SELECT name, value FROM app_taxes WHERE active=1")</data>
+            <data require="apps/sales/php/taxes.php" eval="true">get_taxes_master()</data>
+        </hidden>
+        <hidden id="taxmodes">
+            <data require="apps/sales/php/taxes.php" eval="true">get_taxes_modes()</data>
         </hidden>
 
-        <jspreadsheet id="totals" label="Totals" col_class="col-md-6" rowHeaders="false" numcols="3" numrows="1" fitWidth="true">
-            <columns eval="true">[[
-                'title' => 'Subtotal',
-                'width' => '33.3%',
-                'align' => 'right',
-                'readOnly' => true,
-            ],[
-                'title' => 'Tax',
-                'width' => '33.3%',
-                'align' => 'right',
-                'readOnly' => true,
-            ],[
+        <div col_class="col-6 m-0" require="apps/sales/php/taxes.php" ifeval="!array_sum(get_taxes_modes())"/><!-- this act as horizontal spacer -->
+
+        <jspreadsheet id="totals" label="Totals" col_class="col-md-6" rowHeaders="false" numcols="4" numrows="1" fitWidth="true">
+            <columns require="apps/sales/php/taxes.php" eval="true">[
+                get_taxes_subtotal_column('Subtotal'),
+                get_taxes_total_column('tax', 'Tax'),
+                get_taxes_total_column('withholding', 'Withholding'),
+            [
                 'title' => 'Total',
-                'width' => '33.3%',
                 'align' => 'right',
                 'readOnly' => true,
             ]]</columns>
@@ -235,17 +243,17 @@
 
     </_form>
 
-    <_data require="php/lib/log.php" eval="true">array_merge(
+    <_data require="php/lib/log.php,apps/sales/php/taxes.php" eval="true">array_merge(
         make_log_bypass(get_data('rest/1'), get_data('rest/2'), execute_query('
             SELECT * FROM '.app2table(get_data('rest/1')).' WHERE id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')),
             [intval(get_data('rest/3'))])),
-        ['lines' => matrix_values(execute_query_array('SELECT description, quantity, price, discount, tax_value, total
+        make_taxes_data(execute_query_array('SELECT description, quantity, price, discount, tax_id, tax_value, withholding_id, withholding_value, total
             FROM '.app2table(get_data('rest/1')).'_lines WHERE quote_id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')).' ORDER BY id ASC',
-            [intval(get_data('rest/3'))]))],
-        ['taxes' => matrix_values(execute_query_array('SELECT tax_name, base, tax
+            [intval(get_data('rest/3'))])),
+        ['taxes' => matrix_values(execute_query_array('SELECT CASE WHEN type = ? THEN ? ELSE ? END type, tax_name, base, tax
             FROM '.app2table(get_data('rest/1')).'_taxes WHERE quote_id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')).' ORDER BY id ASC',
-            [intval(get_data('rest/3'))]))],
-        ['totals' => matrix_values(execute_query_array('SELECT subtotal, tax, total
+            [1, T('Withholding'), T('Tax'), intval(get_data('rest/3'))]))],
+        ['totals' => matrix_values(execute_query_array('SELECT subtotal, tax, withholding, total
             FROM '.app2table(get_data('rest/1')).' WHERE id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')),
             [intval(get_data('rest/3'))]))],
     )</_data>

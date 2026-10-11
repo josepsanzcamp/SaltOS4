@@ -18,3 +18,8 @@ activity_code: Activity Code
 swift_bic: SWIFT/BIC
 fiscal_regime: Fiscal Regime
 cif: CIF
+tax_mode: Tax mode
+withholding_mode: Withholding mode
+by_line: By line
+one_by_document: One by document
+not_used: Not used

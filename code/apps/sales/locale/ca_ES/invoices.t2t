@@ -55,9 +55,11 @@ El formulari inclou els següents camps:
 - Codi postal: Codi postal.
 - País: País de residència o registre.
 - Notes: Observacions internes o condicions.
+- Impost: Impost aplicat a tot el document, només es mostra quan el mode d'impost de l'empresa és un per document.
+- Retenció: Retenció aplicada a tot el document, només es mostra quan el mode de retenció de l'empresa és una per document.
 - Conceptes: Línies de detall de la factura.
-- Impostos: Impostos aplicats a cada línia.
-- Totals: Import net, impostos i total final.
+- Impostos: Desglossament dels impostos i les retencions aplicats, agrupats per tipus i valor.
+- Totals: Subtotal, impostos, retencions i total final, que és el subtotal més els impostos menys les retencions.
 - Mètode de pagament: Forma de cobrament pactada.
 - Data de venciment: Data límit per al cobrament.
 - Import pagat: Quantitat rebuda.

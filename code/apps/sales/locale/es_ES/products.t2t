@@ -46,6 +46,7 @@ El formulario incluye los siguientes campos:
 - Coste: Coste interno de compra o fabricación, usado para calcular márgenes.
 - Margen: Margen de beneficio calculado a partir del precio y el coste.
 - Impuesto: Tasa impositiva por defecto aplicada en ventas.
+- Retención: Retención por defecto aplicada en ventas.
 - Descripción: Explicación detallada o especificaciones del producto.
 - Categoría: Familia o grupo del producto, para clasificación o filtrado.
 - Unidad de medida: Unidad de medida (p. ej., unidad, kg, hora).

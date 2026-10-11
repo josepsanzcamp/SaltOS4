@@ -44,7 +44,20 @@ form:
     - [swift, text, SWIFT/BIC]
     - [fiscal_regime, text, Fiscal Regime]
     - [activity_code, text, Activity Code]
+    - [tax_mode, options, Tax mode]
+    - [withholding_mode, options, Withholding mode]
     - [notes, textarea, Additional Notes]
+options:
+    # field:
+    #     - [value, label]
+    tax_mode:
+        - [0, Not used]
+        - [1, One by document]
+        - [2, By line]
+    withholding_mode:
+        - [0, Not used]
+        - [1, One by document]
+        - [2, By line]
 attr:
     # field:
     #     attr: value
@@ -78,3 +91,9 @@ attr:
         col_class: col-md-3
     activity_code:
         col_class: col-md-2
+    tax_mode:
+        value: 2
+        col_class: col-md-3
+    withholding_mode:
+        value: 0
+        col_class: col-md-3

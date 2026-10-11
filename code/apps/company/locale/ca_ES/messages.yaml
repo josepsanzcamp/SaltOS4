@@ -18,3 +18,8 @@ activity_code: Codi d'activitat
 swift_bic: SWIFT/BIC
 fiscal_regime: Règim fiscal
 cif: CIF
+tax_mode: Mode d'impost
+withholding_mode: Mode de retenció
+by_line: Per línia
+one_by_document: Un per document
+not_used: No s'utilitza

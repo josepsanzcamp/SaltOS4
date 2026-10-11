@@ -17,6 +17,7 @@ Los siguientes campos se muestran en la vista de lista:
 
 - Nombre: Nombre o etiqueta usada para identificar el impuesto (ej: IVA 21%).
 - Descripción: Explicación opcional o detalles adicionales sobre la norma fiscal o contexto de uso.
+- Tipo: Indica si el registro es un impuesto, que se suma al total (ej: IVA), o una retención, que se resta del total (ej: IRPF).
 - Valor: Porcentaje del impuesto a aplicar (ej: 21 para 21%).
 - Activo: Indica si este impuesto está disponible para ser seleccionado en documentos.
 - Por defecto: Indica si este impuesto se selecciona automáticamente al crear nuevos documentos.
@@ -43,6 +44,7 @@ El formulario incluye los siguientes campos:
 - Activo: Indica si este impuesto está disponible para ser seleccionado en documentos.
 - Por defecto: Indica si este impuesto se selecciona automáticamente al crear nuevos documentos.
 - Nombre: Nombre o etiqueta usada para identificar el impuesto (ej: IVA 21%).
+- Tipo: Indica si el registro es un impuesto, que se suma al total (ej: IVA), o una retención, que se resta del total (ej: IRPF).
 - Valor: Porcentaje del impuesto a aplicar (ej: 21 para 21%).
 - Descripción: Explicación opcional o detalles adicionales sobre la norma fiscal o contexto de uso.
 

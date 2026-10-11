@@ -38,6 +38,8 @@ declare(strict_types=1);
  *               -text    => default field with text
  *               -select  => this field resolves the text from a table and field, see
  *                           the @select spec
+ *               -options => this field resolves the text from a fixed list of options,
+ *                           see the @options spec
  *               -boolean => this field uses an icon with V o X in green or red to
  *                           see the value of the field (generaly 1 or 0)
  *               -hastext => this field is similar to boolean but the true or false
@@ -48,10 +50,17 @@ declare(strict_types=1);
  *               - text, date, time, datetime, checkbox, switch => default widget
  *               - textarea, joditeditor, codemirror => widget with 5em of height
  *               - select => widget that uses the select spec to resolve the contents
+ *               - options => widget that uses the options spec to resolve the contents
  * @select    => this spec is intended to defined the selects used in the list and
  *               forms, requires an array of 3 elements: id, table and field, if the
  *               last field is not specified, saltos tries to resolve it using the
- *               manifest information (internally use the table2field feature)
+ *               manifest information (internally use the table2field feature), a
+ *               fourth optional element can be used to define the where applied
+ *               to the rows of the form widget
+ * @options   => this spec is intended to defined the options used in the list and
+ *               forms, requires a named array that defines the id of the field and
+ *               each array entry must to be a list of arrays with 2 elements: value
+ *               and label
  * @attr      => this part contain an array with extra features added to the forms
  *               widgets, the spec requires to use a named array that defines the
  *               id of the field and each array entry must to be another pair of
@@ -149,15 +158,29 @@ function make_app_file($data)
 
     // convert the select array into a key => val array using id as key
     if (isset($data['select'])) {
-        $keys = ['id', 'table', 'field'];
+        $keys = ['id', 'table', 'field', 'where'];
         foreach ($data['select'] as $key => $val) {
             // as an additional feature, tries to resolve the field if there is not found
             if (!isset($val[2])) {
                 $val[2] = table2field($val[1]);
             }
+            // the where is optional and only applies to the rows of the form widget
+            if (!isset($val[3])) {
+                $val[3] = '';
+            }
             $data['select'][$key] = array_combine($keys, $val);
         }
         $data['select'] = array_combine(array_column($data['select'], 'id'), $data['select']);
+    }
+
+    // convert the options array into a list of value => val and label => val arrays
+    if (isset($data['options'])) {
+        $keys = ['value', 'label'];
+        foreach ($data['options'] as $key => $val) {
+            foreach ($val as $key2 => $val2) {
+                $data['options'][$key][$key2] = array_combine($keys, $val2);
+            }
+        }
     }
 
     // set the list header
@@ -169,6 +192,7 @@ function make_app_file($data)
         switch ($type) {
             case 'text':
             case 'select':
+            case 'options':
                 $xml[] = "<$id label=\"$label\" order=\"true\"/>";
                 break;
             case 'boolean':
@@ -233,6 +257,19 @@ function make_app_file($data)
                     FROM $table2 $alias WHERE $alias.id = a.$fixed), '') $fixed";
                 $alias = chr(ord($alias) + 1); // compute the next alias, to prevent field collisions
                 break;
+            case 'options':
+                $cases = [];
+                foreach ($data['options'][$id] as $option) {
+                    $value2 = $option['value'];
+                    if (!is_int($value2)) {
+                        $value2 = "'" . str_replace("'", "''", strval($value2)) . "'";
+                    }
+                    $label2 = str_replace("'", "''", strval($option['label']));
+                    $cases[] = "WHEN $value2 THEN '$label2'";
+                }
+                $cases = implode(' ', $cases);
+                $fields[] = "CASE $fixed $cases ELSE '' END $fixed";
+                break;
             default:
                 show_php_error(['phperror' => "$type not found"]);
         }
@@ -270,10 +307,25 @@ function make_app_file($data)
             case 'select':
                 $field2 = $data['select'][$id]['field'];
                 $table2 = $data['select'][$id]['table'];
+                $where2 = $data['select'][$id]['where'];
+                if ($where2 !== '') {
+                    $where2 = "WHERE $where2";
+                }
                 $xml[] = "<select id=\"$id\" label=\"$label\" $attr>";
                 $xml[] = "<rows eval=\"true\">execute_query_array(\"
                     SELECT '' label, '0' value UNION
-                    SELECT $field2 label, id value FROM $table2\")</rows>";
+                    SELECT $field2 label, id value FROM $table2 $where2\")</rows>";
+                $xml[] = '</select>';
+                break;
+            case 'options':
+                $xml[] = "<select id=\"$id\" label=\"$label\" $attr>";
+                $xml[] = '<rows>';
+                foreach ($data['options'][$id] as $option) {
+                    $value2 = $option['value'];
+                    $label2 = $option['label'];
+                    $xml[] = "<row label=\"$label2\" value=\"$value2\"/>";
+                }
+                $xml[] = '</rows>';
                 $xml[] = '</select>';
                 break;
             case 'multiselect':

@@ -62,3 +62,5 @@ tax: Impuesto
 discount: Descuento
 base: Base
 quantity: Cantidad
+withholding: Retención
+subtotal: Subtotal

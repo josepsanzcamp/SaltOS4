@@ -56,6 +56,8 @@ El formulari inclou els següents camps:
 - SWIFT/BIC: Codi SWIFT/BIC que identifica el banc de l'empresa en transferències internacionals.
 - Règim fiscal: Règim tributari sota el qual opera l'empresa (ex: general, simplificat, pimes).
 - Codi d'activitat: Codi de classificació de l'activitat econòmica (ex: CNAE, NACE).
+- Mode d'impost: Defineix com es demanen els impostos a les factures i pressupostos: per línia, un per document o no s'utilitza.
+- Mode de retenció: Defineix com es demanen les retencions a les factures i pressupostos: no s'utilitza, una per document o per línia.
 - Notes addicionals: Observacions internes o informació complementària sobre l'empresa.
 
 

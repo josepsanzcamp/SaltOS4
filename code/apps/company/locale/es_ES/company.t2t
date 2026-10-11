@@ -56,6 +56,8 @@ El formulario incluye los siguientes campos:
 - SWIFT/BIC: Código SWIFT/BIC que identifica el banco de la empresa en transferencias internacionales.
 - Régimen fiscal: Régimen tributario bajo el cual opera la empresa (ej: general, simplificado, pymes).
 - Código actividad: Código de clasificación económica (ej: CNAE, NACE).
+- Modo de impuesto: Define cómo se piden los impuestos en las facturas y presupuestos: por línea, uno por documento o no se usa.
+- Modo de retención: Define cómo se piden las retenciones en las facturas y presupuestos: no se usa, una por documento o por línea.
 - Notas adicionales: Observaciones internas o información adicional sobre la empresa.
 
 

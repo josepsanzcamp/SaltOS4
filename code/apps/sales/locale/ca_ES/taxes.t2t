@@ -17,6 +17,7 @@ Els següents camps es mostren a la vista de llista:
 
 - Nom: Nom o etiqueta utilitzada per identificar l'impost (ex: IVA 21%).
 - Descripció: Explicació opcional o detalls addicionals sobre la norma fiscal o el seu ús.
+- Tipus: Indica si el registre és un impost, que se suma al total (ex: IVA), o una retenció, que es resta del total (ex: IRPF).
 - Valor: Percentatge de l'impost a aplicar (ex: 21 per al 21%).
 - Actiu: Indica si aquest impost està disponible per ser seleccionat en documents.
 - Per defecte: Indica si aquest impost se selecciona automàticament en crear documents nous.
@@ -43,6 +44,7 @@ El formulari inclou els següents camps:
 - Actiu: Indica si aquest impost està disponible per ser seleccionat en documents.
 - Per defecte: Indica si aquest impost es selecciona automàticament en crear documents nous.
 - Nom: Nom o etiqueta utilitzada per identificar l'impost (ex: IVA 21%).
+- Tipus: Indica si el registre és un impost, que se suma al total (ex: IVA), o una retenció, que es resta del total (ex: IRPF).
 - Valor: Percentatge de l'impost a aplicar (ex: 21 per al 21%).
 - Descripció: Explicació opcional o detalls addicionals sobre la norma fiscal o el seu ús.
 

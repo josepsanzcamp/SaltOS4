@@ -23,7 +23,8 @@
                 '#666666' color_line,
                 '#2780e3' color_text1,
                 '#666666' color_text2,
-                (SELECT name FROM app_payment_methods b WHERE b.id = a.payment_method_id) payment_method
+                (SELECT name FROM app_payment_methods b WHERE b.id = a.payment_method_id) payment_method,
+                (SELECT COUNT(*) FROM app_quotes_taxes c WHERE c.quote_id = a.id) num_taxes
             FROM app_quotes a
             WHERE id IN ({$row["id"]})
             ORDER BY id ASC"</query>
@@ -114,6 +115,7 @@
         <margins>0,0,0,0</margins>
         <color>$row["color_line"],"#000000"</color>
         <!-- build tax box -->
+        <eval>$row["num_taxes"]</eval>
         <font>"normal","B",8,$row["color_text1"]</font>
         <textarea>10,249,40,4,'C',T('Tax')</textarea>
         <textarea>50,249,20,4,'C',T('Base')</textarea>
@@ -127,7 +129,7 @@
                 '#666666' color_text2
                 FROM app_quotes_taxes
                 WHERE {$row["filtro"]}
-                ORDER BY tax_value ASC"</query>
+                ORDER BY type ASC, tax_value ASC"</query>
             <getxy>"x","y"</getxy>
             <color>$row["color_line"],"#000000"</color>
             <line>10,$row["y"]+1,80,0,0.15</line>
@@ -143,19 +145,46 @@
         <rect>10,248,80,$row["y"]-248+1,"D",0.15</rect>
         <line>50,248,0,$row["y"]-248+1,0.15</line>
         <line>70,248,0,$row["y"]-248+1,0.15</line>
+        <!-- add total box -->
+        <eval>!$row["num_taxes"]</eval>
+            <rect>180,248,20,12,"D",0.15</rect>
+            <line>180,254,20,0</line>
+            <font>"normal","B",8,$row["color_text1"]</font>
+            <textarea>180,249,20,4,"C",T("Total")</textarea>
+            <font>"normal","",8,$row["color_text2"]</font>
+            <textarea>180,255,20,4,"R",$row["total"]</textarea>
         <!-- add subtotal + tax + total box -->
-        <rect>140,248,60,12,"D",0.15</rect>
-        <line>140,254,60,0</line>
-        <line>160,248,0,12</line>
-        <line>180,248,0,12</line>
-        <font>"normal","B",8,$row["color_text1"]</font>
-        <textarea>140,249,20,4,"C",T("Base")</textarea>
-        <textarea>160,249,20,4,"C",T("Tax")</textarea>
-        <textarea>180,249,20,4,"C",T("Total")</textarea>
-        <font>"normal","",8,$row["color_text2"]</font>
-        <textarea>140,255,20,4,"R",$row["subtotal"]</textarea>
-        <textarea>160,255,20,4,"R",$row["tax"]</textarea>
-        <textarea>180,255,20,4,"R",$row["total"]</textarea>
+        <eval>$row["num_taxes"] &amp;&amp; !floatval($row["withholding"])</eval>
+            <rect>140,248,60,12,"D",0.15</rect>
+            <line>140,254,60,0</line>
+            <line>160,248,0,12</line>
+            <line>180,248,0,12</line>
+            <font>"normal","B",8,$row["color_text1"]</font>
+            <textarea>140,249,20,4,"C",T("Base")</textarea>
+            <textarea>160,249,20,4,"C",T("Tax")</textarea>
+            <textarea>180,249,20,4,"C",T("Total")</textarea>
+            <font>"normal","",8,$row["color_text2"]</font>
+            <textarea>140,255,20,4,"R",$row["subtotal"]</textarea>
+            <textarea>160,255,20,4,"R",$row["tax"]</textarea>
+            <textarea>180,255,20,4,"R",$row["total"]</textarea>
+        <!-- add subtotal + tax + withholding + total box -->
+        <eval>$row["num_taxes"] &amp;&amp; floatval($row["withholding"])</eval>
+            <rect>120,248,80,12,"D",0.15</rect>
+            <line>120,254,80,0</line>
+            <line>140,248,0,12</line>
+            <line>160,248,0,12</line>
+            <line>180,248,0,12</line>
+            <font>"normal","B",8,$row["color_text1"]</font>
+            <textarea>120,249,20,4,"C",T("Base")</textarea>
+            <textarea>140,249,20,4,"C",T("Tax")</textarea>
+            <textarea>160,249,20,4,"C",T("Withholding")</textarea>
+            <textarea>180,249,20,4,"C",T("Total")</textarea>
+            <font>"normal","",8,$row["color_text2"]</font>
+            <textarea>120,255,20,4,"R",$row["subtotal"]</textarea>
+            <textarea>140,255,20,4,"R",$row["tax"]</textarea>
+            <textarea>160,255,20,4,"R",$row["withholding"]</textarea>
+            <textarea>180,255,20,4,"R",$row["total"]</textarea>
+        <eval>true</eval>
         <!-- build notes box -->
         <font>"normal","",8,$row["color_text2"]</font>
         <textarea>100,265,100,4,"L",$row["description"]</textarea>

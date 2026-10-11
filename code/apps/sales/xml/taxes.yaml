@@ -21,6 +21,7 @@ list:
     # [id, type, label]
     - [name, text, Name]
     - [description, text, Description]
+    - [type, options, Type]
     - [value, text, Value]
     - [active, boolean, Active]
     - [default, boolean, Default]
@@ -29,14 +30,26 @@ form:
     - [active, switch, Active]
     - [default, switch, Default]
     - [name, text, Name]
+    - [type, options, Type]
     - [value, float, Value]
     - [description, textarea, Description]
+options:
+    # field:
+    #     - [value, label]
+    type:
+        - [0, Tax]
+        - [1, Withholding]
 attr:
     # field:
     #     attr: value
     name:
         required: true
         autofocus: true
+    type:
+        value: 0
+        col_class: col-md-3
+    value:
+        col_class: col-md-3
     description:
         col_class: col-md-12
         height: 5em

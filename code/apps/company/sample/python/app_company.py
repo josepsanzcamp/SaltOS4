@@ -17,6 +17,8 @@ record = (
     'BESMESMMXXX',
     'RE - Régimen General',
     '8299',
+    2,
+    0,
     'Entidad acogida al régimen general del IVA'
 )
 
@@ -24,10 +26,10 @@ with gzip.open('app_company.sql.gz', 'wt', encoding='utf-8') as f:
     f.write("INSERT INTO app_company (\n")
     f.write("    id, active, name, code, address, city, province, zip, country,\n")
     f.write("    phone, email, website, iban, swift,\n")
-    f.write("    fiscal_regime, activity_code, notes\n")
+    f.write("    fiscal_regime, activity_code, tax_mode, withholding_mode, notes\n")
     f.write(") VALUES\n")
 
-    values = "({}, {}, '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}');".format(
+    values = "({}, {}, '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', {}, {}, '{}');".format(
         record[0],
         record[1],
         record[2].replace("'", "''"),
@@ -44,7 +46,9 @@ with gzip.open('app_company.sql.gz', 'wt', encoding='utf-8') as f:
         record[13].replace("'", "''"),
         record[14].replace("'", "''"),
         record[15].replace("'", "''"),
-        record[16].replace("'", "''")
+        record[16],
+        record[17],
+        record[18].replace("'", "''")
     )
 
     f.write(values + "\n")

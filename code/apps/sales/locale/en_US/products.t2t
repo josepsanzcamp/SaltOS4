@@ -46,6 +46,7 @@ The form includes the following fields:
 - Cost: The internal purchase or manufacturing cost, used to calculate margins.
 - Margin: Calculated profit margin based on price and cost.
 - Tax: Default tax rate applied when the product is used in sales.
+- Withholding: Default withholding applied when the product is used in sales.
 - Description: Detailed explanation or specifications of the product.
 - Category: Product family or group, used for classification or filtering.
 - Measure unit: Unit of measurement (e.g., unit, kg, hour).

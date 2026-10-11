@@ -55,9 +55,11 @@ El formulario incluye los siguientes campos:
 - Código postal: Código postal.
 - País: País de residencia o registro.
 - Notas: Observaciones internas o condiciones.
+- Impuesto: Impuesto aplicado a todo el documento, solo se muestra cuando el modo de impuesto de la empresa es uno por documento.
+- Retención: Retención aplicada a todo el documento, solo se muestra cuando el modo de retención de la empresa es una por documento.
 - Conceptos: Líneas de detalle de la factura.
-- Impuestos: Impuestos aplicados por línea.
-- Totales: Neto, impuestos y total final.
+- Impuestos: Desglose de los impuestos y las retenciones aplicados, agrupados por tipo y valor.
+- Totales: Subtotal, impuestos, retenciones y total final, que es el subtotal más los impuestos menos las retenciones.
 - Método de pago: Forma de cobro acordada.
 - Fecha de vencimiento: Fecha límite para el cobro.
 - Importe pagado: Cantidad recibida.

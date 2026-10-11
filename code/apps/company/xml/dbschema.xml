@@ -34,6 +34,8 @@
                 <field name="swift" type="VARCHAR(255)"/>
                 <field name="fiscal_regime" type="VARCHAR(255)"/>
                 <field name="activity_code" type="VARCHAR(255)"/>
+                <field name="tax_mode" type="INTEGER" null="false" default="0"/><!-- 0 not used, 1 one by document, 2 by line -->
+                <field name="withholding_mode" type="INTEGER" null="false" default="0"/><!-- 0 not used, 1 one by document, 2 by line -->
                 <field name="notes" type="TEXT"/>
             </fields>
         </table>

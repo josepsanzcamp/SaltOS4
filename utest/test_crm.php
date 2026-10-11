@@ -97,15 +97,15 @@ final class test_crm extends TestCase
         $json2 = test_web_helper('app/quotes/insert', [
             'customer_name' => 'Test crm customer',
             'lines' => [
-                ['Item A', '1', '100', '0', '21', '100'],
-                ['Item B', '1', '50', '0', '21', '50'],
-                ['Item to be dropped', '1', '30', '0', '21', '30'],
+                ['Item A', '1', '100', '0', '21', '', '100'],
+                ['Item B', '1', '50', '0', '21', '', '50'],
+                ['Item to be dropped', '1', '30', '0', '21', '', '30'],
             ],
             'taxes' => [
-                ['IVA test crm', '150', '31.5'],
+                ['Tax', 'IVA test crm', '150', '31.5'],
             ],
             'totals' => [
-                [180, 37.8, 217.8],
+                [180, 37.8, 0, 217.8],
             ],
         ], $token, '');
         $this->assertSame('ok', $json2['status']);
@@ -149,19 +149,21 @@ final class test_crm extends TestCase
                     $lines_array[0]['price'],
                     $lines_array[0]['discount'],
                     $lines_array[0]['tax_value'],
+                    $lines_array[0]['withholding_value'],
                     $lines_array[0]['total'],
                 ],
-                ['Item C', '3', '10', '0', '21', '30'],
+                ['Item C', '3', '10', '0', '21', '', '30'],
             ],
             'taxes' => [
                 [
+                    'Tax',
                     $taxes_array[0]['tax_name'],
                     $taxes_array[0]['base'],
                     $taxes_array[0]['tax'],
                 ],
             ],
             'totals' => [
-                [180, 37.8, 217.8],
+                [180, 37.8, 0, 217.8],
             ],
         ], $token, '');
         $this->assertSame('ok', $json3['status']);
@@ -223,7 +225,7 @@ final class test_crm extends TestCase
         // field validation, so the stray row must be cleaned up too
         $before_id = execute_query('SELECT MAX(id) FROM app_quotes');
         $json0b = test_web_helper('app/quotes/insert', [
-            'lines' => [['Item', '1', '1', '0', '21', '1']],
+            'lines' => [['Item', '1', '1', '0', '21', '', '1']],
         ], $token, '');
         $this->assertSame('ko', $json0b['status']);
         $after_id = execute_query('SELECT MAX(id) FROM app_quotes');
@@ -252,14 +254,14 @@ final class test_crm extends TestCase
         $json1 = test_web_helper('app/quotes/insert', [
             'customer_name' => 'Test crm edge customer',
             'lines' => [
-                ['Keep item', '1', '100', '0', '21', '100'],
+                ['Keep item', '1', '100', '0', '21', '', '100'],
             ],
             'taxes' => [
-                ['IVA test crm 3', '100', '21'],
-                ['IVA test crm 2', '50', '5'],
+                ['Tax', 'IVA test crm 3', '100', '21'],
+                ['Tax', 'IVA test crm 2', '50', '5'],
             ],
             'totals' => [
-                [150, 26, 176],
+                [150, 26, 0, 176],
             ],
         ], $token, '');
         $this->assertSame('ok', $json1['status']);
@@ -286,18 +288,19 @@ final class test_crm extends TestCase
         $json2 = test_web_helper("app/quotes/update/$quote_id", [
             'code' => $quote['code'],
             'lines' => [
-                ['', '', '', '', '', ''],
-                ['', '', '', '', '', ''],
+                ['', '', '', '', '', '', ''],
+                ['', '', '', '', '', '', ''],
             ],
             'taxes' => [
                 [
+                    'Tax',
                     $taxes_array[0]['tax_name'],
                     $taxes_array[0]['base'],
                     $taxes_array[0]['tax'],
                 ],
             ],
             'totals' => [
-                [$quote['subtotal'], $quote['tax'], $quote['total']],
+                [$quote['subtotal'], $quote['tax'], $quote['withholding'], $quote['total']],
             ],
         ], $token, '');
         $this->assertSame('ok', $json2['status']);
@@ -325,17 +328,17 @@ final class test_crm extends TestCase
         $json3 = test_web_helper("app/quotes/update/$quote_id", [
             'code' => $quote['code'],
             'lines' => [
-                ['', '', '', '', '', '30'],
-                ['New item', '', '', '', '', ''],
+                ['', '', '', '', '', '', '30'],
+                ['New item', '', '', '', '', '', ''],
             ],
             'taxes' => [
-                ['', '', ''],
-                ['', '50', '10'],
-                ['Unknown tax name', '', ''],
-                ['', '', ''],
+                ['', '', '', ''],
+                ['', '', '50', '10'],
+                ['Tax', 'Unknown tax name', '', ''],
+                ['', '', '', ''],
             ],
             'totals' => [
-                [180, 30, 210],
+                [180, 30, 0, 210],
             ],
         ], $token, '');
         $this->assertSame('ok', $json3['status']);
@@ -359,6 +362,138 @@ final class test_crm extends TestCase
         $query = "DELETE FROM app_quotes_taxes WHERE quote_id = $quote_id";
         db_query($query);
         $query = "DELETE FROM app_taxes WHERE id IN ($tax_id2, $tax_id3)";
+        db_query($query);
+    }
+
+    #[Depends('test_authtoken')]
+    #[testdox('quotes withholding')]
+    /**
+     * quotes withholding test
+     *
+     * This test performs some tests to validate the correctness of the
+     * unmake_matrix_data function when the lines are using taxes and
+     * withholdings, the withholdings must be stored in the lines, in the
+     * taxes breakdown using the withholding type and in the totals
+     */
+    public function test_quotes_withholding(array $json): void
+    {
+        $token = $json['token'];
+
+        // Setup the master tax and the master withholding used by lines and taxes
+        $query = make_insert_query('app_taxes', [
+            'type' => 0,
+            'name' => 'IVA test crm w',
+            'value' => 21,
+            'active' => 1,
+        ]);
+        db_query($query);
+        $tax_id = execute_query('SELECT MAX(id) FROM app_taxes');
+
+        $query = make_insert_query('app_taxes', [
+            'type' => 1,
+            'name' => 'IRPF test crm w',
+            'value' => 15,
+            'active' => 1,
+        ]);
+        db_query($query);
+        $withholding_id = execute_query('SELECT MAX(id) FROM app_taxes');
+
+        // Insert a new quote where only the first line has withholding, the
+        // selects of the document mode are submitted too and must be ignored
+        $json2 = test_web_helper('app/quotes/insert', [
+            'customer_name' => 'Test crm withholding customer',
+            'tax_document' => '21',
+            'withholding_document' => '15',
+            'lines' => [
+                ['Item A', '1', '1000', '0', '21', '15', '1000'],
+                ['Item B', '1', '100', '0', '21', '', '100'],
+            ],
+            'taxes' => [
+                ['tax', 'IVA test crm w', '1100', '231'],
+                ['withholding', 'IRPF test crm w', '1000', '150'],
+            ],
+            'totals' => [
+                [1100, 231, 150, 1181],
+            ],
+        ], $token, '');
+        $this->assertSame('ok', $json2['status']);
+        $quote_id = $json2['created_id'];
+
+        $lines_array = execute_query_array(
+            'SELECT * FROM app_quotes_lines WHERE quote_id = ? ORDER BY id ASC',
+            [$quote_id]
+        );
+        $this->assertCount(2, $lines_array);
+        $this->assertEquals($tax_id, $lines_array[0]['tax_id']);
+        $this->assertEquals($withholding_id, $lines_array[0]['withholding_id']);
+        $this->assertEquals(15, $lines_array[0]['withholding_value']);
+        $this->assertEquals($tax_id, $lines_array[1]['tax_id']);
+        $this->assertEmpty($lines_array[1]['withholding_id']);
+        $this->assertEmpty($lines_array[1]['withholding_value']);
+
+        $taxes_array = execute_query_array(
+            'SELECT * FROM app_quotes_taxes WHERE quote_id = ? ORDER BY id ASC',
+            [$quote_id]
+        );
+        $this->assertCount(2, $taxes_array);
+        $this->assertEquals(0, $taxes_array[0]['type']);
+        $this->assertEquals($tax_id, $taxes_array[0]['tax_id']);
+        $this->assertEquals(1, $taxes_array[1]['type']);
+        $this->assertEquals($withholding_id, $taxes_array[1]['tax_id']);
+        $this->assertSame('IRPF test crm w', $taxes_array[1]['tax_name']);
+        $this->assertEquals(15, $taxes_array[1]['tax_value']);
+        $this->assertEquals(1000, $taxes_array[1]['base']);
+        $this->assertEquals(150, $taxes_array[1]['tax']);
+
+        $quote = execute_query('SELECT * FROM app_quotes WHERE id = ?', [$quote_id]);
+        $this->assertEquals(1100, $quote['subtotal']);
+        $this->assertEquals(231, $quote['tax']);
+        $this->assertEquals(150, $quote['withholding']);
+        $this->assertEquals(1181, $quote['total']);
+
+        // Update the quote removing the withholding of the first line, the
+        // withholding must disappear from the line, the taxes and the totals
+        $json3 = test_web_helper("app/quotes/update/$quote_id", [
+            'code' => $quote['code'],
+            'lines' => [
+                ['Item A', '1', '1000', '0', '21', '', '1000'],
+                ['Item B', '1', '100', '0', '21', '', '100'],
+            ],
+            'taxes' => [
+                ['tax', 'IVA test crm w', '1100', '231'],
+            ],
+            'totals' => [
+                [1100, 231, 0, 1331],
+            ],
+        ], $token, '');
+        $this->assertSame('ok', $json3['status']);
+
+        $lines_array2 = execute_query_array(
+            'SELECT * FROM app_quotes_lines WHERE quote_id = ? ORDER BY id ASC',
+            [$quote_id]
+        );
+        $this->assertCount(2, $lines_array2);
+        $this->assertEquals(0, $lines_array2[0]['withholding_id']);
+        $this->assertEquals(0, $lines_array2[0]['withholding_value']);
+
+        $taxes_array2 = execute_query_array(
+            'SELECT * FROM app_quotes_taxes WHERE quote_id = ? ORDER BY id ASC',
+            [$quote_id]
+        );
+        $this->assertCount(1, $taxes_array2);
+        $this->assertEquals(0, $taxes_array2[0]['type']);
+
+        $quote2 = execute_query('SELECT * FROM app_quotes WHERE id = ?', [$quote_id]);
+        $this->assertEquals(0, $quote2['withholding']);
+        $this->assertEquals(1331, $quote2['total']);
+
+        $query = "DELETE FROM app_quotes WHERE id = $quote_id";
+        db_query($query);
+        $query = "DELETE FROM app_quotes_lines WHERE quote_id = $quote_id";
+        db_query($query);
+        $query = "DELETE FROM app_quotes_taxes WHERE quote_id = $quote_id";
+        db_query($query);
+        $query = "DELETE FROM app_taxes WHERE id IN ($tax_id, $withholding_id)";
         db_query($query);
     }
 }

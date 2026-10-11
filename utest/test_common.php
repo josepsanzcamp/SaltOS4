@@ -103,6 +103,20 @@ final class test_common extends TestCase
         $data['form'][] = ['extra_multi', 'multiselect', 'Extra Multi'];
         $data['select'][] = ['extra_multi', 'app_customers', 'name'];
 
+        // Add a field with a fixed list of options, to cover the options branches
+        $data['list'][] = ['extra_option', 'options', 'Extra Option'];
+        $data['form'][] = ['extra_option', 'options', 'Extra Option'];
+        $data['options'] = [
+            'extra_option' => [
+                ['one', "One's"],
+                [2, 'Two'],
+            ],
+        ];
+
+        // Add a select with a where, to cover the where branch
+        $data['form'][] = ['extra_where', 'select', 'Extra Where'];
+        $data['select'][] = ['extra_where', 'app_customers', 'name', 'active = 1'];
+
         // Add a newline and a hrline field, to cover both branches
         $data['form'][] = ['nl1', 'newline', ''];
         $data['form'][] = ['hr1', 'hrline', ''];
@@ -117,6 +131,13 @@ final class test_common extends TestCase
             $array['list#1']['value']['layout']['value']['row#1']['value']['table']['#attr']['dropdown']
         );
         $this->assertArrayHasKey('navbar', $array);
+        $this->assertStringContainsString(
+            "CASE extra_option WHEN 'one' THEN 'One''s' WHEN 2 THEN 'Two' ELSE '' END extra_option",
+            $array['list#2']['value']['data']['value']
+        );
+        $form = json_encode($array['_form']);
+        $this->assertStringContainsString('"value":"2"', $form);
+        $this->assertStringContainsString('FROM app_customers WHERE active = 1', $form);
 
         // Cover the auto detection of the dropdown attr
         $data2 = yaml_parse_file('apps/crm/xml/meetings.yaml');

@@ -32,7 +32,9 @@ form:
     - [price, float, Price]
     - [cost, float, Cost]
     - [margin, float, Margin]
+    - newline
     - [tax_id, select, Tax]
+    - [withholding_id, select, Withholding]
     - [description, textarea, Description]
     - [category_id, select, Category]
     - [unit, text, Measure unit]
@@ -45,8 +47,9 @@ form:
     - [location, text, Location]
     - [image_url, text, Image Url]
 select:
-    # [id, table, optional field]
-    - [tax_id, app_taxes]
+    # [id, table, optional field, optional where]
+    - [tax_id, app_taxes, name, type=0]
+    - [withholding_id, app_taxes, name, type=1]
     - [type_id, app_products_types]
     - [category_id, app_products_categories]
 attr:
@@ -61,6 +64,8 @@ attr:
     price:
         col_class: col-md-3
     tax_id:
+        col_class: col-md-3
+    withholding_id:
         col_class: col-md-3
     type_id:
         col_class: col-md-3

@@ -42,6 +42,7 @@
                 <field name="description" type="TEXT"/>
                 <field name="subtotal" type="DECIMAL(9,2)"/>
                 <field name="tax" type="DECIMAL(9,2)"/>
+                <field name="withholding" type="DECIMAL(9,2)"/>
                 <field name="total" type="DECIMAL(9,2)"/>
                 <field name="payment_method_id" type="INTEGER" fkey="app_payment_methods"/>
                 <field name="due_date" type="DATE"/>
@@ -63,6 +64,8 @@
                 <field name="discount" type="FLOAT"/>
                 <field name="tax_id" type="INTEGER" fkey="app_taxes"/>
                 <field name="tax_value" type="FLOAT"/>
+                <field name="withholding_id" type="INTEGER" fkey="app_taxes"/>
+                <field name="withholding_value" type="FLOAT"/>
                 <field name="total" type="DECIMAL(9,2)"/>
             </fields>
         </table>
@@ -70,6 +73,7 @@
             <fields>
                 <field name="id" type="INTEGER" pkey="true"/>
                 <field name="invoice_id" type="INTEGER" fkey="app_invoices"/>
+                <field name="type" type="INTEGER" null="false" default="0"/><!-- 0 tax, 1 withholding -->
                 <field name="tax_id" type="INTEGER" fkey="app_taxes"/>
                 <field name="tax_name" type="VARCHAR(255)"/>
                 <field name="tax_value" type="FLOAT"/>
@@ -102,6 +106,7 @@
                 <field name="description" type="TEXT"/>
                 <field name="price" type="DECIMAL(9,2)"/>
                 <field name="tax_id" type="INTEGER" fkey="app_taxes"/>
+                <field name="withholding_id" type="INTEGER" fkey="app_taxes"/>
                 <field name="type_id" type="INTEGER" fkey="app_products_types"/>
                 <field name="active" type="INTEGER" null="false" default="0"/>
                 <field name="unit" type="VARCHAR(255)"/>
@@ -137,6 +142,7 @@
         <table name="app_taxes">
             <fields>
                 <field name="id" type="INTEGER" pkey="true"/>
+                <field name="type" type="INTEGER" null="false" default="0"/><!-- 0 tax, 1 withholding -->
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
                 <field name="value" type="FLOAT"/>

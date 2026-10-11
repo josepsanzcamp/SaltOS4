@@ -62,3 +62,5 @@ tax: Tax
 discount: Discount
 base: Base
 quantity: Quantity
+withholding: Withholding
+subtotal: Subtotal

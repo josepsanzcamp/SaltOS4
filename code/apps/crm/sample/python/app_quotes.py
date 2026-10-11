@@ -42,8 +42,15 @@ def safe_sql_date(d):
 def random_discount():
     return random.choices([0, 5, 10, 15, 20, 25], weights=[70, 10, 8, 6, 4, 2])[0]
 
+# --- Columnas de cada tabla ---
+columns = {
+    "quotes": "id, code, date, company_id, company_name, company_address, company_city, company_province, company_zip, company_country, company_code, customer_id, customer_name, customer_address, customer_city, customer_province, customer_zip, customer_country, customer_code, description, subtotal, tax, total, payment_method_id, valid_until, status_id",
+    "quotes_lines": "id, quote_id, product_id, description, quantity, price, discount, tax_id, tax_value, total",
+    "quotes_taxes": "id, quote_id, tax_id, tax_name, tax_value, base, tax",
+}
+
 def save_sql_gz(table_name, values, output_dir="."):
-    sql = f"INSERT INTO app_{table_name} VALUES\n" + ",\n".join(values) + ";\n"
+    sql = f"INSERT INTO app_{table_name} ({columns[table_name]}) VALUES\n" + ",\n".join(values) + ";\n"
     path = os.path.join(output_dir, f"app_{table_name}.sql.gz")
     with gzip.open(path, "wt", encoding="utf-8") as f:
         f.write(sql)
