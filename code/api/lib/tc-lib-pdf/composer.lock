@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0a1dcb999c5aae3f083cf313a73bb6c7",
+    "content-hash": "b0aff1d95a52d36226913b13a0316877",
     "packages": [
         {
             "name": "tecnickcom/tc-lib-barcode",
@@ -288,16 +288,16 @@
         },
         {
             "name": "tecnickcom/tc-lib-pdf",
-            "version": "8.78.3",
+            "version": "8.80.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/tc-lib-pdf.git",
-                "reference": "6b5741b9e0d3547103814172d8839f0962ab669c"
+                "reference": "6a659ba4f1f71c978489f79fc83aa23423680376"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/tc-lib-pdf/zipball/6b5741b9e0d3547103814172d8839f0962ab669c",
-                "reference": "6b5741b9e0d3547103814172d8839f0962ab669c",
+                "url": "https://api.github.com/repos/tecnickcom/tc-lib-pdf/zipball/6a659ba4f1f71c978489f79fc83aa23423680376",
+                "reference": "6a659ba4f1f71c978489f79fc83aa23423680376",
                 "shasum": ""
             },
             "require": {
@@ -370,7 +370,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-10-10T09:34:59+00:00"
+            "time": "2026-10-11T06:39:20+00:00"
         },
         {
             "name": "tecnickcom/tc-lib-pdf-encrypt",
