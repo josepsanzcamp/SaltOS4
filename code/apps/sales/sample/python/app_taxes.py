@@ -4,9 +4,9 @@ from pathlib import Path
 def generate_app_taxes_sql_gz():
     path = Path("app_taxes.sql.gz")
     tax_rows = [
-        (1, 0, "VAT 21%", "Standard VAT rate of 21%", 21.00, 1, 1),
-        (2, 0, "VAT 10%", "Reduced VAT rate of 10%", 10.00, 1, 0),
-        (3, 0, "VAT 4%", "Super-reduced VAT rate of 4%", 4.00, 1, 0),
+        (1, 0, "IVA 21%", "Standard VAT rate of 21%", 21.00, 1, 1),
+        (2, 0, "IVA 10%", "Reduced VAT rate of 10%", 10.00, 1, 0),
+        (3, 0, "IVA 4%", "Super-reduced VAT rate of 4%", 4.00, 1, 0),
         (4, 0, "Exempt / Not subject", "Operations exempt or not subject to VAT", 0.00, 1, 0),
         (5, 1, "IRPF 15%", "Standard income tax withholding of 15%", 15.00, 1, 0),
         (6, 1, "IRPF 7%", "Reduced income tax withholding of 7%", 7.00, 1, 0)

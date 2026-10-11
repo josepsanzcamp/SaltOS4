@@ -114,7 +114,7 @@ for i in range(n_quotes):
         tax_buckets[tax['id']]["base"] += base_total
 
     total_tax = 0.0
-    for tax_id, data in tax_buckets.items():
+    for tax_id, data in sorted(tax_buckets.items(), key=lambda item: item[1]["tax_value"]):
         base = round(data["base"], 2)
         tax_amount = round(base * data["tax_value"] / 100, 2)
         total_tax += tax_amount
