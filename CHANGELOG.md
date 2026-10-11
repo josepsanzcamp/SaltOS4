@@ -11,6 +11,7 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 ### Upgrade notes
 - The web server protection no longer depends on `.htaccess` files, and the layout of the `web` directory has changed. After updating: run `make web` (or `bash ../scripts/migrate_instance.sh` inside each instance created with `make_instance.sh`), publish only the `web` directory using the recipe of your web server (`scripts/server.nginx.conf`, `scripts/server.apache.conf` or `scripts/server.htaccess`), disable the directory listing, restart PHP-FPM or Apache (the opcode cache keeps the old `web/api` path) and validate the result with `php api/index.php setup/server <api url>`, that must return a `count` of 0.
 - The database schema is regenerated once after updating, because the changes are now detected using hashes and the existing tables have no hash yet. Run the setup right after updating (`make setuponly` or `php api/index.php setup`); it can take a while with big tables.
+- The company has two new fields, the tax mode and the withholding mode, and both are set to "not used" after updating. Set the tax mode to "by line" in the company form to continue working with the taxes in invoices and quotes as before.
 
 ### Added
 - `setup/server` action (the old `setup/apache`) that validates any web server: exposed headers, `Authorization` support, private paths, directory listings, content types and the full code published by mistake.
