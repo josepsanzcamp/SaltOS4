@@ -84,6 +84,14 @@ saltos.bootstrap.__field.iframe = field => {
     }
     // When new load is detected
     element.addEventListener('load', event => {
+        // To prevent the infinite grow when the contents define a height relative to the iframe
+        const body = element.contentWindow.document.body;
+        if (body) {
+            [body.parentNode, body].forEach(node => {
+                node.style.setProperty('height', 'auto', 'important');
+                node.style.setProperty('min-height', '0', 'important');
+            });
+        }
         // Program the resize that computes the height
         const resizeObserver = new ResizeObserver(entries => {
             requestAnimationFrame(() => {
@@ -91,7 +99,7 @@ saltos.bootstrap.__field.iframe = field => {
                             element.contentWindow.document &&
                             element.contentWindow.document.documentElement;
                 if (doc) {
-                    element.style.height = doc.offsetHeight + 2 + 'px';
+                    element.style.height = doc.offsetHeight + 'px';
                 }
             });
         });
