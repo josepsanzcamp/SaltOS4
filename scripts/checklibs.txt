@@ -5,7 +5,7 @@ phpass|https://github.com/openwall/phpass/commits/main.atom|<updated>|PHVwZGF0ZW
 phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<title>|PHRpdGxlPjUuMTAuMDwvdGl0bGU+
 tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<title>|PHRpdGxlPjcuMC4xNzwvdGl0bGU+
 tc-lib-pdf|https://github.com/tecnickcom/tc-lib-pdf/tags.atom|<title>|PHRpdGxlPjguODAuMTwvdGl0bGU+
-yaml|https://github.com/symfony/yaml/tags.atom|<title>|PHRpdGxlPnY4LjEuODwvdGl0bGU+
+yaml|https://github.com/symfony/yaml/tags.atom|<title>|PHRpdGxlPnY4LjEuOTwvdGl0bGU+
 zxcvbn|https://github.com/bjeavons/zxcvbn-php/tags.atom|<title>|PHRpdGxlPjEuNC4yPC90aXRsZT4=
 
 autoheight|https://github.com/kamilkp/autoheight/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAxNi0wOC0wN1QyMzo0MToxMVo8L3VwZGF0ZWQ+
