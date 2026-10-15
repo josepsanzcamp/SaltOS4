@@ -110,10 +110,16 @@ if (count($errors)) {
         ],
     ]);
 }
-$output3 = db_schema();
+$output3 = [];
+if (!$dbschema_check) {
+    $output3 = db_schema();
+}
 $time4 = microtime(true);
-$output4 = db_static();
 $total4 = 0;
+$output4 = [];
+if (!$dbstatic_check) {
+    $output4 = db_static();
+}
 foreach ($output4 as $key => $val) {
     $from = $val['from'];
     $to = $val['to'];

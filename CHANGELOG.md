@@ -24,6 +24,7 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 
 ### Changed
 - The dbschema detects the changes using two hashes for each table, one for the fields and another for the indexes, stored in the config table. Changing the `null` or the `default` attributes of a field now regenerates the table, and the changes done to the database from outside of the dbschema are no longer repaired.
+- The setup skips the db_schema and db_static steps when their files have not changed.
 - The copy of rows done when a table is regenerated uses the `default` attribute for the new fields, and converts the nulls to this value in the fields defined with `null="false"`.
 - All integer fields used as booleans (`active`, `default`, `allow`, `deny`, `is_closed`, `is_paid` and the flags of apps, emails and email accounts) are defined as `NOT NULL DEFAULT 0`, and the queries no longer need to use `IFNULL` with them.
 - The matrices used by the invoices and quotes forms have changed: the lines have 7 columns (the withholding is added before the total), and the taxes and the totals have 4 columns (the type is added to the taxes and the withholding to the totals).
