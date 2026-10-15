@@ -832,7 +832,7 @@ document.addEventListener('DOMContentLoaded', event => {
  * This function is intended to send messages to the proxy feature
  */
 saltos.core.proxy = msg => {
-    if (navigator.serviceWorker.controller) {
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
         navigator.serviceWorker.controller.postMessage(msg);
     }
 };

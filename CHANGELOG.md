@@ -50,6 +50,7 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 - Editing an invoice or a quote regenerated their code and their date, and the due date of the closed invoices and the valid until date of the quotes were replaced by the current date.
 - Saving an invoice or a quote no longer rewrites the fields of the lines, taxes and totals that have not changed, so the history only shows the real changes.
 - open_basedir error when generating PDFs with TCPDF on restricted hostings, and TCPDF errors reported as exceptions again instead of stopping the execution.
+- JS error when the network comes back in browsers without service worker, like the http instances.
 
 ### Security
 - Removed the posix_getuid() polyfill, which made the CLI `user=` owner check always pass when the posix extension was missing; posix is now a required extension.
