@@ -29,12 +29,12 @@
     "require": {
         "php": ">=8.2",
         "ext-curl": "*",
-        "tecnickcom/tc-lib-pdf": "^8.80"
+        "tecnickcom/tc-lib-pdf": "^8.81"
     },
     "require-dev": {
-        "carthage-software/mago": "1.55.0",
-        "pdepend/pdepend": "^2.16",
-        "phpunit/phpunit": "^11.5 || ^12.5 || ^13.3"
+        "carthage-software/mago": "1.57.0",
+        "pdepend/pdepend": "^3.0",
+        "phpunit/phpunit": "^11.5 || ^12.5 || ^13.4"
     },
     "suggest": {
         "tecnickcom/tc-lib-pdf": "Modern replacement for TCPDF for new projects.",

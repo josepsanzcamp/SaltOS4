@@ -2,28 +2,28 @@
     "packages": [
         {
             "name": "tecnickcom/tcpdf",
-            "version": "7.0.17",
-            "version_normalized": "7.0.17.0",
+            "version": "7.0.19",
+            "version_normalized": "7.0.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/TCPDF.git",
-                "reference": "08da065616e64ac69bb494ba8365f1eb0e57e5d8"
+                "reference": "c60c7bd8ed0923a09424b2a8d9e9d17a2401c785"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/08da065616e64ac69bb494ba8365f1eb0e57e5d8",
-                "reference": "08da065616e64ac69bb494ba8365f1eb0e57e5d8",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/c60c7bd8ed0923a09424b2a8d9e9d17a2401c785",
+                "reference": "c60c7bd8ed0923a09424b2a8d9e9d17a2401c785",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "php": ">=8.2",
-                "tecnickcom/tc-lib-pdf": "^8.80"
+                "tecnickcom/tc-lib-pdf": "^8.81"
             },
             "require-dev": {
-                "carthage-software/mago": "1.55.0",
-                "pdepend/pdepend": "^2.16",
-                "phpunit/phpunit": "^11.5 || ^12.5 || ^13.3"
+                "carthage-software/mago": "1.57.0",
+                "pdepend/pdepend": "^3.0",
+                "phpunit/phpunit": "^11.5 || ^12.5 || ^13.4"
             },
             "suggest": {
                 "ext-gd": "Enables additional image handling in some workflows.",
@@ -31,7 +31,7 @@
                 "ext-zlib": "Recommended for compressed streams and related features.",
                 "tecnickcom/tc-lib-pdf": "Modern replacement for TCPDF for new projects."
             },
-            "time": "2026-10-11T06:45:57+00:00",
+            "time": "2026-10-17T11:01:32+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
