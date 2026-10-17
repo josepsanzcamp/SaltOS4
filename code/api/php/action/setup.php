@@ -128,6 +128,7 @@ foreach ($output4 as $key => $val) {
 }
 $time5 = microtime(true);
 $output5 = setup();
+$output5 = array_filter($output5, fn($x) => $x !== 0);
 $time6 = microtime(true);
 
 semaphore_release('setup');
