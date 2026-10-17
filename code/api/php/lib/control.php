@@ -130,14 +130,22 @@ function integrity()
                     LEFT JOIN {$table}_control b ON a.id = b.id
                     WHERE b.id IS NULL AND a.id >= ? AND a.id < ? + 100000 LIMIT 1000";
                 $ids = execute_query_array($query, [$i, $i]);
-                if (!count($ids)) {
+                $count = count($ids);
+                if (!$count) {
                     break;
                 }
+                // Wait and recheck to avoid a race with the control done by the creation flow
+                sleep(1);
+                $in = implode(',', $ids);
+                $query = "SELECT a.id FROM $table a
+                    LEFT JOIN {$table}_control b ON a.id = b.id
+                    WHERE b.id IS NULL AND a.id IN ($in)";
+                $ids = execute_query_array($query);
                 foreach ($ids as $id) {
                     make_control($app['code'], $id);
                 }
                 $total += count($ids);
-                if (count($ids) < 1000) {
+                if ($count < 1000) {
                     break;
                 }
             }
