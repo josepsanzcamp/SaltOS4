@@ -7,7 +7,7 @@
  *   saltos <rest> [json]   GET request, or POST request if json is given
  *
  * Environment:
- *   SALTOS_SOCKET   php-fpm socket (default: /run/php/php8.5-fpm.sock)
+ *   SALTOS_SOCKET   php-fpm socket (default: highest version in /run/php/)
  *   SALTOS_SCRIPT   api entry point (default: $PWD/web/api/index.php)
  *   SALTOS_TOKEN    token file (default: ~/.saltos_client_token)
  *   token           token to use instead of the stored one
@@ -16,8 +16,11 @@
  *        gcc -O2 -o ~/bin/saltos ../scripts/saltos_client.c
  */
 
+#define _GNU_SOURCE /* strverscmp */
+
 #include <errno.h>
 #include <fcntl.h>
+#include <glob.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,7 +30,7 @@
 #include <termios.h>
 #include <unistd.h>
 
-#define DEFAULT_SOCKET "/run/php/php8.5-fpm.sock"
+#define SOCKET_GLOB "/run/php/php*-fpm.sock"
 #define DEFAULT_SCRIPT "web/api/index.php" /* relative to the current directory */
 #define DEFAULT_TOKEN_FILE ".saltos_client_token" /* relative to $HOME */
 
@@ -247,11 +250,29 @@ static void json_string(buffer *b, const char *str)
     buf_add(b, "\"", 1);
 }
 
+/* Returns the php-fpm socket with the highest version */
+static const char *find_socket(void)
+{
+    static char best[256];
+    glob_t g;
+    if (glob(SOCKET_GLOB, 0, NULL, &g) != 0) {
+        die("No php-fpm socket found in /run/php/, set SALTOS_SOCKET");
+    }
+    snprintf(best, sizeof(best), "%s", g.gl_pathv[0]);
+    for (size_t i = 1; i < g.gl_pathc; i++) {
+        if (strverscmp(g.gl_pathv[i], best) > 0) {
+            snprintf(best, sizeof(best), "%s", g.gl_pathv[i]);
+        }
+    }
+    globfree(&g);
+    return best;
+}
+
 int main(int argc, char **argv)
 {
     const char *socket_path = getenv("SALTOS_SOCKET");
     if (!socket_path) {
-        socket_path = DEFAULT_SOCKET;
+        socket_path = find_socket();
     }
 
     char script[4096];
