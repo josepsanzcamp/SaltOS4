@@ -69,12 +69,9 @@ if (!file_exists("$private/$hash")) {
         die();
     }
     ob_passthru('bash ../scripts/make_instance.sh');
-    // The api/index.php will be replaced by a new file owned by the web server
-    rename('api/index.php', 'api/index.old.php');
-    file_put_contents('api/index.php', "<?php include('index.old.php');");
     // Setting the sqlite configuration
     file_put_contents('data/files/config.xml', '<root><db><type>pdo_sqlite</type></db></root>');
-    chmod('data/files/config.xml', 0777);
+    chmod('data/files/config.xml', 0666);
     // Execcute all setups
     ob_passthru('php api/index.php setup');
     ob_passthru('user=admin php api/index.php setup/certs');
@@ -84,9 +81,6 @@ if (!file_exists("$private/$hash")) {
     ob_passthru('user=admin php api/index.php setup/hr');
     ob_passthru('user=admin php api/index.php setup/purchases');
     ob_passthru('user=admin php api/index.php setup/sales');
-    // Restore the old api/index.php
-    unlink('api/index.php');
-    rename('api/index.old.php', 'api/index.php');
     chdir($public);
 }
 

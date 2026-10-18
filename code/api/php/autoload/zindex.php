@@ -98,11 +98,11 @@ if (php_sapi_name() === 'cli') {
         'json' => array_protected(json_decode(strval(file_get_contents_protected('php://stdin')), true)),
         'server' => [
             'request_method' => 'CLI',
-            'xuid' => posix_getuid() === getmyuid(),
+            'cli' => true,
             'lang' => check_lang_format(getenv('lang')),
         ],
     ];
-    if (get_data('server/xuid') && getenv('user')) {
+    if (getenv('user')) {
         set_data('server/user', getenv('user'));
     } else {
         set_data('server/token', check_token_format(getenv('token')));

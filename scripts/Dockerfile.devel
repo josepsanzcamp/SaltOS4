@@ -81,9 +81,6 @@ if [ -z "$(ls -A /opt/saltos4/instance/data)" ]; then
 
     cp -a /opt/saltos4/instance/data-seed/. /opt/saltos4/instance/data/
 
-    mv /opt/saltos4/instance/api/index.php /opt/saltos4/instance/api/index.old.php
-    echo "<?php include('index.old.php');" > /opt/saltos4/instance/api/index.php
-
     php /opt/saltos4/instance/api/index.php setup
     user=admin php /opt/saltos4/instance/api/index.php setup/certs
     user=admin php /opt/saltos4/instance/api/index.php setup/company
@@ -92,9 +89,6 @@ if [ -z "$(ls -A /opt/saltos4/instance/data)" ]; then
     user=admin php /opt/saltos4/instance/api/index.php setup/hr
     user=admin php /opt/saltos4/instance/api/index.php setup/purchases
     user=admin php /opt/saltos4/instance/api/index.php setup/sales
-
-    rm -f /opt/saltos4/instance/api/index.php
-    mv /opt/saltos4/instance/api/index.old.php /opt/saltos4/instance/api/index.php
 
     kill "$WAIT_PID" || true
     wait "$WAIT_PID" || true

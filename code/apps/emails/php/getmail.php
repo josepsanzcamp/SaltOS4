@@ -1414,7 +1414,7 @@ function getmail_server()
         return [T('Could not acquire the semaphore')];
     }
     // for debug purposes
-    if (get_data('server/xuid') && get_data('json/getmailmsgid')) {
+    if (get_data('server/cli') && get_data('json/getmailmsgid')) {
         $file = get_directory('dirs/inboxdir') . get_data('json/getmailmsgid') . '.eml.gz';
         if (!file_exists($file)) {
             $file = get_directory('dirs/outboxdir') . get_data('json/getmailmsgid') . '.eml.gz';
@@ -1565,7 +1565,7 @@ function getmail_server()
     }
     $haserror[] = sprintf(T('%d email(s) received'), $newemail);
     // intended to be used by cron feature
-    if (get_data('server/xuid') && $newemail) {
+    if (get_data('server/cli') && $newemail) {
         require_once 'php/lib/push.php';
         push_insert('event', 'saltos.emails.update');
     }

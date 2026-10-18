@@ -869,7 +869,7 @@ function sendmail_server()
     $haserror[] = sprintf(T('%d email(s) sended'), $sended);
 
     // Notify via push if running in a cron context
-    if (get_data('server/xuid') && $sended) {
+    if (get_data('server/cli') && $sended) {
         require_once 'php/lib/push.php';
         push_insert('event', 'saltos.emails.update');
     }

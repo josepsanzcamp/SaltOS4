@@ -1,5 +1,5 @@
 Devel Documentation
-SaltOS 4.1 r2706
+SaltOS 4.1 r2733
 October 2026
 
 
@@ -590,7 +590,7 @@ Subsequent authenticated requests use the token as an environment variable:
 token=your-token php index.php app/customers/list
 ```
 
-Alternatively, if the user executing the PHP script is the owner of the `index.php` file, the token is not required. You can specify the user directly:
+Alternatively, from the command line the token is not required. You can specify the user directly:
 
 Example::
 
@@ -598,7 +598,7 @@ Example::
 user=admin php index.php app/customers/list
 ```
 
-This shortcut is only allowed for the instance owner. Other system users must use token-based authentication to prevent privilege escalation.
+This shortcut is only available from the command line, never from HTTP. It is not a security boundary: any system user that can execute the PHP scripts can also read the configuration and the data of the instance, so the access to the command line must be restricted with the file system permissions.
 
 ++Token Lifecycle & Session Security++
 
@@ -636,8 +636,9 @@ Expired or invalid tokens are automatically deactivated by `crontab_users()`, th
 When executing scripts from the command line:
 
 - Tokens can be obtained via `auth/login` and passed as `token=...` in subsequent commands.
-- If the script is executed by the **owner of `index.php`**, tokens can be bypassed by specifying `user=...` directly.
-- This bypass is not allowed for other system users, providing a secure fallback that respects file ownership.
+- Tokens can be bypassed by specifying `user=...` directly, this shortcut is not available from HTTP.
+- The actions `setup`, `cron`, `gc`, `integrity` and `indexing` are only allowed from the command line.
+- The file system permissions are the real protection: any system user that can execute the PHP scripts can also read the configuration and the data of the instance.
 
 
 +++Additional Protections+++

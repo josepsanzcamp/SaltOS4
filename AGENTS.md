@@ -308,7 +308,7 @@ HTTP:
 
 CLI:
 - token=... php index.php ...
-- user=admin (owner-only shortcut)
+- user=admin (CLI-only shortcut, no token required)
 
 Tokens are bound to:
 

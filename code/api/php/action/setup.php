@@ -23,7 +23,7 @@ declare(strict_types=1);
  * library, the execution of this accion only is allowed from the command line
  */
 
-if (!get_data('server/xuid')) {
+if (!get_data('server/cli')) {
     show_php_error(['phperror' => 'Permission denied']);
 }
 
