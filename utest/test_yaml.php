@@ -104,6 +104,9 @@ final class test_yaml extends TestCase
             $this->assertSame($native, __yaml_parse_file_helper($cache1), $file);
             $this->assertSame($polyfill, yaml_parse_file($cache2), $file);
             $this->assertSame($polyfill, __yaml_parse_file_helper($cache2), $file);
+
+            unlink($cache1);
+            unlink($cache2);
         }
     }
 }
