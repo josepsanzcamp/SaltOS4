@@ -2,9 +2,9 @@
  * Calls the SaltOS API through the php-fpm socket, avoiding the PHP CLI startup
  *
  * Usage (from the code/ directory of the instance):
- *   saltos login [user]    asks the password and stores the token
- *   saltos logout          invalidates and removes the stored token
- *   saltos <rest> [json]   GET request, or POST request if json is given
+ *   saltos login [user [pass]]  asks the missing user/pass and stores the token
+ *   saltos logout               invalidates and removes the stored token
+ *   saltos <rest> [json]        GET request, or POST request if json is given
  *
  * Environment:
  *   SALTOS_SOCKET   php-fpm socket (default: highest version in /run/php/)
@@ -314,16 +314,16 @@ int main(int argc, char **argv)
         const char *name = strrchr(argv[0], '/') ? strrchr(argv[0], '/') + 1 : argv[0];
         fprintf(stderr,
                 "Usage (from the code/ directory of the instance):\n"
-                "  %s login [user]    asks the password and stores the token\n"
-                "  %s logout          invalidates and removes the stored token\n"
-                "  %s <rest> [json]   GET request, or POST request if json is given\n",
+                "  %s login [user [pass]]  asks the missing user/pass and stores the token\n"
+                "  %s logout               invalidates and removes the stored token\n"
+                "  %s <rest> [json]        GET request, or POST request if json is given\n",
                 name, name, name);
         return 1;
     }
 
     if (!strcmp(argv[1], "login")) {
         char *user = argc > 2 ? strdup(argv[2]) : read_line("User: ", 0);
-        char *pass = read_line("Pass: ", 1);
+        char *pass = argc > 3 ? strdup(argv[3]) : read_line("Pass: ", 1);
         buffer json = {0};
         buf_add(&json, "{\"user\":", 8);
         json_string(&json, user);
