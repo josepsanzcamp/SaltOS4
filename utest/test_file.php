@@ -151,6 +151,24 @@ final class test_file extends TestCase
         $this->assertFileDoesNotExist($file . '.' . getmypid());
         unlink($file);
 
+        $file = get_temp_file('php');
+        $data = [
+            'string' => "a'b\"c\\d\ne",
+            'int' => 123,
+            'float' => 1.5,
+            'bool' => true,
+            'null' => null,
+            'array' => ['a', 'b' => ['c' => 'd']],
+        ];
+        file_put_contents_php($file, $data);
+        $this->assertStringStartsWith('<?php', file_get_contents($file));
+        $this->assertSame($data, include $file);
+        $this->assertSame(0666, fileperms($file) & 0777);
+        $this->assertFileDoesNotExist($file . '.' . getmypid());
+        file_put_contents_php($file, ['new']);
+        $this->assertSame(['new'], include $file);
+        unlink($file);
+
         $errno = 0;
         $errstr = '';
         $fd = fsockopen_protected('127.0.0.1', 8080, $errno, $errstr, null);

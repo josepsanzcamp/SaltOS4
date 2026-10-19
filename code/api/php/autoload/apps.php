@@ -552,11 +552,21 @@ function detect_app_folder($app)
  * field of the yaml file to generate the equivalent xml file used
  * as app file and returns the path to the cached file
  *
+ * The parsed yaml is cached as a php file that returns the array, in the
+ * same way that the xmlfile2array does, to prevent to parse the yaml file
+ * in each request
+ *
  * @yamlfile => the yaml file desired to be converted to xml
  */
 function make_app_file_helper($yamlfile)
 {
-    $data = yaml_parse_file($yamlfile);
+    $cache = get_cache_file($yamlfile, '.php');
+    if (cache_exists($cache, $yamlfile)) {
+        $data = include $cache;
+    } else {
+        $data = yaml_parse_file($yamlfile);
+        file_put_contents_php($cache, $data);
+    }
     $items = ['require', 'template'];
     foreach ($items as $item) {
         if (!isset($data[$item])) {

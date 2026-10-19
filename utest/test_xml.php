@@ -92,7 +92,7 @@ final class test_xml extends TestCase
 
         $this->assertSame(fix_key('a#1'), 'a');
 
-        $cache = get_cache_file('xml/config.xml', '.arr');
+        $cache = get_cache_file('xml/config.xml', '.php');
         if (file_exists($cache)) {
             unlink($cache);
         }

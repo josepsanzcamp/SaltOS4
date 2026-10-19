@@ -548,3 +548,32 @@ function file_put_contents_with_pid($file, $data)
     rename("$file.$pid", $file);
     return $bytes;
 }
+
+/**
+ * File Put Contents PHP
+ *
+ * This function writes the data as a php file that returns it, this allow to
+ * load the data using an include, and when opcache is enabled, the arrays are
+ * kept in the shared memory as immutable arrays, and the include returns them
+ * without copying or decoding anything
+ *
+ * The file is written using the file_put_contents_with_pid to do an atomic
+ * operation, and the opcache entry of the file is invalidated to prevent that
+ * other processes use the old contents
+ *
+ * @file => the file that you want to write
+ * @data => the data that you want to write to the file
+ *
+ * Notes:
+ *
+ * The data must contain only scalars and arrays, because the var_export is
+ * used to generate the php code
+ */
+function file_put_contents_php($file, $data)
+{
+    file_put_contents_with_pid($file, "<?php\n\nreturn " . var_export($data, true) . ";\n");
+    chmod_protected($file, 0666);
+    if (function_exists('opcache_invalidate')) {
+        opcache_invalidate($file, true);
+    }
+}

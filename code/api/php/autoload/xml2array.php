@@ -144,6 +144,10 @@ function xmlfiles2array($files, $usecache = true)
  * without acquiring it, and this is safe because the cache file is written
  * using the file_put_contents_with_pid, that does an atomic operation
  *
+ * The cache is stored as a php file that returns the array, this allow to
+ * opcache to keep the array in the shared memory as an immutable array, and
+ * the include returns it without copying or decoding anything
+ *
  * @file     => the file that you want to convert from xml to array
  * @usecache => if do you want to enable the cache feature
  */
@@ -153,9 +157,9 @@ function xmlfile2array($file, $usecache = true)
         show_php_error(['xmlerror' => "File not found: $file"]);
     }
     if ($usecache) {
-        $cache = get_cache_file($file, '.arr');
+        $cache = get_cache_file($file, '.php');
         if (cache_exists($cache, $file)) {
-            $array = unserialize(file_get_contents($cache));
+            $array = include $cache;
             if (isset($array['root'])) {
                 return $array['root'];
             }
@@ -166,7 +170,7 @@ function xmlfile2array($file, $usecache = true)
     }
     // Check again, another process could build the cache while this was waiting
     if ($usecache && cache_exists($cache, $file)) {
-        $array = unserialize(file_get_contents($cache));
+        $array = include $cache;
         if (isset($array['root'])) {
             semaphore_release($file);
             return $array['root'];
@@ -175,8 +179,7 @@ function xmlfile2array($file, $usecache = true)
     $xml = file_get_contents($file);
     $array = xml2array($xml, $file);
     if ($usecache) {
-        file_put_contents_with_pid($cache, serialize($array));
-        chmod_protected($cache, 0666);
+        file_put_contents_php($cache, $array);
     }
     semaphore_release($file);
     return $array['root'];
