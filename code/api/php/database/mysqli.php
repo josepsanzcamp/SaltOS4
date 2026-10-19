@@ -76,7 +76,7 @@ class database_mysqli
         $user = $args['user'] ?? '';
         $pass = $args['pass'] ?? '';
         try {
-            $this->link = new mysqli("$host:$port", $user, $pass, $name);
+            $this->link = new mysqli($host, $user, $pass, $name, (int)$port);
         } catch (Exception $e) {
             show_php_error(['dberror' => $e->getMessage()]);
         }

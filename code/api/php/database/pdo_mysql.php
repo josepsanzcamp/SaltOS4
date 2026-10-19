@@ -70,7 +70,7 @@ class database_pdo_mysql
         $user = $args['user'] ?? '';
         $pass = $args['pass'] ?? '';
         try {
-            $this->link = new PDO("mysql:host=$host:$port; dbname=$name", $user, $pass);
+            $this->link = new PDO("mysql:host=$host;port=$port;dbname=$name", $user, $pass);
         } catch (PDOException $e) {
             show_php_error(['dberror' => $e->getMessage()]);
         }
