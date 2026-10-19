@@ -32,7 +32,7 @@ init_timer();
 db_connect([
     'type' => 'pdo_mysql',
     'host' => '127.0.0.1',
-    'port' => 'nada',
+    'port' => '9999',
     'name' => 'saltos',
     'user' => 'saltos',
     'pass' => 'saltos',
