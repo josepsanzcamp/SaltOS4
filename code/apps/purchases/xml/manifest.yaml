@@ -38,6 +38,7 @@ apps:
       position: 1
       color: warning
       layout: "8,2,1,1"
+      folder: purchases
 
     - id: 57
       active: 1
@@ -57,6 +58,7 @@ apps:
       position: 1
       color: warning
       layout: "9,2,1,1"
+      folder: purchases
 
     - id: 70
       active: 1
@@ -76,6 +78,7 @@ apps:
       position: 2
       color: warning-75
       layout: "10,2,1,1"
+      folder: purchases
 
     - id: 71
       active: 1
@@ -95,3 +98,4 @@ apps:
       position: 2
       color: warning-75
       layout: "11,2,1,1"
+      folder: purchases

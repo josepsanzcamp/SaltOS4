@@ -141,6 +141,7 @@ that maintain the database using as reference this file
                 <field name="position" type="INTEGER"/>
                 <field name="color" type="VARCHAR(100)"/>
                 <field name="layout" type="VARCHAR(100)"/>
+                <field name="folder" type="VARCHAR(255)"/>
             </fields>
         </table>
         <table name="tbl_apps_groups">

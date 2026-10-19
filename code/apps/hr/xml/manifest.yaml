@@ -38,6 +38,7 @@ apps:
       position: 1
       color: danger
       layout: "8,5,1,1"
+      folder: hr
 
     - id: 59
       active: 1
@@ -57,6 +58,7 @@ apps:
       position: 1
       color: danger
       layout: "9,5,1,1"
+      folder: hr
 
     - id: 69
       active: 1
@@ -76,3 +78,4 @@ apps:
       position: 2
       color: danger-75
       layout: "10,5,1,1"
+      folder: hr

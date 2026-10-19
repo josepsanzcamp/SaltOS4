@@ -20,3 +20,4 @@ apps:
       perms: main,config,help
       allow: 1
       deny: 0
+      folder: dashboard

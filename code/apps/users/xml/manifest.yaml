@@ -19,6 +19,7 @@ apps:
       perms: main
       allow: 1
       deny: 0
+      folder: users
 
     - id: 4
       active: 1
@@ -39,6 +40,7 @@ apps:
       position: 1
       color: primary
       layout: "8,10,1,1"
+      folder: users
 
     - id: 5
       active: 1
@@ -59,3 +61,4 @@ apps:
       position: 1
       color: primary
       layout: "9,10,1,1"
+      folder: users

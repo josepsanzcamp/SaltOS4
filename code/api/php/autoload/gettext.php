@@ -61,7 +61,7 @@ function T($text = '', $app = '')
         $app = current_app();
     }
     if ($app && !isset($cache[$app][$lang])) {
-        $dir = detect_app_folder($app);
+        $dir = app2folder($app);
         $file = "apps/$dir/locale/$lang/messages.yaml";
         if (file_exists($file)) {
             $temp = yaml_parse_file($file);

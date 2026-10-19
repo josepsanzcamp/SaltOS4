@@ -62,6 +62,7 @@ function __apps($fn, $arg)
         $dict['id2name'] = [];
         $dict['app2name'] = [];
         $dict['table2name'] = [];
+        $dict['app2folder'] = [];
         while ($row = db_fetch_row($result)) {
             $row['subtables'] = __apps_subtables_helper($row['subtables']);
             $dict['id2app'][$row['id']] = $row['code'];
@@ -90,6 +91,7 @@ function __apps($fn, $arg)
             $dict['id2name'][$row['id']] = $row['name'];
             $dict['app2name'][$row['code']] = $row['name'];
             $dict['table2name'][$row['table']] = $row['name'];
+            $dict['app2folder'][$row['code']] = $row['folder'];
         }
         db_free($result);
     }
@@ -460,6 +462,18 @@ function app2name($app)
 function table2name($table)
 {
     return __apps(__FUNCTION__, $table);
+}
+
+/**
+ * App to Folder
+ *
+ * This function resolves the folder of the app from the app code
+ *
+ * @app => the app code used to resolve the folder
+ */
+function app2folder($app)
+{
+    return __apps(__FUNCTION__, $app);
 }
 
 /**

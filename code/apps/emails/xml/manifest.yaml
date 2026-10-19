@@ -27,6 +27,7 @@ apps:
       position: 1
       color: primary
       layout: "3,3,1,1"
+      folder: emails
 
     - id: 15
       active: 1
@@ -42,6 +43,7 @@ apps:
       has_notes: 1
       has_log: 1
       perms: main,create,action,config,help,info,list*,view*,edit*,delete*
+      folder: emails
 
 widgets:
     - active: 1

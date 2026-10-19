@@ -112,6 +112,8 @@ final class test_apps extends TestCase
         $this->assertSame(id2name(53), 'Invoices');
         $this->assertSame(app2name('invoices'), 'Invoices');
         $this->assertSame(table2name('app_invoices'), 'Invoices');
+        $this->assertSame(app2folder('invoices'), 'sales');
+        $this->assertSame(app2folder('customers'), 'crm');
 
         test_external_exec('php/apps2.php', '', '');
         test_external_exec('php/apps3.php', 'phperror.log', 'unknown app in rest args');

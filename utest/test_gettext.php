@@ -70,7 +70,7 @@ final class test_gettext extends TestCase
         $this->assertSame(T('Nada'), 'Nada');
         $this->assertEquals(T('Nada'), 'Nada');
         $this->assertIsArray(T());
-        $this->assertSame(T('Language', 'common'), 'Idioma');
+        $this->assertSame(T('Language', 'cronlog'), 'Idioma');
 
         $this->assertSame(check_lang_format(null), null);
         $this->assertSame(check_lang_format('AA'), null);

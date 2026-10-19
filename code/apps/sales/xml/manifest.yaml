@@ -39,6 +39,7 @@ apps:
       position: 1
       color: info
       layout: "4,2,1,1"
+      folder: sales
 
     - id: 54
       active: 1
@@ -58,6 +59,7 @@ apps:
       position: 1
       color: info
       layout: "5,2,1,1"
+      folder: sales
 
     - id: 55
       active: 1
@@ -77,6 +79,7 @@ apps:
       position: 2
       color: info-75
       layout: "7,2,1,1"
+      folder: sales
 
     - id: 60
       active: 1
@@ -96,6 +99,7 @@ apps:
       position: 1
       color: info
       layout: "6,2,1,1"
+      folder: sales
 
     - id: 62
       active: 1
@@ -115,6 +119,7 @@ apps:
       position: 2
       color: info-75
       layout: "4,3,1,1"
+      folder: sales
 
     - id: 66
       active: 1
@@ -134,6 +139,7 @@ apps:
       position: 2
       color: info-75
       layout: "5,3,1,1"
+      folder: sales
 
     - id: 67
       active: 1
@@ -153,6 +159,7 @@ apps:
       position: 2
       color: info-75
       layout: "6,3,1,1"
+      folder: sales
 
     - id: 68
       active: 1
@@ -172,6 +179,7 @@ apps:
       position: 2
       color: info-75
       layout: "7,3,1,1"
+      folder: sales
 
 widgets:
     - active: 1

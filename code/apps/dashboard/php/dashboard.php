@@ -48,11 +48,16 @@ declare(strict_types=1);
 function __dashboard_helper()
 {
     // Create the apps list
-    $query = 'SELECT code, name, description, color, layout
+    $query = 'SELECT code, name, description, color, layout, `group`
         FROM tbl_apps WHERE active = 1';
     $rows = execute_query_array($query);
     $apps = [];
+    $group2app = [];
     foreach ($rows as $row) {
+        // Used to translate the group texts using an app of the group
+        if ($row['group'] !== null && !isset($group2app[$row['group']])) {
+            $group2app[$row['group']] = $row['code'];
+        }
         if (check_user($row['code'], 'menu')) {
             [$row['x'], $row['y'], $row['w'], $row['h']] = explode(',', $row['layout']);
             $apps[] = $row;
@@ -86,12 +91,13 @@ function __dashboard_helper()
 
     // Add the alert
     foreach ($groups as $row) {
+        $app = $group2app[$row['code']] ?? '';
         $xml = '<alert id="alert_{$code}" title="{$name}" text="{$description}" class="h-100"
             color="{$color}" x="{$x}" y="{$y}" w="{$w}" h="{$h}"/>';
         $xml = str_replace_assoc([
             '{$code}' => $row['code'],
-            '{$name}' => T($row['name'], $row['code']),
-            '{$description}' => str_replace('&', '&amp;', T($row['description'], $row['code'])),
+            '{$name}' => T($row['name'], $app),
+            '{$description}' => str_replace('&', '&amp;', T($row['description'], $app)),
             '{$color}' => $row['color'],
             '{$x}' => $row['x'],
             '{$y}' => $row['y'],

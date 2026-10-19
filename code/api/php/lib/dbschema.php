@@ -860,7 +860,7 @@ function __manifest2dbstatic($files)
                         <row id="" active="" code="" name="" description=""
                             table="" subtables="" field=""
                             has_index="0" has_control="0" has_version="0"
-                            has_files="0" has_notes="0" has_log="0"/>
+                            has_files="0" has_notes="0" has_log="0" folder=""/>
                     </table>';
             $array = xml2array($xml);
             foreach ($app as $key => $val) {

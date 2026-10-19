@@ -959,6 +959,7 @@ apps:
       perms: "*"
       allow: 1
       deny: 0
+      folder: folder_name
 ```
 
 +++Groups (<group>)+++
@@ -993,6 +994,7 @@ Note: All visual attributes are optional; if not defined, they are not applied.
   - `table`: main associated table.
   - `field`: representative field or computed string.
   - `subtables`: related subtables (alias:table(foreign_key),...)
+  - `folder`: folder of the app inside `apps/`, used to resolve the app files.
 
 - **Feature Modules:**
   - `has_index`: enables automatic indexing (creates Mroonga table).
