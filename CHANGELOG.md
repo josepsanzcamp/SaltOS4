@@ -36,7 +36,7 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 - Minimum PHP version raised from 7.1 to 8.2, the lowest version supported by tcpdf 7 and tc-lib-pdf.
 - phpspreadsheet and symfony/yaml dependencies pinned to PHP 8.2 (zipstream-php 3.1.2, symfony/yaml 7.4 LTS).
 - Setup checks the requirements of the apps libraries too, and reports as warnings the libraries only used when a PHP extension is missing (yaml, mailmimeparser).
-- Third-party libraries updated to their latest releases (joditeditor, bootstrap icons, tcpdf, tc-lib-pdf, fpdi, pdfjs, jsuites, symfony/yaml, mailmimeparser, semver, mroonga).
+- Third-party libraries updated to their latest releases (joditeditor, bootstrap icons, tcpdf, tc-lib-pdf, fpdi, pdfjs, jsuites, symfony/yaml, mailmimeparser, semver, mroonga, venobox).
 - Faster API requests: the permissions check no longer resolves the name of every app and permission in each request, and the cache of the xml files is read without acquiring a semaphore.
 - The caches of the yaml app files, the commands output and the inline images of the emails are written using a temporary file and a rename, so a partial file is never read.
 - `get_unique_id_md5()` uses `random_bytes()`, so the names of the temporary files are no longer predictable.
@@ -51,6 +51,7 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 - Saving an invoice or a quote no longer rewrites the fields of the lines, taxes and totals that have not changed, so the history only shows the real changes.
 - open_basedir error when generating PDFs with TCPDF on restricted hostings, and TCPDF errors reported as exceptions again instead of stopping the execution.
 - JS error when the network comes back in browsers without service worker, like the http instances.
+- The pdfjs widget failed in browsers without the most recent JavaScript features (like Safari 17), because the modern build of pdfjs requires them; now it uses the legacy build, that includes the needed polyfills.
 
 ### Security
 - Removed the posix_getuid() polyfill, which made the CLI `user=` owner check always pass when the posix extension was missing; posix is now a required extension.
