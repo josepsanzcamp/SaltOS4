@@ -1,6 +1,6 @@
 Manual d'usuari
-SaltOS 4.1 r2678
-September 2026
+SaltOS 4.1 r2752
+October 2026
 
 
 
@@ -391,9 +391,11 @@ El formulari inclou els següents camps:
 - Codi postal: Codi postal del client.
 - País: País de residència o registre.
 - Notes: Observacions internes o condicions especials.
+- Impost: Impost aplicat a tot el document, només es mostra quan el mode d'impost de l'empresa és un per document.
+- Retenció: Retenció aplicada a tot el document, només es mostra quan el mode de retenció de l'empresa és una per document.
 - Conceptes: Línies de detall amb quantitats i imports.
-- Impostos: Impostos aplicables.
-- Totals: Resum d'import, impostos i total.
+- Impostos: Desglossament dels impostos i les retencions aplicats, agrupats per tipus i valor.
+- Totals: Subtotal, impostos, retencions i total final, que és el subtotal més els impostos menys les retencions.
 - Mètode de pagament: Forma de cobrament prevista.
 - Vàlid fins: Data de validesa del pressupost.
 - Estat: Estat actual del pressupost (pendent, acceptat, rebutjat, etc.).
@@ -521,9 +523,11 @@ El formulari inclou els següents camps:
 - Codi postal: Codi postal.
 - País: País de residència o registre.
 - Notes: Observacions internes o condicions.
+- Impost: Impost aplicat a tot el document, només es mostra quan el mode d'impost de l'empresa és un per document.
+- Retenció: Retenció aplicada a tot el document, només es mostra quan el mode de retenció de l'empresa és una per document.
 - Conceptes: Línies de detall de la factura.
-- Impostos: Impostos aplicats a cada línia.
-- Totals: Import net, impostos i total final.
+- Impostos: Desglossament dels impostos i les retencions aplicats, agrupats per tipus i valor.
+- Totals: Subtotal, impostos, retencions i total final, que és el subtotal més els impostos menys les retencions.
 - Mètode de pagament: Forma de cobrament pactada.
 - Data de venciment: Data límit per al cobrament.
 - Import pagat: Quantitat rebuda.
@@ -714,6 +718,7 @@ El formulari inclou els següents camps:
 - Cost: El cost intern de compra o fabricació, utilitzat per calcular marges.
 - Marge: Marge de benefici calculat a partir del preu i el cost.
 - Impost: Tipus impositiu per defecte aplicat en vendes.
+- Retenció: Retenció per defecte aplicada en vendes.
 - Descripció: Explicació detallada o especificacions del producte.
 - Categoria: Família o grup del producte, per classificació o filtratge.
 - Unitat de mesura: Unitat de mesura (p. ex., unitat, kg, hora).
@@ -854,6 +859,7 @@ Els següents camps es mostren a la vista de llista:
 
 - Nom: Nom o etiqueta utilitzada per identificar l'impost (ex: IVA 21%).
 - Descripció: Explicació opcional o detalls addicionals sobre la norma fiscal o el seu ús.
+- Tipus: Indica si el registre és un impost, que se suma al total (ex: IVA), o una retenció, que es resta del total (ex: IRPF).
 - Valor: Percentatge de l'impost a aplicar (ex: 21 per al 21%).
 - Actiu: Indica si aquest impost està disponible per ser seleccionat en documents.
 - Per defecte: Indica si aquest impost se selecciona automàticament en crear documents nous.
@@ -880,6 +886,7 @@ El formulari inclou els següents camps:
 - Actiu: Indica si aquest impost està disponible per ser seleccionat en documents.
 - Per defecte: Indica si aquest impost es selecciona automàticament en crear documents nous.
 - Nom: Nom o etiqueta utilitzada per identificar l'impost (ex: IVA 21%).
+- Tipus: Indica si el registre és un impost, que se suma al total (ex: IVA), o una retenció, que es resta del total (ex: IRPF).
 - Valor: Percentatge de l'impost a aplicar (ex: 21 per al 21%).
 - Descripció: Explicació opcional o detalls addicionals sobre la norma fiscal o el seu ús.
 
@@ -1460,6 +1467,8 @@ El formulari inclou els següents camps:
 - SWIFT/BIC: Codi SWIFT/BIC que identifica el banc de l'empresa en transferències internacionals.
 - Règim fiscal: Règim tributari sota el qual opera l'empresa (ex: general, simplificat, pimes).
 - Codi d'activitat: Codi de classificació de l'activitat econòmica (ex: CNAE, NACE).
+- Mode d'impost: Defineix com es demanen els impostos a les factures i pressupostos: per línia, un per document o no s'utilitza.
+- Mode de retenció: Defineix com es demanen les retencions a les factures i pressupostos: no s'utilitza, una per document o per línia.
 - Notes addicionals: Observacions internes o informació complementària sobre l'empresa.
 
 
