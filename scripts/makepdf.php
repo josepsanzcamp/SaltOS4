@@ -109,9 +109,9 @@ while ($pos !== false) {
     $data = substr($buffer, $pos + 17, $pos2 - $pos - 17);
     $size = getimagesize($data);
     if ($size[0] >= 800) {
-        $latex = "\\begin{center}\\includegraphics[width=1\\textwidth]{$data}\\end{center}";
+        $latex = "\\begin{center}\\includegraphics[width=1\\textwidth]{" . $data . "}\\end{center}";
     } else {
-        $latex = "\\begin{center}\\includegraphics[width=0.5\\textwidth]{$data}\\end{center}";
+        $latex = "\\begin{center}\\includegraphics[width=0.5\\textwidth]{" . $data . "}\\end{center}";
     }
     $buffer = substr_replace($buffer, $latex, $pos, $pos2 - $pos + 1);
     $pos = strpos($buffer, '\\includegraphics{', $pos);
