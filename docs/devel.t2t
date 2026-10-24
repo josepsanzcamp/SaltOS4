@@ -2098,7 +2098,7 @@ This section describes the purpose of each file in the `scripts/` directory, gro
   in the `instances/private/` directory, publishes its `web/` directory with a
   link in the `instances/public/` directory (the document root) and redirects to it.
 - `demos_trash.php`: Runs hourly via cron inside the `demos` container, moving
-  instances untouched for more than 7 days into `removed/`, and then
+  instances untouched for more than 7 days into `instances/removed/`, and then
   synchronizing the public directory.
 - `demos_sync.php`: Synchronizes `instances/public/` with `instances/private/`,
   creating the links of the new instances and removing the links of the

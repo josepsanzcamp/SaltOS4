@@ -27,11 +27,11 @@ foreach ($hashs as $hash) {
     }
     $extra = '';
     $count = 0;
-    while (file_exists("removed/$hash$extra")) {
+    while (file_exists("../removed/$hash$extra")) {
         $count++;
         $extra = ".$count";
     }
-    rename($hash, "removed/$hash$extra");
+    rename($hash, "../removed/$hash$extra");
 }
 
 // remove the links of the public directory that point to removed instances

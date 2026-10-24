@@ -132,12 +132,13 @@ COPY code /opt/saltos4/code
 COPY scripts /opt/saltos4/scripts
 COPY .git /opt/saltos4/.git
 
-# instance setup: the private directory contains the full instances and the
+# instance setup: the private directory contains the active instances, the
+# removed directory contains the instances removed by demos_trash.php and the
 # public directory is the document root and only contains the index.php and
 # one link to the web directory of each instance
 # seed data used to populate the bind-mounted volumes on first boot
 RUN cd /opt/saltos4 \
-    && mkdir -p instances/private/removed instances/public \
+    && mkdir -p instances/private instances/public instances/removed \
     && cd instances \
     && ln -s ../../code private/code \
     && ln -s ../../scripts private/scripts \
