@@ -438,6 +438,7 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
         }
 
         $this->detectPageTransparency();
+        $this->page->setPageNumberResolver($this->pageAliasMarks === [] ? null : $this->resolvePageAliasMarks(...));
         $out = $this->page->getPdfPages($this->pon);
         $this->objid['pages'] = $this->page->getRootObjID();
         if ($this->isTaggedMode()) {
@@ -1354,7 +1355,7 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
      */
     protected function getOutAPXObjects(float $width = 0, float $height = 0, string $stream = ''): string
     {
-        $stream = \trim($stream);
+        $stream = \trim($this->resolvePageAliasMarks($stream));
         $oid = ++$this->pon;
         $out = $oid . ' 0 obj' . "\n";
         $tid = 'AX' . $oid;
@@ -1443,7 +1444,7 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
             }
 
             $out .= $data['n'] . ' 0 obj' . "\n" . '<< /Type /XObject /Subtype /Form /FormType 1';
-            $stream = \trim($data['outdata']);
+            $stream = \trim($this->resolvePageAliasMarks($data['outdata']));
             if ($this->compress) {
                 $stream = \gzcompress($stream);
                 if ($stream === false) {
@@ -1585,7 +1586,7 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
             }
 
             $oid = $this->patterns[$pid]['n'];
-            $stream = \trim($data['outdata']);
+            $stream = \trim($this->resolvePageAliasMarks($data['outdata']));
             $out .= $oid . ' 0 obj' . "\n";
             $out .= \sprintf(
                 '<< /Type /Pattern /PatternType 1 /PaintType 1 /TilingType 1'
@@ -1657,7 +1658,7 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
                 continue;
             }
 
-            $stream = $data['stream'];
+            $stream = $this->resolvePageAliasMarks($data['stream']);
             $bbox = $data['bbox'];
             $bboxStr = \sprintf('%F %F %F %F', $bbox[0], $bbox[1], $bbox[2], $bbox[3]);
 
@@ -5935,6 +5936,11 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
             throw new PdfException('Invalid TSA host');
         }
 
+        // Both transports only reach an allowlisted HTTP(S) host.
+        if (!$this->file->isValidURL($host)) {
+            throw new PdfException('invalid URL');
+        }
+
         $timeout = (int) $this->sigtimestamp['timeout'];
         if ($timeout < 1) {
             $timeout = 5;
@@ -5965,7 +5971,16 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
                 CURLOPT_CONNECTTIMEOUT => $timeout,
                 CURLOPT_SSL_VERIFYPEER => $this->sigtimestamp['verify_peer'],
                 CURLOPT_SSL_VERIFYHOST => $this->sigtimestamp['verify_peer'] ? 2 : 0,
+                // Do not follow redirects: only the initial host is validated
+                // against the allowlist.
+                CURLOPT_FOLLOWLOCATION => false,
             ];
+
+            if (\defined('CURLOPT_PROTOCOLS_STR')) {
+                $opts[CURLOPT_PROTOCOLS_STR] = 'http,https';
+            } else {
+                $opts[CURLOPT_PROTOCOLS] = CURLPROTO_HTTP | CURLPROTO_HTTPS;
+            }
 
             if ($this->sigtimestamp['cert'] !== '') {
                 $opts[CURLOPT_CAINFO] = $this->sigtimestamp['cert'];
@@ -5999,10 +6014,6 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
                 'cafile' => $this->sigtimestamp['cert'],
             ],
         ]);
-
-        if (!$this->file->isValidURL($host)) {
-            throw new PdfException('invalid URL');
-        }
 
         \set_error_handler(static fn(): bool => true);
         $response = \file_get_contents($host, false, $context);

@@ -7864,7 +7864,7 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
             default:
                 if (\substr($type, 0, 4) === 'img|') {
                     // custom image type ('img|type|width|height|image.ext')
-                    $img = \explode('|', $type);
+                    $img = \explode('|', $type, 5);
                     $type = 'img';
                     break;
                 }
@@ -9890,6 +9890,215 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
     }
 
     /**
+     * Returns the table head HTML replayed before the given row after a page break:
+     * empty for a row of the table head, which is drawn itself.
+     *
+     * @param THTMLRenderContext $hrc HTML render context.
+     * @param int $trkey DOM key of the opening <tr> tag.
+     * @param array<int, string> $tabletheadmap Table head HTML keyed by the DOM key of its table.
+     */
+    protected function getHTMLTableRowReplayHead(array &$hrc, int $trkey, array $tabletheadmap): string
+    {
+        $row = $this->getHTMLDOMNode($hrc['dom'], $trkey);
+        if ($row === null || $row['thead'] === 'true') {
+            return '';
+        }
+
+        $parent = $row['parent'];
+        $table = $this->getHTMLDOMNode($hrc['dom'], $parent);
+        if ($table !== null && $table['thead'] !== '') {
+            return $table['thead'];
+        }
+
+        return $tabletheadmap[$parent] ?? '';
+    }
+
+    /**
+     * Returns the height that keeps the table head together with the first body row,
+     * when the given row is the first row of the table head; 0 otherwise, or when the
+     * head and the first body row do not fit an empty region together.
+     *
+     * The first body row counts with the rows its cells span, or with its first part
+     * when it can be split over the pages.
+     *
+     * @param THTMLRenderContext $hrc HTML render context.
+     * @param int $trkey DOM key of the opening <tr> tag.
+     * @param int $tablekey DOM key of the table node.
+     *
+     * @throws \Com\Tecnick\Pdf\Page\Exception
+     * @throws \Throwable
+     */
+    protected function estimateHTMLTableHeadKeepHeight(array &$hrc, int $trkey, int $tablekey): float
+    {
+        $row = $this->getHTMLDOMNode($hrc['dom'], $trkey);
+        if ($row === null || $row['thead'] !== 'true') {
+            return 0.0;
+        }
+
+        $rows = $this->getHTMLTableRowKeys($hrc, $tablekey);
+        if (($rows[0] ?? -1) !== $trkey) {
+            return 0.0;
+        }
+
+        $headh = 0.0;
+        $bodykey = -1;
+        foreach ($rows as $rowkey) {
+            if (($hrc['dom'][$rowkey]['thead'] ?? '') !== 'true') {
+                $bodykey = $rowkey;
+                break;
+            }
+
+            $headh += $this->estimateHTMLTableRowCells($hrc, $rowkey)['height'];
+        }
+
+        if ($bodykey < 0) {
+            return 0.0;
+        }
+
+        $regionh = $this->page->getRegion()['RH'];
+        $keeph = $headh + $this->estimateHTMLTableRowStartHeight($hrc, $bodykey, $regionh - $headh);
+
+        return $keeph > ($regionh + self::WIDTH_TOLERANCE) ? 0.0 : $keeph;
+    }
+
+    /**
+     * Returns the height of the bottom caption of a table when the given row is the last
+     * row of the table; 0 otherwise.
+     *
+     * @param THTMLRenderContext $hrc HTML render context.
+     * @param int $trkey DOM key of the opening <tr> tag.
+     * @param int $tablekey DOM key of the table node.
+     *
+     * @throws \Throwable
+     */
+    protected function estimateHTMLTableLastRowCaptionHeight(array &$hrc, int $trkey, int $tablekey): float
+    {
+        $caption = $this->getHTMLDOMNode($hrc['dom'], $tablekey)['caption-bottom-html'] ?? '';
+        if ($caption === '') {
+            return 0.0;
+        }
+
+        $rows = $this->getHTMLTableRowKeys($hrc, $tablekey);
+        if (($rows[\count($rows) - 1] ?? -1) !== $trkey) {
+            return 0.0;
+        }
+
+        $callerfont = $this->captureHTMLCallerFontState();
+        try {
+            return $this->estimateHTMLTableCaptionHeight($hrc, $caption, $tablekey);
+        } finally {
+            $this->restoreHTMLCallerFontState($callerfont);
+        }
+    }
+
+    /**
+     * Returns the height a table row needs where it starts: the row with the rows its
+     * cells span, or its first part when it is taller than the given height and can be
+     * split over the pages.
+     *
+     * @param THTMLRenderContext $hrc HTML render context.
+     * @param int $trkey DOM key of the opening <tr> tag.
+     * @param float $availh Height available to the row.
+     *
+     * @throws \Com\Tecnick\Pdf\Page\Exception
+     * @throws \Throwable
+     */
+    protected function estimateHTMLTableRowStartHeight(array &$hrc, int $trkey, float $availh): float
+    {
+        $cells = $this->estimateHTMLTableRowCells($hrc, $trkey);
+        $height = \max($cells['height'], $this->estimateHTMLTableRowGroupHeight($hrc, $trkey));
+        if ($height > $availh && $this->canFragmentHTMLTableRow($hrc, $trkey)) {
+            return \max(2.0 * $this->getHTMLLineAdvance($hrc, $trkey), $cells['firstpart']);
+        }
+
+        return $height;
+    }
+
+    /**
+     * Returns the height that keeps the top caption of a table together with its first
+     * row, or with its head and first body row; 0 for a table without a top caption.
+     *
+     * When they do not fit an empty region together, the caption is kept with the first
+     * lines of the first row only.
+     *
+     * @param THTMLRenderContext $hrc HTML render context.
+     * @param int $tablekey DOM key of the opening <table> tag.
+     *
+     * @throws \Com\Tecnick\Pdf\Page\Exception
+     * @throws \Throwable
+     */
+    protected function estimateHTMLTableCaptionKeepHeight(array &$hrc, int $tablekey): float
+    {
+        $caption = $this->getHTMLDOMNode($hrc['dom'], $tablekey)['caption-top-html'] ?? '';
+        if ($caption === '') {
+            return 0.0;
+        }
+
+        $regionh = $this->page->getRegion()['RH'];
+        $callerfont = $this->captureHTMLCallerFontState();
+        try {
+            $captionh = $this->estimateHTMLTableCaptionHeight($hrc, $caption, $tablekey);
+            $first = $this->getHTMLTableRowKeys($hrc, $tablekey)[0] ?? -1;
+            if ($first < 0) {
+                return $captionh;
+            }
+
+            $rowh = $this->estimateHTMLTableHeadKeepHeight($hrc, $first, $tablekey);
+            if ($rowh <= 0.0) {
+                $rowh = $this->estimateHTMLTableRowStartHeight($hrc, $first, $regionh - $captionh);
+            }
+
+            if (($captionh + $rowh) > ($regionh + self::WIDTH_TOLERANCE)) {
+                $rowh = \max(
+                    2.0 * $this->getHTMLLineAdvance($hrc, $first),
+                    $this->estimateHTMLTableRowCells($hrc, $first)['firstpart'],
+                );
+            }
+        } finally {
+            $this->restoreHTMLCallerFontState($callerfont);
+        }
+
+        return \min($captionh + $rowh, $regionh);
+    }
+
+    /**
+     * Returns the DOM keys of the opening <tr> tags of a table, in document order,
+     * excluding the rows of nested tables.
+     *
+     * @param THTMLRenderContext $hrc HTML render context.
+     * @param int $tablekey DOM key of the opening <table> tag.
+     *
+     * @return list<int>
+     */
+    protected function getHTMLTableRowKeys(array &$hrc, int $tablekey): array
+    {
+        $rows = [];
+        $depth = 0;
+        $numel = \count($hrc['dom']);
+        for ($key = $tablekey + 1; $key < $numel; ++$key) {
+            $node = $hrc['dom'][$key] ?? null;
+            if (!\is_array($node) || !$node['tag']) {
+                continue;
+            }
+
+            if ($node['value'] === 'table') {
+                if (!$node['opening'] && $depth === 0) {
+                    break;
+                }
+
+                $depth += $node['opening'] ? 1 : -1;
+                continue;
+            }
+
+            if ($depth === 0 && $node['opening'] && $node['value'] === 'tr') {
+                $rows[] = $key;
+            }
+        }
+
+        return $rows;
+    }
+
+    /**
      * Returns true when the table row can be split over the pages: a row of a table
      * that is not inside a table cell, without cells spanning other rows, with a next
      * region or page to continue on.
@@ -10935,9 +11144,9 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
                 if ($decoded === false || $decoded === '') {
                     return '';
                 }
-                $source = $decoded;
+                $source = '@' . $decoded;
             } else {
-                $source = \rawurldecode($payload);
+                $source = '@' . \rawurldecode($payload);
             }
             if ($imgtype === 'svg+xml') {
                 $imgtype = 'svg';
@@ -10966,10 +11175,8 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
             }
         }
 
-        if ($source !== '' && $source[0] !== '@' && !\str_contains($source, '://')) {
-            $baseDirs = [];
-            $scriptFilename = $_SERVER['SCRIPT_FILENAME'];
-            $baseDirs[] = \dirname($scriptFilename);
+        if ($source[0] !== '@' && !\str_contains($source, '://')) {
+            $baseDirs = [$this->getHTMLScriptDir($_SERVER)];
 
             $cwd = \getcwd();
             if (\is_string($cwd)) {
@@ -10987,6 +11194,19 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
         $imgsize = \max(1.0, \round($fontsize * 0.5, 3));
 
         return 'img|' . $imgtype . '|' . (string) $imgsize . '|' . (string) $imgsize . '|' . $source;
+    }
+
+    /**
+     * Return the directory of the executing script, or an empty string when
+     * SCRIPT_FILENAME is not set.
+     *
+     * @param array<array-key, mixed> $server Server and execution environment variables.
+     */
+    protected function getHTMLScriptDir(array $server): string
+    {
+        return isset($server['SCRIPT_FILENAME']) && \is_string($server['SCRIPT_FILENAME'])
+            ? \dirname($server['SCRIPT_FILENAME'])
+            : '';
     }
 
     /**
@@ -15154,8 +15374,7 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
         }
 
         if ($src !== '' && $src[0] !== '@' && !\str_contains($src, '://')) {
-            $baseDirs = [];
-            $baseDirs[] = \dirname($_SERVER['SCRIPT_FILENAME']);
+            $baseDirs = [$this->getHTMLScriptDir($_SERVER)];
 
             $cwd = \getcwd();
             if (\is_string($cwd)) {
@@ -18112,13 +18331,7 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
 
                     if ($didpagebreak && $elm['value'] === 'tr') {
                         $parent = $elm['parent'];
-                        $theadhtml = '';
-                        if (isset($dom[$parent], $dom[$parent]['thead']) && $dom[$parent]['thead'] !== '') {
-                            $theadhtml = $dom[$parent]['thead'];
-                        } elseif (isset($tabletheadmap[$parent]) && $tabletheadmap[$parent] !== '') {
-                            $theadhtml = $tabletheadmap[$parent];
-                        }
-
+                        $theadhtml = $this->getHTMLTableRowReplayHead($hrc, $key, $tabletheadmap);
                         if ($theadhtml !== '') {
                             $appendFragment($this->replayHTMLTableHead(
                                 $hrc,
@@ -18138,15 +18351,13 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
                     // text and <li>.
                     if ($elm['value'] === 'tr' && $hrc['cellctx']['maxheight'] <= 0.0) {
                         $parent = $elm['parent'];
-                        $theadhtml = '';
-                        if (isset($dom[$parent], $dom[$parent]['thead']) && $dom[$parent]['thead'] !== '') {
-                            $theadhtml = $dom[$parent]['thead'];
-                        } elseif (isset($tabletheadmap[$parent]) && $tabletheadmap[$parent] !== '') {
-                            $theadhtml = $tabletheadmap[$parent];
-                        }
-
+                        $theadhtml = $this->getHTMLTableRowReplayHead($hrc, $key, $tabletheadmap);
                         $rowcells = $this->estimateHTMLTableRowCells($hrc, $key);
-                        $requiredh = $rowcells['height'];
+                        $requiredh = \max($rowcells['height'], $this->estimateHTMLTableHeadKeepHeight(
+                            $hrc,
+                            $key,
+                            $parent,
+                        ));
                         // The rows covered by a cell spanning them move together when
                         // they fit an empty region.
                         $grouph = $this->estimateHTMLTableRowGroupHeight($hrc, $key);
@@ -18155,6 +18366,20 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
                             && $grouph <= $this->getHTMLTableRowRegionHeight($hrc, $theadhtml, $parent)
                         ) {
                             $requiredh = $grouph;
+                        }
+
+                        // The last row moves together with the bottom caption when both
+                        // fit an empty region.
+                        $captionh = $this->estimateHTMLTableLastRowCaptionHeight($hrc, $key, $parent);
+                        if (
+                            $captionh > 0.0
+                            && ($requiredh + $captionh)
+                                <= (
+                                    $this->getHTMLTableRowRegionHeight($hrc, $theadhtml, $parent)
+                                    + self::WIDTH_TOLERANCE
+                                )
+                        ) {
+                            $requiredh += $captionh;
                         }
 
                         // Flush any open block-level buffers (e.g. <table border>)
@@ -18391,6 +18616,25 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
                             }
                             $nobrstack[] = $elm['value'];
                         }
+                    }
+
+                    // A top-level table starts on the next page when its top caption
+                    // does not fit with the first row.
+                    if (
+                        $elm['value'] === 'table'
+                        && $hrc['tablestack'] === []
+                        && $hrc['bcellctx'] === []
+                        && $hrc['cellctx']['maxheight'] <= 0.0
+                    ) {
+                        $appendFragment($this->breakHTMLIfHeightDoesNotFit(
+                            $hrc,
+                            $this->estimateHTMLTableCaptionKeepHeight($hrc, $key),
+                            $tpx,
+                            $tpy,
+                            $tpw,
+                            $tph,
+                            $appendFragment,
+                        ));
                     }
 
                     // Keep the DOM node in sync with local preprocessing updates.
