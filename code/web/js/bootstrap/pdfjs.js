@@ -95,8 +95,11 @@ saltos.bootstrap.__field.pdfjs = field => {
         'lib/pdfjs/pdf_viewer.min.css',
     ], async () => {
         // To guarantee that the mjs is ready, this bug only appear in google chrome.
-        while (typeof pdfjsLib !== 'object' || typeof pdfjsViewer !== 'object') {
-            await new Promise(resolve => setTimeout(resolve, 1));
+        // The errors of the mjs are not detected by require, so the wait has a limit
+        const ready = () => typeof pdfjsLib === 'object' && typeof pdfjsViewer === 'object';
+        if (!await saltos.core.wait_for(ready, 10000)) {
+            placeholder.remove();
+            throw new Error('Timeout loading pdfjs');
         }
         // Continue
         placeholder.remove();

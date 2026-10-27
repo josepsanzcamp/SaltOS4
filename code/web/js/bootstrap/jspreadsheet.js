@@ -335,7 +335,11 @@ saltos.bootstrap.__field.jspreadsheet = field => {
     // Program the disabled feature
     input.set_disabled = bool => {
         if (!('jspreadsheet' in input)) {
-            setTimeout(() => input.set_disabled(bool), 1);
+            saltos.core.wait_for(() => 'jspreadsheet' in input, 60000).then(ready => {
+                if (ready) {
+                    input.set_disabled(bool);
+                }
+            });
             return;
         }
         const rows = input.data.length;
@@ -356,20 +360,17 @@ saltos.bootstrap.__field.jspreadsheet = field => {
         if (!('jspreadsheet' in input)) {
             if (!('queue' in input)) {
                 input.queue = [];
-            }
-            input.queue.push(value);
-            if (!('timer' in input)) {
-                input.timer = setInterval(() => {
-                    if (!('jspreadsheet' in input)) {
-                        return;
+                saltos.core.wait_for(() => 'jspreadsheet' in input, 60000).then(ready => {
+                    if (!ready) {
+                        throw new Error('Timeout waiting for jspreadsheet');
                     }
-                    clearInterval(input.timer);
                     while (input.queue.length) {
                         const item = input.queue.shift();
                         input.set(item);
                     }
-                }, 1);
+                });
             }
+            input.queue.push(value);
             return;
         }
         if (Array.isArray(value)) {

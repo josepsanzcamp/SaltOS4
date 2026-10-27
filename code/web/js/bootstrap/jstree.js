@@ -104,20 +104,17 @@ saltos.bootstrap.__field.jstree = field => {
         if (!('instance' in element)) {
             if (!('queue' in element)) {
                 element.queue = [];
-            }
-            element.queue.push(data);
-            if (!('timer' in element)) {
-                element.timer = setInterval(() => {
-                    if (!('instance' in element)) {
-                        return;
+                saltos.core.wait_for(() => 'instance' in element, 60000).then(ready => {
+                    if (!ready) {
+                        throw new Error('Timeout waiting for instance');
                     }
-                    clearInterval(element.timer);
                     while (element.queue.length) {
                         const item = element.queue.shift();
                         element.set(item);
                     }
-                }, 1);
+                });
             }
+            element.queue.push(data);
             return;
         }
         // Check for data not found

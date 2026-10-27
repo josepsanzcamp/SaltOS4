@@ -382,9 +382,8 @@ saltos.driver.delete = async arg => {
         saltos.driver.__disable_all_autoclose();
         // Continue
         saltos.bootstrap.modal('close');
-        while (saltos.bootstrap.modal('isopen')) {
-            await new Promise(resolve => setTimeout(resolve, 1));
-        }
+        // Bootstrap ignores the close while the modal is in transition, so it is repeated
+        await saltos.core.wait_for(() => !saltos.bootstrap.modal('close'), 10000);
     }
     saltos.app.modal('Delete???', 'Do you want to delete this register???', {
         buttons: [{

@@ -52,6 +52,7 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 - open_basedir error when generating PDFs with TCPDF on restricted hostings, and TCPDF errors reported as exceptions again instead of stopping the execution.
 - JS error when the network comes back in browsers without service worker, like the http instances.
 - The pdfjs widget failed in browsers without the most recent JavaScript features (like Safari 17), because the modern build of pdfjs requires them; now it uses the legacy build, that includes the needed polyfills.
+- Waits in the web client that never ended when the awaited thing failed (loading a library, a cache or the pdfjs module, closing a modal, reading a file, mapping the error backtrace), now all of them use `saltos.core.wait_for()` with a time limit, and a failed library or cache load can be retried.
 
 ### Security
 - Removed the posix_getuid() polyfill, which made the CLI `user=` owner check always pass when the posix extension was missing; posix is now a required extension.

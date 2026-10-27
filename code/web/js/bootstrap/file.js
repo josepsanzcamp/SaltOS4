@@ -201,8 +201,9 @@ saltos.bootstrap.__field.file = field => {
             // Get the local file using syncronous techniques
             const reader = new FileReader();
             reader.readAsDataURL(files[i]);
-            while (!reader.result && !reader.error) {
-                await new Promise(resolve => setTimeout(resolve, 1));
+            if (!await saltos.core.wait_for(() => reader.result || reader.error, 60000)) {
+                data.error = 'Timeout reading the file';
+                throw new Error(`Timeout reading ${data.name}`);
             }
             // If there is a file
             if (reader.result) {

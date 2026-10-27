@@ -1,6 +1,6 @@
 Jest Test Documentation
-SaltOS 4.1 r2678
-September 2026
+SaltOS 4.1 r2754
+October 2026
 
 
 
@@ -724,6 +724,69 @@ test('saltos.core.copy_object', ()
 ```
 
 Verifies function creates proper shallow copies of objects
+
+
++++Test suite for the wait helper+++
+
+```
+describe('saltos.core.wait_for', ()
+```
+
+Contains tests for the wait_for functionality
+
+
++++Setup before each test in this suite+++
+
+```
+beforeEach(()
+```
+
+Configures fake timers, that also mock Date.now used by the timeout
+
+
++++Cleanup after each test in this suite+++
+
+```
+afterEach(()
+```
+
+Restores real timer implementation
+
+
++++Test the condition already true+++
+
+```
+test('returns true when the condition is already true', async ()
+```
+
+Verifies that returns true without waiting when the condition is true
+
+
++++Test the condition that becomes true+++
+
+```
+test('returns true when the condition becomes true before the timeout', async ()
+```
+
+Verifies that waits until the condition is true before the timeout
+
+
++++Test the timeout+++
+
+```
+test('returns false when the timeout is reached', async ()
+```
+
+Verifies that returns false when the condition never is true
+
+
++++Test the required timeout+++
+
+```
+test('throws an error when the timeout is not defined', async ()
+```
+
+Verifies that throws an error when the timeout is not a number
 
 
 +++Test suite for resource loading+++

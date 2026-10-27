@@ -124,20 +124,17 @@ saltos.bootstrap.__field.codemirror = field => {
         if (!('codemirror' in element)) {
             if (!('queue' in element)) {
                 element.queue = [];
-            }
-            element.queue.push(value);
-            if (!('timer' in element)) {
-                element.timer = setInterval(() => {
-                    if (!('codemirror' in element)) {
-                        return;
+                saltos.core.wait_for(() => 'codemirror' in element, 60000).then(ready => {
+                    if (!ready) {
+                        throw new Error('Timeout waiting for codemirror');
                     }
-                    clearInterval(element.timer);
                     while (element.queue.length) {
                         const item = element.queue.shift();
                         element.set(item);
                     }
-                }, 1);
+                });
             }
+            element.queue.push(value);
             return;
         }
         if (saltos.core.eval_bool(field.indent)) {
@@ -148,7 +145,11 @@ saltos.bootstrap.__field.codemirror = field => {
     // Program the disabled feature
     element.set_disabled = bool => {
         if (!('codemirror' in element)) {
-            setTimeout(() => element.set_disabled(bool), 1);
+            saltos.core.wait_for(() => 'codemirror' in element, 60000).then(ready => {
+                if (ready) {
+                    element.set_disabled(bool);
+                }
+            });
             return;
         }
         if (bool) {

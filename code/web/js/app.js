@@ -192,6 +192,13 @@ saltos.app.prefetch_cache = (responses) => {
                             responses.push(response2);
                             saltos.app.prefetch_cache(responses);
                         },
+                        // Allow a new try and release the waiters of this val
+                        error: () => {
+                            delete saltos.app.__cache[val];
+                        },
+                        abort: () => {
+                            delete saltos.app.__cache[val];
+                        },
                     });
                     return;
                 }
@@ -613,6 +620,9 @@ saltos.app.ajax = args => {
                 }
             }
             if (!saltos.app.check_response(data)) {
+                if (typeof args.error === 'function') {
+                    args.error(data);
+                }
                 return;
             }
             if (typeof args.success === 'function') {

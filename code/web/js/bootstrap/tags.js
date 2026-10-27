@@ -118,20 +118,17 @@ saltos.bootstrap.__field.tags = field => {
         if (!('tomselect' in element)) {
             if (!('queue' in element)) {
                 element.queue = [];
-            }
-            element.queue.push(value);
-            if (!('timer' in element)) {
-                element.timer = setInterval(() => {
-                    if (!('tomselect' in element)) {
-                        return;
+                saltos.core.wait_for(() => 'tomselect' in element, 60000).then(ready => {
+                    if (!ready) {
+                        throw new Error('Timeout waiting for tomselect');
                     }
-                    clearInterval(element.timer);
                     while (element.queue.length) {
                         const item = element.queue.shift();
                         element.set(item);
                     }
-                }, 1);
+                });
             }
+            element.queue.push(value);
             return;
         }
         value = saltos.bootstrap.__value_helper(value, field.separator);
@@ -141,7 +138,11 @@ saltos.bootstrap.__field.tags = field => {
     // Program the disabled feature
     element.set_disabled = bool => {
         if (!('tomselect' in element)) {
-            setTimeout(() => element.set_disabled(bool), 1);
+            saltos.core.wait_for(() => 'tomselect' in element, 60000).then(ready => {
+                if (ready) {
+                    element.set_disabled(bool);
+                }
+            });
             return;
         }
         if (bool) {
@@ -239,20 +240,17 @@ saltos.bootstrap.__field.onetag = field => {
         if (!('tomselect' in element)) {
             if (!('queue' in element)) {
                 element.queue = [];
-            }
-            element.queue.push(value);
-            if (!('timer' in element)) {
-                element.timer = setInterval(() => {
-                    if (!('tomselect' in element)) {
-                        return;
+                saltos.core.wait_for(() => 'tomselect' in element, 60000).then(ready => {
+                    if (!ready) {
+                        throw new Error('Timeout waiting for tomselect');
                     }
-                    clearInterval(element.timer);
                     while (element.queue.length) {
                         const item = element.queue.shift();
                         element.set(item);
                     }
-                }, 1);
+                });
             }
+            element.queue.push(value);
             return;
         }
         element.tomselect.addOption({
@@ -264,7 +262,11 @@ saltos.bootstrap.__field.onetag = field => {
     // Program the disabled feature
     element.set_disabled = bool => {
         if (!('tomselect' in element)) {
-            setTimeout(() => element.set_disabled(bool), 1);
+            saltos.core.wait_for(() => 'tomselect' in element, 60000).then(ready => {
+                if (ready) {
+                    element.set_disabled(bool);
+                }
+            });
             return;
         }
         if (bool) {

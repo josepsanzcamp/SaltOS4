@@ -525,33 +525,36 @@ saltos.form.title = title => {
         const attr = title['#attr'];
         if ('append' in attr) {
             const append = attr.append.split(',');
-            for (const i in append) {
-                if (append[i] === 'modal') {
-                    // Try for modal
-                    const obj = document.querySelector('.modal-title');
-                    if (obj) {
-                        obj.innerHTML = T(title.value);
-                        return;
+            const find = () => {
+                let obj = null;
+                for (const i in append) {
+                    if (append[i] === 'modal') {
+                        // Try for modal
+                        obj = document.querySelector('.modal-title');
+                    } else if (append[i] === 'offcanvas') {
+                        // Try for offcanvas
+                        obj = document.querySelector('.offcanvas-title');
+                    } else {
+                        // Try for element id
+                        obj = document.getElementById(append[i]);
                     }
-                } else if (append[i] === 'offcanvas') {
-                    // Try for offcanvas
-                    const obj = document.querySelector('.offcanvas-title');
                     if (obj) {
-                        obj.innerHTML = T(title.value);
-                        return;
-                    }
-                } else {
-                    // Try for element id
-                    const obj = document.getElementById(append[i]);
-                    if (obj) {
-                        obj.innerHTML = T(title.value);
-                        return;
+                        return obj;
                     }
                 }
+                return null;
+            };
+            const obj = find();
+            if (obj) {
+                obj.innerHTML = T(title.value);
+                return;
             }
-            setTimeout(() => {
-                saltos.form.title(title);
-            }, 1);
+            // Wait for the target, if it never appears the title is discarded
+            saltos.core.wait_for(find, 10000).then(ready => {
+                if (ready) {
+                    find().innerHTML = T(title.value);
+                }
+            });
             return;
         }
         throw new Error(`Unknown attr`);
@@ -805,8 +808,9 @@ saltos.form.cache = async val => {
     if (!(val in saltos.app.__cache)) {
         throw new Error(`Cache ${val} not found`);
     }
-    while (saltos.app.__cache[val] === 'loading') {
-        await new Promise(resolve => setTimeout(resolve, 1));
+    await saltos.core.wait_for(() => saltos.app.__cache[val] !== 'loading', 60000);
+    if (!(val in saltos.app.__cache) || saltos.app.__cache[val] === 'loading') {
+        throw new Error(`Error loading cache ${val}`);
     }
     const response = saltos.core.copy_object(saltos.app.__cache[val]);
     await saltos.app.process_response(response);

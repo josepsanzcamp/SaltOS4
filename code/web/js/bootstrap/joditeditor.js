@@ -113,20 +113,17 @@ saltos.bootstrap.__field.joditeditor = field => {
         if (!('joditeditor' in element)) {
             if (!('queue' in element)) {
                 element.queue = [];
-            }
-            element.queue.push(value);
-            if (!('timer' in element)) {
-                element.timer = setInterval(() => {
-                    if (!('joditeditor' in element)) {
-                        return;
+                saltos.core.wait_for(() => 'joditeditor' in element, 60000).then(ready => {
+                    if (!ready) {
+                        throw new Error('Timeout waiting for joditeditor');
                     }
-                    clearInterval(element.timer);
                     while (element.queue.length) {
                         const item = element.queue.shift();
                         element.set(item);
                     }
-                }, 1);
+                });
             }
+            element.queue.push(value);
             return;
         }
         element.joditeditor.value = value;
@@ -134,7 +131,11 @@ saltos.bootstrap.__field.joditeditor = field => {
     // Program the disabled feature
     element.set_disabled = bool => {
         if (!('joditeditor' in element)) {
-            setTimeout(() => element.set_disabled(bool), 1);
+            saltos.core.wait_for(() => 'joditeditor' in element, 60000).then(ready => {
+                if (ready) {
+                    element.set_disabled(bool);
+                }
+            });
             return;
         }
         element.joditeditor.setReadOnly(bool);

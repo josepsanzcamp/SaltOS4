@@ -61,9 +61,8 @@ saltos.core.adderror = async (message, source, lineno, colno, stack) => {
     }, {
         filter: line => !line.includes(' > '),
     });
-    while (!finished) {
-        await new Promise(resolve => setTimeout(resolve, 1));
-    }
+    // If the mapping never finishes, the error is sent with the unknown backtrace
+    await saltos.core.wait_for(() => finished, 60000);
     saltos.core.ajax({
         url: 'api/?/add/error',
         data: JSON.stringify(data),
@@ -200,7 +199,10 @@ saltos.core.when_visible = (obj, fn, args) => {
     // Launch the interval each millisecond, the idea is wait until found
     // the object and then, validate that not dissapear and wait until the
     // object is visible to execute the fn(args)
+    // The wait until found has a limit, as in saltos.core.wait_for, but the
+    // interval is maintained to keep this function synchronous
     let step = 1;
+    const limit = Date.now() + 60000;
     const interval = setInterval(() => {
         const obj2 = document.getElementById(id);
         if (step === 1) {
@@ -208,6 +210,10 @@ saltos.core.when_visible = (obj, fn, args) => {
             // the object in the document
             if (obj2) {
                 step++;
+            } else if (Date.now() > limit) {
+                // Here, the object never appeared, we can stop the timer
+                clearInterval(interval);
+                throw new Error(`#${id} not found`);
             }
         }
         if (step === 2) {
@@ -510,6 +516,40 @@ saltos.core.optimize = obj => {
 };
 
 /**
+ * Wait for
+ *
+ * This function waits until the fn returns true, checking it each millisecond, and
+ * stops when the timeout is reached, to prevent infinite waits when the awaited
+ * thing fails
+ *
+ * @fn      => the function that returns true when the wait must finish
+ * @timeout => the maximum time to wait in milliseconds, it is required
+ *
+ * Returns true if the fn returns true, or false if the timeout is reached
+ *
+ * Notes:
+ *
+ * The timeout has no default value to force each caller to define it, and it is
+ * validated because an undefined timeout would cause an infinite wait.
+ *
+ * The timeout uses Date.now() instead of an iteration counter because the browsers
+ * clamp the delay of setTimeout (4 ms in nested calls and 1 s or more in background tabs)
+ */
+saltos.core.wait_for = async (fn, timeout) => {
+    if (typeof timeout !== 'number') {
+        throw new Error('Timeout not found');
+    }
+    const limit = Date.now() + timeout;
+    while (!fn()) {
+        if (Date.now() > limit) {
+            return false;
+        }
+        await new Promise(resolve => setTimeout(resolve, 1));
+    }
+    return true;
+};
+
+/**
  * Require helper array
  *
  * This array allow to the require feature to control the loaded libraries
@@ -535,8 +575,9 @@ saltos.core.require = (files, callback) => {
         return promiseChain.then(async () => {
             // To prevent duplicates
             if (file in saltos.core.__require) {
-                while (saltos.core.__require[file] !== 'load') {
-                    await new Promise(resolve => setTimeout(resolve, 1));
+                await saltos.core.wait_for(() => saltos.core.__require[file] !== 'loading', 60000);
+                if (saltos.core.__require[file] !== 'load') {
+                    throw new Error(`Error loading ${file}`);
                 }
                 return;
             }
@@ -579,6 +620,8 @@ saltos.core.require = (files, callback) => {
                 }
                 saltos.core.__require[file] = 'load';
             } catch (error) {
+                // Allow a new try and release the waiters of this file
+                delete saltos.core.__require[file];
                 throw new Error(`${error.name} ${error.message} loading ${file}`);
             }
         });
@@ -938,9 +981,7 @@ saltos.core.check_network = async () => {
             }
         }, 100);
     }
-    while (Object.keys(check).length < 2) {
-        await new Promise(resolve => setTimeout(resolve, 1));
-    }
+    await saltos.core.wait_for(() => Object.keys(check).length === 2, 2000);
     return check;
 };
 

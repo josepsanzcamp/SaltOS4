@@ -1,5 +1,5 @@
 Web Client Documentation
-SaltOS 4.1 r2752
+SaltOS 4.1 r2754
 October 2026
 
 
@@ -3164,6 +3164,31 @@ directly the children instead of the original object, otherwise nothing to do an
 original object
 
 - @obj => the object to check and optimize
+
+
++++Wait for+++
+
+```
+saltos.core.wait_for = async (fn, timeout)
+```
+
+This function waits until the fn returns true, checking it each millisecond, and
+stops when the timeout is reached, to prevent infinite waits when the awaited
+thing fails
+
+- @fn      => the function that returns true when the wait must finish
+- @timeout => the maximum time to wait in milliseconds, it is required
+
+
+Returns true if the fn returns true, or false if the timeout is reached
+
+Notes:
+
+The timeout has no default value to force each caller to define it, and it is
+validated because an undefined timeout would cause an infinite wait.
+
+The timeout uses Date.now() instead of an iteration counter because the browsers
+clamp the delay of setTimeout (4 ms in nested calls and 1 s or more in background tabs)
 
 
 +++Require helper array+++

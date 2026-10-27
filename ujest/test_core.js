@@ -703,6 +703,82 @@ test('saltos.core.copy_object', () => {
 });
 
 /**
+ * Test suite for the wait helper
+ *
+ * Contains tests for the wait_for functionality
+ */
+describe('saltos.core.wait_for', () => {
+    /**
+     * Setup before each test in this suite
+     *
+     * Configures fake timers, that also mock Date.now used by the timeout
+     */
+    beforeEach(() => {
+        jest.useFakeTimers();
+    });
+
+    /**
+     * Cleanup after each test in this suite
+     *
+     * Restores real timer implementation
+     */
+    afterEach(() => {
+        jest.useRealTimers();
+    });
+
+    /**
+     * Test the condition already true
+     *
+     * Verifies that returns true without waiting when the condition is true
+     */
+    test('returns true when the condition is already true', async () => {
+        const fn = jest.fn(() => true);
+        await expect(saltos.core.wait_for(fn, 1000)).resolves.toBe(true);
+        expect(fn).toHaveBeenCalledTimes(1);
+    });
+
+    /**
+     * Test the condition that becomes true
+     *
+     * Verifies that waits until the condition is true before the timeout
+     */
+    test('returns true when the condition becomes true before the timeout', async () => {
+        let ready = false;
+        const promise = saltos.core.wait_for(() => ready, 1000);
+        await jest.advanceTimersByTimeAsync(100);
+        ready = true;
+        await jest.advanceTimersByTimeAsync(10);
+        await expect(promise).resolves.toBe(true);
+    });
+
+    /**
+     * Test the timeout
+     *
+     * Verifies that returns false when the condition never is true
+     */
+    test('returns false when the timeout is reached', async () => {
+        const fn = jest.fn(() => false);
+        const promise = saltos.core.wait_for(fn, 1000);
+        await jest.advanceTimersByTimeAsync(1100);
+        await expect(promise).resolves.toBe(false);
+        // The condition is not checked again after the timeout
+        const calls = fn.mock.calls.length;
+        await jest.advanceTimersByTimeAsync(1000);
+        expect(fn).toHaveBeenCalledTimes(calls);
+    });
+
+    /**
+     * Test the required timeout
+     *
+     * Verifies that throws an error when the timeout is not a number
+     */
+    test('throws an error when the timeout is not defined', async () => {
+        await expect(saltos.core.wait_for(() => true)).rejects.toThrow('Timeout not found');
+        await expect(saltos.core.wait_for(() => true, '1000')).rejects.toThrow('Timeout not found');
+    });
+});
+
+/**
  * Test suite for resource loading
  *
  * Contains tests for the require functionality
