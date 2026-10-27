@@ -890,17 +890,17 @@
         },
         {
             "name": "zbateson/mail-mime-parser",
-            "version": "4.0.7",
-            "version_normalized": "4.0.7.0",
+            "version": "4.0.8",
+            "version_normalized": "4.0.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zbateson/mail-mime-parser.git",
-                "reference": "2d592835ca0d7838e5687b140ff7eec1eb9305c7"
+                "reference": "21a8a6ff886f6ab19c065655f84f5a9ac4f86266"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zbateson/mail-mime-parser/zipball/2d592835ca0d7838e5687b140ff7eec1eb9305c7",
-                "reference": "2d592835ca0d7838e5687b140ff7eec1eb9305c7",
+                "url": "https://api.github.com/repos/zbateson/mail-mime-parser/zipball/21a8a6ff886f6ab19c065655f84f5a9ac4f86266",
+                "reference": "21a8a6ff886f6ab19c065655f84f5a9ac4f86266",
                 "shasum": ""
             },
             "require": {
@@ -921,7 +921,7 @@
                 "ext-iconv": "For best support/performance",
                 "ext-mbstring": "For best support/performance"
             },
-            "time": "2026-10-20T21:04:05+00:00",
+            "time": "2026-10-27T16:17:50+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
