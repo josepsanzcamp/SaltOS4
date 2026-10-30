@@ -66,6 +66,11 @@ beforeAll(async () => {
     });
     await page.goto('http://127.0.0.1:8080/#/app/emails');
     await page.waitForFunction(() => document.getElementById('user'), timeout);
+    // The custom widgets of the tester app are loaded to allow to create them
+    const fs = require('fs');
+    await page.addScriptTag({
+        content: fs.readFileSync(`${__dirname}/../code/apps/tester/js/rating.js`, 'utf-8'),
+    });
 });
 
 /**

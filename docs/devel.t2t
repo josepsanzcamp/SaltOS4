@@ -1,5 +1,5 @@
 Devel Documentation
-SaltOS 4.1 r2733
+SaltOS 4.1 r2757
 October 2026
 
 
@@ -719,6 +719,189 @@ It is also responsible for launching the application when loaded in the browser.
 
 
 These two modules form the base platform for all SaltOS4 frontend applications.
+
+++Custom Widgets++
+
+Each widget of the web client is a constructor registered in `saltos.bootstrap.__field` using
+the name of its type, and `saltos.bootstrap.field()` only dispatches each field of the layout
+to the constructor of its type. For this reason, any application can provide its own widgets
+library: it only needs to register the new constructors in a javascript file loaded using the
+`<javascript>` node before the `<layout>` node, and since then, the new types can be used in
+the layouts as any other widget of SaltOS.
+
+The framework does not know anything about the types of the widgets, the functions that work
+with the fields of the form (`saltos.app.get_data`, `saltos.app.check_required`,
+`saltos.app.form_disabled`, `saltos.form.data` and `saltos.driver.reset`) only use the features
+that each widget stores in the `element.saltos` object.
+
++++The element.saltos object+++
+
+The native properties of the DOM elements are maintained in the element, and all features and
+internals added by SaltOS are stored in `element.saltos`, for example, the instances of the
+libraries used by some widgets (`codemirror`, `joditeditor`, `tomselect`, `jspreadsheet`, ...)
+or the queue used to wait for them.
+
+The data input fields must store the object returned by `saltos.bootstrap.__saltos_helper`:
+
+```
+element.saltos = saltos.bootstrap.__saltos_helper(element, field);
+```
+
+This object contains the contract of the data input fields, with the default features that
+can be replaced by each widget after the call to the helper:
+
+- `is_input`: true, used to identify the data input fields.
+- `old_value`: the original value, used by `get_data` to detect the changes, by default
+  `field.value`, it is updated by `saltos.form.data` when the sync argument is enabled.
+- `set_value(value)`: sets the value in the widget, by default `element.value = value`, used by
+  `saltos.form.data` and `saltos.driver.reset`.
+- `set_disabled(bool)`: enables or disables the widget, by default sets or removes the disabled
+  attribute, used by `saltos.app.form_disabled`.
+- `get_data()`: returns the current and the original values as `[val, old]`, normalized to
+  allow to `saltos.app.get_data` to compare both values in a reliable way, by default
+  `[element.value, old_value]`.
+- `check_required()`: returns an object with `value` (the value to check), `color` (the element
+  to colorize), `focus` (the element to focus) and optionally `extra` (a function that receives
+  the value, used to colorize other elements), used by `saltos.app.check_required`, by default
+  the element value and the element itself.
+
+
++++Rules+++
+
+- The data input fields use the helper once, and then they replace the features that need a
+  different behavior.
+- The widgets that are not data input fields (buttons, lists, tables, ...) do not use the
+  helper, they only create the object using `element.saltos = {}` and add their own features,
+  for example, the lists and tables provide `set_value` and `add_value`.
+- The widgets constructed using other widgets do not use the helper again, because the element
+  already contains the object and it would be replaced, losing the features programmed by the
+  original widget, instead of this, they wrap the original features.
+- The features use the original value stored in `old_value` and never the `field.value`, because
+  some widgets receive a copy of the field and `saltos.form.data` only updates the original one.
+
+
++++Example+++
+
+The tester application contains an example of a widgets library in the file
+`apps/tester/js/rating.js`, that provides the rating widget, a data input field that shows
+five stars and stores the selected value in a hidden input, it replaces all features of the
+contract:
+
+```
+saltos.bootstrap.__field.rating = field => {
+    saltos.core.check_params(field, ['id', 'class', 'value', 'disabled', 'required',
+                                     'tooltip', 'label', 'color']);
+    let color = 'primary';
+    if (field.color !== '') {
+        color = field.color;
+    }
+    const obj = saltos.core.html(`
+        <div>
+            <input type="hidden" id="${field.id}" value="${field.value}" />
+            <div>
+                <div class="rating d-inline-flex gap-2 px-2 rounded ${field.class}"
+                    data-bs-title="${field.tooltip}"></div>
+            </div>
+        </div>
+    `);
+    const input = obj.querySelector('input');
+    const stars = obj.querySelector('.rating');
+    // The hidden input is the data input field, and it receives the default features
+    input.saltos = saltos.bootstrap.__saltos_helper(input, field);
+    for (let i = 1; i <= 5; i++) {
+        const star = saltos.core.html(`
+            <button type="button" class="btn btn-link p-0 fs-4 text-${color} bi-star"
+                aria-label="${i}"></button>
+        `);
+        star.addEventListener('click', () => {
+            input.saltos.set_value(i);
+        });
+        stars.append(star);
+    }
+    // Program the set_value feature, that stores the value and paints the stars
+    input.saltos.set_value = value => {
+        value = parseInt(value, 10);
+        if (!saltos.core.is_number(value)) {
+            value = 0;
+        }
+        input.value = value ? value : '';
+        stars.querySelectorAll('button').forEach((star, index) => {
+            star.classList.toggle('bi-star-fill', index < value);
+            star.classList.toggle('bi-star', index >= value);
+        });
+    };
+    // Program the set_disabled feature, that disables the buttons of the stars
+    input.saltos.set_disabled = bool => {
+        stars.querySelectorAll('button').forEach(star => {
+            star.disabled = bool;
+        });
+    };
+    // Program the get_data feature, the void value and 0 are the same value
+    input.saltos.get_data = () => {
+        let val = parseInt(input.value, 10);
+        let old = parseInt(input.saltos.old_value, 10);
+        if (!saltos.core.is_number(val)) {
+            val = 0;
+        }
+        if (!saltos.core.is_number(old)) {
+            old = 0;
+        }
+        return [val, old];
+    };
+    // Program the check_required feature, the hidden input can not be colorized or focused
+    input.saltos.check_required = () => ({
+        value: input.value,
+        color: stars,
+        focus: stars.querySelector('button'),
+    });
+    if (field.tooltip !== '') {
+        saltos.bootstrap.__tooltip_helper(stars);
+    }
+    // Initialize the widget using the previous features
+    input.saltos.set_value(field.value);
+    if (saltos.core.eval_bool(field.disabled)) {
+        input.saltos.set_disabled(true);
+    }
+    obj.prepend(saltos.bootstrap.__label_helper(field));
+    return obj;
+};
+```
+
+The rating widget is used in the layout of the tester screen as any other widget, the
+javascript file is loaded before the layout to register the new type before the creation of
+the fields:
+
+```
+<main>
+    <javascript>
+        <file eval="true">file_with_hash(file_with_min('apps/tester/js/tester.js'))</file>
+        <file eval="true">file_with_hash(file_with_min('apps/tester/js/rating.js'))</file>
+    </javascript>
+    <layout append="one">
+        <row auto="true">
+            <rating id="campo47" label="Campo 47 (rating)" required="true"/>
+            <rating id="campo47a" label="Campo 47 (rating with value and color)" value="3" color="danger"/>
+        </row>
+    </layout>
+</main>
+```
+
+And the functions of the framework use the rating widget without any change:
+
+- `saltos.app.get_data` returns the value as an integer, and detects the changes comparing it
+  with the original value, where the void value and 0 are the same value.
+- `saltos.app.check_required` colorizes the stars container and focuses the first star when
+  the rating is void.
+- `saltos.form.data` and `saltos.driver.reset` call the `set_value` feature to paint the stars.
+- `saltos.app.form_disabled` calls the `set_disabled` feature to disable the buttons of the
+  stars.
+
+
+The widgets constructed using other widgets can be seen in the core widgets, for example, the
+tags widget is constructed using the text widget, the onetag widget is constructed using the
+select widget, and the codemirror and joditeditor widgets are constructed using the textarea
+widget, in all these cases, the helper is not used again and the features are replaced or
+wrapped.
 
 ++Deployment++
 

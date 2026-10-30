@@ -1,6 +1,6 @@
 Applications Documentation
-SaltOS 4.1 r2678
-September 2026
+SaltOS 4.1 r2757
+October 2026
 
 
 
@@ -445,6 +445,8 @@ This function returns the xml of an app using the follow specs passed in @data:
               -text    => default field with text
               -select  => this field resolves the text from a table and field, see
                           the @select spec
+              -options => this field resolves the text from a fixed list of options,
+                          see the @options spec
               -boolean => this field uses an icon with V o X in green or red to
                           see the value of the field (generaly 1 or 0)
               -hastext => this field is similar to boolean but the true or false
@@ -455,10 +457,17 @@ This function returns the xml of an app using the follow specs passed in @data:
               - text, date, time, datetime, checkbox, switch => default widget
               - textarea, joditeditor, codemirror => widget with 5em of height
               - select => widget that uses the select spec to resolve the contents
+              - options => widget that uses the options spec to resolve the contents
 - @select    => this spec is intended to defined the selects used in the list and
               forms, requires an array of 3 elements: id, table and field, if the
               last field is not specified, saltos tries to resolve it using the
-              manifest information (internally use the table2field feature)
+              manifest information (internally use the table2field feature), a
+              fourth optional element can be used to define the where applied
+              to the rows of the form widget
+- @options   => this spec is intended to defined the options used in the list and
+              forms, requires a named array that defines the id of the field and
+              each array entry must to be a list of arrays with 2 elements: value
+              and label
 - @attr      => this part contain an array with extra features added to the forms
               widgets, the spec requires to use a named array that defines the
               id of the field and each array entry must to be another pair of
@@ -690,6 +699,27 @@ Reset the parent's overflow property to prevent the tax dropdown
 from being clipped or hidden inside the container.
 
 
++++Lines columns+++
+
+```
+saltos.quotes.cols = {
+```
+
+This object defines the position of each column in the lines matrix, the tax and the
+withholding columns are always present in the matrix but are hidden when the mode
+defined by the company is not by line.
+
+
++++Types+++
+
+```
+saltos.quotes.types = {
+```
+
+This object defines the value used by each type in the taxes master, the modes defined
+by the company for each type can be 0 (not used), 1 (one by document) or 2 (by line).
+
+
 +++Handle and recalculate quote line totals and tax breakdowns after user edits.+++
 
 ```
@@ -699,25 +729,45 @@ saltos.quotes.onchange = (instance, cell, x, y, value)
 This function is triggered after the user modifies any cell in the "lines" matrix
 (quote lines). It performs the following operations:
 
-- Ignores changes triggered by internal actions (non-`edit` sources).
 - Validates and normalizes quantity, price, and discount values:
-    - Ensures `line[1]`, `line[2]`, `line[3]` (qty, price, discount) are numeric.
+    - Ensures quantity, price and discount are numeric.
     - Defaults discount to 0 if empty but qty and price are valid.
+- Sets the tax and the withholding of the new lines:
+    - Uses the value of the document select when the mode is one by document.
+    - Uses the value of the default register when the mode is by line.
+    - The lines that already have a total are never modified.
 - Calculates the line total as: `qty × price × (1 - discount%)`, rounded to 2 decimals.
 - Updates the lines grid to reflect computed values.
 - Recomputes the taxes matrix:
-    - Aggregates taxable bases per tax value (`line[4]`).
-    - Computes tax amount for each group: `base × (tax% / 100)`.
-- Rounds all tax results to 2 decimals and updates the taxes grid.
+    - Aggregates taxable bases per type (tax or withholding) and value.
+    - Computes the amount for each group: `base × (value% / 100)`.
+- Rounds all results to 2 decimals and updates the taxes grid.
 - Computes the totals matrix:
-    - `subtotal` = sum of all taxable bases
+    - `subtotal` = sum of all line totals
     - `tax` = sum of all tax amounts
-    - `total` = subtotal + tax
+    - `withholding` = sum of all withholding amounts
+    - `total` = subtotal + tax - withholding
     - Results are rounded and shown in the totals grid.
 
 
-- @changes => Array of cell changes from the spreadsheet component
-- @source  => Source of the change event (only `'edit'` triggers processing)
+- @instance => The spreadsheet instance that triggers the change
+- @cell     => The cell that has changed
+- @x        => The column of the cell
+- @y        => The row of the cell
+- @value    => The new value of the cell
+
+
++++Apply the tax or the withholding of the document to all lines+++
+
+```
+saltos.quotes.onselect = type
+```
+
+This function is triggered when the user changes the select used by the one by document
+mode, it copies the selected value to all computed lines and recalculates the taxes
+and the totals, this allow to use the same structure of data for all modes.
+
+- @type => The type of the select that has changed, can be tax or withholding
 
 
 ++Reverses the process of `make_matrix_data()` for the `quotes` app.++
@@ -746,6 +796,22 @@ Reverse the matrix-encoded quote data to a diff-style data array.
 
 Return a diff array representing only the differences between the provided
 data and the current state of the database.
+
+
++++Get next code+++
+
+```
+function get_next_code($table, $field, $prefix)
+```
+
+This function returns the next code of a serie, the codes are composed by
+a prefix that contains the year and a correlative number, the number is
+computed using the numeric value of the codes that begin by the prefix,
+by this reason the serie is restarted when the year changes.
+
+- @table  => the table that contains the codes
+- @field  => the field that contains the codes
+- @prefix => the prefix of the serie, for example PF2026-
 
 
 +++Generates or completes quote and final quote metadata.+++
@@ -2486,6 +2552,27 @@ Reset the parent's overflow property to prevent the tax dropdown
 from being clipped or hidden inside the container.
 
 
++++Lines columns+++
+
+```
+saltos.invoices.cols = {
+```
+
+This object defines the position of each column in the lines matrix, the tax and the
+withholding columns are always present in the matrix but are hidden when the mode
+defined by the company is not by line.
+
+
++++Types+++
+
+```
+saltos.invoices.types = {
+```
+
+This object defines the value used by each type in the taxes master, the modes defined
+by the company for each type can be 0 (not used), 1 (one by document) or 2 (by line).
+
+
 +++Handle and recalculate invoice line totals and tax breakdowns after user edits.+++
 
 ```
@@ -2495,25 +2582,45 @@ saltos.invoices.onchange = (instance, cell, x, y, value)
 This function is triggered after the user modifies any cell in the "lines" matrix
 (invoice lines). It performs the following operations:
 
-- Ignores changes triggered by internal actions (non-`edit` sources).
 - Validates and normalizes quantity, price, and discount values:
-    - Ensures `line[1]`, `line[2]`, `line[3]` (qty, price, discount) are numeric.
+    - Ensures quantity, price and discount are numeric.
     - Defaults discount to 0 if empty but qty and price are valid.
+- Sets the tax and the withholding of the new lines:
+    - Uses the value of the document select when the mode is one by document.
+    - Uses the value of the default register when the mode is by line.
+    - The lines that already have a total are never modified.
 - Calculates the line total as: `qty × price × (1 - discount%)`, rounded to 2 decimals.
 - Updates the lines grid to reflect computed values.
 - Recomputes the taxes matrix:
-    - Aggregates taxable bases per tax value (`line[4]`).
-    - Computes tax amount for each group: `base × (tax% / 100)`.
-- Rounds all tax results to 2 decimals and updates the taxes grid.
+    - Aggregates taxable bases per type (tax or withholding) and value.
+    - Computes the amount for each group: `base × (value% / 100)`.
+- Rounds all results to 2 decimals and updates the taxes grid.
 - Computes the totals matrix:
-    - `subtotal` = sum of all taxable bases
+    - `subtotal` = sum of all line totals
     - `tax` = sum of all tax amounts
-    - `total` = subtotal + tax
+    - `withholding` = sum of all withholding amounts
+    - `total` = subtotal + tax - withholding
     - Results are rounded and shown in the totals grid.
 
 
-- @changes => Array of cell changes from the spreadsheet component
-- @source  => Source of the change event (only `'edit'` triggers processing)
+- @instance => The spreadsheet instance that triggers the change
+- @cell     => The cell that has changed
+- @x        => The column of the cell
+- @y        => The row of the cell
+- @value    => The new value of the cell
+
+
++++Apply the tax or the withholding of the document to all lines+++
+
+```
+saltos.invoices.onselect = type
+```
+
+This function is triggered when the user changes the select used by the one by document
+mode, it copies the selected value to all computed lines and recalculates the taxes
+and the totals, this allow to use the same structure of data for all modes.
+
+- @type => The type of the select that has changed, can be tax or withholding
 
 
 ++ChartJS widgets for invoices++
@@ -2640,6 +2747,22 @@ Return a diff array representing only the differences between the provided
 data and the current state of the database.
 
 
++++Get next code+++
+
+```
+function get_next_code($table, $field, $prefix)
+```
+
+This function returns the next code of a serie, the codes are composed by
+a prefix that contains the year and a correlative number, the number is
+computed using the numeric value of the codes that begin by the prefix,
+by this reason the serie is restarted when the year changes.
+
+- @table  => the table that contains the codes
+- @field  => the field that contains the codes
+- @prefix => the prefix of the serie, for example PF2026-
+
+
 +++Generates or completes proforma and final invoice metadata.+++
 
 ```
@@ -2669,7 +2792,176 @@ Rules:
 Return the updated JSON with appropriate codes and dates filled in.
 
 
+++Taxes and withholdings helpers++
+
+```
+apps/sales/php/taxes.php
+```
+
+This file contains the functions shared by the documents that use taxes and
+withholdings in their lines, like the invoices and the quotes, the taxes
+and the withholdings are stored in the same master table (app_taxes) and
+are differentiated by the type field (0 tax, 1 withholding), and the company
+defines how the user operates with each one of them using the tax_mode and
+withholding_mode fields (0 not used, 1 one by document, 2 by line).
+
+All functions that request a type as argument expect tax or withholding,
+that are the names used as prefix by the fields of each type.
+
+
++++Get taxes modes+++
+
+```
+function get_taxes_modes()
+```
+
+This function returns an array with the mode used by each type, the keys
+of the array are tax and withholding and the values can be as follow:
+
+- 0 => the type is not used, nothing is requested to the user
+- 1 => the user selects only one value for the entire document
+- 2 => the user selects one value for each line of the document
+
+
++++Get taxes master+++
+
+```
+function get_taxes_master($type = '')
+```
+
+This function returns the active registers of the master table, each row
+contains the id, name, value, type and default fields.
+
+- @type => the type that you want to retrieve, all types by default
+
+
++++Get taxes column+++
+
+```
+function get_taxes_column($type, $title)
+```
+
+This function returns the definition of the column used by the lines of
+the documents, the column is a dropdown with the values of the requested
+type when the mode is by line, otherwise the column is hidden, this allow
+to use the same structure of data for all modes.
+
+- @type  => the type of the column, can be tax or withholding
+- @title => the title of the column
+
+
++++Get taxes total column+++
+
+```
+function get_taxes_total_column($type, $title)
+```
+
+This function returns the definition of the column used by the totals of
+the documents, the column is hidden when the type is not used.
+
+- @type  => the type of the column, can be tax or withholding
+- @title => the title of the column
+
+
++++Get taxes subtotal column+++
+
+```
+function get_taxes_subtotal_column($title)
+```
+
+This function returns the definition of the subtotal column used by the
+totals of the documents, the column is hidden when the taxes and the
+withholdings are not used, because the subtotal is the same that the total.
+
+- @title => the title of the column
+
+
++++Get taxes rows+++
+
+```
+function get_taxes_rows($type)
+```
+
+This function returns the rows used by the select of the one by document mode,
+the first row is void to allow documents without tax or withholding.
+
+- @type => the type of the rows, can be tax or withholding
+
+
++++Get taxes default+++
+
+```
+function get_taxes_default($type)
+```
+
+This function returns the value of the default register of the requested
+type, or a void string if there is not a default register.
+
+- @type => the type of the default, can be tax or withholding
+
+
++++Make taxes data+++
+
+```
+function make_taxes_data($lines)
+```
+
+This function returns the data of the lines used by the documents, the
+argument is the list of the lines with the description, quantity, price,
+discount, tax_id, tax_value, withholding_id, withholding_value and total
+fields, and the returned array contains the matrix of the lines with the
+description, quantity, price, discount, tax, withholding and total, and
+the values used by the selects of the one by document mode, that only are set
+when all lines of the document are using the same value.
+
+- @lines => the list of the lines of the document
+
+
 +Tester+
+
+++Rating widget example++
+
+```
+apps/tester/js/rating.js
+```
+
+This file is an example of a widget provided by an application, each widget is registered
+in saltos.bootstrap.__field using the name of the type, and since then, it can be used in
+the layouts as any other widget of SaltOS, for example, <rating id="xxx"/>.
+
+The data input fields must store in element.saltos the object returned by the helper
+saltos.bootstrap.__saltos_helper, and replace the features that need a different behavior,
+in this case, the framework (get_data, check_required, form_disabled, form.data and reset)
+only uses these features and does not need to know anything about the new widgets.
+
+
++++Rating constructor helper+++
+
+```
+saltos.bootstrap.__field.rating = field
+```
+
+[../code/data/cache/69347ff0e79611abf2a365239c280bb7.png]
+
+This function returns an object of the rating type, it is a data input field that shows
+five stars and stores the selected value (from 1 to 5) in a hidden input.
+
+- @id       => the id used by the object
+- @class    => allow to add more classes to the stars container
+- @value    => the value used as value parameter (from 1 to 5, void or 0 for no stars)
+- @disabled => this parameter raise the disabled flag
+- @required => this parameter raise the required flag
+- @tooltip  => this parameter raise the title flag
+- @label    => this parameter is used as text for the label
+- @color    => the color of the stars (primary by default)
+
+
+Notes:
+
+This widget programs all features of the data input fields: set_value paints the stars,
+set_disabled disables the buttons of the stars, get_data normalizes the values as integers
+and check_required colorizes the stars container and focuses the first star.
+
 
 ++Tester application++
 

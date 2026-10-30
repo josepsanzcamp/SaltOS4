@@ -50,6 +50,12 @@
             </items>
         </navbar>
 
+        <!-- The javascript must be loaded before the layout to register the custom widgets -->
+        <javascript>
+            <file eval="true">file_with_hash(file_with_min('apps/tester/js/tester.js'))</file>
+            <file eval="true">file_with_hash(file_with_min('apps/tester/js/rating.js'))</file>
+        </javascript>
+
         <layout append="one">
             <row auto="true" row_class="row g-3 mb-3 mt-0" col_class="col-xl-3 col-md-4 col-sm-6">
 
@@ -143,6 +149,8 @@
                 <alert id="campo29" label="Campo 29 (alert)" tooltip="Tooltip 29 (alert)" color="success" title="The alert message!!!" text="This text can be used as you want" close="true">
                     <body><![CDATA[<hr/>More text here]]></body>
                 </alert>
+                <rating id="campo47" label="Campo 47 (rating)" tooltip="Tooltip 47 (rating)" required="true"/>
+                <rating id="campo47a" label="Campo 47 (rating with value and color)" tooltip="Tooltip 47 (rating)" value="3" color="danger" required="true"/>
 
                 <hr col_class="col-12" class="border-3 m-0"/>
 
@@ -789,9 +797,5 @@
 
             </row>
         </layout>
-
-        <javascript>
-            <file eval="true">file_with_hash(file_with_min('apps/tester/js/tester.js'))</file>
-        </javascript>
     </main>
 </root>
