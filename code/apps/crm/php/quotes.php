@@ -48,19 +48,24 @@ function unmake_matrix_data($json, $quote_id)
         return $json;
     }
 
-    $checks = ['lines', 'totals'];
+    // The client only sends the matrices that contains changes, and the taxes box is not
+    // sent when the taxes and the withholdings are not used, in these cases only the sent
+    // matrices are processed and the data of the other ones are not modified
+    $checks = ['lines', 'taxes', 'totals'];
+    $found = false;
     foreach ($checks as $check) {
-        if (!isset($json[$check]) || !check_real_matrix($json[$check])) {
-            return $json;
+        if (isset($json[$check])) {
+            if (!check_real_matrix($json[$check])) {
+                return $json;
+            }
+            $found = true;
         }
     }
-
-    // The taxes box is not sent when the taxes and the withholdings are not used,
-    // in this case the taxes of the document are not modified
-    $has_taxes = isset($json['taxes']);
-    if ($has_taxes && !check_real_matrix($json['taxes'])) {
+    if (!$found) {
         return $json;
     }
+    $has_lines = isset($json['lines']);
+    $has_taxes = isset($json['taxes']);
 
     $lines = $json['lines'] ?? [];
     $taxes = $json['taxes'] ?? [];
@@ -211,7 +216,7 @@ function unmake_matrix_data($json, $quote_id)
             unset($lines[$key]);
         }
     }
-    $lines_array = array_slice($lines_array, $count);
+    $lines_array = array_slice($lines_array, $has_lines ? $count : count($lines_array));
     foreach ($lines_array as $key => $val) {
         $lines[] = [
             'id' => $val['id'] * -1,

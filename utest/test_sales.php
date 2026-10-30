@@ -360,16 +360,14 @@ final class test_sales extends TestCase
         $json0 = test_web_helper('app/invoices/insert', [], $token, '');
         $this->assertSame('ko', $json0['status']);
 
-        // Submitting a payload with a "lines" matrix but no "taxes" or
-        // "totals" keys must hit the check_real_matrix guard early
-        // return; since the matrix doesn't get emptied by the guard,
-        // set_proforma_invoice still fills in a proforma_code and the
-        // main row ends up inserted before the (still raw) lines
-        // matrix fails its own field validation, so the stray row
-        // must be cleaned up too
+        // Submitting a payload with a "lines" array that is not a real
+        // matrix must hit the check_real_matrix guard early return; since
+        // the array doesn't get emptied by the guard, the main row ends up
+        // inserted before the (still raw) lines array fails its own field
+        // validation, so the stray row must be cleaned up too
         $before_id = execute_query('SELECT MAX(id) FROM app_invoices');
         $json0b = test_web_helper('app/invoices/insert', [
-            'lines' => [['Item', '1', '1', '0', '21', '', '1']],
+            'lines' => [['foo' => 'Item']],
         ], $token, '');
         $this->assertSame('ko', $json0b['status']);
         $after_id = execute_query('SELECT MAX(id) FROM app_invoices');
@@ -421,6 +419,42 @@ final class test_sales extends TestCase
         );
         $this->assertCount(1, $lines_array);
         $this->assertCount(2, $taxes_array);
+
+        // Update only the lines matrix, as the client does when the taxes
+        // and the totals are not changed, the existing line must be updated
+        // and the taxes must be maintained
+        $json1b = test_web_helper("app/invoices/update/$invoice_id", [
+            'lines' => [
+                ['Keep item changed', '1', '100', '0', '21', '', '100'],
+            ],
+        ], $token, '');
+        $this->assertSame('ok', $json1b['status']);
+        $lines_array1b = execute_query_array(
+            'SELECT * FROM app_invoices_lines WHERE invoice_id = ? ORDER BY id ASC',
+            [$invoice_id]
+        );
+        $this->assertCount(1, $lines_array1b);
+        $this->assertSame($lines_array[0]['id'], $lines_array1b[0]['id']);
+        $this->assertSame('Keep item changed', $lines_array1b[0]['description']);
+        $taxes_array1b = execute_query_array(
+            'SELECT * FROM app_invoices_taxes WHERE invoice_id = ? ORDER BY id ASC',
+            [$invoice_id]
+        );
+        $this->assertCount(2, $taxes_array1b);
+
+        // Update only the totals matrix with a different total, the lines
+        // must be maintained
+        $json1c = test_web_helper("app/invoices/update/$invoice_id", [
+            'totals' => [
+                [150, 26, 0, 177],
+            ],
+        ], $token, '');
+        $this->assertSame('ok', $json1c['status']);
+        $lines_array1c = execute_query_array(
+            'SELECT * FROM app_invoices_lines WHERE invoice_id = ? ORDER BY id ASC',
+            [$invoice_id]
+        );
+        $this->assertCount(1, $lines_array1c);
 
         $invoice = execute_query('SELECT * FROM app_invoices WHERE id = ?', [$invoice_id]);
 
