@@ -1,5 +1,5 @@
 {
     "require": {
-        "composer/semver": "^3.5"
+        "composer/semver": "^3.6"
     }
 }
