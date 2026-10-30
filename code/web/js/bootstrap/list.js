@@ -78,11 +78,12 @@ saltos.bootstrap.__field.list = field => {
             title: field.nodata,
             label: field.label,
         });
-        obj.set = value => {
+        obj.saltos = {};
+        obj.saltos.set_value = value => {
             const temp = saltos.bootstrap.__field.list({...field, ...value});
             obj.replaceWith(temp);
         };
-        obj.add = value => {
+        obj.saltos.add_value = value => {
             const suma = {...field, ...value, data: [...field.data, ...value.data]};
             const temp = saltos.bootstrap.__field.list(suma);
             obj.replaceWith(temp);
@@ -110,6 +111,7 @@ saltos.bootstrap.__field.list = field => {
             <ul id="${field.id}" class="list-group ${rounded} ${shadow} ${field.class}"></ul>
         `);
     }
+    obj.saltos = {};
     for (const key in field.data) {
         const val = field.data[key];
         saltos.core.check_params(val, ['header', 'body', 'footer', 'class',
@@ -410,12 +412,12 @@ saltos.bootstrap.__field.list = field => {
             }
         });
     }
-    // Program the set and the add in the table
-    obj.set = value => {
+    // Program the set_value and the add_value in the table
+    obj.saltos.set_value = value => {
         const temp = saltos.bootstrap.__field.list({...field, ...value});
         obj.replaceWith(temp);
     };
-    obj.add = value => {
+    obj.saltos.add_value = value => {
         const suma = {...field, ...value, data: [...field.data, ...value.data]};
         const temp = saltos.bootstrap.__field.list(suma);
         obj.replaceWith(temp);

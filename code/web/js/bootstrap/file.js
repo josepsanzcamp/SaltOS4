@@ -108,6 +108,7 @@ saltos.bootstrap.__field.file = field => {
         </div>
     `);
     const element = obj.querySelector('input');
+    element.saltos = saltos.bootstrap.__saltos_helper(element, field);
     if (field.tooltip !== '') {
         saltos.bootstrap.__tooltip_helper(element);
     }
@@ -118,7 +119,7 @@ saltos.bootstrap.__field.file = field => {
         tabla.querySelectorAll('tr').forEach(item => {
             data.push(item.data);
         });
-        input.data = data;
+        input.saltos.data = data;
     };
     __update_data_input_file(element);
     // This helper programs the delete file button
@@ -260,8 +261,8 @@ saltos.bootstrap.__field.file = field => {
         }
         input.value = '';
     });
-    // Program the set function
-    element.set = data => {
+    // Program the set_value function
+    element.saltos.set_value = data => {
         const tabla = element.parentElement.nextElementSibling.querySelector('table');
         tabla.querySelectorAll('tr').forEach(item => {
             item.remove();
@@ -275,8 +276,24 @@ saltos.bootstrap.__field.file = field => {
             row.querySelector('.progress').setAttribute('aria-valuenow', percent);
         }
     };
+    // Program the old_value and get_data features
+    element.saltos.old_value = field.data;
+    element.saltos.get_data = () => {
+        const val = element.saltos.data;
+        let old = element.saltos.old_value;
+        if (!Array.isArray(old)) {
+            old = [];
+        }
+        return [val, old];
+    };
+    // Program the check_required feature
+    element.saltos.check_required = () => ({
+        value: element.saltos.data.length,
+        color: element,
+        focus: element,
+    });
     // Initialize the input with the previous function
-    element.set(field.data);
+    element.saltos.set_value(field.data);
     // Added the onchange event
     if (field.onchange !== '') {
         saltos.bootstrap.__onchange_helper(element, field.onchange);

@@ -102,8 +102,8 @@ saltos.invoices.types = {
 saltos.invoices.onchange = (instance, cell, x, y, value) => {
     const cols = saltos.invoices.cols;
     const types = saltos.invoices.types;
-    const modes = document.getElementById('taxmodes').data;
-    const alltaxes = document.getElementById('alltaxes').data;
+    const modes = document.getElementById('taxmodes').saltos.data;
+    const alltaxes = document.getElementById('alltaxes').saltos.data;
 
     // Prepare the defaults used by the new lines
     const defaults = {};
@@ -124,7 +124,7 @@ saltos.invoices.onchange = (instance, cell, x, y, value) => {
     }
 
     // Check, validate and compute the lines matrix
-    const lines = document.getElementById('lines').data;
+    const lines = document.getElementById('lines').saltos.data;
     for (const i in lines) {
         const line = lines[i];
         // Prepare quantity
@@ -163,7 +163,7 @@ saltos.invoices.onchange = (instance, cell, x, y, value) => {
         line[cols.total] = Math.round(line[cols.total] * 100) / 100;
     }
     // Update the entire matrix
-    document.getElementById('lines').set(lines);
+    document.getElementById('lines').saltos.set_value(lines);
 
     // Compute the taxes matrix
     const taxes = {};
@@ -216,7 +216,7 @@ saltos.invoices.onchange = (instance, cell, x, y, value) => {
     // The taxes box not exists when the taxes and the withholdings are not used
     const obj = document.getElementById('taxes');
     if (obj) {
-        obj.set(rows.length ? rows : [[null, null, null, null]]);
+        obj.saltos.set_value(rows.length ? rows : [[null, null, null, null]]);
     }
 
     // Compute the totals matrix
@@ -239,7 +239,7 @@ saltos.invoices.onchange = (instance, cell, x, y, value) => {
     if (found) {
         row = [totals.subtotal, totals.tax, totals.withholding, totals.total];
     }
-    document.getElementById('totals').set([row]);
+    document.getElementById('totals').saltos.set_value([row]);
 };
 
 /**
@@ -254,7 +254,7 @@ saltos.invoices.onchange = (instance, cell, x, y, value) => {
 saltos.invoices.onselect = type => {
     const cols = saltos.invoices.cols;
     const value = document.getElementById(`${type}_document`).value;
-    const lines = document.getElementById('lines').data;
+    const lines = document.getElementById('lines').saltos.data;
     for (const i in lines) {
         const line = lines[i];
         if (!saltos.core.is_number(line[cols.total])) {
@@ -262,6 +262,6 @@ saltos.invoices.onselect = type => {
         }
         line[cols[type]] = saltos.core.is_number(value) ? parseFloat(value) : null;
     }
-    document.getElementById('lines').set(lines);
+    document.getElementById('lines').saltos.set_value(lines);
     saltos.invoices.onchange();
 };

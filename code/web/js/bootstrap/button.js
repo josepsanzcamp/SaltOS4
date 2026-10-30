@@ -108,6 +108,7 @@ saltos.bootstrap.__field.button = field => {
         </div>
     `);
     const button = obj.querySelector('button');
+    button.saltos = {};
     if (field.icon !== '') {
         button.prepend(saltos.core.html(`<i class="bi bi-${field.icon}"></i>`));
     }
@@ -119,7 +120,7 @@ saltos.bootstrap.__field.button = field => {
     }
     saltos.bootstrap.__onclick_helper(button, field.onclick);
     // Program the disabled feature
-    button.set_disabled = bool => {
+    button.saltos.set_disabled = bool => {
         if (bool) {
             button.setAttribute('disabled', '');
             button.classList.add('opacity-25');

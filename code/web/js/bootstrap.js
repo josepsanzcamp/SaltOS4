@@ -572,18 +572,61 @@ window.addEventListener('keydown', event => {
 });
 
 /**
- * Field Types
+ * Private saltos object helper
  *
- * This list defines the widgets that are treated as data input fields.
+ * This function returns the saltos object of a data input field, this object must be stored in
+ * element.saltos and is used to store all features and internals added by the widgets to the
+ * element, the returned object marks the element as data input field and contains the original
+ * value and the default features, that can be replaced by the widget.
  *
- * These field types are used by functions such as:
- * - saltos.driver.reset
- * - saltos.app.get_data
- * - saltos.app.check_required
- * - saltos.app.form_disabled
+ * @element => the element that you want to mark as data input field
+ * @field   => the field used to create the element, used to get the original value
+ *
+ * Notes:
+ *
+ * The data input fields are used by functions such as saltos.driver.reset, saltos.app.get_data,
+ * saltos.app.check_required and saltos.app.form_disabled.
+ *
+ * The widgets that are not data input fields must not use this function, they only need to
+ * create the saltos object using element.saltos = {}.
+ *
+ * The widgets that are constructed using other widgets must not use this function, because
+ * the element already contains the saltos object and it would be replaced, losing the features
+ * added by the original widget.
+ *
+ * The returned object contains:
+ *
+ * @is_input       => true, used to identify the data input fields
+ * @old_value      => the original value, updated by saltos.form.data when sync is enabled
+ * @set_value      => function that receives the value and sets it in the element
+ * @set_disabled   => function that receives a boolean and enables or disables the element
+ * @get_data       => function that returns the current and the original values as [val, old],
+ *                    normalized to allow to saltos.app.get_data to compare both values in a
+ *                    reliable way
+ * @check_required => function used by saltos.app.check_required that returns an object with
+ *                    value (the value to check), color (the element to colorize), focus (the
+ *                    element to focus) and extra (an optional function that receives the value,
+ *                    used to colorize other elements)
  */
-saltos.bootstrap.__field_types = [
-    'text', 'hidden', 'integer', 'float', 'color', 'date', 'time', 'datetime',
-    'select', 'multiselect', 'checkbox', 'switch', 'password', 'file',
-    'textarea', 'joditeditor', 'codemirror', 'jspreadsheet', 'tags', 'onetag',
-];
+saltos.bootstrap.__saltos_helper = (element, field) => {
+    return {
+        is_input: true,
+        old_value: 'value' in field ? field.value : '',
+        set_value: value => {
+            element.value = value;
+        },
+        set_disabled: bool => {
+            if (bool) {
+                element.setAttribute('disabled', '');
+            } else {
+                element.removeAttribute('disabled');
+            }
+        },
+        get_data: () => [element.value, element.saltos.old_value.toString()],
+        check_required: () => ({
+            value: element.value,
+            color: element,
+            focus: element,
+        }),
+    };
+};

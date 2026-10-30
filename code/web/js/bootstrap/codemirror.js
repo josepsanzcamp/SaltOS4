@@ -54,9 +54,9 @@
  * @lib/codemirror/codemirror.min.css
  * @lib/codemirror/codemirror.min.js
  *
- * The returned object contains a textarea with two new properties like codemirror and set,
- * the first contains the codemirror object and the second is a function used to update the
- * value of the codemirror, intended to load new data.
+ * The returned object contains a textarea with the saltos property that contains codemirror and
+ * set_value, the first contains the codemirror object and the second is a function used to update
+ * the value of the codemirror, intended to load new data.
  */
 saltos.bootstrap.__field.codemirror = field => {
     saltos.core.check_params(field, ['mode', 'height', 'color', 'disabled', 'indent', 'rounded']);
@@ -107,7 +107,7 @@ saltos.bootstrap.__field.codemirror = field => {
             indentUnit: 4,
             theme: detect_theme(),
         });
-        element.codemirror = cm;
+        element.saltos.codemirror = cm;
         element.parentElement.classList.add('form-control', 'p-0', ...border);
         element.nextElementSibling.style.height = 'auto';
         cm.on('change', cm.save);
@@ -119,49 +119,55 @@ saltos.bootstrap.__field.codemirror = field => {
             cm.refresh();
         }
     });
-    // Program the set feature
-    element.set = value => {
-        if (!('codemirror' in element)) {
-            if (!('queue' in element)) {
-                element.queue = [];
-                saltos.core.wait_for(() => 'codemirror' in element, 60000).then(ready => {
+    // Program the set_value feature
+    element.saltos.set_value = value => {
+        if (!('codemirror' in element.saltos)) {
+            if (!('queue' in element.saltos)) {
+                element.saltos.queue = [];
+                saltos.core.wait_for(() => 'codemirror' in element.saltos, 60000).then(ready => {
                     if (!ready) {
                         throw new Error('Timeout waiting for codemirror');
                     }
-                    while (element.queue.length) {
-                        const item = element.queue.shift();
-                        element.set(item);
+                    while (element.saltos.queue.length) {
+                        const item = element.saltos.queue.shift();
+                        element.saltos.set_value(item);
                     }
                 });
             }
-            element.queue.push(value);
+            element.saltos.queue.push(value);
             return;
         }
         if (saltos.core.eval_bool(field.indent)) {
             value = saltos.bootstrap.__indent_helper(value, field.mode);
         }
-        element.codemirror.setValue(value);
+        element.saltos.codemirror.setValue(value);
     };
+    // Program the check_required feature
+    element.saltos.check_required = () => ({
+        value: element.value,
+        color: element.nextElementSibling,
+        focus: element.saltos.codemirror,
+    });
     // Program the disabled feature
-    element.set_disabled = bool => {
-        if (!('codemirror' in element)) {
-            saltos.core.wait_for(() => 'codemirror' in element, 60000).then(ready => {
+    element.saltos.set_disabled = bool => {
+        if (!('codemirror' in element.saltos)) {
+            saltos.core.wait_for(() => 'codemirror' in element.saltos, 60000).then(ready => {
                 if (ready) {
-                    element.set_disabled(bool);
+                    element.saltos.set_disabled(bool);
                 }
             });
             return;
         }
         if (bool) {
-            element.codemirror.setOption('readOnly', true);
+            element.saltos.codemirror.setOption('readOnly', true);
             //~ element.nextElementSibling.classList.add('bg-body-secondary');
         } else {
-            element.codemirror.setOption('readOnly', false);
+            element.saltos.codemirror.setOption('readOnly', false);
             //~ element.nextElementSibling.classList.remove('bg-body-secondary');
         }
     };
     if (saltos.core.eval_bool(field.disabled)) {
-        element.set_disabled(true);
+        element.saltos.set_disabled(true);
     }
     // Fix for a rounded corners
     let rounded = 'var(--bs-border-radius)';
@@ -197,7 +203,7 @@ saltos.bootstrap.__field.codemirror = field => {
     `));
     // Fix for dark mode
     new MutationObserver(() => {
-        element.codemirror.setOption('theme', detect_theme());
+        element.saltos.codemirror.setOption('theme', detect_theme());
     }).observe(document.documentElement, {
         attributes: true,
         attributeFilter: ['data-bs-theme'],

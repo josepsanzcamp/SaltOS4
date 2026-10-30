@@ -52,9 +52,9 @@
  * @lib/joditeditor/jodit.fat.min.css
  * @lib/joditeditor/jodit.fat.min.js
  *
- * The returned object contains a textarea with two new properties like joditeditor and set,
- * the first contains the joditeditor object and the second is a function used to update the
- * value of the joditeditor, intended to load new data.
+ * The returned object contains a textarea with the saltos property that contains joditeditor and
+ * set_value, the first contains the joditeditor object and the second is a function used to update
+ * the value of the joditeditor, intended to load new data.
  */
 saltos.bootstrap.__field.joditeditor = field => {
     saltos.core.check_params(field, ['height', 'color', 'disabled', 'rounded']);
@@ -66,6 +66,15 @@ saltos.bootstrap.__field.joditeditor = field => {
     obj.append(saltos.bootstrap.__label_helper(field));
     obj.append(saltos.bootstrap.__textarea_helper(saltos.core.copy_object(field)));
     const element = obj.querySelector('textarea');
+    // Program the get_data feature using the textarea feature
+    const get_data = element.saltos.get_data;
+    element.saltos.get_data = () => {
+        const [val, old] = get_data();
+        if (val === '<p><br></p>') {
+            return ['', old];
+        }
+        return [val, old];
+    };
     element.style.display = 'none';
     // Add the placeholder
     const placeholder = saltos.bootstrap.__field.placeholder({
@@ -106,42 +115,48 @@ saltos.bootstrap.__field.joditeditor = field => {
             disabled: false,
             addNewLine: false,
         });
-        element.joditeditor = editor;
+        element.saltos.joditeditor = editor;
     });
-    // Program the set feature
-    element.set = value => {
-        if (!('joditeditor' in element)) {
-            if (!('queue' in element)) {
-                element.queue = [];
-                saltos.core.wait_for(() => 'joditeditor' in element, 60000).then(ready => {
+    // Program the set_value feature
+    element.saltos.set_value = value => {
+        if (!('joditeditor' in element.saltos)) {
+            if (!('queue' in element.saltos)) {
+                element.saltos.queue = [];
+                saltos.core.wait_for(() => 'joditeditor' in element.saltos, 60000).then(ready => {
                     if (!ready) {
                         throw new Error('Timeout waiting for joditeditor');
                     }
-                    while (element.queue.length) {
-                        const item = element.queue.shift();
-                        element.set(item);
+                    while (element.saltos.queue.length) {
+                        const item = element.saltos.queue.shift();
+                        element.saltos.set_value(item);
                     }
                 });
             }
-            element.queue.push(value);
+            element.saltos.queue.push(value);
             return;
         }
-        element.joditeditor.value = value;
+        element.saltos.joditeditor.value = value;
     };
+    // Program the check_required feature
+    element.saltos.check_required = () => ({
+        value: element.value === '<p><br></p>' ? '' : element.value,
+        color: element.previousElementSibling,
+        focus: element.saltos.joditeditor,
+    });
     // Program the disabled feature
-    element.set_disabled = bool => {
-        if (!('joditeditor' in element)) {
-            saltos.core.wait_for(() => 'joditeditor' in element, 60000).then(ready => {
+    element.saltos.set_disabled = bool => {
+        if (!('joditeditor' in element.saltos)) {
+            saltos.core.wait_for(() => 'joditeditor' in element.saltos, 60000).then(ready => {
                 if (ready) {
-                    element.set_disabled(bool);
+                    element.saltos.set_disabled(bool);
                 }
             });
             return;
         }
-        element.joditeditor.setReadOnly(bool);
+        element.saltos.joditeditor.setReadOnly(bool);
     };
     if (saltos.core.eval_bool(field.disabled)) {
-        element.set_disabled(true);
+        element.saltos.set_disabled(true);
     }
     // Fix for a rounded corners
     let rounded = 'var(--bs-border-radius)';

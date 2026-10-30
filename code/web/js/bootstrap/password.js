@@ -114,6 +114,7 @@ saltos.bootstrap.__field.password = field => {
     `);
     // Continue
     const input = obj.querySelector('input');
+    input.saltos = saltos.bootstrap.__saltos_helper(input, field);
     const button = obj.querySelector('button');
     if (field.tooltip !== '') {
         saltos.bootstrap.__tooltip_helper(input);
@@ -124,14 +125,24 @@ saltos.bootstrap.__field.password = field => {
     if (field.onchange !== '') {
         saltos.bootstrap.__onchange_helper(input, field.onchange);
     }
-    // Program the disabled feature
-    input.set_disabled = bool => {
-        if (bool) {
-            input.setAttribute('disabled', '');
-        } else {
-            input.removeAttribute('disabled');
-        }
-    };
+    // Program the check_required feature
+    input.saltos.check_required = () => ({
+        value: input.value,
+        color: input,
+        focus: input,
+        extra: value => {
+            button.classList.forEach(item => {
+                if (item.substr(0, 4) === 'btn-') {
+                    button.classList.remove(item);
+                }
+            });
+            if (value === '') {
+                button.classList.add('btn-danger');
+            } else {
+                button.classList.add('btn-success');
+            }
+        },
+    });
     // Program the button feature
     button.addEventListener('click', event => {
         switch (input.type) {

@@ -52,6 +52,7 @@ saltos.bootstrap.__field.jstree = field => {
     }
     let obj = saltos.core.html(`<div id="${field.id}" class="${field.class}"></div>`);
     const element = obj;
+    element.saltos = {};
     // Add the placeholder
     const placeholder = saltos.bootstrap.__field.placeholder({
         color: color,
@@ -65,7 +66,7 @@ saltos.bootstrap.__field.jstree = field => {
     ], () => {
         placeholder.remove();
         const instance = new jsTree({}, element);
-        element.instance = instance;
+        element.saltos.instance = instance;
         instance.on('select', event => {
             let val = event.node.data.text;
             if ('id' in event.node.data) {
@@ -100,21 +101,21 @@ saltos.bootstrap.__field.jstree = field => {
             </style>
         `));
     });
-    element.set = data => {
-        if (!('instance' in element)) {
-            if (!('queue' in element)) {
-                element.queue = [];
-                saltos.core.wait_for(() => 'instance' in element, 60000).then(ready => {
+    element.saltos.set_value = data => {
+        if (!('instance' in element.saltos)) {
+            if (!('queue' in element.saltos)) {
+                element.saltos.queue = [];
+                saltos.core.wait_for(() => 'instance' in element.saltos, 60000).then(ready => {
                     if (!ready) {
                         throw new Error('Timeout waiting for instance');
                     }
-                    while (element.queue.length) {
-                        const item = element.queue.shift();
-                        element.set(item);
+                    while (element.saltos.queue.length) {
+                        const item = element.saltos.queue.shift();
+                        element.saltos.set_value(item);
                     }
                 });
             }
-            element.queue.push(data);
+            element.saltos.queue.push(data);
             return;
         }
         // Check for data not found
@@ -125,12 +126,12 @@ saltos.bootstrap.__field.jstree = field => {
             }];
         }
         // Continue
-        element.instance.empty().create(data);
+        element.saltos.instance.empty().create(data);
         if (saltos.core.eval_bool(field.open)) {
-            element.instance.openAll();
+            element.saltos.instance.openAll();
         }
     };
-    element.set(field.data);
+    element.saltos.set_value(field.data);
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };

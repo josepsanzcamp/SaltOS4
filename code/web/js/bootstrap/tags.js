@@ -111,44 +111,50 @@ saltos.bootstrap.__field.tags = field => {
                 this.control.classList.add(rounded);
             },
         });
-        element.tomselect = tags;
+        element.saltos.tomselect = tags;
     });
-    // Program the set in the input first
-    element.set = value => {
-        if (!('tomselect' in element)) {
-            if (!('queue' in element)) {
-                element.queue = [];
-                saltos.core.wait_for(() => 'tomselect' in element, 60000).then(ready => {
+    // Program the set_value in the input first
+    element.saltos.set_value = value => {
+        if (!('tomselect' in element.saltos)) {
+            if (!('queue' in element.saltos)) {
+                element.saltos.queue = [];
+                saltos.core.wait_for(() => 'tomselect' in element.saltos, 60000).then(ready => {
                     if (!ready) {
                         throw new Error('Timeout waiting for tomselect');
                     }
-                    while (element.queue.length) {
-                        const item = element.queue.shift();
-                        element.set(item);
+                    while (element.saltos.queue.length) {
+                        const item = element.saltos.queue.shift();
+                        element.saltos.set_value(item);
                     }
                 });
             }
-            element.queue.push(value);
+            element.saltos.queue.push(value);
             return;
         }
         value = saltos.bootstrap.__value_helper(value, field.separator);
         element.value = value;
-        element.tomselect.sync();
+        element.saltos.tomselect.sync();
     };
+    // Program the check_required feature
+    element.saltos.check_required = () => ({
+        value: element.value,
+        color: element.nextElementSibling,
+        focus: element.nextElementSibling.querySelector('input'),
+    });
     // Program the disabled feature
-    element.set_disabled = bool => {
-        if (!('tomselect' in element)) {
-            saltos.core.wait_for(() => 'tomselect' in element, 60000).then(ready => {
+    element.saltos.set_disabled = bool => {
+        if (!('tomselect' in element.saltos)) {
+            saltos.core.wait_for(() => 'tomselect' in element.saltos, 60000).then(ready => {
                 if (ready) {
-                    element.set_disabled(bool);
+                    element.saltos.set_disabled(bool);
                 }
             });
             return;
         }
         if (bool) {
-            element.tomselect.disable();
+            element.saltos.tomselect.disable();
         } else {
-            element.tomselect.enable();
+            element.saltos.tomselect.enable();
         }
     };
     return obj;
@@ -195,6 +201,8 @@ saltos.bootstrap.__field.onetag = field => {
     const obj = saltos.bootstrap.__field.select(field);
     field.type = 'onetag';
     const element = obj.querySelector('select');
+    // The get_data feature of the select is not used by this widget
+    element.saltos.get_data = () => [element.value, element.saltos.old_value.toString()];
     element.style.display = 'none';
     const fn = saltos.bootstrap.__datalist_helper(field.datalist);
     // Add the placeholder
@@ -233,46 +241,52 @@ saltos.bootstrap.__field.onetag = field => {
                 this.control.classList.add(rounded);
             },
         });
-        element.tomselect = tags;
+        element.saltos.tomselect = tags;
     });
-    // Program the set in the input first
-    element.set = value => {
-        if (!('tomselect' in element)) {
-            if (!('queue' in element)) {
-                element.queue = [];
-                saltos.core.wait_for(() => 'tomselect' in element, 60000).then(ready => {
+    // Program the set_value in the input first
+    element.saltos.set_value = value => {
+        if (!('tomselect' in element.saltos)) {
+            if (!('queue' in element.saltos)) {
+                element.saltos.queue = [];
+                saltos.core.wait_for(() => 'tomselect' in element.saltos, 60000).then(ready => {
                     if (!ready) {
                         throw new Error('Timeout waiting for tomselect');
                     }
-                    while (element.queue.length) {
-                        const item = element.queue.shift();
-                        element.set(item);
+                    while (element.saltos.queue.length) {
+                        const item = element.saltos.queue.shift();
+                        element.saltos.set_value(item);
                     }
                 });
             }
-            element.queue.push(value);
+            element.saltos.queue.push(value);
             return;
         }
-        element.tomselect.addOption({
+        element.saltos.tomselect.addOption({
             text: value,
             value: value,
         });
-        element.tomselect.addItem(value);
+        element.saltos.tomselect.addItem(value);
     };
+    // Program the check_required feature
+    element.saltos.check_required = () => ({
+        value: element.value,
+        color: element.nextElementSibling,
+        focus: element.nextElementSibling.querySelector('input'),
+    });
     // Program the disabled feature
-    element.set_disabled = bool => {
-        if (!('tomselect' in element)) {
-            saltos.core.wait_for(() => 'tomselect' in element, 60000).then(ready => {
+    element.saltos.set_disabled = bool => {
+        if (!('tomselect' in element.saltos)) {
+            saltos.core.wait_for(() => 'tomselect' in element.saltos, 60000).then(ready => {
                 if (ready) {
-                    element.set_disabled(bool);
+                    element.saltos.set_disabled(bool);
                 }
             });
             return;
         }
         if (bool) {
-            element.tomselect.disable();
+            element.saltos.tomselect.disable();
         } else {
-            element.tomselect.enable();
+            element.saltos.tomselect.enable();
         }
     };
     return obj;

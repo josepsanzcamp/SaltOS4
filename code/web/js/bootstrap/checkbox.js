@@ -88,6 +88,7 @@ saltos.bootstrap.__field.checkbox = field => {
         </div>
     `);
     const element = obj.querySelector('input');
+    element.saltos = saltos.bootstrap.__saltos_helper(element, field);
     if (field.tooltip !== '') {
         obj.querySelectorAll('input, label').forEach(item => {
             saltos.bootstrap.__tooltip_helper(item);
@@ -99,7 +100,7 @@ saltos.bootstrap.__field.checkbox = field => {
     element.addEventListener('change', event => {
         event.target.value = event.target.checked ? 1 : 0;
     });
-    element.set = bool => {
+    element.saltos.set_value = bool => {
         if (saltos.core.eval_bool(bool)) {
             element.checked = true;
             element.value = 1;
@@ -108,6 +109,24 @@ saltos.bootstrap.__field.checkbox = field => {
             element.value = 0;
         }
     };
+    // Program the get_data feature
+    element.saltos.get_data = () => {
+        let val = parseInt(element.value, 10);
+        let old = parseInt(element.saltos.old_value, 10);
+        if (!saltos.core.is_number(val)) {
+            val = 0;
+        }
+        if (!saltos.core.is_number(old)) {
+            old = 0;
+        }
+        return [val, old];
+    };
+    // Program the check_required feature
+    element.saltos.check_required = () => ({
+        value: parseInt(element.value, 10),
+        color: element,
+        focus: element,
+    });
     // This add the colorized feature to the checkbox and switch
     obj.append(saltos.core.html(`
         <style>

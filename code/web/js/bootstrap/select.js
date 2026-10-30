@@ -99,6 +99,7 @@ saltos.bootstrap.__field.select = field => {
         </div>
     `);
     const element = obj.querySelector('select');
+    element.saltos = saltos.bootstrap.__saltos_helper(element, field);
     if (field.onchange !== '') {
         saltos.bootstrap.__onchange_helper(element, field.onchange);
     }
@@ -133,13 +134,23 @@ saltos.bootstrap.__field.select = field => {
             element.append(option);
         }
     }
-    // Program the disabled feature
-    element.set_disabled = bool => {
-        if (bool) {
-            element.setAttribute('disabled', '');
-        } else {
-            element.removeAttribute('disabled');
+    // Program the get_data feature
+    element.saltos.get_data = () => {
+        let val = element.value;
+        let old = element.saltos.old_value.toString();
+        if ('multiple' in field && saltos.core.eval_bool(field.multiple)) {
+            if ('separator' in field) {
+                val = val.split(field.separator).sort().join(field.separator);
+                old = old.split(field.separator).sort().join(field.separator);
+            }
         }
+        if (val === '0' && old === '') {
+            old = val;
+        }
+        if (val === '' && old === '0') {
+            val = old;
+        }
+        return [val, old];
     };
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
@@ -255,9 +266,9 @@ saltos.bootstrap.__field.multiselect = field => {
             item.setAttribute('for', field.id + '_abc');
         });
     });
-    // Program the set feature
+    // Program the set_value feature
     const element = obj.querySelector('input[type=hidden]');
-    element.set = value => {
+    element.saltos.set_value = value => {
         const values = value.toString().split(field.separator);
         for (const key in values) {
             values[key] = values[key].trim();
@@ -278,12 +289,60 @@ saltos.bootstrap.__field.multiselect = field => {
         });
         element.value = val.join(field.separator);
     };
-    element.set(field.value);
+    element.saltos.set_value(field.value);
+    // Program the get_data feature
+    element.saltos.get_data = () => {
+        let val = element.value;
+        let old = element.saltos.old_value.toString();
+        if ('separator' in field) {
+            val = val.split(field.separator).sort().join(field.separator);
+            old = old.split(field.separator).sort().join(field.separator);
+        }
+        return [val, old];
+    };
+    // Program the check_required feature
+    element.saltos.check_required = () => {
+        const abc = document.getElementById(field.id + '_abc');
+        return {
+            value: element.value,
+            color: abc,
+            focus: abc,
+            extra: value => {
+                const xyz = document.getElementById(field.id + '_xyz');
+                xyz.classList.remove('is-valid');
+                xyz.classList.remove('is-invalid');
+                xyz.classList.remove('border');
+                xyz.classList.forEach(item => {
+                    if (item.substr(0, 7) === 'border-') {
+                        xyz.classList.remove(item);
+                    }
+                });
+                if (value === '') {
+                    xyz.classList.add('is-invalid');
+                } else {
+                    xyz.classList.add('is-valid');
+                }
+                const temp = element.parentElement.parentElement;
+                temp.querySelectorAll('button').forEach(item => {
+                    item.classList.forEach(item2 => {
+                        if (item2.substr(0, 4) === 'btn-') {
+                            item.classList.remove(item2);
+                        }
+                    });
+                    if (value === '') {
+                        item.classList.add('btn-danger');
+                    } else {
+                        item.classList.add('btn-success');
+                    }
+                });
+            },
+        };
+    };
     // Program the disabled feature
-    element.set_disabled = bool => {
+    element.saltos.set_disabled = bool => {
         const temp = obj.querySelector('#' + field.id).closest('.row');
         temp.querySelectorAll('select, button').forEach(item => {
-            item.set_disabled(bool);
+            item.saltos.set_disabled(bool);
         });
     };
     obj = saltos.bootstrap.__label_combine(field, obj);

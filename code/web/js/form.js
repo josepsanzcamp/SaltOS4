@@ -80,11 +80,21 @@ saltos.form.data = (data, sync = true) => {
             obj.srcdoc = val;
         }
         // Special case for widgets with set
-        if ('set' in obj && typeof obj.set === 'function') {
-            obj.set(val);
+        if ('saltos' in obj && typeof obj.saltos.set_value === 'function') {
+            obj.saltos.set_value(val);
         }
         if (!sync) {
             continue;
+        }
+        // This updates the original value of the data input fields
+        if ('saltos' in obj && obj.saltos.is_input) {
+            if (typeof val !== 'object') {
+                obj.saltos.old_value = val;
+            } else if (Array.isArray(val)) {
+                obj.saltos.old_value = val;
+            } else if ('data' in val) {
+                obj.saltos.old_value = val.data;
+            }
         }
         // This updates the field spec searching in all backups
         for (const i in saltos.backup.__forms) {

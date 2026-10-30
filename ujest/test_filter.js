@@ -359,15 +359,15 @@ describe('saltos.filter.select()', () => {
      */
     test('should update select options and jstree', () => {
         const jstreeMock = {
-            set: jest.fn()
+            set_value: jest.fn()
         };
-        document.getElementById('jstree').set = jstreeMock.set;
+        document.getElementById('jstree').saltos = {set_value: jstreeMock.set_value};
 
         saltos.filter.select();
 
         const select = document.getElementById('filter_form').querySelector('select');
         expect(select.children.length).toBe(3); // Empty option + 2 filters
-        expect(jstreeMock.set).toHaveBeenCalledWith([
+        expect(jstreeMock.set_value).toHaveBeenCalledWith([
             {text: 'filter1'},
             {text: 'filter2'}
         ]);

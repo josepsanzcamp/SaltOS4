@@ -113,6 +113,7 @@ saltos.bootstrap.__field.echarts = field => {
         </div>
     `);
     const element = obj.querySelector('div');
+    element.saltos = {};
     // Add the placeholder
     const placeholder = saltos.bootstrap.__field.placeholder({
         color: field.color,
@@ -127,7 +128,7 @@ saltos.bootstrap.__field.echarts = field => {
         const chart = echarts.init(element);
         chart.setOption(field.data);
         window.addEventListener('resize', () => chart.resize());
-        element.chart = chart;
+        element.saltos.chart = chart;
     });
     // Fix for a rounded corners
     let _rounded = 'var(--bs-border-radius)';
@@ -163,7 +164,7 @@ saltos.bootstrap.__field.echarts = field => {
     `));
     // Fix for dark mode
     new MutationObserver(() => {
-        element.chart.setOption({
+        element.saltos.chart.setOption({
             darkMode: saltos.bootstrap.__is_dark_helper()
         });
     }).observe(document.documentElement, {

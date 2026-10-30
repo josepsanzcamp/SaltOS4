@@ -241,5 +241,5 @@ saltos.filter.select = arg => {
             text: key,
         });
     }
-    jstree.set(data);
+    jstree.saltos.set_value(data);
 };

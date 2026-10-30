@@ -117,17 +117,17 @@ describe('Bootstrap', () => {
 
         const id = field.id;
         if (field.type === 'joditeditor') {
-            await page.waitForFunction(id => document.getElementById(id).joditeditor, timeout, id);
+            await page.waitForFunction(id => document.getElementById(id).saltos.joditeditor, timeout, id);
             await mypause(page, 100);
         } else if (field.type === 'codemirror') {
-            await page.waitForFunction(id => document.getElementById(id).codemirror, timeout, id);
+            await page.waitForFunction(id => document.getElementById(id).saltos.codemirror, timeout, id);
             await mypause(page, 100);
         } else if (['tags', 'onetag'].includes(field.type)) {
-            await page.waitForFunction(id => document.getElementById(id).tomselect, timeout, id);
+            await page.waitForFunction(id => document.getElementById(id).saltos.tomselect, timeout, id);
         } else if (field.type === 'jstree') {
-            await page.waitForFunction(id => document.getElementById(id).instance, timeout, id);
+            await page.waitForFunction(id => document.getElementById(id).saltos.instance, timeout, id);
         } else if (field.type === 'jspreadsheet') {
-            await page.waitForFunction(id => document.getElementById(id).jspreadsheet, timeout, id);
+            await page.waitForFunction(id => document.getElementById(id).saltos.jspreadsheet, timeout, id);
             await mypause(page, 100);
         } else if (field.type === 'echarts') {
             await mypause(page, 1000);

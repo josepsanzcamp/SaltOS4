@@ -73,6 +73,7 @@ saltos.bootstrap.__field.iframe = field => {
         </div>
     `);
     const element = obj.querySelector('iframe');
+    element.saltos = {};
     if (field.src !== '') {
         element.src = field.src;
     }
@@ -118,8 +119,8 @@ saltos.bootstrap.__field.iframe = field => {
             }));
         });
     });
-    // Program the set in the input first
-    element.set = value => {
+    // Program the set_value in the input first
+    element.saltos.set_value = value => {
         if (typeof value === 'object') {
             if ('src' in value) {
                 element.src = value.src;

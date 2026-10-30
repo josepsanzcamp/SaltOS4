@@ -417,8 +417,8 @@ saltos.driver.search = arg => {
     const app = saltos.hash.get().split('/').at(1);
     // Restore the more button
     const obj = document.getElementById('more');
-    if (obj && 'set_disabled' in obj && typeof obj.set_disabled === 'function') {
-        obj.set_disabled(false);
+    if (obj && 'saltos' in obj && typeof obj.saltos.set_disabled === 'function') {
+        obj.saltos.set_disabled(false);
     }
     // Continue
     saltos.app.ajax({
@@ -430,7 +430,7 @@ saltos.driver.search = arg => {
                     response.data[i].body_text = T(response.data[i].body_text);
                 }
             }
-            document.getElementById('list').set(response);
+            document.getElementById('list').saltos.set_value(response);
             document.getElementById('one').scrollTop = 0;
         },
     });

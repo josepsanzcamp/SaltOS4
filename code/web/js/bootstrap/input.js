@@ -104,7 +104,7 @@ saltos.bootstrap.__field.hidden = field => {
     field.type = 'hidden';
     const obj = saltos.bootstrap.__text_helper(field);
     if ('data' in field) {
-        obj.data = field.data;
+        obj.saltos.data = field.data;
     }
     return obj;
 };
@@ -151,6 +151,18 @@ saltos.bootstrap.__field.integer = field => {
             scale: 0,
         });
     });
+    // Program the get_data feature
+    element.saltos.get_data = () => {
+        let val = parseInt(element.value, 10);
+        let old = parseInt(element.saltos.old_value, 10);
+        if (!saltos.core.is_number(val)) {
+            val = 0;
+        }
+        if (!saltos.core.is_number(old)) {
+            old = 0;
+        }
+        return [val, old];
+    };
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
@@ -199,6 +211,18 @@ saltos.bootstrap.__field.float = field => {
             scale: 99,
         });
     });
+    // Program the get_data feature
+    element.saltos.get_data = () => {
+        let val = parseFloat(element.value);
+        let old = parseFloat(element.saltos.old_value);
+        if (!saltos.core.is_number(val)) {
+            val = 0;
+        }
+        if (!saltos.core.is_number(old)) {
+            old = 0;
+        }
+        return [val, old];
+    };
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
@@ -399,6 +423,7 @@ saltos.bootstrap.__text_helper = field => {
             ${disabled} ${readonly} ${required} ${autofocus} ${autosave}
             id="${field.id}" data-bs-title="${field.tooltip}" value="${field.value}" />
     `);
+    obj.saltos = saltos.bootstrap.__saltos_helper(obj, field);
     if (field.tooltip !== '') {
         saltos.bootstrap.__tooltip_helper(obj);
     }

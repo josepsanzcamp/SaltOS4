@@ -96,12 +96,12 @@
                         <date id="date2" label="Until date"/>
                         <switch id="onlynew" label="Only new"/>
                         <switch id="onlywait" label="Only wait"/>
-                        <switch id="onlyspam" label="Only SPAM" onchange="document.getElementById('hidespam').set(false)"/>
-                        <switch id="hidespam" label="Hide SPAM" onchange="document.getElementById('onlyspam').set(false)"/>
-                        <switch id="withfiles" label="With files" onchange="document.getElementById('withoutfiles').set(false)"/>
-                        <switch id="withoutfiles" label="Without files" onchange="document.getElementById('withfiles').set(false)"/>
-                        <switch id="onlyinbox" label="Only inbox" onchange="document.getElementById('onlyoutbox').set(false)"/>
-                        <switch id="onlyoutbox" label="Only outbox" onchange="document.getElementById('onlyinbox').set(false)"/>
+                        <switch id="onlyspam" label="Only SPAM" onchange="document.getElementById('hidespam').saltos.set_value(false)"/>
+                        <switch id="hidespam" label="Hide SPAM" onchange="document.getElementById('onlyspam').saltos.set_value(false)"/>
+                        <switch id="withfiles" label="With files" onchange="document.getElementById('withoutfiles').saltos.set_value(false)"/>
+                        <switch id="withoutfiles" label="Without files" onchange="document.getElementById('withfiles').saltos.set_value(false)"/>
+                        <switch id="onlyinbox" label="Only inbox" onchange="document.getElementById('onlyoutbox').saltos.set_value(false)"/>
+                        <switch id="onlyoutbox" label="Only outbox" onchange="document.getElementById('onlyinbox').saltos.set_value(false)"/>
                     </row>
                     <row auto="true" row_class="row g-1" col_class="col-auto">
                         <div col_class="col"/>

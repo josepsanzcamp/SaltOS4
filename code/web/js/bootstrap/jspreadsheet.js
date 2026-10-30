@@ -71,9 +71,9 @@ saltos.bootstrap.__field.jspreadsheet = field => {
         numrows = parseInt(field.numrows, 10);
     }
     if (field.data !== '') {
-        input.data = saltos.core.copy_object(field.data);
+        input.saltos.data = saltos.core.copy_object(field.data);
     } else {
-        input.data = [...Array(numrows)].map(e => Array(numcols));
+        input.saltos.data = [...Array(numrows)].map(e => Array(numcols));
     }
     // jspreadsheet parameters
     let minSpareRows = 0;
@@ -112,47 +112,47 @@ saltos.bootstrap.__field.jspreadsheet = field => {
     const ctx = canvas.getContext('2d');
     const style = window.getComputedStyle(document.body);
     ctx.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
-    input._ctx = ctx;
+    input.saltos.ctx = ctx;
 
     const _autoWidth_helper = index => {
         if (saltos.core.is_number(index)) {
             let maxwidth = 50;
-            for (let j = 0; j < input.data.length; j++) {
-                const text = String(input.data[j][index]);
-                const width = input._ctx.measureText(text).width + 10;
+            for (let j = 0; j < input.saltos.data.length; j++) {
+                const text = String(input.saltos.data[j][index]);
+                const width = input.saltos.ctx.measureText(text).width + 10;
                 maxwidth = Math.max(maxwidth, width);
             }
-            input.jspreadsheet[0].setWidth(index, maxwidth);
+            input.saltos.jspreadsheet[0].setWidth(index, maxwidth);
             return;
         }
         let total = 0;
-        if ('0' in input.data) {
-            total = input.data[0].length;
+        if ('0' in input.saltos.data) {
+            total = input.saltos.data[0].length;
         }
         for (let i = 0; i < total; i++) {
             let maxwidth = 50;
-            for (let j = 0; j < input.data.length; j++) {
-                const text = String(input.data[j][i]);
-                const width = input._ctx.measureText(text).width + 10;
+            for (let j = 0; j < input.saltos.data.length; j++) {
+                const text = String(input.saltos.data[j][i]);
+                const width = input.saltos.ctx.measureText(text).width + 10;
                 maxwidth = Math.max(maxwidth, width);
             }
-            input.jspreadsheet[0].setWidth(i, maxwidth);
+            input.saltos.jspreadsheet[0].setWidth(i, maxwidth);
         }
     };
 
     const _fitWidth_helper = () => {
-        const content = input.jspreadsheet[0].content;
+        const content = input.saltos.jspreadsheet[0].content;
         let width = content.parentElement.offsetWidth - 3;
         if (rowHeaders) {
             width -= content.querySelector('table col').width;
         }
 
         let total = 0;
-        if ('0' in input.data) {
-            total = input.data[0].length;
+        if ('0' in input.saltos.data) {
+            total = input.saltos.data[0].length;
         }
 
-        const columns = input.jspreadsheet[0].getConfig().columns;
+        const columns = input.saltos.jspreadsheet[0].getConfig().columns;
         for (let i = 0; i < total; i++) {
             if (!('originalWidth' in columns[i])) {
                 columns[i].originalWidth = columns[i].width;
@@ -196,22 +196,22 @@ saltos.bootstrap.__field.jspreadsheet = field => {
                 continue;
             }
             if (columns[i].originalWidth && String(columns[i].originalWidth).endsWith('%')) {
-                input.jspreadsheet[0].setWidth(i, widths2.shift());
+                input.saltos.jspreadsheet[0].setWidth(i, widths2.shift());
                 continue;
             }
-            input.jspreadsheet[0].setWidth(i, width3);
+            input.saltos.jspreadsheet[0].setWidth(i, width3);
         }
     };
 
     const _cells_helper = cells => {
         for (const i in cells) {
             const cell = cells[i];
-            const coord = input.jspreadsheet[0].getCellFromCoords(cell.col, cell.row);
+            const coord = input.saltos.jspreadsheet[0].getCellFromCoords(cell.col, cell.row);
             delete cell.col;
             delete cell.row;
             for (const j in cell) {
                 if (j === 'readOnly') {
-                    input.jspreadsheet[0].setReadOnly(coord, true);
+                    input.saltos.jspreadsheet[0].setReadOnly(coord, true);
                     coord.classList.remove('jss_dropdown');
                 }
                 if (j === 'className') {
@@ -239,7 +239,7 @@ saltos.bootstrap.__field.jspreadsheet = field => {
             toolbar: false,
             parseFormulas: false,
             worksheets: [{
-                data: input.data,
+                data: input.saltos.data,
                 minSpareRows: minSpareRows,
                 minSpareCols: minSpareCols,
                 //tableHeight: height,
@@ -271,7 +271,7 @@ saltos.bootstrap.__field.jspreadsheet = field => {
                 return false;
             },
             onload: instance => {
-                const content = input.jspreadsheet[0].content;
+                const content = input.saltos.jspreadsheet[0].content;
                 content.querySelectorAll('table thead td').forEach(item => {
                     if ('textAlign' in item.style) {
                         item.style.textAlign = 'center';
@@ -318,10 +318,10 @@ saltos.bootstrap.__field.jspreadsheet = field => {
                 }
             }
         });
-        input.jspreadsheet = _jspreadsheet;
+        input.saltos.jspreadsheet = _jspreadsheet;
         if (fitWidth) {
             const resizeObserver = new ResizeObserver(() => {
-                if (input.jspreadsheet && input.jspreadsheet[0]) {
+                if (input.saltos.jspreadsheet && input.saltos.jspreadsheet[0]) {
                     window.requestAnimationFrame(() => {
                         _fitWidth_helper();
                     });
@@ -332,54 +332,83 @@ saltos.bootstrap.__field.jspreadsheet = field => {
         }
     });
 
+    // Program the check_required feature
+    input.saltos.check_required = () => ({
+        value: input.saltos.data.join().replaceAll(',', ''),
+        color: input.parentElement,
+        focus: input,
+    });
     // Program the disabled feature
-    input.set_disabled = bool => {
-        if (!('jspreadsheet' in input)) {
-            saltos.core.wait_for(() => 'jspreadsheet' in input, 60000).then(ready => {
+    input.saltos.set_disabled = bool => {
+        if (!('jspreadsheet' in input.saltos)) {
+            saltos.core.wait_for(() => 'jspreadsheet' in input.saltos, 60000).then(ready => {
                 if (ready) {
-                    input.set_disabled(bool);
+                    input.saltos.set_disabled(bool);
                 }
             });
             return;
         }
-        const rows = input.data.length;
-        const cols = input.data[0] ? input.data[0].length : 0;
+        const rows = input.saltos.data.length;
+        const cols = input.saltos.data[0] ? input.saltos.data[0].length : 0;
         for (let y = 0; y < rows; y++) {
             for (let x = 0; x < cols; x++) {
-                const coord = input.jspreadsheet[0].getCellFromCoords(x, y);
-                input.jspreadsheet[0].setReadOnly(coord, bool);
+                const coord = input.saltos.jspreadsheet[0].getCellFromCoords(x, y);
+                input.saltos.jspreadsheet[0].setReadOnly(coord, bool);
             }
         }
     };
     if (saltos.core.eval_bool(field.disabled)) {
-        input.set_disabled(true);
+        input.saltos.set_disabled(true);
     }
 
-    // Program the set in the input first
-    input.set = value => {
-        if (!('jspreadsheet' in input)) {
-            if (!('queue' in input)) {
-                input.queue = [];
-                saltos.core.wait_for(() => 'jspreadsheet' in input, 60000).then(ready => {
+    // Program the old_value and get_data features
+    input.saltos.old_value = field.data;
+    // The jspreadsheet changes in place the void cells to '', and for this reason, the
+    // null and undefined cells are normalized to '' in a copy of both matrices
+    const _void_helper = data => {
+        if (!Array.isArray(data)) {
+            return data;
+        }
+        return data.map(row => {
+            if (!Array.isArray(row)) {
+                return row;
+            }
+            return Array.from(row, item => [null, undefined].includes(item) ? '' : item);
+        });
+    };
+    input.saltos.get_data = () => {
+        const val = _void_helper(input.saltos.data);
+        const old = _void_helper(input.saltos.old_value);
+        if (val.length > 0 && val.at(-1).every(item => item === '')) {
+            val.pop();
+        }
+        return [val, old];
+    };
+    // Program the set_value in the input first
+    input.saltos.set_value = value => {
+        if (!('jspreadsheet' in input.saltos)) {
+            if (!('queue' in input.saltos)) {
+                input.saltos.queue = [];
+                saltos.core.wait_for(() => 'jspreadsheet' in input.saltos, 60000).then(ready => {
                     if (!ready) {
                         throw new Error('Timeout waiting for jspreadsheet');
                     }
-                    while (input.queue.length) {
-                        const item = input.queue.shift();
-                        input.set(item);
+                    while (input.saltos.queue.length) {
+                        const item = input.saltos.queue.shift();
+                        input.saltos.set_value(item);
                     }
                 });
             }
-            input.queue.push(value);
+            input.saltos.queue.push(value);
             return;
         }
         if (Array.isArray(value)) {
-            input.data = saltos.core.copy_object(value);
-            input.jspreadsheet[0].setData(input.data);
+            input.saltos.data = saltos.core.copy_object(value);
+            input.saltos.jspreadsheet[0].setData(input.saltos.data);
         } else {
             if ('data' in value) {
-                input.data = saltos.core.copy_object(value.data);
-                input.jspreadsheet[0].setData(input.data);
+                input.saltos.data = saltos.core.copy_object(value.data);
+                input.saltos.jspreadsheet[0].setData(input.saltos.data);
             }
             if ('cells' in value) {
                 _cells_helper(value.cells);

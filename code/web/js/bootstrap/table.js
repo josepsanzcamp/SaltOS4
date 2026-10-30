@@ -97,6 +97,7 @@ saltos.bootstrap.__field.table = field => {
             </table>
         </div>
     `);
+    obj.saltos = {};
     obj.querySelector('table').append(saltos.core.html('table', `
         <thead>
             <tr>
@@ -530,12 +531,12 @@ saltos.bootstrap.__field.table = field => {
             }
         </style>
     `));
-    // Program the set and the add in the table
-    obj.set = value => {
+    // Program the set_value and the add_value in the table
+    obj.saltos.set_value = value => {
         const temp = saltos.bootstrap.__field.table({...field, ...value});
         obj.replaceWith(temp);
     };
-    obj.add = value => {
+    obj.saltos.add_value = value => {
         const suma = {...field, ...value, data: [...field.data, ...value.data]};
         const temp = saltos.bootstrap.__field.table(suma);
         obj.replaceWith(temp);

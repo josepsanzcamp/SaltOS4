@@ -134,6 +134,13 @@ saltos.bootstrap.__textarea_helper = field => {
             ${disabled} ${readonly} ${required} ${autofocus} ${autosave}
             id="${field.id}" data-bs-title="${field.tooltip}">${field.value}</textarea>
     `);
+    obj.saltos = saltos.bootstrap.__saltos_helper(obj, field);
+    // Program the get_data feature
+    obj.saltos.get_data = () => {
+        const val = obj.value.replace(/\r\n|\r/g, '\n');
+        const old = obj.saltos.old_value.toString().replace(/\r\n|\r/g, '\n');
+        return [val, old];
+    };
     if (field.tooltip !== '') {
         saltos.bootstrap.__tooltip_helper(obj);
     }

@@ -242,14 +242,10 @@ saltos.app.process_response = async response => {
  */
 saltos.app.get_data = full => {
     let data = {};
-    const types = saltos.bootstrap.__field_types;
     for (const i in saltos.form.__form.fields) {
         const field = saltos.form.__form.fields[i];
-        if (!types.includes(field.type)) {
-            continue;
-        }
         const obj = document.getElementById(field.id);
-        if (!obj) {
+        if (!obj || !('saltos' in obj) || !obj.saltos.is_input) {
             continue;
         }
         // This trick allow to ignore fields used only for presentation purposes
@@ -257,78 +253,7 @@ saltos.app.get_data = full => {
             continue;
         }
         // Continue
-        let val = obj.value;
-        let old = '';
-        if ('value' in field) {
-            old = field.value.toString();
-        }
-        switch (field.type) {
-            case 'textarea':
-            case 'joditeditor':
-            case 'codemirror':
-                val = val.replace(/\r\n|\r/g, '\n');
-                old = old.replace(/\r\n|\r/g, '\n');
-                if (field.type === 'joditeditor' && val === '<p><br></p>') {
-                    val = '';
-                }
-                break;
-            case 'file':
-                val = obj.data;
-                old = field.data;
-                if (!Array.isArray(old)) {
-                    old = [];
-                }
-                break;
-            case 'integer':
-            case 'checkbox':
-            case 'switch':
-                val = parseInt(val, 10);
-                old = parseInt(old, 10);
-                if (!saltos.core.is_number(val)) {
-                    val = 0;
-                }
-                if (!saltos.core.is_number(old)) {
-                    old = 0;
-                }
-                break;
-            case 'float':
-                val = parseFloat(val);
-                old = parseFloat(old);
-                if (!saltos.core.is_number(val)) {
-                    val = 0;
-                }
-                if (!saltos.core.is_number(old)) {
-                    old = 0;
-                }
-                break;
-            case 'select':
-                if ('multiple' in field && saltos.core.eval_bool(field.multiple)) {
-                    if ('separator' in field) {
-                        val = val.split(field.separator).sort().join(field.separator);
-                        old = old.split(field.separator).sort().join(field.separator);
-                    }
-                }
-                if (val === '0' && old === '') {
-                    old = val;
-                }
-                if (val === '' && old === '0') {
-                    val = old;
-                }
-                break;
-            case 'multiselect':
-                if ('separator' in field) {
-                    val = val.split(field.separator).sort().join(field.separator);
-                    old = old.split(field.separator).sort().join(field.separator);
-                }
-                break;
-            case 'jspreadsheet':
-                val = obj.data;
-                old = field.data;
-                if (val.length > 0 && val.at(-1).every(item => [null, ''].includes(item))) {
-                    val.pop();
-                }
-                break;
-        }
+        const [val, old] = obj.saltos.get_data();
         if (typeof val === 'object' && typeof old === 'object') {
             if (JSON.stringify(val) !== JSON.stringify(old) || full) {
                 data[field.id] = val;
@@ -417,59 +342,19 @@ saltos.app.checkbox_ids = obj => {
  */
 saltos.app.check_required = () => {
     let obj = null;
-    const types = saltos.bootstrap.__field_types;
     for (const i in saltos.form.__form.fields) {
         const field = saltos.form.__form.fields[i];
-        if (!types.includes(field.type)) {
-            continue;
-        }
         if (!saltos.core.eval_bool(field.required)) {
             continue;
         }
         const item = document.getElementById(field.id);
-        if (!item) {
+        if (!item || !('saltos' in item) || !item.saltos.is_input) {
             continue;
         }
-        let value = item.value;
-        let obj_color = item;
-        let obj_focus = item;
-        // to detect the color and focus of the tags fields
-        if (['tags', 'onetag'].includes(field.type)) {
-            obj_color = item.nextElementSibling;
-            obj_focus = item.nextElementSibling.querySelector('input');
-        }
-        // to detect the color and focus of the joditeditor fields
-        if (field.type === 'joditeditor') {
-            if (value === '<p><br></p>') {
-                value = '';
-            }
-            obj_color = item.previousElementSibling;
-            obj_focus = item.joditeditor;
-        }
-        // to detect the color and focus of the codemirror fields
-        if (field.type === 'codemirror') {
-            obj_color = item.nextElementSibling;
-            obj_focus = item.codemirror;
-        }
-        // to detect the value of the file fields
-        if (field.type === 'file') {
-            value = item.data.length;
-        }
-        // to detect the color and focus of the multiselects fields
-        if (field.type === 'multiselect') {
-            const abc = document.getElementById(field.id + '_abc');
-            obj_color = abc;
-            obj_focus = abc;
-        }
-        // to detect the value of the checkbox or switch fields
-        if (['checkbox', 'switch'].includes(field.type)) {
-            value = parseInt(value, 10);
-        }
-        // to detect the color, focus and value of the excel fields
-        if (field.type === 'jspreadsheet') {
-            value = item.data.join().replaceAll(',', '');
-            obj_color = item.parentElement;
-        }
+        const check = item.saltos.check_required();
+        const value = check.value;
+        const obj_color = check.color;
+        const obj_focus = check.focus;
         // continue;
         obj_color.classList.remove('is-valid');
         obj_color.classList.remove('is-invalid');
@@ -497,50 +382,9 @@ saltos.app.check_required = () => {
                 obj_color.classList.add('border-success');
             }
         }
-        // to detect the color of the button in the password fields
-        if (field.type === 'password') {
-            const button = item.nextElementSibling;
-            button.classList.forEach(item2 => {
-                if (item2.substr(0, 4) === 'btn-') {
-                    button.classList.remove(item2);
-                }
-            });
-            if (value === '') {
-                button.classList.add('btn-danger');
-            } else {
-                button.classList.add('btn-success');
-            }
-        }
-        // to detect the color of the multiselects fields (the other select + buttons)
-        if (field.type === 'multiselect') {
-            const xyz = document.getElementById(field.id + '_xyz');
-            obj_color = xyz;
-            obj_color.classList.remove('is-valid');
-            obj_color.classList.remove('is-invalid');
-            obj_color.classList.remove('border');
-            obj_color.classList.forEach(item2 => {
-                if (item2.substr(0, 7) === 'border-') {
-                    obj_color.classList.remove(item2);
-                }
-            });
-            if (value === '') {
-                obj_color.classList.add('is-invalid');
-            } else {
-                obj_color.classList.add('is-valid');
-            }
-            const temp = document.getElementById(field.id).parentElement.parentElement;
-            temp.querySelectorAll('button').forEach(item2 => {
-                item2.classList.forEach(item3 => {
-                    if (item3.substr(0, 4) === 'btn-') {
-                        item2.classList.remove(item3);
-                    }
-                });
-                if (value === '') {
-                    item2.classList.add('btn-danger');
-                } else {
-                    item2.classList.add('btn-success');
-                }
-            });
+        // The extra feature allow to the widgets to colorize other elements
+        if ('extra' in check) {
+            check.extra(value);
         }
     }
     if (obj) {
@@ -557,14 +401,10 @@ saltos.app.check_required = () => {
  * to do screen for view mode.
  */
 saltos.app.form_disabled = bool => {
-    const types = saltos.bootstrap.__field_types;
     for (const i in saltos.form.__form.fields) {
         const field = saltos.form.__form.fields[i];
-        if (!types.includes(field.type)) {
-            continue;
-        }
         const obj = document.getElementById(field.id);
-        if (!obj) {
+        if (!obj || !('saltos' in obj) || !obj.saltos.is_input) {
             continue;
         }
         if (bool) {
@@ -574,9 +414,7 @@ saltos.app.form_disabled = bool => {
             obj.removeAttribute('disabled');
             //~ obj.removeAttribute('readonly');
         }
-        if ('set_disabled' in obj) {
-            obj.set_disabled(bool);
-        }
+        obj.saltos.set_disabled(bool);
     }
 };
 

@@ -325,7 +325,7 @@ describe('App Emails', () => {
         await page.waitForSelector('#from', timeout);
 
         // Special case to allow the joditeditor render
-        await page.waitForFunction(() => document.getElementById('body').joditeditor, timeout);
+        await page.waitForFunction(() => document.getElementById('body').saltos.joditeditor, timeout);
 
         const screenshot = await sharp(await page.screenshot()).png({
             compressionLevel: 9,

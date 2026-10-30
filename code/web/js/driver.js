@@ -203,15 +203,15 @@ saltos.driver.search = arg => {
     const app = saltos.hash.get().split('/').at(1);
     // Restore the more button
     const obj = document.getElementById('more');
-    if (obj && 'set_disabled' in obj && typeof obj.set_disabled === 'function') {
-        obj.set_disabled(false);
+    if (obj && 'saltos' in obj && typeof obj.saltos.set_disabled === 'function') {
+        obj.saltos.set_disabled(false);
     }
     // Continue
     saltos.app.ajax({
         url: `app/${app}/list/data`,
         data: data,
         success: response => {
-            document.getElementById('list').set(response);
+            document.getElementById('list').saltos.set_value(response);
             document.getElementById('one').scrollTop = 0;
         },
     });
@@ -226,24 +226,17 @@ saltos.driver.search = arg => {
  */
 saltos.driver.reset = arg => {
     saltos.backup.restore('top+one');
-    const types = saltos.bootstrap.__field_types;
     for (const i in saltos.form.__form.fields) {
         const field = saltos.form.__form.fields[i];
-        if (!types.includes(field.type)) {
-            continue;
-        }
         const obj = document.getElementById(field.id);
-        if (!obj) {
+        if (!obj || !('saltos' in obj) || !obj.saltos.is_input) {
             continue;
         }
         // Check to prevent objects in value
         if (typeof field.value !== 'object') {
             obj.value = field.value;
         }
-        // Special case for widgets with set
-        if ('set' in obj && typeof obj.set === 'function') {
-            obj.set(field.value);
-        }
+        obj.saltos.set_value(field.value);
     }
     saltos.driver.search();
 };
@@ -269,13 +262,13 @@ saltos.driver.more = arg => {
                 saltos.app.toast('Response', 'There is no more data', {color: 'warning'});
                 // Disable the more button
                 const obj = document.getElementById('more');
-                if (obj && 'set_disabled' in obj && typeof obj.set_disabled === 'function') {
-                    obj.set_disabled(true);
+                if (obj && 'saltos' in obj && typeof obj.saltos.set_disabled === 'function') {
+                    obj.saltos.set_disabled(true);
                 }
                 // Continue
                 return;
             }
-            document.getElementById('list').add(response);
+            document.getElementById('list').saltos.add_value(response);
         },
     });
 };
