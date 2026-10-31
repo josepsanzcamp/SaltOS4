@@ -58,7 +58,6 @@ function check_system()
         ['program', 'tesseract', 'warning', 'tesseract-ocr'], // unoconv module
         ['program', 'pdftoppm', 'warning', 'poppler-utils'], // unoconv module
         ['extension', 'mailparse', 'warning', 'php-mailparse'], // emails module
-        ['extension', 'imap', 'warning', 'php-imap'], // emails module
         ['program', 'chromium', 'warning', 'chromium'], // emails module
         ['program', 'pdfunite', 'warning', 'poppler-utils'], // emails module
         ['program', 'certutil', 'warning', 'libnss3-tools'], // nssdb module

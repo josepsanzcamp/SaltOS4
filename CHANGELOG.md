@@ -45,6 +45,7 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 ### Removed
 - Compatibility wrappers and polyfills for PHP versions older than 8.2.
 - `init_random()` and the `random.php` autoload module, PHP seeds the random number generator by default.
+- The `php-imap` extension is no longer checked by the setup nor installed in the Docker images; it is not used, and the future IMAP support of the emails app will use its own socket client.
 
 ### Fixed
 - Editing an invoice or a quote regenerated their code and their date, and the due date of the closed invoices and the valid until date of the quotes were replaced by the current date.
