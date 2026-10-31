@@ -120,6 +120,7 @@ RUN curl -fsSL https://packages.groonga.org/debian/groonga-apt-source-latest-tri
 
 RUN apt update && apt install -y \
     libgroonga0 \
+    opentelemetry-cpp \
     groonga-normalizer-mysql \
     && rm -rf /var/lib/apt/lists/*
 
