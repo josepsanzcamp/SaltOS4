@@ -86,6 +86,7 @@ function make_where_query_emails($json)
     // Start building the WHERE clause
     $query = ['1=1']; // Default condition to ensure the query is valid
     if ($account_id !== '') {
+        $account_id = intval($account_id);
         $query[] = "account_id='$account_id'";
     }
     if ($fields !== '') {
@@ -110,9 +111,11 @@ function make_where_query_emails($json)
         $query[] = 'is_outbox=1';
     }
     if ($date1 !== '') {
+        $date1 = dateval($date1);
         $query[] = "(DATE(datetime)>=DATE('$date1'))";
     }
     if ($date2 !== '') {
+        $date2 = dateval($date2);
         $query[] = "(DATE('$date2')>=DATE(datetime))";
     }
     if ($date3 !== '') {
