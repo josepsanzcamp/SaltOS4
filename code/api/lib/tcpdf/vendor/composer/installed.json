@@ -2,26 +2,26 @@
     "packages": [
         {
             "name": "tecnickcom/tcpdf",
-            "version": "7.0.20",
-            "version_normalized": "7.0.20.0",
+            "version": "7.0.21",
+            "version_normalized": "7.0.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/TCPDF.git",
-                "reference": "c8834161b905b21bd8dcc0df6284e0132c5efa05"
+                "reference": "5108fa5cb0a362ef70c94cc3f448ba151ce794b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/c8834161b905b21bd8dcc0df6284e0132c5efa05",
-                "reference": "c8834161b905b21bd8dcc0df6284e0132c5efa05",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/5108fa5cb0a362ef70c94cc3f448ba151ce794b9",
+                "reference": "5108fa5cb0a362ef70c94cc3f448ba151ce794b9",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "php": ">=8.2",
-                "tecnickcom/tc-lib-pdf": "^8.82"
+                "tecnickcom/tc-lib-pdf": "^8.83"
             },
             "require-dev": {
-                "carthage-software/mago": "1.57.0",
+                "carthage-software/mago": "1.59.0",
                 "pdepend/pdepend": "^3.0",
                 "phpunit/phpunit": "^11.5 || ^12.5 || ^13.4"
             },
@@ -31,7 +31,7 @@
                 "ext-zlib": "Recommended for compressed streams and related features.",
                 "tecnickcom/tc-lib-pdf": "Modern replacement for TCPDF for new projects."
             },
-            "time": "2026-10-24T10:08:31+00:00",
+            "time": "2026-11-02T17:09:42+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
