@@ -25,7 +25,7 @@
 /**
  * Load all needed files of the project
  */
-const files = `app,backup,bootstrap,core,driver,filter,form,gettext,hash,storage,token`.split(',');
+const files = `app,backup,bootstrap,core,driver,filter,form,gettext,hash,storage,token,window`.split(',');
 for (const i in files) {
     const file = files[i].trim();
     require(`../code/web/js/${file}.js`);
@@ -119,18 +119,20 @@ describe('saltos.filter.load()', () => {
     beforeEach(() => {
         jest.spyOn(saltos.form, 'data').mockImplementation(jest.fn());
         jest.spyOn(saltos.driver, 'search').mockImplementation(jest.fn());
+        jest.spyOn(saltos.window, 'send').mockImplementation(jest.fn());
     });
 
     /**
      * Test loading existing filter
      *
-     * Verifies that loading a filter populates form data
-     * and triggers a search
+     * Verifies that loading a filter populates form data, triggers a search
+     * and sends the saltos.filter.load signal to the current tab
      */
     test('should load filter data and trigger search', () => {
         saltos.filter.load('filter1');
         expect(saltos.form.data).toHaveBeenCalledWith({field1: 'value1'}, false);
         expect(saltos.driver.search).toHaveBeenCalled();
+        expect(saltos.window.send).toHaveBeenCalledWith('saltos.filter.load', 'filter1', 'me');
     });
 
     /**

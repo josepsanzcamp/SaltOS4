@@ -28,7 +28,7 @@ declare(strict_types=1);
  *
  * This function takes a JSON input and generates a dynamic SQL WHERE clause to filter emails.
  * The query is constructed based on several optional parameters such as account ID, search fields,
- * dates, and flags indicating specific states (e.g., new emails, waiting emails, spam).
+ * dates, and flags indicating specific states (e.g., new emails, waiting emails).
  *
  * @json => Input parameters for generating the query.
  *
@@ -38,6 +38,7 @@ function make_where_query_emails($json)
 {
     // Extract input fields from the JSON object
     $account_id = $json['account_id'] ?? '';
+    $folder_id = $json['folder_id'] ?? '';
     $fields = $json['fields'] ?? '';
     $search = $json['search'] ?? '';
     $date1 = $json['date1'] ?? '';
@@ -45,12 +46,8 @@ function make_where_query_emails($json)
     $date3 = $json['date3'] ?? '';
     $onlynew = $json['onlynew'] ?? '';
     $onlywait = $json['onlywait'] ?? '';
-    $onlyspam = $json['onlyspam'] ?? '';
-    $hidespam = $json['hidespam'] ?? '';
     $withfiles = $json['withfiles'] ?? '';
     $withoutfiles = $json['withoutfiles'] ?? '';
-    $onlyinbox = $json['onlyinbox'] ?? '';
-    $onlyoutbox = $json['onlyoutbox'] ?? '';
 
     // Map input fields to their corresponding database columns
     $fields_array = [
@@ -71,15 +68,11 @@ function make_where_query_emails($json)
     $date3 = isset($date3_array[$date3]) ? $date3 : '';
 
     // Define conditions for email states
-    $only = intval($onlynew) . intval($onlywait) . intval($onlyspam);
+    $only = intval($onlynew) . intval($onlywait);
     $only_array = [
-        '100' => "state_new='1'",
-        '010' => "state_wait='1'",
-        '110' => "(state_new='1' OR state_wait='1')",
-        '001' => "state_spam='1'",
-        '101' => "(state_new='1' OR state_spam='1')",
-        '011' => "(state_wait='1' OR state_spam='1')",
-        '111' => "(state_new='1' OR state_wait='1' OR state_spam='1')",
+        '10' => "state_new='1'",
+        '01' => "state_wait='1'",
+        '11' => "(state_new='1' OR state_wait='1')",
     ];
     $only = isset($only_array[$only]) ? $only : '';
 
@@ -89,26 +82,21 @@ function make_where_query_emails($json)
         $account_id = intval($account_id);
         $query[] = "account_id='$account_id'";
     }
+    $folder_id = intval($folder_id);
+    if ($folder_id > 0) {
+        $query[] = "folder_id='$folder_id'";
+    }
     if ($fields !== '') {
         $query[] = make_like_query($fields_array[$fields], $search);
     }
     if ($only !== '') {
         $query[] = $only_array[$only];
     }
-    if ($hidespam) {
-        $query[] = "state_spam='0'";
-    }
     if ($withfiles) {
         $query[] = 'files>0';
     }
     if ($withoutfiles) {
         $query[] = 'files=0';
-    }
-    if ($onlyinbox) {
-        $query[] = 'is_outbox=0';
-    }
-    if ($onlyoutbox) {
-        $query[] = 'is_outbox=1';
     }
     if ($date1 !== '') {
         $date1 = dateval($date1);

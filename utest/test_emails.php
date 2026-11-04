@@ -44,6 +44,9 @@ require_once 'lib/utestlib.php';
 require_once 'apps/emails/php/getmail.php';
 require_once 'apps/emails/php/sendmail.php';
 require_once 'apps/emails/php/html.php';
+require_once 'apps/emails/php/folders.php';
+require_once 'php/lib/actions.php';
+require_once 'php/lib/control.php';
 
 /**
  * Main class of this unit test
@@ -71,12 +74,9 @@ final class test_emails extends TestCase
             'fields' => 'body',
             'onlynew' => 1,
             'onlywait' => 1,
-            'onlyspam' => 1,
-            'hidespam' => 1,
+            'folder_id' => 1,
             'withfiles' => 1,
             'withoutfiles' => 1,
-            'onlyinbox' => 1,
-            'onlyoutbox' => 1,
             'date1' => current_date(),
             'date2' => current_date(),
             'date3' => 'today',
@@ -204,12 +204,6 @@ final class test_emails extends TestCase
         $this->assertSame($result, sprintf(T('%d email(s) modified successfully'), 1));
 
         $result = getmail_setter('42', 'wait=0');
-        $this->assertSame($result, sprintf(T('%d email(s) modified successfully'), 1));
-
-        $result = getmail_setter('42', 'spam=1');
-        $this->assertSame($result, sprintf(T('%d email(s) modified successfully'), 1));
-
-        $result = getmail_setter('42', 'spam=0');
         $this->assertSame($result, sprintf(T('%d email(s) modified successfully'), 1));
 
         $files = glob('data/cache/*.html');
@@ -543,6 +537,9 @@ final class test_emails extends TestCase
         $ids = execute_query_array($query);
 
         $result = getmail_delete($ids);
+        $this->assertSame(sprintf(T('%d email(s) moved to trash'), count($ids)), $result);
+
+        $result = getmail_delete($ids);
         $this->assertSame(sprintf(T('%d email(s) deleted'), count($ids)), $result);
 
         $result = getmail_delete($ids);
@@ -661,5 +658,227 @@ final class test_emails extends TestCase
 
         $this->assertSame('', $pop3->DeleteMessage($lastIndex));
         $this->assertSame('', $pop3->Close());
+    }
+
+    #[Depends('test_emails')]
+    #[testdox('folders functions')]
+    /**
+     * folders test
+     *
+     * This test performs some tests to validate the correctness
+     * of the emails folders functions
+     */
+    public function test_folders(): void
+    {
+        set_data('server/user', 'admin');
+        set_data('rest/0', 'app');
+        set_data('rest/1', 'emails');
+
+        // The xml endpoints
+        $json = test_cli_helper('app/emails/list/folders', [], '', '', 'admin');
+        $this->assertIsArray($json);
+        $this->assertArrayHasKey('data', $json);
+        $json = test_cli_helper('app/emails/action/folder', ['action' => 'unknown'], '', '', 'admin');
+        $this->assertIsArray($json);
+        $this->assertSame(T('Unknown action'), $json['text']);
+
+        // The mandatory folders
+        $ids = array_map('intval', emails_folders_check(1));
+        $this->assertSame(['\Inbox', '\Sent', '\Trash', '\Junk'], array_keys($ids));
+        $this->assertSame($ids, array_map('intval', emails_folders_check(1)));
+        $maxid = execute_query('SELECT MAX(id) FROM app_emails_accounts');
+        $this->assertSame([], emails_folders_check($maxid + 1));
+
+        // The tree
+        $tree = emails_folders_tree();
+        $this->assertIsArray($tree);
+        $node = array_values(array_filter($tree, fn($x) => $x['id'] === '1/0'))[0];
+        $this->assertSame('1/' . $ids['\Inbox'], $node['children'][0]['id']);
+        $this->assertSame(T('Inbox'), $node['children'][0]['text']);
+        $this->assertCount(1, emails_folders_tree(42));
+        $maxid = execute_query('SELECT MAX(id) FROM app_emails');
+        $this->assertSame([], emails_folders_tree($maxid + 1));
+
+        // Remove the folders of previous executions that not finished
+        $query = "SELECT id FROM app_emails_folders WHERE account_id = 1 AND parent_id = 0
+            AND label IN ('Test', 'Test2', 'Child', 'Other')";
+        foreach (execute_query_array($query) as $id) {
+            emails_folders_action(['action' => 'delete', 'folder_id' => $id]);
+        }
+
+        // Create
+        $this->assertSame(T('Unknown action'), emails_folders_action(['action' => 'unknown']));
+        $this->assertSame(T('Permission denied'), emails_folders_action([
+            'action' => 'create', 'account_id' => 0, 'parent_id' => 0, 'label' => 'Test',
+        ]));
+        $this->assertSame(T('Permission denied'), emails_folders_action([
+            'action' => 'create', 'account_id' => 1, 'parent_id' => -1, 'label' => 'Test',
+        ]));
+        $this->assertSame(T('The name of the folder is required'), emails_folders_action([
+            'action' => 'create', 'account_id' => 1, 'parent_id' => 0, 'label' => ' ',
+        ]));
+        $this->assertSame(T('Folder created'), emails_folders_action([
+            'action' => 'create', 'account_id' => 1, 'parent_id' => 0, 'label' => 'Test',
+        ]));
+        $this->assertSame(T('A folder with the same name already exists'), emails_folders_action([
+            'action' => 'create', 'account_id' => 1, 'parent_id' => 0, 'label' => 'Test',
+        ]));
+        $query = "SELECT id FROM app_emails_folders
+            WHERE account_id = 1 AND parent_id = 0 AND label = 'Test'";
+        $test_id = intval(execute_query($query));
+        $this->assertSame(T('Folder created'), emails_folders_action([
+            'action' => 'create', 'account_id' => 1, 'parent_id' => $test_id, 'label' => 'Child',
+        ]));
+        $query = "SELECT id FROM app_emails_folders
+            WHERE account_id = 1 AND parent_id = ? AND label = 'Child'";
+        $child_id = intval(execute_query($query, [$test_id]));
+
+        // Rename
+        $this->assertSame(T('Permission denied'), emails_folders_action([
+            'action' => 'rename', 'folder_id' => -1, 'label' => 'Test2',
+        ]));
+        $this->assertSame(T('The special folders can not be modified'), emails_folders_action([
+            'action' => 'rename', 'folder_id' => $ids['\Inbox'], 'label' => 'Test2',
+        ]));
+        $this->assertSame(T('The name of the folder is required'), emails_folders_action([
+            'action' => 'rename', 'folder_id' => $test_id, 'label' => '',
+        ]));
+        $this->assertSame(T('Folder created'), emails_folders_action([
+            'action' => 'create', 'account_id' => 1, 'parent_id' => 0, 'label' => 'Other',
+        ]));
+        $this->assertSame(T('A folder with the same name already exists'), emails_folders_action([
+            'action' => 'rename', 'folder_id' => $test_id, 'label' => 'Other',
+        ]));
+        $this->assertSame(T('Folder renamed'), emails_folders_action([
+            'action' => 'rename', 'folder_id' => $test_id, 'label' => 'Test2',
+        ]));
+
+        // Move
+        $this->assertSame(T('Permission denied'), emails_folders_action([
+            'action' => 'move', 'folder_id' => -1, 'parent_id' => 0,
+        ]));
+        $this->assertSame(T('The special folders can not be modified'), emails_folders_action([
+            'action' => 'move', 'folder_id' => $ids['\Inbox'], 'parent_id' => $test_id,
+        ]));
+        $this->assertSame(T('Permission denied'), emails_folders_action([
+            'action' => 'move', 'folder_id' => $test_id, 'parent_id' => -1,
+        ]));
+        $this->assertSame(T('A folder can not be moved inside itself'), emails_folders_action([
+            'action' => 'move', 'folder_id' => $test_id, 'parent_id' => $child_id,
+        ]));
+        $this->assertSame(T('Folder renamed'), emails_folders_action([
+            'action' => 'rename', 'folder_id' => $child_id, 'label' => 'Other',
+        ]));
+        $this->assertSame(T('A folder with the same name already exists'), emails_folders_action([
+            'action' => 'move', 'folder_id' => $child_id, 'parent_id' => 0,
+        ]));
+        $this->assertSame(T('Folder renamed'), emails_folders_action([
+            'action' => 'rename', 'folder_id' => $child_id, 'label' => 'Child',
+        ]));
+        $this->assertSame(T('Folder moved'), emails_folders_action([
+            'action' => 'move', 'folder_id' => $child_id, 'parent_id' => 0,
+        ]));
+        $this->assertSame(T('Folder moved'), emails_folders_action([
+            'action' => 'move', 'folder_id' => $child_id, 'parent_id' => $test_id,
+        ]));
+
+        // Move emails
+        $folder_id = intval(execute_query('SELECT folder_id FROM app_emails WHERE id = 42'));
+        $maxid = execute_query('SELECT MAX(id) FROM app_emails');
+        $this->assertSame(T('Permission denied'), emails_folders_move_to($maxid + 1, $child_id));
+        $this->assertSame(T('Permission denied'), emails_folders_move_to(42, -1));
+        $this->assertSame(sprintf(T('%d email(s) moved'), 1), emails_folders_move_to(42, $child_id));
+        $this->assertSame($child_id, intval(execute_query('SELECT folder_id FROM app_emails WHERE id = 42')));
+
+        // Delete
+        $this->assertSame(T('Permission denied'), emails_folders_action([
+            'action' => 'summary', 'folder_id' => -1,
+        ]));
+        $this->assertSame(T('The special folders can not be modified'), emails_folders_action([
+            'action' => 'summary', 'folder_id' => $ids['\Inbox'],
+        ]));
+        $this->assertSame(sprintf(T('The folder and its %d subfolder(s) will be deleted ' .
+            'and its %d email(s) moved to the trash'), 1, 1), emails_folders_action([
+            'action' => 'summary', 'folder_id' => $test_id,
+        ]));
+        $this->assertSame(T('Permission denied'), emails_folders_action([
+            'action' => 'delete', 'folder_id' => -1,
+        ]));
+        $this->assertSame(T('The special folders can not be modified'), emails_folders_action([
+            'action' => 'delete', 'folder_id' => $ids['\Inbox'],
+        ]));
+        $this->assertSame(T('Folder deleted'), emails_folders_action([
+            'action' => 'delete', 'folder_id' => $test_id,
+        ]));
+        $query = 'SELECT folder_id FROM app_emails WHERE id = 42';
+        $this->assertSame($ids['\Trash'], intval(execute_query($query)));
+        $query = 'SELECT COUNT(*) FROM app_emails_folders WHERE id IN (?, ?)';
+        $this->assertSame(0, intval(execute_query($query, [$test_id, $child_id])));
+        $query = "SELECT id FROM app_emails_folders
+            WHERE account_id = 1 AND parent_id = 0 AND label = 'Other'";
+        $this->assertSame(T('Folder deleted'), emails_folders_action([
+            'action' => 'delete', 'folder_id' => intval(execute_query($query)),
+        ]));
+
+        // Restore the email used in the test
+        $this->assertSame(sprintf(T('%d email(s) moved'), 1), emails_folders_move_to(42, $folder_id));
+
+        // Empty the trash and the junk of a new account
+        $result = emails_accounts_insert([
+            'user_id' => current_user(),
+            'email_name' => 'Test',
+            'email_from' => 'test@example.com',
+        ]);
+        $this->assertSame('ok', $result['status']);
+        $account_id = intval($result['created_id']);
+        $ids = array_map('intval', emails_folders_check($account_id));
+        $this->assertCount(4, $ids);
+        $this->assertSame(T('Permission denied'), emails_folders_action([
+            'action' => 'empty_summary', 'account_id' => 0, 'folder' => 'trash',
+        ]));
+        $this->assertSame(T('Permission denied'), emails_folders_action([
+            'action' => 'empty', 'account_id' => 0, 'folder' => 'trash',
+        ]));
+        $this->assertSame(T('Unknown action'), emails_folders_action([
+            'action' => 'empty', 'account_id' => $account_id, 'folder' => 'inbox',
+        ]));
+        $this->assertSame(T('The folder is empty'), emails_folders_action([
+            'action' => 'empty', 'account_id' => $account_id, 'folder' => 'trash',
+        ]));
+        foreach (['\Trash', '\Junk'] as $special_use) {
+            $query = prepare_insert_query('app_emails', [
+                'account_id' => $account_id,
+                'folder_id' => $ids[$special_use],
+                'uidl' => 'utest_folders',
+                'datetime' => current_datetime(),
+                'subject' => 'Test',
+            ]);
+            db_query(...$query);
+            make_control('emails', db_last_insert_id());
+        }
+        $this->assertSame(sprintf(T('%d email(s) will be deleted permanently'), 1), emails_folders_action([
+            'action' => 'empty_summary', 'account_id' => $account_id, 'folder' => 'junk',
+        ]));
+        $this->assertSame(sprintf(T('%d email(s) deleted'), 1), emails_folders_action([
+            'action' => 'empty', 'account_id' => $account_id, 'folder' => 'junk',
+        ]));
+        $this->assertSame(sprintf(T('%d email(s) deleted'), 1), emails_folders_action([
+            'action' => 'empty', 'account_id' => $account_id, 'folder' => 'trash',
+        ]));
+        $query = 'SELECT COUNT(*) FROM app_emails WHERE account_id = ?';
+        $this->assertSame(0, intval(execute_query($query, [$account_id])));
+
+        // Remove the new account and its orphan folders
+        $query = 'DELETE FROM app_emails_deletes WHERE account_id = ?';
+        db_query($query, [$account_id]);
+        $result = delete('emails_accounts', $account_id);
+        $this->assertSame('ok', $result['status']);
+        emails_folders_check(1);
+        $query = 'SELECT COUNT(*) FROM app_emails_folders WHERE account_id = ?';
+        $this->assertSame(0, intval(execute_query($query, [$account_id])));
+
+        set_data('server/user', null);
+        set_data('rest/0', null);
+        set_data('rest/1', null);
     }
 }

@@ -98,6 +98,9 @@ saltos.bootstrap.__field.dropdown = field => {
                 </button>
             </div>
         `);
+        if (field.tooltip !== '') {
+            saltos.bootstrap.__tooltip_helper(obj.querySelector('button'));
+        }
     } else {
         obj = saltos.core.html(`
             <div class="btn-group ${rounded} ${shadow} ${field.class}" id="${field.id}">

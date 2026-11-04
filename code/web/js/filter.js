@@ -68,7 +68,8 @@ saltos.filter.init = async () => {
  *
  * This function gets the filter indentified by the app and name and restore
  * all values of the search form widgets from the cache for afterwards execute
- * the saltos.driver.search, that load the data in the list
+ * the saltos.driver.search, that load the data in the list, and finally sends the
+ * saltos.filter.load signal to the current tab to notify the apps
  *
  * @app  => the name of the desired app to be used
  * @name => the name of the desired filter
@@ -78,6 +79,7 @@ saltos.filter.load = (name) => {
         saltos.form.data(saltos.filter.__cache[name], false);
     }
     saltos.driver.search();
+    saltos.window.send('saltos.filter.load', name, 'me');
 };
 
 /**

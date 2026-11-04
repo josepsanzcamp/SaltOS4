@@ -51,6 +51,16 @@ saltos.emails.init = arg => {
         }
     }
 
+    // Load the folders tree each time that a filter is loaded, including the last
+    // filter restored when the list is opened
+    if (['list'].includes(arg)) {
+        saltos.window.set_listener('saltos.filter.load', event => {
+            if (document.getElementById('folders')) {
+                saltos.emails.folders();
+            }
+        });
+    }
+
     // Handle state changes for list and view
     if (['list', 'view'].includes(arg)) {
         const id = saltos.hash.get().split('/').at(-1);
@@ -94,12 +104,9 @@ saltos.emails.init = arg => {
         if (document.getElementById('is_outbox').value === '1') {
             document.getElementById('state_new').closest('.col-md-2').remove();
             document.getElementById('state_reply').closest('.col-md-2').remove();
-            document.getElementById('state_spam').closest('.col-md-2').remove();
             document.getElementById('reply').closest('.col-auto').remove();
             document.getElementById('new0').closest('li').remove();
             document.getElementById('new1').closest('li').remove();
-            document.getElementById('spam0').closest('li').remove();
-            document.getElementById('spam1').closest('li').remove();
         } else {
             document.getElementById('state_sent').closest('.col-md-2').remove();
             document.getElementById('forward').closest('.col-auto').remove();
@@ -107,11 +114,6 @@ saltos.emails.init = arg => {
                 document.getElementById('new1').closest('li').remove();
             } else {
                 document.getElementById('new0').closest('li').remove();
-            }
-            if (document.getElementById('state_spam').value === '1') {
-                document.getElementById('spam1').closest('li').remove();
-            } else {
-                document.getElementById('spam0').closest('li').remove();
             }
         }
         if (document.getElementById('state_wait').value === '1') {
@@ -161,6 +163,528 @@ saltos.emails.init = arg => {
                 loading: false,
             });
         });
+    }
+};
+
+/**
+ * Load folders
+ *
+ * This method loads the tree of folders of the accounts of the user, marking as selected
+ * the node of the account and the folder of the search form
+ */
+saltos.emails.folders = () => {
+    saltos.app.ajax({
+        url: 'app/emails/list/folders',
+        success: response => {
+            const account_id = document.getElementById('account_id').value;
+            const folder_id = document.getElementById('folder_id').value;
+            saltos.emails.__folders_select(response.data, `${account_id}/${folder_id}`);
+            saltos.emails.__folders_data = response.data;
+            document.getElementById('folders').saltos.set_value(response.data);
+        },
+    });
+};
+
+/**
+ * Folders select helper
+ *
+ * This method marks as selected the node of the tree that matches the id
+ *
+ * @nodes => the nodes of the tree
+ * @id    => the id of the node to select
+ */
+saltos.emails.__folders_select = (nodes, id) => {
+    for (const node of nodes) {
+        if (node.id === id) {
+            node.state = {selected: true};
+        }
+        saltos.emails.__folders_select(node.children, id);
+    }
+};
+
+/**
+ * Select folder
+ *
+ * This method is executed when a node of the tree is selected, the value contains the
+ * account and the folder separated by a slash (folder 0 for all folders of the account),
+ * sets both in the search form and searchs the emails
+ */
+saltos.emails.folder = value => {
+    const [account_id, folder_id] = String(value).split('/');
+    document.getElementById('account_id').saltos.set_value(account_id);
+    document.getElementById('folder_id').value = folder_id;
+    saltos.driver.search();
+};
+
+/**
+ * Reset filter
+ *
+ * This method resets the search filter and reloads the folders tree to remove the
+ * selection of the previous folder
+ */
+saltos.emails.reset = () => {
+    saltos.driver.reset();
+    saltos.emails.folders();
+};
+
+/**
+ * Folders data
+ *
+ * This property stores the last data loaded in the folders tree
+ */
+saltos.emails.__folders_data = [];
+
+/**
+ * Selected folder helper
+ *
+ * This method returns the account and the folder selected in the tree, and the nodes of
+ * both, or shows a modal and returns null if no account is selected
+ */
+saltos.emails.__folder_selected = () => {
+    const account_id = document.getElementById('account_id').value;
+    const folder_id = document.getElementById('folder_id').value;
+    const account = saltos.emails.__folders_data.find(node => node.id === `${account_id}/0`);
+    if (!account) {
+        saltos.app.modal(
+            'Select folder',
+            'You must select a folder or an account in the tree',
+            {
+                color: 'danger',
+            },
+        );
+        return null;
+    }
+    const find = nodes => {
+        for (const node of nodes) {
+            if (node.id === `${account_id}/${folder_id}`) {
+                return node;
+            }
+            const temp = find(node.children);
+            if (temp) {
+                return temp;
+            }
+        }
+        return null;
+    };
+    return {
+        account_id: account_id,
+        folder_id: folder_id,
+        account: account,
+        folder: find(account.children),
+    };
+};
+
+/**
+ * Folder action helper
+ *
+ * This method sends an action of the folders management to the server, shows the response,
+ * reloads the folders tree and updates the list of emails
+ *
+ * @data => the data of the action
+ */
+saltos.emails.__folder_action = data => {
+    saltos.app.ajax({
+        url: 'app/emails/action/folder',
+        proxy: 'network',
+        data: data,
+        success: response => {
+            saltos.app.toast('Response', response.text);
+            saltos.emails.folders();
+            saltos.window.send('saltos.emails.update');
+        },
+    });
+};
+
+/**
+ * Folder modal helper
+ *
+ * This method programs the close of the modal of the folders management when the search
+ * form, that contains the folders tree, is closed
+ */
+saltos.emails.__folder_modal = () => {
+    if (!saltos.bootstrap.offcanvas('isopen')) {
+        return;
+    }
+    saltos.bootstrap.__offcanvas.obj.addEventListener('hide.bs.offcanvas', event => {
+        if (saltos.bootstrap.modal('isopen')) {
+            saltos.bootstrap.modal('close');
+        }
+    }, {once: true});
+};
+
+/**
+ * Create folder
+ *
+ * This method shows a modal to create a new folder in the account selected in the tree,
+ * using the selected folder as default parent
+ */
+saltos.emails.folder_create = () => {
+    const selected = saltos.emails.__folder_selected();
+    if (!selected) {
+        return;
+    }
+    const rows = [{
+        label: selected.account.text,
+        value: '0',
+    }];
+    saltos.emails.__move_rows(selected.account.children, rows, '');
+    const body = saltos.core.html('<div></div>');
+    const parent = saltos.gettext.bootstrap.field({
+        type: 'select',
+        id: 'folder_parent_id',
+        label: 'Parent folder',
+        rows: rows,
+        value: selected.folder_id,
+    });
+    const label = saltos.gettext.bootstrap.field({
+        type: 'text',
+        id: 'folder_label',
+        label: 'Name',
+    });
+    label.classList.add('mt-3');
+    body.append(parent, label);
+    saltos.app.modal('New folder', body, {
+        buttons: [{
+            label: 'Create',
+            color: 'success',
+            icon: 'check-lg',
+            onclick: () => {
+                saltos.emails.__folder_action({
+                    action: 'create',
+                    account_id: selected.account_id,
+                    parent_id: parent.querySelector('select').value,
+                    label: label.querySelector('input').value,
+                });
+            },
+        },{
+            label: 'Cancel',
+            color: 'danger',
+            icon: 'x-lg',
+            onclick: () => {},
+        }],
+    });
+    saltos.emails.__folder_modal();
+};
+
+/**
+ * Rename folder
+ *
+ * This method shows a modal to rename the folder selected in the tree
+ */
+saltos.emails.folder_rename = () => {
+    const selected = saltos.emails.__folder_selected();
+    if (!selected) {
+        return;
+    }
+    if (!selected.folder) {
+        saltos.app.modal(
+            'Select folder',
+            'You must select a folder in the tree',
+            {
+                color: 'danger',
+            },
+        );
+        return;
+    }
+    const label = saltos.gettext.bootstrap.field({
+        type: 'text',
+        id: 'folder_label',
+        label: 'Name',
+        value: selected.folder.text,
+    });
+    saltos.app.modal('Rename folder', label, {
+        buttons: [{
+            label: 'Rename',
+            color: 'success',
+            icon: 'check-lg',
+            onclick: () => {
+                saltos.emails.__folder_action({
+                    action: 'rename',
+                    folder_id: selected.folder_id,
+                    label: label.querySelector('input').value,
+                });
+            },
+        },{
+            label: 'Cancel',
+            color: 'danger',
+            icon: 'x-lg',
+            onclick: () => {},
+        }],
+    });
+    saltos.emails.__folder_modal();
+};
+
+/**
+ * Move folder
+ *
+ * This method shows a modal to move the folder selected in the tree inside another folder
+ * of the same account
+ */
+saltos.emails.folder_move = () => {
+    const selected = saltos.emails.__folder_selected();
+    if (!selected) {
+        return;
+    }
+    if (!selected.folder) {
+        saltos.app.modal(
+            'Select folder',
+            'You must select a folder in the tree',
+            {
+                color: 'danger',
+            },
+        );
+        return;
+    }
+    const rows = [{
+        label: selected.account.text,
+        value: '0',
+    }];
+    saltos.emails.__move_rows(selected.account.children, rows, '', selected.folder.id);
+    const parent = saltos.gettext.bootstrap.field({
+        type: 'select',
+        id: 'folder_parent_id',
+        label: 'Parent folder',
+        rows: rows,
+    });
+    saltos.app.modal('Move folder', parent, {
+        buttons: [{
+            label: 'Move',
+            color: 'success',
+            icon: 'check-lg',
+            onclick: () => {
+                saltos.emails.__folder_action({
+                    action: 'move',
+                    folder_id: selected.folder_id,
+                    parent_id: parent.querySelector('select').value,
+                });
+            },
+        },{
+            label: 'Cancel',
+            color: 'danger',
+            icon: 'x-lg',
+            onclick: () => {},
+        }],
+    });
+    saltos.emails.__folder_modal();
+};
+
+/**
+ * Delete folder
+ *
+ * This method shows a modal with the summary of the folders and emails affected and
+ * deletes the folder selected in the tree with its subfolders, the emails are moved
+ * to the trash, and the emails of the account are shown after the delete
+ */
+saltos.emails.folder_delete = () => {
+    const selected = saltos.emails.__folder_selected();
+    if (!selected) {
+        return;
+    }
+    if (!selected.folder) {
+        saltos.app.modal(
+            'Select folder',
+            'You must select a folder in the tree',
+            {
+                color: 'danger',
+            },
+        );
+        return;
+    }
+    saltos.app.ajax({
+        url: 'app/emails/action/folder',
+        data: {
+            action: 'summary',
+            folder_id: selected.folder_id,
+        },
+        success: response => {
+            saltos.app.modal('Delete folder???', response.text, {
+                buttons: [{
+                    label: 'Yes',
+                    color: 'success',
+                    icon: 'check-lg',
+                    onclick: () => {
+                        document.getElementById('folder_id').value = '0';
+                        saltos.emails.__folder_action({
+                            action: 'delete',
+                            folder_id: selected.folder_id,
+                        });
+                    },
+                },{
+                    label: 'No',
+                    color: 'danger',
+                    icon: 'x-lg',
+                    onclick: () => {},
+                }],
+                color: 'danger',
+            });
+            saltos.emails.__folder_modal();
+        },
+    });
+};
+
+/**
+ * Empty folder
+ *
+ * This method shows a modal with the number of emails affected and deletes permanently
+ * the emails of the trash or the junk folder of the account selected in the tree
+ *
+ * @folder => the folder to empty, trash or junk
+ */
+saltos.emails.folder_empty = folder => {
+    const selected = saltos.emails.__folder_selected();
+    if (!selected) {
+        return;
+    }
+    saltos.app.ajax({
+        url: 'app/emails/action/folder',
+        data: {
+            action: 'empty_summary',
+            account_id: selected.account_id,
+            folder: folder,
+        },
+        success: response => {
+            const title = folder === 'trash' ? 'Empty trash???' : 'Empty junk???';
+            saltos.app.modal(title, response.text, {
+                buttons: [{
+                    label: 'Yes',
+                    color: 'success',
+                    icon: 'check-lg',
+                    onclick: () => {
+                        saltos.emails.__folder_action({
+                            action: 'empty',
+                            account_id: selected.account_id,
+                            folder: folder,
+                        });
+                    },
+                },{
+                    label: 'No',
+                    color: 'danger',
+                    icon: 'x-lg',
+                    onclick: () => {},
+                }],
+                color: 'danger',
+            });
+            saltos.emails.__folder_modal();
+        },
+    });
+};
+
+/**
+ * Move selected emails
+ *
+ * This method moves the emails selected in the list to another folder
+ */
+saltos.emails.move1 = () => {
+    const ids = saltos.app.checkbox_ids(document.getElementById('list'));
+    if (!ids.length) {
+        saltos.app.modal(
+            'Select emails',
+            'You must select the desired emails to be moved',
+            {
+                color: 'danger',
+            },
+        );
+        return;
+    }
+    saltos.emails.__move(ids.join(','));
+};
+
+/**
+ * Move this email
+ *
+ * This method moves the email opened in the view to another folder
+ */
+saltos.emails.move2 = () => {
+    const id = saltos.hash.get().split('/').at(3);
+    saltos.emails.__move(id);
+};
+
+/**
+ * Move helper
+ *
+ * This method shows a modal with the folders of the account of the emails, and moves the
+ * emails to the selected folder, all emails must be of the same account
+ *
+ * @ids => the ids of the emails separated by commas
+ */
+saltos.emails.__move = ids => {
+    saltos.app.ajax({
+        url: 'app/emails/list/folders',
+        data: {
+            ids: ids,
+        },
+        success: response => {
+            if (response.data.length !== 1) {
+                saltos.app.modal(
+                    'Select emails',
+                    'You must select emails of only one account to be moved',
+                    {
+                        color: 'danger',
+                    },
+                );
+                return;
+            }
+            const rows = [];
+            saltos.emails.__move_rows(response.data[0].children, rows, '');
+            const field = saltos.gettext.bootstrap.field({
+                type: 'select',
+                id: 'move_folder_id',
+                label: 'Folder',
+                rows: rows,
+            });
+            saltos.app.modal('Move emails', field, {
+                buttons: [{
+                    label: 'Move',
+                    color: 'success',
+                    icon: 'check-lg',
+                    autofocus: true,
+                    onclick: () => {
+                        saltos.app.ajax({
+                            url: 'app/emails/action/move',
+                            proxy: 'network',
+                            data: {
+                                ids: ids,
+                                folder_id: field.querySelector('select').value,
+                            },
+                            success: response => {
+                                saltos.app.toast('Response', response.text);
+                                saltos.window.send('saltos.emails.update');
+                            },
+                        });
+                    },
+                },{
+                    label: 'Cancel',
+                    color: 'danger',
+                    icon: 'x-lg',
+                    onclick: () => {},
+                }],
+            });
+        },
+    });
+};
+
+/**
+ * Move rows helper
+ *
+ * This method converts the nodes of the folders of an account in the rows of a select,
+ * using the path of each folder as label
+ *
+ * @nodes  => the nodes of the tree
+ * @rows   => the array where the rows are added
+ * @prefix => the path of the parent node
+ * @skip   => the id of the node excluded with its children (optional)
+ */
+saltos.emails.__move_rows = (nodes, rows, prefix, skip = '') => {
+    for (const node of nodes) {
+        if (node.id === skip) {
+            continue;
+        }
+        const label = prefix + node.text;
+        rows.push({
+            label: label,
+            value: node.id.split('/').at(1),
+        });
+        saltos.emails.__move_rows(node.children, rows, label + ' / ', skip);
     }
 };
 

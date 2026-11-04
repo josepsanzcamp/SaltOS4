@@ -58,14 +58,10 @@ read: Llegit
 to_mark_this_email_as_new: Per marcar aquest correu com a nou
 wait: Pendent
 to_mark_this_email_as_wait: Per marcar aquest correu com a pendent
-spam: SPAM
-to_mark_this_email_as_spam: Per marcar aquest correu com a SPAM
 no_new: No nou
 to_unmark_this_email_as_new: Per desmarcar aquest correu com a nou
 no_wait: No pendent
 to_unmark_this_email_as_wait: Per desmarcar aquest correu com a pendent
-no_spam: No SPAM
-to_unmark_this_email_as_spam: Per desmarcar aquest correu com a SPAM
 to_manage_emails_accounts: Per gestionar els comptes de correu
 emails_accounts_list: Llistat de comptes de correu
 new_email_account: Nou compte de correu
@@ -113,12 +109,8 @@ last_week: Darrera setmana
 last_month: Darrer mes
 only_new: Només nou
 only_wait: Només pendent
-only_spam: Només SPAM
-hide_spam: Amagar SPAM
 with_files: Amb adjunts
 without_files: Sense adjunts
-only_inbox: Només entrant
-only_outbox: Només sortint
 you_must_select_the_desired_emails_that_you_want_see_in_the_pdf_file: Heu de seleccionar els correus desitjats que voleu veure al fitxer PDF
 you_must_select_the_desired_emails_that_you_want_download_in_the_pdf_file: Heu de seleccionar els correus desitjats que voleu descarregar al fitxer PDF
 mark: Marcar
@@ -143,3 +135,48 @@ modify_this_email_account: Modificar aquest compte de correu
 priority: Prioritat
 do_you_want_to_delete_this_email: Vols eliminar aquest correu?
 delete_this_email: Elimina aquest correu
+folders: Carpetes
+folders_not_found: 'No s''han trobat carpetes'
+folder: Carpeta
+parent_folder: Carpeta superior
+inbox: 'Safata d''entrada'
+trash: Paperera
+junk: Correu brossa
+move: Moure
+move_emails: Moure correus
+new_folder: Nova carpeta
+rename_folder: Canviar el nom de la carpeta
+move_folder: Moure carpeta
+delete_folder: Esborrar carpeta
+select_folder: Seleccionar carpeta
+to_create_a_new_folder: Per crear una nova carpeta
+to_rename_the_selected_folder: Per canviar el nom de la carpeta seleccionada
+to_move_the_selected_folder_inside_another_folder: 'Per moure la carpeta seleccionada dins d''una altra carpeta'
+to_delete_the_selected_folder: Per esborrar la carpeta seleccionada
+to_move_the_selected_emails_to_another_folder: Per moure els correus seleccionats a una altra carpeta
+to_move_this_email_to_another_folder: Per moure aquest correu a una altra carpeta
+you_must_select_the_desired_emails_to_be_moved: Heu de seleccionar els correus que voleu moure
+you_must_select_emails_of_only_one_account_to_be_moved: 'Heu de seleccionar correus d''un sol compte per moure''ls'
+you_must_select_a_folder_or_an_account_in_the_tree: 'Heu de seleccionar una carpeta o un compte a l''arbre'
+you_must_select_a_folder_in_the_tree: 'Heu de seleccionar una carpeta a l''arbre'
+d_email_s_moved: '%d correu/s mogut/s'
+d_email_s_moved_to_trash: '%d correu/s mogut/s a la paperera'
+unknown_action: Acció desconeguda
+the_name_of_the_folder_is_required: El nom de la carpeta és obligatori
+a_folder_with_the_same_name_already_exists: Ja existeix una carpeta amb el mateix nom
+the_special_folders_can_not_be_modified: Les carpetes especials no es poden modificar
+a_folder_can_not_be_moved_inside_itself: Una carpeta no es pot moure dins de si mateixa
+folder_created: Carpeta creada
+folder_renamed: 'S''ha canviat el nom de la carpeta'
+folder_moved: Carpeta moguda
+folder_deleted: Carpeta esborrada
+the_folder_and_its_d_subfolder_s_will_be_deleted_and_its_d_email_s_moved_to_the_trash: 'S''esborrarà la carpeta i les seves %d subcarpeta/es, i els seus %d correu/s es mouran a la paperera'
+sent_emails: Enviats
+empty_trash: Buidar la paperera
+empty_junk: Buidar el correu brossa
+to_delete_permanently_the_emails_of_the_trash: Per esborrar definitivament els correus de la paperera
+to_delete_permanently_the_emails_of_the_junk: Per esborrar definitivament el correu brossa
+d_email_s_will_be_deleted_permanently: 'S''esborraran definitivament %d correu/s'
+the_folder_is_empty: La carpeta és buida
+options: Opcions
+to_manage_the_folders_and_to_empty_the_trash_and_the_junk: Per gestionar les carpetes i buidar la paperera i el correu brossa

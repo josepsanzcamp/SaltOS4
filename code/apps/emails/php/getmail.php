@@ -895,9 +895,19 @@ function __getmail_insert(
     $info = __getmail_getinfo(__getmail_getnode('0', $decoded));
     $body = __getmail_gettextbody(__getmail_getnode('0', $decoded));
     unset($decoded); // Trick to release memory
+    // Get the folder of the new email
+    require_once 'apps/emails/php/folders.php';
+    $folders = emails_folders_check($account_id);
+    $folder_id = $folders['\Inbox'];
+    if ($is_outbox) {
+        $folder_id = $folders['\Sent'];
+    } elseif ($info['spam'] === '1') {
+        $folder_id = $folders['\Junk'];
+    }
     // Insert the new email
     $query = prepare_insert_query('app_emails', [
         'account_id' => $account_id,
+        'folder_id' => $folder_id,
         'uidl' => $uidl,
         'size' => $size,
         'datetime' => $info['datetime'],
@@ -907,7 +917,6 @@ function __getmail_insert(
         'state_reply' => $state_reply,
         'state_forward' => $state_forward,
         'state_wait' => $state_wait,
-        'state_spam' => $info['spam'],
         'email_id' => $email_id,
         'is_outbox' => $is_outbox,
         'state_sent' => $state_sent,
@@ -1592,6 +1601,19 @@ function getmail_delete($ids)
     if ($numresult !== $numids) {
         return T('Permission denied');
     }
+    // MOVER A LA PAPELERA LOS CORREOS QUE NO ESTAN EN LA PAPELERA
+    $query = "SELECT id FROM app_emails WHERE id IN ($ids) AND IFNULL(folder_id, 0) NOT IN (
+        SELECT id FROM app_emails_folders WHERE special_use = ?)";
+    $trash = execute_query_array($query, ['\Trash']);
+    if (count($trash)) {
+        require_once 'apps/emails/php/folders.php';
+        __emails_folders_move(implode(',', $trash), '\Trash');
+    }
+    $ids = implode(',', array_diff(explode(',', $ids), $trash));
+    if ($ids === '') {
+        return sprintf(T('%d email(s) moved to trash'), count($trash));
+    }
+    $numids = count(explode(',', $ids));
     // CREAR DATOS EN TABLA DE CORREOS BORRADOS (SOLO LOS DEL INBOX)
     $query = "INSERT INTO app_emails_deletes(account_id,uidl,datetime)
         SELECT account_id,uidl,datetime
@@ -1700,7 +1722,7 @@ function getmail_download($id, $cid)
 /**
  * Update email states
  *
- * This function modifies the state of emails (e.g., `new`, `wait`, or `spam`)
+ * This function modifies the state of emails (e.g., `new` or `wait`)
  * based on the provided IDs and action. It validates user permissions for the
  * selected emails before updating their states. The function calculates the
  * number of records to be modified and updates the database accordingly.
@@ -1742,14 +1764,6 @@ function getmail_setter($ids, $what)
         $numids = execute_query($query, [$what[1]]);
         $query = "UPDATE app_emails SET state_new = 0, state_wait = ?
             WHERE id IN ($ids) AND state_wait != ?";
-        db_query($query, [$what[1], $what[1]]);
-    } elseif ($what[0] === 'spam') {
-        // Update the `state_spam` for emails not in the outbox
-        $query = "SELECT COUNT(*) FROM app_emails
-            WHERE id IN ($ids) AND state_spam != ? AND is_outbox = 0";
-        $numids = execute_query($query, [$what[1]]);
-        $query = "UPDATE app_emails SET state_new = 0, state_spam = ?
-            WHERE id IN ($ids) AND state_spam != ? AND is_outbox = 0";
         db_query($query, [$what[1], $what[1]]);
     }
 

@@ -213,7 +213,7 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <temp ifeval="!__user_is_admin(get_data('rest/1'))" eval="true">set_data('json/user_id', current_user())</temp>
-        <output require="php/lib/actions.php" eval="true">insert(get_data('rest/1'), get_data('json'))</output>
+        <output require="apps/emails/php/folders.php" eval="true">emails_accounts_insert(get_data('json'))</output>
     </create>
 
     <view>

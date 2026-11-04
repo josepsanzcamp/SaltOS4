@@ -58,14 +58,10 @@ read: Leído
 to_mark_this_email_as_new: Para marcar este correo como nuevo
 wait: Pendiente
 to_mark_this_email_as_wait: Para marcar este correo como pendiente
-spam: SPAM
-to_mark_this_email_as_spam: Para marcar este correo como SPAM
 no_new: No nuevo
 to_unmark_this_email_as_new: Para desmarcar este correo como nuevo
 no_wait: No pendiente
 to_unmark_this_email_as_wait: Para desmarcar este correo como pendiente
-no_spam: No SPAM
-to_unmark_this_email_as_spam: Para desmarcar este correo como SPAM
 to_manage_emails_accounts: Para gestionar las cuentas de correo
 emails_accounts_list: Lista de cuentas de correo
 new_email_account: Nueva cuenta de correo
@@ -113,12 +109,8 @@ last_week: Última semana
 last_month: Último mes
 only_new: Solo nuevos
 only_wait: Solo pendientes
-only_spam: Solo SPAM
-hide_spam: Ocultar SPAM
 with_files: Con adjuntos
 without_files: Sin adjuntos
-only_inbox: Solo entrada
-only_outbox: Solo salida
 you_must_select_the_desired_emails_that_you_want_see_in_the_pdf_file: Debes seleccionar los correos que deseas ver en el archivo PDF
 you_must_select_the_desired_emails_that_you_want_download_in_the_pdf_file: Debes seleccionar los correos que deseas descargar en el archivo PDF
 mark: Marcar
@@ -143,3 +135,48 @@ modify_this_email_account: Modificar esta cuenta de correo
 priority: Prioridad
 do_you_want_to_delete_this_email: ¿Deseas eliminar este correo?
 delete_this_email: Eliminar este correo
+folders: Carpetas
+folders_not_found: Carpetas no encontradas
+folder: Carpeta
+parent_folder: Carpeta superior
+inbox: Bandeja de entrada
+trash: Papelera
+junk: Correo no deseado
+move: Mover
+move_emails: Mover correos
+new_folder: Nueva carpeta
+rename_folder: Renombrar carpeta
+move_folder: Mover carpeta
+delete_folder: Eliminar carpeta
+select_folder: Seleccionar carpeta
+to_create_a_new_folder: Para crear una nueva carpeta
+to_rename_the_selected_folder: Para renombrar la carpeta seleccionada
+to_move_the_selected_folder_inside_another_folder: Para mover la carpeta seleccionada dentro de otra carpeta
+to_delete_the_selected_folder: Para eliminar la carpeta seleccionada
+to_move_the_selected_emails_to_another_folder: Para mover los correos seleccionados a otra carpeta
+to_move_this_email_to_another_folder: Para mover este correo a otra carpeta
+you_must_select_the_desired_emails_to_be_moved: Debe seleccionar los correos que desea mover
+you_must_select_emails_of_only_one_account_to_be_moved: Debe seleccionar correos de una sola cuenta para moverlos
+you_must_select_a_folder_or_an_account_in_the_tree: Debe seleccionar una carpeta o una cuenta en el árbol
+you_must_select_a_folder_in_the_tree: Debe seleccionar una carpeta en el árbol
+d_email_s_moved: '%d correo/s movido/s'
+d_email_s_moved_to_trash: '%d correo/s movido/s a la papelera'
+unknown_action: Acción desconocida
+the_name_of_the_folder_is_required: El nombre de la carpeta es obligatorio
+a_folder_with_the_same_name_already_exists: Ya existe una carpeta con el mismo nombre
+the_special_folders_can_not_be_modified: Las carpetas especiales no se pueden modificar
+a_folder_can_not_be_moved_inside_itself: Una carpeta no se puede mover dentro de sí misma
+folder_created: Carpeta creada
+folder_renamed: Carpeta renombrada
+folder_moved: Carpeta movida
+folder_deleted: Carpeta eliminada
+the_folder_and_its_d_subfolder_s_will_be_deleted_and_its_d_email_s_moved_to_the_trash: 'Se eliminará la carpeta y sus %d subcarpeta/s, y sus %d correo/s se moverán a la papelera'
+sent_emails: Enviados
+empty_trash: Vaciar papelera
+empty_junk: Vaciar correo no deseado
+to_delete_permanently_the_emails_of_the_trash: Para eliminar definitivamente los correos de la papelera
+to_delete_permanently_the_emails_of_the_junk: Para eliminar definitivamente el correo no deseado
+d_email_s_will_be_deleted_permanently: 'Se eliminarán definitivamente %d correo/s'
+the_folder_is_empty: La carpeta está vacía
+options: Opciones
+to_manage_the_folders_and_to_empty_the_trash_and_the_junk: Para gestionar las carpetas y vaciar la papelera y el correo no deseado

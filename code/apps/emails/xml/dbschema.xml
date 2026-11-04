@@ -27,6 +27,7 @@ This file allow to define the database needed by this application
             <fields>
                 <field name="id" type="INTEGER" pkey="true"/>
                 <field name="account_id" type="INTEGER" fkey="app_emails_accounts"/>
+                <field name="folder_id" type="INTEGER"/>
                 <field name="uidl" type="VARCHAR(255)"/>
                 <field name="datetime" type="DATETIME"/>
                 <field name="size" type="INTEGER"/>
@@ -36,7 +37,6 @@ This file allow to define the database needed by this application
                 <field name="state_reply" type="INTEGER" null="false" default="0"/>
                 <field name="state_forward" type="INTEGER" null="false" default="0"/>
                 <field name="state_wait" type="INTEGER" null="false" default="0"/>
-                <field name="state_spam" type="INTEGER" null="false" default="0"/>
                 <field name="email_id" type="INTEGER"/>
                 <field name="is_outbox" type="INTEGER" null="false" default="0"/>
                 <field name="state_sent" type="INTEGER" null="false" default="0"/>
@@ -52,6 +52,7 @@ This file allow to define the database needed by this application
             </fields>
             <indexes>
                 <index fields="datetime"/>
+                <index fields="folder_id"/>
             </indexes>
         </table>
         <table name="app_emails_address">
@@ -97,6 +98,19 @@ This file allow to define the database needed by this application
 				<field name="email_crt" type="INTEGER" null="false" default="0"/>
 			</fields>
 		</table>
+        <table name="app_emails_folders">
+            <fields>
+                <field name="id" type="INTEGER" pkey="true"/>
+                <field name="account_id" type="INTEGER"/>
+                <field name="parent_id" type="INTEGER"/>
+                <field name="label" type="VARCHAR(255)"/>
+                <field name="special_use" type="VARCHAR(255)"/>
+            </fields>
+            <indexes>
+                <index fields="account_id"/>
+                <index fields="parent_id"/>
+            </indexes>
+        </table>
 
     </tables>
 </root>

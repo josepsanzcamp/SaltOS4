@@ -12,6 +12,7 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 - The web server protection no longer depends on `.htaccess` files, and the layout of the `web` directory has changed. After updating: run `make web` (or `bash ../scripts/migrate_instance.sh` inside each instance created with `make_instance.sh`), publish only the `web` directory using the recipe of your web server (`scripts/server.nginx.conf`, `scripts/server.apache.conf` or `scripts/server.htaccess`), disable the directory listing, restart PHP-FPM or Apache (the opcode cache keeps the old `web/api` path) and validate the result with `php api/index.php setup/server <api url>`, that must return a `count` of 0.
 - The database schema is regenerated once after updating, because the changes are now detected using hashes and the existing tables have no hash yet. Run the setup right after updating (`make setuponly` or `php api/index.php setup`); it can take a while with big tables.
 - The company has two new fields, the tax mode and the withholding mode, and both are set to "not used" after updating. Set the tax mode to "by line" in the company form to continue working with the taxes in invoices and quotes as before.
+- The emails are organized in folders and the spam is the Junk folder, the spam state of the emails is removed. Inside `code` and inside each instance: run `php ../scripts/migrate_emails_folders.php export spam.json` before the setup to save the spam emails, run the setup, and run `php ../scripts/migrate_emails_folders.php import spam.json` to create the folders of the existing accounts and to move the existing emails to them: the sent emails to Sent, the spam to Junk and the others to Inbox. The import can be executed more than once.
 
 ### Added
 - `setup/server` action (the old `setup/apache`) that validates any web server: exposed headers, `Authorization` support, private paths, directory listings, content types and the full code published by mistake.
@@ -21,6 +22,7 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 - Company fields `tax_mode` and `withholding_mode` to define how the taxes and the withholdings are requested in invoices and quotes: by line, one by document or not used. The default tax and the default withholding are applied to the new lines, and the columns and boxes that are not used are hidden in the form and in the PDF.
 - Quick apps defined in yaml support the `options` widget, a select with a fixed list of options, and an optional where in the `select` spec.
 - The titles of the columns of the jspreadsheet widgets are translated.
+- Folders in the emails app: each account has the Inbox, Sent, Trash and Junk folders, created with the account, and the user can create, rename, move and delete other folders. The folders tree is shown in the search form, selecting an account shows all its emails and selecting a folder shows only the emails of the folder. The emails can be moved to another folder of the same account, and the trash and the junk can be emptied.
 
 ### Changed
 - The dbschema detects the changes using two hashes for each table, one for the fields and another for the indexes, stored in the config table. Changing the `null` or the `default` attributes of a field now regenerates the table, and the changes done to the database from outside of the dbschema are no longer repaired.
@@ -41,11 +43,14 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 - The caches of the yaml app files, the commands output and the inline images of the emails are written using a temporary file and a rename, so a partial file is never read.
 - `get_unique_id_md5()` uses `random_bytes()`, so the names of the temporary files are no longer predictable.
 - Developer documentation and `README.md`, `CONTRIBUTING.md` and `AGENTS.md` reviewed and synchronized with the current code.
+- Deleting emails moves them to the Trash folder, and only the emails that are already in the trash are deleted permanently. The spam is the Junk folder: the spam detected when receiving goes to the junk, and to mark an email as spam it is moved to the junk.
+- `saltos.filter.load()` sends the `saltos.filter.load` signal to the current tab, so the apps can react when a filter is loaded.
 
 ### Removed
 - Compatibility wrappers and polyfills for PHP versions older than 8.2.
 - `init_random()` and the `random.php` autoload module, PHP seeds the random number generator by default.
 - The `php-imap` extension is no longer checked by the setup nor installed in the Docker images; it is not used, and the future IMAP support of the emails app will use its own socket client.
+- The spam state of the emails, with its switch, its options in the mark menu and its label in the lists, replaced by the Junk folder, and the "Only SPAM", "Hide SPAM", "Only inbox" and "Only outbox" filters of the emails, replaced by the folders.
 
 ### Fixed
 - Editing an invoice or a quote regenerated their code and their date, and the due date of the closed invoices and the valid until date of the quotes were replaced by the current date.
@@ -55,6 +60,7 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 - The pdfjs widget failed in browsers without the most recent JavaScript features (like Safari 17), because the modern build of pdfjs requires them; now it uses the legacy build, that includes the needed polyfills.
 - Waits in the web client that never ended when the awaited thing failed (loading a library, a cache or the pdfjs module, closing a modal, reading a file, mapping the error backtrace), now all of them use `saltos.core.wait_for()` with a time limit, and a failed library or cache load can be retried.
 - The search filter of the emails list validates the account and the dates sent by the client before using them in the query.
+- The tooltips of the dropdowns without split button were never shown.
 
 ### Security
 - Removed the posix_getuid() polyfill, which made the CLI `user=` owner check always pass when the posix extension was missing; posix is now a required extension.

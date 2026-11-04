@@ -58,14 +58,10 @@ read: Read
 to_mark_this_email_as_new: To mark this email as new
 wait: Wait
 to_mark_this_email_as_wait: To mark this email as pending
-spam: SPAM
-to_mark_this_email_as_spam: To mark this email as SPAM
 no_new: No new
 to_unmark_this_email_as_new: To unmark this email as new
 no_wait: No pending
 to_unmark_this_email_as_wait: To unmark this email as pending
-no_spam: No SPAM
-to_unmark_this_email_as_spam: To unmark this email as SPAM
 to_manage_emails_accounts: To manage email accounts
 emails_accounts_list: Emails accounts list
 new_email_account: New email account
@@ -113,12 +109,8 @@ last_week: Last week
 last_month: Last month
 only_new: Only new
 only_wait: Only pending
-only_spam: Only SPAM
-hide_spam: Hide SPAM
 with_files: With attachments
 without_files: Without attachments
-only_inbox: Only inbox
-only_outbox: Only outbox
 you_must_select_the_desired_emails_that_you_want_see_in_the_pdf_file: You must select the desired emails that you want to see in the PDF file
 you_must_select_the_desired_emails_that_you_want_download_in_the_pdf_file: You must select the desired emails that you want to download in the PDF file
 mark: Mark
@@ -143,3 +135,48 @@ modify_this_email_account: Modify this email account
 priority: Priority
 do_you_want_to_delete_this_email: Do you want to delete this email???
 delete_this_email: Delete this email???
+folders: Folders
+folders_not_found: Folders not found
+folder: Folder
+parent_folder: Parent folder
+inbox: Inbox
+trash: Trash
+junk: Junk
+move: Move
+move_emails: Move emails
+new_folder: New folder
+rename_folder: Rename folder
+move_folder: Move folder
+delete_folder: Delete folder
+select_folder: Select folder
+to_create_a_new_folder: To create a new folder
+to_rename_the_selected_folder: To rename the selected folder
+to_move_the_selected_folder_inside_another_folder: To move the selected folder inside another folder
+to_delete_the_selected_folder: To delete the selected folder
+to_move_the_selected_emails_to_another_folder: To move the selected emails to another folder
+to_move_this_email_to_another_folder: To move this email to another folder
+you_must_select_the_desired_emails_to_be_moved: You must select the desired emails to be moved
+you_must_select_emails_of_only_one_account_to_be_moved: You must select emails of only one account to be moved
+you_must_select_a_folder_or_an_account_in_the_tree: You must select a folder or an account in the tree
+you_must_select_a_folder_in_the_tree: You must select a folder in the tree
+d_email_s_moved: '%d email(s) moved'
+d_email_s_moved_to_trash: '%d email(s) moved to trash'
+unknown_action: Unknown action
+the_name_of_the_folder_is_required: The name of the folder is required
+a_folder_with_the_same_name_already_exists: A folder with the same name already exists
+the_special_folders_can_not_be_modified: The special folders can not be modified
+a_folder_can_not_be_moved_inside_itself: A folder can not be moved inside itself
+folder_created: Folder created
+folder_renamed: Folder renamed
+folder_moved: Folder moved
+folder_deleted: Folder deleted
+the_folder_and_its_d_subfolder_s_will_be_deleted_and_its_d_email_s_moved_to_the_trash: 'The folder and its %d subfolder(s) will be deleted and its %d email(s) moved to the trash'
+sent_emails: Sent
+empty_trash: Empty trash
+empty_junk: Empty junk
+to_delete_permanently_the_emails_of_the_trash: To delete permanently the emails of the trash
+to_delete_permanently_the_emails_of_the_junk: To delete permanently the emails of the junk
+d_email_s_will_be_deleted_permanently: '%d email(s) will be deleted permanently'
+the_folder_is_empty: The folder is empty
+options: Options
+to_manage_the_folders_and_to_empty_the_trash_and_the_junk: To manage the folders and to empty the trash and the junk
