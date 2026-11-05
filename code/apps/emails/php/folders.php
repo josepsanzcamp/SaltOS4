@@ -95,7 +95,8 @@ function emails_accounts_insert($json)
  * This function returns the tree of folders of the accounts of the current user, using the
  * format of the jstree widget: one node for each account with its folders as children, the
  * id of each node contains the account and the folder separated by a slash, using the
- * folder 0 for the nodes of the accounts
+ * folder 0 for the nodes of the accounts, the enabled accounts are shown first and opened,
+ * and the disabled accounts are shown at the end and closed
  *
  * @ids => the ids of the emails used to limit the tree to its accounts (optional)
  *
@@ -103,12 +104,12 @@ function emails_accounts_insert($json)
  */
 function emails_folders_tree($ids = '')
 {
-    $query = 'SELECT id, email_from label FROM app_emails_accounts WHERE user_id = ?';
+    $query = 'SELECT id, email_from label, email_disabled FROM app_emails_accounts WHERE user_id = ?';
     if (strval($ids) !== '') {
         $ids = check_ids($ids);
         $query .= " AND id IN (SELECT account_id FROM app_emails WHERE id IN ($ids))";
     }
-    $query .= ' ORDER BY label ASC';
+    $query .= ' ORDER BY email_disabled ASC, label ASC';
     $accounts = execute_query_array($query, [current_user()]);
     $tree = [];
     foreach ($accounts as $account) {
@@ -119,6 +120,7 @@ function emails_folders_tree($ids = '')
         $tree[] = [
             'id' => $account['id'] . '/0',
             'text' => $account['label'],
+            'state' => ['opened' => !$account['email_disabled']],
             'children' => __emails_folders_tree_helper($account['id'], $folders, 0),
         ];
     }
@@ -157,6 +159,7 @@ function __emails_folders_tree_helper($account_id, $folders, $parent_id)
         $nodes[] = [
             'id' => $account_id . '/' . $folder['id'],
             'text' => $text,
+            'state' => ['opened' => true],
             'children' => __emails_folders_tree_helper($account_id, $folders, intval($folder['id'])),
         ];
     }

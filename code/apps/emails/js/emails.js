@@ -188,18 +188,29 @@ saltos.emails.folders = () => {
 /**
  * Folders select helper
  *
- * This method marks as selected the node of the tree that matches the id
+ * This method marks as selected the node of the tree that matches the id, and opens it and
+ * its parents to show it and its children when it is inside a closed node or when it is a
+ * closed node, like the disabled accounts
  *
  * @nodes => the nodes of the tree
  * @id    => the id of the node to select
+ *
+ * Returns true if the node is found
  */
 saltos.emails.__folders_select = (nodes, id) => {
+    let found = false;
     for (const node of nodes) {
         if (node.id === id) {
-            node.state = {selected: true};
+            node.state.selected = true;
+            node.state.opened = true;
+            found = true;
         }
-        saltos.emails.__folders_select(node.children, id);
+        if (saltos.emails.__folders_select(node.children, id)) {
+            node.state.opened = true;
+            found = true;
+        }
     }
+    return found;
 };
 
 /**

@@ -670,6 +670,9 @@ final class test_emails extends TestCase
         $node = array_values(array_filter($tree, fn($x) => $x['id'] === '1/0'))[0];
         $this->assertSame('1/' . $ids['\Inbox'], $node['children'][0]['id']);
         $this->assertSame(T('Inbox'), $node['children'][0]['text']);
+        $this->assertSame(['opened' => true], $node['children'][0]['state']);
+        $disabled = intval(execute_query('SELECT email_disabled FROM app_emails_accounts WHERE id = 1'));
+        $this->assertSame(['opened' => !$disabled], $node['state']);
         $this->assertCount(1, emails_folders_tree(42));
         $maxid = execute_query('SELECT MAX(id) FROM app_emails');
         $this->assertSame([], emails_folders_tree($maxid + 1));

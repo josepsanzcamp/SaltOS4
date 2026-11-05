@@ -85,6 +85,17 @@ function make_where_query_emails($json)
     $folder_id = intval($folder_id);
     if ($folder_id > 0) {
         $query[] = "folder_id='$folder_id'";
+    } else {
+        // Without folder, the emails of the trash and the junk are not shown, the special
+        // uses are passed as parameters because MySQL removes the backslashes of the literals
+        $ids = execute_query_array('SELECT id FROM app_emails_folders WHERE special_use IN (?, ?)', [
+            '\Trash',
+            '\Junk',
+        ]);
+        if (count($ids)) {
+            $ids = check_ids($ids);
+            $query[] = "IFNULL(folder_id, 0) NOT IN ($ids)";
+        }
     }
     if ($fields !== '') {
         $query[] = make_like_query($fields_array[$fields], $search);
