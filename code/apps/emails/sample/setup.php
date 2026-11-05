@@ -54,7 +54,7 @@ function __setup_helper_emails()
             'pop3_delete' => 1,
             'pop3_days' => 90,
             'smtp_host' => 'example.com',
-            'smtp_port' => '587',
+            'smtp_port' => '465',
             'smtp_extra' => 'ssl',
             'smtp_user' => 'admin',
             'smtp_pass' => 'admin',

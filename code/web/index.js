@@ -223,7 +223,7 @@ const saltos={authenticate:{}};saltos.authenticate.authtoken=async(e,t)=>{let o=
                     data-bs-toggle="dropdown" aria-expanded="false">
                 </button>
             </div>
-        `),saltos.bootstrap.__onclick_helper(c.querySelector("button"),a.onclick)):c=saltos.core.html(`
+        `),saltos.bootstrap.__onclick_helper(c.querySelector("button"),a.onclick),""!==a.tooltip&&saltos.bootstrap.__tooltip_helper(c.querySelector("button"))):c=saltos.core.html(`
             <div class="btn-group ${l} ${s} ${a.class}" id="${a.id}">
                 <button type="button" ${e}
                     class="btn ${l} btn-${o} ${t} dropdown-toggle"
@@ -232,7 +232,7 @@ const saltos={authenticate:{}};saltos.authenticate.authtoken=async(e,t)=>{let o=
                         ${a.label}
                 </button>
             </div>
-        `),""!==a.tooltip&&saltos.bootstrap.__tooltip_helper(c.querySelector("button")),""!==a.icon&&c.querySelector("button").prepend(saltos.core.html(`<i class="bi bi-${a.icon}"></i>`)),""!==a.label&&""!==a.icon&&c.querySelector("i").classList.add("me-1"),c.append(saltos.core.html(`<ul class="dropdown-menu ${i} ${s}"></ul>`)),a.menu){const p=a.menu[d];saltos.core.check_params(p,["id","label","icon","disabled","active","onclick","divider","tooltip","accesskey","color"]);let e="",t=(saltos.core.eval_bool(p.disabled)&&(e="disabled"),""),o=(saltos.core.eval_bool(p.active)&&(t="active"),"");""!==p.color&&(o="text-"+p.color);let s;saltos.core.eval_bool(p.divider)?s=saltos.core.html('<li><hr class="dropdown-divider"></li>'):(s=saltos.core.html(`
+        `),""!==a.icon&&c.querySelector("button").prepend(saltos.core.html(`<i class="bi bi-${a.icon}"></i>`)),""!==a.label&&""!==a.icon&&c.querySelector("i").classList.add("me-1"),c.append(saltos.core.html(`<ul class="dropdown-menu ${i} ${s}"></ul>`)),a.menu){const p=a.menu[d];saltos.core.check_params(p,["id","label","icon","disabled","active","onclick","divider","tooltip","accesskey","color"]);let e="",t=(saltos.core.eval_bool(p.disabled)&&(e="disabled"),""),o=(saltos.core.eval_bool(p.active)&&(t="active"),"");""!==p.color&&(o="text-"+p.color);let s;saltos.core.eval_bool(p.divider)?s=saltos.core.html('<li><hr class="dropdown-divider"></li>'):(s=saltos.core.html(`
                 <li><button id="${p.id}" class="dropdown-item ${e} ${t} ${o}"
                     data-bs-accesskey="${p.accesskey}" data-bs-title="${p.tooltip}">
                         ${p.label}

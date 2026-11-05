@@ -98,9 +98,9 @@ saltos.bootstrap.__field.dropdown = field => {
                 </button>
             </div>
         `);
-        if (field.tooltip !== '') {
-            saltos.bootstrap.__tooltip_helper(obj.querySelector('button'));
-        }
+        // The tooltip is not applied to the dropdown button: bootstrap only allows one instance
+        // per element, if the tooltip instance is created first, the dropdown instance is not
+        // stored and the menu is not closed when the user selects an item or clicks outside
     } else {
         obj = saltos.core.html(`
             <div class="btn-group ${rounded} ${shadow} ${field.class}" id="${field.id}">

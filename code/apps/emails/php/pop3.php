@@ -19,26 +19,27 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Classes.ClassDeclaration
 // phpcs:disable Squiz.Classes.ValidClassName
 // phpcs:disable PSR1.Methods.CamelCapsMethodName
+// phpcs:disable PSR1.Files.SideEffects
 
 /**
  * SaltOS POP3 Client Component
  *
  * PURPOSE:
- * Replaces legacy phpclasses.org POP3 implementations with a modern, cURL-based
- * architecture to eliminate dependency on obsolete external code.
+ * POP3 client used by the emails app to download the emails of the accounts.
  *
  * ARCHITECTURE & DESIGN:
- * - Stateless per-command operation: Executes verbs via fresh cURL transfers
- * instead of maintaining persistent app-level TCP sessions.
- * - Transport: Supports implicit TLS (POP3S) or opportunistic STARTTLS.
- * - Centralized execution: `exec()` handles protocol multi-line/single-line
- * responses and error normalization.
+ * - Persistent session: one connection and one login for all the commands, using the
+ * transport of socket.php (PHP streams).
+ * - Transport: Supports implicit TLS (POP3S) or STARTTLS (STLS).
+ * - The DELE command only marks the messages, the server removes them when the session
+ * is closed with QUIT, so the message numbers do not change during the session.
  *
  * SECURITY & CONFIGURATION:
  * - Warning: Certificate verification is currently disabled for compatibility.
- * Production environments should enable peer/host verification.
- * - Requirement: PHP cURL extension (ext-curl).
  */
+
+require_once 'apps/emails/php/socket.php';
+
 final class pop3_class
 {
     /** @var string POP3 server hostname or IP (required). */
@@ -59,20 +60,14 @@ final class pop3_class
     /** @var string Password for authentication. */
     public $pass = '';
 
-    /** @var string Computed base URL (pop3[s]://host:port/). */
-    private $baseUrl = '';
+    /** @var int Timeout in seconds used when connecting and when reading. */
+    public $timeout = 30;
 
-    /** @var CurlHandle|null cURL handle reused across invocations. */
-    private $ch = null;
-
-    /** @var array|null Baseline cURL options applied on each exec(). */
-    private $opts = null;
+    /** @var socket_class|null The connection with the server. */
+    private $socket = null;
 
     /**
-     * Prepare the cURL handle and compute the base URL based on configuration.
-     *
-     * This does not establish a persistent POP3 session; it only sets up
-     * the common cURL options used by exec().
+     * Open the session: connect, read the greeting, start TLS if requested and login.
      *
      * @return string Empty string on success; non-empty error message on failure.
      */
@@ -81,72 +76,71 @@ final class pop3_class
         if (!$this->hostname) {
             return 'Open failed: empty host';
         }
-
-        // Choose URL scheme and default port
-        if ((int)$this->ssl === 1) {
-            $scheme = 'pop3s'; // POP3 over implicit TLS
-            if (!$this->port) {
-                $this->port = 995;
-            }
-        } else {
-            $scheme = 'pop3';
-            if (!$this->port) {
-                $this->port = 110;
-            }
+        if (!$this->port) {
+            $this->port = (int)$this->ssl === 1 ? 995 : 110;
         }
-        $this->baseUrl = sprintf('%s://%s:%d/', $scheme, $this->hostname, (int)$this->port);
 
-        $this->ch = curl_init();
+        $this->socket = new socket_class();
+        $this->socket->hostname = $this->hostname;
+        $this->socket->port = (int)$this->port;
+        $this->socket->ssl = (int)$this->ssl;
+        $this->socket->timeout = (int)$this->timeout;
+        $error = $this->socket->Connect();
+        if ($error !== '') {
+            $this->socket = null;
+            return $error;
+        }
 
-        $this->opts = [
-            CURLOPT_USERNAME         => $this->user,
-            CURLOPT_PASSWORD         => $this->pass,
-            CURLOPT_RETURNTRANSFER   => true,
-            CURLOPT_URL              => $this->baseUrl,
-
-            // NOTE: Disabled for compatibility; enable in production deployments.
-            CURLOPT_SSL_VERIFYPEER   => false,
-            CURLOPT_SSL_VERIFYHOST   => 0,
-            CURLOPT_SSL_ENABLE_ALPN  => false,
-
-            //~ CURLOPT_VERBOSE      => true,
-        ];
+        // Greeting of the server
+        $error = $this->response('Greeting', $line);
+        if ($error !== '') {
+            $this->socket->Close();
+            $this->socket = null;
+            return $error;
+        }
 
         // STARTTLS via STLS when requested (and not using implicit TLS)
-        if ($this->ssl !== 1 && $this->tls === 1) {
-            $this->opts[CURLOPT_USE_SSL] = CURLUSESSL_ALL;
+        if ((int)$this->ssl !== 1 && (int)$this->tls === 1) {
+            $error = $this->command('STLS', $line);
+            if ($error === '') {
+                $error = $this->socket->StartTls();
+            }
+            if ($error !== '') {
+                $this->socket->Close();
+                $this->socket = null;
+                return $error;
+            }
         }
 
+        // Login
+        $error = $this->command('USER ' . $this->user, $line);
+        if ($error === '') {
+            $error = $this->command('PASS ' . $this->pass, $line, 'PASS');
+        }
+        if ($error !== '') {
+            $this->socket->Close();
+            $this->socket = null;
+            return $error;
+        }
         return '';
     }
 
     /**
      * Retrieve the server's UIDL listing and return a map of index => uidl.
      *
-     * Behavior:
-     * - Issues "UIDL" and parses the multi-line response.
-     * - Skips status lines (+OK / -ERR) and returns only numbered entries.
-     *
-     * Caveat:
-     * - Indices are assigned by the server and can change between calls if
-     *   messages are deleted. Consumers should prefer using UIDLs as stable ids.
-     *
      * @return array<int,string>|string Array of [msgIndex => uidl] on success; error string on failure.
      */
     public function ListMessages()
     {
-        $err = $this->exec('UIDL', $out, true);
-        if ($err !== '') {
-            return $err;
+        $error = $this->multiline('UIDL', $lines);
+        if ($error !== '') {
+            return $error;
         }
 
-        $lines = preg_split('~\r?\n~', trim($out));
         $result = [];
         foreach ($lines as $line) {
             if (preg_match('~^(\d+)\s+(\S+)~', trim($line), $m)) {
-                $n = (int)$m[1];
-                $v = $m[2];
-                $result[$n] = (string)$v;
+                $result[(int)$m[1]] = (string)$m[2];
             }
         }
         ksort($result, SORT_NUMERIC);
@@ -156,33 +150,30 @@ final class pop3_class
     /**
      * Download a full message by server index using "RETR <index>".
      *
-     * @param  int         $index  1-based server message index.
-     * @param  string|null $out    Filled with the raw RFC 5322 message on success.
-     * @return string              Empty string on success; non-empty error message on failure.
+     * @param     int         $index  1-based server message index.
+     * @param     string|null $out    Filled with the raw RFC 5322 message on success.
+     * @param-out string    $out
+     * @return    string              Empty string on success; non-empty error message on failure.
      */
     public function GetMessage($index, &$out)
     {
+        $out = '';
         $index = (int)$index;
         if ($index < 1) {
             return 'OpenMessage failed: bad index';
         }
 
-        $err = $this->exec("RETR {$index}", $out, true);
-        if ($err !== '') {
-            return $err;
+        $error = $this->multiline("RETR {$index}", $lines);
+        if ($error !== '') {
+            return $error;
         }
+        $out = implode("\r\n", $lines) . "\r\n";
         return '';
     }
 
     /**
-     * Issue "DELE <index>" to mark a message for deletion.
-     *
-     * Notes:
-     * - Since this client operates per-command with independent connections,
-     *   deletion is immediately applied server-side for that command.
-     * - Be careful when chaining deletions by index; if indices shift between
-     *   commands, you may delete unintended messages. Prefer resolving indices
-     *   from UIDLs with ListMessages() right before deletion.
+     * Issue "DELE <index>" to mark a message for deletion, the server removes the marked
+     * messages when the session is closed, so the indexes do not change during the session.
      *
      * @param  int    $index 1-based server message index.
      * @return string Empty string on success; non-empty error message on failure.
@@ -193,68 +184,106 @@ final class pop3_class
         if ($index < 1) {
             return 'DeleteMessage failed: bad index';
         }
-        return $this->exec("DELE {$index}", $out, false);
+        return $this->command("DELE {$index}", $line);
     }
 
     /**
-     * Release the cURL handle. No explicit POP3 QUIT is required because each
-     * command is executed as its own transfer.
+     * Close the session with QUIT, applying the deletions, and close the connection.
      *
-     * @return string Always returns empty string.
+     * @return string Empty string on success; non-empty error message on failure.
      */
     public function Close()
     {
+        if ($this->socket === null) {
+            return '';
+        }
+        $error = $this->command('QUIT', $line);
+        $this->socket->Close();
+        $this->socket = null;
+        return $error;
+    }
+
+    /**
+     * Send a command and read its single-line response.
+     *
+     * @param     string      $cmd  POP3 command (verbatim), e.g., "STAT", "DELE 3".
+     * @param     string|null $line Filled with the response line.
+     * @param     string      $name Name of the command used in the error messages, to hide
+     *                           the arguments of the commands with passwords.
+     * @param-out string   $line
+     * @return    string            Empty string on success; non-empty error message on failure.
+     */
+    private function command(string $cmd, ?string &$line, string $name = '')
+    {
+        $line = '';
+        if ($this->socket === null) {
+            return 'Command failed: not connected';
+        }
+        $error = $this->socket->WriteLine($cmd);
+        if ($error !== '') {
+            // @codeCoverageIgnoreStart
+            // Not testable, the writes only fail when the connection is broken
+            return $error;
+            // @codeCoverageIgnoreEnd
+        }
+        if ($name === '') {
+            $name = $cmd;
+        }
+        return $this->response($name, $line);
+    }
+
+    /**
+     * Read a single-line response, only the status of the first line is checked.
+     *
+     * @param     string      $name Name of the command used in the error messages.
+     * @param     string|null $line Filled with the response line.
+     * @param-out string   $line
+     * @return    string            Empty string on success; non-empty error message on failure.
+     */
+    private function response(string $name, ?string &$line)
+    {
+        $error = $this->socket->ReadLine($line);
+        if ($error !== '') {
+            return $error;
+        }
+        if (substr($line, 0, 3) !== '+OK') {
+            return "$name failed: $line";
+        }
         return '';
     }
 
     /**
-     * Execute a POP3 command using cURL.
+     * Send a command and read its multi-line response, ended by a line with a single dot,
+     * removing the dot-stuffing of the lines that begin with a dot.
      *
-     * Behavior:
-     * - Sets CURLOPT_CUSTOMREQUEST to the given verb (e.g., "UIDL", "RETR 1", "DELE 2").
-     * - When $withBody is true (multi-line commands like UIDL/LIST/RETR/TOP),
-     *   fetches and returns the response body in $out.
-     * - When $withBody is false (single-line commands like NOOP/DELE/CAPA),
-     *   uses CURLOPT_NOBODY and forces a fresh connection to avoid hangs
-     *   observed on some distributions (e.g., Debian 12).
-     *
-     * Error handling:
-     * - On transport failure (including a protocol-level "-ERR" reply, which
-     *   libcurl's POP3 client rejects before returning it as body), returns
-     *   a "cURL: ..." message.
-     *
-     * @param  string       $cmd       POP3 command (verbatim), e.g., "UIDL", "RETR 1", "DELE 3".
-     * @param  string|null  $out       Filled with response body when $withBody is true; otherwise ''.
-     * @param  bool         $withBody  True for multi-line commands; false for single-line commands.
-     * @return string                  Empty string on success; non-empty error text on failure.
+     * @param     string     $cmd   POP3 command (verbatim), e.g., "UIDL", "RETR 1".
+     * @param     array|null $lines Filled with the lines of the response, without the status.
+     * @param-out array   $lines
+     * @return    string            Empty string on success; non-empty error message on failure.
      */
-    // @phpstan-ignore parameterByRef.unusedType
-    private function exec(string $cmd, ?string &$out, bool $withBody = true)
+    private function multiline(string $cmd, ?array &$lines)
     {
-        $out = '';
-
-        $opts = $this->opts;
-        $opts[CURLOPT_CUSTOMREQUEST] = $cmd;
-
-        if ($withBody) {
-            // Multi-line commands: we want the body (UIDL/LIST/RETR/TOP)
-            $opts[CURLOPT_NOBODY] = false;
-        } else {
-            // One-line commands: do not wait for a body to avoid hangs (Debian 12 workaround)
-            $opts[CURLOPT_NOBODY]        = true;
-            $opts[CURLOPT_FRESH_CONNECT] = true;  // force a new connection
-            $opts[CURLOPT_FORBID_REUSE]  = true;  // and do not reuse it
+        $lines = [];
+        $error = $this->command($cmd, $line);
+        if ($error !== '') {
+            return $error;
         }
-
-        curl_reset($this->ch);
-        curl_setopt_array($this->ch, $opts);
-        $resp = curl_exec($this->ch);
-        if ($resp === false) {
-            $err = 'cURL: ' . curl_error($this->ch);
-            return $err;
+        while (true) {
+            $error = $this->socket->ReadLine($line);
+            if ($error !== '') {
+                // @codeCoverageIgnoreStart
+                // Not testable, the server must break the connection in the middle of a response
+                return $error;
+                // @codeCoverageIgnoreEnd
+            }
+            if ($line === '.') {
+                break;
+            }
+            if (substr($line, 0, 1) === '.') {
+                $line = substr($line, 1);
+            }
+            $lines[] = $line;
         }
-
-        $out = $withBody ? (string)$resp : '';
         return '';
     }
 }

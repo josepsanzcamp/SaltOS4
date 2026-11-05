@@ -35,16 +35,22 @@ services:
             GREENMAIL_OPTS: >
                 -Dgreenmail.smtp.hostname=0.0.0.0
                 -Dgreenmail.smtp.port=587
+                -Dgreenmail.smtps.hostname=0.0.0.0
+                -Dgreenmail.smtps.port=465
                 -Dgreenmail.pop3.hostname=0.0.0.0
-                -Dgreenmail.pop3.port=995
+                -Dgreenmail.pop3.port=110
+                -Dgreenmail.pop3s.hostname=0.0.0.0
+                -Dgreenmail.pop3s.port=995
                 -Dgreenmail.users=admin:admin@example.com
                 -Dgreenmail.hostname=example.com
                 -Dgreenmail.api.disabled=true
                 -Dgreenmail.verbose
             JAVA_OPTS: -Djava.net.preferIPv4Stack=true
         ports:
+            - "0.0.0.0:110:110"
             - "0.0.0.0:995:995"
             - "0.0.0.0:587:587"
+            - "0.0.0.0:465:465"
         profiles: ["test"]
         restart: unless-stopped
 

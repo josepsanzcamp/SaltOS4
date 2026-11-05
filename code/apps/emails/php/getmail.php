@@ -1546,10 +1546,10 @@ function getmail_server()
             foreach ($result2 as $row2) {
                 $time2 = strtotime($row2['datetime']);
                 if ($time1 - $time2 >= $row['pop3_days'] * 86400) {
+                    // DELE only marks the message, the indexes do not change in the session
                     $index2 = array_search($row2['uidl'], $uidls, true);
                     $error = $pop3->DeleteMessage($index2);
                     unset($uidls[$index2]);
-                    $uidls = array_combine(range(1, count($uidls)), array_values($uidls));
                 }
                 if ($error !== '') {
                     break;

@@ -71,7 +71,7 @@
                     </row>
                     <row auto="true" row_class="row g-1 mb-3" col_class="col-auto">
                         <div col_class="col"/>
-                        <dropdown label="Options" icon="folder" tooltip="To manage the folders and to empty the trash and the junk">
+                        <dropdown label="Options" icon="folder">
                             <menu>
                                 <button onclick="saltos.emails.folder_create()" label="New folder" tooltip="To create a new folder" icon="folder-plus"/>
                                 <button onclick="saltos.emails.folder_rename()" label="Rename" tooltip="To rename the selected folder" icon="pencil"/>

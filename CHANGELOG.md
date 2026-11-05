@@ -44,6 +44,8 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 - `get_unique_id_md5()` uses `random_bytes()`, so the names of the temporary files are no longer predictable.
 - Developer documentation and `README.md`, `CONTRIBUTING.md` and `AGENTS.md` reviewed and synchronized with the current code.
 - Deleting emails moves them to the Trash folder, and only the emails that are already in the trash are deleted permanently. The spam is the Junk folder: the spam detected when receiving goes to the junk, and to mark an email as spam it is moved to the junk.
+- The POP3 client of the emails app uses its own socket client based on the PHP streams instead of cURL, with one connection and one login for all the commands of each account, supporting implicit TLS and STARTTLS; the deleted messages are removed by the server when the session is closed.
+- The GreenMail server of the `test` Docker profile uses the standard ports: 110 (POP3), 995 (POP3S), 587 (SMTP) and 465 (SMTPS).
 - `saltos.filter.load()` sends the `saltos.filter.load` signal to the current tab, so the apps can react when a filter is loaded.
 
 ### Removed
@@ -60,7 +62,6 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 - The pdfjs widget failed in browsers without the most recent JavaScript features (like Safari 17), because the modern build of pdfjs requires them; now it uses the legacy build, that includes the needed polyfills.
 - Waits in the web client that never ended when the awaited thing failed (loading a library, a cache or the pdfjs module, closing a modal, reading a file, mapping the error backtrace), now all of them use `saltos.core.wait_for()` with a time limit, and a failed library or cache load can be retried.
 - The search filter of the emails list validates the account and the dates sent by the client before using them in the query.
-- The tooltips of the dropdowns without split button were never shown.
 
 ### Security
 - Removed the posix_getuid() polyfill, which made the CLI `user=` owner check always pass when the posix extension was missing; posix is now a required extension.

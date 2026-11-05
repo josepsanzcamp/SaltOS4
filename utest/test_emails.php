@@ -45,6 +45,7 @@ require_once 'apps/emails/php/getmail.php';
 require_once 'apps/emails/php/sendmail.php';
 require_once 'apps/emails/php/html.php';
 require_once 'apps/emails/php/folders.php';
+require_once 'apps/emails/php/socket.php';
 require_once 'php/lib/actions.php';
 require_once 'php/lib/control.php';
 
@@ -53,6 +54,34 @@ require_once 'php/lib/control.php';
  */
 final class test_emails extends TestCase
 {
+    /**
+     * STARTTLS server start
+     *
+     * This function starts the STARTTLS mock server (utest/php/starttls.php) as a child
+     * process, needed because GreenMail not supports STARTTLS, and returns an array with
+     * the process, the pipes and the port used by the server
+     */
+    private function starttls_start(): array
+    {
+        $pipes = [];
+        $proc = proc_open(['php', '../../utest/php/starttls.php'], [1 => ['pipe', 'w']], $pipes);
+        $port = intval(fgets($pipes[1]));
+        return [$proc, $pipes, $port];
+    }
+
+    /**
+     * STARTTLS server stop
+     *
+     * This function waits the end of the STARTTLS mock server and releases its resources
+     *
+     * @server => the array returned by starttls_start
+     */
+    private function starttls_stop(array $server): void
+    {
+        fclose($server[1][1]);
+        proc_close($server[0]);
+    }
+
     #[testdox('emails functions')]
     /**
      * emails test
@@ -62,10 +91,11 @@ final class test_emails extends TestCase
      */
     public function test_emails(): void
     {
+        // Wrong settings, ssl on the plain ports of GreenMail, used to check the errors
         $query = 'UPDATE app_emails_accounts
-            SET smtp_user = ?, smtp_pass = ?, smtp_port = ?, smtp_extra = ?
+            SET pop3_port = ?, pop3_extra = ?, smtp_user = ?, smtp_pass = ?, smtp_port = ?, smtp_extra = ?
             WHERE id = ?';
-        db_query($query, ['admin', 'admin', 587, 'ssl', 1]);
+        db_query($query, [110, 'ssl', 'admin', 'admin', 587, 'ssl', 1]);
 
         $json = test_cli_helper('app/emails', [], '', '', 'admin');
         $json = test_cli_helper('app/emails/list/filter', [], '', '', 'admin');
@@ -471,13 +501,16 @@ final class test_emails extends TestCase
 
         $result = test_cli_helper('app/emails/action/server', [], '', '', 'admin');
         $this->assertIsArray($result);
-        $this->assertStringContainsString('TLS connect error', $result[0]);
+        $this->assertStringContainsString('Connect failed', $result[0]);
         $this->assertStringContainsString('email(s) received', $result[1]);
         $this->assertStringContainsString('Failed to connect to server', $result[2]);
         $this->assertStringContainsString('email(s) sended', $result[count($result) - 1]);
 
-        $query = 'UPDATE app_emails_accounts SET pop3_extra = ?, smtp_extra = ? WHERE id = ?';
-        db_query($query, ['', '', 1]);
+        // Right settings, ssl on the ssl ports of GreenMail
+        $query = 'UPDATE app_emails_accounts
+            SET pop3_port = ?, pop3_extra = ?, smtp_port = ?, smtp_extra = ?
+            WHERE id = ?';
+        db_query($query, [995, 'ssl', 465, 'ssl', 1]);
 
         // This trick is for execute the internal error part
         $files = glob('data/outbox/1/*.obj');
@@ -600,64 +633,6 @@ final class test_emails extends TestCase
         } finally {
             restore_error_handler();
         }
-
-        $pop3 = new pop3_class();
-        $this->assertSame('Open failed: empty host', $pop3->Open());
-
-        $pop3 = new pop3_class();
-        $pop3->hostname = 'example.com';
-        $pop3->ssl = 1;
-        $pop3->port = 0;
-        $this->assertSame('', $pop3->Open());
-        $this->assertSame(995, $pop3->port);
-
-        $pop3 = new pop3_class();
-        $pop3->hostname = 'example.com';
-        $pop3->port = 0;
-        $this->assertSame('', $pop3->Open());
-        $this->assertSame(110, $pop3->port);
-
-        $pop3 = new pop3_class();
-        $pop3->hostname = 'example.com';
-        $pop3->tls = 1;
-        $this->assertSame('', $pop3->Open());
-
-        $out = null;
-        $pop3 = new pop3_class();
-        $this->assertSame('OpenMessage failed: bad index', $pop3->GetMessage(0, $out));
-        $this->assertSame('DeleteMessage failed: bad index', $pop3->DeleteMessage(0));
-
-        // Real GreenMail server (make teststart), deliberately using ssl on its plain POP3 port
-        $pop3 = new pop3_class();
-        $pop3->hostname = 'example.com';
-        $pop3->port = 995;
-        $pop3->ssl = 1;
-        $pop3->user = 'admin';
-        $pop3->pass = 'admin';
-        $this->assertSame('', $pop3->Open());
-        $this->assertStringContainsString('TLS connect error', $pop3->ListMessages());
-        $out = null;
-        $this->assertStringContainsString('TLS connect error', $pop3->GetMessage(1, $out));
-
-        // Real GreenMail server, matching its actual plain POP3 config
-        $pop3 = new pop3_class();
-        $pop3->hostname = 'example.com';
-        $pop3->port = 995;
-        $pop3->user = 'admin';
-        $pop3->pass = 'admin';
-        $this->assertSame('', $pop3->Open());
-
-        $uidls = $pop3->ListMessages();
-        $this->assertIsArray($uidls);
-        $this->assertNotEmpty($uidls);
-        $lastIndex = max(array_keys($uidls));
-
-        $out = null;
-        $this->assertSame('', $pop3->GetMessage($lastIndex, $out));
-        $this->assertNotEmpty($out);
-
-        $this->assertSame('', $pop3->DeleteMessage($lastIndex));
-        $this->assertSame('', $pop3->Close());
     }
 
     #[Depends('test_emails')]
@@ -880,5 +855,251 @@ final class test_emails extends TestCase
         set_data('server/user', null);
         set_data('rest/0', null);
         set_data('rest/1', null);
+    }
+
+    #[testdox('socket functions')]
+    /**
+     * socket test
+     *
+     * This test performs some tests to validate the correctness
+     * of the socket class used by the mail protocol clients
+     */
+    public function test_socket(): void
+    {
+        // Errors without server
+        $socket = new socket_class();
+        $this->assertSame('Connect failed: empty host', $socket->Connect());
+        $socket->hostname = '127.0.0.1';
+        $this->assertSame('Connect failed: empty port', $socket->Connect());
+        $line = null;
+        $data = null;
+        $this->assertSame('StartTls failed: not connected', $socket->StartTls());
+        $this->assertSame('Write failed: not connected', $socket->WriteLine('test'));
+        $this->assertSame('Read failed: not connected', $socket->ReadLine($line));
+        $this->assertSame('Read failed: not connected', $socket->ReadBytes(1, $data));
+        $this->assertSame('', $socket->Close());
+
+        // A local server used to send and receive data
+        $server = stream_socket_server('tcp://127.0.0.1:0');
+        $port = (int)explode(':', stream_socket_get_name($server, false))[1];
+
+        $socket = new socket_class();
+        $socket->hostname = '127.0.0.1';
+        $socket->port = $port;
+        $socket->timeout = 1;
+        $this->assertSame('', $socket->Connect());
+        $conn = stream_socket_accept($server);
+        fwrite($conn, "220 hello\r\n");
+        $this->assertSame('', $socket->ReadBytes(3, $data));
+        $this->assertSame('220', $data);
+        $this->assertSame('', $socket->ReadLine($line));
+        $this->assertSame(' hello', $line);
+        $this->assertSame('', $socket->WriteLine('PING'));
+        $this->assertSame("PING\r\n", fgets($conn));
+        $this->assertSame('Read failed: timeout', $socket->ReadLine($line));
+        fclose($conn);
+        $this->assertSame('Read failed: connection closed by the server', $socket->ReadLine($line));
+        $this->assertSame('Read failed: connection closed by the server', $socket->ReadBytes(1, $data));
+        $this->assertSame('', $socket->Close());
+
+        // The TLS negotiation fails when the server closes the connection
+        $socket = new socket_class();
+        $socket->hostname = '127.0.0.1';
+        $socket->port = $port;
+        $socket->timeout = 1;
+        $this->assertSame('', $socket->Connect());
+        $conn = stream_socket_accept($server);
+        fclose($conn);
+        $this->assertSame('StartTls failed: TLS negotiation error', $socket->StartTls());
+        $this->assertSame('', $socket->Close());
+
+        // The TLS negotiation works with the STARTTLS mock server
+        $mock = $this->starttls_start();
+        $socket = new socket_class();
+        $socket->hostname = '127.0.0.1';
+        $socket->port = $mock[2];
+        $socket->timeout = 10;
+        $this->assertSame('', $socket->Connect());
+        $this->assertSame('', $socket->ReadLine($line));
+        $this->assertSame('+OK mock ready', $line);
+        $this->assertSame('', $socket->WriteLine('STLS'));
+        $this->assertSame('', $socket->ReadLine($line));
+        $this->assertSame('+OK begin TLS', $line);
+        $this->assertSame('', $socket->StartTls());
+        $this->assertSame('', $socket->WriteLine('QUIT'));
+        $this->assertSame('', $socket->ReadLine($line));
+        $this->assertSame('+OK bye', $line);
+        $this->assertSame('', $socket->Close());
+        $this->starttls_stop($mock);
+
+        // The connection fails when the server is closed
+        fclose($server);
+        $socket = new socket_class();
+        $socket->hostname = '127.0.0.1';
+        $socket->port = $port;
+        $socket->timeout = 1;
+        $this->assertStringContainsString('Connect failed', $socket->Connect());
+    }
+
+    #[Depends('test_emails')]
+    #[testdox('pop3 functions')]
+    /**
+     * pop3 test
+     *
+     * This test performs some tests to validate the correctness
+     * of the pop3 class using the GreenMail server (make teststart)
+     */
+    public function test_pop3(): void
+    {
+        // Errors without server
+        $pop3 = new pop3_class();
+        $this->assertSame('Open failed: empty host', $pop3->Open());
+        $out = null;
+        $this->assertSame('OpenMessage failed: bad index', $pop3->GetMessage(0, $out));
+        $this->assertSame('DeleteMessage failed: bad index', $pop3->DeleteMessage(0));
+        $this->assertSame('Command failed: not connected', $pop3->ListMessages());
+        $this->assertSame('', $pop3->Close());
+
+        // Real GreenMail server (make teststart), default ports: 995 with ssl and 110 without ssl
+        $pop3 = new pop3_class();
+        $pop3->hostname = 'example.com';
+        $pop3->ssl = 1;
+        $pop3->port = 0;
+        $pop3->user = 'admin';
+        $pop3->pass = 'admin';
+        $this->assertSame('', $pop3->Open());
+        $this->assertSame(995, $pop3->port);
+        $this->assertSame('', $pop3->Close());
+
+        $pop3 = new pop3_class();
+        $pop3->hostname = 'example.com';
+        $pop3->port = 0;
+        $pop3->user = 'admin';
+        $pop3->pass = 'admin';
+        $this->assertSame('', $pop3->Open());
+        $this->assertSame(110, $pop3->port);
+        $this->assertSame('', $pop3->Close());
+
+        // Real GreenMail server, ssl on the plain port fails in the TLS negotiation
+        $pop3 = new pop3_class();
+        $pop3->hostname = 'example.com';
+        $pop3->ssl = 1;
+        $pop3->port = 110;
+        $this->assertStringContainsString('Connect failed', $pop3->Open());
+
+        // Timeout reading the greeting, using a local server that accepts but not responds
+        $server = stream_socket_server('tcp://127.0.0.1:0');
+        $port = (int)explode(':', stream_socket_get_name($server, false))[1];
+        $pop3 = new pop3_class();
+        $pop3->hostname = '127.0.0.1';
+        $pop3->port = $port;
+        $pop3->timeout = 1;
+        $this->assertSame('Read failed: timeout', $pop3->Open());
+        fclose($server);
+
+        // Real GreenMail server, using the SMTP port that responds with a wrong greeting
+        $pop3 = new pop3_class();
+        $pop3->hostname = 'example.com';
+        $pop3->port = 587;
+        $this->assertStringContainsString('Greeting failed: 220', $pop3->Open());
+
+        // STLS with the STARTTLS mock server, because GreenMail not supports it
+        $mock = $this->starttls_start();
+        $pop3 = new pop3_class();
+        $pop3->hostname = '127.0.0.1';
+        $pop3->port = $mock[2];
+        $pop3->tls = 1;
+        $pop3->timeout = 10;
+        $pop3->user = 'admin';
+        $pop3->pass = 'admin';
+        $this->assertSame('', $pop3->Open());
+        $this->assertSame([1 => 'uidl1'], $pop3->ListMessages());
+        $this->assertSame('', $pop3->Close());
+        $this->starttls_stop($mock);
+
+        // Real GreenMail server, STLS is not supported by GreenMail
+        $pop3 = new pop3_class();
+        $pop3->hostname = 'example.com';
+        $pop3->port = 110;
+        $pop3->tls = 1;
+        $pop3->user = 'admin';
+        $pop3->pass = 'admin';
+        $this->assertStringContainsString('STLS failed', $pop3->Open());
+
+        // Real GreenMail server, using a wrong password that must not appear in the error
+        $pop3 = new pop3_class();
+        $pop3->hostname = 'example.com';
+        $pop3->port = 995;
+        $pop3->ssl = 1;
+        $pop3->user = 'admin';
+        $pop3->pass = 'wrong_password';
+        $error = $pop3->Open();
+        $this->assertStringContainsString('PASS failed', $error);
+        $this->assertStringNotContainsString('wrong_password', $error);
+
+        // Send an email with a line that begins with a dot using SMTP, to check the dot-stuffing
+        $smtp = new socket_class();
+        $smtp->hostname = 'example.com';
+        $smtp->port = 587;
+        $this->assertSame('', $smtp->Connect());
+        $lines = [
+            'EHLO example.com',
+            'MAIL FROM:<admin@example.com>',
+            'RCPT TO:<admin@example.com>',
+            'DATA',
+            "Subject: Dot test\r\n\r\nFirst line\r\n..dot line\r\nLast line\r\n.",
+            'QUIT',
+        ];
+        $line = null;
+        $this->assertSame('', $smtp->ReadLine($line));
+        foreach ($lines as $cmd) {
+            $this->assertSame('', $smtp->WriteLine($cmd));
+            do {
+                $this->assertSame('', $smtp->ReadLine($line));
+            } while (substr($line, 3, 1) === '-');
+            $this->assertMatchesRegularExpression('/^[23]/', $line);
+        }
+        $this->assertSame('', $smtp->Close());
+
+        // Real GreenMail server, a full session using ssl
+        $pop3 = new pop3_class();
+        $pop3->hostname = 'example.com';
+        $pop3->port = 995;
+        $pop3->ssl = 1;
+        $pop3->user = 'admin';
+        $pop3->pass = 'admin';
+        $this->assertSame('', $pop3->Open());
+
+        $uidls = $pop3->ListMessages();
+        $this->assertIsArray($uidls);
+        $this->assertNotEmpty($uidls);
+        $lastIndex = max(array_keys($uidls));
+
+        $out = null;
+        $this->assertStringContainsString('RETR 999999 failed', $pop3->GetMessage(999999, $out));
+        $this->assertSame('', $pop3->GetMessage($lastIndex, $out));
+        $this->assertStringContainsString("Subject: Dot test\r\n", $out);
+        $this->assertStringContainsString("\r\n.dot line\r\n", $out);
+
+        // DELE only marks the message, the indexes of the others do not change in the session
+        $this->assertSame('', $pop3->DeleteMessage($lastIndex));
+        $uidls2 = $pop3->ListMessages();
+        $this->assertIsArray($uidls2);
+        unset($uidls[$lastIndex]);
+        $this->assertSame($uidls, $uidls2);
+        $this->assertSame('', $pop3->Close());
+
+        // The deletion is applied by the QUIT of the Close
+        $pop3 = new pop3_class();
+        $pop3->hostname = 'example.com';
+        $pop3->port = 995;
+        $pop3->ssl = 1;
+        $pop3->user = 'admin';
+        $pop3->pass = 'admin';
+        $this->assertSame('', $pop3->Open());
+        $uidls3 = $pop3->ListMessages();
+        $this->assertIsArray($uidls3);
+        $this->assertSame(array_values($uidls), array_values($uidls3));
+        $this->assertSame('', $pop3->Close());
     }
 }
