@@ -369,7 +369,7 @@ SaltOS 4 ships with production-ready apps:
 | **Sales** | Products, Invoices, Work Orders, Taxes, Payment Methods |
 | **Purchases** | Suppliers, Purchase Orders |
 | **HR** | Employees, Departments |
-| **Emails** | POP3/SMTP integration, inbox management |
+| **Emails** | POP3/IMAP/SMTP integration, folders, inbox management |
 | **Company** | Company profile, settings |
 | **Certificates** | Digital certificate management |
 | **Dashboard** | Configurable widgets home screen |

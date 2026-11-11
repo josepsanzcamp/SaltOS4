@@ -321,7 +321,7 @@ SaltOS4/
 │   │   ├── sales/              # Sales (products, invoices)
 │   │   ├── purchases/          # Purchases (suppliers)
 │   │   ├── hr/                 # HR (employees, departments)
-│   │   ├── emails/             # Email integration (POP3/SMTP)
+│   │   ├── emails/             # Email integration (POP3/IMAP/SMTP)
 │   │   ├── company/            # Company settings
 │   │   ├── users/              # User & permission management
 │   │   ├── dashboard/          # Main dashboard
