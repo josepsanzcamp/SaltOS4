@@ -9,7 +9,7 @@ yaml|https://github.com/symfony/yaml/tags.atom|<title>|PHRpdGxlPnY4LjIuMC1CRVRBM
 zxcvbn|https://github.com/bjeavons/zxcvbn-php/tags.atom|<title>|PHRpdGxlPjEuNC4yPC90aXRsZT4=
 
 autoheight|https://github.com/kamilkp/autoheight/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAxNi0wOC0wN1QyMzo0MToxMVo8L3VwZGF0ZWQ+
-bootstrap|https://github.com/twbs/bootstrap/tags.atom|<title>|PHRpdGxlPnY2LjAuMC1hbHBoYS4xPC90aXRsZT4=
+bootstrap|https://github.com/twbs/bootstrap/tags.atom|<title>|PHRpdGxlPnY1LjMuOTwvdGl0bGU+
 codemirror|https://api.cdnjs.com/libraries/codemirror?fields=version|version|eyJ2ZXJzaW9uIjoiNi42NS43In0=
 echarts|https://github.com/apache/echarts/tags.atom|<title>|PHRpdGxlPjYuMS4wPC90aXRsZT4=
 icons|https://github.com/twbs/icons/tags.atom|<title>|PHRpdGxlPnYxLjEzLjI8L3RpdGxlPg==
@@ -45,7 +45,7 @@ libreoffice|https://www.libreoffice.org/download/|latest|PG9wdGlvbiB2YWx1ZT0ibGF
 mariadb|https://github.com/MariaDB/server/tags.atom|<title>|PHRpdGxlPk1hcmlhREIgQ29tbXVuaXR5IFNlcnZlciAxMy4xLjEgUkM8L3RpdGxlPg==
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|PHRpdGxlPm1pbmlmeSB2MTUuMy4xPC90aXRsZT4=
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|PHRpdGxlPk1yb29uZ2EgMTYuMTUgLSAyMDI2LTEwLTIzPC90aXRsZT4=
-node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjYtMTAtMjksIFZlcnNpb24gMjcuMC4wLWFscGhhLjAuMC4wIChBbHBoYSksIEBSYWZhZWxHU1M8L3RpdGxlPg==
+node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjYtMTEtMTEsIFZlcnNpb24gMjYuMTMuMSAmIzM5O0xpdGhpdW0mIzM5OyAoTFRTKSwgQGFkdWg5NTwvdGl0bGU+
 pcov|https://github.com/krakjoe/pcov/tags.atom|<title>|PHRpdGxlPnYxLjAuMTI8L3RpdGxlPg==
 php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjYuMFJDNjwvdGl0bGU+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|PHRpdGxlPjQuMC40IC0gMjAyNi0wOC0wNjwvdGl0bGU+
