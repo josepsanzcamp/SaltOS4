@@ -211,7 +211,16 @@ function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
     $messageid = __sendmail_messageid($account_id, $mail->From);
     $file1 = __sendmail_emlsaver($mail->GetSentMIMEMessage(), $messageid);
     $file2 = __sendmail_objsaver($mail, $messageid);
-    $last_id = __getmail_insert($file1, $messageid, 0, 0, 0, 0, 0, 1, 1, '');
+    $fields = [
+        'state_new' => 0,
+        'is_outbox' => 1,
+        'state_sent' => 1,
+    ];
+    // The Message-ID is used to find the email in the sent folder of the IMAP accounts
+    if ($result['protocol'] === 'imap') {
+        $fields['imap_messageid'] = $mail->getLastMessageID();
+    }
+    $last_id = __getmail_insert($file1, $messageid, $fields);
     semaphore_release(__FUNCTION__);
     if (count($bcc)) {
         __getmail_add_bcc($last_id, $bcc); // BCC DOESN'T APPEAR IN THE RFC822 SOMETIMES
@@ -234,6 +243,8 @@ function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
     }
     __getmail_update('state_sent', 1, $last_id);
     __getmail_update('state_error', '', $last_id);
+    require_once 'apps/emails/php/getmail_imap.php';
+    __getmail_imap_append($last_id);
     unlink($file2);
     return $last_id;
 }
@@ -707,6 +718,8 @@ function sendmail_action($json, $action, $email_id)
         if ($action === 'forward') {
             $campo = 'state_forward';
         }
+        require_once 'apps/emails/php/getmail_imap.php';
+        __getmail_imap_state($email_id, $campo, 1);
         __getmail_update($campo, 1, $email_id);
     }
 
@@ -861,6 +874,8 @@ function sendmail_server()
         } else {
             __getmail_update('state_sent', 1, $last_id);
             __getmail_update('state_error', '', $last_id);
+            require_once 'apps/emails/php/getmail_imap.php';
+            __getmail_imap_append($last_id);
             unlink($file);
             $sended++;
         }

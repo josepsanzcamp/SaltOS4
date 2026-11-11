@@ -43,24 +43,34 @@ The form includes the following fields:
 - Name: Display name or label used to identify the account.
 - Email: Actual email address configured for this account.
 - Signature: Text or HTML signature added automatically to outgoing messages.
-- Host: POP3 server hostname used to receive emails.
-- Port: Network port used to connect to the POP3 server (e.g., 110, 995).
-- Extra: Additional POP3 connection settings, such as TLS.
-- User: Username for POP3 authentication.
-- Password: Password for the POP3 account.
-- Delete: Whether messages are deleted from the server after download.
-- Days: Number of days to keep messages on the server.
-- Host: SMTP server hostname used to send emails.
+- Host: Hostname of the incoming server (POP3 or IMAP) used to receive emails.
+- Port: Network port of the incoming server (e.g., 110 or 995 for POP3, 143 or 993 for IMAP).
+- Extra: Encryption of the incoming server: none, SSL (encrypted from the start) or TLS (STARTTLS).
+- User: Username of the incoming server.
+- Password: Password of the incoming server.
+- Test: Button to test the connection and the login with the incoming server, using the data of the form without saving it.
+- Protocol: POP3 or IMAP, chosen when the account is created; it can not be changed later.
+- Delete: (POP3 only) Whether the messages are deleted from the server after the days below.
+- Days: (POP3 only) Number of days that the messages are kept on the server.
+- Copy in Sent: (IMAP only) Whether a copy of the sent emails is saved in the Sent folder of the server; disable it for the servers that save the copy themselves, like Gmail.
+- Host: SMTP server hostname used to send emails (mail, sendmail or qmail to use the local server).
 - Port: Network port used for SMTP communication (e.g., 25, 465, 587).
 - Extra: SMTP encryption method: none, SSL, or TLS.
 - User: Username for SMTP authentication.
 - Password: Password for the SMTP server account.
+- Test: Button to test the connection and the authentication with the SMTP server, using the data of the form without saving it.
 - Disabled: Marks the account as inactive; no synchronization will occur.
 - Privated: Restricts access to the account to its owner only.
 - Default: Sets this account as the default for sending emails.
 - Add me to CC: Automatically includes the sender in the CC field.
 - Confirm reading to: Sends a read receipt request with each email.
 
+
+==POP3 and IMAP==
+
+With POP3, SaltOS downloads the emails of the inbox of the server, and the folders of the account (Inbox, Sent, Trash, Junk and the folders created by the user) exist only in SaltOS.
+
+With IMAP, the folders of the account are the folders of the server, and the emails of the subscribed folders are synchronized in both directions: the changes done in SaltOS (read, wait, move, delete, the replies and forwards, and the copy of the sent emails in the Sent folder, if enabled) are applied in the server in the next synchronization, and the changes done by other email clients are received in SaltOS.
 
 ==Delete==
 

@@ -49,10 +49,15 @@ This file allow to define the database needed by this application
                 <field name="cc" type="TEXT"/>
                 <field name="bcc" type="TEXT"/>
                 <field name="files" type="INTEGER"/>
+                <field name="imap_uid" type="BIGINT"/>
+                <field name="imap_messageid" type="VARCHAR(255)"/>
+                <field name="imap_emailid" type="VARCHAR(255)"/>
             </fields>
             <indexes>
                 <index fields="datetime"/>
                 <index fields="folder_id"/>
+                <index fields="folder_id,imap_uid"/>
+                <index fields="account_id,imap_messageid"/>
             </indexes>
         </table>
         <table name="app_emails_address">
@@ -72,32 +77,34 @@ This file allow to define the database needed by this application
                 <field name="datetime" type="DATETIME"/>
             </fields>
         </table>
-		<table name="app_emails_accounts">
-			<fields>
-				<field name="id" type="INTEGER" pkey="true"/>
-				<field name="user_id" type="INTEGER" fkey="tbl_users"/>
-				<field name="email_name" type="VARCHAR(255)"/>
-				<field name="email_from" type="VARCHAR(255)"/>
-				<field name="email_signature" type="MEDIUMTEXT"/>
-				<field name="pop3_host" type="VARCHAR(255)"/>
-				<field name="pop3_port" type="VARCHAR(255)"/>
-				<field name="pop3_extra" type="VARCHAR(255)"/>
-				<field name="pop3_user" type="VARCHAR(255)"/>
-				<field name="pop3_pass" type="VARCHAR(255)"/>
-				<field name="pop3_delete" type="INTEGER" null="false" default="0"/>
-				<field name="pop3_days" type="INTEGER"/>
-				<field name="smtp_host" type="VARCHAR(255)"/>
-				<field name="smtp_port" type="VARCHAR(255)"/>
-				<field name="smtp_extra" type="VARCHAR(255)"/>
-				<field name="smtp_user" type="VARCHAR(255)"/>
-				<field name="smtp_pass" type="VARCHAR(255)"/>
-				<field name="email_disabled" type="INTEGER" null="false" default="0"/>
-				<field name="email_privated" type="INTEGER" null="false" default="0"/>
-				<field name="email_default" type="INTEGER" null="false" default="0"/>
-				<field name="email_addmetocc" type="INTEGER" null="false" default="0"/>
-				<field name="email_crt" type="INTEGER" null="false" default="0"/>
-			</fields>
-		</table>
+        <table name="app_emails_accounts">
+            <fields>
+                <field name="id" type="INTEGER" pkey="true"/>
+                <field name="user_id" type="INTEGER" fkey="tbl_users"/>
+                <field name="email_name" type="VARCHAR(255)"/>
+                <field name="email_from" type="VARCHAR(255)"/>
+                <field name="email_signature" type="MEDIUMTEXT"/>
+                <field name="protocol" type="VARCHAR(255)" null="false" default="pop3"/>
+                <field name="pop3_host" type="VARCHAR(255)"/>
+                <field name="pop3_port" type="VARCHAR(255)"/>
+                <field name="pop3_extra" type="VARCHAR(255)"/>
+                <field name="pop3_user" type="VARCHAR(255)"/>
+                <field name="pop3_pass" type="VARCHAR(255)"/>
+                <field name="pop3_delete" type="INTEGER" null="false" default="0"/>
+                <field name="pop3_days" type="INTEGER"/>
+                <field name="imap_append_sent" type="INTEGER" null="false" default="1"/>
+                <field name="smtp_host" type="VARCHAR(255)"/>
+                <field name="smtp_port" type="VARCHAR(255)"/>
+                <field name="smtp_extra" type="VARCHAR(255)"/>
+                <field name="smtp_user" type="VARCHAR(255)"/>
+                <field name="smtp_pass" type="VARCHAR(255)"/>
+                <field name="email_disabled" type="INTEGER" null="false" default="0"/>
+                <field name="email_privated" type="INTEGER" null="false" default="0"/>
+                <field name="email_default" type="INTEGER" null="false" default="0"/>
+                <field name="email_addmetocc" type="INTEGER" null="false" default="0"/>
+                <field name="email_crt" type="INTEGER" null="false" default="0"/>
+            </fields>
+        </table>
         <table name="app_emails_folders">
             <fields>
                 <field name="id" type="INTEGER" pkey="true"/>
@@ -105,10 +112,36 @@ This file allow to define the database needed by this application
                 <field name="parent_id" type="INTEGER"/>
                 <field name="label" type="VARCHAR(255)"/>
                 <field name="special_use" type="VARCHAR(255)"/>
+                <field name="name" type="VARCHAR(255)"/>
+                <field name="delimiter" type="VARCHAR(255)"/>
+                <field name="is_subscribed" type="INTEGER" null="false" default="1"/>
+                <field name="is_selectable" type="INTEGER" null="false" default="1"/>
+                <field name="uidvalidity" type="BIGINT"/>
+                <field name="uidnext" type="BIGINT"/>
+                <field name="highestmodseq" type="VARCHAR(255)"/>
             </fields>
             <indexes>
                 <index fields="account_id"/>
                 <index fields="parent_id"/>
+            </indexes>
+        </table>
+        <table name="app_emails_queue">
+            <fields>
+                <field name="id" type="INTEGER" pkey="true"/>
+                <field name="account_id" type="INTEGER"/>
+                <field name="email_id" type="INTEGER"/>
+                <field name="action" type="VARCHAR(255)"/>
+                <field name="folder_id" type="INTEGER"/>
+                <field name="to_folder_id" type="INTEGER"/>
+                <field name="flag" type="VARCHAR(255)"/>
+                <field name="imap_uid" type="BIGINT"/>
+                <field name="datetime" type="DATETIME"/>
+                <field name="retries" type="INTEGER" null="false" default="0"/>
+                <field name="error" type="TEXT"/>
+            </fields>
+            <indexes>
+                <index fields="account_id"/>
+                <index fields="email_id"/>
             </indexes>
         </table>
 

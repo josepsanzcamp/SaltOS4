@@ -43,24 +43,34 @@ El formulari inclou els següents camps:
 - Nom: Nom visible o etiqueta per identificar el compte.
 - Correu electrònic: Adreça de correu electrònic associada al compte.
 - Signatura: Text o HTML afegit automàticament als correus sortints.
-- Servidor POP3: Nom del servidor de recepció.
-- Port POP3: Port utilitzat per connectar amb el servidor (ex: 110, 995).
-- Opcions POP3: Configuració addicional (TLS, etc.).
-- Usuari POP3: Nom d'usuari per autenticar-se.
-- Contrasenya POP3: Contrasenya del compte.
-- Esborrar: Si cal eliminar els correus del servidor després de descarregar-los.
-- Dies: Nombre de dies que es conserven els correus al servidor.
-- Servidor SMTP: Nom del servidor per enviar correus.
+- Servidor: Nom del servidor entrant (POP3 o IMAP) per rebre correus.
+- Port: Port del servidor entrant (ex: 110 o 995 per a POP3, 143 o 993 per a IMAP).
+- Extra: Xifrat del servidor entrant: cap, SSL (xifrat des de l'inici) o TLS (STARTTLS).
+- Usuari: Nom d'usuari del servidor entrant.
+- Contrasenya: Contrasenya del servidor entrant.
+- Provar: Botó per provar la connexió i l'accés al servidor entrant, amb les dades del formulari sense desar-les.
+- Protocol: POP3 o IMAP, es tria en crear el compte i no es pot canviar després.
+- Esborrar: (només POP3) Si cal eliminar els correus del servidor passats els dies indicats.
+- Dies: (només POP3) Nombre de dies que es conserven els correus al servidor.
+- Còpia a Enviats: (només IMAP) Si es desa una còpia dels correus enviats a la carpeta Enviats del servidor; desactiva-ho als servidors que ja desen la còpia, com Gmail.
+- Servidor SMTP: Nom del servidor per enviar correus (mail, sendmail o qmail per fer servir el servidor local).
 - Port SMTP: Port per enviar (ex: 25, 465, 587).
 - Xifrat SMTP: Tipus de connexió (cap, SSL o TLS).
 - Usuari SMTP: Nom d'usuari per autenticar-se a l'SMTP.
 - Contrasenya SMTP: Clau d'accés del compte SMTP.
+- Provar: Botó per provar la connexió i l'autenticació amb el servidor SMTP, amb les dades del formulari sense desar-les.
 - Inactiu: Indica si el compte no està actiu (no es sincronitza).
 - Privat: Limita l'accés al propietari del compte.
 - Per defecte: Marca aquest compte com el remitent per defecte.
 - Afegir-me al CC: Afegeix automàticament l'usuari com a còpia.
 - Confirmació de lectura: Afegeix sol·licitud de confirmació en cada correu.
 
+
+==POP3 i IMAP==
+
+Amb POP3, SaltOS descarrega els correus de la safata d'entrada del servidor, i les carpetes del compte (Safata d'entrada, Enviats, Paperera, Correu brossa i les carpetes creades per l'usuari) només existeixen a SaltOS.
+
+Amb IMAP, les carpetes del compte són les carpetes del servidor, i els correus de les carpetes subscrites se sincronitzen en els dos sentits: els canvis fets a SaltOS (llegit, en espera, moure, esborrar, les respostes i reenviaments, i la còpia dels correus enviats a la carpeta Enviats, si està activada) s'apliquen al servidor a la següent sincronització, i els canvis fets des d'altres clients de correu arriben a SaltOS.
 
 ==Eliminació==
 

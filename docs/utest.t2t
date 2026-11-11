@@ -1,6 +1,6 @@
 Phpunit Test Documentation
-SaltOS 4.1 r2703
-October 2026
+SaltOS 4.1 r2774
+November 2026
 
 
 
@@ -1128,6 +1128,29 @@ marker) and a leftover row beyond the submitted matrix (must also
 become a deletion marker)
 
 
++++quotes withholding test+++
+
+```
+public function test_quotes_withholding(array $json): void
+```
+
+This test performs some tests to validate the correctness of the
+unmake_matrix_data function when the lines are using taxes and
+withholdings, the withholdings must be stored in the lines, in the
+taxes breakdown using the withholding type and in the totals
+
+
++++quotes numbering test+++
+
+```
+public function test_quotes_numbering(array $json): void
+```
+
+This test performs some tests to validate the correctness of the
+numbering of the quotes, the next code must be computed using the
+numeric value of the codes of the current year, and not their text
+
+
 ++Test cron++
 
 ```
@@ -1433,6 +1456,45 @@ database connection, sendint queries validating the expected results and
 closing the connection.
 
 
++++Not null helper+++
+
+```
+private function not_null_helper($obj, $extra, $asis): void
+```
+
+This function validates how the rows of a table that allows nulls are
+copied to a table that not allows nulls and have a default value, as
+the dbschema does when the structure of a table changes, the copy of
+the field as is only works in some engines, and by this reason the
+dbschema uses the ifnull to convert the nulls to the default value.
+
+- @obj   => the database object used to send the queries
+- @extra => the sql fragment added to the create table sentences
+- @asis  => the expected result when the field is copied as is
+
+
++++PDO MySQL not null+++
+
+```
+public function test_pdo_mysql_not_null(): void
+```
+
+This function checks that the pdo_mysql driver can copy the rows of a table
+with nulls to a table with a not null default 0 field, this engine converts
+the nulls to the default value when the field is copied as is.
+
+
++++PDO SQLite not null+++
+
+```
+public function test_pdo_sqlite_not_null(): void
+```
+
+This function checks that the pdo_sqlite driver can copy the rows of a table
+with nulls to a table with a not null default 0 field, this engine fails
+when the field is copied as is.
+
+
 +++Database driver+++
 
 ```
@@ -1610,6 +1672,41 @@ final class test_emails extends TestCase
 ```
 
 
++++IMAP cleanup+++
+
+```
+private function imap_cleanup(): void
+```
+
+This function removes the IMAP accounts left by a previous execution of the IMAP
+tests that not finished, with its emails and its operations, to not disturb the
+other tests; it is called at the beginning of the first test and of the IMAP tests
+
+
++++Mock server start+++
+
+```
+private function mock_start(array $script): array
+```
+
+This function starts the scripted mock server (utest/php/scripted.php) as a child
+process, used to reproduce the responses that the real servers never send, and
+returns an array with the process, the pipes and the port used by the server
+
+- @script => the script of the mock server
+
+
++++Mock server stop+++
+
+```
+private function mock_stop(array $server): void
+```
+
+This function waits the end of the mock server and releases its resources
+
+- @server => the array returned by mock_start
+
+
 +++emails test+++
 
 ```
@@ -1618,6 +1715,67 @@ public function test_emails(): void
 
 This test performs some tests to validate the correctness
 of the emails functions
+
+
++++folders test+++
+
+```
+public function test_folders(): void
+```
+
+This test performs some tests to validate the correctness
+of the emails folders functions
+
+
++++socket test+++
+
+```
+public function test_socket(): void
+```
+
+This test performs some tests to validate the correctness
+of the socket class used by the mail protocol clients
+
+
++++pop3 test+++
+
+```
+public function test_pop3(): void
+```
+
+This test performs some tests to validate the correctness
+of the pop3 class using the GreenMail server (make teststart)
+
+
++++imap test+++
+
+```
+public function test_imap(): void
+```
+
+This test performs some tests to validate the correctness of the imap class using
+the GreenMail and the Dovecot servers (make teststart) and the scripted mock server
+
+
++++accounts test+++
+
+```
+public function test_accounts(): void
+```
+
+This test performs some tests to validate the correctness of the test of the
+connection of the accounts using the GreenMail and the Dovecot servers (make teststart)
+
+
++++getmail imap test+++
+
+```
+public function test_getmail_imap(): void
+```
+
+This test performs some tests to validate the correctness of the synchronization of
+the IMAP accounts using the Dovecot server (make teststart) with a new user, that
+starts with an empty mailbox
 
 
 ++Test error++
@@ -3362,6 +3520,41 @@ submitted matrix (must also become a deletion marker) and a new
 row that is only partially blank (per-field unset branches)
 
 
++++invoices withholding test+++
+
+```
+public function test_invoices_withholding(array $json): void
+```
+
+This test performs some tests to validate the correctness of the
+unmake_matrix_data function when the lines are using taxes and
+withholdings, the withholdings must be stored in the lines, in the
+taxes breakdown using the withholding type and in the totals
+
+
++++taxes test+++
+
+```
+public function test_taxes(): void
+```
+
+This test performs some tests to validate the correctness of the
+taxes functions, used by the invoices and the quotes to manage the
+taxes and the withholdings of their lines depending on the modes
+defined by the company
+
+
++++invoices numbering test+++
+
+```
+public function test_invoices_numbering(array $json): void
+```
+
+This test performs some tests to validate the correctness of the
+numbering of the invoices, the next code must be computed using the
+numeric value of the codes of the current year, and not their text
+
+
 ++Test semaphore++
 
 ```
@@ -3672,7 +3865,7 @@ final class test_unoconv extends TestCase
 +++Pdf test helper+++
 
 ```
-private function test_pdf($input): void
+private function test_pdf($input, $size): void
 ```
 
 This function tries to do the test with unoconv2pdf, checks
@@ -3680,12 +3873,24 @@ that the input not exists and the output exists to validate
 the correctness of the function
 
 - @input => the input file to use in the test
+- @size  => the size in bytes expected for the output
+
+
+Notes:
+
+The output is not removed here, it is used as cache by the txt
+test helper to prevent a second conversion of the same file, and
+is removed by the caller
+
+The size of the output is checked using a delta because the
+functions always create the output, that is a void file when the
+conversion fails
 
 
 +++Txt test helper+++
 
 ```
-private function test_txt($input): void
+private function test_txt($input, $size): void
 ```
 
 This function tries to do the test with unoconv2txt, checks
@@ -3693,6 +3898,7 @@ that the input not exists and the output exists to validate
 the correctness of the function
 
 - @input => the input file to use in the test
+- @size  => the size in bytes expected for the output
 
 
 +++unoconv test+++

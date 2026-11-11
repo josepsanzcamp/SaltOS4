@@ -29,6 +29,14 @@ Each entry typically displays:
 
 The interface also includes filters and a search form to filter by sender, subject, account, and date.
 
+==Folders==
+
+The folders button opens a panel with the folders tree, with the accounts and its folders. Selecting an account shows all its emails except the ones of the trash and the junk, and selecting a folder shows only its emails.
+
+The All button shows the emails of all the accounts together in the same list, except the ones of the trash and the junk, keeping the other filters of the search form. The Options menu allows to create, rename, move and delete folders and, for the IMAP accounts, to choose the folders of the server that are synchronized (Server folders), and the Empty menu deletes permanently the emails of the trash or the junk. The special folders (Inbox, Sent, Trash and Junk) can not be modified.
+
+The folders of the POP3 accounts exist only in SaltOS. The folders of the IMAP accounts are the folders of the server (the Sent, Trash and Junk folders are created in the server if they do not exist), and the actions on the emails and on the folders are applied in the server too: the emails with changes not yet applied in the server show the Pending label until the next synchronization.
+
 ==View message==
 
 This view shows the full content of an email message, including header metadata and attachments.
@@ -50,7 +58,6 @@ The following information is typically displayed:
 - Reply: Indicates if the message was replied to.
 - Forward: Indicates if the message was forwarded to another recipient.
 - Wait: Flag used to track follow-up or pending response.
-- SPAM: Marks whether the email is classified as spam.
 - Request confirmation of receipt: Shows whether a read receipt was requested for the message.
 - Error: Displays an error message if the delivery failed.
 - Subject: The subject line of the email.
@@ -82,7 +89,7 @@ The reply and compose form includes:
 
 Emails can be deleted from the list view using the delete icon or action.
 
-Messages are usually deleted locally or flagged for deletion, depending on the server configuration.
+Deleting an email moves it to the trash of its account, and deleting an email that is in the trash deletes it permanently. With the IMAP accounts, the email is moved or deleted in the server too.
 
 ==PDF generation==
 

@@ -59,6 +59,12 @@ saltos.emails.init = arg => {
                 saltos.emails.folders();
             }
         });
+        // And each time that the synchronization of the IMAP accounts changes the folders
+        saltos.window.set_listener('saltos.emails.folders', event => {
+            if (document.getElementById('folders')) {
+                saltos.emails.folders();
+            }
+        });
     }
 
     // Handle state changes for list and view
@@ -228,6 +234,20 @@ saltos.emails.folder = value => {
 };
 
 /**
+ * All emails
+ *
+ * This method shows the emails of all the accounts together in the same list (except the
+ * trash and the junk), keeping the other filters of the search form, and reloads the
+ * folders tree to remove the selection of the previous folder
+ */
+saltos.emails.folder_all = () => {
+    document.getElementById('account_id').saltos.set_value('');
+    document.getElementById('folder_id').value = '0';
+    saltos.driver.search();
+    saltos.emails.folders();
+};
+
+/**
  * Reset filter
  *
  * This method resets the search filter and reloads the folders tree to remove the
@@ -307,6 +327,40 @@ saltos.emails.__folder_action = data => {
 };
 
 /**
+ * Folders panel
+ *
+ * This method shows and hides the folders panel, an offcanvas with the folders tree and its
+ * options, using the same mechanism of the search form (saltos.common.filter): the
+ * contents of the folders_panel div are moved to the offcanvas while it is open
+ */
+saltos.emails.folders_panel = () => {
+    if (saltos.bootstrap.offcanvas('isopen')) {
+        saltos.bootstrap.offcanvas('close');
+        return;
+    }
+    saltos.gettext.bootstrap.offcanvas({
+        pos: 'left',
+        close: 'Close',
+    });
+    const panel = document.getElementById('folders_panel');
+    if ('data-bs-title' in panel) {
+        document.querySelector('.offcanvas-title').innerHTML = T(panel['data-bs-title']);
+    }
+    const items = Array.prototype.slice.call(panel.childNodes);
+    const parents = [];
+    for (const i in items) {
+        parents[i] = items[i].parentElement;
+        document.querySelector('.offcanvas-body').append(items[i]);
+    }
+    const obj = saltos.bootstrap.__offcanvas.obj;
+    obj.addEventListener('hide.bs.offcanvas', event => {
+        for (const i in items) {
+            parents[i].append(items[i]);
+        }
+    });
+};
+
+/**
  * Folder modal helper
  *
  * This method programs the close of the modal of the folders management when the search
@@ -375,6 +429,74 @@ saltos.emails.folder_create = () => {
         }],
     });
     saltos.emails.__folder_modal();
+};
+
+/**
+ * Server folders
+ *
+ * This method shows a modal with the folders of the server of the IMAP account selected in
+ * the tree, to subscribe and unsubscribe them: the emails of the subscribed folders are
+ * synchronized, and the emails of the unsubscribed folders are deleted in SaltOS (they stay
+ * in the server); the special folders can not be changed
+ */
+saltos.emails.folder_server = () => {
+    const selected = saltos.emails.__folder_selected();
+    if (!selected) {
+        return;
+    }
+    saltos.app.ajax({
+        url: 'app/emails/action/server_folders',
+        proxy: 'network',
+        data: {
+            account_id: selected.account_id,
+        },
+        success: response => {
+            if (response.status !== 'ok') {
+                saltos.app.modal('Server folders', response.text, {color: 'danger'});
+                return;
+            }
+            const body = saltos.core.html('<div></div>');
+            const help = saltos.core.html('<p></p>');
+            help.textContent = T('The unsubscribed folders are removed from SaltOS with its ' +
+                'emails, they stay in the server');
+            body.append(help);
+            const fields = [];
+            for (const folder of response.folders) {
+                const field = saltos.gettext.bootstrap.field({
+                    type: 'switch',
+                    id: `server_folder_${folder.id}`,
+                    label: folder.name,
+                    value: folder.subscribed,
+                    disabled: folder.locked,
+                });
+                fields.push([folder.id, field]);
+                body.append(field);
+            }
+            saltos.app.modal('Server folders', body, {
+                buttons: [{
+                    label: 'Save',
+                    color: 'success',
+                    icon: 'check-lg',
+                    onclick: () => {
+                        const ids = fields.filter(([id, field]) => {
+                            return field.querySelector('input').checked;
+                        }).map(([id, field]) => id);
+                        saltos.emails.__folder_action({
+                            action: 'subscribe',
+                            account_id: selected.account_id,
+                            ids: ids.join(','),
+                        });
+                    },
+                },{
+                    label: 'Cancel',
+                    color: 'danger',
+                    icon: 'x-lg',
+                    onclick: () => {},
+                }],
+            });
+            saltos.emails.__folder_modal();
+        },
+    });
 };
 
 /**
@@ -502,12 +624,15 @@ saltos.emails.folder_delete = () => {
         return;
     }
     saltos.app.ajax({
-        url: 'app/emails/action/folder',
+        url: 'app/emails/action/folder_summary',
         data: {
-            action: 'summary',
             folder_id: selected.folder_id,
         },
         success: response => {
+            if (response.status !== 'ok') {
+                saltos.app.modal('Delete folder', response.text, {color: 'danger'});
+                return;
+            }
             saltos.app.modal('Delete folder???', response.text, {
                 buttons: [{
                     label: 'Yes',
@@ -547,13 +672,17 @@ saltos.emails.folder_empty = folder => {
         return;
     }
     saltos.app.ajax({
-        url: 'app/emails/action/folder',
+        url: 'app/emails/action/folder_empty_summary',
         data: {
-            action: 'empty_summary',
             account_id: selected.account_id,
             folder: folder,
         },
         success: response => {
+            if (response.status !== 'ok') {
+                const title = folder === 'trash' ? 'Empty trash' : 'Empty junk';
+                saltos.app.modal(title, response.text, {color: 'danger'});
+                return;
+            }
             const title = folder === 'trash' ? 'Empty trash???' : 'Empty junk???';
             saltos.app.modal(title, response.text, {
                 buttons: [{
@@ -702,7 +831,8 @@ saltos.emails.__move_rows = (nodes, rows, prefix, skip = '') => {
 /**
  * Perform server-related actions for emails
  *
- * This method triggers server-side actions for emails and displays the responses in toasts.
+ * This method triggers server-side actions for emails and displays the responses in toasts,
+ * then updates the list and the folders tree (the synchronization can change the folders).
  */
 saltos.emails.server = () => {
     saltos.app.ajax({
@@ -713,6 +843,7 @@ saltos.emails.server = () => {
                 saltos.app.toast('Response', response[key]);
             }
             saltos.window.send('saltos.emails.update');
+            saltos.window.send('saltos.emails.folders');
         },
     });
 };

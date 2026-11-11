@@ -42,6 +42,7 @@
         <layout append="top">
             <row auto="true" row_class="row g-1 py-3" col_class="col-auto">
                 <button onclick="saltos.common.filter()" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
+                <button onclick="saltos.emails.folders_panel()" tooltip="Show and hide the folders" icon="folder" col_class="col-auto"/>
                 <button ifeval="check_user('emails', 'create')" onclick="saltos.common.create()" label="New email" tooltip="To send a new email" icon="plus-lg" color="success"/>
                 <div col_class="col"/>
                 <hidden id="page" value="0"/>
@@ -65,23 +66,6 @@
             <div id="filter" class="d-none" title="Search form">
                 <!-- Begin of the search form -->
                 <div id="search_form">
-                    <row auto="true" row_class="row g-3 mb-3" col_class="col-6">
-                        <jstree id="folders" label="Folders" nodata="Folders not found" onclick="saltos.emails.folder(this)" col_class="col-12"/>
-                        <hidden id="folder_id" value="0"/>
-                    </row>
-                    <row auto="true" row_class="row g-1 mb-3" col_class="col-auto">
-                        <div col_class="col"/>
-                        <dropdown label="Options" icon="folder">
-                            <menu>
-                                <button onclick="saltos.emails.folder_create()" label="New folder" tooltip="To create a new folder" icon="folder-plus"/>
-                                <button onclick="saltos.emails.folder_rename()" label="Rename" tooltip="To rename the selected folder" icon="pencil"/>
-                                <button onclick="saltos.emails.folder_move()" label="Move" tooltip="To move the selected folder inside another folder" icon="folder-symlink"/>
-                                <button onclick="saltos.emails.folder_delete()" color="danger" label="Delete" tooltip="To delete the selected folder" icon="folder-x"/>
-                                <button onclick="saltos.emails.folder_empty('trash')" color="danger" label="Empty trash" tooltip="To delete permanently the emails of the trash" icon="trash"/>
-                                <button onclick="saltos.emails.folder_empty('junk')" color="danger" label="Empty junk" tooltip="To delete permanently the emails of the junk" icon="trash"/>
-                            </menu>
-                        </dropdown>
-                    </row>
                     <row auto="true" row_class="row g-3 mb-3" col_class="col-6">
                         <text id="search_extra" label="Search" col_class="col-12" onchange="document.getElementById('search').value=this.value" onenter="document.getElementById('search').value=this.value;saltos.driver.search()"/>
                         <select id="account_id" label="Emails accounts" col_class="col-12">
@@ -128,6 +112,31 @@
                 <hr/>
                 <div id="filter_form" eval="true">xpath_search_first_value('div/div[id=filter_form]', xmlfile2array('apps/common/xml/filter.xml'))</div>
             </div>
+            <div id="folders_panel" class="d-none" title="Folders">
+                <row auto="true" row_class="row g-3 mb-3" col_class="col-6">
+                    <jstree id="folders" nodata="Folders not found" onclick="saltos.emails.folder(this)" col_class="col-12"/>
+                    <hidden id="folder_id" value="0"/>
+                </row>
+                <row auto="true" row_class="row g-1 mb-3" col_class="col-auto">
+                    <div col_class="col"/>
+                    <button onclick="saltos.emails.folder_all()" label="All" tooltip="To see the emails of all the accounts together in the same list, except the trash and the junk" icon="collection"/>
+                    <dropdown label="Options" icon="folder">
+                        <menu>
+                            <button onclick="saltos.emails.folder_create()" label="New folder" tooltip="To create a new folder" icon="folder-plus"/>
+                            <button onclick="saltos.emails.folder_rename()" label="Rename" tooltip="To rename the selected folder" icon="pencil"/>
+                            <button onclick="saltos.emails.folder_move()" label="Move" tooltip="To move the selected folder inside another folder" icon="folder-symlink"/>
+                            <button onclick="saltos.emails.folder_delete()" color="danger" label="Delete" tooltip="To delete the selected folder" icon="folder-x"/>
+                            <button onclick="saltos.emails.folder_server()" label="Server folders" tooltip="To subscribe and unsubscribe the folders of the server" icon="cloud"/>
+                        </menu>
+                    </dropdown>
+                    <dropdown label="Empty" icon="trash" color="danger">
+                        <menu>
+                            <button onclick="saltos.emails.folder_empty('trash')" color="danger" label="Empty trash" tooltip="To delete permanently the emails of the trash" icon="trash"/>
+                            <button onclick="saltos.emails.folder_empty('junk')" color="danger" label="Empty junk" tooltip="To delete permanently the emails of the junk" icon="trash"/>
+                        </menu>
+                    </dropdown>
+                </row>
+            </div>
             <row auto="true" row_class="row g-3 mb-3" col_class="col-12">
                 <list id="list" nodata="Data not found" onclick="true" truncate="true" checkbox="true">
                     <actions>
@@ -170,6 +179,7 @@
                         CASE state_reply WHEN 1 THEN 'Reply' ELSE '' END,
                         CASE state_forward WHEN 1 THEN 'Forward' ELSE '' END,
                         CASE state_wait WHEN 1 THEN 'Wait' ELSE '' END,
+                        CASE WHEN EXISTS (SELECT 1 FROM app_emails_queue q WHERE q.email_id = app_emails.id) THEN 'Pending' ELSE '' END,
                         CASE priority WHEN -1 THEN 'Low' WHEN 1 THEN 'High' ELSE '' END,
                         CASE sensitivity WHEN 1 THEN 'Personal' WHEN 2 THEN 'Private' WHEN 3 THEN 'Confidential' ELSE '' END,
                         CASE is_outbox+state_new+state_reply+state_forward+state_wait+priority*10+sensitivity WHEN 0 THEN 'Read' ELSE '' END
@@ -506,6 +516,24 @@
         <text require="apps/emails/php/folders.php" eval="true">emails_folders_action(get_data('json'))</text>
     </action>
 
+    <action id="folder_summary">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <output require="apps/emails/php/folders.php" eval="true">emails_folders_summary(get_data('json'))</output>
+    </action>
+
+    <action id="folder_empty_summary">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <output require="apps/emails/php/folders.php" eval="true">emails_folders_empty_summary(get_data('json'))</output>
+    </action>
+
+    <action id="server_folders">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <output require="apps/emails/php/folders.php" eval="true">emails_folders_server(get_data('json'))</output>
+    </action>
+
     <action id="indexing">
         <check eval="true">true</check>
         <output require="apps/emails/php/indexing.php"/>
@@ -530,6 +558,7 @@
                                 CASE state_reply WHEN 1 THEN 'Reply' ELSE '' END,
                                 CASE state_forward WHEN 1 THEN 'Forward' ELSE '' END,
                                 CASE state_wait WHEN 1 THEN 'Wait' ELSE '' END,
+                                CASE WHEN EXISTS (SELECT 1 FROM app_emails_queue q WHERE q.email_id = app_emails.id) THEN 'Pending' ELSE '' END,
                                 CASE priority WHEN -1 THEN 'Low' WHEN 1 THEN 'High' ELSE '' END,
                                 CASE sensitivity WHEN 1 THEN 'Personal' WHEN 2 THEN 'Private' WHEN 3 THEN 'Confidential' ELSE '' END,
                                 CASE is_outbox+state_new+state_reply+state_forward+state_wait+priority*10+sensitivity WHEN 0 THEN 'Read' ELSE '' END

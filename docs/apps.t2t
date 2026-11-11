@@ -1,6 +1,6 @@
 Applications Documentation
-SaltOS 4.1 r2757
-October 2026
+SaltOS 4.1 r2774
+November 2026
 
 
 
@@ -918,6 +918,38 @@ navigation tree grouped visually in the UI.
 
 +Emails+
 
+++Emails accounts application++
+
+```
+apps/emails/js/accounts.js
+```
+
+This application contains the features of the emails accounts app, like the test of the
+connection with the servers of the account.
+
+
++++Main object+++
+
+```
+saltos.emails_accounts = {};
+```
+
+This object contains all SaltOS code related to the emails accounts.
+
+
++++Test connection+++
+
+```
+saltos.emails_accounts.test = server
+```
+
+This method sends the data of the account form to the server, that tests the connection
+with the incoming or the outgoing server without saving the account, and shows the
+result in a modal.
+
+- @server => the server to test, incoming or outgoing
+
+
 ++Email application++
 
 ```
@@ -992,13 +1024,234 @@ in the email application. It manages UI updates, visibility behaviors, and email
 - @param {string} arg Specifies the type of view or action to initialize.
 
 
++++Load folders+++
+
+```
+saltos.emails.folders = ()
+```
+
+This method loads the tree of folders of the accounts of the user, marking as selected
+the node of the account and the folder of the search form
+
+
++++Folders select helper+++
+
+```
+saltos.emails.__folders_select = (nodes, id)
+```
+
+This method marks as selected the node of the tree that matches the id, and opens it and
+its parents to show it and its children when it is inside a closed node or when it is a
+closed node, like the disabled accounts
+
+- @nodes => the nodes of the tree
+- @id    => the id of the node to select
+
+
+Returns true if the node is found
+
+
++++Select folder+++
+
+```
+saltos.emails.folder = value
+```
+
+This method is executed when a node of the tree is selected, the value contains the
+account and the folder separated by a slash (folder 0 for all folders of the account),
+sets both in the search form and searchs the emails
+
+
++++All emails+++
+
+```
+saltos.emails.folder_all = ()
+```
+
+This method shows the emails of all the accounts together in the same list (except the
+trash and the junk), keeping the other filters of the search form, and reloads the
+folders tree to remove the selection of the previous folder
+
+
++++Reset filter+++
+
+```
+saltos.emails.reset = ()
+```
+
+This method resets the search filter and reloads the folders tree to remove the
+selection of the previous folder
+
+
++++Folders data+++
+
+```
+saltos.emails.__folders_data = [];
+```
+
+This property stores the last data loaded in the folders tree
+
+
++++Selected folder helper+++
+
+```
+saltos.emails.__folder_selected = ()
+```
+
+This method returns the account and the folder selected in the tree, and the nodes of
+both, or shows a modal and returns null if no account is selected
+
+
++++Folder action helper+++
+
+```
+saltos.emails.__folder_action = data
+```
+
+This method sends an action of the folders management to the server, shows the response,
+reloads the folders tree and updates the list of emails
+
+- @data => the data of the action
+
+
++++Folders panel+++
+
+```
+saltos.emails.folders_panel = ()
+```
+
+This method shows and hides the folders panel, an offcanvas with the folders tree and its
+options, using the same mechanism of the search form (saltos.common.filter): the
+contents of the folders_panel div are moved to the offcanvas while it is open
+
+
++++Folder modal helper+++
+
+```
+saltos.emails.__folder_modal = ()
+```
+
+This method programs the close of the modal of the folders management when the search
+form, that contains the folders tree, is closed
+
+
++++Create folder+++
+
+```
+saltos.emails.folder_create = ()
+```
+
+This method shows a modal to create a new folder in the account selected in the tree,
+using the selected folder as default parent
+
+
++++Server folders+++
+
+```
+saltos.emails.folder_server = ()
+```
+
+This method shows a modal with the folders of the server of the IMAP account selected in
+the tree, to subscribe and unsubscribe them: the emails of the subscribed folders are
+synchronized, and the emails of the unsubscribed folders are deleted in SaltOS (they stay
+in the server); the special folders can not be changed
+
+
++++Rename folder+++
+
+```
+saltos.emails.folder_rename = ()
+```
+
+This method shows a modal to rename the folder selected in the tree
+
+
++++Move folder+++
+
+```
+saltos.emails.folder_move = ()
+```
+
+This method shows a modal to move the folder selected in the tree inside another folder
+of the same account
+
+
++++Delete folder+++
+
+```
+saltos.emails.folder_delete = ()
+```
+
+This method shows a modal with the summary of the folders and emails affected and
+deletes the folder selected in the tree with its subfolders, the emails are moved
+to the trash, and the emails of the account are shown after the delete
+
+
++++Empty folder+++
+
+```
+saltos.emails.folder_empty = folder
+```
+
+This method shows a modal with the number of emails affected and deletes permanently
+the emails of the trash or the junk folder of the account selected in the tree
+
+- @folder => the folder to empty, trash or junk
+
+
++++Move selected emails+++
+
+```
+saltos.emails.move1 = ()
+```
+
+This method moves the emails selected in the list to another folder
+
+
++++Move this email+++
+
+```
+saltos.emails.move2 = ()
+```
+
+This method moves the email opened in the view to another folder
+
+
++++Move helper+++
+
+```
+saltos.emails.__move = ids
+```
+
+This method shows a modal with the folders of the account of the emails, and moves the
+emails to the selected folder, all emails must be of the same account
+
+- @ids => the ids of the emails separated by commas
+
+
++++Move rows helper+++
+
+```
+saltos.emails.__move_rows = (nodes, rows, prefix, skip = '')
+```
+
+This method converts the nodes of the folders of an account in the rows of a select,
+using the path of each folder as label
+
+- @nodes  => the nodes of the tree
+- @rows   => the array where the rows are added
+- @prefix => the path of the parent node
+- @skip   => the id of the node excluded with its children (optional)
+
+
 +++Perform server-related actions for emails+++
 
 ```
 saltos.emails.server = ()
 ```
 
-This method triggers server-side actions for emails and displays the responses in toasts.
+This method triggers server-side actions for emails and displays the responses in toasts,
+then updates the list and the folders tree (the synchronization can change the folders).
 
 
 +++Delete selected emails+++
@@ -1102,6 +1355,69 @@ before rendering the list.
 - @arg => unused at this scope
 
 
+++Emails accounts library++
+
+```
+apps/emails/php/accounts.php
+```
+
+This library contains the functions used by the emails accounts app
+
+
++++Used libraries+++
+
+```
+use PHPMailer\PHPMailer\PHPMailer;
+```
+
+This use loads the external libraries needed to run this library.
+
+
++++Test the connection of an account+++
+
+```
+function emails_accounts_test($json)
+```
+
+This function tests the incoming server (POP3 or IMAP) or the outgoing server (SMTP),
+according to the server field, using the data of the account form, without saving it
+
+- @json => the data of the account form, with the server to test, incoming or outgoing
+
+
+Returns an array with the status, ok or error, and the message
+
+
++++Test the incoming server+++
+
+```
+function emails_accounts_test_incoming($value)
+```
+
+This function connects and logins with the incoming server and reports the number of
+emails (POP3) or the number of folders (IMAP)
+
+- @value => the function used to get the fields of the account form
+
+
+Returns an array with the status, ok or error, and the message
+
+
++++Test the outgoing server+++
+
+```
+function emails_accounts_test_outgoing($value)
+```
+
+This function connects and authenticates with the SMTP server using PHPMailer, the
+local servers (mail, sendmail and qmail) are not tested
+
+- @value => the function used to get the fields of the account form
+
+
+Returns an array with the status, ok or error, and the message
+
+
 ++Email Query Builder++
 
 ```
@@ -1120,12 +1436,356 @@ function make_where_query_emails($json)
 
 This function takes a JSON input and generates a dynamic SQL WHERE clause to filter emails.
 The query is constructed based on several optional parameters such as account ID, search fields,
-dates, and flags indicating specific states (e.g., new emails, waiting emails, spam).
+dates, and flags indicating specific states (e.g., new emails, waiting emails).
 
 - @json => Input parameters for generating the query.
 
 
 Returns the dynamically constructed SQL WHERE clause.
+
+
+++Emails folders++
+
+```
+apps/emails/php/folders.php
+```
+
+This file contains the functions used to manage the folders of the emails accounts
+
+
++++Check the folders of an account+++
+
+```
+function emails_folders_check($account_id)
+```
+
+This function checks the folders of the account, creating the mandatory folders (inbox,
+sent, trash and junk) of the POP3 accounts when they not exists; too removes the folders
+of the deleted accounts
+
+- @account_id => the id of the account
+
+
+Returns an array with the ids of the mandatory folders indexed by special use, or an
+empty array if the account not exists
+
+
++++Insert an account+++
+
+```
+function emails_accounts_insert($json)
+```
+
+This function inserts a new emails account using the generic insert action and creates
+the mandatory folders of the new account
+
+- @json => the data of the new account
+
+
+Returns the result of the insert action
+
+
++++Folders tree+++
+
+```
+function emails_folders_tree($ids = '')
+```
+
+This function returns the tree of folders of the accounts of the current user, using the
+format of the jstree widget: one node for each account with its folders as children, the
+id of each node contains the account and the folder separated by a slash, using the
+folder 0 for the nodes of the accounts, the enabled accounts are shown first and opened,
+and the disabled accounts are shown at the end and closed
+
+- @ids => the ids of the emails used to limit the tree to its accounts (optional)
+
+
+Returns an array with the nodes of the tree
+
+
++++Folders tree helper+++
+
+```
+function __emails_folders_tree_helper($account_id, $folders, $parent_id)
+```
+
+This function returns the nodes of the folders that are children of the parent folder,
+the names of the special folders are translated
+
+- @account_id => the id of the account
+- @folders    => the array with all folders of the account
+- @parent_id  => the id of the parent folder
+
+
+Returns an array with the nodes of the children folders
+
+
++++Move emails to a folder+++
+
+```
+function __emails_folders_move($ids, $special_use)
+```
+
+This function moves the emails to the folder of its account identified by the special
+use, it is an internal helper that not checks the permissions, the callers must check
+that the emails are of the current user; the moves of the emails of the IMAP accounts
+are enqueued, and the emails of the IMAP accounts without that folder are not moved
+
+- @ids         => the ids of the emails separated by commas
+- @special_use => the special use of the destination folder
+
+
++++Move emails to a folder by id+++
+
+```
+function emails_folders_move_to($ids, $folder_id)
+```
+
+This function moves the emails to the folder identified by its id, the folder must be of
+an account of the current user and only the emails of the same account are moved
+
+- @ids       => the ids of the emails separated by commas
+- @folder_id => the id of the destination folder
+
+
+Returns a response message with the number of moved emails
+
+
++++Folders action+++
+
+```
+function emails_folders_action($json)
+```
+
+This function executes the actions of the folders management requested by the client
+
+- @json => the data of the request: action, account_id, folder_id, parent_id, label and
+         folder (trash or junk, used to empty these folders)
+
+
+Returns a response message
+
+
++++Folders get helper+++
+
+```
+function __emails_folders_get($folder_id)
+```
+
+This function returns the folder if it is a folder of an account of the current user
+
+- @folder_id => the id of the folder
+
+
+Returns an array with the fields of the folder or null if not found
+
+
++++Folders IMAP helper+++
+
+```
+function __emails_folders_imap($account_id)
+```
+
+This function checks if the account is an IMAP account, whose folders are managed in
+the server
+
+- @account_id => the id of the account
+
+
+Returns true if the account is an IMAP account
+
+
++++Folders exists helper+++
+
+```
+function __emails_folders_exists($account_id, $parent_id, $label, $folder_id = 0)
+```
+
+This function checks if exists a folder with the same label in the same parent
+
+- @account_id => the id of the account
+- @parent_id  => the id of the parent folder
+- @label      => the label of the folder
+- @folder_id  => the id of the folder excluded from the check
+
+
+Returns true if exists another folder with the same label
+
+
++++Folders create helper+++
+
+```
+function __emails_folders_create($account_id, $parent_id, $label)
+```
+
+This function creates a new folder in the account, inside the parent folder
+
+- @account_id => the id of the account
+- @parent_id  => the id of the parent folder, 0 for the root
+- @label      => the label of the new folder
+
+
+Returns a response message
+
+
++++Folders rename helper+++
+
+```
+function __emails_folders_rename($folder_id, $label)
+```
+
+This function renames a folder, the special folders can not be renamed
+
+- @folder_id => the id of the folder
+- @label     => the new label of the folder
+
+
+Returns a response message
+
+
++++Folders tree ids helper+++
+
+```
+function __emails_folders_tree_ids($account_id, $folder_id)
+```
+
+This function returns the id of the folder and the ids of all its subfolders
+
+- @account_id => the id of the account
+- @folder_id  => the id of the folder
+
+
+Returns an array with the ids
+
+
++++Folders move helper+++
+
+```
+function __emails_folders_move_parent($folder_id, $parent_id)
+```
+
+This function moves a folder and its subfolders inside another folder of the same
+account, the special folders can not be moved
+
+- @folder_id => the id of the folder
+- @parent_id => the id of the new parent folder, 0 for the root
+
+
+Returns a response message
+
+
++++Folders summary+++
+
+```
+function emails_folders_summary($json)
+```
+
+This function returns the message used to confirm the delete of a folder, with the
+number of subfolders and emails affected, or the error if the folder can not be deleted
+
+- @json => the data of the request, with the folder_id
+
+
+Returns an array with the status (ok or ko) and the message
+
+
++++Folders delete helper+++
+
+```
+function __emails_folders_delete($folder_id)
+```
+
+This function deletes a folder and its subfolders, moving its emails to the trash of
+the account, the special folders can not be deleted
+
+- @folder_id => the id of the folder
+
+
+Returns a response message
+
+
++++Folders empty ids helper+++
+
+```
+function __emails_folders_empty_ids($account_id, $special_use)
+```
+
+This function returns the ids of the emails of the special folder of the account, the
+account must be of the current user
+
+- @account_id  => the id of the account
+- @special_use => the special use of the folder
+
+
+Returns an array with the ids of the emails, or null if the account is not of the user
+
+
++++Folders empty summary+++
+
+```
+function emails_folders_empty_summary($json)
+```
+
+This function returns the message used to confirm the empty of the trash or the junk
+folder of the account, with the number of emails affected, or the error if the folder
+can not be emptied (also when it is already empty)
+
+- @json => the data of the request, with the account_id and the folder (trash or junk)
+
+
+Returns an array with the status (ok or ko) and the message
+
+
++++Folders empty helper+++
+
+```
+function __emails_folders_empty($account_id, $special_use)
+```
+
+This function deletes permanently the emails of the trash or the junk folder of the
+account, the emails of the junk are moved to the trash before to be deleted because
+the delete action only removes permanently the emails that are in the trash
+
+- @account_id  => the id of the account
+- @special_use => the special use of the folder
+
+
+Returns a response message
+
+
++++Folders of the server+++
+
+```
+function emails_folders_server($json)
+```
+
+This function returns the folders of an IMAP account of the current user, refreshed from
+the server, used by the dialog to subscribe and unsubscribe the folders: the special
+folders and the folders that can not contain emails can not be changed
+
+- @json => the data of the request, with the account_id
+
+
+Returns an array with the status and the folders (name, subscribed and locked), or with
+the status and the error message
+
+
++++Folders subscribe helper+++
+
+```
+function __emails_folders_subscribe($account_id, $ids)
+```
+
+This function sets the folders subscribed of an IMAP account: the folders of the list
+not subscribed are subscribed and the folders not in the list subscribed are
+unsubscribed (deleting its emails in SaltOS), except the special folders and the folders
+that can not contain emails
+
+- @account_id => the id of the account
+- @ids        => the ids of the folders that must be subscribed, separated by commas
+
+
+Returns a response message
 
 
 ++Get email library++
@@ -1378,21 +2038,21 @@ This function returns the requested attachment indentified by the hash argument
 +++Insert+++
 
 ```
-function __getmail_insert(
+function __getmail_insert($file, $messageid, $fields = [])
 ```
 
-This function do the insert in the app_emails table, and
+This function does the insert of an email in the app_emails table, with its addresses,
+its attachments, its control register and its index
 
-- @file          => the gzfile that contains the message in RFC822 format
-- @messageid     => the id of the message (account_id/uidl)
-- @state_new     => the 0/1 that sets the state new flag
-- @state_reply   => the 0/1 that sets the state reply flag
-- @state_forward => the 0/1 that sets the state forward flag
-- @state_wait    => the 0/1 that sets the state wait flag
-- @id_correo     => the id of the related email (used to create relations between emails)
-- @is_outbox     => the 0/1 that sets the is outbox flag
-- @state_sent    => the 0/1 that sets the state sent flag
-- @state_error   => the string that contains the error (if exists an error)
+- @file      => the gzfile that contains the message in RFC822 format
+- @messageid => the id of the message (account_id/uidl)
+- @fields    => the fields of the app_emails table that replace the default values and the
+              values computed from the message (optional), like:
+              state_new (default 1), state_reply, state_forward, state_wait, email_id (the
+              id of the related email), is_outbox, state_sent, state_error (default 0 or
+              empty), folder_id (default the inbox, the sent for the outbox and the junk
+              for the spam, if they exist) and the IMAP fields imap_uid, imap_messageid
+              and imap_emailid
 
 
 +++Update+++
@@ -1542,6 +2202,19 @@ function getmail_server()
 This function implements the old getmail action of the old saltos.
 
 
++++Folders hash+++
+
+```
+function __getmail_folders_hash()
+```
+
+This function returns a hash of the folders of the accounts of the current user, with
+the fields shown in the folders tree, used to detect the changes of the folders done by
+the synchronization of the IMAP accounts
+
+Returns the hash of the folders
+
+
 +++Delete+++
 
 ```
@@ -1551,6 +2224,19 @@ function getmail_delete($ids)
 This function implements the old delete action of the old saltos.
 
 - @ids => array with the emails id
+
+
++++Delete helper+++
+
+```
+function __getmail_delete($ids)
+```
+
+This function deletes permanently the emails, its files, its addresses, its attachments
+and its control and index registers, without permission checks (the callers must check
+them), for the emails of all the protocols
+
+- @ids => the ids of the emails separated by commas
 
 
 +++Get viewpdf+++
@@ -1585,7 +2271,7 @@ in an array format for the download feature
 function getmail_setter($ids, $what)
 ```
 
-This function modifies the state of emails (e.g., `new`, `wait`, or `spam`)
+This function modifies the state of emails (e.g., `new` or `wait`)
 based on the provided IDs and action. It validates user permissions for the
 selected emails before updating their states. The function calculates the
 number of records to be modified and updates the database accordingly.
@@ -1631,6 +2317,610 @@ within the iframe.
 
 
 Return a complete HTML document string suitable for `srcdoc` use in an iframe.
+
+
+++Get email IMAP library++
+
+```
+apps/emails/php/getmail_imap.php
+```
+
+This library contains the functions used to synchronize the IMAP accounts with the
+server: the folders, the emails and its flags
+
+
++++Synchronize an account+++
+
+```
+function getmail_imap($account, &$newemail)
+```
+
+This function connects with the IMAP server of the account, applies the pending
+operations of the queue and synchronizes the folders and the emails of the subscribed
+folders
+
+- @account  => the row of the account
+- @newemail => the counter of the new emails, incremented with the downloaded emails
+
+
+Returns an empty string on success or the error message
+
+
++++IMAP client+++
+
+```
+function __getmail_imap_client($account): imap_class
+```
+
+This function returns the IMAP client configured with the incoming server of the
+account, not connected
+
+- @account => the row of the account
+
+
+Returns the IMAP client
+
+
++++Synchronize the folders+++
+
+```
+function __getmail_imap_folders($imap, $account_id)
+```
+
+This function updates the folders of the account with the folders of the server: adds the
+new folders, updates the existing ones and removes the folders that not exists in the
+server, the folders are identified by its full name; the sent, the trash and the junk
+are created in the server if they not exist; the inbox, the sent, the trash, the junk
+and the archive are always subscribed; in the first synchronization of the account,
+the folders subscribed in the server are subscribed too, the rest of the folders are
+subscribed by the user
+
+- @imap       => the IMAP client connected with the server
+- @account_id => the id of the account
+
+
+Returns an empty string on success or the error message
+
+
++++Special folders+++
+
+```
+function __getmail_imap_specials($imap, $folders)
+```
+
+This function completes the folders of the server with the sent, the trash and the junk
+folders used by SaltOS: if there is no folder with the special use, a root folder with
+the standard name (Sent, Trash or Junk) is used as the special folder, otherwise it is
+created and subscribed in the server (with its special use if the server supports
+CREATE-SPECIAL-USE); the folders that the server does not create are retried in the next
+synchronization
+
+- @imap    => the IMAP client connected with the server
+- @folders => the folders returned by the ListFolders of the IMAP client
+
+
+Returns the folders with the special folders, or the error message if the connection fails
+
+
++++Depth of a folder+++
+
+```
+function __getmail_imap_depth($folder)
+```
+
+This function returns the number of levels of the full name of the folder, used to sort
+the folders with the parents before its children
+
+- @folder => the folder returned by the ListFolders of the IMAP client
+
+
+Returns the number of delimiters found in the full name
+
+
++++Synchronize the emails+++
+
+```
+function __getmail_imap_emails($imap, $account_id, &$newemail)
+```
+
+This function synchronizes the emails of the subscribed folders in three steps: first
+finds the vanished emails (in SaltOS but not in the server) and the appeared emails (in
+the server but not in SaltOS) of all the folders, then matches them in all the account to
+detect the emails moved by other clients, and the emails without UID with the appeared
+emails of its folder, and finally deletes the vanished emails not matched and downloads
+the appeared emails not matched; the emails with pending operations in the queue are
+frozen: they are never vanished and its flags are not changed
+
+- @imap       => the IMAP client connected with the server
+- @account_id => the id of the account
+- @newemail   => the counter of the new emails, incremented with the downloaded emails
+
+
+Returns an empty string on success or the error message
+
+
++++Find the vanished and the appeared emails+++
+
+```
+function __getmail_imap_scan($imap, $account_id, $frozen, &$vanished, &$appeared)
+```
+
+This function compares the UIDs of the subscribed folders in the server with the UIDs of
+the emails in SaltOS: the emails of a folder with a new UIDVALIDITY and the emails of
+the folders removed in the server are vanished too, except the frozen emails; the UIDs of
+the pending operations are known, so the emails moved in SaltOS and not yet in the server
+do not appear in its old folder; the folders without changes since the last
+synchronization (same UIDVALIDITY, same UIDNEXT and the same number of emails) are not
+searched; too synchronizes the flags of the emails of each folder, except the frozen
+emails, and the state of each folder is saved for the next synchronization
+
+- @imap       => the IMAP client connected with the server
+- @account_id => the id of the account
+- @frozen     => the ids of the emails with pending operations as keys
+- @vanished   => filled with the ids of the vanished emails
+- @appeared   => filled with the UIDs of the appeared emails by folder id
+
+
+Returns an empty string on success or the error message
+
+
++++Match the vanished and the appeared emails+++
+
+```
+function __getmail_imap_match($imap, $frozen, &$vanished, $orphans, &$appeared)
+```
+
+This function matches one to one the appeared emails with the vanished emails of the
+account, to detect the emails moved by other clients (or the emails of a folder with a
+new UIDVALIDITY), and with the emails without UID of the same folder (moved in SaltOS
+without learning its new UID): first by the Email-ID (OBJECTID or Gmail) and then by the
+Message-ID and the size; the ambiguous cases (more than one candidate) are not matched,
+so the vanished emails are deleted and the appeared emails are downloaded; the matched
+emails get its folder, its UID and the states of its flags (except the frozen emails),
+the UIDs learned are written in its pending operations, and the matched emails are
+removed from the vanished and the appeared emails
+
+- @imap     => the IMAP client connected with the server
+- @frozen   => the ids of the emails with pending operations as keys
+- @vanished => the ids of the vanished emails
+- @orphans  => the emails without UID in a folder of the account
+- @appeared => the UIDs of the appeared emails by folder id
+
+
+Returns an empty string on success or the error message
+
+
++++Download the appeared emails+++
+
+```
+function __getmail_imap_download($imap, $account_id, $appeared, &$newemail)
+```
+
+This function downloads the appeared emails, the newest first of each folder and up to
+the batch size of the config, the rest are downloaded in the next synchronizations
+
+- @imap       => the IMAP client connected with the server
+- @account_id => the id of the account
+- @appeared   => the UIDs of the appeared emails by folder id
+- @newemail   => the counter of the new emails, incremented with the downloaded emails
+
+
+Returns an empty string on success or the error message
+
+
++++Download an email+++
+
+```
+function __getmail_imap_message($imap, $account_id, $folder_id, $uid)
+```
+
+This function downloads an email of the selected folder, stores it in the inbox directory
+of the account using a new uidl generated by SaltOS, that never changes, and inserts it
+with its folder, its UID, its Message-ID, its Email-ID (OBJECTID or Gmail) and the states
+of its flags
+
+- @imap       => the IMAP client connected with the server
+- @account_id => the id of the account
+- @folder_id  => the id of the selected folder
+- @uid        => the UID of the email in the selected folder
+
+
+Returns an empty string on success or the error message
+
+
++++Email-ID item+++
+
+```
+function __getmail_imap_emailid_item($imap)
+```
+
+This function returns the item of the FETCH command used to get the Email-ID of the
+emails, a stable id that not changes when the email is moved: EMAILID (OBJECTID) or
+X-GM-MSGID (Gmail), or an empty string if the server not supports any of them
+
+- @imap => the IMAP client connected with the server
+
+
+Returns the item with a leading space or an empty string
+
+
++++Message-ID and Email-ID+++
+
+```
+function __getmail_imap_ids($data)
+```
+
+This function returns the Message-ID (from the header returned by the FETCH command,
+unfolding the header lines) and the Email-ID (EMAILID or X-GM-MSGID) of an email
+
+- @data => the items of the email returned by the FETCH command
+
+
+Returns an array with the Message-ID and the Email-ID, empty strings if not found
+
+
++++Synchronize the flags+++
+
+```
+function __getmail_imap_flags($imap, $folder, $state, $local)
+```
+
+This function updates the states of the emails of the selected folder with its flags in
+the server, that wins: with CONDSTORE only the emails changed since the HIGHESTMODSEQ of
+the last synchronization (nothing if it is the same), otherwise all the emails
+
+- @imap   => the IMAP client connected with the server
+- @folder => the row of the selected folder, with the HIGHESTMODSEQ of the last
+           synchronization
+- @state  => the state of the selected folder returned by the SELECT command
+- @local  => the ids of the emails of the folder in SaltOS by UID
+
+
+Returns an empty string on success or the error message
+
+
++++States of the flags+++
+
+```
+function __getmail_imap_states($data)
+```
+
+This function returns the states of an email from its flags: state_new is not \Seen,
+state_reply is \Answered, state_forward is $Forwarded and state_wait is \Flagged
+
+- @data => the items of the email returned by the FETCH command, with the FLAGS item
+
+
+Returns an array with the states
+
+
++++Enqueue an operation+++
+
+```
+function __getmail_imap_enqueue($email_id, $action, $fields = [])
+```
+
+This function adds an operation done in SaltOS to the queue of the account of the email,
+to be applied in the server by the next synchronization: the operation acts on the email
+in the folder where it is now in SaltOS, with its UID if known, or without UID (0) if it
+depends on a pending move of the same email; the operations on emails that never were in
+the server (without UID and without pending operations) are not enqueued, except the
+append, that puts them in the server; the UIDs 0 and
+NULL mean unknown UID, because the IMAP UIDs start at 1 and the insert and update helpers
+store the NULL values of the integer fields as 0
+
+- @email_id => the id of the email
+- @action   => the operation: flag_add, flag_remove, move, expunge or append
+- @fields   => the other fields of the operation: flag (flag_add and flag_remove) or
+             to_folder_id (move and append)
+
+
+Returns true if the operation is enqueued, false otherwise
+
+
++++Enqueue a change of state+++
+
+```
+function __getmail_imap_state($ids, $field, $value)
+```
+
+This function enqueues the flag of a change of state of the emails of the IMAP accounts
+that change: state_new is \Seen (inverted), state_wait is \Flagged, state_reply is
+\Answered and state_forward is $Forwarded; it must be called before the change is done
+in SaltOS, it is an internal helper that not checks the permissions
+
+- @ids   => the ids of the emails, separated by commas or as array
+- @field => the state that changes
+- @value => the new value of the state, 0 or 1
+
+
++++Enqueue a move+++
+
+```
+function __getmail_imap_move($ids, $folder_id)
+```
+
+This function enqueues the move of the emails of the IMAP accounts to another folder of
+its account, and sets its UID as unknown (the UID in the destination folder is learned
+when the move is applied); it must be called before the folder of the emails is changed
+in SaltOS, it is an internal helper that not checks the permissions
+
+- @ids       => the ids of the emails, separated by commas or as array
+- @folder_id => the id of the destination folder
+
+
++++Enqueue an append+++
+
+```
+function __getmail_imap_append($email_id)
+```
+
+This function enqueues the append of a sent email of an IMAP account in the sent folder
+of the server (the folder of the email in SaltOS), if the copy in the sent folder is
+enabled in the account (disabled for the servers that save the copy itself, like Gmail,
+whose copy is adopted by the synchronization); it is an internal helper that not checks
+the permissions
+
+- @email_id => the id of the email
+
+
++++Enqueue an expunge+++
+
+```
+function __getmail_imap_expunge($ids)
+```
+
+This function enqueues the permanent delete of the emails of the IMAP accounts in the
+server; it must be called before the emails are deleted in SaltOS, it is an internal
+helper that not checks the permissions
+
+- @ids => the ids of the emails separated by commas
+
+
++++Apply the queue+++
+
+```
+function __getmail_imap_queue($imap, $account_id)
+```
+
+This function applies the pending operations of the account in order: each operation is
+removed when done or when the email not exists in the server; the operations without UID
+wait until a previous move learns it (or until the synchronization finds it), and after
+an error returned by the server the operation is retried in the next synchronization up
+to the maximum retries of the config (then it is removed); in both cases the next
+operations of the same email wait to keep the order; an error of the connection stops
+the synchronization
+
+- @imap       => the IMAP client connected with the server
+- @account_id => the id of the account
+
+
+Returns an empty string on success or the error message of the connection
+
+
++++Result of an operation of the queue+++
+
+```
+function __getmail_imap_queue_result($imap, $row, $error, &$waiting)
+```
+
+This function removes the operation when it is done; after an error returned by the
+server, the operation is retried in the next synchronization up to the maximum retries
+of the config (then it is removed and logged) and the next operations of the email wait
+
+- @imap    => the IMAP client connected with the server
+- @row     => the operation of the queue
+- @error   => the result of the operation, empty string on success
+- @waiting => the ids of the emails whose operations wait as keys
+
+
+Returns the error message if it is an error of the connection, otherwise an empty string
+
+
++++Append an email of the queue+++
+
+```
+function __getmail_imap_queue_append($imap, $row, $names, &$selected)
+```
+
+This function puts a sent email in the sent folder of the server: if the email has an
+UID it is already in the server (adopted by the synchronization); otherwise the
+Message-ID is searched in the folder and, if it is not found, the email is appended with
+the \Seen flag; the UID found or returned by the server (UIDPLUS) is learned, otherwise the
+next synchronization adopts the email
+
+- @imap     => the IMAP client connected with the server
+- @row      => the operation of the queue
+- @names    => the full names of the folders of the account by id
+- @selected => the full name of the selected folder, updated if the folder is selected
+
+
+Returns an empty string when done or the error message
+
+
++++Move an email of the queue+++
+
+```
+function __getmail_imap_queue_move(imap_class $imap, $row, $uid, $to_folder, &$selected)
+```
+
+This function moves the email to the destination folder and learns its new UID from
+the server (UIDPLUS) or searching its Message-ID in the destination folder when it is
+unique; the new UID is written in the next operations of the email up to its next move
+(they act on the destination folder), and in the email if there is no next move; if the
+new UID is not learned, the next operations wait until the synchronization finds it
+matching the email without UID with the appeared emails of the destination folder
+
+- @imap      => the IMAP client connected with the server
+- @row       => the operation of the queue
+- @uid       => the UID of the email in the selected folder
+- @to_folder => the full name of the destination folder
+- @selected  => the full name of the selected folder, updated if the destination folder
+              is selected to search the Message-ID
+
+
+Returns an empty string on success or the error message
+
+
++++Learn an UID+++
+
+```
+function __getmail_imap_learn($email_id, $after, $folder_id, $uid)
+```
+
+This function writes the new UID of an email, in a folder, in the pending operations of
+the email after an operation (they act on that folder) up to the next move of the email,
+and in the email if there is no next move and it is in that folder
+
+- @email_id  => the id of the email
+- @after     => the id of the operation that moved the email, 0 to start from the first
+- @folder_id => the id of the folder of the new UID
+- @uid       => the new UID
+
+
++++Full name of a folder+++
+
+```
+function __getmail_imap_folder_name($account_id, $parent_id, $label)
+```
+
+This function returns the full name in the server (UTF-8) of a folder with the label
+inside the parent folder, using the delimiter of the parent folder or, for the root
+folders, the delimiter of the INBOX (or of any folder of the account)
+
+- @account_id => the id of the account
+- @parent_id  => the id of the parent folder, 0 for the root
+- @label      => the label of the folder
+
+
+Returns an array with the full name and the delimiter
+
+
++++Create a folder in the server+++
+
+```
+function __getmail_imap_folder_create($account_id, $parent_id, $label)
+```
+
+This function creates and subscribes the folder in the server and, if it is done, adds
+the folder in SaltOS; it is an internal helper that not checks the permissions
+
+- @account_id => the id of the account
+- @parent_id  => the id of the parent folder, 0 for the root
+- @label      => the label of the new folder
+
+
+Returns an empty string on success or the error message
+
+
++++Rename or move a folder in the server+++
+
+```
+function __getmail_imap_folder_rename($folder, $parent_id, $label)
+```
+
+This function renames the folder in the server, with the new label or inside the new
+parent folder, and, if it is done, updates the folder and the full names of its
+subfolders in SaltOS; it is an internal helper that not checks the permissions
+
+- @folder    => the row of the folder
+- @parent_id => the id of the new parent folder, 0 for the root
+- @label     => the new label of the folder
+
+
+Returns an empty string on success or the error message
+
+
++++Delete a folder in the server+++
+
+```
+function __getmail_imap_folder_delete($folder)
+```
+
+This function deletes the folder and its subfolders in the server: first applies the
+queue of the account, then moves the emails of each folder to the trash (the emails in
+SaltOS get the trash and its new UIDs, or an unknown UID that the next synchronization
+learns), and then deletes the folders, the subfolders first; each folder deleted in the
+server is deleted in SaltOS; it is an internal helper that not checks the permissions
+
+- @folder => the row of the folder
+
+
+Returns an empty string on success or the error message
+
+
++++Refresh the folders+++
+
+```
+function __getmail_imap_folders_refresh($account_id)
+```
+
+This function connects with the server and synchronizes the folders of the account,
+used by the dialog of the folders of the server; it is an internal helper that not
+checks the permissions
+
+- @account_id => the id of the account
+
+
+Returns an empty string on success or the error message
+
+
++++Subscribe and unsubscribe folders+++
+
+```
+function __getmail_imap_subscribe($account_id, $subscribe, $unsubscribe)
+```
+
+This function subscribes the folders in the server and in SaltOS (its emails are
+downloaded by the next synchronizations) and unsubscribes the folders in SaltOS only,
+deleting its emails and its pending operations in SaltOS (the emails stay in the server);
+it is an internal helper that not checks the permissions
+
+- @account_id  => the id of the account
+- @subscribe   => the ids of the folders to subscribe
+- @unsubscribe => the ids of the folders to unsubscribe
+
+
+Returns an empty string on success or the error message
+
+
+++Get email POP3 library++
+
+```
+apps/emails/php/getmail_pop3.php
+```
+
+This library contains the functions used to receive the emails of the POP3 accounts
+
+
++++Receive an account+++
+
+```
+function getmail_pop3($row, &$newemail)
+```
+
+This function connects with the POP3 server of the account, downloads the new emails and
+removes the expired emails from the server if the delete option of the account is enabled
+
+- @row      => the row of the account
+- @newemail => the counter of the new emails, incremented with the downloaded emails
+
+
+Returns an empty string on success or the error message
+
+
++++Delete helper+++
+
+```
+function __getmail_pop3_delete($ids)
+```
+
+This function stores the uidls of the emails of the POP3 accounts that are deleted in
+SaltOS (except the emails of the outbox) in the deletes table, to not download them
+again while they are in the server; it must be called before the emails are deleted, it
+is an internal helper that not checks the permissions
+
+- @ids => the ids of the emails separated by commas
 
 
 ++Html helper module++
@@ -1862,6 +3152,408 @@ Notes:
 
 We are using `{48}` to match base64 data of 48 bytes, which decodes into a 36-byte string
 that matches the MD5 hash style used in cached files (32 bytes plus 4-byte `.b64` extension).
+
+
+++SaltOS IMAP Client Component++
+
+```
+apps/emails/php/imap.php
+```
+
+PURPOSE:
+IMAP client used by the emails app to synchronize the folders and the emails of the
+IMAP accounts.
+
+ARCHITECTURE & DESIGN:
+- Persistent session: one connection and one login for all the commands, using the
+transport of socket.php (PHP streams).
+- Transport: Supports implicit TLS (IMAPS) or STARTTLS.
+- Capabilities: read on each connection, the optional extensions are used only when the
+server announces them, and the ignore property allows to hide some of them to test the
+fallbacks.
+- Responses: the untagged responses are returned as lists of tokens, decoding the
+quoted strings, the literals, the NIL and the parenthesized lists.
+
+
+SECURITY & CONFIGURATION:
+- Warning: Certificate verification is currently disabled for compatibility.
+
+
++++Open the session: connect, read the greeting, start TLS if requested and login.+++
+
+```
+public function Open()
+```
+
+- @return string Empty string on success; non-empty error message on failure.
+
+
++++Check if the server announces a capability, ignoring the capabilities of the ignore+++
+
+```
+public function HasCapability(string $name)
+```
+
+
+- @param  string $name Name of the capability, e.g. "UIDPLUS", "AUTH=PLAIN".
+- @return bool         True if the capability is available.
+
+
++++Close the session with LOGOUT and close the connection.+++
+
+```
+public function Close()
+```
+
+- @return string Empty string on success; non-empty error message on failure.
+
+
++++Check if the connection is open: it is closed after an error of the connection (not+++
+
+```
+public function Connected()
+```
+
+
+- @return bool True if the connection is open.
+
+
++++List the folders of the server using LIST, asking the special uses and the+++
+
+```
+public function ListFolders()
+```
+
+LSUB and the known names of the special folders otherwise.
+
+Each folder contains:
+- name: the full name in the server (modified UTF-7), used in the other commands.
+- label: the last part of the name, decoded to UTF-8.
+- parent: the full name of the parent folder, empty for the root folders.
+- delimiter: the hierarchy delimiter, empty if the server has no hierarchy.
+- special_use: \Inbox, \Sent, \Trash, \Junk, \Drafts, \Archive, \All, \Flagged,
+  \Important or empty.
+- subscribed: 1 if the folder is subscribed, 0 otherwise.
+- selectable: 0 for the folders that can not contain emails (\Noselect), 1 otherwise.
+
+
+- @return array<int,array<string,mixed>>|string List of folders on success; error
+                                              string on failure.
+
+
++++Create a folder, with its special use if the server supports CREATE-SPECIAL-USE.+++
+
+```
+public function CreateFolder(string $name, string $special_use = '')
+```
+
+- @param  string $name        Full name of the folder in UTF-8, using the delimiter of
+                            the server.
+- @param  string $special_use Special use of the folder, e.g. "\Trash" (optional).
+- @return string              Empty string on success; non-empty error message on failure.
+
+
++++Rename or move a folder, the server renames its subfolders too.+++
+
+```
+public function RenameFolder(string $name, string $newname)
+```
+
+- @param  string $name    Full name of the folder in UTF-8.
+- @param  string $newname New full name of the folder in UTF-8.
+- @return string          Empty string on success; non-empty error message on failure.
+
+
++++Delete a folder, the subfolders must be deleted before.+++
+
+```
+public function DeleteFolder(string $name)
+```
+
+- @param  string $name Full name of the folder in UTF-8.
+- @return string       Empty string on success; non-empty error message on failure.
+
+
++++Subscribe a folder in the server.+++
+
+```
+public function SubscribeFolder(string $name)
+```
+
+- @param  string $name Full name of the folder in UTF-8.
+- @return string       Empty string on success; non-empty error message on failure.
+
+
++++Select a folder to work with its emails, enabling CONDSTORE when the server supports+++
+
+```
+public function SelectFolder(string $name)
+```
+
+
+Returns an array with:
+- exists: the number of emails of the folder.
+- uidvalidity: the UIDVALIDITY of the folder, if it changes the UIDs are not valid.
+- uidnext: the UID that the server will assign to the next email.
+- highestmodseq: the HIGHESTMODSEQ of the folder (as string), empty without CONDSTORE.
+
+
+- @param  string                    $name Full name of the folder in UTF-8.
+- @return array<string,mixed>|string      The state of the folder on success; error
+                                        string on failure.
+
+
++++Search the emails of the selected folder using UID SEARCH.+++
+
+```
+public function Search(string $criteria)
+```
+
+- @param  string                $criteria The search criteria, e.g. "ALL", "SINCE 1-Jan-2026",
+                                        "HEADER Message-ID <id@host>" (quoted).
+- @return array<int,int>|string           List of UIDs on success; error string on failure.
+
+
++++Fetch data of the emails of the selected folder using UID FETCH, returning only the+++
+
+```
+public function Fetch(string $uids, string $items, string $changedsince = '')
+```
+
+
+The items are returned using the names sent by the server in uppercase, e.g. FLAGS
+(list of flags), RFC822.SIZE, INTERNALDATE, BODY[] (the full email) or
+BODY[HEADER.FIELDS (MESSAGE-ID)], note that the BODY.PEEK items are returned as BODY.
+
+- @param  string                          $uids         The UIDs, e.g. "1:*", "4,7,9".
+- @param  string                          $items        The items, e.g. "FLAGS RFC822.SIZE".
+- @param  string                          $changedsince The modseq (optional).
+- @return array<int,array<string,mixed>>|string         The items by UID on success;
+                                                      error string on failure.
+
+
++++Add or remove flags to the emails of the selected folder.+++
+
+```
+public function Store(string $uids, string $op, array $flags)
+```
+
+- @param  string            $uids  The UIDs, e.g. "4,7,9".
+- @param  string            $op    "+" to add the flags, "-" to remove them.
+- @param  array<int,string> $flags The flags, e.g. ["\Seen", "\Flagged"].
+- @return string                   Empty string on success; non-empty error message on failure.
+
+
++++Move emails of the selected folder to another folder, using MOVE or, if the server+++
+
+```
+public function Move(string $uids, string $folder, ?array &$map)
+```
+
+supports UIDPLUS (COPYUID response code).
+
+- @param     string             $uids   The UIDs, e.g. "4,7,9".
+- @param     string             $folder Full name of the destination folder in UTF-8.
+- @param     array|null         $map    Filled with the new UIDs by old UID, empty if
+                                      the server not returns them.
+- @param-out array<int,int>     $map
+- @return    string                     Empty string on success; non-empty error message
+                                      on failure.
+
+
++++Delete permanently emails of the selected folder: marks them as deleted and expunges+++
+
+```
+public function Expunge(string $uids)
+```
+
+removes the other emails of the folder marked as deleted by other clients.
+
+- @param  string $uids The UIDs, e.g. "4,7,9".
+- @return string       Empty string on success; non-empty error message on failure.
+
+
++++Append an email to a folder, the new UID is returned when the server supports UIDPLUS+++
+
+```
+public function Append(string $folder, string $message, array $flags, ?int &$uid)
+```
+
+
+- @param     string            $folder  Full name of the folder in UTF-8.
+- @param     string            $message The full email (RFC 5322), the line endings are
+                                      converted to CRLF.
+- @param     array<int,string> $flags   The flags of the email, e.g. ["\Seen"].
+- @param     int|null          $uid     Filled with the new UID, 0 if the server not
+                                      returns it.
+- @param-out int               $uid
+- @return    string                     Empty string on success; non-empty error message
+                                      on failure.
+
+
++++Word helper, returns a token of a response in uppercase to compare it with the+++
+
+```
+private static function word(array $tokens, int $index)
+```
+
+NIL), to process safely any response of the server.
+
+- @param  array  $tokens The tokens of the response.
+- @param  int    $index  The position of the token.
+- @return string         The token in uppercase or empty.
+
+
++++UID set helper, expands a set of UIDs like "4:6,9" to the list [4, 5, 6, 9].+++
+
+```
+private static function uid_set(string $set)
+```
+
+- @param  string         $set The set of UIDs.
+- @return array<int,int>      The list of UIDs.
+
+
++++Encode a folder name from UTF-8 to the modified UTF-7 used by IMAP.+++
+
+```
+public static function Encode(string $name)
+```
+
+- @param  string $name The name in UTF-8.
+- @return string       The name in modified UTF-7.
+
+
++++Decode a folder name from the modified UTF-7 used by IMAP to UTF-8.+++
+
+```
+public static function Decode(string $name)
+```
+
+- @param  string $name The name in modified UTF-7.
+- @return string       The name in UTF-8.
+
+
++++Special use by name helper, used with the servers without SPECIAL-USE to detect the+++
+
+```
+private static function special_use_by_name(string $label)
+```
+
+
+- @param  string $label The name of the folder in UTF-8, without the parents.
+- @return string        The special use or empty.
+
+
++++Quote a string to be used as argument of a command, escaping the backslashes and+++
+
+```
+public static function Quote(string $value)
+```
+
+
+- @param  string $value The string to quote.
+- @return string        The quoted string.
+
+
++++Parse the data of an untagged response into a list of tokens: the atoms and the+++
+
+```
+public static function Parse(string $data)
+```
+
+parenthesized lists as arrays. The brackets of the atoms like BODY[HEADER] are kept
+in the atom, including its spaces and parentheses.
+
+- @param  string $data The response without the "* " prefix, including the literals.
+- @return array        The list of tokens.
+
+
++++Parse list helper, used by Parse to parse the tokens until the end of the data or+++
+
+```
+private static function parse_list(string $data, int &$pos, string $end)
+```
+
+
+- @param  string $data The data to parse.
+- @param  int    $pos  The current position, updated while parsing.
+- @param  string $end  The character that ends the list, or empty for the top level.
+- @return array        The list of tokens.
+
+
++++Send a command and read its responses until the tagged response.+++
+
+```
+private function command(string $cmd, ?array &$untagged, string $name = '', string $continuation = '')
+```
+
+- @param     string     $cmd          IMAP command without the tag, e.g. "CAPABILITY".
+- @param     array|null $untagged     Filled with the untagged responses, each one is
+                                    the list of tokens returned by Parse, except the
+                                    status responses (OK, NO, BAD, BYE) that are the
+                                    status and the text.
+- @param     string     $name         Name of the command used in the error messages, to
+                                    hide the arguments of the commands with passwords.
+- @param     string     $continuation Line sent when the server requests a continuation.
+- @param-out array      $untagged
+- @return    string                   Empty string on success; non-empty error message
+                                    on failure.
+
+
++++Read a full response line, including the literals: when a line ends with a literal+++
+
+```
+private function read(?string &$raw)
+```
+
+
+- @param     string|null $raw Filled with the response, the literals keep the {n} and
+                            the CRLF before the bytes, as sent by the server.
+- @param-out string   $raw
+- @return    string           Empty string on success; non-empty error message on failure.
+
+
++++Process an untagged response: the status responses are returned as the status and+++
+
+```
+private function untagged(string $data)
+```
+
+the CAPABILITY response updates the capabilities.
+
+- @param  string $data The response without the "* " prefix.
+- @return array        The status and the text, or the list of tokens.
+
+
++++Check the CAPABILITY response code of a status response, like the greeting or the+++
+
+```
+private function code_capability(string $text): void
+```
+
+
+- @param string $text The status response, e.g. "OK [CAPABILITY IMAP4rev1 ...] Ready".
+
+
++++Set the capabilities, in uppercase and without the ignored ones.+++
+
+```
+private function set_capabilities(array $list): void
+```
+
+- @param array $list The capabilities announced by the server.
+
+
++++Abort helper, closes the connection after an error in the opening of the session or+++
+
+```
+private function abort(string $error)
+```
+
+
+- @param  string $error The error message.
+- @return string        The same error message.
 
 
 ++Make indexing action++
@@ -2220,31 +3912,25 @@ apps/emails/php/pop3.php
 ```
 
 PURPOSE:
-Replaces legacy phpclasses.org POP3 implementations with a modern, cURL-based
-architecture to eliminate dependency on obsolete external code.
+POP3 client used by the emails app to download the emails of the accounts.
 
 ARCHITECTURE & DESIGN:
-- Stateless per-command operation: Executes verbs via fresh cURL transfers
-instead of maintaining persistent app-level TCP sessions.
-- Transport: Supports implicit TLS (POP3S) or opportunistic STARTTLS.
-- Centralized execution: `exec()` handles protocol multi-line/single-line
-responses and error normalization.
+- Persistent session: one connection and one login for all the commands, using the
+transport of socket.php (PHP streams).
+- Transport: Supports implicit TLS (POP3S) or STARTTLS (STLS).
+- The DELE command only marks the messages, the server removes them when the session
+is closed with QUIT, so the message numbers do not change during the session.
 
 
 SECURITY & CONFIGURATION:
 - Warning: Certificate verification is currently disabled for compatibility.
-Production environments should enable peer/host verification.
-- Requirement: PHP cURL extension (ext-curl).
 
 
-+++Prepare the cURL handle and compute the base URL based on configuration.+++
++++Open the session: connect, read the greeting, start TLS if requested and login.+++
 
 ```
 public function Open()
 ```
-
-This does not establish a persistent POP3 session; it only sets up
-the common cURL options used by exec().
 
 - @return string Empty string on success; non-empty error message on failure.
 
@@ -2255,16 +3941,6 @@ the common cURL options used by exec().
 public function ListMessages()
 ```
 
-Behavior:
-- Issues "UIDL" and parses the multi-line response.
-- Skips status lines (+OK / -ERR) and returns only numbered entries.
-
-
-Caveat:
-- Indices are assigned by the server and can change between calls if
-  messages are deleted. Consumers should prefer using UIDLs as stable ids.
-
-
 - @return array<int,string>|string Array of [msgIndex => uidl] on success; error string on failure.
 
 
@@ -2274,64 +3950,69 @@ Caveat:
 public function GetMessage($index, &$out)
 ```
 
-- @param  int         $index  1-based server message index.
-- @param  string|null $out    Filled with the raw RFC 5322 message on success.
-- @return string              Empty string on success; non-empty error message on failure.
+- @param     int         $index  1-based server message index.
+- @param     string|null $out    Filled with the raw RFC 5322 message on success.
+- @param-out string    $out
+- @return    string              Empty string on success; non-empty error message on failure.
 
 
-+++Issue "DELE <index>" to mark a message for deletion.+++
++++Issue "DELE <index>" to mark a message for deletion, the server removes the marked+++
 
 ```
 public function DeleteMessage($index)
 ```
-
-Notes:
-- Since this client operates per-command with independent connections,
-  deletion is immediately applied server-side for that command.
-- Be careful when chaining deletions by index; if indices shift between
-  commands, you may delete unintended messages. Prefer resolving indices
-  from UIDLs with ListMessages() right before deletion.
 
 
 - @param  int    $index 1-based server message index.
 - @return string Empty string on success; non-empty error message on failure.
 
 
-+++Release the cURL handle. No explicit POP3 QUIT is required because each+++
++++Close the session with QUIT, applying the deletions, and close the connection.+++
 
 ```
 public function Close()
 ```
 
+- @return string Empty string on success; non-empty error message on failure.
 
-- @return string Always returns empty string.
 
-
-+++Execute a POP3 command using cURL.+++
++++Send a command and read its single-line response.+++
 
 ```
-// @phpstan-ignore parameterByRef.unusedType
+private function command(string $cmd, ?string &$line, string $name = '')
 ```
 
-Behavior:
-- Sets CURLOPT_CUSTOMREQUEST to the given verb (e.g., "UIDL", "RETR 1", "DELE 2").
-- When $withBody is true (multi-line commands like UIDL/LIST/RETR/TOP),
-  fetches and returns the response body in $out.
-- When $withBody is false (single-line commands like NOOP/DELE/CAPA),
-  uses CURLOPT_NOBODY and forces a fresh connection to avoid hangs
-  observed on some distributions (e.g., Debian 12).
+- @param     string      $cmd  POP3 command (verbatim), e.g., "STAT", "DELE 3".
+- @param     string|null $line Filled with the response line.
+- @param     string      $name Name of the command used in the error messages, to hide
+                          the arguments of the commands with passwords.
+- @param-out string   $line
+- @return    string            Empty string on success; non-empty error message on failure.
 
 
-Error handling:
-- On transport failure (including a protocol-level "-ERR" reply, which
-  libcurl's POP3 client rejects before returning it as body), returns
-  a "cURL: ..." message.
++++Read a single-line response, only the status of the first line is checked.+++
+
+```
+private function response(string $name, ?string &$line)
+```
+
+- @param     string      $name Name of the command used in the error messages.
+- @param     string|null $line Filled with the response line.
+- @param-out string   $line
+- @return    string            Empty string on success; non-empty error message on failure.
 
 
-- @param  string       $cmd       POP3 command (verbatim), e.g., "UIDL", "RETR 1", "DELE 3".
-- @param  string|null  $out       Filled with response body when $withBody is true; otherwise ''.
-- @param  bool         $withBody  True for multi-line commands; false for single-line commands.
-- @return string                  Empty string on success; non-empty error text on failure.
++++Send a command and read its multi-line response, ended by a line with a single dot,+++
+
+```
+private function multiline(string $cmd, ?array &$lines)
+```
+
+
+- @param     string     $cmd   POP3 command (verbatim), e.g., "UIDL", "RETR 1".
+- @param     array|null $lines Filled with the lines of the response, without the status.
+- @param-out array   $lines
+- @return    string            Empty string on success; non-empty error message on failure.
 
 
 ++Send email library++
@@ -2519,6 +4200,112 @@ and replaces the encryption state (`state_crt`) based on the selected account.
 
 
 Return the updated email body, CC list, and encryption state.
+
+
+++Socket client++
+
+```
+apps/emails/php/socket.php
+```
+
+This file contains the transport used by the mail protocol clients (POP3 and IMAP): a
+persistent connection using the PHP streams, with implicit TLS, STARTTLS and timeouts,
+and the functions to read and write lines and blocks of bytes
+
+
++++Socket class+++
+
+```
+final class socket_class
+```
+
+All the methods return an empty string on success and a non-empty error message on
+failure, following the style of the other clients of the emails app, the warnings of
+the stream functions are ignored using overload_error_handler because the SaltOS error
+handler stops the execution even when the @ operator is used
+
+
++++Open the connection with the server+++
+
+```
+public function Connect()
+```
+
+- @return string Empty string on success; non-empty error message on failure.
+
+
++++Upgrade the plain connection to TLS, used after the STARTTLS command of the protocol+++
+
+```
+public function StartTls()
+```
+
+- @return string Empty string on success; non-empty error message on failure.
+
+
++++Write a line to the server, adding the CRLF line terminator+++
+
+```
+public function WriteLine(string $line)
+```
+
+- @param  string $line The line without the line terminator.
+- @return string       Empty string on success; non-empty error message on failure.
+
+
++++Write a block of bytes to the server+++
+
+```
+public function WriteBytes(string $data)
+```
+
+- @param  string $data The bytes to write.
+- @return string       Empty string on success; non-empty error message on failure.
+
+
++++Read a line from the server, removing the CRLF line terminator+++
+
+```
+public function ReadLine(?string &$line)
+```
+
+- @param     string|null $line Filled with the line without the line terminator.
+- @param-out string    $line
+- @return    string            Empty string on success; non-empty error message on failure.
+
+
++++Read a block of bytes from the server, used by the literals of IMAP+++
+
+```
+public function ReadBytes(int $length, ?string &$data)
+```
+
+- @param     int         $length The number of bytes to read.
+- @param     string|null $data   Filled with the bytes read.
+- @param-out string    $data
+- @return    string              Empty string on success; non-empty error message on failure.
+
+
++++Close the connection with the server+++
+
+```
+public function Close()
+```
+
+- @return string Always returns empty string.
+
+
++++Read error helper+++
+
+```
+private function ReadError(string $prefix)
+```
+
+This function returns the error message of a failed read or write, detecting the
+timeouts and the connections closed by the server
+
+- @param  string $prefix The prefix of the error message.
+- @return string         The error message.
 
 
 +Sales+

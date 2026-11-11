@@ -49,8 +49,6 @@
         <cachedir eval="true">getcwd()."/data/cache"</cachedir>
         <tempdir eval="true">getcwd()."/data/temp"</tempdir>
         <uploaddir eval="true">getcwd()."/data/upload"</uploaddir>
-        <inboxdir eval="true">getcwd()."/data/inbox"</inboxdir>
-        <outboxdir eval="true">getcwd()."/data/outbox"</outboxdir>
         <trashdir eval="true">getcwd()."/data/trash"</trashdir>
         <crondir eval="true">getcwd()."/data/cron"</crondir>
     </dirs>

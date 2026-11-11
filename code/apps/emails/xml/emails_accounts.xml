@@ -18,6 +18,9 @@
     <main>
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <javascript>
+            <file eval="true">file_with_hash(file_with_min('apps/emails/js/accounts.js'))</file>
+        </javascript>
         <screen>type2modal</screen>
         <gettext eval="true">T()</gettext>
         <navbar eval="true">xmlfile2array('apps/common/xml/navbar.xml')['navbar']</navbar>
@@ -130,10 +133,10 @@
         <text id="email_from" label="Email" required="true"/>
         <joditeditor id="email_signature" label="Signature" height="5em" col_class="col-12"/>
 
-        <alert title="POP3 server configuration" col_class="col-12"/>
+        <alert title="Incoming server configuration" col_class="col-12"/>
         <text id="pop3_host" label="Host"/>
         <onetag id="pop3_port" label="Port" col_class="col-md-2">
-            <datalist eval="true">['110','995']</datalist>
+            <datalist eval="true">['110','995','143','993']</datalist>
         </onetag>
         <select id="pop3_extra" label="Extra" col_class="col-md-2">
             <rows>
@@ -146,14 +149,26 @@
         <text id="pop3_user" label="User"/>
         <password id="pop3_pass" label="Password" autocomplete="false"/>
         <div col_class="col-12 m-0"/><!-- this act as break line -->
-        <div col_class="col-4"/><!-- this act as a spacer -->
-        <select id="pop3_delete" label="Delete" value="0" col_class="col-md-2">
+        <select id="protocol" label="Protocol" value="pop3" col_class="col-md-2">
+            <rows>
+                <row label="POP3" value="pop3"/>
+                <row label="IMAP" value="imap"/>
+            </rows>
+        </select>
+        <select id="pop3_delete" label="Delete" value="0" col_class="col-md-2" tooltip="POP3 only">
             <rows>
                 <row label="No" value="0"/>
                 <row label="Yes" value="1"/>
             </rows>
         </select>
-        <integer id="pop3_days" label="Days" col_class="col-md-2"/>
+        <integer id="pop3_days" label="Days" col_class="col-md-2" tooltip="POP3 only"/>
+        <select id="imap_append_sent" label="Copy in Sent" value="1" col_class="col-md-2" tooltip="IMAP only">
+            <rows>
+                <row label="No" value="0"/>
+                <row label="Yes" value="1"/>
+            </rows>
+        </select>
+        <button onclick="saltos.emails_accounts.test('incoming')" label="Test" tooltip="To test the connection with the incoming server" icon="plug" col_class="col-md-auto align-self-end"/>
 
         <alert title="SMTP server configuration" col_class="col-12"/>
         <text id="smtp_host" label="Host"/>
@@ -170,6 +185,7 @@
         <div col_class="col-12 m-0"/><!-- this act as break line -->
         <text id="smtp_user" label="User"/>
         <password id="smtp_pass" label="Password" autocomplete="false"/>
+        <button onclick="saltos.emails_accounts.test('outgoing')" label="Test" tooltip="To test the connection with the outgoing server" icon="plug" col_class="col-md-auto align-self-end"/>
 
         <alert title="Extra configuration" col_class="col-12"/>
         <switch id="email_disabled" label="Disabled"/>
@@ -213,6 +229,7 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
         <temp ifeval="!__user_is_admin(get_data('rest/1'))" eval="true">set_data('json/user_id', current_user())</temp>
+        <temp ifeval="!in_array(get_data('json/protocol'), ['pop3', 'imap'], true)" eval="true">set_data('json/protocol', 'pop3')</temp>
         <output require="apps/emails/php/folders.php" eval="true">emails_accounts_insert(get_data('json'))</output>
     </create>
 
@@ -269,6 +286,7 @@
         <data><allnotes eval="true">xmlfile2array('apps/common/xml/notes.xml')['_data']</allnotes></data>
         <javascript>
             <inline>saltos.driver.init('edit')</inline>
+            <inline>document.getElementById('protocol').saltos.set_disabled(true)</inline>
             <inline>saltos.common.allfiles()</inline>
             <inline>saltos.common.allnotes()</inline>
         </javascript>
@@ -295,8 +313,15 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/4'))</check>
         <temp ifeval="!__user_is_admin(get_data('rest/1'))" eval="true">set_data('json/user_id', null)</temp>
+        <temp eval="true">set_data('json/protocol', null)</temp>
         <output require="php/lib/actions.php" eval="true">update(get_data('rest/1'), intval(get_data('rest/4')), get_data('json'))</output>
     </edit>
+
+    <action id="test">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <output require="apps/emails/php/accounts.php" eval="true">emails_accounts_test(get_data('json'))</output>
+    </action>
 
     <delete>
         <check eval="true" logout="true">current_user()</check>

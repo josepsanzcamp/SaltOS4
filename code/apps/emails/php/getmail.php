@@ -31,7 +31,6 @@ declare(strict_types=1);
  */
 require_once 'apps/emails/php/mailparse.php';
 require_once 'apps/emails/php/mime_parser.php';
-require_once 'apps/emails/php/pop3.php';
 
 /**
  * Defines section
@@ -861,31 +860,21 @@ function __getmail_getcid($array, $hash)
 /**
  * Insert
  *
- * This function do the insert in the app_emails table, and
+ * This function does the insert of an email in the app_emails table, with its addresses,
+ * its attachments, its control register and its index
  *
- * @file          => the gzfile that contains the message in RFC822 format
- * @messageid     => the id of the message (account_id/uidl)
- * @state_new     => the 0/1 that sets the state new flag
- * @state_reply   => the 0/1 that sets the state reply flag
- * @state_forward => the 0/1 that sets the state forward flag
- * @state_wait    => the 0/1 that sets the state wait flag
- * @id_correo     => the id of the related email (used to create relations between emails)
- * @is_outbox     => the 0/1 that sets the is outbox flag
- * @state_sent    => the 0/1 that sets the state sent flag
- * @state_error   => the string that contains the error (if exists an error)
+ * @file      => the gzfile that contains the message in RFC822 format
+ * @messageid => the id of the message (account_id/uidl)
+ * @fields    => the fields of the app_emails table that replace the default values and the
+ *               values computed from the message (optional), like:
+ *               state_new (default 1), state_reply, state_forward, state_wait, email_id (the
+ *               id of the related email), is_outbox, state_sent, state_error (default 0 or
+ *               empty), folder_id (default the inbox, the sent for the outbox and the junk
+ *               for the spam, if they exist) and the IMAP fields imap_uid, imap_messageid
+ *               and imap_emailid
  */
-function __getmail_insert(
-    $file,
-    $messageid,
-    $state_new,
-    $state_reply,
-    $state_forward,
-    $state_wait,
-    $email_id,
-    $is_outbox,
-    $state_sent,
-    $state_error
-) {
+function __getmail_insert($file, $messageid, $fields = [])
+{
     list($account_id, $uidl) = explode('/', $messageid);
     $size = gzfilesize($file);
     $id_usuario = current_user();
@@ -895,32 +884,38 @@ function __getmail_insert(
     $info = __getmail_getinfo(__getmail_getnode('0', $decoded));
     $body = __getmail_gettextbody(__getmail_getnode('0', $decoded));
     unset($decoded); // Trick to release memory
-    // Get the folder of the new email
-    require_once 'apps/emails/php/folders.php';
-    $folders = emails_folders_check($account_id);
-    $folder_id = $folders['\Inbox'];
-    if ($is_outbox) {
-        $folder_id = $folders['\Sent'];
-    } elseif ($info['spam'] === '1') {
-        $folder_id = $folders['\Junk'];
+    // The default values of the fields
+    $fields = array_merge([
+        'state_new' => 1,
+        'state_reply' => 0,
+        'state_forward' => 0,
+        'state_wait' => 0,
+        'email_id' => 0,
+        'is_outbox' => 0,
+        'state_sent' => 0,
+        'state_error' => '',
+    ], $fields);
+    // Get the folder of the new email if not specified
+    if (!isset($fields['folder_id'])) {
+        require_once 'apps/emails/php/folders.php';
+        $folders = emails_folders_check($account_id);
+        // The IMAP accounts can be without sent or junk folder, or without folders until
+        // its first synchronization
+        $fields['folder_id'] = $folders['\Inbox'] ?? 0;
+        if ($fields['is_outbox']) {
+            $fields['folder_id'] = $folders['\Sent'] ?? $fields['folder_id'];
+        } elseif ($info['spam'] === '1') {
+            $fields['folder_id'] = $folders['\Junk'] ?? $fields['folder_id'];
+        }
     }
     // Insert the new email
-    $query = prepare_insert_query('app_emails', [
+    $query = prepare_insert_query('app_emails', array_merge([
         'account_id' => $account_id,
-        'folder_id' => $folder_id,
         'uidl' => $uidl,
         'size' => $size,
         'datetime' => $info['datetime'],
         'subject' => $info['subject'],
         'body' => $body,
-        'state_new' => $state_new,
-        'state_reply' => $state_reply,
-        'state_forward' => $state_forward,
-        'state_wait' => $state_wait,
-        'email_id' => $email_id,
-        'is_outbox' => $is_outbox,
-        'state_sent' => $state_sent,
-        'state_error' => $state_error,
         'state_crt' => $info['crt'],
         'priority' => $info['priority'],
         'sensitivity' => $info['sensitivity'],
@@ -929,7 +924,7 @@ function __getmail_insert(
         'cc' => $info['cc'],
         'bcc' => $info['bcc'],
         'files' => count($info['files']),
-    ]);
+    ], $fields));
     unset($body); // Trick to release memory
     db_query(...$query);
     // Get last_id
@@ -1062,6 +1057,8 @@ function getmail_body($id, $images = false)
     $query = 'SELECT id FROM app_emails_control WHERE id = ? AND user_id = ?';
     $id2 = execute_query($query, [$id, current_user()]);
     if ($id === $id2) {
+        require_once 'apps/emails/php/getmail_imap.php';
+        __getmail_imap_state($id, 'state_new', 0);
         $query = prepare_update_query('app_emails', [
             'state_new' => 0,
         ], [
@@ -1428,7 +1425,7 @@ function getmail_server()
         if (!file_exists($file)) {
             $file = get_directory('dirs/outboxdir') . get_data('json/getmailmsgid') . '.eml.gz';
         }
-        $last_id = __getmail_insert($file, get_data('json/getmailmsgid'), 1, 0, 0, 0, 0, 0, 0, '');
+        $last_id = __getmail_insert($file, get_data('json/getmailmsgid'));
         semaphore_release($semaphore);
         output_handler_json([
             'emails' => [
@@ -1438,13 +1435,15 @@ function getmail_server()
             ],
         ]);
     }
-    // datos pop3
+    // the enabled accounts of the user
     $query = 'SELECT * FROM app_emails_accounts WHERE user_id = ? AND email_disabled = 0';
     $result = execute_query_array($query, [current_user()]);
     if (!count($result)) {
         semaphore_release($semaphore);
         return [T('Could not found configuration')];
     }
+    // the state of the folders, to notify its changes
+    $folders = __getmail_folders_hash();
     // begin the loop
     $newemail = 0;
     $haserror = [];
@@ -1461,110 +1460,15 @@ function getmail_server()
             if ($temp) {
                 $temp = " ($temp)";
             }
-            $error = sprintf(T('POP3 server %s not configured'), $temp);
+            $error = sprintf(T('Incoming server %s not configured'), $temp);
         }
-        $pop3 = null;
-        $olduidls = null;
-        $olduidls_d = null;
-        $prefix = null;
-        $id_cuenta = null;
-        if ($error === '') {
-            $id_cuenta = $row['id'];
-            $prefix = get_directory('dirs/inboxdir') . $id_cuenta;
-            if (!file_exists($prefix)) {
-                mkdir($prefix);
-                chmod_protected($prefix, 0777);
-            }
-            // db code
-            $query = 'SELECT uidl FROM app_emails WHERE account_id = ?';
-            $olduidls = execute_query_array($query, [$id_cuenta]);
-            $query = 'SELECT uidl FROM app_emails_deletes WHERE account_id = ?';
-            $olduidls_d = execute_query_array($query, [$id_cuenta]);
-            $olduidls = array_merge($olduidls, $olduidls_d);
-            // pop3 code
-            $pop3 = new pop3_class();
-            $pop3->hostname = $row['pop3_host'];
-            if ($row['pop3_port']) {
-                $pop3->port = $row['pop3_port'];
-            }
-            $pop3->tls = ($row['pop3_extra'] === 'tls') ? 1 : 0;
-            $pop3->ssl = ($row['pop3_extra'] === 'ssl') ? 1 : 0;
-            $pop3->user = $row['pop3_user'];
-            $pop3->pass = $row['pop3_pass'];
-            $error = $pop3->Open();
-        }
-        $uidls = null;
-        if ($error === '') {
-            $uidls = $pop3->ListMessages();
-            if (!is_array($uidls)) {
-                $error = $uidls;
-            }
-        }
-        if ($error === '') {
-            // retrieve all new messages
-            $retrieve = array_diff($uidls, $olduidls);
-            foreach ($retrieve as $index => $uidl) {
-                if (time_get_usage() > get_config('server/percentstop')) {
-                    break;
-                }
-                if ($error === '') {
-                    $file = $prefix . '/' . $uidls[$index] . '.eml.gz';
-                    if (!file_exists($file)) {
-                        // retrieve the entire message
-                        $message = null;
-                        $error = $pop3->GetMessage($index, $message);
-                        if ($error === '') {
-                            // store the message into single file
-                            $fp = gzopen($file, 'w');
-                            gzwrite($fp, $message);
-                            gzclose($fp);
-                            chmod_protected($file, 0666);
-                            $message = ''; // trick to release memory
-                        }
-                    }
-                    if ($error === '') {
-                        $messageid = $id_cuenta . '/' . $uidls[$index];
-                        $last_id = __getmail_insert($file, $messageid, 1, 0, 0, 0, 0, 0, 0, '');
-                        $newemail++;
-                    }
-                }
-            }
-        }
-        if ($error === '' && $row['pop3_delete']) {
-            // remove all expired messages (if checked the delete option)
-            $delete = "'" . implode("','", $uidls) . "'";
-            $query = "SELECT uidl,datetime FROM (
-                SELECT uidl,datetime
-                FROM app_emails
-                WHERE account_id = ? AND uidl IN ($delete)
-                UNION
-                SELECT uidl,datetime
-                FROM app_emails_deletes
-                WHERE account_id = ? AND uidl IN ($delete) ) a";
-            $result2 = execute_query_array($query, [$id_cuenta, $id_cuenta]);
-            $time1 = strtotime(current_datetime());
-            foreach ($result2 as $row2) {
-                $time2 = strtotime($row2['datetime']);
-                if ($time1 - $time2 >= $row['pop3_days'] * 86400) {
-                    // DELE only marks the message, the indexes do not change in the session
-                    $index2 = array_search($row2['uidl'], $uidls, true);
-                    $error = $pop3->DeleteMessage($index2);
-                    unset($uidls[$index2]);
-                }
-                if ($error !== '') {
-                    break;
-                }
-            }
-        }
-        if ($error === '') {
-            $error = $pop3->Close();
-        }
-        if ($error === '') {
-            // remove all unused uidls
-            $delete = array_diff($olduidls_d, $uidls);
-            $delete = "'" . implode("','", $delete) . "'";
-            $query = "DELETE FROM app_emails_deletes WHERE account_id = ? AND uidl IN ($delete)";
-            db_query($query, [$id_cuenta]);
+        // Each protocol is received by its own library
+        if ($error === '' && $row['protocol'] === 'imap') {
+            require_once 'apps/emails/php/getmail_imap.php';
+            $error = getmail_imap($row, $newemail);
+        } elseif ($error === '') {
+            require_once 'apps/emails/php/getmail_pop3.php';
+            $error = getmail_pop3($row, $newemail);
         }
         if ($error !== '') {
             $haserror[] = sprintf(
@@ -1578,9 +1482,30 @@ function getmail_server()
         require_once 'php/lib/push.php';
         push_insert('event', 'saltos.emails.update');
     }
+    if (get_data('server/cli') && $folders !== __getmail_folders_hash()) {
+        require_once 'php/lib/push.php';
+        push_insert('event', 'saltos.emails.folders');
+    }
     // release the semaphore
     semaphore_release($semaphore);
     return $haserror;
+}
+
+/**
+ * Folders hash
+ *
+ * This function returns a hash of the folders of the accounts of the current user, with
+ * the fields shown in the folders tree, used to detect the changes of the folders done by
+ * the synchronization of the IMAP accounts
+ *
+ * Returns the hash of the folders
+ */
+function __getmail_folders_hash()
+{
+    $query = 'SELECT id, account_id, parent_id, label, special_use, is_subscribed
+        FROM app_emails_folders WHERE account_id IN (
+            SELECT id FROM app_emails_accounts WHERE user_id = ?) ORDER BY id';
+    return md5(json_encode(execute_query_array($query, [current_user()])));
 }
 
 /**
@@ -1614,11 +1539,26 @@ function getmail_delete($ids)
         return sprintf(T('%d email(s) moved to trash'), count($trash));
     }
     $numids = count(explode(',', $ids));
-    // CREAR DATOS EN TABLA DE CORREOS BORRADOS (SOLO LOS DEL INBOX)
-    $query = "INSERT INTO app_emails_deletes(account_id,uidl,datetime)
-        SELECT account_id,uidl,datetime
-        FROM app_emails WHERE id IN ($ids) AND is_outbox = 0";
-    db_query($query);
+    require_once 'apps/emails/php/getmail_imap.php';
+    require_once 'apps/emails/php/getmail_pop3.php';
+    __getmail_imap_expunge($ids);
+    __getmail_pop3_delete($ids);
+    __getmail_delete($ids);
+    // MOSTRAR RESULTADO
+    return sprintf(T('%d email(s) deleted'), $numids);
+}
+
+/**
+ * Delete helper
+ *
+ * This function deletes permanently the emails, its files, its addresses, its attachments
+ * and its control and index registers, without permission checks (the callers must check
+ * them), for the emails of all the protocols
+ *
+ * @ids => the ids of the emails separated by commas
+ */
+function __getmail_delete($ids)
+{
     // BORRAR FICHEROS .EML.GZ DEL INBOX
     $query = "SELECT
         CONCAT('" . get_directory('dirs/inboxdir') . "',account_id,'/',uidl,'.eml.gz') action_delete
@@ -1666,8 +1606,6 @@ function getmail_delete($ids)
         make_control('emails', $id);
         make_index('emails', $id);
     }
-    // MOSTRAR RESULTADO
-    return sprintf(T('%d email(s) deleted'), $numids);
 }
 
 /**
@@ -1754,6 +1692,9 @@ function getmail_setter($ids, $what)
         $query = "SELECT COUNT(*) FROM app_emails
             WHERE id IN ($ids) AND state_new != ? AND is_outbox = 0";
         $numids = execute_query($query, [$what[1]]);
+        require_once 'apps/emails/php/getmail_imap.php';
+        $query = "SELECT id FROM app_emails WHERE id IN ($ids) AND is_outbox = 0";
+        __getmail_imap_state(execute_query_array($query), 'state_new', $what[1]);
         $query = "UPDATE app_emails SET state_new = ?
             WHERE id IN ($ids) AND state_new != ? AND is_outbox = 0";
         db_query($query, [$what[1], $what[1]]);
@@ -1762,6 +1703,11 @@ function getmail_setter($ids, $what)
         $query = "SELECT COUNT(*) FROM app_emails
             WHERE id IN ($ids) AND state_wait != ?";
         $numids = execute_query($query, [$what[1]]);
+        require_once 'apps/emails/php/getmail_imap.php';
+        $query = "SELECT id FROM app_emails WHERE id IN ($ids) AND state_wait != ?";
+        $ids2 = execute_query_array($query, [$what[1]]);
+        __getmail_imap_state($ids2, 'state_new', 0);
+        __getmail_imap_state($ids2, 'state_wait', $what[1]);
         $query = "UPDATE app_emails SET state_new = 0, state_wait = ?
             WHERE id IN ($ids) AND state_wait != ?";
         db_query($query, [$what[1], $what[1]]);

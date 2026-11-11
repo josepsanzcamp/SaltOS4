@@ -29,6 +29,14 @@ Cada entrada muestra normalmente:
 
 La interfaz también incluye filtros y un formulario de búsqueda por remitente, asunto, cuenta y fecha.
 
+==Carpetas==
+
+El botón de carpetas abre un panel con el árbol de carpetas, con las cuentas y sus carpetas. Al seleccionar una cuenta se muestran todos sus correos excepto los de la papelera y el correo no deseado, y al seleccionar una carpeta solo se muestran sus correos.
+
+El botón Todos muestra los correos de todas las cuentas juntos en la misma lista, excepto los de la papelera y el correo no deseado, manteniendo los demás filtros del formulario de búsqueda. El menú Opciones permite crear, renombrar, mover y borrar carpetas y, en las cuentas IMAP, elegir las carpetas del servidor que se sincronizan (Carpetas del servidor), y el menú Vaciar elimina definitivamente los correos de la papelera o del correo no deseado. Las carpetas especiales (Bandeja de entrada, Enviados, Papelera y Correo no deseado) no se pueden modificar.
+
+Las carpetas de las cuentas POP3 solo existen en SaltOS. Las carpetas de las cuentas IMAP son las carpetas del servidor (las carpetas Enviados, Papelera y Correo no deseado se crean en el servidor si no existen), y las acciones sobre los correos y las carpetas también se aplican en el servidor: los correos con cambios que aún no se han aplicado en el servidor muestran la etiqueta Pendiente hasta la siguiente sincronización.
+
 ==Vista del mensaje==
 
 Esta vista muestra el contenido completo del mensaje, incluyendo metadatos y archivos adjuntos.
@@ -50,7 +58,6 @@ La información mostrada incluye:
 - Respuesta: Indica si se ha respondido el mensaje.
 - Reenviado: Indica si el mensaje fue reenviado.
 - Espera: Marcador de seguimiento o espera de respuesta.
-- SPAM: Indica si se clasificó como correo no deseado.
 - Solicitar confirmación de lectura: Muestra si se pidió acuse de recibo.
 - Error: Muestra un error si falló el envío.
 - Asunto: Línea de asunto del mensaje.
@@ -82,7 +89,7 @@ El formulario de respuesta o redacción incluye:
 
 Los correos pueden eliminarse desde la vista de lista mediante el icono o acción correspondiente.
 
-Los mensajes se eliminan localmente o se marcan para eliminación, según la configuración del servidor.
+Al eliminar un correo se mueve a la papelera de su cuenta, y al eliminar un correo que está en la papelera se elimina definitivamente. En las cuentas IMAP, el correo también se mueve o se elimina en el servidor.
 
 ==Generación de PDF==
 

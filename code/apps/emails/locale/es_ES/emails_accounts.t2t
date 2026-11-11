@@ -43,24 +43,34 @@ El formulario incluye los siguientes campos:
 - Nombre: Nombre visible o etiqueta para identificar la cuenta.
 - Correo electrónico: Dirección asociada a la cuenta.
 - Firma: Texto o firma HTML añadida automáticamente a los mensajes salientes.
-- Servidor POP3: Nombre del servidor para recibir correos.
-- Puerto POP3: Puerto usado para conectarse (ej: 110, 995).
-- Opciones POP3: Ajustes adicionales (TLS, etc.).
-- Usuario POP3: Usuario para autenticar la cuenta POP3.
-- Contraseña POP3: Clave de la cuenta POP3.
-- Borrar: Si se deben eliminar los mensajes tras descargarlos.
-- Días: Número de días que los correos permanecen en el servidor.
-- Servidor SMTP: Nombre del servidor para enviar correos.
+- Servidor: Nombre del servidor entrante (POP3 o IMAP) para recibir correos.
+- Puerto: Puerto del servidor entrante (ej: 110 o 995 para POP3, 143 o 993 para IMAP).
+- Extra: Cifrado del servidor entrante: ninguno, SSL (cifrado desde el inicio) o TLS (STARTTLS).
+- Usuario: Usuario del servidor entrante.
+- Contraseña: Clave del servidor entrante.
+- Probar: Botón para probar la conexión y el acceso al servidor entrante, con los datos del formulario sin guardarlos.
+- Protocolo: POP3 o IMAP, se elige al crear la cuenta y no se puede cambiar después.
+- Borrar: (solo POP3) Si se deben eliminar los mensajes del servidor pasados los días indicados.
+- Días: (solo POP3) Número de días que los correos permanecen en el servidor.
+- Copia en Enviados: (solo IMAP) Si se guarda una copia de los correos enviados en la carpeta Enviados del servidor; desactívalo en los servidores que ya guardan la copia, como Gmail.
+- Servidor SMTP: Nombre del servidor para enviar correos (mail, sendmail o qmail para usar el servidor local).
 - Puerto SMTP: Puerto usado para enviar (ej: 25, 465, 587).
 - Cifrado SMTP: Tipo de conexión: ninguno, SSL o TLS.
 - Usuario SMTP: Usuario para autenticarse en SMTP.
 - Contraseña SMTP: Clave de la cuenta SMTP.
+- Probar: Botón para probar la conexión y la autenticación con el servidor SMTP, con los datos del formulario sin guardarlos.
 - Inactivo: Marca la cuenta como deshabilitada (no se sincroniza).
 - Privado: Restringe el acceso solo al propietario.
 - Por defecto: Marca esta cuenta como remitente por defecto.
 - Añadirme al CC: Añade automáticamente al remitente como copia.
 - Solicitar confirmación de lectura: Activa acuse de recibo en cada envío.
 
+
+==POP3 e IMAP==
+
+Con POP3, SaltOS descarga los correos de la bandeja de entrada del servidor, y las carpetas de la cuenta (Bandeja de entrada, Enviados, Papelera, Correo no deseado y las carpetas creadas por el usuario) solo existen en SaltOS.
+
+Con IMAP, las carpetas de la cuenta son las carpetas del servidor, y los correos de las carpetas suscritas se sincronizan en los dos sentidos: los cambios hechos en SaltOS (leído, en espera, mover, borrar, las respuestas y reenvíos, y la copia de los correos enviados en la carpeta Enviados, si está activada) se aplican en el servidor en la siguiente sincronización, y los cambios hechos desde otros clientes de correo llegan a SaltOS.
 
 ==Eliminación==
 

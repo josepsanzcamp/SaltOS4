@@ -36,36 +36,41 @@ function __setup_helper_emails()
     require_once 'apps/emails/php/getmail.php';
     $time1 = microtime(true);
 
-    // Add a new email account
+    // Add the email accounts, one POP3 account with the sample emails and one IMAP account,
+    // using the users pop3 and imap of the GreenMail server of the test profile
     $numaccounts = 0;
     $exists = execute_query('SELECT COUNT(*) FROM app_emails_accounts');
     if (!$exists) {
-        $query = prepare_insert_query('app_emails_accounts', [
-            'id' => 1,
-            'user_id' => 1,
-            'email_name' => 'Admin user',
-            'email_from' => 'admin@example.com',
-            'email_signature' => '<p>Email sent from my <a href="https://www.saltos.org">SaltOS</a></p>',
-            'pop3_host' => 'example.com',
-            'pop3_port' => '995',
-            'pop3_extra' => 'ssl',
-            'pop3_user' => 'admin',
-            'pop3_pass' => 'admin',
-            'pop3_delete' => 1,
-            'pop3_days' => 90,
-            'smtp_host' => 'example.com',
-            'smtp_port' => '465',
-            'smtp_extra' => 'ssl',
-            'smtp_user' => 'admin',
-            'smtp_pass' => 'admin',
-            'email_default' => 1,
-        ]);
-        db_query(...$query);
-        $numaccounts++;
-        make_control('emails_accounts', 1);
-        make_version('emails_accounts', 1);
-        make_index('emails_accounts', 1);
-        make_log('emails_accounts', 'setup', 1);
+        $accounts = [
+            1 => ['pop3', '995', ['pop3_delete' => 1, 'pop3_days' => 90, 'email_default' => 1]],
+            2 => ['imap', '993', []],
+        ];
+        foreach ($accounts as $id => [$protocol, $port, $extra]) {
+            $query = prepare_insert_query('app_emails_accounts', array_merge([
+                'id' => $id,
+                'user_id' => 1,
+                'email_name' => 'Admin user',
+                'email_from' => "$protocol@example.com",
+                'email_signature' => '<p>Email sent from my <a href="https://www.saltos.org">SaltOS</a></p>',
+                'protocol' => $protocol,
+                'pop3_host' => 'example.com',
+                'pop3_port' => $port,
+                'pop3_extra' => 'ssl',
+                'pop3_user' => $protocol,
+                'pop3_pass' => 'admin',
+                'smtp_host' => 'example.com',
+                'smtp_port' => '465',
+                'smtp_extra' => 'ssl',
+                'smtp_user' => $protocol,
+                'smtp_pass' => 'admin',
+            ], $extra));
+            db_query(...$query);
+            $numaccounts++;
+            make_control('emails_accounts', $id);
+            make_version('emails_accounts', $id);
+            make_index('emails_accounts', $id);
+            make_log('emails_accounts', 'setup', $id);
+        }
     }
 
     // Create the account directory and copy all initial RFC822 files
@@ -87,7 +92,7 @@ function __setup_helper_emails()
         $files = glob('data/inbox/1/*.eml.gz');
         foreach ($files as $file) {
             $msgid = str_replace(['data/inbox/', '.eml.gz'], '', $file);
-            __getmail_insert($file, $msgid, 1, 0, 0, 0, 0, 0, 0, '');
+            __getmail_insert($file, $msgid);
             $numemails++;
         }
     }

@@ -125,7 +125,8 @@ make serverstop    # Stop and remove containers
 
 A third profile, `test`, doesn't build SaltOS - it only starts the external
 services the test suite needs for integration testing: Microsoft SQL Server
-2022, PostgreSQL 17, and GreenMail (SMTP/POP3 simulation).
+2022, PostgreSQL 17, GreenMail (SMTP/POP3/IMAP simulation) and Dovecot
+(IMAP/POP3 with the extensions that GreenMail lacks, like STARTTLS).
 
 ```bash
 make teststart     # Start test dependencies

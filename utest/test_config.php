@@ -78,7 +78,9 @@ final class test_config extends TestCase
         set_config('test', null, -1);
         $this->assertSame(get_config('test', -1), null);
 
-        $this->assertSame(count(detect_config_files('xml/config.xml')), 1);
+        // The config of the core and the configs of the apps
+        $count = count(detect_config_files('xml/config.xml'));
+        $this->assertSame(1 + count(glob('apps/*/xml/config.xml')), $count);
         $array = prepare_config_files(xmlfiles2array(detect_config_files('xml/config.xml')));
         $this->assertSame($array['db']['type'], 'pdo_mysql');
 
@@ -86,7 +88,7 @@ final class test_config extends TestCase
         file_put_contents('data/files/config.xml', '<root><db><type>pdo_sqlite</type></db></root>');
         $this->assertFileExists('data/files/config.xml');
 
-        $this->assertSame(count(detect_config_files('xml/config.xml')) > 1, true);
+        $this->assertSame($count + 1, count(detect_config_files('xml/config.xml')));
         $array = prepare_config_files(xmlfiles2array(detect_config_files('xml/config.xml')));
         $this->assertSame($array['db']['type'], 'pdo_sqlite');
 

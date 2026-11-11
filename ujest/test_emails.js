@@ -319,7 +319,7 @@ describe('App Emails', () => {
      */
     test('Action Create', async () => {
         await page.waitForSelector('#top button', timeout);
-        await page.$$eval('#top button', buttons => buttons[1].click()); // this trigger the creste action
+        await page.$$eval('#top button', buttons => buttons[2].click()); // this trigger the create action
 
         await page.waitForFunction(() => !saltos.form.screen('isloading'), timeout);
         await page.waitForSelector('#from', timeout);

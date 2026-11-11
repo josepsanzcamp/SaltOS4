@@ -41,7 +41,11 @@ services:
                 -Dgreenmail.pop3.port=110
                 -Dgreenmail.pop3s.hostname=0.0.0.0
                 -Dgreenmail.pop3s.port=995
-                -Dgreenmail.users=admin:admin@example.com
+                -Dgreenmail.imap.hostname=0.0.0.0
+                -Dgreenmail.imap.port=143
+                -Dgreenmail.imaps.hostname=0.0.0.0
+                -Dgreenmail.imaps.port=993
+                -Dgreenmail.users=pop3:admin@example.com,imap:admin@example.com
                 -Dgreenmail.hostname=example.com
                 -Dgreenmail.api.disabled=true
                 -Dgreenmail.verbose
@@ -51,6 +55,23 @@ services:
             - "0.0.0.0:995:995"
             - "0.0.0.0:587:587"
             - "0.0.0.0:465:465"
+            - "0.0.0.0:143:143"
+            - "0.0.0.0:993:993"
+        profiles: ["test"]
+        restart: unless-stopped
+
+    dovecot:
+        image: dovecot/dovecot:latest
+        container_name: dovecot
+        environment:
+            USER_PASSWORD: admin
+        ports:
+            - "0.0.0.0:10110:31110"
+            - "0.0.0.0:10995:31995"
+            - "0.0.0.0:10143:31143"
+            - "0.0.0.0:10993:31993"
+        volumes:
+            - ./test.dovecot.conf:/etc/dovecot/conf.d/saltos.conf:ro
         profiles: ["test"]
         restart: unless-stopped
 

@@ -1,6 +1,6 @@
 Devel Documentation
-SaltOS 4.1 r2757
-October 2026
+SaltOS 4.1 r2774
+November 2026
 
 
 
@@ -2160,7 +2160,7 @@ group of targets. See `CONTRIBUTING.md` for details.
 | `devel` | `develbuild`, `develstart`, `develstop`, `devellogs`, `develstatus`, `develbash` | SQLite + PHP built-in server, for development |
 | `server` | `serverbuild`, `serverstart`, `serverstop`, `serverlogs`, `serverstatus`, `serverbash` | nginx + PHP-FPM + MariaDB, production stack |
 | `demos` | `demosbuild`, `demosstart`, `demosstop`, `demoslogs`, `demosstatus`, `demosbash` | Public demo site, one SQLite instance per visitor |
-| `test` | `teststart`, `teststop`, `testlogs`, `teststatus` | MSSQL, PostgreSQL and GreenMail for integration tests |
+| `test` | `teststart`, `teststop`, `testlogs`, `teststatus` | MSSQL, PostgreSQL, GreenMail and Dovecot for integration tests |
 | `db` | `dbbuild`, `dbstart`, `dbstop`, `dblogs`, `dbstatus`, `dbbash` | MariaDB + Mroonga as a host service on `localhost:3306` |
 
 

@@ -57,6 +57,7 @@ to_see_the_source_of_this_email: Para ver la fuente de este correo
 read: Leído
 to_mark_this_email_as_new: Para marcar este correo como nuevo
 wait: Pendiente
+pending: Pendiente
 to_mark_this_email_as_wait: Para marcar este correo como pendiente
 no_new: No nuevo
 to_unmark_this_email_as_new: Para desmarcar este correo como nuevo
@@ -92,7 +93,34 @@ select_emails: Selecciona correos
 you_must_select_the_desired_emails_to_be_deleted: Debes seleccionar los correos que deseas eliminar
 to_open_this_content_in_a_new_window: Para abrir este contenido en una ventana nueva
 main_configuration: Configuración principal
-pop3_server_configuration: Configuración del servidor entrante
+incoming_server_configuration: Configuración del servidor entrante
+protocol: Protocolo
+pop3: POP3
+imap: IMAP
+pop3_only: Solo POP3
+copy_in_sent: Copia en Enviados
+imap_only: Solo IMAP
+test_connection: Probar conexión
+test: Probar
+to_test_the_connection_with_the_incoming_server: Para probar la conexión con el servidor entrante
+to_test_the_connection_with_the_outgoing_server: Para probar la conexión con el servidor saliente
+connection_successful: Conexión correcta
+connection_successful_d_emails_in_the_server: 'Conexión correcta, %d correos en el servidor'
+connection_successful_d_folders_in_the_server: 'Conexión correcta, %d carpetas en el servidor'
+incoming_server_s_not_configured: 'Servidor entrante %s no configurado'
+the_name_of_the_folder_can_not_contain_the_character_s: 'El nombre de la carpeta no puede contener el carácter %s'
+the_server_returned_an_error_s: 'El servidor ha devuelto un error: %s'
+the_account_has_no_trash_folder: La cuenta no tiene carpeta de papelera
+server_folders: Carpetas
+show_and_hide_the_folders: Mostrar y ocultar las carpetas del servidor
+all: Todos
+to_see_the_emails_of_all_the_accounts_together_in_the_same_list_except_the_trash_and_the_junk: Para ver los correos de todas las cuentas juntos en la misma lista, excepto la papelera y el correo no deseado
+empty: Vaciar
+to_subscribe_and_unsubscribe_the_folders_of_the_server: Para suscribir y desuscribir las carpetas del servidor
+the_unsubscribed_folders_are_removed_from_saltos_with_its_emails_they_stay_in_the_server: Las carpetas no suscritas se quitan de SaltOS con sus correos, que se quedan en el servidor
+only_the_imap_accounts_have_folders_in_the_server: Solo las cuentas IMAP tienen carpetas en el servidor
+folders_updated: Carpetas actualizadas
+not_tested_the_emails_are_sent_using_the_local_server: Sin probar, los correos se envían usando el servidor local
 smtp_server_configuration: Configuración del servidor saliente
 extra_configuration: Configuración adicional
 all_accounts: '[Todas las cuentas]'

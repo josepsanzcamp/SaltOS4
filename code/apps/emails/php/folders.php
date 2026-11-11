@@ -26,7 +26,8 @@ declare(strict_types=1);
  * Check the folders of an account
  *
  * This function checks the folders of the account, creating the mandatory folders (inbox,
- * sent, trash and junk) when they not exists; too removes the folders of the deleted accounts
+ * sent, trash and junk) of the POP3 accounts when they not exists; too removes the folders
+ * of the deleted accounts
  *
  * @account_id => the id of the account
  *
@@ -40,11 +41,13 @@ function emails_folders_check($account_id)
     $query = 'DELETE FROM app_emails_folders WHERE account_id NOT IN (SELECT id FROM app_emails_accounts)';
     db_query($query);
     // Check that the account exists
-    $query = 'SELECT COUNT(*) FROM app_emails_accounts WHERE id = ?';
-    if (!execute_query($query, [$account_id])) {
+    $query = 'SELECT protocol FROM app_emails_accounts WHERE id = ?';
+    $protocol = execute_query($query, [$account_id]);
+    if (!$protocol) {
         return [];
     }
-    // Create the mandatory folders that not exists
+    // Create the mandatory folders that not exists, the folders of the IMAP accounts are
+    // created by the synchronization with the server
     $folders = [
         '\Inbox' => 'Inbox',
         '\Sent' => 'Sent',
@@ -54,7 +57,7 @@ function emails_folders_check($account_id)
     $query = "SELECT special_use, id FROM app_emails_folders WHERE account_id = ? AND special_use != ''";
     $ids = array_column(execute_query_array($query, [$account_id]), 'id', 'special_use');
     foreach ($folders as $special_use => $label) {
-        if (isset($ids[$special_use])) {
+        if (isset($ids[$special_use]) || $protocol === 'imap') {
             continue;
         }
         $query = prepare_insert_query('app_emails_folders', [
@@ -114,7 +117,7 @@ function emails_folders_tree($ids = '')
     $tree = [];
     foreach ($accounts as $account) {
         emails_folders_check($account['id']);
-        $query = 'SELECT id, parent_id, label, special_use FROM app_emails_folders
+        $query = 'SELECT id, parent_id, label, special_use, is_subscribed FROM app_emails_folders
             WHERE account_id = ? ORDER BY id ASC';
         $folders = execute_query_array($query, [$account['id']]);
         $tree[] = [
@@ -156,11 +159,16 @@ function __emails_folders_tree_helper($account_id, $folders, $parent_id)
         if (isset($texts[$folder['special_use']])) {
             $text = T($texts[$folder['special_use']]);
         }
+        // The folders not subscribed (IMAP) are shown only if they have subscribed subfolders
+        $children = __emails_folders_tree_helper($account_id, $folders, intval($folder['id']));
+        if (!$folder['is_subscribed'] && !count($children)) {
+            continue;
+        }
         $nodes[] = [
             'id' => $account_id . '/' . $folder['id'],
             'text' => $text,
             'state' => ['opened' => true],
-            'children' => __emails_folders_tree_helper($account_id, $folders, intval($folder['id'])),
+            'children' => $children,
         ];
     }
     return $nodes;
@@ -171,7 +179,8 @@ function __emails_folders_tree_helper($account_id, $folders, $parent_id)
  *
  * This function moves the emails to the folder of its account identified by the special
  * use, it is an internal helper that not checks the permissions, the callers must check
- * that the emails are of the current user
+ * that the emails are of the current user; the moves of the emails of the IMAP accounts
+ * are enqueued, and the emails of the IMAP accounts without that folder are not moved
  *
  * @ids         => the ids of the emails separated by commas
  * @special_use => the special use of the destination folder
@@ -181,14 +190,18 @@ function __emails_folders_move($ids, $special_use)
     $ids = check_ids($ids);
     $query = "SELECT DISTINCT account_id FROM app_emails WHERE id IN ($ids)";
     $accounts = execute_query_array($query);
+    require_once 'apps/emails/php/getmail_imap.php';
     foreach ($accounts as $account_id) {
-        emails_folders_check($account_id);
+        $folder_id = emails_folders_check($account_id)[$special_use] ?? 0;
+        if (!$folder_id) {
+            continue;
+        }
+        $query = "SELECT id FROM app_emails WHERE id IN ($ids) AND account_id = ?";
+        $ids2 = check_ids(execute_query_array($query, [$account_id]));
+        __getmail_imap_move($ids2, $folder_id);
+        $query = "UPDATE app_emails SET folder_id = ? WHERE id IN ($ids2)";
+        db_query($query, [$folder_id]);
     }
-    $query = "UPDATE app_emails SET folder_id = (
-        SELECT id FROM app_emails_folders
-        WHERE account_id = app_emails.account_id AND special_use = ?)
-        WHERE id IN ($ids)";
-    db_query($query, [$special_use]);
 }
 
 /**
@@ -220,6 +233,9 @@ function emails_folders_move_to($ids, $folder_id)
     }
     $query = "SELECT COUNT(*) FROM app_emails WHERE id IN ($ids) AND account_id = ?";
     $numids = execute_query($query, [$account_id]);
+    require_once 'apps/emails/php/getmail_imap.php';
+    $query = "SELECT id FROM app_emails WHERE id IN ($ids) AND account_id = ?";
+    __getmail_imap_move(execute_query_array($query, [$account_id]), $folder_id);
     $query = "UPDATE app_emails SET folder_id = ? WHERE id IN ($ids) AND account_id = ?";
     db_query($query, [intval($folder_id), $account_id]);
     return sprintf(T('%d email(s) moved'), $numids);
@@ -251,20 +267,17 @@ function emails_folders_action($json)
     if ($action === 'move') {
         return __emails_folders_move_parent($folder_id, $parent_id);
     }
-    if ($action === 'summary') {
-        return __emails_folders_summary($folder_id);
-    }
     if ($action === 'delete') {
         return __emails_folders_delete($folder_id);
+    }
+    if ($action === 'subscribe') {
+        return __emails_folders_subscribe($account_id, strval($json['ids'] ?? ''));
     }
     $folders = [
         'trash' => '\Trash',
         'junk' => '\Junk',
     ];
     $folder = $folders[strval($json['folder'] ?? '')] ?? '';
-    if ($action === 'empty_summary' && $folder !== '') {
-        return __emails_folders_empty_summary($account_id, $folder);
-    }
     if ($action === 'empty' && $folder !== '') {
         return __emails_folders_empty($account_id, $folder);
     }
@@ -285,6 +298,22 @@ function __emails_folders_get($folder_id)
     $query = 'SELECT * FROM app_emails_folders WHERE id = ? AND account_id IN (
         SELECT id FROM app_emails_accounts WHERE user_id = ?)';
     return execute_query($query, [$folder_id, current_user()]);
+}
+
+/**
+ * Folders IMAP helper
+ *
+ * This function checks if the account is an IMAP account, whose folders are managed in
+ * the server
+ *
+ * @account_id => the id of the account
+ *
+ * Returns true if the account is an IMAP account
+ */
+function __emails_folders_imap($account_id)
+{
+    $query = 'SELECT protocol FROM app_emails_accounts WHERE id = ?';
+    return execute_query($query, [$account_id]) === 'imap';
 }
 
 /**
@@ -335,6 +364,11 @@ function __emails_folders_create($account_id, $parent_id, $label)
     if (__emails_folders_exists($account_id, $parent_id, $label)) {
         return T('A folder with the same name already exists');
     }
+    if (__emails_folders_imap($account_id)) {
+        require_once 'apps/emails/php/getmail_imap.php';
+        $error = __getmail_imap_folder_create($account_id, $parent_id, $label);
+        return $error !== '' ? $error : T('Folder created');
+    }
     $query = prepare_insert_query('app_emails_folders', [
         'account_id' => $account_id,
         'parent_id' => $parent_id,
@@ -369,6 +403,11 @@ function __emails_folders_rename($folder_id, $label)
     }
     if (__emails_folders_exists($folder['account_id'], $folder['parent_id'], $label, $folder_id)) {
         return T('A folder with the same name already exists');
+    }
+    if (__emails_folders_imap($folder['account_id'])) {
+        require_once 'apps/emails/php/getmail_imap.php';
+        $error = __getmail_imap_folder_rename($folder, intval($folder['parent_id']), $label);
+        return $error !== '' ? $error : T('Folder renamed');
     }
     $query = 'UPDATE app_emails_folders SET label = ? WHERE id = ?';
     db_query($query, [$label, $folder_id]);
@@ -432,38 +471,47 @@ function __emails_folders_move_parent($folder_id, $parent_id)
     if (__emails_folders_exists($folder['account_id'], $parent_id, $folder['label'], $folder_id)) {
         return T('A folder with the same name already exists');
     }
+    if (__emails_folders_imap($folder['account_id'])) {
+        require_once 'apps/emails/php/getmail_imap.php';
+        $error = __getmail_imap_folder_rename($folder, $parent_id, $folder['label']);
+        return $error !== '' ? $error : T('Folder moved');
+    }
     $query = 'UPDATE app_emails_folders SET parent_id = ? WHERE id = ?';
     db_query($query, [$parent_id, $folder_id]);
     return T('Folder moved');
 }
 
 /**
- * Folders summary helper
+ * Folders summary
  *
  * This function returns the message used to confirm the delete of a folder, with the
- * number of subfolders and emails affected
+ * number of subfolders and emails affected, or the error if the folder can not be deleted
  *
- * @folder_id => the id of the folder
+ * @json => the data of the request, with the folder_id
  *
- * Returns a response message
+ * Returns an array with the status (ok or ko) and the message
  */
-function __emails_folders_summary($folder_id)
+function emails_folders_summary($json)
 {
+    $folder_id = intval($json['folder_id'] ?? 0);
     $folder = __emails_folders_get($folder_id);
     if (!$folder) {
-        return T('Permission denied');
+        return ['status' => 'ko', 'text' => T('Permission denied')];
     }
     if ($folder['special_use'] !== '') {
-        return T('The special folders can not be modified');
+        return ['status' => 'ko', 'text' => T('The special folders can not be modified')];
     }
     $ids = __emails_folders_tree_ids($folder['account_id'], $folder_id);
     $query = 'SELECT COUNT(*) FROM app_emails WHERE folder_id IN (' . implode(',', $ids) . ')';
     $emails = execute_query($query);
-    return sprintf(
-        T('The folder and its %d subfolder(s) will be deleted and its %d email(s) moved to the trash'),
-        count($ids) - 1,
-        $emails
-    );
+    return [
+        'status' => 'ok',
+        'text' => sprintf(
+            T('The folder and its %d subfolder(s) will be deleted and its %d email(s) moved to the trash'),
+            count($ids) - 1,
+            $emails
+        ),
+    ];
 }
 
 /**
@@ -484,6 +532,11 @@ function __emails_folders_delete($folder_id)
     }
     if ($folder['special_use'] !== '') {
         return T('The special folders can not be modified');
+    }
+    if (__emails_folders_imap($folder['account_id'])) {
+        require_once 'apps/emails/php/getmail_imap.php';
+        $error = __getmail_imap_folder_delete($folder);
+        return $error !== '' ? $error : T('Folder deleted');
     }
     $ids = implode(',', __emails_folders_tree_ids($folder['account_id'], $folder_id));
     $trash = emails_folders_check($folder['account_id'])['\Trash'];
@@ -517,23 +570,34 @@ function __emails_folders_empty_ids($account_id, $special_use)
 }
 
 /**
- * Folders empty summary helper
+ * Folders empty summary
  *
  * This function returns the message used to confirm the empty of the trash or the junk
- * folder of the account, with the number of emails affected
+ * folder of the account, with the number of emails affected, or the error if the folder
+ * can not be emptied (also when it is already empty)
  *
- * @account_id  => the id of the account
- * @special_use => the special use of the folder
+ * @json => the data of the request, with the account_id and the folder (trash or junk)
  *
- * Returns a response message
+ * Returns an array with the status (ok or ko) and the message
  */
-function __emails_folders_empty_summary($account_id, $special_use)
+function emails_folders_empty_summary($json)
 {
-    $ids = __emails_folders_empty_ids($account_id, $special_use);
-    if ($ids === null) {
-        return T('Permission denied');
+    $folders = [
+        'trash' => '\Trash',
+        'junk' => '\Junk',
+    ];
+    $special_use = $folders[strval($json['folder'] ?? '')] ?? '';
+    if ($special_use === '') {
+        return ['status' => 'ko', 'text' => T('Unknown action')];
     }
-    return sprintf(T('%d email(s) will be deleted permanently'), count($ids));
+    $ids = __emails_folders_empty_ids(intval($json['account_id'] ?? 0), $special_use);
+    if ($ids === null) {
+        return ['status' => 'ko', 'text' => T('Permission denied')];
+    }
+    if (!count($ids)) {
+        return ['status' => 'ko', 'text' => T('The folder is empty')];
+    }
+    return ['status' => 'ok', 'text' => sprintf(T('%d email(s) will be deleted permanently'), count($ids))];
 }
 
 /**
@@ -563,4 +627,87 @@ function __emails_folders_empty($account_id, $special_use)
     }
     require_once 'apps/emails/php/getmail.php';
     return getmail_delete($ids);
+}
+
+/**
+ * Folders of the server
+ *
+ * This function returns the folders of an IMAP account of the current user, refreshed from
+ * the server, used by the dialog to subscribe and unsubscribe the folders: the special
+ * folders and the folders that can not contain emails can not be changed
+ *
+ * @json => the data of the request, with the account_id
+ *
+ * Returns an array with the status and the folders (name, subscribed and locked), or with
+ * the status and the error message
+ */
+function emails_folders_server($json)
+{
+    $account_id = intval($json['account_id'] ?? 0);
+    $query = 'SELECT COUNT(*) FROM app_emails_accounts WHERE id = ? AND user_id = ?';
+    if (!execute_query($query, [$account_id, current_user()])) {
+        return ['status' => 'ko', 'text' => T('Permission denied')];
+    }
+    if (!__emails_folders_imap($account_id)) {
+        return ['status' => 'ko', 'text' => T('Only the IMAP accounts have folders in the server')];
+    }
+    require_once 'apps/emails/php/getmail_imap.php';
+    $error = __getmail_imap_folders_refresh($account_id);
+    if ($error !== '') {
+        return ['status' => 'ko', 'text' => $error];
+    }
+    $query = 'SELECT id, name, special_use, is_subscribed, is_selectable FROM app_emails_folders
+        WHERE account_id = ? ORDER BY name';
+    $folders = [];
+    foreach (execute_query_array($query, [$account_id]) as $folder) {
+        $folders[] = [
+            'id' => intval($folder['id']),
+            'name' => imap_class::Decode($folder['name']),
+            'subscribed' => intval($folder['is_subscribed']),
+            'locked' => intval($folder['special_use'] !== '' || !$folder['is_selectable']),
+        ];
+    }
+    return ['status' => 'ok', 'folders' => $folders];
+}
+
+/**
+ * Folders subscribe helper
+ *
+ * This function sets the folders subscribed of an IMAP account: the folders of the list
+ * not subscribed are subscribed and the folders not in the list subscribed are
+ * unsubscribed (deleting its emails in SaltOS), except the special folders and the folders
+ * that can not contain emails
+ *
+ * @account_id => the id of the account
+ * @ids        => the ids of the folders that must be subscribed, separated by commas
+ *
+ * Returns a response message
+ */
+function __emails_folders_subscribe($account_id, $ids)
+{
+    $query = 'SELECT COUNT(*) FROM app_emails_accounts WHERE id = ? AND user_id = ?';
+    if (!execute_query($query, [$account_id, current_user()])) {
+        return T('Permission denied');
+    }
+    if (!__emails_folders_imap($account_id)) {
+        return T('Only the IMAP accounts have folders in the server');
+    }
+    $ids = check_ids_array($ids);
+    $query = "SELECT id, is_subscribed FROM app_emails_folders
+        WHERE account_id = ? AND special_use = '' AND is_selectable = 1";
+    $subscribe = [];
+    $unsubscribe = [];
+    foreach (execute_query_array($query, [$account_id]) as $folder) {
+        $id = intval($folder['id']);
+        $wanted = in_array($id, $ids, true);
+        if ($wanted && !$folder['is_subscribed']) {
+            $subscribe[] = $id;
+        }
+        if (!$wanted && $folder['is_subscribed']) {
+            $unsubscribe[] = $id;
+        }
+    }
+    require_once 'apps/emails/php/getmail_imap.php';
+    $error = __getmail_imap_subscribe($account_id, $subscribe, $unsubscribe);
+    return $error !== '' ? $error : T('Folders updated');
 }

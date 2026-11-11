@@ -269,8 +269,8 @@ make serverbuild
 make serverstart
 
 Container management (status/logs/shell for devel and server profiles) and
-the `test` Docker profile (MSSQL, PostgreSQL, GreenMail for integration
-tests) are documented in CONTRIBUTING.md - not repeated here.
+the `test` Docker profile (MSSQL, PostgreSQL, GreenMail, Dovecot for
+integration tests) are documented in CONTRIBUTING.md - not repeated here.
 
 ---
 

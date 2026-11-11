@@ -312,7 +312,7 @@ The containers only publish plain HTTP on their port 80, mapped to the port
 reverse proxy like Traefik.
 
 Container management (status/logs/shell), the `test` Docker profile (MSSQL +
-PostgreSQL + GreenMail for integration tests), and the full command
+PostgreSQL + GreenMail + Dovecot for integration tests), and the full command
 reference are in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---

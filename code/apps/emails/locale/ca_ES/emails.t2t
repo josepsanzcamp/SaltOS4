@@ -29,6 +29,14 @@ Cada entrada mostra habitualment:
 
 La interfície també inclou filtres i un formulari de cerca per remitent, assumpte, compte i data.
 
+==Carpetes==
+
+El botó de carpetes obre un panell amb l'arbre de carpetes, amb els comptes i les seves carpetes. En seleccionar un compte es mostren tots els seus correus excepte els de la paperera i el correu brossa, i en seleccionar una carpeta només es mostren els seus correus.
+
+El botó Tots mostra els correus de tots els comptes junts a la mateixa llista, excepte els de la paperera i el correu brossa, mantenint els altres filtres del formulari de cerca. El menú Opcions permet crear, reanomenar, moure i esborrar carpetes i, als comptes IMAP, triar les carpetes del servidor que se sincronitzen (Carpetes del servidor), i el menú Buidar elimina definitivament els correus de la paperera o del correu brossa. Les carpetes especials (Safata d'entrada, Enviats, Paperera i Correu brossa) no es poden modificar.
+
+Les carpetes dels comptes POP3 només existeixen a SaltOS. Les carpetes dels comptes IMAP són les carpetes del servidor (les carpetes Enviats, Paperera i Correu brossa es creen al servidor si no existeixen), i les accions sobre els correus i les carpetes també s'apliquen al servidor: els correus amb canvis que encara no s'han aplicat al servidor mostren l'etiqueta Pendent fins a la següent sincronització.
+
 ==Visualització del missatge==
 
 Aquesta vista mostra el contingut complet del correu, incloent metadades de la capçalera i adjunts.
@@ -50,7 +58,6 @@ La informació mostrada inclou:
 - Resposta: Marca si s'ha respost.
 - Reenviat: Marca si s'ha reenviat.
 - Espera: Indicador de seguiment o pendent de resposta.
-- SPAM: Marca si ha estat classificat com a correu brossa.
 - Confirmació de lectura: Indica si es va sol·licitar confirmació de lectura.
 - Error: Mostra un missatge d'error si l'enviament ha fallat.
 - Assumpte: Línia d'assumpte del missatge.
@@ -82,7 +89,7 @@ El formulari inclou:
 
 Els correus es poden eliminar des de la vista de llista mitjançant la icona o acció corresponent.
 
-Els missatges s’eliminen localment o es marquen per eliminar, segons la configuració del servidor.
+En esborrar un correu es mou a la paperera del seu compte, i en esborrar un correu que és a la paperera s'elimina definitivament. Als comptes IMAP, el correu també es mou o s'elimina al servidor.
 
 ==Generació de PDF==
 
