@@ -118,23 +118,23 @@ saltos.bootstrap.__field.codemirror = field => {
         if (cm.lineCount() > 22) {
             cm.refresh();
         }
+        // Apply the last values received while the instance was not ready
+        if ('pending_value' in element.saltos) {
+            const value = element.saltos.pending_value;
+            delete element.saltos.pending_value;
+            element.saltos.set_value(value);
+        }
+        if ('pending_disabled' in element.saltos) {
+            const bool = element.saltos.pending_disabled;
+            delete element.saltos.pending_disabled;
+            element.saltos.set_disabled(bool);
+        }
     });
     // Program the set_value feature
     element.saltos.set_value = value => {
+        // Only the last value is stored until the instance is ready
         if (!('codemirror' in element.saltos)) {
-            if (!('queue' in element.saltos)) {
-                element.saltos.queue = [];
-                saltos.core.wait_for(() => 'codemirror' in element.saltos, 60000).then(ready => {
-                    if (!ready) {
-                        throw new Error('Timeout waiting for codemirror');
-                    }
-                    while (element.saltos.queue.length) {
-                        const item = element.saltos.queue.shift();
-                        element.saltos.set_value(item);
-                    }
-                });
-            }
-            element.saltos.queue.push(value);
+            element.saltos.pending_value = value;
             return;
         }
         if (saltos.core.eval_bool(field.indent)) {
@@ -150,12 +150,9 @@ saltos.bootstrap.__field.codemirror = field => {
     });
     // Program the disabled feature
     element.saltos.set_disabled = bool => {
+        // Only the last value is stored until the instance is ready
         if (!('codemirror' in element.saltos)) {
-            saltos.core.wait_for(() => 'codemirror' in element.saltos, 60000).then(ready => {
-                if (ready) {
-                    element.saltos.set_disabled(bool);
-                }
-            });
+            element.saltos.pending_disabled = bool;
             return;
         }
         if (bool) {

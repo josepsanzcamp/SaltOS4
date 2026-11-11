@@ -330,6 +330,24 @@ saltos.bootstrap.__field.jspreadsheet = field => {
             resizeObserver.observe(element.parentElement);
             input._resizeObserver = resizeObserver;
         }
+        // Apply the last values received while the instance was not ready
+        const value = {};
+        if ('pending_data' in input.saltos) {
+            value.data = input.saltos.pending_data;
+            delete input.saltos.pending_data;
+        }
+        if ('pending_cells' in input.saltos) {
+            value.cells = input.saltos.pending_cells;
+            delete input.saltos.pending_cells;
+        }
+        if (Object.keys(value).length) {
+            input.saltos.set_value(value);
+        }
+        if ('pending_disabled' in input.saltos) {
+            const bool = input.saltos.pending_disabled;
+            delete input.saltos.pending_disabled;
+            input.saltos.set_disabled(bool);
+        }
     });
 
     // Program the check_required feature
@@ -340,12 +358,9 @@ saltos.bootstrap.__field.jspreadsheet = field => {
     });
     // Program the disabled feature
     input.saltos.set_disabled = bool => {
+        // Only the last value is stored until the instance is ready
         if (!('jspreadsheet' in input.saltos)) {
-            saltos.core.wait_for(() => 'jspreadsheet' in input.saltos, 60000).then(ready => {
-                if (ready) {
-                    input.saltos.set_disabled(bool);
-                }
-            });
+            input.saltos.pending_disabled = bool;
             return;
         }
         const rows = input.saltos.data.length;
@@ -386,20 +401,18 @@ saltos.bootstrap.__field.jspreadsheet = field => {
     };
     // Program the set_value in the input first
     input.saltos.set_value = value => {
+        // Only the last data and cells are stored until the instance is ready
         if (!('jspreadsheet' in input.saltos)) {
-            if (!('queue' in input.saltos)) {
-                input.saltos.queue = [];
-                saltos.core.wait_for(() => 'jspreadsheet' in input.saltos, 60000).then(ready => {
-                    if (!ready) {
-                        throw new Error('Timeout waiting for jspreadsheet');
-                    }
-                    while (input.saltos.queue.length) {
-                        const item = input.saltos.queue.shift();
-                        input.saltos.set_value(item);
-                    }
-                });
+            if (Array.isArray(value)) {
+                input.saltos.pending_data = value;
+            } else {
+                if ('data' in value) {
+                    input.saltos.pending_data = value.data;
+                }
+                if ('cells' in value) {
+                    input.saltos.pending_cells = value.cells;
+                }
             }
-            input.saltos.queue.push(value);
             return;
         }
         if (Array.isArray(value)) {

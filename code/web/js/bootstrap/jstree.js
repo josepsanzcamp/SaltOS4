@@ -100,22 +100,17 @@ saltos.bootstrap.__field.jstree = field => {
                 .jstree-selected:hover .jstree-node-icon:after { background:white; }
             </style>
         `));
+        // Apply the last value received while the instance was not ready
+        if ('pending_value' in element.saltos) {
+            const data = element.saltos.pending_value;
+            delete element.saltos.pending_value;
+            element.saltos.set_value(data);
+        }
     });
     element.saltos.set_value = data => {
+        // Only the last value is stored until the instance is ready
         if (!('instance' in element.saltos)) {
-            if (!('queue' in element.saltos)) {
-                element.saltos.queue = [];
-                saltos.core.wait_for(() => 'instance' in element.saltos, 60000).then(ready => {
-                    if (!ready) {
-                        throw new Error('Timeout waiting for instance');
-                    }
-                    while (element.saltos.queue.length) {
-                        const item = element.saltos.queue.shift();
-                        element.saltos.set_value(item);
-                    }
-                });
-            }
-            element.saltos.queue.push(data);
+            element.saltos.pending_value = data;
             return;
         }
         // Check for data not found

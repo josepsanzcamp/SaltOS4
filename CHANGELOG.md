@@ -62,6 +62,7 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 - The pdfjs widget failed in browsers without the most recent JavaScript features (like Safari 17), because the modern build of pdfjs requires them; now it uses the legacy build, that includes the needed polyfills.
 - Waits in the web client that never ended when the awaited thing failed (loading a library, a cache or the pdfjs module, closing a modal, reading a file, mapping the error backtrace), now all of them use `saltos.core.wait_for()` with a time limit, and a failed library or cache load can be retried.
 - The search filter of the emails list validates the account and the dates sent by the client before using them in the query.
+- The widgets that load a library (jstree, codemirror, joditeditor, tags, onetag and jspreadsheet) could apply an old value over a newer one, like the folders tree of the emails app that sometimes was shown empty; now they store only the last value and the last disabled state until the library is ready, and apply them at once.
 
 ### Security
 - Removed the posix_getuid() polyfill, which made the CLI `user=` owner check always pass when the posix extension was missing; posix is now a required extension.
