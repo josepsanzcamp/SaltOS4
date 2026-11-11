@@ -37,6 +37,7 @@ use Com\Tecnick\Unicode\Data\Type as UnicodeType;
  * @link      https://github.com/tecnickcom/tc-lib-pdf
  *
  * @phpstan-import-type BorderStyle from \Com\Tecnick\Pdf\CSS
+ * @phpstan-import-type THTMLElementBlock from \Com\Tecnick\Pdf\CSS
  * @phpstan-import-type BorderStyleOpt from \Com\Tecnick\Pdf\CSS
  * @phpstan-import-type TCSSBorderSpacing from \Com\Tecnick\Pdf\CSS
  * @phpstan-import-type TCSSData from \Com\Tecnick\Pdf\CSS
@@ -151,6 +152,8 @@ use Com\Tecnick\Unicode\Data\Type as UnicodeType;
  *     'caption-top-html'?: string,
  *     'caption-bottom-html'?: string,
  *     'caption-side': string,
+ *     'closekey'?: int,
+ *     'tableclosekey'?: int,
  *     'bgcolor': bool|float|string,
  *     'block': bool,
  *     'border-collapse': string,
@@ -325,6 +328,9 @@ use Com\Tecnick\Unicode\Data\Type as UnicodeType;
  *     'prelevel': int,
  *     'quotelevel': int,
  *     'dom': array<int, THTMLDOMNode>,
+ *     'ancestorcache'?: array<string, array<int, int>>,
+ *     'labelforcache'?: array<string, list<int>>,
+ *     'inheritcache'?: array<string, array<int, string>>,
  * }
  *
  * @phpstan-type THTMLRtlPiece array{
@@ -345,6 +351,15 @@ use Com\Tecnick\Unicode\Data\Type as UnicodeType;
  *     height: float,
  *     valign: string,
  *     src: string
+ * }
+ * @phpstan-type THTMLTcpdfObject array{
+ *     tid: string,
+ *     width: float,
+ *     height: float,
+ *     display: string,
+ *     valign: string,
+ *     halign: string,
+ *     alt: string
  * }
  *
  * @mixin \Com\Tecnick\Pdf\Base
@@ -701,7 +716,7 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
      * Tokens of the suffix of a compound selector: classes, ids, attribute selectors
      * and pseudo-classes.
      */
-    protected const HTML_SELECTOR_TOKEN_PATTERN = '/(\.(?:\\\\.|[\p{L}\p{N}_-])+|#(?:\\\\.|[\p{L}\p{N}_-])+|\[[^\]]+\]|:{1,2}[a-zA-Z-]+(?:\([^\)]*\))?)/u';
+    protected const HTML_SELECTOR_TOKEN_PATTERN = '/(\.(?:\\\\.|[\p{L}\p{N}_-])++|#(?:\\\\.|[\p{L}\p{N}_-])++|\[[^\]]+\]|:{1,2}[a-zA-Z-]+(?:\([^\)]*\))?)/u';
 
     /**
      * Number of parsed CSS selectors kept by parseHTMLSelectorLastCompound().
@@ -1045,6 +1060,30 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
     protected array $htmlImageIntrinsicSizeCache = [];
 
     /**
+     * Random key of the HMAC that signs the TCPDF tag payloads of this instance.
+     */
+    protected string $htmlTcpdfTagKey = '';
+
+    /**
+     * Objects drawn by TCPDF tags, keyed by the image source that places them.
+     *
+     * @var array<string, THTMLTcpdfObject>
+     */
+    protected array $htmlTcpdfObjects = [];
+
+    /**
+     * Image sources of the TCPDF tag objects, keyed by the tag payload.
+     *
+     * @var array<string, string>
+     */
+    protected array $htmlTcpdfObjectSources = [];
+
+    /**
+     * Number of active HTML render passes whose output is discarded.
+     */
+    protected int $htmlDiscardDepth = 0;
+
+    /**
      * Enable optional raster downscaling during HTML image import.
      */
     protected bool $htmlImageImportResize = false;
@@ -1172,6 +1211,124 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
     }
 
     /**
+     * Apply a callback to the content of the HTML elements that end with $close.
+     *
+     * Each block runs from the previous $close to the next $close. The content
+     * starts after the first '>' that follows the first case-insensitive $open of
+     * the block and ends before $close.
+     *
+     * @param string                   $html  HTML code.
+     * @param string                   $open  Opening tag prefix, e.g. '<textarea'.
+     * @param string                   $close Closing tag, e.g. '</textarea>'.
+     * @param callable(string): string $map   Returns the new content.
+     *
+     * @return string
+     */
+    protected function mapHTMLBlockContent(string $html, string $open, string $close, callable $map): string
+    {
+        $out = '';
+        $pos = 0;
+        $olen = \strlen($open);
+        $clen = \strlen($close);
+        $start = -1;
+        while (($closepos = \strpos($html, $close, $pos)) !== false) {
+            if ($start !== false && $start < $pos) {
+                $start = \stripos($html, $open, $pos);
+            }
+
+            $gtpos = $start !== false && $start < $closepos ? \strpos($html, '>', $start + $olen) : false;
+            if ($gtpos === false || $gtpos >= $closepos) {
+                $out .= \substr($html, $pos, $closepos + $clen - $pos);
+            } else {
+                $out .=
+                    \substr($html, $pos, $gtpos + 1 - $pos)
+                    . $map(\substr($html, $gtpos + 1, $closepos - $gtpos - 1))
+                    . $close;
+            }
+
+            $pos = $closepos + $clen;
+        }
+
+        return $out . \substr($html, $pos);
+    }
+
+    /**
+     * Split the content of a <select> element into option and optgroup tokens.
+     *
+     * @param string $inner Content of the select element.
+     *
+     * @return list<array{0: string, 1: string, 2: string}> Token type ('optgroup', '/optgroup' or 'option'),
+     *                                                     tag attributes and option label.
+     */
+    protected static function getHTMLSelectTokens(string $inner): array
+    {
+        $tokens = [];
+        $pos = 0;
+        $closepos = -1;
+        while (($ltpos = \strpos($inner, '<', $pos)) !== false) {
+            $pos = $ltpos + 1;
+            if (\substr_compare($inner, '</optgroup>', $ltpos, 11, true) === 0) {
+                $tokens[] = ['/optgroup', '', ''];
+                $pos = $ltpos + 11;
+                continue;
+            }
+
+            $taglen = \substr_compare($inner, '<optgroup', $ltpos, 9, true) === 0 ? 9 : 7;
+            if ($taglen === 7 && \substr_compare($inner, '<option', $ltpos, 7, true) !== 0) {
+                continue;
+            }
+
+            $gtpos = \strpos($inner, '>', $ltpos + $taglen);
+            if ($gtpos === false) {
+                continue;
+            }
+
+            $attrs = \substr($inner, $ltpos + $taglen, $gtpos - $ltpos - $taglen);
+            if ($taglen === 9) {
+                $tokens[] = ['optgroup', $attrs, ''];
+                $pos = $gtpos + 1;
+                continue;
+            }
+
+            if ($closepos !== false && $closepos <= $gtpos) {
+                $closepos = \stripos($inner, '</option>', $gtpos + 1);
+            }
+
+            if ($closepos === false) {
+                continue;
+            }
+
+            $tokens[] = ['option', $attrs, \substr($inner, $gtpos + 1, $closepos - $gtpos - 1)];
+            $pos = $closepos + 9;
+        }
+
+        return $tokens;
+    }
+
+    /**
+     * Value of an attribute in the attribute string of an HTML tag.
+     *
+     * Double-quoted, single-quoted and unquoted values are tried in this order.
+     *
+     * @param string $attrs Attribute string of the tag.
+     * @param string $name  Attribute name.
+     *
+     * @return string|null Attribute value, or null when the attribute is not set.
+     */
+    protected static function getHTMLTagAttributeValue(string $attrs, string $name): ?string
+    {
+        $qname = \preg_quote($name, '/');
+        foreach (['"([^"]*)"', '\'([^\']*)\'', '([^\s>]+)'] as $valpattern) {
+            $match = [];
+            if (\preg_match('/(?<!\s)\s+' . $qname . '\s*=\s*' . $valpattern . '/si', $attrs, $match) === 1) {
+                return $match[1] ?? '';
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Sanitize the HTML code for getHTMLDOM().
      *
      * @param string $html HTML code to parse.
@@ -1181,8 +1338,8 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
     protected function sanitizeHTML(string $html): string
     {
         // remove head and style blocks
-        $html = \preg_replace('/<head([^\>]*?)>(.*?)<\/head>/is', '', $html) ?? '';
-        $html = \preg_replace(self::CSS_STYLE_BLOCK_PATTERN, '', $html) ?? '';
+        $html = $this->replaceHTMLElementBlocks($html, $this->getHTMLElementBlocks($html, '<head', '</head>'));
+        $html = $this->replaceHTMLElementBlocks($html, $this->getCSSStyleBlocks($html));
         // a word break opportunity is a zero width space
         $html = \preg_replace('/<wbr\b[^>]*>/i', "\u{200B}", $html) ?? '';
         // remove all unsupported
@@ -1197,165 +1354,86 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
         // special chars
         $html = \strtr($html, self::HTML_REPLACEMENT_CHARS);
 
-        // tag: pre
-        $offset = 0;
-        while ($offset < \strlen($html) && ($pos = \strpos($html, '</pre>', $offset)) !== false) {
-            $html_a = \substr($html, 0, $offset);
-            $html_b = \substr($html, $offset, $pos - $offset + 6);
-            while (\preg_match("'<xre([^\>]*)>(.*?)\n(.*?)</pre>'si", $html_b) === 1) {
-                // preserve newlines on <pre> tag
-                $html_b =
-                    \preg_replace("'<xre([^\>]*)>(.*?)\n(.*?)</pre>'si", "<xre\\1>\\2<br />\\3</pre>", $html_b) ?? '';
-            }
-            $prespace = "'<xre([^\\>]*)>(.*?)" . self::HTML_COLLAPSIBLE_SPACE . "(.*?)</pre>'ui";
-            while (\preg_match($prespace, $html_b) === 1) {
-                // preserve spaces on <pre> tag
-                $html_b = \preg_replace($prespace, "<xre\\1>\\2" . self::HTML_KEPT_SPACE . "\\3</pre>", $html_b) ?? '';
-            }
-            $html = $html_a . $html_b . \substr($html, $pos + 6);
-            $offset = \strlen($html_a . $html_b);
-        }
+        // tag: pre (preserve newlines and spaces)
+        $html = $this->mapHTMLBlockContent($html, '<xre', '</pre>', static function (string $text): string {
+            $text = \str_replace("\n", '<br />', $text);
+            return \preg_replace('/' . self::HTML_COLLAPSIBLE_SPACE . '/u', self::HTML_KEPT_SPACE, $text) ?? $text;
+        });
 
-        // tag: textarea
-        $offset = 0;
-        while ($offset < \strlen($html) && ($pos = \strpos($html, '</textarea>', $offset)) !== false) {
-            $html_a = \substr($html, 0, $offset);
-            $html_b = \substr($html, $offset, $pos - $offset + 11);
-            while (\preg_match("'<textarea([^\>]*)>(.*?)\n(.*?)</textarea>'si", $html_b) === 1) {
-                // preserve newlines on <textarea> tag
-                $html_b =
-                    \preg_replace(
-                        "'<textarea([^\>]*)>(.*?)\n(.*?)</textarea>'si",
-                        "<textarea\\1>\\2<TBR>\\3</textarea>",
-                        $html_b,
-                    ) ?? '';
-                $html_b =
-                    \preg_replace(
-                        "'<textarea([^\>]*)>(.*?)[\"](.*?)</textarea>'si",
-                        "<textarea\\1>\\2''\\3</textarea>",
-                        $html_b,
-                    ) ?? '';
-            }
-            $html = $html_a . $html_b . \substr($html, $pos + 11);
-            $offset = \strlen($html_a . $html_b);
-        }
+        // tag: textarea (preserve newlines, replace double quotes)
+        $html = $this->mapHTMLBlockContent(
+            $html,
+            '<textarea',
+            '</textarea>',
+            static fn(string $text): string => \str_replace(["\n", '"'], ['<TBR>', "''"], $text),
+        );
 
         // tags: select / optgroup / option
-        $html =
-            \preg_replace_callback(
-                "'<select([^\>]*)>(.*?)</select>'si",
-                static function (array $selm): string {
-                    $selattrs = $selm[1] ?? '';
-                    $inner = $selm[2] ?? '';
-                    $packed = '';
-                    $groupLabel = '';
-                    $tokenPattern = '/<optgroup([^\>]*)>|<\/optgroup>|<option([^\>]*)>(.*?)<\/option>/si';
-
-                    $tokens = [];
-                    $matchCount = \preg_match_all($tokenPattern, $inner, $tokens, PREG_SET_ORDER);
-                    if ($matchCount !== false && $matchCount > 0) {
-                        foreach ($tokens as $tok) {
-                            $toktxt = $tok[0] ?? '';
-                            if ($toktxt === '') {
-                                continue;
-                            }
-
-                            if (\str_starts_with(\strtolower($toktxt), '</optgroup')) {
-                                $groupLabel = '';
-                                continue;
-                            }
-
-                            if (\str_starts_with(\strtolower($toktxt), '<optgroup')) {
-                                $gattrs = $tok[1] ?? '';
-                                $groupLabel = '';
-                                if (\preg_match('/[\s]+label[\s]*=[\s]*"([^"]*)"/si', $gattrs) === 1) {
-                                    $groupLabel =
-                                        \preg_replace('/.*?[\s]+label[\s]*=[\s]*"([^"]*)".*/si', '\\1', $gattrs) ?? '';
-                                } elseif (\preg_match('/[\s]+label[\s]*=[\s]*\'([^\']*)\'/si', $gattrs) === 1) {
-                                    $groupLabel =
-                                        \preg_replace('/.*?[\s]+label[\s]*=[\s]*\'([^\']*)\'.*/si', '\\1', $gattrs)
-                                        ?? '';
-                                } elseif (\preg_match('/[\s]+label[\s]*=[\s]*([^\s>]+)/si', $gattrs) === 1) {
-                                    $groupLabel =
-                                        \preg_replace('/.*?[\s]+label[\s]*=[\s]*([^\s>]+).*/si', '\\1', $gattrs) ?? '';
-                                }
-                                continue;
-                            }
-
-                            $oattrs = $tok[2] ?? '';
-                            $label = $tok[3] ?? '';
-                            if ($groupLabel !== '') {
-                                $label = $groupLabel . ' - ' . $label;
-                            }
-
-                            $value = '';
-                            if (\preg_match('/[\s]+value[\s]*=[\s]*"([^"]*)"/si', $oattrs) === 1) {
-                                $value = \preg_replace('/.*?[\s]+value[\s]*=[\s]*"([^"]*)".*/si', '\\1', $oattrs) ?? '';
-                            } elseif (\preg_match('/[\s]+value[\s]*=[\s]*\'([^\']*)\'/si', $oattrs) === 1) {
-                                $value =
-                                    \preg_replace('/.*?[\s]+value[\s]*=[\s]*\'([^\']*)\'.*/si', '\\1', $oattrs) ?? '';
-                            } elseif (\preg_match('/[\s]+value[\s]*=[\s]*([^\s>]+)/si', $oattrs) === 1) {
-                                $value = \preg_replace('/.*?[\s]+value[\s]*=[\s]*([^\s>]+).*/si', '\\1', $oattrs) ?? '';
-                            }
-
-                            $selPattern = '/(^|[\s])selected([\s]*=[\s]*("[^"]*"|\'[^\']*\'|[^\s>]+))?([\s]|$)/si';
-                            $selected = \preg_match($selPattern, $oattrs) === 1;
-                            $prefix = $selected ? '#!SeL!#' : '';
-
-                            if ($value !== '') {
-                                $packed .= $prefix . $value . '#!TaB!#' . $label . '#!NwL!#';
-                            } else {
-                                $packed .= $prefix . $label . '#!NwL!#';
-                            }
-                        }
+        $html = $this->replaceHTMLElementBlocks(
+            $html,
+            $this->getHTMLElementBlocks($html, '<select', '</select>'),
+            static function (array $block): string {
+                $packed = '';
+                $groupLabel = '';
+                foreach (self::getHTMLSelectTokens($block['body']) as [$toktype, $tokattrs, $label]) {
+                    if ($toktype === '/optgroup') {
+                        $groupLabel = '';
+                        continue;
                     }
 
-                    if (\str_ends_with($packed, '#!NwL!#')) {
-                        $packed = \substr($packed, 0, -7);
+                    if ($toktype === 'optgroup') {
+                        $groupLabel = self::getHTMLTagAttributeValue($tokattrs, 'label') ?? '';
+                        continue;
                     }
 
-                    return '<select' . $selattrs . ' opt="' . $packed . '" />';
-                },
-                $html,
-            ) ?? '';
+                    if ($groupLabel !== '') {
+                        $label = $groupLabel . ' - ' . $label;
+                    }
+
+                    $value = self::getHTMLTagAttributeValue($tokattrs, 'value') ?? '';
+                    $selPattern = '/(^|[\s])selected([\s]*=[\s]*("[^"]*"|\'[^\']*\'|[^\s>]+))?([\s]|$)/si';
+                    $selected = \preg_match($selPattern, $tokattrs) === 1;
+                    $prefix = $selected ? '#!SeL!#' : '';
+
+                    if ($value !== '') {
+                        $packed .= $prefix . $value . '#!TaB!#' . $label . '#!NwL!#';
+                    } else {
+                        $packed .= $prefix . $label . '#!NwL!#';
+                    }
+                }
+
+                if (\str_ends_with($packed, '#!NwL!#')) {
+                    $packed = \substr($packed, 0, -7);
+                }
+
+                return '<select' . $block['attr'] . ' opt="' . $packed . '" />';
+            },
+        );
 
         // tag: button
-        $html =
-            \preg_replace_callback(
-                "'<button([^\>]*)>(.*?)</button>'si",
-                static function (array $btnm): string {
-                    $btnattrs = $btnm[1] ?? '';
-                    $content = $btnm[2] ?? '';
-                    $caption = \trim(\strip_tags($content));
+        $html = $this->replaceHTMLElementBlocks(
+            $html,
+            $this->getHTMLElementBlocks($html, '<button', '</button>'),
+            static function (array $block): string {
+                $caption = \trim(\strip_tags($block['body']));
 
+                $type = \strtolower(\trim(self::getHTMLTagAttributeValue($block['attr'], 'type') ?? 'button'));
+                if (!\in_array($type, ['button', 'submit', 'reset'], true)) {
                     $type = 'button';
-                    if (\preg_match('/[\s]+type[\s]*=[\s]*"([^"]*)"/si', $btnattrs) === 1) {
-                        $type = \strtolower(\trim(
-                            \preg_replace('/.*?[\s]+type[\s]*=[\s]*"([^"]*)".*/si', '\\1', $btnattrs) ?? '',
-                        ));
-                    } elseif (\preg_match('/[\s]+type[\s]*=[\s]*\'([^\']*)\'/si', $btnattrs) === 1) {
-                        $type = \strtolower(\trim(
-                            \preg_replace('/.*?[\s]+type[\s]*=[\s]*\'([^\']*)\'.*/si', '\\1', $btnattrs) ?? '',
-                        ));
-                    } elseif (\preg_match('/[\s]+type[\s]*=[\s]*([^\s>]+)/si', $btnattrs) === 1) {
-                        $type = \strtolower(\trim(
-                            \preg_replace('/.*?[\s]+type[\s]*=[\s]*([^\s>]+).*/si', '\\1', $btnattrs) ?? '',
-                        ));
-                    }
-                    if (!\in_array($type, ['button', 'submit', 'reset'], true)) {
-                        $type = 'button';
-                    }
+                }
 
-                    // Keep all original attributes except type/value, then inject normalized ones.
-                    $btnattrs =
-                        \preg_replace('/[\s]+(?:type|value)[\s]*=[\s]*(?:"[^"]*"|\'[^\']*\'|[^\s>]+)/si', '', $btnattrs)
-                        ?? $btnattrs;
+                // Keep all original attributes except type/value, then inject normalized ones.
+                $btnattrs =
+                    \preg_replace(
+                        '/(?<!\s)[\s]+(?:type|value)[\s]*=[\s]*(?:"[^"]*"|\'[^\']*\'|[^\s>]+)/si',
+                        '',
+                        $block['attr'],
+                    ) ?? $block['attr'];
 
-                    $safeCaption = \str_replace('"', '&quot;', $caption);
-                    return '<button' . $btnattrs . ' type="' . $type . '" value="' . $safeCaption . '" />';
-                },
-                $html,
-            ) ?? '';
+                $safeCaption = \str_replace('"', '&quot;', $caption);
+                return '<button' . $btnattrs . ' type="' . $type . '" value="' . $safeCaption . '" />';
+            },
+        );
 
         // newlines
         $html = \str_replace("\n", ' ', $html);
@@ -1363,17 +1441,18 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
         $html = \str_replace('<TBR>', "\n", $html);
 
         // remove extra spaces
-        $html = \preg_replace('/[\s]+<\/(table|tr|ul|ol|dl)>/', '</\\1>', $html) ?? '';
-        $html = \preg_replace('/' . self::HTML_COLLAPSIBLE_SPACE . '+<\/(td|th|li|dt|dd)>/u', '</\\1>', $html) ?? '';
-        $html = \preg_replace('/[\s]+<(tr|td|th|li|dt|dd)/', '<\\1', $html) ?? '';
-        $html = \preg_replace('/' . self::HTML_COLLAPSIBLE_SPACE . '+<(ul|ol|dl|br)/u', '<\\1', $html) ?? '';
+        $spacerun = '(?<!' . self::HTML_COLLAPSIBLE_SPACE . ')' . self::HTML_COLLAPSIBLE_SPACE . '+';
+        $html = \preg_replace('/(?<!\s)[\s]+<\/(table|tr|ul|ol|dl)>/', '</\\1>', $html) ?? '';
+        $html = \preg_replace('/' . $spacerun . '<\/(td|th|li|dt|dd)>/u', '</\\1>', $html) ?? '';
+        $html = \preg_replace('/(?<!\s)[\s]+<(tr|td|th|li|dt|dd)/', '<\\1', $html) ?? '';
+        $html = \preg_replace('/' . $spacerun . '<(ul|ol|dl|br)/u', '<\\1', $html) ?? '';
         $html =
             \preg_replace(
                 '/<\/(table|tr|td|th|blockquote|dd|dt|dl|div|h1|h2|h3|h4|h5|h6|hr|li|ol|ul|p)>[\s]+</',
                 '</\\1><',
                 $html,
             ) ?? '';
-        $html = \preg_replace('/' . self::HTML_COLLAPSIBLE_SPACE . '+<img/u', chr(32) . '<img', $html) ?? '';
+        $html = \preg_replace('/' . $spacerun . '<img/u', chr(32) . '<img', $html) ?? '';
         $html = \preg_replace('/<img([^\>]*)>[\s]+([^\<])/xi', '<img\\1>' . self::HTML_KEPT_SPACE . '\\2', $html) ?? '';
         // restore pre tag
         $html = \preg_replace('/<xre/', '<pre', $html) ?? '';
@@ -1585,6 +1664,10 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
                 return $dom;
             }
 
+            if (\stripos($html, '<tcpdf') !== false) {
+                $elm = $this->expandHTMLTcpdfObjectTags($elm);
+            }
+
             $maxel = \count($elm);
             $elkey = 0;
             $key = 1;
@@ -1649,12 +1732,72 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
 
             $this->collapseHTMLDOMInlineSpaces($dom);
             $this->shareHTMLDOMArrays($dom);
+            $this->setHTMLDOMClosingKeys($dom);
             $this->htmlDOMViewCache = [];
 
             return $dom;
         } finally {
             $this->htmlDOMChildKeys = $prevChildKeys;
             $this->htmlDOMBorderStyles = $prevBorderStyles;
+        }
+    }
+
+    /**
+     * Store in each opening tag node the key of its matching closing tag node.
+     *
+     * A closing tag matches the nearest unmatched opening tag with the same name
+     * ('closekey'). The 'table' and 'tablehead' tags are also matched as one name
+     * ('tableclosekey'). An unmatched opening tag stores its own key.
+     *
+     * @param array<int, THTMLDOMNode> $dom
+     */
+    protected function setHTMLDOMClosingKeys(array &$dom): void
+    {
+        /** @var array<string, list<int>> $open */
+        $open = [];
+        /** @var list<int> $opentable */
+        $opentable = [];
+        /** @var array<int, int> $closekeys */
+        $closekeys = [];
+        /** @var array<int, int> $tablekeys */
+        $tablekeys = [];
+        $numel = \count($dom);
+        for ($key = 0; $key < $numel; ++$key) {
+            if (!isset($dom[$key]) || !$dom[$key]['tag'] || $dom[$key]['value'] === '') {
+                continue;
+            }
+
+            $tag = $dom[$key]['value'];
+            $istable = $tag === 'table' || $tag === 'tablehead';
+            if ($dom[$key]['opening']) {
+                $open[$tag][] = $key;
+                $closekeys[$key] = $key;
+                if ($istable) {
+                    $opentable[] = $key;
+                    $tablekeys[$key] = $key;
+                }
+
+                continue;
+            }
+
+            if (isset($open[$tag]) && $open[$tag] !== []) {
+                $closekeys[\array_pop($open[$tag])] = $key;
+            }
+
+            if ($istable && $opentable !== []) {
+                $tablekeys[\array_pop($opentable)] = $key;
+            }
+        }
+
+        foreach ($closekeys as $start => $closekey) {
+            if (isset($dom[$start]['slim'])) {
+                continue;
+            }
+
+            $dom[$start]['closekey'] = $closekey;
+            if (isset($tablekeys[$start])) {
+                $dom[$start]['tableclosekey'] = $tablekeys[$start];
+            }
         }
     }
 
@@ -2443,6 +2586,46 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
     }
 
     /**
+     * Parse the attributes of a tag (the tag text without the angle brackets).
+     *
+     * Values may be quoted or unquoted; valueless boolean attributes (e.g. readonly,
+     * required, disabled) are set to "true". Character references are decoded in
+     * every value except href, which is decoded when the link annotation is written.
+     *
+     * @param string $element Tag text without the angle brackets.
+     * @param string $tagname Lowercase tag name (not parsed as an attribute).
+     *
+     * @return array<string, string>
+     */
+    protected function parseHTMLTagAttributeValues(string $element, string $tagname): array
+    {
+        $attributes = [];
+        $attr_array = [];
+        \preg_match_all(
+            '/([a-zA-Z_:][a-zA-Z0-9_:\-\.]*)\s*(?:=\s*(?:"([^"]*)"|\'([^\']*)\'|([^\s"\'`=<>]+)))?/',
+            $element,
+            $attr_array,
+            PREG_SET_ORDER | PREG_UNMATCHED_AS_NULL,
+        );
+        foreach ($attr_array as $attrm) {
+            $name = isset($attrm[1]) ? \strtolower($attrm[1]) : '';
+            if ($name === '' || $tagname !== '' && $name === $tagname) {
+                continue;
+            }
+
+            // An unmatched value group is null, so an empty quoted value stays empty.
+            $value = $attrm[2] ?? $attrm[3] ?? $attrm[4] ?? 'true';
+            if ($name !== 'href') {
+                $value = \html_entity_decode($value, ENT_QUOTES, $this->encoding);
+            }
+
+            $attributes[$name] = $value;
+        }
+
+        return $attributes;
+    }
+
+    /**
      * Process HTML DOM Opening Tag.
      *
      * @param array<int, THTMLDOMNode> $dom
@@ -2482,34 +2665,10 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
             $this->inheritHTMLProperties($dom, $key, $parentkey);
         }
 
-        // Parse attributes allowing quoted/unquoted values and valueless boolean attributes.
-        // Boolean attributes (e.g. readonly, required, disabled) are normalized to "true".
         $dom[$key]['attribute'] = [];
         $tagname = $dom[$key]['value'];
-        $attr_array = [];
-        $attrCount = \preg_match_all(
-            '/([a-zA-Z_:][a-zA-Z0-9_:\-\.]*)\s*(?:=\s*(?:"([^"]*)"|\'([^\']*)\'|([^\s"\'`=<>]+)))?/',
-            $element,
-            $attr_array,
-            PREG_SET_ORDER | PREG_UNMATCHED_AS_NULL,
-        );
-        if ($attrCount !== false && $attrCount > 0) {
-            foreach ($attr_array as $attrm) {
-                $name = isset($attrm[1]) ? \strtolower($attrm[1]) : '';
-                if ($name === '' || $tagname !== '' && $name === $tagname) {
-                    continue;
-                }
-
-                // An unmatched value group is null, so an empty quoted value stays empty.
-                $value = $attrm[2] ?? $attrm[3] ?? $attrm[4] ?? 'true';
-                if ($name !== 'href') {
-                    // Character references are decoded once; a link target is decoded
-                    // when the link annotation is written.
-                    $value = \html_entity_decode($value, ENT_QUOTES, $this->encoding);
-                }
-
-                $dom[$key]['attribute'][$name] = $value;
-            }
+        foreach ($this->parseHTMLTagAttributeValues($element, $tagname) as $name => $value) {
+            $dom[$key]['attribute'][$name] = $value;
         }
 
         // Keep the author-provided inline style separate from merged CSS so
@@ -3716,6 +3875,58 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
     }
 
     /**
+     * Split a CSS value into space separated tokens.
+     *
+     * A parenthesized group runs to the next ')' and is part of the token that
+     * contains it. A '(' without a following ')' separates tokens.
+     *
+     * @param string $value CSS value.
+     *
+     * @return list<string>
+     */
+    protected function getHTMLStyleValueTokens(string $value): array
+    {
+        $tokens = [];
+        $token = '';
+        $len = \strlen($value);
+        $pos = 0;
+        $closepos = -1;
+        while ($pos < $len) {
+            $run = \strcspn($value, " \t\n\x0B\f\r(", $pos);
+            if ($run > 0) {
+                $token .= \substr($value, $pos, $run);
+                $pos += $run;
+                continue;
+            }
+
+            if ($value[$pos] === '(') {
+                if ($closepos !== false && $closepos < $pos) {
+                    $closepos = \strpos($value, ')', $pos);
+                }
+
+                if ($closepos !== false) {
+                    $token .= \substr($value, $pos, $closepos - $pos + 1);
+                    $pos = $closepos + 1;
+                    continue;
+                }
+            }
+
+            if ($token !== '') {
+                $tokens[] = $token;
+                $token = '';
+            }
+
+            ++$pos;
+        }
+
+        if ($token !== '') {
+            $tokens[] = $token;
+        }
+
+        return $tokens;
+    }
+
+    /**
      * Drop the length declarations that hold a value the length parsers cannot read.
      *
      * Each space separated value must contain a digit or be a keyword the property
@@ -3741,9 +3952,7 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
                 continue;
             }
 
-            $tokens = [];
-            \preg_match_all('/(?:[^\s(]+|\([^)]*\))+/', $value, $tokens);
-            $values = $tokens[0] ?? [];
+            $values = $this->getHTMLStyleValueTokens($value);
             $valid = $values !== [] && \count($values) <= $rule[1];
             foreach ($values as $token) {
                 $valid = $valid && (\preg_match('/\d/', $token) === 1 || \in_array($token, $rule[0], true));
@@ -4052,7 +4261,7 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
         $pattern =
             '/^(.+?\s)?'
             . '(xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger|'
-            . '[0-9]*\.?[0-9]+(?:px|pt|pc|mm|cm|in|em|rem|ex|%))'
+            . '(?:[0-9]*+\.)?[0-9]++(?:px|pt|pc|mm|cm|in|em|rem|ex|%))'
             . '(?:\s*\/\s*([^\s]+))?\s+(.+)$/i';
         if (\preg_match($pattern, $font, $matches) !== 1) {
             return;
@@ -8399,7 +8608,13 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
         }
 
         $savedDom = $hrc['dom'];
+        $savedAncestorCache = $hrc['ancestorcache'] ?? [];
+        $savedLabelForCache = $hrc['labelforcache'] ?? null;
         $hrc['dom'] = $dom;
+        $hrc['ancestorcache'] = [];
+        $savedInheritCache = $hrc['inheritcache'] ?? [];
+        $hrc['inheritcache'] = [];
+        unset($hrc['labelforcache']);
 
         foreach (\array_keys($dom) as $key) {
             $elm = $this->getHTMLDOMNode($dom, $key);
@@ -8451,6 +8666,12 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
         }
 
         $hrc['dom'] = $savedDom;
+        $hrc['ancestorcache'] = $savedAncestorCache;
+        $hrc['inheritcache'] = $savedInheritCache;
+        unset($hrc['labelforcache']);
+        if ($savedLabelForCache !== null) {
+            $hrc['labelforcache'] = $savedLabelForCache;
+        }
         $this->restoreHTMLCallerFontState($callerfont);
 
         return $height;
@@ -8656,11 +8877,13 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
         $savedPdfuaMode = $this->suspendPdfUaTagging();
         $savedSinglePage = $this->htmlSinglePage;
         $this->htmlSinglePage = true;
+        ++$this->htmlDiscardDepth;
         try {
             $this->renderHTMLCellFragments($hrc, $tpx, $tpy, $tpw, $tph, static function (string $fragment): void {
                 unset($fragment);
             });
         } finally {
+            --$this->htmlDiscardDepth;
             $this->htmlSinglePage = $savedSinglePage;
             $this->resumePdfUaTagging($savedPdfuaMode);
         }
@@ -8745,7 +8968,13 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
         $this->selectHTMLTableCaptionFont($hrc, $tablekey, $callerfont['family'], $callerfont['size']);
         $dom = $this->getHTMLDOM($caption);
         $savedDom = $hrc['dom'];
+        $savedAncestorCache = $hrc['ancestorcache'] ?? [];
+        $savedLabelForCache = $hrc['labelforcache'] ?? null;
         $hrc['dom'] = $dom;
+        $hrc['ancestorcache'] = [];
+        $savedInheritCache = $hrc['inheritcache'] ?? [];
+        $hrc['inheritcache'] = [];
+        unset($hrc['labelforcache']);
 
         $height = 0.0;
         foreach (\array_keys($dom) as $key) {
@@ -8773,6 +9002,12 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
         }
 
         $hrc['dom'] = $savedDom;
+        $hrc['ancestorcache'] = $savedAncestorCache;
+        $hrc['inheritcache'] = $savedInheritCache;
+        unset($hrc['labelforcache']);
+        if ($savedLabelForCache !== null) {
+            $hrc['labelforcache'] = $savedLabelForCache;
+        }
         $this->restoreHTMLCallerFontState($callerfont);
 
         return $height;
@@ -8952,6 +9187,16 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
                 }
 
                 if ($elm['opening'] && $elm['value'] === 'tr') {
+                    if ($depth === 0 && isset($elm['closekey'])) {
+                        // skip a nested row; nothing after an unmatched one is counted
+                        if ($elm['closekey'] <= $key) {
+                            break;
+                        }
+
+                        $key = $elm['closekey'];
+                        continue;
+                    }
+
                     ++$depth;
                     continue;
                 }
@@ -9289,6 +9534,10 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
         $node = $dom[$startkey] ?? null;
         if ($node === null || !$node['tag'] || !$node['opening'] || $node['value'] === '') {
             return $startkey;
+        }
+
+        if (isset($node['closekey'])) {
+            return $node['closekey'];
         }
 
         $tag = $node['value'];
@@ -12213,10 +12462,38 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
             return '';
         }
 
-        $tokens = \preg_split('/\s+(?![^()]*\))/u', $background);
-        if ($tokens === false) {
+        // split at the whitespace runs that are not inside parentheses
+        $parts = \preg_split('/(\s+)/u', $background, -1, PREG_SPLIT_DELIM_CAPTURE);
+        if ($parts === false) {
             return '';
         }
+
+        $tokens = [];
+        $token = '';
+        $len = \strlen($background);
+        $pos = 0;
+        $parenpos = -1;
+        foreach ($parts as $idx => $part) {
+            $pos += \strlen($part);
+            if (($idx % 2) === 0) {
+                $token .= $part;
+                continue;
+            }
+
+            if ($parenpos < $pos) {
+                $parenpos = $pos + \strcspn($background, '()', $pos);
+            }
+
+            if ($parenpos < $len && $background[$parenpos] === ')') {
+                $token .= $part;
+                continue;
+            }
+
+            $tokens[] = $token;
+            $token = '';
+        }
+
+        $tokens[] = $token;
 
         foreach ($tokens as $token) {
             $token = \trim($token);
@@ -12522,18 +12799,29 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
      * Returns the value of an inherited text property of the element or of its closest
      * ancestor that sets it, or 'normal'.
      *
+     * The result for each visited node is stored in $hrc['inheritcache'].
+     *
      * @param THTMLRenderContext $hrc HTML render context.
      * @param string $prop Property name: 'word-break' or 'overflow-wrap'.
      */
     protected function getHTMLInheritedTextProperty(array &$hrc, int $key, string $prop): string
     {
         $current = $key;
+        $visited = [];
+        $result = 'normal';
         while ($current >= 0 && isset($hrc['dom'][$current])) {
+            if (isset($hrc['inheritcache'][$prop][$current])) {
+                $result = $hrc['inheritcache'][$prop][$current];
+                break;
+            }
+
+            $visited[] = $current;
             $value = $prop === 'word-break'
                 ? $hrc['dom'][$current]['word-break'] ?? ''
                 : $hrc['dom'][$current]['overflow-wrap'] ?? '';
             if ($value !== '') {
-                return \strtolower($value);
+                $result = \strtolower($value);
+                break;
             }
 
             $parent = $hrc['dom'][$current]['parent'];
@@ -12544,7 +12832,11 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
             $current = $parent;
         }
 
-        return 'normal';
+        foreach ($visited as $node) {
+            $hrc['inheritcache'][$prop][$node] = $result;
+        }
+
+        return $result;
     }
 
     /**
@@ -15560,7 +15852,7 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
 
         // the prolog is read from the head of the document only
         return (
-            \preg_match('/^(?:\s+|<\?.*?\?>|<!--.*?-->|<!DOCTYPE[^>\[]*(?:\[.*?\])?\s*>)*<(?:[A-Za-z_][\w.\-]*:)?svg[\s\/>]/is', \substr(
+            \preg_match('/^(?:\s++|<\?.*?\?>|<!--.*?-->|<!DOCTYPE[^>\[]*(?:\[.*?\])?\s*>)*<(?:[A-Za-z_][\w.\-]*:)?svg[\s\/>]/is', \substr(
                 $data,
                 0,
                 65_536,
@@ -15575,6 +15867,10 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
      */
     protected function resolveHTMLImageSource(string $src): string
     {
+        if (\str_starts_with($src, 'tcpdfobj:')) {
+            return $src;
+        }
+
         $datauri = $this->decodeHTMLDataUri($src);
         if ($datauri !== null) {
             return '@' . $datauri['data'];
@@ -15614,6 +15910,11 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
      */
     protected function getHTMLImageIntrinsicDimensions(string $src): ?array
     {
+        if (\str_starts_with($src, 'tcpdfobj:')) {
+            $obj = $this->htmlTcpdfObjects[$src] ?? null;
+            return $obj === null ? null : ['width' => $obj['width'], 'height' => $obj['height']];
+        }
+
         $cached = $this->htmlImageIntrinsicSizeCache[$src] ?? null;
         if (\is_array($cached)) {
             return $cached;
@@ -15836,6 +16137,15 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
         float $width,
         float $height,
     ): string {
+        if (\str_starts_with($src, 'tcpdfobj:')) {
+            $obj = $this->htmlTcpdfObjects[$src] ?? null;
+            if ($obj === null) {
+                throw new PdfException('Unknown TCPDF tag object');
+            }
+
+            return $this->getXObjectTemplate($obj['tid'], $imagex, $imagey, $width, $height);
+        }
+
         $pageheight = $this->page->getPage()['height'];
         if ($this->isHTMLSvgImageSource($src)) {
             $svgid = $this->addSVG($src, $imagex, $imagey, $width, $height, $pageheight, true);
@@ -16484,6 +16794,8 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
     /**
      * Find the nearest opening ancestor tag with the given name.
      *
+     * The result for each visited node is stored in $hrc['ancestorcache'].
+     *
      * @param THTMLRenderContext $hrc HTML render context.
      * @param string $tagname Lowercase HTML tag name.
      *
@@ -16497,22 +16809,38 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
 
         $parent = $hrc['dom'][$key]['parent'];
         $visited = [];
+        $found = -1;
 
         while ($parent >= 0 && isset($hrc['dom'][$parent])) {
+            if (isset($hrc['ancestorcache'][$tagname][$parent])) {
+                $found = $hrc['ancestorcache'][$tagname][$parent];
+                break;
+            }
+
             if (isset($visited[$parent])) {
-                return -1;
+                break;
             }
             $visited[$parent] = true;
 
             $ancestor = $hrc['dom'][$parent];
             if ($ancestor['tag'] && $ancestor['opening'] && $ancestor['value'] === $tagname) {
-                return $parent;
+                $found = $parent;
+                break;
             }
 
             $parent = $ancestor['parent'];
         }
 
-        return -1;
+        // each visited node has the same nearest matching node, itself included
+        foreach (\array_keys($visited) as $node) {
+            $hrc['ancestorcache'][$tagname][$node] = $found;
+        }
+
+        if ($found >= 0) {
+            $hrc['ancestorcache'][$tagname][$found] = $found;
+        }
+
+        return $found;
     }
 
     /**
@@ -16863,23 +17191,11 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
             : '';
 
         if ($controlid !== '') {
-            foreach ($hrc['dom'] as $lkey => $lnode) {
-                if (!$lnode['tag'] || !$lnode['opening'] || $lnode['value'] === '' || $lnode['value'] !== 'label') {
-                    continue;
-                }
+            if (!isset($hrc['labelforcache'])) {
+                $hrc['labelforcache'] = $this->getHTMLLabelForKeys($hrc['dom']);
+            }
 
-                $node = $this->getHTMLDOMNode($hrc['dom'], $lkey);
-                if ($node === null) {
-                    continue;
-                }
-
-                $target = isset($node['attribute']['for']) && \is_string($node['attribute']['for'])
-                    ? \trim($node['attribute']['for'])
-                    : '';
-                if ($target !== $controlid) {
-                    continue;
-                }
-
+            foreach ($hrc['labelforcache'][$controlid] ?? [] as $lkey) {
                 $label = $this->getHTMLNodeTextContent($hrc['dom'], $lkey);
                 if ($label !== '') {
                     return $label;
@@ -16893,6 +17209,37 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
         }
 
         return $this->getHTMLNodeTextContent($hrc['dom'], $labelkey);
+    }
+
+    /**
+     * Map each non-empty 'for' attribute value of the <label> elements to their DOM keys.
+     *
+     * @param array<int, THTMLDOMNode> $dom DOM array.
+     *
+     * @return array<string, list<int>>
+     */
+    protected function getHTMLLabelForKeys(array $dom): array
+    {
+        $keys = [];
+        foreach ($dom as $lkey => $lnode) {
+            if (!$lnode['tag'] || !$lnode['opening'] || $lnode['value'] !== 'label') {
+                continue;
+            }
+
+            $node = $this->getHTMLDOMNode($dom, $lkey);
+            if ($node === null) {
+                continue;
+            }
+
+            $target = isset($node['attribute']['for']) && \is_string($node['attribute']['for'])
+                ? \trim($node['attribute']['for'])
+                : '';
+            if ($target !== '') {
+                $keys[$target][] = $lkey;
+            }
+        }
+
+        return $keys;
     }
 
     /**
@@ -17275,6 +17622,16 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
 
             // Track nested table depth so we don't accidentally read inner cells.
             if ($elm !== null && $val === 'table') {
+                if ($depth === 0 && isset($raw['closekey'])) {
+                    // skip a nested table; nothing after an unmatched one is counted
+                    if ($raw['closekey'] <= $key) {
+                        break;
+                    }
+
+                    $key = $raw['closekey'];
+                    continue;
+                }
+
                 ++$depth;
                 continue;
             }
@@ -17486,6 +17843,16 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
             $val = $elm['value'];
             if ($val === 'table' || $val === 'tablehead') {
                 if ($elm['opening']) {
+                    if ($depth === 0 && isset($elm['tableclosekey'])) {
+                        // skip a nested table; nothing after an unmatched one is counted
+                        if ($elm['tableclosekey'] <= $key) {
+                            break;
+                        }
+
+                        $key = $elm['tableclosekey'];
+                        continue;
+                    }
+
                     ++$depth;
                     continue;
                 }
@@ -17791,6 +18158,16 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
             $val = $elm['value'];
             if ($val === 'table' || $val === 'tablehead') {
                 if ($elm['opening']) {
+                    if ($depth === 0 && isset($elm['tableclosekey'])) {
+                        // skip a nested table; nothing after an unmatched one is counted
+                        if ($elm['tableclosekey'] <= $key) {
+                            break;
+                        }
+
+                        $key = $elm['tableclosekey'];
+                        continue;
+                    }
+
                     ++$depth;
                     continue;
                 }
@@ -18180,7 +18557,7 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
         $parts = [];
         if (
             \preg_match_all(
-                '/"(?:[^"\\\\]|\\\\.)*"|\'(?:[^\'\\\\]|\\\\.)*\'|\\b(?:open-quote|close-quote|no-open-quote|no-close-quote)\\b/i',
+                '/"(?:[^"\\\\]++|\\\\.)*+"|\'(?:[^\'\\\\]++|\\\\.)*+\'|\\b(?:open-quote|close-quote|no-open-quote|no-close-quote)\\b/i',
                 $value,
                 $parts,
             ) === false
@@ -18234,7 +18611,9 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
         }
 
         $parts = [];
-        if (\preg_match_all('/"(?:[^"\\\\]|\\\\.)*"|\'(?:[^\'\\\\]|\\\\.)*\'/', $elm['quotes'], $parts) === false) {
+        if (
+            \preg_match_all('/"(?:[^"\\\\]++|\\\\.)*+"|\'(?:[^\'\\\\]++|\\\\.)*+\'/', $elm['quotes'], $parts) === false
+        ) {
             return $auto;
         }
 
@@ -23682,10 +24061,45 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
     }
 
     /**
+     * Serialize a method call for a TCPDF tag (<tcpdf data="..." />).
+     *
+     * The payload is signed with a random key of this instance: only payloads
+     * created by the same instance are accepted when the HTML is rendered.
+     *
+     * Format: <hlen>+<hmac>+<urlencoded-json>, where the JSON is {'m': method, 'p': params}.
+     *
+     * @param string $method Method name.
+     * @param array<array-key, mixed> $params Method parameters.
+     *
+     * @return string Serialized data, or an empty string if the parameters cannot be encoded.
+     */
+    public function serializeHTMLTcpdfTag(string $method, array $params = []): string
+    {
+        $json = \json_encode(['m' => $method, 'p' => $params]);
+        if ($json === false) {
+            return '';
+        }
+
+        $encoded = \urlencode($json);
+        $hash = $this->getHTMLTcpdfTagHash($encoded);
+
+        return \strlen($hash) . '+' . $hash . '+' . $encoded;
+    }
+
+    /**
+     * Returns the HMAC of an encoded TCPDF tag payload.
+     */
+    protected function getHTMLTcpdfTagHash(string $encoded): string
+    {
+        return \hash_hmac('sha256', $encoded, $this->htmlTcpdfTagKey);
+    }
+
+    /**
      * Parse serialized TCPDF tag data payload.
      *
-     * Supported format: <hlen>+<hash>+<urlencoded-json>
-     * where JSON decodes to: {'m': string, 'p': array}
+     * Supported format: <hlen>+<hmac>+<urlencoded-json>
+     * where JSON decodes to: {'m': string, 'p': array}.
+     * Returns null when the HMAC does not match (see serializeHTMLTcpdfTag()).
      *
      * @return ?array{m: string, p: array<int, mixed>}
      */
@@ -23697,12 +24111,13 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
         }
 
         $hlen = (int) \substr($data, 0, $hpos);
-        if ($hlen <= 0) {
+        if ($hlen <= 0 || ($data[$hpos + 1 + $hlen] ?? '') !== '+') {
             return null;
         }
 
+        $hash = \substr($data, $hpos + 1, $hlen);
         $encoded = \substr($data, $hpos + 2 + $hlen);
-        if ($encoded === '') {
+        if ($encoded === '' || !\hash_equals($this->getHTMLTcpdfTagHash($encoded), $hash)) {
             return null;
         }
 
@@ -23735,6 +24150,167 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
         }
 
         return \in_array(\strtolower($method), ['pagebreak', 'addpage'], true);
+    }
+
+    /**
+     * Returns the object drawn by a TCPDF tag method, or null to run the method
+     * as a call at the tag position (see runHTMLTcpdfTagCall()).
+     *
+     * An object is a form XObject template (see newXObjectTemplate()) laid out
+     * as an image box of the given size. The display is 'block' or 'inline';
+     * valign is 'top', 'middle' or 'bottom' (inline boxes); halign is '', 'L',
+     * 'C' or 'R' (block boxes, '' follows the text alignment).
+     * Called once per payload; the returned object is reused.
+     *
+     * @param string $method Method name.
+     * @param array<int, mixed> $params Method parameters.
+     *
+     * @return ?THTMLTcpdfObject
+     */
+    protected function getHTMLTcpdfTagObject(string $method, array $params): ?array
+    {
+        unset($method, $params);
+        return null;
+    }
+
+    /**
+     * Runs the method of a TCPDF tag that draws no object and returns the PDF
+     * code to add at the tag position.
+     *
+     * Not called by render passes whose output is discarded.
+     *
+     * @param string $method Method name.
+     * @param array<int, mixed> $params Method parameters.
+     * @param float $posx Abscissa of the tag position.
+     * @param float $posy Ordinate of the tag position.
+     *
+     * @return string PDF code.
+     */
+    protected function runHTMLTcpdfTagCall(string $method, array $params, float $posx, float $posy): string
+    {
+        unset($posx, $posy);
+        /** @var callable $callback */
+        $callback = [$this, $method];
+        \call_user_func_array($callback, $params);
+
+        return '';
+    }
+
+    /**
+     * Replace the TCPDF tags that draw an object with the image (and block
+     * container) tokens that lay the object out.
+     *
+     * @param array<int, string> $elm HTML tokens.
+     *
+     * @return array<int, string>
+     */
+    protected function expandHTMLTcpdfObjectTags(array $elm): array
+    {
+        $out = [];
+        foreach ($elm as $token) {
+            $next = $token[6] ?? '';
+            if (\strncasecmp($token, '<tcpdf', 6) !== 0 || !\in_array($next, [' ', "\t", "\n", "\r", '/', '>'], true)) {
+                $out[] = $token;
+                continue;
+            }
+
+            $attr = $this->parseHTMLTagAttributeValues(\substr($token, 1, -1), 'tcpdf');
+            $src = $this->getHTMLTcpdfObjectSource($attr['data'] ?? '');
+            $obj = $this->htmlTcpdfObjects[$src] ?? null;
+            if ($obj === null) {
+                $out[] = $token;
+                continue;
+            }
+
+            $img = \sprintf(
+                '<img src="%s" width="%Fpt" height="%Fpt" alt="%s"',
+                $src,
+                $this->toPoints($obj['width']),
+                $this->toPoints($obj['height']),
+                $this->escapeHTMLTcpdfAttribute($attr['alt'] ?? $obj['alt']),
+            );
+            if ($obj['display'] !== 'block') {
+                $img .= ' align="' . $obj['valign'] . '"';
+            }
+
+            foreach (['class', 'id', 'style'] as $name) {
+                if (!isset($attr[$name])) {
+                    continue;
+                }
+
+                $img .= ' ' . $name . '="' . $this->escapeHTMLTcpdfAttribute($attr[$name]) . '"';
+            }
+
+            $img .= ' />';
+            if ($obj['display'] !== 'block') {
+                $out[] = $img;
+                continue;
+            }
+
+            $align = match ($obj['halign']) {
+                'L' => ' style="text-align:left"',
+                'C' => ' style="text-align:center"',
+                'R' => ' style="text-align:right"',
+                default => '',
+            };
+            $out[] = '<div' . $align . '>';
+            $out[] = $img;
+            $out[] = '</div>';
+        }
+
+        return $out;
+    }
+
+    /**
+     * Escape a value for a double-quoted HTML attribute.
+     */
+    protected function escapeHTMLTcpdfAttribute(string $value): string
+    {
+        return \htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, $this->encoding);
+    }
+
+    /**
+     * Returns the image source of the object drawn by a TCPDF tag payload, or
+     * an empty string when the payload draws no object.
+     *
+     * The source carries an HMAC of this instance, so markup cannot refer to an
+     * object it did not create through a TCPDF tag.
+     */
+    protected function getHTMLTcpdfObjectSource(string $data): string
+    {
+        if ($data === '') {
+            return '';
+        }
+
+        if (isset($this->htmlTcpdfObjectSources[$data])) {
+            return $this->htmlTcpdfObjectSources[$data];
+        }
+
+        $this->htmlTcpdfObjectSources[$data] = '';
+        $tagdata = $this->parseHTMLTcpdfSerializedData($data);
+        if (
+            $tagdata === null
+            || \in_array(\strtolower($tagdata['m']), ['pagebreak', 'addpage'], true)
+            || !$this->isAllowedHTMLTcpdfMethod($tagdata['m'])
+        ) {
+            return '';
+        }
+
+        try {
+            $obj = $this->getHTMLTcpdfTagObject($tagdata['m'], $tagdata['p']);
+        } catch (\Throwable) {
+            return '';
+        }
+
+        if ($obj === null || $obj['tid'] === '' || $obj['width'] <= 0.0 || $obj['height'] <= 0.0) {
+            return '';
+        }
+
+        $src = 'tcpdfobj:' . $this->getHTMLTcpdfTagHash('object:' . \count($this->htmlTcpdfObjects));
+        $this->htmlTcpdfObjects[$src] = $obj;
+        $this->htmlTcpdfObjectSources[$data] = $src;
+
+        return $src;
     }
 
     /**
@@ -23797,10 +24373,10 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
         float &$tph,
     ): string {
         $elm = $this->getHTMLDOMNode($hrc['dom'], $key);
-        if ($elm === null) {
+        if ($elm === null || $this->htmlDiscardDepth > 0) {
             return '';
         }
-        unset($tpy, $tph);
+        unset($tph);
 
         // pageBreak and addPage are run before the tag is dispatched (see
         // getHTMLTcpdfPageBreakMode()).
@@ -23820,18 +24396,15 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
             return '';
         }
 
-        /** @var callable $callback */
-        $callback = [$this, $tagdata['m']];
-
         try {
-            \call_user_func_array($callback, $tagdata['p']);
+            $out = $this->runHTMLTcpdfTagCall($tagdata['m'], $tagdata['p'], $tpx, $tpy);
         } catch (\Throwable) {
             return '';
         }
 
         $this->resetHTMLLineCursor($hrc, $tpx, $tpw);
 
-        return '';
+        return $out;
     }
 
     /**
