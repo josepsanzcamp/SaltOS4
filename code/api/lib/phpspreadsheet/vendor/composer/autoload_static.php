@@ -14,6 +14,7 @@ class ComposerStaticInit1c22aaa5b7c1c460098cc882c1cd742d
         'P' =>
         array (
             'Psr\\SimpleCache\\' => 16,
+            'PhpOffice\\WMF\\' => 14,
             'PhpOffice\\PhpSpreadsheet\\' => 25,
         ),
         'M' =>
@@ -35,6 +36,10 @@ class ComposerStaticInit1c22aaa5b7c1c460098cc882c1cd742d
         'Psr\\SimpleCache\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/simple-cache/src',
+        ),
+        'PhpOffice\\WMF\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/phpoffice/wmf/src/WMF',
         ),
         'PhpOffice\\PhpSpreadsheet\\' =>
         array (
