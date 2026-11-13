@@ -206,7 +206,9 @@ function execute_query_array($query, $params = null)
 /**
  * Get Fields
  *
- * This function returns the fields of the requested table
+ * This function returns the fields of the requested table, each field
+ * contains the name, the type and the null flag (true if the field allows
+ * nulls, the primary key never allows nulls)
  *
  * @table => the table where that you want to know the fields
  */
@@ -220,14 +222,22 @@ function get_fields($table)
         if ($row['Type'] === 'int(11)') {
             $row['Type'] = 'integer';
         }
-        $fields[] = ['name' => $row['Field'], 'type' => strtoupper($row['Type'])];
+        $fields[] = [
+            'name' => $row['Field'],
+            'type' => strtoupper($row['Type']),
+            'null' => strtoupper($row['Null']) === 'YES',
+        ];
     }
     db_free($result);
     // FOR SQLITE
     $query = "/*SQLITE PRAGMA TABLE_INFO($table) */";
     $result = db_query($query);
     while ($row = db_fetch_row($result)) {
-        $fields[] = ['name' => $row['name'], 'type' => strtoupper($row['type'])];
+        $fields[] = [
+            'name' => $row['name'],
+            'type' => strtoupper($row['type']),
+            'null' => !$row['notnull'] && !$row['pk'],
+        ];
     }
     db_free($result);
     return $fields;
@@ -417,6 +427,10 @@ function make_insert_query($table, $array)
     [$names, $values] = __prepare_helper_query($table, $array);
     $names = implode(',', $names);
     foreach ($values as $key => $val) {
+        if ($val === null) {
+            $values[$key] = 'NULL';
+            continue;
+        }
         // this is needed because prepared statements
         // does not require to escape special chars
         $val = db_escape(strval($val));
@@ -457,6 +471,10 @@ function make_update_query($table, $array, $where)
     [$names, $values] = __prepare_helper_query($table, $array);
     $temp = array_combine($names, $values);
     foreach ($temp as $key => $val) {
+        if ($val === null) {
+            $temp[$key] = "$key=NULL";
+            continue;
+        }
         // this is needed because prepared statements
         // does not require to escape special chars
         $val = db_escape(strval($val));
@@ -489,6 +507,9 @@ function make_update_query($table, $array, $where)
  */
 function make_where_query($table, $array)
 {
+    if (in_array(null, $array, true)) {
+        show_php_error(['phperror' => 'Null value in the where']);
+    }
     [$names, $values] = __prepare_helper_query($table, $array);
     $temp = array_combine($names, $values);
     foreach ($temp as $key => $val) {
@@ -741,6 +762,12 @@ function make_fulltext_query($values, $app, $args = [])
  *
  * @table => the table where to you want to use the data
  * @array => the array that contains the data
+ *
+ * Notes:
+ *
+ * The null values are stored as null if the field allows nulls, otherwise
+ * the default value defined in the dbschema is used, and if the field not
+ * define a default value, an error will be triggered
  */
 function __prepare_helper_query($table, $array)
 {
@@ -753,6 +780,19 @@ function __prepare_helper_query($table, $array)
             continue;
         }
         $names[] = escape_reserved_word($name);
+        if ($array[$name] === null) {
+            if ($field['null']) {
+                $values[] = null;
+                unset($array[$name]);
+                continue;
+            }
+            require_once 'php/lib/dbschema.php';
+            $defaults = get_defaults_from_dbschema($table);
+            if (!isset($defaults[$name])) {
+                show_php_error(['phperror' => "Null value for the not null field '$name'"]);
+            }
+            $array[$name] = $defaults[$name];
+        }
         $type = $field['type'];
         $type2 = get_field_type($type);
         if ($type2 === 'int') {
@@ -842,6 +882,9 @@ function prepare_update_query($table, $array, $where = [])
  */
 function prepare_where_query($table, $array)
 {
+    if (in_array(null, $array, true)) {
+        show_php_error(['phperror' => 'Null value in the where']);
+    }
     [$names, $values] = __prepare_helper_query($table, $array);
     $temp = [];
     foreach ($names as $name) {

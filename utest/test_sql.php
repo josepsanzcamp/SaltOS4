@@ -78,6 +78,36 @@ final class test_sql extends TestCase
         $this->assertSame($query, "UPDATE app_customers SET name='The SaltOS project'," .
             "city='Barcelona',zip='08001',code='12345678X' WHERE (id='1')");
 
+        // Insert and update with nulls
+        $query = make_insert_query('app_customers', [
+            'active' => null,
+            'name' => 'The SaltOS project',
+            'city' => null,
+        ]);
+        $this->assertSame($query, 'INSERT INTO app_customers(active,name,city) ' .
+            "VALUES('0','The SaltOS project',NULL)");
+
+        $query = make_update_query('app_customers', [
+            'active' => null,
+            'city' => null,
+        ], [
+            'id' => 1,
+        ]);
+        $this->assertSame($query, "UPDATE app_customers SET active='0',city=NULL WHERE (id='1')");
+
+        $query = prepare_insert_query('app_emails_accounts', [
+            'protocol' => null,
+            'pop3_host' => null,
+            'pop3_delete' => null,
+            'pop3_days' => null,
+            'imap_append_sent' => null,
+        ]);
+        $this->assertSame($query, [
+            'INSERT INTO app_emails_accounts(protocol,pop3_host,pop3_delete,pop3_days,imap_append_sent) ' .
+                'VALUES(?,?,?,?,?)',
+            ['pop3', null, 0, null, 1],
+        ]);
+
         // Testing normal behavior
         $query = make_where_query('app_customers', [
             'name' => 'The SaltOS project',
@@ -140,6 +170,10 @@ final class test_sql extends TestCase
         $fields = get_fields('tbl_config');
         $this->assertSame(count($fields), 4);
 
+        $fields = array_column(get_fields('tbl_users'), 'null', 'name');
+        $this->assertFalse($fields['active']);
+        $this->assertTrue($fields['login']);
+
         $fields = get_indexes('tbl_config');
         $this->assertSame(count($fields), 2);
 
@@ -149,6 +183,10 @@ final class test_sql extends TestCase
 
         $fields = get_fields('tbl_config');
         $this->assertSame(count($fields), 4);
+
+        $fields = array_column(get_fields('tbl_users'), 'null', 'name');
+        $this->assertFalse($fields['active']);
+        $this->assertTrue($fields['login']);
 
         $fields = get_indexes('tbl_config');
         $this->assertSame(count($fields), 2);
@@ -198,5 +236,8 @@ final class test_sql extends TestCase
         test_external_exec('php/sql3.php', 'phperror.log', 'unknown type nada');
         test_external_exec('php/sql4.php', 'phperror.log', 'unused data nada');
         test_external_exec('php/sql5.php', 'phperror.log', 'unused data nada');
+        test_external_exec('php/sql6.php', 'phperror.log', 'null value not null field id');
+        test_external_exec('php/sql7.php', 'phperror.log', 'null value where');
+        test_external_exec('php/sql8.php', 'phperror.log', 'null value where');
     }
 }

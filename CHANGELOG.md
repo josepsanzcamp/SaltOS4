@@ -9,69 +9,68 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 ## [Unreleased]
 
 ### Upgrade notes
-- The web server protection no longer depends on `.htaccess` files, and the layout of the `web` directory has changed. After updating: run `make web` (or `bash ../scripts/migrate_instance.sh` inside each instance created with `make_instance.sh`), publish only the `web` directory using the recipe of your web server (`scripts/server.nginx.conf`, `scripts/server.apache.conf` or `scripts/server.htaccess`), disable the directory listing, restart PHP-FPM or Apache (the opcode cache keeps the old `web/api` path) and validate the result with `php api/index.php setup/server <api url>`, that must return a `count` of 0.
-- The database schema is regenerated once after updating, because the changes are now detected using hashes and the existing tables have no hash yet. Run the setup right after updating (`make setuponly` or `php api/index.php setup`); it can take a while with big tables.
-- The company has two new fields, the tax mode and the withholding mode, and both are set to "not used" after updating. Set the tax mode to "by line" in the company form to continue working with the taxes in invoices and quotes as before.
-- The emails are organized in folders and the spam is the Junk folder, the spam state of the emails is removed. Inside `code` and inside each instance: run `php ../scripts/migrate_emails_folders.php export spam.json` before the setup to save the spam emails, run the setup, and run `php ../scripts/migrate_emails_folders.php import spam.json` to create the folders of the existing accounts and to move the existing emails to them: the sent emails to Sent, the spam to Junk and the others to Inbox. The import can be executed more than once.
+- Only the `web` directory is published, without `.htaccess` rules. After updating: run `make web` (or `bash ../scripts/migrate_instance.sh` in each instance), publish `web` with the recipe of your server (`scripts/server.*`), disable the directory listing, restart PHP-FPM or Apache, and check that `php api/index.php setup/server <api url>` returns a `count` of 0.
+- The first setup after updating regenerates every table once (new hash detection). Run `make setuponly` or `php api/index.php setup`; it can be slow with big tables.
+- The new tax and withholding modes of the company start as "not used". Set the tax mode to "by line" to keep the taxes as before.
+- Emails folders: inside `code` and each instance, run `php ../scripts/migrate_emails_folders.php export spam.json`, then the setup, then `php ../scripts/migrate_emails_folders.php import spam.json` (it can be repeated). Sent emails go to Sent, spam to Junk and the rest to Inbox.
 
 ### Added
-- `setup/server` action (the old `setup/apache`) that validates any web server: exposed headers, `Authorization` support, private paths, directory listings, content types and the full code published by mistake.
-- Web server recipes for nginx, Apache and shared hostings in `scripts/server.nginx.conf`, `scripts/server.apache.conf` and `scripts/server.htaccess`.
-- `scripts/makeapps.php` to generate `web/apps`, `scripts/migrate_instance.sh` to migrate old instances and `scripts/router.php` for the PHP built-in web server.
-- Withholdings in invoices and quotes (like the Spanish IRPF): the taxes app has a `type` field to define taxes and withholdings, each line stores its tax and its withholding, the taxes breakdown shows both in the form and in the PDF, and the total is the subtotal plus the taxes minus the withholdings. The products have a withholding field too, prepared to be used as default.
-- Company fields `tax_mode` and `withholding_mode` to define how the taxes and the withholdings are requested in invoices and quotes: by line, one by document or not used. The default tax and the default withholding are applied to the new lines, and the columns and boxes that are not used are hidden in the form and in the PDF.
-- Quick apps defined in yaml support the `options` widget, a select with a fixed list of options, and an optional where in the `select` spec.
-- The titles of the columns of the jspreadsheet widgets are translated.
-- Folders in the emails app: each POP3 account has the Inbox, Sent, Trash and Junk folders, created with the account, and the user can create, rename, move and delete other folders. The folders tree is shown in its own panel, opened with the folders button next to the search form button, with the enabled accounts first and opened and the disabled accounts at the end and closed, selecting an account (or the All button, for all the accounts together) shows all its emails except the ones of the trash and the junk, that are only shown selecting these folders, and selecting a folder shows only the emails of the folder. The emails can be moved to another folder of the same account, and the trash and the junk can be emptied.
-- IMAP accounts in the emails app, with its own socket client (implicit TLS or STARTTLS, LOGIN or AUTHENTICATE PLAIN), using the extensions of the server when they are available (SPECIAL-USE, CONDSTORE, UIDPLUS, MOVE, LITERAL+, OBJECTID and the Gmail ids) with fallbacks for the servers without them. The protocol is chosen when the account is created and can not be changed. The folders of the IMAP accounts are the folders of the server (the Sent, Trash and Junk folders are created in the server if they do not exist): the folders tree shows the subscribed ones, the Inbox, Sent, Trash, Junk and Archive folders are always subscribed, and the other folders are subscribed in the new "Server folders" dialog. The synchronization downloads the new emails in batches (the newest first), detects the emails moved and deleted by other clients, and updates the states of the emails with its flags; the changes done in SaltOS (read, wait, reply, forward, move, delete and the copy of the sent emails in the Sent folder, an option of the account for the servers that do not save it themselves) are applied to the server by a queue of pending operations, and the emails with pending operations are labeled as pending. The folder actions (create, rename, move and delete) are done in the server at once. The `config.xml` of the emails app defines the batch size and the retries of the queue.
-- Buttons to test the connection with the incoming server (POP3 or IMAP) and the outgoing server (SMTP) in the form of the email accounts, using the data of the form without saving it.
-- Dovecot server in the `test` Docker profile (`scripts/test.dovecot.conf`), with POP3 and IMAP on the ports 10110, 10995, 10143 and 10993, used to test STARTTLS and the IMAP extensions; GreenMail has IMAP on the ports 143 and 993 too.
+- `setup/server` action (formerly `setup/apache`) to validate any web server.
+- Web server recipes for nginx, Apache and shared hostings (`scripts/server.*`).
+- `scripts/makeapps.php`, `scripts/migrate_instance.sh` and `scripts/router.php` (PHP built-in server).
+- Withholdings in invoices and quotes (like the Spanish IRPF): taxes `type` field, tax and withholding per line, both in the breakdown and the PDF. Products have a withholding field.
+- Company `tax_mode` and `withholding_mode`: by line, one per document or not used. Unused columns are hidden in the form and the PDF.
+- Yaml quick apps: `options` widget and optional where in `select`.
+- Translated column titles in the jspreadsheet widgets.
+- Email folders: Inbox, Sent, Trash and Junk per account, plus user folders (create, rename, move, delete) in a tree panel. Emails can be moved within the account, and Trash and Junk can be emptied.
+- IMAP accounts with its own socket client (TLS, STARTTLS, LOGIN, PLAIN) and the server extensions when available (SPECIAL-USE, CONDSTORE, UIDPLUS, MOVE, LITERAL+, OBJECTID, Gmail ids). Server folders with subscriptions, sync in batches, and local changes sent through a queue of pending operations.
+- Buttons to test the incoming and outgoing servers from the account form, without saving.
+- Dovecot in the `test` Docker profile (ports 10110, 10995, 10143, 10993) for STARTTLS and the IMAP extensions. GreenMail adds IMAP on 143 and 993.
 
 ### Changed
-- The dbschema detects the changes using two hashes for each table, one for the fields and another for the indexes, stored in the config table. Changing the `null` or the `default` attributes of a field now regenerates the table, and the changes done to the database from outside of the dbschema are no longer repaired.
-- The setup skips the db_schema and db_static steps when their files have not changed.
-- The copy of rows done when a table is regenerated uses the `default` attribute for the new fields, and converts the nulls to this value in the fields defined with `null="false"`.
-- All integer fields used as booleans (`active`, `default`, `allow`, `deny`, `is_closed`, `is_paid` and the flags of apps, emails and email accounts) are defined as `NOT NULL DEFAULT 0`, and the queries no longer need to use `IFNULL` with them.
-- The matrices used by the invoices and quotes forms have changed: the lines have 7 columns (the withholding is added before the total), and the taxes and the totals have 4 columns (the type is added to the taxes and the withholding to the totals).
-- The codes of the proformas, invoices and quotes are numbered by year: the next code is computed using the numeric value of the codes of the current year, so the serie continues after 999 and is restarted when the year changes.
-- Only the `web` directory is published: `web/api` is now a directory with an `index.php` that jumps to the API, and `web/apps` only contains links to the public files of the apps, generated by `make web`.
-- The `.htaccess` files with access rules have been removed; `api`, `apps` and `data` keep a minimal one that denies everything, as a safety net for Apache.
-- Docker `server` and `demos` images migrated from Apache with mod_php to nginx with PHP-FPM.
-- Docker `demos` image: the `instances` volume contains a `private` directory with the instances and a `public` directory, the document root, with one link per visitor to the `web` directory of its instance, synchronized by `scripts/demos_sync.php`; the url of each demo is now `/<hash>/`.
-- Minimum PHP version raised from 7.1 to 8.2, the lowest version supported by tcpdf 7 and tc-lib-pdf.
-- phpspreadsheet and symfony/yaml dependencies pinned to PHP 8.2 (zipstream-php 3.1.2, symfony/yaml 7.4 LTS).
-- Setup checks the requirements of the apps libraries too, and reports as warnings the libraries only used when a PHP extension is missing (yaml, mailmimeparser).
-- Third-party libraries updated to their latest releases (joditeditor, bootstrap icons, tcpdf, tc-lib-pdf, fpdi, pdfjs, jsuites, symfony/yaml, mailmimeparser, semver, mroonga, venobox, phpspreadsheet, gridstack, phpmailer, tomselect, bootstrap).
-- Faster API requests: the permissions check no longer resolves the name of every app and permission in each request, and the cache of the xml files is read without acquiring a semaphore.
-- The caches of the yaml app files, the commands output and the inline images of the emails are written using a temporary file and a rename, so a partial file is never read.
-- `get_unique_id_md5()` uses `random_bytes()`, so the names of the temporary files are no longer predictable.
-- Developer documentation and `README.md`, `CONTRIBUTING.md` and `AGENTS.md` reviewed and synchronized with the current code.
-- Deleting emails moves them to the Trash folder, and only the emails that are already in the trash are deleted permanently. The spam is the Junk folder: the spam detected when receiving goes to the junk, and to mark an email as spam it is moved to the junk.
-- The POP3 client of the emails app uses its own socket client based on the PHP streams instead of cURL, with one connection and one login for all the commands of each account, supporting implicit TLS and STARTTLS; the deleted messages are removed by the server when the session is closed.
-- The GreenMail server of the `test` Docker profile uses the standard ports: 110 (POP3), 995 (POP3S), 587 (SMTP) and 465 (SMTPS).
-- The demo data has two email accounts that use the GreenMail server of the `test` Docker profile: `pop3@example.com` (POP3, with the sample emails) and `imap@example.com` (IMAP), with the GreenMail users `pop3` and `imap` instead of `admin`.
-- `saltos.filter.load()` sends the `saltos.filter.load` signal to the current tab, so the apps can react when a filter is loaded.
-- The block "POP3 server configuration" of the email accounts is now "Incoming server configuration", with the protocol, and the delete and days options are only used by the POP3 accounts.
-- The deleted emails of the POP3 accounts are the only ones stored to not download them again; the folders tree is reloaded when the synchronization changes the folders.
+- dbschema detects changes with two hashes per table (fields and indexes). External changes are no longer repaired.
+- Setup skips db_schema and db_static when their files have not changed.
+- Regenerating a table fills new fields and nulls in `null="false"` fields with their `default`.
+- Boolean integer fields are `NOT NULL DEFAULT 0`, without `IFNULL` in the queries.
+- Invoices and quotes matrices: 7 columns in lines, 4 in taxes and totals (withholding and type added).
+- Proforma, invoice and quote codes are numbered per year, beyond 999.
+- Only `web` is published: `web/api` jumps to the API and `web/apps` links the public app files (`make web`).
+- `.htaccess` access rules removed. `api`, `apps` and `data` keep a deny-all one as a safety net.
+- Docker `server` and `demos` images: nginx and PHP-FPM instead of Apache and mod_php.
+- Docker `demos`: `private` instances and a `public` document root with one link per visitor (`scripts/demos_sync.php`). Demo urls are `/<hash>/`.
+- Minimum PHP raised from 7.1 to 8.2 (required by tcpdf 7 and tc-lib-pdf).
+- phpspreadsheet and symfony/yaml pinned to PHP 8.2.
+- Setup checks the app libraries too; optional ones (yaml, mailmimeparser) as warnings.
+- Updated libraries: joditeditor, bootstrap icons, tcpdf, tc-lib-pdf, fpdi, pdfjs, jsuites, symfony/yaml, mailmimeparser, semver, mroonga, venobox, phpspreadsheet, gridstack, phpmailer, tomselect, bootstrap.
+- Faster API requests: lighter permissions check, xml cache read without semaphore.
+- Yaml cache, command output and email inline images are written with a temporary file and a rename.
+- `get_unique_id_md5()` uses `random_bytes()`: temporary file names are unpredictable.
+- `user=` from the command line no longer checks the owner of the files; the CLI is protected by the file system permissions.
+- Developer docs, `README.md`, `CONTRIBUTING.md` and `AGENTS.md` synchronized with the code.
+- Deleting an email moves it to Trash; only Trash emails are deleted permanently. Spam is moved to Junk.
+- POP3 uses its own socket client (PHP streams, no cURL), with one session per account, TLS and STARTTLS.
+- GreenMail in the `test` profile uses the standard ports (110, 995, 587, 465).
+- Demo data: two GreenMail accounts, `pop3@example.com` (with the sample emails) and `imap@example.com`.
+- `saltos.filter.load()` sends the `saltos.filter.load` signal to the current tab.
+- "POP3 server configuration" is now "Incoming server configuration", with the protocol. Delete and days are POP3 only.
+- POP3 accounts only store the deleted emails, to not download them again. The folders tree reloads when the sync changes the folders.
 
 ### Removed
-- Compatibility wrappers and polyfills for PHP versions older than 8.2.
-- `init_random()` and the `random.php` autoload module, PHP seeds the random number generator by default.
-- The `php-imap` extension is no longer checked by the setup nor installed in the Docker images; it is not used, the IMAP support of the emails app uses its own socket client.
-- The spam state of the emails, with its switch, its options in the mark menu and its label in the lists, replaced by the Junk folder, and the "Only SPAM", "Hide SPAM", "Only inbox" and "Only outbox" filters of the emails, replaced by the folders.
+- Wrappers and polyfills for PHP older than 8.2.
+- `init_random()` and `random.php`; PHP seeds the generator itself.
+- `php-imap` extension (setup check and Docker images); IMAP uses its own client.
+- Spam state of the emails (switch, mark menu, list label) and the "Only SPAM", "Hide SPAM", "Only inbox" and "Only outbox" filters, replaced by folders.
 
 ### Fixed
-- Editing an invoice or a quote regenerated their code and their date, and the due date of the closed invoices and the valid until date of the quotes were replaced by the current date.
-- Saving an invoice or a quote no longer rewrites the fields of the lines, taxes and totals that have not changed, so the history only shows the real changes.
-- open_basedir error when generating PDFs with TCPDF on restricted hostings, and TCPDF errors reported as exceptions again instead of stopping the execution.
-- JS error when the network comes back in browsers without service worker, like the http instances.
-- The pdfjs widget failed in browsers without the most recent JavaScript features (like Safari 17), because the modern build of pdfjs requires them; now it uses the legacy build, that includes the needed polyfills.
-- Waits in the web client that never ended when the awaited thing failed (loading a library, a cache or the pdfjs module, closing a modal, reading a file, mapping the error backtrace), now all of them use `saltos.core.wait_for()` with a time limit, and a failed library or cache load can be retried.
-- The search filter of the emails list validates the account and the dates sent by the client before using them in the query.
-- The widgets that load a library (jstree, codemirror, joditeditor, tags, onetag and jspreadsheet) could apply an old value over a newer one, like the folders tree of the emails app that sometimes was shown empty; now they store only the last value and the last disabled state until the library is ready, and apply them at once.
-
-### Security
-- Removed the posix_getuid() polyfill, which made the CLI `user=` owner check always pass when the posix extension was missing; posix is now a required extension.
+- Editing an invoice or a quote regenerated its code and dates.
+- Saving an invoice or a quote rewrote unchanged lines, taxes and totals, adding noise to the history.
+- open_basedir error in TCPDF on restricted hostings; TCPDF errors are exceptions again.
+- JS error when the network came back without service worker (http instances).
+- pdfjs widget failed in older browsers (like Safari 17); it now uses the legacy build.
+- Web client waits that never ended on failure. They now use `saltos.core.wait_for()` with a time limit, and failed library or cache loads can be retried.
+- The emails list filter validates the account and the dates sent by the client.
+- Lazy-loaded widgets (jstree, codemirror, joditeditor, tags, onetag, jspreadsheet) could apply an old value over a newer one, like an empty folders tree.
+- Null values in insert and update queries are stored as null if the field allows it, otherwise as the dbschema default. Nulls in where queries trigger an error.
 
 ## [4.1] - 2026-09-23
 
