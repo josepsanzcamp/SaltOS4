@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Each release is identified by its version and by its revision (`rN`, the
 git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 
-## [Unreleased]
+## [4.2] - 2026-11-13
 
 ### Upgrade notes
 - Only the `web` directory is published, without `.htaccess` rules. After updating: run `make web` (or `bash ../scripts/migrate_instance.sh` in each instance), publish `web` with the recipe of your server (`scripts/server.*`), disable the directory listing, restart PHP-FPM or Apache, and check that `php api/index.php setup/server <api url>` returns a `count` of 0.
@@ -41,7 +41,7 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 - Minimum PHP raised from 7.1 to 8.2 (required by tcpdf 7 and tc-lib-pdf).
 - phpspreadsheet and symfony/yaml pinned to PHP 8.2.
 - Setup checks the app libraries too; optional ones (yaml, mailmimeparser) as warnings.
-- Updated libraries: joditeditor, bootstrap icons, tcpdf, tc-lib-pdf, fpdi, pdfjs, jsuites, symfony/yaml, mailmimeparser, semver, mroonga, venobox, phpspreadsheet, gridstack, phpmailer, tomselect, bootstrap.
+- Updated libraries: joditeditor 4.20.1, bootstrap icons 1.13.2, tcpdf 7.0.22, tc-lib-pdf 8.84.0, fpdi 2.6.10, pdfjs 6.5.438, jsuites 6.6.1, symfony/yaml 7.4.23, mailmimeparser 4.0.9, semver 3.6.0, mroonga 16.15, venobox 2.2.0, phpspreadsheet 5.11.0, gridstack 14.1.0, phpmailer 7.2.0, tomselect 2.7.0, bootstrap 5.3.9.
 - Faster API requests: lighter permissions check, xml cache read without semaphore.
 - Yaml cache, command output and email inline images are written with a temporary file and a rename.
 - `get_unique_id_md5()` uses `random_bytes()`: temporary file names are unpredictable.
@@ -138,5 +138,6 @@ First series of SaltOS 4, a full rewrite of SaltOS 3, licensed under GPL-3.0.
 - PHPUnit and Jest test suites, and documentation generated as PDFs.
 - Docker profiles: `devel` (SQLite + PHP built-in server), `server` (Apache + MariaDB) and `test` (MSSQL + PostgreSQL + GreenMail).
 
+[4.2]: https://github.com/josepsanzcamp/SaltOS4/releases/tag/v4.2.2790
 [4.1]: https://github.com/josepsanzcamp/SaltOS4/releases/tag/v4.1.2674
 [4.0]: https://github.com/josepsanzcamp/SaltOS4/releases/tag/v4.0.2302

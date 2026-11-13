@@ -509,7 +509,7 @@ describe('saltos.core.ajax', () => {
             json: jest.fn().mockResolvedValue({message: 'Success'}),
             headers: new Map([
                 ['content-type', 'application/json'],
-                ['x-about', 'SaltOS 4.1'],
+                ['x-about', 'SaltOS 4.2'],
                 ['x-proxy-type', 'network'],
             ]),
         };
