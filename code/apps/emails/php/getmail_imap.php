@@ -455,6 +455,9 @@ function __getmail_imap_match($imap, $frozen, &$vanished, $orphans, &$appeared)
                     'folder_id' => $remote['folder_id'],
                     'imap_uid' => $remote['uid'],
                 ];
+                if (intval($local['folder_id'] ?? 0) !== $remote['folder_id']) {
+                    $fields['folder_datetime'] = current_datetime();
+                }
                 if (!isset($frozen[$email_id])) {
                     $fields = array_merge($fields, $remote['states']);
                 }
@@ -1276,6 +1279,7 @@ function __getmail_imap_folder_delete($folder)
         foreach (execute_query_array($query, [$id]) as $email) {
             $query = prepare_update_query('app_emails', [
                 'folder_id' => $trash['id'],
+                'folder_datetime' => current_datetime(),
                 'imap_uid' => $map[intval($email['imap_uid'])] ?? 0,
             ], [
                 'id' => $email['id'],
@@ -1295,8 +1299,9 @@ function __getmail_imap_folder_delete($folder)
         }
         $error = $imap->DeleteFolder(imap_class::Decode($rows[$id]['name']));
         if ($error === '') {
-            $query = 'UPDATE app_emails SET folder_id = ?, imap_uid = 0 WHERE folder_id = ?';
-            db_query($query, [$trash['id'], $id]);
+            $query = 'UPDATE app_emails SET folder_id = ?, folder_datetime = ?, imap_uid = 0
+                WHERE folder_id = ?';
+            db_query($query, [$trash['id'], current_datetime(), $id]);
             db_query('DELETE FROM app_emails_folders WHERE id = ?', [$id]);
         }
     }

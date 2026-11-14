@@ -200,8 +200,8 @@ folder_moved: Carpeta moguda
 folder_deleted: Carpeta esborrada
 the_folder_and_its_d_subfolder_s_will_be_deleted_and_its_d_email_s_moved_to_the_trash: 'S''esborrarà la carpeta i les seves %d subcarpeta/es, i els seus %d correu/s es mouran a la paperera'
 sent_emails: Enviats
-empty_trash: Buidar la paperera
-empty_junk: Buidar el correu brossa
+empty_trash: Buidar paperera
+empty_junk: Buidar brossa
 to_delete_permanently_the_emails_of_the_trash: Per esborrar definitivament els correus de la paperera
 to_delete_permanently_the_emails_of_the_junk: Per esborrar definitivament el correu brossa
 d_email_s_will_be_deleted_permanently: 'S''esborraran definitivament %d correu/s'

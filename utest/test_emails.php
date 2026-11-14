@@ -806,6 +806,8 @@ final class test_emails extends TestCase
         $this->assertSame(T('Permission denied'), emails_folders_move_to(42, -1));
         $this->assertSame(sprintf(T('%d email(s) moved'), 1), emails_folders_move_to(42, $child_id));
         $this->assertSame($child_id, intval(execute_query('SELECT folder_id FROM app_emails WHERE id = 42')));
+        $query = 'SELECT folder_datetime FROM app_emails WHERE id = 42';
+        $this->assertNotEmpty(execute_query($query));
 
         // Delete
         $this->assertSame(
@@ -897,6 +899,43 @@ final class test_emails extends TestCase
         ]));
         $query = 'SELECT COUNT(*) FROM app_emails WHERE account_id = ?';
         $this->assertSame(0, intval(execute_query($query, [$account_id])));
+
+        // Purge the trash and the junk by the days in the folder
+        $old = date('Y-m-d H:i:s', strtotime(current_datetime()) - 10 * 86400);
+        $items = [['\Trash', $old], ['\Trash', current_datetime()], ['\Trash', null], ['\Junk', $old]];
+        foreach ($items as $item) {
+            $query = prepare_insert_query('app_emails', [
+                'account_id' => $account_id,
+                'folder_id' => $ids[$item[0]],
+                'folder_datetime' => $item[1],
+                'uidl' => 'utest_folders',
+                'datetime' => current_datetime(),
+                'subject' => 'Test',
+            ]);
+            db_query(...$query);
+            make_control('emails', db_last_insert_id());
+        }
+        $account = [
+            'id' => $account_id,
+            'trash_delete' => 0,
+            'trash_days' => 5,
+            'junk_delete' => 0,
+            'junk_days' => 5,
+        ];
+        $query = 'SELECT COUNT(*) FROM app_emails WHERE account_id = ?';
+        __emails_folders_purge($account);
+        $this->assertSame(4, intval(execute_query($query, [$account_id])));
+        __emails_folders_purge(array_merge($account, ['trash_delete' => 1]));
+        $this->assertSame(3, intval(execute_query($query, [$account_id])));
+        __emails_folders_purge(array_merge($account, ['junk_delete' => 1]));
+        $this->assertSame(2, intval(execute_query($query, [$account_id])));
+        __emails_folders_purge(array_merge($account, ['trash_delete' => 1, 'trash_days' => 0]));
+        $this->assertSame(1, intval(execute_query($query, [$account_id])));
+        $query = 'SELECT COUNT(*) FROM app_emails WHERE account_id = ? AND folder_datetime IS NULL';
+        $this->assertSame(1, intval(execute_query($query, [$account_id])));
+        $this->assertSame(sprintf(T('%d email(s) deleted'), 1), emails_folders_action([
+            'action' => 'empty', 'account_id' => $account_id, 'folder' => 'trash',
+        ]));
 
         // Remove the new account and its orphan folders
         $query = 'DELETE FROM app_emails_deletes WHERE account_id = ?';

@@ -201,7 +201,7 @@ folder_deleted: Carpeta eliminada
 the_folder_and_its_d_subfolder_s_will_be_deleted_and_its_d_email_s_moved_to_the_trash: 'Se eliminará la carpeta y sus %d subcarpeta/s, y sus %d correo/s se moverán a la papelera'
 sent_emails: Enviados
 empty_trash: Vaciar papelera
-empty_junk: Vaciar correo no deseado
+empty_junk: Vaciar spam
 to_delete_permanently_the_emails_of_the_trash: Para eliminar definitivamente los correos de la papelera
 to_delete_permanently_the_emails_of_the_junk: Para eliminar definitivamente el correo no deseado
 d_email_s_will_be_deleted_permanently: 'Se eliminarán definitivamente %d correo/s'

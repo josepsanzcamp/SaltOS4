@@ -59,6 +59,10 @@ The form includes the following fields:
 - User: Username for SMTP authentication.
 - Password: Password for the SMTP server account.
 - Test: Button to test the connection and the authentication with the SMTP server, using the data of the form without saving it.
+- Empty trash: Whether the emails of the Trash are deleted permanently after the days below.
+- Days: Number of days that the emails are kept in the Trash; with 0 they are deleted in the next synchronization.
+- Empty junk: Whether the emails of the Junk are deleted permanently after the days below.
+- Days: Number of days that the emails are kept in the Junk; with 0 they are deleted in the next synchronization.
 - Disabled: Marks the account as inactive; no synchronization will occur.
 - Privated: Restricts access to the account to its owner only.
 - Default: Sets this account as the default for sending emails.

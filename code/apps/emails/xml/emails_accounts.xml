@@ -155,6 +155,12 @@
                 <row label="IMAP" value="imap"/>
             </rows>
         </select>
+        <select id="imap_append_sent" label="Copy in Sent" value="1" col_class="col-md-2" tooltip="IMAP only">
+            <rows>
+                <row label="No" value="0"/>
+                <row label="Yes" value="1"/>
+            </rows>
+        </select>
         <select id="pop3_delete" label="Delete" value="0" col_class="col-md-2" tooltip="POP3 only">
             <rows>
                 <row label="No" value="0"/>
@@ -162,12 +168,6 @@
             </rows>
         </select>
         <integer id="pop3_days" label="Days" col_class="col-md-2" tooltip="POP3 only"/>
-        <select id="imap_append_sent" label="Copy in Sent" value="1" col_class="col-md-2" tooltip="IMAP only">
-            <rows>
-                <row label="No" value="0"/>
-                <row label="Yes" value="1"/>
-            </rows>
-        </select>
         <button onclick="saltos.emails_accounts.test('incoming')" label="Test" tooltip="To test the connection with the incoming server" icon="plug" col_class="col-md-auto align-self-end"/>
 
         <alert title="SMTP server configuration" col_class="col-12"/>
@@ -188,6 +188,21 @@
         <button onclick="saltos.emails_accounts.test('outgoing')" label="Test" tooltip="To test the connection with the outgoing server" icon="plug" col_class="col-md-auto align-self-end"/>
 
         <alert title="Extra configuration" col_class="col-12"/>
+        <select id="trash_delete" label="Empty trash" value="0" col_class="col-md-2">
+            <rows>
+                <row label="No" value="0"/>
+                <row label="Yes" value="1"/>
+            </rows>
+        </select>
+        <integer id="trash_days" label="Days" col_class="col-md-2"/>
+        <select id="junk_delete" label="Empty junk" value="0" col_class="col-md-2">
+            <rows>
+                <row label="No" value="0"/>
+                <row label="Yes" value="1"/>
+            </rows>
+        </select>
+        <integer id="junk_days" label="Days" col_class="col-md-2"/>
+        <div col_class="col-12 m-0"/><!-- this act as break line -->
         <switch id="email_disabled" label="Disabled"/>
         <switch id="email_privated" label="Privated"/>
         <switch id="email_default" label="Default"/>

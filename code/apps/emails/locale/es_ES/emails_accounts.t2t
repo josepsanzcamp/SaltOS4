@@ -59,6 +59,10 @@ El formulario incluye los siguientes campos:
 - Usuario SMTP: Usuario para autenticarse en SMTP.
 - Contraseña SMTP: Clave de la cuenta SMTP.
 - Probar: Botón para probar la conexión y la autenticación con el servidor SMTP, con los datos del formulario sin guardarlos.
+- Vaciar papelera: Si se eliminan definitivamente los correos de la Papelera pasados los días indicados.
+- Días: Número de días que los correos permanecen en la Papelera; con 0 se eliminan en la siguiente sincronización.
+- Vaciar spam: Si se eliminan definitivamente los correos de Correo no deseado pasados los días indicados.
+- Días: Número de días que los correos permanecen en Correo no deseado; con 0 se eliminan en la siguiente sincronización.
 - Inactivo: Marca la cuenta como deshabilitada (no se sincroniza).
 - Privado: Restringe el acceso solo al propietario.
 - Por defecto: Marca esta cuenta como remitente por defecto.

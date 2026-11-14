@@ -870,8 +870,8 @@ function __getmail_getcid($array, $hash)
  *               state_new (default 1), state_reply, state_forward, state_wait, email_id (the
  *               id of the related email), is_outbox, state_sent, state_error (default 0 or
  *               empty), folder_id (default the inbox, the sent for the outbox and the junk
- *               for the spam, if they exist) and the IMAP fields imap_uid, imap_messageid
- *               and imap_emailid
+ *               for the spam, if they exist), folder_datetime (default the current
+ *               datetime) and the IMAP fields imap_uid, imap_messageid and imap_emailid
  */
 function __getmail_insert($file, $messageid, $fields = [])
 {
@@ -894,6 +894,7 @@ function __getmail_insert($file, $messageid, $fields = [])
         'is_outbox' => 0,
         'state_sent' => 0,
         'state_error' => '',
+        'folder_datetime' => $datetime,
     ], $fields);
     // Get the folder of the new email if not specified
     if (!isset($fields['folder_id'])) {
@@ -1462,6 +1463,10 @@ function getmail_server()
             }
             $error = sprintf(T('Incoming server %s not configured'), $temp);
         }
+        // The purge of the trash and the junk, before the IMAP synchronization that applies
+        // the queue with the expunges in the server
+        require_once 'apps/emails/php/folders.php';
+        __emails_folders_purge($row);
         // Each protocol is received by its own library
         if ($error === '' && $row['protocol'] === 'imap') {
             require_once 'apps/emails/php/getmail_imap.php';

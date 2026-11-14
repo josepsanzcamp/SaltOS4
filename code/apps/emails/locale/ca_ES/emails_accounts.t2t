@@ -59,6 +59,10 @@ El formulari inclou els següents camps:
 - Usuari SMTP: Nom d'usuari per autenticar-se a l'SMTP.
 - Contrasenya SMTP: Clau d'accés del compte SMTP.
 - Provar: Botó per provar la connexió i l'autenticació amb el servidor SMTP, amb les dades del formulari sense desar-les.
+- Buidar paperera: Si cal eliminar definitivament els correus de la Paperera passats els dies indicats.
+- Dies: Nombre de dies que es conserven els correus a la Paperera; amb 0 s'eliminen a la següent sincronització.
+- Buidar brossa: Si cal eliminar definitivament els correus de Correu brossa passats els dies indicats.
+- Dies: Nombre de dies que es conserven els correus a Correu brossa; amb 0 s'eliminen a la següent sincronització.
 - Inactiu: Indica si el compte no està actiu (no es sincronitza).
 - Privat: Limita l'accés al propietari del compte.
 - Per defecte: Marca aquest compte com el remitent per defecte.

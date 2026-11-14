@@ -199,8 +199,8 @@ function __emails_folders_move($ids, $special_use)
         $query = "SELECT id FROM app_emails WHERE id IN ($ids) AND account_id = ?";
         $ids2 = check_ids(execute_query_array($query, [$account_id]));
         __getmail_imap_move($ids2, $folder_id);
-        $query = "UPDATE app_emails SET folder_id = ? WHERE id IN ($ids2)";
-        db_query($query, [$folder_id]);
+        $query = "UPDATE app_emails SET folder_id = ?, folder_datetime = ? WHERE id IN ($ids2)";
+        db_query($query, [$folder_id, current_datetime()]);
     }
 }
 
@@ -236,8 +236,8 @@ function emails_folders_move_to($ids, $folder_id)
     require_once 'apps/emails/php/getmail_imap.php';
     $query = "SELECT id FROM app_emails WHERE id IN ($ids) AND account_id = ?";
     __getmail_imap_move(execute_query_array($query, [$account_id]), $folder_id);
-    $query = "UPDATE app_emails SET folder_id = ? WHERE id IN ($ids) AND account_id = ?";
-    db_query($query, [intval($folder_id), $account_id]);
+    $query = "UPDATE app_emails SET folder_id = ?, folder_datetime = ? WHERE id IN ($ids) AND account_id = ?";
+    db_query($query, [intval($folder_id), current_datetime(), $account_id]);
     return sprintf(T('%d email(s) moved'), $numids);
 }
 
@@ -540,8 +540,8 @@ function __emails_folders_delete($folder_id)
     }
     $ids = implode(',', __emails_folders_tree_ids($folder['account_id'], $folder_id));
     $trash = emails_folders_check($folder['account_id'])['\Trash'];
-    $query = "UPDATE app_emails SET folder_id = ? WHERE folder_id IN ($ids)";
-    db_query($query, [$trash]);
+    $query = "UPDATE app_emails SET folder_id = ?, folder_datetime = ? WHERE folder_id IN ($ids)";
+    db_query($query, [$trash, current_datetime()]);
     $query = "DELETE FROM app_emails_folders WHERE id IN ($ids)";
     db_query($query);
     return T('Folder deleted');
@@ -551,14 +551,16 @@ function __emails_folders_delete($folder_id)
  * Folders empty ids helper
  *
  * This function returns the ids of the emails of the special folder of the account, the
- * account must be of the current user
+ * account must be of the current user; with days, only the emails moved to the folder at
+ * least these days ago (the emails without the datetime of the move are not returned)
  *
  * @account_id  => the id of the account
  * @special_use => the special use of the folder
+ * @days        => the minimum days in the folder (optional)
  *
  * Returns an array with the ids of the emails, or null if the account is not of the user
  */
-function __emails_folders_empty_ids($account_id, $special_use)
+function __emails_folders_empty_ids($account_id, $special_use, $days = null)
 {
     $query = 'SELECT COUNT(*) FROM app_emails_accounts WHERE id = ? AND user_id = ?';
     if (!execute_query($query, [$account_id, current_user()])) {
@@ -566,7 +568,12 @@ function __emails_folders_empty_ids($account_id, $special_use)
     }
     $query = 'SELECT id FROM app_emails WHERE account_id = ? AND folder_id IN (
         SELECT id FROM app_emails_folders WHERE account_id = ? AND special_use = ?)';
-    return execute_query_array($query, [$account_id, $account_id, $special_use]);
+    $params = [$account_id, $account_id, $special_use];
+    if ($days !== null) {
+        $query .= ' AND folder_datetime <= ?';
+        $params[] = date('Y-m-d H:i:s', strtotime(current_datetime()) - $days * 86400);
+    }
+    return execute_query_array($query, $params);
 }
 
 /**
@@ -609,12 +616,13 @@ function emails_folders_empty_summary($json)
  *
  * @account_id  => the id of the account
  * @special_use => the special use of the folder
+ * @days        => the minimum days in the folder (optional, see the ids helper)
  *
  * Returns a response message
  */
-function __emails_folders_empty($account_id, $special_use)
+function __emails_folders_empty($account_id, $special_use, $days = null)
 {
-    $ids = __emails_folders_empty_ids($account_id, $special_use);
+    $ids = __emails_folders_empty_ids($account_id, $special_use, $days);
     if ($ids === null) {
         return T('Permission denied');
     }
@@ -627,6 +635,29 @@ function __emails_folders_empty($account_id, $special_use)
     }
     require_once 'apps/emails/php/getmail.php';
     return getmail_delete($ids);
+}
+
+/**
+ * Folders purge helper
+ *
+ * This function deletes permanently the emails of the trash and the junk folders of the
+ * account that are in the folder at least the days of the account, only when the delete
+ * option of each folder is enabled (zero days deletes all the emails of the folder that
+ * have the datetime of the move)
+ *
+ * @account => the row of the account, with the trash and junk delete and days fields
+ */
+function __emails_folders_purge($account)
+{
+    $folders = [
+        'trash' => '\Trash',
+        'junk' => '\Junk',
+    ];
+    foreach ($folders as $folder => $special_use) {
+        if ($account[$folder . '_delete']) {
+            __emails_folders_empty(intval($account['id']), $special_use, intval($account[$folder . '_days']));
+        }
+    }
 }
 
 /**

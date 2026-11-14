@@ -28,6 +28,7 @@ This file allow to define the database needed by this application
                 <field name="id" type="INTEGER" pkey="true"/>
                 <field name="account_id" type="INTEGER" fkey="app_emails_accounts"/>
                 <field name="folder_id" type="INTEGER"/>
+                <field name="folder_datetime" type="DATETIME"/>
                 <field name="uidl" type="VARCHAR(255)"/>
                 <field name="datetime" type="DATETIME"/>
                 <field name="size" type="INTEGER"/>
@@ -93,6 +94,10 @@ This file allow to define the database needed by this application
                 <field name="pop3_delete" type="INTEGER" null="false" default="0"/>
                 <field name="pop3_days" type="INTEGER"/>
                 <field name="imap_append_sent" type="INTEGER" null="false" default="1"/>
+                <field name="trash_delete" type="INTEGER" null="false" default="0"/>
+                <field name="trash_days" type="INTEGER"/>
+                <field name="junk_delete" type="INTEGER" null="false" default="0"/>
+                <field name="junk_days" type="INTEGER"/>
                 <field name="smtp_host" type="VARCHAR(255)"/>
                 <field name="smtp_port" type="VARCHAR(255)"/>
                 <field name="smtp_extra" type="VARCHAR(255)"/>

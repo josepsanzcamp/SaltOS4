@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Each release is identified by its version and by its revision (`rN`, the
 git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 
+## [Unreleased]
+
+### Upgrade notes
+- Emails already in Trash or Junk have no move date and are never purged. Empty both folders once by hand after updating.
+
+### Added
+- Automatic purge of Trash and Junk per account: delete option and days in each folder.
+
 ## [4.2] - 2026-11-13
 
 ### Upgrade notes
