@@ -35,7 +35,7 @@ function setup()
     $output = [];
 
     $array = [
-        'tbl_users' => [
+        'tbl_users' => fn() => [
             [
                 'id' => 1,
                 'active' => 1,
@@ -48,7 +48,7 @@ function setup()
                 'days' => '1111111',
             ],
         ],
-        'tbl_users_passwords' => [
+        'tbl_users_passwords' => fn() => [
             [
                 'id' => 1,
                 'active' => 1,
@@ -60,7 +60,7 @@ function setup()
                 'expires_at' => current_datetime(get_config('auth/passwordexpires')),
             ],
         ],
-        'tbl_groups' => [
+        'tbl_groups' => fn() => [
             [
                 'id' => 1,
                 'active' => 1,
@@ -69,10 +69,10 @@ function setup()
                 'description' => 'Admin group',
             ],
         ],
-        'tbl_users_apps_perms' => execute_query_array("
+        'tbl_users_apps_perms' => fn() => execute_query_array("
             SELECT id, '1' user_id, app_id, perm_id, '1' allow, '0' deny
             FROM tbl_apps_perms WHERE allow = 0 AND deny = 0"),
-        'tbl_groups_apps_perms' => execute_query_array("
+        'tbl_groups_apps_perms' => fn() => execute_query_array("
             SELECT id, '1' group_id, app_id, perm_id, '1' allow, '0' deny
             FROM tbl_apps_perms WHERE allow = 0 AND deny = 0"),
     ];
@@ -83,7 +83,7 @@ function setup()
         if ($exists) {
             continue;
         }
-        foreach ($rows as $row) {
+        foreach ($rows() as $row) {
             $query = prepare_insert_query($table, $row);
             db_query(...$query);
             $output[$table]++;
