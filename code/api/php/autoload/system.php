@@ -65,6 +65,10 @@ function check_system()
         ['program', 'pk12util', 'warning', 'libnss3-tools'], // nssdb module
         ['program', 'pdfsig', 'warning', 'poppler-utils'], // nssdb module
     ];
+    // One which for all programs, the found ones are detected by the basename of each line
+    $programs = array_column(array_filter($items, fn($x) => $x[0] === 'program'), 1);
+    $programs = explode("\n", ob_passthru('which ' . implode(' ', $programs)));
+    $programs = array_map('basename', $programs);
     foreach ($items as $item) {
         [$type, $name, $trigger, $package] = $item;
         $bool = false;
@@ -79,7 +83,7 @@ function check_system()
                 $bool = function_exists($name);
                 break;
             case 'program':
-                $bool = check_commands($name, 0);
+                $bool = in_array($name, $programs, true);
         }
         if (!$bool) {
             // @codeCoverageIgnoreStart
