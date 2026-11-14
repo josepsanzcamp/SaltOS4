@@ -20,6 +20,7 @@ d_email_s_sended: '%d email(s) sent'
 d_email_s_modified_successfully: '%d email(s) successfully modified'
 d_email_s_deleted: '%d email(s) deleted'
 d_email_s_received: '%d email(s) received'
+d_email_s_purged: '%d email(s) purged'
 there_has_been_the_following_error_s_s: 'There has been the following error: %s (%s)'
 source_of_the_email: Source of the email
 from: From

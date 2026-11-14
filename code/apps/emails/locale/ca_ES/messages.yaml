@@ -20,6 +20,7 @@ d_email_s_sended: '%d correu/s enviat/s'
 d_email_s_modified_successfully: '%d correu/s modificat/s correctament'
 d_email_s_deleted: '%d correu/s esborrat/s'
 d_email_s_received: '%d correu/s rebut/s'
+d_email_s_purged: '%d correu/s purgat/s'
 there_has_been_the_following_error_s_s: 'S''ha produït l''error següent: %s (%s)'
 source_of_the_email: Font del correu
 from: De

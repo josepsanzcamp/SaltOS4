@@ -923,13 +923,14 @@ final class test_emails extends TestCase
             'junk_days' => 5,
         ];
         $query = 'SELECT COUNT(*) FROM app_emails WHERE account_id = ?';
-        __emails_folders_purge($account);
+        $this->assertSame(0, __emails_folders_purge($account));
         $this->assertSame(4, intval(execute_query($query, [$account_id])));
-        __emails_folders_purge(array_merge($account, ['trash_delete' => 1]));
+        $this->assertSame(1, __emails_folders_purge(array_merge($account, ['trash_delete' => 1])));
         $this->assertSame(3, intval(execute_query($query, [$account_id])));
-        __emails_folders_purge(array_merge($account, ['junk_delete' => 1]));
+        $this->assertSame(1, __emails_folders_purge(array_merge($account, ['junk_delete' => 1])));
         $this->assertSame(2, intval(execute_query($query, [$account_id])));
-        __emails_folders_purge(array_merge($account, ['trash_delete' => 1, 'trash_days' => 0]));
+        $purged = __emails_folders_purge(array_merge($account, ['trash_delete' => 1, 'trash_days' => 0]));
+        $this->assertSame(1, $purged);
         $this->assertSame(1, intval(execute_query($query, [$account_id])));
         $query = 'SELECT COUNT(*) FROM app_emails WHERE account_id = ? AND folder_datetime IS NULL';
         $this->assertSame(1, intval(execute_query($query, [$account_id])));

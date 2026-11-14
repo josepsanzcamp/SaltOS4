@@ -1447,6 +1447,7 @@ function getmail_server()
     $folders = __getmail_folders_hash();
     // begin the loop
     $newemail = 0;
+    $purged = 0;
     $haserror = [];
     foreach ($result as $row) {
         if (time_get_usage() > get_config('server/percentstop')) {
@@ -1466,7 +1467,7 @@ function getmail_server()
         // The purge of the trash and the junk, before the IMAP synchronization that applies
         // the queue with the expunges in the server
         require_once 'apps/emails/php/folders.php';
-        __emails_folders_purge($row);
+        $purged += __emails_folders_purge($row);
         // Each protocol is received by its own library
         if ($error === '' && $row['protocol'] === 'imap') {
             require_once 'apps/emails/php/getmail_imap.php';
@@ -1482,6 +1483,9 @@ function getmail_server()
         }
     }
     $haserror[] = sprintf(T('%d email(s) received'), $newemail);
+    if ($purged) {
+        $haserror[] = sprintf(T('%d email(s) purged'), $purged);
+    }
     // intended to be used by cron feature
     if (get_data('server/cli') && $newemail) {
         require_once 'php/lib/push.php';

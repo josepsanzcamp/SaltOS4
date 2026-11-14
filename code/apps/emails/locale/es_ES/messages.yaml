@@ -20,6 +20,7 @@ d_email_s_sended: '%d correo/s enviado/s'
 d_email_s_modified_successfully: '%d correo/s modificado/s correctamente'
 d_email_s_deleted: '%d correo/s eliminado/s'
 d_email_s_received: '%d correo/s recibido/s'
+d_email_s_purged: '%d correo/s purgado/s'
 there_has_been_the_following_error_s_s: 'Se ha producido el siguiente error: %s (%s)'
 source_of_the_email: Fuente del correo
 from: De

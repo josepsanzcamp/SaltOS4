@@ -646,6 +646,8 @@ function __emails_folders_empty($account_id, $special_use, $days = null)
  * have the datetime of the move)
  *
  * @account => the row of the account, with the trash and junk delete and days fields
+ *
+ * Returns the number of deleted emails
  */
 function __emails_folders_purge($account)
 {
@@ -653,11 +655,19 @@ function __emails_folders_purge($account)
         'trash' => '\Trash',
         'junk' => '\Junk',
     ];
+    $purged = 0;
     foreach ($folders as $folder => $special_use) {
-        if ($account[$folder . '_delete']) {
-            __emails_folders_empty(intval($account['id']), $special_use, intval($account[$folder . '_days']));
+        if (!$account[$folder . '_delete']) {
+            continue;
+        }
+        $days = intval($account[$folder . '_days']);
+        $count = count(__emails_folders_empty_ids(intval($account['id']), $special_use, $days) ?? []);
+        if ($count) {
+            __emails_folders_empty(intval($account['id']), $special_use, $days);
+            $purged += $count;
         }
     }
+    return $purged;
 }
 
 /**
