@@ -20,6 +20,7 @@ namespace Com\Tecnick\Pdf;
 
 use Com\Tecnick\Color\Exception as ColorException;
 use Com\Tecnick\File\Exception as FileException;
+use Com\Tecnick\File\File as ObjFile;
 use Com\Tecnick\Pdf\Encrypt\Exception as EncryptException;
 use Com\Tecnick\Pdf\Exception as PdfException;
 use Com\Tecnick\Pdf\Font\Exception as FontException;
@@ -715,6 +716,9 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
     /**
      * Returns the PDF object to include a standard sRGB_IEC61966-2.1 blackscaled ICC colour profile.
      *
+     * The bundled profile is read through a file helper whose allowlist is the profile file
+     * itself, so it does not depend on the 'allowedPaths' file option.
+     *
      * @return string ICC profile PDF object or empty string.
      *
      * @throws PdfException
@@ -730,8 +734,9 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
 
         $oid = ++$this->pon;
         $this->objid['srgbicc'] = $oid;
+        $iccfile = __DIR__ . '/include/sRGB.icc.z';
         try {
-            $icc = $this->file->getLocalFileData(__DIR__ . '/include/sRGB.icc.z');
+            $icc = (new ObjFile(allowedPaths: [$iccfile]))->getLocalFileData($iccfile);
         } catch (FileException $e) {
             throw new PdfException('Unable to read sRGB.icc.z file', 0, $e);
         }
@@ -2284,7 +2289,7 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
                 // Each MCID belongs to the page it was emitted on, which may differ from
                 // the element's own page when the element's content wraps across a page
                 // break. Use the kid's page so the MCR /Pg and ParentTree key are correct.
-                $kidPageOid = $pidToOid[$kid['pid']] ?? $entryPageOid;
+                $kidPageOid = isset($kid['pid']) ? $pidToOid[$kid['pid']] ?? $entryPageOid : $entryPageOid;
                 if ($kidPageOid > 0) {
                     $parentTreeMap[$kidPageOid][$mcid] = $elemOids[$entryIdx] ?? 0;
                 }
@@ -2312,9 +2317,8 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
             // page, so it is skipped when the element content is split by a page break.
             $bboxPairs = '';
             $bbox = $entry['bbox'];
-            if (\count($bbox) === 4 && $this->isSinglePageStructElem($structLog, $entryIdx)) {
-                [$bllx, $blly, $burx, $bury] = $bbox;
-                $bboxPairs = \sprintf(' /O /Layout /BBox [%F %F %F %F]', $bllx, $blly, $burx, $bury);
+            if (isset($bbox[0], $bbox[1], $bbox[2], $bbox[3]) && $this->isSinglePageStructElem($structLog, $entryIdx)) {
+                $bboxPairs = \sprintf(' /O /Layout /BBox [%F %F %F %F]', $bbox[0], $bbox[1], $bbox[2], $bbox[3]);
             }
 
             $attrOut = '';
@@ -3191,6 +3195,8 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
     protected function getAnnotationBorder(array $annot): string
     {
         $out = '';
+        // @mago-expect analysis:redundant-comparison
+        // @mago-expect analysis:redundant-logical-operation
         if (isset($annot['opt']['bs']) && $annot['opt']['bs'] !== []) {
             $out .= ' /BS << /Type /Border';
             $out .= ' /W ' . (int) $annot['opt']['bs']['w'];
@@ -5073,6 +5079,8 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
      */
     protected function getOutSignatureFields(): string
     {
+        // @mago-expect analysis:impossible-condition
+        // @mago-expect analysis:redundant-comparison
         if ($this->signature === []) {
             return '';
         }
@@ -5112,6 +5120,8 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
      */
     protected function getSignatureWidgetFields(): array
     {
+        // @mago-expect analysis:impossible-condition
+        // @mago-expect analysis:redundant-comparison
         if ($this->signature === []) {
             return [];
         }
@@ -5137,6 +5147,8 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
      */
     protected function getSignatureWidgetDescriptions(): array
     {
+        // @mago-expect analysis:impossible-condition
+        // @mago-expect analysis:redundant-comparison
         if ($this->signature === []) {
             return [];
         }
@@ -6163,7 +6175,7 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
 
         if (!$this->hasAnnotationAppearance($appearance) && isset($appearance['xobj']) && $appearance['xobj'] !== '') {
             $xobjid = $appearance['xobj'];
-            if (isset($this->xobjects[$xobjid]) && $this->xobjects[$xobjid] !== []) {
+            if (isset($this->xobjects[$xobjid])) {
                 $xobjw = $this->xobjects[$xobjid]['w'];
                 $xobjh = $this->xobjects[$xobjid]['h'];
                 if ($xobjw > 0.0 && $xobjh > 0.0) {
