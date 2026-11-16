@@ -15,7 +15,7 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 - Automatic purge of Trash and Junk per account: delete option and days in each folder.
 
 ### Changed
-- Updated libraries: tcpdf, tc-lib-pdf, joditeditor.
+- Updated libraries: tcpdf, tc-lib-pdf, joditeditor, md5.
 
 ## [4.2] - 2026-11-13
 
