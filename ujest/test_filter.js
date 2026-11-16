@@ -62,7 +62,7 @@ describe('saltos.filter.init()', () => {
      * Mocks window location and sets up AJAX response for filter data
      */
     beforeEach(() => {
-        window.location.hash = '#app/testapp/page';
+        window.location.hash = '#app/testapp';
 
         saltos.app.ajax = jest.fn((options) => {
             if (options.success) {

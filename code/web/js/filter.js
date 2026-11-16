@@ -46,7 +46,7 @@ saltos.filter.__cache = {};
  */
 saltos.filter.init = async () => {
     if (!Object.keys(saltos.filter.__cache).length) {
-        const app = saltos.hash.get().split('/').at(1);
+        const app = saltos.hash.parse.public(saltos.hash.get()).app;
         await saltos.app.ajax({
             url: `app/${app}/list/filter`,
             success: response => {
@@ -131,7 +131,7 @@ saltos.filter.save = (name, data) => {
         }
         delete saltos.filter.__cache[name];
     }
-    const app = saltos.hash.get().split('/').at(1);
+    const app = saltos.hash.parse.public(saltos.hash.get()).app;
     saltos.app.ajax({
         url: `app/${app}/list/filter`,
         data: {

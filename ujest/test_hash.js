@@ -308,6 +308,141 @@ describe('saltos.hash.url2hash', () => {
 });
 
 /**
+ * Test suite for public parse function
+ *
+ * Contains tests for parsing the hashes that can be stored in the url
+ */
+describe('saltos.hash.parse.public', () => {
+    /**
+     * Test list hash
+     *
+     * Verifies the function returns the app and the list action
+     */
+    test('should parse list hash', () => {
+        expect(saltos.hash.parse.public('app/customers')).toEqual({
+            app: 'customers', action: 'list', subaction: '', id: '', file: '',
+        });
+    });
+
+    /**
+     * Test create hashes
+     *
+     * Verifies the function parses the create action with and without subaction
+     */
+    test('should parse create hashes', () => {
+        expect(saltos.hash.parse.public('app/customers/create')).toEqual({
+            app: 'customers', action: 'create', subaction: '', id: '', file: '',
+        });
+        expect(saltos.hash.parse.public('app/emails/create/reply/5')).toEqual({
+            app: 'emails', action: 'create', subaction: 'reply', id: '5', file: '',
+        });
+        expect(saltos.hash.parse.public('app/emails/create/replyall/5').subaction).toBe('replyall');
+        expect(saltos.hash.parse.public('app/emails/create/forward/5').subaction).toBe('forward');
+    });
+
+    /**
+     * Test edit hash
+     *
+     * Verifies the function returns the id of the edit action
+     */
+    test('should parse edit hash', () => {
+        expect(saltos.hash.parse.public('app/customers/edit/5')).toEqual({
+            app: 'customers', action: 'edit', subaction: '', id: '5', file: '',
+        });
+    });
+
+    /**
+     * Test view hashes
+     *
+     * Verifies the function parses the view action with and without subaction
+     */
+    test('should parse view hashes', () => {
+        expect(saltos.hash.parse.public('app/customers/view/5')).toEqual({
+            app: 'customers', action: 'view', subaction: '', id: '5', file: '',
+        });
+        expect(saltos.hash.parse.public('app/customers/view/viewpdf/1,2,3')).toEqual({
+            app: 'customers', action: 'view', subaction: 'viewpdf', id: '1,2,3', file: '',
+        });
+        expect(saltos.hash.parse.public('app/customers/view/viewpdf/5/7')).toEqual({
+            app: 'customers', action: 'view', subaction: 'viewpdf', id: '5', file: '7',
+        });
+        expect(saltos.hash.parse.public('app/customers/view/version/5').subaction).toBe('version');
+        expect(saltos.hash.parse.public('app/customers/view/log/5').subaction).toBe('log');
+        expect(saltos.hash.parse.public('app/emails/view/source/5').subaction).toBe('source');
+    });
+
+    /**
+     * Test unknown hashes
+     *
+     * Verifies the function throws an exception for the hashes that are not allowed
+     */
+    test('should throw for unknown hashes', () => {
+        const hashes = [
+            '',
+            'app',
+            'test/customers',
+            'app/customers/page',
+            'app/customers/create/5',
+            'app/customers/edit',
+            'app/customers/edit/5/7',
+            'app/customers/view',
+            'app/customers/view/version/5/7',
+            'app/customers/view/unknown/5',
+            'app/customers/view/viewpdf/5/7/9',
+            'app/customers/delete/5',
+        ];
+        for (const hash of hashes) {
+            expect(() => saltos.hash.parse.public(hash)).toThrow(`Unknown hash ${hash}`);
+        }
+    });
+});
+
+/**
+ * Test suite for private parse function
+ *
+ * Contains tests for parsing the internal actions that never are stored in the url
+ */
+describe('saltos.hash.parse.private', () => {
+    /**
+     * Test delete actions
+     *
+     * Verifies the function parses the delete action with and without subaction
+     */
+    test('should parse delete actions', () => {
+        expect(saltos.hash.parse.private('app/customers/delete/5')).toEqual({
+            app: 'customers', action: 'delete', subaction: '', id: '5', file: '',
+        });
+        expect(saltos.hash.parse.private('app/customers/delete/files/5/7')).toEqual({
+            app: 'customers', action: 'delete', subaction: 'files', id: '5', file: '7',
+        });
+        expect(saltos.hash.parse.private('app/customers/delete/notes/5/7')).toEqual({
+            app: 'customers', action: 'delete', subaction: 'notes', id: '5', file: '7',
+        });
+    });
+
+    /**
+     * Test unknown actions
+     *
+     * Verifies the function throws an exception for the actions that are not allowed
+     */
+    test('should throw for unknown actions', () => {
+        const urls = [
+            '',
+            'app',
+            'test/customers/delete/5',
+            'app/customers',
+            'app/customers/delete',
+            'app/customers/delete/files/5',
+            'app/customers/delete/unknown/5/7',
+            'app/customers/view/5',
+        ];
+        for (const url of urls) {
+            expect(() => saltos.hash.parse.private(url)).toThrow(`Unknown action ${url}`);
+        }
+    });
+});
+
+/**
  * Test suite for hash change events
  *
  * Contains tests for triggering hashchange events

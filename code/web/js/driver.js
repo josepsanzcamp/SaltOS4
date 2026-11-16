@@ -200,7 +200,7 @@ saltos.driver.search = arg => {
     saltos.backup.restore('top+one');
     const data = saltos.app.get_data(true);
     saltos.filter.update('last', data);
-    const app = saltos.hash.get().split('/').at(1);
+    const app = saltos.hash.parse.public(saltos.hash.get()).app;
     // Restore the more button
     const obj = document.getElementById('more');
     if (obj && 'saltos' in obj && typeof obj.saltos.set_disabled === 'function') {
@@ -253,7 +253,7 @@ saltos.driver.more = arg => {
     document.getElementById('page').value = parseInt(document.getElementById('page').value, 10) + 1;
     saltos.backup.restore('top+one');
     const data = saltos.app.get_data(true);
-    const app = saltos.hash.get().split('/').at(1);
+    const app = saltos.hash.parse.public(saltos.hash.get()).app;
     saltos.app.ajax({
         url: `app/${app}/list/data`,
         data: data,
@@ -291,7 +291,7 @@ saltos.driver.insert = arg => {
         saltos.app.toast('Warning', 'No data found', {color: 'danger'});
         return;
     }
-    const app = saltos.hash.get().split('/').at(1);
+    const app = saltos.hash.parse.public(saltos.hash.get()).app;
     saltos.app.ajax({
         url: `app/${app}/insert`,
         data: data,
@@ -335,8 +335,8 @@ saltos.driver.update = arg => {
         saltos.app.toast('Warning', 'No changes detected', {color: 'danger'});
         return;
     }
-    const app = saltos.hash.get().split('/').at(1);
-    const id = saltos.hash.get().split('/').at(-1);
+    const app = saltos.hash.parse.public(saltos.hash.get()).app;
+    const id = saltos.hash.parse.public(saltos.hash.get()).id;
     saltos.app.ajax({
         url: `app/${app}/update/${id}`,
         data: data,
@@ -385,11 +385,11 @@ saltos.driver.delete = async arg => {
             icon: 'check-lg',
             autofocus: true,
             onclick: () => {
-                let app = saltos.hash.get().split('/').at(1);
-                let id = saltos.hash.get().split('/').at(-1);
+                let app = saltos.hash.parse.public(saltos.hash.get()).app;
+                let id = saltos.hash.parse.public(saltos.hash.get()).id;
                 if (typeof arg === 'string') {
-                    app = arg.split('/').at(1);
-                    id = arg.split('/').at(-1);
+                    app = saltos.hash.parse.private(arg).app;
+                    id = saltos.hash.parse.private(arg).id;
                 }
                 saltos.app.ajax({
                     url: `app/${app}/delete/${id}`,
@@ -582,13 +582,13 @@ saltos.driver.__resizable_2cols = () => {
     const two = document.getElementById('two');
 
     const save_handle_cols = values => {
-        const app = saltos.hash.get().split('/').at(1);
+        const app = saltos.hash.parse.public(saltos.hash.get()).app;
         const key = `saltos.driver.resizable/${app}`;
         saltos.storage.setItem(key, JSON.stringify(values));
     };
 
     const load_handle_cols = () => {
-        const app = saltos.hash.get().split('/').at(1);
+        const app = saltos.hash.parse.public(saltos.hash.get()).app;
         const key = `saltos.driver.resizable/${app}`;
         const data = saltos.storage.getItem(key);
         try {
@@ -703,13 +703,13 @@ saltos.driver.__resizable_3cols = () => {
     const three = document.getElementById('three');
 
     const save_handle_cols = values => {
-        const app = saltos.hash.get().split('/').at(1);
+        const app = saltos.hash.parse.public(saltos.hash.get()).app;
         const key = `saltos.driver.resizable/${app}`;
         saltos.storage.setItem(key, JSON.stringify(values));
     };
 
     const load_handle_cols = () => {
-        const app = saltos.hash.get().split('/').at(1);
+        const app = saltos.hash.parse.public(saltos.hash.get()).app;
         const key = `saltos.driver.resizable/${app}`;
         const data = saltos.storage.getItem(key);
         try {
@@ -849,9 +849,9 @@ saltos.driver.__resizable_3cols = () => {
  * @arg => an array with pairs of actions
  */
 saltos.driver.search_if_needed = arg => {
-    const action1 = saltos.hash.get().split('/').at(2);
+    const action1 = saltos.hash.parse.public(saltos.hash.get()).action;
     setTimeout(() => {
-        const action2 = saltos.hash.get().split('/').at(2);
+        const action2 = saltos.hash.parse.public(saltos.hash.get()).action;
         //~ console.log(action1 + ' => ' + action2);
         if (action1 === action2) {
             // Old feature
@@ -927,7 +927,7 @@ saltos.driver.__types.type1.template = arg => {
 saltos.driver.__types.type1.init = arg => {
     if (arg === 'list') {
         // Program the update event
-        const app = saltos.hash.get().split('/').at(1);
+        const app = saltos.hash.parse.public(saltos.hash.get()).app;
         saltos.window.set_listener(`saltos.${app}.update`, event => {
             saltos.driver.search();
             saltos.favicon.run();
@@ -935,7 +935,7 @@ saltos.driver.__types.type1.init = arg => {
     }
     if (arg === 'view') {
         // Program the update event
-        const app = saltos.hash.get().split('/').at(1);
+        const app = saltos.hash.parse.public(saltos.hash.get()).app;
         saltos.window.set_listener(`saltos.${app}.update`, event => {
             saltos.hash.trigger();
             saltos.favicon.run();
@@ -1019,7 +1019,7 @@ saltos.driver.__types.type2.template = arg => {
  */
 saltos.driver.__types.type2.init = arg => {
     if (arg === 'list') {
-        const action = saltos.hash.get().split('/').at(2);
+        const action = saltos.hash.parse.public(saltos.hash.get()).action;
         if (!['create', 'view', 'edit'].includes(action)) {
             saltos.driver.placeholder({
                 id: 'two',
@@ -1027,7 +1027,7 @@ saltos.driver.__types.type2.init = arg => {
             });
         }
         // Program the update event
-        const app = saltos.hash.get().split('/').at(1);
+        const app = saltos.hash.parse.public(saltos.hash.get()).app;
         saltos.window.set_listener(`saltos.${app}.update`, event => {
             saltos.driver.search_if_needed([
                 ['create', 'view'],
@@ -1037,7 +1037,7 @@ saltos.driver.__types.type2.init = arg => {
     }
     if (['create', 'view', 'edit'].includes(arg)) {
         if (!document.getElementById('one').textContent.trim().length) {
-            const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+            const temp = 'app/' + saltos.hash.parse.public(saltos.hash.get()).app;
             saltos.app.send_request(temp);
         }
     }
@@ -1052,7 +1052,7 @@ saltos.driver.__types.type2.init = arg => {
             obj.querySelectorAll('td').forEach(item => {
                 item.classList.remove('table-active');
             });
-            const id = saltos.hash.get().split('/').at(-1);
+            const id = saltos.hash.parse.public(saltos.hash.get()).id;
             const row = document.getElementById(`list_${id}`);
             if (row) {
                 row.querySelectorAll('td').forEach(item => {
@@ -1090,7 +1090,7 @@ saltos.driver.__types.type2.close = arg => {
         color: 'secondary',
     });
     // Hash part
-    const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+    const temp = 'app/' + saltos.hash.parse.public(saltos.hash.get()).app;
     saltos.hash.add(temp);
 };
 
@@ -1144,7 +1144,7 @@ saltos.driver.__types.type3.template = arg => {
  */
 saltos.driver.__types.type3.init = arg => {
     if (arg === 'list') {
-        const action = saltos.hash.get().split('/').at(2);
+        const action = saltos.hash.parse.public(saltos.hash.get()).action;
         if (!['create', 'view', 'edit'].includes(action)) {
             saltos.driver.placeholder({
                 id: 'two',
@@ -1156,7 +1156,7 @@ saltos.driver.__types.type3.init = arg => {
             });
         }
         // Program the update event
-        const app = saltos.hash.get().split('/').at(1);
+        const app = saltos.hash.parse.public(saltos.hash.get()).app;
         saltos.window.set_listener(`saltos.${app}.update`, event => {
             saltos.driver.search_if_needed([
                 ['create', 'view'],
@@ -1166,16 +1166,16 @@ saltos.driver.__types.type3.init = arg => {
     }
     if (['create', 'view', 'edit'].includes(arg)) {
         if (!document.getElementById('one').textContent.trim().length) {
-            const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+            const temp = 'app/' + saltos.hash.parse.public(saltos.hash.get()).app;
             saltos.app.send_request(temp);
         }
         if (!document.getElementById('two').textContent.trim().length) {
-            let temp = saltos.hash.get().split('/');
-            temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
+            const route = saltos.hash.parse.public(saltos.hash.get());
+            const temp = `app/${route.app}/${route.action}/${route.id}`;
             saltos.app.send_request(temp);
         }
-        const arr = saltos.hash.get().split('/');
-        if (arr.length < 5) {
+        const subaction = saltos.hash.parse.public(saltos.hash.get()).subaction;
+        if (subaction === '') {
             saltos.driver.placeholder({
                 id: 'three',
                 color: 'secondary',
@@ -1193,7 +1193,7 @@ saltos.driver.__types.type3.init = arg => {
             obj.querySelectorAll('td').forEach(item => {
                 item.classList.remove('table-active');
             });
-            const id = saltos.hash.get().split('/').at(-1);
+            const id = saltos.hash.parse.public(saltos.hash.get()).id;
             const row = document.getElementById(`list_${id}`);
             if (row) {
                 row.querySelectorAll('td').forEach(item => {
@@ -1221,16 +1221,16 @@ saltos.driver.__types.type3.open = saltos.driver.__types.type2.open;
  * @arg => unused at this scope
  */
 saltos.driver.__types.type3.close = arg => {
-    const arr = saltos.hash.get().split('/');
-    const action = saltos.hash.get().split('/').at(2);
-    if (arr.length >= 5 && action === 'view') {
+    const subaction = saltos.hash.parse.public(saltos.hash.get()).subaction;
+    const action = saltos.hash.parse.public(saltos.hash.get()).action;
+    if (subaction !== '' && action === 'view') {
         saltos.driver.placeholder({
             id: 'three',
             color: 'secondary',
         });
         // Hash part
-        let temp = saltos.hash.get().split('/');
-        temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
+        const route = saltos.hash.parse.public(saltos.hash.get());
+        const temp = `app/${route.app}/${route.action}/${route.id}`;
         saltos.hash.add(temp);
     } else {
         saltos.driver.placeholder({
@@ -1238,7 +1238,7 @@ saltos.driver.__types.type3.close = arg => {
             color: 'secondary',
         });
         // Hash part
-        const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+        const temp = 'app/' + saltos.hash.parse.public(saltos.hash.get()).app;
         saltos.hash.add(temp);
     }
 };
@@ -1278,12 +1278,12 @@ saltos.driver.__types.type1modal.template = arg => {
  */
 saltos.driver.__types.type1modal.init = arg => {
     if (arg === 'list') {
-        const action = saltos.hash.get().split('/').at(2);
+        const action = saltos.hash.parse.public(saltos.hash.get()).action;
         if (!['create', 'view', 'edit'].includes(action)) {
             saltos.bootstrap.modal('close');
         }
         // Program the update event
-        const app = saltos.hash.get().split('/').at(1);
+        const app = saltos.hash.parse.public(saltos.hash.get()).app;
         saltos.window.set_listener(`saltos.${app}.update`, event => {
             saltos.driver.search_if_needed([
                 ['edit', 'view'],
@@ -1292,7 +1292,7 @@ saltos.driver.__types.type1modal.init = arg => {
     }
     if (['create', 'view', 'edit'].includes(arg)) {
         if (!document.getElementById('one').textContent.trim().length) {
-            const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+            const temp = 'app/' + saltos.hash.parse.public(saltos.hash.get()).app;
             saltos.app.send_request(temp);
         }
         if (document.getElementById('two').textContent.trim().length) {
@@ -1334,7 +1334,7 @@ saltos.driver.__types.type1modal.open = saltos.driver.__types.type2.open;
 saltos.driver.__types.type1modal.close = arg => {
     saltos.bootstrap.modal('close');
     // Hash part
-    const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+    const temp = 'app/' + saltos.hash.parse.public(saltos.hash.get()).app;
     saltos.hash.add(temp);
 };
 
@@ -1443,7 +1443,7 @@ saltos.driver.__types.type2modal.template = arg => {
  */
 saltos.driver.__types.type2modal.init = arg => {
     if (arg === 'list') {
-        const action = saltos.hash.get().split('/').at(2);
+        const action = saltos.hash.parse.public(saltos.hash.get()).action;
         if (!['create', 'view', 'edit'].includes(action)) {
             saltos.driver.placeholder({
                 id: 'two',
@@ -1452,7 +1452,7 @@ saltos.driver.__types.type2modal.init = arg => {
             saltos.bootstrap.modal('close');
         }
         // Program the update event
-        const app = saltos.hash.get().split('/').at(1);
+        const app = saltos.hash.parse.public(saltos.hash.get()).app;
         saltos.window.set_listener(`saltos.${app}.update`, event => {
             saltos.driver.search_if_needed([
                 ['create', 'view'],
@@ -1462,12 +1462,12 @@ saltos.driver.__types.type2modal.init = arg => {
     }
     if (['create', 'view', 'edit'].includes(arg)) {
         if (!document.getElementById('one').textContent.trim().length) {
-            const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+            const temp = 'app/' + saltos.hash.parse.public(saltos.hash.get()).app;
             saltos.app.send_request(temp);
         }
         if (!document.getElementById('two').textContent.trim().length) {
-            let temp = saltos.hash.get().split('/');
-            temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
+            const route = saltos.hash.parse.public(saltos.hash.get());
+            const temp = `app/${route.app}/${route.action}/${route.id}`;
             saltos.app.send_request(temp);
         }
         if (document.getElementById('three').textContent.trim().length) {
@@ -1494,7 +1494,7 @@ saltos.driver.__types.type2modal.init = arg => {
             obj.querySelectorAll('td').forEach(item => {
                 item.classList.remove('table-active');
             });
-            const id = saltos.hash.get().split('/').at(-1);
+            const id = saltos.hash.parse.public(saltos.hash.get()).id;
             const row = document.getElementById(`list_${id}`);
             if (row) {
                 row.querySelectorAll('td').forEach(item => {
@@ -1522,13 +1522,13 @@ saltos.driver.__types.type2modal.open = saltos.driver.__types.type2.open;
  * @arg => unused at this scope
  */
 saltos.driver.__types.type2modal.close = arg => {
-    const arr = saltos.hash.get().split('/');
-    const action = saltos.hash.get().split('/').at(2);
-    if (arr.length >= 5 && action === 'view') {
+    const subaction = saltos.hash.parse.public(saltos.hash.get()).subaction;
+    const action = saltos.hash.parse.public(saltos.hash.get()).action;
+    if (subaction !== '' && action === 'view') {
         saltos.bootstrap.modal('close');
         // Hash part
-        let temp = saltos.hash.get().split('/');
-        temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
+        const route = saltos.hash.parse.public(saltos.hash.get());
+        const temp = `app/${route.app}/${route.action}/${route.id}`;
         saltos.hash.add(temp);
     } else {
         saltos.driver.placeholder({
@@ -1536,7 +1536,7 @@ saltos.driver.__types.type2modal.close = arg => {
             color: 'secondary',
         });
         // Hash part
-        const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+        const temp = 'app/' + saltos.hash.parse.public(saltos.hash.get()).app;
         saltos.hash.add(temp);
     }
 };

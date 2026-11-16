@@ -69,7 +69,7 @@ saltos.emails.init = arg => {
 
     // Handle state changes for list and view
     if (['list', 'view'].includes(arg)) {
-        const id = saltos.hash.get().split('/').at(-1);
+        const id = saltos.hash.parse.public(saltos.hash.get()).id;
         const button = document.getElementById(`button_${id}`);
         if (button) {
             button.classList.add('active');
@@ -146,17 +146,11 @@ saltos.emails.init = arg => {
                 return;
             }
 
-            let id1 = saltos.hash.get().split('/').at(3);
-            if (!saltos.core.is_number(id1)) {
-                id1 = saltos.hash.get().split('/').at(4);
-            }
+            const id1 = saltos.hash.parse.public(saltos.hash.get()).id;
             saltos.app.ajax({
                 url: `app/emails/view/body/${id1}`,
                 success: response => {
-                    let id2 = saltos.hash.get().split('/').at(3);
-                    if (!saltos.core.is_number(id2)) {
-                        id2 = saltos.hash.get().split('/').at(4);
-                    }
+                    const id2 = saltos.hash.parse.public(saltos.hash.get()).id;
                     if (id1 !== id2) {
                         return;
                     }
@@ -735,7 +729,7 @@ saltos.emails.move1 = () => {
  * This method moves the email opened in the view to another folder
  */
 saltos.emails.move2 = () => {
-    const id = saltos.hash.get().split('/').at(3);
+    const id = saltos.hash.parse.public(saltos.hash.get()).id;
     saltos.emails.__move(id);
 };
 
@@ -905,7 +899,7 @@ saltos.emails.delete2 = () => {
             icon: 'check-lg',
             autofocus: true,
             onclick: () => {
-                const id = saltos.hash.get().split('/').at(3);
+                const id = saltos.hash.parse.public(saltos.hash.get()).id;
                 saltos.app.ajax({
                     url: `app/emails/delete/${id}`,
                     proxy: 'network',
@@ -939,16 +933,12 @@ saltos.emails.send = () => {
         return;
     }
     const data = saltos.app.get_data(true);
-    let action = saltos.hash.get().split('/').at(3);
-    if (action === undefined) {
-        action = '';
-    } else {
+    let action = saltos.hash.parse.public(saltos.hash.get()).subaction;
+    if (action !== '') {
         action = '/' + action;
     }
-    let email_id = saltos.hash.get().split('/').at(4);
-    if (email_id === undefined) {
-        email_id = '';
-    } else {
+    let email_id = saltos.hash.parse.public(saltos.hash.get()).id;
+    if (email_id !== '') {
         email_id = '/' + email_id;
     }
     saltos.app.ajax({
@@ -981,7 +971,7 @@ saltos.emails.send = () => {
  * @param {string} what Specifies the state to set for the email.
  */
 saltos.emails.setter = what => {
-    const id = saltos.hash.get().split('/').at(3);
+    const id = saltos.hash.parse.public(saltos.hash.get()).id;
     saltos.app.ajax({
         url: `app/emails/view/setter/${id}`,
         proxy: 'network',
@@ -1030,7 +1020,7 @@ saltos.emails.signature = () => {
  * This function opens the raw source of the selected email for viewing in the driver.
  */
 saltos.emails.source = () => {
-    const id = saltos.hash.get().split('/').at(3);
+    const id = saltos.hash.parse.public(saltos.hash.get()).id;
     saltos.driver.open(`app/emails/view/source/${id}`);
 };
 
@@ -1040,7 +1030,7 @@ saltos.emails.source = () => {
  * This function opens the reply form for the currently selected email.
  */
 saltos.emails.reply = () => {
-    const id = saltos.hash.get().split('/').at(3);
+    const id = saltos.hash.parse.public(saltos.hash.get()).id;
     saltos.driver.open(`app/emails/create/reply/${id}`);
 };
 
@@ -1050,7 +1040,7 @@ saltos.emails.reply = () => {
  * This function opens the reply-all form for the currently selected email, including all recipients.
  */
 saltos.emails.replyall = () => {
-    const id = saltos.hash.get().split('/').at(3);
+    const id = saltos.hash.parse.public(saltos.hash.get()).id;
     saltos.driver.open(`app/emails/create/replyall/${id}`);
 };
 
@@ -1060,7 +1050,7 @@ saltos.emails.replyall = () => {
  * This function opens the forward form for the currently selected email.
  */
 saltos.emails.forward = () => {
-    const id = saltos.hash.get().split('/').at(3);
+    const id = saltos.hash.parse.public(saltos.hash.get()).id;
     saltos.driver.open(`app/emails/create/forward/${id}`);
 };
 
@@ -1080,7 +1070,7 @@ saltos.driver.search = arg => {
     saltos.backup.restore('top+one');
     const data = saltos.app.get_data(true);
     saltos.filter.update('last', data);
-    const app = saltos.hash.get().split('/').at(1);
+    const app = saltos.hash.parse.public(saltos.hash.get()).app;
     // Restore the more button
     const obj = document.getElementById('more');
     if (obj && 'saltos' in obj && typeof obj.saltos.set_disabled === 'function') {

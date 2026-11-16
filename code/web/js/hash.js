@@ -117,6 +117,128 @@ saltos.hash.url2hash = url => {
 };
 
 /**
+ * Parse object
+ *
+ * This object stores the functions used to parse the hashes (public) and the internal
+ * actions (private) that never are stored in the hash
+ */
+saltos.hash.parse = {};
+
+/**
+ * Parse public hash
+ *
+ * This function returns an object with the parts of the hash (app, action, subaction, id and file)
+ * to prevent the usage of positions in the code that uses the hash
+ *
+ * @hash => the hash that you want to parse
+ *
+ * Notes:
+ *
+ * Only the next hashes are allowed, otherwise an exception is thrown:
+ *
+ * app/X
+ * app/X/create
+ * app/X/create/reply/ID (and replyall and forward)
+ * app/X/edit/ID
+ * app/X/view/ID
+ * app/X/view/viewpdf/ID (and version, log and source)
+ * app/X/view/viewpdf/ID/FILE
+ */
+saltos.hash.parse.public = hash => {
+    const arr = hash.split('/');
+    if (arr[0] !== 'app' || !arr[1]) {
+        throw new Error(`Unknown hash ${hash}`);
+    }
+    const route = {app: arr[1], action: 'list', subaction: '', id: '', file: ''};
+    if (arr.length === 2) {
+        return route;
+    }
+    route.action = arr[2];
+    switch (route.action) {
+        case 'create':
+            // app/X/create
+            if (arr.length === 3) {
+                return route;
+            }
+            // app/X/create/reply/ID
+            if (arr.length === 5 && ['reply', 'replyall', 'forward'].includes(arr[3])) {
+                route.subaction = arr[3];
+                route.id = arr[4];
+                return route;
+            }
+            break;
+        case 'edit':
+            // app/X/edit/ID
+            if (arr.length === 4) {
+                route.id = arr[3];
+                return route;
+            }
+            break;
+        case 'view':
+            // app/X/view/ID
+            if (arr.length === 4) {
+                route.id = arr[3];
+                return route;
+            }
+            // app/X/view/viewpdf/ID
+            if (arr.length === 5 && ['viewpdf', 'version', 'log', 'source'].includes(arr[3])) {
+                route.subaction = arr[3];
+                route.id = arr[4];
+                return route;
+            }
+            // app/X/view/viewpdf/ID/FILE
+            if (arr.length === 6 && arr[3] === 'viewpdf') {
+                route.subaction = arr[3];
+                route.id = arr[4];
+                route.file = arr[5];
+                return route;
+            }
+            break;
+    }
+    throw new Error(`Unknown hash ${hash}`);
+};
+
+/**
+ * Parse private action
+ *
+ * This function returns an object with the parts of the action (app, action, subaction, id and
+ * file) like the public parse, but for the internal actions that never are stored in the hash
+ *
+ * @url => the url of the action that you want to parse
+ *
+ * Notes:
+ *
+ * Only the next actions are allowed, otherwise an exception is thrown:
+ *
+ * app/X/delete/ID
+ * app/X/delete/files/ID/FILE (and notes)
+ */
+saltos.hash.parse.private = url => {
+    const arr = url.split('/');
+    if (arr[0] !== 'app' || !arr[1]) {
+        throw new Error(`Unknown action ${url}`);
+    }
+    const route = {app: arr[1], action: arr[2], subaction: '', id: '', file: ''};
+    switch (route.action) {
+        case 'delete':
+            // app/X/delete/ID
+            if (arr.length === 4) {
+                route.id = arr[3];
+                return route;
+            }
+            // app/X/delete/files/ID/FILE
+            if (arr.length === 6 && ['files', 'notes'].includes(arr[3])) {
+                route.subaction = arr[3];
+                route.id = arr[4];
+                route.file = arr[5];
+                return route;
+            }
+            break;
+    }
+    throw new Error(`Unknown action ${url}`);
+};
+
+/**
  * Change trigger
  *
  * This function triggers the hashchange event to execute the onhashchange

@@ -61,7 +61,7 @@ saltos.common.help = () => {
         class: 'modal-xl',
     });
     document.querySelector('.modal-body').setAttribute('id', 'four');
-    const app = saltos.hash.get().split('/').at(1);
+    const app = saltos.hash.parse.public(saltos.hash.get()).app;
     saltos.app.send_request(`app/widgets/help/${app}`);
 };
 
@@ -215,8 +215,8 @@ saltos.common.filter = () => {
  */
 saltos.common.download = file => {
     if (file === undefined) {
-        const app = saltos.hash.get().split('/').at(1);
-        const id = saltos.hash.get().split('/').at(3);
+        const app = saltos.hash.parse.public(saltos.hash.get()).app;
+        const id = saltos.hash.parse.public(saltos.hash.get()).id;
         file = `app/${app}/view/download/${id}`;
     }
     saltos.app.ajax({
@@ -239,13 +239,14 @@ saltos.common.download = file => {
  * @file => the file or note string path
  */
 saltos.common.delete = file => {
-    const all_id = 'all' + file.split('/').slice(3, 6).join('_');
+    const route = saltos.hash.parse.private(file);
+    const all_id = `all${route.subaction}_${route.id}_${route.file}`;
     const row = document.getElementById(all_id);
     row.remove();
-    const del_id = 'del' + file.split('/').at(3);
+    const del_id = `del${route.subaction}`;
     const obj = document.getElementById(del_id);
     let value = obj.value.split(',');
-    value.push(file.split('/').at(-1));
+    value.push(route.file);
     obj.value = value.filter(arg => arg !== '').join(',');
 };
 
@@ -255,8 +256,8 @@ saltos.common.delete = file => {
  * This function open the version widget
  */
 saltos.common.version = () => {
-    const app = saltos.hash.get().split('/').at(1);
-    const id = saltos.hash.get().split('/').at(3);
+    const app = saltos.hash.parse.public(saltos.hash.get()).app;
+    const id = saltos.hash.parse.public(saltos.hash.get()).id;
     saltos.driver.open(`app/${app}/view/version/${id}`);
 };
 
@@ -266,8 +267,8 @@ saltos.common.version = () => {
  * This function open the log widget
  */
 saltos.common.log = () => {
-    const app = saltos.hash.get().split('/').at(1);
-    const id = saltos.hash.get().split('/').at(3);
+    const app = saltos.hash.parse.public(saltos.hash.get()).app;
+    const id = saltos.hash.parse.public(saltos.hash.get()).id;
     saltos.driver.open(`app/${app}/view/log/${id}`);
 };
 
@@ -277,8 +278,8 @@ saltos.common.log = () => {
  * This function open the edit screen
  */
 saltos.common.edit = () => {
-    const app = saltos.hash.get().split('/').at(1);
-    const id = saltos.hash.get().split('/').at(3);
+    const app = saltos.hash.parse.public(saltos.hash.get()).app;
+    const id = saltos.hash.parse.public(saltos.hash.get()).id;
     saltos.driver.open(`app/${app}/edit/${id}`);
 };
 
@@ -288,7 +289,7 @@ saltos.common.edit = () => {
  * This function open the create screen
  */
 saltos.common.create = () => {
-    const app = saltos.hash.get().split('/').at(1);
+    const app = saltos.hash.parse.public(saltos.hash.get()).app;
     saltos.driver.open(`app/${app}/create`);
 };
 
@@ -299,8 +300,8 @@ saltos.common.create = () => {
  */
 saltos.common.viewpdf = file => {
     if (file === undefined) {
-        const app = saltos.hash.get().split('/').at(1);
-        const id = saltos.hash.get().split('/').at(3);
+        const app = saltos.hash.parse.public(saltos.hash.get()).app;
+        const id = saltos.hash.parse.public(saltos.hash.get()).id;
         file = `app/${app}/view/viewpdf/${id}`;
     }
     saltos.driver.open(file);
@@ -352,7 +353,7 @@ saltos.common.allnotes = () => {
  * If no registers are selected, it prompts the user to select registers first.
  */
 saltos.common.viewpdf_checkbox = () => {
-    const app = saltos.hash.get().split('/').at(1);
+    const app = saltos.hash.parse.public(saltos.hash.get()).app;
     let ids = saltos.app.checkbox_ids(document.getElementById('list'));
     if (!ids.length) {
         saltos.app.modal(
@@ -375,7 +376,7 @@ saltos.common.viewpdf_checkbox = () => {
  * If no registers are selected, it prompts the user to select registers first.
  */
 saltos.common.download_checkbox = () => {
-    const app = saltos.hash.get().split('/').at(1);
+    const app = saltos.hash.parse.public(saltos.hash.get()).app;
     let ids = saltos.app.checkbox_ids(document.getElementById('list'));
     if (!ids.length) {
         saltos.app.modal(

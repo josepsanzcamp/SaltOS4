@@ -16,6 +16,7 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 
 ### Changed
 - Updated libraries: tcpdf, tc-lib-pdf, joditeditor, md5.
+- The web client reads the hash with `saltos.hash.parse.public` and `parse.private` instead of positions; unknown hashes throw an error.
 
 ## [4.2] - 2026-11-13
 

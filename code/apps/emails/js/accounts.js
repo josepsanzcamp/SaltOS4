@@ -39,7 +39,7 @@ saltos.emails_accounts = {};
  * @server => the server to test, incoming or outgoing
  */
 saltos.emails_accounts.test = server => {
-    const app = saltos.hash.get().split('/').at(1);
+    const app = saltos.hash.parse.public(saltos.hash.get()).app;
     const data = saltos.app.get_data(true);
     data.server = server;
     saltos.app.ajax({
