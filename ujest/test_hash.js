@@ -325,6 +325,17 @@ describe('saltos.hash.parse.public', () => {
     });
 
     /**
+     * Test empty parts
+     *
+     * Verifies the function removes the empty parts like the backend
+     */
+    test('should ignore empty parts', () => {
+        expect(saltos.hash.parse.public('app/customers/').action).toBe('list');
+        expect(saltos.hash.parse.public('app//customers/view//5/').id).toBe('5');
+        expect(saltos.hash.parse.private('app/customers/delete/5/').id).toBe('5');
+    });
+
+    /**
      * Test create hashes
      *
      * Verifies the function parses the create action with and without subaction

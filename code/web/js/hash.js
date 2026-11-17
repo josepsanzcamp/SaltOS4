@@ -134,6 +134,8 @@ saltos.hash.parse = {};
  *
  * Notes:
  *
+ * The empty parts are removed like in the backend, so app/X/ is the same that app/X
+ *
  * Only the next hashes are allowed, otherwise an exception is thrown:
  *
  * app/X
@@ -145,7 +147,7 @@ saltos.hash.parse = {};
  * app/X/view/viewpdf/ID/FILE
  */
 saltos.hash.parse.public = hash => {
-    const arr = hash.split('/');
+    const arr = hash.split('/').filter(item => item !== '');
     if (arr[0] !== 'app' || !arr[1]) {
         throw new Error(`Unknown hash ${hash}`);
     }
@@ -208,13 +210,16 @@ saltos.hash.parse.public = hash => {
  *
  * Notes:
  *
+ * The empty parts are removed like in the backend, so app/X/delete/ID/ is the same that
+ * app/X/delete/ID
+ *
  * Only the next actions are allowed, otherwise an exception is thrown:
  *
  * app/X/delete/ID
  * app/X/delete/files/ID/FILE (and notes)
  */
 saltos.hash.parse.private = url => {
-    const arr = url.split('/');
+    const arr = url.split('/').filter(item => item !== '');
     if (arr[0] !== 'app' || !arr[1]) {
         throw new Error(`Unknown action ${url}`);
     }
