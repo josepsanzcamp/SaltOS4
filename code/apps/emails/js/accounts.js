@@ -39,11 +39,11 @@ saltos.emails_accounts = {};
  * @server => the server to test, incoming or outgoing
  */
 saltos.emails_accounts.test = server => {
-    const app = saltos.hash.parse.public(saltos.hash.get()).app;
+    const app = saltos.hash.decode.public(saltos.hash.get()).app;
     const data = saltos.app.get_data(true);
     data.server = server;
     saltos.app.ajax({
-        url: `app/${app}/action/test`,
+        url: saltos.hash.encode.private({app, action: 'action', subaction: 'test'}),
         proxy: 'network',
         data: data,
         success: response => {

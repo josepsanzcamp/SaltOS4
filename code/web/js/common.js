@@ -61,8 +61,8 @@ saltos.common.help = () => {
         class: 'modal-xl',
     });
     document.querySelector('.modal-body').setAttribute('id', 'four');
-    const app = saltos.hash.parse.public(saltos.hash.get()).app;
-    saltos.app.send_request(`app/widgets/help/${app}`);
+    const app = saltos.hash.decode.public(saltos.hash.get()).app;
+    saltos.app.send_request(saltos.hash.encode.private({app: 'widgets', action: 'help', id: app}));
 };
 
 /**
@@ -215,9 +215,9 @@ saltos.common.filter = () => {
  */
 saltos.common.download = file => {
     if (file === undefined) {
-        const app = saltos.hash.parse.public(saltos.hash.get()).app;
-        const id = saltos.hash.parse.public(saltos.hash.get()).id;
-        file = `app/${app}/view/download/${id}`;
+        const app = saltos.hash.decode.public(saltos.hash.get()).app;
+        const id = saltos.hash.decode.public(saltos.hash.get()).id;
+        file = saltos.hash.encode.private({app, action: 'view', subaction: 'download', id});
     }
     saltos.app.ajax({
         url: file,
@@ -239,14 +239,14 @@ saltos.common.download = file => {
  * @file => the file or note string path
  */
 saltos.common.delete = file => {
-    const route = saltos.hash.parse.private(file);
-    const all_id = `all${route.subaction}_${route.id}_${route.file}`;
+    const route = saltos.hash.decode.private(file);
+    const all_id = `all${route.subaction}_${route.id}_${route.sub_id}`;
     const row = document.getElementById(all_id);
     row.remove();
     const del_id = `del${route.subaction}`;
     const obj = document.getElementById(del_id);
     let value = obj.value.split(',');
-    value.push(route.file);
+    value.push(route.sub_id);
     obj.value = value.filter(arg => arg !== '').join(',');
 };
 
@@ -256,9 +256,9 @@ saltos.common.delete = file => {
  * This function open the version widget
  */
 saltos.common.version = () => {
-    const app = saltos.hash.parse.public(saltos.hash.get()).app;
-    const id = saltos.hash.parse.public(saltos.hash.get()).id;
-    saltos.driver.open(`app/${app}/view/version/${id}`);
+    const app = saltos.hash.decode.public(saltos.hash.get()).app;
+    const id = saltos.hash.decode.public(saltos.hash.get()).id;
+    saltos.driver.open(saltos.hash.encode.public({app, action: 'view', subaction: 'version', id}));
 };
 
 /**
@@ -267,9 +267,9 @@ saltos.common.version = () => {
  * This function open the log widget
  */
 saltos.common.log = () => {
-    const app = saltos.hash.parse.public(saltos.hash.get()).app;
-    const id = saltos.hash.parse.public(saltos.hash.get()).id;
-    saltos.driver.open(`app/${app}/view/log/${id}`);
+    const app = saltos.hash.decode.public(saltos.hash.get()).app;
+    const id = saltos.hash.decode.public(saltos.hash.get()).id;
+    saltos.driver.open(saltos.hash.encode.public({app, action: 'view', subaction: 'log', id}));
 };
 
 /**
@@ -278,9 +278,9 @@ saltos.common.log = () => {
  * This function open the edit screen
  */
 saltos.common.edit = () => {
-    const app = saltos.hash.parse.public(saltos.hash.get()).app;
-    const id = saltos.hash.parse.public(saltos.hash.get()).id;
-    saltos.driver.open(`app/${app}/edit/${id}`);
+    const app = saltos.hash.decode.public(saltos.hash.get()).app;
+    const id = saltos.hash.decode.public(saltos.hash.get()).id;
+    saltos.driver.open(saltos.hash.encode.public({app, action: 'edit', id}));
 };
 
 /**
@@ -289,8 +289,8 @@ saltos.common.edit = () => {
  * This function open the create screen
  */
 saltos.common.create = () => {
-    const app = saltos.hash.parse.public(saltos.hash.get()).app;
-    saltos.driver.open(`app/${app}/create`);
+    const app = saltos.hash.decode.public(saltos.hash.get()).app;
+    saltos.driver.open(saltos.hash.encode.public({app, action: 'create'}));
 };
 
 /**
@@ -300,9 +300,9 @@ saltos.common.create = () => {
  */
 saltos.common.viewpdf = file => {
     if (file === undefined) {
-        const app = saltos.hash.parse.public(saltos.hash.get()).app;
-        const id = saltos.hash.parse.public(saltos.hash.get()).id;
-        file = `app/${app}/view/viewpdf/${id}`;
+        const app = saltos.hash.decode.public(saltos.hash.get()).app;
+        const id = saltos.hash.decode.public(saltos.hash.get()).id;
+        file = saltos.hash.encode.public({app, action: 'view', subaction: 'viewpdf', id});
     }
     saltos.driver.open(file);
 };
@@ -353,7 +353,7 @@ saltos.common.allnotes = () => {
  * If no registers are selected, it prompts the user to select registers first.
  */
 saltos.common.viewpdf_checkbox = () => {
-    const app = saltos.hash.parse.public(saltos.hash.get()).app;
+    const app = saltos.hash.decode.public(saltos.hash.get()).app;
     let ids = saltos.app.checkbox_ids(document.getElementById('list'));
     if (!ids.length) {
         saltos.app.modal(
@@ -366,7 +366,7 @@ saltos.common.viewpdf_checkbox = () => {
         return;
     }
     ids = ids.join(',');
-    saltos.common.viewpdf(`app/${app}/view/viewpdf/${ids}`);
+    saltos.common.viewpdf(saltos.hash.encode.public({app, action: 'view', subaction: 'viewpdf', id: ids}));
 };
 
 /**
@@ -376,7 +376,7 @@ saltos.common.viewpdf_checkbox = () => {
  * If no registers are selected, it prompts the user to select registers first.
  */
 saltos.common.download_checkbox = () => {
-    const app = saltos.hash.parse.public(saltos.hash.get()).app;
+    const app = saltos.hash.decode.public(saltos.hash.get()).app;
     let ids = saltos.app.checkbox_ids(document.getElementById('list'));
     if (!ids.length) {
         saltos.app.modal(
@@ -389,5 +389,5 @@ saltos.common.download_checkbox = () => {
         return;
     }
     ids = ids.join(',');
-    saltos.common.download(`app/${app}/view/download/${ids}`);
+    saltos.common.download(saltos.hash.encode.private({app, action: 'view', subaction: 'download', id: ids}));
 };

@@ -117,20 +117,20 @@ saltos.hash.url2hash = url => {
 };
 
 /**
- * Parse object
+ * Decode object
  *
- * This object stores the functions used to parse the hashes (public) and the internal
+ * This object stores the functions used to decode the hashes (public) and the internal
  * actions (private) that never are stored in the hash
  */
-saltos.hash.parse = {};
+saltos.hash.decode = {};
 
 /**
- * Parse public hash
+ * Decode public hash
  *
- * This function returns an object with the parts of the hash (app, action, subaction, id and file)
+ * This function returns an object with the parts of the hash (app, action, subaction, id and sub_id)
  * to prevent the usage of positions in the code that uses the hash
  *
- * @hash => the hash that you want to parse
+ * @hash => the hash that you want to decode
  *
  * Notes:
  *
@@ -139,24 +139,31 @@ saltos.hash.parse = {};
  * Only the next hashes are allowed, otherwise an exception is thrown:
  *
  * app/X
+ * app/X/list
  * app/X/create
  * app/X/create/reply/ID (and replyall and forward)
  * app/X/edit/ID
  * app/X/view/ID
  * app/X/view/viewpdf/ID (and version, log and source)
- * app/X/view/viewpdf/ID/FILE
+ * app/X/view/viewpdf/ID/SUB_ID
  */
-saltos.hash.parse.public = hash => {
+saltos.hash.decode.public = hash => {
     const arr = hash.split('/').filter(item => item !== '');
     if (arr[0] !== 'app' || !arr[1]) {
         throw new Error(`Unknown hash ${hash}`);
     }
-    const route = {app: arr[1], action: 'list', subaction: '', id: '', file: ''};
+    const route = {app: arr[1], action: '', subaction: '', id: '', sub_id: ''};
     if (arr.length === 2) {
         return route;
     }
     route.action = arr[2];
     switch (route.action) {
+        case 'list':
+            // app/X/list
+            if (arr.length === 3) {
+                return route;
+            }
+            break;
         case 'create':
             // app/X/create
             if (arr.length === 3) {
@@ -188,11 +195,11 @@ saltos.hash.parse.public = hash => {
                 route.id = arr[4];
                 return route;
             }
-            // app/X/view/viewpdf/ID/FILE
+            // app/X/view/viewpdf/ID/SUB_ID
             if (arr.length === 6 && arr[3] === 'viewpdf') {
                 route.subaction = arr[3];
                 route.id = arr[4];
-                route.file = arr[5];
+                route.sub_id = arr[5];
                 return route;
             }
             break;
@@ -201,12 +208,12 @@ saltos.hash.parse.public = hash => {
 };
 
 /**
- * Parse private action
+ * Decode private action
  *
  * This function returns an object with the parts of the action (app, action, subaction, id and
- * file) like the public parse, but for the internal actions that never are stored in the hash
+ * sub_id) like the public decode, but for the internal actions that never are stored in the hash
  *
- * @url => the url of the action that you want to parse
+ * @url => the url of the action that you want to decode
  *
  * Notes:
  *
@@ -215,32 +222,149 @@ saltos.hash.parse.public = hash => {
  *
  * Only the next actions are allowed, otherwise an exception is thrown:
  *
+ * app/X/list/data (and filter)
+ * app/X/insert
+ * app/X/update/ID
+ * app/X/view/download/ID
+ * app/X/view/download/ID/SUB_ID
+ * app/X/view/body/ID (and setter)
+ * app/X/sendmail
+ * app/X/sendmail/reply/ID (and replyall and forward)
  * app/X/delete/ID
- * app/X/delete/files/ID/FILE (and notes)
+ * app/X/delete/files/ID/SUB_ID (and notes)
+ * app/X/action/NAME
+ * app/widgets/help/APP
  */
-saltos.hash.parse.private = url => {
+saltos.hash.decode.private = url => {
     const arr = url.split('/').filter(item => item !== '');
     if (arr[0] !== 'app' || !arr[1]) {
         throw new Error(`Unknown action ${url}`);
     }
-    const route = {app: arr[1], action: arr[2], subaction: '', id: '', file: ''};
+    const route = {app: arr[1], action: arr[2], subaction: '', id: '', sub_id: ''};
     switch (route.action) {
+        case 'list':
+            // app/X/list/data
+            if (arr.length === 4 && ['data', 'filter'].includes(arr[3])) {
+                route.subaction = arr[3];
+                return route;
+            }
+            break;
+        case 'insert':
+            // app/X/insert
+            if (arr.length === 3) {
+                return route;
+            }
+            break;
+        case 'update':
+            // app/X/update/ID
+            if (arr.length === 4) {
+                route.id = arr[3];
+                return route;
+            }
+            break;
+        case 'view':
+            // app/X/view/download/ID
+            if (arr.length === 5 && ['download', 'body', 'setter'].includes(arr[3])) {
+                route.subaction = arr[3];
+                route.id = arr[4];
+                return route;
+            }
+            // app/X/view/download/ID/SUB_ID
+            if (arr.length === 6 && arr[3] === 'download') {
+                route.subaction = arr[3];
+                route.id = arr[4];
+                route.sub_id = arr[5];
+                return route;
+            }
+            break;
+        case 'sendmail':
+            // app/X/sendmail
+            if (arr.length === 3) {
+                return route;
+            }
+            // app/X/sendmail/reply/ID
+            if (arr.length === 5 && ['reply', 'replyall', 'forward'].includes(arr[3])) {
+                route.subaction = arr[3];
+                route.id = arr[4];
+                return route;
+            }
+            break;
         case 'delete':
             // app/X/delete/ID
             if (arr.length === 4) {
                 route.id = arr[3];
                 return route;
             }
-            // app/X/delete/files/ID/FILE
+            // app/X/delete/files/ID/SUB_ID
             if (arr.length === 6 && ['files', 'notes'].includes(arr[3])) {
                 route.subaction = arr[3];
                 route.id = arr[4];
-                route.file = arr[5];
+                route.sub_id = arr[5];
+                return route;
+            }
+            break;
+        case 'action':
+            // app/X/action/NAME
+            if (arr.length === 4) {
+                route.subaction = arr[3];
+                return route;
+            }
+            break;
+        case 'help':
+            // app/widgets/help/APP
+            if (arr.length === 4 && route.app === 'widgets') {
+                route.id = arr[3];
                 return route;
             }
             break;
     }
     throw new Error(`Unknown action ${url}`);
+};
+
+/**
+ * Encode object
+ *
+ * This object stores the functions used to encode the hashes (public) and the internal
+ * actions (private), it is the inverse of the decode object
+ */
+saltos.hash.encode = {};
+
+/**
+ * Encode public hash
+ *
+ * This function returns the hash of the route object (app, action, subaction, id and sub_id),
+ * the omitted or empty parts are not added
+ *
+ * @route => the route object that you want to encode
+ *
+ * Notes:
+ *
+ * The result is validated with the public decode, so an unknown route throws an exception
+ */
+saltos.hash.encode.public = route => {
+    const arr = ['app', route.app, route.action, route.subaction, route.id, route.sub_id];
+    const hash = arr.filter(item => item !== undefined && item !== '').join('/');
+    saltos.hash.decode.public(hash);
+    return hash;
+};
+
+/**
+ * Encode private action
+ *
+ * This function returns the url of the route object (app, action, subaction, id and sub_id)
+ * like the public encode, but for the internal actions that never are stored in the hash
+ *
+ * @route => the route object that you want to encode
+ *
+ * Notes:
+ *
+ * The result is validated with the private decode, so an unknown route throws an exception
+ */
+saltos.hash.encode.private = route => {
+    const arr = ['app', route.app, route.action, route.subaction, route.id, route.sub_id];
+    const url = arr.filter(item => item !== undefined && item !== '').join('/');
+    saltos.hash.decode.private(url);
+    return url;
 };
 
 /**
