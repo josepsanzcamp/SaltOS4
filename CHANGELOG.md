@@ -18,6 +18,9 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 - Updated libraries: tcpdf, tc-lib-pdf, joditeditor, md5.
 - The web client reads the hash with `saltos.hash.parse.public` and `parse.private` instead of positions; unknown hashes throw an error.
 
+### Fixed
+- Reply, reply all and forward check the permissions of the original email.
+
 ## [4.2] - 2026-11-13
 
 ### Upgrade notes

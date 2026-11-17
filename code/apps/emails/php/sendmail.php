@@ -378,6 +378,11 @@ function sendmail_prepare($action, $email_id)
 {
     require_once 'apps/emails/php/getmail.php';
 
+    // Check the permissions of the original email
+    if (in_array($action, ['reply', 'replyall', 'forward'], true) && !__getmail_checkperm($email_id)) {
+        show_php_error(['phperror' => 'Permission denied']);
+    }
+
     // Retrieve the default email account
     $query = "SELECT id
         FROM app_emails_accounts
@@ -592,6 +597,11 @@ function sendmail_action($json, $action, $email_id)
 {
     require_once 'apps/emails/php/getmail.php';
     require_once 'php/lib/upload.php';
+
+    // Check the permissions of the original email
+    if (in_array($action, ['reply', 'replyall', 'forward'], true) && !__getmail_checkperm($email_id)) {
+        show_php_error(['phperror' => 'Permission denied']);
+    }
 
     // Extract data from input JSON
     $account_id = intval($json['from'] ?? 0);

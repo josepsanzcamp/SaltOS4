@@ -638,6 +638,8 @@ final class test_emails extends TestCase
         test_external_exec('php/emails09.php', 'phperror.log', 'permission denied');
         test_external_exec('php/emails10.php', 'phperror.log', 'permission denied');
         test_external_exec('php/emails11.php', 'phperror.log', 'could not decode de message');
+        test_external_exec('php/emails13.php', 'phperror.log', 'permission denied');
+        test_external_exec('php/emails14.php', 'phperror.log', 'permission denied');
 
         unlink($cache);
 
