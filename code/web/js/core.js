@@ -400,6 +400,7 @@ saltos.core.ajax = args => {
             }
             if (saltos.core.about !== about) {
                 window.location.reload();
+                return;
             }
         }
         // Process response
