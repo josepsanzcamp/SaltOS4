@@ -47,6 +47,9 @@ if (!is_array($array) || !count($array)) {
     show_php_error(['phperror' => 'Internal error']);
 }
 
+// Decode the route of the request, before the tricks used to find the node
+set_data('route', decode_route(get_data('rest')));
+
 $found = false;
 
 // Check for rest/2, that is the name of the action to load
@@ -149,6 +152,9 @@ if (!isset($array[get_data('rest/2')])) {
 // Get only the action part
 $array = $array[get_data('rest/2')];
 set_data('rest/2', fix_key(get_data('rest/2')));
+
+// Add the node that answers the request to the route
+set_data('route/node', get_data('rest/2'));
 
 // Check if array contains an eval attr
 $candidate = is_attr_value($array) && isset($array['#attr']['eval']);

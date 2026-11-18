@@ -17,15 +17,15 @@
 <root>
     <view id="log">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/4'))</check>
-        <check eval="true">check_user(get_data('rest/1'), 'info')</check>
-        <temp require="php/lib/log.php" eval="true">make_log(get_data('rest/1'), get_data('rest/3'), get_data('rest/4'))</temp>
-        <cache eval="true">'app/'.get_data('rest/1').'/main'</cache>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'), get_data('route/id'))</check>
+        <check eval="true">check_user(get_data('route/app'), 'info')</check>
+        <temp require="php/lib/log.php" eval="true">make_log(get_data('route/app'), get_data('route/subaction'), get_data('route/id'))</temp>
+        <cache eval="true">'app/'.get_data('route/app').'/main'</cache>
         <title append="modal">Access log</title>
         <layout append="three,two,one">
             <row auto="true" row_class="row g-3 mb-3" col_class="col-12">
                 <jspreadsheet id="log" col_class="col-12" disabled="true" height="calc(100vh - 200px)"
-                    require="apps/common/php/matrix.php" eval="true">make_matrix_log(get_data('rest/1'), get_data('rest/4'))
+                    require="apps/common/php/matrix.php" eval="true">make_matrix_log(get_data('route/app'), get_data('route/id'))
                 </jspreadsheet>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">

@@ -627,3 +627,180 @@ function make_app_file_helper($yamlfile)
     chmod_protected($xmlfile, 0666);
     return $xmlfile;
 }
+
+/**
+ * Decode route
+ *
+ * This function returns an array with the parts of the request (app, action, subaction, id
+ * and sub_id) to prevent the usage of positions in the code that uses the rest of the request
+ *
+ * @rest => the rest of the request that you want to decode
+ *
+ * Notes:
+ *
+ * The route maps the request as is, before the tricks used by the app action to find the node,
+ * so app/X/update/ID is the update action with the id and not the edit node with the update id
+ *
+ * Only the next requests are allowed, otherwise a json error is sent:
+ *
+ * app/X
+ * app/X/ACTION (any action that not requires an id)
+ * app/X/list/NAME (and widget and action)
+ * app/X/create/cache (and signature and emails)
+ * app/X/create/reply/ID (and replyall and forward)
+ * app/X/sendmail/reply/ID (and replyall and forward)
+ * app/X/edit/ID
+ * app/X/edit/cache
+ * app/X/view/ID
+ * app/X/view/cache
+ * app/X/view/viewpdf/ID (and download, version, log, body, setter and source)
+ * app/X/view/viewpdf/ID/SUB_ID (and download)
+ * app/X/update/ID (and delete)
+ * app/widgets/help/APP
+ */
+function decode_route($rest)
+{
+    $rest = array_values($rest);
+    $count = count($rest);
+    $path = implode('/', $rest);
+    if (($rest[0] ?? '') !== 'app' || ($rest[1] ?? '') === '') {
+        show_json_error("Route $path not found");
+    }
+    $route = [
+        'app' => $rest[1],
+        'action' => $rest[2] ?? '',
+        'subaction' => '',
+        'id' => '',
+        'sub_id' => '',
+    ];
+    switch ($route['action']) {
+        case '':
+            // app/X
+            return $route;
+        case 'view':
+            // app/X/view/ID and app/X/view/cache
+            if ($count === 4) {
+                if ($rest[3] === 'cache') {
+                    $route['subaction'] = $rest[3];
+                } else {
+                    $route['id'] = $rest[3];
+                }
+                return $route;
+            }
+            // app/X/view/viewpdf/ID
+            $items = ['viewpdf', 'download', 'version', 'log', 'body', 'setter', 'source'];
+            if ($count === 5 && in_array($rest[3], $items, true)) {
+                $route['subaction'] = $rest[3];
+                $route['id'] = $rest[4];
+                return $route;
+            }
+            // app/X/view/viewpdf/ID/SUB_ID
+            if ($count === 6 && in_array($rest[3], ['viewpdf', 'download'], true)) {
+                $route['subaction'] = $rest[3];
+                $route['id'] = $rest[4];
+                $route['sub_id'] = $rest[5];
+                return $route;
+            }
+            break;
+        case 'edit':
+            // app/X/edit/ID and app/X/edit/cache
+            if ($count === 4) {
+                if ($rest[3] === 'cache') {
+                    $route['subaction'] = $rest[3];
+                } else {
+                    $route['id'] = $rest[3];
+                }
+                return $route;
+            }
+            break;
+        case 'create':
+            // app/X/create
+            if ($count === 3) {
+                return $route;
+            }
+            // app/X/create/cache
+            if ($count === 4 && in_array($rest[3], ['cache', 'signature', 'emails'], true)) {
+                $route['subaction'] = $rest[3];
+                return $route;
+            }
+            // app/X/create/reply/ID
+            if ($count === 5 && in_array($rest[3], ['reply', 'replyall', 'forward'], true)) {
+                $route['subaction'] = $rest[3];
+                $route['id'] = $rest[4];
+                return $route;
+            }
+            break;
+        case 'sendmail':
+            // app/X/sendmail
+            if ($count === 3) {
+                return $route;
+            }
+            // app/X/sendmail/reply/ID
+            if ($count === 5 && in_array($rest[3], ['reply', 'replyall', 'forward'], true)) {
+                $route['subaction'] = $rest[3];
+                $route['id'] = $rest[4];
+                return $route;
+            }
+            break;
+        case 'update':
+        case 'delete':
+            // app/X/update/ID
+            if ($count === 4) {
+                $route['id'] = $rest[3];
+                return $route;
+            }
+            break;
+        case 'help':
+            // app/widgets/help/APP
+            if ($count === 4 && $route['app'] === 'widgets') {
+                $route['id'] = $rest[3];
+                return $route;
+            }
+            break;
+        case 'list':
+        case 'widget':
+        case 'action':
+            // app/X/list
+            if ($count === 3) {
+                return $route;
+            }
+            // app/X/list/NAME
+            if ($count === 4) {
+                $route['subaction'] = $rest[3];
+                return $route;
+            }
+            break;
+        default:
+            // app/X/ACTION
+            if ($count === 3) {
+                return $route;
+            }
+            break;
+    }
+    show_json_error("Route $path not found");
+}
+
+/**
+ * Encode route
+ *
+ * This function returns the request of the route array (app, action, subaction, id and
+ * sub_id), the omitted or empty parts are not added
+ *
+ * @route => the route array that you want to encode
+ *
+ * Notes:
+ *
+ * The result is validated with the decode route, so an unknown route sends a json error
+ */
+function encode_route($route)
+{
+    $rest = ['app'];
+    foreach (['app', 'action', 'subaction', 'id', 'sub_id'] as $key) {
+        $val = strval($route[$key] ?? '');
+        if ($val !== '') {
+            $rest[] = $val;
+        }
+    }
+    decode_route($rest);
+    return implode('/', $rest);
+}

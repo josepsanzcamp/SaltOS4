@@ -17,7 +17,7 @@
 <root>
     <main>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <javascript>
             <file eval="true">file_with_hash(file_with_min('apps/emails/js/driver.js'))</file>
             <file eval="true">file_with_hash(file_with_min('apps/emails/js/emails.js'))</file>
@@ -30,13 +30,13 @@
     <!-- List part -->
     <list default="true">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <cache>app/emails/list/cache</cache>
     </list>
 
     <list id="cache">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <cache>app/emails/main</cache>
         <title>Email's list</title>
         <layout append="top">
@@ -157,9 +157,9 @@
 
     <list id="data">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <temp eval="true">[
-            set_config('app/'.get_data('rest/1').'/filter/last', json_encode(get_data('json'), JSON_FORCE_OBJECT), current_user()),
+            set_config('app/'.get_data('route/app').'/filter/last', json_encode(get_data('json'), JSON_FORCE_OBJECT), current_user()),
             set_data('json/search', strval(get_data('json/search'))),
             set_data('json/page', intval(get_data('json/page'))),
             set_data('json/order', 'id DESC'),
@@ -211,16 +211,16 @@
 
     <list id="folders">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <data require="apps/emails/php/folders.php" eval="true">emails_folders_tree(get_data('json/ids'))</data>
     </list>
 
     <!-- Form part -->
     <create>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <cache>app/emails/create/cache</cache>
-        <data require="apps/emails/php/sendmail.php" eval="true">sendmail_prepare(get_data('rest/3'),intval(get_data('rest/4')))</data>
+        <data require="apps/emails/php/sendmail.php" eval="true">sendmail_prepare(get_data('route/subaction'),intval(get_data('route/id')))</data>
         <javascript>
             <inline>saltos.emails.init('create')</inline>
             <inline>saltos.driver.init('create')</inline>
@@ -229,7 +229,7 @@
 
     <create id="cache">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <cache>app/emails/main</cache>
         <title>New email</title>
         <layout append="two,one">
@@ -276,7 +276,7 @@
 
     <create id="emails">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <data eval="true">execute_query_array("SELECT
                 CASE name
                     WHEN '' THEN value
@@ -310,26 +310,26 @@
 
     <create id="signature">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <data require="apps/emails/php/sendmail.php" eval="true">sendmail_signature(get_data('json'))</data>
     </create>
 
     <create id="sendmail">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
-        <output require="apps/emails/php/sendmail.php" eval="true">sendmail_action(get_data('json'), get_data('rest/4'), get_data('rest/5'))</output>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
+        <output require="apps/emails/php/sendmail.php" eval="true">sendmail_action(get_data('json'), get_data('route/subaction'), get_data('route/id'))</output>
     </create>
 
     <view>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'), get_data('route/id'))</check>
         <cache>app/emails/view/cache</cache>
         <data eval="true">execute_query("SELECT `from`, `to`, cc, bcc, datetime, CONCAT(account_id, '/', uidl) uidl, priority,
             sensitivity, state_sent, state_new, state_reply, state_forward, state_wait, state_crt, subject, state_error, is_outbox, files num_files
-            FROM app_emails WHERE id = ? AND ".check_sql(get_data('rest/1'), get_data('rest/2')), [intval(get_data('rest/3'))])</data>
-        <data><body require="apps/emails/php/getmail.php" eval="true">getmail_body(intval(get_data('rest/3')))</body></data>
+            FROM app_emails WHERE id = ? AND ".check_sql(get_data('route/app'), get_data('route/node')), [intval(get_data('route/id'))])</data>
+        <data><body require="apps/emails/php/getmail.php" eval="true">getmail_body(intval(get_data('route/id')))</body></data>
         <data><files><data require="apps/emails/php/getmail.php" eval="true">merge_data_actions(
-            getmail_files(intval(get_data('rest/3'))),
+            getmail_files(intval(get_data('route/id'))),
             xpath_search_first_value('view/actions', xmlfile2array('apps/emails/xml/emails.xml'))
         )</data></files></data>
         <actions ifeval="false">
@@ -344,7 +344,7 @@
 
     <view id="cache">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <cache>app/emails/main</cache>
         <title>Detail of the email</title>
         <layout append="two,one">
@@ -426,25 +426,25 @@
 
     <view id="body">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/4'))</check>
-        <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_body(intval(get_data('rest/4')), true)</srcdoc>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'), get_data('route/id'))</check>
+        <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_body(intval(get_data('route/id')), true)</srcdoc>
     </view>
 
     <view id="setter">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/4'))</check>
-        <text require="apps/emails/php/getmail.php" eval="true">getmail_setter(get_data('rest/4'), get_data('json/what'))</text>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'), get_data('route/id'))</check>
+        <text require="apps/emails/php/getmail.php" eval="true">getmail_setter(get_data('route/id'), get_data('json/what'))</text>
     </view>
 
     <view id="source">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/4'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'), get_data('route/id'))</check>
         <cache>app/emails/main</cache>
         <title append="modal">Source of the email</title>
         <layout append="three,two,one">
             <row auto="true" row_class="row g-3 mb-3" col_class="col-12">
                 <iframe id="iframe" invert="true">
-                    <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_source(intval(get_data('rest/4')))</srcdoc>
+                    <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_source(intval(get_data('route/id')))</srcdoc>
                 </iframe>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -459,22 +459,33 @@
 
     <view id="viewpdf">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/4'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'), get_data('route/id'))</check>
         <cache>app/emails/main</cache>
-        <title append="modal" ifeval="get_data('rest/5')" require="apps/emails/php/getmail.php" eval="true">getmail_cid(intval(get_data('rest/4')),get_data('rest/5'))['name']</title>
-        <title append="modal" ifeval="!get_data('rest/5')" require="apps/emails/php/getmail.php" eval="true">getmail_pdf(check_ids(get_data('rest/4')))['name']</title>
+        <title append="modal" ifeval="get_data('route/sub_id')" require="apps/emails/php/getmail.php" eval="true">getmail_cid(intval(get_data('route/id')),get_data('route/sub_id'))['name']</title>
+        <title append="modal" ifeval="!get_data('route/sub_id')" require="apps/emails/php/getmail.php" eval="true">getmail_pdf(check_ids(get_data('route/id')))['name']</title>
         <layout append="three,two,one">
             <row auto="true" row_class="row g-3 mb-3" col_class="col-12">
                 <pdfjs id="pdfjs" invert="true">
-                    <srcdoc ifeval="get_data('rest/5')" require="apps/emails/php/getmail.php" eval="true">getmail_viewpdf(intval(get_data('rest/4')),get_data('rest/5'))</srcdoc>
-                    <srcdoc ifeval="!get_data('rest/5')" require="apps/emails/php/getmail.php" eval="true">getmail_pdf(check_ids(get_data('rest/4')))['data']</srcdoc>
+                    <srcdoc ifeval="get_data('route/sub_id')" require="apps/emails/php/getmail.php" eval="true">getmail_viewpdf(intval(get_data('route/id')),get_data('route/sub_id'))</srcdoc>
+                    <srcdoc ifeval="!get_data('route/sub_id')" require="apps/emails/php/getmail.php" eval="true">getmail_pdf(check_ids(get_data('route/id')))['data']</srcdoc>
                 </pdfjs>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button label="Download" tooltip="To download the email" icon="save">
-                    <onclick ifeval="get_data('rest/5')" eval="true">"saltos.common.download('app/emails/view/download/".intval(get_data('rest/4')).'/'.get_data('rest/5')."')"</onclick>
-                    <onclick ifeval="!get_data('rest/5')" eval="true">"saltos.common.download('app/emails/view/download/".check_ids(get_data('rest/4'))."')"</onclick>
+                    <onclick ifeval="get_data('route/sub_id')" eval="true">"saltos.common.download('".encode_route([
+                        'app' => 'emails',
+                        'action' => 'view',
+                        'subaction' => 'download',
+                        'id' => intval(get_data('route/id')),
+                        'sub_id' => get_data('route/sub_id'),
+                    ])."')"</onclick>
+                    <onclick ifeval="!get_data('route/sub_id')" eval="true">"saltos.common.download('".encode_route([
+                        'app' => 'emails',
+                        'action' => 'view',
+                        'subaction' => 'download',
+                        'id' => check_ids(get_data('route/id')),
+                    ])."')"</onclick>
                 </button>
                 <button onclick="saltos.driver.close()" label="Close" tooltip="To close this list" icon="x-lg" autoclose="true"/>
             </row>
@@ -486,51 +497,51 @@
 
     <view id="download">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/4'))</check>
-        <output ifeval="get_data('rest/5')" require="apps/emails/php/getmail.php" eval="true">getmail_download(intval(get_data('rest/4')),get_data('rest/5'))</output>
-        <output ifeval="!get_data('rest/5')" require="apps/emails/php/getmail.php" eval="true">getmail_pdf(check_ids(get_data('rest/4')))</output>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'), get_data('route/id'))</check>
+        <output ifeval="get_data('route/sub_id')" require="apps/emails/php/getmail.php" eval="true">getmail_download(intval(get_data('route/id')),get_data('route/sub_id'))</output>
+        <output ifeval="!get_data('route/sub_id')" require="apps/emails/php/getmail.php" eval="true">getmail_pdf(check_ids(get_data('route/id')))</output>
     </view>
 
     <delete>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))</check>
-        <text require="apps/emails/php/getmail.php" eval="true">getmail_delete(get_data('rest/3'))</text>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'), get_data('route/id'))</check>
+        <text require="apps/emails/php/getmail.php" eval="true">getmail_delete(get_data('route/id'))</text>
     </delete>
 
     <!-- Actions part -->
     <action id="server">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <output require="apps/emails/php/getmail.php,apps/emails/php/sendmail.php" eval="true">array_merge(getmail_server(),sendmail_server())</output>
     </action>
 
     <action id="move">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <text require="apps/emails/php/folders.php" eval="true">emails_folders_move_to(get_data('json/ids'), get_data('json/folder_id'))</text>
     </action>
 
     <action id="folder">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <text require="apps/emails/php/folders.php" eval="true">emails_folders_action(get_data('json'))</text>
     </action>
 
     <action id="folder_summary">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <output require="apps/emails/php/folders.php" eval="true">emails_folders_summary(get_data('json'))</output>
     </action>
 
     <action id="folder_empty_summary">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <output require="apps/emails/php/folders.php" eval="true">emails_folders_empty_summary(get_data('json'))</output>
     </action>
 
     <action id="server_folders">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <output require="apps/emails/php/folders.php" eval="true">emails_folders_server(get_data('json'))</output>
     </action>
 
@@ -542,7 +553,7 @@
     <!-- Widgets part -->
     <widget id="last_n_emails">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <layout>
             <list id="last_n_emails" nodata="Data not found" onclick="true" truncate="true">
                 <data require="apps/emails/php/filter.php" eval="true">merge_data_actions(

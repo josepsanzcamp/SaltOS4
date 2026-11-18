@@ -16,29 +16,29 @@
 
 <root>
     <_form>
-        <hidden id="delnotes" require="php/lib/notes.php" ifeval="check_notes_old(get_data('rest/1'), get_data('rest/2'))" autosave="false"/>
-        <table id="allnotes" label="Notes" col_class="col-12" require="php/lib/notes.php" ifeval="check_notes_old(get_data('rest/1'), get_data('rest/2'))" dropdown="false" first_action="false">
+        <hidden id="delnotes" require="php/lib/notes.php" ifeval="check_notes_old(get_data('route/app'), get_data('route/node'))" autosave="false"/>
+        <table id="allnotes" label="Notes" col_class="col-12" require="php/lib/notes.php" ifeval="check_notes_old(get_data('route/app'), get_data('route/node'))" dropdown="false" first_action="false">
             <header>
                 <user>User</user>
                 <datetime>Datetime</datetime>
                 <note>Note</note>
             </header>
-            <actions ifeval="get_data('rest/2') == 'edit'">
+            <actions ifeval="get_data('route/node') == 'edit'">
                 <delete icon="trash" tooltip="Delete note" onclick="saltos.common.delete"/>
             </actions>
         </table>
-        <textarea id="addnotes" label="New note" height="5em" col_class="col-12" require="php/lib/notes.php" ifeval="check_notes_new(get_data('rest/1'), get_data('rest/2'))"/>
+        <textarea id="addnotes" label="New note" height="5em" col_class="col-12" require="php/lib/notes.php" ifeval="check_notes_new(get_data('route/app'), get_data('route/node'))"/>
     </_form>
 
     <_data>
-        <data require="php/lib/notes.php" ifeval="check_notes_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))" eval="true">merge_data_actions(
+        <data require="php/lib/notes.php" ifeval="check_notes_old(get_data('route/app'), get_data('route/node'), get_data('route/id'))" eval="true">merge_data_actions(
             execute_query_array("SELECT CONCAT(reg_id, '/', id) id, (SELECT name FROM tbl_users b WHERE b.id=user_id) user, datetime, note
-                FROM " . app2table(get_data('rest/1')) . '_notes WHERE reg_id = ? ORDER BY id DESC', [intval(get_data('rest/3'))]),
-            array_protected(xpath_search_first_value('_data/actions[id='.get_data('rest/2').']', xmlfile2array('apps/common/xml/notes.xml')))
+                FROM " . app2table(get_data('route/app')) . '_notes WHERE reg_id = ? ORDER BY id DESC', [intval(get_data('route/id'))]),
+            array_protected(xpath_search_first_value('_data/actions[id='.get_data('route/node').']', xmlfile2array('apps/common/xml/notes.xml')))
         )</data>
         <actions id="edit" ifeval="false">
             <delete action="delete/notes">
-                <app eval="true">get_data('rest/1')</app>
+                <app eval="true">get_data('route/app')</app>
             </delete>
         </actions>
     </_data>

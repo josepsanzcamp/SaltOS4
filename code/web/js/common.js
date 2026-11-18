@@ -62,7 +62,11 @@ saltos.common.help = () => {
     });
     document.querySelector('.modal-body').setAttribute('id', 'four');
     const app = saltos.hash.decode.public(saltos.hash.get()).app;
-    saltos.app.send_request(saltos.hash.encode.private({app: 'widgets', action: 'help', id: app}));
+    saltos.app.send_request(saltos.hash.encode.private({
+        app: 'widgets',
+        action: 'help',
+        id: app,
+    }));
 };
 
 /**
@@ -217,7 +221,12 @@ saltos.common.download = file => {
     if (file === undefined) {
         const app = saltos.hash.decode.public(saltos.hash.get()).app;
         const id = saltos.hash.decode.public(saltos.hash.get()).id;
-        file = saltos.hash.encode.private({app, action: 'view', subaction: 'download', id});
+        file = saltos.hash.encode.private({
+            app,
+            action: 'view',
+            subaction: 'download',
+            id,
+        });
     }
     saltos.app.ajax({
         url: file,
@@ -258,7 +267,12 @@ saltos.common.delete = file => {
 saltos.common.version = () => {
     const app = saltos.hash.decode.public(saltos.hash.get()).app;
     const id = saltos.hash.decode.public(saltos.hash.get()).id;
-    saltos.driver.open(saltos.hash.encode.public({app, action: 'view', subaction: 'version', id}));
+    saltos.driver.open(saltos.hash.encode.public({
+        app,
+        action: 'view',
+        subaction: 'version',
+        id,
+    }));
 };
 
 /**
@@ -269,7 +283,12 @@ saltos.common.version = () => {
 saltos.common.log = () => {
     const app = saltos.hash.decode.public(saltos.hash.get()).app;
     const id = saltos.hash.decode.public(saltos.hash.get()).id;
-    saltos.driver.open(saltos.hash.encode.public({app, action: 'view', subaction: 'log', id}));
+    saltos.driver.open(saltos.hash.encode.public({
+        app,
+        action: 'view',
+        subaction: 'log',
+        id,
+    }));
 };
 
 /**
@@ -280,7 +299,11 @@ saltos.common.log = () => {
 saltos.common.edit = () => {
     const app = saltos.hash.decode.public(saltos.hash.get()).app;
     const id = saltos.hash.decode.public(saltos.hash.get()).id;
-    saltos.driver.open(saltos.hash.encode.public({app, action: 'edit', id}));
+    saltos.driver.open(saltos.hash.encode.public({
+        app,
+        action: 'edit',
+        id,
+    }));
 };
 
 /**
@@ -302,7 +325,12 @@ saltos.common.viewpdf = file => {
     if (file === undefined) {
         const app = saltos.hash.decode.public(saltos.hash.get()).app;
         const id = saltos.hash.decode.public(saltos.hash.get()).id;
-        file = saltos.hash.encode.public({app, action: 'view', subaction: 'viewpdf', id});
+        file = saltos.hash.encode.public({
+            app,
+            action: 'view',
+            subaction: 'viewpdf',
+            id,
+        });
     }
     saltos.driver.open(file);
 };
@@ -366,7 +394,12 @@ saltos.common.viewpdf_checkbox = () => {
         return;
     }
     ids = ids.join(',');
-    saltos.common.viewpdf(saltos.hash.encode.public({app, action: 'view', subaction: 'viewpdf', id: ids}));
+    saltos.common.viewpdf(saltos.hash.encode.public({
+        app,
+        action: 'view',
+        subaction: 'viewpdf',
+        id: ids,
+    }));
 };
 
 /**
@@ -389,5 +422,10 @@ saltos.common.download_checkbox = () => {
         return;
     }
     ids = ids.join(',');
-    saltos.common.download(saltos.hash.encode.private({app, action: 'view', subaction: 'download', id: ids}));
+    saltos.common.download(saltos.hash.encode.private({
+        app,
+        action: 'view',
+        subaction: 'download',
+        id: ids,
+    }));
 };

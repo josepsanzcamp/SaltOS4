@@ -17,7 +17,7 @@
 <root>
     <main>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <screen>type2</screen>
         <gettext eval="true">T()</gettext>
         <navbar eval="true">xmlfile2array('apps/common/xml/navbar.xml')['navbar']</navbar>
@@ -26,15 +26,15 @@
     <!-- List part -->
     <list default="true">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <cache>app/certs/list/cache</cache>
     </list>
 
     <list id="cache">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <cache>app/certs/main</cache>
-        <title eval="true">T('List') . ' - ' . T(app2name(get_data('rest/1')))</title>
+        <title eval="true">T('List') . ' - ' . T(app2name(get_data('route/app')))</title>
         <layout append="one">
             <row auto="true" row_class="row g-1 mb-3" col_class="col-auto">
                 <button onclick="saltos.common.filter()" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
@@ -71,9 +71,9 @@
 
     <list id="data">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <temp eval="true">[
-            set_config('app/'.get_data('rest/1').'/filter/last', json_encode(get_data('json'), JSON_FORCE_OBJECT), current_user()),
+            set_config('app/'.get_data('route/app').'/filter/last', json_encode(get_data('json'), JSON_FORCE_OBJECT), current_user()),
             set_data('json/search', strval(get_data('json/search'))),
             set_data('json/page', intval(get_data('json/page'))),
             set_data('json/order', check_order(strval(get_data('json/order')), ['id', 'name'])),
@@ -82,7 +82,7 @@
         ]</temp>
         <data require="apps/common/php/actions.php,apps/certs/php/certs.php" eval="true">__merge_data_actions(
             __certs_list(get_data('json/search'), get_data('json/order'), get_data('json/offset'), get_data('json/limit')),
-            xpath_search_first_value('list[id=data]/actions', xmlfile2array(detect_app_file(get_data('rest/1'))))
+            xpath_search_first_value('list[id=data]/actions', xmlfile2array(detect_app_file(get_data('route/app'))))
         )</data>
         <actions ifeval="false">
             <view app="certs" action="view"/>
@@ -100,15 +100,15 @@
     <!-- Form part -->
     <create>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <cache>app/certs/create/cache</cache>
     </create>
 
     <create id="cache">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <cache>app/certs/main</cache>
-        <title eval="true">T('New') . ' - ' . T(app2name(get_data('rest/1')))</title>
+        <title eval="true">T('New') . ' - ' . T(app2name(get_data('route/app')))</title>
         <layout append="two,one">
             <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6">
                 <file id="certfile" label="Certificate file (.p12, .pfx)" multiple="true" required="true" col_class="col-md-8"/>
@@ -127,16 +127,16 @@
 
     <create id="insert">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <output require="apps/certs/php/certs.php" eval="true">__certs_insert(get_data('json'))</output>
     </create>
 
     <view>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
-        <check require="apps/certs/php/certs.php" eval="true">__certs_check(get_data('rest/3'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
+        <check require="apps/certs/php/certs.php" eval="true">__certs_check(get_data('route/id'))</check>
         <cache>app/certs/view/cache</cache>
-        <data require="apps/certs/php/certs.php" eval="true">__certs_view(get_data('rest/3'))</data>
+        <data require="apps/certs/php/certs.php" eval="true">__certs_view(get_data('route/id'))</data>
         <javascript>
             <inline>saltos.driver.init('view')</inline>
         </javascript>
@@ -144,9 +144,9 @@
 
     <view id="cache">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <cache>app/certs/main</cache>
-        <title eval="true">T('Detail') . ' - ' . T(app2name(get_data('rest/1')))</title>
+        <title eval="true">T('Detail') . ' - ' . T(app2name(get_data('route/app')))</title>
         <layout append="two,one">
             <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6">
                 <text id="name" label="Name"/>
@@ -155,7 +155,7 @@
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button onclick="saltos.driver.delete()" color="danger" label="Delete" tooltip="To delete this register" icon="trash" ifeval="check_user(get_data('rest/1'), 'delete')"/>
+                <button onclick="saltos.driver.delete()" color="danger" label="Delete" tooltip="To delete this register" icon="trash" ifeval="check_user(get_data('route/app'), 'delete')"/>
                 <button onclick="saltos.driver.close()" label="Close" tooltip="To close the detail of this register" icon="x-lg" autoclose="true"/>
                 <button onclick="saltos.driver.close(true)" col_class="d-none" accesskey="escape"/>
             </row>
@@ -164,8 +164,8 @@
 
     <delete>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
-        <check require="apps/certs/php/certs.php" eval="true">__certs_check(get_data('rest/3'))</check>
-        <output require="php/lib/actions.php" eval="true">__certs_delete(get_data('rest/3'))</output>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
+        <check require="apps/certs/php/certs.php" eval="true">__certs_check(get_data('route/id'))</check>
+        <output require="php/lib/actions.php" eval="true">__certs_delete(get_data('route/id'))</output>
     </delete>
 </root>

@@ -48,7 +48,11 @@ saltos.filter.init = async () => {
     if (!Object.keys(saltos.filter.__cache).length) {
         const app = saltos.hash.decode.public(saltos.hash.get()).app;
         await saltos.app.ajax({
-            url: saltos.hash.encode.private({app, action: 'list', subaction: 'filter'}),
+            url: saltos.hash.encode.private({
+                app,
+                action: 'list',
+                subaction: 'filter',
+            }),
             success: response => {
                 saltos.filter.__cache = {};
                 const temp = `app/${app}/filter/`;
@@ -133,7 +137,11 @@ saltos.filter.save = (name, data) => {
     }
     const app = saltos.hash.decode.public(saltos.hash.get()).app;
     saltos.app.ajax({
-        url: saltos.hash.encode.private({app, action: 'list', subaction: 'filter'}),
+        url: saltos.hash.encode.private({
+            app,
+            action: 'list',
+            subaction: 'filter',
+        }),
         data: {
             name: name,
             val: data,

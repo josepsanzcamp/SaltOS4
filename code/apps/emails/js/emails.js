@@ -148,7 +148,12 @@ saltos.emails.init = arg => {
 
             const id1 = saltos.hash.decode.public(saltos.hash.get()).id;
             saltos.app.ajax({
-                url: saltos.hash.encode.private({app: 'emails', action: 'view', subaction: 'body', id: id1}),
+                url: saltos.hash.encode.private({
+                    app: 'emails',
+                    action: 'view',
+                    subaction: 'body',
+                    id: id1,
+                }),
                 success: response => {
                     const id2 = saltos.hash.decode.public(saltos.hash.get()).id;
                     if (id1 !== id2) {
@@ -868,7 +873,11 @@ saltos.emails.delete1 = () => {
             autofocus: true,
             onclick: () => {
                 saltos.app.ajax({
-                    url: saltos.hash.encode.private({app: 'emails', action: 'delete', id: ids}),
+                    url: saltos.hash.encode.private({
+                        app: 'emails',
+                        action: 'delete',
+                        id: ids,
+                    }),
                     proxy: 'network',
                     success: response => {
                         saltos.app.toast('Response', response.text);
@@ -901,7 +910,11 @@ saltos.emails.delete2 = () => {
             onclick: () => {
                 const id = saltos.hash.decode.public(saltos.hash.get()).id;
                 saltos.app.ajax({
-                    url: saltos.hash.encode.private({app: 'emails', action: 'delete', id}),
+                    url: saltos.hash.encode.private({
+                        app: 'emails',
+                        action: 'delete',
+                        id,
+                    }),
                     proxy: 'network',
                     success: response => {
                         saltos.app.toast('Response', response.text);
@@ -971,7 +984,12 @@ saltos.emails.send = () => {
 saltos.emails.setter = what => {
     const id = saltos.hash.decode.public(saltos.hash.get()).id;
     saltos.app.ajax({
-        url: saltos.hash.encode.private({app: 'emails', action: 'view', subaction: 'setter', id}),
+        url: saltos.hash.encode.private({
+            app: 'emails',
+            action: 'view',
+            subaction: 'setter',
+            id,
+        }),
         proxy: 'network',
         data: {
             'what': what,
@@ -1019,7 +1037,12 @@ saltos.emails.signature = () => {
  */
 saltos.emails.source = () => {
     const id = saltos.hash.decode.public(saltos.hash.get()).id;
-    saltos.driver.open(saltos.hash.encode.public({app: 'emails', action: 'view', subaction: 'source', id}));
+    saltos.driver.open(saltos.hash.encode.public({
+        app: 'emails',
+        action: 'view',
+        subaction: 'source',
+        id,
+    }));
 };
 
 /**
@@ -1029,7 +1052,12 @@ saltos.emails.source = () => {
  */
 saltos.emails.reply = () => {
     const id = saltos.hash.decode.public(saltos.hash.get()).id;
-    saltos.driver.open(saltos.hash.encode.public({app: 'emails', action: 'create', subaction: 'reply', id}));
+    saltos.driver.open(saltos.hash.encode.public({
+        app: 'emails',
+        action: 'create',
+        subaction: 'reply',
+        id,
+    }));
 };
 
 /**
@@ -1039,8 +1067,12 @@ saltos.emails.reply = () => {
  */
 saltos.emails.replyall = () => {
     const id = saltos.hash.decode.public(saltos.hash.get()).id;
-    const hash = saltos.hash.encode.public({app: 'emails', action: 'create', subaction: 'replyall', id});
-    saltos.driver.open(hash);
+    saltos.driver.open(saltos.hash.encode.public({
+        app: 'emails',
+        action: 'create',
+        subaction: 'replyall',
+        id,
+    }));
 };
 
 /**
@@ -1050,8 +1082,12 @@ saltos.emails.replyall = () => {
  */
 saltos.emails.forward = () => {
     const id = saltos.hash.decode.public(saltos.hash.get()).id;
-    const hash = saltos.hash.encode.public({app: 'emails', action: 'create', subaction: 'forward', id});
-    saltos.driver.open(hash);
+    saltos.driver.open(saltos.hash.encode.public({
+        app: 'emails',
+        action: 'create',
+        subaction: 'forward',
+        id,
+    }));
 };
 
 /**
@@ -1078,7 +1114,11 @@ saltos.driver.search = arg => {
     }
     // Continue
     saltos.app.ajax({
-        url: saltos.hash.encode.private({app, action: 'list', subaction: 'data'}),
+        url: saltos.hash.encode.private({
+            app,
+            action: 'list',
+            subaction: 'data',
+        }),
         data: data,
         success: response => {
             for (const i in response.data) {

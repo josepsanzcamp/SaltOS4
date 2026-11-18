@@ -524,6 +524,12 @@ these values in XML `eval="true"` attributes and PHP action code, e.g.
   - `@rest/2` = view
   - `@rest/3` = 2
 
+- Route of the app requests:
+  - `decode_route()` maps the request to `@route/app`, `@route/action`, `@route/subaction`, `@route/id` and `@route/sub_id`; unknown requests return an error
+  - The XML files use `@route/id` instead of the position, so `app/invoices/view/2` and `app/invoices/update/2` both give `@route/id` = 2
+  - Another example: `app/invoices/view/viewpdf/2/7` gives `@route/subaction` = viewpdf, `@route/id` = 2 and `@route/sub_id` = 7
+  - `@route/node` is the node that answers the request, used by the permissions, so `app/invoices/update/2` gives `@route/action` = update and `@route/node` = edit
+
 - POST with JSON:
   - An example request: `https://host/api/?/app/invoices/insert`
   - Use `Content-Type: application/json`

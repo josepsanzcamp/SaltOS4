@@ -129,11 +129,15 @@ function __dashboard_helper()
 
     // Add the widgets
     foreach ($widgets as $row) {
-        $xml = '<widget id="widget_{$code}" source="app/{$app}/widget/{$code}"
+        $xml = '<widget id="widget_{$code}" source="{$source}"
             x="{$x}" y="{$y}" w="{$w}" h="{$h}"/>';
         $xml = str_replace_assoc([
             '{$code}' => $row['code'],
-            '{$app}' => $row['app'],
+            '{$source}' => encode_route([
+                'app' => $row['app'],
+                'action' => 'widget',
+                'subaction' => $row['code'],
+            ]),
             '{$x}' => $row['x'],
             '{$y}' => $row['y'],
             '{$w}' => $row['w'],

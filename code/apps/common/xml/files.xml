@@ -16,68 +16,79 @@
 
 <root>
     <_form>
-        <hidden id="delfiles" require="php/lib/files.php" ifeval="check_files_old(get_data('rest/1'), get_data('rest/2'))" autosave="false"/>
-        <table id="allfiles" label="Files" col_class="col-12" require="php/lib/files.php" ifeval="check_files_old(get_data('rest/1'), get_data('rest/2'))" dropdown="false" >
+        <hidden id="delfiles" require="php/lib/files.php" ifeval="check_files_old(get_data('route/app'), get_data('route/node'))" autosave="false"/>
+        <table id="allfiles" label="Files" col_class="col-12" require="php/lib/files.php" ifeval="check_files_old(get_data('route/app'), get_data('route/node'))" dropdown="false" >
             <header>
                 <name>Filename</name>
                 <size>Size</size>
             </header>
-            <actions ifeval="get_data('rest/2') == 'view'">
+            <actions ifeval="get_data('route/node') == 'view'">
                 <viewpdf icon="search" tooltip="View file" onclick="saltos.driver.open"/>
                 <download icon="save" tooltip="Download file" onclick="saltos.common.download"/>
             </actions>
-            <actions ifeval="get_data('rest/2') == 'edit'">
+            <actions ifeval="get_data('route/node') == 'edit'">
                 <delete icon="trash" tooltip="Delete file" onclick="saltos.common.delete"/>
             </actions>
             <first_action eval="true">get_data('rest/5') == 'view'</first_action>
         </table>
-        <file id="addfiles" label="New files" col_class="col-12" multiple="true" require="php/lib/files.php" ifeval="check_files_new(get_data('rest/1'), get_data('rest/2'))"/>
+        <file id="addfiles" label="New files" col_class="col-12" multiple="true" require="php/lib/files.php" ifeval="check_files_new(get_data('route/app'), get_data('route/node'))"/>
     </_form>
 
     <_data>
-        <data require="php/lib/files.php" ifeval="check_files_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))" eval="true">merge_data_actions(
+        <data require="php/lib/files.php" ifeval="check_files_old(get_data('route/app'), get_data('route/node'), get_data('route/id'))" eval="true">merge_data_actions(
             execute_query_array("SELECT CONCAT(reg_id, '/', id) id, user_id, datetime, name, size
-                FROM " . app2table(get_data('rest/1')) . '_files WHERE reg_id = ? ORDER BY id DESC', [intval(get_data('rest/3'))]),
-            xpath_search_first_value('_data/actions[id='.get_data('rest/2').']', xmlfile2array('apps/common/xml/files.xml'))
+                FROM " . app2table(get_data('route/app')) . '_files WHERE reg_id = ? ORDER BY id DESC', [intval(get_data('route/id'))]),
+            xpath_search_first_value('_data/actions[id='.get_data('route/node').']', xmlfile2array('apps/common/xml/files.xml'))
         )</data>
         <actions id="view" ifeval="false">
             <viewpdf action="view/viewpdf">
-                <app eval="true">get_data('rest/1')</app>
+                <app eval="true">get_data('route/app')</app>
             </viewpdf>
             <download action="view/download">
-                <app eval="true">get_data('rest/1')</app>
+                <app eval="true">get_data('route/app')</app>
             </download>
         </actions>
         <actions id="edit" ifeval="false">
             <delete action="delete/files">
-                <app eval="true">get_data('rest/1')</app>
+                <app eval="true">get_data('route/app')</app>
             </delete>
         </actions>
     </_data>
 
     <view id="viewpdf">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/4'))</check>
-        <temp require="php/lib/log.php" eval="true">make_log(get_data('rest/1'), get_data('rest/3'), get_data('rest/4'), get_data('rest/5'))</temp>
-        <cache eval="true">'app/'.get_data('rest/1').'/main'</cache>
-        <title append="modal" ifeval="get_data('rest/5')" require="php/lib/files.php" eval="true">files_cid(get_data('rest/1'), intval(get_data('rest/4')), intval(get_data('rest/5')))['name']</title>
-        <title append="modal" ifeval="!get_data('rest/5')" require="php/lib/pdf.php,apps/common/php/pdf.php" eval="true">pdf(detect_pdf_file(get_data('rest/1')), [
-            'id' => check_ids(get_data('rest/4')),
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'), get_data('route/id'))</check>
+        <temp require="php/lib/log.php" eval="true">make_log(get_data('route/app'), get_data('route/subaction'), get_data('route/id'), get_data('route/sub_id'))</temp>
+        <cache eval="true">'app/'.get_data('route/app').'/main'</cache>
+        <title append="modal" ifeval="get_data('route/sub_id')" require="php/lib/files.php" eval="true">files_cid(get_data('route/app'), intval(get_data('route/id')), intval(get_data('route/sub_id')))['name']</title>
+        <title append="modal" ifeval="!get_data('route/sub_id')" require="php/lib/pdf.php,apps/common/php/pdf.php" eval="true">pdf(detect_pdf_file(get_data('route/app')), [
+            'id' => check_ids(get_data('route/id')),
         ])['name']</title>
         <layout append="three,two,one">
             <row auto="true" row_class="row g-3 mb-3" col_class="col-12">
                 <pdfjs id="pdfjs" invert="true">
-                    <srcdoc ifeval="get_data('rest/5')" require="php/lib/files.php" eval="true">files_viewpdf(get_data('rest/1'), intval(get_data('rest/4')), intval(get_data('rest/5')))</srcdoc>
-                    <srcdoc ifeval="!get_data('rest/5')" require="php/lib/pdf.php,apps/common/php/pdf.php" eval="true">pdf(detect_pdf_file(get_data('rest/1')), [
-                        'id' => check_ids(get_data('rest/4')),
+                    <srcdoc ifeval="get_data('route/sub_id')" require="php/lib/files.php" eval="true">files_viewpdf(get_data('route/app'), intval(get_data('route/id')), intval(get_data('route/sub_id')))</srcdoc>
+                    <srcdoc ifeval="!get_data('route/sub_id')" require="php/lib/pdf.php,apps/common/php/pdf.php" eval="true">pdf(detect_pdf_file(get_data('route/app')), [
+                        'id' => check_ids(get_data('route/id')),
                     ])['data']</srcdoc>
                 </pdfjs>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button label="Download" tooltip="To download the pdf" icon="save">
-                    <onclick ifeval="get_data('rest/5')" eval="true">"saltos.common.download('app/".get_data('rest/1').'/view/download/'.intval(get_data('rest/4')).'/'.intval(get_data('rest/5'))."')"</onclick>
-                    <onclick ifeval="!get_data('rest/5')" eval="true">"saltos.common.download('app/".get_data('rest/1').'/view/download/'.check_ids(get_data('rest/4'))."')"</onclick>
+                    <onclick ifeval="get_data('route/sub_id')" eval="true">"saltos.common.download('".encode_route([
+                        'app' => get_data('route/app'),
+                        'action' => 'view',
+                        'subaction' => 'download',
+                        'id' => intval(get_data('route/id')),
+                        'sub_id' => intval(get_data('route/sub_id')),
+                    ])."')"</onclick>
+                    <onclick ifeval="!get_data('route/sub_id')" eval="true">"saltos.common.download('".encode_route([
+                        'app' => get_data('route/app'),
+                        'action' => 'view',
+                        'subaction' => 'download',
+                        'id' => check_ids(get_data('route/id')),
+                    ])."')"</onclick>
                 </button>
                 <button onclick="saltos.driver.close()" label="Close" tooltip="To close this list" icon="x-lg" autoclose="true"/>
             </row>
@@ -89,11 +100,11 @@
 
     <view id="download">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/4'))</check>
-        <temp require="php/lib/log.php" eval="true">make_log(get_data('rest/1'), get_data('rest/3'), get_data('rest/4'), get_data('rest/5'))</temp>
-        <output ifeval="get_data('rest/5')" require="php/lib/files.php" eval="true">files_download(get_data('rest/1'), intval(get_data('rest/4')), intval(get_data('rest/5')))</output>
-        <output ifeval="!get_data('rest/5')" require="php/lib/pdf.php,apps/common/php/pdf.php" eval="true">pdf(detect_pdf_file(get_data('rest/1')), [
-            'id' => check_ids(get_data('rest/4')),
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'), get_data('route/id'))</check>
+        <temp require="php/lib/log.php" eval="true">make_log(get_data('route/app'), get_data('route/subaction'), get_data('route/id'), get_data('route/sub_id'))</temp>
+        <output ifeval="get_data('route/sub_id')" require="php/lib/files.php" eval="true">files_download(get_data('route/app'), intval(get_data('route/id')), intval(get_data('route/sub_id')))</output>
+        <output ifeval="!get_data('route/sub_id')" require="php/lib/pdf.php,apps/common/php/pdf.php" eval="true">pdf(detect_pdf_file(get_data('route/app')), [
+            'id' => check_ids(get_data('route/id')),
         ])</output>
     </view>
 </root>

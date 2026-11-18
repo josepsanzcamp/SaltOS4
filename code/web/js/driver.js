@@ -208,7 +208,11 @@ saltos.driver.search = arg => {
     }
     // Continue
     saltos.app.ajax({
-        url: saltos.hash.encode.private({app, action: 'list', subaction: 'data'}),
+        url: saltos.hash.encode.private({
+            app,
+            action: 'list',
+            subaction: 'data',
+        }),
         data: data,
         success: response => {
             document.getElementById('list').saltos.set_value(response);
@@ -255,7 +259,11 @@ saltos.driver.more = arg => {
     const data = saltos.app.get_data(true);
     const app = saltos.hash.decode.public(saltos.hash.get()).app;
     saltos.app.ajax({
-        url: saltos.hash.encode.private({app, action: 'list', subaction: 'data'}),
+        url: saltos.hash.encode.private({
+            app,
+            action: 'list',
+            subaction: 'data',
+        }),
         data: data,
         success: response => {
             if (!response.data.length) {
@@ -338,7 +346,11 @@ saltos.driver.update = arg => {
     const app = saltos.hash.decode.public(saltos.hash.get()).app;
     const id = saltos.hash.decode.public(saltos.hash.get()).id;
     saltos.app.ajax({
-        url: saltos.hash.encode.private({app, action: 'update', id}),
+        url: saltos.hash.encode.private({
+            app,
+            action: 'update',
+            id,
+        }),
         data: data,
         proxy: 'network,queue',
         success: response => {
@@ -392,7 +404,11 @@ saltos.driver.delete = async arg => {
                     id = saltos.hash.decode.private(arg).id;
                 }
                 saltos.app.ajax({
-                    url: saltos.hash.encode.private({app, action: 'delete', id}),
+                    url: saltos.hash.encode.private({
+                        app,
+                        action: 'delete',
+                        id,
+                    }),
                     proxy: 'network',
                     success: response => {
                         if (response.status === 'ok') {
@@ -1171,7 +1187,11 @@ saltos.driver.__types.type3.init = arg => {
         }
         if (!document.getElementById('two').textContent.trim().length) {
             const route = saltos.hash.decode.public(saltos.hash.get());
-            const temp = saltos.hash.encode.public({app: route.app, action: route.action, id: route.id});
+            const temp = saltos.hash.encode.public({
+                app: route.app,
+                action: route.action,
+                id: route.id,
+            });
             saltos.app.send_request(temp);
         }
         const subaction = saltos.hash.decode.public(saltos.hash.get()).subaction;
@@ -1230,7 +1250,11 @@ saltos.driver.__types.type3.close = arg => {
         });
         // Hash part
         const route = saltos.hash.decode.public(saltos.hash.get());
-        const temp = saltos.hash.encode.public({app: route.app, action: route.action, id: route.id});
+        const temp = saltos.hash.encode.public({
+            app: route.app,
+            action: route.action,
+            id: route.id,
+        });
         saltos.hash.add(temp);
     } else {
         saltos.driver.placeholder({
@@ -1467,7 +1491,11 @@ saltos.driver.__types.type2modal.init = arg => {
         }
         if (!document.getElementById('two').textContent.trim().length) {
             const route = saltos.hash.decode.public(saltos.hash.get());
-            const temp = saltos.hash.encode.public({app: route.app, action: route.action, id: route.id});
+            const temp = saltos.hash.encode.public({
+                app: route.app,
+                action: route.action,
+                id: route.id,
+            });
             saltos.app.send_request(temp);
         }
         if (document.getElementById('three').textContent.trim().length) {
@@ -1528,7 +1556,11 @@ saltos.driver.__types.type2modal.close = arg => {
         saltos.bootstrap.modal('close');
         // Hash part
         const route = saltos.hash.decode.public(saltos.hash.get());
-        const temp = saltos.hash.encode.public({app: route.app, action: route.action, id: route.id});
+        const temp = saltos.hash.encode.public({
+            app: route.app,
+            action: route.action,
+            id: route.id,
+        });
         saltos.hash.add(temp);
     } else {
         saltos.driver.placeholder({

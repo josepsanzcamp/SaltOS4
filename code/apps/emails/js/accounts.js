@@ -43,7 +43,11 @@ saltos.emails_accounts.test = server => {
     const data = saltos.app.get_data(true);
     data.server = server;
     saltos.app.ajax({
-        url: saltos.hash.encode.private({app, action: 'action', subaction: 'test'}),
+        url: saltos.hash.encode.private({
+            app,
+            action: 'action',
+            subaction: 'test',
+        }),
         proxy: 'network',
         data: data,
         success: response => {

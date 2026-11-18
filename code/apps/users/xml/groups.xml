@@ -17,7 +17,7 @@
 <root>
     <main>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <screen>type2modal</screen>
         <gettext eval="true">T()</gettext>
         <navbar eval="true">xmlfile2array('apps/common/xml/navbar.xml')['navbar']</navbar>
@@ -26,13 +26,13 @@
     <!-- List part -->
     <list default="true">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <cache>app/groups/list/cache</cache>
     </list>
 
     <list id="cache">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <cache>app/groups/main</cache>
         <title>Groups list</title>
         <layout append="one">
@@ -75,17 +75,17 @@
 
     <list id="data">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <temp require="apps/common/php/order.php" eval="true">[
-            set_config('app/'.get_data('rest/1').'/filter/last', json_encode(get_data('json'), JSON_FORCE_OBJECT), current_user()),
+            set_config('app/'.get_data('route/app').'/filter/last', json_encode(get_data('json'), JSON_FORCE_OBJECT), current_user()),
             set_data('json/search', strval(get_data('json/search'))),
             set_data('json/page', intval(get_data('json/page'))),
-            set_data('json/order', check_order(strval(get_data('json/order')), get_order_fields(get_data('rest/1')))),
+            set_data('json/order', check_order(strval(get_data('json/order')), get_order_fields(get_data('route/app')))),
             set_data('json/limit', 25),
             set_data('json/offset', intval(get_data('json/page') * get_data('json/limit'))),
         ]</temp>
         <data require="php/lib/log.php" eval="true">merge_data_actions(
-            make_log_bypass(get_data('rest/1'), get_data('rest/2'), execute_query_array("
+            make_log_bypass(get_data('route/app'), get_data('route/node'), execute_query_array("
                 SELECT id, code, name, description,
                 CASE active WHEN 1 THEN 'check-lg text-success' ELSE 'x-lg text-danger' END active
                 FROM tbl_groups
@@ -135,14 +135,14 @@
         </jspreadsheet>
     </_form>
 
-    <_data require="php/lib/log.php" eval="true">make_log_bypass(get_data('rest/1'), get_data('rest/2'), execute_query('
-        SELECT * FROM '.app2table(get_data('rest/1')).' WHERE id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')),
-        [intval(get_data('rest/3'))]))</_data>
-    <_perms require="apps/users/php/matrix.php" eval="true">make_matrix_perms('tbl_groups_apps_perms', 'group_id', intval(get_data('rest/3')))</_perms>
+    <_data require="php/lib/log.php" eval="true">make_log_bypass(get_data('route/app'), get_data('route/node'), execute_query('
+        SELECT * FROM '.app2table(get_data('route/app')).' WHERE id = ? AND '.check_sql(get_data('route/app'), get_data('route/node')),
+        [intval(get_data('route/id'))]))</_data>
+    <_perms require="apps/users/php/matrix.php" eval="true">make_matrix_perms('tbl_groups_apps_perms', 'group_id', intval(get_data('route/id')))</_perms>
 
     <create>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <cache>app/groups/create/cache</cache>
         <data><perms eval="true">xmlfile2array('apps/users/xml/groups.xml')['_perms']</perms></data>
         <javascript>
@@ -152,7 +152,7 @@
 
     <create id="cache">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <cache>app/groups/main</cache>
         <title>New group</title>
         <layout append="two,one">
@@ -169,7 +169,7 @@
 
     <create id="insert">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <check eval="true" message="Code used by other group">!execute_query('SELECT id FROM tbl_groups WHERE code = ?', [get_data('json/code')])</check>
         <check eval="true" message="Name used by other group">!execute_query('SELECT id FROM tbl_groups WHERE name = ?', [get_data('json/name')])</check>
         <perms require="apps/users/php/matrix.php" eval="true">set_data('json/perms',unmake_matrix_data(
@@ -182,7 +182,7 @@
 
     <view>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'), get_data('route/id'))</check>
         <cache>app/groups/view/cache</cache>
         <data eval="true">xmlfile2array('apps/users/xml/groups.xml')['_data']</data>
         <data><perms eval="true">xmlfile2array('apps/users/xml/groups.xml')['_perms']</perms></data>
@@ -197,7 +197,7 @@
 
     <view id="cache">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <cache>app/groups/main</cache>
         <title>Detail of the group</title>
         <layout append="two,one">
@@ -205,10 +205,10 @@
             <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
             <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
-                <dropdown label="Info" icon="file-text" tooltip="Information of this register" ifeval="check_user(get_data('rest/1'), 'info')">
+                <dropdown label="Info" icon="file-text" tooltip="Information of this register" ifeval="check_user(get_data('route/app'), 'info')">
                     <menu>
-                        <button onclick="saltos.common.version()" label="History" tooltip="To see the history of the changes" icon="file-text" ifeval="app2version(get_data('rest/1'))"/>
-                        <button onclick="saltos.common.log()" label="Log" tooltip="To see the history of the changes" icon="file-text" ifeval="app2log(get_data('rest/1'))"/>
+                        <button onclick="saltos.common.version()" label="History" tooltip="To see the history of the changes" icon="file-text" ifeval="app2version(get_data('route/app'))"/>
+                        <button onclick="saltos.common.log()" label="Log" tooltip="To see the history of the changes" icon="file-text" ifeval="app2log(get_data('route/app'))"/>
                     </menu>
                 </dropdown>
                 <div col_class="col"/>
@@ -227,7 +227,7 @@
 
     <edit>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'), get_data('route/id'))</check>
         <cache>app/groups/edit/cache</cache>
         <data eval="true">xmlfile2array('apps/users/xml/groups.xml')['_data']</data>
         <data><perms eval="true">xmlfile2array('apps/users/xml/groups.xml')['_perms']</perms></data>
@@ -242,7 +242,7 @@
 
     <edit id="cache">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <cache>app/groups/main</cache>
         <title>Modify this group</title>
         <layout append="two,one">
@@ -259,7 +259,7 @@
 
     <edit id="update">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/4'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'), get_data('route/id'))</check>
         <check eval="true" message="Code used by other group">!execute_query('SELECT id FROM tbl_groups WHERE code = ?', [get_data('json/code')])</check>
         <check eval="true" message="Name used by other group">!execute_query('SELECT id FROM tbl_groups WHERE name = ?', [get_data('json/name')])</check>
         <perms require="apps/users/php/matrix.php" eval="true">set_data('json/perms',unmake_matrix_data(
@@ -267,12 +267,12 @@
             execute_query_array('SELECT id FROM tbl_apps WHERE active = 1 ORDER BY id ASC'),
             execute_query_array('SELECT * FROM tbl_apps_perms'),
             get_data('json/perms')))</perms>
-        <output require="apps/users/php/groups.php" eval="true">update_group(intval(get_data('rest/4')), get_data('json'))</output>
+        <output require="apps/users/php/groups.php" eval="true">update_group(intval(get_data('route/id')), get_data('json'))</output>
     </edit>
 
     <delete>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))</check>
-        <output require="apps/users/php/groups.php" eval="true">delete_group(intval(get_data('rest/3')))</output>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'), get_data('route/id'))</check>
+        <output require="apps/users/php/groups.php" eval="true">delete_group(intval(get_data('route/id')))</output>
     </delete>
 </root>

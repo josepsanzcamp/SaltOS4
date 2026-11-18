@@ -220,6 +220,80 @@ final class test_apps extends TestCase
         $this->assertFileDoesNotExist($file);
     }
 
+    #[testdox('decode route functions')]
+    /**
+     * decode route test
+     *
+     * This test performs some tests to validate the correctness
+     * of the decode route function
+     */
+    public function test_decode_route(): void
+    {
+        $route = ['app' => 'customers', 'action' => '', 'subaction' => '', 'id' => '', 'sub_id' => ''];
+        $this->assertSame($route, decode_route(['app', 'customers']));
+
+        $tests = [
+            'app/customers/main' => ['main', '', '', ''],
+            'app/customers/insert' => ['insert', '', '', ''],
+            'app/customers/list' => ['list', '', '', ''],
+            'app/customers/list/data' => ['list', 'data', '', ''],
+            'app/customers/create' => ['create', '', '', ''],
+            'app/customers/create/cache' => ['create', 'cache', '', ''],
+            'app/emails/create/reply/5' => ['create', 'reply', '5', ''],
+            'app/emails/sendmail' => ['sendmail', '', '', ''],
+            'app/emails/sendmail/forward/5' => ['sendmail', 'forward', '5', ''],
+            'app/customers/edit/5' => ['edit', '', '5', ''],
+            'app/customers/edit/cache' => ['edit', 'cache', '', ''],
+            'app/customers/update/5' => ['update', '', '5', ''],
+            'app/customers/delete/1,2,3' => ['delete', '', '1,2,3', ''],
+            'app/customers/view/5' => ['view', '', '5', ''],
+            'app/customers/view/cache' => ['view', 'cache', '', ''],
+            'app/customers/view/version/5' => ['view', 'version', '5', ''],
+            'app/customers/view/viewpdf/5/7' => ['view', 'viewpdf', '5', '7'],
+            'app/customers/view/download/5/7' => ['view', 'download', '5', '7'],
+            'app/widgets/help/customers' => ['help', '', 'customers', ''],
+            'app/invoices/widget/last_n_invoices' => ['widget', 'last_n_invoices', '', ''],
+            'app/emails/action/move' => ['action', 'move', '', ''],
+        ];
+        foreach ($tests as $path => $parts) {
+            $route = decode_route(explode('/', $path));
+            $this->assertSame($parts, [
+                $route['action'],
+                $route['subaction'],
+                $route['id'],
+                $route['sub_id'],
+            ]);
+            $this->assertSame($path, encode_route($route));
+        }
+        $this->assertSame('app/customers/view/5', encode_route([
+            'app' => 'customers',
+            'action' => 'view',
+            'id' => 5,
+        ]));
+
+        $tests = [
+            'app/customers/view',
+            'app/customers/view/unknown/5',
+            'app/customers/view/version/5/7',
+            'app/customers/edit',
+            'app/customers/edit/update/5',
+            'app/customers/create/insert',
+            'app/customers/create/5',
+            'app/emails/create/sendmail/reply/5',
+            'app/emails/sendmail/5',
+            'app/customers/update',
+            'app/customers/delete',
+            'app/customers/help/customers',
+            'app/customers/list/data/5',
+            'app/customers/main/5',
+        ];
+        foreach ($tests as $path) {
+            $json = test_web_helper($path, '', '', '');
+            $this->assertArrayHasKey('error', $json);
+            $this->assertSame("Route $path not found", $json['error']['text']);
+        }
+    }
+
     #[testdox('list functions')]
     /**
      * list test

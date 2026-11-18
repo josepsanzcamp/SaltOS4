@@ -17,7 +17,7 @@
 <root>
     <main>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <javascript>
             <file eval="true">file_with_hash(file_with_min('apps/emails/js/accounts.js'))</file>
         </javascript>
@@ -29,13 +29,13 @@
     <!-- List part -->
     <list default="true">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <cache>app/emails_accounts/list/cache</cache>
     </list>
 
     <list id="cache">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <cache>app/emails_accounts/main</cache>
         <title>Emails accounts list</title>
         <layout append="one">
@@ -54,7 +54,7 @@
             <row auto="true" row_class="row g-3 mb-3" col_class="col-12">
                 <table id="list" nodata="Data not found" checkbox="true" dropdown="false" >
                     <header>
-                        <user label="User" ifeval="__user_is_admin(get_data('rest/1'))" order="true"/>
+                        <user label="User" ifeval="__user_is_admin(get_data('route/app'))" order="true"/>
                         <email_name label="Name" order="true"/>
                         <email_from label="Email" order="true"/>
                         <email_disabled label="Enabled" type="icon"/>
@@ -78,17 +78,17 @@
 
     <list id="data">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <temp require="apps/common/php/order.php" eval="true">[
-            set_config('app/'.get_data('rest/1').'/filter/last', json_encode(get_data('json'), JSON_FORCE_OBJECT), current_user()),
+            set_config('app/'.get_data('route/app').'/filter/last', json_encode(get_data('json'), JSON_FORCE_OBJECT), current_user()),
             set_data('json/search', strval(get_data('json/search'))),
             set_data('json/page', intval(get_data('json/page'))),
-            set_data('json/order', check_order(strval(get_data('json/order')), get_order_fields(get_data('rest/1')))),
+            set_data('json/order', check_order(strval(get_data('json/order')), get_order_fields(get_data('route/app')))),
             set_data('json/limit', 25),
             set_data('json/offset', intval(get_data('json/page') * get_data('json/limit'))),
         ]</temp>
         <data require="php/lib/log.php" eval="true">merge_data_actions(
-            make_log_bypass(get_data('rest/1'), get_data('rest/2'), execute_query_array("
+            make_log_bypass(get_data('route/app'), get_data('route/node'), execute_query_array("
                 SELECT id, email_name, email_from,
                 CASE email_disabled WHEN 1 THEN 'x-lg text-danger' ELSE 'check-lg text-success' END email_disabled,
                 (SELECT CONCAT(name,' (',login,')') FROM tbl_users a WHERE a.id=user_id) user
@@ -120,7 +120,7 @@
     <!-- Form part -->
     <_form>
         <alert title="Main configuration" col_class="col-12"/>
-        <select id="user_id" label="User" required="true" autofocus="true" ifeval="__user_is_admin(get_data('rest/1'))">
+        <select id="user_id" label="User" required="true" autofocus="true" ifeval="__user_is_admin(get_data('route/app'))">
             <rows eval="true">execute_query_array("
                 SELECT CONCAT(name,' (',login,')') label, id value
                 FROM tbl_users WHERE active = 1
@@ -210,19 +210,19 @@
         <switch id="email_crt" label="Confirm reading to"/>
     </_form>
 
-    <_data require="php/lib/log.php" eval="true">make_log_bypass(get_data('rest/1'), get_data('rest/2'), execute_query('
-        SELECT * FROM '.app2table(get_data('rest/1')).' WHERE id = ? AND '.check_sql(get_data('rest/1'), get_data('rest/2')),
-        [intval(get_data('rest/3'))]))</_data>
+    <_data require="php/lib/log.php" eval="true">make_log_bypass(get_data('route/app'), get_data('route/node'), execute_query('
+        SELECT * FROM '.app2table(get_data('route/app')).' WHERE id = ? AND '.check_sql(get_data('route/app'), get_data('route/node')),
+        [intval(get_data('route/id'))]))</_data>
 
     <create>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <cache>app/emails_accounts/create/cache</cache>
     </create>
 
     <create id="cache">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <cache>app/emails_accounts/main</cache>
         <title>New email account</title>
         <layout append="two,one">
@@ -242,15 +242,15 @@
 
     <create id="insert">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
-        <temp ifeval="!__user_is_admin(get_data('rest/1'))" eval="true">set_data('json/user_id', current_user())</temp>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
+        <temp ifeval="!__user_is_admin(get_data('route/app'))" eval="true">set_data('json/user_id', current_user())</temp>
         <temp ifeval="!in_array(get_data('json/protocol'), ['pop3', 'imap'], true)" eval="true">set_data('json/protocol', 'pop3')</temp>
         <output require="apps/emails/php/folders.php" eval="true">emails_accounts_insert(get_data('json'))</output>
     </create>
 
     <view>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'), get_data('route/id'))</check>
         <cache>app/emails_accounts/view/cache</cache>
         <data eval="true">xmlfile2array('apps/emails/xml/emails_accounts.xml')['_data']</data>
         <data><allfiles eval="true">xmlfile2array('apps/common/xml/files.xml')['_data']</allfiles></data>
@@ -264,7 +264,7 @@
 
     <view id="cache">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <cache>app/emails_accounts/main</cache>
         <title>Detail of the email account</title>
         <layout append="two,one">
@@ -272,10 +272,10 @@
             <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/files.xml')['_form']</row>
             <row auto="true" row_class="row g-3 mb-3" col_class="col-md-6" eval="true">xmlfile2array('apps/common/xml/notes.xml')['_form']</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
-                <dropdown label="Info" icon="file-text" tooltip="Information of this register" ifeval="check_user(get_data('rest/1'), 'info')">
+                <dropdown label="Info" icon="file-text" tooltip="Information of this register" ifeval="check_user(get_data('route/app'), 'info')">
                     <menu>
-                        <button onclick="saltos.common.version()" label="History" tooltip="To see the history of the changes" icon="file-text" ifeval="app2version(get_data('rest/1'))"/>
-                        <button onclick="saltos.common.log()" label="Log" tooltip="To see the history of the changes" icon="file-text" ifeval="app2log(get_data('rest/1'))"/>
+                        <button onclick="saltos.common.version()" label="History" tooltip="To see the history of the changes" icon="file-text" ifeval="app2version(get_data('route/app'))"/>
+                        <button onclick="saltos.common.log()" label="Log" tooltip="To see the history of the changes" icon="file-text" ifeval="app2log(get_data('route/app'))"/>
                     </menu>
                 </dropdown>
                 <div col_class="col"/>
@@ -294,7 +294,7 @@
 
     <edit>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'), get_data('route/id'))</check>
         <cache>app/emails_accounts/edit/cache</cache>
         <data eval="true">xmlfile2array('apps/emails/xml/emails_accounts.xml')['_data']</data>
         <data><allfiles eval="true">xmlfile2array('apps/common/xml/files.xml')['_data']</allfiles></data>
@@ -309,7 +309,7 @@
 
     <edit id="cache">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <cache>app/emails_accounts/main</cache>
         <title>Modify this email account</title>
         <layout append="two,one">
@@ -326,21 +326,21 @@
 
     <edit id="update">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/4'))</check>
-        <temp ifeval="!__user_is_admin(get_data('rest/1'))" eval="true">set_data('json/user_id', null)</temp>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'), get_data('route/id'))</check>
+        <temp ifeval="!__user_is_admin(get_data('route/app'))" eval="true">set_data('json/user_id', null)</temp>
         <temp eval="true">set_data('json/protocol', null)</temp>
-        <output require="php/lib/actions.php" eval="true">update(get_data('rest/1'), intval(get_data('rest/4')), get_data('json'))</output>
+        <output require="php/lib/actions.php" eval="true">update(get_data('route/app'), intval(get_data('route/id')), get_data('json'))</output>
     </edit>
 
     <action id="test">
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'))</check>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'))</check>
         <output require="apps/emails/php/accounts.php" eval="true">emails_accounts_test(get_data('json'))</output>
     </action>
 
     <delete>
         <check eval="true" logout="true">current_user()</check>
-        <check eval="true">check_app_perm_id(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))</check>
-        <output require="php/lib/actions.php" eval="true">delete(get_data('rest/1'), intval(get_data('rest/3')))</output>
+        <check eval="true">check_app_perm_id(get_data('route/app'), get_data('route/node'), get_data('route/id'))</check>
+        <output require="php/lib/actions.php" eval="true">delete(get_data('route/app'), intval(get_data('route/id')))</output>
     </delete>
 </root>
