@@ -21,6 +21,7 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 
 ### Fixed
 - Reply, reply all and forward check the permissions of the original email.
+- Double click on a file of the view screen opens it again.
 
 ## [4.2] - 2026-11-13
 

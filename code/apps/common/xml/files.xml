@@ -29,7 +29,7 @@
             <actions ifeval="get_data('route/node') == 'edit'">
                 <delete icon="trash" tooltip="Delete file" onclick="saltos.common.delete"/>
             </actions>
-            <first_action eval="true">get_data('rest/5') == 'view'</first_action>
+            <first_action eval="true">get_data('route/node') == 'view'</first_action>
         </table>
         <file id="addfiles" label="New files" col_class="col-12" multiple="true" require="php/lib/files.php" ifeval="check_files_new(get_data('route/app'), get_data('route/node'))"/>
     </_form>
