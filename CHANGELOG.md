@@ -15,7 +15,7 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 - Automatic purge of Trash and Junk per account: delete option and days in each folder.
 
 ### Changed
-- Updated libraries: tcpdf, tc-lib-pdf, joditeditor, md5.
+- Updated libraries: tcpdf, tc-lib-pdf, joditeditor, md5, gridstack.
 - The web client reads and builds the hash with `saltos.hash.decode` and `saltos.hash.encode` instead of positions; unknown hashes throw an error.
 - The API decodes the app requests with `decode_route()` and `encode_route()`, and the XML files read `route/*` instead of `rest/*` positions; unknown routes return an error.
 
