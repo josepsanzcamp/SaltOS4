@@ -485,6 +485,19 @@ window.addEventListener('hashchange', event => {
     if (['', 'app/login'].includes(saltos.hash.get())) {
         saltos.hash.set('app/dashboard');
     }
+    // Screen part, the layout is only reused inside the same app
+    if (event.oldURL !== '') {
+        const app = hash => {
+            try {
+                return saltos.hash.decode.public(hash).app;
+            } catch (error) {
+                return '';
+            }
+        };
+        if (app(saltos.hash.url2hash(event.oldURL)) !== app(saltos.hash.get())) {
+            saltos.form.screen('clear');
+        }
+    }
     // Do the request
     saltos.app.send_request(saltos.hash.get());
 });

@@ -24,6 +24,7 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 - Reply, reply all and forward check the permissions of the original email.
 - Double click on a file of the view screen opens it again.
 - The page stops processing a response when a new version reloads it.
+- Changing the app in the same tab clears the previous screen.
 
 ## [4.2] - 2026-11-13
 

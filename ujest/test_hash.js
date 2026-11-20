@@ -842,6 +842,7 @@ describe('hashchange listener', () => {
         saltos.bootstrap = {modal: jest.fn(), offcanvas: jest.fn(), __tooltip_hide: jest.fn()};
         saltos.token = {get: jest.fn(() => 'token')};
         saltos.app = {send_request: jest.fn()};
+        saltos.form = {screen: jest.fn()};
     });
 
     /**
@@ -871,7 +872,23 @@ describe('hashchange listener', () => {
             newURL: 'http://localhost/#/app/customers/edit/1',
         }));
         expect(saltos.autosave.save).toHaveBeenCalledWith('two,one', 'app/customers');
+        expect(saltos.form.screen).not.toHaveBeenCalled();
         expect(saltos.app.send_request).toHaveBeenCalledWith('app/customers/edit/1');
+    });
+
+    /**
+     * Test changing the app
+     *
+     * Verifies the listener clears the screen when the app changes
+     */
+    test('should clear the screen when the app changes', () => {
+        window.location.hash = '#/app/dashboard';
+        window.dispatchEvent(new HashChangeEvent('hashchange', {
+            oldURL: 'http://localhost/#/app/customers',
+            newURL: 'http://localhost/#/app/dashboard',
+        }));
+        expect(saltos.form.screen).toHaveBeenCalledWith('clear');
+        expect(saltos.app.send_request).toHaveBeenCalledWith('app/dashboard');
     });
 
     /**
@@ -883,6 +900,7 @@ describe('hashchange listener', () => {
         window.location.hash = '#/app/customers/?/search/foo';
         saltos.hash.trigger();
         expect(saltos.autosave.save).not.toHaveBeenCalled();
+        expect(saltos.form.screen).not.toHaveBeenCalled();
         expect(saltos.app.send_request).toHaveBeenCalledWith('app/customers');
     });
 });
