@@ -341,6 +341,7 @@ saltos.emails.folders_panel = () => {
         pos: 'left',
         close: 'Close',
     });
+    saltos.common.__panel_open('folders', 'offcanvas');
     const panel = document.getElementById('folders_panel');
     if ('data-bs-title' in panel) {
         document.querySelector('.offcanvas-title').innerHTML = T(panel['data-bs-title']);
@@ -358,6 +359,14 @@ saltos.emails.folders_panel = () => {
         }
     });
 };
+
+/**
+ * Folders panel restore
+ *
+ * This line adds the folders panel to the panels that can be restored using the panel
+ * param of the hash
+ */
+saltos.common.__panels.folders = () => saltos.emails.folders_panel();
 
 /**
  * Folder modal helper
@@ -1106,6 +1115,10 @@ saltos.driver.search = arg => {
     saltos.backup.restore('top+one');
     const data = saltos.app.get_data(true);
     saltos.filter.update('last', data);
+    saltos.hash.add(null, {
+        ...saltos.app.get_data(),
+        panel: saltos.hash.get(true).params.panel,
+    });
     const app = saltos.hash.decode.public(saltos.hash.get()).app;
     // Restore the more button
     const obj = document.getElementById('more');

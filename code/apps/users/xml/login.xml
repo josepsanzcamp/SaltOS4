@@ -53,6 +53,12 @@
                 document.getElementById('user').value = params.get('user') ?? '';
                 document.getElementById('pass').value = params.get('pass') ?? '';
             })()</inline>
+            <inline>(() => {
+                // Only the about panel can be restored without a valid token
+                if (saltos.hash.get(true).params.panel === 'about') {
+                    saltos.common.__panel_restore('about');
+                }
+            })()</inline>
         </javascript>
     </main>
 </root>

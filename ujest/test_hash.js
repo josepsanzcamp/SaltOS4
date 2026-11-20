@@ -59,14 +59,14 @@ afterEach(() => {
  * Contains tests for the internal hash normalization function
  * that cleans hash strings by removing special characters
  */
-describe('saltos.hash.__helper', () => {
+describe('saltos.hash.__helper_hash', () => {
     /**
      * Test hash with leading #
      *
      * Verifies the helper removes the # character from the beginning
      */
     test('should remove leading #', () => {
-        expect(saltos.hash.__helper('#test')).toBe('test');
+        expect(saltos.hash.__helper_hash('#test')).toBe('test');
     });
 
     /**
@@ -75,7 +75,7 @@ describe('saltos.hash.__helper', () => {
      * Verifies the helper removes the / character from the beginning
      */
     test('should remove leading /', () => {
-        expect(saltos.hash.__helper('/test')).toBe('test');
+        expect(saltos.hash.__helper_hash('/test')).toBe('test');
     });
 
     /**
@@ -84,7 +84,7 @@ describe('saltos.hash.__helper', () => {
      * Verifies the helper removes both # and / characters from the beginning
      */
     test('should remove both leading # and /', () => {
-        expect(saltos.hash.__helper('#/test')).toBe('test');
+        expect(saltos.hash.__helper_hash('#/test')).toBe('test');
     });
 
     /**
@@ -93,7 +93,7 @@ describe('saltos.hash.__helper', () => {
      * Verifies the helper returns empty string for empty input
      */
     test('should return empty string for empty input', () => {
-        expect(saltos.hash.__helper('')).toBe('');
+        expect(saltos.hash.__helper_hash('')).toBe('');
     });
 
     /**
@@ -102,7 +102,18 @@ describe('saltos.hash.__helper', () => {
      * Verifies the helper returns unchanged input when no special characters
      */
     test('should not modify clean hash', () => {
-        expect(saltos.hash.__helper('test')).toBe('test');
+        expect(saltos.hash.__helper_hash('test')).toBe('test');
+    });
+
+    /**
+     * Test hash with params
+     *
+     * Verifies the helper removes the params part of the hash
+     */
+    test('should remove the params', () => {
+        expect(saltos.hash.__helper_hash('#/app/customers/?/search/foo')).toBe('app/customers');
+        expect(saltos.hash.__helper_hash('app/customers?/search/foo')).toBe('app/customers');
+        expect(saltos.hash.__helper_hash('app/customers/?')).toBe('app/customers');
     });
 });
 
@@ -141,6 +152,187 @@ describe('saltos.hash.get', () => {
     test('should remove leading /', () => {
         window.location.hash = '#/test';
         expect(saltos.hash.get()).toBe('test');
+    });
+});
+
+/**
+ * Test suite for hash getter function with params
+ *
+ * Contains tests for retrieving the params of the current window hash
+ */
+describe('saltos.hash.get with params', () => {
+    /**
+     * Test getting params
+     *
+     * Verifies the function returns an object with the decoded params
+     */
+    test('should return the params', () => {
+        window.location.hash = '#/app/customers/?/search/foo%20bar/folder_id/5';
+        expect(saltos.hash.get(true)).toStrictEqual({
+            hash: 'app/customers',
+            params: {search: 'foo bar', folder_id: '5'},
+        });
+        expect(saltos.hash.get()).toBe('app/customers');
+    });
+
+    /**
+     * Test getting params with escaped slash
+     *
+     * Verifies the function decodes the escaped / in the values
+     */
+    test('should decode the escaped slash', () => {
+        window.location.hash = '#/app/customers/?/search/a%2Fb';
+        expect(saltos.hash.get(true).params).toStrictEqual({search: 'a/b'});
+    });
+
+    /**
+     * Test getting empty params
+     *
+     * Verifies the function returns an empty object when no params exists
+     */
+    test('should return empty object when no params', () => {
+        window.location.hash = '#/app/customers';
+        expect(saltos.hash.get(true).params).toStrictEqual({});
+        window.location.hash = '#/app/customers/?/';
+        expect(saltos.hash.get(true).params).toStrictEqual({});
+    });
+
+    /**
+     * Test getting params without value
+     *
+     * Verifies the function uses an empty value for the last key without value
+     */
+    test('should return empty value for key without value', () => {
+        window.location.hash = '#/app/customers/?/search';
+        expect(saltos.hash.get(true).params).toStrictEqual({search: ''});
+    });
+});
+
+/**
+ * Test suite for params helper function
+ *
+ * Contains tests for building the hash with the params
+ */
+describe('saltos.hash.__helper_build', () => {
+    /**
+     * Test building the hash with params
+     *
+     * Verifies the function cleans the hash and adds the encoded params
+     */
+    test('should build the hash with params', () => {
+        expect(saltos.hash.__helper_build('#/app/customers', {search: 'a/b'})).toBe(
+            'app/customers/?/search/a%2Fb'
+        );
+        expect(saltos.hash.__helper_build('app/customers/?/old/1', {})).toBe('app/customers');
+    });
+
+    /**
+     * Test building with the current hash
+     *
+     * Verifies the function uses the current hash when the hash is null
+     */
+    test('should use the current hash when null', () => {
+        window.location.hash = '#/app/customers/?/search/foo';
+        expect(saltos.hash.__helper_build(null, {panel: 'filter'})).toBe('app/customers/?/panel/filter');
+    });
+});
+
+/**
+ * Test suite for hash setter function with params
+ *
+ * Contains tests for replacing the params of the current hash
+ * using history.replaceState
+ */
+describe('saltos.hash.set with params', () => {
+    /**
+     * Test setting params
+     *
+     * Verifies the function adds the encoded params after the hash
+     */
+    test('should set the params', () => {
+        window.location.hash = '#/app/customers';
+        const result = saltos.hash.set(null, {search: 'a/b c', folder_id: 5});
+        expect(result).toBe(true);
+        expect(window.history.replaceState).toHaveBeenCalledWith(
+            null,
+            null,
+            '.#/app/customers/?/search/a%2Fb%20c/folder_id/5'
+        );
+    });
+
+    /**
+     * Test replacing params
+     *
+     * Verifies the function replaces the old params instead of merging them
+     */
+    test('should replace the old params', () => {
+        window.location.hash = '#/app/customers/?/search/foo';
+        saltos.hash.set(null, {folder_id: 5});
+        expect(window.history.replaceState).toHaveBeenCalledWith(
+            null,
+            null,
+            '.#/app/customers/?/folder_id/5'
+        );
+    });
+
+    /**
+     * Test setting empty values
+     *
+     * Verifies the function skips the empty values and removes the ? char when no params remains
+     */
+    test('should skip empty values', () => {
+        window.location.hash = '#/app/customers/?/search/foo';
+        saltos.hash.set(null, {search: '', folder_id: null, other: undefined});
+        expect(window.history.replaceState).toHaveBeenCalledWith(null, null, '.#/app/customers');
+    });
+
+    /**
+     * Test setting same params
+     *
+     * Verifies the function doesn't update history when params doesn't change
+     */
+    test('should not set same params', () => {
+        window.location.hash = '#/app/customers/?/search/foo';
+        expect(saltos.hash.set(null, {search: 'foo'})).toBe(false);
+        window.location.hash = '#/app/customers';
+        expect(saltos.hash.set(null, {})).toBe(false);
+        expect(window.history.replaceState).not.toHaveBeenCalled();
+    });
+});
+
+/**
+ * Test suite for hash adder function with params
+ *
+ * Contains tests for adding the hash with the new params
+ * using history.pushState
+ */
+describe('saltos.hash.add with params', () => {
+    /**
+     * Test adding params
+     *
+     * Verifies the function adds the hash with the encoded params and uses pushState
+     */
+    test('should add the params', () => {
+        window.location.hash = '#/app/customers/?/search/foo';
+        const result = saltos.hash.add(null, {search: 'bar', panel: 'filter'});
+        expect(result).toBe(true);
+        expect(window.history.pushState).toHaveBeenCalledWith(
+            null,
+            null,
+            '.#/app/customers/?/search/bar/panel/filter'
+        );
+        expect(window.history.replaceState).not.toHaveBeenCalled();
+    });
+
+    /**
+     * Test adding same params
+     *
+     * Verifies the function doesn't update history when params doesn't change
+     */
+    test('should not add same params', () => {
+        window.location.hash = '#/app/customers/?/search/foo';
+        expect(saltos.hash.add(null, {search: 'foo', panel: ''})).toBe(false);
+        expect(window.history.pushState).not.toHaveBeenCalled();
     });
 });
 
@@ -204,6 +396,26 @@ describe('saltos.hash.set', () => {
     test('should handle empty hash', () => {
         saltos.hash.set('');
         expect(window.history.replaceState).toHaveBeenCalledWith(null, null, '.#/');
+    });
+
+    /**
+     * Test setting hash with params
+     *
+     * Verifies the function keeps the params only when they are passed, and removes
+     * them otherwise
+     */
+    test('should keep or remove the params', () => {
+        window.location.hash = '#/app/customers/?/search/foo';
+        expect(saltos.hash.set('app/customers', {search: 'foo'})).toBe(false);
+        expect(window.history.replaceState).not.toHaveBeenCalled();
+        expect(saltos.hash.set('app/customers')).toBe(true);
+        expect(window.history.replaceState).toHaveBeenCalledWith(null, null, '.#/app/customers');
+        expect(saltos.hash.set('app/customers/edit/1', {panel: 'help'})).toBe(true);
+        expect(window.history.replaceState).toHaveBeenCalledWith(
+            null,
+            null,
+            '.#/app/customers/edit/1/?/panel/help'
+        );
     });
 });
 
@@ -606,8 +818,71 @@ describe('saltos.hash.trigger', () => {
      * Verifies the function dispatches a hashchange event
      */
     test('should dispatch hashchange event', () => {
-        window.dispatchEvent = jest.fn();
+        jest.spyOn(window, 'dispatchEvent').mockImplementation(jest.fn());
         saltos.hash.trigger();
         expect(window.dispatchEvent).toHaveBeenCalledWith(expect.any(HashChangeEvent));
+    });
+});
+
+/**
+ * Test suite for hash change management
+ *
+ * Contains tests for the hashchange listener that updates the contents
+ */
+describe('hashchange listener', () => {
+    /**
+     * Mock the modules used by the listener
+     *
+     * Initializes the mocks of the functions called by the listener
+     */
+    beforeEach(() => {
+        saltos.autosave = {save: jest.fn(), purge: jest.fn()};
+        saltos.core = {__abort_all_ajax: jest.fn()};
+        saltos.driver = {__disable_all_autoclose: jest.fn(), params: jest.fn()};
+        saltos.bootstrap = {modal: jest.fn(), offcanvas: jest.fn(), __tooltip_hide: jest.fn()};
+        saltos.token = {get: jest.fn(() => 'token')};
+        saltos.app = {send_request: jest.fn()};
+    });
+
+    /**
+     * Test changing only the params
+     *
+     * Verifies the listener only applies the params when only the params change
+     */
+    test('should only apply the params changes', () => {
+        window.dispatchEvent(new HashChangeEvent('hashchange', {
+            oldURL: 'http://localhost/#/app/customers/?/search/foo',
+            newURL: 'http://localhost/#/app/customers/?/search/bar',
+        }));
+        expect(saltos.driver.params).toHaveBeenCalled();
+        expect(saltos.autosave.save).not.toHaveBeenCalled();
+        expect(saltos.app.send_request).not.toHaveBeenCalled();
+    });
+
+    /**
+     * Test changing the hash
+     *
+     * Verifies the listener updates the contents when the hash changes
+     */
+    test('should update the contents when the hash changes', () => {
+        window.location.hash = '#/app/customers/edit/1';
+        window.dispatchEvent(new HashChangeEvent('hashchange', {
+            oldURL: 'http://localhost/#/app/customers/?/search/foo',
+            newURL: 'http://localhost/#/app/customers/edit/1',
+        }));
+        expect(saltos.autosave.save).toHaveBeenCalledWith('two,one', 'app/customers');
+        expect(saltos.app.send_request).toHaveBeenCalledWith('app/customers/edit/1');
+    });
+
+    /**
+     * Test the trigger
+     *
+     * Verifies the listener updates the contents when the event has no urls
+     */
+    test('should update the contents with the trigger', () => {
+        window.location.hash = '#/app/customers/?/search/foo';
+        saltos.hash.trigger();
+        expect(saltos.autosave.save).not.toHaveBeenCalled();
+        expect(saltos.app.send_request).toHaveBeenCalledWith('app/customers');
     });
 });

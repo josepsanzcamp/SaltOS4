@@ -13,6 +13,7 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 
 ### Added
 - Automatic purge of Trash and Junk per account: delete option and days in each folder.
+- The hash keeps the filters and the open panel as params (`#/app/X/?/k1/v1`), so the history can go back to each search and panel.
 
 ### Changed
 - Updated libraries: tcpdf, tc-lib-pdf, joditeditor, md5, gridstack.

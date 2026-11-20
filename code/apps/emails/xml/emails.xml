@@ -67,7 +67,7 @@
                 <!-- Begin of the search form -->
                 <div id="search_form">
                     <row auto="true" row_class="row g-3 mb-3" col_class="col-6">
-                        <text id="search_extra" label="Search" col_class="col-12" onchange="document.getElementById('search').value=this.value" onenter="document.getElementById('search').value=this.value;saltos.driver.search()"/>
+                        <text id="search_extra" ignore="true" label="Search" col_class="col-12" onchange="document.getElementById('search').value=this.value" onenter="document.getElementById('search').value=this.value;saltos.driver.search()"/>
                         <select id="account_id" label="Emails accounts" col_class="col-12">
                             <rows eval="true">execute_query_array("
                                 SELECT '' value, '[All accounts]' label

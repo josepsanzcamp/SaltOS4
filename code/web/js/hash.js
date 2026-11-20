@@ -33,11 +33,21 @@ saltos.hash = {};
  * Get hash
  *
  * Function intended to return the current hash without the pillow
+ *
+ * @full => if true, returns an object with the hash and the params
+ *
+ * Notes:
+ *
+ * The params are stored after the hash using the format #/app/X/?/k1/v1/k2/v2 and contains
+ * the state of the current screen
  */
-saltos.hash.get = () => {
-    let hash = window.location.hash;
-    hash = saltos.hash.__helper(hash);
-    return hash;
+saltos.hash.get = (full = false) => {
+    const hash = saltos.hash.__helper_hash(window.location.hash);
+    if (!full) {
+        return hash;
+    }
+    const params = saltos.hash.__helper_params(window.location.hash);
+    return {hash, params};
 };
 
 /**
@@ -46,18 +56,19 @@ saltos.hash.get = () => {
  * Function intended to replace the hash in the current url, adds the pilow if it is not found
  * in the hash argument
  *
- * @hash => this must contain the hash with or without the pillow
+ * @hash   => this must contain the hash with or without the pillow, null to keep the current hash
+ * @params => the object with the params that you want to store
  *
  * Notes:
  *
  * The # char is added by default if it is not found in the hash, additionally the dot is
  * added to force to remove all chars before the # char in the window.location
  *
- * The operation is cancelled if the current hash is the same that the new hash
+ * The operation is cancelled if the current hash and params are the same that the new ones
  */
-saltos.hash.set = hash => {
-    hash = saltos.hash.__helper(hash);
-    if (saltos.hash.get() === hash) {
+saltos.hash.set = (hash, params = {}) => {
+    hash = saltos.hash.__helper_build(hash, params);
+    if (saltos.hash.__helper_build(null, saltos.hash.get(true).params) === hash) {
         return false;
     }
     window.history.replaceState(null, null, '.#/' + hash);
@@ -70,18 +81,19 @@ saltos.hash.set = hash => {
  * Function intended to add a hash in the current history, adds the pilow if it is not found
  * in the hash argument
  *
- * @hash => this must contain the hash with or without the pillow
+ * @hash   => this must contain the hash with or without the pillow, null to keep the current hash
+ * @params => the object with the params that you want to store
  *
  * Notes:
  *
  * The # char is added by default if it is not found in the hash, additionally the dot is
  * added to force to remove all chars before the # char in the window.location
  *
- * The operation is cancelled if the current hash is the same that the new hash
+ * The operation is cancelled if the current hash and params are the same that the new ones
  */
-saltos.hash.add = hash => {
-    hash = saltos.hash.__helper(hash);
-    if (saltos.hash.get() === hash) {
+saltos.hash.add = (hash, params = {}) => {
+    hash = saltos.hash.__helper_build(hash, params);
+    if (saltos.hash.__helper_build(null, saltos.hash.get(true).params) === hash) {
         return false;
     }
     window.history.pushState(null, null, '.#/' + hash);
@@ -94,13 +106,70 @@ saltos.hash.add = hash => {
  * This function is used by all other functions to clean the hash
  *
  * @hash => the hash that you want to check and clean
+ *
+ * Notes:
+ *
+ * The params part (all from the ? char) is removed, to get the params you must use the
+ * params helper
  */
-saltos.hash.__helper = hash => {
+saltos.hash.__helper_hash = hash => {
     if (hash.length && hash.substr(0, 1) === '#') {
         hash = hash.substr(1);
     }
     if (hash.length && hash.substr(0, 1) === '/') {
         hash = hash.substr(1);
+    }
+    hash = hash.replace(/\/?\?.*$/, '');
+    return hash;
+};
+
+/**
+ * Params helper
+ *
+ * This function returns an object with the params of the hash
+ *
+ * @hash => the hash that contains the params
+ */
+saltos.hash.__helper_params = hash => {
+    const params = {};
+    const pos = hash.indexOf('?');
+    if (pos === -1) {
+        return params;
+    }
+    const arr = hash.substr(pos + 1).split('/').filter(item => item !== '');
+    for (let i = 0; i < arr.length; i += 2) {
+        params[decodeURIComponent(arr[i])] = decodeURIComponent(arr[i + 1] || '');
+    }
+    return params;
+};
+
+/**
+ * Build helper
+ *
+ * This function returns the hash with the params, it is used by set and add
+ *
+ * @hash   => the hash with or without the pillow, null to use the current hash
+ * @params => the object with the params that you want to store
+ *
+ * Notes:
+ *
+ * The empty values are not added, and if no params remains, the ? char is not added
+ */
+saltos.hash.__helper_build = (hash, params) => {
+    if (hash === null) {
+        hash = saltos.hash.get();
+    }
+    hash = saltos.hash.__helper_hash(hash);
+    const arr = [];
+    for (const key in params) {
+        const val = params[key];
+        if (val === undefined || val === null || val === '') {
+            continue;
+        }
+        arr.push(encodeURIComponent(key), encodeURIComponent(val));
+    }
+    if (arr.length) {
+        hash += '/?/' + arr.join('/');
     }
     return hash;
 };
@@ -113,7 +182,7 @@ saltos.hash.__helper = hash => {
  * @url => the url string that contains the hash that you want to retrieve
  */
 saltos.hash.url2hash = url => {
-    return saltos.hash.__helper((new URL(url)).hash);
+    return saltos.hash.__helper_hash((new URL(url)).hash);
 };
 
 /**
@@ -380,8 +449,20 @@ saltos.hash.trigger = () => {
  * Hash change management
  *
  * This function allow to SaltOS to update the contents when hash change
+ *
+ * Notes:
+ *
+ * Only the params are applied if only the params of the hash change, the trigger function sends
+ * an event without urls, so it always updates the contents
  */
 window.addEventListener('hashchange', event => {
+    // Params part
+    if (event.oldURL !== '' && event.newURL !== '') {
+        if (saltos.hash.url2hash(event.oldURL) === saltos.hash.url2hash(event.newURL)) {
+            saltos.driver.params();
+            return;
+        }
+    }
     if (event.oldURL !== '') {
         const hash = saltos.hash.url2hash(event.oldURL);
         saltos.autosave.save('two,one', hash);

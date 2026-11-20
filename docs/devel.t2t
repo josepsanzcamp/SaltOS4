@@ -710,12 +710,24 @@ The file `app.js` implements the high-level application layer. It builds on top 
 
 - Registers and manages application views and layouts.
 - Handles modal dialogs, toast notifications, and main layout rendering.
-- Processes hash-based navigation (`#app/xyz/...`) and dispatches actions.
+- Sends the requests of the hash-based navigation (`#/app/xyz/...`) and processes the responses, the hash is parsed and routed by `hash.js`.
 - Manages event hooks (e.g., `saltos.app.login`, `saltos.app.ready`).
 - Integrates layout types (`type1` to `type3`) through `saltos.driver`.
 
 
 It is also responsible for launching the application when loaded in the browser.
+
++++Hash and params (hash.js)+++
+
+The hash has two parts: the route, used to load the contents, and the params, that store
+the state of the screen as key/value pairs:
+
+- An example hash: `#/app/customers/?/search/foo/panel/filter`
+- `saltos.hash.get()` returns the route (`app/customers`)
+- `saltos.hash.get(true)` returns `{hash, params}`, the params as `{search: 'foo', panel: 'filter'}`
+- `saltos.hash.set(hash, params)` and `saltos.hash.add(hash, params)` replace or add the hash in the history; a null hash keeps the current route, the missing or empty params are removed
+- Each search stores the filters fields that are not in their default value, and the `panel` key stores the last open panel (about, help, profile, filter or the panels added by the apps to `saltos.common.__panels`)
+- When the history changes only the params, `saltos.driver.params()` updates the filters and the panel without reloading the screen
 
 +++Integration and Responsibilities+++
 

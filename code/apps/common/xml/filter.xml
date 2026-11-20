@@ -26,7 +26,7 @@
         <!-- Begin of the search form -->
         <div id="search_form">
             <row auto="true" row_class="row g-3 mb-3" col_class="col-6">
-                <text id="search_extra" label="Search" col_class="col-12" onchange="document.getElementById('search').value=this.value" autofocus="true" onenter="document.getElementById('search').value=this.value;saltos.driver.search()"/>
+                <text id="search_extra" ignore="true" label="Search" col_class="col-12" onchange="document.getElementById('search').value=this.value" autofocus="true" onenter="document.getElementById('search').value=this.value;saltos.driver.search()"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>

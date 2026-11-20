@@ -68,6 +68,12 @@ saltos.driver.init = async arg => {
     if (arg === 'list') {
         await saltos.filter.init();
         saltos.filter.select();
+        // The params of the hash have priority over the last filter
+        const params = saltos.hash.get(true).params;
+        delete params.panel;
+        if (Object.keys(params).length) {
+            saltos.filter.update('last', params);
+        }
         saltos.filter.load('last');
     }
     // To check the autosave feature
@@ -80,6 +86,8 @@ saltos.driver.init = async arg => {
     // Old feature
     const type = document.getElementById('screen').dataset.type;
     saltos.driver.__types[type].init(arg);
+    // To restore the panel stored in the params
+    saltos.common.__panel_restore(saltos.hash.get(true).params.panel);
 };
 
 /**
@@ -200,6 +208,10 @@ saltos.driver.search = arg => {
     saltos.backup.restore('top+one');
     const data = saltos.app.get_data(true);
     saltos.filter.update('last', data);
+    saltos.hash.add(null, {
+        ...saltos.app.get_data(),
+        panel: saltos.hash.get(true).params.panel,
+    });
     const app = saltos.hash.decode.public(saltos.hash.get()).app;
     // Restore the more button
     const obj = document.getElementById('more');
@@ -230,6 +242,41 @@ saltos.driver.search = arg => {
  */
 saltos.driver.reset = arg => {
     saltos.backup.restore('top+one');
+    saltos.driver.__reset_fields();
+    saltos.driver.search();
+};
+
+/**
+ * Driver params
+ *
+ * This function updates the filters fields using the params of the hash and executes the
+ * search, and opens or closes the panel of the panel param, it is used when the history
+ * changes the params but not the hash
+ *
+ * @arg => unused at this scope
+ */
+saltos.driver.params = arg => {
+    const params = saltos.hash.get(true).params;
+    // Filter part
+    if (document.getElementById('list')) {
+        saltos.backup.restore('top+one');
+        saltos.driver.__reset_fields();
+        const data = {...params};
+        delete data.panel;
+        saltos.form.data(data, false);
+        saltos.driver.search();
+        saltos.window.send('saltos.filter.load', 'params', 'me');
+    }
+    // Panel part
+    saltos.common.__panel_restore(params.panel);
+};
+
+/**
+ * Driver reset fields helper
+ *
+ * This function restores the default values of the fields, it is used by reset and params
+ */
+saltos.driver.__reset_fields = () => {
     for (const i in saltos.form.__form.fields) {
         const field = saltos.form.__form.fields[i];
         const obj = document.getElementById(field.id);
@@ -242,7 +289,6 @@ saltos.driver.reset = arg => {
         }
         obj.saltos.set_value(field.value);
     }
-    saltos.driver.search();
 };
 
 /**

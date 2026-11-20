@@ -29,6 +29,76 @@
 saltos.common = {};
 
 /**
+ * Panels object
+ *
+ * This object stores the functions used to open the panels that can be restored using the
+ * panel param of the hash, the apps can add their own panels
+ */
+saltos.common.__panels = {
+    about: () => saltos.common.about(),
+    help: () => saltos.common.help(),
+    profile: () => saltos.common.profile(),
+    filter: () => saltos.common.filter(),
+};
+
+/**
+ * Panel open helper
+ *
+ * This function stores the name of the open panel in the panel param of the hash and
+ * removes it when the panel is closed, it must be called after opening the panel
+ *
+ * @name => the name of the panel
+ * @type => the type of the panel (modal or offcanvas)
+ */
+saltos.common.__panel_open = (name, type) => {
+    saltos.hash.add(null, {
+        ...saltos.hash.get(true).params,
+        panel: name,
+    });
+    saltos.common.__panel_status = {name, type};
+    // Cleanup when the panel is closed: removes the status and the panel param of the hash
+    saltos.bootstrap[`__${type}`].obj.addEventListener(`hidden.bs.${type}`, event => {
+        delete saltos.common.__panel_status;
+        const params = saltos.hash.get(true).params;
+        if (params.panel === name) {
+            delete params.panel;
+            saltos.hash.add(null, params);
+        }
+    });
+};
+
+/**
+ * Panel restore helper
+ *
+ * This function opens the panel of the panel param of the hash, closing the current panel
+ * if it is different, it is used when the screen is loaded and when the history changes
+ * the params but not the hash
+ *
+ * @name => the name of the panel that must be open
+ */
+saltos.common.__panel_restore = name => {
+    const status = saltos.common.__panel_status;
+    if (status && status.name === name) {
+        return;
+    }
+    if (status) {
+        // Chain when the panel is closed: opens the new panel after the cleanup of the old one
+        saltos.bootstrap[`__${status.type}`].obj.addEventListener(`hidden.bs.${status.type}`, event => {
+            saltos.common.__panel_restore(name);
+        }, {once: true});
+        saltos.bootstrap[status.type]('close');
+        return;
+    }
+    if (!(name in saltos.common.__panels)) {
+        return;
+    }
+    if (saltos.bootstrap.modal('isopen') || saltos.bootstrap.offcanvas('isopen')) {
+        return;
+    }
+    saltos.common.__panels[name]();
+};
+
+/**
  * Profile screen
  *
  * This function allow to open the profile screen in a offcanvas widget
@@ -42,6 +112,7 @@ saltos.common.profile = () => {
         pos: 'right',
         close: 'Close',
     });
+    saltos.common.__panel_open('profile', 'offcanvas');
     document.querySelector('.offcanvas-body').setAttribute('id', 'right');
     saltos.app.send_request('app/widgets/profile');
 };
@@ -60,6 +131,7 @@ saltos.common.help = () => {
         close: 'Close',
         class: 'modal-xl',
     });
+    saltos.common.__panel_open('help', 'modal');
     document.querySelector('.modal-body').setAttribute('id', 'four');
     const app = saltos.hash.decode.public(saltos.hash.get()).app;
     saltos.app.send_request(saltos.hash.encode.private({
@@ -83,6 +155,7 @@ saltos.common.about = () => {
         close: 'Close',
         class: 'modal-xl',
     });
+    saltos.common.__panel_open('about', 'modal');
     saltos.core.ajax({
         url: 'api/?/about',
         success: response => {
@@ -190,6 +263,13 @@ saltos.common.filter = () => {
         pos: 'left',
         close: 'Close',
     });
+    saltos.common.__panel_open('filter', 'offcanvas');
+    // The search_extra field is ignored by get_data, so it must be synced with the search field
+    const search = document.getElementById('search');
+    const search_extra = document.getElementById('search_extra');
+    if (search && search_extra) {
+        search_extra.value = search.value;
+    }
     const filter = document.getElementById('filter');
     if ('data-bs-title' in filter) {
         document.querySelector('.offcanvas-title').innerHTML = T(filter['data-bs-title']);
