@@ -260,7 +260,10 @@ function __getmail_getmime($id)
         file_put_contents($cache, serialize($decoded));
         chmod_protected($cache, 0666);
     } else {
-        $decoded = unserialize(file_get_contents($cache));
+        $decoded = file_get_contents($cache);
+        if ($decoded) {
+            $decoded = unserialize($decoded);
+        }
     }
     return $decoded;
 }

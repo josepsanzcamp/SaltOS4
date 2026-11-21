@@ -1,7 +1,7 @@
 
 ARG MARIADB_VERSION=12.3
 ARG MROONGA_VERSION=16.15
-ARG PHP_VERSION=8.5
+ARG PHP_VERSION=8.6
 
 ####################################################################################################
 # xlsxio builder

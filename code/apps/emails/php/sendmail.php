@@ -795,7 +795,10 @@ function sendmail_server()
         }
 
         // Unserialize the email object and validate its integrity
-        $mail = unserialize(file_get_contents($file));
+        $mail = file_get_contents($file);
+        if ($mail) {
+            $mail = unserialize($mail);
+        }
         if (!$mail || !method_exists($mail, 'PostSend')) {
             $error = T('This email was not sent by an internal error');
             __getmail_update('state_sent', 1, $last_id);
