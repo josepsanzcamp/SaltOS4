@@ -36,14 +36,14 @@
     "ext-xml": "*",
     "ext-zlib": "*",
     "tecnickcom/tc-lib-barcode": "^2.17",
-    "tecnickcom/tc-lib-color": "^3.0",
+    "tecnickcom/tc-lib-color": "^3.1",
     "tecnickcom/tc-lib-pdf-image": "^3.15",
     "tecnickcom/tc-lib-pdf-font": "^4.9",
     "tecnickcom/tc-lib-file": "^3.9",
     "tecnickcom/tc-lib-pdf-encrypt": "^2.12",
     "tecnickcom/tc-lib-pdf-sign": "^2.0",
     "tecnickcom/tc-lib-unicode-data": "^3.1",
-    "tecnickcom/tc-lib-unicode": "^3.2",
+    "tecnickcom/tc-lib-unicode": "^3.3",
     "tecnickcom/tc-lib-pdf-page": "^4.18",
     "tecnickcom/tc-lib-pdf-graph": "^2.18",
     "tecnickcom/tc-lib-pdf-parser": "^3.16"
@@ -56,8 +56,8 @@
   "prefer-stable": true,
   "require-dev": {
     "ext-gd": "*",
-    "carthage-software/mago": "1.60.1",
-    "pdepend/pdepend": "^3.0",
+    "carthage-software/mago": "1.60.2",
+    "pdepend/pdepend": "^3.1",
     "phpunit/phpunit": "^11.5 || ^12.5 || ^13.4"
   },
   "autoload": {
@@ -105,3 +105,4 @@
     "post-update-cmd": ["@fonts"]
   }
 }
+

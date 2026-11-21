@@ -118,6 +118,13 @@ use OpenSSLAsymmetricKey;
 abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
 {
     /**
+     * Appearance dictionary keys: normal, rollover, down.
+     *
+     * @var array<int, string>
+     */
+    protected const AP_MODES = ['N', 'R', 'D'];
+
+    /**
      * Object to export font data.
      *
      * @var OutFont
@@ -281,7 +288,9 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
         }
 
         $matchGs = [];
-        $gsCount = $transpNames === [] ? 0 : \preg_match_all('/\/([A-Za-z0-9_]+)\s+gs\b/', $stream, $matchGs);
+        $gsCount = $transpNames === []
+            ? 0
+            : \preg_match_all('/\/([A-Za-z0-9_]+)[\t\n\x0B\f\r ]+gs(?![0-9A-Za-z_])/', $stream, $matchGs);
         if ($gsCount !== false && $gsCount > 0) {
             foreach ($matchGs[1] ?? [] as $name) {
                 if (isset($transpNames[$name])) {
@@ -291,7 +300,7 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
         }
 
         $matchDo = [];
-        $doCount = \preg_match_all('/\/([A-Za-z0-9_]+)\s+Do\b/', $stream, $matchDo);
+        $doCount = \preg_match_all('/\/([A-Za-z0-9_]+)[\t\n\x0B\f\r ]+Do(?![0-9A-Za-z_])/', $stream, $matchDo);
         if ($doCount !== false && $doCount > 0) {
             foreach ($matchDo[1] ?? [] as $name) {
                 if (
@@ -514,7 +523,12 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
     protected function getPDFObjectOffsets(string $data): array
     {
         $matches = [];
-        \preg_match_all('/(([0-9]+)[\s][0-9]+[\s]obj[\n])/i', $data, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
+        \preg_match_all(
+            '/(([0-9]+)[\t\n\x0B\f\r ][0-9]+[\t\n\x0B\f\r ][Oo][Bb][Jj][\n])/',
+            $data,
+            $matches,
+            PREG_SET_ORDER | PREG_OFFSET_CAPTURE,
+        );
         $offset = [];
         foreach ($matches as $match) {
             $m2 = $match[2] ?? [];
@@ -1829,7 +1843,11 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
     {
         $fontNames = [];
         $matchFont = [];
-        $fontMatchCount = \preg_match_all('/\/(F[0-9]+)\s+[0-9\.\-]+\s+Tf\b/', $stream, $matchFont);
+        $fontMatchCount = \preg_match_all(
+            '/\/(F[0-9]+)[\t\n\x0B\f\r ]+[0-9\.\-]+[\t\n\x0B\f\r ]+Tf(?![0-9A-Za-z_])/',
+            $stream,
+            $matchFont,
+        );
         if ($fontMatchCount !== false && $fontMatchCount > 0) {
             foreach ($matchFont[1] ?? [] as $name) {
                 $fontNames[$name] = true;
@@ -1838,7 +1856,7 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
 
         $extgstate = [];
         $matchGs = [];
-        $gsMatchCount = \preg_match_all('/\/GS([0-9]+)\s+gs\b/', $stream, $matchGs);
+        $gsMatchCount = \preg_match_all('/\/GS([0-9]+)[\t\n\x0B\f\r ]+gs(?![0-9A-Za-z_])/', $stream, $matchGs);
         if ($gsMatchCount !== false && $gsMatchCount > 0) {
             foreach ($matchGs[1] ?? [] as $idx) {
                 $extgstate[(int) $idx] = true;
@@ -1849,7 +1867,11 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
         // and the soft masks of the gradients.
         $gsNames = [];
         $matchGsName = [];
-        $gsNameCount = \preg_match_all('/\/([A-Za-z][A-Za-z0-9_]*)\s+gs\b/', $stream, $matchGsName);
+        $gsNameCount = \preg_match_all(
+            '/\/([A-Za-z][A-Za-z0-9_]*)[\t\n\x0B\f\r ]+gs(?![0-9A-Za-z_])/',
+            $stream,
+            $matchGsName,
+        );
         if ($gsNameCount !== false && $gsNameCount > 0) {
             foreach ($matchGsName[1] ?? [] as $name) {
                 if (\preg_match('/^GS[0-9]+$/', $name) === 1) {
@@ -1862,7 +1884,11 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
 
         $patternNames = [];
         $matchPtn = [];
-        $ptnCount = \preg_match_all('/\/Pattern\s+cs\s+\/(PTN_[0-9A-F]+)\s+scn\b/', $stream, $matchPtn);
+        $ptnCount = \preg_match_all(
+            '/\/Pattern[\t\n\x0B\f\r ]+cs[\t\n\x0B\f\r ]+\/(PTN_[0-9A-F]+)[\t\n\x0B\f\r ]+scn(?![0-9A-Za-z_])/',
+            $stream,
+            $matchPtn,
+        );
         if ($ptnCount !== false && $ptnCount > 0) {
             foreach ($matchPtn[1] ?? [] as $name) {
                 $patternNames[$name] = true;
@@ -1871,7 +1897,7 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
 
         $gradient = [];
         $matchSh = [];
-        $shMatchCount = \preg_match_all('/\/Sh([0-9]+)\s+sh\b/', $stream, $matchSh);
+        $shMatchCount = \preg_match_all('/\/Sh([0-9]+)[\t\n\x0B\f\r ]+sh(?![0-9A-Za-z_])/', $stream, $matchSh);
         if ($shMatchCount !== false && $shMatchCount > 0) {
             foreach ($matchSh[1] ?? [] as $idx) {
                 $gradient[(int) $idx] = true;
@@ -1881,7 +1907,7 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
         $spotNames = [];
         $matchCs = [];
         // The stroking operator is the upper-case form of the non-stroking one.
-        $csMatchCount = \preg_match_all('/\/(CS[0-9]+)\s+(?:cs|CS)\b/', $stream, $matchCs);
+        $csMatchCount = \preg_match_all('/\/(CS[0-9]+)[\t\n\x0B\f\r ]+(?:cs|CS)(?![0-9A-Za-z_])/', $stream, $matchCs);
         if ($csMatchCount !== false && $csMatchCount > 0) {
             foreach ($matchCs[1] ?? [] as $name) {
                 $spotNames[$name] = true;
@@ -1891,7 +1917,7 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
         $imageKeys = [];
         $xobjectKeys = [];
         $matchDo = [];
-        $doMatchCount = \preg_match_all('/\/([A-Za-z0-9_]+)\s+Do\b/', $stream, $matchDo);
+        $doMatchCount = \preg_match_all('/\/([A-Za-z0-9_]+)[\t\n\x0B\f\r ]+Do(?![0-9A-Za-z_])/', $stream, $matchDo);
         if ($doMatchCount !== false && $doMatchCount > 0) {
             foreach ($matchDo[1] ?? [] as $key) {
                 $imgm = [];
@@ -1968,7 +1994,13 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
             }
 
             $match = [];
-            $ok = \preg_match('/\/' . \preg_quote($name, '/') . '\s+([0-9]+)\s+0\s+R\b/', $dict, $match);
+            $ok = \preg_match(
+                '/\/'
+                . \preg_quote($name, '/')
+                . '[\t\n\x0B\f\r ]+([0-9]+)[\t\n\x0B\f\r ]+0[\t\n\x0B\f\r ]+R(?![0-9A-Za-z_])/',
+                $dict,
+                $match,
+            );
             if ($ok === 1 && isset($match[1])) {
                 $out .= ' /' . $name . ' ' . (int) $match[1] . ' 0 R';
             }
@@ -2341,7 +2373,7 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
                     }
 
                     if ($akey === 'Headers') {
-                        $headerIds = \preg_split('/[\s,]+/', \trim($aval));
+                        $headerIds = \preg_split('/[\t\n\x0B\f\r ,]+/', \trim($aval));
                         if ($headerIds === false) {
                             continue;
                         }
@@ -2370,7 +2402,8 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
                         continue;
                     }
 
-                    $attrPairs .= ' /' . $akey . ' /' . $aval;
+                    $attrPairs .=
+                        ' /' . $this->encrypt->encodeNameObject($akey) . ' /' . $this->encrypt->encodeNameObject($aval);
                 }
             }
 
@@ -2867,7 +2900,7 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
 
         $out .= ' ]';
         if ($defval !== '') {
-            $out .= ' /V /' . $defval;
+            $out .= ' /V /' . $this->encrypt->encodeNameObject($defval);
         }
 
         $out .= ' >>' . "\n" . 'endobj' . "\n";
@@ -2892,7 +2925,7 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
     {
         $out = '';
         if (isset($annot['opt']['as']) && \is_string($annot['opt']['as']) && $annot['opt']['as'] !== '') {
-            $out .= ' /AS /' . $annot['opt']['as'];
+            $out .= ' /AS /' . $this->encrypt->encodeNameObject($annot['opt']['as']);
         }
 
         if (!$this->hasAnnotationAppearance($annot['opt']) || !isset($annot['opt']['ap'])) {
@@ -2905,25 +2938,20 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
             $out .= (string) $annot['opt']['ap'];
         } else {
             foreach (\array_keys($annot['opt']['ap']) as $mode) {
-                if (!\is_string($mode)) {
+                // $mode can be: n = normal; r = rollover; d = down;
+                if (!\is_string($mode) || !\in_array(\strtoupper($mode), self::AP_MODES, true)) {
                     continue;
                 }
 
-                // $mode can be: n = normal; r = rollover; d = down;
-                $out .= ' /' . \strtoupper($mode);
                 if (\is_array($annot['opt']['ap'][$mode] ?? null)) {
-                    $out .= ' <<';
+                    $out .= ' /' . \strtoupper($mode) . ' <<';
                     foreach (\array_keys($annot['opt']['ap'][$mode]) as $apstate) {
-                        if (!\is_string($apstate)) {
-                            continue;
-                        }
-
                         if (!\is_string($annot['opt']['ap'][$mode][$apstate] ?? null)) {
                             continue;
                         }
                         // reference to XObject that define the appearance for this mode-state
                         $apxout .= $this->getOutAPXObjects($width, $height, $annot['opt']['ap'][$mode][$apstate]);
-                        $out .= ' /' . $apstate . ' ' . $this->pon . ' 0 R';
+                        $out .= ' /' . $this->encrypt->encodeNameObject((string) $apstate) . ' ' . $this->pon . ' 0 R';
                     }
 
                     $out .= ' >>';
@@ -2934,7 +2962,7 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
 
                     // reference to XObject that define the appearance for this mode
                     $apxout .= $this->getOutAPXObjects($width, $height, $annot['opt']['ap'][$mode]);
-                    $out .= ' ' . $this->pon . ' 0 R';
+                    $out .= ' /' . \strtoupper($mode) . ' ' . $this->pon . ' 0 R';
                 }
             }
         }
@@ -3517,8 +3545,8 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
                     break;
                 case '%': // embedded PDF file
                     if (!$this->pdfx) {
-                        $filename = \basename(\substr($annot['txt'], 1));
-                        $embeddedAction = $this->embeddedfiles[$filename]['a'] ?? null;
+                        $filename = $this->getEmbeddedFileKey(\substr($annot['txt'], 1));
+                        $embeddedAction = $filename === null ? null : $this->embeddedfiles[$filename]['a'] ?? null;
                         if (!\is_numeric($embeddedAction)) {
                             break;
                         }
@@ -3532,15 +3560,11 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
                     }
                     break;
                 case '*': // embedded generic file
-                    $filename = \basename(\substr($annot['txt'], 1));
-                    $jsa =
-                        'var D=event.target.doc;var MyData=D.dataObjects;for (var i in MyData) if (MyData[i].path=="'
-                        . $filename
-                        . '")'
-                        . ' D.exportDataObject( { cName : MyData[i].name, nLaunch : 2});';
+                    $filename = $this->getEmbeddedFileKey(\substr($annot['txt'], 1));
                     // ISO 19005 permits no JavaScript action: PDF/A-1 and PDF/A-2 refuse
                     // embedded files altogether, PDF/A-3 accepts them but not this action.
-                    if (!$this->pdfx && $this->pdfa === 0 && $this->pdfuaMode === '') {
+                    if ($filename !== null && !$this->pdfx && $this->pdfa === 0 && $this->pdfuaMode === '') {
+                        $jsa = $this->getEmbeddedFileLaunchJs($filename);
                         $out .= ' /A << /S /JavaScript /JS ' . $this->getOutTextString($jsa, $oid, true) . ' >>';
                     }
                     break;
@@ -3555,7 +3579,10 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
                         if (isset($parsedUrl['fragment'])) {
                             // check for named destination
                             $tmp = \explode('=', $parsedUrl['fragment']);
-                            $dest = '(' . (\count($tmp) === 2 ? $tmp[1] ?? '' : $tmp[0]) . ')';
+                            $dest = $this->encrypt->escapeDataString(
+                                \count($tmp) === 2 ? $tmp[1] ?? '' : $tmp[0],
+                                $oid,
+                            );
                         }
 
                         if (!$this->pdfx) {
@@ -3864,11 +3891,11 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
             $measure = '';
             $measureOpt = $annot['opt']['measure'];
             if (isset($measureOpt['type']) && $measureOpt['type'] !== '') {
-                $measure .= ' /Type /' . $measureOpt['type'];
+                $measure .= ' /Type /' . $this->encrypt->encodeNameObject($measureOpt['type']);
             }
 
             if (isset($measureOpt['subtype']) && $measureOpt['subtype'] !== '') {
-                $measure .= ' /Subtype /' . $measureOpt['subtype'];
+                $measure .= ' /Subtype /' . $this->encrypt->encodeNameObject($measureOpt['subtype']);
             }
 
             if ($measure !== '') {
@@ -3932,11 +3959,11 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
             $measure = '';
             $measureOpt = $annot['opt']['measure'];
             if (isset($measureOpt['type']) && $measureOpt['type'] !== '') {
-                $measure .= ' /Type /' . $measureOpt['type'];
+                $measure .= ' /Type /' . $this->encrypt->encodeNameObject($measureOpt['type']);
             }
 
             if (isset($measureOpt['subtype']) && $measureOpt['subtype'] !== '') {
-                $measure .= ' /Subtype /' . $measureOpt['subtype'];
+                $measure .= ' /Subtype /' . $this->encrypt->encodeNameObject($measureOpt['subtype']);
             }
 
             if ($measure !== '') {
@@ -4915,13 +4942,12 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
 
         $root_oid = $this->processPrevNextBookmarks();
         $first_oid = $this->pon + 1;
-        $nltags = '/<br[\s]?\/>|<\/(blockquote|dd|dl|div|dt|h1|h2|h3|h4|h5|h6|hr|li|ol|p|pre|ul|tcpdf|table|tr|td)>/si';
+        $nltags = '/<br[\t\n\x0B\f\r ]?\/>|<\/(blockquote|dd|dl|div|dt|h1|h2|h3|h4|h5|h6|hr|li|ol|p|pre|ul|tcpdf|table|tr|td)>/s';
         $out = '';
         foreach ($this->outlines as $outline) {
             // covert HTML title to string
-            $search = [$nltags, "/[\r]+/si", "/[\n]+/si"];
-            $replace = ["\n", '', "\n"];
-            $title = \preg_replace($search, $replace, $outline['t']);
+            $title = AsciiPattern::replaceFolded($nltags, static fn(): string => "\n", $outline['t']);
+            $title = $title === null ? null : \preg_replace(["/[\r]+/s", "/[\n]+/s"], ['', "\n"], $title);
             if ($title === null) {
                 $title = '';
             }
@@ -4980,8 +5006,8 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
                     case '%':
                         // embedded PDF file
                         if (!$this->pdfx) {
-                            $filename = \basename(\substr($outline['u'], 1));
-                            $embeddedAction = $this->embeddedfiles[$filename]['a'] ?? null;
+                            $filename = $this->getEmbeddedFileKey(\substr($outline['u'], 1));
+                            $embeddedAction = $filename === null ? null : $this->embeddedfiles[$filename]['a'] ?? null;
                             if (!\is_numeric($embeddedAction)) {
                                 break;
                             }
@@ -4996,14 +5022,9 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
                         break;
                     case '*':
                         // embedded generic file
-                        $filename = \basename(\substr($outline['u'], 1));
-                        $jsa =
-                            'var D=event.target.doc;var MyData=D.dataObjects;'
-                            . 'for (var i in MyData) if (MyData[i].path=="'
-                            . $filename
-                            . '")'
-                            . ' D.exportDataObject( { cName : MyData[i].name, nLaunch : 2});';
-                        if (!$this->pdfx && $this->pdfuaMode === '') {
+                        $filename = $this->getEmbeddedFileKey(\substr($outline['u'], 1));
+                        if ($filename !== null && !$this->pdfx && $this->pdfa === 0 && $this->pdfuaMode === '') {
+                            $jsa = $this->getEmbeddedFileLaunchJs($filename);
                             $out .= ' /A <</S /JavaScript /JS ' . $this->getOutTextString($jsa, $oid, true) . '>>';
                         }
                         break;
@@ -5436,7 +5457,7 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
      */
     protected function certificatePemToDer(string $pem): string
     {
-        $stripped = (string) \preg_replace('/-----[^-]+-----|\s+/', '', $pem);
+        $stripped = (string) \preg_replace('/-----[^-]+-----|[\t\n\x0B\f\r ]+/', '', $pem);
         $der = \base64_decode($stripped, true);
         if ($der === false) {
             throw new PdfException('Unable to decode a certificate');
@@ -5654,7 +5675,7 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
 
         $unique = [];
         foreach ($inputs as $pem) {
-            $unique[\preg_replace('/\s+/', '', $pem) ?? $pem] = $pem;
+            $unique[\preg_replace('/[\t\n\x0B\f\r ]+/', '', $pem) ?? $pem] = $pem;
         }
 
         return \array_values($unique);
@@ -6110,7 +6131,7 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
      */
     protected function getSignatureRectSize(string $rect): array
     {
-        $coords = \preg_split('/\s+/', \trim($rect));
+        $coords = \preg_split('/[\t\n\x0B\f\r ]+/', \trim($rect));
         if ($coords === false || \count($coords) < 4) {
             return [0.0, 0.0];
         }
@@ -6170,7 +6191,7 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
 
         $out = '';
         if (isset($appearance['as']) && $appearance['as'] !== '') {
-            $out .= ' /AS /' . $appearance['as'];
+            $out .= ' /AS /' . $this->encrypt->encodeNameObject($appearance['as']);
         }
 
         if (!$this->hasAnnotationAppearance($appearance) && isset($appearance['xobj']) && $appearance['xobj'] !== '') {
@@ -6205,12 +6226,16 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
         }
 
         foreach ($apValue as $mode => $def) {
+            if (!\in_array(\strtoupper($mode), self::AP_MODES, true)) {
+                continue;
+            }
+
             $out .= ' /' . \strtoupper($mode);
             if (\is_array($def)) {
                 $out .= ' <<';
                 foreach ($def as $apstate => $stream) {
                     $apxout .= $this->getOutAPXObjects($width, $height, $stream);
-                    $out .= ' /' . $apstate . ' ' . $this->pon . ' 0 R';
+                    $out .= ' /' . $this->encrypt->encodeNameObject(\strval($apstate)) . ' ' . $this->pon . ' 0 R';
                 }
 
                 $out .= ' >>';

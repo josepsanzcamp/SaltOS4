@@ -1087,25 +1087,26 @@ abstract class Text extends \Com\Tecnick\Pdf\Cell
      *
      * While suspended, beginStructElem()/endStructElem() and the marked-content
      * helpers are no-ops, so no structure elements are appended and the per-page
-     * MCID counter does not advance.
+     * MCID counter does not advance. The PDF/UA mode stays set, so the
+     * conformance rules still apply to the content drawn while suspended.
      *
-     * Returns the previous mode, to be passed back to resumePdfUaTagging().
+     * Returns the current mode, to be passed back to resumePdfUaTagging().
      * Suspensions nest.
      */
     public function suspendPdfUaTagging(): string
     {
-        $previous = $this->pdfuaMode;
-        $this->pdfuaMode = '';
         ++$this->taggingSuspendDepth;
-        return $previous;
+        return $this->pdfuaMode;
     }
 
     /**
-     * Resume structure tagging, restoring the mode returned by suspendPdfUaTagging().
+     * Resume structure tagging after suspendPdfUaTagging().
+     *
+     * The argument is not used: the PDF/UA mode is never changed by a suspension.
      */
     public function resumePdfUaTagging(string $previous): void
     {
-        $this->pdfuaMode = $previous;
+        unset($previous);
         if ($this->taggingSuspendDepth > 0) {
             --$this->taggingSuspendDepth;
         }
@@ -2096,8 +2097,11 @@ abstract class Text extends \Com\Tecnick\Pdf\Cell
         // so plain text without decorations keeps its existing tagging.
         if (
             $tailEnd > $etEnd
-            && \preg_match('~(?:^|\s)(?:f\*?|S|s|B\*?|b\*?)(?:\s|$)~', \substr($content, $etEnd, $tailEnd - $etEnd))
-                === 1
+            && \preg_match('~(?:^|[\t\n\x0B\f\r ])(?:f\*?|S|s|B\*?|b\*?)(?:[\t\n\x0B\f\r ]|$)~', \substr(
+                $content,
+                $etEnd,
+                $tailEnd - $etEnd,
+            )) === 1
         ) {
             $etEnd = $tailEnd;
         }
@@ -2976,6 +2980,10 @@ abstract class Text extends \Com\Tecnick\Pdf\Cell
             $ordarr = \array_values($bidiobj->getLogicalOrdArray());
             $bidi = $this->getPageAliasBidiLevels($ordarr, $this->getTextBidiLevels($bidiobj));
             [$ordarr, $bidi] = $this->mapOrdArrByLevelRun($ordarr, $bidi, $this->replaceUnicodeChars(...));
+        }
+
+        if ($this->dropsUnmappedOrds()) {
+            [$ordarr, $bidi] = $this->mapOrdArrByLevelRun($ordarr, $bidi, $this->getLayoutOrdArr(...));
         }
 
         if ($this->hyphen_patterns !== []) {
@@ -4274,25 +4282,95 @@ abstract class Text extends \Com\Tecnick\Pdf\Cell
             return $ordarr;
         }
 
+        return $this->dropUnmappedOrds($ordarr, false);
+    }
+
+    /**
+     * Returns true when the text layout drops the codepoints the current font has
+     * no glyph for: the active conformance mode forbids a .notdef reference and the
+     * current font is written with glyph indexes.
+     *
+     * @throws \Com\Tecnick\Pdf\Font\Exception
+     */
+    protected function dropsUnmappedOrds(): bool
+    {
+        return $this->forbidsUnmappedGlyphs() && $this->font->isCurrentGidEncoded();
+    }
+
+    /**
+     * Returns the given codepoints without the ones getMappedOrdArr() would drop,
+     * so the line layout measures only the drawn characters. Separators, invisible
+     * break controls and joiners are kept for the line breaking.
+     *
+     * @param array<int, int> $ordarr Array of UTF-8 codepoints (integer values).
+     *
+     * @return array<int, int>
+     *
+     * @throws \Com\Tecnick\Pdf\Font\Exception
+     */
+    protected function getLayoutOrdArr(array $ordarr): array
+    {
+        return $this->dropUnmappedOrds($ordarr, true);
+    }
+
+    /**
+     * Returns true when the codepoint is laid out even if the current font has no
+     * glyph for it: a variation selector, an invisible break control, a joiner or a
+     * whitespace, segment or paragraph separator.
+     */
+    protected function isLayoutOnlyOrd(int $ord): bool
+    {
+        if (ObjFont::isVariationSelector($ord) || isset(self::INVISIBLE_ORD[$ord]) || isset(self::JOINER_ORD[$ord])) {
+            return true;
+        }
+
+        $type = UnicodeType::getType($ord);
+
+        return $type === 'WS' || $type === 'S' || $type === 'B';
+    }
+
+    /**
+     * Returns true when getLayoutOrdArr() drops the codepoint: the current font has no
+     * glyph for it and isLayoutOnlyOrd() is false.
+     *
+     * @throws \Com\Tecnick\Pdf\Font\Exception
+     */
+    protected function isDroppedLayoutOrd(int $ord): bool
+    {
+        return $this->font->getGidForOrd($ord) === 0 && !$this->isLayoutOnlyOrd($ord);
+    }
+
+    /**
+     * Returns the given codepoints without the ones the current font has no glyph for,
+     * and reports each dropped character through getWarnings().
+     *
+     * @param array<int, int> $ordarr Array of UTF-8 codepoints (integer values).
+     * @param bool            $layout True to keep the codepoints of isLayoutOnlyOrd(),
+     *                                false to keep only the variation selectors.
+     *
+     * @return array<int, int>
+     *
+     * @throws \Com\Tecnick\Pdf\Font\Exception
+     */
+    protected function dropUnmappedOrds(array $ordarr, bool $layout): array
+    {
         $mapped = [];
-        $dropped = [];
         foreach ($ordarr as $ord) {
             // a variation selector selects the glyph of its base character
-            if ($this->font->getGidForOrd($ord) === 0 && !ObjFont::isVariationSelector($ord)) {
-                $dropped[] = \sprintf('U+%04X', $ord);
+            if (
+                $layout
+                    ? $this->isDroppedLayoutOrd($ord)
+                    : $this->font->getGidForOrd($ord) === 0 && !ObjFont::isVariationSelector($ord)
+            ) {
+                $this->addWarning(\sprintf(
+                    'The active conformance mode forbids a glyph with no Unicode mapping: the current font has'
+                    . ' no glyph for the character U+%04X, which was dropped from the text',
+                    $ord,
+                ));
                 continue;
             }
 
             $mapped[] = $ord;
-        }
-
-        if ($dropped !== []) {
-            $this->addWarning(
-                'The active conformance mode forbids a glyph with no Unicode mapping: the current font has'
-                . ' no glyph for the character(s) '
-                . \implode(', ', \array_unique($dropped))
-                . ', which were dropped from the text',
-            );
         }
 
         return $mapped;
@@ -4579,7 +4657,7 @@ abstract class Text extends \Com\Tecnick\Pdf\Cell
 
         // extract the patterns part
         $matches = [];
-        if (\preg_match('/\\\\patterns\{([^\}]*+)\}/i', $data, $matches) !== 1) {
+        if (AsciiPattern::matchFolded('/\\\\patterns\{([^\}]*+)\}/', $data, $matches) !== 1) {
             throw new PdfException('Invalid hyphenation pattern section from file: ' . $file);
         }
 
@@ -4589,7 +4667,7 @@ abstract class Text extends \Com\Tecnick\Pdf\Cell
 
         $data = \trim(\substr($matches[0], 10, -1));
         // extract each pattern
-        $list = \preg_split('/[\s]+/', $data);
+        $list = \preg_split('/[\t\n\x0B\f\r ]+/', $data);
         if ($list === false) {
             throw new PdfException('Invalid hyphenation patterns from file: ' . $file);
         }
