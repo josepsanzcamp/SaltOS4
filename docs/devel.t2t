@@ -1,5 +1,5 @@
 Devel Documentation
-SaltOS 4.1 r2774
+SaltOS 4.2 r2809
 November 2026
 
 
@@ -286,6 +286,7 @@ php api/index.php setup
 To install demo data manually:
 
 ```
+user=admin php api/index.php setup/common
 user=admin php api/index.php setup/certs
 user=admin php api/index.php setup/company
 user=admin php api/index.php setup/emails
@@ -2111,7 +2112,7 @@ These targets manage database configuration, initialization, and full environmen
 
 - `make setupdemo`:
   Runs `setuponly` plus demo and example data
-  (certificates, company data, emails, CRM, HR, purchases, sales).
+  (logs, certificates, company data, emails, CRM, HR, purchases, sales).
 
 - `make setupmysql`:
   Points the database configuration file (`data/files/config.xml`) at

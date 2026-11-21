@@ -1,6 +1,6 @@
 Api Documentation
-SaltOS 4.1 r2703
-October 2026
+SaltOS 4.2 r2809
+November 2026
 
 
 
@@ -568,6 +568,17 @@ This function resolves the name of the app from the app table
 - @table => the app table used to resolve the name
 
 
++++App to Folder+++
+
+```
+function app2folder($app)
+```
+
+This function resolves the folder of the app from the app code
+
+- @app => the app code used to resolve the folder
+
+
 +++Detect apps files+++
 
 ```
@@ -627,7 +638,63 @@ function call the make_app_file function defined in the required
 field of the yaml file to generate the equivalent xml file used
 as app file and returns the path to the cached file
 
+The parsed yaml is cached as a php file that returns the array, in the
+same way that the xmlfile2array does, to prevent to parse the yaml file
+in each request
+
 - @yamlfile => the yaml file desired to be converted to xml
+
+
++++Decode route+++
+
+```
+function decode_route($rest)
+```
+
+This function returns an array with the parts of the request (app, action, subaction, id
+and sub_id) to prevent the usage of positions in the code that uses the rest of the request
+
+- @rest => the rest of the request that you want to decode
+
+
+Notes:
+
+The route maps the request as is, before the tricks used by the app action to find the node,
+so app/X/update/ID is the update action with the id and not the edit node with the update id
+
+Only the next requests are allowed, otherwise a json error is sent:
+
+app/X
+app/X/ACTION (any action that not requires an id)
+app/X/list/NAME (and widget and action)
+app/X/create/cache (and signature and emails)
+app/X/create/reply/ID (and replyall and forward)
+app/X/sendmail/reply/ID (and replyall and forward)
+app/X/edit/ID
+app/X/edit/cache
+app/X/view/ID
+app/X/view/cache
+app/X/view/viewpdf/ID (and download, version, log, body, setter and source)
+app/X/view/viewpdf/ID/SUB_ID (and download)
+app/X/update/ID (and delete)
+app/widgets/help/APP
+
+
++++Encode route+++
+
+```
+function encode_route($route)
+```
+
+This function returns the request of the route array (app, action, subaction, id and
+sub_id), the omitted or empty parts are not added
+
+- @route => the route array that you want to encode
+
+
+Notes:
+
+The result is validated with the decode route, so an unknown route sends a json error
 
 
 ++Array helper module++
@@ -2090,6 +2157,56 @@ This function returns an string containing the size in human format
 post  => string added after the unit letter at the end
 
 
++++File put contents with pid+++
+
+```
+function file_put_contents_with_pid($file, $data)
+```
+
+This function is an equivalent of the file_put_contents but writing the data
+in a temporary file and renaming it to the requested file, the rename is an
+atomic operation, and this guarantees that other processes that read the file
+at the same time get the old contents or the new contents, never a partial
+file
+
+The temporary file uses the pid of the process as suffix, this allow that
+multiple processes write the same file at the same time without a semaphore,
+because each process uses their own temporary file
+
+- @file => the file that you want to write
+- @data => the contents that you want to write to the file
+
+
+Notes:
+
+This function returns the same result that the file_put_contents function
+
+
++++File Put Contents PHP+++
+
+```
+function file_put_contents_php($file, $data)
+```
+
+This function writes the data as a php file that returns it, this allow to
+load the data using an include, and when opcache is enabled, the arrays are
+kept in the shared memory as immutable arrays, and the include returns them
+without copying or decoding anything
+
+The file is written using the file_put_contents_with_pid to do an atomic
+operation, and the opcache entry of the file is invalidated to prevent that
+other processes use the old contents
+
+- @file => the file that you want to write
+- @data => the data that you want to write to the file
+
+
+Notes:
+
+The data must contain only scalars and arrays, because the var_export is
+used to generate the php code
+
+
 ++Get data helper module++
 
 ```
@@ -3114,7 +3231,9 @@ in a foreach, for example
 function get_fields($table)
 ```
 
-This function returns the fields of the requested table
+This function returns the fields of the requested table, each field
+contains the name, the type and the null flag (true if the field allows
+nulls, the primary key never allows nulls)
 
 - @table => the table where that you want to know the fields
 
@@ -3360,6 +3479,13 @@ prepare the values with the needed type cast
 
 - @table => the table where to you want to use the data
 - @array => the array that contains the data
+
+
+Notes:
+
+The null values are stored as null if the field allows nulls, otherwise
+the default value defined in the dbschema is used, and if the field not
+define a default value, an error will be triggered
 
 
 +++Prepare Insert Query+++
@@ -4000,7 +4126,11 @@ management to optimize the usage
 
 The semaphore is only used to build the cache, a valid cache is returned
 without acquiring it, and this is safe because the cache file is written
-using a temporary file and a rename, that is an atomic operation
+using the file_put_contents_with_pid, that does an atomic operation
+
+The cache is stored as a php file that returns the array, this allow to
+opcache to keep the array in the shared memory as an immutable array, and
+the include returns it without copying or decoding anything
 
 - @file     => the file that you want to convert from xml to array
 - @usecache => if do you want to enable the cache feature
@@ -6005,6 +6135,10 @@ function db_schema()
 This function try to maintain the database structure, to do it, this feature uses the dbschema.xml
 file to store the database structure.
 
+The changes are detected using two hashes for each table, one for the fields and another for the
+indexes, they are computed from the dbschema.xml file and are stored in the config table when the
+table or their indexes are created, a table without hashes or with different hashes is regenerated.
+
 
 +++DB Schema hash+++
 
@@ -6133,6 +6267,29 @@ function get_fkeys_from_dbschema($table)
 This function returns the fkeys from the DB Schema file
 
 - @table => the table that you want to request the fkeys
+
+
++++Get Defaults from DB Schema+++
+
+```
+function get_defaults_from_dbschema($table)
+```
+
+This function returns the defaults from the DB Schema file, the fields
+that not define a default value are not returned
+
+- @table => the table that you want to request the defaults
+
+
++++Get Not Nulls from DB Schema+++
+
+```
+function get_notnulls_from_dbschema($table)
+```
+
+This function returns the fields that not allow nulls from the DB Schema file
+
+- @table => the table that you want to request the not nulls
 
 
 +++DB Schema helper+++
@@ -6318,6 +6475,14 @@ This function returns the insert from select command
 
 - @orig => source table
 - @dest => destination table
+
+
+Notes:
+
+The new fields uses the default value defined in the dbschema, or the
+void value of their type if the default is not defined, and the same
+value is used to replace the nulls of the source table in the fields
+that not allow nulls, otherwise the copy fails when the source has nulls
 
 
 +++DB Schema Drop Table+++

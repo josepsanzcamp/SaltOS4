@@ -144,7 +144,10 @@ describe('Screenshots', () => {
             'dashboard': [''],
         },
         'emails': {
-            'emails': ['list', 'create', 'view/100', 'view/viewpdf/100'],
+            'emails': [
+                'list', 'list/?/panel/filter', 'list/?/panel/folders',
+                'create', 'view/100', 'view/viewpdf/100'
+            ],
             'emails_accounts': ['list', 'create', 'edit/1', 'view/1']
         },
         'hr': {
@@ -157,11 +160,11 @@ describe('Screenshots', () => {
             'groups': ['list', 'create', 'view/1', 'edit/1']
         },
         'common': {
-            'pushlog': ['list'],
-            'cronlog': ['list'],
-            'uploadlog': ['list'],
+            'pushlog': ['list', 'view/1'],
+            'cronlog': ['list', 'view/1'],
+            'uploadlog': ['list', 'view/1'],
             'configlog': ['list', 'create', 'view/10', 'edit/10'],
-            'trashlog': ['list'],
+            'trashlog': ['list', 'view/1'],
             'tokenslog': ['list', 'view/1'],
             'fileslog': ['list'],
             'dbstats': ['list', 'view/1']

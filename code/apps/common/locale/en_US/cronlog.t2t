@@ -25,6 +25,8 @@ The following fields are displayed in the list view:
 
 This view displays the full result of a single cron job execution.
 
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-cronlog-view-1-en-us-light-1-snap.png]
+
 It includes:
 
 - Command: Command or script executed by the cron system.

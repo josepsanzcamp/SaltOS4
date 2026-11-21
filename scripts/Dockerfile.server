@@ -290,6 +290,7 @@ if [ -z "$(ls -A /var/lib/mysql)" ] && [ -z "$(ls -A /opt/saltos4/instance/data)
     cat /usr/lib/mysql/plugin/install.sql | mariadb
 
     php /opt/saltos4/instance/api/index.php setup
+    user=admin php /opt/saltos4/instance/api/index.php setup/common
     user=admin php /opt/saltos4/instance/api/index.php setup/certs
     user=admin php /opt/saltos4/instance/api/index.php setup/company
     user=admin php /opt/saltos4/instance/api/index.php setup/emails

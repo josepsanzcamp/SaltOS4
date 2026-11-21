@@ -27,11 +27,33 @@ Cada entrada muestra normalmente:
 - Adjuntos: Lista de archivos adjuntos, con opción de descarga.
 
 
-La interfaz también incluye filtros y un formulario de búsqueda por remitente, asunto, cuenta y fecha.
+El listado también incluye estos botones:
+
+- Enviar/Recibir: Envía los correos pendientes y recibe los correos nuevos de las cuentas.
+- Mover: Mueve los correos seleccionados a otra carpeta.
+
+
+El botón de filtro abre el formulario de búsqueda:
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-panel-filter-es-es-light-1-snap.png]
+
+El formulario de búsqueda incluye:
+
+- Buscar: Texto a buscar en los correos.
+- Cuentas de correo: Muestra solo los correos de la cuenta seleccionada.
+- Buscar en los campos: Busca el texto en todos los campos, o solo en las direcciones, el asunto o el mensaje.
+- Fechas típicas: Muestra solo los correos de hoy, de ayer, de los últimos 7 días o de los últimos 30 días.
+- Fecha de inicio / Hasta la fecha: Muestra solo los correos entre estas fechas.
+- Solo nuevos: Muestra solo los correos nuevos.
+- Solo pendientes: Muestra solo los correos marcados como pendientes; junto con Solo nuevos, muestra los correos nuevos o pendientes.
+- Con adjuntos / Sin adjuntos: Muestra solo los correos con o sin adjuntos.
+
 
 ==Carpetas==
 
 El botón de carpetas abre un panel con el árbol de carpetas, con las cuentas y sus carpetas. Al seleccionar una cuenta se muestran todos sus correos excepto los de la papelera y el correo no deseado, y al seleccionar una carpeta solo se muestran sus correos.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-panel-folders-es-es-light-1-snap.png]
 
 El botón Todos muestra los correos de todas las cuentas juntos en la misma lista, excepto los de la papelera y el correo no deseado, manteniendo los demás filtros del formulario de búsqueda. El menú Opciones permite crear, renombrar, mover y borrar carpetas y, en las cuentas IMAP, elegir las carpetas del servidor que se sincronizan (Carpetas del servidor), y el menú Vaciar elimina definitivamente los correos de la papelera o del correo no deseado. Las carpetas especiales (Bandeja de entrada, Enviados, Papelera y Correo no deseado) no se pueden modificar.
 

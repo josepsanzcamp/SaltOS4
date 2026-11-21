@@ -1,5 +1,5 @@
 Phpunit Test Documentation
-SaltOS 4.1 r2774
+SaltOS 4.2 r2809
 November 2026
 
 
@@ -343,6 +343,16 @@ public function test_app(): void
 
 This test performs some tests to validate the correctness
 of the app functions
+
+
++++decode route test+++
+
+```
+public function test_decode_route(): void
+```
+
+This test performs some tests to validate the correctness
+of the decode route function
 
 
 +++list test+++

@@ -1,6 +1,6 @@
 Jest Test Documentation
-SaltOS 4.1 r2754
-October 2026
+SaltOS 4.2 r2809
+November 2026
 
 
 
@@ -1261,7 +1261,7 @@ describe('App Emails', ()
 ```
 
 This test is intended to validate the correctness of the emails application by
-execute the list, control+f, profile, help, filter, create and view features and
+execute the list, control+f, profile, help, filter, folders, create and view features and
 validate with the expected screenshot
 
 
@@ -1329,6 +1329,15 @@ test('Action Filter', async ()
 This part of the test tries to load the filter screen
 
 
++++Action Folders+++
+
+```
+test('Action Folders', async ()
+```
+
+This part of the test tries to load the folders screen
+
+
 +++Action Create+++
 
 ```
@@ -1360,7 +1369,7 @@ including initialization, loading, saving, and UI interactions
 +++Load all needed files of the project+++
 
 ```
-const files = `app,backup,bootstrap,core,driver,filter,form,gettext,hash,storage,token`.split(',');
+const files = `app,backup,bootstrap,core,driver,filter,form,gettext,hash,storage,token,window`.split(',');
 ```
 
 
@@ -1445,8 +1454,8 @@ Mocks form data and driver search functions
 test('should load filter data and trigger search', ()
 ```
 
-Verifies that loading a filter populates form data
-and triggers a search
+Verifies that loading a filter populates form data, triggers a search
+and sends the saltos.filter.load signal to the current tab
 
 
 +++Test loading non-existent filter+++
@@ -1782,7 +1791,7 @@ after each test case completes
 +++Test suite for hash helper function+++
 
 ```
-describe('saltos.hash.__helper', ()
+describe('saltos.hash.__helper_hash', ()
 ```
 
 Contains tests for the internal hash normalization function
@@ -1834,6 +1843,15 @@ test('should not modify clean hash', ()
 Verifies the helper returns unchanged input when no special characters
 
 
++++Test hash with params+++
+
+```
+test('should remove the params', ()
+```
+
+Verifies the helper removes the params part of the hash
+
+
 +++Test suite for hash getter function+++
 
 ```
@@ -1869,6 +1887,152 @@ test('should remove leading /', ()
 ```
 
 Verifies the function removes leading / from the hash
+
+
++++Test suite for hash getter function with params+++
+
+```
+describe('saltos.hash.get with params', ()
+```
+
+Contains tests for retrieving the params of the current window hash
+
+
++++Test getting params+++
+
+```
+test('should return the params', ()
+```
+
+Verifies the function returns an object with the decoded params
+
+
++++Test getting params with escaped slash+++
+
+```
+test('should decode the escaped slash', ()
+```
+
+Verifies the function decodes the escaped / in the values
+
+
++++Test getting empty params+++
+
+```
+test('should return empty object when no params', ()
+```
+
+Verifies the function returns an empty object when no params exists
+
+
++++Test getting params without value+++
+
+```
+test('should return empty value for key without value', ()
+```
+
+Verifies the function uses an empty value for the last key without value
+
+
++++Test suite for params helper function+++
+
+```
+describe('saltos.hash.__helper_build', ()
+```
+
+Contains tests for building the hash with the params
+
+
++++Test building the hash with params+++
+
+```
+test('should build the hash with params', ()
+```
+
+Verifies the function cleans the hash and adds the encoded params
+
+
++++Test building with the current hash+++
+
+```
+test('should use the current hash when null', ()
+```
+
+Verifies the function uses the current hash when the hash is null
+
+
++++Test suite for hash setter function with params+++
+
+```
+describe('saltos.hash.set with params', ()
+```
+
+Contains tests for replacing the params of the current hash
+using history.replaceState
+
+
++++Test setting params+++
+
+```
+test('should set the params', ()
+```
+
+Verifies the function adds the encoded params after the hash
+
+
++++Test replacing params+++
+
+```
+test('should replace the old params', ()
+```
+
+Verifies the function replaces the old params instead of merging them
+
+
++++Test setting empty values+++
+
+```
+test('should skip empty values', ()
+```
+
+Verifies the function skips the empty values and removes the ? char when no params remains
+
+
++++Test setting same params+++
+
+```
+test('should not set same params', ()
+```
+
+Verifies the function doesn't update history when params doesn't change
+
+
++++Test suite for hash adder function with params+++
+
+```
+describe('saltos.hash.add with params', ()
+```
+
+Contains tests for adding the hash with the new params
+using history.pushState
+
+
++++Test adding params+++
+
+```
+test('should add the params', ()
+```
+
+Verifies the function adds the hash with the encoded params and uses pushState
+
+
++++Test adding same params+++
+
+```
+test('should not add same params', ()
+```
+
+Verifies the function doesn't update history when params doesn't change
 
 
 +++Test suite for hash setter function+++
@@ -1925,6 +2089,16 @@ test('should handle empty hash', ()
 ```
 
 Verifies the function properly handles empty hash input
+
+
++++Test setting hash with params+++
+
+```
+test('should keep or remove the params', ()
+```
+
+Verifies the function keeps the params only when they are passed, and removes
+them otherwise
 
 
 +++Test suite for hash adder function+++
@@ -2019,6 +2193,168 @@ test('should return empty string when no hash', ()
 Verifies the function returns empty string when no hash exists
 
 
++++Test suite for public decode function+++
+
+```
+describe('saltos.hash.decode.public', ()
+```
+
+Contains tests for decoding the hashes that can be stored in the url
+
+
++++Test list hash+++
+
+```
+test('should decode list hashes', ()
+```
+
+Verifies the function returns the app with the default action and with the list action
+
+
++++Test empty parts+++
+
+```
+test('should ignore empty parts', ()
+```
+
+Verifies the function removes the empty parts like the backend
+
+
++++Test create hashes+++
+
+```
+test('should decode create hashes', ()
+```
+
+Verifies the function decodes the create action with and without subaction
+
+
++++Test edit hash+++
+
+```
+test('should decode edit hash', ()
+```
+
+Verifies the function returns the id of the edit action
+
+
++++Test view hashes+++
+
+```
+test('should decode view hashes', ()
+```
+
+Verifies the function decodes the view action with and without subaction
+
+
++++Test unknown hashes+++
+
+```
+test('should throw for unknown hashes', ()
+```
+
+Verifies the function throws an exception for the hashes that are not allowed
+
+
++++Test suite for private decode function+++
+
+```
+describe('saltos.hash.decode.private', ()
+```
+
+Contains tests for decoding the internal actions that never are stored in the url
+
+
++++Test delete actions+++
+
+```
+test('should decode delete actions', ()
+```
+
+Verifies the function decodes the delete action with and without subaction
+
+
++++Test other actions+++
+
+```
+test('should decode other actions', ()
+```
+
+Verifies the function decodes the list, insert, update, view, action and help actions
+
+
++++Test unknown actions+++
+
+```
+test('should throw for unknown actions', ()
+```
+
+Verifies the function throws an exception for the actions that are not allowed
+
+
++++Test suite for public encode function+++
+
+```
+describe('saltos.hash.encode.public', ()
+```
+
+Contains tests for encoding the hashes that can be stored in the url
+
+
++++Test omitted parts+++
+
+```
+test('should skip omitted parts', ()
+```
+
+Verifies the function skips the omitted and empty parts
+
+
++++Test round trip+++
+
+```
+test('should be the inverse of decode', ()
+```
+
+Verifies the function is the inverse of the public decode
+
+
++++Test unknown routes+++
+
+```
+test('should throw for unknown routes', ()
+```
+
+Verifies the function throws an exception for the routes that are not allowed
+
+
++++Test suite for private encode function+++
+
+```
+describe('saltos.hash.encode.private', ()
+```
+
+Contains tests for encoding the internal actions that never are stored in the url
+
+
++++Test round trip+++
+
+```
+test('should be the inverse of decode', ()
+```
+
+Verifies the function is the inverse of the private decode
+
+
++++Test unknown routes+++
+
+```
+test('should throw for unknown routes', ()
+```
+
+Verifies the function throws an exception for the routes that are not allowed
+
+
 +++Test suite for hash change events+++
 
 ```
@@ -2035,6 +2371,60 @@ test('should dispatch hashchange event', ()
 ```
 
 Verifies the function dispatches a hashchange event
+
+
++++Test suite for hash change management+++
+
+```
+describe('hashchange listener', ()
+```
+
+Contains tests for the hashchange listener that updates the contents
+
+
++++Mock the modules used by the listener+++
+
+```
+beforeEach(()
+```
+
+Initializes the mocks of the functions called by the listener
+
+
++++Test changing only the params+++
+
+```
+test('should only apply the params changes', ()
+```
+
+Verifies the listener only applies the params when only the params change
+
+
++++Test changing the hash+++
+
+```
+test('should update the contents when the hash changes', ()
+```
+
+Verifies the listener updates the contents when the hash changes
+
+
++++Test changing the app+++
+
+```
+test('should clear the screen when the app changes', ()
+```
+
+Verifies the listener clears the screen when the app changes
+
+
++++Test the trigger+++
+
+```
+test('should update the contents with the trigger', ()
+```
+
+Verifies the listener updates the contents when the event has no urls
 
 
 ++Invoices unit tests++

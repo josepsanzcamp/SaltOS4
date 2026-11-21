@@ -1,6 +1,6 @@
 Manual d'usuari
-SaltOS 4.1 r2752
-October 2026
+SaltOS 4.2 r2809
+November 2026
 
 
 
@@ -1506,7 +1506,37 @@ Cada entrada mostra habitualment:
 - Adjunts: Llista d'arxius adjunts amb opció de descàrrega.
 
 
-La interfície també inclou filtres i un formulari de cerca per remitent, assumpte, compte i data.
+El llistat també inclou aquests botons:
+
+- Enviar/Rebre: Envia els correus pendents i rep els correus nous dels comptes.
+- Moure: Mou els correus seleccionats a una altra carpeta.
+
+
+El botó de filtre obre el formulari de cerca:
+
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-panel-filter-ca-es-light-1-snap.png]
+
+El formulari de cerca inclou:
+
+- Cercar: Text a cercar als correus.
+- Comptes de correu: Mostra només els correus del compte seleccionat.
+- Cercar als camps: Cerca el text a tots els camps, o només a les adreces, l'assumpte o el missatge.
+- Dates típiques: Mostra només els correus d'avui, d'ahir, dels darrers 7 dies o dels darrers 30 dies.
+- Data d'inici / Fins la data: Mostra només els correus entre aquestes dates.
+- Només nou: Mostra només els correus nous.
+- Només pendent: Mostra només els correus marcats com a pendents; juntament amb Només nou, mostra els correus nous o pendents.
+- Amb adjunts / Sense adjunts: Mostra només els correus amb o sense adjunts.
+
+
+++Carpetes++
+
+El botó de carpetes obre un panell amb l'arbre de carpetes, amb els comptes i les seves carpetes. En seleccionar un compte es mostren tots els seus correus excepte els de la paperera i el correu brossa, i en seleccionar una carpeta només es mostren els seus correus.
+
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-panel-folders-ca-es-light-1-snap.png]
+
+El botó Tots mostra els correus de tots els comptes junts a la mateixa llista, excepte els de la paperera i el correu brossa, mantenint els altres filtres del formulari de cerca. El menú Opcions permet crear, reanomenar, moure i esborrar carpetes i, als comptes IMAP, triar les carpetes del servidor que se sincronitzen (Carpetes del servidor), i el menú Buidar elimina definitivament els correus de la paperera o del correu brossa. Les carpetes especials (Safata d'entrada, Enviats, Paperera i Correu brossa) no es poden modificar.
+
+Les carpetes dels comptes POP3 només existeixen a SaltOS. Les carpetes dels comptes IMAP són les carpetes del servidor (les carpetes Enviats, Paperera i Correu brossa es creen al servidor si no existeixen), i les accions sobre els correus i les carpetes també s'apliquen al servidor: els correus amb canvis que encara no s'han aplicat al servidor mostren l'etiqueta Pendent fins a la següent sincronització.
 
 ++Visualització del missatge++
 
@@ -1529,7 +1559,6 @@ La informació mostrada inclou:
 - Resposta: Marca si s'ha respost.
 - Reenviat: Marca si s'ha reenviat.
 - Espera: Indicador de seguiment o pendent de resposta.
-- SPAM: Marca si ha estat classificat com a correu brossa.
 - Confirmació de lectura: Indica si es va sol·licitar confirmació de lectura.
 - Error: Mostra un missatge d'error si l'enviament ha fallat.
 - Assumpte: Línia d'assumpte del missatge.
@@ -1561,7 +1590,7 @@ El formulari inclou:
 
 Els correus es poden eliminar des de la vista de llista mitjançant la icona o acció corresponent.
 
-Els missatges s’eliminen localment o es marquen per eliminar, segons la configuració del servidor.
+En esborrar un correu es mou a la paperera del seu compte, i en esborrar un correu que és a la paperera s'elimina definitivament. Als comptes IMAP, el correu també es mou o s'elimina al servidor.
 
 ++Generació de PDF++
 
@@ -1621,24 +1650,38 @@ El formulari inclou els següents camps:
 - Nom: Nom visible o etiqueta per identificar el compte.
 - Correu electrònic: Adreça de correu electrònic associada al compte.
 - Signatura: Text o HTML afegit automàticament als correus sortints.
-- Servidor POP3: Nom del servidor de recepció.
-- Port POP3: Port utilitzat per connectar amb el servidor (ex: 110, 995).
-- Opcions POP3: Configuració addicional (TLS, etc.).
-- Usuari POP3: Nom d'usuari per autenticar-se.
-- Contrasenya POP3: Contrasenya del compte.
-- Esborrar: Si cal eliminar els correus del servidor després de descarregar-los.
-- Dies: Nombre de dies que es conserven els correus al servidor.
-- Servidor SMTP: Nom del servidor per enviar correus.
+- Servidor: Nom del servidor entrant (POP3 o IMAP) per rebre correus.
+- Port: Port del servidor entrant (ex: 110 o 995 per a POP3, 143 o 993 per a IMAP).
+- Extra: Xifrat del servidor entrant: cap, SSL (xifrat des de l'inici) o TLS (STARTTLS).
+- Usuari: Nom d'usuari del servidor entrant.
+- Contrasenya: Contrasenya del servidor entrant.
+- Provar: Botó per provar la connexió i l'accés al servidor entrant, amb les dades del formulari sense desar-les.
+- Protocol: POP3 o IMAP, es tria en crear el compte i no es pot canviar després.
+- Esborrar: (només POP3) Si cal eliminar els correus del servidor passats els dies indicats.
+- Dies: (només POP3) Nombre de dies que es conserven els correus al servidor.
+- Còpia a Enviats: (només IMAP) Si es desa una còpia dels correus enviats a la carpeta Enviats del servidor; desactiva-ho als servidors que ja desen la còpia, com Gmail.
+- Servidor SMTP: Nom del servidor per enviar correus (mail, sendmail o qmail per fer servir el servidor local).
 - Port SMTP: Port per enviar (ex: 25, 465, 587).
 - Xifrat SMTP: Tipus de connexió (cap, SSL o TLS).
 - Usuari SMTP: Nom d'usuari per autenticar-se a l'SMTP.
 - Contrasenya SMTP: Clau d'accés del compte SMTP.
+- Provar: Botó per provar la connexió i l'autenticació amb el servidor SMTP, amb les dades del formulari sense desar-les.
+- Buidar paperera: Si cal eliminar definitivament els correus de la Paperera passats els dies indicats.
+- Dies: Nombre de dies que es conserven els correus a la Paperera; amb 0 s'eliminen a la següent sincronització.
+- Buidar brossa: Si cal eliminar definitivament els correus de Correu brossa passats els dies indicats.
+- Dies: Nombre de dies que es conserven els correus a Correu brossa; amb 0 s'eliminen a la següent sincronització.
 - Inactiu: Indica si el compte no està actiu (no es sincronitza).
 - Privat: Limita l'accés al propietari del compte.
 - Per defecte: Marca aquest compte com el remitent per defecte.
 - Afegir-me al CC: Afegeix automàticament l'usuari com a còpia.
 - Confirmació de lectura: Afegeix sol·licitud de confirmació en cada correu.
 
+
+++POP3 i IMAP++
+
+Amb POP3, SaltOS descarrega els correus de la safata d'entrada del servidor, i les carpetes del compte (Safata d'entrada, Enviats, Paperera, Correu brossa i les carpetes creades per l'usuari) només existeixen a SaltOS.
+
+Amb IMAP, les carpetes del compte són les carpetes del servidor, i els correus de les carpetes subscrites se sincronitzen en els dos sentits: els canvis fets a SaltOS (llegit, en espera, moure, esborrar, les respostes i reenviaments, i la còpia dels correus enviats a la carpeta Enviats, si està activada) s'apliquen al servidor a la següent sincronització, i els canvis fets des d'altres clients de correu arriben a SaltOS.
 
 ++Eliminació++
 
@@ -1837,6 +1880,8 @@ Els següents camps es mostren a la vista de llista:
 
 Aquesta vista mostra el resultat complet d'una execució individual d'una tasca cron.
 
+[../ujest/snaps/test-screenshots-js-screenshots-common-cronlog-view-1-ca-es-light-1-snap.png]
+
 Inclou:
 
 - Comanda: Ordre o script que s'ha executat.
@@ -1963,6 +2008,8 @@ Els següents camps es mostren a la vista de llista:
 
 Aquesta vista mostra els detalls complets d'una única notificació push.
 
+[../ujest/snaps/test-screenshots-js-screenshots-common-pushlog-view-1-ca-es-light-1-snap.png]
+
 Inclou:
 
 - Usuari: Usuari que ha generat o rebut la notificació.
@@ -2049,6 +2096,8 @@ Els següents camps es mostren a la vista de llista:
 
 Aquesta vista mostra tota la informació registrada sobre un element eliminat.
 
+[../ujest/snaps/test-screenshots-js-screenshots-common-trashlog-view-1-ca-es-light-1-snap.png]
+
 Inclou:
 
 - ID antic: Identificador original del registre abans de l'eliminació.
@@ -2094,6 +2143,8 @@ Els següents camps es mostren a la vista de llista:
 ++Vista de registre++
 
 Aquesta vista mostra els detalls complets d'una entrada del registre de pujada.
+
+[../ujest/snaps/test-screenshots-js-screenshots-common-uploadlog-view-1-ca-es-light-1-snap.png]
 
 Inclou:
 

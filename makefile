@@ -346,6 +346,7 @@ setupclean:
 
 setupdemo:
 	php code/api/index.php setup
+	user=admin php code/api/index.php setup/common
 	user=admin php code/api/index.php setup/certs
 	user=admin php code/api/index.php setup/company
 	user=admin php code/api/index.php setup/emails

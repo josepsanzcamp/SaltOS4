@@ -81,6 +81,7 @@ if [ -z "$(ls -A /opt/saltos4/instance/data)" ]; then
     cp -a /opt/saltos4/instance/data-seed/. /opt/saltos4/instance/data/
 
     php /opt/saltos4/instance/api/index.php setup
+    user=admin php /opt/saltos4/instance/api/index.php setup/common
     user=admin php /opt/saltos4/instance/api/index.php setup/certs
     user=admin php /opt/saltos4/instance/api/index.php setup/company
     user=admin php /opt/saltos4/instance/api/index.php setup/emails

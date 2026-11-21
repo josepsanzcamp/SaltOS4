@@ -74,6 +74,7 @@ if (!file_exists("$private/$hash")) {
     chmod('data/files/config.xml', 0666);
     // Execcute all setups
     ob_passthru('php api/index.php setup');
+    ob_passthru('user=admin php api/index.php setup/common');
     ob_passthru('user=admin php api/index.php setup/certs');
     ob_passthru('user=admin php api/index.php setup/company');
     ob_passthru('user=admin php api/index.php setup/emails');

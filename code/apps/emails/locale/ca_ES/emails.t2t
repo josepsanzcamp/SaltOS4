@@ -27,11 +27,33 @@ Cada entrada mostra habitualment:
 - Adjunts: Llista d'arxius adjunts amb opció de descàrrega.
 
 
-La interfície també inclou filtres i un formulari de cerca per remitent, assumpte, compte i data.
+El llistat també inclou aquests botons:
+
+- Enviar/Rebre: Envia els correus pendents i rep els correus nous dels comptes.
+- Moure: Mou els correus seleccionats a una altra carpeta.
+
+
+El botó de filtre obre el formulari de cerca:
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-panel-filter-ca-es-light-1-snap.png]
+
+El formulari de cerca inclou:
+
+- Cercar: Text a cercar als correus.
+- Comptes de correu: Mostra només els correus del compte seleccionat.
+- Cercar als camps: Cerca el text a tots els camps, o només a les adreces, l'assumpte o el missatge.
+- Dates típiques: Mostra només els correus d'avui, d'ahir, dels darrers 7 dies o dels darrers 30 dies.
+- Data d'inici / Fins la data: Mostra només els correus entre aquestes dates.
+- Només nou: Mostra només els correus nous.
+- Només pendent: Mostra només els correus marcats com a pendents; juntament amb Només nou, mostra els correus nous o pendents.
+- Amb adjunts / Sense adjunts: Mostra només els correus amb o sense adjunts.
+
 
 ==Carpetes==
 
 El botó de carpetes obre un panell amb l'arbre de carpetes, amb els comptes i les seves carpetes. En seleccionar un compte es mostren tots els seus correus excepte els de la paperera i el correu brossa, i en seleccionar una carpeta només es mostren els seus correus.
+
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-panel-folders-ca-es-light-1-snap.png]
 
 El botó Tots mostra els correus de tots els comptes junts a la mateixa llista, excepte els de la paperera i el correu brossa, mantenint els altres filtres del formulari de cerca. El menú Opcions permet crear, reanomenar, moure i esborrar carpetes i, als comptes IMAP, triar les carpetes del servidor que se sincronitzen (Carpetes del servidor), i el menú Buidar elimina definitivament els correus de la paperera o del correu brossa. Les carpetes especials (Safata d'entrada, Enviats, Paperera i Correu brossa) no es poden modificar.
 

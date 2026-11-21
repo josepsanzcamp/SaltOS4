@@ -1,5 +1,5 @@
 Web Client Documentation
-SaltOS 4.1 r2774
+SaltOS 4.2 r2809
 November 2026
 
 
@@ -2775,6 +2775,42 @@ saltos.common = {};
 This object stores all application functions and data
 
 
++++Panels object+++
+
+```
+saltos.common.__panels = {
+```
+
+This object stores the functions used to open the panels that can be restored using the
+panel param of the hash, the apps can add their own panels
+
+
++++Panel open helper+++
+
+```
+saltos.common.__panel_open = (name, type)
+```
+
+This function stores the name of the open panel in the panel param of the hash and
+removes it when the panel is closed, it must be called after opening the panel
+
+- @name => the name of the panel
+- @type => the type of the panel (modal or offcanvas)
+
+
++++Panel restore helper+++
+
+```
+saltos.common.__panel_restore = name
+```
+
+This function opens the panel of the panel param of the hash, closing the current panel
+if it is different, it is used when the screen is loaded and when the history changes
+the params but not the hash
+
+- @name => the name of the panel that must be open
+
+
 +++Profile screen+++
 
 ```
@@ -3580,6 +3616,28 @@ saltos.driver.reset = arg
 This function implement the reset feature associated to the filters fields
 
 - @arg => unused at this scope
+
+
++++Driver params+++
+
+```
+saltos.driver.params = arg
+```
+
+This function updates the filters fields using the params of the hash and executes the
+search, and opens or closes the panel of the panel param, it is used when the history
+changes the params but not the hash
+
+- @arg => unused at this scope
+
+
++++Driver reset fields helper+++
+
+```
+saltos.driver.__reset_fields = ()
+```
+
+This function restores the default values of the fields, it is used by reset and params
 
 
 +++Driver more+++
@@ -4624,22 +4682,31 @@ This object stores all hash functions to get, set and trigger a change
 +++Get hash+++
 
 ```
-saltos.hash.get = ()
+saltos.hash.get = (full = false)
 ```
 
 Function intended to return the current hash without the pillow
+
+- @full => if true, returns an object with the hash and the params
+
+
+Notes:
+
+The params are stored after the hash using the format #/app/X/?/k1/v1/k2/v2 and contains
+the state of the current screen
 
 
 +++Set hash+++
 
 ```
-saltos.hash.set = hash
+saltos.hash.set = (hash, params = {})
 ```
 
 Function intended to replace the hash in the current url, adds the pilow if it is not found
 in the hash argument
 
-- @hash => this must contain the hash with or without the pillow
+- @hash   => this must contain the hash with or without the pillow, null to keep the current hash
+- @params => the object with the params that you want to store
 
 
 Notes:
@@ -4647,19 +4714,20 @@ Notes:
 The # char is added by default if it is not found in the hash, additionally the dot is
 added to force to remove all chars before the # char in the window.location
 
-The operation is cancelled if the current hash is the same that the new hash
+The operation is cancelled if the current hash and params are the same that the new ones
 
 
 +++Add hash+++
 
 ```
-saltos.hash.add = hash
+saltos.hash.add = (hash, params = {})
 ```
 
 Function intended to add a hash in the current history, adds the pilow if it is not found
 in the hash argument
 
-- @hash => this must contain the hash with or without the pillow
+- @hash   => this must contain the hash with or without the pillow, null to keep the current hash
+- @params => the object with the params that you want to store
 
 
 Notes:
@@ -4667,18 +4735,52 @@ Notes:
 The # char is added by default if it is not found in the hash, additionally the dot is
 added to force to remove all chars before the # char in the window.location
 
-The operation is cancelled if the current hash is the same that the new hash
+The operation is cancelled if the current hash and params are the same that the new ones
 
 
 +++Hash helper+++
 
 ```
-saltos.hash.__helper = hash
+saltos.hash.__helper_hash = hash
 ```
 
 This function is used by all other functions to clean the hash
 
 - @hash => the hash that you want to check and clean
+
+
+Notes:
+
+The params part (all from the ? char) is removed, to get the params you must use the
+params helper
+
+
++++Params helper+++
+
+```
+saltos.hash.__helper_params = hash
+```
+
+This function returns an object with the params of the hash
+
+- @hash => the hash that contains the params
+
+
++++Build helper+++
+
+```
+saltos.hash.__helper_build = (hash, params)
+```
+
+This function returns the hash with the params, it is used by set and add
+
+- @hash   => the hash with or without the pillow, null to use the current hash
+- @params => the object with the params that you want to store
+
+
+Notes:
+
+The empty values are not added, and if no params remains, the ? char is not added
 
 
 +++Url to hash+++
@@ -4690,6 +4792,121 @@ saltos.hash.url2hash = url
 This function allow to convert and url string into a hash string
 
 - @url => the url string that contains the hash that you want to retrieve
+
+
++++Decode object+++
+
+```
+saltos.hash.decode = {};
+```
+
+This object stores the functions used to decode the hashes (public) and the internal
+actions (private) that never are stored in the hash
+
+
++++Decode public hash+++
+
+```
+saltos.hash.decode.public = hash
+```
+
+This function returns an object with the parts of the hash (app, action, subaction, id and sub_id)
+to prevent the usage of positions in the code that uses the hash
+
+- @hash => the hash that you want to decode
+
+
+Notes:
+
+The empty parts are removed like in the backend, so app/X/ is the same that app/X
+
+Only the next hashes are allowed, otherwise an exception is thrown:
+
+app/X
+app/X/list
+app/X/create
+app/X/create/reply/ID (and replyall and forward)
+app/X/edit/ID
+app/X/view/ID
+app/X/view/viewpdf/ID (and version, log and source)
+app/X/view/viewpdf/ID/SUB_ID
+
+
++++Decode private action+++
+
+```
+saltos.hash.decode.private = url
+```
+
+This function returns an object with the parts of the action (app, action, subaction, id and
+sub_id) like the public decode, but for the internal actions that never are stored in the hash
+
+- @url => the url of the action that you want to decode
+
+
+Notes:
+
+The empty parts are removed like in the backend, so app/X/delete/ID/ is the same that
+app/X/delete/ID
+
+Only the next actions are allowed, otherwise an exception is thrown:
+
+app/X/list/data (and filter)
+app/X/insert
+app/X/update/ID
+app/X/view/download/ID
+app/X/view/download/ID/SUB_ID
+app/X/view/body/ID (and setter)
+app/X/sendmail
+app/X/sendmail/reply/ID (and replyall and forward)
+app/X/delete/ID
+app/X/delete/files/ID/SUB_ID (and notes)
+app/X/action/NAME
+app/widgets/help/APP
+
+
++++Encode object+++
+
+```
+saltos.hash.encode = {};
+```
+
+This object stores the functions used to encode the hashes (public) and the internal
+actions (private), it is the inverse of the decode object
+
+
++++Encode public hash+++
+
+```
+saltos.hash.encode.public = route
+```
+
+This function returns the hash of the route object (app, action, subaction, id and sub_id),
+the omitted or empty parts are not added
+
+- @route => the route object that you want to encode
+
+
+Notes:
+
+The result is validated with the public decode, so an unknown route throws an exception
+
+
++++Encode private action+++
+
+```
+saltos.hash.encode.private = route
+```
+
+This function returns the url of the route object (app, action, subaction, id and sub_id)
+like the public encode, but for the internal actions that never are stored in the hash
+
+- @route => the route object that you want to encode
+
+
+Notes:
+
+The result is validated with the private decode, so an unknown route throws an exception
 
 
 +++Change trigger+++
@@ -4708,6 +4925,11 @@ window.addEventListener('hashchange', event
 ```
 
 This function allow to SaltOS to update the contents when hash change
+
+Notes:
+
+Only the params are applied if only the params of the hash change, the trigger function sends
+an event without urls, so it always updates the contents
 
 
 +++Before unload management+++

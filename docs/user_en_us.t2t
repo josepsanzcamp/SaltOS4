@@ -1,6 +1,6 @@
 User Manual
-SaltOS 4.1 r2752
-October 2026
+SaltOS 4.2 r2809
+November 2026
 
 
 
@@ -1510,7 +1510,37 @@ Each entry typically displays:
 - Attachments: List of files attached to the message, with download options.
 
 
-The interface also includes filters and a search form to filter by sender, subject, account, and date.
+The list also includes these buttons:
+
+- Send/Receive: Sends the pending emails and receives the new emails of the accounts.
+- Move: Moves the selected emails to another folder.
+
+
+The filter button opens the search form:
+
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-panel-filter-en-us-light-1-snap.png]
+
+The search form includes:
+
+- Search: Text to search in the emails.
+- Emails accounts: Shows only the emails of the selected account.
+- Search in fields: Searches the text in all the fields, or only in the addresses, the subject or the message.
+- Common dates: Shows only the emails of today, yesterday, the last 7 days or the last 30 days.
+- From date / Until date: Shows only the emails between these dates.
+- Only new: Shows only the new emails.
+- Only wait: Shows only the emails marked as wait; together with Only new, shows the new or the wait emails.
+- With files / Without files: Shows only the emails with or without attachments.
+
+
+++Folders++
+
+The folders button opens a panel with the folders tree, with the accounts and its folders. Selecting an account shows all its emails except the ones of the trash and the junk, and selecting a folder shows only its emails.
+
+[../ujest/snaps/test-screenshots-js-screenshots-emails-emails-list-panel-folders-en-us-light-1-snap.png]
+
+The All button shows the emails of all the accounts together in the same list, except the ones of the trash and the junk, keeping the other filters of the search form. The Options menu allows to create, rename, move and delete folders and, for the IMAP accounts, to choose the folders of the server that are synchronized (Server folders), and the Empty menu deletes permanently the emails of the trash or the junk. The special folders (Inbox, Sent, Trash and Junk) can not be modified.
+
+The folders of the POP3 accounts exist only in SaltOS. The folders of the IMAP accounts are the folders of the server (the Sent, Trash and Junk folders are created in the server if they do not exist), and the actions on the emails and on the folders are applied in the server too: the emails with changes not yet applied in the server show the Pending label until the next synchronization.
 
 ++View message++
 
@@ -1533,7 +1563,6 @@ The following information is typically displayed:
 - Reply: Indicates if the message was replied to.
 - Forward: Indicates if the message was forwarded to another recipient.
 - Wait: Flag used to track follow-up or pending response.
-- SPAM: Marks whether the email is classified as spam.
 - Request confirmation of receipt: Shows whether a read receipt was requested for the message.
 - Error: Displays an error message if the delivery failed.
 - Subject: The subject line of the email.
@@ -1565,7 +1594,7 @@ The reply and compose form includes:
 
 Emails can be deleted from the list view using the delete icon or action.
 
-Messages are usually deleted locally or flagged for deletion, depending on the server configuration.
+Deleting an email moves it to the trash of its account, and deleting an email that is in the trash deletes it permanently. With the IMAP accounts, the email is moved or deleted in the server too.
 
 ++PDF generation++
 
@@ -1625,24 +1654,38 @@ The form includes the following fields:
 - Name: Display name or label used to identify the account.
 - Email: Actual email address configured for this account.
 - Signature: Text or HTML signature added automatically to outgoing messages.
-- Host: POP3 server hostname used to receive emails.
-- Port: Network port used to connect to the POP3 server (e.g., 110, 995).
-- Extra: Additional POP3 connection settings, such as TLS.
-- User: Username for POP3 authentication.
-- Password: Password for the POP3 account.
-- Delete: Whether messages are deleted from the server after download.
-- Days: Number of days to keep messages on the server.
-- Host: SMTP server hostname used to send emails.
+- Host: Hostname of the incoming server (POP3 or IMAP) used to receive emails.
+- Port: Network port of the incoming server (e.g., 110 or 995 for POP3, 143 or 993 for IMAP).
+- Extra: Encryption of the incoming server: none, SSL (encrypted from the start) or TLS (STARTTLS).
+- User: Username of the incoming server.
+- Password: Password of the incoming server.
+- Test: Button to test the connection and the login with the incoming server, using the data of the form without saving it.
+- Protocol: POP3 or IMAP, chosen when the account is created; it can not be changed later.
+- Delete: (POP3 only) Whether the messages are deleted from the server after the days below.
+- Days: (POP3 only) Number of days that the messages are kept on the server.
+- Copy in Sent: (IMAP only) Whether a copy of the sent emails is saved in the Sent folder of the server; disable it for the servers that save the copy themselves, like Gmail.
+- Host: SMTP server hostname used to send emails (mail, sendmail or qmail to use the local server).
 - Port: Network port used for SMTP communication (e.g., 25, 465, 587).
 - Extra: SMTP encryption method: none, SSL, or TLS.
 - User: Username for SMTP authentication.
 - Password: Password for the SMTP server account.
+- Test: Button to test the connection and the authentication with the SMTP server, using the data of the form without saving it.
+- Empty trash: Whether the emails of the Trash are deleted permanently after the days below.
+- Days: Number of days that the emails are kept in the Trash; with 0 they are deleted in the next synchronization.
+- Empty junk: Whether the emails of the Junk are deleted permanently after the days below.
+- Days: Number of days that the emails are kept in the Junk; with 0 they are deleted in the next synchronization.
 - Disabled: Marks the account as inactive; no synchronization will occur.
 - Privated: Restricts access to the account to its owner only.
 - Default: Sets this account as the default for sending emails.
 - Add me to CC: Automatically includes the sender in the CC field.
 - Confirm reading to: Sends a read receipt request with each email.
 
+
+++POP3 and IMAP++
+
+With POP3, SaltOS downloads the emails of the inbox of the server, and the folders of the account (Inbox, Sent, Trash, Junk and the folders created by the user) exist only in SaltOS.
+
+With IMAP, the folders of the account are the folders of the server, and the emails of the subscribed folders are synchronized in both directions: the changes done in SaltOS (read, wait, move, delete, the replies and forwards, and the copy of the sent emails in the Sent folder, if enabled) are applied in the server in the next synchronization, and the changes done by other email clients are received in SaltOS.
 
 ++Delete++
 
@@ -1841,6 +1884,8 @@ The following fields are displayed in the list view:
 
 This view displays the full result of a single cron job execution.
 
+[../ujest/snaps/test-screenshots-js-screenshots-common-cronlog-view-1-en-us-light-1-snap.png]
+
 It includes:
 
 - Command: Command or script executed by the cron system.
@@ -1967,6 +2012,8 @@ The following fields are displayed in the list view:
 
 This view shows full details of a single push notification.
 
+[../ujest/snaps/test-screenshots-js-screenshots-common-pushlog-view-1-en-us-light-1-snap.png]
+
 It includes:
 
 - User: User who triggered or received the push notification.
@@ -2053,6 +2100,8 @@ The following fields are displayed in the list view:
 
 This view displays all recorded information about a deleted item.
 
+[../ujest/snaps/test-screenshots-js-screenshots-common-trashlog-view-1-en-us-light-1-snap.png]
+
 It includes:
 
 - Old ID: Original identifier of the record before deletion.
@@ -2099,6 +2148,8 @@ The following fields are displayed in the list view:
 ++View entry++
 
 This view shows full details of a single uploaded file log entry.
+
+[../ujest/snaps/test-screenshots-js-screenshots-common-uploadlog-view-1-en-us-light-1-snap.png]
 
 It includes:
 

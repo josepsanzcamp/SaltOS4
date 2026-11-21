@@ -1,5 +1,5 @@
 Applications Documentation
-SaltOS 4.1 r2774
+SaltOS 4.2 r2809
 November 2026
 
 
@@ -1125,6 +1125,16 @@ options, using the same mechanism of the search form (saltos.common.filter): the
 contents of the folders_panel div are moved to the offcanvas while it is open
 
 
++++Folders panel restore+++
+
+```
+saltos.common.__panels.folders = () => saltos.emails.folders_panel();
+```
+
+This line adds the folders panel to the panels that can be restored using the panel
+param of the hash
+
+
 +++Folder modal helper+++
 
 ```
@@ -1707,14 +1717,16 @@ Returns a response message
 +++Folders empty ids helper+++
 
 ```
-function __emails_folders_empty_ids($account_id, $special_use)
+function __emails_folders_empty_ids($account_id, $special_use, $days = null)
 ```
 
 This function returns the ids of the emails of the special folder of the account, the
-account must be of the current user
+account must be of the current user; with days, only the emails moved to the folder at
+least these days ago (the emails without the datetime of the move are not returned)
 
 - @account_id  => the id of the account
 - @special_use => the special use of the folder
+- @days        => the minimum days in the folder (optional)
 
 
 Returns an array with the ids of the emails, or null if the account is not of the user
@@ -1739,7 +1751,7 @@ Returns an array with the status (ok or ko) and the message
 +++Folders empty helper+++
 
 ```
-function __emails_folders_empty($account_id, $special_use)
+function __emails_folders_empty($account_id, $special_use, $days = null)
 ```
 
 This function deletes permanently the emails of the trash or the junk folder of the
@@ -1748,9 +1760,27 @@ the delete action only removes permanently the emails that are in the trash
 
 - @account_id  => the id of the account
 - @special_use => the special use of the folder
+- @days        => the minimum days in the folder (optional, see the ids helper)
 
 
 Returns a response message
+
+
++++Folders purge helper+++
+
+```
+function __emails_folders_purge($account)
+```
+
+This function deletes permanently the emails of the trash and the junk folders of the
+account that are in the folder at least the days of the account, only when the delete
+option of each folder is enabled (zero days deletes all the emails of the folder that
+have the datetime of the move)
+
+- @account => the row of the account, with the trash and junk delete and days fields
+
+
+Returns the number of deleted emails
 
 
 +++Folders of the server+++
@@ -2051,8 +2081,8 @@ its attachments, its control register and its index
               state_new (default 1), state_reply, state_forward, state_wait, email_id (the
               id of the related email), is_outbox, state_sent, state_error (default 0 or
               empty), folder_id (default the inbox, the sent for the outbox and the junk
-              for the spam, if they exist) and the IMAP fields imap_uid, imap_messageid
-              and imap_emailid
+              for the spam, if they exist), folder_datetime (default the current
+              datetime) and the IMAP fields imap_uid, imap_messageid and imap_emailid
 
 
 +++Update+++

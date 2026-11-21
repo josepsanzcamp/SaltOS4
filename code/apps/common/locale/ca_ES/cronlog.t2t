@@ -25,6 +25,8 @@ Els següents camps es mostren a la vista de llista:
 
 Aquesta vista mostra el resultat complet d'una execució individual d'una tasca cron.
 
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-cronlog-view-1-ca-es-light-1-snap.png]
+
 Inclou:
 
 - Comanda: Ordre o script que s'ha executat.

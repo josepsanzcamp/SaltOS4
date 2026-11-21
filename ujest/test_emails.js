@@ -84,7 +84,7 @@ afterAll(async () => {
  * App Emails
  *
  * This test is intended to validate the correctness of the emails application by
- * execute the list, control+f, profile, help, filter, create and view features and
+ * execute the list, control+f, profile, help, filter, folders, create and view features and
  * validate with the expected screenshot
  */
 describe('App Emails', () => {
@@ -308,6 +308,34 @@ describe('App Emails', () => {
             });
         } finally {
             await page.evaluate(() => { saltos.common.filter(); });
+            await page.waitForFunction(() => !document.querySelector('.offcanvas'), timeout);
+        }
+    });
+
+    /**
+     * Action Folders
+     *
+     * This part of the test tries to load the folders screen
+     */
+    test('Action Folders', async () => {
+        try {
+            await page.waitForSelector('#top button', timeout);
+            await page.$$eval('#top button', buttons => buttons[1].click()); // this trigger the folders
+
+            await page.waitForSelector('.offcanvas #folders', timeout);
+            await mypause(page, 500);
+
+            const screenshot = await sharp(await page.screenshot()).png({
+                compressionLevel: 9,
+                palette: true,
+            }).toBuffer();
+            expect(screenshot).toMatchImageSnapshot({
+                failureThreshold: 0.005,
+                failureThresholdType: 'percent',
+                customSnapshotsDir: `${__dirname}/snaps`,
+            });
+        } finally {
+            await page.evaluate(() => { saltos.emails.folders_panel(); });
             await page.waitForFunction(() => !document.querySelector('.offcanvas'), timeout);
         }
     });

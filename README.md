@@ -241,6 +241,7 @@ bash ../scripts/make_instance.sh
 
 # 4. Run setup (creates tables + sample data)
 php api/index.php setup
+user=admin php api/index.php setup/common
 user=admin php api/index.php setup/certs
 user=admin php api/index.php setup/company
 user=admin php api/index.php setup/emails

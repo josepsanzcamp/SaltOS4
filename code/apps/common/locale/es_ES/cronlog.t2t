@@ -25,6 +25,8 @@ Los siguientes campos se muestran en la vista de lista:
 
 Esta vista muestra el resultado completo de una ejecución de tarea cron individual.
 
+[../../../../../ujest/snaps/test-screenshots-js-screenshots-common-cronlog-view-1-es-es-light-1-snap.png]
+
 Incluye:
 
 - Comando: Comando o script ejecutado por cron.
