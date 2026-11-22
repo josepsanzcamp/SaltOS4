@@ -10,6 +10,8 @@
  *   SALTOS_SOCKET   php-fpm socket (default: highest version in /run/php/)
  *   SALTOS_SCRIPT   api entry point (default: $PWD/web/api/index.php)
  *   SALTOS_TOKEN    token file (default: ~/.saltos_client_token)
+ *   SALTOS_ENCODING Accept-Encoding sent to the API (default: none), the body is
+ *                   not decoded
  *   token           token to use instead of the stored one
  *
  * Build: cc -O2 -o saltos saltos_client.c
@@ -132,6 +134,10 @@ static char *request(const char *socket_path, const char *script, const char *re
     buf_param(&params, "QUERY_STRING", rest);
     buf_param(&params, "REMOTE_ADDR", REMOTE_ADDR);
     buf_param(&params, "HTTP_USER_AGENT", USER_AGENT);
+    const char *encoding = getenv("SALTOS_ENCODING");
+    if (encoding && *encoding) {
+        buf_param(&params, "HTTP_ACCEPT_ENCODING", encoding);
+    }
     if (token && *token) {
         snprintf(auth, sizeof(auth), "Bearer %s", token);
         buf_param(&params, "HTTP_AUTHORIZATION", auth);
