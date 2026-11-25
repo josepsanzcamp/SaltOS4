@@ -9,13 +9,13 @@ yaml|https://github.com/symfony/yaml/tags.atom|<title>|PHRpdGxlPnY4LjIuMC1CRVRBM
 zxcvbn|https://github.com/bjeavons/zxcvbn-php/tags.atom|<title>|PHRpdGxlPjEuNC4yPC90aXRsZT4=
 
 autoheight|https://github.com/kamilkp/autoheight/commits/master.atom|<updated>|PHVwZGF0ZWQ+MjAxNi0wOC0wN1QyMzo0MToxMVo8L3VwZGF0ZWQ+
-bootstrap|https://github.com/twbs/bootstrap/tags.atom|<title>|PHRpdGxlPnY1LjMuOTwvdGl0bGU+
+bootstrap|https://github.com/twbs/bootstrap/tags.atom|<title>|PHRpdGxlPnY2LjAuMC1hbHBoYS4yPC90aXRsZT4=
 codemirror|https://api.cdnjs.com/libraries/codemirror?fields=version|version|eyJ2ZXJzaW9uIjoiNi42NS43In0=
 echarts|https://github.com/apache/echarts/tags.atom|<title>|PHRpdGxlPjYuMS4wPC90aXRsZT4=
 icons|https://github.com/twbs/icons/tags.atom|<title>|PHRpdGxlPnYxLjEzLjI8L3RpdGxlPg==
 imagesloaded|https://github.com/desandro/imagesloaded/tags.atom|<title>|PHRpdGxlPnY1LjAuMDwvdGl0bGU+
 imaskjs|https://github.com/uNmAnNeR/imaskjs/tags.atom|<title>|PHRpdGxlPnY3LjYuMTwvdGl0bGU+
-interactjs|https://github.com/taye/interact.js/tags.atom|<title>|PHRpdGxlPnYxLjEwLjI4PC90aXRsZT4=
+interactjs|https://github.com/taye/interact.js/tags.atom|<title>|PHRpdGxlPnYxLjEwLjI5PC90aXRsZT4=
 joditeditor|https://github.com/xdan/jodit/tags.atom|<title>|PHRpdGxlPjQuMjEuMDwvdGl0bGU+
 jspreadsheet|https://data.jsdelivr.com/v1/packages/npm/jspreadsheet-ce/resolved|version|InZlcnNpb24iOiAiNS4wLjQiLA==
 jstree|https://github.com/vakata/jstree/commits/v.4.0.atom|<updated>|PHVwZGF0ZWQ+MjAyMy0wMS0xNlQxMTo1MzoyMFo8L3VwZGF0ZWQ+
