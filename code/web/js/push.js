@@ -30,6 +30,7 @@
 saltos.push = {
     executing: false,
     count: 60,
+    failed: false,
 };
 
 /**
@@ -59,6 +60,13 @@ saltos.push.fn = () => {
         success: response => {
             saltos.push.count = 60;
             saltos.push.executing = false;
+            // The server is reachable again after a failure, so the proxy can try
+            // to send the queued requests, this covers the cases where the server
+            // was unreachable but the navigator was online (no online event)
+            if (saltos.push.failed) {
+                saltos.push.failed = false;
+                saltos.core.sync();
+            }
             if (!saltos.app.check_response(response)) {
                 return;
             }
@@ -77,12 +85,14 @@ saltos.push.fn = () => {
         error: error => {
             saltos.push.count = 60;
             saltos.push.executing = false;
+            saltos.push.failed = true;
         },
         abort: error => {
             saltos.push.count = 60;
             saltos.push.executing = false;
         },
         token: saltos.token.get(),
+        user_id: saltos.token.get_user_id(),
         lang: saltos.gettext.get(),
         proxy: 'no',
     });

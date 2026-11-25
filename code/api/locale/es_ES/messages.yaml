@@ -29,6 +29,8 @@ do_you_want_to_delete_this_register: ¿Deseas eliminar este registro?
 "no": "No"
 profile: Perfil
 logout: Salir
+there_are_pending_changes_that_will_be_lost_do_you_want_to_continue: Hay cambios pendientes que se perderán, ¿deseas continuar?
+synchronized_changes_d_of_d: "Cambios sincronizados: %d de %d"
 help: Ayuda
 filename: Nombre del fichero
 size: Tamaño

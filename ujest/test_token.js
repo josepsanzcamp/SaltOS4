@@ -52,17 +52,21 @@ afterEach(() => {
 test('saltos.token', () => {
     expect(saltos.token.get()).toBe(null);
     expect(saltos.token.get_expires_at()).toBe(null);
+    expect(saltos.token.get_user_id()).toBe(null);
 
     saltos.token.set({
         token: 'someToken',
         expires_at: 'someTime',
+        user_id: 'someUser',
     });
 
     expect(saltos.token.get()).toBe('someToken');
     expect(saltos.token.get_expires_at()).toBe('someTime');
+    expect(saltos.token.get_user_id()).toBe('someUser');
 
     saltos.token.unset();
 
     expect(saltos.token.get()).toBe(null);
     expect(saltos.token.get_expires_at()).toBe(null);
+    expect(saltos.token.get_user_id()).toBe(null);
 });

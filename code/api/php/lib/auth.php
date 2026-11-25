@@ -150,6 +150,7 @@ function checktoken()
     return [
         'status' => 'ok',
         'token' => $row['token'],
+        'user_id' => $row['user_id'],
         'created_at' => $row['created_at'],
         'updated_at' => $updated_at,
         'expires_at' => min($short_expires, $long_expires),
@@ -573,6 +574,7 @@ function token_issue($user_id)
     return [
         'status' => 'ok',
         'token' => $token,
+        'user_id' => $user_id,
         'created_at' => $created_at,
         'expires_at' => min($short_expires, $long_expires),
     ];

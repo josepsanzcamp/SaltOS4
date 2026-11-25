@@ -148,6 +148,7 @@ saltos.bootstrap.__field.file = field => {
                 __update_data_input_file(input);
             },
             token: saltos.token.get(),
+            user_id: saltos.token.get_user_id(),
             lang: saltos.gettext.get(),
             abortable: true,
         });
@@ -219,6 +220,7 @@ saltos.bootstrap.__field.file = field => {
                     ajax.open('POST', 'api/?/upload/addfile');
                     ajax.setRequestHeader('Content-Type', 'application/json');
                     ajax.setRequestHeader('Authorization', 'Bearer ' + saltos.token.get());
+                    ajax.setRequestHeader('X-Proxy-User', saltos.token.get_user_id());
                     ajax.setRequestHeader('Accept-Language', saltos.gettext.get());
                     ajax.setRequestHeader('X-Proxy-Order', 'no');
                     ajax.onload = event => {

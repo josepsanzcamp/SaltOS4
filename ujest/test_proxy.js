@@ -361,6 +361,7 @@ describe('Request Serialization', () => {
             const serialized = await request_serialize(request);
 
             expect(serialized).toEqual({
+                user: null,
                 url: 'https://example.com/api',
                 method: 'GET',
                 headers: [['content-type', 'application/json']],
@@ -381,6 +382,7 @@ describe('Request Serialization', () => {
             const serialized = await request_serialize(request);
 
             expect(serialized).toEqual({
+                user: null,
                 url: 'https://example.com/api',
                 method: 'POST',
                 headers: [['content-type', 'application/json']],

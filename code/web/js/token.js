@@ -47,25 +47,37 @@ saltos.token.get_expires_at = () => {
 };
 
 /**
- * Set token and expires_at
+ * Get user_id function
  *
- * This function store the token and expires_at in the localStorage
+ * This function returns the user_id stored in the localStorage
+ */
+saltos.token.get_user_id = () => {
+    return saltos.storage.getItem('saltos.token.user_id');
+};
+
+/**
+ * Set token, expires_at and user_id
+ *
+ * This function store the token, expires_at and user_id in the localStorage
  *
  * @response   => the object that contains the follow parameters:
  * @token      => the token that you want to store in the localStorage
  * @expires_at => the expires_at of the token that you want to store in the localStorage
+ * @user_id    => the user_id of the token that you want to store in the localStorage
  */
 saltos.token.set = response => {
     saltos.storage.setItem('saltos.token.token', response.token);
     saltos.storage.setItem('saltos.token.expires_at', response.expires_at);
+    saltos.storage.setItem('saltos.token.user_id', response.user_id);
 };
 
 /**
- * Unset token and expires_at
+ * Unset token, expires_at and user_id
  *
- * This function removes the token and expires_at in the localStorage
+ * This function removes the token, expires_at and user_id in the localStorage
  */
 saltos.token.unset = () => {
     saltos.storage.removeItem('saltos.token.token');
     saltos.storage.removeItem('saltos.token.expires_at');
+    saltos.storage.removeItem('saltos.token.user_id');
 };

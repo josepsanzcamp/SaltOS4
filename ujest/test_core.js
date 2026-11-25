@@ -72,6 +72,7 @@ describe('saltos.core.adderror/addlog', () => {
     beforeEach(() => {
         jest.spyOn(global.saltos.core, 'ajax').mockImplementation(jest.fn());
         jest.spyOn(global.saltos.token, 'get').mockReturnValue('dummyToken');
+        jest.spyOn(global.saltos.token, 'get_user_id').mockReturnValue('dummyUser');
         jest.spyOn(global.saltos.gettext, 'get').mockReturnValue('en');
     });
 
@@ -113,6 +114,7 @@ describe('saltos.core.adderror/addlog', () => {
             content_type: 'application/json',
             proxy: 'network,queue',
             token: expect.any(String),
+            user_id: expect.any(String),
             lang: expect.any(String),
         });
     });
@@ -136,6 +138,7 @@ describe('saltos.core.adderror/addlog', () => {
             content_type: 'application/json',
             proxy: 'network,queue',
             token: 'dummyToken',
+            user_id: 'dummyUser',
             lang: 'en',
         });
     });
@@ -1203,13 +1206,57 @@ describe('Core Module Tests', () => {
     /**
      * Test proxy function messaging
      *
-     * This test ensures that the proxy function sends the correct message
-     * to the service worker's controller using the `postMessage` method.
+     * This test ensures that the proxy function sends the message and the port
+     * to the service worker's controller using the `postMessage` method, and
+     * resolves with the answer received by the port.
      */
-    test('Proxy function sends message to service worker', () => {
-        navigator.serviceWorker = {controller: {postMessage: jest.fn()}};
-        saltos.core.proxy('test_message');
-        expect(navigator.serviceWorker.controller.postMessage).toHaveBeenCalledWith('test_message');
+    test('Proxy function sends message to service worker', async () => {
+        const original = global.MessageChannel;
+        const port1 = {};
+        global.MessageChannel = jest.fn(() => ({port1: port1, port2: 'port2'}));
+        const postMessage = jest.fn(() => port1.onmessage({data: 'hello'}));
+        navigator.serviceWorker = {controller: {postMessage: postMessage}};
+        await expect(saltos.core.proxy({action: 'hello'})).resolves.toBe('hello');
+        expect(postMessage).toHaveBeenCalledWith({action: 'hello'}, ['port2']);
+        global.MessageChannel = original;
+    });
+
+    /**
+     * Test sync with rejected requests
+     *
+     * This test ensures that the sync function shows a toast with the summary
+     * and a toast for each request rejected by the server, using the answer of
+     * the proxy.
+     */
+    test('Sync shows the summary and the rejected requests as toasts', async () => {
+        const original = saltos.core.proxy;
+        const app = saltos.app;
+        saltos.core.proxy = jest.fn().mockResolvedValue({
+            count: 0,
+            total: 1,
+            errors: ['Permission denied'],
+        });
+        saltos.app = {toast: jest.fn()};
+        jest.spyOn(saltos.token, 'get').mockReturnValue('dummyToken');
+        jest.spyOn(saltos.token, 'get_user_id').mockReturnValue('dummyUser');
+        await saltos.core.sync();
+        expect(saltos.app.toast).toHaveBeenCalledWith('Response', 'Synchronized changes: 0 of 1', {
+            color: 'warning',
+        });
+        expect(saltos.app.toast).toHaveBeenCalledWith('Response', 'Permission denied', {color: 'danger'});
+        saltos.core.proxy = original;
+        saltos.app = app;
+    });
+
+    /**
+     * Test proxy function without service worker
+     *
+     * This test ensures that the proxy function resolves with null
+     * when there is no service worker controlling the page.
+     */
+    test('Proxy function resolves null without service worker', async () => {
+        navigator.serviceWorker = {controller: null};
+        await expect(saltos.core.proxy({action: 'pending'})).resolves.toBe(null);
     });
 
     /**
@@ -1220,8 +1267,14 @@ describe('Core Module Tests', () => {
      */
     test('Triggers proxy sync on online event', () => {
         saltos.core.proxy = jest.fn();
+        jest.spyOn(saltos.token, 'get').mockReturnValue('dummyToken');
+        jest.spyOn(saltos.token, 'get_user_id').mockReturnValue('dummyUser');
         window.dispatchEvent(new Event('online'));
-        expect(saltos.core.proxy).toHaveBeenCalledWith('sync');
+        expect(saltos.core.proxy).toHaveBeenCalledWith({
+            action: 'sync',
+            token: 'dummyToken',
+            user_id: 'dummyUser',
+        });
     });
 
     /**
@@ -1234,5 +1287,7 @@ describe('Core Module Tests', () => {
         window.open = jest.fn().mockReturnValue({close: jest.fn(), closed: true});
         const result = await saltos.core.check_network();
         expect(result).toEqual({http: true, https: true});
+        expect(window.open.mock.calls[0][0]).toMatch(/^https:\/\/[^/]+\/html\/ping\.html\?id/);
+        expect(window.open.mock.calls[1][0]).toMatch(/^http:\/\/[^/]+\/html\/ping\.html\?id/);
     });
 });

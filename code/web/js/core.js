@@ -70,6 +70,7 @@ saltos.core.adderror = async (message, source, lineno, colno, stack) => {
         content_type: 'application/json',
         proxy: 'network,queue',
         token: saltos.token.get(),
+        user_id: saltos.token.get_user_id(),
         lang: saltos.gettext.get(),
     });
 };
@@ -130,6 +131,7 @@ saltos.core.addlog = msg => {
         content_type: 'application/json',
         proxy: 'network,queue',
         token: saltos.token.get(),
+        user_id: saltos.token.get_user_id(),
         lang: saltos.gettext.get(),
     });
 };
@@ -329,6 +331,7 @@ saltos.core.__ajax = new Set();
  * @content_type => the content-type that you want to use in the transfer
  * @proxy        => add the Proxy header with the value passed, intended to be used by the SaltOS PROXY
  * @token        => add the Token header with the value passed, intended to be used by the SaltOS API
+ * @user_id      => add the X-Proxy-User header with the value passed, intended to be used by the SaltOS PROXY
  * @lang         => add the Lang header with the value passed, intended to be used by the SaltOS API
  * @headers      => an object with the headers that you want to send
  *
@@ -343,7 +346,7 @@ saltos.core.__ajax = new Set();
  */
 saltos.core.ajax = args => {
     saltos.core.check_params(args, ['url', 'data', 'method', 'success', 'error',
-        'abort', 'abortable', 'content_type', 'proxy', 'token', 'lang', 'headers']);
+        'abort', 'abortable', 'content_type', 'proxy', 'token', 'user_id', 'lang', 'headers']);
     if (args.data === '') {
         args.data = null;
     }
@@ -363,8 +366,11 @@ saltos.core.ajax = args => {
     if (args.proxy !== '') {
         args.headers['X-Proxy-Order'] = args.proxy;
     }
-    if (args.token !== '') {
+    if (args.token) {
         args.headers[`Authorization`] = 'Bearer ' + args.token;
+    }
+    if (args.user_id) {
+        args.headers['X-Proxy-User'] = args.user_id;
     }
     if (args.lang !== '') {
         args.headers['Accept-Language'] = args.lang;
@@ -837,6 +843,7 @@ document.addEventListener('DOMContentLoaded', event => {
             updateViaCache: 'none',
         }).then(async registration => {
             await registration.update();
+            saltos.core.sync();
         }).catch(async error => {
             if (!navigator.serviceWorker.controller) {
                 return;
@@ -849,7 +856,7 @@ document.addEventListener('DOMContentLoaded', event => {
                 return;
             }
             // In this scope, a certificate issue was found and a reload is neeced
-            saltos.core.proxy('stop');
+            saltos.core.proxy({action: 'stop'});
             saltos.core.__abort_all_ajax();
             setTimeout(() => {
                 window.location.reload();
@@ -873,12 +880,65 @@ document.addEventListener('DOMContentLoaded', event => {
 /**
  * Proxy feature
  *
- * This function is intended to send messages to the proxy feature
+ * This function sends a message to the proxy feature and returns a promise that is
+ * resolved with the answer of the proxy, to do it, a MessageChannel is used and the
+ * proxy answers using the port sent with the message
+ *
+ * @msg => the message that you want to send to the proxy, an object with the action
+ *         and the data needed to do it, see the message binding in proxy.js
+ *
+ * Notes:
+ *
+ * The promise is resolved with null if there is no proxy or if the proxy does not
+ * answer in 60 seconds
  */
 saltos.core.proxy = msg => {
-    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.postMessage(msg);
+    return new Promise(resolve => {
+        if (!('serviceWorker' in navigator) || !navigator.serviceWorker.controller) {
+            resolve(null);
+            return;
+        }
+        const channel = new MessageChannel();
+        const timer = setTimeout(() => resolve(null), 60000);
+        channel.port1.onmessage = event => {
+            clearTimeout(timer);
+            resolve(event.data);
+        };
+        navigator.serviceWorker.controller.postMessage(msg, [channel.port2]);
+    });
+};
+
+/**
+ * Sync feature
+ *
+ * This function sends a sync message to the proxy, using the current token and user_id,
+ * intended to be used when the app starts, after a login and after an online change,
+ * the returned promise is resolved when the sync is finished, if there are queued
+ * requests, a toast shows how many of them have been sent, and the texts of the
+ * requests rejected by the server are shown as toasts
+ */
+saltos.core.sync = async () => {
+    const result = await saltos.core.proxy({
+        action: 'sync',
+        token: saltos.token.get(),
+        user_id: saltos.token.get_user_id(),
+    });
+    if (typeof result !== 'object' || result === null) {
+        return result;
     }
+    if (result.total) {
+        const color = result.count === result.total ? 'success' : 'warning';
+        const text = T('Synchronized changes: %d of %d')
+            .replace('%d', result.count)
+            .replace('%d', result.total);
+        saltos.app.toast('Response', text, {color: color});
+    }
+    if (Array.isArray(result.errors)) {
+        for (const text of result.errors) {
+            saltos.app.toast('Response', text, {color: 'danger'});
+        }
+    }
+    return result;
 };
 
 /**
@@ -887,7 +947,7 @@ saltos.core.proxy = msg => {
  * This function send a sync message to the proxy when navigator detects an online change
  */
 window.addEventListener('online', event => {
-    saltos.core.proxy('sync');
+    saltos.core.sync();
 });
 
 /**
@@ -951,15 +1011,13 @@ saltos.core.human_size = (size, pre = '', post = '') => {
  */
 saltos.core.check_network = async () => {
     const check = {};
-    var protocols = ['https', 'http'];
+    const protocols = ['https', 'http'];
     for (const i in protocols) {
         const protocol = protocols[i];
-        const url = new URL(window.location.href);
+        const url = new URL('html/ping.html', window.location.href);
         const uniqid = saltos.core.uniqid();
         url.protocol = protocol;
-        url.pathname += 'html/ping.html';
         url.search = uniqid;
-        url.hash = '';
         const options = 'popup,width=100,height=100,left=9999,top=9999';
         const win = window.open(url.toString(), uniqid, options);
         if (!win) {

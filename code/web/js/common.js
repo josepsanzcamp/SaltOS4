@@ -243,9 +243,49 @@ saltos.common.about = () => {
  * Logout feature
  *
  * This function execute the deauthtoken action and jump to the login screen
+ *
+ * Notes:
+ *
+ * Before the logout, the proxy tries to sync the queued requests, if some of
+ * them remains in the queue (for example, because there is no connection), the
+ * user is warned that they will be lost and the logout can be cancelled, after
+ * the logout, the queued requests of the user are removed (the cache is kept)
  */
 saltos.common.logout = async () => {
+    const user_id = saltos.token.get_user_id();
+    await saltos.core.sync();
+    const pending = await saltos.core.proxy({action: 'pending', user_id: user_id});
+    if (pending) {
+        const accept = await new Promise(resolve => {
+            const modal = saltos.app.modal(
+                'Logout',
+                'There are pending changes that will be lost, do you want to continue?',
+                {
+                    buttons: [{
+                        label: 'Yes',
+                        color: 'success',
+                        icon: 'check-lg',
+                        autofocus: true,
+                        onclick: () => resolve(true),
+                    },{
+                        label: 'No',
+                        color: 'danger',
+                        icon: 'x-lg',
+                        onclick: () => resolve(false),
+                    }],
+                    color: 'danger',
+                }
+            );
+            if (!modal) {
+                resolve(false);
+            }
+        });
+        if (!accept) {
+            return;
+        }
+    }
     await saltos.authenticate.deauthtoken();
+    await saltos.core.proxy({action: 'purge', user_id: user_id});
     saltos.window.send('saltos.app.logout');
 };
 

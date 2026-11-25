@@ -146,8 +146,9 @@ const proxy = async request => {
     const url = request.url;
     const method = request.method;
     const headers = JSON.stringify(Object.fromEntries([...request.headers]));
+    const user = request.headers.get('x-proxy-user');
     const body = await request.clone().text();
-    const new_request = new Request([url, method, md5(headers), md5(body)].join('/'));
+    const new_request = new Request([url, method, user, md5(body)].join('/'));
     const size = human_size(JSON.stringify([url, method, headers, body]).length);
 
     // Prepare the order list used to solve the request
@@ -218,7 +219,12 @@ const proxy = async request => {
 
             case 'queue': {
                 // Queue feature
-                queue_push(await request_serialize(request));
+                try {
+                    await queue_push(await request_serialize(request));
+                } catch (error) {
+                    //console.log(error);
+                    continue;
+                }
                 const response = new Response(JSON.stringify({
                     status: 'ok',
                 }), {
@@ -317,16 +323,17 @@ const queue_open = () => {
 /**
  * Queue push
  *
- * This function adds an entry to the queue system
+ * This function adds an entry to the queue system, the returned promise is
+ * resolved when the transaction is completed, to ensure that the data is stored
  *
  * @data => the object that you want to store in the database
  */
 const queue_push = data => {
-    queue_open().then(store => {
+    return queue_open().then(store => new Promise((resolve, reject) => {
         store.add(data);
-    }).catch(error => {
-        //console.log(error);
-    });
+        store.transaction.oncomplete = () => resolve();
+        store.transaction.onerror = () => reject(store.transaction.error);
+    }));
 };
 
 /**
@@ -367,9 +374,11 @@ const queue_getall = () => {
  * @key => the primaryKey that you want to delete
  */
 const queue_delete = key => {
-    queue_open().then(store => {
+    return queue_open().then(store => new Promise((resolve, reject) => {
         store.delete(key);
-    }).catch(error => {
+        store.transaction.oncomplete = () => resolve();
+        store.transaction.onerror = () => reject(store.transaction.error);
+    })).catch(error => {
         //console.log(error);
     });
 };
@@ -384,6 +393,7 @@ const queue_delete = key => {
  */
 const request_serialize = async request => {
     const result = {
+        user: request.headers.get('x-proxy-user'),
         url: request.url,
         method: request.method,
         headers: [...request.headers.entries()],
@@ -511,10 +521,36 @@ self.addEventListener('fetch', event => {
  * Flag used to prevent concurrent execution of the sync operation in a service worker.
  * It ensures that only one sync process runs at a time by setting the flag to true
  * when the sync starts and resetting it to false once the process completes. If another
- * sync request is received while sync_in_progress is true, the new sync is ignored
- * until the current one finishes.
+ * sync request is received while sync_in_progress is true, the new sync is not executed,
+ * it waits until the current one finishes and then it answers as finished.
  */
 let sync_in_progress = false;
+
+/**
+ * Sync wait
+ *
+ * This function waits until the current sync finishes, with a limit of 60 seconds
+ */
+const sync_wait = async () => {
+    for (let i = 0; i < 600 && sync_in_progress; i++) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+    }
+};
+
+/**
+ * Message reply
+ *
+ * This function answers a message using the port sent by the app layer, if any,
+ * see saltos.core.proxy in core.js
+ *
+ * @event => the message event that contains the port
+ * @data  => the data used as answer
+ */
+const message_reply = (event, data) => {
+    if (event.ports && event.ports[0]) {
+        event.ports[0].postMessage(data);
+    }
+};
 
 /**
  * Message binding
@@ -523,56 +559,122 @@ let sync_in_progress = false;
  *
  * Notes:
  *
- * If the message contains the reserved word reset, then all caches are deleted
- * and the service worker is released, too can receive a hello word that is intended
- * to test the comunication between the proxy and the app layer
+ * The app layer sends objects with an action (resetcache, resetqueue, stop, hello,
+ * sync, pending and purge) and the data needed to do the action, and the proxy
+ * answers each one using the port sent with the message (see message_reply), the
+ * only messages sent to the app layer without a request are the debug logs of the
+ * fetch requests and of the sync requests
  */
 self.addEventListener('message', async event => {
     //console.log('message ' + event.data);
 
-    // Reset cache feature
-    if (event.data === 'resetcache') {
-        (await caches.keys()).forEach(key => {
-            caches.delete(key);
-        });
-        event.source.postMessage('ok');
+    // Helper to detect the object messages that contains an action
+    const is_action = action => {
+        return typeof event.data === 'object' && event.data !== null && event.data.action === action;
+    };
+
+    // Reset cache feature, removes all caches
+    if (is_action('resetcache')) {
+        for (const key of await caches.keys()) {
+            await caches.delete(key);
+        }
+        message_reply(event, 'ok');
     }
 
-    // Reset queue feature
-    if (event.data === 'resetqueue') {
-        queue_open().then(store => {
-            store.clear();
-        }).catch(error => {
+    // Reset queue feature, removes all queued entries
+    if (is_action('resetqueue')) {
+        try {
+            const result = await queue_getall();
+            for (const i in result) {
+                await queue_delete(result[i].key);
+            }
+        } catch (error) {
             //console.log(error);
-        });
-        event.source.postMessage('ok');
+        }
+        message_reply(event, 'ok');
     }
 
-    // Stop feature
-    if (event.data === 'stop') {
-        registration.unregister();
-        event.source.postMessage('ok');
+    // Stop feature, releases the service worker
+    if (is_action('stop')) {
+        await registration.unregister();
+        message_reply(event, 'ok');
     }
 
-    // Hello feature
-    if (event.data === 'hello') {
-        event.source.postMessage('hello');
+    // Hello feature, intended to test the comunication between the proxy and the app layer
+    if (is_action('hello')) {
+        message_reply(event, 'hello');
     }
 
     // Sync feature
-    if (event.data === 'sync' && !sync_in_progress) {
+    //
+    // The message must be an object with the action, the current token and the
+    // current user_id, without a session nothing is sent and nothing is removed.
+    // The entries of other users are removed, the entries of the current user are
+    // sent in fifo order using the current token, and the result of each one is
+    // checked using the json response:
+    //
+    // - network error, http error or not json: stop and keep the queue
+    // - logout flag (invalid token): stop and keep the queue
+    // - error or status ko: remove the entry and add the error text to the answer
+    // - otherwise: remove the entry
+    //
+    // The debug log of each sent entry is sent to the app layer as the fetch logs, and
+    // at the end, the message is answered (see message_reply) with an object that
+    // contains the count of sent entries, the total of entries of the user and the
+    // texts of the rejected entries. The cache is not purged: the key is
+    // url/method/user/md5, so each user only uses his own entries, and the cache is
+    // kept between sessions
+    if (is_action('sync')) {
+        if (sync_in_progress) {
+            await sync_wait();
+            message_reply(event, {
+                count: 0,
+                total: 0,
+                errors: [],
+            });
+            return;
+        }
+        const token = event.data.token;
+        const user = event.data.user_id;
+        if (!token || !user) {
+            message_reply(event, {
+                count: 0,
+                total: 0,
+                errors: [],
+            });
+            return;
+        }
         sync_in_progress = true;
         let total = 0;
         let count = 0;
+        const errors = [];
         await queue_getall().then(async result => {
-            total = result.length;
+            // Remove the entries of other users
+            const items = [];
             for (const i in result) {
-                const request = request_unserialize(result[i].value);
+                if (result[i].value.user !== user) {
+                    await queue_delete(result[i].key);
+                    continue;
+                }
+                items.push(result[i]);
+            }
+            total = items.length;
+            // Send the entries of the current user
+            for (const i in items) {
+                const value = {
+                    ...items[i].value,
+                    headers: [
+                        ...items[i].value.headers.filter(([key]) => key.toLowerCase() !== 'authorization'),
+                        ['authorization', `Bearer ${token}`],
+                    ],
+                };
+                const request = request_unserialize(value);
                 let response = null;
                 const start = Date.now();
                 let type = 'network';
                 let headers = null;
                 let body = null;
+                let json = null;
                 try {
                     response = await fetch(request);
                     if (!response.ok) {
@@ -584,20 +686,89 @@ self.addEventListener('message', async event => {
                     type = 'error';
                     //console.log(error);
                 }
-                const size = human_size(JSON.stringify(result[i].value).length);
+                if (type !== 'error') {
+                    try {
+                        json = JSON.parse(body);
+                    } catch (error) {
+                        type = 'error';
+                    }
+                }
+                if (type !== 'error' && (typeof json !== 'object' || json === null)) {
+                    type = 'error';
+                }
+                if (type !== 'error' && json.logout) {
+                    type = 'error';
+                }
+                if (type !== 'error' && (json.error || json.status === 'ko')) {
+                    type = 'ko';
+                }
+                const size = human_size(JSON.stringify(items[i].value).length);
                 const size2 = human_size(JSON.stringify([headers, body]).length);
                 const array = debug('sync', request.url, type, Date.now() - start, `${size}/${size2}`);
                 event.source.postMessage(array);
                 if (type === 'error') {
                     break;
                 }
-                queue_delete(result[i].key);
+                await queue_delete(items[i].key);
+                if (type === 'ko') {
+                    let text = 'Unknown error';
+                    if (json.error && json.error.text) {
+                        text = json.error.text;
+                    } else if (json.text) {
+                        text = json.text;
+                    }
+                    errors.push(text);
+                    continue;
+                }
                 count++;
             }
         }).catch(error => {
             //console.log(error);
         });
-        event.source.postMessage(`sync ${count} of ${total}`);
         sync_in_progress = false;
+        message_reply(event, {
+            count: count,
+            total: total,
+            errors: errors,
+        });
+    }
+
+    // Pending feature
+    //
+    // Answers the number of queued entries of the user_id (see message_reply),
+    // intended to warn the user in the logout process
+    if (is_action('pending')) {
+        const user = event.data.user_id;
+        let count = 0;
+        if (user) {
+            try {
+                const result = await queue_getall();
+                count = result.filter(item => item.value.user === user).length;
+            } catch (error) {
+                //console.log(error);
+            }
+        }
+        message_reply(event, count);
+    }
+
+    // Purge feature
+    //
+    // Removes the queued entries of the user_id, and answers when finished (see
+    // message_reply), intended to be used in the logout process, the cache is kept
+    if (is_action('purge')) {
+        const user = event.data.user_id;
+        if (user) {
+            try {
+                const result = await queue_getall();
+                for (const i in result) {
+                    if (result[i].value.user === user) {
+                        await queue_delete(result[i].key);
+                    }
+                }
+            } catch (error) {
+                //console.log(error);
+            }
+        }
+        message_reply(event, 'ok');
     }
 });

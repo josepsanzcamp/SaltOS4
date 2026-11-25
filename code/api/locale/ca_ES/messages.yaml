@@ -29,6 +29,8 @@ do_you_want_to_delete_this_register: Vols esborrar aquest registre???
 "no": "No"
 profile: Perfil
 logout: Sortir
+there_are_pending_changes_that_will_be_lost_do_you_want_to_continue: Hi ha canvis pendents que es perdran, vols continuar?
+synchronized_changes_d_of_d: "Canvis sincronitzats: %d de %d"
 help: Ajut
 filename: Nom fitxer
 size: Mida

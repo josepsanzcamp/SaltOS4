@@ -494,6 +494,7 @@ saltos.app.ajax = args => {
             }
         },
         token: saltos.token.get(),
+        user_id: saltos.token.get_user_id(),
         lang: saltos.gettext.get(),
         abortable: true,
     };

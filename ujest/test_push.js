@@ -160,6 +160,30 @@ describe('saltos.push.fn', () => {
         expect(saltos.core.ajax).toHaveBeenCalled();
         expect(saltos.push.count).toBe(60);
         expect(saltos.push.executing).toBe(false);
+        expect(saltos.push.failed).toBe(true);
+    });
+
+    /**
+     * Test push function recovering after an error
+     *
+     * Verifies that the first successful response after an error launches
+     * the proxy sync, and the next ones do not launch it again
+     */
+    test('should sync only when recovering from an error', () => {
+        saltos.push.failed = true;
+        saltos.core.sync = jest.fn();
+        saltos.core.ajax.mockImplementation(({success}) => {
+            success({});
+        });
+        saltos.app.check_response = jest.fn();
+        saltos.app.check_response.mockReturnValue(true);
+        saltos.push.count = -1;
+        saltos.push.fn();
+        expect(saltos.core.sync).toHaveBeenCalledTimes(1);
+        expect(saltos.push.failed).toBe(false);
+        saltos.push.count = -1;
+        saltos.push.fn();
+        expect(saltos.core.sync).toHaveBeenCalledTimes(1);
     });
 });
 

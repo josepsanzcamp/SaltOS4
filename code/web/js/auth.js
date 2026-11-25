@@ -47,6 +47,7 @@ saltos.authenticate.authtoken = async (user, pass) => {
     let result = null;
     await saltos.app.ajax({
         url: 'auth/login',
+        proxy: 'no',
         data: {
             user: user,
             pass: pass,
@@ -55,6 +56,7 @@ saltos.authenticate.authtoken = async (user, pass) => {
             result = response;
             if (response.status === 'ok') {
                 saltos.token.set(response);
+                saltos.core.sync();
                 return;
             }
             if (response.status === 'ko') {
@@ -98,6 +100,7 @@ saltos.authenticate.checktoken = async () => {
 saltos.authenticate.deauthtoken = async () => {
     await saltos.app.ajax({
         url: 'auth/logout',
+        proxy: 'no',
         success: response => {
             if (response.status === 'ok') {
                 saltos.token.unset();
@@ -128,6 +131,7 @@ saltos.authenticate.authupdate = async (oldpass, newpass, renewpass) => {
     let result = null;
     await saltos.app.ajax({
         url: 'auth/update',
+        proxy: 'no',
         data: {
             oldpass: oldpass,
             newpass: newpass,
@@ -163,6 +167,7 @@ saltos.authenticate.authrenew = async (user, oldpass, newpass, renewpass) => {
     let result = null;
     await saltos.app.ajax({
         url: 'auth/renew',
+        proxy: 'no',
         data: {
             user: user,
             oldpass: oldpass,
@@ -173,6 +178,7 @@ saltos.authenticate.authrenew = async (user, oldpass, newpass, renewpass) => {
             result = response;
             if (response.status === 'ok') {
                 saltos.token.set(response);
+                saltos.core.sync();
                 return;
             }
             saltos.app.show_error(response);
