@@ -1,5 +1,5 @@
 Manual d'usuari
-SaltOS 4.2 r2809
+SaltOS 4.2 r2821
 November 2026
 
 
@@ -1653,6 +1653,7 @@ El formulari inclou els següents camps:
 - Servidor: Nom del servidor entrant (POP3 o IMAP) per rebre correus.
 - Port: Port del servidor entrant (ex: 110 o 995 per a POP3, 143 o 993 per a IMAP).
 - Extra: Xifrat del servidor entrant: cap, SSL (xifrat des de l'inici) o TLS (STARTTLS).
+- Insegur: No valida el certificat del servidor entrant; activa-ho només en servidors amb un certificat autosignat o caducat.
 - Usuari: Nom d'usuari del servidor entrant.
 - Contrasenya: Contrasenya del servidor entrant.
 - Provar: Botó per provar la connexió i l'accés al servidor entrant, amb les dades del formulari sense desar-les.
@@ -1663,6 +1664,7 @@ El formulari inclou els següents camps:
 - Servidor SMTP: Nom del servidor per enviar correus (mail, sendmail o qmail per fer servir el servidor local).
 - Port SMTP: Port per enviar (ex: 25, 465, 587).
 - Xifrat SMTP: Tipus de connexió (cap, SSL o TLS).
+- Insegur: No valida el certificat del servidor SMTP; activa-ho només en servidors amb un certificat autosignat o caducat.
 - Usuari SMTP: Nom d'usuari per autenticar-se a l'SMTP.
 - Contrasenya SMTP: Clau d'accés del compte SMTP.
 - Provar: Botó per provar la connexió i l'autenticació amb el servidor SMTP, amb les dades del formulari sense desar-les.

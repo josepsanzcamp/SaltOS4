@@ -58,11 +58,13 @@ function __setup_helper_emails()
                 'pop3_extra' => 'ssl',
                 'pop3_user' => $protocol,
                 'pop3_pass' => 'admin',
+                'pop3_insecure' => 1,
                 'smtp_host' => 'example.com',
                 'smtp_port' => '465',
                 'smtp_extra' => 'ssl',
                 'smtp_user' => $protocol,
                 'smtp_pass' => 'admin',
+                'smtp_insecure' => 1,
             ], $extra));
             db_query(...$query);
             $numaccounts++;

@@ -145,6 +145,7 @@
                 <row label="TLS" value="tls"/>
             </rows>
         </select>
+        <switch id="pop3_insecure" label="Insecure" value="0" col_class="col-md-2" tooltip="To skip the validation of the certificate of the server"/>
         <div col_class="col-12 m-0"/><!-- this act as break line -->
         <text id="pop3_user" label="User"/>
         <password id="pop3_pass" label="Password" autocomplete="false"/>
@@ -182,6 +183,7 @@
                 <row label="TLS" value="tls"/>
             </rows>
         </select>
+        <switch id="smtp_insecure" label="Insecure" value="0" col_class="col-md-2" tooltip="To skip the validation of the certificate of the server"/>
         <div col_class="col-12 m-0"/><!-- this act as break line -->
         <text id="smtp_user" label="User"/>
         <password id="smtp_pass" label="Password" autocomplete="false"/>

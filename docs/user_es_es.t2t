@@ -1,5 +1,5 @@
 Manual de usuario
-SaltOS 4.2 r2809
+SaltOS 4.2 r2821
 November 2026
 
 
@@ -1654,6 +1654,7 @@ El formulario incluye los siguientes campos:
 - Servidor: Nombre del servidor entrante (POP3 o IMAP) para recibir correos.
 - Puerto: Puerto del servidor entrante (ej: 110 o 995 para POP3, 143 o 993 para IMAP).
 - Extra: Cifrado del servidor entrante: ninguno, SSL (cifrado desde el inicio) o TLS (STARTTLS).
+- Inseguro: No valida el certificado del servidor entrante; actívalo solo en servidores con un certificado autofirmado o caducado.
 - Usuario: Usuario del servidor entrante.
 - Contraseña: Clave del servidor entrante.
 - Probar: Botón para probar la conexión y el acceso al servidor entrante, con los datos del formulario sin guardarlos.
@@ -1664,6 +1665,7 @@ El formulario incluye los siguientes campos:
 - Servidor SMTP: Nombre del servidor para enviar correos (mail, sendmail o qmail para usar el servidor local).
 - Puerto SMTP: Puerto usado para enviar (ej: 25, 465, 587).
 - Cifrado SMTP: Tipo de conexión: ninguno, SSL o TLS.
+- Inseguro: No valida el certificado del servidor SMTP; actívalo solo en servidores con un certificado autofirmado o caducado.
 - Usuario SMTP: Usuario para autenticarse en SMTP.
 - Contraseña SMTP: Clave de la cuenta SMTP.
 - Probar: Botón para probar la conexión y la autenticación con el servidor SMTP, con los datos del formulario sin guardarlos.

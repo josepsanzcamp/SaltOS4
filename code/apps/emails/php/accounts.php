@@ -70,6 +70,7 @@ function emails_accounts_test_incoming($value)
     $client->port = intval($value('pop3_port'));
     $client->tls = $value('pop3_extra') === 'tls' ? 1 : 0;
     $client->ssl = $value('pop3_extra') === 'ssl' ? 1 : 0;
+    $client->verify = intval($value('pop3_insecure')) ? 0 : 1;
     $client->user = $value('pop3_user');
     $client->pass = $value('pop3_pass');
     $client->timeout = 10;
@@ -127,13 +128,16 @@ function emails_accounts_test_outgoing($value)
     $mail->set('Password', $value('smtp_pass'));
     $mail->set('SMTPAuth', ($value('smtp_user') !== '' || $value('smtp_pass') !== ''));
     $mail->set('Timeout', 10);
-    $mail->set('SMTPOptions', [
-        'ssl' => [
-            'verify_peer' => false,
-            'verify_peer_name' => false,
-            'allow_self_signed' => true,
-        ],
-    ]);
+    if (intval($value('smtp_insecure'))) {
+        $options = [
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true,
+            ],
+        ];
+        $mail->set('SMTPOptions', $options);
+    }
     ob_start();
     $current = $mail->smtpConnect();
     $mail->smtpClose();

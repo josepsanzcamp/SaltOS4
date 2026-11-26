@@ -1,5 +1,5 @@
 User Manual
-SaltOS 4.2 r2809
+SaltOS 4.2 r2821
 November 2026
 
 
@@ -1657,6 +1657,7 @@ The form includes the following fields:
 - Host: Hostname of the incoming server (POP3 or IMAP) used to receive emails.
 - Port: Network port of the incoming server (e.g., 110 or 995 for POP3, 143 or 993 for IMAP).
 - Extra: Encryption of the incoming server: none, SSL (encrypted from the start) or TLS (STARTTLS).
+- Insecure: Skips the validation of the certificate of the incoming server; enable it only for servers with a self-signed or expired certificate.
 - User: Username of the incoming server.
 - Password: Password of the incoming server.
 - Test: Button to test the connection and the login with the incoming server, using the data of the form without saving it.
@@ -1667,6 +1668,7 @@ The form includes the following fields:
 - Host: SMTP server hostname used to send emails (mail, sendmail or qmail to use the local server).
 - Port: Network port used for SMTP communication (e.g., 25, 465, 587).
 - Extra: SMTP encryption method: none, SSL, or TLS.
+- Insecure: Skips the validation of the certificate of the SMTP server; enable it only for servers with a self-signed or expired certificate.
 - User: Username for SMTP authentication.
 - Password: Password for the SMTP server account.
 - Test: Button to test the connection and the authentication with the SMTP server, using the data of the form without saving it.

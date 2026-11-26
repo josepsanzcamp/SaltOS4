@@ -105,6 +105,8 @@ test_connection: Test connection
 test: Test
 to_test_the_connection_with_the_incoming_server: To test the connection with the incoming server
 to_test_the_connection_with_the_outgoing_server: To test the connection with the outgoing server
+insecure: Insecure
+to_skip_the_validation_of_the_certificate_of_the_server: To skip the validation of the certificate of the server
 connection_successful: Connection successful
 connection_successful_d_emails_in_the_server: 'Connection successful, %d emails in the server'
 connection_successful_d_folders_in_the_server: 'Connection successful, %d folders in the server'

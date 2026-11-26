@@ -72,6 +72,7 @@ function __getmail_imap_client($account): imap_class
     $imap->port = intval($account['pop3_port']);
     $imap->tls = $account['pop3_extra'] === 'tls' ? 1 : 0;
     $imap->ssl = $account['pop3_extra'] === 'ssl' ? 1 : 0;
+    $imap->verify = $account['pop3_insecure'] ? 0 : 1;
     $imap->user = $account['pop3_user'];
     $imap->pass = $account['pop3_pass'];
     return $imap;

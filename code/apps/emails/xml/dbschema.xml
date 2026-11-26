@@ -91,6 +91,7 @@ This file allow to define the database needed by this application
                 <field name="pop3_extra" type="VARCHAR(255)"/>
                 <field name="pop3_user" type="VARCHAR(255)"/>
                 <field name="pop3_pass" type="VARCHAR(255)"/>
+                <field name="pop3_insecure" type="INTEGER" null="false" default="0"/>
                 <field name="pop3_delete" type="INTEGER" null="false" default="0"/>
                 <field name="pop3_days" type="INTEGER"/>
                 <field name="imap_append_sent" type="INTEGER" null="false" default="1"/>
@@ -103,6 +104,7 @@ This file allow to define the database needed by this application
                 <field name="smtp_extra" type="VARCHAR(255)"/>
                 <field name="smtp_user" type="VARCHAR(255)"/>
                 <field name="smtp_pass" type="VARCHAR(255)"/>
+                <field name="smtp_insecure" type="INTEGER" null="false" default="0"/>
                 <field name="email_disabled" type="INTEGER" null="false" default="0"/>
                 <field name="email_privated" type="INTEGER" null="false" default="0"/>
                 <field name="email_default" type="INTEGER" null="false" default="0"/>

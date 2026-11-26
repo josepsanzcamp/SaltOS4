@@ -10,6 +10,7 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 
 ### Upgrade notes
 - Emails already in Trash or Junk have no move date and are never purged. Empty both folders once by hand after updating.
+- The email accounts now validate the certificates of the servers. Enable the new Insecure option in the accounts with a self-signed or expired certificate.
 
 ### Added
 - Automatic purge of Trash and Junk per account: delete option and days in each folder.
@@ -19,6 +20,7 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 - `scripts/benchmark.sh` measures the API with the cli, fcgi and curl clients for each PHP version, using its own private php-fpm and nginx, and reports the app time measured by php-fpm. `scripts/saltos_client.c` can send an Accept-Encoding with `SALTOS_ENCODING`.
 
 ### Changed
+- The incoming and SMTP servers of the email accounts validate the certificate, unless the Insecure option of the account is enabled.
 - Updated libraries: tcpdf, tc-lib-pdf, joditeditor, md5, gridstack, phpspreadsheet, interactjs, symfony/yaml, mroonga.
 - The web client reads and builds the hash with `saltos.hash.decode` and `saltos.hash.encode` instead of positions; unknown hashes throw an error.
 - The API decodes the app requests with `decode_route()` and `encode_route()`, and the XML files read `route/*` instead of `rest/*` positions; unknown routes return an error.

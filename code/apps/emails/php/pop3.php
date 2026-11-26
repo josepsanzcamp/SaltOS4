@@ -54,6 +54,9 @@ final class pop3_class
     /** @var int 1 to use POP3S (implicit TLS); 0 for plain POP3. */
     public $ssl = 0;
 
+    /** @var int 1 to verify the certificate of the server; 0 to skip the checks. */
+    public $verify = 0;
+
     /** @var string Username for authentication. */
     public $user = '';
 
@@ -84,6 +87,7 @@ final class pop3_class
         $this->socket->hostname = $this->hostname;
         $this->socket->port = (int)$this->port;
         $this->socket->ssl = (int)$this->ssl;
+        $this->socket->verify = (int)$this->verify;
         $this->socket->timeout = (int)$this->timeout;
         $error = $this->socket->Connect();
         if ($error !== '') {

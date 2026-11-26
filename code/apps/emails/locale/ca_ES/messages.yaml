@@ -105,6 +105,8 @@ test_connection: Provar connexió
 test: Provar
 to_test_the_connection_with_the_incoming_server: Per provar la connexió amb el servidor entrant
 to_test_the_connection_with_the_outgoing_server: Per provar la connexió amb el servidor sortint
+insecure: Insegur
+to_skip_the_validation_of_the_certificate_of_the_server: Per no validar el certificat del servidor
 connection_successful: Connexió correcta
 connection_successful_d_emails_in_the_server: 'Connexió correcta, %d correus al servidor'
 connection_successful_d_folders_in_the_server: 'Connexió correcta, %d carpetes al servidor'

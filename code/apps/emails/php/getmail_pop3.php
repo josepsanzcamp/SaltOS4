@@ -56,6 +56,7 @@ function getmail_pop3($row, &$newemail)
     }
     $pop3->tls = ($row['pop3_extra'] === 'tls') ? 1 : 0;
     $pop3->ssl = ($row['pop3_extra'] === 'ssl') ? 1 : 0;
+    $pop3->verify = $row['pop3_insecure'] ? 0 : 1;
     $pop3->user = $row['pop3_user'];
     $pop3->pass = $row['pop3_pass'];
     $error = $pop3->Open();

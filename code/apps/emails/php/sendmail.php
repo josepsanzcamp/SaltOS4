@@ -81,14 +81,16 @@ function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
         return $mail->ErrorInfo;
     }
     $mail->set('WordWrap', 50);
-    $options = [
-        'ssl' => [
-            'verify_peer' => false,
-            'verify_peer_name' => false,
-            'allow_self_signed' => true,
-        ],
-    ];
-    $mail->set('SMTPOptions', $options);
+    if ($result['smtp_insecure']) {
+        $options = [
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true,
+            ],
+        ];
+        $mail->set('SMTPOptions', $options);
+    }
     $mail->IsHTML();
     if (!in_array($host, ['mail', 'sendmail', 'qmail', ''], true)) {
         $mail->IsSMTP();

@@ -123,6 +123,10 @@ final class test_emails extends TestCase
     {
         $this->imap_cleanup();
 
+        // The test servers use self-signed certificates
+        $query = 'UPDATE app_emails_accounts SET pop3_insecure = ?, smtp_insecure = ?';
+        db_query($query, [1, 1]);
+
         // Wrong settings, ssl on the plain ports of GreenMail, used to check the errors
         $query = 'UPDATE app_emails_accounts
             SET pop3_port = ?, pop3_extra = ?, smtp_user = ?, smtp_pass = ?, smtp_port = ?, smtp_extra = ?
@@ -1577,6 +1581,18 @@ final class test_emails extends TestCase
             'smtp_user' => 'pop3',
             'smtp_pass' => 'admin',
         ];
+
+        // Errors: the self-signed certificates of GreenMail are rejected by default
+        $result = emails_accounts_test($json + ['server' => 'incoming']);
+        $this->assertSame('error', $result['status']);
+        $this->assertStringStartsWith('Connect failed', $result['text']);
+        $result = emails_accounts_test($json + ['server' => 'outgoing']);
+        $this->assertSame('error', $result['status']);
+        $this->assertNotSame('', $result['text']);
+
+        // The insecure options skip the validation of the certificates
+        $json['pop3_insecure'] = '1';
+        $json['smtp_insecure'] = '1';
         $result = emails_accounts_test($json + ['server' => 'incoming']);
         $this->assertSame('ok', $result['status']);
         $prefix = explode('%d', T('Connection successful, %d emails in the server'))[0];
@@ -1592,6 +1608,7 @@ final class test_emails extends TestCase
             'pop3_extra' => 'tls',
             'pop3_user' => 'pop3',
             'pop3_pass' => 'admin',
+            'pop3_insecure' => '1',
             'smtp_host' => '',
         ];
         $result = emails_accounts_test($json + ['server' => 'incoming']);
@@ -1627,6 +1644,7 @@ final class test_emails extends TestCase
                 'pop3_extra' => 'ssl',
                 'pop3_user' => 'pop3',
                 'pop3_pass' => 'secret',
+                'pop3_insecure' => '1',
             ];
             $result = emails_accounts_test($json);
             $this->assertSame('error', $result['status']);
@@ -1680,6 +1698,8 @@ final class test_emails extends TestCase
             'pop3_extra' => 'ssl',
             'pop3_user' => $user,
             'pop3_pass' => 'admin',
+            'pop3_insecure' => 1,
+            'smtp_insecure' => 1,
         ]);
         $this->assertSame('ok', $result['status']);
         $account_id = intval($result['created_id']);
