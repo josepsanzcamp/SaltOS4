@@ -28,6 +28,7 @@ git commit count), as shown in the About dialog (`SaltOS v4.1 rN`).
 - Double click on a file of the view screen opens it again.
 - The page stops processing a response when a new version reloads it.
 - Changing the app in the same tab clears the previous screen.
+- An unfinished OCR output (tesseract timeout or restart) no longer breaks the indexing.
 
 ## [4.2] - 2026-11-13
 

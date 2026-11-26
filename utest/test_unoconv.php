@@ -204,6 +204,36 @@ final class test_unoconv extends TestCase
         //~ print_r($ocr);
     }
 
+    #[testdox('hocr functions')]
+    /**
+     * hocr test
+     *
+     * This test performs some tests to validate that the not finished hocr
+     * files are discarded and tesseract is executed again
+     */
+    public function test_hocr(): void
+    {
+        $file = '../../utest/files/lorem.png';
+        $tiff = get_cache_file($file, '.tif');
+        $hocr = get_cache_file($tiff, '.hocr');
+        $txt = get_cache_file($tiff, '.txt');
+        foreach ([$tiff, $hocr, $txt] as $temp) {
+            if (file_exists($temp)) {
+                unlink($temp);
+            }
+        }
+
+        file_put_contents($hocr, '<html><body><div class="ocr_page">');
+        $this->assertFalse(__unoconv_hocr_check($hocr));
+        $buffer = __unoconv_img2ocr($file);
+        $this->assertStringContainsString('Lorem', $buffer);
+        $this->assertTrue(__unoconv_hocr_check($hocr));
+
+        foreach ([$tiff, $hocr, $txt] as $temp) {
+            unlink($temp);
+        }
+    }
+
     #[testdox('commands functions')]
     /**
      * commands test

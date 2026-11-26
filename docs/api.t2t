@@ -1,5 +1,5 @@
 Api Documentation
-SaltOS 4.2 r2809
+SaltOS 4.2 r2820
 November 2026
 
 
@@ -7982,6 +7982,18 @@ is not a tiff image, then is converted to a tiff to be used as input in
 the tesseract process.
 
 - @file => the file that you want to process
+
+
++++HOCR check+++
+
+```
+function __unoconv_hocr_check($file)
+```
+
+This function returns true if the hocr file is finished, to detect the outputs of tesseract
+that were not finished (killed by timeout or by a restart) before parsing them
+
+- @file => the hocr file that you want to check
 
 
 +++PDF to OCR+++

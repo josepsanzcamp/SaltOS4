@@ -238,6 +238,10 @@ function __unoconv_img2ocr($file)
     if (file_exists($html)) {
         $hocr = $html;
     }
+    // Discard the not finished output of a previous execution, to run tesseract again
+    if (file_exists($hocr) && !__unoconv_hocr_check($hocr)) {
+        unlink($hocr);
+    }
     //~ if(file_exists($hocr)) unlink($hocr);
     if (!file_exists($hocr)) {
         $base = str_replace(['.hocr', '.html'], '', $hocr);
@@ -256,6 +260,11 @@ function __unoconv_img2ocr($file)
     if (!file_exists($hocr)) {
         return '';
     }
+    // Discard the not finished output of this execution, like when tesseract is killed by timeout
+    if (!__unoconv_hocr_check($hocr)) {
+        unlink($hocr);
+        return '';
+    }
     chmod_protected($hocr, 0666);
     //~ if(file_exists($txt)) unlink($txt);
     if (!file_exists($txt)) {
@@ -263,6 +272,19 @@ function __unoconv_img2ocr($file)
     }
     chmod_protected($txt, 0666);
     return file_get_contents($txt);
+}
+
+/**
+ * HOCR check
+ *
+ * This function returns true if the hocr file is finished, to detect the outputs of tesseract
+ * that were not finished (killed by timeout or by a restart) before parsing them
+ *
+ * @file => the hocr file that you want to check
+ */
+function __unoconv_hocr_check($file)
+{
+    return str_ends_with(rtrim(file_get_contents($file)), '</html>');
 }
 
 /**

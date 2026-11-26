@@ -1,5 +1,5 @@
 Phpunit Test Documentation
-SaltOS 4.2 r2809
+SaltOS 4.2 r2820
 November 2026
 
 
@@ -3929,6 +3929,16 @@ public function test_ocr(): void
 
 This test performs some tests to validate the correctness
 of the ocr functions
+
+
++++hocr test+++
+
+```
+public function test_hocr(): void
+```
+
+This test performs some tests to validate that the not finished hocr
+files are discarded and tesseract is executed again
 
 
 +++commands test+++
