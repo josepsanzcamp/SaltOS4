@@ -1835,6 +1835,8 @@ final class test_emails extends TestCase
             FROM app_emails WHERE account_id = ? ORDER BY imap_uid';
         $rows = execute_query_array($query, [$account_id]);
         $this->assertCount(3, $rows);
+        $query2 = 'SELECT email_id FROM app_emails WHERE account_id = ?';
+        $this->assertSame([null, null, null], execute_query_array($query2, [$account_id]));
         $states = [[1, 0, 0, 0], [0, 0, 0, 1], [0, 1, 1, 0]];
         foreach ($rows as $index => $row) {
             $number = $index + 1;
@@ -2077,7 +2079,7 @@ final class test_emails extends TestCase
         $this->assertTrue(__getmail_imap_enqueue($email_id, 'move', ['to_folder_id' => $missing_id]));
         $query = prepare_update_query('app_emails', [
             'folder_id' => $missing_id,
-            'imap_uid' => 0,
+            'imap_uid' => null,
         ], [
             'id' => $email_id,
         ]);
@@ -2300,7 +2302,7 @@ final class test_emails extends TestCase
             WHERE account_id = ? AND is_outbox = 1';
         $row = execute_query($query, [$account_id]);
         $this->assertSame(intval($folders['Sent']['id']), intval($row['folder_id']));
-        $this->assertSame(0, intval($row['imap_uid']));
+        $this->assertNull($row['imap_uid']);
         $this->assertStringStartsWith('<', $row['imap_messageid']);
         $this->assertSame(1, intval(execute_query($queue, [$account_id])));
         $this->assertSame('', getmail_imap($account, $newemail));

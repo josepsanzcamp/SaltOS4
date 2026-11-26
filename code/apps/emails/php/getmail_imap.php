@@ -700,12 +700,11 @@ function __getmail_imap_states($data)
  *
  * This function adds an operation done in SaltOS to the queue of the account of the email,
  * to be applied in the server by the next synchronization: the operation acts on the email
- * in the folder where it is now in SaltOS, with its UID if known, or without UID (0) if it
+ * in the folder where it is now in SaltOS, with its UID if known, or without UID (NULL) if it
  * depends on a pending move of the same email; the operations on emails that never were in
  * the server (without UID and without pending operations) are not enqueued, except the
- * append, that puts them in the server; the UIDs 0 and
- * NULL mean unknown UID, because the IMAP UIDs start at 1 and the insert and update helpers
- * store the NULL values of the integer fields as 0
+ * append, that puts them in the server; the unknown UID is stored as NULL, and the queries
+ * also accept the 0 of the old data, because the IMAP UIDs start at 1
  *
  * @email_id => the id of the email
  * @action   => the operation: flag_add, flag_remove, move, expunge or append
@@ -730,7 +729,7 @@ function __getmail_imap_enqueue($email_id, $action, $fields = [])
         'email_id' => $email_id,
         'action' => $action,
         'folder_id' => $email['folder_id'],
-        'imap_uid' => intval($email['imap_uid']),
+        'imap_uid' => $email['imap_uid'],
         'datetime' => current_datetime(),
         'retries' => 0,
         'error' => '',
@@ -794,7 +793,7 @@ function __getmail_imap_move($ids, $folder_id)
         __getmail_imap_enqueue(intval($id), 'move', ['to_folder_id' => intval($folder_id)]);
     }
     if (count($moved)) {
-        db_query('UPDATE app_emails SET imap_uid = 0 WHERE id IN (' . check_ids($moved) . ')');
+        db_query('UPDATE app_emails SET imap_uid = NULL WHERE id IN (' . check_ids($moved) . ')');
     }
 }
 
@@ -1281,7 +1280,7 @@ function __getmail_imap_folder_delete($folder)
             $query = prepare_update_query('app_emails', [
                 'folder_id' => $trash['id'],
                 'folder_datetime' => current_datetime(),
-                'imap_uid' => $map[intval($email['imap_uid'])] ?? 0,
+                'imap_uid' => $map[intval($email['imap_uid'])] ?? null,
             ], [
                 'id' => $email['id'],
             ]);
@@ -1300,7 +1299,7 @@ function __getmail_imap_folder_delete($folder)
         }
         $error = $imap->DeleteFolder(imap_class::Decode($rows[$id]['name']));
         if ($error === '') {
-            $query = 'UPDATE app_emails SET folder_id = ?, folder_datetime = ?, imap_uid = 0
+            $query = 'UPDATE app_emails SET folder_id = ?, folder_datetime = ?, imap_uid = NULL
                 WHERE folder_id = ?';
             db_query($query, [$trash['id'], current_datetime(), $id]);
             db_query('DELETE FROM app_emails_folders WHERE id = ?', [$id]);
