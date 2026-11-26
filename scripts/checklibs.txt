@@ -45,7 +45,7 @@ libreoffice|https://www.libreoffice.org/download/|latest|PG9wdGlvbiB2YWx1ZT0ibGF
 mariadb|https://github.com/MariaDB/server/tags.atom|<title>|PHRpdGxlPk1hcmlhREIgQ29tbXVuaXR5IFNlcnZlciAxMy4yLjE8L3RpdGxlPg==
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|PHRpdGxlPm1pbmlmeSB2MTUuMy4xPC90aXRsZT4=
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|PHRpdGxlPnYxNi4xNjwvdGl0bGU+
-node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjYtMTEtMTYsIFZlcnNpb24gMjcuMC4wLWFscGhhLjAuMS4xIChBbHBoYSksIEBhZHVoOTU8L3RpdGxlPg==
+node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjYtMTEtMjYsIFZlcnNpb24gMjcuMC4wLWFscGhhLjAuMi4wIChBbHBoYSksIEBhZHVoOTU8L3RpdGxlPg==
 pcov|https://github.com/krakjoe/pcov/tags.atom|<title>|PHRpdGxlPnYxLjAuMTI8L3RpdGxlPg==
 php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPlBIUCA4LjYuMDwvdGl0bGU+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|PHRpdGxlPjQuMC40IC0gMjAyNi0wOC0wNjwvdGl0bGU+

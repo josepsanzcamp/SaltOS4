@@ -1,5 +1,5 @@
 Applications Documentation
-SaltOS 4.2 r2809
+SaltOS 4.2 r2819
 November 2026
 
 
@@ -1362,7 +1362,7 @@ using the filters fields
 Additionally, translates the `body_text` field of each result
 before rendering the list.
 
-- @arg => unused at this scope
+- @arg => 'params' to replace the hash instead of adding a new entry to the history
 
 
 ++Emails accounts library++

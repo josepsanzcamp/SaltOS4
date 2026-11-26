@@ -206,6 +206,16 @@ describe('saltos.hash.get with params', () => {
         window.location.hash = '#/app/customers/?/search';
         expect(saltos.hash.get(true).params).toStrictEqual({search: ''});
     });
+
+    /**
+     * Test getting params with malformed escapes
+     *
+     * Verifies the function keeps the malformed escapes as is instead of throwing an error
+     */
+    test('should keep malformed escapes', () => {
+        window.location.hash = '#/app/customers/?/search/100%/folder_id/5';
+        expect(saltos.hash.get(true).params).toStrictEqual({search: '100%', folder_id: '5'});
+    });
 });
 
 /**
@@ -332,6 +342,17 @@ describe('saltos.hash.add with params', () => {
     test('should not add same params', () => {
         window.location.hash = '#/app/customers/?/search/foo';
         expect(saltos.hash.add(null, {search: 'foo', panel: ''})).toBe(false);
+        expect(window.history.pushState).not.toHaveBeenCalled();
+    });
+
+    /**
+     * Test adding same params in other order
+     *
+     * Verifies the function doesn't update history when only the order of the params changes
+     */
+    test('should not add same params in other order', () => {
+        window.location.hash = '#/app/customers/?/panel/filter/search/foo';
+        expect(saltos.hash.add(null, {search: 'foo', panel: 'filter'})).toBe(false);
         expect(window.history.pushState).not.toHaveBeenCalled();
     });
 });

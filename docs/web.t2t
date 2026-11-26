@@ -1,5 +1,5 @@
 Web Client Documentation
-SaltOS 4.2 r2809
+SaltOS 4.2 r2819
 November 2026
 
 
@@ -2846,6 +2846,13 @@ saltos.common.logout = async ()
 
 This function execute the deauthtoken action and jump to the login screen
 
+Notes:
+
+Before the logout, the proxy tries to sync the queued requests, if some of
+them remains in the queue (for example, because there is no connection), the
+user is warned that they will be lost and the logout can be cancelled, after
+the logout, the queued requests of the user are removed (the cache is kept)
+
 
 +++Filter screen+++
 
@@ -3166,6 +3173,7 @@ This function allow to use ajax using the same form that with jQuery without jQu
 - @content_type => the content-type that you want to use in the transfer
 - @proxy        => add the Proxy header with the value passed, intended to be used by the SaltOS PROXY
 - @token        => add the Token header with the value passed, intended to be used by the SaltOS API
+- @user_id      => add the X-Proxy-User header with the value passed, intended to be used by the SaltOS PROXY
 - @lang         => add the Lang header with the value passed, intended to be used by the SaltOS API
 - @headers      => an object with the headers that you want to send
 
@@ -3395,7 +3403,31 @@ This is the code that must to be executed to initialize all requirements of this
 saltos.core.proxy = msg
 ```
 
-This function is intended to send messages to the proxy feature
+This function sends a message to the proxy feature and returns a promise that is
+resolved with the answer of the proxy, to do it, a MessageChannel is used and the
+proxy answers using the port sent with the message
+
+- @msg => the message that you want to send to the proxy, an object with the action
+        and the data needed to do it, see the message binding in proxy.js
+
+
+Notes:
+
+The promise is resolved with null if there is no proxy or if the proxy does not
+answer in 60 seconds
+
+
++++Sync feature+++
+
+```
+saltos.core.sync = async ()
+```
+
+This function sends a sync message to the proxy, using the current token and user_id,
+intended to be used when the app starts, after a login and after an online change,
+the returned promise is resolved when the sync is finished, if there are queued
+requests, a toast shows how many of them have been sent, and the texts of the
+requests rejected by the server are shown as toasts
 
 
 +++Online sync+++
@@ -3604,7 +3636,7 @@ saltos.driver.search = arg
 This function implement the search feature associated to tables and lists
 using the filters fields
 
-- @arg => unused at this scope
+- @arg => 'params' to replace the hash instead of adding a new entry to the history
 
 
 +++Driver reset+++
@@ -4766,6 +4798,11 @@ This function returns an object with the params of the hash
 - @hash => the hash that contains the params
 
 
+Notes:
+
+The malformed escapes (like a % typed by hand) are kept as is instead of throwing an error
+
+
 +++Build helper+++
 
 ```
@@ -4781,6 +4818,25 @@ This function returns the hash with the params, it is used by set and add
 Notes:
 
 The empty values are not added, and if no params remains, the ? char is not added
+
+
++++Same helper+++
+
+```
+saltos.hash.__helper_same = (hash, params)
+```
+
+This function returns true if the hash and the params are the same that the current ones,
+it is used by set and add
+
+- @hash   => the hash with or without the pillow, null to use the current hash
+- @params => the object with the params that you want to compare
+
+
+Notes:
+
+The keys of both sides are sorted only to compare them, so the order of the params is not
+important, the hash stored in the history keeps the original order
 
 
 +++Url to hash+++
@@ -5107,7 +5163,8 @@ in the add, delete or getAll features.
 const queue_push = data
 ```
 
-This function adds an entry to the queue system
+This function adds an entry to the queue system, the returned promise is
+resolved when the transaction is completed, to ensure that the data is stored
 
 - @data => the object that you want to store in the database
 
@@ -5206,8 +5263,30 @@ let sync_in_progress = false;
 Flag used to prevent concurrent execution of the sync operation in a service worker.
 It ensures that only one sync process runs at a time by setting the flag to true
 when the sync starts and resetting it to false once the process completes. If another
-sync request is received while sync_in_progress is true, the new sync is ignored
-until the current one finishes.
+sync request is received while sync_in_progress is true, the new sync is not executed,
+it waits until the current one finishes and then it answers as finished.
+
+
++++Sync wait+++
+
+```
+const sync_wait = async ()
+```
+
+This function waits until the current sync finishes, with a limit of 60 seconds
+
+
++++Message reply+++
+
+```
+const message_reply = (event, data)
+```
+
+This function answers a message using the port sent by the app layer, if any,
+see saltos.core.proxy in core.js
+
+- @event => the message event that contains the port
+- @data  => the data used as answer
 
 
 +++Message binding+++
@@ -5220,9 +5299,11 @@ This code implements the message feature
 
 Notes:
 
-If the message contains the reserved word reset, then all caches are deleted
-and the service worker is released, too can receive a hello word that is intended
-to test the comunication between the proxy and the app layer
+The app layer sends objects with an action (resetcache, resetqueue, stop, hello,
+sync, pending and purge) and the data needed to do the action, and the proxy
+answers each one using the port sent with the message (see message_reply), the
+only messages sent to the app layer without a request are the debug logs of the
+fetch requests and of the sync requests
 
 
 ++Push & favicon helper module++
@@ -5473,26 +5554,36 @@ saltos.token.get_expires_at = ()
 This function returns the expires_at stored in the localStorage
 
 
-+++Set token and expires_at+++
++++Get user_id function+++
+
+```
+saltos.token.get_user_id = ()
+```
+
+This function returns the user_id stored in the localStorage
+
+
++++Set token, expires_at and user_id+++
 
 ```
 saltos.token.set = response
 ```
 
-This function store the token and expires_at in the localStorage
+This function store the token, expires_at and user_id in the localStorage
 
 - @response   => the object that contains the follow parameters:
 - @token      => the token that you want to store in the localStorage
 - @expires_at => the expires_at of the token that you want to store in the localStorage
+- @user_id    => the user_id of the token that you want to store in the localStorage
 
 
-+++Unset token and expires_at+++
++++Unset token, expires_at and user_id+++
 
 ```
 saltos.token.unset = ()
 ```
 
-This function removes the token and expires_at in the localStorage
+This function removes the token, expires_at and user_id in the localStorage
 
 
 ++Window helper module++

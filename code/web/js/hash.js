@@ -67,10 +67,10 @@ saltos.hash.get = (full = false) => {
  * The operation is cancelled if the current hash and params are the same that the new ones
  */
 saltos.hash.set = (hash, params = {}) => {
-    hash = saltos.hash.__helper_build(hash, params);
-    if (saltos.hash.__helper_build(null, saltos.hash.get(true).params) === hash) {
+    if (saltos.hash.__helper_same(hash, params)) {
         return false;
     }
+    hash = saltos.hash.__helper_build(hash, params);
     window.history.replaceState(null, null, '.#/' + hash);
     return true;
 };
@@ -92,10 +92,10 @@ saltos.hash.set = (hash, params = {}) => {
  * The operation is cancelled if the current hash and params are the same that the new ones
  */
 saltos.hash.add = (hash, params = {}) => {
-    hash = saltos.hash.__helper_build(hash, params);
-    if (saltos.hash.__helper_build(null, saltos.hash.get(true).params) === hash) {
+    if (saltos.hash.__helper_same(hash, params)) {
         return false;
     }
+    hash = saltos.hash.__helper_build(hash, params);
     window.history.pushState(null, null, '.#/' + hash);
     return true;
 };
@@ -129,6 +129,10 @@ saltos.hash.__helper_hash = hash => {
  * This function returns an object with the params of the hash
  *
  * @hash => the hash that contains the params
+ *
+ * Notes:
+ *
+ * The malformed escapes (like a % typed by hand) are kept as is instead of throwing an error
  */
 saltos.hash.__helper_params = hash => {
     const params = {};
@@ -136,9 +140,16 @@ saltos.hash.__helper_params = hash => {
     if (pos === -1) {
         return params;
     }
+    const decode = item => {
+        try {
+            return decodeURIComponent(item);
+        } catch (error) {
+            return item;
+        }
+    };
     const arr = hash.substr(pos + 1).split('/').filter(item => item !== '');
     for (let i = 0; i < arr.length; i += 2) {
-        params[decodeURIComponent(arr[i])] = decodeURIComponent(arr[i + 1] || '');
+        params[decode(arr[i])] = decode(arr[i + 1] || '');
     }
     return params;
 };
@@ -172,6 +183,35 @@ saltos.hash.__helper_build = (hash, params) => {
         hash += '/?/' + arr.join('/');
     }
     return hash;
+};
+
+/**
+ * Same helper
+ *
+ * This function returns true if the hash and the params are the same that the current ones,
+ * it is used by set and add
+ *
+ * @hash   => the hash with or without the pillow, null to use the current hash
+ * @params => the object with the params that you want to compare
+ *
+ * Notes:
+ *
+ * The keys of both sides are sorted only to compare them, so the order of the params is not
+ * important, the hash stored in the history keeps the original order
+ */
+saltos.hash.__helper_same = (hash, params) => {
+    const sort = obj => {
+        const sorted = {};
+        for (const key of Object.keys(obj).sort()) {
+            sorted[key] = obj[key];
+        }
+        return sorted;
+    };
+    const old_params = sort(saltos.hash.get(true).params);
+    const new_params = sort(params);
+    const old_hash = saltos.hash.__helper_build(null, old_params);
+    const new_hash = saltos.hash.__helper_build(hash, new_params);
+    return old_hash === new_hash;
 };
 
 /**

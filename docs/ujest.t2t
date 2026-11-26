@@ -1,5 +1,5 @@
 Jest Test Documentation
-SaltOS 4.2 r2809
+SaltOS 4.2 r2819
 November 2026
 
 
@@ -983,11 +983,33 @@ browser supports service workers and the application is running over HTTPS.
 +++Test proxy function messaging+++
 
 ```
-test('Proxy function sends message to service worker', ()
+test('Proxy function sends message to service worker', async ()
 ```
 
-This test ensures that the proxy function sends the correct message
-to the service worker's controller using the `postMessage` method.
+This test ensures that the proxy function sends the message and the port
+to the service worker's controller using the `postMessage` method, and
+resolves with the answer received by the port.
+
+
++++Test sync with rejected requests+++
+
+```
+test('Sync shows the summary and the rejected requests as toasts', async ()
+```
+
+This test ensures that the sync function shows a toast with the summary
+and a toast for each request rejected by the server, using the answer of
+the proxy.
+
+
++++Test proxy function without service worker+++
+
+```
+test('Proxy function resolves null without service worker', async ()
+```
+
+This test ensures that the proxy function resolves with null
+when there is no service worker controlling the page.
 
 
 +++Test proxy synchronization on online events+++
@@ -1934,6 +1956,15 @@ test('should return empty value for key without value', ()
 Verifies the function uses an empty value for the last key without value
 
 
++++Test getting params with malformed escapes+++
+
+```
+test('should keep malformed escapes', ()
+```
+
+Verifies the function keeps the malformed escapes as is instead of throwing an error
+
+
 +++Test suite for params helper function+++
 
 ```
@@ -2033,6 +2064,15 @@ test('should not add same params', ()
 ```
 
 Verifies the function doesn't update history when params doesn't change
+
+
++++Test adding same params in other order+++
+
+```
+test('should not add same params in other order', ()
+```
+
+Verifies the function doesn't update history when only the order of the params changes
 
 
 +++Test suite for hash setter function+++
@@ -2721,6 +2761,16 @@ test('should handle error response', ()
 
 Verifies that the push function properly handles an error response
 from the server
+
+
++++Test push function recovering after an error+++
+
+```
+test('should sync only when recovering from an error', ()
+```
+
+Verifies that the first successful response after an error launches
+the proxy sync, and the next ones do not launch it again
 
 
 +++Test suite for saltos.favicon.fn functionality+++

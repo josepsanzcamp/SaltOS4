@@ -1108,14 +1108,15 @@ saltos.emails.forward = () => {
  * Additionally, translates the `body_text` field of each result
  * before rendering the list.
  *
- * @arg => unused at this scope
+ * @arg => 'params' to replace the hash instead of adding a new entry to the history
  */
 saltos.driver.search = arg => {
     document.getElementById('page').value = '0';
     saltos.backup.restore('top+one');
     const data = saltos.app.get_data(true);
     saltos.filter.update('last', data);
-    saltos.hash.add(null, {
+    const fn = arg === 'params' ? saltos.hash.set : saltos.hash.add;
+    fn(null, {
         ...saltos.app.get_data(),
         panel: saltos.hash.get(true).params.panel,
     });

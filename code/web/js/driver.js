@@ -201,14 +201,15 @@ saltos.driver.cancel = arg => {
  * This function implement the search feature associated to tables and lists
  * using the filters fields
  *
- * @arg => unused at this scope
+ * @arg => 'params' to replace the hash instead of adding a new entry to the history
  */
 saltos.driver.search = arg => {
     document.getElementById('page').value = '0';
     saltos.backup.restore('top+one');
     const data = saltos.app.get_data(true);
     saltos.filter.update('last', data);
-    saltos.hash.add(null, {
+    const fn = arg === 'params' ? saltos.hash.set : saltos.hash.add;
+    fn(null, {
         ...saltos.app.get_data(),
         panel: saltos.hash.get(true).params.panel,
     });
@@ -264,7 +265,7 @@ saltos.driver.params = arg => {
         const data = {...params};
         delete data.panel;
         saltos.form.data(data, false);
-        saltos.driver.search();
+        saltos.driver.search('params');
         saltos.window.send('saltos.filter.load', 'params', 'me');
     }
     // Panel part

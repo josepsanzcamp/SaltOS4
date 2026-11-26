@@ -1,5 +1,5 @@
 Devel Documentation
-SaltOS 4.2 r2809
+SaltOS 4.2 r2819
 November 2026
 
 
@@ -726,7 +726,7 @@ the state of the screen as key/value pairs:
 - An example hash: `#/app/customers/?/search/foo/panel/filter`
 - `saltos.hash.get()` returns the route (`app/customers`)
 - `saltos.hash.get(true)` returns `{hash, params}`, the params as `{search: 'foo', panel: 'filter'}`
-- `saltos.hash.set(hash, params)` and `saltos.hash.add(hash, params)` replace or add the hash in the history; a null hash keeps the current route, the missing or empty params are removed
+- `saltos.hash.set(hash, params)` and `saltos.hash.add(hash, params)` replace or add the hash in the history; a null hash keeps the current route, the missing or empty params are removed, and nothing is done if the hash and the params are the same in any order
 - Each search stores the filters fields that are not in their default value, and the `panel` key stores the last open panel (about, help, profile, filter or the panels added by the apps to `saltos.common.__panels`)
 - When the history changes only the params, `saltos.driver.params()` updates the filters and the panel without reloading the screen
 
