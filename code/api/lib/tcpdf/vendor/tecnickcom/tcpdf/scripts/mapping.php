@@ -192,7 +192,12 @@ const TCPDF_METHOD_MAP = [
     'deletePage' => ['pagestate', 'Page::delete', 'adapter', ''],
     'copyPage' => ['pagestate', '-', 'adapter', 'clones format/margins/content into a new page'],
     'startPageGroup' => ['pagestate', 'Page group', 'shim', 'group applies from the next added page'],
-    'setStartingPageNumber' => ['pagestate', '-', 'shim', ''],
+    'setStartingPageNumber' => [
+        'pagestate',
+        'Page::setLabel',
+        'adapter',
+        'offsets printed numbers, page total and TOC numbers; above 1 also labels the first page for viewers',
+    ],
     'getAliasRightShift' => ['pagestate', '-', 'shim', 'legacy alias machinery'],
     'getAliasNbPages' => [
         'pagestate',

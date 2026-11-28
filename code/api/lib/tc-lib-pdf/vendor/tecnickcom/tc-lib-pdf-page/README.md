@@ -42,6 +42,7 @@ tree, the page objects and the content streams.
 ### Page stack
 - Add, clone, move, delete and select pages, grouped for per-group numbering
 - Page content stack with marks, and `~#PN` / `~#PT` page number aliases
+- Page labels (numbering style, prefix and first number) stored on the page and kept through move and delete
 - Annotation references, rotation, preferred zoom and page transitions
 - Per-page transparency group policy, disabled in PDF/A mode
 - PDF output with optional Flate compression and encryption

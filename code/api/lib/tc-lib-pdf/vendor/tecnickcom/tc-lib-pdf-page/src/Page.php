@@ -40,6 +40,7 @@ use Com\Tecnick\Pdf\Page\Exception as PageException;
  * @phpstan-import-type RegionData from \Com\Tecnick\Pdf\Page\Box
  * @phpstan-import-type TransitionData from \Com\Tecnick\Pdf\Page\Box
  * @phpstan-import-type PageData from \Com\Tecnick\Pdf\Page\Box
+ * @phpstan-import-type PageLabelInput from \Com\Tecnick\Pdf\Page\Box
  *
  * @SuppressWarnings("PHPMD.TooManyPublicMethods")
  */
@@ -418,6 +419,31 @@ class Page extends \Com\Tecnick\Pdf\Page\Region
 
         $annotrefs[] = $oid;
         $this->page[$pid]['annotrefs'] = $annotrefs;
+    }
+
+    /**
+     * Set the label of a page, starting a label range that runs up to the next
+     * labelled page. An empty array removes the label.
+     *
+     * @param PageLabelInput $label Page label:
+     *     style  : numbering style: 'D' decimal (default), 'R' or 'r' roman, 'A' or 'a' letters,
+     *              '' no numeric part.
+     *     prefix : text before the number.
+     *     start  : number of the first page of the range, from 1 (default) to 2147483647;
+     *              a numeric string is accepted.
+     * @param int $pid Page index. Omit or set it to -1 for the current page.
+     *
+     * @throws PageException
+     */
+    public function setLabel(array $label, int $pid = -1): void
+    {
+        $pid = $this->sanitizePageID($pid);
+        if ($label === []) {
+            unset($this->page[$pid]['label']);
+            return;
+        }
+
+        $this->page[$pid]['label'] = $this->getPageLabel($label);
     }
 
     /**

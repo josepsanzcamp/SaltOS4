@@ -1069,6 +1069,53 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
     }
 
     /**
+     * Returns the /PageLabels catalog entry built from the labels of the pages, or an
+     * empty string when no page has a label. Each labelled page starts a label range
+     * that runs up to the next labelled page; when the first page has no label, the
+     * pages before the first labelled page are numbered with decimal numbers from 1.
+     * The labels are independent of the page numbers printed through page aliases.
+     *
+     * @param int $oid Object number of the catalog.
+     *
+     * @throws EncryptException
+     * @throws UnicodeException
+     */
+    protected function getOutPageLabels(int $oid): string
+    {
+        $nums = '';
+        $idx = 0;
+        foreach ($this->page->getPages() as $page) {
+            $label = $page['label'] ?? null;
+            if ($label === null) {
+                ++$idx;
+                continue;
+            }
+
+            if ($nums === '' && $idx > 0) {
+                $nums = ' 0 << /S /D >>';
+            }
+
+            $nums .= ' ' . $idx . ' <<';
+            if ($label['style'] !== '') {
+                $nums .= ' /S /' . $label['style'];
+            }
+
+            if ($label['prefix'] !== '') {
+                $nums .= ' /P ' . $this->getOutTextString($label['prefix'], $oid, true);
+            }
+
+            if ($label['start'] > 1) {
+                $nums .= ' /St ' . $label['start'];
+            }
+
+            $nums .= ' >>';
+            ++$idx;
+        }
+
+        return $nums === '' ? '' : ' /PageLabels << /Nums [' . $nums . ' ] >>';
+    }
+
+    /**
      * Build the Catalog object body for a given (already allocated) object number.
      *
      * Split out of getOutCatalog so the catalog can be re-emitted with the same
@@ -1097,8 +1144,8 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
             //.' /Extensions <<>>'
             . ' /Pages '
             . $this->objid['pages']
-            . ' 0 R';
-        //.' /PageLabels ' //...
+            . ' 0 R'
+            . $this->getOutPageLabels($oid);
 
         $names = '';
         if ($this->pdfa === 0 && !$this->pdfx && $this->pdfuaMode === '' && $this->jstree !== '') {
@@ -2660,33 +2707,40 @@ abstract class Output extends \Com\Tecnick\Pdf\MetaInfo
 
     /**
      * Inject StructParents entries into serialized page objects for PDF/UA mode.
+     *
+     * Each page object follows the content stream object of its page, so only an
+     * object header preceded by "endstream" and "endobj" lines is taken as a page
+     * header. Every header is matched once, in a single pass.
      */
     protected function setPageStructParents(string $pdfpages): string
     {
         $this->pagestructparents = [];
-        $pages = $this->page->getPages();
+        $entries = [];
         $parentKey = 0;
-        foreach ($pages as $page) {
+        foreach ($this->page->getPages() as $page) {
             $page += ['n' => 0, 'annotrefs' => []];
             $pageObjN = (int) $page['n'];
-            if ($pageObjN < 1) {
+            if ($pageObjN < 1 || isset($entries[$pageObjN])) {
                 continue;
             }
 
-            $tabs = '';
-            $annotRefs = $page['annotrefs'];
-            if ($annotRefs !== []) {
-                $tabs = '/Tabs /S' . "\n";
-            }
-
-            $needle = $pageObjN . ' 0 obj' . "\n<<\n/Type /Page\n";
-            $replacement = $pageObjN . ' 0 obj' . "\n<<\n/Type /Page\n/StructParents " . $parentKey . "\n" . $tabs;
-            $pdfpages = \str_replace($needle, $replacement, $pdfpages);
+            $entries[$pageObjN] =
+                '/StructParents ' . $parentKey . "\n" . ($page['annotrefs'] === [] ? '' : '/Tabs /S' . "\n");
             $this->pagestructparents[$pageObjN] = $parentKey;
             ++$parentKey;
         }
 
-        return $pdfpages;
+        if ($entries === []) {
+            return $pdfpages;
+        }
+
+        $out = \preg_replace_callback(
+            '/(?<=\nendstream\nendobj\n)([0-9]+) 0 obj\n<<\n\/Type \/Page\n/',
+            static fn(array $match): string => ($match[0] ?? '') . ($entries[(int) ($match[1] ?? 0)] ?? ''),
+            $pdfpages,
+        );
+
+        return $out ?? $pdfpages;
     }
 
     /**

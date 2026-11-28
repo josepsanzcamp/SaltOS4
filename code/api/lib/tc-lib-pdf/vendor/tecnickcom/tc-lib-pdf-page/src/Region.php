@@ -66,6 +66,11 @@ abstract class Region extends \Com\Tecnick\Pdf\Page\Settings
      *     format      : page format name, or alternatively you can set width and height as below.
      *     group       : page group number.
      *     height      : page height.
+     *     label       : page label starting a label range that runs up to the next labelled page:
+     *                   - style  : numbering style: 'D' decimal (default), 'R' or 'r' roman,
+     *                              'A' or 'a' letters, '' no numeric part
+     *                   - prefix : text before the number
+     *                   - start  : number of the first page of the range, from 1 (default) to 2147483647
      *     margin      : page margins:
      *                   - booklet : true to enable booklet mode
      *                   - PL : page left margin measured from the left page edge
@@ -135,8 +140,9 @@ abstract class Region extends \Com\Tecnick\Pdf\Page\Settings
     protected function cloneLastPageData(): array
     {
         $data = $this->getPage($this->pmaxid);
-        // 'num' and 'pagenum' are per-page: the clone gets its own number.
-        unset($data['time'], $data['content'], $data['annotrefs'], $data['num'], $data['pagenum']);
+        // 'num', 'pagenum' and 'label' are per-page: the clone gets its own number
+        // and continues the label range of its source.
+        unset($data['time'], $data['content'], $data['annotrefs'], $data['num'], $data['pagenum'], $data['label']);
 
         $gutterShift = $this->mirrorBookletMargins($data);
 
@@ -185,9 +191,11 @@ abstract class Region extends \Com\Tecnick\Pdf\Page\Settings
 
     /**
      * Sanitize the data set on every page, new or cloned: time, content,
-     * annotation references and page number.
+     * annotation references, page number and page label.
      *
      * @param PageInputData $data Page data.
+     *
+     * @throws PageException
      */
     protected function sanitizeCommonPageData(array &$data): void
     {
@@ -195,6 +203,7 @@ abstract class Region extends \Com\Tecnick\Pdf\Page\Settings
         $this->sanitizeContent($data);
         $this->sanitizeAnnotRefs($data);
         $this->sanitizePageNumber($data);
+        $this->sanitizeLabel($data);
     }
 
     /**

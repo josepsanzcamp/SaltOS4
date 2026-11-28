@@ -2,7 +2,7 @@
 
 //============================================================+
 // File name    : tcpdf.php
-// Version      : 7.0.24
+// Version      : 7.0.26
 // Author       : Nicola Asuni - Tecnick.com LTD - www.tecnick.com - info@tecnick.com
 // License      : GNU-LGPL v3 (https://www.gnu.org/copyleft/lesser.html)
 // Copyright (C): 2002-2026 Nicola Asuni - Tecnick.com LTD
@@ -15,7 +15,7 @@
  * See: https://tcpdf.org
  * @package com.tecnick.tcpdf
  * @author Nicola Asuni
- * @version 7.0.24
+ * @version 7.0.26
  */
 
 // TCPDF configuration
@@ -257,7 +257,7 @@ class TCPDF
         'blend_mode' => 'Normal',
     ];
 
-    /** Starting page number (used by PageNoFormatted). */
+    /** Number printed for the first page; also the first viewer page label when above 1. */
     protected int $startingpagenumber = 1;
 
     /** Total number of pages, available while rendering deferred decorations. */
@@ -2684,6 +2684,7 @@ class TCPDF
 
         $this->decorateAllPages();
         $this->applyBookmarkDisplayMode();
+        $this->applyStartingPageLabel();
         $this->pdfraw = $this->engine()->getOutPDFString();
         $this->docstate = 3;
     }
@@ -6052,9 +6053,33 @@ class TCPDF
         $this->nextpagegroup++;
     }
 
+    /**
+     * Set the number of the first page. It offsets the printed page numbers, the
+     * page total and the table of contents numbers, and when above 1 it also sets
+     * the page labels shown by PDF viewers to decimal numbers from this value.
+     */
     public function setStartingPageNumber($_num = 1)
     {
         $this->startingpagenumber = max(1, (int) $_num);
+    }
+
+    /**
+     * Label the first page with the starting page number, unless the page already
+     * has a label set through the engine.
+     */
+    protected function applyStartingPageLabel(): void
+    {
+        if ($this->startingpagenumber <= 1) {
+            return;
+        }
+
+        $pages = $this->engine()->page->getPages();
+        $first = array_key_first($pages);
+        if ($first === null || isset($pages[$first]['label'])) {
+            return;
+        }
+
+        $this->engine()->page->setLabel(['start' => $this->startingpagenumber], (int) $first);
     }
 
     /**
@@ -6071,7 +6096,7 @@ class TCPDF
     public function getAliasNbPages()
     {
         if ($this->decortotalpages > 0) {
-            return (string) $this->decortotalpages;
+            return (string) ($this->decortotalpages + $this->startingpagenumber - 1);
         }
 
         return '{nb}';
@@ -6083,7 +6108,7 @@ class TCPDF
     public function getAliasNumPage()
     {
         if ($this->decortotalpages > 0) {
-            return (string) $this->PageNo();
+            return (string) ($this->PageNo() + $this->startingpagenumber - 1);
         }
 
         return '{pnb}';
@@ -8259,7 +8284,7 @@ class TCPDF
 
             // Page number, right aligned with its own font.
             $this->setFont($numbersfont, '', $size);
-            $this->Cell($numwidth, $rowh, (string) $display, 0, 1, 'R');
+            $this->Cell($numwidth, $rowh, (string) ($display + $this->startingpagenumber - 1), 0, 1, 'R');
 
             // Link the whole row to the bookmark destination (the target
             // page index already accounts for the TOC relocation).

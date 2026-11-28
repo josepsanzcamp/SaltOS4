@@ -108,6 +108,7 @@ The runnable examples in [examples/index.md](examples/index.md) cover the equiva
 - Headers, footers, and common page content
 - Bookmarks, named destinations, and table of contents
 - Automatic page numbering and page groups
+- **Page labels** shown by viewers in place of the physical page numbers (decimal, roman or letter numbering, prefix, first number), set with the `label` page data or `$pdf->page->setLabel()`
 - Full page box control (Media/Crop/Bleed/Trim/Art), page reordering, and viewer preferences
 - **Per-page transparency group control** via `setPageTransparencyGroup()`: `'auto'` (default) emits the page transparency `/Group` only on pages that use transparency, `'always'` emits it on every page, `'never'` omits it
 

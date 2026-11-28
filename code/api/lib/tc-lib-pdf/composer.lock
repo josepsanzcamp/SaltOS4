@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3c8ebb414c3382ddbd5c19e374336934",
+    "content-hash": "8c6782b942fc43e80e7038045bb25913",
     "packages": [
         {
             "name": "tecnickcom/tc-lib-barcode",
@@ -140,7 +140,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-21T09:57:28+00:00"
+            "time": "2026-11-21T09:57:28+00:00",
+            "published-time": "2026-11-21T10:05:16+00:00"
         },
         {
             "name": "tecnickcom/tc-lib-color",
@@ -216,7 +217,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-21T09:34:59+00:00"
+            "time": "2026-11-21T09:34:59+00:00",
+            "published-time": "2026-11-21T09:40:19+00:00"
         },
         {
             "name": "tecnickcom/tc-lib-file",
@@ -284,20 +286,21 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-21T09:42:07+00:00"
+            "time": "2026-11-21T09:42:07+00:00",
+            "published-time": "2026-11-21T09:44:08+00:00"
         },
         {
             "name": "tecnickcom/tc-lib-pdf",
-            "version": "8.85.1",
+            "version": "8.86.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/tc-lib-pdf.git",
-                "reference": "5cd68566d746db818dad4bb83abd8b444fcd419d"
+                "reference": "d6a768e63f6dcbf48215528bf7b9296c79e8745d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/tc-lib-pdf/zipball/5cd68566d746db818dad4bb83abd8b444fcd419d",
-                "reference": "5cd68566d746db818dad4bb83abd8b444fcd419d",
+                "url": "https://api.github.com/repos/tecnickcom/tc-lib-pdf/zipball/d6a768e63f6dcbf48215528bf7b9296c79e8745d",
+                "reference": "d6a768e63f6dcbf48215528bf7b9296c79e8745d",
                 "shasum": ""
             },
             "require": {
@@ -318,7 +321,7 @@
                 "tecnickcom/tc-lib-pdf-font": "^4.9",
                 "tecnickcom/tc-lib-pdf-graph": "^2.18",
                 "tecnickcom/tc-lib-pdf-image": "^3.15",
-                "tecnickcom/tc-lib-pdf-page": "^4.18",
+                "tecnickcom/tc-lib-pdf-page": "^4.19",
                 "tecnickcom/tc-lib-pdf-parser": "^3.16",
                 "tecnickcom/tc-lib-pdf-sign": "^2.0",
                 "tecnickcom/tc-lib-unicode": "^3.3",
@@ -370,7 +373,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-21T11:26:02+00:00"
+            "time": "2026-11-28T09:53:15+00:00",
+            "published-time": "2026-11-28T09:59:06+00:00"
         },
         {
             "name": "tecnickcom/tc-lib-pdf-encrypt",
@@ -435,7 +439,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-21T09:45:23+00:00"
+            "time": "2026-11-21T09:45:23+00:00",
+            "published-time": "2026-11-21T09:48:22+00:00"
         },
         {
             "name": "tecnickcom/tc-lib-pdf-filter",
@@ -501,7 +506,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-21T09:49:28+00:00"
+            "time": "2026-11-21T09:49:28+00:00",
+            "published-time": "2026-11-21T09:50:41+00:00"
         },
         {
             "name": "tecnickcom/tc-lib-pdf-font",
@@ -574,7 +580,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-21T10:35:09+00:00"
+            "time": "2026-11-21T10:35:09+00:00",
+            "published-time": "2026-11-21T10:43:55+00:00"
         },
         {
             "name": "tecnickcom/tc-lib-pdf-graph",
@@ -637,7 +644,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-21T10:26:38+00:00"
+            "time": "2026-11-21T10:26:38+00:00",
+            "published-time": "2026-11-21T10:27:21+00:00"
         },
         {
             "name": "tecnickcom/tc-lib-pdf-image",
@@ -705,20 +713,21 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-21T10:28:19+00:00"
+            "time": "2026-11-21T10:28:19+00:00",
+            "published-time": "2026-11-21T10:29:00+00:00"
         },
         {
             "name": "tecnickcom/tc-lib-pdf-page",
-            "version": "4.18.3",
+            "version": "4.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/tc-lib-pdf-page.git",
-                "reference": "87bb94f0ee6bf51aa764d384c43adf9f9300bc2e"
+                "reference": "6b4779bfcb97a350a899a5067cf2fc6b86362ab5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/tc-lib-pdf-page/zipball/87bb94f0ee6bf51aa764d384c43adf9f9300bc2e",
-                "reference": "87bb94f0ee6bf51aa764d384c43adf9f9300bc2e",
+                "url": "https://api.github.com/repos/tecnickcom/tc-lib-pdf-page/zipball/6b4779bfcb97a350a899a5067cf2fc6b86362ab5",
+                "reference": "6b4779bfcb97a350a899a5067cf2fc6b86362ab5",
                 "shasum": ""
             },
             "require": {
@@ -767,7 +776,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-21T10:19:58+00:00"
+            "time": "2026-11-28T09:44:16+00:00",
+            "published-time": "2026-11-28T09:44:56+00:00"
         },
         {
             "name": "tecnickcom/tc-lib-pdf-parser",
@@ -828,7 +838,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-21T10:17:58+00:00"
+            "time": "2026-11-21T10:17:58+00:00",
+            "published-time": "2026-11-21T10:18:55+00:00"
         },
         {
             "name": "tecnickcom/tc-lib-pdf-sign",
@@ -896,7 +907,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-21T09:51:58+00:00"
+            "time": "2026-11-21T09:51:58+00:00",
+            "published-time": "2026-11-21T09:53:12+00:00"
         },
         {
             "name": "tecnickcom/tc-lib-unicode",
@@ -960,7 +972,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-21T10:07:40+00:00"
+            "time": "2026-11-21T10:07:40+00:00",
+            "published-time": "2026-11-21T10:17:06+00:00"
         },
         {
             "name": "tecnickcom/tc-lib-unicode-data",
@@ -1020,7 +1033,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-21T09:54:27+00:00"
+            "time": "2026-11-21T09:54:27+00:00",
+            "published-time": "2026-11-21T09:55:13+00:00"
         }
     ],
     "packages-dev": [],
@@ -1031,5 +1045,5 @@
     "prefer-lowest": false,
     "platform": {},
     "platform-dev": {},
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.11.0"
 }

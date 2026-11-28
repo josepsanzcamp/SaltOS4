@@ -11,7 +11,7 @@ Statuses: `stub` (not implemented), `delegated`, `adapter`, `shim`,
 | Family | Total | Delegated | Adapter | Shim | Noop | Blocked | Stub |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | Bootstrap/Lifecycle/Output | 34 | 11 | 8 | 12 | 3 | 0 | 0 |
-| Document/Page state | 60 | 0 | 20 | 40 | 0 | 0 | 0 |
+| Document/Page state | 60 | 0 | 21 | 39 | 0 | 0 | 0 |
 | Header/Footer | 19 | 0 | 0 | 17 | 2 | 0 | 0 |
 | Text/Font/metrics | 45 | 5 | 21 | 19 | 0 | 0 | 0 |
 | HTML/CSS | 18 | 3 | 3 | 9 | 3 | 0 | 0 |
@@ -20,7 +20,7 @@ Statuses: `stub` (not implemented), `delegated`, `adapter`, `shim`,
 | Signatures/Security | 6 | 0 | 6 | 0 | 0 | 0 | 0 |
 | Barcodes | 4 | 0 | 2 | 2 | 0 | 0 | 0 |
 | Columns/TOC/Templates/Regions | 17 | 0 | 9 | 6 | 0 | 2 | 0 |
-| **Total** | **294** | **26** | **142** | **114** | **9** | **3** | **0** |
+| **Total** | **294** | **26** | **143** | **113** | **9** | **3** | **0** |
 
 ## Bootstrap/Lifecycle/Output
 
@@ -109,7 +109,7 @@ Statuses: `stub` (not implemented), `delegated`, `adapter`, `shim`,
 | deletePage | `Page::delete` | adapter |  |
 | copyPage | `-` | adapter | clones format/margins/content into a new page |
 | startPageGroup | `Page group` | shim | group applies from the next added page |
-| setStartingPageNumber | `-` | shim |  |
+| setStartingPageNumber | `Page::setLabel` | adapter | offsets printed numbers, page total and TOC numbers; above 1 also labels the first page for viewers |
 | getAliasRightShift | `-` | shim | legacy alias machinery |
 | getAliasNbPages | `-` | shim | returns real total during deferred decoration; placeholder otherwise (body substitution pending) |
 | getAliasNumPage | `-` | shim | returns real number during deferred decoration; placeholder otherwise |

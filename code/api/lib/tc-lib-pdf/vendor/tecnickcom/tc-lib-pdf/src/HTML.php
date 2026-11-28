@@ -9545,6 +9545,31 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
                         continue;
                     }
 
+                    if ($elm['value'] === 'table' || $elm['value'] === 'tablehead') {
+                        // A nested table is measured row by row with its own column widths.
+                        $state = $this->flushHTMLInlineLine($height, $inlineadvance, $hasinlinecontent, $lineadvance);
+                        $height = $state['height'];
+                        $inlinewidth = $state['inlinewidth'];
+                        $inlineadvance = $state['inlineadvance'];
+                        $hasinlinecontent = $state['hasinlinecontent'];
+                        $elmMargin = $elm['margin'];
+                        $elmPadding = $elm['padding'];
+                        $tableh =
+                            ($elmPadding['T'] ?? 0.0)
+                            + $this->estimateHTMLNestedTableHeight($hrc, $key, $width)
+                            + ($elmPadding['B'] ?? 0.0);
+                        if ($elm['height'] > 0.0) {
+                            $tableh = \max(
+                                $tableh,
+                                $elm['height'] + ($elmPadding['T'] ?? 0.0) + ($elmPadding['B'] ?? 0.0),
+                            );
+                        }
+
+                        $height += ($elmMargin['T'] ?? 0.0) + $tableh + ($elmMargin['B'] ?? 0.0);
+                        $key = $this->findHTMLClosingTagIndex($dom, $key);
+                        continue;
+                    }
+
                     if (\in_array($elm['value'], self::HTML_BLOCK_TAGS, true)) {
                         $state = $this->flushHTMLInlineLine($height, $inlineadvance, $hasinlinecontent, $lineadvance);
                         $height = $state['height'];
@@ -9953,6 +9978,45 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
     }
 
     /**
+     * Estimate the rendered height of a table that may not be open yet. A table
+     * without a pending layout is measured with the layout it gets in a container
+     * of the given width; the DOM node is left unchanged.
+     *
+     * @param THTMLRenderContext $hrc HTML render context.
+     * @param int $tablekey DOM index of the opening <table> or <tablehead> tag.
+     * @param float $width Width of the container of the table.
+     *
+     * @throws \Com\Tecnick\Pdf\Font\Exception
+     * @throws \Throwable
+     */
+    protected function estimateHTMLNestedTableHeight(array &$hrc, int $tablekey, float $width): float
+    {
+        $node = $hrc['dom'][$tablekey] ?? null;
+        if ($node === null || \array_key_exists('pendingcolwidths', $node)) {
+            return $this->estimateHTMLTableHeight($hrc, $tablekey);
+        }
+
+        $table = $this->getHTMLDOMNode($hrc['dom'], $tablekey);
+        if ($table === null || !$table['tag'] || !$table['opening']) {
+            return 0.0;
+        }
+
+        $hrc['dom'][$tablekey] = $this->getHTMLTableLayoutNode(
+            $hrc['dom'],
+            $tablekey,
+            $table,
+            $width,
+            $hrc['cellctx']['basefont'],
+        );
+
+        try {
+            return $this->estimateHTMLTableHeight($hrc, $tablekey);
+        } finally {
+            $hrc['dom'][$tablekey] = $node;
+        }
+    }
+
+    /**
      * Estimate the height of a nobr subtree so it can be moved intact to a new region.
      *
      * @param THTMLRenderContext $hrc HTML render context.
@@ -9977,7 +10041,7 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
             }
 
             if ($starttag === 'table' || $starttag === 'tablehead') {
-                return $this->estimateHTMLTableHeight($hrc, $startkey);
+                return $this->estimateHTMLNestedTableHeight($hrc, $startkey, $width);
             }
 
             $endkey = $this->findHTMLClosingTagIndex($dom, $startkey);
@@ -10039,7 +10103,7 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
                     }
 
                     if ($elm['value'] === 'table' || $elm['value'] === 'tablehead') {
-                        $height += $this->estimateHTMLTableHeight($hrc, $key);
+                        $height += $this->estimateHTMLNestedTableHeight($hrc, $key, $width);
                         $key = $this->findHTMLClosingTagIndex($dom, $key);
                         continue;
                     }
@@ -17660,6 +17724,98 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
     }
 
     /**
+     * Returns a table node with its column count and the pending layout used by
+     * parseHTMLTagOPENtable() and the height estimates: cell grid, cell spacing,
+     * cellpadding and column widths for the given container width.
+     *
+     * @param array<int, THTMLDOMNode> $dom
+     * @param int $key DOM index of the opening <table> or <tablehead> tag.
+     * @param THTMLAttrib $elm Table node.
+     * @param float $tableWidth Width of the container of the table.
+     * @param string $basefont Font family used when no family of a cell is available.
+     *
+     * @return THTMLAttrib
+     *
+     * @throws PdfException
+     * @throws \Com\Tecnick\Pdf\Font\Exception
+     * @throws \Com\Tecnick\Unicode\Exception
+     */
+    protected function getHTMLTableLayoutNode(
+        array $dom,
+        int $key,
+        array $elm,
+        float $tableWidth,
+        string $basefont,
+    ): array {
+        $widthAttr = $elm['attribute']['width'] ?? '';
+        $cellspacingAttr = $elm['attribute']['cellspacing'] ?? '';
+        $cellpaddingAttr = $elm['attribute']['cellpadding'] ?? '';
+        // The column count and the cell columns come from every row of the table.
+        $grid = $this->getHTMLTableGrid($dom, $key);
+        $tableCols = \max(1, (int) $elm['cols'], $grid['cols']);
+        $elm['cols'] = $tableCols;
+        $elm['pendinggrid'] = $grid['cells'];
+        // Constrain $tableWidth to the table's own CSS width so that percentage-based
+        // TD widths resolve against the table width, not the full container width.
+        // Percentages are resolved against the current container; absolute values use elm['width'].
+        $rawTblWidth = '';
+        if (isset($elm['style']['width']) && $elm['style']['width'] !== '') {
+            $rawTblWidth = \trim($elm['style']['width']);
+        } elseif (\is_string($widthAttr) && $widthAttr !== '') {
+            $rawTblWidth = \trim($widthAttr);
+        }
+        if ($rawTblWidth !== '') {
+            $pctM = [];
+            if (\preg_match('/^([0-9.+\-]+)[\t\n\x0B\f\r ]*%$/', $rawTblWidth, $pctM)) {
+                $pct = $pctM[1] ?? null;
+                if (\is_numeric($pct)) {
+                    $tableWidth = \min($tableWidth, ($tableWidth * (float) $pct) / 100.0);
+                }
+            } elseif ($elm['width'] > 0.0) {
+                $tableWidth = \min($tableWidth, $elm['width']);
+            }
+        }
+
+        if ($cellspacingAttr !== '' && \is_numeric($cellspacingAttr)) {
+            $elm['pendingcellspacingh'] = $this->toUnit($this->getUnitValuePoints($cellspacingAttr));
+        } elseif (isset($elm['border-spacing'])) {
+            $elm['pendingcellspacingh'] = $elm['border-spacing']['H'];
+        } else {
+            $elm['pendingcellspacingh'] = 0.0;
+        }
+
+        if ($cellspacingAttr !== '' && \is_numeric($cellspacingAttr)) {
+            $elm['pendingcellspacingv'] = $this->toUnit($this->getUnitValuePoints($cellspacingAttr));
+        } elseif (isset($elm['border-spacing'])) {
+            $elm['pendingcellspacingv'] = $elm['border-spacing']['V'];
+        } else {
+            $elm['pendingcellspacingv'] = 0.0;
+        }
+
+        $elm['pendingcellpadding'] = \is_numeric($cellpaddingAttr) && (float) $cellpaddingAttr > 0
+            ? $this->toUnit($this->getUnitValuePoints($cellpaddingAttr))
+            : 0.0;
+        $effectiveCellSpacing = $this->getHTMLTableCellSpacingH($elm);
+        $availableForCols = \max(0.0, $tableWidth - ($effectiveCellSpacing * \max(0, $tableCols + 1)));
+
+        $elm['pendingcolwidths'] = $this->getHTMLTableReplayColWidths(
+            $dom,
+            $key,
+            $tableCols,
+        ) ?? $this->computeHTMLTableColWidths(
+            $dom,
+            $key,
+            $tableCols,
+            $availableForCols,
+            $grid['cells'],
+            $elm['pendingcellpadding'],
+            $basefont,
+        );
+
+        return $elm;
+    }
+
+    /**
      * Returns the column widths of a repeated table head: the COL widths of the colgroup
      * injected by injectHTMLTableHeadColWidths(), used as they are.
      *
@@ -19309,69 +19465,11 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
                     // Pre-compute per-column widths and spacing for table tags
                     // and store them directly on the DOM node for parseHTMLTagOPENtable.
                     if ($elm['value'] === 'table' || $elm['value'] === 'tablehead') {
-                        $widthAttr = $elm['attribute']['width'] ?? '';
-                        $cellspacingAttr = $elm['attribute']['cellspacing'] ?? '';
-                        $cellpaddingAttr = $elm['attribute']['cellpadding'] ?? '';
-                        // The column count and the cell columns come from every row of the table.
-                        $grid = $this->getHTMLTableGrid($dom, $key);
-                        $tableCols = \max(1, (int) $elm['cols'], $grid['cols']);
-                        $elm['cols'] = $tableCols;
-                        $elm['pendinggrid'] = $grid['cells'];
-                        $tableWidth = $tpw > 0 ? $tpw : $hrc['cellctx']['maxwidth'];
-                        // Constrain $tableWidth to the table's own CSS width so that percentage-based
-                        // TD widths resolve against the table width, not the full container width.
-                        // Percentages are resolved against the current container; absolute values use elm['width'].
-                        $rawTblWidth = '';
-                        if (isset($elm['style']['width']) && $elm['style']['width'] !== '') {
-                            $rawTblWidth = \trim($elm['style']['width']);
-                        } elseif (\is_string($widthAttr) && $widthAttr !== '') {
-                            $rawTblWidth = \trim($widthAttr);
-                        }
-                        if ($rawTblWidth !== '') {
-                            $pctM = [];
-                            if (\preg_match('/^([0-9.+\-]+)[\t\n\x0B\f\r ]*%$/', $rawTblWidth, $pctM)) {
-                                $pct = $pctM[1] ?? null;
-                                if (\is_numeric($pct)) {
-                                    $tableWidth = \min($tableWidth, ($tableWidth * (float) $pct) / 100.0);
-                                }
-                            } elseif ($elm['width'] > 0.0) {
-                                $tableWidth = \min($tableWidth, $elm['width']);
-                            }
-                        }
-
-                        if ($cellspacingAttr !== '' && \is_numeric($cellspacingAttr)) {
-                            $elm['pendingcellspacingh'] = $this->toUnit($this->getUnitValuePoints($cellspacingAttr));
-                        } elseif (isset($elm['border-spacing'])) {
-                            $elm['pendingcellspacingh'] = $elm['border-spacing']['H'];
-                        } else {
-                            $elm['pendingcellspacingh'] = 0.0;
-                        }
-
-                        if ($cellspacingAttr !== '' && \is_numeric($cellspacingAttr)) {
-                            $elm['pendingcellspacingv'] = $this->toUnit($this->getUnitValuePoints($cellspacingAttr));
-                        } elseif (isset($elm['border-spacing'])) {
-                            $elm['pendingcellspacingv'] = $elm['border-spacing']['V'];
-                        } else {
-                            $elm['pendingcellspacingv'] = 0.0;
-                        }
-
-                        $elm['pendingcellpadding'] = \is_numeric($cellpaddingAttr) && (float) $cellpaddingAttr > 0
-                            ? $this->toUnit($this->getUnitValuePoints($cellpaddingAttr))
-                            : 0.0;
-                        $effectiveCellSpacing = $this->getHTMLTableCellSpacingH($elm);
-                        $availableForCols = \max(0.0, $tableWidth - ($effectiveCellSpacing * \max(0, $tableCols + 1)));
-
-                        $elm['pendingcolwidths'] = $this->getHTMLTableReplayColWidths(
+                        $elm = $this->getHTMLTableLayoutNode(
                             $dom,
                             $key,
-                            $tableCols,
-                        ) ?? $this->computeHTMLTableColWidths(
-                            $dom,
-                            $key,
-                            $tableCols,
-                            $availableForCols,
-                            $grid['cells'],
-                            $elm['pendingcellpadding'],
+                            $elm,
+                            $tpw > 0 ? $tpw : $hrc['cellctx']['maxwidth'],
                             $hrc['cellctx']['basefont'],
                         );
 
@@ -19380,7 +19478,7 @@ abstract class HTML extends \Com\Tecnick\Pdf\JavaScript
                         if ($elm['value'] === 'table' && $elm['thead'] !== '') {
                             $elm['thead'] = $this->injectHTMLTableHeadColWidths(
                                 $elm['thead'],
-                                $elm['pendingcolwidths'],
+                                $elm['pendingcolwidths'] ?? [],
                             );
                             $tabletheadmap[$key] = $elm['thead'];
                         }

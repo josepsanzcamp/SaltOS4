@@ -141,6 +141,18 @@ use Com\Tecnick\Pdf\Page\Exception as PageException;
  *            'SS': float,
  *        }
  *
+ * @phpstan-type PageLabelInput array{
+ *            'style'?: string,
+ *            'prefix'?: string|int|float,
+ *            'start'?: int|float|string,
+ *        }
+ *
+ * @phpstan-type PageLabelData array{
+ *            'style': string,
+ *            'prefix': string,
+ *            'start': int,
+ *        }
+ *
  * @phpstan-type PageData array{
  *        'annotrefs': array<int,int>,
  *        'autobreak': bool,
@@ -156,6 +168,7 @@ use Com\Tecnick\Pdf\Page\Exception as PageException;
  *        'format': string,
  *        'group': int,
  *        'height': float,
+ *        'label'?: PageLabelData,
  *        'margin': PageMarginData,
  *        'n': int,
  *        'num': int,
@@ -187,6 +200,7 @@ use Com\Tecnick\Pdf\Page\Exception as PageException;
  *        'format'?: string,
  *        'group'?: int,
  *        'height'?: float,
+ *        'label'?: PageLabelInput,
  *        'margin'?: array{
  *            'booklet'?: bool,
  *            'CB'?: float,

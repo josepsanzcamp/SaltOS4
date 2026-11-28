@@ -19,6 +19,7 @@ declare(strict_types=1);
 namespace Com\Tecnick\Pdf\Page;
 
 use Com\Tecnick\Pdf\Encrypt\Encrypt;
+use Com\Tecnick\Pdf\Page\Exception as PageException;
 
 /**
  * Com\Tecnick\Pdf\Page\Settings
@@ -40,6 +41,8 @@ use Com\Tecnick\Pdf\Encrypt\Encrypt;
  * @phpstan-import-type TransitionInput from \Com\Tecnick\Pdf\Page\Box
  * @phpstan-import-type PageData from \Com\Tecnick\Pdf\Page\Box
  * @phpstan-import-type PageInputData from \Com\Tecnick\Pdf\Page\Box
+ * @phpstan-import-type PageLabelInput from \Com\Tecnick\Pdf\Page\Box
+ * @phpstan-import-type PageLabelData from \Com\Tecnick\Pdf\Page\Box
  *
  * @SuppressWarnings("PHPMD.TooManyPublicMethods")
  * @SuppressWarnings("PHPMD.ExcessiveClassComplexity")
@@ -50,6 +53,18 @@ abstract class Settings extends \Com\Tecnick\Pdf\Page\Box
      * Epsilon precision used to compare floating point values.
      */
     public const EPS = 0.0001;
+
+    /**
+     * Largest first number of a page label range: the largest PDF integer
+     * (ISO 32000-1, Annex C).
+     */
+    public const MAX_PAGE_LABEL_START = 2_147_483_647;
+
+    /**
+     * Page label numbering styles (ISO 32000-1, 12.4.2): decimal arabic, upper and
+     * lower case roman, upper and lower case letters, and '' for no numeric part.
+     */
+    public const PAGE_LABEL_STYLES = ['D', 'R', 'r', 'A', 'a', ''];
 
     /**
      * Maximum number of equal vertical columns a page can be split into.
@@ -183,6 +198,76 @@ abstract class Settings extends \Com\Tecnick\Pdf\Page\Box
         if (!empty($data['num'])) {
             $data['num'] = \max(0, (int) $data['num']);
         }
+    }
+
+    /**
+     * Sanitize the page label. A missing or empty label is removed.
+     *
+     * @param PageInputData $data Page data.
+     *
+     * @throws PageException
+     */
+    public function sanitizeLabel(array &$data): void
+    {
+        if (empty($data['label'])) {
+            unset($data['label']);
+            return;
+        }
+
+        $data['label'] = $this->getPageLabel($data['label']);
+    }
+
+    /**
+     * Return a complete page label: style 'D' and an empty prefix by default, and
+     * a first number from 1 to MAX_PAGE_LABEL_START.
+     *
+     * @param PageLabelInput $label Page label.
+     *
+     * @return PageLabelData
+     *
+     * @throws PageException
+     */
+    protected function getPageLabel(array $label): array
+    {
+        $style = $label['style'] ?? 'D';
+        if (!\in_array($style, self::PAGE_LABEL_STYLES, true)) {
+            throw new PageException('Invalid page label style: ' . $style);
+        }
+
+        return [
+            'style' => $style,
+            'prefix' => (string) ($label['prefix'] ?? ''),
+            'start' => $this->getPageLabelStart($label['start'] ?? 1),
+        ];
+    }
+
+    /**
+     * Return the first number of a page label range, limited to the range from 1
+     * to MAX_PAGE_LABEL_START. A non-finite number gives 1.
+     *
+     * @param int|float|string $start First number, or a numeric string.
+     *
+     * @throws PageException
+     */
+    protected function getPageLabelStart(int|float|string $start): int
+    {
+        if (\is_string($start)) {
+            if (!\is_numeric($start)) {
+                throw new PageException('Invalid page label start: ' . $start);
+            }
+
+            $start = (float) $start;
+        }
+
+        if (\is_int($start)) {
+            return \max(1, \min(self::MAX_PAGE_LABEL_START, $start));
+        }
+
+        if (!\is_finite($start)) {
+            return 1;
+        }
+
+        return (int) \max(1.0, \min((float) self::MAX_PAGE_LABEL_START, $start));
     }
 
     /**
